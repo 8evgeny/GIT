@@ -7,6 +7,7 @@ conan_basic_setup()
 
 add_executable(${PROJECT_NAME}
     src/main.cpp
+    src/datetime.cpp
     )
 
 set_target_properties(
@@ -17,7 +18,7 @@ set_target_properties(
     COMPILE_OPTIONS "-Wpedantic;-Wall;-Wextra"
     )
 include_directories(
-    inc/
+    inc
     )
 
 target_link_libraries(${PROJECT_NAME}

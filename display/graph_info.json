@@ -273,6 +273,10 @@
    "True"
   ],
   [
+   "zlib:minizip",
+   "deprecated"
+  ],
+  [
    "zlib:shared",
    "False"
   ]
