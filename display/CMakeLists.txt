@@ -5,7 +5,9 @@ project(display)
 include(${CMAKE_SOURCE_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()
 
-add_executable(${PROJECT_NAME} main.cpp)
+add_executable(${PROJECT_NAME}
+    src/main.cpp
+    )
 
 set_target_properties(
     ${PROJECT_NAME}
@@ -14,6 +16,10 @@ set_target_properties(
     CXX_STANDARD_REQUIRED ON
     COMPILE_OPTIONS "-Wpedantic;-Wall;-Wextra"
     )
+include_directories(
+    inc/
+    )
+
 target_link_libraries(${PROJECT_NAME}
     ${CONAN_LIBS}
     )
