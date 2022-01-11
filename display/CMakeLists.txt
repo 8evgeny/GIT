@@ -3,11 +3,12 @@ set(CMAKE_CXX_STANDARD 17)
 project(display)
 
 include(${CMAKE_SOURCE_DIR}/conanbuildinfo.cmake)
-conan_basic_setup()
+#conan_basic_setup()
 
 add_executable(${PROJECT_NAME}
     src/main.cpp
     src/datetime.cpp
+    src/devices.cpp
     )
 
 set_target_properties(
@@ -22,5 +23,5 @@ include_directories(
     )
 
 target_link_libraries(${PROJECT_NAME}
-    ${CONAN_LIBS}
+#    ${CONAN_LIBS}
     )

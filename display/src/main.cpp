@@ -1,19 +1,34 @@
-#include <boost/program_options.hpp>
+//#include <boost/program_options.hpp>
 #include <iostream>
 
-namespace po = boost::program_options;
+//namespace po = boost::program_options;
 
 #include "main.h"
 #include "datetime.h"
+#include "devices.h"
+
 
 int main(int argc, char *argv[])
 {
+    auto offDevises = offlineDevices();
+    for (auto &i : offDevises)
+        std::cout<<i<<"\n";
 
-    std::cout << datetime() <<"\n";
+    auto numDev = numDevices();
+    auto onDev = std::to_string(std::stoi(numDev) - offlineDevices().size());
+    auto offDev = std::to_string(offlineDevices().size());
+
+    std::cout<<"All Devices:\t\t"<<numDev<<"\n";
+    std::cout<<"Online Devices:\t"<<onDev<<"\n";
+    std::cout<<"Offline Devices:\t"<<offDev<<"\n";
+
+    auto dt = datetime();
+    std::cout << dt.first <<"  "<<dt.second<< "\n";
 
     int num = std::stoi(argv[1]);
     std::string port = "/dev/ttyACM0";
     std::string stringToDisplay;
+
     switch (num)
     {
             case 0:
@@ -40,11 +55,10 @@ int main(int argc, char *argv[])
 
             case 2:
         {
-            stringToDisplay = "\""
-                              "    GIT-COMM IPS    "
-                              "        ПДКВ        "
-                              "  S/N:903012122001  "
-                              "     ЗАГРУЗКА...    "
+            stringToDisplay = dt.first + "\"  \"" + dt.second + "\""
+                              "All device  -   " + numDev + "\"  \""
+                              "Online      -   " + onDev + "\"  \""
+                              "Offline     -   " + offDev + "\"  \""
                               "\"";
         }
             break;
