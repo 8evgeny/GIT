@@ -9,6 +9,8 @@ add_executable(${PROJECT_NAME}
     src/main.cpp
     src/datetime.cpp
     src/devices.cpp
+    src/display.cpp
+    src/test.cpp
     )
 
 set_target_properties(
