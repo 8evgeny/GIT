@@ -1,8 +1,7 @@
 //#include <boost/program_options.hpp>
-#include <iostream>
-
 //namespace po = boost::program_options;
 
+#include <iostream>
 #include "main.h"
 #include "datetime.h"
 #include "devices.h"
@@ -10,13 +9,13 @@
 
 int main(int argc, char *argv[])
 {
-    auto offDevises = offlineDevices();
+    std::vector<std::string> offDevises = offlineDevices();
     for (auto &i : offDevises)
         std::cout<<i<<"\n";
 
-    auto numDev = numDevices();
-    auto onDev = std::to_string(std::stoi(numDev) - offlineDevices().size());
-    auto offDev = std::to_string(offlineDevices().size());
+    std::string numDev = numDevices();
+    std::string onDev = onlineDevicesNum();
+    std::string offDev = offlineDevicesNum();
 
     std::cout<<"All Devices:\t\t"<<numDev<<"\n";
     std::cout<<"Online Devices:\t"<<onDev<<"\n";
@@ -56,9 +55,9 @@ int main(int argc, char *argv[])
             case 2:
         {
             stringToDisplay = dt.first + "\"  \"" + dt.second + "\""
-                              "All device  -   " + numDev + "\"  \""
-                              "Online      -   " + onDev + "\"  \""
-                              "Offline     -   " + offDev + "\"  \""
+                              "All device  -   " + numDev +
+                              "Online      -   " + onDev +
+                              "Offline     -   " + offDev +
                               "\"";
         }
             break;

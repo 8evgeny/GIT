@@ -1,6 +1,17 @@
-#include <iostream>
 #include <fstream>
 #include <vector>
+
+std::string numDevices()
+//возвращает общее число устройств
+{
+    std::ifstream file("../devices_all");
+    std::string s;
+    file >> s;
+    int d = stoi(s);
+    char buffer [80];
+    sprintf(buffer, "%04d", d);
+    return buffer;
+}
 
 std::vector<std::string> offlineDevices()
 {
@@ -15,11 +26,22 @@ std::vector<std::string> offlineDevices()
     return v;
 }
 
-std::string numDevices()
-//возвращает общее число устройств
+std::string offlineDevicesNum()
+//возвращает число оффлайн
 {
-    std::ifstream file("../devices_all");
-    std::string s;
-    file >> s;
-    return s;
+    auto v = offlineDevices();
+    char buffer [5];
+    sprintf(buffer, "%04d", (int)v.size());
+    std::string onDev = buffer;
+    return buffer;
+}
+
+std::string onlineDevicesNum()
+//возвращает число онлайн
+{
+    int on = std::stoi(numDevices()) - std::stoi(offlineDevicesNum());
+    char buffer [80];
+    sprintf(buffer, "%04d", on);
+    std::string onDev = buffer;
+    return buffer;
 }
