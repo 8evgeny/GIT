@@ -1,0 +1,14 @@
+*.txt.user
+/display/builld/.ninja_deps
+/display/builld/.ninja_log
+/display/builld/build.ninja
+/display/builld/cmake_install.cmake
+/display/builld/CMakeCache.txt
+/display/builld/conan.lock
+/display/builld/conanbuildinfo.cmake
+/display/builld/conanbuildinfo.txt
+/display/builld/conaninfo.txt
+/display/builld/display
+/display/builld/graph_info.json
+/display/builld/qtcsettings.cmake
+/display/builld/rules.ninja
