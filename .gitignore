@@ -1,4 +1,5 @@
 *.txt.user
+/display/builld/*
 /display/builld/.ninja_deps
 /display/builld/.ninja_log
 /display/builld/build.ninja
