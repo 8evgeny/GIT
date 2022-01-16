@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workspace>
+    <project>
+        <path>$WS_DIR$\1901VC1\HelloWorld_1901VC1\HelloWorld_1901VC1.ewp</path>
+    </project>
+    <project>
+        <path>$WS_DIR$\1986VE1\HelloWorld_1986VE1\HelloWorld_1986VE1.ewp</path>
+    </project>
+    <project>
+        <path>$WS_DIR$\1986VE3\HelloWorld_1986VE3\HelloWorld_1986VE3.ewp</path>
+    </project>
+    <project>
+        <path>$WS_DIR$\1986VE4\HelloWorld_1986VE4\HelloWorld_1986VE4.ewp</path>
+    </project>
+    <project>
+        <path>$WS_DIR$\1986VE8\HelloWorld_1986VE8\HelloWorld_1986VE8.ewp</path>
+    </project>
+    <project>
+        <path>$WS_DIR$\1986VE9x\HelloWorld_1986VE92\HelloWorld_1986VE92.ewp</path>
+    </project>
+    <project>
+        <path>$WS_DIR$\1986VK01\HelloWorld_1986VK01\HelloWorld_1986VK01.ewp</path>
+    </project>
+    <project>
+        <path>$WS_DIR$\1986VK01\HelloWorld_DualCore_1986VK01\HelloWorld_DualCore_1986VK01.ewp</path>
+    </project>
+    <project>
+        <path>$WS_DIR$\MLDR124\HelloWorld_MLDR124\HelloWorld_MLDR124.ewp</path>
+    </project>
+    <project>
+        <path>$WS_DIR$\MLDR124\HelloWorld_DualCore_MLDR124\HelloWorld_DualCore_MLDR124.ewp</path>
+    </project>
+    <batchBuild />
+</workspace>

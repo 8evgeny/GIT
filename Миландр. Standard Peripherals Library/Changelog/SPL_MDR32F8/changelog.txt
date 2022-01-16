@@ -1,0 +1,156 @@
+Список изменений Standard Peripherals Library для МК 1986ВЕ8(1)Т.
+
+--------------------------------------------------------------------------------
+
+v.0.4.1 26.08.2020
+_____________________
+---
+examples:
+-добавлена разблокировка модуля BKP для корректной установки режима работы LDO регуляторов;
+---
+скорректирован mdr32f8_config.h
+
+--------
+-скорректированы:
+
+mdr32f8_dma.h
+mdr32f8_dma.c
+mdr32f8_tim.h
+mdr32f8_tim.c
+
+--------------------------------------------------------------------------------
+
+v 0.4 01.08.2020
+_____________________
+---
+examples:
+
+-скорректировано выставление частоты блока PLL, 
+а также исправлены мелкие ошибки в примерах:
+adc_go;
+eth_loopback;
+led_button_exti;
+MIL_STD_1553_valmess;
+rtos_led;
+spi_mastermode;
+tim_pwm;
+-----------
+MDR32F8_StdPeriphDriber\inc:
+
+mdr32f8_adc.h
+-исправлены константы задания делителей частоты;
+mdr32f8_can.h
+-исправлены константы задания делителей частоты;
+mdr32f8_dac.h
+-исправлены константы задания делителей частоты;
+mdr32f8_eth.h
+-исправлены константы задания делителей частоты;
+mdr32f8_ssp.h
+-исправлены константы задания делителей частоты;
+mdr32f8_uart.h
+-исправлены константы задания делителей частоты;
+-скорректированы прототипы измененных функций;
+mdr32f8_clkctrl.h
+-исправлены константы задания делителей частоты ядра;
+-добавлены константы задания делителя Q и делителя Q+DV для блока PLL;
+-убраны лишние константы PLL3-PLL7;
+mdr32f8_ebc.h
+-добавлены прототипы новых функций;
+-добавлены константы для работы с блоком прерываний, счетчиками ошибок;
+-добавлено переопределение типа функции выбора счетчика двойных/одиночных ошибок;
+mdr32f8_port.h:
+-объявлены прототипы недостающих функций;
+mdr32f8_tim.h
+-исправлены константы задания делителей частоты;
+-исправлены константы задания номеров каналов таймера в соответствии с документацией;
+----------
+MDR32F8_StdPeriphDriber\src:
+mdr32f8_clkctrl.c
+- исправлены константы для задания масок;
+- коррекция функций
+	void CLKCTRL_HSEconfig(uint32_t CLKCTRL_HSE);
+	void CLKCTRL_CPU_PLLconfig (uint32_t PLLn, uint32_t CLKCTRL_CPU_PLLsource, uint32_t CLKCTRL_PLLn_CLK_PLLn_Q, uint32_t CLKCTRL_PLLn_CLK_PLLn_N)
+mdr32f8_uart.с
+-коррекция функции
+	void UART_CLK_en(MDR_UART_TypeDef * UARTx, uint32_t UART_CLKSRC, uint32_t UART_CLK_DIV)
+mdr32f8_ebc.c
+-добавление новых функций
+	void EBC_RGNx_Addr_serial_ECC (uint32_t RGNx, uint32_t addr);
+	void EBC_RGNx_ECCS_Config ( uint32_t RGNx, uint32_t EBC_IT_FIX, FunctionalState NewState);
+	uint32_t EBC_RGNx_GetErrorCount (uint32_t RGNx, Cnt_type CNT);
+	__RAMFUNC void EBC_RGNx_WSConfig(uint32_t RGNx, uint32_t RGN_WS_SETUP, uint32_t RGN_WS_ACTIVE, uint32_t RGN_WS_HOLD) __attribute__((section("EXECUTABLE_MEMORY_SECTION")));
+spec.c
+-добавление новых функций:	
+	void UNLOCK_UNIT (unit_type unit );
+	void LOCK_UNIT (unit_type unit);
+----------
+startup\arm:
+system_1986ve8t.c
+-коррекция функции:
+void SystemCoreClockUpdate (void)
+----------
+устранена проблема сборки проекта при использовании макросов:
+USE_ASSERT_INFO
+
+--------------------------------------------------------------------------------
+
+v.0.3 06.06.2019
+- добавлен пример использования FreeRTOS, исправлены примеры CAN и UART;
+- различные исправления и ошибки (startup.s)
+
+--------------------------------------------------------------------------------
+
+v.0.2 20.05.2019
+MDR1986VE8.h
+1) Перенесён контроллер кэш-шины S_BUS( 0x4000b000) к блоку  Cache control ; ( был объявлен в блоке * ROM,RAMC,RAMD control);
+2) Убран контроллер SCR_Conrtol (0xe0043000));
+3) Убраны два лишних регистра FT_STAT0 и FT_STAT1 в блоке FT_CONTROL;
+4) Убран контроллер RAMC_CNTR_BASE    (0x40007000)
+5) Убраны регистры контроллера внешней шины:
+SPORT_PWR0-3; SPORT_PD0-3; SPORT_CL0-3. 
+Добавлены зарезервированные области для обеспечения смещения регистров
+0х0000_0094     ECCAADR
+0x0000_0098     ECCDATA
+0x0000_009C     ECCECC
+6) Убран контроллер CRC_Control (адрес 0x400AF000)
+7) Убран блок ECC_BASE (0x400B0000);
+8) Убран блок CRPT_BASE (0x400AE000);
+9) Убраны регистры PLL3-7, CAN1-5, TIM4-5, MIL0-3, ARC0-3, EMAC0-1, SPHY1, SPW1, SPHY0-1, UART2-5, SSP1-5 и добавлены зарезервированные области вместо них, чтобы сохранить смещение в блоке CLK_CNTR;
+10) Убрано описание блока USB (0x4009D000);
+11) Убраны TMR4 (0x4008_E000), TMR5 (0x4008_F000);
+12) Убраны СAN1 (0x4009_1000), СAN2 (0x4009_2000), СAN3 (0x4009_3000), СAN4 (0x4009_4000);
+13) Убраны SSP1 (0x4009_6000), SSP2 (0x4009_7000), SSP3 (0x4009_6000);
+14) Убраны UART2 (0x4009_B000), UART3 (0x4009_C000);
+Убран регистр блока UART -  ILPR (BASE_ADDR+0x020) вместо него добавлена зарезервированная область; 
+Также добавлены идентификационные регистры 0-7 блока UART;
+15) Убран SPW1 ( 0x4008_9000);
+16) Убран ETH1 (0x2101_0000);
+17) Убран ARINC1 RX и TX;
+
+
+Startup.s
+Поправлен startup в соответствии с таблицей векторов прерываний в спецификации;
+Startup.c 
+Добавлена функция SystemCoreClockUpdate () 
+
+Drivers
+1) изменён файл mdr32f8_clkctrl.c убраны из функций регистры, описанные выше в пункте 9.
+В файле mdr32f8_clkctrl.h убраны биты регистра 0-12 регистра PER0_CLK
+2) Из файла mdr32f8_uart.c убрана из функций запись в регистр UARTx->ILPR
+3) Из mdr32f8_arinc_rx.c убрана функция void ARINC_CLK_en(uint32_t ARINC_CLK_DIV)
+(также убран её прототип из mdr32f8_arinc_rx.h)
+4) Из mdr32f8_eth.c из функций убрано обращение к регистрам EMAC0_CLK
+Из функций: ETH_ClockDeInit(void).
+Убраны функции void ETH_BRGInit(uint32_t ETH_HCLKdiv) и void ETH_ClockCMD (FunctionalState NewState)
+5) Из файла mdr32f8_millstd.c
+Убрана функция 
+void MIL_STD_1553_CLK_en(MIL1553Control * MILx, uint32_t MIL_STD_1553_CLK_DIV)
+6) Добавлена возможность использования в mdr32f8_clkctrl.c  PLL1, PLL2.
+
+Examples
+Поправлены примеры 
+adc_go, 
+ARINC429_transceive, 
+dac_dma_pingpong
+eth_loopback.
+ext_bus_RAM (убрана CLKCTRL_PER0_CLKcmd(CLKCTRL_PER0_CLK_MDR_EBC_EN, ENABLE);  

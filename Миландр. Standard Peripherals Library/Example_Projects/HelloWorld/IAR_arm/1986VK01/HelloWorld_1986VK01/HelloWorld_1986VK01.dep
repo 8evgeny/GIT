@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+    <fileVersion>4</fileVersion>
+    <fileChecksum>2416993141</fileChecksum>
+    <configuration>
+        <name>Debug</name>
+        <outputs>
+            <file>$TOOLKIT_DIR$\inc\c\ycheck.h</file>
+            <file>$PROJ_DIR$\Debug\Obj\MDR32F2C10_port.__cstat.et</file>
+            <file>$PROJ_DIR$\Debug\Obj\main.__cstat.et</file>
+            <file>$PROJ_DIR$\Debug\Obj\system_MDR32F2C10.__cstat.et</file>
+            <file>$PROJ_DIR$\..\..\Libraries\CMSIS\MDR32F2C10\DeviceSupport\inc\MDR1986VK01.h</file>
+            <file>$PROJ_DIR$\..\..\Libraries\CMSIS\MDR32F2C10\CoreSupport\core_cm4.h</file>
+            <file>$TOOLKIT_DIR$\inc\c\stdint.h</file>
+            <file>$TOOLKIT_DIR$\inc\c\yvals.h</file>
+            <file>$TOOLKIT_DIR$\inc\c\DLib_Defaults.h</file>
+            <file>$PROJ_DIR$\Debug\Obj\system_MDR32F2C10.xcl</file>
+            <file>$PROJ_DIR$\Debug\Exe\HelloWorld_1986VK01.out</file>
+            <file>$PROJ_DIR$\Debug\Obj\MDR32F2C10_port.xcl</file>
+            <file>$PROJ_DIR$\Debug\Obj\main.o</file>
+            <file>$PROJ_DIR$\Debug\Obj\HelloWorld_1986VK01.pbd</file>
+            <file>$PROJ_DIR$\Debug\Obj\startup_MDR32F2C10.o</file>
+            <file>$PROJ_DIR$\Debug\Obj\system_MDR32F2C10.o</file>
+            <file>$PROJ_DIR$\Debug\Obj\main.xcl</file>
+            <file>$PROJ_DIR$\Debug\Obj\MDR32F2C10_port.o</file>
+            <file>$PROJ_DIR$\..\..\Libraries\SPL\MDR32F2C10\src\MDR32F2C10_port.c</file>
+            <file>$PROJ_DIR$\main.c</file>
+            <file>$PROJ_DIR$\MDR32F2C10_config.h</file>
+            <file>$PROJ_DIR$\..\..\Libraries\CMSIS\MDR32F2C10\DeviceSupport\startup\iar\startup_MDR32F2C10.s</file>
+            <file>$PROJ_DIR$\..\..\Libraries\CMSIS\MDR32F2C10\DeviceSupport\startup\iar\system_MDR32F2C10.c</file>
+            <file>$PROJ_DIR$\..\..\Libraries\CMSIS\MDR32F2C10\DeviceSupport\startup\iar\system_MDR32F2C10.h</file>
+            <file>$PROJ_DIR$\..\..\Libraries\CMSIS\MDR32F2C10\CoreSupport\cmsis_compiler.h</file>
+            <file>$TOOLKIT_DIR$\inc\c\cmsis_iar.h</file>
+            <file>$TOOLKIT_DIR$\config\linker\Milandr\MDR1986VK01\MDR1986VK01.icf</file>
+            <file>$TOOLKIT_DIR$\inc\c\DLib_Product.h</file>
+            <file>$TOOLKIT_DIR$\lib\rt7M_tl.a</file>
+            <file>$TOOLKIT_DIR$\lib\m7M_tl.a</file>
+            <file>$TOOLKIT_DIR$\lib\dl7M_tln.a</file>
+            <file>$TOOLKIT_DIR$\inc\c\DLib_Config_Normal.h</file>
+            <file>$TOOLKIT_DIR$\inc\c\iccarm_builtin.h</file>
+            <file>$PROJ_DIR$\..\..\Libraries\SPL\MDR32F2C10\inc\MDR32F2C10_port.h</file>
+            <file>$TOOLKIT_DIR$\lib\shb_l.a</file>
+            <file>$PROJ_DIR$\Debug\List\HelloWorld_1986VK01.map</file>
+        </outputs>
+        <file>
+            <name>[ROOT_NODE]</name>
+            <outputs>
+                <tool>
+                    <name>ILINK</name>
+                    <file> 10 35</file>
+                </tool>
+            </outputs>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\Debug\Exe\HelloWorld_1986VK01.out</name>
+            <outputs>
+                <tool>
+                    <name>ILINK</name>
+                    <file> 35</file>
+                </tool>
+            </outputs>
+            <inputs>
+                <tool>
+                    <name>ILINK</name>
+                    <file> 26 12 17 14 15 34 28 29 30</file>
+                </tool>
+            </inputs>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\..\Libraries\SPL\MDR32F2C10\src\MDR32F2C10_port.c</name>
+            <outputs>
+                <tool>
+                    <name>ICCARM</name>
+                    <file> 17</file>
+                </tool>
+                <tool>
+                    <name>BICOMP</name>
+                    <file> 11</file>
+                </tool>
+                <tool>
+                    <name>__cstat</name>
+                    <file> 1</file>
+                </tool>
+            </outputs>
+            <inputs>
+                <tool>
+                    <name>ICCARM</name>
+                    <file> 33 20 6 0 7 8 31 27 4 5 24 25 32 23</file>
+                </tool>
+            </inputs>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\main.c</name>
+            <outputs>
+                <tool>
+                    <name>ICCARM</name>
+                    <file> 12</file>
+                </tool>
+                <tool>
+                    <name>BICOMP</name>
+                    <file> 16</file>
+                </tool>
+                <tool>
+                    <name>__cstat</name>
+                    <file> 2</file>
+                </tool>
+            </outputs>
+            <inputs>
+                <tool>
+                    <name>ICCARM</name>
+                    <file> 4 5 6 0 7 8 31 27 24 25 32 23 33 20</file>
+                </tool>
+            </inputs>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\..\Libraries\CMSIS\MDR32F2C10\DeviceSupport\startup\iar\startup_MDR32F2C10.s</name>
+            <outputs>
+                <tool>
+                    <name>AARM</name>
+                    <file> 14</file>
+                </tool>
+            </outputs>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\..\Libraries\CMSIS\MDR32F2C10\DeviceSupport\startup\iar\system_MDR32F2C10.c</name>
+            <outputs>
+                <tool>
+                    <name>ICCARM</name>
+                    <file> 15</file>
+                </tool>
+                <tool>
+                    <name>BICOMP</name>
+                    <file> 9</file>
+                </tool>
+                <tool>
+                    <name>__cstat</name>
+                    <file> 3</file>
+                </tool>
+            </outputs>
+            <inputs>
+                <tool>
+                    <name>ICCARM</name>
+                    <file> 4 5 6 0 7 8 31 27 24 25 32 23</file>
+                </tool>
+            </inputs>
+        </file>
+    </configuration>
+    <configuration>
+        <name>Release</name>
+        <outputs>
+            <file>$PROJ_DIR$\Release\Obj\system_mldr149.xcl</file>
+            <file>$PROJ_DIR$\Release\Exe\HelloWorld_MLDR149.out</file>
+            <file>$PROJ_DIR$\Release\Obj\mldr149_port.__cstat.et</file>
+            <file>$PROJ_DIR$\Release\Obj\startup_mldr149.o</file>
+            <file>$PROJ_DIR$\Release\Obj\system_mldr149.__cstat.et</file>
+            <file>$PROJ_DIR$\Release\Obj\main.xcl</file>
+            <file>$PROJ_DIR$\Release\Obj\main.__cstat.et</file>
+            <file>$PROJ_DIR$\..\..\SPL\CMSIS\CM4\DeviceSupport\MLDR149\startup\iar\startup_mldr149.s</file>
+            <file>$PROJ_DIR$\..\..\SPL\CMSIS\CM4\DeviceSupport\MLDR149\startup\iar\system_mldr149.c</file>
+            <file>$PROJ_DIR$\Release\Obj\mldr149_port.xcl</file>
+            <file>$PROJ_DIR$\..\..\SPL\MLDR149_StdPeriph_Driver\src\mldr149_port.c</file>
+            <file>$PROJ_DIR$\main.c</file>
+        </outputs>
+        <file>
+            <name>[ROOT_NODE]</name>
+            <outputs>
+                <tool>
+                    <name>ILINK</name>
+                    <file> 1</file>
+                </tool>
+            </outputs>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\..\SPL\CMSIS\CM4\DeviceSupport\MLDR149\startup\iar\startup_mldr149.s</name>
+            <outputs>
+                <tool>
+                    <name>AARM</name>
+                    <file> 3</file>
+                </tool>
+            </outputs>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\..\SPL\CMSIS\CM4\DeviceSupport\MLDR149\startup\iar\system_mldr149.c</name>
+            <outputs>
+                <tool>
+                    <name>BICOMP</name>
+                    <file> 0</file>
+                </tool>
+                <tool>
+                    <name>__cstat</name>
+                    <file> 4</file>
+                </tool>
+            </outputs>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\..\SPL\MLDR149_StdPeriph_Driver\src\mldr149_port.c</name>
+            <outputs>
+                <tool>
+                    <name>BICOMP</name>
+                    <file> 9</file>
+                </tool>
+                <tool>
+                    <name>__cstat</name>
+                    <file> 2</file>
+                </tool>
+            </outputs>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\main.c</name>
+            <outputs>
+                <tool>
+                    <name>BICOMP</name>
+                    <file> 5</file>
+                </tool>
+                <tool>
+                    <name>__cstat</name>
+                    <file> 6</file>
+                </tool>
+            </outputs>
+        </file>
+        <forcedrebuild>
+            <name>[MULTI_TOOL]</name>
+            <tool>ILINK</tool>
+        </forcedrebuild>
+    </configuration>
+</project>
