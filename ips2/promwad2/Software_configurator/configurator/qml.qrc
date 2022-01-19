@@ -1,0 +1,32 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>subscriber.qml</file>
+        <file>subscriber_window.qml</file>
+        <file>subscriber_navigation.qml</file>
+        <file>main_menu.qml</file>
+        <file>groups.qml</file>
+        <file>firmware.qml</file>
+        <file>update_rs232.qml</file>
+        <file>assignment_list.qml</file>
+        <file>translator/main_ru.qm</file>
+        <file>subscriber.js</file>
+        <file>main_menu.js</file>
+        <file>update_rs232.js</file>
+        <file>subscriber_window.js</file>
+        <file>subscriber_navigation.js</file>
+        <file>groups.js</file>
+        <file>firmware.js</file>
+        <file>assignment_list_rs232.qml</file>
+        <file>verification.qml</file>
+        <file>network.qml</file>
+        <file>programmer_window.qml</file>
+        <file>network.js</file>
+        <file>programmer_window.js</file>
+        <file>assignment_list_firmware.qml</file>
+        <file>change_window.qml</file>
+        <file>change_window.js</file>
+        <file>status_window.qml</file>
+        <file>status_window.js</file>
+    </qresource>
+</RCC>

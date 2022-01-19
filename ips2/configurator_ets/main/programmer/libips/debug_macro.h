@@ -1,0 +1,4 @@
+#ifndef STATIONS_MACRO_H
+#define STATIONS_MACRO_H
+
+#endif  // STATIONS_MACRO_H

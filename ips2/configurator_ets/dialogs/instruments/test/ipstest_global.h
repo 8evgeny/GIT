@@ -1,0 +1,8 @@
+#pragma once
+
+#if defined(IPSTEST_DIALOG_LIBRARY)
+    #define IPSTEST_DIALOG_SHARED_EXPORT Q_DECL_EXPORT
+#else
+    #define IPSTEST_DIALOG_SHARED_EXPORT Q_DECL_IMPORT
+#endif
+
