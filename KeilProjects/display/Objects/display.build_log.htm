@@ -1,0 +1,157 @@
+<html>
+<body>
+<pre>
+<h1>µVision Build Log</h1>
+<h2>Tool Versions:</h2>
+IDE-Version: µVision V5.36.0.0
+Copyright (C) 2021 ARM Ltd and ARM Germany GmbH. All rights reserved.
+License Information: Profi Profi, Company, LIC=MPPLD-84R7X-UHN8H-WIP97-QH6EA-ZP8DI
+ 
+Tool Versions:
+Toolchain:       MDK-ARM Plus  Version: 5.36.0.0
+Toolchain Path:  C:\Keil_v5\ARM\ARMCLANG\Bin
+C Compiler:      ArmClang.exe V6.16
+Assembler:       Armasm.exe V6.16
+Linker/Locator:  ArmLink.exe V6.16
+Library Manager: ArmAr.exe V6.16
+Hex Converter:   FromElf.exe V6.16
+CPU DLL:         SARMCM3.DLL V5.36.0.0
+Dialog DLL:      DCM.DLL V1.17.3.0
+Target DLL:      CMSIS_AGDI.dll V1.33.0.0
+Dialog DLL:      TCM.DLL V1.53.0.0
+ 
+<h2>Project:</h2>
+C:\Users\Professional\Documents\Keil_Projects\9_USB+rus\display.uvprojx
+Project File Date:  01/17/2022
+
+<h2>Output:</h2>
+*** Using Compiler 'V6.16', folder: 'C:\Keil_v5\ARM\ARMCLANG\Bin'
+Rebuild target 'display'
+compiling var.c...
+compiling rcc_delay.c...
+compiling gpio.c...
+compiling mt20s4.c...
+compiling checkLCD_BUZZER.cpp...
+compiling retarget_io.c...
+assembling startup_MDR32F9Qx.S...
+compiling usb.cpp...
+compiling logic.cpp...
+compiling main.cpp...
+compiling system_MDR32F9Qx.c...
+compiling MDR32F9Qx_iwdg.c...
+compiling MDR32F9Qx_port.c...
+compiling MDR32F9Qx_rst_clk.c...
+compiling MDR32F9Qx_usb.c...
+compiling MDR32F9Qx_timer.c...
+compiling MDR32F9Qx_usb_CDC.c...
+compiling MDR32F9Qx_usb_device.c...
+linking...
+Program Size: Code=18188 RO-data=448 RW-data=92 ZI-data=2300  
+FromELF: creating hex file...
+".\Objects\display.axf" - 0 Error(s), 0 Warning(s).
+
+<h2>Software Packages used:</h2>
+
+Package Vendor: ARM
+                http://www.keil.com/pack/ARM.CMSIS.5.8.0.pack
+                ARM.CMSIS.5.8.0
+                CMSIS (Common Microcontroller Software Interface Standard)
+   * Component: USART Version: 2.4.0
+   * Component: USB Device Version: 2.3.0
+   * Component: USB Host Version: 2.3.0
+   * Component: Custom Version: 1.0.0
+   * Component: Custom Version: 1.0.0
+   * Component: Custom Version: 1.0.0
+
+Package Vendor: Keil
+                http://www.keil.com/pack/Keil.ARM_Compiler.1.6.3.pack
+                Keil.ARM_Compiler.1.6.3
+                Keil ARM Compiler extensions for ARM Compiler 5 and ARM Compiler 6
+   * Component: STDOUT Variant: Breakpoint Version: 1.2.0
+
+Package Vendor: Keil
+                https://ic.milandr.ru/soft/Keil.MDR1986BExx.2.0.3.pack
+                Keil.MDR1986BExx.2.0.3
+                Milandr MDR1986BExx Series Device Support, Drivers and Examples
+   * Component: Startup Version: 2.0.3
+   * Component: IWDG Version: 2.0.3
+   * Component: PORT Version: 2.0.3
+   * Component: RST_CLK Version: 2.0.3
+   * Component: TIMER Version: 2.0.3
+   * Component: USB Library Version: 2.0.3
+   * Component: USB Version: 2.0.3
+
+<h2>Collection of Component include folders:</h2>
+  .\RTE\Device\MDR1986BE92
+  .\RTE\_display
+  C:\Users\Professional\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\CMSIS\Driver\Include
+  C:\Users\Professional\AppData\Local\Arm\Packs\Keil\MDR1986BExx\2.0.3\Libraries\CMSIS\MDR32Fx\CoreSupport\CM3
+  C:\Users\Professional\AppData\Local\Arm\Packs\Keil\MDR1986BExx\2.0.3\Libraries\CMSIS\MDR32Fx\DeviceSupport\MDR1986VE9x\inc
+  C:\Users\Professional\AppData\Local\Arm\Packs\Keil\MDR1986BExx\2.0.3\Libraries\SPL\MDR32Fx\inc
+  C:\Users\Professional\AppData\Local\Arm\Packs\Keil\MDR1986BExx\2.0.3\Libraries\SPL\MDR32Fx\inc\USB_Library
+
+<h2>Collection of Component Files used:</h2>
+
+   * Component: ::CMSIS Driver:USART:2.4.0 (API)
+      Include file:  CMSIS\Driver\Include\Driver_USART.h
+
+   * Component: ::CMSIS Driver:USB Device:2.3.0 (API)
+      Include file:  CMSIS\Driver\Include\Driver_USBD.h
+
+   * Component: ::CMSIS Driver:USB Host:2.3.0 (API)
+      Include file:  CMSIS\Driver\Include\Driver_USBH.h
+
+   * Component: ARM::CMSIS Driver:USART:Custom:1.0.0
+      Source file:   CMSIS\Driver\DriverTemplates\Driver_USART.c
+      Include file:  CMSIS\Driver\Include\Driver_USART.h
+
+   * Component: ARM::CMSIS Driver:USB Device:Custom:1.0.0
+      Include file:  CMSIS\Driver\Include\Driver_USBD.h
+      Source file:   CMSIS\Driver\DriverTemplates\Driver_USBD.c
+
+   * Component: ARM::CMSIS Driver:USB Host:Custom:1.0.0
+      Source file:   CMSIS\Driver\DriverTemplates\Driver_USBH.c
+      Include file:  CMSIS\Driver\Include\Driver_USBH.h
+
+   * Component: Keil.ARM Compiler::Compiler:I/O:STDOUT:Breakpoint:1.2.0
+      Source file:   Source\retarget_io.c
+
+   * Component: Keil::Device:Startup:2.0.3
+      Source file:   Libraries\CMSIS\MDR32Fx\DeviceSupport\MDR1986VE9x\startup\arm\startup_MDR32F9Qx.S
+      Source file:   Libraries\CMSIS\MDR32Fx\DeviceSupport\MDR1986VE9x\startup\arm\system_MDR32F9Qx.c
+      Include file:  Libraries\CMSIS\MDR32Fx\CoreSupport\CM3\core_cm3.h
+      Include file:  Libraries\SPL\MDR32Fx\inc\IRQ_Handler_Template\MDR32F9Qx_IT.h
+      Source file:   Libraries\SPL\MDR32Fx\src\IRQ_Handler_Template\MDR32F9Qx_IT.c
+      Include file:  Libraries\CMSIS\MDR32Fx\DeviceSupport\MDR1986VE9x\startup\arm\system_MDR32F9Qx.h
+      Include file:  Libraries\CMSIS\MDR32Fx\DeviceSupport\MDR1986VE9x\inc\MDR32Fx.h
+      Include file:  Libraries\SPL\MDR32Fx\MDR32F9Qx_config.h
+
+   * Component: Keil::Drivers:IWDG:2.0.3
+      Source file:   Libraries\SPL\MDR32Fx\src\MDR32F9Qx_iwdg.c
+      Include file:  Libraries\SPL\MDR32Fx\inc\MDR32F9Qx_iwdg.h
+
+   * Component: Keil::Drivers:PORT:2.0.3
+      Include file:  Libraries\SPL\MDR32Fx\inc\MDR32F9Qx_port.h
+      Source file:   Libraries\SPL\MDR32Fx\src\MDR32F9Qx_port.c
+
+   * Component: Keil::Drivers:RST_CLK:2.0.3
+      Source file:   Libraries\SPL\MDR32Fx\src\MDR32F9Qx_rst_clk.c
+      Include file:  Libraries\SPL\MDR32Fx\inc\MDR32F9Qx_rst_clk.h
+
+   * Component: Keil::Drivers:TIMER:2.0.3
+      Include file:  Libraries\SPL\MDR32Fx\inc\MDR32F9Qx_timer.h
+      Source file:   Libraries\SPL\MDR32Fx\src\MDR32F9Qx_timer.c
+
+   * Component: Keil::Drivers:USB Library:2.0.3
+      Source file:   Libraries\SPL\MDR32Fx\src\USB_Library\MDR32F9Qx_usb_CDC.c
+      Include file:  Libraries\SPL\MDR32Fx\inc\USB_Library\MDR32F9Qx_usb_device.h
+      Include file:  Libraries\SPL\MDR32Fx\inc\USB_Library\MDR32F9Qx_usb_CDC.h
+      Source file:   Libraries\SPL\MDR32Fx\src\USB_Library\MDR32F9Qx_usb_device.c
+
+   * Component: Keil::Drivers:USB:2.0.3
+      Include file:  Libraries\SPL\MDR32Fx\inc\MDR32F9Qx_usb.h
+      Source file:   Libraries\SPL\MDR32Fx\src\MDR32F9Qx_usb.c
+Build Time Elapsed:  00:00:04
+</pre>
+</body>
+</html>
