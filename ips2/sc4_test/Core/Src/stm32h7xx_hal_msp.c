@@ -312,14 +312,14 @@ void HAL_I2C_MspInit(I2C_HandleTypeDef* hi2c)
     */
     GPIO_InitStruct.Pin = GPIO_PIN_7;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_OD;
-    GPIO_InitStruct.Pull = GPIO_NOPULL;
+    GPIO_InitStruct.Pull = GPIO_PULLUP;
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
     GPIO_InitStruct.Alternate = GPIO_AF4_I2C3;
     HAL_GPIO_Init(GPIOH, &GPIO_InitStruct);
 
     GPIO_InitStruct.Pin = GPIO_PIN_9;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_OD;
-    GPIO_InitStruct.Pull = GPIO_NOPULL;
+    GPIO_InitStruct.Pull = GPIO_PULLUP;
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
     GPIO_InitStruct.Alternate = GPIO_AF4_I2C3;
     HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
@@ -836,7 +836,7 @@ void HAL_SAI_MspInit(SAI_HandleTypeDef* hsai)
     GPIO_InitStruct.Alternate = GPIO_AF6_SAI1;
     HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
 
-    /* Peripheral DMA init*/
+      /* Peripheral DMA init*/
 
     hdma_sai1_a.Instance = DMA1_Stream0;
     hdma_sai1_a.Init.Request = DMA_REQUEST_SAI1_A;
@@ -886,7 +886,7 @@ void HAL_SAI_MspInit(SAI_HandleTypeDef* hsai)
     GPIO_InitStruct.Alternate = GPIO_AF6_SAI1;
     HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
 
-    /* Peripheral DMA init*/
+      /* Peripheral DMA init*/
 
     hdma_sai1_b.Instance = DMA1_Stream1;
     hdma_sai1_b.Init.Request = DMA_REQUEST_SAI1_B;
@@ -923,6 +923,7 @@ void HAL_SAI_MspDeInit(SAI_HandleTypeDef* hsai)
       {
       /* Peripheral clock disable */
        __HAL_RCC_SAI1_CLK_DISABLE();
+      /* SAI1 interrupt DeInit */
       HAL_NVIC_DisableIRQ(SAI1_IRQn);
       }
 
@@ -934,6 +935,7 @@ void HAL_SAI_MspDeInit(SAI_HandleTypeDef* hsai)
     */
     HAL_GPIO_DeInit(GPIOE, GPIO_PIN_2|GPIO_PIN_4|GPIO_PIN_5|GPIO_PIN_6);
 
+    /* SAI1 DMA Deinit */
     HAL_DMA_DeInit(hsai->hdmarx);
     HAL_DMA_DeInit(hsai->hdmatx);
     }
@@ -944,6 +946,7 @@ void HAL_SAI_MspDeInit(SAI_HandleTypeDef* hsai)
       {
       /* Peripheral clock disable */
       __HAL_RCC_SAI1_CLK_DISABLE();
+    /* SAI1 interrupt DeInit */
       HAL_NVIC_DisableIRQ(SAI1_IRQn);
       }
 
@@ -952,6 +955,7 @@ void HAL_SAI_MspDeInit(SAI_HandleTypeDef* hsai)
     */
     HAL_GPIO_DeInit(GPIOE, GPIO_PIN_3);
 
+    /* SAI1 DMA Deinit */
     HAL_DMA_DeInit(hsai->hdmarx);
     HAL_DMA_DeInit(hsai->hdmatx);
     }
@@ -961,4 +965,3 @@ void HAL_SAI_MspDeInit(SAI_HandleTypeDef* hsai)
 
 /* USER CODE END 1 */
 
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
