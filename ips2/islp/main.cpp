@@ -9,7 +9,7 @@ int main(int argc, char *argv[])
   TYPE_PRINT_TABLE(IPS::TypeID::PDO112P);
   std::cout << "Hi!.....\n";
 
-  IPS::Stations::printTypeTable ();
+//  IPS::Stations::printTypeTable ();
 //  QCoreApplication a (argc, argv);
 //  return a.exec ();
 }
