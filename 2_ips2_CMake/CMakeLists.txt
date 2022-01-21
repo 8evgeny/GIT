@@ -13,6 +13,8 @@ set(CMAKE_BUILD_TYPE debug)
 
 set (patchSRC "../2_ips2/ips_sc4_pdo/Core/Src")
 set (patchDRV "../2_ips2/ips_sc4_pdo/Drivers")
+set (patchHAL_SRC "${patchDRV}/STM32H7xx_HAL_Driver/Src")
+
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}\
     -mcpu=cortex-m7 \
     -mfloat-abi=hard \
@@ -53,41 +55,39 @@ set (SOURCES_C
     ${patchSRC}/system_stm32h7xx.c
     )
 
-set (STARTUP_SOURCES
-    ${patchSRC}/../Startup/startup_stm32h753iitx.s
-    )
-add_library(STARTUP
-    ${STARTUP_SOURCES}
-    )
+set (STARTUP_SOURCES ${patchSRC}/../Startup/startup_stm32h753iitx.s )
+add_library(STARTUP ${STARTUP_SOURCES} )
 
-include_directories(
-    ${patchDRV}/BSP/Components/lan8742
-    )
-set (BSP_SOURCES
-    ${patchDRV}/BSP/Components/lan8742/lan8742.c
-    )
-add_library(BSP
-    ${BSP_SOURCES}
-    )
+include_directories( ${patchDRV}/BSP/Components/lan8742 )
+set (BSP_SOURCES ${patchDRV}/BSP/Components/lan8742/lan8742.c )
+add_library(BSP ${BSP_SOURCES} )
 
 include_directories(
     ${patchDRV}/CMSIS/Include
     ${patchDRV}/CMSIS/Device/ST/STM32H7xx/Include
     )
-set (CMSYS_SOURCES
+#set (CMSYS_SOURCES
+#    )
+#add_library(CMSYS
+#    )
 
+include_directories(
+    ${patchDRV}/STM32H7xx_HAL_Driver/Inc
+    ${patchDRV}/STM32H7xx_HAL_Driver/Inc/Legacy
     )
-add_library(CMSYS
+file (GLOB srcHAL ${patchHAL_SRC}/*)
+set (STM32H7xx_HAL_Driver_SOURCES ${srcHAL} )
+add_library(STM32H7xx_HAL_Driver ${STM32H7xx_HAL_Driver_SOURCES})
 
+include_directories(
+    ../2_ips2/ips_sc4_pdo/LWIP/App
+    ../2_ips2/ips_sc4_pdo/LWIP/Target
     )
-
-add_library(STM32H7xx_HAL_Driver
-
+set (LWIP_SOURCES
+    ../2_ips2/ips_sc4_pdo/LWIP/App/lwip.c
+    ../2_ips2/ips_sc4_pdo/LWIP/Target/ethernetif.c
     )
-
-add_library(LWIP
-
-    )
+add_library(LWIP ${LWIP_SOURCES} )
 
 add_library(Middlewares
 
@@ -103,7 +103,7 @@ set_target_properties(${PROJECT_NAME}.elf PROPERTIES LINKER_LANGUAGE C)
 target_link_libraries(${PROJECT_NAME}.elf PUBLIC
     STARTUP
     BSP
-    CMSIS
+#    CMSIS
     STM32H7xx_HAL_Driver
     LWIP
     Middlewares
