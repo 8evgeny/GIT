@@ -12,7 +12,7 @@ set(CMAKE_BUILD_TYPE debug)
 #set(CMAKE_BUILD_TYPE release)
 
 set (patchSRC "../2_ips2/ips_sc4_pdo/Core/Src")
-
+set (patchDRV "../2_ips2/ips_sc4_pdo/Drivers")
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}\
     -mcpu=cortex-m7 \
     -mfloat-abi=hard \
@@ -39,15 +39,11 @@ set(CMAKE_LINK_LIBRARY_FLAG "${CMAKE_LINK_LIBRARY_FLAG} \
     --end-group
     ")
 
-
-
 include_directories(
     ${patchSRC}/../Inc
     ${patchSRC}
     ${patchSRC}/../Startup
     )
-
-
 set (SOURCES_C
     ${patchSRC}/main.c
     ${patchSRC}/stm32h7xx_hal_msp.c
@@ -57,14 +53,30 @@ set (SOURCES_C
     ${patchSRC}/system_stm32h7xx.c
     )
 
-set (STARTUP_DEVICE_SUPPORT
+set (STARTUP_SOURCES
     ${patchSRC}/../Startup/startup_stm32h753iitx.s
     )
-
-add_library(BSP
-
+add_library(STARTUP
+    ${STARTUP_SOURCES}
     )
 
+include_directories(
+    ${patchDRV}/BSP/Components/lan8742
+    )
+set (BSP_SOURCES
+    ${patchDRV}/BSP/Components/lan8742/lan8742.c
+    )
+add_library(BSP
+    ${BSP_SOURCES}
+    )
+
+include_directories(
+    ${patchDRV}/CMSIS/Include
+    ${patchDRV}/CMSIS/Device/ST/STM32H7xx/Include
+    )
+set (CMSYS_SOURCES
+
+    )
 add_library(CMSYS
 
     )
@@ -89,9 +101,12 @@ add_executable(${PROJECT_NAME}.elf
 set_target_properties(${PROJECT_NAME}.elf PROPERTIES LINKER_LANGUAGE C)
 
 target_link_libraries(${PROJECT_NAME}.elf PUBLIC
+    STARTUP
+    BSP
     CMSIS
-#    m
-#    gcc
+    STM32H7xx_HAL_Driver
+    LWIP
+    Middlewares
     )
 
 set(HEX_FILE ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.hex)
