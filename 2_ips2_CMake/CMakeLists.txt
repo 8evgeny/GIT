@@ -46,14 +46,7 @@ include_directories(
     ${patchSRC}
     ${patchSRC}/../Startup
     )
-set (SOURCES_C
-    ${patchSRC}/main.c
-    ${patchSRC}/stm32h7xx_hal_msp.c
-    ${patchSRC}/stm32h7xx_it.c
-    ${patchSRC}/syscalls.c
-    ${patchSRC}/sysmem.c
-    ${patchSRC}/system_stm32h7xx.c
-    )
+file (GLOB SOURCES_C ${patchSRC}/* )
 
 set (STARTUP_SOURCES ${patchSRC}/../Startup/startup_stm32h753iitx.s )
 add_library(STARTUP ${STARTUP_SOURCES} )
@@ -75,9 +68,8 @@ include_directories(
     ${patchDRV}/STM32H7xx_HAL_Driver/Inc
     ${patchDRV}/STM32H7xx_HAL_Driver/Inc/Legacy
     )
-file (GLOB srcHAL ${patchHAL_SRC}/*)
-set (STM32H7xx_HAL_Driver_SOURCES ${srcHAL} )
-add_library(STM32H7xx_HAL_Driver ${STM32H7xx_HAL_Driver_SOURCES})
+file (GLOB HAL_SRC ${patchHAL_SRC}/*)
+add_library(STM32H7xx_HAL_Driver ${HAL_SRC})
 
 include_directories(
     ../2_ips2/ips_sc4_pdo/LWIP/App
