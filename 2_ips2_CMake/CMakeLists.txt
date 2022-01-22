@@ -4,7 +4,7 @@ set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
 # Set ARM compiler
 set(TOOLS_PATH /home/evg/toolchain/gcc-arm-none-eabi-new)
 set(CMAKE_C_COMPILER ${TOOLS_PATH}/bin/arm-none-eabi-gcc)
-set(CMAKE_CXX_COMPILER ${TOOLS_PATH}/bin/arm-none-eabi-g++)
+#set(CMAKE_CXX_COMPILER ${TOOLS_PATH}/bin/arm-none-eabi-g++)
 
 project(ips2 C ASM)
 
@@ -24,21 +24,25 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}\
     --gc-sections \
     -specs=nosys.specs \
     -specs=nano.specs \
-    -T ../2_ips2/ips_sc4_pdo/SSTM32H753IITX_RAM.ld \
-    -T ../2_ips2/ips_sc4_pdo/STM32H753IITX_FLASH.ld \
     ")
+
+#-T STM32H753IITX_RAM.ld \
+#-T STM32H753IITX_FLASH.ld \
+#    --gc-sections \
+#    --end-group \
+#-T ../2_ips2/ips_sc4_pdo/SSTM32H753IITX_RAM.ld \
+#-T ../2_ips2/ips_sc4_pdo/STM32H753IITX_FLASH.ld \
 
 set(CMAKE_LINK_LIBRARY_FLAG "${CMAKE_LINK_LIBRARY_FLAG} \
     --start-group \
-    --gc-sections \
-    -T ../2_ips2/ips_sc4_pdo/SSTM32H753IITX_RAM.ld \
-    -T ../2_ips2/ips_sc4_pdo/STM32H753IITX_FLASH.ld \
+    --data-sections \
+    -T SSTM32H753IITX_RAM.ld \
+    -T STM32H753IITX_FLASH.ld \
     -lm \
     -lnosys \
     -lgcc \
     -lc \
     -lstdc++ \
-    --end-group
     ")
 
 include_directories(
@@ -46,7 +50,19 @@ include_directories(
     ${patchSRC}
     ${patchSRC}/../Startup
     )
-file (GLOB SOURCES_C ${patchSRC}/* )
+file (GLOB SOURCES_C ${patchSRC}/*.c )
+
+include_directories(
+    ../2_ips2/ips_sc4_pdo/Core/Src
+    ${patchDRV}/CMSIS/Include
+    ${patchDRV}/CMSIS/Device/ST/STM32H7xx/Include
+    ../2_ips2/ips_sc4_pdo/Drivers/BSP/Components/dp83848
+    )
+file (GLOB CORE_SOURCES
+    ../2_ips2/ips_sc4_pdo/Core/Src/*.c
+    ../2_ips2/ips_sc4_pdo/Drivers/BSP/Components/dp83848/dp83848.c
+    )
+add_library(CORE ${CORE_SOURCES} )
 
 set (STARTUP_SOURCES ${patchSRC}/../Startup/startup_stm32h753iitx.s )
 add_library(STARTUP ${STARTUP_SOURCES} )
@@ -55,13 +71,17 @@ include_directories( ${patchDRV}/BSP/Components/lan8742 )
 set (BSP_SOURCES ${patchDRV}/BSP/Components/lan8742/lan8742.c )
 add_library(BSP ${BSP_SOURCES} )
 
-include_directories(
-    ${patchDRV}/CMSIS/Include
-    ${patchDRV}/CMSIS/Device/ST/STM32H7xx/Include
-    )
+#include_directories(
+#    ${patchDRV}/CMSIS/Include
+#    ${patchDRV}/CMSIS/Device/ST/STM32H7xx/Include
+#    ../2_ips2/ips_sc4_pdo/Drivers/BSP/Components/dp83848
+#    )
+
 #set (CMSYS_SOURCES
+#    ../2_ips2/ips_sc4_pdo/Drivers/BSP/Components/dp83848/dp83848.c
 #    )
 #add_library(CMSYS
+#    ${CMSYS_SOURCES}
 #    )
 
 include_directories(
@@ -74,17 +94,43 @@ add_library(STM32H7xx_HAL_Driver ${HAL_SRC})
 include_directories(
     ../2_ips2/ips_sc4_pdo/LWIP/App
     ../2_ips2/ips_sc4_pdo/LWIP/Target
+    ../2_ips2/ips_sc4_pdo/LWIP
     )
 set (LWIP_SOURCES
     ../2_ips2/ips_sc4_pdo/LWIP/App/lwip.c
     ../2_ips2/ips_sc4_pdo/LWIP/Target/ethernetif.c
+    ../2_ips2/ips_sc4_pdo/LWIP/ping.c
     )
 add_library(LWIP ${LWIP_SOURCES} )
 
-add_library(Middlewares
-
+include_directories(
+    ../2_ips2/ips_sc4_pdo/Middlewares/Third_Party/LwIP/system/arch
+    ../2_ips2/ips_sc4_pdo/Middlewares/Third_Party/LwIP/system
+    ../2_ips2/ips_sc4_pdo/Middlewares/Third_Party/LwIP/src/include/netif
+    ../2_ips2/ips_sc4_pdo/Middlewares/Third_Party/LwIP/src/include/netif/ppp
+    ../2_ips2/ips_sc4_pdo/Middlewares/Third_Party/LwIP/src/include
+    ../2_ips2/ips_sc4_pdo/Middlewares/Third_Party/LwIP/src/include/lwip
+    ../2_ips2/ips_sc4_pdo/Middlewares/Third_Party/LwIP/src/include/lwip/apps
+    ../2_ips2/ips_sc4_pdo/Middlewares/Third_Party/LwIP/src/include/lwip/priv
+    ../2_ips2/ips_sc4_pdo/Middlewares/Third_Party/LwIP/src/include/lwip/prot
+    ../2_ips2/ips_sc4_pdo/Middlewares/Third_Party/LwIP/src/include/compat/posix
+    ../2_ips2/ips_sc4_pdo/Middlewares/Third_Party/LwIP/src/include/compat/arpa
+    ../2_ips2/ips_sc4_pdo/Middlewares/Third_Party/LwIP/src/include/compat/net
+    ../2_ips2/ips_sc4_pdo/Middlewares/Third_Party/LwIP/src/include/compat/sys
     )
 
+file (GLOB Third_Party_SRC
+    ../2_ips2/ips_sc4_pdo/Middlewares/Third_Party/LwIP/src/api/*
+    ../2_ips2/ips_sc4_pdo/Middlewares/Third_Party/LwIP/src/apps/mqtt/mqtt.c
+    ../2_ips2/ips_sc4_pdo/Middlewares/Third_Party/LwIP/src/core/*
+    ../2_ips2/ips_sc4_pdo/Middlewares/Third_Party/LwIP/src/core/ipv4/*
+    ../2_ips2/ips_sc4_pdo/Middlewares/Third_Party/LwIP/src/netif/*
+    ../2_ips2/ips_sc4_pdo/Middlewares/Third_Party/LwIP/src/netif/ppp/*
+    )
+
+add_library(Middlewares
+    ${Third_Party_SRC}
+    )
 
 add_executable(${PROJECT_NAME}.elf
     ${SOURCES_C}
@@ -93,6 +139,7 @@ add_executable(${PROJECT_NAME}.elf
 set_target_properties(${PROJECT_NAME}.elf PROPERTIES LINKER_LANGUAGE C)
 
 target_link_libraries(${PROJECT_NAME}.elf PUBLIC
+    CORE
     STARTUP
     BSP
 #    CMSIS

@@ -7,9 +7,9 @@
   */
 #include "stm32h7xx_hal.h"
 #include "stdio.h"
-#include "crc32.h"
+#include "CRC32.h"
 #include "CLI_io.h"
-#include "memtest.h"
+#include "MemTest.h"
 
 /** @addtogroup MEMTEST_module
   * @{

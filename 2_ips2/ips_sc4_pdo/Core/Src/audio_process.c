@@ -13,7 +13,7 @@
 #include "driver_AIC.h"
 #include "connect_manager.h"
 #include "rtp.h"
-#include "driver_ui.h"
+#include "driver_UI.h"
 #include "string.h"
 #include "udp_exchange.h"
 #include "system_settings.h"

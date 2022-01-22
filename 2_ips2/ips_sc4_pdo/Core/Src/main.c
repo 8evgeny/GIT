@@ -30,9 +30,9 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include <string.h>
-#include "cli_io.h"
+#include "CLI_io.h"
 #include "driver_pinIO.h"
-#include "driver_ui.h"
+#include "driver_UI.h"
 #include "driver_AIC.h"
 #include "driver_EEPROM.h"
 #include "driver_extRAM.h"
@@ -45,7 +45,7 @@
 #include "system_settings.h"
 #include "udp_exchange.h"
 #include "connect_manager.h"
-#include "CBuffer.h"
+#include "cbuffer.h"
 #include "system_settings.h"
 /* USER CODE END Includes */
 

@@ -5,7 +5,7 @@
   * @brief   This file contains circular buffer implementation
   ******************************************************************************
   */
-#include "CBuffer.h"
+#include "cbuffer.h"
 
 /**
   * @brief  circular buffer enter critical section macro
