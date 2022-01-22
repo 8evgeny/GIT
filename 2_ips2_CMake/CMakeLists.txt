@@ -52,6 +52,7 @@ include_directories(
     )
 file (GLOB SOURCES_C ${patchSRC}/*.c )
 
+
 include_directories(
     ../2_ips2/ips_sc4_pdo/Core/Src
     ${patchDRV}/CMSIS/Include
