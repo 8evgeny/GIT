@@ -25,19 +25,17 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}\
     -specs=nosys.specs \
     -specs=nano.specs \
     ")
+#-T ${CMAKE_BINARY_DIR}/../../2_ips2/ips_sc4_pdo/STM32H753IITX_RAM.ld \
+#-T ${CMAKE_BINARY_DIR}/../../2_ips2/ips_sc4_pdo/STM32H753IITX_FLASH.ld \
 
-#-T STM32H753IITX_RAM.ld \
-#-T STM32H753IITX_FLASH.ld \
 #    --gc-sections \
 #    --end-group \
-#-T ../2_ips2/ips_sc4_pdo/SSTM32H753IITX_RAM.ld \
-#-T ../2_ips2/ips_sc4_pdo/STM32H753IITX_FLASH.ld \
 
 set(CMAKE_LINK_LIBRARY_FLAG "${CMAKE_LINK_LIBRARY_FLAG} \
     --start-group \
     --data-sections \
-    -T SSTM32H753IITX_RAM.ld \
-    -T STM32H753IITX_FLASH.ld \
+    -T ${CMAKE_SOURCE_DIR}/../2_ips2/ips_sc4_pdo/STM32H753IITX_RAM.ld \
+    -T ${CMAKE_SOURCE_DIR}/../2_ips2/ips_sc4_pdo/STM32H753IITX_FLASH.ld \
     -lm \
     -lnosys \
     -lgcc \
@@ -54,15 +52,18 @@ file (GLOB SOURCES_C ${patchSRC}/*.c )
 
 
 include_directories(
-    ../2_ips2/ips_sc4_pdo/Core/Src
+    ${CMAKE_SOURCE_DIR}/../2_ips2/ips_sc4_pdo/Core/Src
     ${patchDRV}/CMSIS/Include
     ${patchDRV}/CMSIS/Device/ST/STM32H7xx/Include
-    ../2_ips2/ips_sc4_pdo/Drivers/BSP/Components/dp83848
+    ${CMAKE_SOURCE_DIR}/../2_ips2/ips_sc4_pdo/Drivers/BSP/Components/dp83848
     )
 file (GLOB CORE_SOURCES
-    ../2_ips2/ips_sc4_pdo/Core/Src/*.c
-    ../2_ips2/ips_sc4_pdo/Drivers/BSP/Components/dp83848/dp83848.c
+    "${CMAKE_SOURCE_DIR}/../2_ips2/ips_sc4_pdo/Core/Src/*.c"
+    "${CMAKE_SOURCE_DIR}/../2_ips2/ips_sc4_pdo/Drivers/BSP/Components/dp83848/dp83848.c "
+    /home/evg/SOFT/Github/GIT/2_ips2/ips_sc4_pdo/Drivers/BSP/Components/dp83848/dp83848.c
     )
+message (${CORE_SOURCES})
+
 add_library(CORE ${CORE_SOURCES} )
 
 set (STARTUP_SOURCES ${patchSRC}/../Startup/startup_stm32h753iitx.s )
@@ -93,40 +94,40 @@ file (GLOB HAL_SRC ${patchHAL_SRC}/*)
 add_library(STM32H7xx_HAL_Driver ${HAL_SRC})
 
 include_directories(
-    ../2_ips2/ips_sc4_pdo/LWIP/App
-    ../2_ips2/ips_sc4_pdo/LWIP/Target
-    ../2_ips2/ips_sc4_pdo/LWIP
+    ${CMAKE_SOURCE_DIR}/../2_ips2/ips_sc4_pdo/LWIP/App
+    ${CMAKE_SOURCE_DIR}/../2_ips2/ips_sc4_pdo/LWIP/Target
+    ${CMAKE_SOURCE_DIR}/../2_ips2/ips_sc4_pdo/LWIP
     )
 set (LWIP_SOURCES
-    ../2_ips2/ips_sc4_pdo/LWIP/App/lwip.c
-    ../2_ips2/ips_sc4_pdo/LWIP/Target/ethernetif.c
-    ../2_ips2/ips_sc4_pdo/LWIP/ping.c
+    ${CMAKE_SOURCE_DIR}/../2_ips2/ips_sc4_pdo/LWIP/App/lwip.c
+    ${CMAKE_SOURCE_DIR}/../2_ips2/ips_sc4_pdo/LWIP/Target/ethernetif.c
+    ${CMAKE_SOURCE_DIR}/../2_ips2/ips_sc4_pdo/LWIP/ping.c
     )
 add_library(LWIP ${LWIP_SOURCES} )
 
 include_directories(
-    ../2_ips2/ips_sc4_pdo/Middlewares/Third_Party/LwIP/system/arch
-    ../2_ips2/ips_sc4_pdo/Middlewares/Third_Party/LwIP/system
-    ../2_ips2/ips_sc4_pdo/Middlewares/Third_Party/LwIP/src/include/netif
-    ../2_ips2/ips_sc4_pdo/Middlewares/Third_Party/LwIP/src/include/netif/ppp
-    ../2_ips2/ips_sc4_pdo/Middlewares/Third_Party/LwIP/src/include
-    ../2_ips2/ips_sc4_pdo/Middlewares/Third_Party/LwIP/src/include/lwip
-    ../2_ips2/ips_sc4_pdo/Middlewares/Third_Party/LwIP/src/include/lwip/apps
-    ../2_ips2/ips_sc4_pdo/Middlewares/Third_Party/LwIP/src/include/lwip/priv
-    ../2_ips2/ips_sc4_pdo/Middlewares/Third_Party/LwIP/src/include/lwip/prot
-    ../2_ips2/ips_sc4_pdo/Middlewares/Third_Party/LwIP/src/include/compat/posix
-    ../2_ips2/ips_sc4_pdo/Middlewares/Third_Party/LwIP/src/include/compat/arpa
-    ../2_ips2/ips_sc4_pdo/Middlewares/Third_Party/LwIP/src/include/compat/net
-    ../2_ips2/ips_sc4_pdo/Middlewares/Third_Party/LwIP/src/include/compat/sys
+    ${CMAKE_SOURCE_DIR}/../2_ips2/ips_sc4_pdo/Middlewares/Third_Party/LwIP/system/arch
+    ${CMAKE_SOURCE_DIR}/../2_ips2/ips_sc4_pdo/Middlewares/Third_Party/LwIP/system
+    ${CMAKE_SOURCE_DIR}/../2_ips2/ips_sc4_pdo/Middlewares/Third_Party/LwIP/src/include/netif
+    ${CMAKE_SOURCE_DIR}/../2_ips2/ips_sc4_pdo/Middlewares/Third_Party/LwIP/src/include/netif/ppp
+    ${CMAKE_SOURCE_DIR}/../2_ips2/ips_sc4_pdo/Middlewares/Third_Party/LwIP/src/include
+    ${CMAKE_SOURCE_DIR}/../2_ips2/ips_sc4_pdo/Middlewares/Third_Party/LwIP/src/include/lwip
+    ${CMAKE_SOURCE_DIR}/../2_ips2/ips_sc4_pdo/Middlewares/Third_Party/LwIP/src/include/lwip/apps
+    ${CMAKE_SOURCE_DIR}/../2_ips2/ips_sc4_pdo/Middlewares/Third_Party/LwIP/src/include/lwip/priv
+    ${CMAKE_SOURCE_DIR}/../2_ips2/ips_sc4_pdo/Middlewares/Third_Party/LwIP/src/include/lwip/prot
+    ${CMAKE_SOURCE_DIR}/../2_ips2/ips_sc4_pdo/Middlewares/Third_Party/LwIP/src/include/compat/posix
+    ${CMAKE_SOURCE_DIR}/../2_ips2/ips_sc4_pdo/Middlewares/Third_Party/LwIP/src/include/compat/arpa
+    ${CMAKE_SOURCE_DIR}/../2_ips2/ips_sc4_pdo/Middlewares/Third_Party/LwIP/src/include/compat/net
+    ${CMAKE_SOURCE_DIR}/../2_ips2/ips_sc4_pdo/Middlewares/Third_Party/LwIP/src/include/compat/sys
     )
 
 file (GLOB Third_Party_SRC
-    ../2_ips2/ips_sc4_pdo/Middlewares/Third_Party/LwIP/src/api/*
-    ../2_ips2/ips_sc4_pdo/Middlewares/Third_Party/LwIP/src/apps/mqtt/mqtt.c
-    ../2_ips2/ips_sc4_pdo/Middlewares/Third_Party/LwIP/src/core/*
-    ../2_ips2/ips_sc4_pdo/Middlewares/Third_Party/LwIP/src/core/ipv4/*
-    ../2_ips2/ips_sc4_pdo/Middlewares/Third_Party/LwIP/src/netif/*
-    ../2_ips2/ips_sc4_pdo/Middlewares/Third_Party/LwIP/src/netif/ppp/*
+    ${CMAKE_SOURCE_DIR}/../2_ips2/ips_sc4_pdo/Middlewares/Third_Party/LwIP/src/api/*
+    ${CMAKE_SOURCE_DIR}/../2_ips2/ips_sc4_pdo/Middlewares/Third_Party/LwIP/src/apps/mqtt/mqtt.c
+    ${CMAKE_SOURCE_DIR}/../2_ips2/ips_sc4_pdo/Middlewares/Third_Party/LwIP/src/core/*
+    ${CMAKE_SOURCE_DIR}/../2_ips2/ips_sc4_pdo/Middlewares/Third_Party/LwIP/src/core/ipv4/*
+    ${CMAKE_SOURCE_DIR}/../2_ips2/ips_sc4_pdo/Middlewares/Third_Party/LwIP/src/netif/*
+    ${CMAKE_SOURCE_DIR}/../2_ips2/ips_sc4_pdo/Middlewares/Third_Party/LwIP/src/netif/ppp/*
     )
 
 add_library(Middlewares
