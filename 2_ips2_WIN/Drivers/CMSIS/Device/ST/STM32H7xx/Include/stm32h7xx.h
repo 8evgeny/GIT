@@ -120,7 +120,7 @@
   * @{
   */
 
-#define  STM32H753xx
+//#define  STM32H753xx
 
 #if defined(STM32H743xx)
   include "stm32h743xx.h"
