@@ -1,0 +1,6 @@
+set(CPACK_GENERATOR "DEB")
+set(CPACK_DEBIAN_PACKAGE_MAINTAINER "sergey.panin@git-holding.ru")
+set(CPACK_DEBIAN_PACKAGE_SHLIBDEPS ON)
+set(CPACK_DEB_COMPONENT_INSTALL ON)
+set(CPACK_PACKAGE_DESCRIPTION "configurator_IPS")
+set(CPACK_DEBIAN_PACKAGE_DEPENDS "qt5-default, libqt5serialport5-dev, libqt5svg5-dev")

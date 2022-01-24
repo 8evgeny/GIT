@@ -1,0 +1,3 @@
+"C:\Program Files\CMake\bin\cmake.exe" -E rm -f CMakeFiles\settingsdlg.dir/objects.a
+C:\QT5.15MinGW810\mingw64\bin\ar.exe qc CMakeFiles\settingsdlg.dir/objects.a @CMakeFiles\settingsdlg.dir\objects1.rsp
+C:\QT5.15MinGW810\mingw64\bin\g++.exe -shared -o ..\..\bin_win10\libsettingsdlg.dll -Wl,--out-implib,libsettingsdlg.dll.a -Wl,--major-image-version,0,--minor-image-version,0 -Wl,--whole-archive CMakeFiles\settingsdlg.dir/objects.a -Wl,--no-whole-archive @CMakeFiles\settingsdlg.dir\linklibs.rsp

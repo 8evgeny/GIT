@@ -1,3 +1,0 @@
-"C:\Program Files\CMake\bin\cmake.exe" -E rm -f CMakeFiles\ips-configurator.dir/objects.a
-C:\QT5.15MinGW810\mingw64\bin\ar.exe qc CMakeFiles\ips-configurator.dir/objects.a @CMakeFiles\ips-configurator.dir\objects1.rsp
-C:\QT5.15MinGW810\mingw64\bin\g++.exe -Wl,--whole-archive CMakeFiles\ips-configurator.dir/objects.a -Wl,--no-whole-archive -o ..\bin_win10\ips-configurator.exe -Wl,--out-implib,libips-configurator.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\ips-configurator.dir\linklibs.rsp

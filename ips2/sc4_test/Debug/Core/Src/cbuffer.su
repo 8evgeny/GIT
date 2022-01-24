@@ -1,5 +1,0 @@
-cbuffer.c:3:6:CBuffer_Init	24	static
-cbuffer.c:10:6:CBuffer_Reset	16	static
-cbuffer.c:15:9:CBuffer_ReadByte	24	static
-cbuffer.c:27:9:CBuffer_WriteData	32	static
-cbuffer.c:46:10:CBuffer_ReadData	32	static

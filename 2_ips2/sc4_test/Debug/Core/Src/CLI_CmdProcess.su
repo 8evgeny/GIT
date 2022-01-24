@@ -1,0 +1,3 @@
+CLI_CmdProcess.c:20:15:CLI_getParNumMsg	32	static
+CLI_CmdProcess.c:33:6:CLI_parse_msg	32	static
+CLI_CmdProcess.c:52:6:CLI_executeCMD	32	static

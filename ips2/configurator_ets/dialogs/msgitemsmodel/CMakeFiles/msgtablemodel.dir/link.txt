@@ -1,3 +1,0 @@
-"C:\Program Files\CMake\bin\cmake.exe" -E rm -f CMakeFiles\msgtablemodel.dir/objects.a
-C:\QT5.15MinGW810\mingw64\bin\ar.exe qc CMakeFiles\msgtablemodel.dir/objects.a @CMakeFiles\msgtablemodel.dir\objects1.rsp
-C:\QT5.15MinGW810\mingw64\bin\g++.exe -shared -o ..\..\bin_win10\libmsgtablemodel.dll -Wl,--out-implib,libmsgtablemodel.dll.a -Wl,--major-image-version,0,--minor-image-version,0 -Wl,--whole-archive CMakeFiles\msgtablemodel.dir/objects.a -Wl,--no-whole-archive @CMakeFiles\msgtablemodel.dir\linklibs.rsp

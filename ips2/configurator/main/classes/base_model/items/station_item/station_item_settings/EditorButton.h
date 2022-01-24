@@ -1,4 +1,0 @@
-#ifndef EDITORBUTTON_H
-#define EDITORBUTTON_H
-
-#endif // EDITORBUTTON_H

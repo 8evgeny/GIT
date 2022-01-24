@@ -1,3 +1,0 @@
-"C:\Program Files\CMake\bin\cmake.exe" -E rm -f CMakeFiles\aboutdlg.dir/objects.a
-C:\QT5.15MinGW810\mingw64\bin\ar.exe qc CMakeFiles\aboutdlg.dir/objects.a @CMakeFiles\aboutdlg.dir\objects1.rsp
-C:\QT5.15MinGW810\mingw64\bin\g++.exe -shared -o ..\..\bin_win10\libaboutdlg.dll -Wl,--out-implib,libaboutdlg.dll.a -Wl,--major-image-version,0,--minor-image-version,0 -Wl,--whole-archive CMakeFiles\aboutdlg.dir/objects.a -Wl,--no-whole-archive @CMakeFiles\aboutdlg.dir\linklibs.rsp

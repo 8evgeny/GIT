@@ -1,7 +1,0 @@
-driver_EEPROM.c:10:9:eeprom_read_bytes	32	static
-driver_EEPROM.c:15:9:eeprom_write_bytes	32	static
-driver_EEPROM.c:20:9:eeprom_read_SB	24	static
-driver_EEPROM.c:40:6:eeprom_default_SB	16	static
-driver_EEPROM.c:71:10:eeprom_update_block_CRC	32	static
-driver_EEPROM.c:77:8:eeprom_find_block	24	static
-driver_EEPROM.c:85:6:eeprom_init	4	static

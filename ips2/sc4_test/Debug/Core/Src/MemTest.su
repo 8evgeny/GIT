@@ -1,6 +1,0 @@
-MemTest.c:7:9:TestRAM_byteio	40	static
-MemTest.c:38:9:TestRAM_runzeros	40	static
-MemTest.c:71:9:TestRAM_runones	40	static
-MemTest.c:105:9:TestRAM_address	40	static
-MemTest.c:137:9:TestRAM_hashaddress	48	static
-MemTest.c:168:9:Test_RAM	24	static

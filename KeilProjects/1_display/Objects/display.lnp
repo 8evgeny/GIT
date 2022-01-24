@@ -1,0 +1,23 @@
+--cpu Cortex-M3
+".\objects\gpio.o"
+".\objects\mt20s4.o"
+".\objects\rcc_delay.o"
+".\objects\var.o"
+".\objects\main.o"
+".\objects\logic.o"
+".\objects\usb.o"
+".\objects\checklcd_buzzer.o"
+".\objects\retarget_io.o"
+".\objects\startup_mdr32f9qx.o"
+".\objects\system_mdr32f9qx.o"
+".\objects\mdr32f9qx_iwdg.o"
+".\objects\mdr32f9qx_port.o"
+".\objects\mdr32f9qx_rst_clk.o"
+".\objects\mdr32f9qx_timer.o"
+".\objects\mdr32f9qx_usb.o"
+".\objects\mdr32f9qx_usb_cdc.o"
+".\objects\mdr32f9qx_usb_device.o"
+--strict --scatter ".\Objects\display.sct"
+--summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
+--info sizes --info totals --info unused --info veneers
+--list ".\Listings\display.map" -o .\Objects\display.axf

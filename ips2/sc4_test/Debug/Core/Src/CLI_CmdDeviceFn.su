@@ -1,5 +1,0 @@
-core_cm7.h:2156:34:__NVIC_SystemReset	4	static,ignoring_inline_asm
-CLI_CmdDeviceFn.c:14:6:fnConnect	16	static
-CLI_CmdDeviceFn.c:31:6:fnHelp	16	static
-CLI_CmdDeviceFn.c:38:6:fnGetType	16	static
-CLI_CmdDeviceFn.c:45:6:fnResetDevice	16	static
