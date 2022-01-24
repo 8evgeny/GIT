@@ -34,6 +34,7 @@ const char cmdTestSRAMOn[]="TEST SRAM";
 const char cmdTestEEPROMOn[]="TEST EEPROM";
 const char cmdTestCodecOn[]="TEST AIC";
 const char cmdTestPHYOn[]="TEST PHY";
+const char cmdTestUI[]="TEST UI";
 const char cmdTestLEDOn[]="TEST LED ON";
 const char cmdTestLEDOff[]="TEST LED OFF";
 const char cmdTestBTNOn[]="TEST BTN ON";
@@ -106,6 +107,7 @@ const sCLI_cmd_desc cmd_tab[]={
 	{&cmdTestCodecOn[0] , fnTestCODEC, 0},
 	{&cmdTestPHYOn[0] , fnTestPHY, 0},
 
+	{&cmdTestUI[0] , fnTestUI, 0},
 	{&cmdTestLEDOn[0] , fnTestLEDOn, 0},
 	{&cmdTestLEDOff[0] , fnTestLEDOff, 0},
 	{&cmdTestBTNOn[0] , fnTestBTNOn, 0},

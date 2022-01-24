@@ -59,10 +59,10 @@ uint8_t eeprom_waitwrite_polling(uint32_t adr, uint32_t *delay)
 {
 	uint8_t data;
 	uint32_t wait_time;
-	
+
 	wait_time = HAL_GetTick();
 
-	while ((HAL_GetTick() - wait_time)<EEPROM_MAX_WRDELAY) {	
+	while ((HAL_GetTick() - wait_time)<EEPROM_MAX_WRDELAY) {
 		if (eeprom_read_bytes(adr, &data, 1) == HAL_OK) {
 			if (delay) *delay = HAL_GetTick() - wait_time;
 			return HAL_OK;
@@ -70,6 +70,47 @@ uint8_t eeprom_waitwrite_polling(uint32_t adr, uint32_t *delay)
 	}
 	*delay = EEPROM_MAX_WRDELAY;
 	return HAL_ERROR;
+}
+
+#define EEPROM_NUM_PAGES		512
+
+int8_t eeprom_test_writedelay()
+{
+	uint32_t i, wait_time,delay;
+
+	wait_time = HAL_GetTick();
+	if (eeprom_write_bytes(0, (uint8_t *)&eeprom_hdr, 1) != HAL_OK)
+	{
+		CLI_print("Error EEPROM: write byte\r\n");
+		return -1;
+	}
+	eeprom_waitwrite_polling(0, NULL);
+	delay = HAL_GetTick() - wait_time;
+	CLI_print("EEPROM byte write delay: %i\r\n", delay);
+	
+	wait_time = HAL_GetTick();
+	if (eeprom_write_bytes(0, (uint8_t *)&eeprom_hdr, EEPROM_PAGE_SIZE) != HAL_OK)
+	{
+		CLI_print("Error EEPROM: write block\r\n");
+		return -1;
+	}
+	eeprom_waitwrite_polling(0, NULL);
+	delay = HAL_GetTick() - wait_time;
+	CLI_print("EEPROM block write delay: %i\r\n", delay);
+	
+	wait_time = HAL_GetTick();
+	for (i = 0; i < EEPROM_NUM_PAGES; i++) {
+		if (eeprom_write_bytes(i * EEPROM_PAGE_SIZE, (uint8_t *)&eeprom_hdr, EEPROM_PAGE_SIZE) != HAL_OK)
+		{
+			CLI_print("Error EEPROM: write block %i\r\n", i);
+			return -1;
+		}
+		eeprom_waitwrite_polling(0, NULL);
+	}
+	delay = HAL_GetTick() - wait_time;
+	CLI_print("EEPROM full write delay: %i\r\n", delay);
+	
+	return 0;
 }
 
 void eeprom_update_block_CRC(SystemBlockHdr *sb, uint8_t block_num, uint8_t *block_ptr)

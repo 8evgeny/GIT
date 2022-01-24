@@ -152,6 +152,8 @@ void eeprom_print_SB();
   */
 uint32_t eeprom_get_totalsize(SystemBlockHdr *sb);
 
+int8_t eeprom_test_writedelay();
+
 /**
   * @}
   */

@@ -353,6 +353,10 @@ void fnTestEEPROM(int numParam, char** params)
 			 CLI_print("Error : EEPROM write error\r\n");
 			 return;
 			}
+		} else
+		if (!strcmp(params[0],"TIME")) {
+			eeprom_test_writedelay();
+			return;
 		}
 	}
 
@@ -438,7 +442,7 @@ void test_print_PhyStatus(int32_t res) {
 		case DP83848_STATUS_100MBITS_HALFDUPLEX: CLI_print("Test PHY : 100 MBit HD\r\n");break;
 		case DP83848_STATUS_10MBITS_FULLDUPLEX: CLI_print("Test PHY : 10 MBit FD\r\n");break;
 		case DP83848_STATUS_10MBITS_HALFDUPLEX: CLI_print("Test PHY : 10 MBit HD\r\n");break;
-		case DP83848_STATUS_AUTONEGO_NOTDONE: CLI_print("Test PHY : autonegotiotion in process\r\n");break;
+		case DP83848_STATUS_AUTONEGO_NOTDONE: CLI_print("Test PHY : autonegotiation in process\r\n");break;
 		case DP83848_STATUS_LINK_DOWN: CLI_print("Test PHY : link down\r\n");break;
 		default:CLI_print("Test PHY : status unknown\r\n");break;
 	}
@@ -526,6 +530,22 @@ void fnTestPHY(int numParam, char** params)
 	 test_print_PhyStatus(res);
 	 if ((res >= DP83848_STATUS_100MBITS_FULLDUPLEX) && (res <= DP83848_STATUS_10MBITS_HALFDUPLEX)) CLI_print("Test PHY ok\r\n");
    }
+}
+
+void fnTestUI(int numParam, char** params)
+{
+	if (!(TestModeOn&TEST_MODE_ON)) {
+	 CLI_print("Error: not in test mode\r\n");
+	 return;
+	}
+
+	CLI_print("Test UI board\r\n");
+
+	printDeviceID();
+
+	ui_test_board(1);
+
+	CLI_print("Test UI end\r\n");
 }
 
 void fnTestLEDOn(int numParam, char** params)
@@ -774,33 +794,44 @@ uint8_t test_get_mode()
 }
 
 //-------------------------------------------
+extern uint32_t ec_enable;
 extern uint32_t ec_GR_threshold;
 extern uint32_t ec_MIC_threshold;
 extern uint32_t ec_fade_level;
 extern uint32_t ec_MIC_disable_time;
 extern uint32_t ec_GR_enable_time;
 extern uint32_t ec_GR_disable_time;
+extern uint32_t ec_GR_max_energy;
+extern uint32_t ec_MIC_max_energy;
 
-//              GRT    MCT    FDL  MCDT GRET GRDT
-//TEST SET EC : XXXX : XXXX : XX : XX : XX : XX
+//             EN   GRT    MCT    FDL  MCDT GRET GRDT
+//TEST SET EC : X : XXXX : XXXX : XX : XX : XX : XX
 void fnSetEC(int numParam, char** params)
 {
-  ec_GR_threshold = atoi(params[0]);
-  ec_MIC_threshold = atoi(params[1]);
-  ec_fade_level = atoi(params[2]);
-  ec_MIC_disable_time = atoi(params[3]);
-  ec_GR_enable_time = atoi(params[4]);
-  ec_GR_disable_time = atoi(params[5]);
+  ec_enable =  atoi(params[0]);
+  ec_GR_threshold = atoi(params[1]);
+  ec_MIC_threshold = atoi(params[2]);
+  ec_fade_level = atoi(params[3]);
+  ec_MIC_disable_time = atoi(params[4]);
+  ec_GR_enable_time = atoi(params[5]);
+  ec_GR_disable_time = atoi(params[6]);
   fnGetEC(numParam, params);
 }
 
 void fnGetEC(int numParam, char** params)
 {
   CLI_print("Audioloop disabler param:\r\n");
+  CLI_print("ELC enabled   : %i\r\n",ec_enable);
   CLI_print("GR Threshold  : %i\r\n",ec_GR_threshold);
   CLI_print("MIC Threshold : %i\r\n",ec_MIC_threshold);
   CLI_print("Fade level    : %i\r\n",ec_fade_level);
   CLI_print("MIC dis time  : %i\r\n",ec_MIC_disable_time);
   CLI_print("GR en time    : %i\r\n",ec_GR_enable_time);
   CLI_print("GR dis time   : %i\r\n",ec_GR_disable_time);
+  CLI_print("GR dis time   : %i\r\n",ec_GR_disable_time);
+  
+  CLI_print("MAX MIC level  : %i\r\n",ec_MIC_max_energy);
+  CLI_print("MAX GR  level  : %i\r\n",ec_GR_max_energy);
+  ec_MIC_max_energy = 0;
+  ec_GR_max_energy = 0;
 }

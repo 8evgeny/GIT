@@ -7,10 +7,10 @@
   */
 #include "stm32h7xx_hal.h"
 #include "driver_pinIO.h"
-#include "driver_UI.h"
+#include "driver_ui.h"
 #include "driver_EEPROM.h"
 #include "CLI_io.h"
-#include "CRC32.h"
+#include "crc32.h"
 #include "CLI_CmdServiceFn.h"
 #include "CLI_CmdDeviceFn.h"
 
@@ -47,7 +47,7 @@ void printDeviceID() {
 			case UI_mode_UI48: CLI_print("PDO-48\r\n"); break;
 			case UI_mode_UI16N: CLI_print("PDO-16N\r\n"); break;
 			case UI_mode_UI32N: CLI_print("PDO-32N\r\n"); break;
-			case UI_mode_NOUI: CLI_print("UI not connectes\r\n"); break;
+			case UI_mode_NOUI: CLI_print("UI not connected\r\n"); break;
 			default: CLI_print("unknown UI\r\n"); break;
 	};
 }

@@ -154,6 +154,8 @@ uint8_t ui_get_uimode();
   */
 void ui_set_block_kbd(uint8_t isblock);
 
+int8_t ui_test_board(uint8_t printout);
+
 /**
   * @}
   */

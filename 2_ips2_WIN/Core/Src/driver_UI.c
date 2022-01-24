@@ -10,7 +10,7 @@
 #include "main.h"		// for port defines
 #include "driver_pinIO.h"
 #include "CLI_io.h"
-#include "driver_UI.h"
+#include "driver_ui.h"
 
 /// UI driver error print level
 #define UI_CLI_ERROR_LEVEL	CLI_PRINTLEVEL_WORK
@@ -161,9 +161,135 @@ int8_t MCP23017_Init()
    for (j = 0; j < sizeof(MCP23017_Init_Val); j+=2) {
     if (HAL_I2C_Mem_Write(&hi2c3, MCP23017_address[3], MCP23017_Init_Val[j] ,
     		              I2C_MEMADD_SIZE_8BIT,(uint8_t *)&MCP23017_Init_Val[j+1], 1, 100)!=HAL_OK) return -3;
-   }   
+   }
   }
   return 1;
+}
+
+int8_t TLC59116F_Write(uint8_t idx, uint8_t reg, uint8_t data)
+{
+  if (HAL_I2C_Mem_Write(&hi2c3, TLC59116F_address[idx], reg , I2C_MEMADD_SIZE_8BIT,(uint8_t *)&data, 1, 100)!=HAL_OK)
+	return -1;
+  else 
+	return 0;						  
+}
+
+int8_t TLC59116F_Read(uint8_t idx, uint8_t reg, uint8_t *data)
+{
+  if (HAL_I2C_Mem_Read(&hi2c3, TLC59116F_address[idx], reg , I2C_MEMADD_SIZE_8BIT, data, 1, 100)!=HAL_OK) 
+	return -1;
+  else
+	return 0;						  
+}
+
+int8_t MCP23017_Write(uint8_t idx, uint8_t reg, uint8_t data)
+{
+  if (HAL_I2C_Mem_Write(&hi2c3, MCP23017_address[idx], reg , I2C_MEMADD_SIZE_8BIT,(uint8_t *)&data, 1, 100)!=HAL_OK)
+	return -1;
+  else 
+	return 0;						  
+}
+
+int8_t MCP23017_Read(uint8_t idx, uint8_t reg, uint8_t *data)
+{
+  if (HAL_I2C_Mem_Read(&hi2c3, MCP23017_address[idx], reg ,I2C_MEMADD_SIZE_8BIT, data, 1, 100)!=HAL_OK)
+	return -1;
+  else 
+	return 0;						  
+}
+
+int8_t ui_test_TLC(uint8_t idx, uint8_t printout)
+{
+	uint8_t j, reg, data;
+	
+	if (TLC59116F_Write(idx, 0x00, 0x00)<0) {
+	  if (printout) 
+	   CLI_print("Error write TLC%i reg 00\r\n",idx);
+	  return -1;			
+	}
+	HAL_Delay(10);
+		
+	reg = 0x14;
+		
+	for (j = 0 ; j < 4; j++)
+	{
+		if (TLC59116F_Write(idx, reg, 0x55)<0) {
+		  if (printout) 
+		   CLI_print("Error write TLC%i reg .2X\r\n",idx, reg);
+		  return -1;			
+		}
+		HAL_Delay(10);
+		if (TLC59116F_Read(idx, reg, &data)<0) {
+		  if (printout) 
+		   CLI_print("Error read TLC%i reg .2X",idx, reg);
+		  return -2;			
+		  
+		  if (data != 0x55) {
+		   if (printout) 
+		    CLI_print("Error read TLC%i data .2X",idx, reg);
+		   return -3;			
+		  }
+		}		
+		reg++;
+	}
+
+	return 0;
+}
+
+int8_t ui_test_MCP(uint8_t idx, uint8_t printout)
+{
+	uint8_t j, reg, wdata, rdata;
+	
+	for (j = 0; j < sizeof(MCP23017_Init_Val); j+=2) {
+		reg = MCP23017_Init_Val[j];
+		wdata = MCP23017_Init_Val[j+1];
+		if (MCP23017_Write(idx, reg, wdata) < 0)
+		{
+			if (printout) 
+			   CLI_print("Error write MCP%i reg .2X", idx, reg);
+			return -1;
+		}
+		HAL_Delay(10);
+		if (MCP23017_Read(idx, reg, &rdata) < 0)
+		{
+			if (printout) 
+			   CLI_print("Error read MCP%i reg .2X\r\n", idx, reg);
+			return -2;				   
+		}
+	   
+		if (wdata != rdata) {
+		   if (printout) 
+		    CLI_print("Error read TLC%i reg .2X wdata=.2X rdata=.2X\r\n", idx, reg, wdata, rdata);
+		   return -3;			
+		}
+	}
+	return 0;
+}
+
+int8_t ui_test_board(uint8_t printout)
+{
+	uint8_t i, res;
+
+	res=0;
+	
+	for (i = 0 ; i < TLC59116F_max_address; i++) {
+		if (ui_test_TLC(i, printout)<0) res = -1;
+		else if (printout) CLI_print("Test TLC%i ok\r\n", i);
+	}
+	TLC59116F_Init();
+	
+	for (i = 0 ; i < MCP23017_max_address; i++)
+	{
+		if (ui_test_MCP(i, printout)) res = -1;
+		else if (printout) CLI_print("Test MCP%i ok\r\n", i);
+	}
+    if ((ui_mode == UI_mode_UI16N)||(ui_mode == UI_mode_UI32N)) // tel number btn reg
+	{ 
+		if (ui_test_MCP(3, printout)) res = -1;
+		else if (printout) CLI_print("Test MCP3 ok\r\n");
+    }   
+	
+	return res;
 }
 
 /**

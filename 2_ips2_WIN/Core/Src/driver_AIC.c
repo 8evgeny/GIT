@@ -21,7 +21,7 @@
 /// use DCACHE
 #define DCACHE_ENABLE
 
-/// use ECHO disabler
+/// use ECHO loop disabler
 #define AIC_ECHO_CANCEL_ENABLE
 
 #ifdef AIC_ECHO_CANCEL_ENABLE
@@ -30,13 +30,13 @@
 // max SAI_DMA_BUFFER_SIZE * i16 * i16 / 256 = SAI_DMA_BUFFER_SIZE* 2^15*2^15 / 256 =
 //                = 160*32768*128 = 671088640
 #define EC_GR_ENABLE_ENERGY_LEVEL     500000
-#define EC_MIC_ENABLE_ENERGY_LEVEL     500000
+#define EC_MIC_ENABLE_ENERGY_LEVEL     400000
 // number of SAI_DMA_BUFFER buffers to fade
-#define EC_FADE_MIC_CNT	40
-#define EC_FADE_GR_EN_CNT	3
-#define EC_FADE_GR_DIS_CNT	50
+#define EC_FADE_MIC_CNT	10
+#define EC_FADE_GR_EN_CNT	1
+#define EC_FADE_GR_DIS_CNT	10
 // fade level sig_in_f(x) = sig_in(x)/(2^EC_FADE_PARAM), where EC_FADE_PARAM=2..14
-#define EC_FADE_PARAM	6
+#define EC_FADE_PARAM	4
 
 uint32_t ec_enable;
 uint32_t ec_GR_max_energy, ec_MIC_max_energy;
@@ -430,6 +430,18 @@ void aic_setSAIloop(uint8_t enable)
 	sai_loop_on = enable;
 }
 
+void aic_setup_AGC()
+{
+	TLV320_WritePage(0, TLV320AIC3254_REG_LADC_AGC_CR2, 0x1E); // 00 01010 0 // AGC Hyst 1.0dB, 0x1E = 30 = -60dB Noise Thresh
+	TLV320_WritePage(0, TLV320AIC3254_REG_LADC_AGC_CR3, 0x2F); //  2F = +23.5db MAX PGA gain
+	TLV320_WritePage(0, TLV320AIC3254_REG_LADC_AGC_CR4, 0x00); // 00000 000, Attack = 32 clk (12ms)
+	TLV320_WritePage(0, TLV320AIC3254_REG_LADC_AGC_CR5, 0x00); // 00000 000, Decay = 512 clk (64ms)
+	TLV320_WritePage(0, TLV320AIC3254_REG_LADC_AGC_CR6, 0x09); // 000 01001, Noise Debounce = 1024 clk (128ms)
+	TLV320_WritePage(0, TLV320AIC3254_REG_LADC_AGC_CR7, 0x06); // 0000 0110 Signal Debounce = 64 clk (8 ms)
+	TLV320_WritePage(0, TLV320AIC3254_REG_LADC_AGC_CR1, 0x11); // 0 001 00 01  // AGC OFF, -8.0dBFS, 1.0dB GainHyst
+	//TLV320_WritePage(0, TLV320AIC3254_REG_LADC_AGC_CR1, 0x91); // 1 001 00 01  // AGC ON, -8.0dBFS, 1.0dB GainHyst
+}
+
 uint32_t aic_smp_cnt; // debug
 
 int8_t aic_init()
@@ -469,6 +481,8 @@ int8_t aic_init()
 	TLV320_WritePage(0, TLV320AIC3254_REG_BEEP_SIN_LSB, 0x90);
 	TLV320_WritePage(0, TLV320AIC3254_REG_BEEP_COS_MSB, 0x0);
 	TLV320_WritePage(0, TLV320AIC3254_REG_BEEP_COS_LSB, 0x0);
+
+	aic_setup_AGC();
 
 	memset((uint8_t *)&SAI_TX_DMA_Buffer[0][0], 0, 4*SAI_DMA_BUFFER_SIZE);
 	memset((uint8_t *)&SAI_RX_DMA_Buffer[0][0], 0, 4*SAI_DMA_BUFFER_SIZE);
@@ -527,7 +541,6 @@ void aic_deinit()
 	HAL_SAI_DMAStop(&hsai_BlockB1);
 }
 
-
 #ifdef AIC_ECHO_CANCEL_ENABLE
 
 uint32_t sound_energy(int16_t *sndbuf)
@@ -549,6 +562,20 @@ void sound_dampen(int16_t *sndbuf)
 	 sndbuf[i] = sndbuf[i] >> ec_fade_level;
 }
 #endif  // AIC_ECHO_CANCEL_ENABLE
+
+void aic_set_elc_enable(uint8_t enable)
+{
+	ec_enable = enable;
+	if (enable) {
+		ec_MIC_time = 0;
+		ec_GR_time = 0;
+		ec_GR_disable = 0;
+		ec_MIC_disable = 1;
+	} else {
+		ec_GR_disable = 0;
+		ec_MIC_disable = 0;
+	}
+}
 
 void aic_task()
 {
@@ -577,7 +604,7 @@ void aic_task()
 			audio_get_output(dstbuf,SAI_DMA_BUFFER_SIZE*2);
 
 #ifdef AIC_ECHO_CANCEL_ENABLE
-			// if (ec_enable) {  TODO
+		if (ec_enable) {
 
 			uint32_t eng_GR, eng_MIC;
 
@@ -591,6 +618,7 @@ void aic_task()
 			    if (eng_MIC > ec_MIC_threshold) {
 //				  if (ec_MIC_disable) CLI_print("MIC EN\r\n");		// debug!!!
 			      ec_MIC_disable = 0;
+			      ec_MIC_time = 0;
 				} else {
 				  if ((!ec_MIC_disable) && (!ec_MIC_time)) ec_MIC_time = ec_MIC_disable_time;
 				}
@@ -604,9 +632,9 @@ void aic_task()
 			}
 
 			if (eng_GR > ec_GR_threshold) {
+				ec_MIC_disable = 1;
 			    if (ec_GR_disable&(!ec_GR_time)) {
 			    	ec_GR_time = ec_GR_enable_time;
-			    	ec_MIC_disable = 1;
 			    	ec_MIC_time = 0;
 			    } else
 			    if ((!ec_GR_disable)&ec_GR_time) {
@@ -636,6 +664,7 @@ void aic_task()
 			if (ec_GR_disable) {
 				sound_dampen(dstbuf);
 			};
+		};
 #endif
 
 			audio_write_input(srcbuf ,SAI_DMA_BUFFER_SIZE*2);

@@ -7,7 +7,7 @@
   */
 #include "string.h"
 #include "CLI_io.h"
-#include "CRC32.h"
+#include "crc32.h"
 #include "driver_EEPROM.h"
 #include "system_settings.h"
 #include "audio_process.h"

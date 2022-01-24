@@ -6,7 +6,7 @@
   ******************************************************************************
   */
 #include "string.h"
-#include "MemTest.h"
+#include "memtest.h"
 #include "CLI_io.h"
 #include "driver_extRAM.h"
 

@@ -7,7 +7,7 @@
   */
 #include <string.h>
 #include "udp.h"
-#include "CLI_io.h"
+#include "cli_io.h"
 #include "pckt_buffer.h"
 #include "rtp.h"
 #include "g711.h"

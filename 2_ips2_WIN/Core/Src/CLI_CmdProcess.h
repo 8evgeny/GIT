@@ -23,7 +23,7 @@
 /**
   * @brief  maximum number of CLI command parameters
   */
-#define CLI_MAX_NUMBER_OF_PARAMETERS	8
+#define CLI_MAX_NUMBER_OF_PARAMETERS	10
 /**
   * @brief  maximum summary length of CLI command parameters
   */

@@ -6,7 +6,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2022 STMicroelectronics.
+  * <h2><center>&copy; Copyright (c) 2021 STMicroelectronics.
   * All rights reserved.</center></h2>
   *
   * This software component is licensed by ST under Ultimate Liberty license
@@ -32,6 +32,7 @@
 #include "driver_UI.h"
 #include "CLI_io.h"
 /* USER CODE END 0 */
+
 /* Private function prototypes -----------------------------------------------*/
 static void ethernet_link_status_updated(struct netif *netif);
 static void Ethernet_Link_Periodic_Handle(struct netif *netif);
@@ -64,16 +65,16 @@ void MX_LWIP_Init(void)
   /* IP addresses initialization */
   IP_ADDRESS[0] = 192;
   IP_ADDRESS[1] = 168;
-  IP_ADDRESS[2] = 0;
-  IP_ADDRESS[3] = 1;
+  IP_ADDRESS[2] = 1;
+  IP_ADDRESS[3] = 102;
   NETMASK_ADDRESS[0] = 255;
   NETMASK_ADDRESS[1] = 255;
   NETMASK_ADDRESS[2] = 255;
   NETMASK_ADDRESS[3] = 0;
   GATEWAY_ADDRESS[0] = 192;
   GATEWAY_ADDRESS[1] = 168;
-  GATEWAY_ADDRESS[2] = 0;
-  GATEWAY_ADDRESS[3] = 253;
+  GATEWAY_ADDRESS[2] = 1;
+  GATEWAY_ADDRESS[3] = 254;
 
 /* USER CODE BEGIN IP_ADDRESSES */
   sPDOSettings *sset = sysset_get_settings();

@@ -123,6 +123,8 @@ void fnTestCODEC(int numParam, char** params);
   */
 void fnTestPHY(int numParam, char** params);
 
+void fnTestUI(int numParam, char** params);
+
 /**
   * @brief  process test LED on command
   * @param  [in] numParam - number of command parameters
