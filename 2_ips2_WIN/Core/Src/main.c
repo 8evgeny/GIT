@@ -30,9 +30,9 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include <string.h>
-#include "cli_io.h"
+#include "CLI_io.h"
 #include "driver_pinIO.h"
-#include "driver_ui.h"
+#include "driver_UI.h"
 #include "driver_AIC.h"
 #include "driver_EEPROM.h"
 #include "driver_extRAM.h"
@@ -45,7 +45,7 @@
 #include "system_settings.h"
 #include "udp_exchange.h"
 #include "connect_manager.h"
-#include "CBuffer.h"
+#include "cbuffer.h"
 #include "system_settings.h"
 /* USER CODE END Includes */
 
@@ -174,7 +174,6 @@ void pdo_led_start_task()
 
 /* USER CODE END 0 */
 
-
 /**
   * @brief  The application entry point.
   * @retval int
@@ -223,7 +222,7 @@ int main(void)
   MX_SAI1_Init();
   MX_UART7_Init();
   MX_TIM3_Init();
-  //MX_LWIP_Init();
+  MX_LWIP_Init();
   /* USER CODE BEGIN 2 */
 
   pdo_work_mode = WORK_MODE_UDEF;
@@ -686,8 +685,6 @@ static void MX_SAI1_Init(void)
 
   /* USER CODE END SAI1_Init 0 */
 
-  hsai_BlockA1.Init.MckOverSampling = SAI_MCK_OVERSAMPLING_ENABLE;
-
   /* USER CODE BEGIN SAI1_Init 1 */
 
   /* USER CODE END SAI1_Init 1 */
@@ -697,10 +694,9 @@ static void MX_SAI1_Init(void)
   hsai_BlockA1.Init.OutputDrive = SAI_OUTPUTDRIVE_DISABLE;
   hsai_BlockA1.Init.NoDivider = SAI_MASTERDIVIDER_ENABLE;
   hsai_BlockA1.Init.FIFOThreshold = SAI_FIFOTHRESHOLD_EMPTY;
-  hsai_BlockA1.Init.AudioFrequency = SAI_AUDIO_FREQUENCY_MCKDIV;
-  hsai_BlockA1.Init.Mckdiv = 1;
+  hsai_BlockA1.Init.AudioFrequency = SAI_AUDIO_FREQUENCY_8K;
   hsai_BlockA1.Init.SynchroExt = SAI_SYNCEXT_DISABLE;
-  hsai_BlockA1.Init.MonoStereoMode = SAI_MONOMODE;
+  hsai_BlockA1.Init.MonoStereoMode = SAI_STEREOMODE;
   hsai_BlockA1.Init.CompandingMode = SAI_NOCOMPANDING;
   hsai_BlockA1.Init.TriState = SAI_OUTPUT_NOTRELEASED;
   if (HAL_SAI_InitProtocol(&hsai_BlockA1, SAI_I2S_STANDARD, SAI_PROTOCOL_DATASIZE_16BIT, 2) != HAL_OK)
@@ -713,7 +709,7 @@ static void MX_SAI1_Init(void)
   hsai_BlockB1.Init.OutputDrive = SAI_OUTPUTDRIVE_DISABLE;
   hsai_BlockB1.Init.FIFOThreshold = SAI_FIFOTHRESHOLD_EMPTY;
   hsai_BlockB1.Init.SynchroExt = SAI_SYNCEXT_DISABLE;
-  hsai_BlockB1.Init.MonoStereoMode = SAI_MONOMODE;
+  hsai_BlockB1.Init.MonoStereoMode = SAI_STEREOMODE;
   hsai_BlockB1.Init.CompandingMode = SAI_NOCOMPANDING;
   hsai_BlockB1.Init.TriState = SAI_OUTPUT_NOTRELEASED;
   if (HAL_SAI_InitProtocol(&hsai_BlockB1, SAI_I2S_STANDARD, SAI_PROTOCOL_DATASIZE_16BIT, 2) != HAL_OK)
@@ -1048,13 +1044,5 @@ void assert_failed(uint8_t *file, uint32_t line)
   /* USER CODE END 6 */
 }
 #endif /* USE_FULL_ASSERT */
-
-/* USER CODE BEGIN End file */
-
-/**
-  * @}
-  */
-
-/* USER CODE END End file */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

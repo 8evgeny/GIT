@@ -10,7 +10,7 @@
 #include "main.h"		// for port defines
 #include "driver_pinIO.h"
 #include "CLI_io.h"
-#include "driver_ui.h"
+#include "driver_UI.h"
 
 /// UI driver error print level
 #define UI_CLI_ERROR_LEVEL	CLI_PRINTLEVEL_WORK
