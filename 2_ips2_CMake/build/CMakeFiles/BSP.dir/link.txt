@@ -1,0 +1,2 @@
+/home/evg/toolchain/gcc-arm-none-eabi-new/bin/arm-none-eabi-ar qc libBSP.a CMakeFiles/BSP.dir/home/evg/SOFT/Github/GIT/2_ips2/ips_sc4_pdo/Drivers/BSP/Components/lan8742/lan8742.c.o
+/home/evg/toolchain/gcc-arm-none-eabi-new/bin/arm-none-eabi-ranlib libBSP.a

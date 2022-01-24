@@ -1,0 +1,481 @@
+{
+	"archive" : {},
+	"artifacts" : 
+	[
+		{
+			"path" : "libCORE.a"
+		}
+	],
+	"backtrace" : 1,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_library",
+			"include_directories"
+		],
+		"files" : 
+		[
+			"CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 67,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 0,
+				"line" : 46,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 0,
+				"line" : 54,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 0,
+				"line" : 72,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 0,
+				"line" : 89,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 0,
+				"line" : 96,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 0,
+				"line" : 108,
+				"parent" : 0
+			}
+		]
+	},
+	"compileGroups" : 
+	[
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : "    -mcpu=cortex-m7     -mfloat-abi=hard     -mfpu=fpv5-sp-d16     -mthumb     -Xlinker     --gc-sections     -specs=nosys.specs     -specs=nano.specs      -g"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 2,
+					"path" : "/home/evg/SOFT/Github/GIT/2_ips2_CMake/../2_ips2/ips_sc4_pdo/Core/Src/../Inc"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/home/evg/SOFT/Github/GIT/2_ips2_CMake/../2_ips2/ips_sc4_pdo/Core/Src"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/home/evg/SOFT/Github/GIT/2_ips2_CMake/../2_ips2/ips_sc4_pdo/Core/Src/../Startup"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "/home/evg/SOFT/Github/GIT/2_ips2_CMake/../2_ips2/ips_sc4_pdo/Drivers/CMSIS/Include"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "/home/evg/SOFT/Github/GIT/2_ips2_CMake/../2_ips2/ips_sc4_pdo/Drivers/CMSIS/Device/ST/STM32H7xx/Include"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "/home/evg/SOFT/Github/GIT/2_ips2_CMake/../2_ips2/ips_sc4_pdo/Drivers/BSP/Components/dp83848"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "/home/evg/SOFT/Github/GIT/2_ips2_CMake/../2_ips2/ips_sc4_pdo/Drivers/BSP/Components/lan8742"
+				},
+				{
+					"backtrace" : 5,
+					"path" : "/home/evg/SOFT/Github/GIT/2_ips2_CMake/../2_ips2/ips_sc4_pdo/Drivers/STM32H7xx_HAL_Driver/Inc"
+				},
+				{
+					"backtrace" : 5,
+					"path" : "/home/evg/SOFT/Github/GIT/2_ips2_CMake/../2_ips2/ips_sc4_pdo/Drivers/STM32H7xx_HAL_Driver/Inc/Legacy"
+				},
+				{
+					"backtrace" : 6,
+					"path" : "/home/evg/SOFT/Github/GIT/2_ips2_CMake/../2_ips2/ips_sc4_pdo/LWIP/App"
+				},
+				{
+					"backtrace" : 6,
+					"path" : "/home/evg/SOFT/Github/GIT/2_ips2_CMake/../2_ips2/ips_sc4_pdo/LWIP/Target"
+				},
+				{
+					"backtrace" : 6,
+					"path" : "/home/evg/SOFT/Github/GIT/2_ips2_CMake/../2_ips2/ips_sc4_pdo/LWIP"
+				},
+				{
+					"backtrace" : 7,
+					"path" : "/home/evg/SOFT/Github/GIT/2_ips2_CMake/../2_ips2/ips_sc4_pdo/Middlewares/Third_Party/LwIP/system/arch"
+				},
+				{
+					"backtrace" : 7,
+					"path" : "/home/evg/SOFT/Github/GIT/2_ips2_CMake/../2_ips2/ips_sc4_pdo/Middlewares/Third_Party/LwIP/system"
+				},
+				{
+					"backtrace" : 7,
+					"path" : "/home/evg/SOFT/Github/GIT/2_ips2_CMake/../2_ips2/ips_sc4_pdo/Middlewares/Third_Party/LwIP/src/include/netif"
+				},
+				{
+					"backtrace" : 7,
+					"path" : "/home/evg/SOFT/Github/GIT/2_ips2_CMake/../2_ips2/ips_sc4_pdo/Middlewares/Third_Party/LwIP/src/include/netif/ppp"
+				},
+				{
+					"backtrace" : 7,
+					"path" : "/home/evg/SOFT/Github/GIT/2_ips2_CMake/../2_ips2/ips_sc4_pdo/Middlewares/Third_Party/LwIP/src/include"
+				},
+				{
+					"backtrace" : 7,
+					"path" : "/home/evg/SOFT/Github/GIT/2_ips2_CMake/../2_ips2/ips_sc4_pdo/Middlewares/Third_Party/LwIP/src/include/lwip"
+				},
+				{
+					"backtrace" : 7,
+					"path" : "/home/evg/SOFT/Github/GIT/2_ips2_CMake/../2_ips2/ips_sc4_pdo/Middlewares/Third_Party/LwIP/src/include/lwip/apps"
+				},
+				{
+					"backtrace" : 7,
+					"path" : "/home/evg/SOFT/Github/GIT/2_ips2_CMake/../2_ips2/ips_sc4_pdo/Middlewares/Third_Party/LwIP/src/include/lwip/priv"
+				},
+				{
+					"backtrace" : 7,
+					"path" : "/home/evg/SOFT/Github/GIT/2_ips2_CMake/../2_ips2/ips_sc4_pdo/Middlewares/Third_Party/LwIP/src/include/lwip/prot"
+				},
+				{
+					"backtrace" : 7,
+					"path" : "/home/evg/SOFT/Github/GIT/2_ips2_CMake/../2_ips2/ips_sc4_pdo/Middlewares/Third_Party/LwIP/src/include/compat/posix"
+				},
+				{
+					"backtrace" : 7,
+					"path" : "/home/evg/SOFT/Github/GIT/2_ips2_CMake/../2_ips2/ips_sc4_pdo/Middlewares/Third_Party/LwIP/src/include/compat/arpa"
+				},
+				{
+					"backtrace" : 7,
+					"path" : "/home/evg/SOFT/Github/GIT/2_ips2_CMake/../2_ips2/ips_sc4_pdo/Middlewares/Third_Party/LwIP/src/include/compat/net"
+				},
+				{
+					"backtrace" : 7,
+					"path" : "/home/evg/SOFT/Github/GIT/2_ips2_CMake/../2_ips2/ips_sc4_pdo/Middlewares/Third_Party/LwIP/src/include/compat/sys"
+				}
+			],
+			"language" : "C",
+			"sourceIndexes" : 
+			[
+				0,
+				1,
+				2,
+				3,
+				4,
+				5,
+				6,
+				7,
+				8,
+				9,
+				10,
+				11,
+				12,
+				13,
+				14,
+				15,
+				16,
+				17,
+				18,
+				19,
+				20,
+				21,
+				22,
+				23,
+				24,
+				25,
+				26,
+				27,
+				28,
+				29,
+				30,
+				31,
+				32,
+				33
+			]
+		}
+	],
+	"id" : "CORE::@6890427a1f51a3e7e1df",
+	"name" : "CORE",
+	"nameOnDisk" : "libCORE.a",
+	"paths" : 
+	{
+		"build" : ".",
+		"source" : "."
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "Source Files",
+			"sourceIndexes" : 
+			[
+				0,
+				1,
+				2,
+				3,
+				4,
+				5,
+				6,
+				7,
+				8,
+				9,
+				10,
+				11,
+				12,
+				13,
+				14,
+				15,
+				16,
+				17,
+				18,
+				19,
+				20,
+				21,
+				22,
+				23,
+				24,
+				25,
+				26,
+				27,
+				28,
+				29,
+				30,
+				31,
+				32,
+				33
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "/home/evg/SOFT/Github/GIT/2_ips2/ips_sc4_pdo/Drivers/BSP/Components/dp83848/dp83848.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "/home/evg/SOFT/Github/GIT/2_ips2/ips_sc4_pdo/Core/Src/AES_codec.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "/home/evg/SOFT/Github/GIT/2_ips2/ips_sc4_pdo/Core/Src/CLI_CmdDeviceFn.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "/home/evg/SOFT/Github/GIT/2_ips2/ips_sc4_pdo/Core/Src/CLI_CmdProcess.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "/home/evg/SOFT/Github/GIT/2_ips2/ips_sc4_pdo/Core/Src/CLI_CmdServiceFn.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "/home/evg/SOFT/Github/GIT/2_ips2/ips_sc4_pdo/Core/Src/CLI_CmdTable.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "/home/evg/SOFT/Github/GIT/2_ips2/ips_sc4_pdo/Core/Src/CLI_CmdTestFn.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "/home/evg/SOFT/Github/GIT/2_ips2/ips_sc4_pdo/Core/Src/CLI_io.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "/home/evg/SOFT/Github/GIT/2_ips2/ips_sc4_pdo/Core/Src/CRC32.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "/home/evg/SOFT/Github/GIT/2_ips2/ips_sc4_pdo/Core/Src/MemTest.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "/home/evg/SOFT/Github/GIT/2_ips2/ips_sc4_pdo/Core/Src/audio_process.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "/home/evg/SOFT/Github/GIT/2_ips2/ips_sc4_pdo/Core/Src/cbuffer.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "/home/evg/SOFT/Github/GIT/2_ips2/ips_sc4_pdo/Core/Src/connect_manager.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "/home/evg/SOFT/Github/GIT/2_ips2/ips_sc4_pdo/Core/Src/driver_AIC.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "/home/evg/SOFT/Github/GIT/2_ips2/ips_sc4_pdo/Core/Src/driver_EEPROM.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "/home/evg/SOFT/Github/GIT/2_ips2/ips_sc4_pdo/Core/Src/driver_UI.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "/home/evg/SOFT/Github/GIT/2_ips2/ips_sc4_pdo/Core/Src/driver_extRAM.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "/home/evg/SOFT/Github/GIT/2_ips2/ips_sc4_pdo/Core/Src/driver_pinIO.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "/home/evg/SOFT/Github/GIT/2_ips2/ips_sc4_pdo/Core/Src/fmware_flasher.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "/home/evg/SOFT/Github/GIT/2_ips2/ips_sc4_pdo/Core/Src/g711.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "/home/evg/SOFT/Github/GIT/2_ips2/ips_sc4_pdo/Core/Src/json_settings_parser.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "/home/evg/SOFT/Github/GIT/2_ips2/ips_sc4_pdo/Core/Src/jsonmn.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "/home/evg/SOFT/Github/GIT/2_ips2/ips_sc4_pdo/Core/Src/main.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "/home/evg/SOFT/Github/GIT/2_ips2/ips_sc4_pdo/Core/Src/pckt_buffer.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "/home/evg/SOFT/Github/GIT/2_ips2/ips_sc4_pdo/Core/Src/rtp.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "/home/evg/SOFT/Github/GIT/2_ips2/ips_sc4_pdo/Core/Src/stm32h7xx_hal_msp.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "/home/evg/SOFT/Github/GIT/2_ips2/ips_sc4_pdo/Core/Src/stm32h7xx_it.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "/home/evg/SOFT/Github/GIT/2_ips2/ips_sc4_pdo/Core/Src/syscalls.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "/home/evg/SOFT/Github/GIT/2_ips2/ips_sc4_pdo/Core/Src/sysmem.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "/home/evg/SOFT/Github/GIT/2_ips2/ips_sc4_pdo/Core/Src/system_settings.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "/home/evg/SOFT/Github/GIT/2_ips2/ips_sc4_pdo/Core/Src/system_stm32h7xx.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "/home/evg/SOFT/Github/GIT/2_ips2/ips_sc4_pdo/Core/Src/tone_gen_state_processor.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "/home/evg/SOFT/Github/GIT/2_ips2/ips_sc4_pdo/Core/Src/tone_generator.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "/home/evg/SOFT/Github/GIT/2_ips2/ips_sc4_pdo/Core/Src/udp_exchange.c",
+			"sourceGroupIndex" : 0
+		}
+	],
+	"type" : "STATIC_LIBRARY"
+}

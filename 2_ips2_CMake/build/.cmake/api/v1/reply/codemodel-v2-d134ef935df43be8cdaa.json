@@ -1,0 +1,114 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"jsonFile" : "directory-.-debug-f5ebdc15457944623624.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.15"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5,
+						6
+					]
+				}
+			],
+			"name" : "debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "ips2",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5,
+						6
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "BSP::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-BSP-debug-c7a1666a732897540046.json",
+					"name" : "BSP",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "CORE::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-CORE-debug-4536efa085085bbe7bd8.json",
+					"name" : "CORE",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "LWIP::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-LWIP-debug-1180f232bdfb491aff64.json",
+					"name" : "LWIP",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "Middlewares::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-Middlewares-debug-1d01141c63093290adf3.json",
+					"name" : "Middlewares",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "STARTUP::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-STARTUP-debug-4d401daa417c387400f3.json",
+					"name" : "STARTUP",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "STM32H7xx_HAL_Driver::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-STM32H7xx_HAL_Driver-debug-1c5ae65a5f7a951205e1.json",
+					"name" : "STM32H7xx_HAL_Driver",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "ips2.elf::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ips2.elf-debug-c4a9a835bdf9544e71aa.json",
+					"name" : "ips2.elf",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/home/evg/SOFT/Github/GIT/2_ips2_CMake/build",
+		"source" : "/home/evg/SOFT/Github/GIT/2_ips2_CMake"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 3
+	}
+}

@@ -1,0 +1,217 @@
+{
+	"archive" : {},
+	"artifacts" : 
+	[
+		{
+			"path" : "libBSP.a"
+		}
+	],
+	"backtrace" : 1,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_library",
+			"include_directories"
+		],
+		"files" : 
+		[
+			"CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 74,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 0,
+				"line" : 46,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 0,
+				"line" : 54,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 0,
+				"line" : 72,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 0,
+				"line" : 89,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 0,
+				"line" : 96,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 0,
+				"line" : 108,
+				"parent" : 0
+			}
+		]
+	},
+	"compileGroups" : 
+	[
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : "    -mcpu=cortex-m7     -mfloat-abi=hard     -mfpu=fpv5-sp-d16     -mthumb     -Xlinker     --gc-sections     -specs=nosys.specs     -specs=nano.specs      -g"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 2,
+					"path" : "/home/evg/SOFT/Github/GIT/2_ips2_CMake/../2_ips2/ips_sc4_pdo/Core/Src/../Inc"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/home/evg/SOFT/Github/GIT/2_ips2_CMake/../2_ips2/ips_sc4_pdo/Core/Src"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/home/evg/SOFT/Github/GIT/2_ips2_CMake/../2_ips2/ips_sc4_pdo/Core/Src/../Startup"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "/home/evg/SOFT/Github/GIT/2_ips2_CMake/../2_ips2/ips_sc4_pdo/Drivers/CMSIS/Include"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "/home/evg/SOFT/Github/GIT/2_ips2_CMake/../2_ips2/ips_sc4_pdo/Drivers/CMSIS/Device/ST/STM32H7xx/Include"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "/home/evg/SOFT/Github/GIT/2_ips2_CMake/../2_ips2/ips_sc4_pdo/Drivers/BSP/Components/dp83848"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "/home/evg/SOFT/Github/GIT/2_ips2_CMake/../2_ips2/ips_sc4_pdo/Drivers/BSP/Components/lan8742"
+				},
+				{
+					"backtrace" : 5,
+					"path" : "/home/evg/SOFT/Github/GIT/2_ips2_CMake/../2_ips2/ips_sc4_pdo/Drivers/STM32H7xx_HAL_Driver/Inc"
+				},
+				{
+					"backtrace" : 5,
+					"path" : "/home/evg/SOFT/Github/GIT/2_ips2_CMake/../2_ips2/ips_sc4_pdo/Drivers/STM32H7xx_HAL_Driver/Inc/Legacy"
+				},
+				{
+					"backtrace" : 6,
+					"path" : "/home/evg/SOFT/Github/GIT/2_ips2_CMake/../2_ips2/ips_sc4_pdo/LWIP/App"
+				},
+				{
+					"backtrace" : 6,
+					"path" : "/home/evg/SOFT/Github/GIT/2_ips2_CMake/../2_ips2/ips_sc4_pdo/LWIP/Target"
+				},
+				{
+					"backtrace" : 6,
+					"path" : "/home/evg/SOFT/Github/GIT/2_ips2_CMake/../2_ips2/ips_sc4_pdo/LWIP"
+				},
+				{
+					"backtrace" : 7,
+					"path" : "/home/evg/SOFT/Github/GIT/2_ips2_CMake/../2_ips2/ips_sc4_pdo/Middlewares/Third_Party/LwIP/system/arch"
+				},
+				{
+					"backtrace" : 7,
+					"path" : "/home/evg/SOFT/Github/GIT/2_ips2_CMake/../2_ips2/ips_sc4_pdo/Middlewares/Third_Party/LwIP/system"
+				},
+				{
+					"backtrace" : 7,
+					"path" : "/home/evg/SOFT/Github/GIT/2_ips2_CMake/../2_ips2/ips_sc4_pdo/Middlewares/Third_Party/LwIP/src/include/netif"
+				},
+				{
+					"backtrace" : 7,
+					"path" : "/home/evg/SOFT/Github/GIT/2_ips2_CMake/../2_ips2/ips_sc4_pdo/Middlewares/Third_Party/LwIP/src/include/netif/ppp"
+				},
+				{
+					"backtrace" : 7,
+					"path" : "/home/evg/SOFT/Github/GIT/2_ips2_CMake/../2_ips2/ips_sc4_pdo/Middlewares/Third_Party/LwIP/src/include"
+				},
+				{
+					"backtrace" : 7,
+					"path" : "/home/evg/SOFT/Github/GIT/2_ips2_CMake/../2_ips2/ips_sc4_pdo/Middlewares/Third_Party/LwIP/src/include/lwip"
+				},
+				{
+					"backtrace" : 7,
+					"path" : "/home/evg/SOFT/Github/GIT/2_ips2_CMake/../2_ips2/ips_sc4_pdo/Middlewares/Third_Party/LwIP/src/include/lwip/apps"
+				},
+				{
+					"backtrace" : 7,
+					"path" : "/home/evg/SOFT/Github/GIT/2_ips2_CMake/../2_ips2/ips_sc4_pdo/Middlewares/Third_Party/LwIP/src/include/lwip/priv"
+				},
+				{
+					"backtrace" : 7,
+					"path" : "/home/evg/SOFT/Github/GIT/2_ips2_CMake/../2_ips2/ips_sc4_pdo/Middlewares/Third_Party/LwIP/src/include/lwip/prot"
+				},
+				{
+					"backtrace" : 7,
+					"path" : "/home/evg/SOFT/Github/GIT/2_ips2_CMake/../2_ips2/ips_sc4_pdo/Middlewares/Third_Party/LwIP/src/include/compat/posix"
+				},
+				{
+					"backtrace" : 7,
+					"path" : "/home/evg/SOFT/Github/GIT/2_ips2_CMake/../2_ips2/ips_sc4_pdo/Middlewares/Third_Party/LwIP/src/include/compat/arpa"
+				},
+				{
+					"backtrace" : 7,
+					"path" : "/home/evg/SOFT/Github/GIT/2_ips2_CMake/../2_ips2/ips_sc4_pdo/Middlewares/Third_Party/LwIP/src/include/compat/net"
+				},
+				{
+					"backtrace" : 7,
+					"path" : "/home/evg/SOFT/Github/GIT/2_ips2_CMake/../2_ips2/ips_sc4_pdo/Middlewares/Third_Party/LwIP/src/include/compat/sys"
+				}
+			],
+			"language" : "C",
+			"sourceIndexes" : 
+			[
+				0
+			]
+		}
+	],
+	"id" : "BSP::@6890427a1f51a3e7e1df",
+	"name" : "BSP",
+	"nameOnDisk" : "libBSP.a",
+	"paths" : 
+	{
+		"build" : ".",
+		"source" : "."
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "Source Files",
+			"sourceIndexes" : 
+			[
+				0
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "/home/evg/SOFT/Github/GIT/2_ips2/ips_sc4_pdo/Drivers/BSP/Components/lan8742/lan8742.c",
+			"sourceGroupIndex" : 0
+		}
+	],
+	"type" : "STATIC_LIBRARY"
+}

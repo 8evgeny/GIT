@@ -1,0 +1,9 @@
+/home/evg/SOFT/Github/GIT/2_ips2_CMake/build/CMakeFiles/rebuild_cache.dir
+/home/evg/SOFT/Github/GIT/2_ips2_CMake/build/CMakeFiles/edit_cache.dir
+/home/evg/SOFT/Github/GIT/2_ips2_CMake/build/CMakeFiles/Middlewares.dir
+/home/evg/SOFT/Github/GIT/2_ips2_CMake/build/CMakeFiles/ips2.elf.dir
+/home/evg/SOFT/Github/GIT/2_ips2_CMake/build/CMakeFiles/STARTUP.dir
+/home/evg/SOFT/Github/GIT/2_ips2_CMake/build/CMakeFiles/LWIP.dir
+/home/evg/SOFT/Github/GIT/2_ips2_CMake/build/CMakeFiles/BSP.dir
+/home/evg/SOFT/Github/GIT/2_ips2_CMake/build/CMakeFiles/CORE.dir
+/home/evg/SOFT/Github/GIT/2_ips2_CMake/build/CMakeFiles/STM32H7xx_HAL_Driver.dir
