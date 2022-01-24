@@ -3,8 +3,8 @@ cmake_minimum_required(VERSION 3.15)
 set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
 
 # Set ARM compiler
-set(TOOLS_PATH "C:\\ST\\STM32CubeIDE_1.8.0\\STM32CubeIDE\\plugins\\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.9-2020-q2-update.win32_2.0.0.202105311346\\tools")
-set(CMAKE_C_COMPILER ${TOOLS_PATH}/bin/arm-none-eabi-gcc)
+#set(TOOLS_PATH "C:\\ST\\STM32CubeIDE_1.8.0\\STM32CubeIDE\\plugins\\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.9-2020-q2-update.win32_2.0.0.202105311346\\tools")
+#set(CMAKE_C_COMPILER ${TOOLS_PATH}/bin/arm-none-eabi-gcc)
 #set(CMAKE_CXX_COMPILER ${TOOLS_PATH}/bin/arm-none-eabi-g++)
 
 project(ips2 C ASM)
@@ -26,6 +26,7 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}\
     -specs=nosys.specs \
     -specs=nano.specs \
     ")
+
 #-T ${CMAKE_BINARY_DIR}/../../2_ips2_WIN/ips_sc4_pdo/STM32H753IITX_RAM.ld \
 #-T ${CMAKE_BINARY_DIR}/../../2_ips2_WIN/ips_sc4_pdo/STM32H753IITX_FLASH.ld \
 
@@ -58,12 +59,14 @@ include_directories(
     ${patchDRV}/CMSIS/Device/ST/STM32H7xx/Include
     ${CMAKE_SOURCE_DIR}/../2_ips2_WIN/ips_sc4_pdo/Drivers/BSP/Components/dp83848
     )
+
+
 file (GLOB CORE_SOURCES
-    "${CMAKE_SOURCE_DIR}/../2_ips2_WIN/ips_sc4_pdo/Core/Src/*.c"
-    "${CMAKE_SOURCE_DIR}/../2_ips2_WIN/ips_sc4_pdo/Drivers/BSP/Components/dp83848/dp83848.c "
-    /home/evg/SOFT/Github/GIT/2_ips2_WIN/ips_sc4_pdo/Drivers/BSP/Components/dp83848/dp83848.c
+    "${CMAKE_SOURCE_DIR}/../2_ips2_WIN/Core/Src/*.c"
+    "${CMAKE_SOURCE_DIR}/../2_ips2_WIN/Drivers/BSP/Components/dp83848/dp83848.c "
+#    /home/evg/SOFT/Github/GIT/2_ips2_WIN/Drivers/BSP/Components/dp83848/dp83848.c
     )
-message (${CORE_SOURCES})
+#message (${CORE_SOURCES})
 
 add_library(CORE ${CORE_SOURCES} )
 
