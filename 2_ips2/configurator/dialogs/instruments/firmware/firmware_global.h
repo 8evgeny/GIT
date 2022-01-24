@@ -1,0 +1,8 @@
+#pragma once
+
+#if defined(FIRMWARE_DIALOG_LIBRARY)
+    #define FIRMWARE_DIALOG_SHARED_EXPORT Q_DECL_EXPORT
+#else
+    #define FIRMWARE_DIALOG_SHARED_EXPORT Q_DECL_IMPORT
+#endif
+

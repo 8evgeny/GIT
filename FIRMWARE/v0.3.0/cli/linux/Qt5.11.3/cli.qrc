@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>mdrfwucli</file>
+    </qresource>
+</RCC>
