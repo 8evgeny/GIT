@@ -1,0 +1,598 @@
+
+./output/fmloader-1986be1x-gcc.elf:     file format elf32-littlearm
+
+
+Disassembly of section .text:
+
+20106000 <__isr_vector>:
+20106000:	20108000 	andscs	r8, r0, r0
+20106004:	20106009 	andscs	r6, r0, r9
+
+20106008 <Reset_Handler>:
+20106008:	4802      	ldr	r0, [pc, #8]	; (20106014 <Reset_Handler+0xc>)
+2010600a:	6801      	ldr	r1, [r0, #0]
+2010600c:	f381 8808 	msr	MSP, r1
+20106010:	4801      	ldr	r0, [pc, #4]	; (20106018 <Reset_Handler+0x10>)
+20106012:	4700      	bx	r0
+20106014:	20106000 	andscs	r6, r0, r0
+20106018:	201063b5 			; <UNDEFINED> instruction: 0x201063b5
+
+2010601c <WaitInterval>:
+2010601c:	3801      	subs	r0, #1
+2010601e:	2800      	cmp	r0, #0
+20106020:	d1fc      	bne.n	2010601c <WaitInterval>
+20106022:	4770      	bx	lr
+
+20106024 <UARTReadByte>:
+20106024:	4904      	ldr	r1, [pc, #16]	; (20106038 <UARTReadByte+0x14>)
+20106026:	2210      	movs	r2, #16
+20106028:	698b      	ldr	r3, [r1, #24]
+2010602a:	421a      	tst	r2, r3
+2010602c:	d1fc      	bne.n	20106028 <UARTReadByte+0x4>
+2010602e:	4b02      	ldr	r3, [pc, #8]	; (20106038 <UARTReadByte+0x14>)
+20106030:	6818      	ldr	r0, [r3, #0]
+20106032:	b2c0      	uxtb	r0, r0
+20106034:	4770      	bx	lr
+20106036:	46c0      	nop			; (mov r8, r8)
+20106038:	40030000 	andmi	r0, r3, r0
+
+2010603c <UARTWriteByte>:
+2010603c:	4903      	ldr	r1, [pc, #12]	; (2010604c <UARTWriteByte+0x10>)
+2010603e:	2220      	movs	r2, #32
+20106040:	698b      	ldr	r3, [r1, #24]
+20106042:	421a      	tst	r2, r3
+20106044:	d1fc      	bne.n	20106040 <UARTWriteByte+0x4>
+20106046:	4b01      	ldr	r3, [pc, #4]	; (2010604c <UARTWriteByte+0x10>)
+20106048:	6018      	str	r0, [r3, #0]
+2010604a:	4770      	bx	lr
+2010604c:	40030000 	andmi	r0, r3, r0
+
+20106050 <UARTWriteU32>:
+20106050:	b570      	push	{r4, r5, r6, lr}
+20106052:	0005      	movs	r5, r0
+20106054:	2404      	movs	r4, #4
+20106056:	b2e8      	uxtb	r0, r5
+20106058:	f7ff fff0 	bl	2010603c <UARTWriteByte>
+2010605c:	0a2d      	lsrs	r5, r5, #8
+2010605e:	3c01      	subs	r4, #1
+20106060:	2c00      	cmp	r4, #0
+20106062:	d1f8      	bne.n	20106056 <UARTWriteU32+0x6>
+20106064:	bd70      	pop	{r4, r5, r6, pc}
+20106066:	46c0      	nop			; (mov r8, r8)
+
+20106068 <UARTReadU32>:
+20106068:	b5f8      	push	{r3, r4, r5, r6, r7, lr}
+2010606a:	0007      	movs	r7, r0
+2010606c:	2604      	movs	r6, #4
+2010606e:	2500      	movs	r5, #0
+20106070:	2400      	movs	r4, #0
+20106072:	f7ff ffd7 	bl	20106024 <UARTReadByte>
+20106076:	1945      	adds	r5, r0, r5
+20106078:	b2ed      	uxtb	r5, r5
+2010607a:	0a24      	lsrs	r4, r4, #8
+2010607c:	0600      	lsls	r0, r0, #24
+2010607e:	4304      	orrs	r4, r0
+20106080:	3e01      	subs	r6, #1
+20106082:	2e00      	cmp	r6, #0
+20106084:	d1f5      	bne.n	20106072 <UARTReadU32+0xa>
+20106086:	783b      	ldrb	r3, [r7, #0]
+20106088:	18ed      	adds	r5, r5, r3
+2010608a:	703d      	strb	r5, [r7, #0]
+2010608c:	0020      	movs	r0, r4
+2010608e:	bdf8      	pop	{r3, r4, r5, r6, r7, pc}
+
+20106090 <EraseFlash>:
+20106090:	b5f0      	push	{r4, r5, r6, r7, lr}
+20106092:	4647      	mov	r7, r8
+20106094:	b480      	push	{r7}
+20106096:	b082      	sub	sp, #8
+20106098:	466b      	mov	r3, sp
+2010609a:	1ddc      	adds	r4, r3, #7
+2010609c:	2300      	movs	r3, #0
+2010609e:	7023      	strb	r3, [r4, #0]
+201060a0:	0020      	movs	r0, r4
+201060a2:	f7ff ffe1 	bl	20106068 <UARTReadU32>
+201060a6:	7820      	ldrb	r0, [r4, #0]
+201060a8:	f7ff ffc8 	bl	2010603c <UARTWriteByte>
+201060ac:	4a30      	ldr	r2, [pc, #192]	; (20106170 <EraseFlash+0xe0>)
+201060ae:	4b31      	ldr	r3, [pc, #196]	; (20106174 <EraseFlash+0xe4>)
+201060b0:	601a      	str	r2, [r3, #0]
+201060b2:	4a31      	ldr	r2, [pc, #196]	; (20106178 <EraseFlash+0xe8>)
+201060b4:	6811      	ldr	r1, [r2, #0]
+201060b6:	2301      	movs	r3, #1
+201060b8:	430b      	orrs	r3, r1
+201060ba:	6013      	str	r3, [r2, #0]
+201060bc:	2500      	movs	r5, #0
+201060be:	4f2f      	ldr	r7, [pc, #188]	; (2010617c <EraseFlash+0xec>)
+201060c0:	0014      	movs	r4, r2
+201060c2:	4e2f      	ldr	r6, [pc, #188]	; (20106180 <EraseFlash+0xf0>)
+201060c4:	603d      	str	r5, [r7, #0]
+201060c6:	6823      	ldr	r3, [r4, #0]
+201060c8:	4033      	ands	r3, r6
+201060ca:	6023      	str	r3, [r4, #0]
+201060cc:	6823      	ldr	r3, [r4, #0]
+201060ce:	22c4      	movs	r2, #196	; 0xc4
+201060d0:	0112      	lsls	r2, r2, #4
+201060d2:	4313      	orrs	r3, r2
+201060d4:	6023      	str	r3, [r4, #0]
+201060d6:	2006      	movs	r0, #6
+201060d8:	f7ff ffa0 	bl	2010601c <WaitInterval>
+201060dc:	6823      	ldr	r3, [r4, #0]
+201060de:	2280      	movs	r2, #128	; 0x80
+201060e0:	0192      	lsls	r2, r2, #6
+201060e2:	4313      	orrs	r3, r2
+201060e4:	6023      	str	r3, [r4, #0]
+201060e6:	4827      	ldr	r0, [pc, #156]	; (20106184 <EraseFlash+0xf4>)
+201060e8:	f7ff ff98 	bl	2010601c <WaitInterval>
+201060ec:	6822      	ldr	r2, [r4, #0]
+201060ee:	4b26      	ldr	r3, [pc, #152]	; (20106188 <EraseFlash+0xf8>)
+201060f0:	4013      	ands	r3, r2
+201060f2:	6023      	str	r3, [r4, #0]
+201060f4:	206e      	movs	r0, #110	; 0x6e
+201060f6:	f7ff ff91 	bl	2010601c <WaitInterval>
+201060fa:	6822      	ldr	r2, [r4, #0]
+201060fc:	4b23      	ldr	r3, [pc, #140]	; (2010618c <EraseFlash+0xfc>)
+201060fe:	4013      	ands	r3, r2
+20106100:	6023      	str	r3, [r4, #0]
+20106102:	2002      	movs	r0, #2
+20106104:	f7ff ff8a 	bl	2010601c <WaitInterval>
+20106108:	3504      	adds	r5, #4
+2010610a:	2d10      	cmp	r5, #16
+2010610c:	d1da      	bne.n	201060c4 <EraseFlash+0x34>
+2010610e:	2500      	movs	r5, #0
+20106110:	4f1a      	ldr	r7, [pc, #104]	; (2010617c <EraseFlash+0xec>)
+20106112:	4c19      	ldr	r4, [pc, #100]	; (20106178 <EraseFlash+0xe8>)
+20106114:	23e0      	movs	r3, #224	; 0xe0
+20106116:	005b      	lsls	r3, r3, #1
+20106118:	4698      	mov	r8, r3
+2010611a:	603d      	str	r5, [r7, #0]
+2010611c:	6823      	ldr	r3, [r4, #0]
+2010611e:	4642      	mov	r2, r8
+20106120:	4313      	orrs	r3, r2
+20106122:	6023      	str	r3, [r4, #0]
+20106124:	2001      	movs	r0, #1
+20106126:	f7ff ff79 	bl	2010601c <WaitInterval>
+2010612a:	4b19      	ldr	r3, [pc, #100]	; (20106190 <EraseFlash+0x100>)
+2010612c:	681e      	ldr	r6, [r3, #0]
+2010612e:	6822      	ldr	r2, [r4, #0]
+20106130:	4b18      	ldr	r3, [pc, #96]	; (20106194 <EraseFlash+0x104>)
+20106132:	4013      	ands	r3, r2
+20106134:	6023      	str	r3, [r4, #0]
+20106136:	2001      	movs	r0, #1
+20106138:	f7ff ff70 	bl	2010601c <WaitInterval>
+2010613c:	1c73      	adds	r3, r6, #1
+2010613e:	d104      	bne.n	2010614a <EraseFlash+0xba>
+20106140:	3504      	adds	r5, #4
+20106142:	2380      	movs	r3, #128	; 0x80
+20106144:	029b      	lsls	r3, r3, #10
+20106146:	429d      	cmp	r5, r3
+20106148:	d1e7      	bne.n	2010611a <EraseFlash+0x8a>
+2010614a:	4a0b      	ldr	r2, [pc, #44]	; (20106178 <EraseFlash+0xe8>)
+2010614c:	6813      	ldr	r3, [r2, #0]
+2010614e:	2101      	movs	r1, #1
+20106150:	438b      	bics	r3, r1
+20106152:	6013      	str	r3, [r2, #0]
+20106154:	2045      	movs	r0, #69	; 0x45
+20106156:	f7ff ff71 	bl	2010603c <UARTWriteByte>
+2010615a:	0028      	movs	r0, r5
+2010615c:	f7ff ff78 	bl	20106050 <UARTWriteU32>
+20106160:	0030      	movs	r0, r6
+20106162:	f7ff ff75 	bl	20106050 <UARTWriteU32>
+20106166:	b002      	add	sp, #8
+20106168:	bc04      	pop	{r2}
+2010616a:	4690      	mov	r8, r2
+2010616c:	bdf0      	pop	{r4, r5, r6, r7, pc}
+2010616e:	46c0      	nop			; (mov r8, r8)
+20106170:	8aaa5551 	bhi	1eb9b6bc <Stack_Size+0x1eb9b63c>
+20106174:	40018010 	andmi	r8, r1, r0, lsl r0
+20106178:	40018000 	andmi	r8, r1, r0
+2010617c:	40018004 	andmi	r8, r1, r4
+20106180:	ffffd23f 			; <UNDEFINED> instruction: 0xffffd23f
+20106184:	0000c350 	andeq	ip, r0, r0, asr r3
+20106188:	fffffbff 			; <UNDEFINED> instruction: 0xfffffbff
+2010618c:	ffffd7bf 			; <UNDEFINED> instruction: 0xffffd7bf
+20106190:	4001800c 	andmi	r8, r1, ip
+20106194:	fffffe3f 			; <UNDEFINED> instruction: 0xfffffe3f
+
+20106198 <WriteFlash>:
+20106198:	b5f0      	push	{r4, r5, r6, r7, lr}
+2010619a:	465f      	mov	r7, fp
+2010619c:	4656      	mov	r6, sl
+2010619e:	464d      	mov	r5, r9
+201061a0:	4644      	mov	r4, r8
+201061a2:	b4f0      	push	{r4, r5, r6, r7}
+201061a4:	b083      	sub	sp, #12
+201061a6:	2200      	movs	r2, #0
+201061a8:	466b      	mov	r3, sp
+201061aa:	71da      	strb	r2, [r3, #7]
+201061ac:	4c3c      	ldr	r4, [pc, #240]	; (201062a0 <WriteFlash+0x108>)
+201061ae:	1c65      	adds	r5, r4, #1
+201061b0:	35ff      	adds	r5, #255	; 0xff
+201061b2:	466b      	mov	r3, sp
+201061b4:	1dd8      	adds	r0, r3, #7
+201061b6:	f7ff ff57 	bl	20106068 <UARTReadU32>
+201061ba:	c401      	stmia	r4!, {r0}
+201061bc:	42ac      	cmp	r4, r5
+201061be:	d1f8      	bne.n	201061b2 <WriteFlash+0x1a>
+201061c0:	4a38      	ldr	r2, [pc, #224]	; (201062a4 <WriteFlash+0x10c>)
+201061c2:	4b39      	ldr	r3, [pc, #228]	; (201062a8 <WriteFlash+0x110>)
+201061c4:	601a      	str	r2, [r3, #0]
+201061c6:	4b39      	ldr	r3, [pc, #228]	; (201062ac <WriteFlash+0x114>)
+201061c8:	6819      	ldr	r1, [r3, #0]
+201061ca:	2201      	movs	r2, #1
+201061cc:	430a      	orrs	r2, r1
+201061ce:	601a      	str	r2, [r3, #0]
+201061d0:	6819      	ldr	r1, [r3, #0]
+201061d2:	4a37      	ldr	r2, [pc, #220]	; (201062b0 <WriteFlash+0x118>)
+201061d4:	400a      	ands	r2, r1
+201061d6:	601a      	str	r2, [r3, #0]
+201061d8:	2600      	movs	r6, #0
+201061da:	4b36      	ldr	r3, [pc, #216]	; (201062b4 <WriteFlash+0x11c>)
+201061dc:	469a      	mov	sl, r3
+201061de:	4f36      	ldr	r7, [pc, #216]	; (201062b8 <WriteFlash+0x120>)
+201061e0:	4d32      	ldr	r5, [pc, #200]	; (201062ac <WriteFlash+0x114>)
+201061e2:	4653      	mov	r3, sl
+201061e4:	681b      	ldr	r3, [r3, #0]
+201061e6:	18f3      	adds	r3, r6, r3
+201061e8:	603b      	str	r3, [r7, #0]
+201061ea:	682b      	ldr	r3, [r5, #0]
+201061ec:	2282      	movs	r2, #130	; 0x82
+201061ee:	0152      	lsls	r2, r2, #5
+201061f0:	4313      	orrs	r3, r2
+201061f2:	602b      	str	r3, [r5, #0]
+201061f4:	2006      	movs	r0, #6
+201061f6:	f7ff ff11 	bl	2010601c <WaitInterval>
+201061fa:	682b      	ldr	r3, [r5, #0]
+201061fc:	2280      	movs	r2, #128	; 0x80
+201061fe:	0192      	lsls	r2, r2, #6
+20106200:	4313      	orrs	r3, r2
+20106202:	602b      	str	r3, [r5, #0]
+20106204:	200b      	movs	r0, #11
+20106206:	f7ff ff09 	bl	2010601c <WaitInterval>
+2010620a:	2400      	movs	r4, #0
+2010620c:	4b29      	ldr	r3, [pc, #164]	; (201062b4 <WriteFlash+0x11c>)
+2010620e:	4699      	mov	r9, r3
+20106210:	4b23      	ldr	r3, [pc, #140]	; (201062a0 <WriteFlash+0x108>)
+20106212:	4698      	mov	r8, r3
+20106214:	464b      	mov	r3, r9
+20106216:	681b      	ldr	r3, [r3, #0]
+20106218:	18f3      	adds	r3, r6, r3
+2010621a:	191b      	adds	r3, r3, r4
+2010621c:	603b      	str	r3, [r7, #0]
+2010621e:	1933      	adds	r3, r6, r4
+20106220:	089b      	lsrs	r3, r3, #2
+20106222:	009b      	lsls	r3, r3, #2
+20106224:	4642      	mov	r2, r8
+20106226:	589a      	ldr	r2, [r3, r2]
+20106228:	4b24      	ldr	r3, [pc, #144]	; (201062bc <WriteFlash+0x124>)
+2010622a:	601a      	str	r2, [r3, #0]
+2010622c:	682b      	ldr	r3, [r5, #0]
+2010622e:	2280      	movs	r2, #128	; 0x80
+20106230:	4693      	mov	fp, r2
+20106232:	4313      	orrs	r3, r2
+20106234:	602b      	str	r3, [r5, #0]
+20106236:	2032      	movs	r0, #50	; 0x32
+20106238:	f7ff fef0 	bl	2010601c <WaitInterval>
+2010623c:	682b      	ldr	r3, [r5, #0]
+2010623e:	465a      	mov	r2, fp
+20106240:	4393      	bics	r3, r2
+20106242:	602b      	str	r3, [r5, #0]
+20106244:	2001      	movs	r0, #1
+20106246:	f7ff fee9 	bl	2010601c <WaitInterval>
+2010624a:	3410      	adds	r4, #16
+2010624c:	2380      	movs	r3, #128	; 0x80
+2010624e:	005b      	lsls	r3, r3, #1
+20106250:	429c      	cmp	r4, r3
+20106252:	d1df      	bne.n	20106214 <WriteFlash+0x7c>
+20106254:	682a      	ldr	r2, [r5, #0]
+20106256:	4b1a      	ldr	r3, [pc, #104]	; (201062c0 <WriteFlash+0x128>)
+20106258:	4013      	ands	r3, r2
+2010625a:	602b      	str	r3, [r5, #0]
+2010625c:	2006      	movs	r0, #6
+2010625e:	f7ff fedd 	bl	2010601c <WaitInterval>
+20106262:	682a      	ldr	r2, [r5, #0]
+20106264:	4b17      	ldr	r3, [pc, #92]	; (201062c4 <WriteFlash+0x12c>)
+20106266:	4013      	ands	r3, r2
+20106268:	602b      	str	r3, [r5, #0]
+2010626a:	2001      	movs	r0, #1
+2010626c:	f7ff fed6 	bl	2010601c <WaitInterval>
+20106270:	3604      	adds	r6, #4
+20106272:	2e10      	cmp	r6, #16
+20106274:	d1b5      	bne.n	201061e2 <WriteFlash+0x4a>
+20106276:	4a0d      	ldr	r2, [pc, #52]	; (201062ac <WriteFlash+0x114>)
+20106278:	6813      	ldr	r3, [r2, #0]
+2010627a:	2101      	movs	r1, #1
+2010627c:	438b      	bics	r3, r1
+2010627e:	6013      	str	r3, [r2, #0]
+20106280:	4a0c      	ldr	r2, [pc, #48]	; (201062b4 <WriteFlash+0x11c>)
+20106282:	6813      	ldr	r3, [r2, #0]
+20106284:	3301      	adds	r3, #1
+20106286:	33ff      	adds	r3, #255	; 0xff
+20106288:	6013      	str	r3, [r2, #0]
+2010628a:	466b      	mov	r3, sp
+2010628c:	79d8      	ldrb	r0, [r3, #7]
+2010628e:	f7ff fed5 	bl	2010603c <UARTWriteByte>
+20106292:	b003      	add	sp, #12
+20106294:	bc3c      	pop	{r2, r3, r4, r5}
+20106296:	4690      	mov	r8, r2
+20106298:	4699      	mov	r9, r3
+2010629a:	46a2      	mov	sl, r4
+2010629c:	46ab      	mov	fp, r5
+2010629e:	bdf0      	pop	{r4, r5, r6, r7, pc}
+201062a0:	20107008 	andscs	r7, r0, r8
+201062a4:	8aaa5551 	bhi	1eb9b7f0 <Stack_Size+0x1eb9b770>
+201062a8:	40018010 	andmi	r8, r1, r0, lsl r0
+201062ac:	40018000 	andmi	r8, r1, r0
+201062b0:	ffffc23f 			; <UNDEFINED> instruction: 0xffffc23f
+201062b4:	20107000 	andscs	r7, r0, r0
+201062b8:	40018004 	andmi	r8, r1, r4
+201062bc:	40018008 	andmi	r8, r1, r8
+201062c0:	ffffefff 			; <UNDEFINED> instruction: 0xffffefff
+201062c4:	ffffdfbf 			; <UNDEFINED> instruction: 0xffffdfbf
+
+201062c8 <ReadFlash>:
+201062c8:	b5f0      	push	{r4, r5, r6, r7, lr}
+201062ca:	4647      	mov	r7, r8
+201062cc:	b480      	push	{r7}
+201062ce:	4a1a      	ldr	r2, [pc, #104]	; (20106338 <ReadFlash+0x70>)
+201062d0:	4b1a      	ldr	r3, [pc, #104]	; (2010633c <ReadFlash+0x74>)
+201062d2:	601a      	str	r2, [r3, #0]
+201062d4:	4b1a      	ldr	r3, [pc, #104]	; (20106340 <ReadFlash+0x78>)
+201062d6:	6819      	ldr	r1, [r3, #0]
+201062d8:	2201      	movs	r2, #1
+201062da:	430a      	orrs	r2, r1
+201062dc:	601a      	str	r2, [r3, #0]
+201062de:	6819      	ldr	r1, [r3, #0]
+201062e0:	4a18      	ldr	r2, [pc, #96]	; (20106344 <ReadFlash+0x7c>)
+201062e2:	400a      	ands	r2, r1
+201062e4:	601a      	str	r2, [r3, #0]
+201062e6:	4d18      	ldr	r5, [pc, #96]	; (20106348 <ReadFlash+0x80>)
+201062e8:	1c6b      	adds	r3, r5, #1
+201062ea:	33ff      	adds	r3, #255	; 0xff
+201062ec:	4698      	mov	r8, r3
+201062ee:	4e17      	ldr	r6, [pc, #92]	; (2010634c <ReadFlash+0x84>)
+201062f0:	4f17      	ldr	r7, [pc, #92]	; (20106350 <ReadFlash+0x88>)
+201062f2:	4c13      	ldr	r4, [pc, #76]	; (20106340 <ReadFlash+0x78>)
+201062f4:	6833      	ldr	r3, [r6, #0]
+201062f6:	603b      	str	r3, [r7, #0]
+201062f8:	6833      	ldr	r3, [r6, #0]
+201062fa:	3304      	adds	r3, #4
+201062fc:	6033      	str	r3, [r6, #0]
+201062fe:	6823      	ldr	r3, [r4, #0]
+20106300:	22e0      	movs	r2, #224	; 0xe0
+20106302:	0052      	lsls	r2, r2, #1
+20106304:	4313      	orrs	r3, r2
+20106306:	6023      	str	r3, [r4, #0]
+20106308:	2001      	movs	r0, #1
+2010630a:	f7ff fe87 	bl	2010601c <WaitInterval>
+2010630e:	4b11      	ldr	r3, [pc, #68]	; (20106354 <ReadFlash+0x8c>)
+20106310:	681b      	ldr	r3, [r3, #0]
+20106312:	c508      	stmia	r5!, {r3}
+20106314:	6822      	ldr	r2, [r4, #0]
+20106316:	4b0b      	ldr	r3, [pc, #44]	; (20106344 <ReadFlash+0x7c>)
+20106318:	4013      	ands	r3, r2
+2010631a:	6023      	str	r3, [r4, #0]
+2010631c:	2001      	movs	r0, #1
+2010631e:	f7ff fe7d 	bl	2010601c <WaitInterval>
+20106322:	4545      	cmp	r5, r8
+20106324:	d1e6      	bne.n	201062f4 <ReadFlash+0x2c>
+20106326:	4a06      	ldr	r2, [pc, #24]	; (20106340 <ReadFlash+0x78>)
+20106328:	6813      	ldr	r3, [r2, #0]
+2010632a:	2101      	movs	r1, #1
+2010632c:	438b      	bics	r3, r1
+2010632e:	6013      	str	r3, [r2, #0]
+20106330:	bc04      	pop	{r2}
+20106332:	4690      	mov	r8, r2
+20106334:	bdf0      	pop	{r4, r5, r6, r7, pc}
+20106336:	46c0      	nop			; (mov r8, r8)
+20106338:	8aaa5551 	bhi	1eb9b884 <Stack_Size+0x1eb9b804>
+2010633c:	40018010 	andmi	r8, r1, r0, lsl r0
+20106340:	40018000 	andmi	r8, r1, r0
+20106344:	fffffe3f 			; <UNDEFINED> instruction: 0xfffffe3f
+20106348:	20107008 	andscs	r7, r0, r8
+2010634c:	20107000 	andscs	r7, r0, r0
+20106350:	40018004 	andmi	r8, r1, r4
+20106354:	4001800c 	andmi	r8, r1, ip
+
+20106358 <VerifyData>:
+20106358:	b570      	push	{r4, r5, r6, lr}
+2010635a:	4b0b      	ldr	r3, [pc, #44]	; (20106388 <VerifyData+0x30>)
+2010635c:	681c      	ldr	r4, [r3, #0]
+2010635e:	2c00      	cmp	r4, #0
+20106360:	d101      	bne.n	20106366 <VerifyData+0xe>
+20106362:	f7ff ffb1 	bl	201062c8 <ReadFlash>
+20106366:	4d09      	ldr	r5, [pc, #36]	; (2010638c <VerifyData+0x34>)
+20106368:	00a3      	lsls	r3, r4, #2
+2010636a:	5958      	ldr	r0, [r3, r5]
+2010636c:	f7ff fe70 	bl	20106050 <UARTWriteU32>
+20106370:	1c63      	adds	r3, r4, #1
+20106372:	009b      	lsls	r3, r3, #2
+20106374:	5958      	ldr	r0, [r3, r5]
+20106376:	f7ff fe6b 	bl	20106050 <UARTWriteU32>
+2010637a:	3402      	adds	r4, #2
+2010637c:	233f      	movs	r3, #63	; 0x3f
+2010637e:	401c      	ands	r4, r3
+20106380:	4b01      	ldr	r3, [pc, #4]	; (20106388 <VerifyData+0x30>)
+20106382:	601c      	str	r4, [r3, #0]
+20106384:	bd70      	pop	{r4, r5, r6, pc}
+20106386:	46c0      	nop			; (mov r8, r8)
+20106388:	20107004 	andscs	r7, r0, r4
+2010638c:	20107008 	andscs	r7, r0, r8
+
+20106390 <MCUStart>:
+20106390:	4a06      	ldr	r2, [pc, #24]	; (201063ac <MCUStart+0x1c>)
+20106392:	6813      	ldr	r3, [r2, #0]
+20106394:	2180      	movs	r1, #128	; 0x80
+20106396:	0509      	lsls	r1, r1, #20
+20106398:	430b      	orrs	r3, r1
+2010639a:	6013      	str	r3, [r2, #0]
+2010639c:	4a04      	ldr	r2, [pc, #16]	; (201063b0 <MCUStart+0x20>)
+2010639e:	6813      	ldr	r3, [r2, #0]
+201063a0:	2180      	movs	r1, #128	; 0x80
+201063a2:	0109      	lsls	r1, r1, #4
+201063a4:	430b      	orrs	r3, r1
+201063a6:	6013      	str	r3, [r2, #0]
+201063a8:	4770      	bx	lr
+201063aa:	46c0      	nop			; (mov r8, r8)
+201063ac:	4002001c 	andmi	r0, r2, ip, lsl r0
+201063b0:	400d8038 	andmi	r8, sp, r8, lsr r0
+
+201063b4 <main>:
+201063b4:	b5f0      	push	{r4, r5, r6, r7, lr}
+201063b6:	4647      	mov	r7, r8
+201063b8:	b480      	push	{r7}
+201063ba:	b082      	sub	sp, #8
+201063bc:	4a20      	ldr	r2, [pc, #128]	; (20106440 <main+0x8c>)
+201063be:	6811      	ldr	r1, [r2, #0]
+201063c0:	2308      	movs	r3, #8
+201063c2:	430b      	orrs	r3, r1
+201063c4:	6013      	str	r3, [r2, #0]
+201063c6:	2300      	movs	r3, #0
+201063c8:	4a1e      	ldr	r2, [pc, #120]	; (20106444 <main+0x90>)
+201063ca:	6013      	str	r3, [r2, #0]
+201063cc:	4a1e      	ldr	r2, [pc, #120]	; (20106448 <main+0x94>)
+201063ce:	6013      	str	r3, [r2, #0]
+201063d0:	4d1e      	ldr	r5, [pc, #120]	; (2010644c <main+0x98>)
+201063d2:	0017      	movs	r7, r2
+201063d4:	4b1b      	ldr	r3, [pc, #108]	; (20106444 <main+0x90>)
+201063d6:	4698      	mov	r8, r3
+201063d8:	f7ff fe24 	bl	20106024 <UARTReadByte>
+201063dc:	3841      	subs	r0, #65	; 0x41
+201063de:	b2c3      	uxtb	r3, r0
+201063e0:	2b15      	cmp	r3, #21
+201063e2:	d8f9      	bhi.n	201063d8 <main+0x24>
+201063e4:	0098      	lsls	r0, r3, #2
+201063e6:	582b      	ldr	r3, [r5, r0]
+201063e8:	469f      	mov	pc, r3
+201063ea:	2400      	movs	r4, #0
+201063ec:	4e18      	ldr	r6, [pc, #96]	; (20106450 <main+0x9c>)
+201063ee:	5da0      	ldrb	r0, [r4, r6]
+201063f0:	f7ff fe24 	bl	2010603c <UARTWriteByte>
+201063f4:	3401      	adds	r4, #1
+201063f6:	2c0c      	cmp	r4, #12
+201063f8:	d1f9      	bne.n	201063ee <main+0x3a>
+201063fa:	e7ed      	b.n	201063d8 <main+0x24>
+201063fc:	f7ff fe48 	bl	20106090 <EraseFlash>
+20106400:	e7ea      	b.n	201063d8 <main+0x24>
+20106402:	f7ff fec9 	bl	20106198 <WriteFlash>
+20106406:	e7e7      	b.n	201063d8 <main+0x24>
+20106408:	f7ff ffa6 	bl	20106358 <VerifyData>
+2010640c:	e7e4      	b.n	201063d8 <main+0x24>
+2010640e:	466b      	mov	r3, sp
+20106410:	1ddc      	adds	r4, r3, #7
+20106412:	2300      	movs	r3, #0
+20106414:	7023      	strb	r3, [r4, #0]
+20106416:	603b      	str	r3, [r7, #0]
+20106418:	0020      	movs	r0, r4
+2010641a:	f7ff fe25 	bl	20106068 <UARTReadU32>
+2010641e:	4643      	mov	r3, r8
+20106420:	6018      	str	r0, [r3, #0]
+20106422:	7820      	ldrb	r0, [r4, #0]
+20106424:	f7ff fe0a 	bl	2010603c <UARTWriteByte>
+20106428:	e7d6      	b.n	201063d8 <main+0x24>
+2010642a:	2052      	movs	r0, #82	; 0x52
+2010642c:	f7ff fe06 	bl	2010603c <UARTWriteByte>
+20106430:	2096      	movs	r0, #150	; 0x96
+20106432:	0100      	lsls	r0, r0, #4
+20106434:	f7ff fdf2 	bl	2010601c <WaitInterval>
+20106438:	f7ff ffaa 	bl	20106390 <MCUStart>
+2010643c:	e7cc      	b.n	201063d8 <main+0x24>
+2010643e:	46c0      	nop			; (mov r8, r8)
+20106440:	4002001c 	andmi	r0, r2, ip, lsl r0
+20106444:	20107000 	andscs	r7, r0, r0
+20106448:	20107004 	andscs	r7, r0, r4
+2010644c:	20106454 	andscs	r6, r0, r4, asr r4
+20106450:	201064ac 	andscs	r6, r0, ip, lsr #9
+20106454:	2010640e 	andscs	r6, r0, lr, lsl #8
+20106458:	201063d8 			; <UNDEFINED> instruction: 0x201063d8
+2010645c:	201063d8 			; <UNDEFINED> instruction: 0x201063d8
+20106460:	201063d8 			; <UNDEFINED> instruction: 0x201063d8
+20106464:	201063fc 			; <UNDEFINED> instruction: 0x201063fc
+20106468:	201063d8 			; <UNDEFINED> instruction: 0x201063d8
+2010646c:	201063d8 			; <UNDEFINED> instruction: 0x201063d8
+20106470:	201063d8 			; <UNDEFINED> instruction: 0x201063d8
+20106474:	201063ea 	andscs	r6, r0, sl, ror #7
+20106478:	201063d8 			; <UNDEFINED> instruction: 0x201063d8
+2010647c:	201063d8 			; <UNDEFINED> instruction: 0x201063d8
+20106480:	201063d8 			; <UNDEFINED> instruction: 0x201063d8
+20106484:	201063d8 			; <UNDEFINED> instruction: 0x201063d8
+20106488:	201063d8 			; <UNDEFINED> instruction: 0x201063d8
+2010648c:	201063d8 			; <UNDEFINED> instruction: 0x201063d8
+20106490:	20106402 	andscs	r6, r0, r2, lsl #8
+20106494:	201063d8 			; <UNDEFINED> instruction: 0x201063d8
+20106498:	2010642a 	andscs	r6, r0, sl, lsr #8
+2010649c:	201063d8 			; <UNDEFINED> instruction: 0x201063d8
+201064a0:	201063d8 			; <UNDEFINED> instruction: 0x201063d8
+201064a4:	201063d8 			; <UNDEFINED> instruction: 0x201063d8
+201064a8:	20106408 	andscs	r6, r0, r8, lsl #8
+
+201064ac <fmloader_id>:
+201064ac:	36383931 			; <UNDEFINED> instruction: 0x36383931
+201064b0:	78316562 	ldmdavc	r1!, {r1, r5, r6, r8, sl, sp, lr}
+201064b4:	72646c66 	rsbvc	r6, r4, #26112	; 0x6600
+
+Disassembly of section .bss:
+
+20107000 <__bss_start__>:
+20107000:	00000000 	andeq	r0, r0, r0
+
+20107004 <dataBufIndex>:
+20107004:	00000000 	andeq	r0, r0, r0
+
+20107008 <dataBuf>:
+	...
+
+Disassembly of section .stack_dummy:
+
+20107108 <__HeapBase>:
+	...
+
+Disassembly of section .ARM.attributes:
+
+00000000 <.ARM.attributes>:
+   0:	00002c41 	andeq	r2, r0, r1, asr #24
+   4:	61656100 	cmnvs	r5, r0, lsl #2
+   8:	01006962 	tsteq	r0, r2, ror #18
+   c:	00000022 	andeq	r0, r0, r2, lsr #32
+  10:	726f4305 	rsbvc	r4, pc, #335544320	; 0x14000000
+  14:	2d786574 	cfldr64cs	mvdx6, [r8, #-464]!	; 0xfffffe30
+  18:	0600314d 	streq	r3, [r0], -sp, asr #2
+  1c:	094d070c 	stmdbeq	sp, {r2, r3, r8, r9, sl}^
+  20:	14041201 	strne	r1, [r4], #-513	; 0xfffffdff
+  24:	17011501 	strne	r1, [r1, -r1, lsl #10]
+  28:	1a011803 	bne	4603c <Stack_Size+0x45fbc>
+  2c:	Address 0x0000002c is out of bounds.
+
+
+Disassembly of section .comment:
+
+00000000 <.comment>:
+   0:	3a434347 	bcc	10d0d24 <Stack_Size+0x10d0ca4>
+   4:	4e472820 	cdpmi	8, 4, cr2, cr7, cr0, {1}
+   8:	6f542055 	svcvs	0x00542055
+   c:	20736c6f 	rsbscs	r6, r3, pc, ror #24
+  10:	20726f66 	rsbscs	r6, r2, r6, ror #30
+  14:	204d5241 	subcs	r5, sp, r1, asr #4
+  18:	65626d45 	strbvs	r6, [r2, #-3397]!	; 0xfffff2bb
+  1c:	64656464 	strbtvs	r6, [r5], #-1124	; 0xfffffb9c
+  20:	6f725020 	svcvs	0x00725020
+  24:	73736563 	cmnvc	r3, #415236096	; 0x18c00000
+  28:	2973726f 	ldmdbcs	r3!, {r0, r1, r2, r3, r5, r6, r9, ip, sp, lr}^
+  2c:	322e3520 	eorcc	r3, lr, #32, 10	; 0x8000000
+  30:	3220312e 	eorcc	r3, r0, #-2147483637	; 0x8000000b
+  34:	31353130 	teqcc	r5, r0, lsr r1
+  38:	20323032 	eorscs	r3, r2, r2, lsr r0
+  3c:	6c657228 	sfmvs	f7, 2, [r5], #-160	; 0xffffff60
+  40:	65736165 	ldrbvs	r6, [r3, #-357]!	; 0xfffffe9b
+  44:	415b2029 	cmpmi	fp, r9, lsr #32
+  48:	652f4d52 	strvs	r4, [pc, #-3410]!	; fffff2fe <__StackTop+0xdfef72fe>
+  4c:	6465626d 	strbtvs	r6, [r5], #-621	; 0xfffffd93
+  50:	2d646564 	cfstr64cs	mvdx6, [r4, #-400]!	; 0xfffffe70
+  54:	72622d35 	rsbvc	r2, r2, #3392	; 0xd40
+  58:	68636e61 	stmdavs	r3!, {r0, r5, r6, r9, sl, fp, sp, lr}^
+  5c:	76657220 	strbtvc	r7, [r5], -r0, lsr #4
+  60:	6f697369 	svcvs	0x00697369
+  64:	3332206e 	teqcc	r2, #110	; 0x6e
+  68:	38343831 	ldmdacc	r4!, {r0, r4, r5, fp, ip, sp}
+  6c:	Address 0x0000006c is out of bounds.
+

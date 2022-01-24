@@ -1,0 +1,487 @@
+
+./output/fmloader-1986be9x-gcc.elf:     file format elf32-littlearm
+
+
+Disassembly of section .text:
+
+20006000 <__isr_vector>:
+20006000:	20008000 	andcs	r8, r0, r0
+20006004:	20006009 	andcs	r6, r0, r9
+
+20006008 <Reset_Handler>:
+20006008:	4802      	ldr	r0, [pc, #8]	; (20006014 <Reset_Handler+0xc>)
+2000600a:	6801      	ldr	r1, [r0, #0]
+2000600c:	f381 8808 	msr	MSP, r1
+20006010:	4801      	ldr	r0, [pc, #4]	; (20006018 <Reset_Handler+0x10>)
+20006012:	4700      	bx	r0
+20006014:	20006000 	andcs	r6, r0, r0
+20006018:	20006351 	andcs	r6, r0, r1, asr r3
+
+2000601c <MCUStart>:
+2000601c:	f04f 6000 	mov.w	r0, #134217728	; 0x8000000
+20006020:	4903      	ldr	r1, [pc, #12]	; (20006030 <MCUStart+0x14>)
+20006022:	6008      	str	r0, [r1, #0]
+20006024:	6801      	ldr	r1, [r0, #0]
+20006026:	f381 8808 	msr	MSP, r1
+2000602a:	6840      	ldr	r0, [r0, #4]
+2000602c:	4700      	bx	r0
+2000602e:	ed080000 	stc	0, cr0, [r8, #-0]
+20006032:	3801e000 	stmdacc	r1, {sp, lr, pc}
+
+20006034 <WaitInterval>:
+20006034:	3801      	subs	r0, #1
+20006036:	d1fd      	bne.n	20006034 <WaitInterval>
+20006038:	4770      	bx	lr
+2000603a:	bf00      	nop
+
+2000603c <UARTReadByte>:
+2000603c:	4a04      	ldr	r2, [pc, #16]	; (20006050 <UARTReadByte+0x14>)
+2000603e:	6993      	ldr	r3, [r2, #24]
+20006040:	f013 0f10 	tst.w	r3, #16
+20006044:	d1fb      	bne.n	2000603e <UARTReadByte+0x2>
+20006046:	4b02      	ldr	r3, [pc, #8]	; (20006050 <UARTReadByte+0x14>)
+20006048:	6818      	ldr	r0, [r3, #0]
+2000604a:	b2c0      	uxtb	r0, r0
+2000604c:	4770      	bx	lr
+2000604e:	bf00      	nop
+20006050:	40038000 	andmi	r8, r3, r0
+
+20006054 <UARTWriteByte>:
+20006054:	4a03      	ldr	r2, [pc, #12]	; (20006064 <UARTWriteByte+0x10>)
+20006056:	6993      	ldr	r3, [r2, #24]
+20006058:	f013 0f20 	tst.w	r3, #32
+2000605c:	d1fb      	bne.n	20006056 <UARTWriteByte+0x2>
+2000605e:	4b01      	ldr	r3, [pc, #4]	; (20006064 <UARTWriteByte+0x10>)
+20006060:	6018      	str	r0, [r3, #0]
+20006062:	4770      	bx	lr
+20006064:	40038000 	andmi	r8, r3, r0
+
+20006068 <UARTReadU32>:
+20006068:	b5f8      	push	{r3, r4, r5, r6, r7, lr}
+2000606a:	4607      	mov	r7, r0
+2000606c:	2504      	movs	r5, #4
+2000606e:	2400      	movs	r4, #0
+20006070:	4626      	mov	r6, r4
+20006072:	f7ff ffe3 	bl	2000603c <UARTReadByte>
+20006076:	4404      	add	r4, r0
+20006078:	b2e4      	uxtb	r4, r4
+2000607a:	0600      	lsls	r0, r0, #24
+2000607c:	ea40 2616 	orr.w	r6, r0, r6, lsr #8
+20006080:	3d01      	subs	r5, #1
+20006082:	d1f6      	bne.n	20006072 <UARTReadU32+0xa>
+20006084:	783b      	ldrb	r3, [r7, #0]
+20006086:	441c      	add	r4, r3
+20006088:	703c      	strb	r4, [r7, #0]
+2000608a:	4630      	mov	r0, r6
+2000608c:	bdf8      	pop	{r3, r4, r5, r6, r7, pc}
+2000608e:	bf00      	nop
+
+20006090 <UARTWriteU32>:
+20006090:	b538      	push	{r3, r4, r5, lr}
+20006092:	4605      	mov	r5, r0
+20006094:	2404      	movs	r4, #4
+20006096:	b2e8      	uxtb	r0, r5
+20006098:	f7ff ffdc 	bl	20006054 <UARTWriteByte>
+2000609c:	0a2d      	lsrs	r5, r5, #8
+2000609e:	3c01      	subs	r4, #1
+200060a0:	d1f9      	bne.n	20006096 <UARTWriteU32+0x6>
+200060a2:	bd38      	pop	{r3, r4, r5, pc}
+
+200060a4 <EraseFlash>:
+200060a4:	e92d 41f0 	stmdb	sp!, {r4, r5, r6, r7, r8, lr}
+200060a8:	4a2f      	ldr	r2, [pc, #188]	; (20006168 <EraseFlash+0xc4>)
+200060aa:	4b30      	ldr	r3, [pc, #192]	; (2000616c <EraseFlash+0xc8>)
+200060ac:	601a      	str	r2, [r3, #0]
+200060ae:	4a30      	ldr	r2, [pc, #192]	; (20006170 <EraseFlash+0xcc>)
+200060b0:	6813      	ldr	r3, [r2, #0]
+200060b2:	f043 0301 	orr.w	r3, r3, #1
+200060b6:	6013      	str	r3, [r2, #0]
+200060b8:	f04f 6500 	mov.w	r5, #134217728	; 0x8000000
+200060bc:	4f2d      	ldr	r7, [pc, #180]	; (20006174 <EraseFlash+0xd0>)
+200060be:	4614      	mov	r4, r2
+200060c0:	4e2d      	ldr	r6, [pc, #180]	; (20006178 <EraseFlash+0xd4>)
+200060c2:	603d      	str	r5, [r7, #0]
+200060c4:	6823      	ldr	r3, [r4, #0]
+200060c6:	f423 5337 	bic.w	r3, r3, #11712	; 0x2dc0
+200060ca:	6023      	str	r3, [r4, #0]
+200060cc:	6823      	ldr	r3, [r4, #0]
+200060ce:	f443 6344 	orr.w	r3, r3, #3136	; 0xc40
+200060d2:	6023      	str	r3, [r4, #0]
+200060d4:	2006      	movs	r0, #6
+200060d6:	f7ff ffad 	bl	20006034 <WaitInterval>
+200060da:	6823      	ldr	r3, [r4, #0]
+200060dc:	f443 5300 	orr.w	r3, r3, #8192	; 0x2000
+200060e0:	6023      	str	r3, [r4, #0]
+200060e2:	f24c 3050 	movw	r0, #50000	; 0xc350
+200060e6:	f7ff ffa5 	bl	20006034 <WaitInterval>
+200060ea:	6823      	ldr	r3, [r4, #0]
+200060ec:	f423 6380 	bic.w	r3, r3, #1024	; 0x400
+200060f0:	6023      	str	r3, [r4, #0]
+200060f2:	206e      	movs	r0, #110	; 0x6e
+200060f4:	f7ff ff9e 	bl	20006034 <WaitInterval>
+200060f8:	6823      	ldr	r3, [r4, #0]
+200060fa:	f423 5321 	bic.w	r3, r3, #10304	; 0x2840
+200060fe:	6023      	str	r3, [r4, #0]
+20006100:	2002      	movs	r0, #2
+20006102:	f7ff ff97 	bl	20006034 <WaitInterval>
+20006106:	3504      	adds	r5, #4
+20006108:	42b5      	cmp	r5, r6
+2000610a:	d1da      	bne.n	200060c2 <EraseFlash+0x1e>
+2000610c:	f04f 6500 	mov.w	r5, #134217728	; 0x8000000
+20006110:	4f18      	ldr	r7, [pc, #96]	; (20006174 <EraseFlash+0xd0>)
+20006112:	4c17      	ldr	r4, [pc, #92]	; (20006170 <EraseFlash+0xcc>)
+20006114:	4e19      	ldr	r6, [pc, #100]	; (2000617c <EraseFlash+0xd8>)
+20006116:	603d      	str	r5, [r7, #0]
+20006118:	6823      	ldr	r3, [r4, #0]
+2000611a:	f443 73e0 	orr.w	r3, r3, #448	; 0x1c0
+2000611e:	6023      	str	r3, [r4, #0]
+20006120:	2001      	movs	r0, #1
+20006122:	f7ff ff87 	bl	20006034 <WaitInterval>
+20006126:	f8d6 8000 	ldr.w	r8, [r6]
+2000612a:	6823      	ldr	r3, [r4, #0]
+2000612c:	f423 73e0 	bic.w	r3, r3, #448	; 0x1c0
+20006130:	6023      	str	r3, [r4, #0]
+20006132:	2001      	movs	r0, #1
+20006134:	f7ff ff7e 	bl	20006034 <WaitInterval>
+20006138:	f1b8 3fff 	cmp.w	r8, #4294967295
+2000613c:	d103      	bne.n	20006146 <EraseFlash+0xa2>
+2000613e:	3504      	adds	r5, #4
+20006140:	4b0f      	ldr	r3, [pc, #60]	; (20006180 <EraseFlash+0xdc>)
+20006142:	429d      	cmp	r5, r3
+20006144:	d1e7      	bne.n	20006116 <EraseFlash+0x72>
+20006146:	4a0a      	ldr	r2, [pc, #40]	; (20006170 <EraseFlash+0xcc>)
+20006148:	6813      	ldr	r3, [r2, #0]
+2000614a:	f023 0301 	bic.w	r3, r3, #1
+2000614e:	6013      	str	r3, [r2, #0]
+20006150:	2045      	movs	r0, #69	; 0x45
+20006152:	f7ff ff7f 	bl	20006054 <UARTWriteByte>
+20006156:	4628      	mov	r0, r5
+20006158:	f7ff ff9a 	bl	20006090 <UARTWriteU32>
+2000615c:	4640      	mov	r0, r8
+2000615e:	f7ff ff97 	bl	20006090 <UARTWriteU32>
+20006162:	e8bd 81f0 	ldmia.w	sp!, {r4, r5, r6, r7, r8, pc}
+20006166:	bf00      	nop
+20006168:	8aaa5551 	bhi	1ea9b6b4 <Stack_Size+0x1ea9b634>
+2000616c:	40018010 	andmi	r8, r1, r0, lsl r0
+20006170:	40018000 	andmi	r8, r1, r0
+20006174:	40018004 	andmi	r8, r1, r4
+20006178:	08000010 	stmdaeq	r0, {r4}
+2000617c:	4001800c 	andmi	r8, r1, ip
+20006180:	08020000 	stmdaeq	r2, {}	; <UNPREDICTABLE>
+
+20006184 <WriteFlash>:
+20006184:	e92d 43f0 	stmdb	sp!, {r4, r5, r6, r7, r8, r9, lr}
+20006188:	b083      	sub	sp, #12
+2000618a:	ad02      	add	r5, sp, #8
+2000618c:	2300      	movs	r3, #0
+2000618e:	f805 3d01 	strb.w	r3, [r5, #-1]!
+20006192:	4c38      	ldr	r4, [pc, #224]	; (20006274 <WriteFlash+0xf0>)
+20006194:	f504 7680 	add.w	r6, r4, #256	; 0x100
+20006198:	4628      	mov	r0, r5
+2000619a:	f7ff ff65 	bl	20006068 <UARTReadU32>
+2000619e:	f844 0f04 	str.w	r0, [r4, #4]!
+200061a2:	42b4      	cmp	r4, r6
+200061a4:	d1f8      	bne.n	20006198 <WriteFlash+0x14>
+200061a6:	4a34      	ldr	r2, [pc, #208]	; (20006278 <WriteFlash+0xf4>)
+200061a8:	4b34      	ldr	r3, [pc, #208]	; (2000627c <WriteFlash+0xf8>)
+200061aa:	601a      	str	r2, [r3, #0]
+200061ac:	3b10      	subs	r3, #16
+200061ae:	681a      	ldr	r2, [r3, #0]
+200061b0:	f042 0201 	orr.w	r2, r2, #1
+200061b4:	601a      	str	r2, [r3, #0]
+200061b6:	681a      	ldr	r2, [r3, #0]
+200061b8:	f422 5277 	bic.w	r2, r2, #15808	; 0x3dc0
+200061bc:	601a      	str	r2, [r3, #0]
+200061be:	2600      	movs	r6, #0
+200061c0:	f8df 80c8 	ldr.w	r8, [pc, #200]	; 2000628c <WriteFlash+0x108>
+200061c4:	4f2e      	ldr	r7, [pc, #184]	; (20006280 <WriteFlash+0xfc>)
+200061c6:	461d      	mov	r5, r3
+200061c8:	f8df 90c4 	ldr.w	r9, [pc, #196]	; 20006290 <WriteFlash+0x10c>
+200061cc:	f8d8 3000 	ldr.w	r3, [r8]
+200061d0:	4433      	add	r3, r6
+200061d2:	603b      	str	r3, [r7, #0]
+200061d4:	682b      	ldr	r3, [r5, #0]
+200061d6:	f443 5382 	orr.w	r3, r3, #4160	; 0x1040
+200061da:	602b      	str	r3, [r5, #0]
+200061dc:	2006      	movs	r0, #6
+200061de:	f7ff ff29 	bl	20006034 <WaitInterval>
+200061e2:	682b      	ldr	r3, [r5, #0]
+200061e4:	f443 5300 	orr.w	r3, r3, #8192	; 0x2000
+200061e8:	602b      	str	r3, [r5, #0]
+200061ea:	200b      	movs	r0, #11
+200061ec:	f7ff ff22 	bl	20006034 <WaitInterval>
+200061f0:	2400      	movs	r4, #0
+200061f2:	f8d8 3000 	ldr.w	r3, [r8]
+200061f6:	4433      	add	r3, r6
+200061f8:	4423      	add	r3, r4
+200061fa:	603b      	str	r3, [r7, #0]
+200061fc:	1933      	adds	r3, r6, r4
+200061fe:	089b      	lsrs	r3, r3, #2
+20006200:	4a20      	ldr	r2, [pc, #128]	; (20006284 <WriteFlash+0x100>)
+20006202:	f852 3023 	ldr.w	r3, [r2, r3, lsl #2]
+20006206:	f8c9 3000 	str.w	r3, [r9]
+2000620a:	682b      	ldr	r3, [r5, #0]
+2000620c:	f043 0380 	orr.w	r3, r3, #128	; 0x80
+20006210:	602b      	str	r3, [r5, #0]
+20006212:	2032      	movs	r0, #50	; 0x32
+20006214:	f7ff ff0e 	bl	20006034 <WaitInterval>
+20006218:	682b      	ldr	r3, [r5, #0]
+2000621a:	f023 0380 	bic.w	r3, r3, #128	; 0x80
+2000621e:	602b      	str	r3, [r5, #0]
+20006220:	2001      	movs	r0, #1
+20006222:	f7ff ff07 	bl	20006034 <WaitInterval>
+20006226:	3410      	adds	r4, #16
+20006228:	f5b4 7f80 	cmp.w	r4, #256	; 0x100
+2000622c:	d1e1      	bne.n	200061f2 <WriteFlash+0x6e>
+2000622e:	682b      	ldr	r3, [r5, #0]
+20006230:	f423 5380 	bic.w	r3, r3, #4096	; 0x1000
+20006234:	602b      	str	r3, [r5, #0]
+20006236:	2006      	movs	r0, #6
+20006238:	f7ff fefc 	bl	20006034 <WaitInterval>
+2000623c:	682b      	ldr	r3, [r5, #0]
+2000623e:	f423 5301 	bic.w	r3, r3, #8256	; 0x2040
+20006242:	602b      	str	r3, [r5, #0]
+20006244:	2001      	movs	r0, #1
+20006246:	f7ff fef5 	bl	20006034 <WaitInterval>
+2000624a:	3604      	adds	r6, #4
+2000624c:	2e10      	cmp	r6, #16
+2000624e:	d1bd      	bne.n	200061cc <WriteFlash+0x48>
+20006250:	4a0d      	ldr	r2, [pc, #52]	; (20006288 <WriteFlash+0x104>)
+20006252:	6813      	ldr	r3, [r2, #0]
+20006254:	f023 0301 	bic.w	r3, r3, #1
+20006258:	6013      	str	r3, [r2, #0]
+2000625a:	4a0c      	ldr	r2, [pc, #48]	; (2000628c <WriteFlash+0x108>)
+2000625c:	6813      	ldr	r3, [r2, #0]
+2000625e:	f503 7380 	add.w	r3, r3, #256	; 0x100
+20006262:	6013      	str	r3, [r2, #0]
+20006264:	f89d 0007 	ldrb.w	r0, [sp, #7]
+20006268:	f7ff fef4 	bl	20006054 <UARTWriteByte>
+2000626c:	b003      	add	sp, #12
+2000626e:	e8bd 83f0 	ldmia.w	sp!, {r4, r5, r6, r7, r8, r9, pc}
+20006272:	bf00      	nop
+20006274:	20007004 	andcs	r7, r0, r4
+20006278:	8aaa5551 	bhi	1ea9b7c4 <Stack_Size+0x1ea9b744>
+2000627c:	40018010 	andmi	r8, r1, r0, lsl r0
+20006280:	40018004 	andmi	r8, r1, r4
+20006284:	20007008 	andcs	r7, r0, r8
+20006288:	40018000 	andmi	r8, r1, r0
+2000628c:	20007000 	andcs	r7, r0, r0
+20006290:	40018008 	andmi	r8, r1, r8
+
+20006294 <ReadFlash>:
+20006294:	e92d 43f8 	stmdb	sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
+20006298:	4a19      	ldr	r2, [pc, #100]	; (20006300 <ReadFlash+0x6c>)
+2000629a:	4b1a      	ldr	r3, [pc, #104]	; (20006304 <ReadFlash+0x70>)
+2000629c:	601a      	str	r2, [r3, #0]
+2000629e:	3b10      	subs	r3, #16
+200062a0:	681a      	ldr	r2, [r3, #0]
+200062a2:	f042 0201 	orr.w	r2, r2, #1
+200062a6:	601a      	str	r2, [r3, #0]
+200062a8:	681a      	ldr	r2, [r3, #0]
+200062aa:	f422 72e0 	bic.w	r2, r2, #448	; 0x1c0
+200062ae:	601a      	str	r2, [r3, #0]
+200062b0:	4d15      	ldr	r5, [pc, #84]	; (20006308 <ReadFlash+0x74>)
+200062b2:	f505 7980 	add.w	r9, r5, #256	; 0x100
+200062b6:	4e15      	ldr	r6, [pc, #84]	; (2000630c <ReadFlash+0x78>)
+200062b8:	f8df 805c 	ldr.w	r8, [pc, #92]	; 20006318 <ReadFlash+0x84>
+200062bc:	4f14      	ldr	r7, [pc, #80]	; (20006310 <ReadFlash+0x7c>)
+200062be:	6833      	ldr	r3, [r6, #0]
+200062c0:	f8c8 3000 	str.w	r3, [r8]
+200062c4:	6833      	ldr	r3, [r6, #0]
+200062c6:	3304      	adds	r3, #4
+200062c8:	6033      	str	r3, [r6, #0]
+200062ca:	4c12      	ldr	r4, [pc, #72]	; (20006314 <ReadFlash+0x80>)
+200062cc:	6823      	ldr	r3, [r4, #0]
+200062ce:	f443 73e0 	orr.w	r3, r3, #448	; 0x1c0
+200062d2:	6023      	str	r3, [r4, #0]
+200062d4:	2001      	movs	r0, #1
+200062d6:	f7ff fead 	bl	20006034 <WaitInterval>
+200062da:	683b      	ldr	r3, [r7, #0]
+200062dc:	f845 3f04 	str.w	r3, [r5, #4]!
+200062e0:	6823      	ldr	r3, [r4, #0]
+200062e2:	f423 73e0 	bic.w	r3, r3, #448	; 0x1c0
+200062e6:	6023      	str	r3, [r4, #0]
+200062e8:	2001      	movs	r0, #1
+200062ea:	f7ff fea3 	bl	20006034 <WaitInterval>
+200062ee:	454d      	cmp	r5, r9
+200062f0:	d1e5      	bne.n	200062be <ReadFlash+0x2a>
+200062f2:	6823      	ldr	r3, [r4, #0]
+200062f4:	f023 0301 	bic.w	r3, r3, #1
+200062f8:	6023      	str	r3, [r4, #0]
+200062fa:	e8bd 83f8 	ldmia.w	sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
+200062fe:	bf00      	nop
+20006300:	8aaa5551 	bhi	1ea9b84c <Stack_Size+0x1ea9b7cc>
+20006304:	40018010 	andmi	r8, r1, r0, lsl r0
+20006308:	20007004 	andcs	r7, r0, r4
+2000630c:	20007000 	andcs	r7, r0, r0
+20006310:	4001800c 	andmi	r8, r1, ip
+20006314:	40018000 	andmi	r8, r1, r0
+20006318:	40018004 	andmi	r8, r1, r4
+
+2000631c <VerifyData>:
+2000631c:	b538      	push	{r3, r4, r5, lr}
+2000631e:	4b0a      	ldr	r3, [pc, #40]	; (20006348 <VerifyData+0x2c>)
+20006320:	681c      	ldr	r4, [r3, #0]
+20006322:	b90c      	cbnz	r4, 20006328 <VerifyData+0xc>
+20006324:	f7ff ffb6 	bl	20006294 <ReadFlash>
+20006328:	4d08      	ldr	r5, [pc, #32]	; (2000634c <VerifyData+0x30>)
+2000632a:	f855 0024 	ldr.w	r0, [r5, r4, lsl #2]
+2000632e:	f7ff feaf 	bl	20006090 <UARTWriteU32>
+20006332:	1c63      	adds	r3, r4, #1
+20006334:	f855 0023 	ldr.w	r0, [r5, r3, lsl #2]
+20006338:	f7ff feaa 	bl	20006090 <UARTWriteU32>
+2000633c:	3402      	adds	r4, #2
+2000633e:	f004 043f 	and.w	r4, r4, #63	; 0x3f
+20006342:	4b01      	ldr	r3, [pc, #4]	; (20006348 <VerifyData+0x2c>)
+20006344:	601c      	str	r4, [r3, #0]
+20006346:	bd38      	pop	{r3, r4, r5, pc}
+20006348:	20007004 	andcs	r7, r0, r4
+2000634c:	20007008 	andcs	r7, r0, r8
+
+20006350 <main>:
+20006350:	e92d 41f0 	stmdb	sp!, {r4, r5, r6, r7, r8, lr}
+20006354:	b082      	sub	sp, #8
+20006356:	4a36      	ldr	r2, [pc, #216]	; (20006430 <main+0xe0>)
+20006358:	6813      	ldr	r3, [r2, #0]
+2000635a:	f043 0308 	orr.w	r3, r3, #8
+2000635e:	6013      	str	r3, [r2, #0]
+20006360:	2300      	movs	r3, #0
+20006362:	4a34      	ldr	r2, [pc, #208]	; (20006434 <main+0xe4>)
+20006364:	6013      	str	r3, [r2, #0]
+20006366:	4a34      	ldr	r2, [pc, #208]	; (20006438 <main+0xe8>)
+20006368:	6013      	str	r3, [r2, #0]
+2000636a:	f04f 0852 	mov.w	r8, #82	; 0x52
+2000636e:	4617      	mov	r7, r2
+20006370:	4e30      	ldr	r6, [pc, #192]	; (20006434 <main+0xe4>)
+20006372:	f7ff fe63 	bl	2000603c <UARTReadByte>
+20006376:	3841      	subs	r0, #65	; 0x41
+20006378:	2815      	cmp	r0, #21
+2000637a:	d8fa      	bhi.n	20006372 <main+0x22>
+2000637c:	a301      	add	r3, pc, #4	; (adr r3, 20006384 <main+0x34>)
+2000637e:	f853 f020 	ldr.w	pc, [r3, r0, lsl #2]
+20006382:	bf00      	nop
+20006384:	20006403 	andcs	r6, r0, r3, lsl #8
+20006388:	20006373 	andcs	r6, r0, r3, ror r3
+2000638c:	20006373 	andcs	r6, r0, r3, ror r3
+20006390:	20006373 	andcs	r6, r0, r3, ror r3
+20006394:	200063f1 	strdcs	r6, [r0], -r1
+20006398:	20006373 	andcs	r6, r0, r3, ror r3
+2000639c:	20006373 	andcs	r6, r0, r3, ror r3
+200063a0:	20006373 	andcs	r6, r0, r3, ror r3
+200063a4:	200063dd 	ldrdcs	r6, [r0], -sp
+200063a8:	20006373 	andcs	r6, r0, r3, ror r3
+200063ac:	20006373 	andcs	r6, r0, r3, ror r3
+200063b0:	20006373 	andcs	r6, r0, r3, ror r3
+200063b4:	20006373 	andcs	r6, r0, r3, ror r3
+200063b8:	20006373 	andcs	r6, r0, r3, ror r3
+200063bc:	20006373 	andcs	r6, r0, r3, ror r3
+200063c0:	200063f7 	strdcs	r6, [r0], -r7
+200063c4:	20006373 	andcs	r6, r0, r3, ror r3
+200063c8:	2000641d 	andcs	r6, r0, sp, lsl r4
+200063cc:	20006373 	andcs	r6, r0, r3, ror r3
+200063d0:	20006373 	andcs	r6, r0, r3, ror r3
+200063d4:	20006373 	andcs	r6, r0, r3, ror r3
+200063d8:	200063fd 	strdcs	r6, [r0], -sp
+200063dc:	4c17      	ldr	r4, [pc, #92]	; (2000643c <main+0xec>)
+200063de:	f104 050c 	add.w	r5, r4, #12
+200063e2:	f814 0b01 	ldrb.w	r0, [r4], #1
+200063e6:	f7ff fe35 	bl	20006054 <UARTWriteByte>
+200063ea:	42ac      	cmp	r4, r5
+200063ec:	d1f9      	bne.n	200063e2 <main+0x92>
+200063ee:	e7c0      	b.n	20006372 <main+0x22>
+200063f0:	f7ff fe58 	bl	200060a4 <EraseFlash>
+200063f4:	e7bd      	b.n	20006372 <main+0x22>
+200063f6:	f7ff fec5 	bl	20006184 <WriteFlash>
+200063fa:	e7ba      	b.n	20006372 <main+0x22>
+200063fc:	f7ff ff8e 	bl	2000631c <VerifyData>
+20006400:	e7b7      	b.n	20006372 <main+0x22>
+20006402:	2300      	movs	r3, #0
+20006404:	a802      	add	r0, sp, #8
+20006406:	f800 3d01 	strb.w	r3, [r0, #-1]!
+2000640a:	603b      	str	r3, [r7, #0]
+2000640c:	f7ff fe2c 	bl	20006068 <UARTReadU32>
+20006410:	6030      	str	r0, [r6, #0]
+20006412:	f89d 0007 	ldrb.w	r0, [sp, #7]
+20006416:	f7ff fe1d 	bl	20006054 <UARTWriteByte>
+2000641a:	e7aa      	b.n	20006372 <main+0x22>
+2000641c:	4640      	mov	r0, r8
+2000641e:	f7ff fe19 	bl	20006054 <UARTWriteByte>
+20006422:	20c8      	movs	r0, #200	; 0xc8
+20006424:	f7ff fe06 	bl	20006034 <WaitInterval>
+20006428:	f7ff fdf8 	bl	2000601c <MCUStart>
+2000642c:	e7a1      	b.n	20006372 <main+0x22>
+2000642e:	bf00      	nop
+20006430:	4002001c 	andmi	r0, r2, ip, lsl r0
+20006434:	20007000 	andcs	r7, r0, r0
+20006438:	20007004 	andcs	r7, r0, r4
+2000643c:	20006440 	andcs	r6, r0, r0, asr #8
+
+20006440 <fmloader_id>:
+20006440:	36383931 			; <UNDEFINED> instruction: 0x36383931
+20006444:	78396562 	ldmdavc	r9!, {r1, r5, r6, r8, sl, sp, lr}
+20006448:	72646c66 	rsbvc	r6, r4, #26112	; 0x6600
+
+Disassembly of section .bss:
+
+20007000 <__bss_start__>:
+20007000:	00000000 	andeq	r0, r0, r0
+
+20007004 <dataBufIndex>:
+20007004:	00000000 	andeq	r0, r0, r0
+
+20007008 <dataBuf>:
+	...
+
+Disassembly of section .stack_dummy:
+
+20007108 <__HeapBase>:
+	...
+
+Disassembly of section .ARM.attributes:
+
+00000000 <.ARM.attributes>:
+   0:	00002841 	andeq	r2, r0, r1, asr #16
+   4:	61656100 	cmnvs	r5, r0, lsl #2
+   8:	01006962 	tsteq	r0, r2, ror #18
+   c:	0000001e 	andeq	r0, r0, lr, lsl r0
+  10:	4d2d3705 	stcmi	7, cr3, [sp, #-20]!	; 0xffffffec
+  14:	070a0600 	streq	r0, [sl, -r0, lsl #12]
+  18:	1202094d 	andne	r0, r2, #1261568	; 0x134000
+  1c:	15011404 	strne	r1, [r1, #-1028]	; 0xfffffbfc
+  20:	18031701 	stmdane	r3, {r0, r8, r9, sl, ip}
+  24:	22011a01 	andcs	r1, r1, #4096	; 0x1000
+  28:	Address 0x00000028 is out of bounds.
+
+
+Disassembly of section .comment:
+
+00000000 <.comment>:
+   0:	3a434347 	bcc	10d0d24 <Stack_Size+0x10d0ca4>
+   4:	4e472820 	cdpmi	8, 4, cr2, cr7, cr0, {1}
+   8:	6f542055 	svcvs	0x00542055
+   c:	20736c6f 	rsbscs	r6, r3, pc, ror #24
+  10:	20726f66 	rsbscs	r6, r2, r6, ror #30
+  14:	204d5241 	subcs	r5, sp, r1, asr #4
+  18:	65626d45 	strbvs	r6, [r2, #-3397]!	; 0xfffff2bb
+  1c:	64656464 	strbtvs	r6, [r5], #-1124	; 0xfffffb9c
+  20:	6f725020 	svcvs	0x00725020
+  24:	73736563 	cmnvc	r3, #415236096	; 0x18c00000
+  28:	2973726f 	ldmdbcs	r3!, {r0, r1, r2, r3, r5, r6, r9, ip, sp, lr}^
+  2c:	322e3520 	eorcc	r3, lr, #32, 10	; 0x8000000
+  30:	3220312e 	eorcc	r3, r0, #-2147483637	; 0x8000000b
+  34:	31353130 	teqcc	r5, r0, lsr r1
+  38:	20323032 	eorscs	r3, r2, r2, lsr r0
+  3c:	6c657228 	sfmvs	f7, 2, [r5], #-160	; 0xffffff60
+  40:	65736165 	ldrbvs	r6, [r3, #-357]!	; 0xfffffe9b
+  44:	415b2029 	cmpmi	fp, r9, lsr #32
+  48:	652f4d52 	strvs	r4, [pc, #-3410]!	; fffff2fe <VTOR+0x1fff05f6>
+  4c:	6465626d 	strbtvs	r6, [r5], #-621	; 0xfffffd93
+  50:	2d646564 	cfstr64cs	mvdx6, [r4, #-400]!	; 0xfffffe70
+  54:	72622d35 	rsbvc	r2, r2, #3392	; 0xd40
+  58:	68636e61 	stmdavs	r3!, {r0, r5, r6, r9, sl, fp, sp, lr}^
+  5c:	76657220 	strbtvc	r7, [r5], -r0, lsr #4
+  60:	6f697369 	svcvs	0x00697369
+  64:	3332206e 	teqcc	r2, #110	; 0x6e
+  68:	38343831 	ldmdacc	r4!, {r0, r4, r5, fp, ip, sp}
+  6c:	Address 0x0000006c is out of bounds.
+

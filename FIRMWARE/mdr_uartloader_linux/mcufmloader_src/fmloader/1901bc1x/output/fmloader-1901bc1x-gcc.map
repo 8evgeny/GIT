@@ -1,0 +1,184 @@
+
+Allocating common symbols
+Common symbol       size              file
+
+currFmAddr          0x4               ./output/fmloader-1901bc1x-main.o
+dataBufIndex        0x4               ./output/fmloader-1901bc1x-main.o
+dataBuf             0x100             ./output/fmloader-1901bc1x-main.o
+
+Discarded input sections
+
+ .data          0x00000000        0x0 ./output/startup_1901bc1x.o
+ .bss           0x00000000        0x0 ./output/startup_1901bc1x.o
+ .text          0x00000000        0x0 ./output/fmloader-1901bc1x-main.o
+ .data          0x00000000        0x0 ./output/fmloader-1901bc1x-main.o
+ .bss           0x00000000        0x0 ./output/fmloader-1901bc1x-main.o
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+RAMX             0x20006000         0x00001000         xrw
+RAM              0x20007000         0x00001000         xrw
+*default*        0x00000000         0xffffffff
+
+Linker script and memory map
+
+LOAD ./output/startup_1901bc1x.o
+LOAD ./output/fmloader-1901bc1x-main.o
+START GROUP
+LOAD /opt/arm/gcc-arm-none-eabi-5_2-2015q4/bin/../lib/gcc/arm-none-eabi/5.2.1/armv7-m/libgcc.a
+LOAD /opt/arm/gcc-arm-none-eabi-5_2-2015q4/bin/../lib/gcc/arm-none-eabi/5.2.1/../../../../arm-none-eabi/lib/armv7-m/libc.a
+END GROUP
+START GROUP
+LOAD /opt/arm/gcc-arm-none-eabi-5_2-2015q4/bin/../lib/gcc/arm-none-eabi/5.2.1/armv7-m/libgcc.a
+LOAD /opt/arm/gcc-arm-none-eabi-5_2-2015q4/bin/../lib/gcc/arm-none-eabi/5.2.1/../../../../arm-none-eabi/lib/armv7-m/libc.a
+LOAD /opt/arm/gcc-arm-none-eabi-5_2-2015q4/bin/../lib/gcc/arm-none-eabi/5.2.1/../../../../arm-none-eabi/lib/armv7-m/libnosys.a
+END GROUP
+
+.text           0x20006000      0x44c
+ *(.isr_vector)
+ .isr_vector    0x20006000        0x8 ./output/startup_1901bc1x.o
+                0x20006000                __isr_vector
+ *(.text*)
+ .text          0x20006008       0x2c ./output/startup_1901bc1x.o
+                0x20006008                Reset_Handler
+                0x2000601c                MCUStart
+ .text.WaitInterval
+                0x20006034        0x8 ./output/fmloader-1901bc1x-main.o
+                0x20006034                WaitInterval
+ .text.UARTReadByte
+                0x2000603c       0x18 ./output/fmloader-1901bc1x-main.o
+                0x2000603c                UARTReadByte
+ .text.UARTWriteByte
+                0x20006054       0x14 ./output/fmloader-1901bc1x-main.o
+                0x20006054                UARTWriteByte
+ .text.UARTReadU32
+                0x20006068       0x28 ./output/fmloader-1901bc1x-main.o
+                0x20006068                UARTReadU32
+ .text.UARTWriteU32
+                0x20006090       0x14 ./output/fmloader-1901bc1x-main.o
+                0x20006090                UARTWriteU32
+ .text.EraseFlash
+                0x200060a4       0xe0 ./output/fmloader-1901bc1x-main.o
+                0x200060a4                EraseFlash
+ .text.WriteFlash
+                0x20006184      0x110 ./output/fmloader-1901bc1x-main.o
+                0x20006184                WriteFlash
+ .text.ReadFlash
+                0x20006294       0x88 ./output/fmloader-1901bc1x-main.o
+                0x20006294                ReadFlash
+ .text.VerifyData
+                0x2000631c       0x34 ./output/fmloader-1901bc1x-main.o
+                0x2000631c                VerifyData
+ .text.main     0x20006350       0xf0 ./output/fmloader-1901bc1x-main.o
+                0x20006350                main
+ *(.init)
+ *(.fini)
+ *crtbegin.o(.ctors)
+ *crtbegin?.o(.ctors)
+ *(EXCLUDE_FILE(*crtend.o *crtend?.o) .ctors)
+ *(SORT(.ctors.*))
+ *(.ctors)
+ *crtbegin.o(.dtors)
+ *crtbegin?.o(.dtors)
+ *(EXCLUDE_FILE(*crtend.o *crtend?.o) .dtors)
+ *(SORT(.dtors.*))
+ *(.dtors)
+ *(.rodata*)
+ .rodata.fmloader_id
+                0x20006440        0xc ./output/fmloader-1901bc1x-main.o
+                0x20006440                fmloader_id
+ *(.eh_frame*)
+
+.glue_7         0x2000644c        0x0
+ .glue_7        0x2000644c        0x0 linker stubs
+
+.glue_7t        0x2000644c        0x0
+ .glue_7t       0x2000644c        0x0 linker stubs
+
+.vfp11_veneer   0x2000644c        0x0
+ .vfp11_veneer  0x2000644c        0x0 linker stubs
+
+.v4_bx          0x2000644c        0x0
+ .v4_bx         0x2000644c        0x0 linker stubs
+
+.iplt           0x2000644c        0x0
+ .iplt          0x2000644c        0x0 ./output/startup_1901bc1x.o
+
+.rel.dyn        0x2000644c        0x0
+ .rel.iplt      0x2000644c        0x0 ./output/startup_1901bc1x.o
+
+.ARM.extab
+ *(.ARM.extab* .gnu.linkonce.armextab.*)
+                0x2000644c                __exidx_start = .
+
+.ARM.exidx
+ *(.ARM.exidx* .gnu.linkonce.armexidx.*)
+                0x2000644c                __exidx_end = .
+                0x2000644c                __etext = .
+
+.data           0x20007000        0x0 load address 0x2000644c
+                0x20007000                __data_start__ = .
+ *(.ramfunc*)
+                0x20007000                . = ALIGN (0x4)
+ *(vtable)
+ *(.data*)
+                0x20007000                . = ALIGN (0x4)
+                [!provide]                PROVIDE (__preinit_array_start, .)
+ *(.preinit_array)
+                [!provide]                PROVIDE (__preinit_array_end, .)
+                0x20007000                . = ALIGN (0x4)
+                [!provide]                PROVIDE (__init_array_start, .)
+ *(SORT(.init_array.*))
+ *(.init_array)
+                [!provide]                PROVIDE (__init_array_end, .)
+                0x20007000                . = ALIGN (0x4)
+                [!provide]                PROVIDE (__fini_array_start, .)
+ *(SORT(.fini_array.*))
+ *(.fini_array)
+                [!provide]                PROVIDE (__fini_array_end, .)
+ *(.jcr*)
+                0x20007000                . = ALIGN (0x4)
+                0x20007000                __data_end__ = .
+
+.igot.plt       0x20007000        0x0
+ .igot.plt      0x20007000        0x0 ./output/startup_1901bc1x.o
+
+.bss            0x20007000      0x108
+                0x20007000                . = ALIGN (0x4)
+                0x20007000                __bss_start__ = .
+ *(.bss*)
+ *(COMMON)
+ COMMON         0x20007000      0x108 ./output/fmloader-1901bc1x-main.o
+                0x20007000                currFmAddr
+                0x20007004                dataBufIndex
+                0x20007008                dataBuf
+                0x20007108                . = ALIGN (0x4)
+                0x20007108                __bss_end__ = .
+
+.heap           0x20007108        0x0
+                0x20007108                __end__ = .
+                [!provide]                PROVIDE (end, .)
+ *(.heap*)
+ .heap          0x20007108        0x0 ./output/startup_1901bc1x.o
+                0x20007108                __HeapLimit = .
+
+.stack_dummy    0x20007108       0x80
+ *(.stack*)
+ .stack         0x20007108       0x80 ./output/startup_1901bc1x.o
+                0x20008000                __StackTop = (ORIGIN (RAM) + LENGTH (RAM))
+                0x20007f80                __StackLimit = (__StackTop - SIZEOF (.stack_dummy))
+                [!provide]                PROVIDE (__stack, __StackTop)
+                0x00000001                ASSERT ((__StackLimit >= __HeapLimit), region RAM overflowed with stack)
+OUTPUT(output/fmloader-1901bc1x-gcc.elf elf32-littlearm)
+
+.ARM.attributes
+                0x00000000       0x29
+ .ARM.attributes
+                0x00000000       0x1b ./output/startup_1901bc1x.o
+ .ARM.attributes
+                0x0000001b       0x33 ./output/fmloader-1901bc1x-main.o
+
+.comment        0x00000000       0x6e
+ .comment       0x00000000       0x6e ./output/fmloader-1901bc1x-main.o
+                                 0x6f (size before relaxing)
