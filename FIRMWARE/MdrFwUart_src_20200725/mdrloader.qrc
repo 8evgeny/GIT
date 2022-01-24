@@ -1,8 +1,0 @@
-<RCC>
-    <qresource prefix="/">
-        <file>flashers/vasili/1901VC1_BOOT_UART.hex</file>
-        <file>flashers/vasili/1986_BOOT_UART.hex</file>
-        <file>flashers/vasili/1986ve1bootuarte.hex</file>
-        <file>flashers/vasili/bootuartve4.hex</file>
-    </qresource>
-</RCC>
