@@ -1,2 +1,0 @@
-/home/evg/toolchain/gcc-arm-none-eabi-new/bin/arm-none-eabi-ar cr libSTARTUP.a CMakeFiles/STARTUP.dir/home/evg/SOFT/Github/GIT/2_ips2/ips_sc4_pdo/Core/Startup/startup_stm32h753iitx.s.o 
-/home/evg/toolchain/gcc-arm-none-eabi-new/bin/arm-none-eabi-ranlib libSTARTUP.a

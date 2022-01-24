@@ -1,2 +1,0 @@
-/home/evg/toolchain/gcc-arm-none-eabi-new/bin/arm-none-eabi-ar qc libLWIP.a CMakeFiles/LWIP.dir/home/evg/SOFT/Github/GIT/2_ips2/ips_sc4_pdo/LWIP/App/lwip.c.o CMakeFiles/LWIP.dir/home/evg/SOFT/Github/GIT/2_ips2/ips_sc4_pdo/LWIP/Target/ethernetif.c.o CMakeFiles/LWIP.dir/home/evg/SOFT/Github/GIT/2_ips2/ips_sc4_pdo/LWIP/ping.c.o
-/home/evg/toolchain/gcc-arm-none-eabi-new/bin/arm-none-eabi-ranlib libLWIP.a
