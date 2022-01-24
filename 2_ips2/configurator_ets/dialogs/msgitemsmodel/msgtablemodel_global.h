@@ -1,8 +1,0 @@
-#pragma once
-
-#if defined(MSGTABLEMODEL_LIBRARY)
-    #define MSGTABLEMODEL_SHARED_EXPORT Q_DECL_EXPORT
-#else
-    #define MSGTABLEMODEL_SHARED_EXPORT Q_DECL_IMPORT
-#endif
-

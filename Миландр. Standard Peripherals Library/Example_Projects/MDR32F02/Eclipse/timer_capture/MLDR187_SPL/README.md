@@ -1,3 +1,0 @@
-# SPL
-
-standard peripheral library

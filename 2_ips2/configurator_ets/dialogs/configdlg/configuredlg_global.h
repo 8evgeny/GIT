@@ -1,8 +1,0 @@
-#pragma once
-
-#if defined(CONFIGURE_DIALOG_LIBRARY)
-    #define CONFIGURE_DIALOG_SHARED_EXPORT Q_DECL_EXPORT
-#else
-    #define CONFIGURE_DIALOG_SHARED_EXPORT Q_DECL_IMPORT
-#endif
-

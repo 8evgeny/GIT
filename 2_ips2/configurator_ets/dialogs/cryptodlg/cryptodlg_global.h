@@ -1,8 +1,0 @@
-#pragma once
-
-#if defined(CRYPTO_DIALOG_LIBRARY)
-    #define CRYPTO_DIALOG_SHARED_EXPORT Q_DECL_EXPORT
-#else
-    #define CRYPTO_DIALOG_SHARED_EXPORT Q_DECL_IMPORT
-#endif
-

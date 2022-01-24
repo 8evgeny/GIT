@@ -1,8 +1,0 @@
-#pragma once
-
-#if defined(FMWARE_DIALOG_LIBRARY)
-    #define FMWARE_DIALOG_SHARED_EXPORT Q_DECL_EXPORT
-#else
-    #define FMWARE_DIALOG_SHARED_EXPORT Q_DECL_IMPORT
-#endif
-

@@ -1,8 +1,0 @@
-#pragma once
-
-#if defined(DEBUGVIEW_DIALOG_LIBRARY)
-    #define DEBUGVIEW_DIALOG_SHARED_EXPORT Q_DECL_EXPORT
-#else
-    #define DEBUGVIEW_DIALOG_SHARED_EXPORT Q_DECL_IMPORT
-#endif
-
