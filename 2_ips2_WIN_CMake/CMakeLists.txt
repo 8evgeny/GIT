@@ -16,16 +16,16 @@ set (patchSRC "../2_ips2_WIN/Core/Src")
 set (patchDRV "../2_ips2_WIN/Drivers")
 set (patchHAL_SRC "${patchDRV}/STM32H7xx_HAL_Driver/Src")
 
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}\
-    -mcpu=cortex-m7 \
-    -mfloat-abi=hard \
-    -mfpu=fpv5-sp-d16 \
-    -mthumb \
-    -Xlinker \
-    --gc-sections \
-    -specs=nosys.specs \
-    -specs=nano.specs \
-    ")
+#set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}\
+#    -mcpu=cortex-m7 \
+#    -mfloat-abi=hard \
+#    -mfpu=fpv5-sp-d16 \
+#    -mthumb \
+#    -Xlinker \
+#    --gc-sections \
+#    -specs=nosys.specs \
+#    -specs=nano.specs \
+#    ")
 
 #-T ${CMAKE_BINARY_DIR}/../../2_ips2_WIN/STM32H753IITX_RAM.ld \
 #-T ${CMAKE_BINARY_DIR}/../../2_ips2_WIN/STM32H753IITX_FLASH.ld \
@@ -33,17 +33,17 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}\
 #    --gc-sections \
 #    --end-group \
 
-set(CMAKE_LINK_LIBRARY_FLAG "${CMAKE_LINK_LIBRARY_FLAG} \
-    --start-group \
-    --data-sections \
-    -T ${CMAKE_SOURCE_DIR}/../2_ips2_WIN/STM32H753IITX_RAM.ld \
-    -T ${CMAKE_SOURCE_DIR}/../2_ips2_WIN/STM32H753IITX_FLASH.ld \
-    -lm \
-    -lnosys \
-    -lgcc \
-    -lc \
-    -lstdc++ \
-    ")
+#set(CMAKE_LINK_LIBRARY_FLAG "${CMAKE_LINK_LIBRARY_FLAG} \
+#    --start-group \
+#    --data-sections \
+#    -T ${CMAKE_SOURCE_DIR}/../2_ips2_WIN/STM32H753IITX_RAM.ld \
+#    -T ${CMAKE_SOURCE_DIR}/../2_ips2_WIN/STM32H753IITX_FLASH.ld \
+#    -lm \
+#    -lnosys \
+#    -lgcc \
+#    -lc \
+#    -lstdc++ \
+#    ")
 
 include_directories(
     ${patchSRC}/../Inc
