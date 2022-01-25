@@ -5,9 +5,10 @@ set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
 # Set ARM compiler
 set(TOOLS_PATH /home/evg/toolchain/gcc-arm-none-eabi-new)
 set(CMAKE_C_COMPILER ${TOOLS_PATH}/bin/arm-none-eabi-gcc)
-#set(CMAKE_CXX_COMPILER ${TOOLS_PATH}/bin/arm-none-eabi-g++)
+#set(CMAKE_C_LINKER_LAUNCHER ${TOOLS_PATH}/bin/arm-none-eabi-g++)
+#set(CMAKE_CXX_COMPIER ${TOOLS_PATH}/bin/arm-none-eabi-g++)
 
-project(ips2 C ASM)
+project(ips2 C CXX ASM)
 
 set(CMAKE_BUILD_TYPE debug)
 #set(CMAKE_BUILD_TYPE release)
@@ -16,32 +17,89 @@ set (patchSRC "../2_ips2/ips_sc4_pdo/Core/Src")
 set (patchDRV "../2_ips2/ips_sc4_pdo/Drivers")
 set (patchHAL_SRC "${patchDRV}/STM32H7xx_HAL_Driver/Src")
 
+#-mcpu=cortex-m7 \
+#-mfloat-abi=hard \
+#-mfpu=fpv5-sp-d16 \
+#-mthumb \
+#-Xlinker \
+#--gc-sections \
+#-specs=nosys.specs \
+#-specs=nano.specs \
+
+
+#    -c \
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}\
     -mcpu=cortex-m7 \
+    -std=gnu11 \
+    -DUSE_HAL_DRIVER \
+    -DSTM32H753xx \
+    -I../../2_ips2/ips_sc4_pdo/Core/Inc \
+    -I../../2_ips2/ips_sc4_pdo/Core/Src \
+    -I../../2_ips2/ips_sc4_pdo/Drivers/STM32H7xx_HAL_Driver/Inc \
+    -I../../2_ips2/ips_sc4_pdo/Drivers/STM32H7xx_HAL_Driver/Inc/Legacy \
+    -I../../2_ips2/ips_sc4_pdo/Drivers/CMSIS/Device/ST/STM32H7xx/Include \
+    -I../../2_ips2/ips_sc4_pdo/Drivers/CMSIS/Include -I../../2_ips2/ips_sc4_pdo/LWIP/ \
+    -I../../2_ips2/ips_sc4_pdo/LWIP/App \
+    -I../../2_ips2/ips_sc4_pdo/LWIP/Target \
+    -I../../2_ips2/ips_sc4_pdo/Middlewares/Third_Party/LwIP/src/include \
+    -I../../2_ips2/ips_sc4_pdo/Middlewares/Third_Party/LwIP/system \
+    -I../../2_ips2/ips_sc4_pdo/Drivers/BSP/Components/lan8742 \
+    -I../../2_ips2/ips_sc4_pdo/Drivers/BSP/Components/dp83848 \
+    -I../../2_ips2/ips_sc4_pdo/Middlewares/Third_Party/LwIP/src/include/netif/ppp \
+    -I../../2_ips2/ips_sc4_pdo/Middlewares/Third_Party/LwIP/src/include/lwip \
+    -I../../2_ips2/ips_sc4_pdo/Middlewares/Third_Party/LwIP/src/include/lwip/apps \
+    -I../../2_ips2/ips_sc4_pdo/Middlewares/Third_Party/LwIP/src/include/lwip/priv \
+    -I../../2_ips2/ips_sc4_pdo/Middlewares/Third_Party/LwIP/src/include/lwip/prot \
+    -I../../2_ips2/ips_sc4_pdo/Middlewares/Third_Party/LwIP/src/include/netif \
+    -I../../2_ips2/ips_sc4_pdo/Middlewares/Third_Party/LwIP/src/include/compat/posix \
+    -I../../2_ips2/ips_sc4_pdo/Middlewares/Third_Party/LwIP/src/include/compat/posix/arpa \
+    -I../../2_ips2/ips_sc4_pdo/Middlewares/Third_Party/LwIP/src/include/compat/posix/net \
+    -I../../2_ips2/ips_sc4_pdo/Middlewares/Third_Party/LwIP/src/include/compat/posix/sys \
+    -I../../2_ips2/ips_sc4_pdo/Middlewares/Third_Party/LwIP/src/include/compat/stdc \
+    -I../../2_ips2/ips_sc4_pdo/Middlewares/Third_Party/LwIP/system/arch \
+    -Os \
+    -ffunction-sections \
+    -fdata-sections \
+    -Wall \
+    -mno-unaligned-access \
+    -fstack-usage \
+    -MMD \
+    -MP \
+    --specs=nano.specs \
+    -mfpu=fpv5-d16 \
     -mfloat-abi=hard \
-    -mfpu=fpv5-sp-d16 \
     -mthumb \
-    -Xlinker \
-    --gc-sections \
-    -specs=nosys.specs \
-    -specs=nano.specs \
     ")
-#-T ${CMAKE_BINARY_DIR}/../../2_ips2/ips_sc4_pdo/STM32H753IITX_RAM.ld \
-#-T ${CMAKE_BINARY_DIR}/../../2_ips2/ips_sc4_pdo/STM32H753IITX_FLASH.ld \
 
 #    --gc-sections \
 #    --end-group \
 
+#--start-group \
+#--data-sections \
+#-T ${CMAKE_SOURCE_DIR}/../2_ips2/ips_sc4_pdo/STM32H753IITX_RAM.ld \
+#-T ${CMAKE_SOURCE_DIR}/../2_ips2/ips_sc4_pdo/STM32H753IITX_FLASH.ld \
+#-lm \
+#-lnosys \
+#-lgcc \
+#-lc \
+#-lstdc++ \
+
 set(CMAKE_LINK_LIBRARY_FLAG "${CMAKE_LINK_LIBRARY_FLAG} \
-    --start-group \
-    --data-sections \
-    -T ${CMAKE_SOURCE_DIR}/../2_ips2/ips_sc4_pdo/STM32H753IITX_RAM.ld \
+    -mcpu=cortex-m7 \
     -T ${CMAKE_SOURCE_DIR}/../2_ips2/ips_sc4_pdo/STM32H753IITX_FLASH.ld \
-    -lm \
-    -lnosys \
-    -lgcc \
+    -T ${CMAKE_SOURCE_DIR}/../2_ips2/ips_sc4_pdo/STM32H753IITX_RAM.ld \
+    --specs=nosys.specs \
+    -Wl,-Map=ips_sc4_pdo.map \
+    -Wl,--gc-sections \
+    -static \
+    --specs=nano.specs \
+    -mfpu=fpv5-d16 \
+    -mfloat-abi=hard \
+    -mthumb
+    -Wl,--start-group \
     -lc \
-    -lstdc++ \
+    -lm \
+    -Wl,--end-group \
     ")
 
 include_directories(
