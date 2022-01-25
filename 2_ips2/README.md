@@ -1,3 +1,6 @@
+
+Исходники изменены чтобы сборка шла в Linux
+
 # Configurator
 
 # How to build Projects
