@@ -69,6 +69,8 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}\
     -mfpu=fpv5-d16 \
     -mfloat-abi=hard \
     -mthumb \
+    -T ${CMAKE_SOURCE_DIR}/../2_ips2/ips_sc4_pdo/STM32H753IITX_FLASH.ld \
+    -T ${CMAKE_SOURCE_DIR}/../2_ips2/ips_sc4_pdo/STM32H753IITX_RAM.ld \
     ")
 
 #    --gc-sections \
@@ -83,6 +85,8 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}\
 #-lgcc \
 #-lc \
 #-lstdc++ \
+
+
 
 set(CMAKE_LINK_LIBRARY_FLAG "${CMAKE_LINK_LIBRARY_FLAG} \
     -mcpu=cortex-m7 \
@@ -117,9 +121,9 @@ include_directories(
     ${CMAKE_SOURCE_DIR}/../2_ips2/ips_sc4_pdo/Drivers/BSP/Components/dp83848
     )
 file (GLOB CORE_SOURCES
-    "${CMAKE_SOURCE_DIR}/../2_ips2/ips_sc4_pdo/Core/Src/*.c"
-    "${CMAKE_SOURCE_DIR}/../2_ips2/ips_sc4_pdo/Drivers/BSP/Components/dp83848/dp83848.c "
-    /home/evg/SOFT/Github/GIT/2_ips2/ips_sc4_pdo/Drivers/BSP/Components/dp83848/dp83848.c
+    ${CMAKE_SOURCE_DIR}/../2_ips2/ips_sc4_pdo/Core/Src/*.c
+    ${CMAKE_SOURCE_DIR}/../2_ips2/ips_sc4_pdo/Drivers/BSP/Components/dp83848/dp83848.c
+    ${CMAKE_SOURCE_DIR}/../2_ips2/ips_sc4_pdo/LWIP/Target/ethernetif.c
     )
 message (${CORE_SOURCES})
 

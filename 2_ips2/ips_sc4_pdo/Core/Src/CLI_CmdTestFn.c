@@ -426,6 +426,9 @@ void fnTestPrn(int numParam, char** params)
 #define TEST_PING_TIMEOUT		5000
 
 /// link to PHY controller control/status structure
+
+DP83848_Object_t DP83848;
+
 extern DP83848_Object_t DP83848;
 /// link to ETHERNET hardware module control/status structure
 extern ETH_HandleTypeDef heth;

@@ -13,6 +13,8 @@
 /**
   * @brief end address of SRAM used by startup loader (from *.s file)
   */
+
+uint32_t _ext_ram_ld_end;
 extern uint32_t _ext_ram_ld_end;
 
 /**
