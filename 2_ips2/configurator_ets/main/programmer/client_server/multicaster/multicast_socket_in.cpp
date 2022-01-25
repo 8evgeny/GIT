@@ -33,8 +33,8 @@ int multicastSocketIn::config() {
   {
 //    m_socket = static_cast<long long int>(socket(AF_INET, SOCK_DGRAM, 0));
 	m_socket = socket(AF_INET, SOCK_DGRAM, 0);
-//	if (m_socket < 0)
-    if (m_socket == INVALID_SOCKET)
+    if (m_socket < 0)
+//    if (m_socket == INVALID_SOCKET)
       return -1;
   }
   // Делаем сокет реюзабельным чтобы другие тоже могли слушать этот адрес
@@ -77,15 +77,15 @@ int multicastSocketIn::setTimeout(int msec)
 // !! Функция является блокирующей. Thread её вызвавший останавливается пока данные не будут приняты!!!
 size_t multicastSocketIn::read(uint8_t *data, size_t max_size)
 {
-    return static_cast<size_t>(recv(m_socket, reinterpret_cast<char*>(data), static_cast<int>(max_size), 0));
+    return static_cast<size_t>(recv(m_socket, reinterpret_cast<char*>(data), max_size, 0));
 }
 // Чтение из сокета. Функция динамически создаёт вектор из данных прочитанных из сокета, и возвращает на него указатель.
 // !! Вектор создаётся динамически и должен быть уничтожен пользователем после использования(delete ).
 // !! Функция является блокирующей. Thread её вызвавший останавливается пока данные не будут приняты!!!
 std::vector<uint8_t> *multicastSocketIn::read()
 {
-  if (m_socket == INVALID_SOCKET) return nullptr;
-//  if(m_socket<0)return nullptr;
+//  if (m_socket == INVALID_SOCKET) return nullptr;
+  if(m_socket<0)return nullptr;
   int recieved=static_cast<int>(recv(m_socket, &buffer[0], sizeof(buffer), 0));
   if(recieved>0)
   {

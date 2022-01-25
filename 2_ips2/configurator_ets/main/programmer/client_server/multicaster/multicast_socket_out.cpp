@@ -25,7 +25,7 @@ int multicastSocketOut::config()
    //Создаём сокет
   {
     m_socket = socket(AF_INET, SOCK_DGRAM, 0);
-	if (m_socket == INVALID_SOCKET) return -1; else return 0;
+    if (m_socket<0) return -1; else return 0;
 //    if(m_socket<0)
 //      return -1;
   }
@@ -46,8 +46,8 @@ int multicastSocketOut::config()
 // Передача данных
 size_t multicastSocketOut::send(uint8_t *data, size_t size)
 {
-  if (m_socket == INVALID_SOCKET) return 0;
-//  if(m_socket<0)return 0; 
-  auto sockError = sendto(m_socket, reinterpret_cast<char*>(data), static_cast<int>(size), 0, reinterpret_cast<struct sockaddr*>(&groupSock),sizeof(groupSock)); 
+//  if (m_socket == INVALID_SOCKET) return 0;
+  if(m_socket<0)return 0;
+  auto sockError = sendto(m_socket, reinterpret_cast<char*>(data), size, 0, reinterpret_cast<struct sockaddr*>(&groupSock),sizeof(groupSock));
   return static_cast<size_t>(sockError);
 }

@@ -426,7 +426,7 @@ target_link_libraries(${EXECUTABLE_NAME} PRIVATE
 #    CONAN_PKG::libgt-headers
     ${SOCKS_LIBS}
     ${LIBS}
-    "-Wl,--stack,4194304"
+#    "-Wl,--stack,4194304"
 )
 
 enable_testing(true)

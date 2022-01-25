@@ -1,6 +1,6 @@
 [requires]
 
-gt/2.2@git-holding/stable
+gt/3.5@git-holding/stable
 
 [generators]
   cmake

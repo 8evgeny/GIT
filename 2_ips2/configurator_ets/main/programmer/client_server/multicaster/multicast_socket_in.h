@@ -54,7 +54,7 @@ private:
   struct sockaddr_in localSock{};
   struct ip_mreq groupSock{};
 
-//  int m_socket=-1000;
-  SOCKET m_socket;
+  int m_socket=-1000;
+//  SOCKET m_socket;
   char buffer[MCASTSOC_MTU]={};
 };
