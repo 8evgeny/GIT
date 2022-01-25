@@ -1,5 +1,4 @@
 [requires]
-  libgt-headers/1.32@git-holding/stable
-
+  gt/3.5@git-holding/stable
 [generators]
   cmake
