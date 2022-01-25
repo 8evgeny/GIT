@@ -1,3 +1,5 @@
+Текущая версия из Мурома
+
 # Configurator
 
 # How to build Projects
