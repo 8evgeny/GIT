@@ -10,7 +10,7 @@ set(CMAKE_C_COMPILER ${TOOLS_PATH}/bin/arm-none-eabi-gcc)
 
 project(ips2 C CXX ASM)
 
-set(CMAKE_BUILD_TYPE debug)
+#set(CMAKE_BUILD_TYPE debug)
 #set(CMAKE_BUILD_TYPE release)
 
 set (patchSRC "../2_ips2/ips_sc4_pdo/Core/Src")
@@ -85,8 +85,6 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}\
 #-lgcc \
 #-lc \
 #-lstdc++ \
-
-
 
 set(CMAKE_LINK_LIBRARY_FLAG "${CMAKE_LINK_LIBRARY_FLAG} \
     -mcpu=cortex-m7 \
