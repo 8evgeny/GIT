@@ -1,12 +1,11 @@
-
 cmake_minimum_required(VERSION 3.15)
 set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
 
 # Set ARM compiler
 set(TOOLS_PATH /home/evg/toolchain/gcc-arm-none-eabi-new)
 set(CMAKE_C_COMPILER ${TOOLS_PATH}/bin/arm-none-eabi-gcc)
+set(CMAKE_CXX_COMPILER ${TOOLS_PATH}/bin/arm-none-eabi-g++)
 set(CMAKE_CXX_LINKER_LAUNCHER ${TOOLS_PATH}/bin/arm-none-eabi-g++)
-#set(CMAKE_CXX_COMPIER ${TOOLS_PATH}/bin/arm-none-eabi-g++)
 
 project(ips2 C CXX ASM)
 
@@ -25,7 +24,6 @@ set (patchHAL_SRC "${patchDRV}/STM32H7xx_HAL_Driver/Src")
 #--gc-sections \
 #-specs=nosys.specs \
 #-specs=nano.specs \
-
 
 #    -c \
 
@@ -53,9 +51,6 @@ set (patchHAL_SRC "${patchDRV}/STM32H7xx_HAL_Driver/Src")
 #-I../../2_ips2/ips_sc4_pdo/Middlewares/Third_Party/LwIP/src/include/compat/posix/sys \
 #-I../../2_ips2/ips_sc4_pdo/Middlewares/Third_Party/LwIP/src/include/compat/stdc \
 #-I../../2_ips2/ips_sc4_pdo/Middlewares/Third_Party/LwIP/system/arch \
-
-
-
 
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}\
     -mcpu=cortex-m7 \
