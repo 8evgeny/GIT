@@ -5,9 +5,11 @@
  */
 #pragma once
 #include "include/typedefs.h"
-#include <QtCore\QSortFilterProxyModel.h>
-#include <QtGui\QStandardItemModel.h>
-#include <QtCore\QStringList.h>
+//#include <QtCore\QSortFilterProxyModel.h>
+//#include <QtGui\QStandardItemModel.h>
+#include <QtGui>
+//#include <QtCore\QStringList.h>
+#include <QtCore>
 #include <QtSerialPort/QtSerialPort>
 #include "string.h"
 #include "setupconnections_pch.h"

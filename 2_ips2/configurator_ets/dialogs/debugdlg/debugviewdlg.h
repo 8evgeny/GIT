@@ -5,9 +5,10 @@
  */
 #pragma once
 #include "include/typedefs.h"
-#include <QtCore\QStringList.h>
-#include <QtCore\QSaveFile.h>
-#include <QtCore\QFile.h>
+#include <QtCore>
+//#include <QtCore\QStringList.h>
+//#include <QtCore\QSaveFile.h>
+//#include <QtCore\QFile.h>
 #include <QtSerialPort/QtSerialPort>
 #include <QtNetwork>
 #include "../stringlist/string_list.h"

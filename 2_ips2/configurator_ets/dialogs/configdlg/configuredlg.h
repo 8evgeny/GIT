@@ -5,15 +5,17 @@
  */
 #pragma once
 #include "include/typedefs.h"
-#include <QtCore\QStringList.h>
-#include <QtCore\QSaveFile.h>
-#include <QtCore\QFile.h>
-#include <QtCore\QTimer.h>
-#include <QtCore\QJsonDocument>
-#include <QtCore\QJsonArray>
-#include <QtCore\QJsonObject>
-#include <QtWidgets\QProgressBar>
-#include <QtWidgets\QProgressDialog.h>
+#include <QtCore>
+//#include <QtCore\QStringList.h>
+//#include <QtCore\QSaveFile.h>
+//#include <QtCore\QFile.h>
+//#include <QtCore\QTimer.h>
+//#include <QtCore\QJsonDocument>
+//#include <QtCore\QJsonArray>
+//#include <QtCore\QJsonObject>
+#include <QtWidgets>
+//#include <QtWidgets\QProgressBar>
+//#include <QtWidgets\QProgressDialog.h>
 #include <QtSerialPort/QtSerialPort>
 #include "../stringlist/string_list.h"
 #include "../setupconnectionsdlg/setupconnections.h"

@@ -8,7 +8,8 @@
 */
 #pragma once
 #include "include/typedefs.h"
-#include <QtCore\QTimer.h>
+#include <QtCore>
+//#include <QtCore\QTimer.h>
 #include <QtSerialPort/QtSerialPort>
 #include <QtEndian>
 #include <QtNetwork>

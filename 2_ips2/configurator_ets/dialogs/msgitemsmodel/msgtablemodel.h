@@ -9,13 +9,14 @@
 */
 #pragma once
 #include "include/typedefs.h"
-#include <QtCore\QAbstractTableModel>
-#include <QtCore\QList>
-#include <QtCore\QFile>
-#include <QtCore\QStringList>
-#include <QtCore\QJsonDocument>
-#include <QtCore\QJsonArray>
-#include <QtCore\QJsonObject>
+//#include <QtCore\QAbstractTableModel>
+//#include <QtCore\QList>
+//#include <QtCore\QFile>
+//#include <QtCore\QStringList>
+//#include <QtCore\QJsonDocument>
+//#include <QtCore\QJsonArray>
+//#include <QtCore\QJsonObject>
+#include <QtCore>
 #include "string.h"
 #include "msgtablemodel_pch.h"
 #include "msgtablemodel_global.h"
