@@ -69,11 +69,12 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}\
     -mfpu=fpv5-d16 \
     -mfloat-abi=hard \
     -mthumb \
+    -Xlinker -Map=output.map \
     -T ${CMAKE_SOURCE_DIR}/../2_ips2/ips_sc4_pdo/STM32H753IITX_FLASH.ld \
     ")
 #    -T ${CMAKE_SOURCE_DIR}/../2_ips2/ips_sc4_pdo/STM32H753IITX_RAM.ld \
 
-
+#    -Wl,-Map=ips_sc4_pdo.map \
 #    --gc-sections \
 #    --end-group \
 
@@ -92,7 +93,6 @@ set(CMAKE_LINK_LIBRARY_FLAG "${CMAKE_LINK_LIBRARY_FLAG} \
     -T ${CMAKE_SOURCE_DIR}/../2_ips2/ips_sc4_pdo/STM32H753IITX_FLASH.ld \
     -T ${CMAKE_SOURCE_DIR}/../2_ips2/ips_sc4_pdo/STM32H753IITX_RAM.ld \
     --specs=nosys.specs \
-    -Wl,-Map=ips_sc4_pdo.map \
     -Wl,--gc-sections \
     -static \
     --specs=nano.specs \
