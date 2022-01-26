@@ -241,10 +241,10 @@ void CryptoDialog::Code_Block(uint8_t *block, AES_State *st)
 
   nr = st->Nr;
 
-  s0 = ((uint32_t *)block)[0];
-  s1 = ((uint32_t *)block)[1];
-  s2 = ((uint32_t *)block)[2];
-  s3 = ((uint32_t *)block)[3];
+  s0 = reinterpret_cast<uint32_t *>(block)[0];
+  s1 = reinterpret_cast<uint32_t *>(block)[1];
+  s2 = reinterpret_cast<uint32_t *>(block)[2];
+  s3 = reinterpret_cast<uint32_t *>(block)[3];
 
   //AddRoundKey
   s0 ^= st->ek[0];
@@ -429,7 +429,7 @@ uint32_t CryptoDialog::EncodeBuffer(uint8_t *src_buff, uint32_t length_src_buff,
 	uint8_t rc = length_src_buff / AES_BLOCK_SIZE;
 	uint8_t rd = length_src_buff % AES_BLOCK_SIZE;
 	AES_State st;
-	uint8_t _lenkey;
+    uint8_t _lenkey = 0;
 	if (typeCrypto == AES128)
 		_lenkey = 16; else
 	if (typeCrypto == AES192)
@@ -463,7 +463,7 @@ uint32_t CryptoDialog::DecodeBuffer(uint8_t *src_buff, uint32_t length_src_buff,
 	uint8_t rc = length_src_buff / AES_BLOCK_SIZE;
 	uint8_t rd = length_src_buff % AES_BLOCK_SIZE;
 	AES_State st;
-	uint8_t _lenkey;
+    uint8_t _lenkey = 0;
 	if (typeCrypto == AES128)
 		_lenkey = 16; else
 	if (typeCrypto == AES192)

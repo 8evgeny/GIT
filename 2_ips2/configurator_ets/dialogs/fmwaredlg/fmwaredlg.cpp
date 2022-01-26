@@ -101,7 +101,7 @@ void FmWareDialog::checkBox_all_stateChanged(int _state){
 void FmWareDialog::updateListCID(){
 	int cidName, typedev, filterIdx;
 	QString _str;
-//очистка таблицы
+//РѕС‡РёСЃС‚РєР° С‚Р°Р±Р»РёС†С‹
 	ui->tableWidget_DeviceInfoState->setRowCount(0);
 	for(int _i = 0; _i < listCB.count(); _i++){
 		delete listCB.at(_i);
@@ -205,25 +205,25 @@ void FmWareDialog::b_send_clicked()
 	qint64 _fmware_size;
 	int _rc;
 	int _rd;
-	unsigned int _block_size;
+    unsigned int _block_size = 0;
 	unsigned int _length_wr_block;
 	int count_errors = 0;
 	QIcon* _icn;
 	QToolButton* _tb;
-//проверка на введение номера версии прошивки
+//РїСЂРѕРІРµСЂРєР° РЅР° РІРІРµРґРµРЅРёРµ РЅРѕРјРµСЂР° РІРµСЂСЃРёРё РїСЂРѕС€РёРІРєРё
 	if (ui->lineEdit_version->text().isEmpty()){
 		QMessageBox::critical(this, QObject::tr("Error"), QObject::tr("Set version firmware number"));
 		isDisableCloseWindow = false;
 		return;
 	}
 	version = ui->lineEdit_version->text().toInt(&_ok);
-//проверка на выбор файла прошивки
+//РїСЂРѕРІРµСЂРєР° РЅР° РІС‹Р±РѕСЂ С„Р°Р№Р»Р° РїСЂРѕС€РёРІРєРё
 	if (fmware_filename.isEmpty()){
 		QMessageBox::critical(this, QObject::tr("Error"), QObject::tr("Select firmware file"));
 		isDisableCloseWindow = false;
 		return;
 	}
-//проверка на максимально допустимый размер файла прошивки
+//РїСЂРѕРІРµСЂРєР° РЅР° РјР°РєСЃРёРјР°Р»СЊРЅРѕ РґРѕРїСѓСЃС‚РёРјС‹Р№ СЂР°Р·РјРµСЂ С„Р°Р№Р»Р° РїСЂРѕС€РёРІРєРё
 	if (QFileInfo(fmware_filename).size() > MAX_FMWARE_SIZE){
 		QMessageBox::critical(this, QObject::tr("Error"), QObject::tr("Selected file is too long"));
 		isDisableCloseWindow = false;
@@ -232,7 +232,7 @@ void FmWareDialog::b_send_clicked()
 	doc = QJsonDocument::fromJson(globalConfigureStr.toLocal8Bit());
 	mapObj = doc.object();
 	listStations = mapObj[QString::fromLocal8Bit("Stations")].toArray();
-//открываем файл прошивки и копируем данные в буфер для передачи
+//РѕС‚РєСЂС‹РІР°РµРј С„Р°Р№Р» РїСЂРѕС€РёРІРєРё Рё РєРѕРїРёСЂСѓРµРј РґР°РЅРЅС‹Рµ РІ Р±СѓС„РµСЂ РґР»СЏ РїРµСЂРµРґР°С‡Рё
 	QFile _fmwareFile(fmware_filename);
 	if (!_fmwareFile.open(QIODevice::ReadOnly)){
 		QMessageBox::critical(this, QObject::tr("Error"), QObject::tr("File firmware is not open"));
@@ -241,7 +241,7 @@ void FmWareDialog::b_send_clicked()
 	}
 	_fmwareFile.read(buff_tx, MAX_FMWARE_SIZE); 
 	_fmware_size = QFileInfo(fmware_filename).size();
-//проверка на выбор устройства для прошивки
+//РїСЂРѕРІРµСЂРєР° РЅР° РІС‹Р±РѕСЂ СѓСЃС‚СЂРѕР№СЃС‚РІР° РґР»СЏ РїСЂРѕС€РёРІРєРё
 	for(int _i = 0; _i < ui->tableWidget_DeviceInfoState->rowCount(); _i++){
 		if (ModeExchange == RS232Mode){
 			if (listRB.at(_i)->isChecked())
@@ -307,7 +307,7 @@ void FmWareDialog::b_send_clicked()
 			return;
 		}
 		connect(this, SIGNAL(sigCancel()), pCommunicationDialog, SLOT(cancel_transactions()), Qt::QueuedConnection);
-//====считаем тип подключенного устройства====
+//====СЃС‡РёС‚Р°РµРј С‚РёРї РїРѕРґРєР»СЋС‡РµРЅРЅРѕРіРѕ СѓСЃС‚СЂРѕР№СЃС‚РІР°====
 //		pdSendConfig->setLabelText(QObject::tr("Get type device..."));
 		_rx_type_dev = 0;
 		if (!pCommunicationDialog->fnGetCFGUI(reinterpret_cast<unsigned int*>(&_rx_type_dev))){
@@ -329,7 +329,7 @@ void FmWareDialog::b_send_clicked()
 				return;
 			}
 		}
-//====проверка типа подключенного прибора====
+//====РїСЂРѕРІРµСЂРєР° С‚РёРїР° РїРѕРґРєР»СЋС‡РµРЅРЅРѕРіРѕ РїСЂРёР±РѕСЂР°====
 		_current_type_dev = (StationType)getTypeFromCid(&listStations, _selected_items.at(_i));
 		switch(_current_type_dev){
 			case StationType::UM_300_2:
@@ -459,8 +459,8 @@ void FmWareDialog::b_send_clicked()
 				}
 				break;
 		}
-//====записываем версию прошивки====
-//инициализируем начало записи прошивки в ОЗУ устройства
+//====Р·Р°РїРёСЃС‹РІР°РµРј РІРµСЂСЃРёСЋ РїСЂРѕС€РёРІРєРё====
+//РёРЅРёС†РёР°Р»РёР·РёСЂСѓРµРј РЅР°С‡Р°Р»Рѕ Р·Р°РїРёСЃРё РїСЂРѕС€РёРІРєРё РІ РћР—РЈ СѓСЃС‚СЂРѕР№СЃС‚РІР°
 //		pdSendConfig->setLabelText(QObject::tr("Set firmware on..."));
 		if (!pCommunicationDialog->fnFwwareOn()){
 			if (_selected_items.count() > 1){
@@ -481,7 +481,7 @@ void FmWareDialog::b_send_clicked()
 				return;
 			}
 		}
-//====установка системной информации конфигурации====
+//====СѓСЃС‚Р°РЅРѕРІРєР° СЃРёСЃС‚РµРјРЅРѕР№ РёРЅС„РѕСЂРјР°С†РёРё РєРѕРЅС„РёРіСѓСЂР°С†РёРё====
 		pCommunicationDialog->crc32();
 		txCRCFmware	= pCommunicationDialog->ProcessCRC(buff_tx, _fmware_size);
 //		pdSendConfig->setLabelText(QObject::tr("Set system info configure device..."));
@@ -505,7 +505,7 @@ void FmWareDialog::b_send_clicked()
 			}
 		}
 		if (ui->checkBox_UpdateSysInfo->isChecked() == false){
-//передача прошивки в ОЗУ устройства
+//РїРµСЂРµРґР°С‡Р° РїСЂРѕС€РёРІРєРё РІ РћР—РЈ СѓСЃС‚СЂРѕР№СЃС‚РІР°
 //			pdSendConfig->setLabelText(QObject::tr("Set firmware data block..."));
 			if (ModeExchange == RS232Mode){
 				_block_size = FMWARE_BLOCK_SIZE_RS232;
@@ -573,7 +573,7 @@ void FmWareDialog::b_send_clicked()
 				}
 			}
 			pdSendConfig->setValue(100);
-//команда инициализации перезаписи прошивки из ОЗУ во FLASH устройства
+//РєРѕРјР°РЅРґР° РёРЅРёС†РёР°Р»РёР·Р°С†РёРё РїРµСЂРµР·Р°РїРёСЃРё РїСЂРѕС€РёРІРєРё РёР· РћР—РЈ РІРѕ FLASH СѓСЃС‚СЂРѕР№СЃС‚РІР°
 		}
 		btnCancel->setEnabled(false);
 //		pdSendConfig->setLabelText(QObject::tr("Write fmware..."));
@@ -765,7 +765,7 @@ void FmWareDialog::b_ReadVersions_clicked(){
 			return;
 		}
 		connect(this, SIGNAL(sigCancel()), pCommunicationDialog, SLOT(cancel_transactions()), Qt::QueuedConnection);
-//инициализируем начало работы с firmware
+//РёРЅРёС†РёР°Р»РёР·РёСЂСѓРµРј РЅР°С‡Р°Р»Рѕ СЂР°Р±РѕС‚С‹ СЃ firmware
 		if (!pCommunicationDialog->fnFwwareOn()){
 			if (_selected_items.count() == 1){
 				QMessageBox::critical(this, QObject::tr("Error"), pCommunicationDialog->getLastErrorString());
@@ -778,7 +778,7 @@ void FmWareDialog::b_ReadVersions_clicked(){
 			count_errors++;
 			continue;
 		}
-//читаем версию устройства
+//С‡РёС‚Р°РµРј РІРµСЂСЃРёСЋ СѓСЃС‚СЂРѕР№СЃС‚РІР°
 		if (!pCommunicationDialog->fnFmwareGetVersion(&version)){
 			if (_selected_items.count() == 1){
 				QMessageBox::critical(this, QObject::tr("Error"), pCommunicationDialog->getLastErrorString());
@@ -790,7 +790,7 @@ void FmWareDialog::b_ReadVersions_clicked(){
 			drawCidStatus(_selected_items.at(_i), false);
 			continue;
 		}
-//деинициализируем работы с firmware
+//РґРµРёРЅРёС†РёР°Р»РёР·РёСЂСѓРµРј СЂР°Р±РѕС‚С‹ СЃ firmware
 		if (!pCommunicationDialog->fnFwwareOff()){
 			if (_selected_items.count() == 1){
 				QMessageBox::critical(this, QObject::tr("Error"), pCommunicationDialog->getLastErrorString());
@@ -803,7 +803,7 @@ void FmWareDialog::b_ReadVersions_clicked(){
 			continue;
 		}
 		pdSendConfig->setValue(_i+1);
-//команда инициализации перезаписи прошивки из ОЗУ во FLASH устройства
+//РєРѕРјР°РЅРґР° РёРЅРёС†РёР°Р»РёР·Р°С†РёРё РїРµСЂРµР·Р°РїРёСЃРё РїСЂРѕС€РёРІРєРё РёР· РћР—РЈ РІРѕ FLASH СѓСЃС‚СЂРѕР№СЃС‚РІР°
 		for(int _j = 0; _j <  ui->tableWidget_DeviceInfoState->rowCount(); _j++){
 			if (listCids.at(_j) == _selected_items.at(_i)){
 				_icn = new QIcon(QIcon(IPS_STR(":/svg/status_ok.svg")));

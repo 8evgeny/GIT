@@ -172,10 +172,10 @@ void ConfigureDialog::b_send_clicked()
 //	return;
 
 	QString _str;
-	int _rc;
-	int _rd;
+    int _rc = 0;
+    int _rd = 0;
 	unsigned int _length_wr_block;
-	unsigned int _block_size;
+    unsigned int _block_size = 0;
 	if (ModeExchange == RS232Mode){
 		_rc = int(txSizeConfig/CONFIG_BLOCK_SIZE_RS232);
 		_rd = txSizeConfig % CONFIG_BLOCK_SIZE_RS232;
@@ -210,7 +210,7 @@ void ConfigureDialog::b_send_clicked()
 	connect(this, SIGNAL(sigCancel()), pCommunicationDialog, SLOT(cancel_transactions()), Qt::QueuedConnection);
 	isCancelWrite = false;
 	pdSendConfig->show();
-//===ïðîòîêîë ïåðåäà÷è êîíôèãóðàöèè====
+//===Ð¿Ñ€Ð¾Ñ‚Ð¾ÐºÐ¾Ð» Ð¿ÐµÑ€ÐµÐ´Ð°Ñ‡Ð¸ ÐºÐ¾Ð½Ñ„Ð¸Ð³ÑƒÑ€Ð°Ñ†Ð¸Ð¸====
 #ifdef __IS_WRITE_LOG__
 	QString _fl = QString::fromLocal8Bit("Log.txt");
 	QFile* _file = new QFile(_fl);
@@ -221,7 +221,7 @@ void ConfigureDialog::b_send_clicked()
 	delete _file;
 #endif
 	this->setEnabled(false);
-//===÷òåíèå òèïà ïîäêëþ÷åííîãî óñòðîéñòâà====
+//===Ñ‡Ñ‚ÐµÐ½Ð¸Ðµ Ñ‚Ð¸Ð¿Ð° Ð¿Ð¾Ð´ÐºÐ»ÑŽÑ‡ÐµÐ½Ð½Ð¾Ð³Ð¾ ÑƒÑÑ‚Ñ€Ð¾Ð¹ÑÑ‚Ð²Ð°====
 	pdSendConfig->setLabelText(QObject::tr("Get type device..."));
 	int _rx_type_dev = 0;
 	if (!pCommunicationDialog->fnGetCFGUI(reinterpret_cast<unsigned int*>(&_rx_type_dev))){
@@ -233,7 +233,7 @@ void ConfigureDialog::b_send_clicked()
 		this->setEnabled(true);
 		return;
 	}
-//====ïðîâåðêà òèïà ïîäêëþ÷åííîãî óñòðîéñòâà====
+//====Ð¿Ñ€Ð¾Ð²ÐµÑ€ÐºÐ° Ñ‚Ð¸Ð¿Ð° Ð¿Ð¾Ð´ÐºÐ»ÑŽÑ‡ÐµÐ½Ð½Ð¾Ð³Ð¾ ÑƒÑÑ‚Ñ€Ð¾Ð¹ÑÑ‚Ð²Ð°====
 	if (_rx_type_dev != typeDeviceConfiguring){
 		if (_rx_type_dev == (int)StationType::Unknown) {
 			ret = QMessageBox::question(this, QApplication::applicationName(), QObject::tr("Connected device unknown type\nContinue configuring? Yes/No"),
@@ -256,7 +256,7 @@ void ConfigureDialog::b_send_clicked()
 			return;
 		}
 	}
-//====óñòàíîâêà èíèöèàëèçàöèè ïðîöåññà êîíôèãóðèðîâàíèÿ====
+//====ÑƒÑÑ‚Ð°Ð½Ð¾Ð²ÐºÐ° Ð¸Ð½Ð¸Ñ†Ð¸Ð°Ð»Ð¸Ð·Ð°Ñ†Ð¸Ð¸ Ð¿Ñ€Ð¾Ñ†ÐµÑÑÐ° ÐºÐ¾Ð½Ñ„Ð¸Ð³ÑƒÑ€Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð¸Ñ====
 	pdSendConfig->setLabelText(QObject::tr("Set config on..."));
 	if (!pCommunicationDialog->fnConfigOn()){
 		QMessageBox::critical(this, QObject::tr("Error"), pCommunicationDialog->getLastErrorString());
@@ -267,7 +267,7 @@ void ConfigureDialog::b_send_clicked()
 		this->setEnabled(true);
 		return;
 	}
-//====óñòàíîâêà ñèñòåìíîé èíôîðìàöèè êîíôèãóðàöèè====
+//====ÑƒÑÑ‚Ð°Ð½Ð¾Ð²ÐºÐ° ÑÐ¸ÑÑ‚ÐµÐ¼Ð½Ð¾Ð¹ Ð¸Ð½Ñ„Ð¾Ñ€Ð¼Ð°Ñ†Ð¸Ð¸ ÐºÐ¾Ð½Ñ„Ð¸Ð³ÑƒÑ€Ð°Ñ†Ð¸Ð¸====
 	pCommunicationDialog->crc32();
 	txCRCConfig	= pCommunicationDialog->ProcessCRC(test_buff_tx, txSizeConfig);
 	pdSendConfig->setLabelText(QObject::tr("Set system info configure device..."));
@@ -281,7 +281,7 @@ void ConfigureDialog::b_send_clicked()
 		return;
 	}
 	btnCancel->setEnabled(true);
-//====ïåðåäà÷à áëîêà äàííûõ êîíôèãóðàöèè====
+//====Ð¿ÐµÑ€ÐµÐ´Ð°Ñ‡Ð° Ð±Ð»Ð¾ÐºÐ° Ð´Ð°Ð½Ð½Ñ‹Ñ… ÐºÐ¾Ð½Ñ„Ð¸Ð³ÑƒÑ€Ð°Ñ†Ð¸Ð¸====
 	pdSendConfig->setLabelText(QObject::tr("Set config data block..."));
 	for(int _i = 0; _i < _rc; _i++){
 		if (isCancelWrite){
@@ -323,7 +323,7 @@ void ConfigureDialog::b_send_clicked()
 	}
 	pdSendConfig->setValue(100);
 	btnCancel->setEnabled(false);
-//====çàïóñê çàïèñè êîíôèãóðàöèè====
+//====Ð·Ð°Ð¿ÑƒÑÐº Ð·Ð°Ð¿Ð¸ÑÐ¸ ÐºÐ¾Ð½Ñ„Ð¸Ð³ÑƒÑ€Ð°Ñ†Ð¸Ð¸====
 	pdSendConfig->setLabelText(QObject::tr("Write configure..."));
 	if (!pCommunicationDialog->fnConfigStartWrite()){
 		QMessageBox::critical(this, QObject::tr("Error"), pCommunicationDialog->getLastErrorString());
@@ -360,10 +360,10 @@ void ConfigureDialog::b_rcv_clicked(){
 			return;
 		}
 	}
-	int _rc;
-	unsigned int _rd;
-	unsigned int _length_wr_block;
-	unsigned int _block_size;
+    int _rc = 0;
+    unsigned int _rd = 0;
+    unsigned int _length_wr_block = 0;
+    unsigned int _block_size = 0;
 
 	isCancelWrite = false;
 	pCommunicationDialog = new CommunicationDialog(this);
@@ -387,7 +387,7 @@ void ConfigureDialog::b_rcv_clicked(){
 	isCancelWrite = false;
 	btnCancel->setEnabled(false);
 	pdSendConfig->show();
-//=====ïðîòîêîë ÷òåíèÿ êîíôèãóðàöèè èç óñòðîéñòâà=====
+//=====Ð¿Ñ€Ð¾Ñ‚Ð¾ÐºÐ¾Ð» Ñ‡Ñ‚ÐµÐ½Ð¸Ñ ÐºÐ¾Ð½Ñ„Ð¸Ð³ÑƒÑ€Ð°Ñ†Ð¸Ð¸ Ð¸Ð· ÑƒÑÑ‚Ñ€Ð¾Ð¹ÑÑ‚Ð²Ð°=====
 #ifdef __IS_WRITE_LOG__
 	QString _fl = QString::fromLocal8Bit("Log.txt");
 	QFile* _file = new QFile(_fl);
@@ -398,7 +398,7 @@ void ConfigureDialog::b_rcv_clicked(){
 	delete _file;
 #endif
 	this->setEnabled(false);
-//====óñòàíîâêà èíèöèàëèçàöèè ïðîöåññà êîíôèãóðèðîâàíèÿ====
+//====ÑƒÑÑ‚Ð°Ð½Ð¾Ð²ÐºÐ° Ð¸Ð½Ð¸Ñ†Ð¸Ð°Ð»Ð¸Ð·Ð°Ñ†Ð¸Ð¸ Ð¿Ñ€Ð¾Ñ†ÐµÑÑÐ° ÐºÐ¾Ð½Ñ„Ð¸Ð³ÑƒÑ€Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð¸Ñ====
 	pdSendConfig->setLabelText(QObject::tr("Set config on..."));
 	if (!pCommunicationDialog->fnConfigOn()){
 		QMessageBox::critical(this, QObject::tr("Error"), pCommunicationDialog->getLastErrorString());
@@ -409,7 +409,7 @@ void ConfigureDialog::b_rcv_clicked(){
 		this->setEnabled(true);
 		return;
 	}
-//====÷òåíèå ñèñòåìíîé èíôîðìàöèè î êîíôèãóðàöèè====
+//====Ñ‡Ñ‚ÐµÐ½Ð¸Ðµ ÑÐ¸ÑÑ‚ÐµÐ¼Ð½Ð¾Ð¹ Ð¸Ð½Ñ„Ð¾Ñ€Ð¼Ð°Ñ†Ð¸Ð¸ Ð¾ ÐºÐ¾Ð½Ñ„Ð¸Ð³ÑƒÑ€Ð°Ñ†Ð¸Ð¸====
 	pdSendConfig->setLabelText(QObject::tr("Get system info config..."));
 	if (!pCommunicationDialog->fnConfigGetSysInfo(&rxSizeConfig, &rxCRCConfig, (unsigned int*)&version)){
 		QMessageBox::critical(this, QObject::tr("Error"), pCommunicationDialog->getLastErrorString());
@@ -439,7 +439,7 @@ void ConfigureDialog::b_rcv_clicked(){
 		_rd = rxSizeConfig % CONFIG_BLOCK_SIZE_ETH;
 		_block_size = CONFIG_BLOCK_SIZE_ETH;
 	}
-//====÷òåíèå áëîêîâ äàííûõ êîíôèãóðàöèè====
+//====Ñ‡Ñ‚ÐµÐ½Ð¸Ðµ Ð±Ð»Ð¾ÐºÐ¾Ð² Ð´Ð°Ð½Ð½Ñ‹Ñ… ÐºÐ¾Ð½Ñ„Ð¸Ð³ÑƒÑ€Ð°Ñ†Ð¸Ð¸====
 	pdSendConfig->setLabelText(QObject::tr("Read config data block..."));
 	memset(test_buff_rx, 0, 1024*1024);
 	btnCancel->setEnabled(true);
@@ -492,7 +492,7 @@ void ConfigureDialog::b_rcv_clicked(){
 	_sCRC.setNum(rxCRCConfig, 16);
 	QString _sSize;
 	_sSize.setNum(rxSizeConfig, 10);
-//====ïðîâåðêà êîíòðîëüíîé ñóììû ïðèíÿòîé êîíôèãóðàöèè====
+//====Ð¿Ñ€Ð¾Ð²ÐµÑ€ÐºÐ° ÐºÐ¾Ð½Ñ‚Ñ€Ð¾Ð»ÑŒÐ½Ð¾Ð¹ ÑÑƒÐ¼Ð¼Ñ‹ Ð¿Ñ€Ð¸Ð½ÑÑ‚Ð¾Ð¹ ÐºÐ¾Ð½Ñ„Ð¸Ð³ÑƒÑ€Ð°Ñ†Ð¸Ð¸====
 	if (_rxCRCConfigCalc != rxCRCConfig){
 		QMessageBox::critical(this, QObject::tr("Error"), QObject::tr("Mismatch CRC receive configure\nrx:0x%1, calc:0x%2\nsize:%3").arg(_sCRC).arg(_sCRCcalc).arg(_sSize));
 		disconnect(this, SIGNAL(sigCancel()), pCommunicationDialog, SLOT(cancel_transactions()));
@@ -502,7 +502,7 @@ void ConfigureDialog::b_rcv_clicked(){
 		this->setEnabled(true);
 		return;
 	}
-//====÷òåíèå ñåðèéíîãî íîìåðà èçäåëèÿ====
+//====Ñ‡Ñ‚ÐµÐ½Ð¸Ðµ ÑÐµÑ€Ð¸Ð¹Ð½Ð¾Ð³Ð¾ Ð½Ð¾Ð¼ÐµÑ€Ð° Ð¸Ð·Ð´ÐµÐ»Ð¸Ñ====
 	pdSendConfig->setLabelText(QObject::tr("Get config s/n..."));
 	QString _rxSN;
 	if (!pCommunicationDialog->fnGetSN(&_rxSN)){
@@ -514,7 +514,7 @@ void ConfigureDialog::b_rcv_clicked(){
 		this->setEnabled(true);
 		return;
 	}
-//====ïåðåäà÷à îñòàíîâêè ïðîöåññà êîíôèãóðèðîâàíèÿ====
+//====Ð¿ÐµÑ€ÐµÐ´Ð°Ñ‡Ð° Ð¾ÑÑ‚Ð°Ð½Ð¾Ð²ÐºÐ¸ Ð¿Ñ€Ð¾Ñ†ÐµÑÑÐ° ÐºÐ¾Ð½Ñ„Ð¸Ð³ÑƒÑ€Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð¸Ñ====
 	pdSendConfig->setLabelText(QObject::tr("Set config off..."));
 	if (!pCommunicationDialog->fnConfigOff()){
 		QMessageBox::critical(this, QObject::tr("Error"), pCommunicationDialog->getLastErrorString());

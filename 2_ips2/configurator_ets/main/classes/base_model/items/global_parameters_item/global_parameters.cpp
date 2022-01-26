@@ -204,8 +204,8 @@ QList<CidsContainer*>& GlobalParametersItem::cids() noexcept
 void GlobalParametersItem::b_genaes_clicked()
 {
 	QString rnd;
-	QString _str;
-	time_t r_time = time(NULL);
+    QString _str;
+    time_t r_time = time(NULL);
 	srand(*(reinterpret_cast<unsigned int*>(&r_time)));
 	int rnd_val;
 	for(int _i = 0; _i < 16; _i++){
