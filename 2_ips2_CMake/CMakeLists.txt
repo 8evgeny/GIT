@@ -7,7 +7,7 @@ set(CMAKE_C_COMPILER ${TOOLS_PATH}/bin/arm-none-eabi-gcc)
 set(CMAKE_CXX_COMPILER ${TOOLS_PATH}/bin/arm-none-eabi-g++)
 set(CMAKE_CXX_LINKER_LAUNCHER ${TOOLS_PATH}/bin/arm-none-eabi-g++)
 
-project(ips2 C CXX ASM)
+project(ips_sc4_pdo_linux C CXX ASM)
 
 #set(CMAKE_BUILD_TYPE debug)
 #set(CMAKE_BUILD_TYPE release)
@@ -69,7 +69,7 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}\
     -mfpu=fpv5-d16 \
     -mfloat-abi=hard \
     -mthumb \
-    -Xlinker -Map=output.map \
+    -Xlinker -Map=${PROJECT_NAME}.map \
     -T ${CMAKE_SOURCE_DIR}/../2_ips2/ips_sc4_pdo/STM32H753IITX_FLASH.ld \
     ")
 #    -T ${CMAKE_SOURCE_DIR}/../2_ips2/ips_sc4_pdo/STM32H753IITX_RAM.ld \
@@ -219,9 +219,9 @@ add_custom_command(TARGET ${PROJECT_NAME}.elf POST_BUILD
     COMMAND ${CMAKE_OBJCOPY} -Oihex $<TARGET_FILE:${PROJECT_NAME}.elf> ${HEX_FILE}
     COMMENT "Building ${HEX_FILE} ")
 
-#add_custom_command(TARGET ${PROJECT_NAME}.elf POST_BUILD
-#    COMMAND ${CMAKE_OBJCOPY} -O binary $<TARGET_FILE:${PROJECT_NAME}.elf> ${BIN_FILE}
-#    COMMENT "Building ${BIN_FILE} ")
+add_custom_command(TARGET ${PROJECT_NAME}.elf POST_BUILD
+    COMMAND ${CMAKE_OBJCOPY} -Obinary $<TARGET_FILE:${PROJECT_NAME}.elf> ${BIN_FILE}
+    COMMENT "Building ${BIN_FILE} ")
 
 #include(${CMAKE_SOURCE_DIR}/conanbuildinfo.cmake)
 #include(${CMAKE_SOURCE_DIR}/conanbuildinfo.cmake)
