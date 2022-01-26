@@ -1,0 +1,3 @@
+"C:\Program Files\CMake\bin\cmake.exe" -E rm -f CMakeFiles\debugviewdlg.dir/objects.a
+C:\QT5.15MinGW810\mingw64\bin\ar.exe qc CMakeFiles\debugviewdlg.dir/objects.a @CMakeFiles\debugviewdlg.dir\objects1.rsp
+C:\QT5.15MinGW810\mingw64\bin\g++.exe -shared -o ..\..\bin_win10\libdebugviewdlg.dll -Wl,--out-implib,libdebugviewdlg.dll.a -Wl,--major-image-version,0,--minor-image-version,0 -Wl,--whole-archive CMakeFiles\debugviewdlg.dir/objects.a -Wl,--no-whole-archive @CMakeFiles\debugviewdlg.dir\linklibs.rsp

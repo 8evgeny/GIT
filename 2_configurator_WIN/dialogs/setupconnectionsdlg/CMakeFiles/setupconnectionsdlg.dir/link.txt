@@ -1,0 +1,3 @@
+"C:\Program Files\CMake\bin\cmake.exe" -E rm -f CMakeFiles\setupconnectionsdlg.dir/objects.a
+C:\QT5.15MinGW810\mingw64\bin\ar.exe qc CMakeFiles\setupconnectionsdlg.dir/objects.a @CMakeFiles\setupconnectionsdlg.dir\objects1.rsp
+C:\QT5.15MinGW810\mingw64\bin\g++.exe -shared -o ..\..\bin_win10\libsetupconnectionsdlg.dll -Wl,--out-implib,libsetupconnectionsdlg.dll.a -Wl,--major-image-version,0,--minor-image-version,0 -Wl,--whole-archive CMakeFiles\setupconnectionsdlg.dir/objects.a -Wl,--no-whole-archive @CMakeFiles\setupconnectionsdlg.dir\linklibs.rsp

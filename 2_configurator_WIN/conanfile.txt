@@ -1,0 +1,5 @@
+[requires]
+  gt/3.5@git-holding/stable
+
+[generators]
+  cmake

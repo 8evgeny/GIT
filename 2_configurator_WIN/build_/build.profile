@@ -1,0 +1,12 @@
+[settings]
+arch=x86_64
+arch_build=x86_64
+build_type=Release
+compiler=gcc
+compiler.version=9
+os=Linux
+os_build=Linux
+compiler.libcxx=libstdc++11
+[options]
+[build_requires]
+[env]
