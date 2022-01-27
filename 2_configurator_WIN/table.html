@@ -1,0 +1,286 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Conan | gt/3.5@git-holding/stable</title>
+        <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap.min.css"/>
+        <style>
+            tr td {
+                white-space:nowrap;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container-fluid">
+        <h1>gt/3.5@git-holding/stable</h1>
+        <div class="info">
+            <p>
+                Depending on your package_id_mode, any combination of settings, options and requirements
+                can give you a different packageID. Take into account that your configuration might be
+                different from the one used to generate the packages.
+            </p>
+        </div>
+
+        <!-- Button trigger modal -->
+        <span id="filterProfileButton"> |
+            <button type="button" class="btn btn-link" data-toggle="modal" data-target="#filterProfile">
+                Filter using profile
+            </button>
+        </span>
+
+        <!-- Modal -->
+        <div class="modal fade" id="filterProfile" tabindex="-1" role="dialog" aria-labelledby="filterProfileLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title" id="filterProfileLabel">Filter results</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Copy and paste here the content of a Conan profile:</p>
+                        <form>
+                            <div class="form-group">
+                                    <textarea id="filterProfileValue" class="form-control" rows="8" placeholder="[settings]&#10;os=Macos&#10;arch=x86_64&#10;compiler=apple-clang&#10;compiler.version=11.0&#10;compiler.libcxx=libc++&#10;build_type=Release"></textarea>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" onclick="apply_profile_filter()">Apply filter</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <table id="results" class="table table-striped table-bordered" style="width:100%">
+            <thead>
+                <tr>
+                        <th class="text-center" rowspan="2" colspan="1">
+                            remote
+                        </th>
+                        <th class="text-center" rowspan="2" colspan="1">
+                            package_id
+                        </th>
+                        <th class="text-center" rowspan="2" colspan="1">
+                            outdated
+                        </th>
+                        <th class="text-center" rowspan="2" colspan="1">
+                            os
+                        </th>
+                        <th class="text-center" rowspan="2" colspan="1">
+                            arch
+                        </th>
+                        <th class="text-center" rowspan="1" colspan="4">
+                            compiler
+                        </th>
+                        <th class="text-center" rowspan="2" colspan="1">
+                            build_type
+                        </th>
+                        <th class="text-center" rowspan="1" colspan="1">
+                            options
+                        </th>
+                </tr>
+                <tr>
+                                <th>compiler</th>
+                                <th>libcxx</th>
+                                <th>runtime</th>
+                                <th>version</th>
+                                <th>shared</th>
+                </tr>
+            </thead>
+            <tbody>
+                    <tr>
+                            <td>artifactory</td>
+                            <td>04735c63c9bf095670d07cdaaaac71a28dbc3d37</td>
+                            <td>False</td>
+                            <td>Linux</td>
+                            <td>x86_64</td>
+                            <td>gcc</td>
+                            <td>libstdc++11</td>
+                            <td></td>
+                            <td>10</td>
+                            <td>Debug</td>
+                            <td>True</td>
+                    </tr>
+                    <tr>
+                            <td>artifactory</td>
+                            <td>127af201a4cdf8111e2e08540525c245c9b3b99e</td>
+                            <td>True</td>
+                            <td>Windows</td>
+                            <td>x86_64</td>
+                            <td>Visual Studio</td>
+                            <td></td>
+                            <td>MD</td>
+                            <td>16</td>
+                            <td>Release</td>
+                            <td>True</td>
+                    </tr>
+                    <tr>
+                            <td>artifactory</td>
+                            <td>4c9fb287628c8c7d3ebeee790ee15ee86c1ca9cd</td>
+                            <td>False</td>
+                            <td>Linux</td>
+                            <td>x86_64</td>
+                            <td>gcc</td>
+                            <td>libstdc++11</td>
+                            <td></td>
+                            <td>9</td>
+                            <td>Debug</td>
+                            <td>True</td>
+                    </tr>
+                    <tr>
+                            <td>artifactory</td>
+                            <td>4f1710918aa542fccb5a54d7bd712e4b0750b50d</td>
+                            <td>True</td>
+                            <td>Windows</td>
+                            <td>x86_64</td>
+                            <td>Visual Studio</td>
+                            <td></td>
+                            <td>MDd</td>
+                            <td>16</td>
+                            <td>Debug</td>
+                            <td>True</td>
+                    </tr>
+                    <tr>
+                            <td>artifactory</td>
+                            <td>59446a6a82952af981634938a59ffec56ab20565</td>
+                            <td>False</td>
+                            <td>Linux</td>
+                            <td>x86_64</td>
+                            <td>gcc</td>
+                            <td>libstdc++11</td>
+                            <td></td>
+                            <td>8</td>
+                            <td>Release</td>
+                            <td>True</td>
+                    </tr>
+                    <tr>
+                            <td>artifactory</td>
+                            <td>79f200efe18f84353bb1264b3eeee74874c3dd69</td>
+                            <td>False</td>
+                            <td>Linux</td>
+                            <td>x86_64</td>
+                            <td>gcc</td>
+                            <td>libstdc++11</td>
+                            <td></td>
+                            <td>10</td>
+                            <td>Release</td>
+                            <td>True</td>
+                    </tr>
+                    <tr>
+                            <td>artifactory</td>
+                            <td>97172bab7554b947975f35cab343b2a755de9955</td>
+                            <td>False</td>
+                            <td>Linux</td>
+                            <td>x86_64</td>
+                            <td>gcc</td>
+                            <td>libstdc++11</td>
+                            <td></td>
+                            <td>9</td>
+                            <td>Release</td>
+                            <td>True</td>
+                    </tr>
+                    <tr>
+                            <td>artifactory</td>
+                            <td>9ff4b7ca1cb37c0de837519f7aeff8bf47ddd212</td>
+                            <td>False</td>
+                            <td>Linux</td>
+                            <td>x86_64</td>
+                            <td>gcc</td>
+                            <td>libstdc++11</td>
+                            <td></td>
+                            <td>8</td>
+                            <td>Debug</td>
+                            <td>True</td>
+                    </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th>remote</th>
+                    <th>package_id</th>
+                    <th>outdated</th>
+                    <th>os</th>
+                    <th>arch</th>
+                    <th>compiler</th>
+                    <th>compiler.libcxx</th>
+                    <th>compiler.runtime</th>
+                    <th>compiler.version</th>
+                    <th>build_type</th>
+                    <th>shared</th>
+                </tr>
+            </tfoot>
+        </table>
+
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+        <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.20/datatables.min.js"></script>
+        <script type="text/javascript" src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap.min.js"></script>
+        <script>
+            $(document).ready(function() {
+                // Setup - add a text input to each footer cell
+                $('#results tfoot th').each( function () {
+                    var title = $(this).text();
+                    var title_id = title.replace('.', '_');
+                    $(this).html( '<input type="text" id="filter-input-'+title_id+'" class="form-control filter-input" placeholder="Filter '+title+'" style="width:100%"/>' );
+                });
+
+                var table = $('#results').DataTable( {
+                    "dom": "lrtip",
+                    "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+                    "pageLength": 10,
+                    "columnDefs": [
+                        { className: "cell_border_right", "targets": [ 9, 10  ] },
+                        { className: "cell_border_right monospaced", "targets": [2, ]}
+                    ]
+                });
+
+                // Apply the search
+                table.columns().every( function () {
+                    var that = this;
+
+                    $( 'input', this.footer() ).on( 'keyup change clear', function () {
+                        if ( that.search() !== this.value ) {
+                            that
+                                .search( this.value )
+                                .draw();
+                        }
+                    } );
+                } );
+
+                // Add filter profile to
+                $("#filterProfileButton").appendTo("#results_length");
+            });
+
+            function apply_profile_filter() {
+                // Parse the profile input
+                var profile_txt = $("#filterProfileValue").val();
+                var regex = {
+                    section: /^\s*\[\s*([^\]]*)\s*\]\s*$/,
+                    param: /^\s*([^=]+?)\s*=\s*(.*?)\s*$/
+                };
+                profile_txt.split(/[\r\n]+/).forEach( function(line) {
+                    if(regex.param.test(line)){
+                        var match = line.match(regex.param);
+                        var field_id = '#filter-input-'+match[1].replace('.', '_');
+                        $(field_id).val(match[2]);
+                        $(field_id).keyup();
+                    }
+                });
+                $('#filterProfile').modal('hide');
+            }
+        </script>
+    </div>
+    </body>
+    <footer>
+        <div class="container-fluid">
+            <div class="info">
+                <p>
+                      Conan <b>v1.44.1</b> <script>document.write(new Date().getFullYear())</script> JFrog LTD. <a>https://conan.io</a>
+                </p>
+            </div>
+        </div>
+    </footer>
+</html>

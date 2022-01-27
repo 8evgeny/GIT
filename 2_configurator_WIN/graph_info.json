@@ -1,0 +1,14 @@
+{
+ "options": [
+  [
+   "gt:shared",
+   "True"
+  ]
+ ],
+ "root": {
+  "name": null,
+  "version": null,
+  "user": null,
+  "channel": null
+ }
+}

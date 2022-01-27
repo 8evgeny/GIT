@@ -4,8 +4,8 @@ arch_build=x86_64
 build_type=Release
 compiler=gcc
 compiler.version=9
-os=Windows
-os_build=Windows
+os=Linux
+os_build=Linux
 compiler.libcxx=libstdc++11
 [options]
 [build_requires]

@@ -7,6 +7,8 @@ set(COPYRIGHT "Copyright (c) 2018-2021 GIT. All rights reserved.")
 set(IDENTIFIER "git-holding.ru")
 set(QT_MINIMUM_VERSION 5.15.2)
 
+#set(QT_CREATOR_SKIP_CONAN_SETUP  ON)
+
 set(INSTALL_PATH "bin/git/ips/configurator")
 set(APP_PATH ${CMAKE_CURRENT_LIST_DIR})
 #set(OUTPUT_PATH ${APP_PATH}/bin)
