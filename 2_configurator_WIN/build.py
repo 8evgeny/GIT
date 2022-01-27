@@ -16,8 +16,8 @@ import shutil
 import argparse
 import sys
 
-qt_msvc_path="C:\\Qt\\5.15.1\\msvc2019_64"
-qt_msvc_bin_path="C:\\Qt\\5.15.1\\msvc2019_64\\bin"
+qt_msvc_path="C:\\Qt5\\5.15.2\\msvc2019_64"
+qt_msvc_bin_path="C:\\Qt5\\5.15.2\\msvc2019_64\\bin"
 
 def rmTree():
     if os.path.exists("build"):
