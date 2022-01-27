@@ -16,27 +16,32 @@ import shutil
 import argparse
 import sys
 
-qt_msvc_path="C:\\Qt5\\5.15.2\\msvc2019_64"
-qt_msvc_bin_path="C:\\Qt5\\5.15.2\\msvc2019_64\\bin"
+qt_msvc_path = "C:\\Qt5\\5.15.2\\msvc2019_64"
+qt_msvc_bin_path = "C:\\Qt5\\5.15.2\\msvc2019_64\\bin"
+
 
 def rmTree():
     if os.path.exists("build"):
         shutil.rmtree("build")
     os.system("mkdir build")
 
+
 def rmProfile():
     if os.path.exists("build.profile"):
         os.remove("build.profile")
+
 
 def ProfileMSVC_d():
     file = open(r"./build.profile", "x")
     file.write("[settings]\n     os=Windows\n     os_build=Windows\n     arch=x86_64\n     arch_build=x86_64\n     compiler=Visual Studio\n     compiler.version=16\n     compiler.runtime=MDd\n     build_type=Debug\n[options]\n[build_requires]\n[env]")
     file.close()
 
+
 def ProfileClang():
     file = open(r"./build.profile", "x")
     file.write("[settings]\n    arch=x86_64\n    arch_build=x86_64\n    build_type=Release\n    compiler=clang\n    compiler.version=10\n    os=Linux\n    os_build=Linux\n    compiler.libcxx=libstdc++11\n[options]\n[build_requires]\n[env]")
     file.close()
+
 
 def ProfileMSVC():
     file = open(r"./build.profile", "x")
