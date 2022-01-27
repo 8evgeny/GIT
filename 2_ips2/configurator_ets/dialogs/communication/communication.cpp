@@ -17,18 +17,18 @@
 //	#pragma pack(push,1)
 #endif
 
-//максимальная длина строки для предачи в устройство
+//РјР°РєСЃРёРјР°Р»СЊРЅР°СЏ РґР»РёРЅР° СЃС‚СЂРѕРєРё РґР»СЏ РїСЂРµРґР°С‡Рё РІ СѓСЃС‚СЂРѕР№СЃС‚РІРѕ
 #define MAX_PARAMETERS_LENGTH	256
-//максимальное количество параметров в строке
+//РјР°РєСЃРёРјР°Р»СЊРЅРѕРµ РєРѕР»РёС‡РµСЃС‚РІРѕ РїР°СЂР°РјРµС‚СЂРѕРІ РІ СЃС‚СЂРѕРєРµ
 #define MAX_NUMBER_OF_PARAMETERS	8
-//значение максимального времени ожидания ответа от устройства, мс
+//Р·РЅР°С‡РµРЅРёРµ РјР°РєСЃРёРјР°Р»СЊРЅРѕРіРѕ РІСЂРµРјРµРЅРё РѕР¶РёРґР°РЅРёСЏ РѕС‚РІРµС‚Р° РѕС‚ СѓСЃС‚СЂРѕР№СЃС‚РІР°, РјСЃ
 #define DEFAULT_TIMEOUT_ANSWER		2000
-//стандартный полином для таблицы CRC
+//СЃС‚Р°РЅРґР°СЂС‚РЅС‹Р№ РїРѕР»РёРЅРѕРј РґР»СЏ С‚Р°Р±Р»РёС†С‹ CRC
 const unsigned CRC_POLY = 0xEDB88320;
-//маска для расчета CRC
+//РјР°СЃРєР° РґР»СЏ СЂР°СЃС‡РµС‚Р° CRC
 const unsigned CRC_MASK = 0xD202EF8D;
 
-//таблица CRC
+//С‚Р°Р±Р»РёС†Р° CRC
 unsigned table[256];
 
 CommunicationDialog::CommunicationDialog(QWidget *parent)
@@ -741,7 +741,7 @@ bool CommunicationDialog::fnConfigSetSysInfo(unsigned int _size, unsigned int _c
 	_rd = sizeof(SystemBlockHdr) % CONFIG_BLOCK_SIZE_RS232;
 	int _i;
 	unsigned char arr_sysblock[256];
-//вычитываем системный блок
+//РІС‹С‡РёС‚С‹РІР°РµРј СЃРёСЃС‚РµРјРЅС‹Р№ Р±Р»РѕРє
 	for(_i = 0; _i < _rc; _i++){
 		if (setRqGetBlock(EntryType_SB, _i*CONFIG_BLOCK_SIZE_RS232, reinterpret_cast<unsigned char*>(&arr_sysblock[_i*CONFIG_BLOCK_SIZE_RS232]), CONFIG_BLOCK_SIZE_RS232) == false){
 			return false;
@@ -767,7 +767,7 @@ bool CommunicationDialog::fnConfigSetSysInfo(unsigned int _size, unsigned int _c
 			_pSysBlockHdr->parts[_i].CRC = ProcessCRC((char*)&arr_sysblock[0], sizeof(SystemBlockHdr));
 		}
 	}
-//записываем системный блок
+//Р·Р°РїРёСЃС‹РІР°РµРј СЃРёСЃС‚РµРјРЅС‹Р№ Р±Р»РѕРє
 	for(_i = 0; _i < _rc; _i++){
 		if (setRqSetBlock(EntryType_SB, _i*CONFIG_BLOCK_SIZE_RS232, reinterpret_cast<unsigned char*>(&arr_sysblock[_i*CONFIG_BLOCK_SIZE_RS232]), CONFIG_BLOCK_SIZE_RS232) == false){
 			return false;
@@ -788,7 +788,7 @@ bool CommunicationDialog::fnConfigGetSysInfo(unsigned int* _size, unsigned int* 
 	_rd = sizeof(SystemBlockHdr) % CONFIG_BLOCK_SIZE_RS232;
 	int _i;
 	unsigned char arr_sysblock[256];
-//вычитываем системный блок
+//РІС‹С‡РёС‚С‹РІР°РµРј СЃРёСЃС‚РµРјРЅС‹Р№ Р±Р»РѕРє
 	for(_i = 0; _i < _rc; _i++){
 		if (setRqGetBlock(EntryType_SB, _i*CONFIG_BLOCK_SIZE_RS232, reinterpret_cast<unsigned char*>(&arr_sysblock[_i*CONFIG_BLOCK_SIZE_RS232]), CONFIG_BLOCK_SIZE_RS232) == false){
 			return false;
@@ -817,7 +817,7 @@ bool CommunicationDialog::fnConfigSetDataSize(unsigned int _size){
 	_rd = sizeof(SystemBlockHdr) % CONFIG_BLOCK_SIZE_RS232;
 	int _i;
 	unsigned char arr_sysblock[256];
-//вычитываем системный блок
+//РІС‹С‡РёС‚С‹РІР°РµРј СЃРёСЃС‚РµРјРЅС‹Р№ Р±Р»РѕРє
 	for(_i = 0; _i < _rc; _i++){
 		if (setRqGetBlock(EntryType_SB, _i*CONFIG_BLOCK_SIZE_RS232, reinterpret_cast<unsigned char*>(&arr_sysblock[_i*CONFIG_BLOCK_SIZE_RS232]), CONFIG_BLOCK_SIZE_RS232) == false){
 			return false;
@@ -841,7 +841,7 @@ bool CommunicationDialog::fnConfigSetDataSize(unsigned int _size){
 			_pSysBlockHdr->parts[_i].CRC = ProcessCRC((char*)&arr_sysblock[0], sizeof(SystemBlockHdr));
 		}
 	}
-//записываем системный блок
+//Р·Р°РїРёСЃС‹РІР°РµРј СЃРёСЃС‚РµРјРЅС‹Р№ Р±Р»РѕРє
 	for(_i = 0; _i < _rc; _i++){
 		if (setRqSetBlock(EntryType_SB, _i*CONFIG_BLOCK_SIZE_RS232, reinterpret_cast<unsigned char*>(&arr_sysblock[_i*CONFIG_BLOCK_SIZE_RS232]), CONFIG_BLOCK_SIZE_RS232) == false){
 			return false;
@@ -862,7 +862,7 @@ bool CommunicationDialog::fnConfigGetDataSize(unsigned int* _data_size){
 	_rd = sizeof(SystemBlockHdr) % CONFIG_BLOCK_SIZE_RS232;
 	int _i;
 	unsigned char arr_sysblock[256];
-//вычитываем системный блок
+//РІС‹С‡РёС‚С‹РІР°РµРј СЃРёСЃС‚РµРјРЅС‹Р№ Р±Р»РѕРє
 	for(_i = 0; _i < _rc; _i++){
 		if (setRqGetBlock(EntryType_SB, _i*CONFIG_BLOCK_SIZE_RS232, reinterpret_cast<unsigned char*>(&arr_sysblock[_i*CONFIG_BLOCK_SIZE_RS232]), CONFIG_BLOCK_SIZE_RS232) == false){
 			return false;
@@ -903,7 +903,7 @@ bool CommunicationDialog::fnConfigSetCRC(unsigned int _crc){
 	_rd = sizeof(SystemBlockHdr) % CONFIG_BLOCK_SIZE_RS232;
 	int _i;
 	unsigned char arr_sysblock[256];
-//вычитываем системный блок
+//РІС‹С‡РёС‚С‹РІР°РµРј СЃРёСЃС‚РµРјРЅС‹Р№ Р±Р»РѕРє
 	for(_i = 0; _i < _rc; _i++){
 		if (setRqGetBlock(EntryType_SB, _i*CONFIG_BLOCK_SIZE_RS232, reinterpret_cast<unsigned char*>(&arr_sysblock[_i*CONFIG_BLOCK_SIZE_RS232]), CONFIG_BLOCK_SIZE_RS232) == false){
 			return false;
@@ -927,7 +927,7 @@ bool CommunicationDialog::fnConfigSetCRC(unsigned int _crc){
 			_pSysBlockHdr->parts[_i].CRC = ProcessCRC((char*)&arr_sysblock[0], sizeof(SystemBlockHdr));
 		}
 	}
-//записываем системный блок
+//Р·Р°РїРёСЃС‹РІР°РµРј СЃРёСЃС‚РµРјРЅС‹Р№ Р±Р»РѕРє
 	for(_i = 0; _i < _rc; _i++){
 		if (setRqSetBlock(EntryType_SB, _i*CONFIG_BLOCK_SIZE_RS232, reinterpret_cast<unsigned char*>(&arr_sysblock[_i*CONFIG_BLOCK_SIZE_RS232]), CONFIG_BLOCK_SIZE_RS232) == false){
 			return false;
@@ -948,7 +948,7 @@ bool CommunicationDialog::fnConfigGetCRC(unsigned int* _crc){
 	_rd = sizeof(SystemBlockHdr) % CONFIG_BLOCK_SIZE_RS232;
 	int _i;
 	unsigned char arr_sysblock[256];
-//вычитываем системный блок
+//РІС‹С‡РёС‚С‹РІР°РµРј СЃРёСЃС‚РµРјРЅС‹Р№ Р±Р»РѕРє
 	for(_i = 0; _i < _rc; _i++){
 		if (setRqGetBlock(EntryType_SB, _i*CONFIG_BLOCK_SIZE_RS232, reinterpret_cast<unsigned char*>(&arr_sysblock[_i*CONFIG_BLOCK_SIZE_RS232]), CONFIG_BLOCK_SIZE_RS232) == false){
 			return false;
@@ -1064,7 +1064,7 @@ bool CommunicationDialog::fnConfigSetVersion(int _version){
 	_rd = sizeof(SystemBlockHdr) % CONFIG_BLOCK_SIZE_RS232;
 	int _i;
 	unsigned char arr_sysblock[256];
-//вычитываем системный блок
+//РІС‹С‡РёС‚С‹РІР°РµРј СЃРёСЃС‚РµРјРЅС‹Р№ Р±Р»РѕРє
 	for(_i = 0; _i < _rc; _i++){
 		if (setRqGetBlock(EntryType_SB, _i*CONFIG_BLOCK_SIZE_RS232, reinterpret_cast<unsigned char*>(&arr_sysblock[_i*CONFIG_BLOCK_SIZE_RS232]), CONFIG_BLOCK_SIZE_RS232) == false){
 			return false;
@@ -1088,7 +1088,7 @@ bool CommunicationDialog::fnConfigSetVersion(int _version){
 			_pSysBlockHdr->parts[_i].CRC = ProcessCRC((char*)&arr_sysblock[0], sizeof(SystemBlockHdr));
 		}
 	}
-//записываем системный блок
+//Р·Р°РїРёСЃС‹РІР°РµРј СЃРёСЃС‚РµРјРЅС‹Р№ Р±Р»РѕРє
 	for(_i = 0; _i < _rc; _i++){
 		if (setRqSetBlock(EntryType_SB, _i*CONFIG_BLOCK_SIZE_RS232, reinterpret_cast<unsigned char*>(&arr_sysblock[_i*CONFIG_BLOCK_SIZE_RS232]), CONFIG_BLOCK_SIZE_RS232) == false){
 			return false;
@@ -1110,7 +1110,7 @@ bool CommunicationDialog::fnConfigGetVersion(int* _version){
 	_rd = sizeof(SystemBlockHdr) % CONFIG_BLOCK_SIZE_RS232;
 	int _i;
 	unsigned char arr_sysblock[256];
-//вычитываем системный блок
+//РІС‹С‡РёС‚С‹РІР°РµРј СЃРёСЃС‚РµРјРЅС‹Р№ Р±Р»РѕРє
 	for(_i = 0; _i < _rc; _i++){
 		if (setRqGetBlock(EntryType_SB, _i*CONFIG_BLOCK_SIZE_RS232, reinterpret_cast<unsigned char*>(&arr_sysblock[_i*CONFIG_BLOCK_SIZE_RS232]), CONFIG_BLOCK_SIZE_RS232) == false){
 			return false;
@@ -1146,7 +1146,7 @@ bool CommunicationDialog::fnSetKeyAes(QString _key){
 		_result = _substr.toUInt(&_ok, 16);
 		_dst_buff[_j] = _result & 0xFF;
 	}
-//вычитываем системный блок
+//РІС‹С‡РёС‚С‹РІР°РµРј СЃРёСЃС‚РµРјРЅС‹Р№ Р±Р»РѕРє
 	for(_i = 0; _i < _rc; _i++){
 		if (setRqGetBlock(EntryType_SB, _i*CONFIG_BLOCK_SIZE_RS232, reinterpret_cast<unsigned char*>(&arr_sysblock[_i*CONFIG_BLOCK_SIZE_RS232]), CONFIG_BLOCK_SIZE_RS232) == false){
 			return false;
@@ -1164,7 +1164,7 @@ bool CommunicationDialog::fnSetKeyAes(QString _key){
 	crc32();
 	_pSysBlockHdr->parts[EntryType_SB].CRC = 0;
 	_pSysBlockHdr->parts[EntryType_SB].CRC = ProcessCRC((char*)&arr_sysblock[0], sizeof(SystemBlockHdr));
-//записываем системный блок
+//Р·Р°РїРёСЃС‹РІР°РµРј СЃРёСЃС‚РµРјРЅС‹Р№ Р±Р»РѕРє
 	for(_i = 0; _i < _rc; _i++){
 		if (setRqSetBlock(EntryType_SB, _i*CONFIG_BLOCK_SIZE_RS232, reinterpret_cast<unsigned char*>(&arr_sysblock[_i*CONFIG_BLOCK_SIZE_RS232]), CONFIG_BLOCK_SIZE_RS232) == false){
 			return false;
@@ -1186,7 +1186,7 @@ bool CommunicationDialog::fnGetKeyAes(QString* _key){
 	QByteArray _ba;
 	int _i;
 	unsigned char arr_sysblock[256];
-//вычитываем системный блок
+//РІС‹С‡РёС‚С‹РІР°РµРј СЃРёСЃС‚РµРјРЅС‹Р№ Р±Р»РѕРє
 	for(_i = 0; _i < _rc; _i++){
 		if (setRqGetBlock(EntryType_SB, _i*CONFIG_BLOCK_SIZE_RS232, reinterpret_cast<unsigned char*>(&arr_sysblock[_i*CONFIG_BLOCK_SIZE_RS232]), CONFIG_BLOCK_SIZE_RS232) == false){
 			return false;
@@ -1212,7 +1212,7 @@ bool CommunicationDialog::fnSetSN(QString _sn){
 	int _i;
 	unsigned char arr_sysblock[512];
 	char _c;
-//вычитываем системный блок
+//РІС‹С‡РёС‚С‹РІР°РµРј СЃРёСЃС‚РµРјРЅС‹Р№ Р±Р»РѕРє
 	for(_i = 0; _i < _rc; _i++){
 		if (setRqGetBlock(EntryType_SB, _i*CONFIG_BLOCK_SIZE_RS232, reinterpret_cast<unsigned char*>(&arr_sysblock[_i*CONFIG_BLOCK_SIZE_RS232]), CONFIG_BLOCK_SIZE_RS232) == false){
 			return false;
@@ -1231,7 +1231,7 @@ bool CommunicationDialog::fnSetSN(QString _sn){
 	crc32();
 	_pSysBlockHdr->parts[EntryType_SB].CRC = 0;
 	_pSysBlockHdr->parts[EntryType_SB].CRC = ProcessCRC((char*)&arr_sysblock[0], sizeof(SystemBlockHdr));
-//записываем системный блок
+//Р·Р°РїРёСЃС‹РІР°РµРј СЃРёСЃС‚РµРјРЅС‹Р№ Р±Р»РѕРє
 	for(_i = 0; _i < _rc; _i++){
 		if (setRqSetBlock(EntryType_SB, _i*CONFIG_BLOCK_SIZE_RS232, reinterpret_cast<unsigned char*>(&arr_sysblock[_i*CONFIG_BLOCK_SIZE_RS232]), CONFIG_BLOCK_SIZE_RS232) == false){
 			return false;
@@ -1254,7 +1254,7 @@ bool CommunicationDialog::fnGetSN(QString* _sn){
 	int _i;
 	unsigned char arr_sysblock[256];
 	unsigned char* _pUChar;
-//вычитываем системный блок
+//РІС‹С‡РёС‚С‹РІР°РµРј СЃРёСЃС‚РµРјРЅС‹Р№ Р±Р»РѕРє
 	for(_i = 0; _i < _rc; _i++){
 		if (setRqGetBlock(EntryType_SB, _i*CONFIG_BLOCK_SIZE_RS232, reinterpret_cast<unsigned char*>(&arr_sysblock[_i*CONFIG_BLOCK_SIZE_RS232]), CONFIG_BLOCK_SIZE_RS232) == false){
 			return false;
@@ -1456,7 +1456,7 @@ bool CommunicationDialog::fnFwwareSetSysInfo(unsigned int _size, unsigned int _c
 	_rd = sizeof(SystemBlockHdr) % CONFIG_BLOCK_SIZE_RS232;
 	int _i;
 	unsigned char arr_sysblock[256];
-//вычитываем системный блок
+//РІС‹С‡РёС‚С‹РІР°РµРј СЃРёСЃС‚РµРјРЅС‹Р№ Р±Р»РѕРє
 	for(_i = 0; _i < _rc; _i++){
 		if (setRqGetBlock(EntryType_SB, _i*CONFIG_BLOCK_SIZE_RS232, reinterpret_cast<unsigned char*>(&arr_sysblock[_i*CONFIG_BLOCK_SIZE_RS232]), CONFIG_BLOCK_SIZE_RS232) == false){
 			return false;
@@ -1482,7 +1482,7 @@ bool CommunicationDialog::fnFwwareSetSysInfo(unsigned int _size, unsigned int _c
 			_pSysBlockHdr->parts[_i].CRC = ProcessCRC((char*)&arr_sysblock[0], sizeof(SystemBlockHdr));
 		}
 	}
-//записываем системный блок
+//Р·Р°РїРёСЃС‹РІР°РµРј СЃРёСЃС‚РµРјРЅС‹Р№ Р±Р»РѕРє
 	for(_i = 0; _i < _rc; _i++){
 		if (setRqSetBlock(EntryType_SB, _i*CONFIG_BLOCK_SIZE_RS232, reinterpret_cast<unsigned char*>(&arr_sysblock[_i*CONFIG_BLOCK_SIZE_RS232]), CONFIG_BLOCK_SIZE_RS232) == false){
 			return false;
@@ -1503,7 +1503,7 @@ bool CommunicationDialog::fnFwwareGetSysInfo(unsigned int* _size, unsigned int* 
 	_rd = sizeof(SystemBlockHdr) % CONFIG_BLOCK_SIZE_RS232;
 	int _i;
 	unsigned char arr_sysblock[256];
-//вычитываем системный блок
+//РІС‹С‡РёС‚С‹РІР°РµРј СЃРёСЃС‚РµРјРЅС‹Р№ Р±Р»РѕРє
 	for(_i = 0; _i < _rc; _i++){
 		if (setRqGetBlock(EntryType_SB, _i*CONFIG_BLOCK_SIZE_RS232, reinterpret_cast<unsigned char*>(&arr_sysblock[_i*CONFIG_BLOCK_SIZE_RS232]), CONFIG_BLOCK_SIZE_RS232) == false){
 			return false;
@@ -1532,7 +1532,7 @@ bool CommunicationDialog::fnFwwareSetDataSize(unsigned int _size){
 	_rd = sizeof(SystemBlockHdr) % CONFIG_BLOCK_SIZE_RS232;
 	int _i;
 	unsigned char arr_sysblock[256];
-//вычитываем системный блок
+//РІС‹С‡РёС‚С‹РІР°РµРј СЃРёСЃС‚РµРјРЅС‹Р№ Р±Р»РѕРє
 	for(_i = 0; _i < _rc; _i++){
 		if (setRqGetBlock(EntryType_SB, _i*CONFIG_BLOCK_SIZE_RS232, reinterpret_cast<unsigned char*>(&arr_sysblock[_i*CONFIG_BLOCK_SIZE_RS232]), CONFIG_BLOCK_SIZE_RS232) == false){
 			return false;
@@ -1556,7 +1556,7 @@ bool CommunicationDialog::fnFwwareSetDataSize(unsigned int _size){
 			_pSysBlockHdr->parts[_i].CRC = ProcessCRC((char*)&arr_sysblock[0], sizeof(SystemBlockHdr));
 		}
 	}
-//записываем системный блок
+//Р·Р°РїРёСЃС‹РІР°РµРј СЃРёСЃС‚РµРјРЅС‹Р№ Р±Р»РѕРє
 	for(_i = 0; _i < _rc; _i++){
 		if (setRqSetBlock(EntryType_SB, _i*CONFIG_BLOCK_SIZE_RS232, reinterpret_cast<unsigned char*>(&arr_sysblock[_i*CONFIG_BLOCK_SIZE_RS232]), CONFIG_BLOCK_SIZE_RS232) == false){
 			return false;
@@ -1577,7 +1577,7 @@ bool CommunicationDialog::fnFwwareGetDataSize(unsigned int* _data_size){
 	_rd = sizeof(SystemBlockHdr) % CONFIG_BLOCK_SIZE_RS232;
 	int _i;
 	unsigned char arr_sysblock[256];
-//вычитываем системный блок
+//РІС‹С‡РёС‚С‹РІР°РµРј СЃРёСЃС‚РµРјРЅС‹Р№ Р±Р»РѕРє
 	for(_i = 0; _i < _rc; _i++){
 		if (setRqGetBlock(EntryType_SB, _i*CONFIG_BLOCK_SIZE_RS232, reinterpret_cast<unsigned char*>(&arr_sysblock[_i*CONFIG_BLOCK_SIZE_RS232]), CONFIG_BLOCK_SIZE_RS232) == false){
 			return false;
@@ -1612,7 +1612,7 @@ bool CommunicationDialog::fnFwwareSetCRC(unsigned int _crc){
 	_rd = sizeof(SystemBlockHdr) % CONFIG_BLOCK_SIZE_RS232;
 	int _i;
 	unsigned char arr_sysblock[256];
-//вычитываем системный блок
+//РІС‹С‡РёС‚С‹РІР°РµРј СЃРёСЃС‚РµРјРЅС‹Р№ Р±Р»РѕРє
 	for(_i = 0; _i < _rc; _i++){
 		if (setRqGetBlock(EntryType_SB, _i*CONFIG_BLOCK_SIZE_RS232, reinterpret_cast<unsigned char*>(&arr_sysblock[_i*CONFIG_BLOCK_SIZE_RS232]), CONFIG_BLOCK_SIZE_RS232) == false){
 			return false;
@@ -1636,7 +1636,7 @@ bool CommunicationDialog::fnFwwareSetCRC(unsigned int _crc){
 			_pSysBlockHdr->parts[_i].CRC = ProcessCRC((char*)&arr_sysblock[0], sizeof(SystemBlockHdr));
 		}
 	}
-//записываем системный блок
+//Р·Р°РїРёСЃС‹РІР°РµРј СЃРёСЃС‚РµРјРЅС‹Р№ Р±Р»РѕРє
 	for(_i = 0; _i < _rc; _i++){
 		if (setRqSetBlock(EntryType_SB, _i*CONFIG_BLOCK_SIZE_RS232, reinterpret_cast<unsigned char*>(&arr_sysblock[_i*CONFIG_BLOCK_SIZE_RS232]), CONFIG_BLOCK_SIZE_RS232) == false){
 			return false;
@@ -1657,7 +1657,7 @@ bool CommunicationDialog::fnFwwareGetCRC(unsigned int* _crc){
 	_rd = sizeof(SystemBlockHdr) % CONFIG_BLOCK_SIZE_RS232;
 	int _i;
 	unsigned char arr_sysblock[256];
-//вычитываем системный блок
+//РІС‹С‡РёС‚С‹РІР°РµРј СЃРёСЃС‚РµРјРЅС‹Р№ Р±Р»РѕРє
 	for(_i = 0; _i < _rc; _i++){
 		if (setRqGetBlock(EntryType_SB, _i*CONFIG_BLOCK_SIZE_RS232, reinterpret_cast<unsigned char*>(&arr_sysblock[_i*CONFIG_BLOCK_SIZE_RS232]), CONFIG_BLOCK_SIZE_RS232) == false){
 			return false;
@@ -1772,7 +1772,7 @@ bool CommunicationDialog::fnFmwareSetVersion(int _version){
 	_rd = sizeof(SystemBlockHdr) % CONFIG_BLOCK_SIZE_RS232;
 	int _i;
 	unsigned char arr_sysblock[256];
-//вычитываем системный блок
+//РІС‹С‡РёС‚С‹РІР°РµРј СЃРёСЃС‚РµРјРЅС‹Р№ Р±Р»РѕРє
 	for(_i = 0; _i < _rc; _i++){
 		if (setRqGetBlock(EntryType_SB, _i*CONFIG_BLOCK_SIZE_RS232, reinterpret_cast<unsigned char*>(&arr_sysblock[_i*CONFIG_BLOCK_SIZE_RS232]), CONFIG_BLOCK_SIZE_RS232) == false){
 			return false;
@@ -1796,7 +1796,7 @@ bool CommunicationDialog::fnFmwareSetVersion(int _version){
 			_pSysBlockHdr->parts[_i].CRC = ProcessCRC((char*)&arr_sysblock[0], sizeof(SystemBlockHdr));
 		}
 	}
-//записываем системный блок
+//Р·Р°РїРёСЃС‹РІР°РµРј СЃРёСЃС‚РµРјРЅС‹Р№ Р±Р»РѕРє
 	for(_i = 0; _i < _rc; _i++){
 		if (setRqSetBlock(EntryType_SB, _i*CONFIG_BLOCK_SIZE_RS232, reinterpret_cast<unsigned char*>(&arr_sysblock[_i*CONFIG_BLOCK_SIZE_RS232]), CONFIG_BLOCK_SIZE_RS232) == false){
 			return false;
@@ -1817,7 +1817,7 @@ bool CommunicationDialog::fnFmwareGetVersion(int* _version){
 	_rd = sizeof(SystemBlockHdr) % CONFIG_BLOCK_SIZE_RS232;
 	int _i;
 	unsigned char arr_sysblock[256];
-//вычитываем системный блок
+//РІС‹С‡РёС‚С‹РІР°РµРј СЃРёСЃС‚РµРјРЅС‹Р№ Р±Р»РѕРє
 	for(_i = 0; _i < _rc; _i++){
 		if (setRqGetBlock(EntryType_SB, _i*CONFIG_BLOCK_SIZE_RS232, reinterpret_cast<unsigned char*>(&arr_sysblock[_i*CONFIG_BLOCK_SIZE_RS232]), CONFIG_BLOCK_SIZE_RS232) == false){
 			return false;
