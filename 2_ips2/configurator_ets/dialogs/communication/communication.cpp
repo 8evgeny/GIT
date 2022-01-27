@@ -1,5 +1,6 @@
 #include <QString>
 #include "communication.h"
+#include <iostream>
 
 #if defined(__clang__)
 	#pragma clang diagnostic push
@@ -321,6 +322,7 @@ bool CommunicationDialog::fnGetCFGUI(unsigned int* _type){
 	}
 	if(isTimeoutAnswer){
 		lastErrorStr = QObject::tr("Timeout answer detected!!!%1").arg(QString::fromLocal8Bit("\r\n"));
+        std::cout<<"1"<<std::endl;
 		add2Log(lastErrorStr, false);
 		return false;
 	}
@@ -441,7 +443,8 @@ QByteArray _ba;
 	}
 	if (isTimeoutAnswer){
 		lastErrorStr = QObject::tr("Timeout answer detected!!!%1").arg(QString::fromLocal8Bit("\r\n"));
-		add2Log(lastErrorStr, false);
+        std::cout<<"2"<<std::endl;
+        add2Log(lastErrorStr, false);
 		return false;
 	}
 	return false;
@@ -555,7 +558,8 @@ bool CommunicationDialog::setRqGetBlock(unsigned char _type_block, unsigned int 
 	}
 	if (isTimeoutAnswer){
 		lastErrorStr = QObject::tr("Timeout answer detected!!!%1").arg(QString::fromLocal8Bit("\r\n"));
-		add2Log(lastErrorStr, false);
+        std::cout<<"3"<<std::endl;
+        add2Log(lastErrorStr, false);
 		return false;
 	}
 	return false;
@@ -642,7 +646,8 @@ bool CommunicationDialog::fnConfigOn(){
 	}
 	if(isTimeoutAnswer){
 		lastErrorStr = QObject::tr("Timeout answer detected!!!%1").arg(QString::fromLocal8Bit("\r\n"));
-		add2Log(lastErrorStr, false);
+        std::cout<<"4"<<std::endl;
+        add2Log(lastErrorStr, false);
 		return false;
 	}
 	return true;
@@ -728,7 +733,8 @@ bool CommunicationDialog::fnConfigOff(){
 	}
 	if(isTimeoutAnswer){
 		lastErrorStr = QObject::tr("Timeout answer detected!!!%1").arg(QString::fromLocal8Bit("\r\n"));
-		add2Log(lastErrorStr, false);
+        std::cout<<"5"<<std::endl;
+        add2Log(lastErrorStr, false);
 		return false;
 	}
 	return true;
@@ -1051,7 +1057,8 @@ bool CommunicationDialog::fnConfigStartWrite(){
 	}
 	if(isTimeoutAnswer){
 		lastErrorStr = QObject::tr("Timeout answer detected!!!%1").arg(QString::fromLocal8Bit("\r\n"));
-		add2Log(lastErrorStr, false);
+        std::cout<<"6"<<std::endl;
+        add2Log(lastErrorStr, false);
 		return false;
 	}
 	return true;
@@ -1356,7 +1363,8 @@ bool CommunicationDialog::fnFwwareOn(){
 	}
 	if(isTimeoutAnswer){
 		lastErrorStr = QObject::tr("Timeout answer detected!!!%1").arg(QString::fromLocal8Bit("\r\n"));
-		add2Log(lastErrorStr, false);
+        std::cout<<"7"<<std::endl;
+        add2Log(lastErrorStr, false);
 		return false;
 	}
 	return true;
@@ -1443,7 +1451,8 @@ bool CommunicationDialog::fnFwwareOff(){
 	}
 	if(isTimeoutAnswer){
 		lastErrorStr = QObject::tr("Timeout answer detected!!!%1").arg(QString::fromLocal8Bit("\r\n"));
-		add2Log(lastErrorStr, false);
+        std::cout<<"8"<<std::endl;
+        add2Log(lastErrorStr, false);
 		return false;
 	}
 	return true;
@@ -1759,7 +1768,8 @@ bool CommunicationDialog::fnFwwareStartWrite(){
 	}
 	if(isTimeoutAnswer){
 		lastErrorStr = QObject::tr("Timeout answer detected!!!%1").arg(QString::fromLocal8Bit("\r\n"));
-		add2Log(lastErrorStr, false);
+        std::cout<<"9"<<std::endl;
+        add2Log(lastErrorStr, false);
 		return false;
 	}
 	return true;
