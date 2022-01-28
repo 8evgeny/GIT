@@ -219,9 +219,9 @@ add_custom_command(TARGET ${PROJECT_NAME}.elf POST_BUILD
     COMMAND ${CMAKE_OBJCOPY} -Oihex $<TARGET_FILE:${PROJECT_NAME}.elf> ${HEX_FILE}
     COMMENT "Building ${HEX_FILE} ")
 
-add_custom_command(TARGET ${PROJECT_NAME}.elf POST_BUILD
-    COMMAND ${CMAKE_OBJCOPY} -Obinary $<TARGET_FILE:${PROJECT_NAME}.elf> ${BIN_FILE}
-    COMMENT "Building ${BIN_FILE} ")
+#add_custom_command(TARGET ${PROJECT_NAME}.elf POST_BUILD
+#    COMMAND ${CMAKE_OBJCOPY} -Obinary $<TARGET_FILE:${PROJECT_NAME}.elf> ${BIN_FILE}
+#    COMMENT "Building ${BIN_FILE} ")
 
 #include(${CMAKE_SOURCE_DIR}/conanbuildinfo.cmake)
 #include(${CMAKE_SOURCE_DIR}/conanbuildinfo.cmake)
