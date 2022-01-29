@@ -7,7 +7,7 @@ set(CMAKE_C_COMPILER ${TOOLS_PATH}/bin/arm-none-eabi-gcc)
 set(CMAKE_CXX_COMPILER ${TOOLS_PATH}/bin/arm-none-eabi-g++)
 set(CMAKE_CXX_LINKER_LAUNCHER ${TOOLS_PATH}/bin/arm-none-eabi-g++)
 
-project(ips_sc2_pdo_linux C CXX ASM)
+project(ips_orange C CXX ASM)
 
 #set(CMAKE_BUILD_TYPE debug)
 #set(CMAKE_BUILD_TYPE release)
@@ -43,9 +43,7 @@ include_directories(
     )
 file (GLOB SOURCES_C ${patchSRC}/*.c STM32H753IITX_FLASH.ld)
 
-
 include_directories(
-    .
     Core/Src
     ${patchDRV}/CMSIS/Include
     ${patchDRV}/CMSIS/Device/ST/STM32H7xx/Include
@@ -151,9 +149,6 @@ target_link_libraries(${PROJECT_NAME}.elf PUBLIC
     LWIP
     Middlewares
     )
-
-
-
 
 set(HEX_FILE ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.hex)
 set(BIN_FILE ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.bin)
