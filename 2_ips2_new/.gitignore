@@ -1,3 +1,4 @@
 Release/
 Debug/
-built_test_linux/
+built_linux_Debug/
+built_linux_Release/
