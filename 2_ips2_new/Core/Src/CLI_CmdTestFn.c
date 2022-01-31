@@ -74,20 +74,27 @@ const sPIN_DESC PinNamesOut[]={
            };
 
 /// in PIN description array
-const sPIN_DESC PinNamesIn[]={
-             {"INT_BUT", INT_BUT_GPIO_Port, INT_BUT_Pin},
-			 {"DET_48V", DET_48V_GPIO_Port, DET_48V_Pin},
-			 {"UPR_PHONE", UPR_PHONE_GPIO_Port, UPR_PHONE_Pin},
-			 {"UPR_MIC2", UPR_MIC2_GPIO_Port, UPR_MIC2_Pin},
-			 {"VOL+", VOL_UP_GPIO_Port, VOL_UP_Pin},
-			 {"VOL-", VOL_DOWN_GPIO_Port, VOL_DOWN_Pin},
-			 {"SENS+", SENS_UP_GPIO_Port, SENS_UP_Pin},
-			 {"SENS-", SENS_DOWN_GPIO_Port, SENS_DOWN_Pin},
-			 {"TEST_BUT", TEST_BUT_GPIO_Port, TEST_BUT_Pin},
-			 {"CFG_UI0", CFG_UI0_GPIO_Port, CFG_UI0_Pin},
-			 {"CFG_UI1", CFG_UI1_GPIO_Port, CFG_UI1_Pin},
-			 {"CFG_UI2", CFG_UI2_GPIO_Port, CFG_UI2_Pin}
-           };
+const sPIN_DESC PinNamesIn[]=
+{
+    {"INT_BUT", INT_BUT_GPIO_Port, INT_BUT_Pin},
+    {"DET_48V", DET_48V_GPIO_Port, DET_48V_Pin},
+    {"UPR_PHONE", UPR_PHONE_GPIO_Port, UPR_PHONE_Pin}, //пин переопределяется в зависимости от SC_2
+    {"UPR_MIC2", UPR_MIC2_GPIO_Port, UPR_MIC2_Pin},
+    {"VOL+", VOL_UP_GPIO_Port, VOL_UP_Pin},
+    {"VOL-", VOL_DOWN_GPIO_Port, VOL_DOWN_Pin},
+    {"SENS+", SENS_UP_GPIO_Port, SENS_UP_Pin},
+    {"SENS-", SENS_DOWN_GPIO_Port, SENS_DOWN_Pin},
+    {"TEST_BUT", TEST_BUT_GPIO_Port, TEST_BUT_Pin},
+    {"CFG_UI0", CFG_UI0_GPIO_Port, CFG_UI0_Pin},
+    {"CFG_UI1", CFG_UI1_GPIO_Port, CFG_UI1_Pin},
+    {"CFG_UI2", CFG_UI2_GPIO_Port, CFG_UI2_Pin},
+    {"K1", GPIOG, K1},
+    {"K2", GPIOG, K2},
+    {"K3", GPIOG, K3},
+    {"K4", GPIOG, K4},
+    {"K5", GPIOG, K5},
+    {"K6", GPIOG, K6}
+};
 
 /// out PIN number
 #define PinNamesOutNum (sizeof(PinNamesOut)/sizeof(sPIN_DESC))

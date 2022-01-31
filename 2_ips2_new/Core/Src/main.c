@@ -943,6 +943,12 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
+  /*Configure GPIO pins : K1 - K6 */
+  GPIO_InitStruct.Pin = K1|K2|K3|K4|K5|K6;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
+
   /*Configure GPIO pins : UPR1_SP_Pin UPR2_FAN_Pin MKVKL_UPR_Pin RELE_UPR_Pin */
   GPIO_InitStruct.Pin = UPR1_SP_Pin|UPR2_FAN_Pin|MKVKL_UPR_Pin|RELE_UPR_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;

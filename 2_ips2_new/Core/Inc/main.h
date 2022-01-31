@@ -69,7 +69,12 @@ void Error_Handler(void);
 /* Private defines -----------------------------------------------------------*/
 #define DET_48V_Pin GPIO_PIN_13
 #define DET_48V_GPIO_Port GPIOC
+#ifdef SC_4
 #define UPR_PHONE_Pin GPIO_PIN_14
+#endif
+#ifdef SC_2
+#define UPR_PHONE_Pin GPIO_PIN_6
+#endif
 #define UPR_PHONE_GPIO_Port GPIOC
 #define UPR_MIC2_Pin GPIO_PIN_15
 #define UPR_MIC2_GPIO_Port GPIOC
@@ -111,6 +116,12 @@ void Error_Handler(void);
 #define LED4 GPIO_PIN_6
 #define LED5 GPIO_PIN_7
 #define LED6 GPIO_PIN_8
+#define K1 GPIO_PIN_9
+#define K2 GPIO_PIN_10
+#define K3 GPIO_PIN_11
+#define K4 GPIO_PIN_12
+#define K5 GPIO_PIN_13
+#define K6 GPIO_PIN_14
 
 /* USER CODE BEGIN Private defines */
 

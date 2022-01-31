@@ -48,11 +48,9 @@
 #define LED_AB1G	9
 #define LED_AB48R	(LED_AB1R + (48*2))
 #define LED_AB48G	(LED_AB1G + (48*2))
-
 #ifdef SC_4
 #define LED_NUM     (LED_AB48G + 1)
 #endif
-
 #ifdef SC_2
 #define LED_NUM     114
 #define LED_L1      108
@@ -96,7 +94,18 @@
 #define BTN_NNST	(BTN_NN9 + 1)
 #define BTN_NN0		(BTN_NN9 + 2)
 #define BTN_NNSH	(BTN_NN9 + 3)
+#ifdef SC_4
 #define BTN_NUM	    (BTN_NNSH + 1)
+#endif
+#ifdef SC_2
+#define BTN_NUM	    100
+#define BTN_K1		94
+#define BTN_K2		95
+#define BTN_K3		96
+#define BTN_K4		97
+#define BTN_K5		98
+#define BTN_K6		99
+#endif
 #define BTN_NONE	0xFF
 ///@}
 
