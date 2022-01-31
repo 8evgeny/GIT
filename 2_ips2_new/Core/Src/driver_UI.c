@@ -440,14 +440,36 @@ void ui_setledstate(uint8_t led, uint8_t state)
 	// обновить состояние	
 	if (led == LED_TEST)
 		HAL_GPIO_WritePin(TEST_LED_GPIO_Port, TEST_LED_Pin, LED_val[led]);
-	else
-	if (led == LED_NORMA) 
-		HAL_GPIO_WritePin(NORMA_UPR_GPIO_Port, NORMA_UPR_Pin, LED_val[led]);
-	else
-	if (led == LED_MKVKL) 
-		HAL_GPIO_WritePin(MKVKL_UPR_GPIO_Port, MKVKL_UPR_Pin, LED_val[led]);
+#ifdef SC_2
+    else
+    if (led == LED_L1)
+        HAL_GPIO_WritePin(GPIOC, LED1, LED_val[led]);
+    else
+    if (led == LED_L2)
+        HAL_GPIO_WritePin(GPIOC, LED2, LED_val[led]);
+    else
+    if (led == LED_L3)
+        HAL_GPIO_WritePin(GPIOC, LED3, LED_val[led]);
+    else
+    if (led == LED_L4)
+        HAL_GPIO_WritePin(GPIOG, LED4, LED_val[led]);
+    else
+    if (led == LED_L5)
+        HAL_GPIO_WritePin(GPIOG, LED5, LED_val[led]);
+    else
+    if (led == LED_L6)
+        HAL_GPIO_WritePin(GPIOG, LED6, LED_val[led]);
+#endif
+#ifdef SC_4
+    else
+    if (led == LED_NORMA)
+        HAL_GPIO_WritePin(NORMA_UPR_GPIO_Port, NORMA_UPR_Pin, LED_val[led]);
+    else
+    if (led == LED_MKVKL)
+        HAL_GPIO_WritePin(MKVKL_UPR_GPIO_Port, MKVKL_UPR_Pin, LED_val[led]);
 	else 
 	    TLC59116F_writeled(led);
+#endif
 }
 
 uint8_t ui_getledstate(uint8_t led)
@@ -530,19 +552,36 @@ void ui_updateLED()
   if (LED_state[LED_TEST] > LED_STATE_ON) 
 	HAL_GPIO_WritePin(TEST_LED_GPIO_Port, TEST_LED_Pin, LED_val[LED_TEST]);
 
-  if (LED_state[LED_NORMA] > LED_STATE_ON) 
-	HAL_GPIO_WritePin(NORMA_UPR_GPIO_Port, NORMA_UPR_Pin, LED_val[LED_NORMA]);
+    #ifdef SC_2
+      if (LED_state[LED_L1] > LED_STATE_ON)
+        HAL_GPIO_WritePin(GPIOC, LED1, LED_val[LED_L1]);
+      if (LED_state[LED_L2] > LED_STATE_ON)
+        HAL_GPIO_WritePin(GPIOC, LED2, LED_val[LED_L2]);
+      if (LED_state[LED_L3] > LED_STATE_ON)
+        HAL_GPIO_WritePin(GPIOC, LED3, LED_val[LED_L3]);
+      if (LED_state[LED_L4] > LED_STATE_ON)
+        HAL_GPIO_WritePin(GPIOG, LED4, LED_val[LED_L4]);
+      if (LED_state[LED_L5] > LED_STATE_ON)
+        HAL_GPIO_WritePin(GPIOG, LED5, LED_val[LED_L5]);
+      if (LED_state[LED_L6] > LED_STATE_ON)
+        HAL_GPIO_WritePin(GPIOG, LED6, LED_val[LED_L6]);
+    #endif
 
-  if (LED_state[LED_MKVKL] > LED_STATE_ON) 
-	HAL_GPIO_WritePin(MKVKL_UPR_GPIO_Port, MKVKL_UPR_Pin, LED_val[LED_MKVKL]);
+    #ifdef SC_4
+      if (LED_state[LED_NORMA] > LED_STATE_ON)
+        HAL_GPIO_WritePin(NORMA_UPR_GPIO_Port, NORMA_UPR_Pin, LED_val[LED_NORMA]);
+      if (LED_state[LED_MKVKL] > LED_STATE_ON)
+        HAL_GPIO_WritePin(MKVKL_UPR_GPIO_Port, MKVKL_UPR_Pin, LED_val[LED_MKVKL]);
 
-  uint8_t i = LED_AB1R;
-  while	(i<LED_NUM) {
-   if (LED_state[i] > LED_STATE_ON) {
-     TLC59116F_writeled(i);
-	 i = (i & 0xFC) + 4; // jump to led in next register
-   } else i++;
-  }
+      uint8_t i = LED_AB1R;
+      while	(i<LED_NUM) {
+       if (LED_state[i] > LED_STATE_ON) {
+         TLC59116F_writeled(i);
+         i = (i & 0xFC) + 4; // jump to led in next register
+       } else i++;
+      }
+    #endif
+
 }
 
 /**

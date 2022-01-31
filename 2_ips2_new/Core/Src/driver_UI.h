@@ -9,6 +9,7 @@
 #define __DRIVER_UI__
 
 #include "stdint.h"
+#include "main.h"
 
 /** @defgroup driver_ui UI driver module
   * @brief UI driver implementation
@@ -47,7 +48,20 @@
 #define LED_AB1G	9
 #define LED_AB48R	(LED_AB1R + (48*2))
 #define LED_AB48G	(LED_AB1G + (48*2))
+
+#ifdef SC_4
 #define LED_NUM     (LED_AB48G + 1)
+#endif
+
+#ifdef SC_2
+#define LED_NUM     114
+#define LED_L1      108
+#define LED_L2      109
+#define LED_L3      110
+#define LED_L4      111
+#define LED_L5      112
+#define LED_L6      113
+#endif
 ///@}
 
 /** @defgroup driver_ui_bval Button values

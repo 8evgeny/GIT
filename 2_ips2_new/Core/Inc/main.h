@@ -32,6 +32,10 @@ extern "C" {
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+
+#define SC_2
+//#define SC_4
+
 #define WORK_MODE_UDEF		0
 #define WORK_MODE_HWFAIL	1
 #define WORK_MODE_NOCFG		2
@@ -101,6 +105,13 @@ void Error_Handler(void);
 #define TEST_BUT_GPIO_Port GPIOB
 #define TEST_LED_Pin GPIO_PIN_9
 #define TEST_LED_GPIO_Port GPIOB
+#define LED1 GPIO_PIN_10
+#define LED2 GPIO_PIN_11
+#define LED3 GPIO_PIN_12
+#define LED4 GPIO_PIN_6
+#define LED5 GPIO_PIN_7
+#define LED6 GPIO_PIN_8
+
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */
