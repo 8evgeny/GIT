@@ -257,11 +257,11 @@ int main(void)
 	  audio_init();
   }
   tone_genInit();
-
+#ifdef SC_4
   pinio_set_UPR_SP(UPR_STATE_ON);
   pinio_set_UPR_FAN(UPR_STATE_OFF);
   pinio_set_UPR_RELE(UPR_STATE_OFF);
-
+#endif
   if (eeprom_init() == -1) {
 	  pdo_work_mode = WORK_MODE_HWFAIL;
 	  pdo_hwerror |= PDO_HWERROR_EEPROM;
@@ -386,11 +386,15 @@ int main(void)
 	  		  if (btn_idx == DET_STATE_ON) {
 	  			CLI_print_lev(CLI_PRINTLEVEL_SERVICE, "EXT_PHONE ON\r\n");
 	  			//aic_setOutDev(AIC_OUTDEV_PHONE);
+                #ifdef SC_4
 	  			pinio_set_UPR_SP(UPR_STATE_OFF);
+                #endif
 	  		  } else {
 	  			CLI_print_lev(CLI_PRINTLEVEL_SERVICE, "EXT_PHONE OFF\r\n");
 	  			//aic_setOutDev(AIC_OUTDEV_GR);
+                #ifdef SC_4
 	  			pinio_set_UPR_SP(UPR_STATE_ON);
+                #endif
 	  		  }
 	  	  }
 
@@ -913,16 +917,22 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOD_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
+  #ifdef SC_4
   HAL_GPIO_WritePin(GPIOA, UPR1_SP_Pin|MKVKL_UPR_Pin, GPIO_PIN_RESET);
+  #endif
 
   /*Configure GPIO pin Output Level */
+  #ifdef SC_4
   HAL_GPIO_WritePin(GPIOA, UPR2_FAN_Pin|RELE_UPR_Pin, GPIO_PIN_SET);
+  #endif
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(POW_DOWN_GPIO_Port, POW_DOWN_Pin, GPIO_PIN_SET);
 
   /*Configure GPIO pin Output Level */
+  #ifdef SC_4
   HAL_GPIO_WritePin(NORMA_UPR_GPIO_Port, NORMA_UPR_Pin, GPIO_PIN_RESET);
+  #endif
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOC, LED1, GPIO_PIN_RESET);
@@ -950,11 +960,13 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
 
   /*Configure GPIO pins : UPR1_SP_Pin UPR2_FAN_Pin MKVKL_UPR_Pin RELE_UPR_Pin */
+  #ifdef SC_4
   GPIO_InitStruct.Pin = UPR1_SP_Pin|UPR2_FAN_Pin|MKVKL_UPR_Pin|RELE_UPR_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+  #endif
 
   /*Configure GPIO pins : POW_DOWN_Pin TEST_LED_Pin */
   GPIO_InitStruct.Pin = POW_DOWN_Pin|TEST_LED_Pin;
@@ -971,18 +983,22 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Alternate = GPIO_AF0_MCO;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
+  #ifdef SC_4
   /*Configure GPIO pins : VOL_UP_Pin VOL_DOWN_Pin SENS_UP_Pin SENS_DOWN_Pin */
   GPIO_InitStruct.Pin = VOL_UP_Pin|VOL_DOWN_Pin|SENS_UP_Pin|SENS_DOWN_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+  #endif
 
   /*Configure GPIO pin : NORMA_UPR_Pin */
+  #ifdef SC_4
   GPIO_InitStruct.Pin = NORMA_UPR_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(NORMA_UPR_GPIO_Port, &GPIO_InitStruct);
+  #endif
 
   /*Configure GPIO pin : LED1 */
   GPIO_InitStruct.Pin = LED1;

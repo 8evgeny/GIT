@@ -15,10 +15,11 @@ uint8_t valDET_48V, valDET_PHONE, valDET_MIC;
 
 void pinio_init()
 { 
+#ifdef SC4
   pinio_set_UPR_SP(UPR_STATE_OFF);
   pinio_set_UPR_FAN(UPR_STATE_OFF);
   pinio_set_UPR_RELE(UPR_STATE_OFF);
-
+#endif
   valDET_48V = 0; 
   valDET_PHONE = 0;
   valDET_MIC = 0;
