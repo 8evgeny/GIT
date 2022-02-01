@@ -124,6 +124,11 @@ void Error_Handler(void);
 #define K6 GPIO_PIN_14
 #define I2C3_INT GPIO_PIN_8
 #define I2C3_INT_PORT GPIOC
+#define TANG_UPR_Port GPIOA
+#define TANG_UPR_Pin GPIO_PIN_9
+#define PEDAL_UPR_Port GPIOA
+#define PEDAL_UPR_Pin GPIO_PIN_10
+
 
 /* USER CODE BEGIN Private defines */
 

@@ -995,6 +995,12 @@ static void MX_GPIO_Init(void)
   #endif
 
   #ifdef SC_2
+  /*Configure GPIO pins : TANG_UPR_Pin PEDAL_UPR_Pin */
+  GPIO_InitStruct.Pin = TANG_UPR_Pin|PEDAL_UPR_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
   /*Configure GPIO pins : K1 - K6 */
   GPIO_InitStruct.Pin = K1|K2|K3|K4|K5|K6;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;

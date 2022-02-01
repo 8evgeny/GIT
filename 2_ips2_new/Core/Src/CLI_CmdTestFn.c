@@ -86,8 +86,11 @@ const sPIN_DESC PinNamesIn[]=
     {"CFG_UI1", CFG_UI1_GPIO_Port, CFG_UI1_Pin},
     {"CFG_UI2", CFG_UI2_GPIO_Port, CFG_UI2_Pin},
     #endif
-
+//RELE1_UPR
+//AMP_UPR
     #ifdef SC_2
+    {"TANG_UPR", TANG_UPR_Port, TANG_UPR_Pin},
+    {"PEDAL_UPR", PEDAL_UPR_Port, PEDAL_UPR_Pin},
     {"I2C3_INT", I2C3_INT_PORT, I2C3_INT},
     {"K1", GPIOG, K1},
     {"K2", GPIOG, K2},
