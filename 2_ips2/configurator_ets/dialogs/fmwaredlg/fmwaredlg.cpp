@@ -365,21 +365,21 @@ void FmWareDialog::b_send_clicked()
 					((StationType)_rx_type_dev != StationType::PDO48)
 					){
 					if (_selected_items.count() > 1){
-						drawCidStatus(_selected_items.at(_i), false);
-						count_errors++;
-						disconnect(this, SIGNAL(sigCancel()), pCommunicationDialog, SLOT(cancel_transactions()));
-						pCommunicationDialog->Close();
-						delete pCommunicationDialog;
-						continue;
+//						drawCidStatus(_selected_items.at(_i), false);
+//						count_errors++;
+//						disconnect(this, SIGNAL(sigCancel()), pCommunicationDialog, SLOT(cancel_transactions()));
+//						pCommunicationDialog->Close();
+//						delete pCommunicationDialog;
+//						continue;
 					} else {
-						drawCidStatus(_selected_items.at(_i), false);
-						QMessageBox::critical(this, QObject::tr("Error"), QObject::tr("the connected device does not match the type of the selected device "));
-						disconnect(this, SIGNAL(sigCancel()), pCommunicationDialog, SLOT(cancel_transactions()));
-						pCommunicationDialog->Close();
-						delete pCommunicationDialog;
-						pdSendConfig->close();
-						isDisableCloseWindow = false;
-						return;
+//						drawCidStatus(_selected_items.at(_i), false);
+//						QMessageBox::critical(this, QObject::tr("Error"), QObject::tr("the connected device does not match the type of the selected device "));
+//						disconnect(this, SIGNAL(sigCancel()), pCommunicationDialog, SLOT(cancel_transactions()));
+//						pCommunicationDialog->Close();
+//						delete pCommunicationDialog;
+//						pdSendConfig->close();
+//						isDisableCloseWindow = false;
+//						return;
 					}
 				}
 				break;
