@@ -233,7 +233,7 @@ int main(void)
 
   CLI_print("v----------v\r\n");
   CLI_print("GIT-Comm IPS\r\n");
-  CLI_print("Starting PDO SC4 firmware...\r\n");
+  CLI_print("Starting PDO SC2 firmware...\r\n");
 
   ui_init();
 
