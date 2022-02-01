@@ -951,36 +951,6 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
-  #ifdef SC_4
-  /*Configure GPIO pins : INT_BUT_Pin CFG_UI0_Pin CFG_UI1_Pin CFG_UI2_Pin*/
-  GPIO_InitStruct.Pin = INT_BUT_Pin|CFG_UI0_Pin|CFG_UI1_Pin|CFG_UI2_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
-  GPIO_InitStruct.Pull = GPIO_PULLUP;
-  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
-  #endif
-
-  #ifdef SC_2
-  /*Configure GPIO pins : K1 - K6 */
-  GPIO_InitStruct.Pin = K1|K2|K3|K4|K5|K6;
-  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
-  GPIO_InitStruct.Pull = GPIO_PULLUP;
-  HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
-  /*Configure GPIO pin : I2C3_INT */
-  GPIO_InitStruct.Pin = I2C3_INT;
-  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
-  GPIO_InitStruct.Pull = GPIO_PULLUP;
-  HAL_GPIO_Init(I2C3_INT_PORT, &GPIO_InitStruct);
-  #endif
-
-  #ifdef SC_4
-  /*Configure GPIO pins : UPR1_SP_Pin UPR2_FAN_Pin MKVKL_UPR_Pin RELE_UPR_Pin */
-  GPIO_InitStruct.Pin = UPR1_SP_Pin|UPR2_FAN_Pin|MKVKL_UPR_Pin|RELE_UPR_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull = GPIO_PULLUP;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
-  #endif
-
   /*Configure GPIO pins : POW_DOWN_Pin TEST_LED_Pin */
   GPIO_InitStruct.Pin = POW_DOWN_Pin|TEST_LED_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
@@ -997,21 +967,45 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
   #ifdef SC_4
+  /*Configure GPIO pins : INT_BUT_Pin CFG_UI0_Pin CFG_UI1_Pin CFG_UI2_Pin*/
+  GPIO_InitStruct.Pin = INT_BUT_Pin|CFG_UI0_Pin|CFG_UI1_Pin|CFG_UI2_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : UPR1_SP_Pin UPR2_FAN_Pin MKVKL_UPR_Pin RELE_UPR_Pin */
+  GPIO_InitStruct.Pin = UPR1_SP_Pin|UPR2_FAN_Pin|MKVKL_UPR_Pin|RELE_UPR_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
   /*Configure GPIO pins : VOL_UP_Pin VOL_DOWN_Pin SENS_UP_Pin SENS_DOWN_Pin */
   GPIO_InitStruct.Pin = VOL_UP_Pin|VOL_DOWN_Pin|SENS_UP_Pin|SENS_DOWN_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
-  #endif
 
   /*Configure GPIO pin : NORMA_UPR_Pin */
-  #ifdef SC_4
   GPIO_InitStruct.Pin = NORMA_UPR_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(NORMA_UPR_GPIO_Port, &GPIO_InitStruct);
   #endif
+
+  #ifdef SC_2
+  /*Configure GPIO pins : K1 - K6 */
+  GPIO_InitStruct.Pin = K1|K2|K3|K4|K5|K6;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : I2C3_INT */
+  GPIO_InitStruct.Pin = I2C3_INT;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  HAL_GPIO_Init(I2C3_INT_PORT, &GPIO_InitStruct);
 
   /*Configure GPIO pin : LED1 */
   GPIO_InitStruct.Pin = LED1;
@@ -1054,6 +1048,7 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
+  #endif
 
   /*Configure GPIO pin : TEST_BUT_Pin */
   GPIO_InitStruct.Pin = TEST_BUT_Pin;
