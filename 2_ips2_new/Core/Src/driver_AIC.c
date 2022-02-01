@@ -495,8 +495,8 @@ int8_t aic_init()
 	vol_Phone = 0;
 	vol_GR = 0;
 	vol_Mic = 0;
-//	aic_setOutDev(AIC_OUTDEV_GR);
-    aic_setOutDev(AIC_OUTDEV_PHONE);
+    aic_setOutDev(AIC_OUTDEV_GR);
+//    aic_setOutDev(AIC_OUTDEV_PHONE);
     aic_setInDev(AIC_INDEV_INTMIC);
 	sai_loop_on = 0;
 
