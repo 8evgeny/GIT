@@ -78,7 +78,11 @@ void pinio_set_UPR_FAN(uint8_t state);  // only SC4 rev1
   * @brief  set state of UPR_RELE signal
   * @retval none
   */
-void pinio_set_UPR_RELE(uint8_t state);
+void pinio_set_UPR_RELE_SC4(uint8_t state);
+
+void pinio_set_UPR_RELE_SC2(uint8_t state);
+
+void pinio_set_AMP_UPR(uint8_t state);
 
 /**
   * @brief  get UI config type value

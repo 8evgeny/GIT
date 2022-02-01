@@ -53,25 +53,29 @@ typedef struct {
 } sPIN_DESC;
 
 /// out PIN description array
-const sPIN_DESC PinNamesOut[]={
-             {"POW_DOWN", POW_DOWN_GPIO_Port, POW_DOWN_Pin},
-			 {"UP2_FAN", UPR2_FAN_GPIO_Port, UPR2_FAN_Pin},
-#ifdef SC_4
-             {"NORMA_UPR", NORMA_UPR_GPIO_Port, NORMA_UPR_Pin},
-             {"UPR1_SP", UPR1_SP_GPIO_Port, UPR1_SP_Pin},
-             {"MKVKL_UPR", MKVKL_UPR_GPIO_Port, MKVKL_UPR_Pin},
-             {"RELE_UPR", RELE_UPR_GPIO_Port, RELE_UPR_Pin},
-#endif
-#ifdef SC_2
-             {"L1", GPIOC, LED1},
-             {"L2", GPIOC, LED2},
-             {"L3", GPIOC, LED3},
-             {"L4", GPIOG, LED4},
-             {"L5", GPIOG, LED5},
-             {"L6", GPIOG, LED6},
-#endif
-             {"TEST_LED", TEST_LED_GPIO_Port, TEST_LED_Pin}
-           };
+const sPIN_DESC PinNamesOut[]=
+{
+    {"POW_DOWN", POW_DOWN_GPIO_Port, POW_DOWN_Pin},
+    {"UP2_FAN", UPR2_FAN_GPIO_Port, UPR2_FAN_Pin},
+    #ifdef SC_4
+    {"NORMA_UPR", NORMA_UPR_GPIO_Port, NORMA_UPR_Pin},
+    {"UPR1_SP", UPR1_SP_GPIO_Port, UPR1_SP_Pin},
+    {"MKVKL_UPR", MKVKL_UPR_GPIO_Port, MKVKL_UPR_Pin},
+    {"RELE_UPR", RELE_UPR_GPIO_Port, RELE_UPR_Pin},
+    #endif
+
+    #ifdef SC_2
+    {"RELE1_UPR", RELE1_UPR_Port, RELE1_UPR_Pin},
+    {"AMP_UPR", AMP_UPR_Port, AMP_UPR_Pin},
+    {"L1", GPIOC, LED1},
+    {"L2", GPIOC, LED2},
+    {"L3", GPIOC, LED3},
+    {"L4", GPIOG, LED4},
+    {"L5", GPIOG, LED5},
+    {"L6", GPIOG, LED6},
+    #endif
+    {"TEST_LED", TEST_LED_GPIO_Port, TEST_LED_Pin}
+};
 
 /// in PIN description array
 const sPIN_DESC PinNamesIn[]=
@@ -86,8 +90,7 @@ const sPIN_DESC PinNamesIn[]=
     {"CFG_UI1", CFG_UI1_GPIO_Port, CFG_UI1_Pin},
     {"CFG_UI2", CFG_UI2_GPIO_Port, CFG_UI2_Pin},
     #endif
-//RELE1_UPR
-//AMP_UPR
+
     #ifdef SC_2
     {"TANG_UPR", TANG_UPR_Port, TANG_UPR_Pin},
     {"PEDAL_UPR", PEDAL_UPR_Port, PEDAL_UPR_Pin},

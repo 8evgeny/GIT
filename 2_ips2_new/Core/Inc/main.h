@@ -128,7 +128,10 @@ void Error_Handler(void);
 #define TANG_UPR_Pin GPIO_PIN_9
 #define PEDAL_UPR_Port GPIOA
 #define PEDAL_UPR_Pin GPIO_PIN_10
-
+#define RELE1_UPR_Port GPIOA
+#define RELE1_UPR_Pin GPIO_PIN_11
+#define AMP_UPR_Port GPIOA
+#define AMP_UPR_Pin GPIO_PIN_12
 
 /* USER CODE BEGIN Private defines */
 

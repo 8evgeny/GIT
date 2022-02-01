@@ -18,7 +18,7 @@ void pinio_init()
 #ifdef SC4
   pinio_set_UPR_SP(UPR_STATE_OFF);
   pinio_set_UPR_FAN(UPR_STATE_OFF);
-  pinio_set_UPR_RELE(UPR_STATE_OFF);
+  pinio_set_UPR_RELE_SC4(UPR_STATE_OFF);
 #endif
   valDET_48V = 0; 
   valDET_PHONE = 0;
@@ -67,13 +67,31 @@ void pinio_set_UPR_FAN(uint8_t state)
    HAL_GPIO_WritePin(UPR2_FAN_GPIO_Port, UPR2_FAN_Pin, GPIO_PIN_RESET);
 }
 
-void pinio_set_UPR_RELE(uint8_t state)
+void pinio_set_UPR_RELE_SC4(uint8_t state)
 {
   if (state == UPR_STATE_OFF)
    HAL_GPIO_WritePin(RELE_UPR_GPIO_Port, RELE_UPR_Pin, GPIO_PIN_SET);
   else
   if (state == UPR_STATE_ON)
    HAL_GPIO_WritePin(RELE_UPR_GPIO_Port, RELE_UPR_Pin, GPIO_PIN_RESET);
+}
+
+void pinio_set_UPR_RELE_SC2(uint8_t state)
+{
+  if (state == UPR_STATE_OFF)
+   HAL_GPIO_WritePin(RELE1_UPR_Port, RELE1_UPR_Pin, GPIO_PIN_SET);
+  else
+  if (state == UPR_STATE_ON)
+   HAL_GPIO_WritePin(RELE1_UPR_Port, RELE1_UPR_Pin, GPIO_PIN_RESET);
+}
+
+void pinio_set_AMP_UPR(uint8_t state)
+{
+  if (state == UPR_STATE_OFF)
+   HAL_GPIO_WritePin(AMP_UPR_Port, AMP_UPR_Pin, GPIO_PIN_SET);
+  else
+  if (state == UPR_STATE_ON)
+   HAL_GPIO_WritePin(AMP_UPR_Port, AMP_UPR_Pin, GPIO_PIN_RESET);
 }
 
 // only SC4 rev1

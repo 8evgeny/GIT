@@ -260,7 +260,7 @@ int main(void)
 #ifdef SC_4
   pinio_set_UPR_SP(UPR_STATE_ON);
   pinio_set_UPR_FAN(UPR_STATE_OFF);
-  pinio_set_UPR_RELE(UPR_STATE_OFF);
+  pinio_set_UPR_RELE_SC4(UPR_STATE_OFF);
 #endif
   if (eeprom_init() == -1) {
 	  pdo_work_mode = WORK_MODE_HWFAIL;
@@ -927,6 +927,12 @@ static void MX_GPIO_Init(void)
   #endif
 
   /*Configure GPIO pin Output Level */
+  #ifdef SC_2
+  HAL_GPIO_WritePin(RELE1_UPR_Port, RELE1_UPR_Pin, GPIO_PIN_SET);
+  #endif
+
+
+  /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(POW_DOWN_GPIO_Port, POW_DOWN_Pin, GPIO_PIN_SET);
 
   /*Configure GPIO pin Output Level */
@@ -1012,6 +1018,13 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   HAL_GPIO_Init(I2C3_INT_PORT, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : RELE1_UPR_Pin AMP_UPR_Pin */
+  GPIO_InitStruct.Pin = RELE1_UPR_Pin|AMP_UPR_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
   /*Configure GPIO pin : LED1 */
   GPIO_InitStruct.Pin = LED1;
