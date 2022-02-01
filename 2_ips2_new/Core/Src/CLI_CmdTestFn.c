@@ -87,9 +87,11 @@ const sPIN_DESC PinNamesIn[]=
     {"SENS+", SENS_UP_GPIO_Port, SENS_UP_Pin},
     {"SENS-", SENS_DOWN_GPIO_Port, SENS_DOWN_Pin},
     {"TEST_BUT", TEST_BUT_GPIO_Port, TEST_BUT_Pin},
+    #ifdef SC_4
     {"CFG_UI0", CFG_UI0_GPIO_Port, CFG_UI0_Pin},
     {"CFG_UI1", CFG_UI1_GPIO_Port, CFG_UI1_Pin},
     {"CFG_UI2", CFG_UI2_GPIO_Port, CFG_UI2_Pin},
+    #endif
     {"K1", GPIOG, K1},
     {"K2", GPIOG, K2},
     {"K3", GPIOG, K3},

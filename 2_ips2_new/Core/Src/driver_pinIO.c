@@ -33,13 +33,18 @@ void pinio_task()
 uint8_t pinio_get_CFGUI()
 {
   uint8_t res = 0;
+  #ifdef SC_4
   if (HAL_GPIO_ReadPin(CFG_UI0_GPIO_Port, CFG_UI0_Pin)==GPIO_PIN_SET)
 	  res |= 1;
   if (HAL_GPIO_ReadPin(CFG_UI1_GPIO_Port, CFG_UI1_Pin)==GPIO_PIN_SET)
 	  res |= 2;
   if (HAL_GPIO_ReadPin(CFG_UI2_GPIO_Port, CFG_UI2_Pin)==GPIO_PIN_SET)
 	  res |= 4;
+  #endif
 
+  #ifdef SC_2
+  res = 1;
+  #endif
   return res;
 }
 
