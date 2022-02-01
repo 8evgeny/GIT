@@ -208,7 +208,8 @@ const uint8_t TLV320_DACSetup_Seq[] = {
 			TLV320AIC3254_REG_LOL_SEL		, 0x08,		// LOL <- Left DAC
 //			TLV320AIC3254_REG_LOL_SEL		, 0x1A,		// LOL <- MAL , LOL <- Left DAC,LOL <- Right DAC
 
-			TLV320AIC3254_REG_LOR_SEL		, 0x00,		// LOR <- off
+//			TLV320AIC3254_REG_LOR_SEL		, 0x00,		// LOR <- off
+            TLV320AIC3254_REG_LOR_SEL		, 0x08,		// LOR <- Left DAC - Для SC_2
 
 			TLV320AIC3254_REG_OUTDRV_PWR_CR	, 0x0C,		// HPL/HPR pwroff, LOL/LOR pwron, MAL/MAR pwroff
 //			TLV320AIC3254_REG_OUTDRV_PWR_CR	, 0x0F,		// HPL/HPR pwroff, LOL/LOR pwron, MAL/MAR pwron
