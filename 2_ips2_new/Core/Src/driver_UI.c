@@ -597,30 +597,29 @@ void ui_updateBtn() {
   
   if (ui_block_kbd) return;
 
+  #ifdef SC_4
   val = HAL_GPIO_ReadPin(VOL_UP_GPIO_Port, VOL_UP_Pin) ^ 1;
   if (BTN_val[BTN_VOLUP] != val) {
 	  BTN_val[BTN_VOLUP] = val;
 	  BTN_state[BTN_VOLUP] = BTN_STATE_TOGGLE;
   }
-
   val = HAL_GPIO_ReadPin(VOL_DOWN_GPIO_Port, VOL_DOWN_Pin) ^ 1;
   if (BTN_val[BTN_VOLDN] != val) {
 	  BTN_val[BTN_VOLDN] = val;
 	  BTN_state[BTN_VOLDN] = BTN_STATE_TOGGLE;
   }
-
   val = HAL_GPIO_ReadPin(SENS_UP_GPIO_Port, SENS_UP_Pin) ^ 1;
   if (BTN_val[BTN_MICUP] != val) {
 	  BTN_val[BTN_MICUP] = val;
 	  BTN_state[BTN_MICUP] = BTN_STATE_TOGGLE;
   }
-
   val = HAL_GPIO_ReadPin(SENS_DOWN_GPIO_Port, SENS_DOWN_Pin) ^ 1;
   if (BTN_val[BTN_MICDN] != val) {
 	  BTN_val[BTN_MICDN] = val;
 	  BTN_state[BTN_MICDN] = BTN_STATE_TOGGLE;
   }
-
+  #endif
+  #ifdef SC_2
   val = HAL_GPIO_ReadPin(GPIOG, K1) ^ 1;
   if (BTN_val[BTN_K1] != val) {
       BTN_val[BTN_K1] = val;
@@ -651,6 +650,7 @@ void ui_updateBtn() {
       BTN_val[BTN_K6] = val;
       BTN_state[BTN_K6] = BTN_STATE_TOGGLE;
   }
+  #endif
 }
 
 void ui_task()
