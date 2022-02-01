@@ -102,8 +102,8 @@ void Error_Handler(void);
 #define SENS_UP_GPIO_Port GPIOA
 #define SENS_DOWN_Pin GPIO_PIN_12
 #define SENS_DOWN_GPIO_Port GPIOA
-#define INT_BUT_Pin GPIO_PIN_12
-#define INT_BUT_GPIO_Port GPIOC
+#define INT_BUT_Pin GPIO_PIN_4
+#define INT_BUT_GPIO_Port GPIOA
 #define NORMA_UPR_Pin GPIO_PIN_6
 #define NORMA_UPR_GPIO_Port GPIOD
 #define TEST_BUT_Pin GPIO_PIN_5

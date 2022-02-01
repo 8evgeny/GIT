@@ -946,12 +946,19 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(TEST_LED_GPIO_Port, TEST_LED_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pins : DET_48V_Pin UPR_PHONE_Pin UPR_MIC2_Pin CFG_UI0_Pin
-                           CFG_UI1_Pin CFG_UI2_Pin INT_BUT_Pin */
-  GPIO_InitStruct.Pin = DET_48V_Pin|UPR_PHONE_Pin|UPR_MIC2_Pin|CFG_UI0_Pin
-                          |CFG_UI1_Pin|CFG_UI2_Pin|INT_BUT_Pin;
+                           CFG_UI1_Pin CFG_UI2_Pin */
+  GPIO_InitStruct.Pin = DET_48V_Pin|UPR_PHONE_Pin|UPR_MIC2_Pin|CFG_UI0_Pin|CFG_UI1_Pin|CFG_UI2_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+
+  #ifdef SC_4
+  /*Configure GPIO pins : INT_BUT_Pin */
+  GPIO_InitStruct.Pin = INT_BUT_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+  #endif
 
   /*Configure GPIO pins : K1 - K6 */
   GPIO_InitStruct.Pin = K1|K2|K3|K4|K5|K6;

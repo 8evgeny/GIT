@@ -100,11 +100,14 @@ void SC4BTN_EXTI_IRQHandler_Config() {
   HAL_NVIC_SetPriority(EXTI9_5_IRQn, 8, 0);
   HAL_NVIC_EnableIRQ(EXTI9_5_IRQn);
 
+  #ifdef SC_4
   //button UI board interrupt pin setup
   GPIO_InitStructure.Mode = GPIO_MODE_IT_RISING;
   GPIO_InitStructure.Pull = GPIO_PULLUP;
   GPIO_InitStructure.Pin = INT_BUT_Pin;
   HAL_GPIO_Init(INT_BUT_GPIO_Port, &GPIO_InitStructure);
+  #endif
+
   //set interrupt for EXTI12
   HAL_NVIC_SetPriority(EXTI15_10_IRQn, 8, 0);
   HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
@@ -124,8 +127,10 @@ void EXTI9_5_IRQHandler() {
   */
 void EXTI15_10_IRQHandler() {
 //  MCP23017_readbuttons();
+  #ifdef SC_4
   MCP_needtoread = 1;
   HAL_GPIO_EXTI_IRQHandler(INT_BUT_Pin);
+  #endif
 }
 
 /**

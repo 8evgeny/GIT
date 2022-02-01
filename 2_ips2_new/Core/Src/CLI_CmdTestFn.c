@@ -76,7 +76,9 @@ const sPIN_DESC PinNamesOut[]={
 /// in PIN description array
 const sPIN_DESC PinNamesIn[]=
 {
+    #ifdef SC_4
     {"INT_BUT", INT_BUT_GPIO_Port, INT_BUT_Pin},
+    #endif
     {"DET_48V", DET_48V_GPIO_Port, DET_48V_Pin},
     {"UPR_PHONE", UPR_PHONE_GPIO_Port, UPR_PHONE_Pin}, //пин переопределяется в зависимости от SC_2
     {"UPR_MIC2", UPR_MIC2_GPIO_Port, UPR_MIC2_Pin},
