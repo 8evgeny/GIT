@@ -1,7 +1,7 @@
 Release/
-!Release/ips_new_orange_pdo.bin
+!Release/*.bin
 Debug/
-!Debug/ips_new_orange_pdo.bin
+!Debug/*.bin
 built_linux_Debug/
 built_linux_Release/
 /CMakeLists.txt.user
