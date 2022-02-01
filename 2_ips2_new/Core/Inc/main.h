@@ -122,6 +122,8 @@ void Error_Handler(void);
 #define K4 GPIO_PIN_12
 #define K5 GPIO_PIN_13
 #define K6 GPIO_PIN_14
+#define I2C3_INT GPIO_PIN_8
+#define I2C3_INT_PORT GPIOC
 
 /* USER CODE BEGIN Private defines */
 

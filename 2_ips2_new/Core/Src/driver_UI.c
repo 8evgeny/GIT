@@ -88,7 +88,7 @@ extern I2C_HandleTypeDef hi2c3;
 /**
   * @brief setup buttons hardware interrupt
   */
-void SC4BTN_EXTI_IRQHandler_Config() {
+void SC_2_4_BTN_EXTI_IRQHandler_Config() {
   GPIO_InitTypeDef   GPIO_InitStructure;
 
   //button TEST interrupt pin setup
@@ -528,7 +528,7 @@ void ui_init()
    res = MCP23017_Init();
    if (res<0) CLI_print_lev(UI_CLI_ERROR_LEVEL, "Error : UI init MCP%i fail\r\n",-res);
 
-   SC4BTN_EXTI_IRQHandler_Config();
+   SC_2_4_BTN_EXTI_IRQHandler_Config();
    
    LED_time_FL1 = HAL_GetTick(); 
    LED_time_FL2 = HAL_GetTick(); 
