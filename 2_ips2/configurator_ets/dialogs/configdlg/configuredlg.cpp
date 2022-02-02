@@ -247,13 +247,13 @@ void ConfigureDialog::b_send_clicked()
 				return;
 			}
 		} else {
-			QMessageBox::critical(this, QObject::tr("Error"), QObject::tr("Unsupported type device\nSelected device: %1, connected device: %2").arg(typeDeviceConfiguring).arg(_rx_type_dev));
-			disconnect(this, SIGNAL(sigCancel()), pCommunicationDialog, SLOT(cancel_transactions()));
-			pCommunicationDialog->Close();
-			delete pCommunicationDialog;
-			pdSendConfig->close();
-			this->setEnabled(true);
-			return;
+//			QMessageBox::critical(this, QObject::tr("Error"), QObject::tr("Unsupported type device\nSelected device: %1, connected device: %2").arg(typeDeviceConfiguring).arg(_rx_type_dev));
+//			disconnect(this, SIGNAL(sigCancel()), pCommunicationDialog, SLOT(cancel_transactions()));
+//			pCommunicationDialog->Close();
+//			delete pCommunicationDialog;
+//			pdSendConfig->close();
+//			this->setEnabled(true);
+//			return;
 		}
 	}
 //====установка инициализации процесса конфигурирования====
