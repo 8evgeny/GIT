@@ -450,19 +450,37 @@ void ui_setledstate(uint8_t led, uint8_t state)
     if (led == LED_L1)
         HAL_GPIO_WritePin(GPIOC, LED1, LED_val[led]);
     else
+    if (led == LED_L1_G)
+        HAL_GPIO_WritePin(GPIOC, LED1, LED_val[led]);
+    else
     if (led == LED_L2)
+        HAL_GPIO_WritePin(GPIOC, LED2, LED_val[led]);
+    else
+    if (led == LED_L2_G)
         HAL_GPIO_WritePin(GPIOC, LED2, LED_val[led]);
     else
     if (led == LED_L3)
         HAL_GPIO_WritePin(GPIOC, LED3, LED_val[led]);
     else
+    if (led == LED_L3_G)
+        HAL_GPIO_WritePin(GPIOC, LED3, LED_val[led]);
+    else
     if (led == LED_L4)
+        HAL_GPIO_WritePin(GPIOG, LED4, LED_val[led]);
+    else
+    if (led == LED_L4_G)
         HAL_GPIO_WritePin(GPIOG, LED4, LED_val[led]);
     else
     if (led == LED_L5)
         HAL_GPIO_WritePin(GPIOG, LED5, LED_val[led]);
     else
+    if (led == LED_L5_G)
+        HAL_GPIO_WritePin(GPIOG, LED5, LED_val[led]);
+    else
     if (led == LED_L6)
+        HAL_GPIO_WritePin(GPIOG, LED6, LED_val[led]);
+    else
+    if (led == LED_L6_G)
         HAL_GPIO_WritePin(GPIOG, LED6, LED_val[led]);
 #endif
 #ifdef SC_4
@@ -560,16 +578,33 @@ void ui_updateLED()
     #ifdef SC_2
       if (LED_state[LED_L1] > LED_STATE_ON)
         HAL_GPIO_WritePin(GPIOC, LED1, LED_val[LED_L1]);
+      if (LED_state[LED_L1_G] > LED_STATE_ON)
+        HAL_GPIO_WritePin(GPIOC, LED1, LED_val[LED_L1_G]);
+
       if (LED_state[LED_L2] > LED_STATE_ON)
         HAL_GPIO_WritePin(GPIOC, LED2, LED_val[LED_L2]);
+      if (LED_state[LED_L2_G] > LED_STATE_ON)
+        HAL_GPIO_WritePin(GPIOC, LED2, LED_val[LED_L2_G]);
+
       if (LED_state[LED_L3] > LED_STATE_ON)
         HAL_GPIO_WritePin(GPIOC, LED3, LED_val[LED_L3]);
+      if (LED_state[LED_L3_G] > LED_STATE_ON)
+        HAL_GPIO_WritePin(GPIOC, LED3, LED_val[LED_L3_G]);
+
       if (LED_state[LED_L4] > LED_STATE_ON)
         HAL_GPIO_WritePin(GPIOG, LED4, LED_val[LED_L4]);
+      if (LED_state[LED_L4_G] > LED_STATE_ON)
+        HAL_GPIO_WritePin(GPIOG, LED4, LED_val[LED_L4_G]);
+
       if (LED_state[LED_L5] > LED_STATE_ON)
         HAL_GPIO_WritePin(GPIOG, LED5, LED_val[LED_L5]);
+      if (LED_state[LED_L5_G] > LED_STATE_ON)
+        HAL_GPIO_WritePin(GPIOG, LED5, LED_val[LED_L5_G]);
+
       if (LED_state[LED_L6] > LED_STATE_ON)
         HAL_GPIO_WritePin(GPIOG, LED6, LED_val[LED_L6]);
+      if (LED_state[LED_L6_G] > LED_STATE_ON)
+        HAL_GPIO_WritePin(GPIOG, LED6, LED_val[LED_L6_G]);
     #endif
 
     #ifdef SC_4

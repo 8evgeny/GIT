@@ -48,17 +48,21 @@
 #define LED_AB1G	9
 #define LED_AB48R	(LED_AB1R + (48*2))
 #define LED_AB48G	(LED_AB1G + (48*2))
-#ifdef SC_4
 #define LED_NUM     (LED_AB48G + 1)
-#endif
+
 #ifdef SC_2
-#define LED_NUM     114
-#define LED_L1      108
-#define LED_L2      109
-#define LED_L3      110
-#define LED_L4      111
-#define LED_L5      112
-#define LED_L6      113
+#define LED_L1      14
+#define LED_L1_G    15
+#define LED_L2      16
+#define LED_L2_G    17
+#define LED_L3      18
+#define LED_L3_G    19
+#define LED_L4      8
+#define LED_L4_G    9
+#define LED_L5      10
+#define LED_L5_G    11
+#define LED_L6      12
+#define LED_L6_G    13
 #endif
 ///@}
 
