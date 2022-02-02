@@ -656,17 +656,20 @@ void ui_updateBtn() {
   #endif
   #ifdef SC_2
   val = HAL_GPIO_ReadPin(TANG_UPR_Port, TANG_UPR_Pin) ^ 1;
-  if (BTN_val[BTN_VOLUP] != val)
+  val = val==GPIO_PIN_SET?GPIO_PIN_RESET:GPIO_PIN_SET;
+  if (BTN_val[BTN_TANG] != val)
   {
-      BTN_val[BTN_VOLUP] = val;
-      BTN_state[BTN_VOLUP] = BTN_STATE_TOGGLE;
+      BTN_val[BTN_TANG] = val;
+      BTN_state[BTN_TANG] = BTN_STATE_TOGGLE;
   }
   val = HAL_GPIO_ReadPin(PEDAL_UPR_Port, PEDAL_UPR_Pin) ^ 1;
-  if (BTN_val[BTN_VOLUP] != val)
+  val = val==GPIO_PIN_SET?GPIO_PIN_RESET:GPIO_PIN_SET;
+  if (BTN_val[BTN_PEDAL] != val)
   {
-      BTN_val[BTN_VOLUP] = val;
-      BTN_state[BTN_VOLUP] = BTN_STATE_TOGGLE;
+      BTN_val[BTN_PEDAL] = val;
+      BTN_state[BTN_PEDAL] = BTN_STATE_TOGGLE;
   }
+
   val = HAL_GPIO_ReadPin(GPIOG, K1) ^ 1;
   val = val==GPIO_PIN_SET?GPIO_PIN_RESET:GPIO_PIN_SET;
   if (BTN_val[BTN_K1] != val)

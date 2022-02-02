@@ -107,6 +107,10 @@
 #define BTN_K4		11
 #define BTN_K5		12
 #define BTN_K6		13
+
+#define BTN_TANG	14
+#define BTN_PEDAL	15
+
 #endif
 
 #define BTN_NONE	0xFF
