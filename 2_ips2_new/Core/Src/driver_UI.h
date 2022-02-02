@@ -94,18 +94,17 @@
 #define BTN_NNST	(BTN_NN9 + 1)
 #define BTN_NN0		(BTN_NN9 + 2)
 #define BTN_NNSH	(BTN_NN9 + 3)
-#ifdef SC_4
 #define BTN_NUM	    (BTN_NNSH + 1)
-#endif
+
 #ifdef SC_2
-#define BTN_NUM	    100
-#define BTN_K1		94
-#define BTN_K2		95
-#define BTN_K3		96
-#define BTN_K4		97
-#define BTN_K5		98
-#define BTN_K6		99
+#define BTN_K1		10
+#define BTN_K2		9
+#define BTN_K3		8
+#define BTN_K4		11
+#define BTN_K5		12
+#define BTN_K6		13
 #endif
+
 #define BTN_NONE	0xFF
 ///@}
 
