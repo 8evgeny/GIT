@@ -314,6 +314,8 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+
+  aic_setADCInVolume(0x74);
   while (1)
   {
 
