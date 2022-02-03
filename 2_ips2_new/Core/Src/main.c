@@ -26,6 +26,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "lwip.h"
+#include "driver_AIC.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -322,6 +323,12 @@ int main(void)
 
 	  test_task();
 
+      #ifdef SC_2
+      vol_GR = VOL_OUT_SC_2;
+      vol_Phone = VOL_OUT_SC_2;
+      vol_Mic = VOL_MIC_SC_2;
+      #endif
+
 	  if (pdo_work_mode == WORK_MODE_OK) {
 	   if (service_getmode()==svcNone) {
 	    aic_task();
@@ -334,10 +341,14 @@ int main(void)
 
 	  MX_LWIP_Process();
 
-	  if (btn_wait_time) {
+      if (btn_wait_time)
+      {
 	    if ((HAL_GetTick() - btn_wait_time) > TIME_BTN_WAIT) { ui_set_block_kbd(0); btn_wait_time = 0;}
 	  } else
-	  while ((btn_idx=ui_getactivebtn())!=BTN_NONE) {
+
+
+      while ((btn_idx=ui_getactivebtn())!=BTN_NONE)
+      {
 		  btn_st = ui_getbtnval(btn_idx);
 		  btn_wait_time =  HAL_GetTick();
 		  ui_set_block_kbd(1);
@@ -351,28 +362,43 @@ int main(void)
 		  {
 		  	cmanager_process_button(btn_idx-8, btn_st);
 		  } else
-		  if (btn_idx == BTN_VOLUP) {
-		  	if (btn_st == BTN_VAL_DOWN) {
+
+
+          #ifdef SC_4
+          if (btn_idx == BTN_VOLUP)
+          {
+            if (btn_st == BTN_VAL_DOWN)
+            {
 		  	 aic_setOutVolUp();
 		    }
 		  } else
-		  if (btn_idx == BTN_VOLDN) {
-		  	if (btn_st == BTN_VAL_DOWN) {
+          if (btn_idx == BTN_VOLDN)
+          {
+            if (btn_st == BTN_VAL_DOWN)
+            {
 		  	 aic_setOutVolDown();
 		    }
 		  } else
-		  if (btn_idx == BTN_MICUP) {
-		  	if (btn_st == BTN_VAL_DOWN) {
+          if (btn_idx == BTN_MICUP)
+          {
+            if (btn_st == BTN_VAL_DOWN)
+            {
 		  	 aic_setInVolUp();
 		    }
 		  } else
-		  if (btn_idx == BTN_MICDN) {
-		  	if (btn_st == BTN_VAL_DOWN) {
+          if (btn_idx == BTN_MICDN)
+          {
+            if (btn_st == BTN_VAL_DOWN)
+            {
 		  	 aic_setInVolDown();
 		  	}
-		  } else
-		  if (btn_idx == BTN_TEST) {
-			if (btn_st == BTN_VAL_DOWN) {
+          } else
+          #endif
+
+          if (btn_idx == BTN_TEST)
+          {
+            if (btn_st == BTN_VAL_DOWN)
+            {
 				if (test_get_mode()&TEST_MODE_ON)
 					fnStopTestMode(0,0);
 				else

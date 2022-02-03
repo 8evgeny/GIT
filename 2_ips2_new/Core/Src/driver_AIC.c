@@ -63,6 +63,7 @@ extern SAI_HandleTypeDef hsai_BlockA1;
 /// link to SAI_BlockB1 hardware module control/status structure
 extern SAI_HandleTypeDef hsai_BlockB1;
 
+
 /// SAI TX DMA buffers
 int16_t SAI_TX_DMA_Buffer[2][SAI_DMA_BUFFER_SIZE] __attribute__((section(".DMATransferSection")));
 /// SAI RX DMA buffers
@@ -83,6 +84,7 @@ int8_t vol_Phone;
 int8_t vol_GR;
 /// current audio input sound volume
 int8_t vol_Mic;
+
 /// current audio output device code
 int8_t aic_curoutdev;
 /// current audio input device code
