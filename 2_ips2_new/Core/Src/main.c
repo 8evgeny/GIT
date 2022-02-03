@@ -315,7 +315,8 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
 
-  aic_setADCInVolume(0x74);
+  aic_setADCInVolume(0x74); //Микрофон -6db
+  aic_setDACOutVolume(0xC0);//Динамик  -32db
   while (1)
   {
 
