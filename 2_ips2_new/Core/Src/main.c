@@ -315,10 +315,10 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
 
-  aic_setADCInVolume(0x74); //Микрофон -6db
+  aic_setADCInVolume(0x74);       //Микрофон -6db
   while (1)
   {
-      aic_setDACOutVolume(0x9C);//Динамик  -50db
+      aic_setDACOutVolume(0x9C);  //Динамик  -50db
 
 	  CLI_uart_task();
 
@@ -326,12 +326,13 @@ int main(void)
 
 	  test_task();
 
-	  if (pdo_work_mode == WORK_MODE_OK) {
-	   if (service_getmode()==svcNone) {
-	    aic_task();
-
-	    audio_process();
-	   }
+      if (pdo_work_mode == WORK_MODE_OK)
+      {
+          if (service_getmode()==svcNone)
+          {
+              aic_task();
+              audio_process();
+          }
 	  }
 
 	  tone_genProcess();
@@ -340,8 +341,9 @@ int main(void)
 
       if (btn_wait_time)
       {
-	    if ((HAL_GetTick() - btn_wait_time) > TIME_BTN_WAIT) { ui_set_block_kbd(0); btn_wait_time = 0;}
-	  } else
+          if ((HAL_GetTick() - btn_wait_time) > TIME_BTN_WAIT) { ui_set_block_kbd(0); btn_wait_time = 0;}
+      }
+      else
 
 
       while ((btn_idx=ui_getactivebtn())!=BTN_NONE)
@@ -357,8 +359,9 @@ int main(void)
 
 		  if ((btn_idx >= (BTN_AB1))&&(btn_idx <= (BTN_AB48)))
 		  {
-		  	cmanager_process_button(btn_idx-8, btn_st);
-		  } else
+              cmanager_process_button(btn_idx-8, btn_st);
+          }
+          else
 
 
           #ifdef SC_4
@@ -394,43 +397,51 @@ int main(void)
 
           if (btn_idx == BTN_TEST)
           {
-            if (btn_st == BTN_VAL_DOWN)
-            {
-				if (test_get_mode()&TEST_MODE_ON)
+              if (btn_st == BTN_VAL_DOWN)
+              {
+                  if (test_get_mode()&TEST_MODE_ON)
 					fnStopTestMode(0,0);
-				else
+                  else
 					fnStartTestMode(0,0);
-			}
+              }
 		  }
 	  }
 
 	  btn_idx = pinio_getstate_DET_PHONE();
-	  	  if (btn_idx!=DET_STATE_IDLE) {
-	  		  if (btn_idx == DET_STATE_ON) {
-	  			CLI_print_lev(CLI_PRINTLEVEL_SERVICE, "EXT_PHONE ON\r\n");
-	  			//aic_setOutDev(AIC_OUTDEV_PHONE);
-                #ifdef SC_4
-	  			pinio_set_UPR_SP(UPR_STATE_OFF);
-                #endif
-	  		  } else {
-	  			CLI_print_lev(CLI_PRINTLEVEL_SERVICE, "EXT_PHONE OFF\r\n");
-	  			//aic_setOutDev(AIC_OUTDEV_GR);
-                #ifdef SC_4
-	  			pinio_set_UPR_SP(UPR_STATE_ON);
-                #endif
-	  		  }
+      if (btn_idx!=DET_STATE_IDLE)
+      {
+          if (btn_idx == DET_STATE_ON)
+          {
+              CLI_print_lev(CLI_PRINTLEVEL_SERVICE, "EXT_PHONE ON\r\n");
+              //aic_setOutDev(AIC_OUTDEV_PHONE);
+              #ifdef SC_4
+              pinio_set_UPR_SP(UPR_STATE_OFF);
+              #endif
+          }
+          else
+          {
+               CLI_print_lev(CLI_PRINTLEVEL_SERVICE, "EXT_PHONE OFF\r\n");
+               //aic_setOutDev(AIC_OUTDEV_GR);
+               #ifdef SC_4
+               pinio_set_UPR_SP(UPR_STATE_ON);
+               #endif
+          }
 	  	  }
 
 	  	btn_idx = pinio_getstate_DET_MIC();
-		  if (btn_idx!=DET_STATE_IDLE) {
-			  if (btn_idx == DET_STATE_ON) {
+        if (btn_idx!=DET_STATE_IDLE)
+        {
+            if (btn_idx == DET_STATE_ON)
+            {
 				CLI_print_lev(CLI_PRINTLEVEL_SERVICE, "EXT_MIC ON\r\n");
 				aic_setInDev(AIC_INDEV_EXTMIC);
-			  } else {
+            }
+            else
+            {
 				CLI_print_lev(CLI_PRINTLEVEL_SERVICE, "EXT_MIC OFF\r\n");
 				aic_setInDev(AIC_INDEV_INTMIC);
-			  }
-		  }
+            }
+        }
 
 	  if ((HAL_GetTick() - print_time) > TIME_DEBUG_PRINT)
 	  {
