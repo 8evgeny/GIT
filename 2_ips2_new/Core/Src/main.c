@@ -319,7 +319,7 @@ int main(void)
   aic_setDACOutVolume(0x88);//Динамик  -60db
   while (1)
   {
-
+  aic_setDACOutVolume(0x88);//Динамик  -60db
 	  CLI_uart_task();
 
 	  ui_task();
