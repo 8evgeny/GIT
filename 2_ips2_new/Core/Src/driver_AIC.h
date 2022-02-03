@@ -9,6 +9,7 @@
 #define __DRIVER_AIC__
 
 #include "stdint.h"
+#include "main.h"
 
 /** @defgroup driver_AIC AIC driver module
   * @brief AIC driver implementation
@@ -106,11 +107,19 @@ uint8_t TLV320_Reset();
 /**
   * @}
   */
-
+#ifdef SC_4
 /// out device GR code
 #define AIC_OUTDEV_GR		0
 /// out device PHONE step
 #define AIC_OUTDEV_PHONE	1
+#endif
+
+#ifdef SC_2
+/// out device GR code
+#define AIC_OUTDEV_GR		1
+/// out device PHONE step
+#define AIC_OUTDEV_PHONE	0
+#endif
 
 /// in device INTMIC code
 #define AIC_INDEV_INTMIC	0
