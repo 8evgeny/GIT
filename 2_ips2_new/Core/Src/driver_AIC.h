@@ -116,9 +116,9 @@ uint8_t TLV320_Reset();
 
 #ifdef SC_2
 /// out device GR code
-#define AIC_OUTDEV_GR		1
+#define AIC_OUTDEV_GR		0
 /// out device PHONE step
-#define AIC_OUTDEV_PHONE	0
+#define AIC_OUTDEV_PHONE	1
 #endif
 
 /// in device INTMIC code
