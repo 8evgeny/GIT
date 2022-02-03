@@ -1,0 +1,17 @@
+Громкость
+
+DEBUG ON
+TEST GET AIC : 00 : 42
+
+TEST SET AIC : 00 : 42 : E2 - Норма
+TEST SET AIC : 00 : 42 : 00 - Средний уровень громкости
+
+Микрофон
+TEST GET AIC : 00 : 53
+TEST GET AIC : 00 : 54
+
+TEST SET AIC : 00 : 53 : 68 Минимальная -12 
+TEST SET AIC : 00 : 53 : 6C -10
+TEST SET AIC : 00 : 53 : 70 -8
+TEST SET AIC : 00 : 53 : 74 -6  Норма
+TEST SET AIC : 00 : 54 : 74
