@@ -18,6 +18,7 @@
 #include "CLI_CmdServiceFn.h"
 #include "connect_manager.h"
 #include "CLI_CmdTable.h"
+#include "driver_AIC.h"
 
 /** @addtogroup CLI_CmdTable
   * @{
@@ -79,6 +80,11 @@ const char cmdGetFWInfo[]="DEVICE FWINFO";
 
 const char cmdConnect[]="CONNECT";
 const char cmdHelp[]="HELP";
+
+const char cmdVOL_UP[]="V+";
+const char cmdVOL_DOWN[]="V-";
+const char cmdSENS_UP[]="S+";
+const char cmdSENS_DOWN[]="S-";
 
 extern const char cmdIPSPING[];
 extern const char cmdIPSPONG[];
@@ -157,6 +163,11 @@ const sCLI_cmd_desc cmd_tab[]={
 	{&cmdINVITEACK[0], fnReceivedINVITEACK, 1},
 	{&cmdBYE[0], fnReceivedBYE, 1},
 	{&cmdLOG[0], fnReceivedLOG, 2},
+
+    {&cmdVOL_UP[0], aic_setOutVolUp, 0},
+    {&cmdVOL_DOWN[0], aic_setOutVolDown, 0},
+    {&cmdSENS_UP[0], aic_setInVolUp, 0},
+    {&cmdSENS_DOWN[0], aic_setInVolDown, 0},
 
 	{NULL , NULL, 0}
 };
