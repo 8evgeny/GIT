@@ -13,20 +13,18 @@ TEST SET AIC : 00 : 42 : 8A - -59
 TEST SET AIC : 00 : 42 : 8E - -57
 TEST SET AIC : 00 : 42 : 92 - -55
 TEST SET AIC : 00 : 42 : 96 - -53
+
 TEST SET AIC : 00 : 42 : 9C - -50
+
 TEST SET AIC : 00 : 42 : B0 - -40
 TEST SET AIC : 00 : 42 : B4 - -38
 TEST SET AIC : 00 : 42 : B8 - -36
 TEST SET AIC : 00 : 42 : BC - -34
-
 TEST SET AIC : 00 : 42 : C0 - -32
-
 TEST SET AIC : 00 : 42 : C4 - -30
-
 TEST SET AIC : 00 : 42 : D8 - -20
 
-
-TEST SET AIC : 00 : 42 : 00 - Средний уровень громкости
+TEST SET AIC : 00 : 42 : 00 
 
 Микрофон
 TEST GET AIC : 00 : 53
