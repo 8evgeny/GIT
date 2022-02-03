@@ -89,14 +89,14 @@ uint8_t TLV320_Reset();
 /// maximum OUT sound volume level
 #define VOL_OUT_MAX		24		// +3 db		//	+12 db		as GIT say!
 
-#define VOL_OUT_SC_2	12
+#define VOL_OUT_SC_2	-40
 
 /// minimum MIC sensivity level
 #define VOL_MIC_MIN		-24		// -9 db		//	-12 db		as GIT say!
 /// maximum MIC sensivity level
 #define VOL_MIC_MAX		24		// +6 db		//	+12 db		as GIT say!
 
-#define VOL_MIC_SC_2    12
+#define VOL_MIC_SC_2    -20
 
 /// sound volume change step
 #define VOL_OUT_STEP	6		// 3 db
