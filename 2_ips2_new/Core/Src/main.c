@@ -326,12 +326,6 @@ int main(void)
 
 	  test_task();
 
-//      #ifdef SC_2
-//      vol_GR = VOL_OUT_SC_2;
-//      vol_Phone = VOL_OUT_SC_2;
-//      vol_Mic = VOL_MIC_SC_2;
-//      #endif
-
 	  if (pdo_work_mode == WORK_MODE_OK) {
 	   if (service_getmode()==svcNone) {
 	    aic_task();
