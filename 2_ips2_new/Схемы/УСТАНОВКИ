@@ -19,7 +19,6 @@ TEST SET AIC : 00 : 42 : B4 - -38
 TEST SET AIC : 00 : 42 : B8 - -36
 TEST SET AIC : 00 : 42 : BC - -34
 TEST SET AIC : 00 : 42 : C0 - -32
-
 TEST SET AIC : 00 : 42 : C4 - -30
 
 TEST SET AIC : 00 : 42 : D8 - -20
