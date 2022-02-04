@@ -318,7 +318,7 @@ int main(void)
   aic_setADCInVolume(0x74);       //Микрофон -6db
   while (1)
   {
-      aic_setDACOutVolume(0xB0);  //Динамик  -40db
+      aic_setDACOutVolume(0xC4);  //Динамик  -30db
 
 	  CLI_uart_task();
 
