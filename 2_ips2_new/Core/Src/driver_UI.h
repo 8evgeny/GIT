@@ -51,18 +51,18 @@
 #define LED_NUM     (LED_AB48G + 1)
 
 #ifdef SC_2
-#define LED_L1      14
-#define LED_L1_G    15
-#define LED_L2      16
-#define LED_L2_G    17
-#define LED_L3      18
-#define LED_L3_G    19
-#define LED_L4      8
-#define LED_L4_G    9
-#define LED_L5      10
-#define LED_L5_G    11
-#define LED_L6      12
-#define LED_L6_G    13
+#define LED_L1      0x0A
+#define LED_L1_G    0x0B
+#define LED_L2      0x0E
+#define LED_L2_G    0x0F
+#define LED_L3      0x12
+#define LED_L3_G    0x13
+#define LED_L4      0x08
+#define LED_L4_G    0x09
+#define LED_L5      0x0C
+#define LED_L5_G    0x0D
+#define LED_L6      0x10
+#define LED_L6_G    0x11
 #endif
 ///@}
 
@@ -101,15 +101,15 @@
 #define BTN_NUM	    (BTN_NNSH + 1)
 
 #ifdef SC_2
-#define BTN_K1		10
-#define BTN_K2		9
-#define BTN_K3		8
-#define BTN_K4		11
-#define BTN_K5		12
-#define BTN_K6		13
+#define BTN_K1		0xC
+#define BTN_K2		0xA
+#define BTN_K3		0x8
+#define BTN_K4		0x9
+#define BTN_K5		0xB
+#define BTN_K6		0xD
 
-#define BTN_TANG	14
-#define BTN_PEDAL	15
+#define BTN_TANG	0xE
+#define BTN_PEDAL	0xF
 
 #endif
 
