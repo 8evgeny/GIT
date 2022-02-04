@@ -12,10 +12,10 @@ void printToLcd(std::string str, std::string port)
 void display0()
 {
     std::string stringToDisplay = "\""
-                      "                    "
-                      "                    "
-                      "                    "
-                      "                    "
+                      "                     "
+                      "                     "
+                      "                     "
+                      "                     "
                       "\"";
     printToLcd (stringToDisplay, port);
 }
@@ -23,10 +23,10 @@ void display0()
 void display1(int ms)
 {
     std::string stringToDisplay = "\""
-                      "    GIT-COMM IPS    "
-                      "        PDKV        "
-                      "  S/N:903012122001  "
-                      "     Loading...     "
+                      "     GIT-COMM IPS    "
+                      "         PDKV        "
+                      "   S/N:903012122001  "
+                      "      Loading...     "
                       "\"";
     printToLcd (stringToDisplay, port);
     std::this_thread::sleep_for(std::chrono::milliseconds(ms));
@@ -37,10 +37,10 @@ void display1(int ms)
 void display2(int ms)
 {
     std::string stringToDisplay = "\""
-                      "    GIT-COMM IPS    "
-                      "        PDKV        "
-                      "  Version: ____     "
-                      "  Initialisation... "
+                      "     GIT-COMM IPS    "
+                      "         PDKV        "
+                      "   Version: ____     "
+                      "   Initialisation... "
                       "\"";
     printToLcd (stringToDisplay, port);
     std::this_thread::sleep_for(std::chrono::milliseconds(ms));

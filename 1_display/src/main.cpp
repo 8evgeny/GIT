@@ -20,7 +20,7 @@ int main(int argc, char *argv[])
      auto int_ms = std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t1);
      while (int_ms.count() < 500000)
      {
-         display1(500);
+         display2(500);
          t2 = std::chrono::steady_clock::now();
          int_ms = std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t1);
      }
