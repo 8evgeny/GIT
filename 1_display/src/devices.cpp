@@ -4,7 +4,7 @@
 std::string numDevices()
 //возвращает общее число устройств
 {
-    std::ifstream file("../devices_all");
+    std::ifstream file("../devices_num");
     std::string s;
     file >> s;
     int d = stoi(s);
@@ -12,6 +12,20 @@ std::string numDevices()
     sprintf(buffer, "%04d", d);
     return buffer;
 }
+
+std::vector<std::string> allDevices()
+{
+    //возвращает вектор строк - все ip адреса
+    std::ifstream file("../devices_all");
+    std::vector<std::string> v;
+    std::string s;
+    while(file >> s)
+    {
+        v.push_back(s);
+    }
+    return v;
+}
+
 
 std::vector<std::string> offlineDevices()
 {
