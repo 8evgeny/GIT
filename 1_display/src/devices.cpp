@@ -1,5 +1,9 @@
 #include <fstream>
 #include <vector>
+#include <thread>
+#include <iostream>
+#include <cstring>
+#include "sysCmd.h"
 
 std::string numDevices()
 //возвращает общее число устройств
@@ -59,3 +63,22 @@ std::string onlineDevicesNum()
     std::string onDev = buffer;
     return buffer;
 }
+
+void pingDevice(std::string i, std::string& result)
+{
+    while(1)
+    {
+        std::cout << "device "<< i <<" ping\n";
+        if (strstr(sysCdm("ping -c 3 -f -i 0,2 -n " + i + " | grep \" 0% packet loss\"").c_str(),
+                   "0% packet loss"))
+        {
+            result = "device " + i + " available\n";
+        }
+        else
+        {
+            result = "device " + i + " unavailable\n";
+        }
+        std::this_thread::sleep_for(std::chrono::seconds(1));
+    }
+}
+
