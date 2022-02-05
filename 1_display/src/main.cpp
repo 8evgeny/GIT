@@ -26,33 +26,33 @@ int main(int argc, char *argv[])
 //     while (int_ms.count() < 5000)
 
          auto v = allDevices();
-         std::vector<std::thread> taskPing(v.size());
-//         for (uint i = 0; i < v.size(); ++i)
-//         {
-//             pingDevice(v[i]);
+         std::vector<std::string> resultsPing(v.size());
+         for (auto &i : resultsPing)
+         {
+             i="";
+         }
+         std::vector<std::thread> pingThread;
 
+         for (uint i = 0; i < v.size(); ++i)
+         {
+             pingThread.push_back(std::thread(pingDevice, v[i], std::ref(resultsPing[i])));
+         }
 
-         std::string result0;
-         std::string result1;
-         std::thread PingDevice0{pingDevice,v[0], std::ref(result0)};
-         PingDevice0.detach();
-         std::thread PingDevice1{pingDevice,v[1], std::ref(result1)};
-         PingDevice1.detach();
-//         }
+         for (auto &i : pingThread)
+         {
+             i.detach();
+         }
 
+          while(1)
+          {
+          for (auto &i:resultsPing)
+          {
+              std::cout << i <<std::endl;
+          }
 
-
-
-             while(1)
-             {
-                 std::cout << result0 <<std::endl;
-                 std::cout << result1 <<std::endl;
-//                 auto f0 = std::async(std::launch::async, pingDevice, v[0]);
-//                 auto f1 = std::async(std::launch::async, pingDevice, v[3]);
-//                 std::cout <<f0.get();
-//                 std::cout <<f1.get();
-                 std::this_thread::sleep_for(std::chrono::seconds(2));
-             }
+          std::this_thread::sleep_for(std::chrono::seconds(2));
+          std::cout <<std::endl;
+          }
 
 
 //         display2(500);
