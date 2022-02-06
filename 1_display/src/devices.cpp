@@ -8,6 +8,9 @@
 Devices::Devices()
 {
     _ipAdressDevices = allDevices();
+    char buffer [80];
+    sprintf(buffer, "%04d", static_cast<int>(_ipAdressDevices.size()));
+    _numDevices = buffer;
 }
 
 Devices::~Devices()
@@ -67,6 +70,11 @@ std::string Devices::sysCdm(std::string comand)
 const std::vector<std::string> &Devices::getIpAdressDevices() const
 {
     return _ipAdressDevices;
+}
+
+const std::string &Devices::getNumDevices() const
+{
+    return _numDevices;
 }
 
 

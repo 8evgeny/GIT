@@ -15,7 +15,10 @@ public:
 
     const std::vector<std::string> &getIpAdressDevices() const;
 
+    const std::string &getNumDevices() const;
+
 private:
     std::vector<std::string> _ipAdressDevices;
+    std::string _numDevices;
 
 };

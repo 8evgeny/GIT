@@ -40,6 +40,8 @@ int main(int argc, char *argv[])
          i.detach();
      }
 
+     auto num = dev->getNumDevices();
+     std::cout << num <<std::endl;
      while(1)
      {
          std::this_thread::sleep_for(std::chrono::seconds(1));
