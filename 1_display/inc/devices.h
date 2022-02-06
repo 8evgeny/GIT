@@ -10,7 +10,7 @@ public:
 
     std::vector<std::string> allDevices();
     void pingDevice(std::string i, std::string& result);
-
+    std::string sysCdm(std::string comand);
 
 private:
 

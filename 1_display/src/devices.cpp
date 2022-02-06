@@ -2,7 +2,6 @@
 #include <vector>
 #include <thread>
 #include <cstring>
-#include "sysCmd.h"
 #include <mutex>
 #include "devices.h"
 
@@ -46,6 +45,23 @@ void Devices::pingDevice(std::string i, std::string& result)
         //        m.unlock();
         std::this_thread::sleep_for(std::chrono::seconds(1));
     }
+}
+
+std::string Devices::sysCdm(std::string comand)
+{
+    std::string result{""};
+    char buf[BUFSIZ];
+    FILE *ptr;
+    if ((ptr = popen(comand.c_str(), "r")) != NULL)
+    {
+        while (fgets(buf, BUFSIZ, ptr) != NULL)
+        {
+            result.append(buf);
+        }
+    }
+
+    pclose(ptr);
+    return result;
 }
 
 //std::string numDevices()

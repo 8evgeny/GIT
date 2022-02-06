@@ -1,15 +1,8 @@
-//#include <boost/program_options.hpp>
-//namespace po = boost::program_options;
-
 #include <iostream>
 #include "main.h"
 #include <chrono>
 #include <thread>
 #include "devices.h"
-#include <mutex>
-
-class Devices;
-std::mutex pingResults;
 
 int main(int argc, char *argv[])
 {
@@ -37,8 +30,8 @@ int main(int argc, char *argv[])
 
          for (uint i = 0; i < ipAdressDevices.size(); ++i)
          {
-             pingThread.push_back(std::thread(&Devices::pingDevice, &devices, ipAdressDevices[i],
-                                              std::ref(resultsPing[i])));
+             pingThread.push_back(std::thread(&Devices::pingDevice, &devices,
+                                              ipAdressDevices[i], std::ref(resultsPing[i])));
          }
 
          for (auto &i : pingThread)
@@ -48,12 +41,10 @@ int main(int argc, char *argv[])
 
           while(1)
           {
-              pingResults.lock();
               for (auto &i:resultsPing)
               {
                   std::cout << i <<std::endl;
               }
-              pingResults.unlock();
 
           std::this_thread::sleep_for(std::chrono::seconds(2));
           std::cout <<std::endl;
