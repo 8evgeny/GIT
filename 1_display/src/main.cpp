@@ -45,11 +45,27 @@ int main(int argc, char *argv[])
      std::cout << num <<std::endl;
      while(1)
      {
-
          std::this_thread::sleep_for(std::chrono::seconds(1));
+
+         //число устройств онлайн
+         int on{0};
          for (auto &i:resultsPing)
          {
-             std::cout << i <<std::endl;
+             if (i == "")
+                 ++on;
+         }
+         dev->setNumOnlineDevices(on);
+         std::string online = dev->getNumOnlineDevices();
+std::cout << online <<std::endl;
+         //число устройств оффлайн
+         int off = dev->getIpAdressDevices().size() - on;
+         dev->setNumOfflineDevices(off);
+         std::string offline = dev->getNumOfflineDevices();
+std::cout << offline <<std::endl;
+
+         for (auto &i:resultsPing)
+         {
+             if (i != "") std::cout << i <<std::endl;
          }
          std::cout <<std::endl;
      }

@@ -28,5 +28,4 @@ private:
     std::string _numAllDevices{""};
     std::string _numOnlineDevices{""};
     std::string _numOfflineDevices{""};
-
 };

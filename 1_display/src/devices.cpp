@@ -39,7 +39,7 @@ void Devices::pingDevice(std::string i, std::string& result)
         if (strstr(sysCdm("ping -c 3 -f -i 0,2 -n " + i + " | grep \" 0% packet loss\"").c_str(),
                    "0% packet loss"))
         {
-            result = "device " + i + " available";
+            result = "";
         }
         else
         {
