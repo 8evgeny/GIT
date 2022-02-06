@@ -17,6 +17,12 @@ public:
 
     const std::string &getNumDevices() const;
 
+    const std::string &getNumOnlineDevices() const;
+    void setNumOnlineDevices(int num);
+
+    const std::string &getNumOfflineDevices() const;
+    void setNumOfflineDevices(int num);
+
 private:
     std::vector<std::string> _ipAdressDevices;
     std::string _numAllDevices{""};

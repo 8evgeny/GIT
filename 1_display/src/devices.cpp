@@ -77,6 +77,30 @@ const std::string &Devices::getNumDevices() const
     return _numAllDevices;
 }
 
+const std::string &Devices::getNumOnlineDevices() const
+{
+    return _numOnlineDevices;
+}
+
+void Devices::setNumOnlineDevices(int num)
+{
+    char buffer [80];
+    sprintf(buffer, "%04d", num);
+    _numOnlineDevices = buffer;
+}
+
+const std::string &Devices::getNumOfflineDevices() const
+{
+    return _numOfflineDevices;
+}
+
+void Devices::setNumOfflineDevices(int num)
+{
+    char buffer [80];
+    sprintf(buffer, "%04d", num);
+    _numOfflineDevices = buffer;
+}
+
 
 //std::string numDevices()
 ////возвращает общее число устройств
