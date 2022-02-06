@@ -7,7 +7,7 @@
 
 Devices::Devices()
 {
-
+    _ipAdressDevices = allDevices();
 }
 
 Devices::~Devices()
@@ -63,6 +63,12 @@ std::string Devices::sysCdm(std::string comand)
     pclose(ptr);
     return result;
 }
+
+const std::vector<std::string> &Devices::getIpAdressDevices() const
+{
+    return _ipAdressDevices;
+}
+
 
 //std::string numDevices()
 ////возвращает общее число устройств
