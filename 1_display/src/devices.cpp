@@ -10,7 +10,7 @@ Devices::Devices()
     _ipAdressDevices = allDevices();
     char buffer [80];
     sprintf(buffer, "%04d", static_cast<int>(_ipAdressDevices.size()));
-    _numDevices = buffer;
+    _numAllDevices = buffer;
 }
 
 Devices::~Devices()
@@ -74,7 +74,7 @@ const std::vector<std::string> &Devices::getIpAdressDevices() const
 
 const std::string &Devices::getNumDevices() const
 {
-    return _numDevices;
+    return _numAllDevices;
 }
 
 

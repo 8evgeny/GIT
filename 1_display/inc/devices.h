@@ -19,6 +19,8 @@ public:
 
 private:
     std::vector<std::string> _ipAdressDevices;
-    std::string _numDevices;
+    std::string _numAllDevices{""};
+    std::string _numOnlineDevices{""};
+    std::string _numOfflineDevices{""};
 
 };
