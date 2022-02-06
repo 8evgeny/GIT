@@ -23,52 +23,53 @@ int main(int argc, char *argv[])
 //     while (int_ms.count() < 5000)
 
     //Запускаем пинг в потоках
-     std::vector<std::string> resultsPing{dev->getIpAdressDevices().size()};
-     for (auto &i : resultsPing)
-     {
-         i="";
-     }
+    std::vector<std::string> resultsPing{dev->getIpAdressDevices().size()};
+    for (auto &i : resultsPing)
+    {
+        i="";
+    }
 
-     std::vector<std::thread> pingThread;
-     for (uint i = 0; i < dev->getIpAdressDevices().size(); ++i)
-     {
-         pingThread.push_back(std::thread(&Devices::pingDevice, dev,
-                              dev->getIpAdressDevices()[i], std::ref(resultsPing[i])));
-     }
+    std::vector<std::thread> pingThread;
+    for (uint i = 0; i < dev->getIpAdressDevices().size(); ++i)
+    {
+        pingThread.push_back(std::thread(&Devices::pingDevice, dev,
+                             dev->getIpAdressDevices()[i], std::ref(resultsPing[i])));
+    }
 
-     for (auto &i : pingThread)
-     {
-         i.detach();
-     }
+    for (auto &i : pingThread)
+    {
+        i.detach();
+    }
     //число устройств общее
-     std::string num = dev->getNumDevices();
-     std::cout << num <<std::endl;
-     while(1)
-     {
-         std::this_thread::sleep_for(std::chrono::seconds(1));
+    std::string num = dev->getNumDevices();
+    std::cout << num <<std::endl;
+    while(1)
+    {
+        std::this_thread::sleep_for(std::chrono::seconds(1));
 
-         //число устройств онлайн
-         int on{0};
-         for (auto &i:resultsPing)
-         {
-             if (i == "")
-                 ++on;
-         }
-         dev->setNumOnlineDevices(on);
-         std::string online = dev->getNumOnlineDevices();
-std::cout << online <<std::endl;
-         //число устройств оффлайн
-         int off = dev->getIpAdressDevices().size() - on;
-         dev->setNumOfflineDevices(off);
-         std::string offline = dev->getNumOfflineDevices();
-std::cout << offline <<std::endl;
+        //число устройств онлайн
+        int on{0};
+        for (auto &i:resultsPing)
+        {
+            if (i == "")
+                ++on;
+        }
+        dev->setNumOnlineDevices(on);
+        std::string online = dev->getNumOnlineDevices();
+        std::cout << online <<std::endl;
 
-         for (auto &i:resultsPing)
-         {
-             if (i != "") std::cout << i <<std::endl;
-         }
-         std::cout <<std::endl;
-     }
+        //число устройств оффлайн
+        int off = dev->getIpAdressDevices().size() - on;
+        dev->setNumOfflineDevices(off);
+        std::string offline = dev->getNumOfflineDevices();
+        std::cout << offline <<std::endl;
+
+        for (auto &i:resultsPing)
+        {
+            if (i != "") std::cout << i <<std::endl;
+        }
+        std::cout <<std::endl;
+    }
 
 
 //         display2(500);
