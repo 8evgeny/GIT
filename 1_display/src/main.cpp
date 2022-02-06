@@ -8,8 +8,7 @@
 
 int main(int argc, char *argv[])
 {
-    std::shared_ptr<Devices> dev(new Devices);
-    std::unique_ptr<Display> lcd(new Display);
+
     if (argc == 2)     //Тестовый режим (Аргумент - номер экрана)
     {
         std::cout<<"Test mode\n";
@@ -21,6 +20,9 @@ int main(int argc, char *argv[])
 //     auto t2 = std::chrono::steady_clock::now();
 //     auto int_ms = std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t1);
 //     while (int_ms.count() < 5000)
+
+    std::shared_ptr<Devices> dev(new Devices);
+    std::unique_ptr<Display> lcd(new Display);
 
     //Запускаем пинг в потоках
     std::vector<std::string> resultsPing{dev->getIpAdressDevices().size()};
