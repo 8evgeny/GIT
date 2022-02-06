@@ -3,13 +3,13 @@
 
 #include <iostream>
 #include "main.h"
-#include "sysCmd.h"
 #include <chrono>
 #include <thread>
 #include "devices.h"
-#include <cstring>
-#include <future>
+#include <mutex>
 
+
+std::mutex pingResults;
 int main(int argc, char *argv[])
 {
     if (argc == 2)     //Тестовый режим (Аргумент - номер экрана)
@@ -25,17 +25,18 @@ int main(int argc, char *argv[])
 //     auto int_ms = std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t1);
 //     while (int_ms.count() < 5000)
 
-         auto v = allDevices();
-         std::vector<std::string> resultsPing(v.size());
+         auto ipAdressDevices = allDevices();
+         std::vector<std::string> resultsPing(ipAdressDevices.size());
          for (auto &i : resultsPing)
          {
              i="";
          }
          std::vector<std::thread> pingThread;
 
-         for (uint i = 0; i < v.size(); ++i)
+         for (uint i = 0; i < ipAdressDevices.size(); ++i)
          {
-             pingThread.push_back(std::thread(pingDevice, v[i], std::ref(resultsPing[i])));
+             pingThread.push_back(std::thread(pingDevice, ipAdressDevices[i],
+                                              std::ref(resultsPing[i])));
          }
 
          for (auto &i : pingThread)
@@ -45,10 +46,12 @@ int main(int argc, char *argv[])
 
           while(1)
           {
-          for (auto &i:resultsPing)
-          {
-              std::cout << i <<std::endl;
-          }
+              pingResults.lock();
+              for (auto &i:resultsPing)
+              {
+                  std::cout << i <<std::endl;
+              }
+              pingResults.unlock();
 
           std::this_thread::sleep_for(std::chrono::seconds(2));
           std::cout <<std::endl;

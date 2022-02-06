@@ -3,6 +3,7 @@
 #include <thread>
 #include <cstring>
 #include "sysCmd.h"
+#include <mutex>
 
 std::string numDevices()
 //возвращает общее число устройств
@@ -67,6 +68,7 @@ void pingDevice(std::string i, std::string& result)
 {
     while(1)
     {
+//        m.lock();
 //        std::cout << "device "<< i <<" ping\n";
         if (strstr(sysCdm("ping -c 3 -f -i 0,2 -n " + i + " | grep \" 0% packet loss\"").c_str(),
                    "0% packet loss"))
@@ -77,6 +79,7 @@ void pingDevice(std::string i, std::string& result)
         {
             result = "device " + i + " unavailable";
         }
+//        m.unlock();
         std::this_thread::sleep_for(std::chrono::seconds(1));
     }
 }
