@@ -1,15 +1,22 @@
 #include <string>
 #include <chrono>
 #include <thread>
+#include "display.h"
 
-std::string port = "/dev/ttyACM0";
-void printToLcd(std::string str, std::string port)
+Display::Display()
+{
+}
+Display::~Display()
+{
+}
+
+void Display::printToLcd(std::string str, std::string port)
 {
     std::string cmd = "echo " + str + ">" + port;
     system(cmd.c_str());
 }
 
-void display0()
+void Display::display0()
 {
     std::string stringToDisplay = "\""
                       "                     "
@@ -20,7 +27,7 @@ void display0()
     printToLcd (stringToDisplay, port);
 }
 
-void display1(int ms)
+void Display::display1(int ms)
 {
     std::string stringToDisplay = "\""
                       "     GIT-COMM IPS    "
@@ -34,7 +41,7 @@ void display1(int ms)
     std::this_thread::sleep_for(std::chrono::milliseconds(ms));
 }
 
-void display2(int ms)
+void Display::display2(int ms)
 {
     std::string stringToDisplay = "\""
                       "     GIT-COMM IPS    "
@@ -48,7 +55,7 @@ void display2(int ms)
     std::this_thread::sleep_for(std::chrono::milliseconds(ms));
 }
 
-void display3(std::pair<std::string, std::string> dt,
+void Display::display3(std::pair<std::string, std::string> dt,
               std::string numDev, std::string onDev,
               std::string offDev, int ms)
 {
@@ -63,7 +70,7 @@ void display3(std::pair<std::string, std::string> dt,
     std::this_thread::sleep_for(std::chrono::milliseconds(ms));
 }
 
-void display4(
+void Display::display4(
         std::string num1, std::string num2,std::string num3,
         std::string ip1, std::string ip2, std::string ip3, int ms)
 {

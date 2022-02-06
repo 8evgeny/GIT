@@ -8,10 +8,12 @@
 #include "devices.h"
 #include <mutex>
 
-
+class Devices;
 std::mutex pingResults;
+
 int main(int argc, char *argv[])
 {
+    Devices devices;
     if (argc == 2)     //Тестовый режим (Аргумент - номер экрана)
     {
         std::cout<<"Test mode\n";
@@ -25,8 +27,8 @@ int main(int argc, char *argv[])
 //     auto int_ms = std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t1);
 //     while (int_ms.count() < 5000)
 
-         auto ipAdressDevices = allDevices();
-         std::vector<std::string> resultsPing(ipAdressDevices.size());
+     auto ipAdressDevices = devices.allDevices();
+     std::vector<std::string> resultsPing{ipAdressDevices.size()};
          for (auto &i : resultsPing)
          {
              i="";
@@ -35,7 +37,7 @@ int main(int argc, char *argv[])
 
          for (uint i = 0; i < ipAdressDevices.size(); ++i)
          {
-             pingThread.push_back(std::thread(pingDevice, ipAdressDevices[i],
+             pingThread.push_back(std::thread(&Devices::pingDevice, &devices, ipAdressDevices[i],
                                               std::ref(resultsPing[i])));
          }
 
