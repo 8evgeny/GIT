@@ -138,6 +138,7 @@ void Display::diagnostic(std::vector<std::string> noPingDevices, std::vector<std
             num1 = noPingNumbersDevices[0];
             ip1 = noPingDevices[0];
             diagnosticFrame(num1, num2, num3, ip1, ip2, ip3);
+            //Добавить 3 секунды со сменой t
         }
             break;
         case 2 :
@@ -147,6 +148,7 @@ void Display::diagnostic(std::vector<std::string> noPingDevices, std::vector<std
             ip1 = noPingDevices[0];
             ip2 = noPingDevices[1];
             diagnosticFrame(num1, num2, num3, ip1, ip2, ip3);
+            //Добавить 3 секунды со сменой t
         }
             break;
         case 3 :
@@ -158,17 +160,32 @@ void Display::diagnostic(std::vector<std::string> noPingDevices, std::vector<std
             ip2 = noPingDevices[1];
             ip3 = noPingDevices[2];
             diagnosticFrame(num1, num2, num3, ip1, ip2, ip3);
+            //Добавить 3 секунды со сменой t
         }
         break;
-        default:
+        default: //размер 4 и выше
         {
+            int i = 0; //указатель на 1 строку
             //экран со сдвигом
-
-
-
-
+            while (1)
+            {
+                num1 = noPingNumbersDevices[i];
+                num2 = noPingNumbersDevices[i + 1];
+                num3 = noPingNumbersDevices[i + 2];
+                ip1 = noPingDevices[i];
+                ip2 = noPingDevices[i + 1];
+                ip3 = noPingDevices[i + 2];
+                diagnosticFrame(num1, num2, num3, ip1, ip2, ip3);
+                if (static_cast<int>(noPingDevices.size()) == (i + 3))
+                {
+                    break;
+                }
+                wait(1000);
+                ++i;
+            }
+            //Добавить 3 секунды со сменой t
         }
     }
 
-    wait(3000);
+
 }
