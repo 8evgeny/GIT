@@ -18,7 +18,13 @@ public:
         std::string ip1, std::string ip2, std::string ip3, int ms);
     void wait(int ms);
 
-private:
-std::string port = "/dev/ttyACM0";
+    void setLcdYellow(const std::string &newLcdYellow);
+    void setLcdRed(const std::string &newLcdRed);
+    void setBuzzer(const std::string &newBuzzer);
 
+private:
+    std::string port = "/dev/ttyACM0";
+    std::string _lcdYellow;
+    std::string _lcdRed;
+    std::string _buzzer;
 };

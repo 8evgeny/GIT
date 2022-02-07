@@ -85,17 +85,30 @@ int main(int argc, char *argv[])
         lcd->display3(datetime(), numDevAll, numDevOnline, numDevOffline, 1000);
         lcd->wait(500);
 
+        std::string num1;
+        std::string num2;
+        std::string num3;
+        std::string ip1;
+        std::string ip2;
+        std::string ip3;
+
+        int indexNoPing = 0;
+        int noPingSize = noPingDevices.size();
+        if (noPingSize > 0)
+        {
+
+        }
+
+        lcd->display4(num1, num2, num3, ip1, ip2, ip3, 1000);
+
         for (auto &i : noPingDevices)
         {
-            std::cout << "noPingDevice: "<<i <<std::endl;
+            std::cout << "noPingDevice: " << i <<std::endl;
         }
-
         for (auto &i : noPingNumbersDevices)
         {
-            std::cout << "noPingNumberDevice: "<< i <<std::endl;
+            std::cout << "noPingNumberDevice: " << i <<std::endl;
         }
-
-
 
 
       std::cout << std::endl;
