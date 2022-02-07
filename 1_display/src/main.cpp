@@ -6,16 +6,8 @@
 #include "display.h"
 #include <memory>
 
-int main(int argc, char *argv[])
+int main()
 {
-
-    if (argc == 2)     //Тестовый режим (Аргумент - номер экрана)
-    {
-        std::cout<<"Test mode\n";
-        test(std::stoi(argv[1]));
-        return 0;
-    }
-
     std::shared_ptr<Devices> dev(new Devices);
     std::shared_ptr<Display> lcd(new Display);
 
@@ -41,7 +33,6 @@ int main(int argc, char *argv[])
     //число устройств общее
     std::string numDevAll = dev->getNumDevices();
 //std::cout << "numDevAll: "<<numDevAll <<std::endl;
-//std::this_thread::sleep_for(std::chrono::seconds(1));
 
     //Выводим первый экран не менее 5 с
     lcd->setLcdYellow(false);
@@ -50,9 +41,13 @@ int main(int argc, char *argv[])
     auto serial = dev->getSerialNumber();
     for (int i=0; i<3; ++i)
     {
-        lcd->display1(serial, 1000);
+        lcd->display1(serial);
+        lcd->wait(1000);
         if (i != 3)
-            lcd->display1_(serial, 1000);
+        {
+            lcd->display1_(serial);
+            lcd->wait(1000);
+        }
     }
 
     std::vector<std::string> noPingDevices;
@@ -102,9 +97,6 @@ std::cout << "numDevOffline:"<< numDevOffline <<std::endl;
         {
             lcd->diagnostic(noPingDevices, noPingNumbersDevices);
         }
-
-
-
 
 //for (auto &i : noPingDevices)
 //{
