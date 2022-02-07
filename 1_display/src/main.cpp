@@ -94,6 +94,7 @@ int main(int argc, char *argv[])
         {
             std::cout << "noPingDevice: "<<i <<std::endl;
         }
+
         for (auto &i : noPingNumbersDevices)
         {
             std::cout << "noPingNumberDevice: "<< i <<std::endl;
