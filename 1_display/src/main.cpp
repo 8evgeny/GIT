@@ -44,42 +44,62 @@ int main(int argc, char *argv[])
     }
     //число устройств общее
     std::string numDevAll = dev->getNumDevices();
-    std::cout << numDevAll <<std::endl;
+    std::cout << "numDevAll: "<<numDevAll <<std::endl;
     while(1)
     {
         std::this_thread::sleep_for(std::chrono::seconds(1));
 
         //число устройств онлайн
-        int on{0};
-        for (auto &i:resultsPing)
+        int on = 0;
+        int i = 0;
+        std::vector<std::string> noPingDevices;
+        std::vector<std::string> noPingNumbersDevices;
+        for (auto &k:resultsPing)
         {
-            if (i == "")
+            if (k == "")
+            {
                 ++on;
+            }
+            else
+            {
+                //Пинг не прошел i - индекс device
+                noPingDevices.push_back(dev->getIpAdressDevices().at(i));
+                noPingNumbersDevices.push_back(dev->getNumbersDevices().at(i));
+            }
+            ++i;
         }
         dev->setNumOnlineDevices(on);
         std::string numDevOnline = dev->getNumOnlineDevices();
-        std::cout << numDevOnline <<std::endl;
+        std::cout << "numDevOnline: " <<numDevOnline <<std::endl;
 
         //число устройств оффлайн
         int off = dev->getIpAdressDevices().size() - on;
         dev->setNumOfflineDevices(off);
         std::string numDevOffline = dev->getNumOfflineDevices();
-        std::cout << numDevOffline <<std::endl;
+        std::cout << "numDevOffline:"<< numDevOffline <<std::endl;
 
-        for (auto &i:resultsPing)
-        {
-            if (i != "") std::cout << i <<std::endl;
-        }
-        std::cout <<std::endl;
+//        for (auto &i:resultsPing)
+//        {
+//            if (i != "") std::cout << i <<std::endl;
+//        }
+//        std::cout <<std::endl;
 
         lcd->display2(1000);
-//        lcd->wait(500);
+        lcd->wait(500);
 
         lcd->display3(datetime(), numDevAll, numDevOnline, numDevOffline, 1000);
-//        lcd->wait(500);
+        lcd->wait(500);
 
+        for (auto &i : noPingDevices)
+        {
+            std::cout << "noPingDevice: "<<i <<std::endl;
+        }
+        for (auto &i : noPingNumbersDevices)
+        {
+            std::cout << "noPingNumberDevice: "<< i <<std::endl;
+        }
 
-
+      std::cout << std::endl;
     }
 
 

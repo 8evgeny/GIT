@@ -3,13 +3,29 @@
 #include <thread>
 #include <cstring>
 #include "devices.h"
+#include <iostream>
 
 Devices::Devices()
 {
     _ipAdressDevices = allDevices();
+    int k = 1;
+    for (auto i:_ipAdressDevices)
+    {
+        char buffer [4];
+        sprintf(buffer, "%03d", k);
+        _numbersDevices.push_back(buffer);
+        ++k;
+    }
+
+    for (auto i:_numbersDevices)
+    {
+        std::cout <<"numDev- "<<i<<std::endl;
+    }
+
     char buffer [80];
     sprintf(buffer, "%04d", static_cast<int>(_ipAdressDevices.size()));
     _numAllDevices = buffer;
+
 }
 
 Devices::~Devices()
@@ -95,6 +111,11 @@ void Devices::setNumOfflineDevices(int num)
     char buffer [80];
     sprintf(buffer, "%04d", num);
     _numOfflineDevices = buffer;
+}
+
+const std::vector<std::string> &Devices::getNumbersDevices() const
+{
+    return _numbersDevices;
 }
 
 

@@ -81,7 +81,7 @@ void Display::display4(
     clearDisplay();
 }
 
-void wait(int ms)
+void Display::wait(int ms)
 {
     std::this_thread::sleep_for(std::chrono::milliseconds(ms));
 }
