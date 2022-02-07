@@ -38,7 +38,6 @@ void Display::display1(int ms)
     printToLcd (stringToDisplay, port);
     std::this_thread::sleep_for(std::chrono::milliseconds(ms));
     clearDisplay();
-    std::this_thread::sleep_for(std::chrono::milliseconds(ms));
 }
 
 void Display::display2(int ms)
@@ -52,7 +51,6 @@ void Display::display2(int ms)
     printToLcd (stringToDisplay, port);
     std::this_thread::sleep_for(std::chrono::milliseconds(ms));
     clearDisplay();
-    std::this_thread::sleep_for(std::chrono::milliseconds(ms));
 }
 
 void Display::display3(std::pair<std::string, std::string> dt,
@@ -67,7 +65,6 @@ void Display::display3(std::pair<std::string, std::string> dt,
     printToLcd (stringToDisplay, port);
     std::this_thread::sleep_for(std::chrono::milliseconds(ms));
     clearDisplay();
-    std::this_thread::sleep_for(std::chrono::milliseconds(ms));
 }
 
 void Display::display4(
@@ -83,6 +80,5 @@ void Display::display4(
     printToLcd (stringToDisplay, port);
     std::this_thread::sleep_for(std::chrono::milliseconds(ms));
     clearDisplay();
-    std::this_thread::sleep_for(std::chrono::milliseconds(ms));
 }
 

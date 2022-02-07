@@ -43,8 +43,8 @@ int main(int argc, char *argv[])
         i.detach();
     }
     //число устройств общее
-    std::string num = dev->getNumDevices();
-    std::cout << num <<std::endl;
+    std::string numDevAll = dev->getNumDevices();
+    std::cout << numDevAll <<std::endl;
     while(1)
     {
         std::this_thread::sleep_for(std::chrono::seconds(1));
@@ -57,20 +57,28 @@ int main(int argc, char *argv[])
                 ++on;
         }
         dev->setNumOnlineDevices(on);
-        std::string online = dev->getNumOnlineDevices();
-        std::cout << online <<std::endl;
+        std::string numDevOnline = dev->getNumOnlineDevices();
+        std::cout << numDevOnline <<std::endl;
 
         //число устройств оффлайн
         int off = dev->getIpAdressDevices().size() - on;
         dev->setNumOfflineDevices(off);
-        std::string offline = dev->getNumOfflineDevices();
-        std::cout << offline <<std::endl;
+        std::string numDevOffline = dev->getNumOfflineDevices();
+        std::cout << numDevOffline <<std::endl;
 
         for (auto &i:resultsPing)
         {
             if (i != "") std::cout << i <<std::endl;
         }
         std::cout <<std::endl;
+
+//        lcd->display2(1000);
+        std::this_thread::sleep_for(std::chrono::milliseconds(500));
+
+//        lcd->display3(datetime(), numDevAll, numDevOnline, numDevOffline, 10000);
+
+
+
     }
 
 
