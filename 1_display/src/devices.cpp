@@ -8,6 +8,7 @@
 Devices::Devices()
 {
     _ipAdressDevices = allDevices();
+
     int k = 1;
     for (auto i:_ipAdressDevices)
     {
@@ -15,11 +16,6 @@ Devices::Devices()
         sprintf(buffer, "%03d", k);
         _numbersDevices.push_back(buffer);
         ++k;
-    }
-
-    for (auto i:_numbersDevices)
-    {
-        std::cout <<"numDev- "<<i<<std::endl;
     }
 
     char buffer [80];

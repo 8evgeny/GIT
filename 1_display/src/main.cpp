@@ -16,11 +16,6 @@ int main(int argc, char *argv[])
         return 0;
     }
 
-//     auto t1 = std::chrono::steady_clock::now();
-//     auto t2 = std::chrono::steady_clock::now();
-//     auto int_ms = std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t1);
-//     while (int_ms.count() < 5000)
-
     std::shared_ptr<Devices> dev(new Devices);
     std::unique_ptr<Display> lcd(new Display);
 
@@ -100,14 +95,10 @@ int main(int argc, char *argv[])
             std::cout << "noPingNumberDevice: "<< i <<std::endl;
         }
 
+
+
+
       std::cout << std::endl;
     }
-
-
-//         display2(500);
-
-//         t2 = std::chrono::steady_clock::now();
-//         int_ms = std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t1);
-
 
 }
