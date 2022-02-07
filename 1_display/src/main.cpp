@@ -72,10 +72,11 @@ int main(int argc, char *argv[])
         }
         std::cout <<std::endl;
 
-//        lcd->display2(1000);
-        std::this_thread::sleep_for(std::chrono::milliseconds(500));
+        lcd->display2(1000);
+//        lcd->wait(500);
 
-//        lcd->display3(datetime(), numDevAll, numDevOnline, numDevOffline, 10000);
+        lcd->display3(datetime(), numDevAll, numDevOnline, numDevOffline, 1000);
+//        lcd->wait(500);
 
 
 

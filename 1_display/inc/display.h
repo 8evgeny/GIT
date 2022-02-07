@@ -1,4 +1,5 @@
 #include <string>
+#include <chrono>
 
 class Display
 {
@@ -15,6 +16,7 @@ public:
                   std::string offDev, int ms);
     void display4(std::string num1, std::string num2,std::string num3,
         std::string ip1, std::string ip2, std::string ip3, int ms);
+    void wait(int ms);
 
 private:
 std::string port = "/dev/ttyACM0";

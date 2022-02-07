@@ -1,5 +1,4 @@
 #include <string>
-#include <chrono>
 #include <thread>
 #include "display.h"
 
@@ -13,7 +12,7 @@ Display::~Display()
 void Display::printToLcd(std::string str, std::string port)
 {
     std::string cmd = "echo " + str + ">" + port;
-    system(cmd.c_str());
+//    system(cmd.c_str());
 }
 
 void Display::clearDisplay()
@@ -82,3 +81,7 @@ void Display::display4(
     clearDisplay();
 }
 
+void wait(int ms)
+{
+    std::this_thread::sleep_for(std::chrono::milliseconds(ms));
+}
