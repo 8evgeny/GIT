@@ -1,4 +1,5 @@
 #include <string>
+#include <vector>
 #include <thread>
 #include "display.h"
 
@@ -99,7 +100,7 @@ void Display::setBuzzer(bool newBuzzer)
     _buzzer = newBuzzer;
 }
 
-void diagnosticFrame(std::shared_ptr<Display> lcd)
+void Display::diagnostic(std::vector<std::string> noPingDevices, std::vector<std::string> noPingNumbersDevices)
 {
     //формируем диагностический экран
     std::string num1;
@@ -112,7 +113,8 @@ void diagnosticFrame(std::shared_ptr<Display> lcd)
     int indexNoPing = 0;
 
 
-    lcd->diagnosticFrame(num1, num2, num3, ip1, ip2, ip3);
+    diagnosticFrame(num1, num2, num3, ip1, ip2, ip3);
 
 
+    wait(3000);
 }

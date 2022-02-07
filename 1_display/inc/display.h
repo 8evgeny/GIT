@@ -1,6 +1,8 @@
 #pragma once
 #include <string>
 #include <chrono>
+#include <memory>
+#include <vector>
 
 class Display
 {
@@ -22,6 +24,8 @@ public:
     void setLcdYellow(bool);
     void setLcdRed(bool);
     void setBuzzer(bool);
+
+    void diagnostic(std::vector<std::string> noPingDevices, std::vector<std::string> noPingNumbersDevices);
 
 private:
     std::string port = "/dev/ttyACM0";

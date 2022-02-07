@@ -100,8 +100,7 @@ std::cout << "numDevOffline:"<< numDevOffline <<std::endl;
 
         if (off !=0)
         {
-            diagnosticFrame(lcd);
-
+            lcd->diagnostic(noPingDevices, noPingNumbersDevices);
         }
 
 
