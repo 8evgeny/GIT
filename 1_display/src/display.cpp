@@ -85,17 +85,38 @@ void Display::wait(int ms)
 
 void Display::setLcdYellow(bool newLcdYellow)
 {
-    _lcdYellow = newLcdYellow;
+    if (newLcdYellow)
+    {
+        _lcdYellow = std::to_string(1);
+    }
+    else
+    {
+        _lcdYellow = std::to_string(0);
+    }
 }
 
 void Display::setLcdRed(bool newLcdRed)
 {
-    _lcdRed = newLcdRed;
+    if (newLcdRed)
+    {
+        _lcdRed = std::to_string(1);
+    }
+    else
+    {
+        _lcdRed = std::to_string(0);
+    }
 }
 
 void Display::setBuzzer(bool newBuzzer)
 {
-    _buzzer = newBuzzer;
+    if (newBuzzer)
+    {
+        _buzzer = std::to_string(1);
+    }
+    else
+    {
+        _buzzer = std::to_string(0);
+    }
 }
 
 void Display::diagnostic(std::vector<std::string> noPingDevices, std::vector<std::string> noPingNumbersDevices)
