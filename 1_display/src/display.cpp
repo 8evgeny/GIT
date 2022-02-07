@@ -40,7 +40,6 @@ void Display::display1(std::string serial, int ms)
     line4 = "  Инициализация...  ";
     printToLcd (lcdbuz + line1 + line2 + line3 + line4, port);
     std::this_thread::sleep_for(std::chrono::milliseconds(ms));
-    clearDisplay();
 }
 
 void Display::display1_(std::string serial, int ms)
@@ -53,12 +52,11 @@ void Display::display1_(std::string serial, int ms)
     line4 = "                    ";
     printToLcd (lcdbuz + line1 + line2 + line3 + line4, port);
     std::this_thread::sleep_for(std::chrono::milliseconds(ms));
-    clearDisplay();
 }
 
 void Display::dutyFrame(std::pair<std::string, std::string> dt,
               std::string numDev, std::string onDev,
-              std::string offDev, int ms)
+              std::string offDev)
 {
     std::string lcdbuz,line1,line2,line3,line4;
     lcdbuz = _lcdYellow + _lcdRed + _buzzer;
@@ -67,8 +65,6 @@ void Display::dutyFrame(std::pair<std::string, std::string> dt,
     line3 = " НА СВЯЗИ   " + onDev;
     line4 = " ОТКЛЮЧЕНО  " + offDev;
     printToLcd (lcdbuz + line1 + line2 + line3 + line4, port);
-    std::this_thread::sleep_for(std::chrono::milliseconds(ms));
-    clearDisplay();
 }
 
 void Display::diagnosticFrame(std::string num1, std::string num2,std::string num3,

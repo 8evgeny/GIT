@@ -51,7 +51,8 @@ int main(int argc, char *argv[])
     for (int i=0; i<3; ++i)
     {
         lcd->display1(serial, 1000);
-        lcd->display1_(serial, 1000);
+        if (i != 3)
+            lcd->display1_(serial, 1000);
     }
 
     std::vector<std::string> noPingDevices;
@@ -94,9 +95,11 @@ std::cout << "numDevOffline:"<< numDevOffline <<std::endl;
 //}
 //std::cout <<std::endl;
 
-        lcd->dutyFrame(datetime(), numDevAll, numDevOnline, numDevOffline, 1000);
+        lcd->dutyFrame(datetime(), numDevAll, numDevOnline, numDevOffline);
         lcd->wait(500);
 
+
+        //формируем диагностический экран
         std::string num1;
         std::string num2;
         std::string num3;
