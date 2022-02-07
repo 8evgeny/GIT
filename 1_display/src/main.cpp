@@ -37,18 +37,33 @@ int main(int argc, char *argv[])
     {
         i.detach();
     }
+
     //число устройств общее
     std::string numDevAll = dev->getNumDevices();
-    std::cout << "numDevAll: "<<numDevAll <<std::endl;
+//std::cout << "numDevAll: "<<numDevAll <<std::endl;
+//std::this_thread::sleep_for(std::chrono::seconds(1));
+
+    //Выводим первый экран не менее 5 с
+    lcd->setLcdYellow(false);
+    lcd->setLcdRed(false);
+    lcd->setBuzzer(false);
+    auto serial = dev->getSerialNumber();
+    for (int i=0; i<3; ++i)
+    {
+        lcd->display1(serial, 1000);
+        lcd->display1_(serial, 1000);
+    }
+
+    std::vector<std::string> noPingDevices;
+    std::vector<std::string> noPingNumbersDevices;
+
     while(1)
     {
-        std::this_thread::sleep_for(std::chrono::seconds(1));
-
         //число устройств онлайн
         int on = 0;
         int i = 0;
-        std::vector<std::string> noPingDevices;
-        std::vector<std::string> noPingNumbersDevices;
+        noPingDevices.clear();
+        noPingNumbersDevices.clear();
         for (auto &k:resultsPing)
         {
             if (k == "")
@@ -65,24 +80,21 @@ int main(int argc, char *argv[])
         }
         dev->setNumOnlineDevices(on);
         std::string numDevOnline = dev->getNumOnlineDevices();
-        std::cout << "numDevOnline: " <<numDevOnline <<std::endl;
+std::cout << "numDevOnline: " <<numDevOnline <<std::endl;
 
         //число устройств оффлайн
         int off = dev->getIpAdressDevices().size() - on;
         dev->setNumOfflineDevices(off);
         std::string numDevOffline = dev->getNumOfflineDevices();
-        std::cout << "numDevOffline:"<< numDevOffline <<std::endl;
+std::cout << "numDevOffline:"<< numDevOffline <<std::endl;
 
-//        for (auto &i:resultsPing)
-//        {
-//            if (i != "") std::cout << i <<std::endl;
-//        }
-//        std::cout <<std::endl;
+//for (auto &i:resultsPing)
+//{
+//    if (i != "") std::cout << i <<std::endl;
+//}
+//std::cout <<std::endl;
 
-        lcd->display1(1000);
-        lcd->wait(500);
-
-        lcd->display2(datetime(), numDevAll, numDevOnline, numDevOffline, 1000);
+        lcd->dutyFrame(datetime(), numDevAll, numDevOnline, numDevOffline, 1000);
         lcd->wait(500);
 
         std::string num1;
@@ -99,19 +111,19 @@ int main(int argc, char *argv[])
 
         }
 
-        lcd->display3(num1, num2, num3, ip1, ip2, ip3, 1000);
+        lcd->diagnosticFrame(num1, num2, num3, ip1, ip2, ip3, 1000);
 
-        for (auto &i : noPingDevices)
-        {
-            std::cout << "noPingDevice: " << i <<std::endl;
-        }
-        for (auto &i : noPingNumbersDevices)
-        {
-            std::cout << "noPingNumberDevice: " << i <<std::endl;
-        }
+for (auto &i : noPingDevices)
+{
+    std::cout << "noPingDevice: " << i <<std::endl;
+}
+//for (auto &i : noPingNumbersDevices)
+//{
+//    std::cout << "noPingNumberDevice: " << i <<std::endl;
+//}
 
 
-      std::cout << std::endl;
+//std::cout << std::endl;
     }
 
 }

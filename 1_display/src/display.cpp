@@ -30,20 +30,33 @@ void Display::clearDisplay()
     printToLcd (stringToDisplay, port);
 }
 
-void Display::display1(int ms)
+void Display::display1(std::string serial, int ms)
 {
     std::string lcdbuz,line1,line2,line3,line4;
     lcdbuz = _lcdYellow + _lcdRed + _buzzer;
     line1 = "     GIT-COMM IPS   ";
     line2 = "ПДКВ ВЕРСИЯ ПО: 1.0 ";
-    line3 = "  S/N:903012122001  ";
+    line3 = "  S/N:" + serial;
     line4 = "  Инициализация...  ";
     printToLcd (lcdbuz + line1 + line2 + line3 + line4, port);
     std::this_thread::sleep_for(std::chrono::milliseconds(ms));
     clearDisplay();
 }
 
-void Display::display2(std::pair<std::string, std::string> dt,
+void Display::display1_(std::string serial, int ms)
+{
+    std::string lcdbuz,line1,line2,line3,line4;
+    lcdbuz = _lcdYellow + _lcdRed + _buzzer;
+    line1 = "     GIT-COMM IPS   ";
+    line2 = "ПДКВ ВЕРСИЯ ПО: 1.0 ";
+    line3 = "  S/N:" + serial;
+    line4 = "                    ";
+    printToLcd (lcdbuz + line1 + line2 + line3 + line4, port);
+    std::this_thread::sleep_for(std::chrono::milliseconds(ms));
+    clearDisplay();
+}
+
+void Display::dutyFrame(std::pair<std::string, std::string> dt,
               std::string numDev, std::string onDev,
               std::string offDev, int ms)
 {
@@ -58,8 +71,7 @@ void Display::display2(std::pair<std::string, std::string> dt,
     clearDisplay();
 }
 
-void Display::display3(
-        std::string num1, std::string num2,std::string num3,
+void Display::diagnosticFrame(std::string num1, std::string num2,std::string num3,
         std::string ip1, std::string ip2, std::string ip3, int ms)
 {
     std::string lcdbuz,line1,line2,line3,line4;

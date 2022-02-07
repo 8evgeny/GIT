@@ -21,11 +21,19 @@ Devices::Devices()
     char buffer [80];
     sprintf(buffer, "%04d", static_cast<int>(_ipAdressDevices.size()));
     _numAllDevices = buffer;
-
+    _serialNumber = readSerialNumber();
 }
 
 Devices::~Devices()
 {
+}
+
+std::string Devices::readSerialNumber()
+{
+    std::ifstream file("../serial_number");
+    std::string s;
+    file >> s;
+    return  s;
 }
 
 std::vector<std::string> Devices::allDevices()
@@ -112,6 +120,11 @@ void Devices::setNumOfflineDevices(int num)
 const std::vector<std::string> &Devices::getNumbersDevices() const
 {
     return _numbersDevices;
+}
+
+const std::string &Devices::getSerialNumber() const
+{
+    return _serialNumber;
 }
 
 

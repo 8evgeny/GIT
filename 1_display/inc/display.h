@@ -9,11 +9,12 @@ public:
 
     void printToLcd(std::string str, std::string port);
     void clearDisplay();
-    void display1(int ms);
-    void display2(std::pair<std::string, std::string> dt,
+    void display1(std::string serial, int ms);
+    void display1_(std::string serial, int ms);
+    void dutyFrame(std::pair<std::string, std::string> dt,
                   std::string numDev, std::string onDev,
                   std::string offDev, int ms);
-    void display3(std::string num1, std::string num2,std::string num3,
+    void diagnosticFrame(std::string num1, std::string num2,std::string num3,
         std::string ip1, std::string ip2, std::string ip3, int ms);
     void wait(int ms);
 
