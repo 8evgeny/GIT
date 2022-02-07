@@ -10,7 +10,7 @@ Devices::Devices()
     _ipAdressDevices = allDevices();
 
     int k = 1;
-    for (auto i:_ipAdressDevices)
+    for (auto &i:_ipAdressDevices)
     {
         char buffer [4];
         sprintf(buffer, "%03d", k);
