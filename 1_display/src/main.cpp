@@ -151,7 +151,7 @@ std::cout << "numDevOffline:"<< numDevOffline <<std::endl;
             }
 
             lcd->diagnostic(noPingDevices, noPingNumbersDevices);
-        }
+        }// есть оффлайн
         else
         {// все онлайн
             dev->setIsOfflineDevices(false);
@@ -171,10 +171,12 @@ std::cout << "numDevOffline:"<< numDevOffline <<std::endl;
                     lcd->wait(500);
                 }
             }
-
-            lcd->dutyFrame(datetime(), numDevAll, numDevOnline, numDevOffline);
-            lcd->wait(4000); //Дежурный кадр показываем 1+4 секунд
-        }
+            for (int i = 0; i < 4 ; ++i)
+            {
+                lcd->dutyFrame(datetime(), numDevAll, numDevOnline, numDevOffline);
+                lcd->wait(1000);
+            }
+        }// все онлайн
 
 //for (auto &i : noPingDevices)
 //{
