@@ -1,3 +1,4 @@
+#pragma once
 #include <string>
 #include <chrono>
 
@@ -15,7 +16,7 @@ public:
                   std::string numDev, std::string onDev,
                   std::string offDev);
     void diagnosticFrame(std::string num1, std::string num2,std::string num3,
-        std::string ip1, std::string ip2, std::string ip3, int ms);
+        std::string ip1, std::string ip2, std::string ip3);
     void wait(int ms);
 
     void setLcdYellow(bool);

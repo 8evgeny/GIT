@@ -17,7 +17,7 @@ int main(int argc, char *argv[])
     }
 
     std::shared_ptr<Devices> dev(new Devices);
-    std::unique_ptr<Display> lcd(new Display);
+    std::shared_ptr<Display> lcd(new Display);
 
     //Запускаем пинг в потоках
     std::vector<std::string> resultsPing{dev->getIpAdressDevices().size()};
@@ -98,28 +98,19 @@ std::cout << "numDevOffline:"<< numDevOffline <<std::endl;
         lcd->dutyFrame(datetime(), numDevAll, numDevOnline, numDevOffline);
         lcd->wait(500);
 
-
-        //формируем диагностический экран
-        std::string num1;
-        std::string num2;
-        std::string num3;
-        std::string ip1;
-        std::string ip2;
-        std::string ip3;
-
-        int indexNoPing = 0;
-        int noPingSize = noPingDevices.size();
-        if (noPingSize > 0)
+        if (off !=0)
         {
+            diagnosticFrame(lcd);
 
         }
 
-        lcd->diagnosticFrame(num1, num2, num3, ip1, ip2, ip3, 1000);
 
-for (auto &i : noPingDevices)
-{
-    std::cout << "noPingDevice: " << i <<std::endl;
-}
+
+
+//for (auto &i : noPingDevices)
+//{
+//    std::cout << "noPingDevice: " << i <<std::endl;
+//}
 //for (auto &i : noPingNumbersDevices)
 //{
 //    std::cout << "noPingNumberDevice: " << i <<std::endl;

@@ -68,7 +68,7 @@ void Display::dutyFrame(std::pair<std::string, std::string> dt,
 }
 
 void Display::diagnosticFrame(std::string num1, std::string num2,std::string num3,
-        std::string ip1, std::string ip2, std::string ip3, int ms)
+        std::string ip1, std::string ip2, std::string ip3)
 {
     std::string lcdbuz,line1,line2,line3,line4;
     lcdbuz = _lcdYellow + _lcdRed + _buzzer;
@@ -77,8 +77,6 @@ void Display::diagnosticFrame(std::string num1, std::string num2,std::string num
     line3 = num2 + "\"  \"" + ip2;
     line4 = num3 + "\"  \"" + ip3;
     printToLcd (lcdbuz + line1 + line2 + line3 + line4, port);
-    std::this_thread::sleep_for(std::chrono::milliseconds(ms));
-    clearDisplay();
 }
 
 void Display::wait(int ms)
@@ -99,4 +97,22 @@ void Display::setLcdRed(bool newLcdRed)
 void Display::setBuzzer(bool newBuzzer)
 {
     _buzzer = newBuzzer;
+}
+
+void diagnosticFrame(std::shared_ptr<Display> lcd)
+{
+    //формируем диагностический экран
+    std::string num1;
+    std::string num2;
+    std::string num3;
+    std::string ip1;
+    std::string ip2;
+    std::string ip3;
+
+    int indexNoPing = 0;
+
+
+    lcd->diagnosticFrame(num1, num2, num3, ip1, ip2, ip3);
+
+
 }
