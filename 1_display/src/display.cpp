@@ -103,18 +103,52 @@ void Display::setBuzzer(bool newBuzzer)
 void Display::diagnostic(std::vector<std::string> noPingDevices, std::vector<std::string> noPingNumbersDevices)
 {
     //формируем диагностический экран
-    std::string num1;
-    std::string num2;
-    std::string num3;
-    std::string ip1;
-    std::string ip2;
-    std::string ip3;
+    std::string num1{""};
+    std::string num2{""};
+    std::string num3{""};
+    std::string ip1{""};
+    std::string ip2{""};
+    std::string ip3{""};
 
-    int indexNoPing = 0;
+    switch (noPingDevices.size())
+    {
+        case 0 :
+            return;
+        case 1 :
+        {
+            num1 = noPingNumbersDevices[0];
+            ip1 = noPingDevices[0];
+            diagnosticFrame(num1, num2, num3, ip1, ip2, ip3);
+        }
+            break;
+        case 2 :
+        {
+            num1 = noPingNumbersDevices[0];
+            num2 = noPingNumbersDevices[1];
+            ip1 = noPingDevices[0];
+            ip2 = noPingDevices[1];
+            diagnosticFrame(num1, num2, num3, ip1, ip2, ip3);
+        }
+            break;
+        case 3 :
+        {
+            num1 = noPingNumbersDevices[0];
+            num2 = noPingNumbersDevices[1];
+            num3 = noPingNumbersDevices[2];
+            ip1 = noPingDevices[0];
+            ip2 = noPingDevices[1];
+            ip3 = noPingDevices[2];
+            diagnosticFrame(num1, num2, num3, ip1, ip2, ip3);
+        }
+        break;
+        default:
+        {
+            //экран со сдвигом
 
 
-    diagnosticFrame(num1, num2, num3, ip1, ip2, ip3);
 
+        }
+    }
 
     wait(3000);
 }
