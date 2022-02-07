@@ -8,13 +8,13 @@ void test(int scr)
     switch (scr)
     {
     case 0:
-        d.clearDisplay();
+//        d.clearDisplay();
         break;
     case 1:
-        d.display1(10000);
+//        d.display1(10000);
         break;
     case 2:
-        d.display2(10000);
+//        d.display2(10000);
         break;
     case 3:
     {

@@ -32,60 +32,43 @@ void Display::clearDisplay()
 
 void Display::display1(int ms)
 {
-    std::string stringToDisplay = "\""
-                      + _lcdYellow + _lcdRed + _buzzer +
-                      "     GIT-COMM IPS    "
-                      " ПДКВ ВЕРСИЯ ПО: 1.0 "
-                      "   S/N:903012122001  "
-                      "   Инициализация...  "
-                      "\"";
-    printToLcd (stringToDisplay, port);
+    std::string lcdbuz,line1,line2,line3,line4;
+    lcdbuz = _lcdYellow + _lcdRed + _buzzer;
+    line1 = "     GIT-COMM IPS   ";
+    line2 = "ПДКВ ВЕРСИЯ ПО: 1.0 ";
+    line3 = "  S/N:903012122001  ";
+    line4 = "  Инициализация...  ";
+    printToLcd (lcdbuz + line1 + line2 + line3 + line4, port);
     std::this_thread::sleep_for(std::chrono::milliseconds(ms));
     clearDisplay();
 }
 
-void Display::display2(int ms)
-{
-    std::string stringToDisplay = "\""
-                      + _lcdYellow + _lcdRed + _buzzer +
-                      "     GIT-COMM IPS    "
-                      " ПДКВ ВЕРСИЯ ПО: 1.0 "
-                      "   Version: ____     "
-                      "   Initialisation... "
-                      "\"";
-    printToLcd (stringToDisplay, port);
-    std::this_thread::sleep_for(std::chrono::milliseconds(ms));
-    clearDisplay();
-}
-
-void Display::display3(std::pair<std::string, std::string> dt,
+void Display::display2(std::pair<std::string, std::string> dt,
               std::string numDev, std::string onDev,
               std::string offDev, int ms)
 {
-    std::string stringToDisplay = "\""
-                      + _lcdYellow + _lcdRed + _buzzer +
-                      dt.first + "\"  \"" + dt.second +
-                      "All device  -   " + numDev +
-                      "Online      -   " + onDev +
-                      "Offline     -   " + offDev +
-                      "\"";
-    printToLcd (stringToDisplay, port);
+    std::string lcdbuz,line1,line2,line3,line4;
+    lcdbuz = _lcdYellow + _lcdRed + _buzzer;
+    line1 = dt.first + "\"  \"" + dt.second;
+    line2 = "УСТРОЙСТВ ВСЕГО " + numDev;
+    line3 = " НА СВЯЗИ   " + onDev;
+    line4 = " ОТКЛЮЧЕНО  " + offDev;
+    printToLcd (lcdbuz + line1 + line2 + line3 + line4, port);
     std::this_thread::sleep_for(std::chrono::milliseconds(ms));
     clearDisplay();
 }
 
-void Display::display4(
+void Display::display3(
         std::string num1, std::string num2,std::string num3,
         std::string ip1, std::string ip2, std::string ip3, int ms)
 {
-    std::string stringToDisplay = "\""
-                      + _lcdYellow + _lcdRed + _buzzer +
-                      "    Not connect:    " +
-                      num1 + "\"  \"" + ip1 +
-                      num2 + "\"  \"" + ip2 +
-                      num3 + "\"  \"" + ip3 +
-                      "\"";
-    printToLcd (stringToDisplay, port);
+    std::string lcdbuz,line1,line2,line3,line4;
+    lcdbuz = _lcdYellow + _lcdRed + _buzzer;
+    line1 = "    НЕТ СВЯЗИ       ";
+    line2 = num1 + "\"  \"" + ip1;
+    line3 = num2 + "\"  \"" + ip2;
+    line4 = num3 + "\"  \"" + ip3;
+    printToLcd (lcdbuz + line1 + line2 + line3 + line4, port);
     std::this_thread::sleep_for(std::chrono::milliseconds(ms));
     clearDisplay();
 }
@@ -95,17 +78,17 @@ void Display::wait(int ms)
     std::this_thread::sleep_for(std::chrono::milliseconds(ms));
 }
 
-void Display::setLcdYellow(const std::string &newLcdYellow)
+void Display::setLcdYellow(bool newLcdYellow)
 {
     _lcdYellow = newLcdYellow;
 }
 
-void Display::setLcdRed(const std::string &newLcdRed)
+void Display::setLcdRed(bool newLcdRed)
 {
     _lcdRed = newLcdRed;
 }
 
-void Display::setBuzzer(const std::string &newBuzzer)
+void Display::setBuzzer(bool newBuzzer)
 {
     _buzzer = newBuzzer;
 }

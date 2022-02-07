@@ -79,10 +79,10 @@ int main(int argc, char *argv[])
 //        }
 //        std::cout <<std::endl;
 
-        lcd->display2(1000);
+        lcd->display1(1000);
         lcd->wait(500);
 
-        lcd->display3(datetime(), numDevAll, numDevOnline, numDevOffline, 1000);
+        lcd->display2(datetime(), numDevAll, numDevOnline, numDevOffline, 1000);
         lcd->wait(500);
 
         std::string num1;
@@ -99,7 +99,7 @@ int main(int argc, char *argv[])
 
         }
 
-        lcd->display4(num1, num2, num3, ip1, ip2, ip3, 1000);
+        lcd->display3(num1, num2, num3, ip1, ip2, ip3, 1000);
 
         for (auto &i : noPingDevices)
         {
