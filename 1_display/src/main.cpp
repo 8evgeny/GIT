@@ -62,7 +62,7 @@ int main()
     std::vector<std::string> noPingDevices;
     std::vector<std::string> noPingNumbersDevices;
     bool firstInvoke = true;
-
+    auto startMinuteForBuzzer = std::chrono::steady_clock::now();//временная отметка 1 раз в минуту зуммер
     while(1)
     {
         //число устройств онлайн
@@ -100,10 +100,11 @@ std::cout << "numDevOffline:"<< numDevOffline <<std::endl;
 //}
 //std::cout <<std::endl;
 
-
-
         if (off !=0)
         {// есть оффлайн
+            dev->setIsOfflineDevices(true);
+            lcd->setLcdYellow(true);
+
             if (firstInvoke)
             {
                 firstInvoke = false;
@@ -117,15 +118,45 @@ std::cout << "numDevOffline:"<< numDevOffline <<std::endl;
                     lcd->dutyFrame(datetime(), numDevAll, numDevOnline, numDevOffline);
                     lcd->wait(500);
                 }
+                for (int i = 0; i < 4 ; ++i)
+                {//для смены времени
+                    lcd->dutyFrame(datetime(), numDevAll, numDevOnline, numDevOffline);
+                    lcd->wait(1000);
+                }
 
-                lcd->dutyFrame(datetime(), numDevAll, numDevOnline, numDevOffline);
-                lcd->wait(4000); //При первом вызове дежурный кадр показываем 1+4 секунд
+                //При первом вызове дежурный кадр показываем 5 секунд
+                //Идем к экрану диагностики
+            }
+            else
+            {//не первый вызов, есть оффлайн
+                auto currTime = std::chrono::steady_clock::now();
+                auto int_s = std::chrono::duration_cast<std::chrono::seconds>(currTime - startMinuteForBuzzer);
+                if (int_s.count() > 60 )
+                {
+                    startMinuteForBuzzer = std::chrono::steady_clock::now(); //новая отметка
+                    //один сигнал раз в нинуту
+                    lcd->setBuzzer(true);
+                    lcd->dutyFrame(datetime(), numDevAll, numDevOnline, numDevOffline);
+                    lcd->wait(500);
+                    lcd->setBuzzer(false);
+                    lcd->dutyFrame(datetime(), numDevAll, numDevOnline, numDevOffline);
+                    lcd->wait(500);
+                }
+                for (int i = 0; i < 4 ; ++i)
+                {//для смены времени
+                    lcd->dutyFrame(datetime(), numDevAll, numDevOnline, numDevOffline);
+                    lcd->wait(1000);
+                }
+                //Идем к экрану диагностики
             }
 
             lcd->diagnostic(noPingDevices, noPingNumbersDevices);
         }
         else
         {// все онлайн
+            dev->setIsOfflineDevices(false);
+            lcd->setLcdYellow(false);
+
             if (firstInvoke)
             {
                 firstInvoke = false;
