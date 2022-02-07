@@ -16,7 +16,7 @@ void Display::printToLcd(std::string str, std::string port)
     system(cmd.c_str());
 }
 
-void Display::display0()
+void Display::clearDisplay()
 {
     std::string stringToDisplay = "\""
                       "                     "
@@ -37,7 +37,7 @@ void Display::display1(int ms)
                       "\"";
     printToLcd (stringToDisplay, port);
     std::this_thread::sleep_for(std::chrono::milliseconds(ms));
-    display0();
+    clearDisplay();
     std::this_thread::sleep_for(std::chrono::milliseconds(ms));
 }
 
@@ -51,7 +51,7 @@ void Display::display2(int ms)
                       "\"";
     printToLcd (stringToDisplay, port);
     std::this_thread::sleep_for(std::chrono::milliseconds(ms));
-    display0();
+    clearDisplay();
     std::this_thread::sleep_for(std::chrono::milliseconds(ms));
 }
 
@@ -66,7 +66,7 @@ void Display::display3(std::pair<std::string, std::string> dt,
                       "\"";
     printToLcd (stringToDisplay, port);
     std::this_thread::sleep_for(std::chrono::milliseconds(ms));
-    display0();
+    clearDisplay();
     std::this_thread::sleep_for(std::chrono::milliseconds(ms));
 }
 
@@ -82,7 +82,7 @@ void Display::display4(
                       "\"";
     printToLcd (stringToDisplay, port);
     std::this_thread::sleep_for(std::chrono::milliseconds(ms));
-    display0();
+    clearDisplay();
     std::this_thread::sleep_for(std::chrono::milliseconds(ms));
 }
 

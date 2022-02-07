@@ -7,7 +7,7 @@ public:
     ~Display();
 
     void printToLcd(std::string str, std::string port);
-    void display0();
+    void clearDisplay();
     void display1(int ms);
     void display2(int ms);
     void display3(std::pair<std::string, std::string> dt,
