@@ -22,7 +22,6 @@ Devices::Devices()
     sprintf(buffer, "%04d", static_cast<int>(_ipAdressDevices.size()));
     _numAllDevices = buffer;
     _serialNumber = readSerialNumber();
-    _isOfflineDevices = false;
 }
 
 Devices::~Devices()
@@ -128,15 +127,6 @@ const std::string &Devices::getSerialNumber() const
     return _serialNumber;
 }
 
-bool Devices::getIsOfflineDevices() const
-{
-    return _isOfflineDevices;
-}
-
-void Devices::setIsOfflineDevices(bool newIsOfflineDevices)
-{
-    _isOfflineDevices = newIsOfflineDevices;
-}
 
 
 

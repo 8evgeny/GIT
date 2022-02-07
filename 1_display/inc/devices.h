@@ -21,8 +21,6 @@ public:
     void setNumOfflineDevices(int num);
     const std::vector<std::string> &getNumbersDevices() const;
     const std::string &getSerialNumber() const;
-    bool getIsOfflineDevices() const;
-    void setIsOfflineDevices(bool newIsOfflineDevices);
 
 private:
     std::vector<std::string> _ipAdressDevices;
@@ -31,5 +29,4 @@ private:
     std::string _numOnlineDevices{""};
     std::string _numOfflineDevices{""};
     std::string _serialNumber{""};
-    bool _isOfflineDevices;
 };

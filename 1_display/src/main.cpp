@@ -100,10 +100,39 @@ std::cout << "numDevOffline:"<< numDevOffline <<std::endl;
 //}
 //std::cout <<std::endl;
 
+if (on == 0)
+{
+    lcd->setLcdYellow(false);
+    lcd->setLcdRed(true);
+
+    /* потеряна со всеми устройствами, должен непрерывно светиться
+    индикатор красного цвета (индикатор желтого цвета светиться не должен) и должна
+    непрерывно воспроизводиться последовательность сигналов (звучание в течение 0,5 с с
+    интервалом 0,5 с) */
+
+    while (1)
+    {
+        for (auto &k:resultsPing)
+        {
+            if (k == "")
+            {
+                break;
+            }
+        }
+        lcd->setBuzzer(true);
+        lcd->dutyFrame(datetime(), numDevAll, numDevOnline, numDevOffline);
+        lcd->wait(500);
+        lcd->setBuzzer(false);
+        lcd->dutyFrame(datetime(), numDevAll, numDevOnline, numDevOffline);
+        lcd->wait(500);
+    }
+}
+
         if (off !=0)
         {// есть оффлайн
-            dev->setIsOfflineDevices(true);
+
             lcd->setLcdYellow(true);
+            lcd->setLcdRed(false);
 
             if (firstInvoke)
             {
@@ -154,8 +183,8 @@ std::cout << "numDevOffline:"<< numDevOffline <<std::endl;
         }// есть оффлайн
         else
         {// все онлайн
-            dev->setIsOfflineDevices(false);
             lcd->setLcdYellow(false);
+            lcd->setLcdRed(false);
 
             if (firstInvoke)
             {
