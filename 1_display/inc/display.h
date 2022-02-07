@@ -26,6 +26,7 @@ public:
     void setBuzzer(bool);
 
     void diagnostic(std::vector<std::string> noPingDevices, std::vector<std::string> noPingNumbersDevices);
+;
 
 private:
     std::string port = "/dev/ttyACM0";

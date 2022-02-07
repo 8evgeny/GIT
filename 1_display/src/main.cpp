@@ -34,24 +34,34 @@ int main()
     std::string numDevAll = dev->getNumDevices();
 //std::cout << "numDevAll: "<<numDevAll <<std::endl;
 
+    auto serial = dev->getSerialNumber();
+    /* После окончания загрузки операционной системы перед началом опроса подключенных
+       устройств - два сигнала (звучание в течение 0,5 с с интервалом 0,5 с).         */
     //Выводим первый экран не менее 5 с
     lcd->setLcdYellow(false);
     lcd->setLcdRed(false);
+    lcd->setBuzzer(true);
+    lcd->display1(serial);
+    lcd->wait(500);
     lcd->setBuzzer(false);
-    auto serial = dev->getSerialNumber();
-    for (int i=0; i<3; ++i)
-    {
-        lcd->display1(serial);
-        lcd->wait(1000);
-        if (i != 3)
-        {
-            lcd->display1_(serial);
-            lcd->wait(1000);
-        }
-    }
+    lcd->display1(serial);
+    lcd->wait(500);
+    lcd->setBuzzer(true);
+    lcd->display1(serial);
+    lcd->wait(500);
+    lcd->setBuzzer(false);
+    lcd->display1(serial);
+    lcd->wait(500);
+    lcd->display1_(serial);
+    lcd->wait(1000);
+    lcd->display1(serial);
+    lcd->wait(1000);
+    lcd->display1_(serial);
+    lcd->wait(1000);
 
     std::vector<std::string> noPingDevices;
     std::vector<std::string> noPingNumbersDevices;
+    bool firstInvoke = true;
 
     while(1)
     {
@@ -90,12 +100,49 @@ std::cout << "numDevOffline:"<< numDevOffline <<std::endl;
 //}
 //std::cout <<std::endl;
 
-        lcd->dutyFrame(datetime(), numDevAll, numDevOnline, numDevOffline);
-        lcd->wait(500);
+
 
         if (off !=0)
-        {
+        {// есть оффлайн
+            if (firstInvoke)
+            {
+                firstInvoke = false;
+                //четыре зумма по 0,5с
+                for (int i = 0; i<4; ++i)
+                {
+                    lcd->setBuzzer(true);
+                    lcd->dutyFrame(datetime(), numDevAll, numDevOnline, numDevOffline);
+                    lcd->wait(500);
+                    lcd->setBuzzer(false);
+                    lcd->dutyFrame(datetime(), numDevAll, numDevOnline, numDevOffline);
+                    lcd->wait(500);
+                }
+
+                lcd->dutyFrame(datetime(), numDevAll, numDevOnline, numDevOffline);
+                lcd->wait(4000); //При первом вызове дежурный кадр показываем 1+4 секунд
+            }
+
             lcd->diagnostic(noPingDevices, noPingNumbersDevices);
+        }
+        else
+        {// все онлайн
+            if (firstInvoke)
+            {
+                firstInvoke = false;
+                //три зумма по 0,5с
+                for (int i = 0; i < 3; ++i)
+                {
+                    lcd->setBuzzer(true);
+                    lcd->dutyFrame(datetime(), numDevAll, numDevOnline, numDevOffline);
+                    lcd->wait(500);
+                    lcd->setBuzzer(false);
+                    lcd->dutyFrame(datetime(), numDevAll, numDevOnline, numDevOffline);
+                    lcd->wait(500);
+                }
+            }
+
+            lcd->dutyFrame(datetime(), numDevAll, numDevOnline, numDevOffline);
+            lcd->wait(4000); //Дежурный кадр показываем 1+4 секунд
         }
 
 //for (auto &i : noPingDevices)

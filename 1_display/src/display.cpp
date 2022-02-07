@@ -166,6 +166,7 @@ void Display::diagnostic(std::vector<std::string> noPingDevices, std::vector<std
 
 
 
+
         }
     }
 
