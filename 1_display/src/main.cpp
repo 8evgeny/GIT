@@ -9,7 +9,7 @@
 int main()
 {
     using std::chrono::system_clock;
-    std::chrono::duration<int,std::ratio<60*60>> one_minute;
+    std::chrono::duration<int,std::ratio<60>> one_minute;
     std::shared_ptr<Devices> dev(new Devices);
     std::shared_ptr<Display> lcd(new Display);
 
