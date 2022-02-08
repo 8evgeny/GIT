@@ -11,7 +11,7 @@ int main()
     std::shared_ptr<Devices> dev(new Devices);
     std::shared_ptr<Display> lcd(new Display);
 
-    //Запускаем пинг в потоках
+    //starting ping in threads
     std::vector<std::string> resultsPing{dev->getIpAdressDevices().size()};
     for (auto &i : resultsPing)
     {
@@ -37,6 +37,7 @@ int main()
     auto serial = dev->getSerialNumber();
     /* После окончания загрузки операционной системы перед началом опроса подключенных
        устройств - два сигнала (звучание в течение 0,5 с с интервалом 0,5 с).         */
+
     //Выводим первый экран не менее 5 с
     lcd->setLcdYellow(false);
     lcd->setLcdRed(false);
@@ -62,10 +63,11 @@ int main()
     std::vector<std::string> noPingDevices;
     std::vector<std::string> noPingNumbersDevices;
     bool firstInvoke = true;
-    auto startMinuteForBuzzer = std::chrono::steady_clock::now();//временная отметка 1 раз в минуту зуммер
+    //временная отметка 1 раз в минуту зуммер
+    auto startMinuteForBuzzer = std::chrono::steady_clock::now();
+
     while(1)
     {
-        //число устройств онлайн
         int on = 0;
         int i = 0;
         noPingDevices.clear();
@@ -84,11 +86,13 @@ int main()
             }
             ++i;
         }
+
+        //number device online
         dev->setNumOnlineDevices(on);
         std::string numDevOnline = dev->getNumOnlineDevices();
 std::cout << "numDevOnline: " <<numDevOnline <<std::endl;
 
-        //число устройств оффлайн
+        //number device offline
         int off = dev->getIpAdressDevices().size() - on;
         dev->setNumOfflineDevices(off);
         std::string numDevOffline = dev->getNumOfflineDevices();
@@ -100,37 +104,35 @@ std::cout << "numDevOffline:"<< numDevOffline <<std::endl;
 //}
 //std::cout <<std::endl;
 
-if (on == 0)
-{
-    lcd->setLcdYellow(false);
-    lcd->setLcdRed(true);
-
-    /* потеряна со всеми устройствами, должен непрерывно светиться
-    индикатор красного цвета (индикатор желтого цвета светиться не должен) и должна
-    непрерывно воспроизводиться последовательность сигналов (звучание в течение 0,5 с с
-    интервалом 0,5 с) */
-
-    while (1)
-    {
-        for (auto &k:resultsPing)
+        /* потеряна со всеми устройствами, должен непрерывно светиться
+            индикатор красного цвета (индикатор желтого цвета светиться не должен) и должна
+            непрерывно воспроизводиться последовательность сигналов (звучание в течение 0,5 с с
+            интервалом 0,5 с) */
+        if (on == 0)
         {
-            if (k == "")
+            lcd->setLcdYellow(false);
+            lcd->setLcdRed(true);
+
+            while (1)
             {
-                break;
+                for (auto &k:resultsPing)
+                {
+                    if (k == "")
+                    {
+                        break;
+                    }
+                }
+                lcd->setBuzzer(true);
+                lcd->dutyFrame(datetime(), numDevAll, numDevOnline, numDevOffline);
+                lcd->wait(500);
+                lcd->setBuzzer(false);
+                lcd->dutyFrame(datetime(), numDevAll, numDevOnline, numDevOffline);
+                lcd->wait(500);
             }
-        }
-        lcd->setBuzzer(true);
-        lcd->dutyFrame(datetime(), numDevAll, numDevOnline, numDevOffline);
-        lcd->wait(500);
-        lcd->setBuzzer(false);
-        lcd->dutyFrame(datetime(), numDevAll, numDevOnline, numDevOffline);
-        lcd->wait(500);
-    }
-}
+        }//end all offline
 
         if (off !=0)
         {// есть оффлайн
-
             lcd->setLcdYellow(true);
             lcd->setLcdRed(false);
 
@@ -155,7 +157,7 @@ if (on == 0)
 
                 //При первом вызове дежурный кадр показываем 5 секунд
                 //Идем к экрану диагностики
-            }
+            }//end first invoke
             else
             {//не первый вызов, есть оффлайн
                 auto currTime = std::chrono::steady_clock::now();
@@ -205,6 +207,9 @@ if (on == 0)
                 lcd->dutyFrame(datetime(), numDevAll, numDevOnline, numDevOffline);
                 lcd->wait(1000);
             }
+
+            lcd->diagnostic(noPingDevices, noPingNumbersDevices);
+
         }// все онлайн
 
 //for (auto &i : noPingDevices)
@@ -215,9 +220,7 @@ if (on == 0)
 //{
 //    std::cout << "noPingNumberDevice: " << i <<std::endl;
 //}
-
-
 //std::cout << std::endl;
-    }
 
+    }//end while(1)
 }
