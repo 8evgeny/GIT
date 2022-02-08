@@ -9,7 +9,7 @@
 int main()
 {
     using std::chrono::system_clock;
-    std::chrono::duration<int,std::ratio<60>> one_minute;
+    std::chrono::duration<int, std::ratio<60>> minute;
     std::shared_ptr<Devices> dev(new Devices);
     std::shared_ptr<Display> lcd(new Display);
 
@@ -65,7 +65,7 @@ int main()
     std::vector<std::string> noPingNumbersDevices;
     bool firstInvoke = true;
     //временная отметка 1 раз в минуту зуммер
-    system_clock::time_point tPointEnd = system_clock::now() + one_minute;
+    system_clock::time_point currTimePlusMinute = system_clock::now() + minute;
 
     while(1)
     {
@@ -162,9 +162,9 @@ std::cout << "numDevOffline:"<< numDevOffline <<std::endl;
             else
             {//не первый вызов, есть оффлайн
                 auto currTime = system_clock::now();
-                if (currTime > tPointEnd )
+                if (currTime > currTimePlusMinute )
                 {
-                    tPointEnd = currTime + one_minute;  //новая отметка
+                    currTimePlusMinute = currTime + minute;  //новая отметка
                     //один сигнал раз в нинуту
                     lcd->setBuzzer(true);
                     lcd->dutyFrame(datetime(), numDevAll, numDevOnline, numDevOffline);

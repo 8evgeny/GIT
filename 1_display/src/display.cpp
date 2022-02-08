@@ -28,7 +28,7 @@ void Display::clearDisplay()
                       "                    "
                       "                    "
                       "\"";
-    printToLcd (stringToDisplay, port);
+    printToLcd (stringToDisplay, _port);
 }
 
 void Display::display1(std::string serial)
@@ -39,7 +39,7 @@ void Display::display1(std::string serial)
     line2 = "ПДКВ ВЕРСИЯ ПО: 1.0 ";
     line3 = "  S/N:  " + serial;
     line4 = "  Инициализация...  ";
-    printToLcd (lcdbuz + line1 + line2 + line3 + line4, port);
+    printToLcd (lcdbuz + line1 + line2 + line3 + line4, _port);
 }
 
 void Display::display1_(std::string serial)
@@ -50,7 +50,7 @@ void Display::display1_(std::string serial)
     line2 = "ПДКВ ВЕРСИЯ ПО: 1.0 ";
     line3 = "  S/N:  " + serial;
     line4 = "                    ";
-    printToLcd (lcdbuz + line1 + line2 + line3 + line4, port);
+    printToLcd (lcdbuz + line1 + line2 + line3 + line4, _port);
 }
 
 void Display::dutyFrame(std::pair<std::string, std::string> dt,
@@ -63,7 +63,7 @@ void Display::dutyFrame(std::pair<std::string, std::string> dt,
     line2 = "УСТРОЙСТВ ВСЕГО " + numDev;
     line3 = " НА СВЯЗИ   " + onDev;
     line4 = " ОТКЛЮЧЕНО  " + offDev;
-    printToLcd (lcdbuz + line1 + line2 + line3 + line4, port);
+    printToLcd (lcdbuz + line1 + line2 + line3 + line4, _port);
 }
 
 void Display::diagnosticFrame(std::string num1, std::string num2,std::string num3,
@@ -75,7 +75,7 @@ void Display::diagnosticFrame(std::string num1, std::string num2,std::string num
     line2 = num1 + "\"  \"" + ip1;
     line3 = num2 + "\"  \"" + ip2;
     line4 = num3 + "\"  \"" + ip3;
-    printToLcd (lcdbuz + line1 + line2 + line3 + line4, port);
+    printToLcd (lcdbuz + line1 + line2 + line3 + line4, _port);
 }
 
 void Display::wait(int ms)

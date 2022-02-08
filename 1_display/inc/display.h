@@ -29,7 +29,7 @@ public:
 ;
 
 private:
-    std::string port = "/dev/ttyACM0";
+    std::string _port = "/dev/ttyACM0";
     std::string _lcdYellow;
     std::string _lcdRed;
     std::string _buzzer;
