@@ -64,7 +64,7 @@ void Devices::pingDevice(std::string i, std::string& result)
             system(sys.c_str());
             result = "device " + i + " unavailable";
         }
-        std::this_thread::sleep_for(std::chrono::milliseconds(300));
+        std::this_thread::sleep_for(std::chrono::milliseconds(4000));
     }
 }
 
