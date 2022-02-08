@@ -53,13 +53,15 @@ void Devices::pingDevice(std::string i, std::string& result)
 {
     while(1)
     {
-        if (strstr(sysCdm("ping -c 3 -f -i 0,2 -n " + i + " | grep \" 0% packet loss\"").c_str(),
-                   "0% packet loss"))
+        if (strstr(sysCdm("ping -c 1 -f -i 0,2 -n " + i + " | grep \" 0% packet loss\"").c_str(), "0% packet loss"))
         {
             result = "";
         }
         else
         {
+            std::string date = datetime().first + "  " + datetime().second;
+            std::string sys =    "echo " + date + " device " + i + " unavailable  >> ../logfile";
+            system(sys.c_str());
             result = "device " + i + " unavailable";
         }
         std::this_thread::sleep_for(std::chrono::milliseconds(300));
@@ -83,7 +85,7 @@ std::string Devices::sysCdm(std::string comand)
     return result;
 }
 
-const std::vector<std::string> &Devices::getIpAdressDevices() const
+const std::vector<std::string> &Devices::getIpAdressDevicesV() const
 {
     return _ipAdressDevices;
 }
@@ -117,7 +119,7 @@ void Devices::setNumOfflineDevices(int num)
     _numOfflineDevices = buffer;
 }
 
-const std::vector<std::string> &Devices::getNumbersDevices() const
+const std::vector<std::string> &Devices::getNumbersDevicesV() const
 {
     return _numbersDevices;
 }

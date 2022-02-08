@@ -12,17 +12,17 @@ int main()
     std::shared_ptr<Display> lcd(new Display);
 
     //starting ping in threads
-    std::vector<std::string> resultsPing{dev->getIpAdressDevices().size()};
+    std::vector<std::string> resultsPing{dev->getIpAdressDevicesV().size()};
     for (auto &i : resultsPing)
     {
         i="";
     }
 
     std::vector<std::thread> pingThread;
-    for (uint i = 0; i < dev->getIpAdressDevices().size(); ++i)
+    for (uint i = 0; i < dev->getIpAdressDevicesV().size(); ++i)
     {
         pingThread.push_back(std::thread(&Devices::pingDevice, dev,
-                             dev->getIpAdressDevices()[i], std::ref(resultsPing[i])));
+                             dev->getIpAdressDevicesV()[i], std::ref(resultsPing[i])));
     }
 
     for (auto &i : pingThread)
@@ -81,8 +81,8 @@ int main()
             else
             {
                 //Пинг не прошел i - индекс device
-                noPingDevices.push_back(dev->getIpAdressDevices().at(i));
-                noPingNumbersDevices.push_back(dev->getNumbersDevices().at(i));
+                noPingDevices.push_back(dev->getIpAdressDevicesV().at(i));
+                noPingNumbersDevices.push_back(dev->getNumbersDevicesV().at(i));
             }
             ++i;
         }
@@ -93,7 +93,7 @@ int main()
 std::cout << "numDevOnline: " <<numDevOnline <<std::endl;
 
         //number device offline
-        int off = dev->getIpAdressDevices().size() - on;
+        int off = dev->getIpAdressDevicesV().size() - on;
         dev->setNumOfflineDevices(off);
         std::string numDevOffline = dev->getNumOfflineDevices();
 std::cout << "numDevOffline:"<< numDevOffline <<std::endl;

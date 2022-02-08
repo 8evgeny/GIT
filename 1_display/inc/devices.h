@@ -13,13 +13,13 @@ public:
     void pingDevice(std::string i, std::string& result);
     std::string sysCdm(std::string comand);
     std::string readSerialNumber();
-    const std::vector<std::string> &getIpAdressDevices() const;
+    const std::vector<std::string> &getIpAdressDevicesV() const;
     const std::string &getNumDevices() const;
     const std::string &getNumOnlineDevices() const;
     void setNumOnlineDevices(int num);
     const std::string &getNumOfflineDevices() const;
     void setNumOfflineDevices(int num);
-    const std::vector<std::string> &getNumbersDevices() const;
+    const std::vector<std::string> &getNumbersDevicesV() const;
     const std::string &getSerialNumber() const;
 
 private:
