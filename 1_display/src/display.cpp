@@ -63,8 +63,8 @@ void Display::dutyFrame(std::pair<std::string, std::string> dt,
     lcdbuz = _lcdYellow + _lcdRed + _buzzer;
     line1 = dt.first + "\"  \"" + dt.second;
     line2 = "УСТРОЙСТВ ВСЕГО " + numDev;
-    line3 = " НА СВЯЗИ   " + onDev;
-    line4 = " ОТКЛЮЧЕНО  " + offDev;
+    line3 = "\" \" НА СВЯЗИ\"       \"" + onDev  + "\" \"";
+    line4 = " ОТКЛЮЧЕНО\"     \" " + offDev+ "\"     \"";
     printToLcd (lcdbuz + line1 + line2 + line3 + line4, _port);
 }
 

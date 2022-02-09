@@ -50,7 +50,7 @@ int main()
 
     for (int i=0; i < 2; ++i)
     {
-//        lcd->setBuzzer(true);
+        lcd->setBuzzer(true);
         lcd->display1(version, serial);
         lcd->wait(500);
         lcd->setBuzzer(false);
@@ -58,7 +58,7 @@ int main()
         lcd->wait(500);
     }
 //
-    for (int i=0; i<4000;++i)
+    for (int i=0; i<4;++i)
     {
         lcd->display1(version, serial);
         lcd->wait(1000);

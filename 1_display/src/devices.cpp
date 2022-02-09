@@ -19,7 +19,7 @@ Devices::Devices()
     }
 
     char buffer [80];
-    sprintf(buffer, "%04d", static_cast<int>(_ipAdressDevices.size()));
+    sprintf(buffer, "%03d", static_cast<int>(_ipAdressDevices.size()));
     _numAllDevices = buffer;
     _serialNumber = readSerialNumber();
     _versionProgramm = readVersionProgramm();
@@ -128,7 +128,7 @@ const std::string &Devices::getNumOnlineDevices() const
 void Devices::setNumOnlineDevices(int num)
 {
     char buffer [80];
-    sprintf(buffer, "%04d", num);
+    sprintf(buffer, "%03d", num);
     _numOnlineDevices = buffer;
 }
 
@@ -140,7 +140,7 @@ const std::string &Devices::getNumOfflineDevices() const
 void Devices::setNumOfflineDevices(int num)
 {
     char buffer [80];
-    sprintf(buffer, "%04d", num);
+    sprintf(buffer, "%03d", num);
     _numOfflineDevices = buffer;
 }
 
