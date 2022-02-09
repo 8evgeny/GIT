@@ -161,7 +161,13 @@ void Display::diagnosticFrame(std::vector<std::string> noPingDevices, std::vecto
             ip1 = noPingDevices[0];
             ip2 = noPingDevices[1];
             ip3 = noPingDevices[2];
-
+            std::string lcdbuz,line1,line2,line3,line4;
+            lcdbuz = _lcdYellow + _lcdRed + _buzzer;
+            line1 = "\"     НЕТ СВЯЗИ      \"";
+            line2 = num1 + "\"  \"" + ip1 + "\"  \"";
+            line3 = num2 + "\"  \"" + ip2 + "\"  \"";
+            line4 = num3 + "\"  \"" + ip3 + "\"  \"";
+            printToLcd (lcdbuz + line1 + line2 + line3 + line4, _port);
             wait(4000);
         }
         break;
