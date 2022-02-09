@@ -33,11 +33,6 @@ int main()
 
     //число устройств общее
     std::string numDevAll = dev->getNumDevices();
-
-            /*
-            std::cout << "numDevAll: "<<numDevAll <<std::endl;
-            */
-
     auto serial = dev->getSerialNumber();
     auto major = dev->getVersionProgramm();
     auto version = major + ".0";
@@ -102,12 +97,6 @@ std::cout << "numDevOnline: " <<numDevOnline <<std::endl;
         dev->setNumOfflineDevices(off);
         std::string numDevOffline = dev->getNumOfflineDevices();
 std::cout << "numDevOffline:"<< numDevOffline <<std::endl;
-
-//for (auto &i:resultsPing)
-//{
-//    if (i != "") std::cout << i <<std::endl;
-//}
-//std::cout <<std::endl;
 
         /* потеряна со всеми устройствами, должен непрерывно светиться
             индикатор красного цвета (индикатор желтого цвета светиться не должен) и должна
@@ -215,18 +204,6 @@ std::cout << "numDevOffline:"<< numDevOffline <<std::endl;
             }
 
             lcd->diagnosticFrame(noPingDevices, noPingNumbersDevices);
-
         }// все онлайн
-
-//for (auto &i : noPingDevices)
-//{
-//    std::cout << "noPingDevice: " << i <<std::endl;
-//}
-//for (auto &i : noPingNumbersDevices)
-//{
-//    std::cout << "noPingNumberDevice: " << i <<std::endl;
-//}
-//std::cout << std::endl;
-
     }//end while(1)
 }
