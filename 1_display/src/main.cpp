@@ -40,7 +40,8 @@ int main()
             */
 
     auto serial = dev->getSerialNumber();
-    auto version = "1.0";
+    auto major = dev->getVersionProgramm();
+    auto version = major + ".0";
     /* После окончания загрузки операционной системы перед началом опроса подключенных
        устройств - два сигнала (звучание в течение 0,5 с с интервалом 0,5 с).         */
 

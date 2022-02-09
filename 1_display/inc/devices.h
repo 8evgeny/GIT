@@ -13,6 +13,7 @@ public:
     void pingDevice(std::string i, std::string& result);
     std::string sysCdm(std::string comand);
     std::string readSerialNumber();
+    std::string readVersionProgramm();
     const std::vector<std::string> &getIpAdressDevicesV() const;
     const std::string &getNumDevices() const;
     const std::string &getNumOnlineDevices() const;
@@ -21,6 +22,7 @@ public:
     void setNumOfflineDevices(int num);
     const std::vector<std::string> &getNumbersDevicesV() const;
     const std::string &getSerialNumber() const;
+    const std::string &getVersionProgramm() const;
 
 private:
     std::vector<std::string> _ipAdressDevices;
@@ -29,4 +31,5 @@ private:
     std::string _numOnlineDevices{""};
     std::string _numOfflineDevices{""};
     std::string _serialNumber{""};
+    std::string _versionProgramm{""};
 };

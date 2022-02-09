@@ -22,6 +22,7 @@ Devices::Devices()
     sprintf(buffer, "%04d", static_cast<int>(_ipAdressDevices.size()));
     _numAllDevices = buffer;
     _serialNumber = readSerialNumber();
+    _versionProgramm = readVersionProgramm();
 }
 
 Devices::~Devices()
@@ -30,9 +31,33 @@ Devices::~Devices()
 
 std::string Devices::readSerialNumber()
 {
-    std::ifstream file("../serial_number");
+    std::ifstream file("../git-info.txt");
     std::string s;
-    file >> s;
+    while(file)
+    {
+        file >> s;
+        if (strstr(s.c_str(), "serial"))
+            break;
+    }
+    //После слова serial: должен быть пробел
+    file >> s; //Серийный номер
+    std::cout << "serial_number:"<< s <<std::endl;
+    return  s;
+}
+
+std::string Devices::readVersionProgramm()
+{
+    std::ifstream file("../git-info.txt");
+    std::string s;
+    while(file)
+    {
+        file >> s;
+        if (strstr(s.c_str(), "version"))
+            break;
+    }
+    //После слова version: должен быть пробел
+    file >> s; //номер версии
+    std::cout << "versionProgramm:"<< s <<std::endl;
     return  s;
 }
 
@@ -129,6 +154,10 @@ const std::string &Devices::getSerialNumber() const
     return _serialNumber;
 }
 
+const std::string &Devices::getVersionProgramm() const
+{
+    return _versionProgramm;
+}
 
 
 
