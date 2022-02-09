@@ -39,7 +39,7 @@ void Display::display1(std::string serial)
     lcdbuz = _lcdYellow + _lcdRed + _buzzer;
     line1 = "\"     GIT-COMM IPS   \"";
     line2 = "ПДКВ ВЕРСИЯ ПО: 1.0 ";
-    line3 = "\"  S/N:  \"" + serial;
+    line3 = "\"  S/N:" + serial + "  \"";
     line4 = "\"  Инициализация...  \"";
     printToLcd (lcdbuz + line1 + line2 + line3 + line4, _port);
 }
@@ -50,7 +50,7 @@ void Display::display1_(std::string serial)
     lcdbuz = _lcdYellow + _lcdRed + _buzzer;
     line1 = "\"     GIT-COMM IPS   \"";
     line2 = "ПДКВ ВЕРСИЯ ПО: 1.0 ";
-    line3 = "\"  S/N:  \"" + serial;
+    line3 = "\"  S/N:" + serial+ "  \"";
     line4 = "\"                    \"";
     printToLcd (lcdbuz + line1 + line2 + line3 + line4, _port);
 }
