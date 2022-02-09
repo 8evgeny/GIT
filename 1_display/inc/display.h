@@ -19,12 +19,9 @@ public:
                   std::string offDev);
     void diagnosticFrame(std::vector<std::string>& noPingDevices, std::vector<std::string>& noPingNumbersDevices);
     void wait(int ms);
-
     void setLcdYellow(bool);
     void setLcdRed(bool);
     void setBuzzer(bool);
-    std::string addBlankToIp(std::string ip);
-
 
 private:
     std::string _port = "/dev/ttyACM0";

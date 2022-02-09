@@ -85,7 +85,7 @@ void Display::diagnosticFrame(std::vector<std::string>& noPingDevices, std::vect
     case 1 :
     {
         num1 = noPingNumbersDevices[0];
-        ip1 = addBlankToIp (noPingDevices[0]);
+        ip1 = noPingDevices[0];
         std::string lcdbuz,line1,line2,line3,line4;
         lcdbuz = _lcdYellow + _lcdRed + _buzzer;
         line1 = "\"     НЕТ СВЯЗИ      \"";
@@ -100,8 +100,8 @@ void Display::diagnosticFrame(std::vector<std::string>& noPingDevices, std::vect
     {
         num1 = noPingNumbersDevices[0];
         num2 = noPingNumbersDevices[1];
-        ip1 = addBlankToIp (noPingDevices[0]);
-        ip2 = addBlankToIp (noPingDevices[1]);
+        ip1 = noPingDevices[0];
+        ip2 = noPingDevices[1];
         std::string lcdbuz,line1,line2,line3,line4;
         lcdbuz = _lcdYellow + _lcdRed + _buzzer;
         line1 = "\"     НЕТ СВЯЗИ      \"";
@@ -117,9 +117,9 @@ void Display::diagnosticFrame(std::vector<std::string>& noPingDevices, std::vect
         num1 = noPingNumbersDevices[0];
         num2 = noPingNumbersDevices[1];
         num3 = noPingNumbersDevices[2];
-        ip1 = addBlankToIp (noPingDevices[0]);
-        ip2 = addBlankToIp (noPingDevices[1]);
-        ip3 = addBlankToIp (noPingDevices[2]);
+        ip1 = noPingDevices[0];
+        ip2 = noPingDevices[1];
+        ip3 = noPingDevices[2];
         std::string lcdbuz,line1,line2,line3,line4;
         lcdbuz = _lcdYellow + _lcdRed + _buzzer;
         line1 = "\"     НЕТ СВЯЗИ      \"";
@@ -139,9 +139,9 @@ void Display::diagnosticFrame(std::vector<std::string>& noPingDevices, std::vect
             num1 = noPingNumbersDevices[i];
             num2 = noPingNumbersDevices[i + 1];
             num3 = noPingNumbersDevices[i + 2];
-            ip1 = addBlankToIp (noPingDevices[i]);
-            ip2 = addBlankToIp (noPingDevices[i + 1]);
-            ip3 = addBlankToIp (noPingDevices[i + 2]);
+            ip1 = noPingDevices[i];
+            ip2 = noPingDevices[i + 1];
+            ip3 = noPingDevices[i + 2];
             std::string lcdbuz,line1,line2,line3,line4;
             lcdbuz = _lcdYellow + _lcdRed + _buzzer;
             line1 = "\"     НЕТ СВЯЗИ      \"";
@@ -207,10 +207,3 @@ void Display::setBuzzer(bool newBuzzer)
     }
 }
 
-std::string Display::addBlankToIp(std::string ip)
-{
-    std::string tmp{"               "};
-    std::copy(ip.begin(), ip.end(), tmp.begin());
-
-    return tmp;
-}
