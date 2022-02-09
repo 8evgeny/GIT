@@ -21,18 +21,6 @@ void Display::printToLcd(std::string str, std::string port)
     system(cmd.c_str());
 }
 
-void Display::clearDisplay()
-{
-    std::string stringToDisplay = "\""
-                     + _lcdYellow + _lcdRed + _buzzer +
-                      "                    "
-                      "                    "
-                      "                    "
-                      "                    "
-                      "\"";
-    printToLcd (stringToDisplay, _port);
-}
-
 void Display::display1(std::string version, std::string serial)
 {
     std::string lcdbuz,line1,line2,line3,line4;
@@ -164,7 +152,6 @@ void Display::diagnosticFrame(std::vector<std::string>& noPingDevices, std::vect
 
 
 }
-
 
 void Display::wait(int ms)
 {

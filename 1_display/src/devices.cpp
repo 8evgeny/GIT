@@ -9,16 +9,14 @@ Devices::Devices()
 {
     _ipAdressDevices = allDevices();
 
-    int k = 1;
-    for (auto &i:_ipAdressDevices)
+    for (uint k = 1; k <= static_cast<uint>(_ipAdressDevices.size()); ++k)
     {
         char buffer [5];
         sprintf(buffer, "%04d", k);
         _numbersDevices.push_back(buffer);
-        ++k;
     }
 
-    char buffer [80];
+    char buffer [4];
     sprintf(buffer, "%03d", static_cast<int>(_ipAdressDevices.size()));
     _numAllDevices = buffer;
     _serialNumber = readSerialNumber();
@@ -41,7 +39,6 @@ std::string Devices::readSerialNumber()
     }
     //После слова serial: должен быть пробел
     file >> s; //Серийный номер
-    std::cout << "serial_number:"<< s <<std::endl;
     return  s;
 }
 
@@ -57,7 +54,6 @@ std::string Devices::readVersionProgramm()
     }
     //После слова version: должен быть пробел
     file >> s; //номер версии
-    std::cout << "versionProgramm:"<< s <<std::endl;
     return  s;
 }
 
@@ -78,14 +74,15 @@ void Devices::pingDevice(std::string i, std::string& result)
 {
     while(1)
     {
-        if (strstr(sysCdm("ping -c 1 -f -i 0,2 -n " + i + " | grep \" 0% packet loss\"").c_str(), "0% packet loss"))
+        if (strstr(sysCdm("ping -c 1 -f -i 0,2 -n " + i + " "
+                          "| grep \" 0% packet loss\"").c_str(), "0% packet loss"))
         {
             result = "";
         }
         else
         {
             std::string date = datetime().first + "  " + datetime().second;
-            std::string sys =    "echo " + date + " device " + i + " unavailable  >> ../logfile";
+            std::string sys = "echo " + date + " device " + i + " unavailable  >> ../logfile";
             system(sys.c_str());
             result = "device " + i + " unavailable";
         }

@@ -90,13 +90,11 @@ int main()
         //number device online
         dev->setNumOnlineDevices(on);
         std::string numDevOnline = dev->getNumOnlineDevices();
-std::cout << "numDevOnline: " <<numDevOnline <<std::endl;
 
         //number device offline
         int off = dev->getIpAdressDevicesV().size() - on;
         dev->setNumOfflineDevices(off);
         std::string numDevOffline = dev->getNumOfflineDevices();
-std::cout << "numDevOffline:"<< numDevOffline <<std::endl;
 
         /* потеряна со всеми устройствами, должен непрерывно светиться
             индикатор красного цвета (индикатор желтого цвета светиться не должен) и должна
@@ -157,8 +155,7 @@ std::cout << "numDevOffline:"<< numDevOffline <<std::endl;
                 auto currTime2 = system_clock::now();
                 auto interval = (currTime2 - currTime1);
                 auto int_s =  interval.count()/1000000000;
-      std::cout <<"int:"<<int_s<<std::endl;
-                    if (int_s > 60 )
+                if (int_s >= 60 )
                 {
                     currTime1 = currTime2;
                     //один сигнал раз в нинуту
