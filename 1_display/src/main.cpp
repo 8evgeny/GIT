@@ -9,7 +9,7 @@
 int main()
 {
     using std::chrono::system_clock;
-    std::chrono::duration<int, std::ratio<60>> minute;
+    std::chrono::duration<int> seconds;
     std::shared_ptr<Devices> dev(new Devices);
     std::shared_ptr<Display> lcd(new Display);
 
@@ -70,7 +70,8 @@ int main()
     std::vector<std::string> noPingNumbersDevices;
     bool firstInvoke = true;
     //временная отметка 1 раз в минуту зуммер
-    system_clock::time_point currTimePlusMinute = system_clock::now() + minute;
+    system_clock::time_point currTimePlusMinute = system_clock::now() + 60 * seconds;
+    system_clock::time_point currTime1 = system_clock::now() ;
 
     while(1)
     {
@@ -166,17 +167,20 @@ std::cout << "numDevOffline:"<< numDevOffline <<std::endl;
             }//end first invoke
             else
             {//не первый вызов, есть оффлайн
-                auto currTime = system_clock::now();
-                if (currTime > currTimePlusMinute )
+                auto currTime2 = system_clock::now();
+                auto interval = (currTime2 - currTime1);
+                auto int_s =  interval.count()/1000000000;
+//                if (currTime2 > currTimePlusMinute )
+     std::cout <<"int:"<<int_s<<std::endl;
+                    if (int_s > 60 )
                 {
-                    currTimePlusMinute = currTime + minute;  //новая отметка
+                    currTime1 = currTime2;
+//                    currTimePlusMinute = currTime2 + 60 * seconds;  //новая отметка
                     //один сигнал раз в нинуту
                     lcd->setBuzzer(true);
                     lcd->dutyFrame(datetime(), numDevAll, numDevOnline, numDevOffline);
                     lcd->wait(500);
                     lcd->setBuzzer(false);
-                    lcd->dutyFrame(datetime(), numDevAll, numDevOnline, numDevOffline);
-                    lcd->wait(500);
                 }
                 for (int i = 0; i < 4 ; ++i)
                 {//для смены времени
