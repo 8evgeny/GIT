@@ -12,8 +12,8 @@ public:
 
     void printToLcd(std::string str, std::string port);
     void clearDisplay();
-    void display1(std::string serial);
-    void display1_(std::string serial);
+    void display1(std::string version, std::string serial);
+    void display1_(std::string version, std::string serial);
     void dutyFrame(std::pair<std::string, std::string> dt,
                   std::string numDev, std::string onDev,
                   std::string offDev);

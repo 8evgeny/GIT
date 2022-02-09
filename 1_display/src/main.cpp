@@ -40,6 +40,7 @@ int main()
             */
 
     auto serial = dev->getSerialNumber();
+    auto version = "1.0";
     /* После окончания загрузки операционной системы перед началом опроса подключенных
        устройств - два сигнала (звучание в течение 0,5 с с интервалом 0,5 с).         */
 
@@ -49,18 +50,18 @@ int main()
     for (int i=0; i < 2; ++i)
     {
 //        lcd->setBuzzer(true);
-        lcd->display1(serial);
+        lcd->display1(version, serial);
         lcd->wait(500);
         lcd->setBuzzer(false);
-        lcd->display1(serial);
+        lcd->display1(version, serial);
         lcd->wait(500);
     }
 //
     for (int i=0; i<4000;++i)
     {
-        lcd->display1(serial);
+        lcd->display1(version, serial);
         lcd->wait(1000);
-        lcd->display1_(serial);
+        lcd->display1_(version, serial);
         lcd->wait(1000);
     }
 
