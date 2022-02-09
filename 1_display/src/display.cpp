@@ -68,18 +68,6 @@ void Display::dutyFrame(std::pair<std::string, std::string> dt,
     printToLcd (lcdbuz + line1 + line2 + line3 + line4, _port);
 }
 
-void Display::diagnosticFrame(std::string num1, std::string num2,std::string num3,
-        std::string ip1, std::string ip2, std::string ip3)
-{
-    std::string lcdbuz,line1,line2,line3,line4;
-    lcdbuz = _lcdYellow + _lcdRed + _buzzer;
-    line1 = "    НЕТ СВЯЗИ       ";
-    line2 = num1 + "\"  \"" + ip1;
-    line3 = num2 + "\"  \"" + ip2;
-    line4 = num3 + "\"  \"" + ip3;
-    printToLcd (lcdbuz + line1 + line2 + line3 + line4, _port);
-}
-
 void Display::wait(int ms)
 {
     std::this_thread::sleep_for(std::chrono::milliseconds(ms));
@@ -121,7 +109,7 @@ void Display::setBuzzer(bool newBuzzer)
     }
 }
 
-void Display::diagnostic(std::vector<std::string> noPingDevices, std::vector<std::string> noPingNumbersDevices)
+void Display::diagnosticFrame(std::vector<std::string> noPingDevices, std::vector<std::string> noPingNumbersDevices)
 {
     //формируем диагностический экран
     std::string num1{""};
@@ -139,8 +127,15 @@ void Display::diagnostic(std::vector<std::string> noPingDevices, std::vector<std
         {
             num1 = noPingNumbersDevices[0];
             ip1 = noPingDevices[0];
-            diagnosticFrame(num1, num2, num3, ip1, ip2, ip3);
+            std::string lcdbuz,line1,line2,line3,line4;
+            lcdbuz = _lcdYellow + _lcdRed + _buzzer;
+            line1 = "\"     НЕТ СВЯЗИ      \"";
+            line2 = num1 + "\"  \"" + ip1 + "\"  \"";
+            line3 = "\"                    \"";
+            line4 = "\"                    \"";
+            printToLcd (lcdbuz + line1 + line2 + line3 + line4, _port);
             //Добавить 3 секунды со сменой t
+            wait(3000);
         }
             break;
         case 2 :
@@ -149,8 +144,9 @@ void Display::diagnostic(std::vector<std::string> noPingDevices, std::vector<std
             num2 = noPingNumbersDevices[1];
             ip1 = noPingDevices[0];
             ip2 = noPingDevices[1];
-            diagnosticFrame(num1, num2, num3, ip1, ip2, ip3);
+//            diagnosticFrame(num1, num2, num3, ip1, ip2, ip3);
             //Добавить 3 секунды со сменой t
+            wait(3000);
         }
             break;
         case 3 :
@@ -161,8 +157,9 @@ void Display::diagnostic(std::vector<std::string> noPingDevices, std::vector<std
             ip1 = noPingDevices[0];
             ip2 = noPingDevices[1];
             ip3 = noPingDevices[2];
-            diagnosticFrame(num1, num2, num3, ip1, ip2, ip3);
+//            diagnosticFrame(num1, num2, num3, ip1, ip2, ip3);
             //Добавить 3 секунды со сменой t
+            wait(3000);
         }
         break;
         default: //размер 4 и выше
@@ -177,7 +174,7 @@ void Display::diagnostic(std::vector<std::string> noPingDevices, std::vector<std
                 ip1 = noPingDevices[i];
                 ip2 = noPingDevices[i + 1];
                 ip3 = noPingDevices[i + 2];
-                diagnosticFrame(num1, num2, num3, ip1, ip2, ip3);
+//                diagnosticFrame(num1, num2, num3, ip1, ip2, ip3);
                 if (static_cast<int>(noPingDevices.size()) == (i + 3))
                 {
                     break;
@@ -186,6 +183,7 @@ void Display::diagnostic(std::vector<std::string> noPingDevices, std::vector<std
                 ++i;
             }
             //Добавить 3 секунды со сменой t
+            wait(3000);
         }
     }
 

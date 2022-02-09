@@ -57,7 +57,7 @@ int main()
         lcd->display1(version, serial);
         lcd->wait(500);
     }
-//
+
     for (int i=0; i<4;++i)
     {
         lcd->display1(version, serial);
@@ -146,7 +146,7 @@ std::cout << "numDevOffline:"<< numDevOffline <<std::endl;
             {
                 firstInvoke = false;
                 //четыре зумма по 0,5с
-                for (int i = 0; i<4; ++i)
+                for (int i = 0; i < 4; ++i)
                 {
                     lcd->setBuzzer(true);
                     lcd->dutyFrame(datetime(), numDevAll, numDevOnline, numDevOffline);
@@ -186,7 +186,8 @@ std::cout << "numDevOffline:"<< numDevOffline <<std::endl;
                 //Идем к экрану диагностики
             }
 
-            lcd->diagnostic(noPingDevices, noPingNumbersDevices);
+            lcd->diagnosticFrame(noPingDevices, noPingNumbersDevices);
+
         }// есть оффлайн
         else
         {// все онлайн
@@ -213,7 +214,7 @@ std::cout << "numDevOffline:"<< numDevOffline <<std::endl;
                 lcd->wait(1000);
             }
 
-            lcd->diagnostic(noPingDevices, noPingNumbersDevices);
+            lcd->diagnosticFrame(noPingDevices, noPingNumbersDevices);
 
         }// все онлайн
 
