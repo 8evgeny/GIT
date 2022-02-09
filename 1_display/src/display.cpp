@@ -89,7 +89,7 @@ void Display::diagnosticFrame(std::vector<std::string>& noPingDevices, std::vect
         std::string lcdbuz,line1,line2,line3,line4;
         lcdbuz = _lcdYellow + _lcdRed + _buzzer;
         line1 = "\"     НЕТ СВЯЗИ      \"";
-        line2 = num1 + "\"  \"" + ip1;
+        line2 = num1 + "\" \"" + ip1;
         line3 = "\"                    \"";
         line4 = "\"                    \"";
         printToLcd (lcdbuz + line1 + line2 + line3 + line4, _port);
@@ -105,8 +105,8 @@ void Display::diagnosticFrame(std::vector<std::string>& noPingDevices, std::vect
         std::string lcdbuz,line1,line2,line3,line4;
         lcdbuz = _lcdYellow + _lcdRed + _buzzer;
         line1 = "\"     НЕТ СВЯЗИ      \"";
-        line2 = num1 + "\"  \"" + ip1;
-        line3 = num2 + "\"  \"" + ip2;
+        line2 = num1 + "\" \"" + ip1;
+        line3 = num2 + "\" \"" + ip2;
         line4 = "\"                    \"";
         printToLcd (lcdbuz + line1 + line2 + line3 + line4, _port);
         wait(4000);
@@ -123,9 +123,9 @@ void Display::diagnosticFrame(std::vector<std::string>& noPingDevices, std::vect
         std::string lcdbuz,line1,line2,line3,line4;
         lcdbuz = _lcdYellow + _lcdRed + _buzzer;
         line1 = "\"     НЕТ СВЯЗИ      \"";
-        line2 = num1 + "\"  \"" + ip1;
-        line3 = num2 + "\"  \"" + ip2;
-        line4 = num3 + "\"  \"" + ip3;
+        line2 = num1 + "\" \"" + ip1;
+        line3 = num2 + "\" \"" + ip2;
+        line4 = num3 + "\" \"" + ip3;
         printToLcd (lcdbuz + line1 + line2 + line3 + line4, _port);
         wait(4000);
     }
@@ -145,9 +145,9 @@ void Display::diagnosticFrame(std::vector<std::string>& noPingDevices, std::vect
             std::string lcdbuz,line1,line2,line3,line4;
             lcdbuz = _lcdYellow + _lcdRed + _buzzer;
             line1 = "\"     НЕТ СВЯЗИ      \"";
-            line2 = num1 + "\"  \"" + ip1;
-            line3 = num2 + "\"  \"" + ip2;
-            line4 = num3 + "\"  \"" + ip3;
+            line2 = num1 + "\" \"" + ip1;
+            line3 = num2 + "\" \"" + ip2;
+            line4 = num3 + "\" \"" + ip3;
             printToLcd (lcdbuz + line1 + line2 + line3 + line4, _port);
 
             if (static_cast<int>(noPingDevices.size()) == (i + 3))
