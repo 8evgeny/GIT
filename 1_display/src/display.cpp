@@ -2,6 +2,7 @@
 #include <vector>
 #include <thread>
 #include "display.h"
+#include <iostream>
 
 Display::Display()
 {
@@ -16,6 +17,7 @@ Display::~Display()
 void Display::printToLcd(std::string str, std::string port)
 {
     std::string cmd = "echo " + str + ">" + port;
+    std::cout << "sendCMD:" << cmd <<std::endl;
     system(cmd.c_str());
 }
 
@@ -35,10 +37,10 @@ void Display::display1(std::string serial)
 {
     std::string lcdbuz,line1,line2,line3,line4;
     lcdbuz = _lcdYellow + _lcdRed + _buzzer;
-    line1 = "     GIT-COMM IPS   ";
+    line1 = "\"     GIT-COMM IPS   \"";
     line2 = "ПДКВ ВЕРСИЯ ПО: 1.0 ";
-    line3 = "  S/N:  " + serial;
-    line4 = "  Инициализация...  ";
+    line3 = "\"  S/N:  \"" + serial;
+    line4 = "\"  Инициализация...  \"";
     printToLcd (lcdbuz + line1 + line2 + line3 + line4, _port);
 }
 
@@ -46,10 +48,10 @@ void Display::display1_(std::string serial)
 {
     std::string lcdbuz,line1,line2,line3,line4;
     lcdbuz = _lcdYellow + _lcdRed + _buzzer;
-    line1 = "     GIT-COMM IPS   ";
+    line1 = "\"     GIT-COMM IPS   \"";
     line2 = "ПДКВ ВЕРСИЯ ПО: 1.0 ";
-    line3 = "  S/N:  " + serial;
-    line4 = "                    ";
+    line3 = "\"  S/N:  \"" + serial;
+    line4 = "\"                    \"";
     printToLcd (lcdbuz + line1 + line2 + line3 + line4, _port);
 }
 
