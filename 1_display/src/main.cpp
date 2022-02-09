@@ -34,7 +34,10 @@ int main()
 
     //число устройств общее
     std::string numDevAll = dev->getNumDevices();
-//std::cout << "numDevAll: "<<numDevAll <<std::endl;
+
+            /*
+            std::cout << "numDevAll: "<<numDevAll <<std::endl;
+            */
 
     auto serial = dev->getSerialNumber();
     /* После окончания загрузки операционной системы перед началом опроса подключенных
@@ -45,15 +48,15 @@ int main()
 
     for (int i=0; i < 2; ++i)
     {
-        lcd->setBuzzer(true);
+//        lcd->setBuzzer(true);
         lcd->display1(serial);
         lcd->wait(500);
         lcd->setBuzzer(false);
         lcd->display1(serial);
         lcd->wait(500);
     }
-
-    for (int i=0; i<4;++i)
+//
+    for (int i=0; i<4000;++i)
     {
         lcd->display1(serial);
         lcd->wait(1000);

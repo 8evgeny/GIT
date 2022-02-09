@@ -16,7 +16,7 @@ Display::~Display()
 void Display::printToLcd(std::string str, std::string port)
 {
     std::string cmd = "echo " + str + ">" + port;
-//    system(cmd.c_str());
+    system(cmd.c_str());
 }
 
 void Display::clearDisplay()
