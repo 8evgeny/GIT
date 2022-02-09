@@ -134,8 +134,7 @@ void Display::diagnosticFrame(std::vector<std::string> noPingDevices, std::vecto
             line3 = "\"                    \"";
             line4 = "\"                    \"";
             printToLcd (lcdbuz + line1 + line2 + line3 + line4, _port);
-            //Добавить 3 секунды со сменой t
-            wait(3000);
+            wait(4000);
         }
             break;
         case 2 :
@@ -144,9 +143,14 @@ void Display::diagnosticFrame(std::vector<std::string> noPingDevices, std::vecto
             num2 = noPingNumbersDevices[1];
             ip1 = noPingDevices[0];
             ip2 = noPingDevices[1];
-//            diagnosticFrame(num1, num2, num3, ip1, ip2, ip3);
-            //Добавить 3 секунды со сменой t
-            wait(3000);
+            std::string lcdbuz,line1,line2,line3,line4;
+            lcdbuz = _lcdYellow + _lcdRed + _buzzer;
+            line1 = "\"     НЕТ СВЯЗИ      \"";
+            line2 = num1 + "\"  \"" + ip1 + "\"  \"";
+            line3 = num2 + "\"  \"" + ip2 + "\"  \"";
+            line4 = "\"                    \"";
+            printToLcd (lcdbuz + line1 + line2 + line3 + line4, _port);
+            wait(4000);
         }
             break;
         case 3 :
@@ -157,9 +161,8 @@ void Display::diagnosticFrame(std::vector<std::string> noPingDevices, std::vecto
             ip1 = noPingDevices[0];
             ip2 = noPingDevices[1];
             ip3 = noPingDevices[2];
-//            diagnosticFrame(num1, num2, num3, ip1, ip2, ip3);
-            //Добавить 3 секунды со сменой t
-            wait(3000);
+
+            wait(4000);
         }
         break;
         default: //размер 4 и выше
@@ -174,7 +177,7 @@ void Display::diagnosticFrame(std::vector<std::string> noPingDevices, std::vecto
                 ip1 = noPingDevices[i];
                 ip2 = noPingDevices[i + 1];
                 ip3 = noPingDevices[i + 2];
-//                diagnosticFrame(num1, num2, num3, ip1, ip2, ip3);
+
                 if (static_cast<int>(noPingDevices.size()) == (i + 3))
                 {
                     break;
@@ -182,8 +185,8 @@ void Display::diagnosticFrame(std::vector<std::string> noPingDevices, std::vecto
                 wait(1000);
                 ++i;
             }
-            //Добавить 3 секунды со сменой t
-            wait(3000);
+
+            wait(4000);
         }
     }
 
