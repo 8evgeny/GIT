@@ -38,19 +38,19 @@
 // fade level sig_in_f(x) = sig_in(x)/(2^EC_FADE_PARAM), where EC_FADE_PARAM=2..14
 #define EC_FADE_PARAM	4
 
-uint32_t ec_enable;
-uint32_t ec_GR_max_energy, ec_MIC_max_energy;
-uint32_t ec_MIC_disable;
-uint32_t ec_GR_disable;
-uint32_t ec_MIC_time;
-uint32_t ec_GR_time;
+extern uint32_t ec_enable;
+extern uint32_t ec_GR_max_energy, ec_MIC_max_energy;
+extern uint32_t ec_MIC_disable;
+extern uint32_t ec_GR_disable;
+extern uint32_t ec_MIC_time;
+extern uint32_t ec_GR_time;
 
-uint32_t ec_GR_threshold;  // = EC_GR_ENABLE_ENERGY_LEVEL
-uint32_t ec_MIC_threshold; // = EC_MIC_ENABLE_ENERGY_LEVEL
-uint32_t ec_fade_level; // = EC_FADE_PARAM
-uint32_t ec_MIC_disable_time; // = EC_FADE_CNT
-uint32_t ec_GR_enable_time; // = EC_FADE_CNT>>2
-uint32_t ec_GR_disable_time; // = EC_FADE_CNT
+extern uint32_t ec_GR_threshold;  // = EC_GR_ENABLE_ENERGY_LEVEL
+extern uint32_t ec_MIC_threshold; // = EC_MIC_ENABLE_ENERGY_LEVEL
+extern uint32_t ec_fade_level; // = EC_FADE_PARAM
+extern uint32_t ec_MIC_disable_time; // = EC_FADE_CNT
+extern uint32_t ec_GR_enable_time; // = EC_FADE_CNT>>2
+extern uint32_t ec_GR_disable_time; // = EC_FADE_CNT
 
 #endif
 
