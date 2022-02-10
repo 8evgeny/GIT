@@ -10,6 +10,7 @@
 #include "CLI_io.h"
 #include "tone_gen_state_processor.h"
 #include "audio_process.h"
+#include "SELC_sound_process.h"
 #include "driver_AIC_reg.h"
 #include "driver_AIC.h"
 
@@ -20,39 +21,6 @@
 
 /// use DCACHE
 #define DCACHE_ENABLE
-
-/// use ECHO loop disabler
-#define AIC_ECHO_CANCEL_ENABLE
-
-#ifdef AIC_ECHO_CANCEL_ENABLE
-
-// MIC_FADE enable level
-// max SAI_DMA_BUFFER_SIZE * i16 * i16 / 256 = SAI_DMA_BUFFER_SIZE* 2^15*2^15 / 256 =
-//                = 160*32768*128 = 671088640
-#define EC_GR_ENABLE_ENERGY_LEVEL     500000
-#define EC_MIC_ENABLE_ENERGY_LEVEL     400000
-// number of SAI_DMA_BUFFER buffers to fade
-#define EC_FADE_MIC_CNT	10
-#define EC_FADE_GR_EN_CNT	1
-#define EC_FADE_GR_DIS_CNT	10
-// fade level sig_in_f(x) = sig_in(x)/(2^EC_FADE_PARAM), where EC_FADE_PARAM=2..14
-#define EC_FADE_PARAM	4
-
-extern uint32_t ec_enable;
-extern uint32_t ec_GR_max_energy, ec_MIC_max_energy;
-extern uint32_t ec_MIC_disable;
-extern uint32_t ec_GR_disable;
-extern uint32_t ec_MIC_time;
-extern uint32_t ec_GR_time;
-
-extern uint32_t ec_GR_threshold;  // = EC_GR_ENABLE_ENERGY_LEVEL
-extern uint32_t ec_MIC_threshold; // = EC_MIC_ENABLE_ENERGY_LEVEL
-extern uint32_t ec_fade_level; // = EC_FADE_PARAM
-extern uint32_t ec_MIC_disable_time; // = EC_FADE_CNT
-extern uint32_t ec_GR_enable_time; // = EC_FADE_CNT>>2
-extern uint32_t ec_GR_disable_time; // = EC_FADE_CNT
-
-#endif
 
 /// link to I2C2 hardware module control/status structure
 extern I2C_HandleTypeDef hi2c2;
@@ -286,6 +254,9 @@ uint8_t aic_setDACOutVolume (int8_t volume)
 uint8_t aic_setADCInVolume (int8_t volume)
 {
   // -24..40 -> -12 .. +20 db  , 0.5db step
+#ifdef USE_SELC
+  selc_adjust_threshold_level(volume);
+#endif
   TLV320_WritePage(0, TLV320AIC3254_REG_LADC_VOL_CR, volume & 0x7F);
   return TLV320_Write(TLV320AIC3254_REG_RADC_VOL_CR, volume & 0x7F);
 }
@@ -339,14 +310,12 @@ void aic_setInDev(uint8_t dev)
 
 	switch (dev) {
 		case AIC_INDEV_INTMIC:
-			aic_setDACOutVolume(vol_Mic);
-			// TODO update aic regs
+            aic_setADCInVolume(vol_Mic);
 			TLV320_WritePage(1, TLV320AIC3254_REG_LMICPGA_PMUX, 0x40); // IN1L -> P Left MICPGA
 			TLV320_WritePage(1, TLV320AIC3254_REG_LMICPGA_NMUX, 0x40); // CM1L -> N Left MICPGA
 		break;
-		case AIC_INDEV_EXTMIC:
-			aic_setDACOutVolume(vol_Mic);
-			// TODO update aic regs
+        case AIC_INDEV_EXTMIC:
+            aic_setADCInVolume(vol_Mic);
 			TLV320_WritePage(1, TLV320AIC3254_REG_LMICPGA_PMUX, 0x10); // IN2L -> P Left MICPGA
 			TLV320_WritePage(1, TLV320AIC3254_REG_LMICPGA_NMUX, 0x10); // IN2R -> N Left MICPGA
 		break;
@@ -528,18 +497,9 @@ int8_t aic_init()
 	//HAL_SAI_Receive_IT(&hsai_BlockB1, (uint8_t *)&SAI_RX_DMA_Buffer[0][0], SAI_DMA_BUFFER_SIZE);
 	aic_smp_cnt = 0;
 
-	ec_enable = 1;
-	ec_MIC_disable = 1;
-	ec_GR_disable = 1;
-	ec_MIC_time = 0;
-	ec_GR_time = 0;
-
-    ec_GR_threshold = EC_GR_ENABLE_ENERGY_LEVEL;
-    ec_MIC_threshold = EC_MIC_ENABLE_ENERGY_LEVEL;
-    ec_fade_level = EC_FADE_PARAM;
-    ec_MIC_disable_time = EC_FADE_MIC_CNT;
-    ec_GR_enable_time = EC_FADE_GR_EN_CNT;
-    ec_GR_disable_time = EC_FADE_GR_DIS_CNT;
+#ifdef USE_SELC
+    selc_init();
+#endif
 	
 	return 0;
 }
@@ -548,42 +508,6 @@ void aic_deinit()
 {
 	HAL_SAI_DMAStop(&hsai_BlockA1);
 	HAL_SAI_DMAStop(&hsai_BlockB1);
-}
-
-#ifdef AIC_ECHO_CANCEL_ENABLE
-
-uint32_t sound_energy(int16_t *sndbuf)
-{
-	uint16_t i;
-	uint32_t sum;
-	sum = 0;
-
-	for (i=0;i<SAI_DMA_BUFFER_SIZE;i++)
-		sum = sum + ((sndbuf[i] * sndbuf[i]) >> 8);
-
-	return sum;
-}
-
-void sound_dampen(int16_t *sndbuf)
-{
-	uint16_t i;
-	for (i=0;i<SAI_DMA_BUFFER_SIZE;i++)
-	 sndbuf[i] = sndbuf[i] >> ec_fade_level;
-}
-#endif  // AIC_ECHO_CANCEL_ENABLE
-
-void aic_set_elc_enable(uint8_t enable)
-{
-	ec_enable = enable;
-	if (enable) {
-		ec_MIC_time = 0;
-		ec_GR_time = 0;
-		ec_GR_disable = 0;
-		ec_MIC_disable = 1;
-	} else {
-		ec_GR_disable = 0;
-		ec_MIC_disable = 0;
-	}
 }
 
 void aic_task()
@@ -612,78 +536,16 @@ void aic_task()
 		} else {
 			audio_get_output(dstbuf,SAI_DMA_BUFFER_SIZE*2);
 
-#ifdef AIC_ECHO_CANCEL_ENABLE
-		if (ec_enable) {
-
-			uint32_t eng_GR, eng_MIC;
-
-			eng_GR = sound_energy(dstbuf);
-			eng_MIC = sound_energy(srcbuf);
-
-			if (eng_GR > ec_GR_max_energy) ec_GR_max_energy = eng_GR;
-			if (eng_MIC > ec_MIC_max_energy) ec_MIC_max_energy = eng_MIC;
-
-			if (ec_GR_disable) {
-			    if (eng_MIC > ec_MIC_threshold) {
-//				  if (ec_MIC_disable) CLI_print("MIC EN\r\n");		// debug!!!
-			      ec_MIC_disable = 0;
-			      ec_MIC_time = 0;
-				} else {
-				  if ((!ec_MIC_disable) && (!ec_MIC_time)) ec_MIC_time = ec_MIC_disable_time;
-				}
-				if (ec_MIC_time) {
-					ec_MIC_time--;
-				    if (!ec_MIC_time) {
-				    	ec_MIC_disable = 1;
-//					    CLI_print("MIC DIS\r\n");		// debug!!!
-				    }
-				}
-			}
-
-			if (eng_GR > ec_GR_threshold) {
-				ec_MIC_disable = 1;
-			    if (ec_GR_disable&(!ec_GR_time)) {
-			    	ec_GR_time = ec_GR_enable_time;
-			    	ec_MIC_time = 0;
-			    } else
-			    if ((!ec_GR_disable)&ec_GR_time) {
-			    	ec_GR_time = 0;
-			    }
-			} else {
-			    if ((!ec_GR_disable)&(!ec_GR_time)) {
-			    	ec_GR_time = ec_GR_disable_time;
-			    } else
-				if ((ec_GR_disable)&ec_GR_time) {
-				    	ec_GR_time = 0;
-				}
-			}
-
-			if (ec_GR_time) {
-			    ec_GR_time--;
-			    if (!ec_GR_time) {
-			    	ec_GR_disable ^= 1;
-//			    	CLI_print("GR DIS:%i\r\n", ec_GR_disable); 		// debug!!!
-			    }
-			}
-
-			if (ec_MIC_disable) {
-				sound_dampen(srcbuf);
-			};
-
-			if (ec_GR_disable) {
-				sound_dampen(dstbuf);
-			};
-		};
+#ifdef USE_SELC
+            selc_process_sound(srcbuf, dstbuf, SAI_DMA_BUFFER_SIZE);
 #endif
 
 			audio_write_input(srcbuf ,SAI_DMA_BUFFER_SIZE*2);
 		}
 		if (tone_genIsTone()) {
 		 	tone_genGetData(dstbuf, SAI_DMA_BUFFER_SIZE);
-#ifdef AIC_ECHO_CANCEL_ENABLE
-		 	ec_MIC_disable = 1;
-		 	ec_GR_disable = 0;
-		 	ec_GR_time = 10;
+#ifdef USE_SELC
+            selc_set_tone_gen();
 #endif
 		}
 
