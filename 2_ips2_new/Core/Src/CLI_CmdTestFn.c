@@ -858,7 +858,6 @@ void fnGetEC(int numParam, char** params)
   CLI_print("MIC dis time  : %i\r\n",ec_MIC_disable_time);
   CLI_print("GR en time    : %i\r\n",ec_GR_enable_time);
   CLI_print("GR dis time   : %i\r\n",ec_GR_disable_time);
-  CLI_print("GR dis time   : %i\r\n",ec_GR_disable_time);
   
   CLI_print("MAX MIC level  : %i\r\n",ec_MIC_max_energy);
   CLI_print("MAX GR  level  : %i\r\n",ec_GR_max_energy);
