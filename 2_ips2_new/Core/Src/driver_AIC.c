@@ -308,18 +308,19 @@ void aic_setInDev(uint8_t dev)
 {
 	if (aic_curindev == dev) return;
 
-	switch (dev) {
-		case AIC_INDEV_INTMIC:
+    switch (dev)
+    {
+        case AIC_INDEV_INTMIC:
             aic_setADCInVolume(vol_Mic);
-			TLV320_WritePage(1, TLV320AIC3254_REG_LMICPGA_PMUX, 0x40); // IN1L -> P Left MICPGA
-			TLV320_WritePage(1, TLV320AIC3254_REG_LMICPGA_NMUX, 0x40); // CM1L -> N Left MICPGA
-		break;
+            TLV320_WritePage(1, TLV320AIC3254_REG_LMICPGA_PMUX, 0x40); // IN1L -> P Left MICPGA
+            TLV320_WritePage(1, TLV320AIC3254_REG_LMICPGA_NMUX, 0x40); // CM1L -> N Left MICPGA
+            break;
         case AIC_INDEV_EXTMIC:
             aic_setADCInVolume(vol_Mic);
-			TLV320_WritePage(1, TLV320AIC3254_REG_LMICPGA_PMUX, 0x10); // IN2L -> P Left MICPGA
-			TLV320_WritePage(1, TLV320AIC3254_REG_LMICPGA_NMUX, 0x10); // IN2R -> N Left MICPGA
-		break;
-		default: return;
+            TLV320_WritePage(1, TLV320AIC3254_REG_LMICPGA_PMUX, 0x10); // IN2L -> P Left MICPGA
+            TLV320_WritePage(1, TLV320AIC3254_REG_LMICPGA_NMUX, 0x10); // IN2R -> N Left MICPGA
+            break;
+        default: return;
 	}
 	aic_curindev = dev;
 }
