@@ -29,7 +29,8 @@ Devices::~Devices()
 
 std::string Devices::readSerialNumber()
 {
-    std::ifstream file("../git-info.txt");
+//    std::ifstream file("../git-info.txt");
+    std::ifstream file("/usr/bin/git-info.txt");
     std::string s;
     while(file)
     {
@@ -44,7 +45,8 @@ std::string Devices::readSerialNumber()
 
 std::string Devices::readVersionProgramm()
 {
-    std::ifstream file("../git-info.txt");
+//    std::ifstream file("../git-info.txt");
+    std::ifstream file("/usr/bin/git-info.txt");
     std::string s;
     while(file)
     {

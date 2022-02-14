@@ -1,3 +1,0 @@
-version: 1
-model: AI-6746
-serial: N123-57808362
