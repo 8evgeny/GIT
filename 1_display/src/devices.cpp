@@ -62,7 +62,8 @@ std::string Devices::readVersionProgramm()
 std::vector<std::string> Devices::allDevices()
 {
     //возвращает вектор строк - все ip адреса
-    std::ifstream file("../devices_all");
+//    std::ifstream file("../devices_all");
+    std::ifstream file("/usr/bin/devices_all");
     std::vector<std::string> v;
     std::string s;
     while(file >> s)
@@ -76,9 +77,10 @@ void Devices::pingDevice(std::string i, std::string& result)
 {
     while(1)
     {
-        if (strstr(sysCdm("ping -c 1 -f -i 0,2 -n " + i + " "
+        if (strstr(sysCdm("ping -c 1 -f -i 1 -n " + i + " "
                           "| grep \" 0% packet loss\"").c_str(), "0% packet loss"))
         {
+            std::cout <<"ping " <<i <<" ok"<<std::endl;
             result = "";
         }
         else
