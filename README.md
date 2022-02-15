@@ -18,3 +18,4 @@ test_USB          - тест MILANDR USB
                     Правка кода в CMake в Linux
 
 
+ips_sc4_pdo_commit_28_01_2022  коммит Мурома - собирается и в Win и в Linux  - основа для дальнейшей правки
