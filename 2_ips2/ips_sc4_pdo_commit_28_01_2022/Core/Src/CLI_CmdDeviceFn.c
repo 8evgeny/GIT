@@ -7,10 +7,10 @@
   */
 #include "stm32h7xx_hal.h"
 #include "driver_pinIO.h"
-#include "driver_ui.h"
+#include "driver_UI.h"
 #include "driver_EEPROM.h"
 #include "CLI_io.h"
-#include "crc32.h"
+#include "CRC32.h"
 #include "CLI_CmdServiceFn.h"
 #include "CLI_CmdDeviceFn.h"
 
