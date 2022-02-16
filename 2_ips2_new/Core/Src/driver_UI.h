@@ -184,11 +184,6 @@ uint8_t ui_get_uimode();
   */
 void ui_set_block_kbd(uint8_t isblock);
 
-/**
-  * @brief  test UI board IC
-  * @param  [in] printout - 1- print messages 0 - quiet mode
-  * @retval result 0 - test passed; -1 - test failed
-  */
 int8_t ui_test_board(uint8_t printout);
 
 /**

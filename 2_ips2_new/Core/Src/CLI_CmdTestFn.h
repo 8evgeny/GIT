@@ -123,12 +123,6 @@ void fnTestCODEC(int numParam, char** params);
   */
 void fnTestPHY(int numParam, char** params);
 
-/**
-  * @brief  process test UI board IC
-  * @param  [in] numParam - number of command parameters
-  * @param  [in] params - array of pointers to string parameters
-  * @retval none
-  */
 void fnTestUI(int numParam, char** params);
 
 /**
@@ -259,20 +253,7 @@ void fnSetETH(int numParam, char** params);
   */
 void fnGetETH(int numParam, char** params);
 
-/**
-  * @brief  process set SELC module settings
-  * @param  [in] numParam - number of command parameters
-  * @param  [in] params - array of pointers to string parameters
-  * @retval none
-  */
 void fnSetEC(int numParam, char** params);
-
-/**
-  * @brief  process get SELC module settings
-  * @param  [in] numParam - number of command parameters
-  * @param  [in] params - array of pointers to string parameters
-  * @retval none
-  */
 void fnGetEC(int numParam, char** params);
 
 /**
