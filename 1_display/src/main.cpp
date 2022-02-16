@@ -104,15 +104,14 @@ int main()
         {
             lcd->setLcdYellow(false);
             lcd->setLcdRed(true);
+            bool exit = false;
 
-            while (1)
+            while (!exit)
             {
                 for (auto &k:resultsPing)
                 {
                     if (k == "")
-                    {
-                        break;
-                    }
+                        exit = true;
                 }
                 lcd->setBuzzer(true);
                 lcd->dutyFrame(datetime(), numDevAll, numDevOnline, numDevOffline);
