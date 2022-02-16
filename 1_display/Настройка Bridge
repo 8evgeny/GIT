@@ -1,0 +1,29 @@
+adm1n@pdkv:~$ cat /etc/network/interfaces
+# This file describes the network interfaces available on your system
+# and how to activate them. For more information, see interfaces(5).
+
+source /etc/network/interfaces.d/*
+
+# The loopback network interface
+auto lo
+iface lo inet loopback
+
+# The primary network interface
+#allow-hotplug enp2s0
+#iface enp2s0 inet static
+#address 192.168.0.10
+#netmask 255.255.255.0
+#gateway 192.168.0.1
+#dns-nameservers 172.20.6.31 172.20.6.30 8.8.8.8
+
+auto brdg0
+iface brdg0 inet static
+address 192.168.0.10
+netmask 255.255.255.0
+gateway 192.168.0.1
+bridge_ports enp2s0f0 enp2s0f1 enp2s0f2 enp2s0f3
+bridge_waitport 0
+
+auto eno1
+iface eno1 inet dhcp
+
