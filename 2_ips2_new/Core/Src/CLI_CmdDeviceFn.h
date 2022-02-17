@@ -78,4 +78,9 @@ void fnSetFirmwareInfo(int numParam, char** params);
   * @}
   */
 
+void fnVolumeUp(int numParam, char** params);
+void fnVolumeDown(int numParam, char** params);
+void fnSensUp(int numParam, char** params);
+void fnSensDown(int numParam, char** params);
+
 #endif

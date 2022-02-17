@@ -42,3 +42,30 @@ TEST SET AIC : 00 : 53 : 6C -10
 TEST SET AIC : 00 : 53 : 70 -8
 TEST SET AIC : 00 : 53 : 74 -6  Норма
 TEST SET AIC : 00 : 54 : 74
+
+TEST GET EC
+Audioloop disabler param:
+ELC enabled   : 1
+GR Threshold  : 500000
+MIC Threshold : 400000
+Fade level    : 4
+MIC dis time  : 10
+GR en time    : 1
+GR dis time   : 10
+MAX MIC level  : 1423844
+MAX GR  level  : 0
+
+
+TEST SET EC : 1 : 500000 : 400000 : 4 : 10 : 1 : 10
+
+
+
+
+
+
+
+
+
+
+
+

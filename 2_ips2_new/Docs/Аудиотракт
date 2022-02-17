@@ -31,5 +31,16 @@ SC4 - LOL - Выход LINE_OUT1 - выход звука на встроенны
       IN3_L - MIC3_L   MIC2_IN  внешняя гарнитура (внешний микрофон)
       IN3_R - не используется
 
+driver_AIC.c  
+Установка выходного уровня звука динамика
+uint8_t aic_setDACOutVolume (int8_t volume)
+
+Установка входного уровня микрофона
+uint8_t aic_setADCInVolume (int8_t volume)
+
+
+
+
+
 
 

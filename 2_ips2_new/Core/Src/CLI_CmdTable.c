@@ -81,8 +81,10 @@ const char cmdGetFWInfo[]="DEVICE FWINFO";
 const char cmdConnect[]="CONNECT";
 const char cmdHelp[]="HELP";
 
-//const char cmdVOLUME[]="VOL";
-//const char cmdSENS[]="MIC";
+const char cmdVolumeUp[]="V+";
+const char cmdVolumeDown[]="V-";
+const char cmdSensUp[]="M+";
+const char cmdSensDown[]="M-";
 
 extern const char cmdIPSPING[];
 extern const char cmdIPSPONG[];
@@ -162,8 +164,10 @@ const sCLI_cmd_desc cmd_tab[]={
 	{&cmdBYE[0], fnReceivedBYE, 1},
 	{&cmdLOG[0], fnReceivedLOG, 2},
 
-//    {&cmdVOLUME[0], aic_setOutVolume, 1},
-//    {&cmdSENS[0], aic_setInVolume, 1},
+    {&cmdVolumeUp[0],  fnVolumeUp, 0},
+    {&cmdVolumeDown[0],  fnVolumeDown, 0},
+    {&cmdSensUp[0],  fnSensUp, 0},
+    {&cmdSensDown[0],  fnSensDown, 0},
 
 	{NULL , NULL, 0}
 };

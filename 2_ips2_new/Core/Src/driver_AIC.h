@@ -86,13 +86,18 @@ uint8_t TLV320_Reset();
   */
 
 /// minimum OUT sound volume level
-#define VOL_OUT_MIN		-42		// -21 db
+//#define VOL_OUT_MIN		-42		// -21 db
+#define VOL_OUT_MIN		-36		// -18 db dop
 /// maximum OUT sound volume level
-#define VOL_OUT_MAX		24		// +3 db		//	+12 db		as GIT say!
+//#define VOL_OUT_MAX		24		// +4 db		//	+12 db		as GIT say!
+#define VOL_OUT_MAX		12		// +6 db dop
 /// minimum MIC sensivity level
-#define VOL_MIC_MIN		-24		// -9 db		//	-12 db		as GIT say!
+//#define VOL_MIC_MIN		-24		// -9 db		//	-12 db		as GIT say!
+#define VOL_MIC_MIN		-18		// -9 db dop
 /// maximum MIC sensivity level
-#define VOL_MIC_MAX		24		// +6 db		//	+12 db		as GIT say!
+//#define VOL_MIC_MAX		24		// +6 db		//	+12 db		as GIT say!
+#define VOL_MIC_MAX		18		// +9 db dop
+
 /// sound volume change step
 #define VOL_OUT_STEP	6		// 3 db
 /// sensivity change step
@@ -224,13 +229,6 @@ void aic_setOutVolUp();
   * @retval none
   */
 void aic_setOutVolDown();
-
-/**
-  * @brief  enable/disable echo loop cancelation algorithm
-  * @param  [in] enable - 1=enable, 0=disable
-  * @retval none
-  */
-void aic_set_elc_enable(uint8_t enable);
 
 /**
   * @}

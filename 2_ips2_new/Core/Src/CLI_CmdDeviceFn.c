@@ -13,6 +13,7 @@
 #include "CRC32.h"
 #include "CLI_CmdServiceFn.h"
 #include "CLI_CmdDeviceFn.h"
+#include "driver_AIC.h"
 
 /**
   * @brief CLI connect string1
@@ -180,4 +181,36 @@ void fnSetFirmwareInfo(int numParam, char** params)
 	} else {
 		CLI_print("SETFW : OK\r\n");
 	}
+}
+
+void fnVolumeUp(int numParam, char** params)
+{
+    (void)numParam;
+    (void)params;
+    aic_setOutVolUp();
+    CLI_print("VolumeUp : %d\r\n", vol_GR);
+}
+
+void fnVolumeDown(int numParam, char** params)
+{
+    (void)numParam;
+    (void)params;
+    aic_setOutVolDown();
+    CLI_print("VolumeDown : %d\r\n", vol_GR);
+}
+
+void fnSensUp(int numParam, char** params)
+{
+    (void)numParam;
+    (void)params;
+    aic_setInVolUp();
+    CLI_print("SensUp : %d\r\n", vol_Mic);
+}
+
+void fnSensDown(int numParam, char** params)
+{
+    (void)numParam;
+    (void)params;
+    aic_setInVolDown();
+    CLI_print("SensDown : %d\r\n", vol_Mic);
 }

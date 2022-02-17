@@ -152,6 +152,10 @@ void eeprom_print_SB();
   */
 uint32_t eeprom_get_totalsize(SystemBlockHdr *sb);
 
+/**
+  * @brief  test EEPROM write timings
+  * @retval result 0 - test passed; -1 - test failed
+  */
 int8_t eeprom_test_writedelay();
 
 /**
