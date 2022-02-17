@@ -181,3 +181,35 @@ void fnSetFirmwareInfo(int numParam, char** params)
 		CLI_print("SETFW : OK\r\n");
 	}
 }
+
+void fnVolumeUp(int numParam, char** params)
+{
+    (void)numParam;
+    (void)params;
+    uint8_t cfg_ui = PDO_Code[pinio_get_CFGUI()];
+    CLI_print("VolumeUp : %d\r\n", cfg_ui);
+}
+
+void fnVolumeDown(int numParam, char** params)
+{
+    (void)numParam;
+    (void)params;
+    uint8_t cfg_ui = PDO_Code[pinio_get_CFGUI()];
+    CLI_print("VolumeDown : %d\r\n", cfg_ui);
+}
+
+void fnSensUp(int numParam, char** params)
+{
+    (void)numParam;
+    (void)params;
+    uint8_t cfg_ui = PDO_Code[pinio_get_CFGUI()];
+    CLI_print("SensUp : %d\r\n", cfg_ui);
+}
+
+void fnSensDown(int numParam, char** params)
+{
+    (void)numParam;
+    (void)params;
+    uint8_t cfg_ui = PDO_Code[pinio_get_CFGUI()];
+    CLI_print("SensDown : %d\r\n", cfg_ui);
+}
