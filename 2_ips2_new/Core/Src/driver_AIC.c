@@ -276,17 +276,21 @@ uint8_t aic_setDACOutVolume (int8_t volume)
 {
   // -127..48 -> -63.5 .. +24 db  , 0.5db step
   #ifdef SC_2
-  return TLV320_WritePage(0, TLV320AIC3254_REG_RDAC_DVOL_CR, volume); //Выход LINE_OUT2
+    //Выход LINE_OUT2  (0x42 регистр)
+  return TLV320_WritePage(0, TLV320AIC3254_REG_RDAC_DVOL_CR, volume);
   #endif
   #ifdef SC_4
-  return TLV320_WritePage(0, TLV320AIC3254_REG_LDAC_DVOL_CR, volume);  //Выход LINE_OUT1
+    //Выход LINE_OUT1  (0x41 регистр)
+  return TLV320_WritePage(0, TLV320AIC3254_REG_LDAC_DVOL_CR, volume);
   #endif
 }
 
 uint8_t aic_setADCInVolume (int8_t volume)
 {
   // -24..40 -> -12 .. +20 db  , 0.5db step
+    //Вход MIC2_L  (0x53 регистр)
   TLV320_WritePage(0, TLV320AIC3254_REG_LADC_VOL_CR, volume & 0x7F);
+    //Вход MIC2_R  (0x54 регистр)
   return TLV320_Write(TLV320AIC3254_REG_RADC_VOL_CR, volume & 0x7F);
 }
 
@@ -339,13 +343,13 @@ void aic_setInDev(uint8_t dev)
 
 	switch (dev) {
 		case AIC_INDEV_INTMIC:
-			aic_setDACOutVolume(vol_Mic);
+            aic_setADCInVolume(vol_Mic);
 			// TODO update aic regs
 			TLV320_WritePage(1, TLV320AIC3254_REG_LMICPGA_PMUX, 0x40); // IN1L -> P Left MICPGA
 			TLV320_WritePage(1, TLV320AIC3254_REG_LMICPGA_NMUX, 0x40); // CM1L -> N Left MICPGA
 		break;
 		case AIC_INDEV_EXTMIC:
-			aic_setDACOutVolume(vol_Mic);
+            aic_setADCInVolume(vol_Mic);
 			// TODO update aic regs
 			TLV320_WritePage(1, TLV320AIC3254_REG_LMICPGA_PMUX, 0x10); // IN2L -> P Left MICPGA
 			TLV320_WritePage(1, TLV320AIC3254_REG_LMICPGA_NMUX, 0x10); // IN2R -> N Left MICPGA

@@ -13,6 +13,7 @@
 #include "CRC32.h"
 #include "CLI_CmdServiceFn.h"
 #include "CLI_CmdDeviceFn.h"
+#include "driver_AIC.h"
 
 /**
   * @brief CLI connect string1
@@ -186,30 +187,30 @@ void fnVolumeUp(int numParam, char** params)
 {
     (void)numParam;
     (void)params;
-    uint8_t cfg_ui = PDO_Code[pinio_get_CFGUI()];
-    CLI_print("VolumeUp : %d\r\n", cfg_ui);
+    aic_setOutVolUp();
+    CLI_print("VolumeUp : %d\r\n", vol_GR);
 }
 
 void fnVolumeDown(int numParam, char** params)
 {
     (void)numParam;
     (void)params;
-    uint8_t cfg_ui = PDO_Code[pinio_get_CFGUI()];
-    CLI_print("VolumeDown : %d\r\n", cfg_ui);
+    aic_setOutVolDown();
+    CLI_print("VolumeDown : %d\r\n", vol_GR);
 }
 
 void fnSensUp(int numParam, char** params)
 {
     (void)numParam;
     (void)params;
-    uint8_t cfg_ui = PDO_Code[pinio_get_CFGUI()];
-    CLI_print("SensUp : %d\r\n", cfg_ui);
+    aic_setInVolUp();
+    CLI_print("SensUp : %d\r\n", vol_Mic);
 }
 
 void fnSensDown(int numParam, char** params)
 {
     (void)numParam;
     (void)params;
-    uint8_t cfg_ui = PDO_Code[pinio_get_CFGUI()];
-    CLI_print("SensDown : %d\r\n", cfg_ui);
+    aic_setInVolDown();
+    CLI_print("SensDown : %d\r\n", vol_Mic);
 }
