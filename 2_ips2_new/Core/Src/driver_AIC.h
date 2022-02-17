@@ -231,13 +231,6 @@ void aic_setOutVolUp();
 void aic_setOutVolDown();
 
 /**
-  * @brief  enable/disable echo loop cancelation algorithm
-  * @param  [in] enable - 1=enable, 0=disable
-  * @retval none
-  */
-void aic_set_elc_enable(uint8_t enable);
-
-/**
   * @}
   */
 

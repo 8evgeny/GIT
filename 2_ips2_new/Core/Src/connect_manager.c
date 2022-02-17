@@ -15,9 +15,9 @@
 #include "rtp.h"
 #include "string.h"
 #include "tone_gen_state_processor.h"
-#include "connect_manager.h"
+#include "SELC_sound_process.h"
 #include "cbuffer.h"
-#include "driver_AIC.h"
+#include "connect_manager.h"
 
 /// connect description structures array
 cmanager_struct cm_array[CM_ARRAY_COUNT];
@@ -297,17 +297,17 @@ void fnSendINVITE(int type, int priority, ip_addr_t abonent, int abonent_num)
 	if (type == INVITETYPEDPLX)
 	{
 		cm_array[abonent_num].newstatus = ABONENT_SI;
-		aic_set_elc_enable(1);
-	} else
-	if (type == INVITETYPEDPLXA)
-	{
-		cm_array[abonent_num].newstatus = ABONENT_DPLXA;
-		aic_set_elc_enable(1);
-	} else
-	if (type == INVITETYPESMPLX)
-	{
-		cm_array[abonent_num].newstatus = ABONENT_SMPLX;
-		aic_set_elc_enable(0);
+        selc_set_enable(1);
+    } else
+    if (type == INVITETYPEDPLXA)
+    {
+        cm_array[abonent_num].newstatus = ABONENT_DPLXA;
+        selc_set_enable(1);
+    } else
+    if (type == INVITETYPESMPLX)
+    {
+        cm_array[abonent_num].newstatus = ABONENT_SMPLX;
+        selc_set_enable(0);
 	}
 }
 
@@ -360,7 +360,7 @@ void fnSendBYE(ip_addr_t abonent, int abonent_num)
 			      cmdCMD, cmdBYE, SwapUInt32(own_ip.addr));
 	udp_ips_send(&cm_ans_buf[0], str_len, abonent, UDP_CTRL_PORT);
 	cm_array[abonent_num].newstatus = ABONENT_SB;
-	aic_set_elc_enable(1);
+    selc_set_enable(1);
 }
 
 void fnReceivedLOG(int numParam, char** params)
@@ -457,21 +457,21 @@ void fnReceivedINVITE(int numParam, char** params)
 		{
 			fnSendACK(ACKTYPEINVITE, ACKOK, send_ip);
 			cm_array[abonent_num].newstatus = ABONENT_GI;
-			aic_set_elc_enable(1);
-			//CLI_print("Abonent %d newstatus: %d\r\n", abonent_num, cm_array[abonent_num].newstatus);
-		} else
-		if (type == INVITETYPEDPLXA)
-		{
-			//fnSendACK(1, 1, send_ip);
-			cm_array[abonent_num].newstatus = ABONENT_DPLXA;
-			fnSendINVITEACK(send_ip, abonent_num);
-			aic_set_elc_enable(1);
-		} else
-		if (type == INVITETYPESMPLX)
-		{
-			fnSendACK(ACKTYPEINVITE, ACKOK, send_ip);
-			cm_array[abonent_num].newstatus = ABONENT_SMPLXI;
-			aic_set_elc_enable(0);
+            selc_set_enable(1);
+            //CLI_print("Abonent %d newstatus: %d\r\n", abonent_num, cm_array[abonent_num].newstatus);
+        } else
+        if (type == INVITETYPEDPLXA)
+        {
+            //fnSendACK(1, 1, send_ip);
+            cm_array[abonent_num].newstatus = ABONENT_DPLXA;
+            fnSendINVITEACK(send_ip, abonent_num);
+            selc_set_enable(1);
+        } else
+        if (type == INVITETYPESMPLX)
+        {
+            fnSendACK(ACKTYPEINVITE, ACKOK, send_ip);
+            cm_array[abonent_num].newstatus = ABONENT_SMPLXI;
+            selc_set_enable(0);
 		}
 		for (int i = 0; i < CM_ARRAY_COUNT; i++)
 		{
