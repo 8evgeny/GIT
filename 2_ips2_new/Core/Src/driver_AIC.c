@@ -276,10 +276,10 @@ uint8_t aic_setDACOutVolume (int8_t volume)
 {
   // -127..48 -> -63.5 .. +24 db  , 0.5db step
   #ifdef SC_2
-  return TLV320_WritePage(0, TLV320AIC3254_REG_RDAC_DVOL_CR, volume);
+  return TLV320_WritePage(0, TLV320AIC3254_REG_RDAC_DVOL_CR, volume); //Выход LINE_OUT2
   #endif
   #ifdef SC_4
-  return TLV320_WritePage(0, TLV320AIC3254_REG_LDAC_DVOL_CR, volume);
+  return TLV320_WritePage(0, TLV320AIC3254_REG_LDAC_DVOL_CR, volume);  //Выход LINE_OUT1
   #endif
 }
 
