@@ -1,5 +1,9 @@
 Громкость
 
+#define TLV320AIC3254_REG_LDAC_DVOL_CR		0x41
+#define TLV320AIC3254_REG_RDAC_DVOL_CR		0x42
+В PDKV - orange звук идет через правый канал
+
 DEBUG ON
 TEST GET AIC : 00 : 42
 
@@ -26,6 +30,10 @@ TEST SET AIC : 00 : 42 : D8 - -20
 TEST SET AIC : 00 : 42 : 00 
 
 Микрофон
+
+#define TLV320AIC3254_REG_LADC_VOL_CR		0x53
+#define TLV320AIC3254_REG_RADC_VOL_CR		0x54
+
 TEST GET AIC : 00 : 53
 TEST GET AIC : 00 : 54
 
