@@ -1,0 +1,6 @@
+[Unit]
+Description=display-pdkv_service
+[Service]
+ExecStart=/root/display_backend/build/display_backend
+[Install]
+WantedBy=multi-user.target
