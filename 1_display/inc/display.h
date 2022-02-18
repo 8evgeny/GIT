@@ -21,6 +21,7 @@ public:
     void setLcdYellow(bool);
     void setLcdRed(bool);
     void setBuzzer(bool);
+    bool getLcdRed();
 
 private:
     std::string _port = "/dev/ttyACM0";

@@ -194,3 +194,16 @@ void Display::setBuzzer(bool newBuzzer)
     }
 }
 
+bool Display::getLcdRed()
+{
+    if (_lcdRed != "1")
+    {
+        return false;
+    }
+    if (_lcdRed == "1")
+    {
+        return true;
+    }
+
+}
+

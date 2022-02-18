@@ -64,8 +64,11 @@ int main()
     std::vector<std::string> noPingNumbersDevices;
     bool firstInvoke = true;
     //временная отметка 1 раз в минуту зуммер
-    system_clock::time_point currTime1 = system_clock::now() ;
-
+    system_clock::time_point currTime1 = system_clock::now();
+    //временная отметка включен красный светодиод
+    system_clock::time_point redLedOn = system_clock::now();
+    //временная отметка выключен красный светодиод
+    system_clock::time_point redLedOff = system_clock::now();
     while(1)
     {
         int on = 0;
@@ -102,7 +105,6 @@ int main()
             интервалом 0,5 с) */
         if (on == 0)
         {
-            lcd->setLcdYellow(false);
             lcd->setLcdRed(true);
             bool exit = false;
 
@@ -124,8 +126,28 @@ int main()
 
         if (off !=0)
         {// есть оффлайн
-            lcd->setLcdYellow(true);
-            lcd->setLcdRed(false);
+            if (!lcd->getLcdRed())
+            {// красный выключен - включаем его если с момента выключения прошла секунда
+                auto currTimeLedRed = system_clock::now();
+                auto interval = (currTimeLedRed - redLedOff);
+                auto int_s =  interval.count()/1000000000;
+                if (int_s >= 1 )
+                {
+                    redLedOn = system_clock::now();
+                    lcd->setLcdRed(true);
+                }
+            }
+            if (lcd->getLcdRed())
+            {// красный включен - проверяем если прошла 1с - выключаем его
+                auto currTimeLedRed = system_clock::now();
+                auto interval = (currTimeLedRed - redLedOn);
+                auto int_s =  interval.count()/1000000000;
+                if (int_s >= 1 )
+                {
+                    redLedOff = system_clock::now();
+                    lcd->setLcdRed(false);
+                }
+            }
 
             if (firstInvoke)
             {
@@ -165,6 +187,34 @@ int main()
                 }
                 for (int i = 0; i < 4 ; ++i)
                 {//для смены времени
+
+
+                    if (!lcd->getLcdRed())
+                    {// красный выключен - включаем его если с момента выключения прошла секунда
+                        auto currTimeLedRed = system_clock::now();
+                        auto interval = (currTimeLedRed - redLedOff);
+                        auto int_s =  interval.count()/1000000000;
+                        if (int_s >= 1 )
+                        {
+                            redLedOn = system_clock::now();
+                            lcd->setLcdRed(true);
+                        }
+                    }
+                    if (lcd->getLcdRed())
+                    {// красный включен - проверяем если прошла 1с - выключаем его
+                        auto currTimeLedRed = system_clock::now();
+                        auto interval = (currTimeLedRed - redLedOn);
+                        auto int_s =  interval.count()/1000000000;
+                        if (int_s >= 1 )
+                        {
+                            redLedOff = system_clock::now();
+                            lcd->setLcdRed(false);
+                        }
+                    }
+
+
+
+
                     lcd->dutyFrame(datetime(), numDevAll, numDevOnline, numDevOffline);
                     lcd->wait(1000);
                 }
@@ -176,7 +226,6 @@ int main()
         }// есть оффлайн
         else
         {// все онлайн
-            lcd->setLcdYellow(false);
             lcd->setLcdRed(false);
 
             if (firstInvoke)
