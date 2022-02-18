@@ -56,8 +56,37 @@ void Display::dutyFrame(std::pair<std::string, std::string> dt,
     printToLcd (lcdbuz + line1 + line2 + line3 + line4, _port);
 }
 
-void Display::diagnosticFrame(std::vector<std::string>& noPingDevices, std::vector<std::string>& noPingNumbersDevices)
+//void Display::stateRedLed()
+//{
+//    if (!this->getLcdRed())
+//    {// красный выключен - включаем его если с момента выключения прошла секунда
+//        auto currTimeLedRed = system_clock::now();
+//        auto interval = (currTimeLedRed - this->getRedLedOff());
+//        auto int_s =  interval.count()/1000000000;
+//        if (int_s >= 1 )
+//        {
+//            this->setRedLedOn(system_clock::now());
+//            this->setLcdRed(true);
+//        }
+//    }
+//    if (this->getLcdRed())
+//    {// красный включен - проверяем если прошла 1с - выключаем его
+//        auto currTimeLedRed = system_clock::now();
+//        auto interval = (currTimeLedRed - this->getRedLedOn());
+//        auto int_s =  interval.count()/1000000000;
+//        if (int_s >= 1 )
+//        {
+//            this->setRedLedOff(system_clock::now());
+//            this->setLcdRed(false);
+//        }
+//    }
+//}
+
+
+void Display::diagnosticFrame(std::vector<std::string>& noPingDevices,
+                              std::vector<std::string>& noPingNumbersDevices)
 {
+    this->setLcdRed(true);
     //формируем диагностический экран
     std::string num1{""};
     std::string num2{""};
@@ -81,7 +110,17 @@ void Display::diagnosticFrame(std::vector<std::string>& noPingDevices, std::vect
         line3 = "\"                    \"";
         line4 = "\"                    \"";
         printToLcd (lcdbuz + line1 + line2 + line3 + line4, _port);
-        wait(4000);
+        for (int i=0; i < 2; ++i)
+        {
+            wait(1000);
+            setLcdRed(false);
+            lcdbuz = _lcdYellow + _lcdRed + _buzzer;
+            printToLcd (lcdbuz + line1 + line2 + line3 + line4, _port);
+            wait(1000);
+            setLcdRed(true);
+            lcdbuz = _lcdYellow + _lcdRed + _buzzer;
+            printToLcd (lcdbuz + line1 + line2 + line3 + line4, _port);
+        }
     }
     break;
     case 2 :
@@ -97,7 +136,17 @@ void Display::diagnosticFrame(std::vector<std::string>& noPingDevices, std::vect
         line3 = num2 + "\" \"" + ip2;
         line4 = "\"                    \"";
         printToLcd (lcdbuz + line1 + line2 + line3 + line4, _port);
-        wait(4000);
+        for (int i=0; i < 2; ++i)
+        {
+            wait(1000);
+            setLcdRed(false);
+            lcdbuz = _lcdYellow + _lcdRed + _buzzer;
+            printToLcd (lcdbuz + line1 + line2 + line3 + line4, _port);
+            wait(1000);
+            setLcdRed(true);
+            lcdbuz = _lcdYellow + _lcdRed + _buzzer;
+            printToLcd (lcdbuz + line1 + line2 + line3 + line4, _port);
+        }
     }
     break;
     case 3 :
@@ -115,7 +164,17 @@ void Display::diagnosticFrame(std::vector<std::string>& noPingDevices, std::vect
         line3 = num2 + "\" \"" + ip2;
         line4 = num3 + "\" \"" + ip3;
         printToLcd (lcdbuz + line1 + line2 + line3 + line4, _port);
-        wait(4000);
+        for (int i=0; i < 2; ++i)
+        {
+            wait(1000);
+            setLcdRed(false);
+            lcdbuz = _lcdYellow + _lcdRed + _buzzer;
+            printToLcd (lcdbuz + line1 + line2 + line3 + line4, _port);
+            wait(1000);
+            setLcdRed(true);
+            lcdbuz = _lcdYellow + _lcdRed + _buzzer;
+            printToLcd (lcdbuz + line1 + line2 + line3 + line4, _port);
+        }
     }
     break;
     default: //размер 4 и выше
@@ -124,6 +183,7 @@ void Display::diagnosticFrame(std::vector<std::string>& noPingDevices, std::vect
         //экран со сдвигом
         while (1)
         {
+            setLcdRed(true);
             num1 = noPingNumbersDevices[i];
             num2 = noPingNumbersDevices[i + 1];
             num3 = noPingNumbersDevices[i + 2];
@@ -143,10 +203,22 @@ void Display::diagnosticFrame(std::vector<std::string>& noPingDevices, std::vect
                 break;
             }
             wait(1000);
+            setLcdRed(false);
+            lcdbuz = _lcdYellow + _lcdRed + _buzzer;
+            printToLcd (lcdbuz + line1 + line2 + line3 + line4, _port);
             ++i;
         }
 
-        wait(4000);
+        //Здесь не сделано задержка
+
+
+        for (int i=0; i < 2; ++i)
+        {
+            wait(1000);
+            setLcdRed(false);
+            wait(1000);
+            setLcdRed(true);
+        }
     }
     }
 
@@ -200,10 +272,26 @@ bool Display::getLcdRed()
     {
         return false;
     }
-    if (_lcdRed == "1")
-    {
-        return true;
-    }
+    return true;
+}
 
+system_clock::time_point Display::getRedLedOn() const
+{
+    return _redLedOn;
+}
+
+void Display::setRedLedOn(system_clock::time_point newRedLedOn)
+{
+    _redLedOn = newRedLedOn;
+}
+
+system_clock::time_point Display::getRedLedOff() const
+{
+    return _redLedOff;
+}
+
+void Display::setRedLedOff(system_clock::time_point newRedLedOff)
+{
+    _redLedOff = newRedLedOff;
 }
 

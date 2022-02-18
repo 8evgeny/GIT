@@ -4,6 +4,8 @@
 #include <memory>
 #include <vector>
 
+using std::chrono::system_clock;
+
 class Display
 {
 public:
@@ -22,10 +24,19 @@ public:
     void setLcdRed(bool);
     void setBuzzer(bool);
     bool getLcdRed();
+    system_clock::time_point getRedLedOn() const;
+    void setRedLedOn(system_clock::time_point newRedLedOn);
+    system_clock::time_point getRedLedOff() const;
+    void setRedLedOff(system_clock::time_point newRedLedOff);
+    void stateRedLed();
 
 private:
     std::string _port = "/dev/ttyACM0";
     std::string _lcdYellow;
     std::string _lcdRed;
     std::string _buzzer;
+    //временная отметка включен красный светодиод
+    system_clock::time_point _redLedOn;
+    //временная отметка выключен красный светодиод
+    system_clock::time_point _redLedOff;
 };
