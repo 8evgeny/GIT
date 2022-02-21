@@ -22,7 +22,7 @@
 #define EC_FADE_GR_EN_CNT	1
 #define EC_FADE_GR_DIS_CNT	10
 // fade level sig_in_f(x) = sig_in(x)/(2^EC_FADE_PARAM), where EC_FADE_PARAM=2..14
-#define EC_FADE_PARAM	4
+#define EC_FADE_PARAM	8
 
 #define EC_TONE_DELAY_CNT	10
 
@@ -30,12 +30,12 @@
 
 /// MIC_threshold levels, each level +-1.5 dB, depends on VOL_MIC_STEP
 const uint32_t ec_MIC_threshold_param[(MIC_LEVELS*2) + 1] = {
-                                // 0
-                                400000,
-                                // -1 -2 -3 -4 -5 -6 -7 -8
-                                283200,200505,141957,100506,71158,50380,35669,25253,
-                                //  1  2  3  4  5  6  7  8
-                                564971,797982,1127094,1591940,2248504,3175853,4485668,6335690
+        // 0
+        300000,
+        // -1 -2 -3 -4 -5 -6 -7 -8
+        212400, 150379, 106468, 75379, 53368, 37785, 26751, 18940,
+        //  1  2  3  4  5  6  7  8
+        423728, 598487, 845320, 1193955, 1686378, 2381890, 3364251, 4751767
 };
 
 uint32_t ec_enable;
