@@ -19,6 +19,9 @@ public:
                   std::string numDev, std::string onDev,
                   std::string offDev);
     void diagnosticFrame(std::vector<std::string>& noPingDevices, std::vector<std::string>& noPingNumbersDevices);
+    void noConnectFrame(std::string num1, std::string num2, std::string num3,
+                                 std::string ip1, std::string ip2, std::string ip3);
+
     void wait(int ms);
     void setLcdYellow(bool);
     void setLcdRed(bool);
