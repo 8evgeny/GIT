@@ -23,6 +23,7 @@ void Display::printToLcd(std::string str, std::string port)
 
 void Display::display1(std::string version, std::string serial)
 {
+    changeStateRedLed();
     std::string lcdbuz,line1,line2,line3,line4;
     lcdbuz = _lcdYellow + _lcdRed + _buzzer;
     line1 = "\"    GIT-COMM IPS    \"";
@@ -34,6 +35,7 @@ void Display::display1(std::string version, std::string serial)
 
 void Display::display1_(std::string version, std::string serial)
 {
+    changeStateRedLed();
     std::string lcdbuz,line1,line2,line3,line4;
     lcdbuz = _lcdYellow + _lcdRed + _buzzer;
     line1 = "\"    GIT-COMM IPS    \"";
@@ -47,6 +49,7 @@ void Display::dutyFrame(std::pair<std::string, std::string> dt,
               std::string numDev, std::string onDev,
               std::string offDev)
 {
+    changeStateRedLed();
     std::string lcdbuz,line1,line2,line3,line4;
     lcdbuz = _lcdYellow + _lcdRed + _buzzer;
     line1 = dt.first + "\"  \"" + dt.second;
@@ -59,6 +62,7 @@ void Display::dutyFrame(std::pair<std::string, std::string> dt,
 void Display::noConnectFrame(std::string num1, std::string num2, std::string num3,
                              std::string ip1, std::string ip2, std::string ip3)
 {
+    changeStateRedLed();
     std::string lcdbuz,line1,line2,line3,line4;
     lcdbuz = _lcdYellow + _lcdRed + _buzzer;
     line1 = "\"     НЕТ СВЯЗИ      \"";
@@ -67,8 +71,6 @@ void Display::noConnectFrame(std::string num1, std::string num2, std::string num
     line4 = num3 + "\" \"" + ip3;
     printToLcd (lcdbuz + line1 + line2 + line3 + line4, _port);
 }
-
-
 
 
 
@@ -120,13 +122,11 @@ void Display::diagnosticFrame(std::vector<std::string>& noPingDevices,
         {
             num1 = noPingNumbersDevices[0];
             ip1 = noPingDevices[0];
-
             noConnectFrame(num1, num2, num3, ip1, ip2, ip3);
 
             for (int i=0; i < 4; ++i)
             {
                 wait(1000);
-                changeStateRedLed();
                 noConnectFrame(num1, num2, num3, ip1, ip2, ip3);
             }
         }
@@ -138,13 +138,11 @@ void Display::diagnosticFrame(std::vector<std::string>& noPingDevices,
             num2 = noPingNumbersDevices[1];
             ip1 = noPingDevices[0];
             ip2 = noPingDevices[1];
-
             noConnectFrame(num1, num2, num3, ip1, ip2, ip3);
 
             for (int i=0; i < 4; ++i)
             {
                 wait(1000);
-                changeStateRedLed();
                 noConnectFrame(num1, num2, num3, ip1, ip2, ip3);
             }
         }
@@ -158,13 +156,11 @@ void Display::diagnosticFrame(std::vector<std::string>& noPingDevices,
             ip1 = noPingDevices[0];
             ip2 = noPingDevices[1];
             ip3 = noPingDevices[2];
-
             noConnectFrame(num1, num2, num3, ip1, ip2, ip3);
 
             for (int i=0; i < 4; ++i)
             {
                 wait(1000);
-                changeStateRedLed();
                 noConnectFrame(num1, num2, num3, ip1, ip2, ip3);
             }
         }
@@ -182,26 +178,21 @@ void Display::diagnosticFrame(std::vector<std::string>& noPingDevices,
                 ip1 = noPingDevices[i];
                 ip2 = noPingDevices[i + 1];
                 ip3 = noPingDevices[i + 2];
-
-                changeStateRedLed();
-                noConnectFrame(num1, num2, num3, ip1, ip2, ip3);
-
-                wait(1000);
-                ++i;
-                changeStateRedLed();
                 noConnectFrame(num1, num2, num3, ip1, ip2, ip3);
 
                 if (static_cast<int>(noPingDevices.size()) == (i + 3))
                 {
                     break;
                 }
+
+                wait(1000);
+                ++i;
             }
 
 
             for (int i=0; i < 4; ++i)
             {
                 wait(1000);
-                changeStateRedLed();
                 noConnectFrame(num1, num2, num3, ip1, ip2, ip3);
             }
         }
