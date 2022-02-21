@@ -5,3 +5,5 @@ Debug/
 built_linux_Debug/
 built_linux_Release/
 /CMakeLists.txt.user
+cmake-build-debug/
+.idea/
