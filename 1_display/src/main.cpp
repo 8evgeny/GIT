@@ -66,9 +66,9 @@ int main()
     //временная отметка 1 раз в минуту зуммер
     system_clock::time_point currTime1 = system_clock::now();
     //временная отметка включен красный светодиод
-    lcd->setRedLedOn(system_clock::now());
+    lcd->setRedLedTimeOn(system_clock::now());
     //временная отметка выключен красный светодиод
-    lcd->setRedLedOff(system_clock::now());
+    lcd->setRedLedTimeOff(system_clock::now());
 
     while(1)
     {
@@ -127,25 +127,25 @@ int main()
 
         if (off !=0)
         {// есть оффлайн
-            if (!lcd->getLcdRed())
+            if (!lcd->getLcdRedState())
             {// красный выключен - включаем его если с момента выключения прошла секунда
                 auto currTimeLedRed = system_clock::now();
                 auto interval = (currTimeLedRed - lcd->getRedLedOff());
                 auto int_s =  interval.count()/1000000000;
                 if (int_s >= 1 )
                 {
-                    lcd->setRedLedOn(system_clock::now());
+                    lcd->setRedLedTimeOn(system_clock::now());
                     lcd->setLcdRed(true);
                 }
             }
-            if (lcd->getLcdRed())
+            if (lcd->getLcdRedState())
             {// красный включен - проверяем если прошла 1с - выключаем его
                 auto currTimeLedRed = system_clock::now();
                 auto interval = (currTimeLedRed - lcd->getRedLedOn());
                 auto int_s =  interval.count()/1000000000;
                 if (int_s >= 1 )
                 {
-                    lcd->setRedLedOff(system_clock::now());
+                    lcd->setRedLedTimeOff(system_clock::now());
                     lcd->setLcdRed(false);
                 }
             }
@@ -190,25 +190,25 @@ int main()
                 {//для смены времени
 
 
-                    if (!lcd->getLcdRed())
+                    if (!lcd->getLcdRedState())
                     {// красный выключен - включаем его если с момента выключения прошла секунда
                         auto currTimeLedRed = system_clock::now();
                         auto interval = (currTimeLedRed - lcd->getRedLedOff());
                         auto int_s =  interval.count()/1000000000;
                         if (int_s >= 1 )
                         {
-                            lcd->setRedLedOn(system_clock::now());
+                            lcd->setRedLedTimeOn(system_clock::now());
                             lcd->setLcdRed(true);
                         }
                     }
-                    if (lcd->getLcdRed())
+                    if (lcd->getLcdRedState())
                     {// красный включен - проверяем если прошла 1с - выключаем его
                         auto currTimeLedRed = system_clock::now();
                         auto interval = (currTimeLedRed - lcd->getRedLedOn());
                         auto int_s =  interval.count()/1000000000;
                         if (int_s >= 1 )
                         {
-                            lcd->setRedLedOff(system_clock::now());
+                            lcd->setRedLedTimeOff(system_clock::now());
                             lcd->setLcdRed(false);
                         }
                     }

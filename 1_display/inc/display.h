@@ -23,12 +23,12 @@ public:
     void setLcdYellow(bool);
     void setLcdRed(bool);
     void setBuzzer(bool);
-    bool getLcdRed();
+    bool getLcdRedState();
     system_clock::time_point getRedLedOn() const;
-    void setRedLedOn(system_clock::time_point newRedLedOn);
+    void setRedLedTimeOn(system_clock::time_point newRedLedOn);
     system_clock::time_point getRedLedOff() const;
-    void setRedLedOff(system_clock::time_point newRedLedOff);
-    void stateRedLed();
+    void setRedLedTimeOff(system_clock::time_point newRedLedOff);
+    void changeStateRedLed();
 
 private:
     std::string _port = "/dev/ttyACM0";

@@ -56,31 +56,37 @@ void Display::dutyFrame(std::pair<std::string, std::string> dt,
     printToLcd (lcdbuz + line1 + line2 + line3 + line4, _port);
 }
 
-//void Display::stateRedLed()
-//{
-//    if (!this->getLcdRed())
-//    {// красный выключен - включаем его если с момента выключения прошла секунда
-//        auto currTimeLedRed = system_clock::now();
-//        auto interval = (currTimeLedRed - this->getRedLedOff());
-//        auto int_s =  interval.count()/1000000000;
-//        if (int_s >= 1 )
-//        {
-//            this->setRedLedOn(system_clock::now());
-//            this->setLcdRed(true);
-//        }
-//    }
-//    if (this->getLcdRed())
-//    {// красный включен - проверяем если прошла 1с - выключаем его
-//        auto currTimeLedRed = system_clock::now();
-//        auto interval = (currTimeLedRed - this->getRedLedOn());
-//        auto int_s =  interval.count()/1000000000;
-//        if (int_s >= 1 )
-//        {
-//            this->setRedLedOff(system_clock::now());
-//            this->setLcdRed(false);
-//        }
-//    }
-//}
+
+
+
+
+
+
+void Display::changeStateRedLed()
+{
+    if (!getLcdRedState())
+    {// красный выключен - включаем его если с момента выключения прошла секунда
+        auto currTimeLedRed = system_clock::now();
+        auto interval = (currTimeLedRed - getRedLedOff());
+        auto int_s =  interval.count()/1000000000;
+        if (int_s >= 1 )
+        {
+            setRedLedTimeOn(system_clock::now());
+            setLcdRed(true);
+        }
+    }
+    if (getLcdRedState())
+    {// красный включен - проверяем если прошла 1с - выключаем его
+        auto currTimeLedRed = system_clock::now();
+        auto interval = (currTimeLedRed - getRedLedOn());
+        auto int_s =  interval.count()/1000000000;
+        if (int_s >= 1 )
+        {
+            setRedLedTimeOff(system_clock::now());
+            setLcdRed(false);
+        }
+    }
+}
 
 
 void Display::diagnosticFrame(std::vector<std::string>& noPingDevices,
@@ -183,7 +189,7 @@ void Display::diagnosticFrame(std::vector<std::string>& noPingDevices,
         //экран со сдвигом
         while (1)
         {
-            setLcdRed(true);
+            changeStateRedLed();
             num1 = noPingNumbersDevices[i];
             num2 = noPingNumbersDevices[i + 1];
             num3 = noPingNumbersDevices[i + 2];
@@ -203,7 +209,7 @@ void Display::diagnosticFrame(std::vector<std::string>& noPingDevices,
                 break;
             }
             wait(1000);
-            setLcdRed(false);
+            changeStateRedLed();
             lcdbuz = _lcdYellow + _lcdRed + _buzzer;
             printToLcd (lcdbuz + line1 + line2 + line3 + line4, _port);
             ++i;
@@ -266,7 +272,7 @@ void Display::setBuzzer(bool newBuzzer)
     }
 }
 
-bool Display::getLcdRed()
+bool Display::getLcdRedState()
 {
     if (_lcdRed != "1")
     {
@@ -280,7 +286,7 @@ system_clock::time_point Display::getRedLedOn() const
     return _redLedOn;
 }
 
-void Display::setRedLedOn(system_clock::time_point newRedLedOn)
+void Display::setRedLedTimeOn(system_clock::time_point newRedLedOn)
 {
     _redLedOn = newRedLedOn;
 }
@@ -290,7 +296,7 @@ system_clock::time_point Display::getRedLedOff() const
     return _redLedOff;
 }
 
-void Display::setRedLedOff(system_clock::time_point newRedLedOff)
+void Display::setRedLedTimeOff(system_clock::time_point newRedLedOff)
 {
     _redLedOff = newRedLedOff;
 }
