@@ -597,11 +597,24 @@ void fnReceivedBYE(int numParam, char** params)
 		{
 			ip_addr_t ip;
 			IP_ADDR4(&ip, cm_array[i].ip[0], cm_array[i].ip[1], cm_array[i].ip[2], cm_array[i].ip[3]);
-			if (ip.addr == send_ip.addr) cm_array[i].newstatus = ABONENT_BA;
-		}
-	}
-	if ((cm_array[abonent_num].status !=ABONENT_IDLE)&&(cm_array[abonent_num].status !=ABONENT_BUSY))
-		cm_array[abonent_num].newstatus = ABONENT_BA;
+            if (ip.addr == send_ip.addr)
+            {
+                cm_array[i].newstatus = ABONENT_BA;
+                if (cm_array[i].status ==ABONENT_GI)
+                {
+                    cm_array[i].islostcall = 1;
+                }
+            }
+        }
+    }
+    if ((cm_array[abonent_num].status !=ABONENT_IDLE)&&(cm_array[abonent_num].status !=ABONENT_BUSY))
+    {
+        cm_array[abonent_num].newstatus = ABONENT_BA;
+        if (cm_array[abonent_num].status ==ABONENT_GI)
+        {
+            cm_array[abonent_num].islostcall = 1;
+        }
+    }
 }
 
 
@@ -710,6 +723,11 @@ void cmanager_process_button(uint8_t btn_num, uint8_t btn_st)
 	IP_ADDR4(&ip_btn, cm_array[btn_num].ip[0], cm_array[btn_num].ip[1], cm_array[btn_num].ip[2], cm_array[btn_num].ip[3]);
 	if ((ip_btn.addr==0)||(ip_btn.addr == own_ip.addr)) return;
 	if (!cm_array[btn_num].func) return;
+
+    if ((btn_st == BTN_VAL_DOWN)&&(cm_array[btn_num].islostcall))
+    {
+        return;
+    }
 
 	if (cm_array[btn_num].islostcall)
 	{
