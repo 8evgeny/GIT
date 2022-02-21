@@ -116,11 +116,9 @@ int main()
                     if (k == "")
                         exit = true;
                 }
-                lcd->setBuzzer(true);
-                lcd->dutyFrame(datetime(), numDevAll, numDevOnline, numDevOffline);
+                lcd->dutyFrame(datetime(), numDevAll, numDevOnline, numDevOffline, true);
                 lcd->wait(500);
-                lcd->setBuzzer(false);
-                lcd->dutyFrame(datetime(), numDevAll, numDevOnline, numDevOffline);
+                lcd->dutyFrame(datetime(), numDevAll, numDevOnline, numDevOffline, false);
                 lcd->wait(500);
             }
         }//end all offline
@@ -134,40 +132,39 @@ int main()
                 //четыре зумма по 0,5с
                 for (int i = 0; i < 4; ++i)
                 {
-                    lcd->setBuzzer(true);
-                    lcd->dutyFrame(datetime(), numDevAll, numDevOnline, numDevOffline);
+                    lcd->dutyFrame(datetime(), numDevAll, numDevOnline, numDevOffline, true);
                     lcd->wait(500);
-                    lcd->setBuzzer(false);
-                    lcd->dutyFrame(datetime(), numDevAll, numDevOnline, numDevOffline);
+                    lcd->dutyFrame(datetime(), numDevAll, numDevOnline, numDevOffline, false);
                     lcd->wait(500);
                 }
                 for (int i = 0; i < 4 ; ++i)
                 {//для смены времени
-                    lcd->dutyFrame(datetime(), numDevAll, numDevOnline, numDevOffline);
+                    lcd->dutyFrame(datetime(), numDevAll, numDevOnline, numDevOffline, false);
                     lcd->wait(1000);
                 }
 
                 //При первом вызове дежурный кадр показываем 5 секунд
                 //Идем к экрану диагностики
             }//end first invoke
+
             else
             {//не первый вызов, есть оффлайн
                 auto currTime = system_clock::now();
                 auto interval = (currTime - BuzzerOneInMinute);
-                auto int_s =  interval.count()/1000000000;
+                auto int_s =  interval.count()/100000000;
                 if (int_s >= 60 )
                 {
+   std::cout <<"Buzzer "<<std::endl;
                     BuzzerOneInMinute = currTime;
                     //один сигнал раз в нинуту
-                    lcd->setBuzzer(true);
-                    lcd->dutyFrame(datetime(), numDevAll, numDevOnline, numDevOffline);
-                    lcd->wait(500);
-                    lcd->setBuzzer(false);
+                    lcd->dutyFrame(datetime(), numDevAll, numDevOnline, numDevOffline, true);
+                    lcd->wait(1000);
+                    lcd->dutyFrame(datetime(), numDevAll, numDevOnline, numDevOffline, false);
                 }
                 for (int i = 0; i < 4 ; ++i)
                 {//для смены времени
 
-                    lcd->dutyFrame(datetime(), numDevAll, numDevOnline, numDevOffline);
+                    lcd->dutyFrame(datetime(), numDevAll, numDevOnline, numDevOffline, false);
                     lcd->wait(1000);
                 }
                 //Идем к экрану диагностики
@@ -187,17 +184,15 @@ int main()
                 //три зумма по 0,5с
                 for (int i = 0; i < 3; ++i)
                 {
-                    lcd->setBuzzer(true);
-                    lcd->dutyFrame(datetime(), numDevAll, numDevOnline, numDevOffline);
+                    lcd->dutyFrame(datetime(), numDevAll, numDevOnline, numDevOffline, true);
                     lcd->wait(500);
-                    lcd->setBuzzer(false);
-                    lcd->dutyFrame(datetime(), numDevAll, numDevOnline, numDevOffline);
+                    lcd->dutyFrame(datetime(), numDevAll, numDevOnline, numDevOffline, false);
                     lcd->wait(500);
                 }
             }
             for (int i = 0; i < 4 ; ++i)
             {
-                lcd->dutyFrame(datetime(), numDevAll, numDevOnline, numDevOffline);
+                lcd->dutyFrame(datetime(), numDevAll, numDevOnline, numDevOffline, false);
                 lcd->wait(1000);
             }
 

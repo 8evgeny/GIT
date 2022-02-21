@@ -45,18 +45,31 @@ void Display::display1_(std::string version, std::string serial)
 
 void Display::dutyFrame(std::pair<std::string, std::string> dt,
               std::string numDev, std::string onDev,
-              std::string offDev)
+              std::string offDev, bool buzzer)
 {
     if (offDev != "000" && onDev != "000")
     {
         changeStateRedLed();
     }
+
+    if (buzzer)
+    {
+std::cout <<"Buzzer_true"<< std::endl;
+        setBuzzer(true);
+    }
+    else
+    {
+        setBuzzer(false);
+    }
+
     std::string lcdbuz,line1,line2,line3,line4;
     lcdbuz = _lcdYellow + _lcdRed + _buzzer;
+
     line1 = dt.first + "\"  \"" + dt.second;
     line2 = "УСТРОЙСТВ ВСЕГО " + numDev;
     line3 = "\" \" НА СВЯЗИ\"       \"" + onDev  + "\" \"";
     line4 = " ОТКЛЮЧЕНО\"     \" " + offDev+ "\"     \"";
+std::cout <<"lcd: "<<lcdbuz + line1  <<std::endl;
     printToLcd (lcdbuz + line1 + line2 + line3 + line4, _port);
 }
 

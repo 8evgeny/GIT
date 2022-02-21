@@ -17,7 +17,7 @@ public:
     void display1_(std::string version, std::string serial);
     void dutyFrame(std::pair<std::string, std::string> dt,
                   std::string numDev, std::string onDev,
-                  std::string offDev);
+                  std::string offDev, bool buzzer);
     void diagnosticFrame(std::vector<std::string>& noPingDevices, std::vector<std::string>& noPingNumbersDevices);
     void noConnectFrame(std::string num1, std::string num2, std::string num3,
                                  std::string ip1, std::string ip2, std::string ip3);
