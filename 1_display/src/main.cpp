@@ -64,7 +64,11 @@ int main()
     std::vector<std::string> noPingNumbersDevices;
     bool firstInvoke = true;
     //временная отметка 1 раз в минуту зуммер
-    system_clock::time_point currTime1 = system_clock::now() ;
+    system_clock::time_point BuzzerOneInMinute = system_clock::now();
+    //временная отметка включен красный светодиод
+    lcd->setRedLedTimeOn(system_clock::now());
+    //временная отметка выключен красный светодиод
+    lcd->setRedLedTimeOff(system_clock::now());
 
     while(1)
     {
@@ -102,7 +106,6 @@ int main()
             интервалом 0,5 с) */
         if (on == 0)
         {
-            lcd->setLcdYellow(false);
             lcd->setLcdRed(true);
             bool exit = false;
 
@@ -124,8 +127,6 @@ int main()
 
         if (off !=0)
         {// есть оффлайн
-            lcd->setLcdYellow(true);
-            lcd->setLcdRed(false);
 
             if (firstInvoke)
             {
@@ -151,12 +152,12 @@ int main()
             }//end first invoke
             else
             {//не первый вызов, есть оффлайн
-                auto currTime2 = system_clock::now();
-                auto interval = (currTime2 - currTime1);
+                auto currTime = system_clock::now();
+                auto interval = (currTime - BuzzerOneInMinute);
                 auto int_s =  interval.count()/1000000000;
                 if (int_s >= 60 )
                 {
-                    currTime1 = currTime2;
+                    BuzzerOneInMinute = currTime;
                     //один сигнал раз в нинуту
                     lcd->setBuzzer(true);
                     lcd->dutyFrame(datetime(), numDevAll, numDevOnline, numDevOffline);
@@ -165,6 +166,7 @@ int main()
                 }
                 for (int i = 0; i < 4 ; ++i)
                 {//для смены времени
+
                     lcd->dutyFrame(datetime(), numDevAll, numDevOnline, numDevOffline);
                     lcd->wait(1000);
                 }
@@ -174,9 +176,9 @@ int main()
             lcd->diagnosticFrame(noPingDevices, noPingNumbersDevices);
 
         }// есть оффлайн
+
         else
         {// все онлайн
-            lcd->setLcdYellow(false);
             lcd->setLcdRed(false);
 
             if (firstInvoke)
