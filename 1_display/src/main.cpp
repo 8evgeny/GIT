@@ -63,12 +63,15 @@ int main()
     std::vector<std::string> noPingDevices;
     std::vector<std::string> noPingNumbersDevices;
     bool firstInvoke = true;
-    //временная отметка 1 раз в минуту зуммер
-    system_clock::time_point BuzzerOneInMinute = system_clock::now();
+
     //временная отметка включен красный светодиод
     lcd->setRedLedTimeOn(system_clock::now());
     //временная отметка выключен красный светодиод
     lcd->setRedLedTimeOff(system_clock::now());
+    //временная отметка включен зуммер
+    lcd->setBuzzerTimeOn(system_clock::now());
+    //временная отметка выключен зуммер
+    lcd->setBuzzerTimeOff(system_clock::now());
 
     while(1)
     {
@@ -117,8 +120,10 @@ int main()
                     if (k == "")
                         exit = true;
                 }
-                lcd->dutyFrame(datetime(), numDevAll, numDevOnline, numDevOffline, true);
+                lcd->setBuzzer(true);
+                lcd->dutyFrame(datetime(), numDevAll, numDevOnline, numDevOffline, false);
                 lcd->wait(500);
+                lcd->setBuzzer(false);
                 lcd->dutyFrame(datetime(), numDevAll, numDevOnline, numDevOffline, false);
                 lcd->wait(500);
             }
@@ -133,8 +138,10 @@ int main()
                 //четыре зумма по 0,5с
                 for (int i = 0; i < 4; ++i)
                 {
-                    lcd->dutyFrame(datetime(), numDevAll, numDevOnline, numDevOffline, true);
+                    lcd->setBuzzer(true);
+                    lcd->dutyFrame(datetime(), numDevAll, numDevOnline, numDevOffline, false);
                     lcd->wait(500);
+                    lcd->setBuzzer(false);
                     lcd->dutyFrame(datetime(), numDevAll, numDevOnline, numDevOffline, false);
                     lcd->wait(500);
                 }
@@ -150,21 +157,11 @@ int main()
 
             else
             {//не первый вызов, есть оффлайн
-                auto currTime = system_clock::now();
-                auto interval = (currTime - BuzzerOneInMinute);
-                auto int_s =  interval.count()/100000000;
-                if (int_s >= 60 )
-                {
-std::cout <<"Buzzer "<<std::endl;
-                    BuzzerOneInMinute = currTime;
-                    //один сигнал раз в нинуту
-                    lcd->dutyFrame(datetime(), numDevAll, numDevOnline, numDevOffline, true);
-                    lcd->wait(3000);
-                }
+
                 for (int i = 0; i < 4 ; ++i)
                 {//для смены времени
-
-                    lcd->dutyFrame(datetime(), numDevAll, numDevOnline, numDevOffline, false);
+                    //Вызов зуммера возможен только здась
+                    lcd->dutyFrame(datetime(), numDevAll, numDevOnline, numDevOffline, true);
                     lcd->wait(1000);
                 }
                 //Идем к экрану диагностики
@@ -184,8 +181,10 @@ std::cout <<"Buzzer "<<std::endl;
                 //три зумма по 0,5с
                 for (int i = 0; i < 3; ++i)
                 {
-                    lcd->dutyFrame(datetime(), numDevAll, numDevOnline, numDevOffline, true);
+                    lcd->setBuzzer(true);
+                    lcd->dutyFrame(datetime(), numDevAll, numDevOnline, numDevOffline, false);
                     lcd->wait(500);
+                    lcd->setBuzzer(false);
                     lcd->dutyFrame(datetime(), numDevAll, numDevOnline, numDevOffline, false);
                     lcd->wait(500);
                 }

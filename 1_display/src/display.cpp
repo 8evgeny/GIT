@@ -19,7 +19,7 @@ Display::~Display()
 void Display::printToLcd(std::string str, std::string port)
 {
     std::string cmd = "echo " + str + ">" + port;
-std::cout <<datetime().second<<": "<<cmd <<std::endl;
+//std::cout <<datetime().second<<": "<<cmd <<std::endl;
     system(cmd.c_str());
 }
 
@@ -47,20 +47,13 @@ void Display::display1_(std::string version, std::string serial)
 
 void Display::dutyFrame(std::pair<std::string, std::string> dt,
               std::string numDev, std::string onDev,
-              std::string offDev, bool buzzer)
+              std::string offDev, bool CheckStateBuzzer)
 {
+    if(CheckStateBuzzer) changeStateBuzzer();
+
     if (offDev != "000" && onDev != "000")
     {
         changeStateRedLed();
-    }
-
-    if (buzzer)
-    {
-        setBuzzer(true);
-    }
-    else
-    {
-        setBuzzer(false);
     }
 
     std::string lcdbuz,line1,line2,line3,line4;
@@ -77,6 +70,7 @@ void Display::noConnectFrame(std::string num1, std::string num2, std::string num
                              std::string ip1, std::string ip2, std::string ip3)
 {
     changeStateRedLed();
+    changeStateBuzzer();
     std::string lcdbuz,line1,line2,line3,line4;
     lcdbuz = _lcdYellow + _lcdRed + _buzzer;
     line1 = "\"     НЕТ СВЯЗИ      \"";
@@ -85,33 +79,6 @@ void Display::noConnectFrame(std::string num1, std::string num2, std::string num
     line4 = num3 + "\" \"" + ip3;
     printToLcd (lcdbuz + line1 + line2 + line3 + line4, _port);
 }
-
-void Display::changeStateRedLed()
-{
-    if (!getLcdRedState())
-    {// красный выключен - включаем его если с момента выключения прошла секунда
-        auto currTimeLedRed = system_clock::now();
-        auto interval = (currTimeLedRed - getRedLedOff());
-        auto int_s =  interval.count()/1000000000;
-        if (int_s >= 1 )
-        {
-            setRedLedTimeOn(system_clock::now());
-            setLcdRed(true);
-        }
-    }
-    if (getLcdRedState())
-    {// красный включен - проверяем если прошла 1с - выключаем его
-        auto currTimeLedRed = system_clock::now();
-        auto interval = (currTimeLedRed - getRedLedOn());
-        auto int_s =  interval.count()/1000000000;
-        if (int_s >= 1 )
-        {
-            setRedLedTimeOff(system_clock::now());
-            setLcdRed(false);
-        }
-    }
-}
-
 
 void Display::diagnosticFrame(std::vector<std::string>& noPingDevices,
                               std::vector<std::string>& noPingNumbersDevices)
@@ -209,8 +176,6 @@ void Display::diagnosticFrame(std::vector<std::string>& noPingDevices,
             }
         }
     }// end switch (noPingDevices.size())
-
-
 }
 
 void Display::wait(int ms)
@@ -263,23 +228,103 @@ bool Display::getLcdRedState()
     return true;
 }
 
-system_clock::time_point Display::getRedLedOn() const
+system_clock::time_point Display::getRedLedTimeOn() const
 {
-    return _redLedOn;
+    return _redLedTimeOn;
 }
 
-void Display::setRedLedTimeOn(system_clock::time_point newRedLedOn)
+void Display::setRedLedTimeOn(system_clock::time_point newRedLedTimeOn)
 {
-    _redLedOn = newRedLedOn;
+    _redLedTimeOn = newRedLedTimeOn;
 }
 
-system_clock::time_point Display::getRedLedOff() const
+system_clock::time_point Display::getRedLedTimeOff() const
 {
-    return _redLedOff;
+    return _redLedTimeOff;
 }
 
-void Display::setRedLedTimeOff(system_clock::time_point newRedLedOff)
+void Display::setRedLedTimeOff(system_clock::time_point newRedLedTimeOff)
 {
-    _redLedOff = newRedLedOff;
+    _redLedTimeOff = newRedLedTimeOff;
 }
 
+void Display::changeStateRedLed()
+{
+    if (!getLcdRedState())
+    {// красный выключен - включаем его если с момента выключения прошла секунда
+        auto currTimeLedRed = system_clock::now();
+        auto interval = (currTimeLedRed - getRedLedTimeOff());
+        auto int_s =  interval.count()/1000000000;
+        if (int_s >= 1 )
+        {
+            setRedLedTimeOn(system_clock::now());
+            setLcdRed(true);
+        }
+    }
+    if (getLcdRedState())
+    {// красный включен - проверяем если прошла 1с - выключаем его
+        auto currTimeLedRed = system_clock::now();
+        auto interval = (currTimeLedRed - getRedLedTimeOn());
+        auto int_s =  interval.count()/1000000000;
+        if (int_s >= 1 )
+        {
+            setRedLedTimeOff(system_clock::now());
+            setLcdRed(false);
+        }
+    }
+}
+
+bool Display::getBuzzerState()
+{
+    if (_buzzer != "1")
+    {
+        return false;
+    }
+    return true;
+}
+
+system_clock::time_point Display::getBuzzerTimeOn() const
+{
+    return _buzzerTimeOn;
+}
+
+void Display::setBuzzerTimeOn(system_clock::time_point newBuzzerTimeOn)
+{
+    _buzzerTimeOn = newBuzzerTimeOn;
+}
+
+system_clock::time_point Display::getBuzzerTimeOff() const
+{
+    return _buzzerTimeOff;
+}
+
+void Display::setBuzzerTimeOff(system_clock::time_point newBuzzerTimeOff)
+{
+    _buzzerTimeOff = newBuzzerTimeOff;
+}
+
+void Display::changeStateBuzzer()
+{
+    if (!getBuzzerState())
+    {// зуммер выключен - включаем его если с момента выключения прошла минута
+        auto currTimeBuzzer = system_clock::now();
+        auto interval = (currTimeBuzzer - getBuzzerTimeOff());
+        auto int_s =  interval.count()/1000000000;
+        if (int_s >= 60 )
+        {
+            setBuzzerTimeOn(system_clock::now());
+            setBuzzer(true);
+        }
+    }
+    if (getBuzzerState())
+    {// зуммер включен - выключаем его если с момента включения прошло 1000 мс
+        auto currTimeBuzzer = system_clock::now();
+        auto interval = (currTimeBuzzer - getBuzzerTimeOn());
+        auto int_ms =  interval.count()/1000000;
+        if (int_ms >= 1000 )
+        {
+            setBuzzerTimeOff(system_clock::now());
+            setBuzzer(false);
+        }
+    }
+}
