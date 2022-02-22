@@ -43,7 +43,7 @@ int main()
     lcd->setLcdRed(false);
 
     for (int i=0; i < 2; ++i)
-    {
+    {//Два коротких зума
         lcd->setBuzzer(true);
         lcd->display1(version, serial);
         lcd->wait(500);
@@ -53,7 +53,7 @@ int main()
     }
 
     for (int i=0; i<4;++i)
-    {
+    {//Мигает надпись "Инициализация..."
         lcd->display1(version, serial);
         lcd->wait(1000);
         lcd->display1_(version, serial);
@@ -106,6 +106,7 @@ int main()
             интервалом 0,5 с) */
         if (on == 0)
         {
+   std::cout <<"No Online"<<std::endl;
             lcd->setLcdRed(true);
             bool exit = false;
 
@@ -154,12 +155,11 @@ int main()
                 auto int_s =  interval.count()/100000000;
                 if (int_s >= 60 )
                 {
-   std::cout <<"Buzzer "<<std::endl;
+std::cout <<"Buzzer "<<std::endl;
                     BuzzerOneInMinute = currTime;
                     //один сигнал раз в нинуту
                     lcd->dutyFrame(datetime(), numDevAll, numDevOnline, numDevOffline, true);
-                    lcd->wait(1000);
-                    lcd->dutyFrame(datetime(), numDevAll, numDevOnline, numDevOffline, false);
+                    lcd->wait(3000);
                 }
                 for (int i = 0; i < 4 ; ++i)
                 {//для смены времени

@@ -4,6 +4,7 @@
 #include "display.h"
 #include <iostream>
 #include <algorithm>
+#include "main.h"
 
 Display::Display()
 {
@@ -18,6 +19,7 @@ Display::~Display()
 void Display::printToLcd(std::string str, std::string port)
 {
     std::string cmd = "echo " + str + ">" + port;
+std::cout <<datetime().second<<": "<<cmd <<std::endl;
     system(cmd.c_str());
 }
 
@@ -54,7 +56,6 @@ void Display::dutyFrame(std::pair<std::string, std::string> dt,
 
     if (buzzer)
     {
-std::cout <<"Buzzer_true"<< std::endl;
         setBuzzer(true);
     }
     else
@@ -69,7 +70,6 @@ std::cout <<"Buzzer_true"<< std::endl;
     line2 = "УСТРОЙСТВ ВСЕГО " + numDev;
     line3 = "\" \" НА СВЯЗИ\"       \"" + onDev  + "\" \"";
     line4 = " ОТКЛЮЧЕНО\"     \" " + offDev+ "\"     \"";
-std::cout <<"lcd: "<<lcdbuz + line1  <<std::endl;
     printToLcd (lcdbuz + line1 + line2 + line3 + line4, _port);
 }
 

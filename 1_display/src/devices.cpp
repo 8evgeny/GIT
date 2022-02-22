@@ -80,7 +80,7 @@ void Devices::pingDevice(std::string i, std::string& result)
         if (strstr(sysCdm("ping -c 1 -f -i 1 -n " + i + " "
                           "| grep \" 0% packet loss\"").c_str(), "0% packet loss"))
         {
-            std::cout <<"ping " <<i <<" ok"<<std::endl;
+//std::cout <<"ping " <<i <<" ok"<<std::endl;
             result = "";
         }
         else
