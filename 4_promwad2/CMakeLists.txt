@@ -1,0 +1,257 @@
+cmake_minimum_required(VERSION 3.15)
+set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
+
+# Set ARM compiler
+set(TOOLS_PATH /home/evg/toolchain/gcc-arm-none-eabi-new)
+set(CMAKE_C_COMPILER ${TOOLS_PATH}/bin/arm-none-eabi-gcc)
+set(CMAKE_CXX_COMPILER ${TOOLS_PATH}/bin/arm-none-eabi-g++)
+set(CMAKE_CXX_LINKER_LAUNCHER ${TOOLS_PATH}/bin/arm-none-eabi-g++)
+set(CMAKE_OBJCOPY ${TOOLS_PATH}/bin/arm-none-eabi-objcopy)
+
+project(4_promwad2 C CXX ASM)
+
+#set(CMAKE_BUILD_TYPE debug)
+#set(CMAKE_BUILD_TYPE release)
+
+set (DRV_CMSYS "Drivers/CMSIS_STM32F7xx")
+set (DRV_CMSYS_CORE ${DRV_CMSYS}"/Core")
+set (DRV_CMSYS_DSP ${DRV_CMSYS}"/DSP")
+set (DRV_CMSYS_Device ${DRV_CMSYS}"/Device/ST/STM32F7xx")
+set (DRV_HAL "Drivers/STM32F7xx_HAL_Driver")
+set (Third_Party "Middlewares/Third_Party")
+set (LwIP ${Third_Party}"/LwIP")
+
+include_directories(
+    ${DRV_CMSYS_CORE}/Include
+    ${DRV_CMSYS_DSP}/Include
+    ${DRV_CMSYS_Device}/Include
+    ${DRV_CMSYS}/Include
+    ${DRV_HAL}/Inc
+    ${DRV_HAL}/Inc/Legacy
+    Inc
+    startup
+    )
+
+set (SRC "Src/")
+set (AUDIO ${SRC}"AUDIO")
+set (BSP ${SRC}"BSP")
+set (Bootloader ${SRC}"Bootloader")
+set (CAN_Command ${SRC}"CAN_Command")
+set (CAN_STM32Fxx ${SRC}"CAN_STM32Fxx")
+set (CRC16_CCITT ${SRC}"CRC16_CCITT")
+set (Call_control ${SRC}"Call_control")
+set (Call_control_for_SC2_board ${SRC}"Call_control_for_SC2_board")
+set (EEPROM ${SRC}"EEPROM")
+set (GPIO_SC2_BOARD ${SRC}"GPIO_SC2_BOARD")
+set (GPIO_STM32F7xx ${SRC}"GPIO_STM32F7xx")
+set (JSON ${SRC}"JSON")
+set (RS232 ${SRC}"RS232")
+set (RTC ${SRC}"RTC")
+set (RTP ${SRC}"RTP")
+set (SNTP ${SRC}"SNTP")
+set (SRAM ${SRC}"SRAM")
+set (Src_Bootloader ${SRC}"Src_Bootloader")
+set (TRNG ${SRC}"TRNG")
+set (Tests ${SRC}"Tests")
+set (UDP_JSON ${SRC}"UDP_JSON")
+set (UpdateMechanism ${SRC}"UpdateMechanism")
+set (WDT ${SRC}"WDT")
+set (c-ringbuf ${SRC}"c-ringbuf")
+set (flash ${SRC}"flash")
+set (uid ${SRC}"uid")
+
+include_directories(
+    ${AUDIO}
+    ${BSP}
+    ${Bootloader}
+    ${CAN_Command}
+    ${CAN_STM32Fxx}
+    ${CRC16_CCITT}
+    ${Call_control}
+    ${Call_control_for_SC2_board}
+    ${EEPROM}
+    ${GPIO_SC2_BOARD}
+    ${GPIO_STM32F7xx}
+    ${JSON}
+    ${RTC}
+    ${RTP}
+    ${SNTP}
+    ${SRAM}
+    ${Src_Bootloader}
+    ${TRNG}
+    ${Tests}
+    ${UDP_JSON}
+    ${UpdateMechanism}
+    ${WDT}
+    ${c-ringbuf}
+    ${flash}
+    ${uid}
+    )
+
+
+#file (GLOB CORE_SOURCES
+#    Core/Src/*.c
+#    Drivers/BSP/Components/dp83848/dp83848.c
+#    LWIP/Target/ethernetif.c
+#    )
+#add_library(CORE ${CORE_SOURCES} )
+
+#set (STARTUP_SOURCES ${patchSRC}/../Startup/startup_stm32h753iitx.s )
+#add_library(STARTUP ${STARTUP_SOURCES} )
+
+#include_directories( ${patchDRV}/BSP/Components/lan8742 )
+#set (BSP_SOURCES ${patchDRV}/BSP/Components/lan8742/lan8742.c )
+#add_library(BSP ${BSP_SOURCES} )
+
+#include_directories(
+#    ${patchDRV}/STM32H7xx_HAL_Driver/Inc
+#    ${patchDRV}/STM32H7xx_HAL_Driver/Inc/Legacy
+#    )
+#file (GLOB HAL_SRC ${patchHAL_SRC}/*)
+#add_library(STM32H7xx_HAL_Driver ${HAL_SRC})
+
+#include_directories(
+#    LWIP/App
+#    LWIP/Target
+#    LWIP
+#    )
+#set (LWIP_SOURCES
+#    LWIP/App/lwip.c
+#    LWIP/Target/ethernetif.c
+#    LWIP/ping.c
+#    )
+#add_library(LWIP ${LWIP_SOURCES} )
+
+#include_directories(
+#    Middlewares/Third_Party/LwIP/system/arch
+#    Middlewares/Third_Party/LwIP/system
+#    Middlewares/Third_Party/LwIP/src/include/netif
+#    Middlewares/Third_Party/LwIP/src/include/netif/ppp
+#    Middlewares/Third_Party/LwIP/src/include
+#    Middlewares/Third_Party/LwIP/src/include/lwip
+#    Middlewares/Third_Party/LwIP/src/include/lwip/apps
+#    Middlewares/Third_Party/LwIP/src/include/lwip/priv
+#    Middlewares/Third_Party/LwIP/src/include/lwip/prot
+#    Middlewares/Third_Party/LwIP/src/include/compat/posix
+#    Middlewares/Third_Party/LwIP/src/include/compat/arpa
+#    Middlewares/Third_Party/LwIP/src/include/compat/net
+#    Middlewares/Third_Party/LwIP/src/include/compat/sys
+#    )
+#file (GLOB Third_Party_SRC
+#    Middlewares/Third_Party/LwIP/src/api/*
+#    Middlewares/Third_Party/LwIP/src/apps/mqtt/mqtt.c
+#    Middlewares/Third_Party/LwIP/src/core/*
+#    Middlewares/Third_Party/LwIP/src/core/ipv4/*
+#    Middlewares/Third_Party/LwIP/src/netif/*
+#    Middlewares/Third_Party/LwIP/src/netif/ppp/*
+#    )
+#add_library(Middlewares
+#    ${Third_Party_SRC}
+#    )
+
+
+
+
+file (GLOB SOURCES
+    ${AUDIO}/*.cpp
+    ${BSP}/*.c
+    ${Bootloader}/*.cpp
+    ${CAN_Command}/*.cpp
+    ${CAN_STM32Fxx}/*.cpp
+    ${CRC16_CCITT}/*.cpp
+    ${Call_control}/*.cpp
+    ${Call_control_for_SC2_board}/*.cpp
+    ${EEPROM}/*.cpp
+    ${EEPROM}/*.c
+    ${GPIO_SC2_BOARD}/*.cpp
+    ${GPIO_STM32F7xx}/*.cpp
+    ${JSON}/*.cpp
+    ${RS232}/*.cpp
+    ${RS232}/*.c
+    ${RTC}/*.cpp
+    ${RTP}/*.cpp
+    ${SNTP}/*.cpp
+    ${SRAM}/*.cpp
+    ${Src_Bootloader}/*.cpp
+    ${Src_Bootloader}/*.c
+    ${TRNG}/*.cpp
+    ${Tests}/*.cpp
+    ${UDP_JSON}/*.cpp
+    ${UpdateMechanism}/*.cpp
+    ${WDT}/*.cpp
+    ${flash}/*.cpp
+    ${uid}/*.cpp
+    ${uid}/*.c
+    STM32F746NGHx_FLASH.ld
+    )
+
+
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}\
+    -mcpu=cortex-m7 \
+    -std=gnu11 \
+    -DUSE_HAL_DRIVER \
+    -DSTM32H753xx \
+    -Os \
+    -ffunction-sections \
+    -fdata-sections \
+    -Wall \
+    -mno-unaligned-access \
+    -fstack-usage \
+    -MMD \
+    -MP \
+    -mfpu=fpv5-d16 \
+    -mfloat-abi=hard \
+    -mthumb \
+    -Xlinker -Map=${PROJECT_NAME}.map \
+    ")
+
+
+add_executable(${PROJECT_NAME}.elf
+    ${SOURCES}
+    )
+
+#set_target_properties(${PROJECT_NAME}.elf PROPERTIES LINKER_LANGUAGE C)
+set_target_properties(${PROJECT_NAME}.elf PROPERTIES LINKER_LANGUAGE CXX)
+
+set(LINKER_SCRIPT_FLASH "${CMAKE_SOURCE_DIR}/STM32F746NGHx_FLASH.ld")
+
+set(LINKER_FLAGS "SHELL: \
+    -T${LINKER_SCRIPT_FLASH} \
+    -mcpu=cortex-m7 \
+    --specs=nosys.specs \
+    -Wl,--gc-sections \
+    -static \
+    --specs=nano.specs \
+    -mfpu=fpv5-d16 \
+    -mfloat-abi=hard \
+    -mthumb
+    -Wl,--start-group \
+    -lc \
+    -lm \
+    -Wl,--end-group \
+    ")
+
+target_link_options(${PROJECT_NAME}.elf PRIVATE ${LINKER_FLAGS})
+
+
+#target_link_libraries(${PROJECT_NAME}.elf PUBLIC
+#    CORE
+#    STARTUP
+#    BSP
+#    STM32H7xx_HAL_Driver
+#    LWIP
+#    Middlewares
+#    )
+
+set(HEX_FILE ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.hex)
+set(BIN_FILE ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.bin)
+
+add_custom_command(TARGET ${PROJECT_NAME}.elf POST_BUILD
+    COMMAND ${CMAKE_OBJCOPY} -O ihex $<TARGET_FILE:${PROJECT_NAME}.elf> ${HEX_FILE}
+    COMMENT "Building ${HEX_FILE} ")
+
+add_custom_command(TARGET ${PROJECT_NAME}.elf POST_BUILD
+    COMMAND ${CMAKE_OBJCOPY} -O binary $<TARGET_FILE:${PROJECT_NAME}.elf> ${BIN_FILE}
+    COMMENT "Building ${BIN_FILE} ")
+
+
