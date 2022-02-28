@@ -76,9 +76,9 @@ const sPIN_DESC PinNamesOut[]=
     #endif
 
     #ifdef SL_1
-    {"UPR1", GPIOC, UPR_1},
-    {"UPR2", GPIOC, UPR_2},
-    {"UPR3", GPIOC, UPR_3},
+    {"UPR1", GPIOG, UPR_1},
+    {"UPR2", GPIOG, UPR_2},
+    {"UPR3", GPIOG, UPR_3},
     {"UPR4", GPIOG, UPR_4},
     {"UPR5", GPIOG, UPR_5},
     {"UPR6", GPIOG, UPR_6},
