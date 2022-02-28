@@ -409,6 +409,7 @@ int main(void)
 		  }
 	  }
 
+    #if defined SC_2 || defined SC_4
 	  btn_idx = pinio_getstate_DET_PHONE();
       if (btn_idx!=DET_STATE_IDLE)
       {
@@ -428,7 +429,8 @@ int main(void)
                pinio_set_UPR_SP(UPR_STATE_ON);
                #endif
           }
-	  	  }
+      }
+   #endif
 
 	  	btn_idx = pinio_getstate_DET_MIC();
         if (btn_idx!=DET_STATE_IDLE)
@@ -991,11 +993,13 @@ static void MX_GPIO_Init(void)
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(TEST_LED_GPIO_Port, TEST_LED_Pin, GPIO_PIN_RESET);
 
+#if defined SC_2 || defined SC_4
   /*Configure GPIO pins : DET_48V_Pin UPR_PHONE_Pin UPR_MIC2_Pin */
   GPIO_InitStruct.Pin = DET_48V_Pin|UPR_PHONE_Pin|UPR_MIC2_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+#endif
 
   /*Configure GPIO pins : POW_DOWN_Pin TEST_LED_Pin */
   GPIO_InitStruct.Pin = POW_DOWN_Pin|TEST_LED_Pin;

@@ -113,6 +113,8 @@ uint8_t pinio_getval_DET_48V()
 }
 
 // only SC4 rev1, SC4 rev2 = DET_MIC
+
+#if defined SC_2 || defined SC_4
 uint8_t pinio_getstate_DET_PHONE()
 {
   uint8_t val = HAL_GPIO_ReadPin(UPR_PHONE_GPIO_Port, UPR_PHONE_Pin) ^ 1;
@@ -123,12 +125,15 @@ uint8_t pinio_getstate_DET_PHONE()
   }
   else return DET_STATE_IDLE;
 }
+#endif
 
+#if defined SC_2 || defined SC_4
 // only SC4 rev1, SC4 rev2 = DET_MIC
 uint8_t pinio_getval_DET_PHONE()
 {
   return HAL_GPIO_ReadPin(UPR_PHONE_GPIO_Port, UPR_PHONE_Pin) ^ 1;
 }
+#endif
 
 // SC4 rev1 from port, SC4 rev2 from AIC
 uint8_t pinio_getstate_DET_MIC()
