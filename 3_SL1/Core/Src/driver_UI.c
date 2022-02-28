@@ -670,42 +670,42 @@ void ui_updateBtn() {
       BTN_state[BTN_PEDAL] = BTN_STATE_TOGGLE;
   }
 
-  val = HAL_GPIO_ReadPin(GPIOG, K1) ^ 1;
+  val = HAL_GPIO_ReadPin(GPIOG, K_1) ^ 1;
   val = val==GPIO_PIN_SET?GPIO_PIN_RESET:GPIO_PIN_SET;
   if (BTN_val[BTN_K1] != val)
   {
       BTN_val[BTN_K1] = val;
       BTN_state[BTN_K1] = BTN_STATE_TOGGLE;
   }
-  val = HAL_GPIO_ReadPin(GPIOG, K2) ^ 1;
+  val = HAL_GPIO_ReadPin(GPIOG, K_2) ^ 1;
   val = val==GPIO_PIN_SET?GPIO_PIN_RESET:GPIO_PIN_SET;
   if (BTN_val[BTN_K2] != val)
   {
       BTN_val[BTN_K2] = val;
       BTN_state[BTN_K2] = BTN_STATE_TOGGLE;
   }
-  val = HAL_GPIO_ReadPin(GPIOG, K3) ^ 1;
+  val = HAL_GPIO_ReadPin(GPIOG, K_3) ^ 1;
   val = val==GPIO_PIN_SET?GPIO_PIN_RESET:GPIO_PIN_SET;
   if (BTN_val[BTN_K3] != val)
   {
       BTN_val[BTN_K3] = val;
       BTN_state[BTN_K3] = BTN_STATE_TOGGLE;
   }
-  val = HAL_GPIO_ReadPin(GPIOG, K4) ^ 1;
+  val = HAL_GPIO_ReadPin(GPIOG, K_4) ^ 1;
   val = val==GPIO_PIN_SET?GPIO_PIN_RESET:GPIO_PIN_SET;
   if (BTN_val[BTN_K4] != val)
   {
       BTN_val[BTN_K4] = val;
       BTN_state[BTN_K4] = BTN_STATE_TOGGLE;
   }
-  val = HAL_GPIO_ReadPin(GPIOG, K5) ^ 1;
+  val = HAL_GPIO_ReadPin(GPIOG, K_5) ^ 1;
   val = val==GPIO_PIN_SET?GPIO_PIN_RESET:GPIO_PIN_SET;
   if (BTN_val[BTN_K5] != val)
   {
       BTN_val[BTN_K5] = val;
       BTN_state[BTN_K5] = BTN_STATE_TOGGLE;
   }
-  val = HAL_GPIO_ReadPin(GPIOG, K6) ^ 1;
+  val = HAL_GPIO_ReadPin(GPIOG, K_6) ^ 1;
   val = val==GPIO_PIN_SET?GPIO_PIN_RESET:GPIO_PIN_SET;
   if (BTN_val[BTN_K6] != val)
   {

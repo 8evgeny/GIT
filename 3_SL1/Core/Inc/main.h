@@ -111,18 +111,33 @@ void Error_Handler(void);
 #define TEST_BUT_GPIO_Port GPIOB
 #define TEST_LED_Pin GPIO_PIN_9
 #define TEST_LED_GPIO_Port GPIOB
+
+#ifdef SC_2
 #define LED1 GPIO_PIN_10
 #define LED2 GPIO_PIN_11
 #define LED3 GPIO_PIN_12
 #define LED4 GPIO_PIN_6
 #define LED5 GPIO_PIN_7
 #define LED6 GPIO_PIN_8
-#define K1 GPIO_PIN_9
-#define K2 GPIO_PIN_10
-#define K3 GPIO_PIN_11
-#define K4 GPIO_PIN_12
-#define K5 GPIO_PIN_13
-#define K6 GPIO_PIN_14
+#define K_1 GPIO_PIN_9
+#define K_2 GPIO_PIN_10
+#define K_3 GPIO_PIN_11
+#define K_4 GPIO_PIN_12
+#define K_5 GPIO_PIN_13
+#define K_6 GPIO_PIN_14
+#endif
+
+#ifdef SL_1
+#define UPR_1 GPIO_PIN_7
+#define UPR_2 GPIO_PIN_8
+#define UPR_3 GPIO_PIN_9
+#define UPR_4 GPIO_PIN_10
+#define UPR_5 GPIO_PIN_11
+#define UPR_6 GPIO_PIN_12
+#define UPR_7 GPIO_PIN_13
+#define UPR_8 GPIO_PIN_14
+#endif
+
 #define I2C3_INT GPIO_PIN_8
 #define I2C3_INT_PORT GPIOC
 #define TANG_UPR_Port GPIOA

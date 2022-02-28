@@ -74,6 +74,19 @@ const sPIN_DESC PinNamesOut[]=
     {"L5", GPIOG, LED5},
     {"L6", GPIOG, LED6},
     #endif
+
+    #ifdef SL_1
+    {"UPR1", GPIOC, UPR_1},
+    {"UPR2", GPIOC, UPR_2},
+    {"UPR3", GPIOC, UPR_3},
+    {"UPR4", GPIOG, UPR_4},
+    {"UPR5", GPIOG, UPR_5},
+    {"UPR6", GPIOG, UPR_6},
+    {"UPR7", GPIOG, UPR_7},
+    {"UPR8", GPIOG, UPR_8},
+    #endif
+
+
     {"TEST_LED", TEST_LED_GPIO_Port, TEST_LED_Pin}
 };
 
@@ -95,12 +108,12 @@ const sPIN_DESC PinNamesIn[]=
     {"TANG_UPR", TANG_UPR_Port, TANG_UPR_Pin},
     {"PEDAL_UPR", PEDAL_UPR_Port, PEDAL_UPR_Pin},
     {"I2C3_INT", I2C3_INT_PORT, I2C3_INT},
-    {"K1", GPIOG, K1},
-    {"K2", GPIOG, K2},
-    {"K3", GPIOG, K3},
-    {"K4", GPIOG, K4},
-    {"K5", GPIOG, K5},
-    {"K6", GPIOG, K6},
+    {"K1", GPIOG, K_1},
+    {"K2", GPIOG, K_2},
+    {"K3", GPIOG, K_3},
+    {"K4", GPIOG, K_4},
+    {"K5", GPIOG, K_5},
+    {"K6", GPIOG, K_6},
     #endif
 
     {"DET_48V", DET_48V_GPIO_Port, DET_48V_Pin},
