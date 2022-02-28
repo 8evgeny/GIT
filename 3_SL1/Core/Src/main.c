@@ -952,37 +952,27 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOG_CLK_ENABLE();
   __HAL_RCC_GPIOD_CLK_ENABLE();
 
-  /*Configure GPIO pin Output Level */
-  #ifdef SC_4
-  HAL_GPIO_WritePin(GPIOA, UPR1_SP_Pin|MKVKL_UPR_Pin, GPIO_PIN_RESET);
-  #endif
-
-  /*Configure GPIO pin Output Level */
-  #ifdef SC_4
-  HAL_GPIO_WritePin(GPIOA, UPR2_FAN_Pin|RELE_UPR_Pin, GPIO_PIN_SET);
-  #endif
-
-  /*Configure GPIO pin Output Level */
-  #ifdef SC_2
-  HAL_GPIO_WritePin(RELE1_UPR_Port, RELE1_UPR_Pin, GPIO_PIN_SET);
-  #endif
-
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(POW_DOWN_GPIO_Port, POW_DOWN_Pin, GPIO_PIN_SET);
 
-  /*Configure GPIO pin Output Level */
   #ifdef SC_4
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOA, UPR1_SP_Pin|MKVKL_UPR_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOA, UPR2_FAN_Pin|RELE_UPR_Pin, GPIO_PIN_SET);
   HAL_GPIO_WritePin(NORMA_UPR_GPIO_Port, NORMA_UPR_Pin, GPIO_PIN_RESET);
   #endif
 
+  #ifdef SC_2
   /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(RELE1_UPR_Port, RELE1_UPR_Pin, GPIO_PIN_SET);
   HAL_GPIO_WritePin(GPIOC, LED1, GPIO_PIN_RESET);
   HAL_GPIO_WritePin(GPIOC, LED2, GPIO_PIN_RESET);
   HAL_GPIO_WritePin(GPIOC, LED3, GPIO_PIN_RESET);
   HAL_GPIO_WritePin(GPIOG, LED4, GPIO_PIN_RESET);
   HAL_GPIO_WritePin(GPIOG, LED5, GPIO_PIN_RESET);
   HAL_GPIO_WritePin(GPIOG, LED6, GPIO_PIN_RESET);
+  #endif
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(TEST_LED_GPIO_Port, TEST_LED_Pin, GPIO_PIN_RESET);
@@ -1044,7 +1034,7 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
   /*Configure GPIO pins : K1 - K6 */
-  GPIO_InitStruct.Pin = K1|K2|K3|K4|K5|K6;
+  GPIO_InitStruct.Pin = K_1|K_2|K_3|K_4|K_5|K_6;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
