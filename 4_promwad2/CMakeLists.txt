@@ -14,51 +14,64 @@ project(4_promwad2 C CXX ASM)
 #set(CMAKE_BUILD_TYPE release)
 
 set (DRV_CMSYS "Drivers/CMSIS_STM32F7xx")
-set (DRV_CMSYS_CORE ${DRV_CMSYS}"/Core")
-set (DRV_CMSYS_DSP ${DRV_CMSYS}"/DSP")
-set (DRV_CMSYS_Device ${DRV_CMSYS}"/Device/ST/STM32F7xx")
-set (DRV_HAL "Drivers/STM32F7xx_HAL_Driver")
-set (Third_Party "Middlewares/Third_Party")
-set (LwIP ${Third_Party}"/LwIP")
+set (DRV_CMSYS_CORE ${DRV_CMSYS}/Core)
+set (DRV_CMSYS_DSP ${DRV_CMSYS}/DS)
+set (DRV_CMSYS_Device ${DRV_CMSYS}/Device/ST/STM32F7xx)
+set (DRV_HAL Drivers/STM32F7xx_HAL_Driver)
+set (Third_Party Middlewares/Third_Party)
+set (LwIP ${Third_Party}/LwIP)
 
 include_directories(
+#    Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS
+#    Drivers/CMSIS_STM32F7xx/Device/ST/STM32F7xx/Include
+#    Middlewares/Third_Party/FreeRTOS/Source/include
+Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM7_MPU/r0p1
+Middlewares/Third_Party/LwIP/src/include/lwip
     ${DRV_CMSYS_CORE}/Include
     ${DRV_CMSYS_DSP}/Include
     ${DRV_CMSYS_Device}/Include
     ${DRV_CMSYS}/Include
     ${DRV_HAL}/Inc
     ${DRV_HAL}/Inc/Legacy
+    ${Third_Party}/CircularBuffer
+    ${Third_Party}/FreeRTOS/Source/CMSIS_RTOS
+    ${Third_Party}/FreeRTOS/Source/include
+    ${Third_Party}/LwIP/src/include
+    ${Third_Party}/LwIP/system
     Inc
     startup
     )
 
-set (SRC "Src/")
-set (AUDIO ${SRC}"AUDIO")
-set (BSP ${SRC}"BSP")
-set (Bootloader ${SRC}"Bootloader")
-set (CAN_Command ${SRC}"CAN_Command")
-set (CAN_STM32Fxx ${SRC}"CAN_STM32Fxx")
-set (CRC16_CCITT ${SRC}"CRC16_CCITT")
-set (Call_control ${SRC}"Call_control")
-set (Call_control_for_SC2_board ${SRC}"Call_control_for_SC2_board")
-set (EEPROM ${SRC}"EEPROM")
-set (GPIO_SC2_BOARD ${SRC}"GPIO_SC2_BOARD")
-set (GPIO_STM32F7xx ${SRC}"GPIO_STM32F7xx")
-set (JSON ${SRC}"JSON")
-set (RS232 ${SRC}"RS232")
-set (RTC ${SRC}"RTC")
-set (RTP ${SRC}"RTP")
-set (SNTP ${SRC}"SNTP")
-set (SRAM ${SRC}"SRAM")
-set (Src_Bootloader ${SRC}"Src_Bootloader")
-set (TRNG ${SRC}"TRNG")
-set (Tests ${SRC}"Tests")
-set (UDP_JSON ${SRC}"UDP_JSON")
-set (UpdateMechanism ${SRC}"UpdateMechanism")
-set (WDT ${SRC}"WDT")
-set (c-ringbuf ${SRC}"c-ringbuf")
-set (flash ${SRC}"flash")
-set (uid ${SRC}"uid")
+set (SRC ./Src/)
+set (AUDIO ${SRC}AUDIO)
+set (BSP ${SRC}BSP)
+set (Bootloader ${SRC}Bootloader)
+set (CAN_Command ${SRC}CAN_Command)
+set (CAN_STM32Fxx ${SRC}CAN_STM32Fxx)
+set (CRC16_CCITT ${SRC}CRC16_CCITT)
+set (Call_control ${SRC}Call_control)
+set (Call_control_for_SC2_board ${SRC}Call_control_for_SC2_board)
+set (Debug ${SRC}Debug)
+set (EEPROM ${SRC}EEPROM)
+set (GPIO_SC2_BOARD ${SRC}GPIO_SC2_BOARD)
+set (GPIO_STM32F7xx ${SRC}GPIO_STM32F7xx)
+set (JSON ${SRC}JSON)
+set (RS232 ${SRC}RS232)
+set (RTC ${SRC}RTC)
+set (RTP ${SRC}RTP)
+set (SNTP ${SRC}SNTP)
+set (SRAM ${SRC}SRAM)
+set (Src_Bootloader ${SRC}Src_Bootloader)
+set (TRNG ${SRC}TRNG)
+set (Tests ${SRC}Tests)
+set (UDP_JSON ${SRC}UDP_JSON)
+set (UpdateMechanism ${SRC}UpdateMechanism)
+set (WDT ${SRC}WDT)
+set (c-ringbuf ${SRC}c-ringbuf)
+set (flash ${SRC}flash)
+set (uid ${SRC}uid)
+
+message("Audio: " ${AUDIO})
 
 include_directories(
     ${AUDIO}
@@ -69,6 +82,7 @@ include_directories(
     ${CRC16_CCITT}
     ${Call_control}
     ${Call_control_for_SC2_board}
+    ${Debug}
     ${EEPROM}
     ${GPIO_SC2_BOARD}
     ${GPIO_STM32F7xx}

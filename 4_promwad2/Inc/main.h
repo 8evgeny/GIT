@@ -26,6 +26,7 @@
 //#include "stm32756g_eval.h"
 #include "stm32f7xx_hal_rng.h"
 
+#define STM32F745xx
 
 /* Exported types ------------------------------------------------------------*/
 enum {
