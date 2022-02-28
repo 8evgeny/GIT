@@ -702,6 +702,7 @@ void ui_updateBtn() {
 	  BTN_state[BTN_MICDN] = BTN_STATE_TOGGLE;
   }
   #endif
+
   #ifdef SC_2
   val = HAL_GPIO_ReadPin(TANG_UPR_Port, TANG_UPR_Pin) ^ 1;
   val = val==GPIO_PIN_SET?GPIO_PIN_RESET:GPIO_PIN_SET;
@@ -761,6 +762,75 @@ void ui_updateBtn() {
       BTN_state[BTN_K6] = BTN_STATE_TOGGLE;
   }
   #endif
+
+  #ifdef SL_1
+  val = HAL_GPIO_ReadPin(GPIOC, IN_1) ^ 1;
+  val = val==GPIO_PIN_SET?GPIO_PIN_RESET:GPIO_PIN_SET;
+  if (BTN_val[BTN_IN1] != val)
+  {
+      BTN_val[BTN_IN1] = val;
+      BTN_state[BTN_IN1] = BTN_STATE_TOGGLE;
+  }
+
+  val = HAL_GPIO_ReadPin(GPIOC, IN_2) ^ 1;
+  val = val==GPIO_PIN_SET?GPIO_PIN_RESET:GPIO_PIN_SET;
+  if (BTN_val[BTN_IN2] != val)
+  {
+      BTN_val[BTN_IN2] = val;
+      BTN_state[BTN_IN2] = BTN_STATE_TOGGLE;
+  }
+
+  val = HAL_GPIO_ReadPin(GPIOC, IN_3) ^ 1;
+  val = val==GPIO_PIN_SET?GPIO_PIN_RESET:GPIO_PIN_SET;
+  if (BTN_val[BTN_IN3] != val)
+  {
+      BTN_val[BTN_IN3] = val;
+      BTN_state[BTN_IN3] = BTN_STATE_TOGGLE;
+  }
+
+  val = HAL_GPIO_ReadPin(GPIOC, IN_4) ^ 1;
+  val = val==GPIO_PIN_SET?GPIO_PIN_RESET:GPIO_PIN_SET;
+  if (BTN_val[BTN_IN4] != val)
+  {
+      BTN_val[BTN_IN4] = val;
+      BTN_state[BTN_IN4] = BTN_STATE_TOGGLE;
+  }
+
+  val = HAL_GPIO_ReadPin(GPIOA, IN_5) ^ 1;
+  val = val==GPIO_PIN_SET?GPIO_PIN_RESET:GPIO_PIN_SET;
+  if (BTN_val[BTN_IN5] != val)
+  {
+      BTN_val[BTN_IN5] = val;
+      BTN_state[BTN_IN5] = BTN_STATE_TOGGLE;
+  }
+
+  val = HAL_GPIO_ReadPin(GPIOA, IN_6) ^ 1;
+  val = val==GPIO_PIN_SET?GPIO_PIN_RESET:GPIO_PIN_SET;
+  if (BTN_val[BTN_IN6] != val)
+  {
+      BTN_val[BTN_IN6] = val;
+      BTN_state[BTN_IN6] = BTN_STATE_TOGGLE;
+  }
+
+  val = HAL_GPIO_ReadPin(GPIOA, IN_7) ^ 1;
+  val = val==GPIO_PIN_SET?GPIO_PIN_RESET:GPIO_PIN_SET;
+  if (BTN_val[BTN_IN7] != val)
+  {
+      BTN_val[BTN_IN7] = val;
+      BTN_state[BTN_IN7] = BTN_STATE_TOGGLE;
+  }
+
+  val = HAL_GPIO_ReadPin(GPIOA, IN_8) ^ 1;
+  val = val==GPIO_PIN_SET?GPIO_PIN_RESET:GPIO_PIN_SET;
+  if (BTN_val[BTN_IN8] != val)
+  {
+      BTN_val[BTN_IN8] = val;
+      BTN_state[BTN_IN8] = BTN_STATE_TOGGLE;
+  }
+  #endif
+
+
+
 }
 
 void ui_task()

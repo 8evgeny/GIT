@@ -123,11 +123,21 @@
 #define BTN_K4		0x9
 #define BTN_K5		0xB
 #define BTN_K6		0xD
-
 #define BTN_TANG	0xE
 #define BTN_PEDAL	0xF
-
 #endif
+
+#ifdef SL_1
+#define BTN_IN1		0x8
+#define BTN_IN2		0x9
+#define BTN_IN3		0xA
+#define BTN_IN4		0xB
+#define BTN_IN5		0xC
+#define BTN_IN6		0xD
+#define BTN_IN7		0xE
+#define BTN_IN8		0xF
+#endif
+
 
 #define BTN_NONE	0xFF
 ///@}

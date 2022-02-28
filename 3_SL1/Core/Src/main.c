@@ -1110,6 +1110,18 @@ static void MX_GPIO_Init(void)
   #endif
 
   #ifdef SL_1
+  /*Configure GPIO pins : IN_1 - IN_4 */
+  GPIO_InitStruct.Pin = IN_1|IN_2|IN_3|IN_4;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : IN_5 - IN_8 */
+  GPIO_InitStruct.Pin = IN_5|IN_6|IN_7|IN_8;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
   /*Configure GPIO pin : LedUPR_1 */
   GPIO_InitStruct.Pin = LedUPR_1;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;

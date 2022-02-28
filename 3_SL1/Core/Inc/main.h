@@ -34,7 +34,7 @@ extern "C" {
 /* USER CODE BEGIN Includes */
 
 #define SL_1
-#define SC_2
+//#define SC_2
 //#define SC_4
 
 #define WORK_MODE_UDEF		0
@@ -136,6 +136,14 @@ void Error_Handler(void);
 #define LedUPR_6 GPIO_PIN_12
 #define LedUPR_7 GPIO_PIN_13
 #define LedUPR_8 GPIO_PIN_14
+#define IN_1 GPIO_PIN_9
+#define IN_2 GPIO_PIN_8
+#define IN_3 GPIO_PIN_7
+#define IN_4 GPIO_PIN_6
+#define IN_5 GPIO_PIN_12
+#define IN_6 GPIO_PIN_11
+#define IN_7 GPIO_PIN_10
+#define IN_8 GPIO_PIN_9
 #endif
 
 #define I2C3_INT GPIO_PIN_8

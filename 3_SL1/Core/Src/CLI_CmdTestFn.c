@@ -116,6 +116,17 @@ const sPIN_DESC PinNamesIn[]=
     {"K6", GPIOG, K_6},
     #endif
 
+    #ifdef SL_1
+    {"IN1", GPIOC, IN_1},
+    {"IN2", GPIOC, IN_2},
+    {"IN3", GPIOC, IN_3},
+    {"IN4", GPIOC, IN_4},
+    {"IN5", GPIOC, IN_5},
+    {"IN6", GPIOC, IN_6},
+    {"IN7", GPIOC, IN_7},
+    {"IN8", GPIOC, IN_8},
+    #endif
+
     {"DET_48V", DET_48V_GPIO_Port, DET_48V_Pin},
     {"UPR_PHONE", UPR_PHONE_GPIO_Port, UPR_PHONE_Pin}, //пин переопределяется в зависимости от SC_2
     {"UPR_MIC2", UPR_MIC2_GPIO_Port, UPR_MIC2_Pin},
