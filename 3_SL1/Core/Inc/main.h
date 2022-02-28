@@ -33,7 +33,7 @@ extern "C" {
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
-//#define SL_1
+#define SL_1
 #define SC_2
 //#define SC_4
 
@@ -128,14 +128,14 @@ void Error_Handler(void);
 #endif
 
 #ifdef SL_1
-#define UPR_1 GPIO_PIN_7
-#define UPR_2 GPIO_PIN_8
-#define UPR_3 GPIO_PIN_9
-#define UPR_4 GPIO_PIN_10
-#define UPR_5 GPIO_PIN_11
-#define UPR_6 GPIO_PIN_12
-#define UPR_7 GPIO_PIN_13
-#define UPR_8 GPIO_PIN_14
+#define LedUPR_1 GPIO_PIN_7
+#define LedUPR_2 GPIO_PIN_8
+#define LedUPR_3 GPIO_PIN_9
+#define LedUPR_4 GPIO_PIN_10
+#define LedUPR_5 GPIO_PIN_11
+#define LedUPR_6 GPIO_PIN_12
+#define LedUPR_7 GPIO_PIN_13
+#define LedUPR_8 GPIO_PIN_14
 #endif
 
 #define I2C3_INT GPIO_PIN_8

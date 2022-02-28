@@ -974,6 +974,20 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(GPIOG, LED6, GPIO_PIN_RESET);
   #endif
 
+  #ifdef SL_1
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOG, LedUPR_1, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOG, LedUPR_2, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOG, LedUPR_3, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOG, LedUPR_4, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOG, LedUPR_5, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOG, LedUPR_6, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOG, LedUPR_7, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOG, LedUPR_8, GPIO_PIN_RESET);
+  #endif
+
+
+
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(TEST_LED_GPIO_Port, TEST_LED_Pin, GPIO_PIN_RESET);
 
@@ -1094,6 +1108,65 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
   #endif
+
+  #ifdef SL_1
+  /*Configure GPIO pin : LedUPR_1 */
+  GPIO_InitStruct.Pin = LedUPR_1;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : LedUPR_2 */
+  GPIO_InitStruct.Pin = LedUPR_2;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : LedUPR_3 */
+  GPIO_InitStruct.Pin = LedUPR_3;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : LedUPR_4 */
+  GPIO_InitStruct.Pin = LedUPR_4;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : LedUPR_5 */
+  GPIO_InitStruct.Pin = LedUPR_5;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : LedUPR_6 */
+  GPIO_InitStruct.Pin = LedUPR_6;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : LedUPR_7 */
+  GPIO_InitStruct.Pin = LedUPR_7;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : LedUPR_8 */
+  GPIO_InitStruct.Pin = LedUPR_8;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
+  #endif
+
 
   /*Configure GPIO pin : TEST_BUT_Pin */
   GPIO_InitStruct.Pin = TEST_BUT_Pin;
