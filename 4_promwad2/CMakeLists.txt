@@ -27,6 +27,7 @@ include_directories(
 #    Middlewares/Third_Party/FreeRTOS/Source/include
 Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM7_MPU/r0p1
 Middlewares/Third_Party/LwIP/src/include/lwip
+Drivers/STM32F7xx_HAL_Driver/Inc
     ${DRV_CMSYS_CORE}/Include
     ${DRV_CMSYS_DSP}/Include
     ${DRV_CMSYS_Device}/Include
