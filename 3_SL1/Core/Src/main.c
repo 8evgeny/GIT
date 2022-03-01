@@ -967,7 +967,7 @@ static void MX_GPIO_Init(void)
 
   #ifdef SC_2
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(RELE1_UPR_Port, RELE1_UPR_Pin, GPIO_PIN_SET);
+  HAL_GPIO_WritePin(RELE1_UPR_Port, RELE1_UPR_Pin, GPIO_PIN_RESET);
   HAL_GPIO_WritePin(GPIOC, LED1, GPIO_PIN_RESET);
   HAL_GPIO_WritePin(GPIOC, LED2, GPIO_PIN_RESET);
   HAL_GPIO_WritePin(GPIOC, LED3, GPIO_PIN_RESET);

@@ -76,6 +76,7 @@ void pinio_set_UPR_RELE_SC4(uint8_t state)
    HAL_GPIO_WritePin(RELE_UPR_GPIO_Port, RELE_UPR_Pin, GPIO_PIN_RESET);
 }
 
+#if defined SC_2
 void pinio_set_UPR_RELE_SC2(uint8_t state)
 {
   if (state == UPR_STATE_OFF)
@@ -84,6 +85,7 @@ void pinio_set_UPR_RELE_SC2(uint8_t state)
   if (state == UPR_STATE_ON)
    HAL_GPIO_WritePin(RELE1_UPR_Port, RELE1_UPR_Pin, GPIO_PIN_RESET);
 }
+#endif
 
 #if defined SC_2
 void pinio_set_AMP_UPR(uint8_t state)
