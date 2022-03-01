@@ -13,6 +13,42 @@ project(4_promwad2 C CXX ASM)
 #set(CMAKE_BUILD_TYPE debug)
 #set(CMAKE_BUILD_TYPE release)
 
+#Message ("Config: " ${Config})
+
+set (Home ${CMAKE_SOURCE_DIR})
+set (Config ${Home}/Config )
+set (FreeRTOS ${Home}/Middlewares/Third_Party/FreeRTOS )
+set (STM32F7xx_HAL ${Home}/Drivers/STM32F7xx_HAL_Driver )
+set (STM32F1xx_HAL ${Home}/Drivers/STM32F1xx_HAL_Driver )
+set (CMSIS_STM32F1xx ${Home}/Drivers/CMSIS_STM32F1xx )
+set (CMSIS_STM32F7xx ${Home}/Drivers/CMSIS_STM32F7xx )
+set (Inc ${Home}/Config )
+set (Src ${Home}/Src )
+set (startup ${Home}/startup )
+set (LD ${Home} )
+set (TraceRecorder ${Home}/Tracealyzer-4.2.12-linux64/FreeRTOS/TraceRecorder )
+set (LwIP ${Home}/Middlewares/Third_Party/LwIP )
+set (ArduinoJson ${Home}/Middlewares/Third_Party/ArduinoJson )
+set (CircularBuffer ${Home}/Middlewares/Third_Party/CircularBuffer )
+set (littlefs ${Home}/Middlewares/Third_Party/littlefs )
+set (UID ${Src}/UID )
+set (RS232 ${Src}/RS232 )
+set (RTP ${Src}/RTP )
+set (WDT ${Src}/WDT )
+set (Audio ${Src}/Audio )
+set (Debug ${Src}/Debug )
+set (TRNG ${Src}/TRNG )
+set (FatFs ${Home}/Middlewares/Third_Party/FatFs )
+set (Flash ${Src}/Flash )
+set (RTT ${Home}/RTT )
+set (Inc_STM32F1xx ${Home}/Inc/Inc_STM32F1xx )
+
+
+
+
+
+
+
 set (DRV_CMSYS "Drivers/CMSIS_STM32F7xx")
 set (DRV_CMSYS_CORE ${DRV_CMSYS}/Core)
 set (DRV_CMSYS_DSP ${DRV_CMSYS}/DS)
