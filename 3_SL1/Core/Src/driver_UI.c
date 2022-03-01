@@ -498,6 +498,10 @@ void ui_setledstate(uint8_t led, uint8_t state)
 
 #ifdef SL_1
     else
+    if (led == LED_NORMA)
+        HAL_GPIO_WritePin(NORMA_UPR_GPIO_Port, NORMA_UPR_Pin, LED_val[led]);
+
+    else
     if (led == LED_UPR_1)
         HAL_GPIO_WritePin(GPIOG, LedUPR_1, LED_val[led]);
     else
@@ -652,6 +656,9 @@ void ui_updateLED()
     #endif
 
     #ifdef SL_1
+      if (LED_state[LED_NORMA] > LED_STATE_ON)
+        HAL_GPIO_WritePin(NORMA_UPR_GPIO_Port, NORMA_UPR_Pin, LED_val[LED_NORMA]);
+
       if (LED_state[LED_UPR_1] > LED_STATE_ON)
         HAL_GPIO_WritePin(GPIOG, LedUPR_1, LED_val[LED_UPR_1]);
       if (LED_state[LED_UPR_2] > LED_STATE_ON)

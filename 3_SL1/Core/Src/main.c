@@ -978,6 +978,8 @@ static void MX_GPIO_Init(void)
 
   #ifdef SL_1
   /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(NORMA_UPR_GPIO_Port, NORMA_UPR_Pin, GPIO_PIN_RESET);
+
   HAL_GPIO_WritePin(GPIOG, LedUPR_1, GPIO_PIN_RESET);
   HAL_GPIO_WritePin(GPIOG, LedUPR_2, GPIO_PIN_RESET);
   HAL_GPIO_WritePin(GPIOG, LedUPR_3, GPIO_PIN_RESET);
@@ -1114,6 +1116,13 @@ static void MX_GPIO_Init(void)
   #endif
 
   #ifdef SL_1
+  /*Configure GPIO pin : NORMA_UPR_Pin */
+  GPIO_InitStruct.Pin = NORMA_UPR_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(NORMA_UPR_GPIO_Port, &GPIO_InitStruct);
+
   /*Configure GPIO pins : IN_1 - IN_4 */
   GPIO_InitStruct.Pin = IN_1|IN_2|IN_3|IN_4;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;

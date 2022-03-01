@@ -64,6 +64,10 @@ const sPIN_DESC PinNamesOut[]=
     {"RELE_UPR", RELE_UPR_GPIO_Port, RELE_UPR_Pin},
     #endif
 
+    #ifdef SL_1
+    {"NORMA", NORMA_UPR_GPIO_Port, NORMA_UPR_Pin},
+    #endif
+
     #ifdef SC_2
     {"RELE1_UPR", RELE1_UPR_Port, RELE1_UPR_Pin},
     {"AMP_UPR", AMP_UPR_Port, AMP_UPR_Pin},
