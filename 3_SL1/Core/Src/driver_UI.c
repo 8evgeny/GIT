@@ -503,28 +503,53 @@ void ui_setledstate(uint8_t led, uint8_t state)
 
     else
     if (led == LED_UPR_1)
+    {
+        invertLed_UPR(led, state);
         HAL_GPIO_WritePin(GPIOG, LedUPR_1, LED_val[led]);
+    }
+
     else
     if (led == LED_UPR_2)
+    {
+        invertLed_UPR(led, state);
         HAL_GPIO_WritePin(GPIOG, LedUPR_2, LED_val[led]);
+    }
     else
     if (led == LED_UPR_3)
+    {
+        invertLed_UPR(led, state);
         HAL_GPIO_WritePin(GPIOG, LedUPR_3, LED_val[led]);
+    }
     else
     if (led == LED_UPR_4)
+    {
+        invertLed_UPR(led, state);
         HAL_GPIO_WritePin(GPIOG, LedUPR_4, LED_val[led]);
+    }
     else
     if (led == LED_UPR_5)
+    {
+        invertLed_UPR(led, state);
         HAL_GPIO_WritePin(GPIOG, LedUPR_5, LED_val[led]);
+    }
     else
     if (led == LED_UPR_6)
+    {
+        invertLed_UPR(led, state);
         HAL_GPIO_WritePin(GPIOG, LedUPR_6, LED_val[led]);
+    }
     else
     if (led == LED_UPR_7)
+    {
+        invertLed_UPR(led, state);
         HAL_GPIO_WritePin(GPIOG, LedUPR_7, LED_val[led]);
+    }
     else
     if (led == LED_UPR_8)
+    {
+        invertLed_UPR(led, state);
         HAL_GPIO_WritePin(GPIOG, LedUPR_8, LED_val[led]);
+    }
 #endif
 }
 
@@ -895,4 +920,30 @@ uint8_t ui_get_uimode()
 void ui_set_block_kbd(uint8_t isblock)
 {
 	ui_block_kbd = isblock;
+}
+
+
+void invertLed_UPR(uint8_t led, uint8_t state)
+{
+    LED_state[led] = state;
+    switch (state) {
+        case LED_STATE_OFF:
+            LED_val[led] = LED_STATE_ON;
+            break;
+        case LED_STATE_ON:
+            LED_val[led] = LED_STATE_OFF;
+            break;
+        case LED_STATE_FL1:
+            LED_val[led] = LED_STATE_OFF;
+            break;
+        case LED_STATE_FL2:
+            LED_val[led] = LED_STATE_OFF;
+            break;
+        case LED_STATE_FL3:
+            LED_val[led] = LED_STATE_OFF;
+            break;
+        default: ;
+    };
+
+
 }

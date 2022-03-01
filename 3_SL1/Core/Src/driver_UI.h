@@ -217,6 +217,8 @@ void ui_set_block_kbd(uint8_t isblock);
   */
 int8_t ui_test_board(uint8_t printout);
 
+void invertLed_UPR(uint8_t led, uint8_t state);
+
 /**
   * @}
   */
