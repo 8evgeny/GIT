@@ -66,14 +66,14 @@
 #endif
 
 #ifdef SL_1
-#define LED_UPR_1   0x0A
-#define LED_UPR_2   0x0B
-#define LED_UPR_3   0x0C
-#define LED_UPR_4   0x0D
-#define LED_UPR_5   0x0E
-#define LED_UPR_6   0x0F
-#define LED_UPR_7   0x10
-#define LED_UPR_8   0x11
+#define LED_UPR_1   0x11
+#define LED_UPR_2   0x10
+#define LED_UPR_3   0x0F
+#define LED_UPR_4   0x0E
+#define LED_UPR_5   0x0D
+#define LED_UPR_6   0x0C
+#define LED_UPR_7   0x0B
+#define LED_UPR_8   0x0A
 #endif
 
 
