@@ -244,11 +244,11 @@ uint8_t aic_setDACOutVolume (int8_t volume)
 {
   // -127..48 -> -63.5 .. +24 db  , 0.5db step
   #ifdef SC_2
-    //Выход LINE_OUT2  (0x42 регистр)
+  //Выход LINE_OUT2  (0x42 регистр)   правый канал (левый на внешний Гр - не реализовано)
   return TLV320_WritePage(0, TLV320AIC3254_REG_RDAC_DVOL_CR, volume);
   #endif
-  #ifdef SC_4
-    //Выход LINE_OUT1  (0x41 регистр)
+  #if defined SC_4 || defined SL_1
+  //Выход LINE_OUT1  (0x41 регистр)   левый канал
   return TLV320_WritePage(0, TLV320AIC3254_REG_LDAC_DVOL_CR, volume);
   #endif
 }
@@ -259,9 +259,9 @@ uint8_t aic_setADCInVolume (int8_t volume)
 #ifdef USE_SELC
   selc_adjust_threshold_level(volume);
 #endif
-    //Вход MIC2_L  (0x53 регистр)
+    //Вход MIC2_L  (Page 0, 0x53 регистр)
   TLV320_WritePage(0, TLV320AIC3254_REG_LADC_VOL_CR, volume & 0x7F);
-    //Вход MIC2_R  (0x54 регистр)
+    //Вход MIC2_R  (Page 0, 0x54 регистр)
   return TLV320_Write(TLV320AIC3254_REG_RADC_VOL_CR, volume & 0x7F);
 }
 
