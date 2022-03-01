@@ -210,11 +210,23 @@
                         "pretone_id": 0,
                         "pretone_times": 0,
                         "priority": 50
+                    },
+                    {
+                        "activate_lines": "",
+                        "destination": "CID1005",
+                        "function": 2,
+                        "id": 5,
+                        "name": "NewKey",
+                        "pretone_checked": "0",
+                        "pretone_duration": 2,
+                        "pretone_id": 0,
+                        "pretone_times": 0,
+                        "priority": 60
                     }
                 ]
             },
             "mask": "255.255.255.0",
-            "name": "PD)-16",
+            "name": "PDO-16",
             "type": 1
         },
         {
@@ -222,7 +234,7 @@
             "cid": 1005,
             "gateway": "172.17.10.250",
             "hash": "&ü\u001f)½Eõò",
-            "ip": "192.168.0.108",
+            "ip": "192.168.0.101",
             "items": {
                 "activestation": [
                 ]

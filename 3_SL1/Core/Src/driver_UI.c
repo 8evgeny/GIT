@@ -934,13 +934,13 @@ void invertLed_UPR(uint8_t led, uint8_t state)
             LED_val[led] = LED_STATE_OFF;
             break;
         case LED_STATE_FL1:
-            LED_val[led] = LED_STATE_OFF;
+            LED_val[led] = LED_STATE_FL1;
             break;
         case LED_STATE_FL2:
-            LED_val[led] = LED_STATE_OFF;
+            LED_val[led] = LED_STATE_FL2;
             break;
         case LED_STATE_FL3:
-            LED_val[led] = LED_STATE_OFF;
+            LED_val[led] = LED_STATE_FL3;
             break;
         default: ;
     };
