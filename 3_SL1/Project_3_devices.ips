@@ -237,6 +237,42 @@
             "ip": "192.168.0.101",
             "items": {
                 "activestation": [
+                    {
+                        "activate_lines": "",
+                        "destination": "CID1001",
+                        "function": 2,
+                        "id": 1,
+                        "name": "1",
+                        "pretone_checked": "0",
+                        "pretone_duration": 2,
+                        "pretone_id": 0,
+                        "pretone_times": 0,
+                        "priority": 60
+                    },
+                    {
+                        "activate_lines": "",
+                        "destination": "CID1002",
+                        "function": 2,
+                        "id": 2,
+                        "name": "2",
+                        "pretone_checked": "0",
+                        "pretone_duration": 2,
+                        "pretone_id": 0,
+                        "pretone_times": 0,
+                        "priority": 60
+                    },
+                    {
+                        "activate_lines": "",
+                        "destination": "CID1004",
+                        "function": 2,
+                        "id": 3,
+                        "name": "3",
+                        "pretone_checked": "0",
+                        "pretone_duration": 2,
+                        "pretone_id": 0,
+                        "pretone_times": 0,
+                        "priority": 60
+                    }
                 ]
             },
             "mask": "255.255.255.0",
