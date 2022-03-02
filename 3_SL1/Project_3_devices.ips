@@ -239,7 +239,7 @@
                 "activestation": [
                     {
                         "activate_lines": "",
-                        "destination": "CID1001",
+                        "destination": "CID1004",
                         "function": 2,
                         "id": 1,
                         "name": "1",
@@ -251,27 +251,27 @@
                     },
                     {
                         "activate_lines": "",
-                        "destination": "CID1002",
-                        "function": 2,
+                        "destination": "CID1004",
+                        "function": 3,
                         "id": 2,
                         "name": "2",
                         "pretone_checked": "0",
                         "pretone_duration": 2,
                         "pretone_id": 0,
                         "pretone_times": 0,
-                        "priority": 60
+                        "priority": 50
                     },
                     {
                         "activate_lines": "",
                         "destination": "CID1004",
-                        "function": 2,
+                        "function": 4,
                         "id": 3,
-                        "name": "3",
+                        "name": "2",
                         "pretone_checked": "0",
                         "pretone_duration": 2,
                         "pretone_id": 0,
                         "pretone_times": 0,
-                        "priority": 60
+                        "priority": 50
                     }
                 ]
             },
