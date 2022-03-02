@@ -5,7 +5,7 @@
         "conference": 40,
         "dgrCall": 55,
         "duplex": 50,
-        "gateway": "172.17.10.250",
+        "gateway": "192.168.0.11",
         "grPa": 65,
         "ip": "192.168.0.11",
         "ip doc": "192.168.10.1",
@@ -33,65 +33,15 @@
     "Stations": [
         {
             "SN": "",
-            "cid": 1001,
-            "gateway": "172.17.10.250",
-            "hash": "«ñú}¦©\u0002t@V/?ý",
-            "ip": "192.168.0.113",
-            "items": {
-                "activestation": [
-                    {
-                        "activate_lines": "",
-                        "destination": "CID1002",
-                        "function": 2,
-                        "id": 1,
-                        "name": "1",
-                        "pretone_checked": "0",
-                        "pretone_duration": 2,
-                        "pretone_id": 0,
-                        "pretone_times": 0,
-                        "priority": 60
-                    },
-                    {
-                        "activate_lines": "",
-                        "destination": "CID1002",
-                        "function": 3,
-                        "id": 2,
-                        "name": "2",
-                        "pretone_checked": "0",
-                        "pretone_duration": 2,
-                        "pretone_id": 0,
-                        "pretone_times": 0,
-                        "priority": 50
-                    },
-                    {
-                        "activate_lines": "",
-                        "destination": "CID1002",
-                        "function": 4,
-                        "id": 3,
-                        "name": "3",
-                        "pretone_checked": "0",
-                        "pretone_duration": 2,
-                        "pretone_id": 0,
-                        "pretone_times": 0,
-                        "priority": 50
-                    }
-                ]
-            },
-            "mask": "255.255.255.0",
-            "name": "PDO-16",
-            "type": 1
-        },
-        {
-            "SN": "",
-            "cid": 1002,
-            "gateway": "172.17.10.250",
+            "cid": 101,
+            "gateway": "192.168.0.11",
             "hash": "&ü\u001f)½Eõò",
             "ip": "192.168.0.101",
             "items": {
                 "activestation": [
                     {
                         "activate_lines": "",
-                        "destination": "CID1001",
+                        "destination": "CID113",
                         "function": 2,
                         "id": 1,
                         "name": "1",
@@ -103,7 +53,7 @@
                     },
                     {
                         "activate_lines": "",
-                        "destination": "CID1001",
+                        "destination": "CID113",
                         "function": 3,
                         "id": 2,
                         "name": "2",
@@ -115,7 +65,7 @@
                     },
                     {
                         "activate_lines": "",
-                        "destination": "CID1001",
+                        "destination": "CID113",
                         "function": 4,
                         "id": 3,
                         "name": "3",
@@ -129,6 +79,142 @@
             },
             "mask": "255.255.255.0",
             "name": "SL_1",
+            "type": 1
+        },
+        {
+            "SN": "",
+            "cid": 102,
+            "gateway": "192.168.0.11",
+            "hash": "¡LÝuOÌeTÉç\u0019)Ìç",
+            "ip": "192.168.0.102",
+            "items": {
+                "activestation": [
+                    {
+                        "activate_lines": "",
+                        "destination": "CID113",
+                        "function": 2,
+                        "id": 1,
+                        "name": "NewKey",
+                        "pretone_checked": "0",
+                        "pretone_duration": 2,
+                        "pretone_id": 0,
+                        "pretone_times": 0,
+                        "priority": 60
+                    },
+                    {
+                        "activate_lines": "",
+                        "destination": "CID113",
+                        "function": 3,
+                        "id": 2,
+                        "name": "NewKey",
+                        "pretone_checked": "0",
+                        "pretone_duration": 2,
+                        "pretone_id": 0,
+                        "pretone_times": 0,
+                        "priority": 50
+                    },
+                    {
+                        "activate_lines": "",
+                        "destination": "CID113",
+                        "function": 4,
+                        "id": 3,
+                        "name": "NewKey",
+                        "pretone_checked": "0",
+                        "pretone_duration": 2,
+                        "pretone_id": 0,
+                        "pretone_times": 0,
+                        "priority": 50
+                    }
+                ]
+            },
+            "mask": "255.255.255.0",
+            "name": "SL_1",
+            "type": 1
+        },
+        {
+            "SN": "1",
+            "cid": 113,
+            "gateway": "192.168.0.11",
+            "hash": "\u0016{ò\u001dóvÉo\u0010 a[\u0014 \u000b",
+            "ip": "192.168.0.113",
+            "items": {
+                "activestation": [
+                    {
+                        "activate_lines": "",
+                        "destination": "CID101",
+                        "function": 2,
+                        "id": 1,
+                        "name": "NewKey",
+                        "pretone_checked": "0",
+                        "pretone_duration": 2,
+                        "pretone_id": 0,
+                        "pretone_times": 0,
+                        "priority": 60
+                    },
+                    {
+                        "activate_lines": "",
+                        "destination": "CID101",
+                        "function": 3,
+                        "id": 2,
+                        "name": "NewKey",
+                        "pretone_checked": "0",
+                        "pretone_duration": 2,
+                        "pretone_id": 0,
+                        "pretone_times": 0,
+                        "priority": 50
+                    },
+                    {
+                        "activate_lines": "",
+                        "destination": "CID101",
+                        "function": 4,
+                        "id": 3,
+                        "name": "NewKey",
+                        "pretone_checked": "0",
+                        "pretone_duration": 2,
+                        "pretone_id": 0,
+                        "pretone_times": 0,
+                        "priority": 50
+                    },
+                    {
+                        "activate_lines": "",
+                        "destination": "CID102",
+                        "function": 2,
+                        "id": 4,
+                        "name": "NewKey",
+                        "pretone_checked": "0",
+                        "pretone_duration": 2,
+                        "pretone_id": 0,
+                        "pretone_times": 0,
+                        "priority": 60
+                    },
+                    {
+                        "activate_lines": "",
+                        "destination": "CID102",
+                        "function": 3,
+                        "id": 5,
+                        "name": "NewKey",
+                        "pretone_checked": "0",
+                        "pretone_duration": 2,
+                        "pretone_id": 0,
+                        "pretone_times": 0,
+                        "priority": 50
+                    },
+                    {
+                        "activate_lines": "",
+                        "destination": "CID102",
+                        "function": 4,
+                        "id": 6,
+                        "name": "NewKey",
+                        "pretone_checked": "0",
+                        "pretone_duration": 2,
+                        "pretone_id": 0,
+                        "pretone_times": 0,
+                        "priority": 50
+                    }
+                ]
+            },
+            "mask": "255.255.255.0",
+            "name": "PDO-16_1",
             "type": 1
         }
     ],
