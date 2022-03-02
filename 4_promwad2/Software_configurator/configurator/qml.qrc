@@ -9,7 +9,6 @@
         <file>firmware.qml</file>
         <file>update_rs232.qml</file>
         <file>assignment_list.qml</file>
-        <file>translator/main_ru.qm</file>
         <file>subscriber.js</file>
         <file>main_menu.js</file>
         <file>update_rs232.js</file>
