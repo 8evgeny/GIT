@@ -47,3 +47,5 @@ Debug/
 Release/
 build_linux_debug/
 build_linux_release/
+build_qbs_debug/
+build_qbs_release/
