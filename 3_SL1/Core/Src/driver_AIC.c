@@ -159,7 +159,10 @@ const uint8_t TLV320_ADCSetup_Seq[] = {
 //			TLV320AIC3254_REG_RMICPGA_PMUX		, 0x40,		// IN1L -> P Right MICPGA		 not used
 //			TLV320AIC3254_REG_RMICPGA_NMUX		, 0x10,		// IN1R -> N Right MICPGA		 not used
 			TLV320AIC3254_REG_LMICPGA_VOL		, 0x2F,		// // LMICPGA Gain enabled, +23.5db gain     as GIT say!
-			//TLV320AIC3254_REG_RMICPGA_VOL		, 0x1F,		// ??? not used
+//			TLV320AIC3254_REG_RMICPGA_VOL		, 0x1F,		// ??? not used
+#ifdef SL_1
+            TLV320AIC3254_REG_RMICPGA_VOL		, 0x5F,		// для SL_1
+#endif
 
 			TLV320AIC3254_REG_PAGE_SELECT		, 0x00,
 //			TLV320AIC3254_REG_ADC_SETUP			, 0x40,		// Right ADC on, Left ADC off
