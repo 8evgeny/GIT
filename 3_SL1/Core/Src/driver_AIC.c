@@ -148,7 +148,7 @@ const uint8_t TLV320_ADCSetup_Seq[] = {
 //			TLV320AIC3254_REG_RMICPGA_NMUX		, 0x10,		// IN1R -> N Right MICPGA
 
 #ifdef SL_1
-            TLV320AIC3254_REG_RMICPGA_PMUX		, 0x40,		// для SL_1
+            TLV320AIC3254_REG_RMICPGA_PMUX		, 0x40,		// IN1R is routed to Right MICPGA with 10k resistance
 #endif
 			TLV320AIC3254_REG_LMICPGA_PMUX		, 0x40,		// IN1L -> P Left MICPGA
 			TLV320AIC3254_REG_LMICPGA_NMUX		, 0x40,		// CM1L -> N Left MICPGA
@@ -164,7 +164,8 @@ const uint8_t TLV320_ADCSetup_Seq[] = {
 			TLV320AIC3254_REG_LMICPGA_VOL		, 0x2F,		// // LMICPGA Gain enabled, +23.5db gain     as GIT say!
 //			TLV320AIC3254_REG_RMICPGA_VOL		, 0x1F,		// ??? not used
 #ifdef SL_1
-            TLV320AIC3254_REG_RMICPGA_VOL		, 0x5F,		// для SL_1
+            TLV320AIC3254_REG_RMICPGA_VOL		, 0x00,		// Volume Control = 0.0dB
+//            TLV320AIC3254_REG_RMICPGA_VOL		, 0x5F,		// Volume Control = 47.5dB
 #endif
 
 			TLV320AIC3254_REG_PAGE_SELECT		, 0x00,
