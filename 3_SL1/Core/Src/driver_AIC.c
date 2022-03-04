@@ -332,8 +332,16 @@ void aic_setInDev(uint8_t dev)
 		case AIC_INDEV_EXTMIC:
             aic_setADCInVolume(vol_Mic);
 			// TODO update aic regs
+#if defined SC_2 || defined SC_4
 			TLV320_WritePage(1, TLV320AIC3254_REG_LMICPGA_PMUX, 0x10); // IN2L -> P Left MICPGA
 			TLV320_WritePage(1, TLV320AIC3254_REG_LMICPGA_NMUX, 0x10); // IN2R -> N Left MICPGA
+#endif
+#if defined SL_1
+            TLV320_WritePage(1, TLV320AIC3254_REG_LMICPGA_PMUX, 0x01); // IN1R is routed to Left MICPGA with 10k resistance
+            TLV320_WritePage(1, TLV320AIC3254_REG_RMICPGA_PMUX, 0x40); // IIN1R is routed to Right MICPGA with 10k resistance
+
+#endif
+
 		break;
 		default: return;
 	}
@@ -490,7 +498,15 @@ int8_t aic_init()
 	vol_Mic = 0;
     aic_setOutDev(AIC_OUTDEV_GR);
 //    aic_setOutDev(AIC_OUTDEV_PHONE);
+
+#if defined SC_2 || defined SC_4
     aic_setInDev(AIC_INDEV_INTMIC);
+#endif
+
+#if defined SL_1
+    aic_setInDev(AIC_INDEV_EXTMIC);
+#endif
+
 	sai_loop_on = 0;
 
 	nrxbuf = 0;
