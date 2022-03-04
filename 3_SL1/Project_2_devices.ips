@@ -132,6 +132,56 @@
             "type": 1
         },
         {
+            "SN": "",
+            "cid": 103,
+            "gateway": "192.168.0.11",
+            "hash": "²õÿGCfq¶å3ØÜ6\u0014]",
+            "ip": "192.168.0.103",
+            "items": {
+                "activestation": [
+                    {
+                        "activate_lines": "",
+                        "destination": "CID113",
+                        "function": 2,
+                        "id": 1,
+                        "name": "1",
+                        "pretone_checked": "0",
+                        "pretone_duration": 2,
+                        "pretone_id": 0,
+                        "pretone_times": 0,
+                        "priority": 60
+                    },
+                    {
+                        "activate_lines": "",
+                        "destination": "CID113",
+                        "function": 3,
+                        "id": 2,
+                        "name": "2",
+                        "pretone_checked": "0",
+                        "pretone_duration": 2,
+                        "pretone_id": 0,
+                        "pretone_times": 0,
+                        "priority": 50
+                    },
+                    {
+                        "activate_lines": "",
+                        "destination": "CID113",
+                        "function": 4,
+                        "id": 3,
+                        "name": "3",
+                        "pretone_checked": "0",
+                        "pretone_duration": 2,
+                        "pretone_id": 0,
+                        "pretone_times": 0,
+                        "priority": 50
+                    }
+                ]
+            },
+            "mask": "255.255.255.0",
+            "name": "SL_1",
+            "type": 1
+        },
+        {
             "SN": "1",
             "cid": 113,
             "gateway": "192.168.0.11",
@@ -204,6 +254,42 @@
                         "destination": "CID102",
                         "function": 4,
                         "id": 6,
+                        "name": "NewKey",
+                        "pretone_checked": "0",
+                        "pretone_duration": 2,
+                        "pretone_id": 0,
+                        "pretone_times": 0,
+                        "priority": 50
+                    },
+                    {
+                        "activate_lines": "",
+                        "destination": "CID103",
+                        "function": 2,
+                        "id": 7,
+                        "name": "NewKey",
+                        "pretone_checked": "0",
+                        "pretone_duration": 2,
+                        "pretone_id": 0,
+                        "pretone_times": 0,
+                        "priority": 60
+                    },
+                    {
+                        "activate_lines": "",
+                        "destination": "CID103",
+                        "function": 3,
+                        "id": 8,
+                        "name": "NewKey",
+                        "pretone_checked": "0",
+                        "pretone_duration": 2,
+                        "pretone_id": 0,
+                        "pretone_times": 0,
+                        "priority": 50
+                    },
+                    {
+                        "activate_lines": "",
+                        "destination": "CID103",
+                        "function": 4,
+                        "id": 9,
                         "name": "NewKey",
                         "pretone_checked": "0",
                         "pretone_duration": 2,
