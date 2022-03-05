@@ -268,12 +268,17 @@ uint8_t aic_setADCInVolume (int8_t volume)
 #endif
 
 #if defined SC_2 || defined SC_4 // SL_1 только правый канал
-    //Вход MIC2_L  (Page 0, 0x53 регистр)
+    //Left ADC Channel Volume Control  (Page 0, 0x53 регистр)
   TLV320_WritePage(0, TLV320AIC3254_REG_LADC_VOL_CR, volume & 0x7F);
+  //Right ADC Channel Volume Control  (Page 0, 0x54 регистр)
+return TLV320_Write(TLV320AIC3254_REG_RADC_VOL_CR, volume & 0x7F);
 #endif
 
-    //Вход MIC2_R  (Page 0, 0x54 регистр)
-  return TLV320_Write(TLV320AIC3254_REG_RADC_VOL_CR, volume & 0x7F);
+#if defined SL_1
+    //Left ADC Channel Volume Control  (Page 0, 0x53 регистр)
+  return TLV320_Write(TLV320AIC3254_REG_LADC_VOL_CR, volume & 0x7F);
+#endif
+
 }
 
 uint8_t aic_setDACMute (uint8_t ismuted)

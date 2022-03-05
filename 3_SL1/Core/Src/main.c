@@ -315,11 +315,27 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
 
+#if defined SC_2 || defined SC_4
   aic_setADCInVolume(0x74);       //Микрофон -6db
+#endif
+
+#if defined SL_1
+//  aic_setADCInVolume(0x74);       //Микрофон -6db
+  aic_setADCInVolume(0x68);       //Микрофон -12db
+#endif
+
+
   aic_setDACOutVolume(0xD8);  //Динамик  -20db
   vol_GR = -12;
 //  vol_Mic = -6;
+#if defined SC_2 || defined SC_4
   vol_Mic = 10;
+#endif
+
+#if defined SL_1
+  vol_Mic = -12;
+#endif
+
 
   while (1)
   {
