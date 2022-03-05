@@ -338,7 +338,7 @@ void aic_setInDev(uint8_t dev)
 #endif
 #if defined SL_1
             TLV320_WritePage(1, TLV320AIC3254_REG_LMICPGA_PMUX, 0x01); // IN1R is routed to Left MICPGA with 10k resistance
-            TLV320_WritePage(1, TLV320AIC3254_REG_RMICPGA_PMUX, 0x40); // IIN1R is routed to Right MICPGA with 10k resistance
+//            TLV320_WritePage(1, TLV320AIC3254_REG_RMICPGA_PMUX, 0x40); // IN1R is routed to Right MICPGA with 10k resistance
 
 #endif
 
