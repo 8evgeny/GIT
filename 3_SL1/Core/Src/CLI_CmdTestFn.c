@@ -29,7 +29,7 @@
 #include "ping.h"
 
 /// default ping test IP-address
-const ip_addr_t default_test_ping_IP = IPADDR4_INIT_BYTES(192,168,0,137);
+const ip_addr_t default_test_ping_IP = IPADDR4_INIT_BYTES(192,168,0,113);
 
 #endif
 
