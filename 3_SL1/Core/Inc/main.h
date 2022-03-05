@@ -23,7 +23,7 @@ void Error_Handler(void);
 #define DET_48V_Pin GPIO_PIN_13
 #define DET_48V_GPIO_Port GPIOC
 
-#ifdef SC_4
+#if defined SC_4 || defined SL_1
 #define UPR_PHONE_Pin GPIO_PIN_14
 #endif
 #ifdef SC_2

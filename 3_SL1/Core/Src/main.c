@@ -1013,7 +1013,7 @@ static void MX_GPIO_Init(void)
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(TEST_LED_GPIO_Port, TEST_LED_Pin, GPIO_PIN_RESET);
 
-#if defined SC_2 || defined SC_4
+#if defined SC_2 || defined SC_4 || defined SL_1
   /*Configure GPIO pins : DET_48V_Pin UPR_PHONE_Pin UPR_MIC2_Pin */
   GPIO_InitStruct.Pin = DET_48V_Pin|UPR_PHONE_Pin|UPR_MIC2_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;

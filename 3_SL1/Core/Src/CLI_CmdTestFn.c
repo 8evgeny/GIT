@@ -132,7 +132,7 @@ const sPIN_DESC PinNamesIn[]=
     #endif
 
     {"DET_48V", DET_48V_GPIO_Port, DET_48V_Pin},
-    #if defined SC_2 || defined SC_4
+    #if defined SC_2 || defined SC_4 || defined SL_1
     {"UPR_PHONE", UPR_PHONE_GPIO_Port, UPR_PHONE_Pin}, //пин переопределяется в зависимости от SC_2
     #endif
     {"UPR_MIC2", UPR_MIC2_GPIO_Port, UPR_MIC2_Pin},

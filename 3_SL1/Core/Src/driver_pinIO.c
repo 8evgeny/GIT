@@ -118,7 +118,7 @@ uint8_t pinio_getval_DET_48V()
 
 // only SC4 rev1, SC4 rev2 = DET_MIC
 
-#if defined SC_2 || defined SC_4
+#if defined SC_2 || defined SC_4 || defined SL_1
 uint8_t pinio_getstate_DET_PHONE()
 {
   uint8_t val = HAL_GPIO_ReadPin(UPR_PHONE_GPIO_Port, UPR_PHONE_Pin) ^ 1;
@@ -131,7 +131,7 @@ uint8_t pinio_getstate_DET_PHONE()
 }
 #endif
 
-#if defined SC_2 || defined SC_4
+#if defined SC_2 || defined SC_4 || defined SL_1
 // only SC4 rev1, SC4 rev2 = DET_MIC
 uint8_t pinio_getval_DET_PHONE()
 {
