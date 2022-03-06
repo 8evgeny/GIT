@@ -7,10 +7,6 @@ extern "C" {
 
 #include "stm32h7xx_hal.h"
 
-#define SL_1
-//#define SC_2
-//#define SC_4
-
 #define WORK_MODE_UDEF		0
 #define WORK_MODE_HWFAIL	1
 #define WORK_MODE_NOCFG		2

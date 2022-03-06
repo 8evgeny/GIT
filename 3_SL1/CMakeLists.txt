@@ -10,6 +10,8 @@ set(CMAKE_OBJCOPY ${TOOLS_PATH}/bin/arm-none-eabi-objcopy)
 
 project(sl1 C CXX ASM)
 
+#add_definitions(SL_1)
+
 #set(CMAKE_BUILD_TYPE debug)
 #set(CMAKE_BUILD_TYPE release)
 
@@ -17,7 +19,11 @@ set (patchSRC "Core/Src")
 set (patchDRV "Drivers")
 set (patchHAL_SRC "${patchDRV}/STM32H7xx_HAL_Driver/Src")
 
+#    -DSL_1 \
+#    -DSC_2 \
+#    -DSC_4 \
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}\
+    -DSL_1 \
     -mcpu=cortex-m7 \
     -std=gnu11 \
     -DUSE_HAL_DRIVER \
