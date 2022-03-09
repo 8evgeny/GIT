@@ -29,6 +29,7 @@
 #include "ethernetif.h"
 #include "dp83848.h"
 #include <string.h>
+#include "CLI_io.h"
 
 /* Within 'USER CODE' section, code will be kept by default at each generation */
 /* USER CODE BEGIN 0 */
@@ -688,6 +689,9 @@ int32_t ETH_PHY_IO_GetTick(void)
   */
 void ethernet_link_check_state(struct netif *netif)
 {
+
+//CLI_print("ethernet_link_check_state\r\n");
+
   ETH_MACConfigTypeDef MACConf;
   int32_t PHYLinkState;
   uint32_t linkchanged = 0, speed = 0, duplex =0;
@@ -696,6 +700,9 @@ void ethernet_link_check_state(struct netif *netif)
 
   if(netif_is_link_up(netif) && (PHYLinkState <= DP83848_STATUS_LINK_DOWN))
   {
+
+CLI_print("LINK_DOWN\r\n");
+
     HAL_ETH_Stop(&heth);
     netif_set_down(netif);
     netif_set_link_down(netif);
@@ -708,19 +715,31 @@ void ethernet_link_check_state(struct netif *netif)
       duplex = ETH_FULLDUPLEX_MODE;
       speed = ETH_SPEED_100M;
       linkchanged = 1;
+
+CLI_print("ETH_FULLDUPLEX_MODE 100M\r\n");
+
       break;
     case DP83848_STATUS_100MBITS_HALFDUPLEX:
       duplex = ETH_HALFDUPLEX_MODE;
       speed = ETH_SPEED_100M;
+
+CLI_print("ETH_HALFDUPLEX_MODE 100M\r\n");
+
       linkchanged = 1;
       break;
     case DP83848_STATUS_10MBITS_FULLDUPLEX:
       duplex = ETH_FULLDUPLEX_MODE;
       speed = ETH_SPEED_10M;
+
+CLI_print("ETH_FULLDUPLEX_MODE 10M\r\n");
+
       linkchanged = 1;
       break;
     case DP83848_STATUS_10MBITS_HALFDUPLEX:
       duplex = ETH_HALFDUPLEX_MODE;
+
+CLI_print("ETH_HALFDUPLEX_MODE 10M\r\n");
+
       speed = ETH_SPEED_10M;
       linkchanged = 1;
       break;
