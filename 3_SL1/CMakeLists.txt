@@ -19,9 +19,9 @@ set (patchSRC "Core/Src")
 set (patchDRV "Drivers")
 set (patchHAL_SRC "${patchDRV}/STM32H7xx_HAL_Driver/Src")
 
-add_definitions(-DSL_1)
+#add_definitions(-DSL_1)
 #add_definitions(-DSC_2)
-#add_definitions(-DSC_4)
+add_definitions(-DSC_4)
 
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}\
     -mcpu=cortex-m7 \
