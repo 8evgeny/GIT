@@ -220,7 +220,9 @@ int main(void)
   MX_FMC_Init();
   MX_I2C1_Init();
   MX_I2C2_Init();
-  MX_I2C3_Init();
+#if defined SC_2 ||  defined SC_4
+  MX_I2C3_Init(); // в SL_1 сигнал I2C3 не используется
+#endif
   MX_SAI1_Init();
   MX_UART7_Init();
   MX_TIM3_Init();
