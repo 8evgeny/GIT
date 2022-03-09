@@ -8,7 +8,11 @@ set(CMAKE_CXX_COMPILER ${TOOLS_PATH}/bin/arm-none-eabi-g++)
 set(CMAKE_CXX_LINKER_LAUNCHER ${TOOLS_PATH}/bin/arm-none-eabi-g++)
 set(CMAKE_OBJCOPY ${TOOLS_PATH}/bin/arm-none-eabi-objcopy)
 
-project(ips_commit_21_02_2022 C CXX ASM)
+project(sl1_vers2 C CXX ASM)
+
+add_definitions(-DSL_1)
+#add_definitions(-DSC_4)
+#add_definitions(-DSC_2)
 
 #set(CMAKE_BUILD_TYPE debug)
 #set(CMAKE_BUILD_TYPE release)
