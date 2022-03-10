@@ -216,7 +216,7 @@
                         "destination": "CID1005",
                         "function": 2,
                         "id": 5,
-                        "name": "NewKey",
+                        "name": "Канал на SL_1",
                         "pretone_checked": "0",
                         "pretone_duration": 2,
                         "pretone_id": 0,
