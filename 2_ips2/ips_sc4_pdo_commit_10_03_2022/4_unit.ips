@@ -1,0 +1,488 @@
+{
+    "Global parameters": {
+        "alarm": 70,
+        "callerid": 1000,
+        "conference": 40,
+        "dgrCall": 55,
+        "duplex": 50,
+        "gateway": "172.17.10.250",
+        "grPa": 65,
+        "ip": "172.17.10.250",
+        "ip doc": "192.168.10.1",
+        "key AES": "00000000000000000000000000000000",
+        "netmask": "255.255.255.0",
+        "pa": 60,
+        "port configuration": 12341,
+        "port log doc": 2020,
+        "port rtp doc": 10000
+    },
+    "Project information": {
+        "comments": [
+            {
+                "author": "Парубец",
+                "comment": "Тест Альфа версии",
+                "date": ""
+            }
+        ],
+        "customer": "ГИТ",
+        "desc": "Тестовый проект для 2 приборов:\n",
+        "id": "100",
+        "location": "Москва",
+        "number": "100"
+    },
+    "Stations": [
+        {
+            "SN": "",
+            "cid": 2231,
+            "gateway": "172.17.10.250",
+            "hash": "'i\u0003P \b\u0005\\½Ú\"^\n",
+            "ip": "172.17.10.31",
+            "items": {
+                "activestation": [
+                    {
+                        "activate_lines": "",
+                        "destination": "CID2232",
+                        "function": 2,
+                        "id": 1,
+                        "name": "NewKey",
+                        "pretone_checked": "0",
+                        "pretone_duration": 2,
+                        "pretone_id": 0,
+                        "pretone_times": 0,
+                        "priority": 60
+                    },
+                    {
+                        "activate_lines": "",
+                        "destination": "CID2232",
+                        "function": 3,
+                        "id": 2,
+                        "name": "NewKey",
+                        "pretone_checked": "0",
+                        "pretone_duration": 2,
+                        "pretone_id": 0,
+                        "pretone_times": 0,
+                        "priority": 50
+                    },
+                    {
+                        "activate_lines": "",
+                        "destination": "CID2232",
+                        "function": 4,
+                        "id": 3,
+                        "name": "NewKey",
+                        "pretone_checked": "0",
+                        "pretone_duration": 2,
+                        "pretone_id": 0,
+                        "pretone_times": 0,
+                        "priority": 50
+                    },
+                    {
+                        "activate_lines": "",
+                        "destination": "CID2233",
+                        "function": 2,
+                        "id": 4,
+                        "name": "NewKey",
+                        "pretone_checked": "0",
+                        "pretone_duration": 2,
+                        "pretone_id": 0,
+                        "pretone_times": 0,
+                        "priority": 60
+                    },
+                    {
+                        "activate_lines": "",
+                        "destination": "CID2233",
+                        "function": 3,
+                        "id": 5,
+                        "name": "NewKey",
+                        "pretone_checked": "0",
+                        "pretone_duration": 2,
+                        "pretone_id": 0,
+                        "pretone_times": 0,
+                        "priority": 50
+                    },
+                    {
+                        "activate_lines": "",
+                        "destination": "CID2233",
+                        "function": 4,
+                        "id": 6,
+                        "name": "NewKey",
+                        "pretone_checked": "0",
+                        "pretone_duration": 2,
+                        "pretone_id": 0,
+                        "pretone_times": 0,
+                        "priority": 50
+                    },
+                    {
+                        "activate_lines": "",
+                        "destination": "CID2234",
+                        "function": 2,
+                        "id": 7,
+                        "name": "NewKey",
+                        "pretone_checked": "0",
+                        "pretone_duration": 2,
+                        "pretone_id": 0,
+                        "pretone_times": 0,
+                        "priority": 60
+                    },
+                    {
+                        "activate_lines": "",
+                        "destination": "CID2234",
+                        "function": 3,
+                        "id": 8,
+                        "name": "NewKey",
+                        "pretone_checked": "0",
+                        "pretone_duration": 2,
+                        "pretone_id": 0,
+                        "pretone_times": 0,
+                        "priority": 50
+                    },
+                    {
+                        "activate_lines": "",
+                        "destination": "CID2234",
+                        "function": 4,
+                        "id": 9,
+                        "name": "NewKey",
+                        "pretone_checked": "0",
+                        "pretone_duration": 2,
+                        "pretone_id": 0,
+                        "pretone_times": 0,
+                        "priority": 50
+                    }
+                ]
+            },
+            "mask": "255.255.255.0",
+            "name": "PDO-32N",
+            "type": 4
+        },
+        {
+            "SN": "",
+            "cid": 2232,
+            "gateway": "172.17.10.250",
+            "hash": "jÓ\u0005ð©-ü\\Ï2òÎ´`",
+            "ip": "172.17.10.32",
+            "items": {
+                "activestation": [
+                    {
+                        "activate_lines": "",
+                        "destination": "CID2231",
+                        "function": 2,
+                        "id": 1,
+                        "name": "NewKey",
+                        "pretone_checked": "0",
+                        "pretone_duration": 2,
+                        "pretone_id": 0,
+                        "pretone_times": 0,
+                        "priority": 60
+                    },
+                    {
+                        "activate_lines": "",
+                        "destination": "CID2231",
+                        "function": 3,
+                        "id": 2,
+                        "name": "NewKey",
+                        "pretone_checked": "0",
+                        "pretone_duration": 2,
+                        "pretone_id": 0,
+                        "pretone_times": 0,
+                        "priority": 50
+                    },
+                    {
+                        "activate_lines": "",
+                        "destination": "CID2231",
+                        "function": 4,
+                        "id": 3,
+                        "name": "NewKey",
+                        "pretone_checked": "0",
+                        "pretone_duration": 2,
+                        "pretone_id": 0,
+                        "pretone_times": 0,
+                        "priority": 50
+                    },
+                    {
+                        "activate_lines": "",
+                        "destination": "CID2233",
+                        "function": 2,
+                        "id": 4,
+                        "name": "NewKey",
+                        "pretone_checked": "0",
+                        "pretone_duration": 2,
+                        "pretone_id": 0,
+                        "pretone_times": 0,
+                        "priority": 60
+                    },
+                    {
+                        "activate_lines": "",
+                        "destination": "CID2233",
+                        "function": 3,
+                        "id": 5,
+                        "name": "NewKey",
+                        "pretone_checked": "0",
+                        "pretone_duration": 2,
+                        "pretone_id": 0,
+                        "pretone_times": 0,
+                        "priority": 50
+                    },
+                    {
+                        "activate_lines": "",
+                        "destination": "CID2233",
+                        "function": 4,
+                        "id": 6,
+                        "name": "NewKey",
+                        "pretone_checked": "0",
+                        "pretone_duration": 2,
+                        "pretone_id": 0,
+                        "pretone_times": 0,
+                        "priority": 50
+                    },
+                    {
+                        "activate_lines": "",
+                        "destination": "CID2234",
+                        "function": 2,
+                        "id": 7,
+                        "name": "NewKey",
+                        "pretone_checked": "0",
+                        "pretone_duration": 2,
+                        "pretone_id": 0,
+                        "pretone_times": 0,
+                        "priority": 60
+                    },
+                    {
+                        "activate_lines": "",
+                        "destination": "CID2234",
+                        "function": 3,
+                        "id": 8,
+                        "name": "NewKey",
+                        "pretone_checked": "0",
+                        "pretone_duration": 2,
+                        "pretone_id": 0,
+                        "pretone_times": 0,
+                        "priority": 50
+                    },
+                    {
+                        "activate_lines": "",
+                        "destination": "CID2234",
+                        "function": 4,
+                        "id": 9,
+                        "name": "NewKey",
+                        "pretone_checked": "0",
+                        "pretone_duration": 2,
+                        "pretone_id": 0,
+                        "pretone_times": 0,
+                        "priority": 50
+                    }
+                ]
+            },
+            "mask": "255.255.255.0",
+            "name": "PDO-16N",
+            "type": 2
+        },
+        {
+            "SN": "",
+            "cid": 2233,
+            "gateway": "172.17.10.250",
+            "hash": "óaâWv\u0007wàÛ©¿6Å",
+            "ip": "172.17.10.33",
+            "items": {
+                "activestation": [
+                    {
+                        "activate_lines": "",
+                        "destination": "CID2231",
+                        "function": 2,
+                        "id": 1,
+                        "name": "NewKey",
+                        "pretone_checked": "0",
+                        "pretone_duration": 2,
+                        "pretone_id": 0,
+                        "pretone_times": 0,
+                        "priority": 60
+                    },
+                    {
+                        "activate_lines": "",
+                        "destination": "CID2231",
+                        "function": 3,
+                        "id": 2,
+                        "name": "NewKey",
+                        "pretone_checked": "0",
+                        "pretone_duration": 2,
+                        "pretone_id": 0,
+                        "pretone_times": 0,
+                        "priority": 50
+                    },
+                    {
+                        "activate_lines": "",
+                        "destination": "CID2231",
+                        "function": 4,
+                        "id": 3,
+                        "name": "NewKey",
+                        "pretone_checked": "0",
+                        "pretone_duration": 2,
+                        "pretone_id": 0,
+                        "pretone_times": 0,
+                        "priority": 50
+                    },
+                    {
+                        "activate_lines": "",
+                        "destination": "CID2232",
+                        "function": 2,
+                        "id": 4,
+                        "name": "NewKey",
+                        "pretone_checked": "0",
+                        "pretone_duration": 2,
+                        "pretone_id": 0,
+                        "pretone_times": 0,
+                        "priority": 60
+                    },
+                    {
+                        "activate_lines": "",
+                        "destination": "CID2232",
+                        "function": 3,
+                        "id": 5,
+                        "name": "NewKey",
+                        "pretone_checked": "0",
+                        "pretone_duration": 2,
+                        "pretone_id": 0,
+                        "pretone_times": 0,
+                        "priority": 50
+                    },
+                    {
+                        "activate_lines": "",
+                        "destination": "CID2232",
+                        "function": 4,
+                        "id": 6,
+                        "name": "NewKey",
+                        "pretone_checked": "0",
+                        "pretone_duration": 2,
+                        "pretone_id": 0,
+                        "pretone_times": 0,
+                        "priority": 50
+                    },
+                    {
+                        "activate_lines": "",
+                        "destination": "CID2234",
+                        "function": 2,
+                        "id": 7,
+                        "name": "NewKey",
+                        "pretone_checked": "0",
+                        "pretone_duration": 2,
+                        "pretone_id": 0,
+                        "pretone_times": 0,
+                        "priority": 60
+                    },
+                    {
+                        "activate_lines": "",
+                        "destination": "CID2234",
+                        "function": 3,
+                        "id": 8,
+                        "name": "NewKey",
+                        "pretone_checked": "0",
+                        "pretone_duration": 2,
+                        "pretone_id": 0,
+                        "pretone_times": 0,
+                        "priority": 50
+                    },
+                    {
+                        "activate_lines": "",
+                        "destination": "CID2234",
+                        "function": 4,
+                        "id": 9,
+                        "name": "NewKey",
+                        "pretone_checked": "0",
+                        "pretone_duration": 2,
+                        "pretone_id": 0,
+                        "pretone_times": 0,
+                        "priority": 50
+                    }
+                ]
+            },
+            "mask": "255.255.255.0",
+            "name": "PDO-16N",
+            "type": 2
+        },
+        {
+            "SN": "",
+            "cid": 2234,
+            "gateway": "172.17.10.250",
+            "hash": "kÁ¯%uì\u0012m\u001bænkî:",
+            "ip": "172.17.10.34",
+            "items": {
+                "activestation": [
+                    {
+                        "activate_lines": "",
+                        "destination": "CID2231",
+                        "function": 2,
+                        "id": 1,
+                        "name": "NewKey",
+                        "pretone_checked": "0",
+                        "pretone_duration": 2,
+                        "pretone_id": 0,
+                        "pretone_times": 0,
+                        "priority": 60
+                    },
+                    {
+                        "activate_lines": "",
+                        "destination": "CID2232",
+                        "function": 2,
+                        "id": 2,
+                        "name": "NewKey",
+                        "pretone_checked": "0",
+                        "pretone_duration": 2,
+                        "pretone_id": 0,
+                        "pretone_times": 0,
+                        "priority": 60
+                    },
+                    {
+                        "activate_lines": "",
+                        "destination": "CID2233",
+                        "function": 2,
+                        "id": 3,
+                        "name": "NewKey",
+                        "pretone_checked": "0",
+                        "pretone_duration": 2,
+                        "pretone_id": 0,
+                        "pretone_times": 0,
+                        "priority": 60
+                    },
+                    {
+                        "activate_lines": "",
+                        "destination": "CID2231",
+                        "function": 3,
+                        "id": 4,
+                        "name": "NewKey",
+                        "pretone_checked": "0",
+                        "pretone_duration": 2,
+                        "pretone_id": 0,
+                        "pretone_times": 0,
+                        "priority": 50
+                    },
+                    {
+                        "activate_lines": "",
+                        "destination": "CID2232",
+                        "function": 3,
+                        "id": 5,
+                        "name": "NewKey",
+                        "pretone_checked": "0",
+                        "pretone_duration": 2,
+                        "pretone_id": 0,
+                        "pretone_times": 0,
+                        "priority": 50
+                    },
+                    {
+                        "activate_lines": "",
+                        "destination": "CID2233",
+                        "function": 4,
+                        "id": 6,
+                        "name": "NewKey",
+                        "pretone_checked": "0",
+                        "pretone_duration": 2,
+                        "pretone_id": 0,
+                        "pretone_times": 0,
+                        "priority": 50
+                    }
+                ]
+            },
+            "mask": "255.255.255.0",
+            "name": "UPV",
+            "type": 12
+        }
+    ],
+    "version": 1
+}
