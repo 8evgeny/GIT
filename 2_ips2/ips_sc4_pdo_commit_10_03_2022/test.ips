@@ -1,0 +1,136 @@
+{
+    "Global parameters": {
+        "alarm": 70,
+        "callerid": 1000,
+        "conference": 40,
+        "dgrCall": 55,
+        "duplex": 50,
+        "gateway": "172.17.10.250",
+        "grPa": 65,
+        "ip": "172.17.10.250",
+        "ip doc": "192.168.10.1",
+        "key AES": "00000000000000000000000000000000",
+        "netmask": "255.255.255.0",
+        "pa": 60,
+        "port configuration": 12341,
+        "port log doc": 2020,
+        "port rtp doc": 10000
+    },
+    "Project information": {
+        "comments": [
+            {
+                "author": "Парубец",
+                "comment": "Тест Альфа версии",
+                "date": ""
+            }
+        ],
+        "customer": "ГИТ",
+        "desc": "Тестовый проект для 2 приборов:\n",
+        "id": "100",
+        "location": "Москва",
+        "number": "100"
+    },
+    "Stations": [
+        {
+            "SN": "",
+            "cid": 1000,
+            "gateway": "172.17.10.250",
+            "hash": "'i\u0003P \b\u0005\\½Ú\"^\n",
+            "ip": "172.17.10.240",
+            "items": {
+                "activestation": [
+                    {
+                        "activate_lines": "",
+                        "destination": "CID1001",
+                        "function": 2,
+                        "id": 9,
+                        "name": "9",
+                        "pretone_checked": "0",
+                        "pretone_duration": 2,
+                        "pretone_id": 0,
+                        "pretone_times": 0,
+                        "priority": 60
+                    },
+                    {
+                        "activate_lines": "",
+                        "destination": "CID1001",
+                        "function": 3,
+                        "id": 10,
+                        "name": "10",
+                        "pretone_checked": "0",
+                        "pretone_duration": 2,
+                        "pretone_id": 0,
+                        "pretone_times": 0,
+                        "priority": 50
+                    },
+                    {
+                        "activate_lines": "",
+                        "destination": "CID1001",
+                        "function": 4,
+                        "id": 11,
+                        "name": "11",
+                        "pretone_checked": "0",
+                        "pretone_duration": 2,
+                        "pretone_id": 0,
+                        "pretone_times": 0,
+                        "priority": 50
+                    }
+                ]
+            },
+            "mask": "255.255.255.0",
+            "name": "PDO-16N",
+            "type": 2
+        },
+        {
+            "SN": "",
+            "cid": 1001,
+            "gateway": "172.17.10.250",
+            "hash": "4\u0006vi\u001dÝ\u001dû\nÊTh\u0014\u0007",
+            "ip": "172.17.10.241",
+            "items": {
+                "activestation": [
+                    {
+                        "activate_lines": "",
+                        "destination": "CID1000",
+                        "function": 2,
+                        "id": 9,
+                        "name": "9",
+                        "pretone_checked": "0",
+                        "pretone_duration": 2,
+                        "pretone_id": 0,
+                        "pretone_times": 0,
+                        "priority": 60
+                    },
+                    {
+                        "activate_lines": "",
+                        "destination": "CID1000",
+                        "function": 3,
+                        "id": 10,
+                        "name": "10",
+                        "pretone_checked": "0",
+                        "pretone_duration": 2,
+                        "pretone_id": 0,
+                        "pretone_times": 0,
+                        "priority": 50
+                    },
+                    {
+                        "activate_lines": "",
+                        "destination": "CID1000",
+                        "function": 4,
+                        "id": 11,
+                        "name": "11",
+                        "pretone_checked": "0",
+                        "pretone_duration": 2,
+                        "pretone_id": 0,
+                        "pretone_times": 0,
+                        "priority": 50
+                    }
+                ]
+            },
+            "mask": "255.255.255.0",
+            "name": "PDO-16N",
+            "type": 2
+        }
+    ],
+    "version": 1
+}
