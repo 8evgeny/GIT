@@ -71,13 +71,38 @@ void Display::noConnectFrame(std::string num1, std::string num2, std::string num
 {
     changeStateRedLed();
     changeStateBuzzer();
+    std::string blankLine2;
+    std::string blankLine3;
+    std::string blankLine4;
+    if(ip1.size() < 15)
+    {
+        int numBlank1 = 15 - ip1.size();
+        for (int i = 0; i < numBlank1; ++i)
+            blankLine2.append("\" \"");
+    }
+
+    if(ip2.size() < 15)
+    {
+        int numBlank2 = 15 - ip2.size();
+        for (int i = 0; i < numBlank2; ++i)
+            blankLine3.append("\" \"");
+    }
+
+    if(ip3.size() < 15)
+    {
+        int numBlank3 = 15 - ip3.size();
+        for (int i = 0; i < numBlank3; ++i)
+            blankLine4.append("\" \"");
+    }
+
+
     std::string lcdbuz,line1,line2,line3,line4;
     lcdbuz = _lcdYellow + _lcdRed + _buzzer;
     line1 = "\"     НЕТ СВЯЗИ      \"";
     line2 = num1 + "\" \"" + ip1;
     line3 = num2 + "\" \"" + ip2;
     line4 = num3 + "\" \"" + ip3;
-    printToLcd (lcdbuz + line1 + line2 + line3 + line4, _port);
+    printToLcd (lcdbuz + line1 + line2 + blankLine2 + line3 + blankLine3 + line4 + blankLine4, _port);
 }
 
 void Display::diagnosticFrame(std::vector<std::string>& noPingDevices,
