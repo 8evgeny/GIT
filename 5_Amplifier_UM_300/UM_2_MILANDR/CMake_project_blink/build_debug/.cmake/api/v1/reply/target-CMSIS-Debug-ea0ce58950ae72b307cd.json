@@ -26,7 +26,7 @@
 			{
 				"command" : 0,
 				"file" : 0,
-				"line" : 147,
+				"line" : 143,
 				"parent" : 0
 			},
 			{
@@ -43,7 +43,7 @@
 			"compileCommandFragments" : 
 			[
 				{
-					"fragment" : "    -mcpu=cortex-m3     -mthumb     -O2     -ffunction-sections     -fdata-sections     -Wall     -Wextra     -Wshadow     -Wredundant-decls     -Wno-missing-field-initializers     -Wconversion     -Wno-packed-bitfield-compat     -pipe     -std=c99     -DUSE_MDR1986VE9x     -D__STARTUP_CLEAR_BSS     -D__START=main     --specs=nosys.specs     --specs=nano.specs      -O3 -DNDEBUG  "
+					"fragment" : "    -mcpu=cortex-m3     -mthumb     -O2     -ffunction-sections     -fdata-sections     -Wall     -Wextra     -Wshadow     -Wredundant-decls     -Wno-missing-field-initializers     -Wconversion     -Wno-packed-bitfield-compat     -pipe     -std=c99     -DUSE_MDR1986VE9x     -D__STARTUP_CLEAR_BSS     -D__START=main     --specs=nosys.specs     --specs=nano.specs      -g  "
 				}
 			],
 			"includes" : 

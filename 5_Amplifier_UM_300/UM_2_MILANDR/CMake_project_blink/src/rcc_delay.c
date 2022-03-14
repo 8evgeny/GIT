@@ -30,7 +30,8 @@ void RCC_init() {
 //---------------------------------
 // Настройка IWDT
 //---------------------------------
-void IWDT_init() {
+void IWDT_init()
+{
 	RST_CLK_LSIcmd(ENABLE);	// включаем LSI
 	while (RST_CLK_LSIstatus() != SUCCESS);	//ждем включения LSI
 	RST_CLK_PCLKcmd(RST_CLK_PCLK_IWDG, ENABLE);	//включение тактирования

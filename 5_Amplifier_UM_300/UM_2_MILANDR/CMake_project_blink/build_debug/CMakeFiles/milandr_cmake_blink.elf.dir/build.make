@@ -70,22 +70,9 @@ CMakeFiles/milandr_cmake_blink.elf.dir/src/gpio.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/milandr_cmake_blink.elf.dir/src/gpio.c.s"
 	/usr/bin/arm-none-eabi-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/evg/SOFT/Github/GIT/5_Amplifier_UM_300/UM_2_MILANDR/CMake_project_blink/src/gpio.c -o CMakeFiles/milandr_cmake_blink.elf.dir/src/gpio.c.s
 
-CMakeFiles/milandr_cmake_blink.elf.dir/src/mt20s4.c.o: CMakeFiles/milandr_cmake_blink.elf.dir/flags.make
-CMakeFiles/milandr_cmake_blink.elf.dir/src/mt20s4.c.o: ../src/mt20s4.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/evg/SOFT/Github/GIT/5_Amplifier_UM_300/UM_2_MILANDR/CMake_project_blink/build_debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/milandr_cmake_blink.elf.dir/src/mt20s4.c.o"
-	/usr/bin/arm-none-eabi-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/milandr_cmake_blink.elf.dir/src/mt20s4.c.o   -c /home/evg/SOFT/Github/GIT/5_Amplifier_UM_300/UM_2_MILANDR/CMake_project_blink/src/mt20s4.c
-
-CMakeFiles/milandr_cmake_blink.elf.dir/src/mt20s4.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/milandr_cmake_blink.elf.dir/src/mt20s4.c.i"
-	/usr/bin/arm-none-eabi-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/evg/SOFT/Github/GIT/5_Amplifier_UM_300/UM_2_MILANDR/CMake_project_blink/src/mt20s4.c > CMakeFiles/milandr_cmake_blink.elf.dir/src/mt20s4.c.i
-
-CMakeFiles/milandr_cmake_blink.elf.dir/src/mt20s4.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/milandr_cmake_blink.elf.dir/src/mt20s4.c.s"
-	/usr/bin/arm-none-eabi-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/evg/SOFT/Github/GIT/5_Amplifier_UM_300/UM_2_MILANDR/CMake_project_blink/src/mt20s4.c -o CMakeFiles/milandr_cmake_blink.elf.dir/src/mt20s4.c.s
-
 CMakeFiles/milandr_cmake_blink.elf.dir/src/rcc_delay.c.o: CMakeFiles/milandr_cmake_blink.elf.dir/flags.make
 CMakeFiles/milandr_cmake_blink.elf.dir/src/rcc_delay.c.o: ../src/rcc_delay.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/evg/SOFT/Github/GIT/5_Amplifier_UM_300/UM_2_MILANDR/CMake_project_blink/build_debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object CMakeFiles/milandr_cmake_blink.elf.dir/src/rcc_delay.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/evg/SOFT/Github/GIT/5_Amplifier_UM_300/UM_2_MILANDR/CMake_project_blink/build_debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/milandr_cmake_blink.elf.dir/src/rcc_delay.c.o"
 	/usr/bin/arm-none-eabi-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/milandr_cmake_blink.elf.dir/src/rcc_delay.c.o   -c /home/evg/SOFT/Github/GIT/5_Amplifier_UM_300/UM_2_MILANDR/CMake_project_blink/src/rcc_delay.c
 
 CMakeFiles/milandr_cmake_blink.elf.dir/src/rcc_delay.c.i: cmake_force
@@ -98,7 +85,7 @@ CMakeFiles/milandr_cmake_blink.elf.dir/src/rcc_delay.c.s: cmake_force
 
 CMakeFiles/milandr_cmake_blink.elf.dir/src/var.c.o: CMakeFiles/milandr_cmake_blink.elf.dir/flags.make
 CMakeFiles/milandr_cmake_blink.elf.dir/src/var.c.o: ../src/var.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/evg/SOFT/Github/GIT/5_Amplifier_UM_300/UM_2_MILANDR/CMake_project_blink/build_debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building C object CMakeFiles/milandr_cmake_blink.elf.dir/src/var.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/evg/SOFT/Github/GIT/5_Amplifier_UM_300/UM_2_MILANDR/CMake_project_blink/build_debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object CMakeFiles/milandr_cmake_blink.elf.dir/src/var.c.o"
 	/usr/bin/arm-none-eabi-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/milandr_cmake_blink.elf.dir/src/var.c.o   -c /home/evg/SOFT/Github/GIT/5_Amplifier_UM_300/UM_2_MILANDR/CMake_project_blink/src/var.c
 
 CMakeFiles/milandr_cmake_blink.elf.dir/src/var.c.i: cmake_force
@@ -111,7 +98,7 @@ CMakeFiles/milandr_cmake_blink.elf.dir/src/var.c.s: cmake_force
 
 CMakeFiles/milandr_cmake_blink.elf.dir/src/main.cpp.o: CMakeFiles/milandr_cmake_blink.elf.dir/flags.make
 CMakeFiles/milandr_cmake_blink.elf.dir/src/main.cpp.o: ../src/main.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/evg/SOFT/Github/GIT/5_Amplifier_UM_300/UM_2_MILANDR/CMake_project_blink/build_debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/milandr_cmake_blink.elf.dir/src/main.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/evg/SOFT/Github/GIT/5_Amplifier_UM_300/UM_2_MILANDR/CMake_project_blink/build_debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/milandr_cmake_blink.elf.dir/src/main.cpp.o"
 	/usr/bin/arm-none-eabi-g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/milandr_cmake_blink.elf.dir/src/main.cpp.o -c /home/evg/SOFT/Github/GIT/5_Amplifier_UM_300/UM_2_MILANDR/CMake_project_blink/src/main.cpp
 
 CMakeFiles/milandr_cmake_blink.elf.dir/src/main.cpp.i: cmake_force
@@ -122,71 +109,24 @@ CMakeFiles/milandr_cmake_blink.elf.dir/src/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/milandr_cmake_blink.elf.dir/src/main.cpp.s"
 	/usr/bin/arm-none-eabi-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/evg/SOFT/Github/GIT/5_Amplifier_UM_300/UM_2_MILANDR/CMake_project_blink/src/main.cpp -o CMakeFiles/milandr_cmake_blink.elf.dir/src/main.cpp.s
 
-CMakeFiles/milandr_cmake_blink.elf.dir/src/logic.cpp.o: CMakeFiles/milandr_cmake_blink.elf.dir/flags.make
-CMakeFiles/milandr_cmake_blink.elf.dir/src/logic.cpp.o: ../src/logic.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/evg/SOFT/Github/GIT/5_Amplifier_UM_300/UM_2_MILANDR/CMake_project_blink/build_debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/milandr_cmake_blink.elf.dir/src/logic.cpp.o"
-	/usr/bin/arm-none-eabi-g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/milandr_cmake_blink.elf.dir/src/logic.cpp.o -c /home/evg/SOFT/Github/GIT/5_Amplifier_UM_300/UM_2_MILANDR/CMake_project_blink/src/logic.cpp
-
-CMakeFiles/milandr_cmake_blink.elf.dir/src/logic.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/milandr_cmake_blink.elf.dir/src/logic.cpp.i"
-	/usr/bin/arm-none-eabi-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/evg/SOFT/Github/GIT/5_Amplifier_UM_300/UM_2_MILANDR/CMake_project_blink/src/logic.cpp > CMakeFiles/milandr_cmake_blink.elf.dir/src/logic.cpp.i
-
-CMakeFiles/milandr_cmake_blink.elf.dir/src/logic.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/milandr_cmake_blink.elf.dir/src/logic.cpp.s"
-	/usr/bin/arm-none-eabi-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/evg/SOFT/Github/GIT/5_Amplifier_UM_300/UM_2_MILANDR/CMake_project_blink/src/logic.cpp -o CMakeFiles/milandr_cmake_blink.elf.dir/src/logic.cpp.s
-
-CMakeFiles/milandr_cmake_blink.elf.dir/src/usb.cpp.o: CMakeFiles/milandr_cmake_blink.elf.dir/flags.make
-CMakeFiles/milandr_cmake_blink.elf.dir/src/usb.cpp.o: ../src/usb.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/evg/SOFT/Github/GIT/5_Amplifier_UM_300/UM_2_MILANDR/CMake_project_blink/build_debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/milandr_cmake_blink.elf.dir/src/usb.cpp.o"
-	/usr/bin/arm-none-eabi-g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/milandr_cmake_blink.elf.dir/src/usb.cpp.o -c /home/evg/SOFT/Github/GIT/5_Amplifier_UM_300/UM_2_MILANDR/CMake_project_blink/src/usb.cpp
-
-CMakeFiles/milandr_cmake_blink.elf.dir/src/usb.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/milandr_cmake_blink.elf.dir/src/usb.cpp.i"
-	/usr/bin/arm-none-eabi-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/evg/SOFT/Github/GIT/5_Amplifier_UM_300/UM_2_MILANDR/CMake_project_blink/src/usb.cpp > CMakeFiles/milandr_cmake_blink.elf.dir/src/usb.cpp.i
-
-CMakeFiles/milandr_cmake_blink.elf.dir/src/usb.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/milandr_cmake_blink.elf.dir/src/usb.cpp.s"
-	/usr/bin/arm-none-eabi-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/evg/SOFT/Github/GIT/5_Amplifier_UM_300/UM_2_MILANDR/CMake_project_blink/src/usb.cpp -o CMakeFiles/milandr_cmake_blink.elf.dir/src/usb.cpp.s
-
-CMakeFiles/milandr_cmake_blink.elf.dir/src/checkLCD_BUZZER.cpp.o: CMakeFiles/milandr_cmake_blink.elf.dir/flags.make
-CMakeFiles/milandr_cmake_blink.elf.dir/src/checkLCD_BUZZER.cpp.o: ../src/checkLCD_BUZZER.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/evg/SOFT/Github/GIT/5_Amplifier_UM_300/UM_2_MILANDR/CMake_project_blink/build_debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/milandr_cmake_blink.elf.dir/src/checkLCD_BUZZER.cpp.o"
-	/usr/bin/arm-none-eabi-g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/milandr_cmake_blink.elf.dir/src/checkLCD_BUZZER.cpp.o -c /home/evg/SOFT/Github/GIT/5_Amplifier_UM_300/UM_2_MILANDR/CMake_project_blink/src/checkLCD_BUZZER.cpp
-
-CMakeFiles/milandr_cmake_blink.elf.dir/src/checkLCD_BUZZER.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/milandr_cmake_blink.elf.dir/src/checkLCD_BUZZER.cpp.i"
-	/usr/bin/arm-none-eabi-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/evg/SOFT/Github/GIT/5_Amplifier_UM_300/UM_2_MILANDR/CMake_project_blink/src/checkLCD_BUZZER.cpp > CMakeFiles/milandr_cmake_blink.elf.dir/src/checkLCD_BUZZER.cpp.i
-
-CMakeFiles/milandr_cmake_blink.elf.dir/src/checkLCD_BUZZER.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/milandr_cmake_blink.elf.dir/src/checkLCD_BUZZER.cpp.s"
-	/usr/bin/arm-none-eabi-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/evg/SOFT/Github/GIT/5_Amplifier_UM_300/UM_2_MILANDR/CMake_project_blink/src/checkLCD_BUZZER.cpp -o CMakeFiles/milandr_cmake_blink.elf.dir/src/checkLCD_BUZZER.cpp.s
-
 # Object files for target milandr_cmake_blink.elf
 milandr_cmake_blink_elf_OBJECTS = \
 "CMakeFiles/milandr_cmake_blink.elf.dir/src/gpio.c.o" \
-"CMakeFiles/milandr_cmake_blink.elf.dir/src/mt20s4.c.o" \
 "CMakeFiles/milandr_cmake_blink.elf.dir/src/rcc_delay.c.o" \
 "CMakeFiles/milandr_cmake_blink.elf.dir/src/var.c.o" \
-"CMakeFiles/milandr_cmake_blink.elf.dir/src/main.cpp.o" \
-"CMakeFiles/milandr_cmake_blink.elf.dir/src/logic.cpp.o" \
-"CMakeFiles/milandr_cmake_blink.elf.dir/src/usb.cpp.o" \
-"CMakeFiles/milandr_cmake_blink.elf.dir/src/checkLCD_BUZZER.cpp.o"
+"CMakeFiles/milandr_cmake_blink.elf.dir/src/main.cpp.o"
 
 # External object files for target milandr_cmake_blink.elf
 milandr_cmake_blink_elf_EXTERNAL_OBJECTS =
 
 milandr_cmake_blink.elf: CMakeFiles/milandr_cmake_blink.elf.dir/src/gpio.c.o
-milandr_cmake_blink.elf: CMakeFiles/milandr_cmake_blink.elf.dir/src/mt20s4.c.o
 milandr_cmake_blink.elf: CMakeFiles/milandr_cmake_blink.elf.dir/src/rcc_delay.c.o
 milandr_cmake_blink.elf: CMakeFiles/milandr_cmake_blink.elf.dir/src/var.c.o
 milandr_cmake_blink.elf: CMakeFiles/milandr_cmake_blink.elf.dir/src/main.cpp.o
-milandr_cmake_blink.elf: CMakeFiles/milandr_cmake_blink.elf.dir/src/logic.cpp.o
-milandr_cmake_blink.elf: CMakeFiles/milandr_cmake_blink.elf.dir/src/usb.cpp.o
-milandr_cmake_blink.elf: CMakeFiles/milandr_cmake_blink.elf.dir/src/checkLCD_BUZZER.cpp.o
 milandr_cmake_blink.elf: CMakeFiles/milandr_cmake_blink.elf.dir/build.make
 milandr_cmake_blink.elf: libCMSIS.a
 milandr_cmake_blink.elf: CMakeFiles/milandr_cmake_blink.elf.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/evg/SOFT/Github/GIT/5_Amplifier_UM_300/UM_2_MILANDR/CMake_project_blink/build_debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Linking CXX executable milandr_cmake_blink.elf"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/evg/SOFT/Github/GIT/5_Amplifier_UM_300/UM_2_MILANDR/CMake_project_blink/build_debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX executable milandr_cmake_blink.elf"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/milandr_cmake_blink.elf.dir/link.txt --verbose=$(VERBOSE)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "Building /home/evg/SOFT/Github/GIT/5_Amplifier_UM_300/UM_2_MILANDR/CMake_project_blink/build_debug/milandr_cmake_blink.hex "
 	/usr/bin/objcopy -Oihex /home/evg/SOFT/Github/GIT/5_Amplifier_UM_300/UM_2_MILANDR/CMake_project_blink/build_debug/milandr_cmake_blink.elf /home/evg/SOFT/Github/GIT/5_Amplifier_UM_300/UM_2_MILANDR/CMake_project_blink/build_debug/milandr_cmake_blink.hex

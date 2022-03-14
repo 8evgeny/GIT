@@ -19,7 +19,7 @@
 					]
 				}
 			],
-			"name" : "release",
+			"name" : "Debug",
 			"projects" : 
 			[
 				{
@@ -40,14 +40,14 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "CMSIS::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-CMSIS-release-a229d5f70928b1f2943e.json",
+					"jsonFile" : "target-CMSIS-Debug-ea0ce58950ae72b307cd.json",
 					"name" : "CMSIS",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "milandr_cmake_blink.elf::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-milandr_cmake_blink.elf-release-72f8977ba21e17006c42.json",
+					"jsonFile" : "target-milandr_cmake_blink.elf-Debug-a26e8fd0dd76bc5020ab.json",
 					"name" : "milandr_cmake_blink.elf",
 					"projectIndex" : 0
 				}

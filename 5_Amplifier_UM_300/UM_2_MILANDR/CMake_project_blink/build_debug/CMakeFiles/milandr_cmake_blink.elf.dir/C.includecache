@@ -95,10 +95,6 @@ MDR32Fx.h
 ../include/MDR32Fx.h
 
 ../include/main.h
-MDR32F9Qx_timer.h
-../include/MDR32F9Qx_timer.h
-MDR32F9Qx_iwdg.h
-../include/MDR32F9Qx_iwdg.h
 MDR32F9Qx_config.h
 ../include/MDR32F9Qx_config.h
 MDR32F9Qx_usb_handlers.h
@@ -109,6 +105,10 @@ MDR32F9Qx_rst_clk.h
 ../include/MDR32F9Qx_rst_clk.h
 MDR32F9Qx_port.h
 ../include/MDR32F9Qx_port.h
+MDR32F9Qx_timer.h
+../include/MDR32F9Qx_timer.h
+MDR32F9Qx_iwdg.h
+../include/MDR32F9Qx_iwdg.h
 gpio.h
 ../include/gpio.h
 
@@ -124,18 +124,6 @@ gpio.h
 main.h
 /home/evg/SOFT/Github/GIT/5_Amplifier_UM_300/UM_2_MILANDR/CMake_project_blink/src/main.h
 
-/home/evg/SOFT/Github/GIT/5_Amplifier_UM_300/UM_2_MILANDR/CMake_project_blink/src/mt20s4.c
-MDR32Fx.h
-/home/evg/SOFT/Github/GIT/5_Amplifier_UM_300/UM_2_MILANDR/CMake_project_blink/src/MDR32Fx.h
-MDR32F9Qx_rst_clk.h
-/home/evg/SOFT/Github/GIT/5_Amplifier_UM_300/UM_2_MILANDR/CMake_project_blink/src/MDR32F9Qx_rst_clk.h
-MDR32F9Qx_port.h
-/home/evg/SOFT/Github/GIT/5_Amplifier_UM_300/UM_2_MILANDR/CMake_project_blink/src/MDR32F9Qx_port.h
-main.h
-/home/evg/SOFT/Github/GIT/5_Amplifier_UM_300/UM_2_MILANDR/CMake_project_blink/src/main.h
-gpio.h
-/home/evg/SOFT/Github/GIT/5_Amplifier_UM_300/UM_2_MILANDR/CMake_project_blink/src/gpio.h
-
 /home/evg/SOFT/Github/GIT/5_Amplifier_UM_300/UM_2_MILANDR/CMake_project_blink/src/rcc_delay.c
 MDR32Fx.h
 /home/evg/SOFT/Github/GIT/5_Amplifier_UM_300/UM_2_MILANDR/CMake_project_blink/src/MDR32Fx.h
@@ -147,18 +135,6 @@ MDR32F9Qx_timer.h
 /home/evg/SOFT/Github/GIT/5_Amplifier_UM_300/UM_2_MILANDR/CMake_project_blink/src/MDR32F9Qx_timer.h
 MDR32F9Qx_iwdg.h
 /home/evg/SOFT/Github/GIT/5_Amplifier_UM_300/UM_2_MILANDR/CMake_project_blink/src/MDR32F9Qx_iwdg.h
-gpio.h
-/home/evg/SOFT/Github/GIT/5_Amplifier_UM_300/UM_2_MILANDR/CMake_project_blink/src/gpio.h
-main.h
-/home/evg/SOFT/Github/GIT/5_Amplifier_UM_300/UM_2_MILANDR/CMake_project_blink/src/main.h
-
-/home/evg/SOFT/Github/GIT/5_Amplifier_UM_300/UM_2_MILANDR/CMake_project_blink/src/var.c
-MDR32Fx.h
-/home/evg/SOFT/Github/GIT/5_Amplifier_UM_300/UM_2_MILANDR/CMake_project_blink/src/MDR32Fx.h
-MDR32F9Qx_rst_clk.h
-/home/evg/SOFT/Github/GIT/5_Amplifier_UM_300/UM_2_MILANDR/CMake_project_blink/src/MDR32F9Qx_rst_clk.h
-MDR32F9Qx_port.h
-/home/evg/SOFT/Github/GIT/5_Amplifier_UM_300/UM_2_MILANDR/CMake_project_blink/src/MDR32F9Qx_port.h
 gpio.h
 /home/evg/SOFT/Github/GIT/5_Amplifier_UM_300/UM_2_MILANDR/CMake_project_blink/src/gpio.h
 main.h

@@ -76,12 +76,12 @@ clean: CMakeFiles/CMSIS.dir/clean
 CMakeFiles/milandr_cmake_blink.elf.dir/all: CMakeFiles/CMSIS.dir/all
 	$(MAKE) -f CMakeFiles/milandr_cmake_blink.elf.dir/build.make CMakeFiles/milandr_cmake_blink.elf.dir/depend
 	$(MAKE) -f CMakeFiles/milandr_cmake_blink.elf.dir/build.make CMakeFiles/milandr_cmake_blink.elf.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/evg/SOFT/Github/GIT/5_Amplifier_UM_300/UM_2_MILANDR/CMake_project_blink/build_debug/CMakeFiles --progress-num=10,11,12,13,14,15,16,17,18 "Built target milandr_cmake_blink.elf"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/evg/SOFT/Github/GIT/5_Amplifier_UM_300/UM_2_MILANDR/CMake_project_blink/build_debug/CMakeFiles --progress-num=10,11,12,13,14 "Built target milandr_cmake_blink.elf"
 .PHONY : CMakeFiles/milandr_cmake_blink.elf.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/milandr_cmake_blink.elf.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/evg/SOFT/Github/GIT/5_Amplifier_UM_300/UM_2_MILANDR/CMake_project_blink/build_debug/CMakeFiles 18
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/evg/SOFT/Github/GIT/5_Amplifier_UM_300/UM_2_MILANDR/CMake_project_blink/build_debug/CMakeFiles 14
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/milandr_cmake_blink.elf.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/evg/SOFT/Github/GIT/5_Amplifier_UM_300/UM_2_MILANDR/CMake_project_blink/build_debug/CMakeFiles 0
 .PHONY : CMakeFiles/milandr_cmake_blink.elf.dir/rule

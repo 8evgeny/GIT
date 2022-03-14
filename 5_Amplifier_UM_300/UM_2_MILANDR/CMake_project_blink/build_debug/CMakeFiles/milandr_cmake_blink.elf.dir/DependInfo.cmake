@@ -6,7 +6,6 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_C
   "/home/evg/SOFT/Github/GIT/5_Amplifier_UM_300/UM_2_MILANDR/CMake_project_blink/src/gpio.c" "/home/evg/SOFT/Github/GIT/5_Amplifier_UM_300/UM_2_MILANDR/CMake_project_blink/build_debug/CMakeFiles/milandr_cmake_blink.elf.dir/src/gpio.c.o"
-  "/home/evg/SOFT/Github/GIT/5_Amplifier_UM_300/UM_2_MILANDR/CMake_project_blink/src/mt20s4.c" "/home/evg/SOFT/Github/GIT/5_Amplifier_UM_300/UM_2_MILANDR/CMake_project_blink/build_debug/CMakeFiles/milandr_cmake_blink.elf.dir/src/mt20s4.c.o"
   "/home/evg/SOFT/Github/GIT/5_Amplifier_UM_300/UM_2_MILANDR/CMake_project_blink/src/rcc_delay.c" "/home/evg/SOFT/Github/GIT/5_Amplifier_UM_300/UM_2_MILANDR/CMake_project_blink/build_debug/CMakeFiles/milandr_cmake_blink.elf.dir/src/rcc_delay.c.o"
   "/home/evg/SOFT/Github/GIT/5_Amplifier_UM_300/UM_2_MILANDR/CMake_project_blink/src/var.c" "/home/evg/SOFT/Github/GIT/5_Amplifier_UM_300/UM_2_MILANDR/CMake_project_blink/build_debug/CMakeFiles/milandr_cmake_blink.elf.dir/src/var.c.o"
   )
@@ -28,10 +27,7 @@ set(CMAKE_C_TARGET_INCLUDE_PATH
   "../src"
   )
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/evg/SOFT/Github/GIT/5_Amplifier_UM_300/UM_2_MILANDR/CMake_project_blink/src/checkLCD_BUZZER.cpp" "/home/evg/SOFT/Github/GIT/5_Amplifier_UM_300/UM_2_MILANDR/CMake_project_blink/build_debug/CMakeFiles/milandr_cmake_blink.elf.dir/src/checkLCD_BUZZER.cpp.o"
-  "/home/evg/SOFT/Github/GIT/5_Amplifier_UM_300/UM_2_MILANDR/CMake_project_blink/src/logic.cpp" "/home/evg/SOFT/Github/GIT/5_Amplifier_UM_300/UM_2_MILANDR/CMake_project_blink/build_debug/CMakeFiles/milandr_cmake_blink.elf.dir/src/logic.cpp.o"
   "/home/evg/SOFT/Github/GIT/5_Amplifier_UM_300/UM_2_MILANDR/CMake_project_blink/src/main.cpp" "/home/evg/SOFT/Github/GIT/5_Amplifier_UM_300/UM_2_MILANDR/CMake_project_blink/build_debug/CMakeFiles/milandr_cmake_blink.elf.dir/src/main.cpp.o"
-  "/home/evg/SOFT/Github/GIT/5_Amplifier_UM_300/UM_2_MILANDR/CMake_project_blink/src/usb.cpp" "/home/evg/SOFT/Github/GIT/5_Amplifier_UM_300/UM_2_MILANDR/CMake_project_blink/build_debug/CMakeFiles/milandr_cmake_blink.elf.dir/src/usb.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 

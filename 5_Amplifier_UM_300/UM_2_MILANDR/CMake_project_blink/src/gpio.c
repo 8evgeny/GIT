@@ -1,47 +1,32 @@
-
-//---------------------------------
-// gpio.c
-// Плата индикации (MDR32)
-//---------------------------------
 #include "MDR32Fx.h"
 #include "MDR32F9Qx_rst_clk.h"
 #include "MDR32F9Qx_port.h"
-//---------------------------------
 #include "gpio.h"
 #include "main.h"
-//---------------------------------
-// Конфигурация выводов
-//---------------------------------
-void GPIO_init() {
-	PORT_InitTypeDef GPIO_InitStructure;
-	//Включение тактирования
-	RST_CLK_PCLKcmd(RST_CLK_PCLK_PORTA, ENABLE);
-	RST_CLK_PCLKcmd(RST_CLK_PCLK_PORTB, ENABLE);
-	
-	//Настройка выводов порта A
-	GPIO_InitStructure.PORT_Pin = (D0|D1|D2|D3|D4|D5|D6|D7);
-	GPIO_InitStructure.PORT_OE = PORT_OE_OUT; 
-	GPIO_InitStructure.PORT_PULL_UP	= PORT_PULL_UP_ON;
-	GPIO_InitStructure.PORT_PULL_DOWN = PORT_PULL_DOWN_OFF;
-	GPIO_InitStructure.PORT_PD_SHM = PORT_PD_SHM_OFF; 
-	GPIO_InitStructure.PORT_PD = PORT_PD_DRIVER;
-	GPIO_InitStructure.PORT_GFEN = PORT_GFEN_OFF;
-	GPIO_InitStructure.PORT_FUNC = PORT_FUNC_PORT;
-	GPIO_InitStructure.PORT_SPEED = PORT_SPEED_MAXFAST;
-	GPIO_InitStructure.PORT_MODE = PORT_MODE_DIGITAL;
-	PORT_Init(MDR_PORTA, &GPIO_InitStructure);
-	
-	//Настройка выводов порта B`
-	GPIO_InitStructure.PORT_Pin = (LED1_ERROR|LED2_REC|BUZZER|RS|RW|EN);
-	GPIO_InitStructure.PORT_OE = PORT_OE_OUT; 
-	GPIO_InitStructure.PORT_PULL_UP	= PORT_PULL_UP_ON;
-	GPIO_InitStructure.PORT_PULL_DOWN = PORT_PULL_DOWN_OFF;
-	GPIO_InitStructure.PORT_PD_SHM = PORT_PD_SHM_OFF; 
-	GPIO_InitStructure.PORT_PD = PORT_PD_DRIVER;
-	GPIO_InitStructure.PORT_GFEN = PORT_GFEN_OFF;
-	GPIO_InitStructure.PORT_FUNC = PORT_FUNC_PORT;
-	GPIO_InitStructure.PORT_SPEED = PORT_SPEED_MAXFAST;
-	GPIO_InitStructure.PORT_MODE = PORT_MODE_DIGITAL;
-	PORT_Init(MDR_PORTB, &GPIO_InitStructure);
+
+PORT_InitTypeDef PORTB_Init; // Объявление структуры, с помощью которой будет происходить инициализация порта
+PORT_InitTypeDef PORTC_Init;
+
+void GPIO_init()
+{
+    // Включение тактования
+    RST_CLK_PCLKcmd(RST_CLK_PCLK_PORTB, ENABLE);
+    RST_CLK_PCLKcmd(RST_CLK_PCLK_PORTC, ENABLE);
+
+    // Объявляем номера ножек порта, которые настраиваются данной структурой
+    PORTB_Init.PORT_Pin = LED1_ERROR | LED2_REC | BUZZER | RS | RW | EN;
+    PORTB_Init.PORT_OE = PORT_OE_OUT;           // Конфигурация группы выводов как выход
+    PORTB_Init.PORT_FUNC = PORT_FUNC_PORT;      // Работа а режиме порта ввода-вывода
+    PORTB_Init.PORT_MODE = PORT_MODE_DIGITAL;   // Цифровой режим
+    PORTB_Init.PORT_SPEED = PORT_SPEED_SLOW;    // Низкая частота тактования порта
+    PORT_Init(MDR_PORTB, &PORTB_Init);          // Инициализация порта B объявленной структурой
+
+    PORTC_Init.PORT_Pin = PORT_Pin_0 | PORT_Pin_1 ;
+    PORTC_Init.PORT_OE = PORT_OE_OUT;           // Конфигурация группы выводов как выход
+    PORTC_Init.PORT_FUNC = PORT_FUNC_PORT;      // Работа а режиме порта ввода-вывода
+    PORTC_Init.PORT_MODE = PORT_MODE_DIGITAL;   // Цифровой режим
+    PORTC_Init.PORT_SPEED = PORT_SPEED_SLOW;    // Низкая частота тактования порта
+    PORT_Init(MDR_PORTC, &PORTC_Init);          // Инициализация порта C объявленной структурой
+
 }
 //---------------------------------

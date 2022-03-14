@@ -352,33 +352,6 @@ home/evg/SOFT/Github/GIT/5_Amplifier_UM_300/UM_2_MILANDR/MDR1986BExx/2.0.3/Libra
 	$(MAKE) -f CMakeFiles/CMSIS.dir/build.make CMakeFiles/CMSIS.dir/home/evg/SOFT/Github/GIT/5_Amplifier_UM_300/UM_2_MILANDR/MDR1986BExx/2.0.3/Libraries/SPL/MDR32Fx/src/USB_Library/MDR32F9Qx_usb_device.c.s
 .PHONY : home/evg/SOFT/Github/GIT/5_Amplifier_UM_300/UM_2_MILANDR/MDR1986BExx/2.0.3/Libraries/SPL/MDR32Fx/src/USB_Library/MDR32F9Qx_usb_device.c.s
 
-src/checkLCD_BUZZER.o: src/checkLCD_BUZZER.cpp.o
-
-.PHONY : src/checkLCD_BUZZER.o
-
-# target to build an object file
-src/checkLCD_BUZZER.cpp.o:
-	$(MAKE) -f CMakeFiles/milandr_cmake_blink.elf.dir/build.make CMakeFiles/milandr_cmake_blink.elf.dir/src/checkLCD_BUZZER.cpp.o
-.PHONY : src/checkLCD_BUZZER.cpp.o
-
-src/checkLCD_BUZZER.i: src/checkLCD_BUZZER.cpp.i
-
-.PHONY : src/checkLCD_BUZZER.i
-
-# target to preprocess a source file
-src/checkLCD_BUZZER.cpp.i:
-	$(MAKE) -f CMakeFiles/milandr_cmake_blink.elf.dir/build.make CMakeFiles/milandr_cmake_blink.elf.dir/src/checkLCD_BUZZER.cpp.i
-.PHONY : src/checkLCD_BUZZER.cpp.i
-
-src/checkLCD_BUZZER.s: src/checkLCD_BUZZER.cpp.s
-
-.PHONY : src/checkLCD_BUZZER.s
-
-# target to generate assembly for a file
-src/checkLCD_BUZZER.cpp.s:
-	$(MAKE) -f CMakeFiles/milandr_cmake_blink.elf.dir/build.make CMakeFiles/milandr_cmake_blink.elf.dir/src/checkLCD_BUZZER.cpp.s
-.PHONY : src/checkLCD_BUZZER.cpp.s
-
 src/gpio.o: src/gpio.c.o
 
 .PHONY : src/gpio.o
@@ -405,33 +378,6 @@ src/gpio.s: src/gpio.c.s
 src/gpio.c.s:
 	$(MAKE) -f CMakeFiles/milandr_cmake_blink.elf.dir/build.make CMakeFiles/milandr_cmake_blink.elf.dir/src/gpio.c.s
 .PHONY : src/gpio.c.s
-
-src/logic.o: src/logic.cpp.o
-
-.PHONY : src/logic.o
-
-# target to build an object file
-src/logic.cpp.o:
-	$(MAKE) -f CMakeFiles/milandr_cmake_blink.elf.dir/build.make CMakeFiles/milandr_cmake_blink.elf.dir/src/logic.cpp.o
-.PHONY : src/logic.cpp.o
-
-src/logic.i: src/logic.cpp.i
-
-.PHONY : src/logic.i
-
-# target to preprocess a source file
-src/logic.cpp.i:
-	$(MAKE) -f CMakeFiles/milandr_cmake_blink.elf.dir/build.make CMakeFiles/milandr_cmake_blink.elf.dir/src/logic.cpp.i
-.PHONY : src/logic.cpp.i
-
-src/logic.s: src/logic.cpp.s
-
-.PHONY : src/logic.s
-
-# target to generate assembly for a file
-src/logic.cpp.s:
-	$(MAKE) -f CMakeFiles/milandr_cmake_blink.elf.dir/build.make CMakeFiles/milandr_cmake_blink.elf.dir/src/logic.cpp.s
-.PHONY : src/logic.cpp.s
 
 src/main.o: src/main.cpp.o
 
@@ -460,33 +406,6 @@ src/main.cpp.s:
 	$(MAKE) -f CMakeFiles/milandr_cmake_blink.elf.dir/build.make CMakeFiles/milandr_cmake_blink.elf.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
 
-src/mt20s4.o: src/mt20s4.c.o
-
-.PHONY : src/mt20s4.o
-
-# target to build an object file
-src/mt20s4.c.o:
-	$(MAKE) -f CMakeFiles/milandr_cmake_blink.elf.dir/build.make CMakeFiles/milandr_cmake_blink.elf.dir/src/mt20s4.c.o
-.PHONY : src/mt20s4.c.o
-
-src/mt20s4.i: src/mt20s4.c.i
-
-.PHONY : src/mt20s4.i
-
-# target to preprocess a source file
-src/mt20s4.c.i:
-	$(MAKE) -f CMakeFiles/milandr_cmake_blink.elf.dir/build.make CMakeFiles/milandr_cmake_blink.elf.dir/src/mt20s4.c.i
-.PHONY : src/mt20s4.c.i
-
-src/mt20s4.s: src/mt20s4.c.s
-
-.PHONY : src/mt20s4.s
-
-# target to generate assembly for a file
-src/mt20s4.c.s:
-	$(MAKE) -f CMakeFiles/milandr_cmake_blink.elf.dir/build.make CMakeFiles/milandr_cmake_blink.elf.dir/src/mt20s4.c.s
-.PHONY : src/mt20s4.c.s
-
 src/rcc_delay.o: src/rcc_delay.c.o
 
 .PHONY : src/rcc_delay.o
@@ -513,33 +432,6 @@ src/rcc_delay.s: src/rcc_delay.c.s
 src/rcc_delay.c.s:
 	$(MAKE) -f CMakeFiles/milandr_cmake_blink.elf.dir/build.make CMakeFiles/milandr_cmake_blink.elf.dir/src/rcc_delay.c.s
 .PHONY : src/rcc_delay.c.s
-
-src/usb.o: src/usb.cpp.o
-
-.PHONY : src/usb.o
-
-# target to build an object file
-src/usb.cpp.o:
-	$(MAKE) -f CMakeFiles/milandr_cmake_blink.elf.dir/build.make CMakeFiles/milandr_cmake_blink.elf.dir/src/usb.cpp.o
-.PHONY : src/usb.cpp.o
-
-src/usb.i: src/usb.cpp.i
-
-.PHONY : src/usb.i
-
-# target to preprocess a source file
-src/usb.cpp.i:
-	$(MAKE) -f CMakeFiles/milandr_cmake_blink.elf.dir/build.make CMakeFiles/milandr_cmake_blink.elf.dir/src/usb.cpp.i
-.PHONY : src/usb.cpp.i
-
-src/usb.s: src/usb.cpp.s
-
-.PHONY : src/usb.s
-
-# target to generate assembly for a file
-src/usb.cpp.s:
-	$(MAKE) -f CMakeFiles/milandr_cmake_blink.elf.dir/build.make CMakeFiles/milandr_cmake_blink.elf.dir/src/usb.cpp.s
-.PHONY : src/usb.cpp.s
 
 src/var.o: src/var.c.o
 
@@ -602,27 +494,15 @@ help:
 	@echo "... home/evg/SOFT/Github/GIT/5_Amplifier_UM_300/UM_2_MILANDR/MDR1986BExx/2.0.3/Libraries/SPL/MDR32Fx/src/USB_Library/MDR32F9Qx_usb_device.o"
 	@echo "... home/evg/SOFT/Github/GIT/5_Amplifier_UM_300/UM_2_MILANDR/MDR1986BExx/2.0.3/Libraries/SPL/MDR32Fx/src/USB_Library/MDR32F9Qx_usb_device.i"
 	@echo "... home/evg/SOFT/Github/GIT/5_Amplifier_UM_300/UM_2_MILANDR/MDR1986BExx/2.0.3/Libraries/SPL/MDR32Fx/src/USB_Library/MDR32F9Qx_usb_device.s"
-	@echo "... src/checkLCD_BUZZER.o"
-	@echo "... src/checkLCD_BUZZER.i"
-	@echo "... src/checkLCD_BUZZER.s"
 	@echo "... src/gpio.o"
 	@echo "... src/gpio.i"
 	@echo "... src/gpio.s"
-	@echo "... src/logic.o"
-	@echo "... src/logic.i"
-	@echo "... src/logic.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
-	@echo "... src/mt20s4.o"
-	@echo "... src/mt20s4.i"
-	@echo "... src/mt20s4.s"
 	@echo "... src/rcc_delay.o"
 	@echo "... src/rcc_delay.i"
 	@echo "... src/rcc_delay.s"
-	@echo "... src/usb.o"
-	@echo "... src/usb.i"
-	@echo "... src/usb.s"
 	@echo "... src/var.o"
 	@echo "... src/var.i"
 	@echo "... src/var.s"
