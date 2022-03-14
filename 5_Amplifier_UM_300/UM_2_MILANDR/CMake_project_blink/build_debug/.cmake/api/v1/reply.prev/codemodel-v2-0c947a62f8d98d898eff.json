@@ -1,0 +1,68 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.15"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1
+					]
+				}
+			],
+			"name" : "release",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "milandr_cmake_blink",
+					"targetIndexes" : 
+					[
+						0,
+						1
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "CMSIS::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-CMSIS-release-a229d5f70928b1f2943e.json",
+					"name" : "CMSIS",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "milandr_cmake_blink.elf::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-milandr_cmake_blink.elf-release-72f8977ba21e17006c42.json",
+					"name" : "milandr_cmake_blink.elf",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/home/evg/SOFT/Github/GIT/5_Amplifier_UM_300/UM_2_MILANDR/CMake_project_blink/build_debug",
+		"source" : "/home/evg/SOFT/Github/GIT/5_Amplifier_UM_300/UM_2_MILANDR/CMake_project_blink"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 0
+	}
+}
