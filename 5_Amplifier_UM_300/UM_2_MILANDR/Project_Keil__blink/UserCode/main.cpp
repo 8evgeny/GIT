@@ -41,14 +41,9 @@ int main (int argc, char** argv) {
     PORTB_Init.PORT_SPEED = PORT_SPEED_SLOW;    // Низкая частота тактования порта
     PORT_Init(MDR_PORTB, &PORTB_Init);          // Инициализация порта B объявленной структурой
 
-    PORTC_Init.PORT_Pin = 
-    PORT_Pin_1 |
-    PORT_Pin_2 |
-    PORT_Pin_3 |
-    PORT_Pin_5 |
-    PORT_Pin_6 |
-    PORT_Pin_7 |
-    PORT_Pin_8 
+    PORTC_Init.PORT_Pin =
+    PORT_Pin_0 |
+    PORT_Pin_1
     ;
     PORTC_Init.PORT_OE = PORT_OE_OUT;           // Конфигурация группы выводов как выход
     PORTC_Init.PORT_FUNC = PORT_FUNC_PORT;      // Работа а режиме порта ввода-вывода
@@ -59,9 +54,11 @@ int main (int argc, char** argv) {
     
     while(1){
         PORT_SetBits(MDR_PORTB, LED1_ERROR);   // Установка единицы
+        PORT_SetBits(MDR_PORTC, PORT_Pin_0);
         PORT_SetBits(MDR_PORTC, PORT_Pin_1);
         delay(0xFFFF);                         // Задержка
         PORT_ResetBits(MDR_PORTB, LED1_ERROR); // Установка нуля
+        PORT_ResetBits(MDR_PORTC, PORT_Pin_0)
         PORT_ResetBits(MDR_PORTC, PORT_Pin_1);
         PORT_SetBits(MDR_PORTB, LED2_REC);
         delay(0xFFFF);
