@@ -8,3 +8,4 @@ build_release/
 cmake-build-debug/
 *.txt.user*
 Objects/
+*.uvguix.Professional
