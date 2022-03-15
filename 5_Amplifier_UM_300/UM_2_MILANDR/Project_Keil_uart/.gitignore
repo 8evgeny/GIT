@@ -1,0 +1,10 @@
+bin/
+obj/
+MDR1986BExx/
+*.pro.user.*
+CMakeLists.txt.user
+build_debug/
+build_release/
+cmake-build-debug/
+*.txt.user*
+Objects/
