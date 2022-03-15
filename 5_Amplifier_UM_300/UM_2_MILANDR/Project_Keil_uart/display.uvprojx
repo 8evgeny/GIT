@@ -492,6 +492,12 @@
           <targetInfo name="display"/>
         </targetInfos>
       </component>
+      <component Cclass="Drivers" Cgroup="UART" Cvendor="Keil" Cversion="2.0.3" condition="CON_MDR32F9_UART_DENPENDENCIES_RST_CLK">
+        <package name="MDR1986BExx" schemaVersion="1.2" url="https://ic.milandr.ru/soft/" vendor="Keil" version="2.0.3"/>
+        <targetInfos>
+          <targetInfo name="display"/>
+        </targetInfos>
+      </component>
     </components>
     <files>
       <file attr="config" category="header" name="Config\DV_Config.h" version="2.0.0">
