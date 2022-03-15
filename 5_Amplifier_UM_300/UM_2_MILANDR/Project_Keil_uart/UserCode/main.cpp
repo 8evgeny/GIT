@@ -104,7 +104,6 @@ int main (void)
 
     UART_SendData(MDR_UART2, tmp_data);
     while (UART_GetFlagStatus (MDR_UART2, UART_FLAG_TXFE) != SET);
-
   }
 }
 
