@@ -137,13 +137,13 @@ int main (void)
   {
     /* Check TXFE flag */
     while (UART_GetFlagStatus (MDR_UART2, UART_FLAG_RXFE) == SET);
-
     tmp_data = UART_ReceiveData(MDR_UART2);
-
     UART_SendData(MDR_UART2, tmp_data); // обратно во 2 uart
     while (UART_GetFlagStatus (MDR_UART2, UART_FLAG_TXFE) != SET);
 
-    UART_SendData(MDR_UART1, tmp_data); // обратно в 1 uart
+    while (UART_GetFlagStatus (MDR_UART1, UART_FLAG_RXFE) == SET);
+    tmp_data = UART_ReceiveData(MDR_UART1);
+    UART_SendData(MDR_UART1, tmp_data);
     while (UART_GetFlagStatus (MDR_UART1, UART_FLAG_TXFE) != SET);
 
   }
