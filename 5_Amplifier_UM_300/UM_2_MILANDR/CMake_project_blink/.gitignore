@@ -3,7 +3,7 @@ obj/
 MDR1986BExx/
 *.pro.user.*
 CMakeLists.txt.user
-build/
+build_debug/
 build_release/
 cmake-build-debug/
 *.txt.user*
