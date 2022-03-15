@@ -3,99 +3,108 @@
 #include "MDR32F9Qx_port.h"
 #include "MDR32F9Qx_timer.h"
 #include "MDR32F9Qx_iwdg.h"
-//---------------------------------
-#include "MDR32F9Qx_config.h"
-//#include "MDR32F9Qx_usb_handlers.h"
-//---------------------------------
+
 #include "main.h"
-//=================================
-// Настройка порта В
-//---------------------------------
-#define LED1_ERROR	PORT_Pin_5
-#define LED2_REC	PORT_Pin_6
-#define BUZZER		PORT_Pin_7
-#define RS			PORT_Pin_8
-#define RW 			PORT_Pin_9
-#define EN 			PORT_Pin_10
 
-#define delay(T) for(i = T; i > 0; i--) // Определение функции задержки (см. примечение 1)
-// Объявление структуры, с помощью которой будет происходить инициализация порта
-PORT_InitTypeDef PORTC_Init;
-int i; // Глобальная переменная счетчика, которая используется в функции delay()
+#include "MDR32F9Qx_config.h"
+#include "MDR32Fx.h"
+#include "MDR32F9Qx_uart.h"
+#include "MDR32F9Qx_port.h"
+#include "MDR32F9Qx_rst_clk.h"
+//#include "MDR32F9Qx_eeprom.h"
 
-int main (int argc, char** argv) {
-    // Включение тактования порта C
-    RST_CLK_PCLKcmd(RST_CLK_PCLK_PORTC, ENABLE);
-    // Объявляем номера ножек порта, которые настраиваются данной структурой
 
-    PORTC_Init.PORT_Pin =
-    PORT_Pin_0 | PORT_Pin_1 ;
-    PORTC_Init.PORT_OE = PORT_OE_OUT;           // Конфигурация группы выводов как выход
-    PORTC_Init.PORT_FUNC = PORT_FUNC_PORT;      // Работа а режиме порта ввода-вывода
-    PORTC_Init.PORT_MODE = PORT_MODE_DIGITAL;   // Цифровой режим
-    PORTC_Init.PORT_SPEED = PORT_SPEED_SLOW;    // Низкая частота тактования порта
-    PORT_Init(MDR_PORTC, &PORTC_Init);          // Инициализация порта C объявленной структурой
-    
-    
-    while(1){
-        PORT_SetBits(MDR_PORTC, PORT_Pin_0);
-        PORT_SetBits(MDR_PORTC, PORT_Pin_1);
-        delay(0xFFFF);                         // Задержка
-        delay(0xFFFF);
+static PORT_InitTypeDef PortInit;
+static UART_InitTypeDef UART_InitStructure;
 
-        PORT_ResetBits(MDR_PORTC, PORT_Pin_0);
-        PORT_ResetBits(MDR_PORTC, PORT_Pin_1);
-        delay(0xFFFF);
-    }
-}
-#if 0
-Описание структуры, управляющей портом
-typedef struct
+
+int main (void)
 {
-    uint16_t PORT_Pin;                 Определяет какие ножки порта будут сконфигурированы
-                                       например значение поля в двоичном коде 0b0000 0001 0000 0010
-                                       конфигурирует 8 и 1 бит. Для задания значений можно
-                                       воспользоваться стандартными битовыми масками PORT_Pin_x,
-                                       которые записываются через побитовое ИЛИ: PORT_Pin_1|PORT_Pin_8.
+   RST_CLK_HSEconfig(RST_CLK_HSE_ON);
+   while(RST_CLK_HSEstatus() != SUCCESS);
 
-PORT_OE_TypeDef PORT_OE;               Определяет режим работы порта: ввод или вывод.
-                                       ввод                                PORT_OE_IN         (0)
-                                       вывод                               PORT_OE_OUT -      (1)
+   /* Configures the CPU_PLL clock source */
+   RST_CLK_CPU_PLLconfig(RST_CLK_CPU_PLLsrcHSEdiv1, RST_CLK_CPU_PLLmul10);
 
-PORT_PULL_UP_TypeDef PORT_PULL_UP;     Определяет включение верхнего подтягивающего резистора
-                                       выключен                            PORT_PULL_UP_OFF   (0)
-                                       включен                             PORT_PULL_UP_ON    (1)
+   /* Enables the CPU_PLL */
+   RST_CLK_CPU_PLLcmd(ENABLE);
+   if (RST_CLK_CPU_PLLstatus() == ERROR) {
+      while (1);
+   }
 
-PORT_PULL_DOWN_TypeDef PORT_PULL_DOWN; Определяет включение нижнего подтягивающего резистора
-                                       выключен                            PORT_PULL_DOWN_OFF (0)
-                                       включен                             PORT_PULL_DOWN_OFF (1)
+   /* Enables the RST_CLK_PCLK_EEPROM */
+   RST_CLK_PCLKcmd(RST_CLK_PCLK_EEPROM, ENABLE);
+   /* Sets the code latency value */
 
-PORT_PD_SHM_TypeDef PORT_PD_SHM; Определяет включение или выключение триггера Шмидта
-                                 выключен  (гистерезис 200мВ)              PORT_PD_SHM_OFF    (0)
-                                 включен   (гистерезис 400мВ)              PORT_PD_SHM_ON     (1)
+//   EEPROM_SetLatency(EEPROM_Latency_3);
 
-PORT_PD_TypeDef   PORT_PD;       Определяет режим работы ножки.
-                                 Управляемый драйвер                       PORT_PD_DRIVER     (0)
-                                 Открытый сток                             PORT_PD_OPEN       (1)
+   /* Select the CPU_PLL output as input for CPU_C3_SEL */
+   RST_CLK_CPU_PLLuse(ENABLE);
+   /* Set CPUClk Prescaler */
+   RST_CLK_CPUclkPrescaler(RST_CLK_CPUclkDIV1);
 
-PORT_GFEN_TypeDef PORT_GFEN;     Определяет режим работы входного фильтра ножки.
-                                 Выключен                                  PORT_GFEN_OFF      (0)
-                                 Включен                                   PORT_GFEN_ON       (1)
+   /* Select the CPU clock source */
+   RST_CLK_CPUclkSelection(RST_CLK_CPUclkCPU_C3);
 
-PORT_FUNC_TypeDef PORT_FUNC;     Определяет режим работы вывода порта:
-                                 - Порт                                    PORT_FUNC_PORT     (0)
-                                 - Основная функция                        PORT_FUNC_MAIN     (1)
-                                 - Альтернативная функция                  PORT_FUNC_ALTER    (2)
-                                 - Переопределенная функция                PORT_FUNC_OVERRID  (3)
+  /* Enables the HSE clock on PORTF */
+  RST_CLK_PCLKcmd(RST_CLK_PCLK_PORTF,ENABLE);
 
-PORT_SPEED_TypeDef PORT_SPEED;   Определяет скорость работы порта:
-                                 зарезервировано (передатчик отключен)     PORT_OUTPUT_OFF    (0)
-                                 медленный фронт (порядка 100 нс)          PORT_SPEED_SLOW    (1)
-                                 быстрый фронт (порядка 20 нс)             PORT_SPEED_FAST    (2)
-                                 максимально быстрый фронт (порядка 10 нс) PORT_SPEED_MAXFAST (3)
+  /* Fill PortInit structure*/
+  PortInit.PORT_PULL_UP = PORT_PULL_UP_OFF;
+  PortInit.PORT_PULL_DOWN = PORT_PULL_DOWN_OFF;
+  PortInit.PORT_PD_SHM = PORT_PD_SHM_OFF;
+  PortInit.PORT_PD = PORT_PD_DRIVER;
+  PortInit.PORT_GFEN = PORT_GFEN_OFF;
+  PortInit.PORT_FUNC = PORT_FUNC_OVERRID;
+  PortInit.PORT_SPEED = PORT_SPEED_MAXFAST;
+  PortInit.PORT_MODE = PORT_MODE_DIGITAL;
 
-PORT_MODE_TypeDef PORT_MODE;     Определяет режим работы контроллера:
-                                 аналоговый                                PORT_MODE_ANALOG  = 0x0
-                                 цифровой                                  PORT_MODE_DIGITAL = 0x1
-}PORT_InitTypeDef;
-#endif
+  /* Configure PORTF pins 1 (UART2_TX) as output */
+  PortInit.PORT_OE = PORT_OE_OUT;
+  PortInit.PORT_Pin = PORT_Pin_1;
+  PORT_Init(MDR_PORTF, &PortInit);
+
+  /* Configure PORTF pins 0 (UART2_RX) as input */
+  PortInit.PORT_OE = PORT_OE_IN;
+  PortInit.PORT_Pin = PORT_Pin_0;
+  PORT_Init(MDR_PORTF, &PortInit);
+
+
+  /* Select HSI/2 as CPU_CLK source*/
+  //RST_CLK_CPU_PLLconfig (RST_CLK_CPU_PLLsrcHSIdiv2,0);
+
+  /* Enables the CPU_CLK clock on UART2 */
+  RST_CLK_PCLKcmd(RST_CLK_PCLK_UART2, ENABLE);
+
+  /* Set the HCLK division factor = 1 for UART2*/
+  UART_BRGInit(MDR_UART2, UART_HCLKdiv1);
+
+  /* Initialize UART_InitStructure */
+  UART_InitStructure.UART_BaudRate                = 115000;
+  UART_InitStructure.UART_WordLength              = UART_WordLength8b;
+  UART_InitStructure.UART_StopBits                = UART_StopBits1;
+  UART_InitStructure.UART_Parity                  = UART_Parity_No;
+  UART_InitStructure.UART_FIFOMode                = UART_FIFO_ON;
+  UART_InitStructure.UART_HardwareFlowControl     = UART_HardwareFlowControl_RXE | UART_HardwareFlowControl_TXE;
+
+  /* Configure UART2 parameters*/
+  UART_Init (MDR_UART2,&UART_InitStructure);
+
+  /* Enables UART2 peripheral */
+  UART_Cmd(MDR_UART2,ENABLE);
+
+  uint8_t tmp_data;
+
+  while (1)
+  {
+    /* Check TXFE flag */
+    while (UART_GetFlagStatus (MDR_UART2, UART_FLAG_RXFE) == SET);
+
+    tmp_data = UART_ReceiveData(MDR_UART2);
+
+    UART_SendData(MDR_UART2, tmp_data);
+
+    while (UART_GetFlagStatus (MDR_UART2, UART_FLAG_TXFE) != SET);
+  }
+}
+
