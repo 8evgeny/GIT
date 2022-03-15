@@ -131,7 +131,8 @@ int main (void)
   UART_Cmd(MDR_UART1,ENABLE);
 
 
-  uint8_t tmp_data;
+  uint8_t tmp_data1;
+  uint8_t tmp_data2;
 
   while (1)
   {
@@ -142,9 +143,15 @@ int main (void)
 //    while (UART_GetFlagStatus (MDR_UART2, UART_FLAG_TXFE) != SET);
 
     while (UART_GetFlagStatus (MDR_UART1, UART_FLAG_RXFE) == SET);
-    tmp_data = UART_ReceiveData(MDR_UART1);
-    UART_SendData(MDR_UART1, tmp_data);
+    tmp_data1 = UART_ReceiveData(MDR_UART1);
+
+    UART_SendData(MDR_UART1, tmp_data1);
     while (UART_GetFlagStatus (MDR_UART1, UART_FLAG_TXFE) != SET);
+
+    tmp_data2 = tmp_data1;
+
+    UART_SendData(MDR_UART2, tmp_data2);
+    while (UART_GetFlagStatus (MDR_UART2, UART_FLAG_TXFE) != SET);
 
   }
 }
