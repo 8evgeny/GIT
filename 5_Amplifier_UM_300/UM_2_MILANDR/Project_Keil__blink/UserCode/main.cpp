@@ -40,12 +40,11 @@ int main (int argc, char** argv) {
     while(1){
         PORT_SetBits(MDR_PORTC, PORT_Pin_0);
         PORT_SetBits(MDR_PORTC, PORT_Pin_1);
-        delay(0xFFFF);                         // Задержка
-        delay(0xFFFF);
+        delay(0x3FFFF);                         // Задержка
 
         PORT_ResetBits(MDR_PORTC, PORT_Pin_0);
         PORT_ResetBits(MDR_PORTC, PORT_Pin_1);
-        delay(0xFFFF);
+        delay(0x3FFFF);
     }
 }
 #if 0
