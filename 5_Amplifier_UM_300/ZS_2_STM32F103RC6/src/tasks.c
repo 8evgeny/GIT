@@ -14,10 +14,10 @@ void
 task2(void *args __attribute((unused)))
 {
 
-    for (;;) {
-        gpio_toggle(GPIOB, GPIO14);
-        vTaskDelay(pdMS_TO_TICKS(500));
-    }
+//    for (;;) {
+//        gpio_toggle(GPIOB, GPIO14);
+//        vTaskDelay(pdMS_TO_TICKS(500));
+//    }
 }
 
 void
