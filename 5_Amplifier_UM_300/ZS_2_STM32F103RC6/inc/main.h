@@ -33,3 +33,5 @@ void setLedOvercutOut();
 void resetLedOvercutOut();
 void setLedOverheatOut();
 void resetLedOverheatOut();
+void fanOn();
+void fanOff();

@@ -27,3 +27,6 @@ void setLedOvercutOut()   { gpio_set(GPIOB, GPIO12);}
 void resetLedOvercutOut() { gpio_clear(GPIOB, GPIO12);}
 void setLedOverheatOut()  { gpio_set(GPIOB, GPIO13);}
 void resetLedOverheatOut(){ gpio_clear(GPIOB, GPIO13);}
+
+void fanOn()  { gpio_clear(GPIOB, GPIO9);}//Инверсия
+void fanOff(){ gpio_set(GPIOB, GPIO9);}
