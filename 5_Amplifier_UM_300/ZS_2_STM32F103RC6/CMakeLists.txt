@@ -51,9 +51,8 @@ add_definitions(-DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB
     -DSTM32F1 #добавил
     )
 
-#file(GLOB_RECURSE SOURCES "Core/*.*" "Drivers/*.*")
-file(GLOB_RECURSE SOURCES
-    src/main.c
+file(GLOB_RECURSE SOURCES_C
+#    src/main.c
     src/tasks.c
     src/init.c
     src/out_commands.c
@@ -65,6 +64,12 @@ file(GLOB_RECURSE SOURCES
     )
 # rtos/queue.c
 
+file(GLOB_RECURSE SOURCES_CPP
+    src/main.cpp
+    )
+
+
+
 include_directories(
     inc
     libopencm3/include
@@ -73,7 +78,8 @@ include_directories(
     )
 
 add_executable(${PROJECT_NAME}.elf
-    ${SOURCES}
+    ${SOURCES_C}
+    ${SOURCES_CPP}
     ${LINKER_SCRIPT}
     )
 

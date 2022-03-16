@@ -1,7 +1,7 @@
 #include "main.h"
 
 void
-task1(void *args __attribute((unused)))
+testTask1(void *args __attribute((unused)))
 {
 
     for (;;) {
@@ -10,18 +10,9 @@ task1(void *args __attribute((unused)))
     }
 }
 
-void
-task2(void *args __attribute((unused)))
-{
-
-//    for (;;) {
-//        gpio_toggle(GPIOB, GPIO14);
-//        vTaskDelay(pdMS_TO_TICKS(500));
-//    }
-}
 
 void
-task3(void *args __attribute((unused)))
+testTask2(void *args __attribute((unused)))
 {
 
     for (;;) {
