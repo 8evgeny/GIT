@@ -56,6 +56,7 @@ file(GLOB_RECURSE SOURCES
     src/main.c
     src/tasks.c
     src/init.c
+    src/out_commands.c
     rtos/heap_4.c
     rtos/list.c
     rtos/port.c
