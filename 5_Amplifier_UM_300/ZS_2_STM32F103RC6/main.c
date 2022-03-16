@@ -36,20 +36,33 @@ task2(void *args __attribute((unused)))
     }
 }
 
+static void
+task3(void *args __attribute((unused)))
+{
+
+    for (;;) {
+        gpio_toggle(GPIOD, GPIO2);
+        vTaskDelay(pdMS_TO_TICKS(1000));
+    }
+}
+
 int
 main(void) {
 
 //    rcc_clock_setup_in_hse_8mhz_out_72mhz(); // For "blue pill"
     rcc_clock_setup_pll(&rcc_hse_configs[RCC_CLOCK_HSE8_72MHZ]);
 
-	rcc_periph_clock_enable(RCC_GPIOC);
     rcc_periph_clock_enable(RCC_GPIOB);
+	rcc_periph_clock_enable(RCC_GPIOC);
+    rcc_periph_clock_enable(RCC_GPIOD);
 
-    gpio_set_mode(GPIOC, GPIO_MODE_OUTPUT_2_MHZ, GPIO_CNF_OUTPUT_PUSHPULL, GPIO6);
     gpio_set_mode(GPIOB, GPIO_MODE_OUTPUT_2_MHZ, GPIO_CNF_OUTPUT_PUSHPULL, GPIO14);
+    gpio_set_mode(GPIOC, GPIO_MODE_OUTPUT_2_MHZ, GPIO_CNF_OUTPUT_PUSHPULL, GPIO6);
+    gpio_set_mode(GPIOD, GPIO_MODE_OUTPUT_2_MHZ, GPIO_CNF_OUTPUT_PUSHPULL, GPIO2);
 
     xTaskCreate(task1, "LED1", 100, NULL, configMAX_PRIORITIES-1, NULL);
     xTaskCreate(task2, "LED2", 100, NULL, configMAX_PRIORITIES-1, NULL);
+    xTaskCreate(task3, "LED3", 100, NULL, configMAX_PRIORITIES-1, NULL);
 	vTaskStartScheduler();
 
 	for (;;);
