@@ -8,6 +8,9 @@ extern "C" {
 #include <libopencm3/stm32/gpio.h>
 #include "FreeRTOS.h"
 
+#include "queue.h"
+#include "uartlib.h"
+
 #include "task.h"
 
 void testTask1(void *args __attribute((unused)));
@@ -16,7 +19,9 @@ void testTask3(void *args __attribute((unused)));
 void testTask4(void *args __attribute((unused)));
 void testTask5(void *args __attribute((unused)));
 
-void init();
+void testUART(void *args __attribute((unused)));
+
+void gpio_setup();
 
 void setImpedanceRele(bool);
 void setReleTr1(bool);
@@ -35,6 +40,7 @@ void setPowerOut(bool);
 void setErrorRele(bool set);
 void setReleLine1(bool set);
 void setRele24V(bool set);
+
 
 #ifdef __cplusplus
 }

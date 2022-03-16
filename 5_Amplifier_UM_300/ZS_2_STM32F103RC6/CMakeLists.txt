@@ -61,8 +61,10 @@ file(GLOB_RECURSE SOURCES_C
     rtos/port.c
     rtos/tasks.c
     rtos/opencm3.c
+    rtos/queue.c
+    libwwg/src/uartlib.c
     )
-# rtos/queue.c
+
 
 file(GLOB_RECURSE SOURCES_CPP
     src/main.cpp
@@ -75,6 +77,7 @@ include_directories(
     libopencm3/include
     rtos
     ./
+    libwwg/include
     )
 
 add_executable(${PROJECT_NAME}.elf
