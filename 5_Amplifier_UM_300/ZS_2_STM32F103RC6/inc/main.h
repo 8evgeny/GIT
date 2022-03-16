@@ -12,6 +12,9 @@ extern "C" {
 
 void testTask1(void *args __attribute((unused)));
 void testTask2(void *args __attribute((unused)));
+void testTask3(void *args __attribute((unused)));
+void testTask4(void *args __attribute((unused)));
+void testTask5(void *args __attribute((unused)));
 
 void init();
 
