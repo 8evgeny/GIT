@@ -53,7 +53,9 @@ add_definitions(-DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB
 
 #file(GLOB_RECURSE SOURCES "Core/*.*" "Drivers/*.*")
 file(GLOB_RECURSE SOURCES
-    main.c
+    src/main.c
+    src/tasks.c
+    src/init.c
     rtos/heap_4.c
     rtos/list.c
     rtos/port.c
@@ -63,6 +65,7 @@ file(GLOB_RECURSE SOURCES
 # rtos/queue.c
 
 include_directories(
+    inc
     libopencm3/include
     rtos
     ./
