@@ -50,5 +50,14 @@ testTask5(void *args __attribute((unused)))
         vTaskDelay(pdMS_TO_TICKS(3000));
     }
 }
+void
+testTask6(void *args __attribute((unused)))
+{
+    for (;;)
+    {
+        gpio_toggle(GPIOB, GPIO1);
+        vTaskDelay(pdMS_TO_TICKS(1500));
+    }
+}
 
 
