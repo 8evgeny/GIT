@@ -10,10 +10,14 @@ void gpio_setup()
     rcc_periph_clock_enable(RCC_GPIOC);
     rcc_periph_clock_enable(RCC_GPIOD);
 
-//UART
-    gpio_set_mode(GPIOA, GPIO_MODE_OUTPUT_50_MHZ, GPIO_CNF_OUTPUT_ALTFN_PUSHPULL, GPIO_UART4_TX);
-    gpio_set_mode(GPIOA, GPIO_MODE_INPUT, GPIO_CNF_INPUT_FLOAT, GPIO_UART4_RX);
+    rcc_periph_clock_enable(RCC_UART4);
 
+//UART  PC10 - TX подключать белый(RX)  PC11 - RX подключать зеленый(TX)
+    gpio_set_mode(GPIOC,
+                  GPIO_MODE_OUTPUT_50_MHZ,
+                  GPIO_CNF_OUTPUT_ALTFN_PUSHPULL,
+                  GPIO_UART4_TX);
+//    gpio_set_mode(GPIOC, GPIO_MODE_INPUT, GPIO_CNF_INPUT_FLOAT, GPIO_UART4_RX);
 
 
 //Выходы

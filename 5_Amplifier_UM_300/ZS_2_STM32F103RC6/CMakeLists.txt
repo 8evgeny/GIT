@@ -78,6 +78,7 @@ include_directories(
     rtos
     ./
     libwwg/include
+#    libopencm3/include/libopencm3/stm32/common
     )
 
 add_executable(${PROJECT_NAME}.elf

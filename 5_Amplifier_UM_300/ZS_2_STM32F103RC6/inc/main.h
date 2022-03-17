@@ -1,11 +1,14 @@
 #pragma once
 
+#include <libopencm3/stm32/rcc.h>
+#include <libopencm3/stm32/gpio.h>
+#include <libopencm3/stm32/usart.h>
+
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-#include <libopencm3/stm32/rcc.h>
-#include <libopencm3/stm32/gpio.h>
+
 #include "FreeRTOS.h"
 
 #include "queue.h"
