@@ -116,13 +116,13 @@ main(void) {
     uart_setup();
 
     xTaskCreate(uart_task,"UART", 200, NULL, configMAX_PRIORITIES - 1, NULL);	/* Highest priority */
-    xTaskCreate(demo_task,"DEMO", 100, NULL, configMAX_PRIORITIES - 2, NULL);	/* Lower priority */
+//    xTaskCreate(demo_task,"DEMO", 100, NULL, configMAX_PRIORITIES - 2, NULL);	/* Lower priority */
 
-    xTaskCreate(testTask1, "LED1", 100, NULL, configMAX_PRIORITIES - 3, NULL);
-    xTaskCreate(testTask2, "LED2", 100, NULL, configMAX_PRIORITIES - 3, NULL);
-    xTaskCreate(testTask3, "LED3", 100, NULL, configMAX_PRIORITIES - 3, NULL);
-    xTaskCreate(testTask4, "LED4", 100, NULL, configMAX_PRIORITIES - 3, NULL);
-    xTaskCreate(testTask5, "LED5", 100, NULL, configMAX_PRIORITIES - 3, NULL);
+    xTaskCreate(testTask1, "LED1", 100, NULL, configMAX_PRIORITIES - 1, NULL);
+    xTaskCreate(testTask2, "LED2", 100, NULL, configMAX_PRIORITIES - 1, NULL);
+    xTaskCreate(testTask3, "LED3", 100, NULL, configMAX_PRIORITIES - 1, NULL);
+    xTaskCreate(testTask4, "LED4", 100, NULL, configMAX_PRIORITIES - 1, NULL);
+    xTaskCreate(testTask5, "LED5", 100, NULL, configMAX_PRIORITIES - 1, NULL);
 
 	vTaskStartScheduler();
 
