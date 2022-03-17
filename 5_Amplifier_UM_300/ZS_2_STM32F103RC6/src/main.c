@@ -46,17 +46,13 @@ stringToUart(const char *s) {
 static void
 testUART2(void *args __attribute__((unused)))
 {
-
     for (;;)
     {
-
         stringToUart("\nNow this is a message sent via FreeRTOS queues");
         stringToUart("\n\r");
         vTaskDelay(pdMS_TO_TICKS(1000));
-
     }
 }
-
 
 
 //#ifdef __cplusplus
@@ -83,7 +79,6 @@ uart_setup()
 //    open_uart(4, 115200, "8N1", "rw", 0, 0); //Описание в теле функции
 
 }
-
 
 int
 main(void) {
