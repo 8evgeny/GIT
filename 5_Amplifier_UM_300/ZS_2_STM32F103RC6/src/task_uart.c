@@ -1,7 +1,5 @@
 #include "main.h"
 
-
-
 /*********************************************************************
  * Send one character to the UART
  *********************************************************************/
@@ -14,7 +12,7 @@ uart_putc(char ch) {
  * Send characters to the UART, slowly
  *********************************************************************/
 void
-taskUART(void *args __attribute__((unused))) {
+testUART1(void *args __attribute__((unused))) {
     int c = '0' - 1;
 
     for (;;) {
