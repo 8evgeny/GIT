@@ -31,8 +31,9 @@ uart_setup(void)
     usart_enable(UART4);
 
 //Описание в теле функции
-//    open_uart(4, 115200, "8N1", "rw", 0, 0);
-//    uart_txq = xQueueCreate(256,sizeof(char));
+    open_uart(4, 115200, "8N1", "rw", 0, 0);
+    uart_txq = xQueueCreate(256, sizeof(char));
+
 }
 
 /*********************************************************************
@@ -107,39 +108,6 @@ demo_task(void *args)
 }
 
 
-///*********************************************************************
-// * Send one character to the UART
-// *********************************************************************/
-//static inline void
-//uart_putc(char ch) {
-//    usart_send_blocking(UART4, ch);
-//}
-
-///*********************************************************************
-// * Send characters to the UART, slowly
-// *********************************************************************/
-//static void
-//taskUART(void *args __attribute__((unused))) {
-//    int c = '0' - 1;
-
-//    for (;;) {
-////        gpio_toggle(GPIOD,GPIO2);
-//        vTaskDelay(pdMS_TO_TICKS(50));
-//        if ( ++c >= 'Z' ) {
-//            uart_putc(c);
-//            uart_putc('\r');
-//            uart_putc('\n');
-//            c = '0' - 1;
-//        } else	{
-//            uart_putc(c);
-//        }
-//    }
-//}
-
-
-
-
-
 #ifdef __cplusplus
 }
 #endif
@@ -151,8 +119,8 @@ main(void) {
     gpio_setup();
     uart_setup();
 
-//    xTaskCreate(uart_task,"UART", 200, NULL, configMAX_PRIORITIES - 1, NULL);	/* Highest priority */
-//    xTaskCreate(demo_task,"DEMO", 100, NULL, configMAX_PRIORITIES - 1, NULL);	/* Lower priority */
+//    xTaskCreate(uart_task,"UART", 100, NULL, configMAX_PRIORITIES - 1, NULL);	/* Highest priority */
+    xTaskCreate(demo_task,"DEMO", 100, NULL, configMAX_PRIORITIES - 1, NULL);	/* Lower priority */
 
     xTaskCreate(testTask1, "LED1", 100, NULL, configMAX_PRIORITIES - 1, NULL);
     xTaskCreate(taskUART, "testUART", 100, NULL, configMAX_PRIORITIES - 1, NULL);
