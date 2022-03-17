@@ -22,7 +22,7 @@ void testTask3(void *args __attribute((unused)));
 void testTask4(void *args __attribute((unused)));
 void testTask5(void *args __attribute((unused)));
 
-void testUART(void *args __attribute((unused)));
+void taskUART(void *args __attribute__((unused)));
 
 void gpio_setup();
 

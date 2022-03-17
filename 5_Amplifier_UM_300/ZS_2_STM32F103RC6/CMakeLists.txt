@@ -53,6 +53,7 @@ add_definitions(-DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB
 
 file(GLOB_RECURSE SOURCES_C
 #    src/main.c
+    src/task_uart.c
     src/test_tasks.c
     src/gpio_setup.c
     src/out_commands.c
