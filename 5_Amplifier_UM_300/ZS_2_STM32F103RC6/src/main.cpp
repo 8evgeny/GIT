@@ -124,8 +124,8 @@ taskUART(void *args __attribute__((unused))) {
     int c = '0' - 1;
 
     for (;;) {
-        gpio_toggle(GPIOD,GPIO2);
-        vTaskDelay(pdMS_TO_TICKS(200));
+//        gpio_toggle(GPIOD,GPIO2);
+        vTaskDelay(pdMS_TO_TICKS(50));
         if ( ++c >= 'Z' ) {
             uart_putc(c);
             uart_putc('\r');
