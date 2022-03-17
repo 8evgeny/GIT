@@ -1,6 +1,5 @@
 #include "main.h"
 
-static QueueHandle_t uart_txq;				// TX queue for UART
 void
 uart_setup()
 {

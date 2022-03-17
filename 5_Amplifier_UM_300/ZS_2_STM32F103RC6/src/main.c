@@ -17,7 +17,6 @@ vApplicationStackOverflowHook(
 	for(;;);	// Loop forever here..
 }
 
-extern QueueHandle_t uart_txq;				// TX queue for UART
 /*********************************************************************
  * USART Task:
  *********************************************************************/
@@ -82,13 +81,13 @@ main(void) {
     gpio_setup();
     uart_setup();
 
-//    xTaskCreate(uart_task,"UART",100,NULL,configMAX_PRIORITIES-1,NULL);
-//    xTaskCreate(demo_task,"DEMO",100,NULL,configMAX_PRIORITIES-1,NULL);
+    xTaskCreate(uart_task,"UART",100,NULL,configMAX_PRIORITIES-1,NULL);
+    xTaskCreate(demo_task,"DEMO",100,NULL,configMAX_PRIORITIES-2,NULL);
 
 
-//    xTaskCreate(testTask1, "LED1", 100, NULL, configMAX_PRIORITIES - 1, NULL);
+    xTaskCreate(testTask1, "LED1", 100, NULL, configMAX_PRIORITIES - 1, NULL);
 
-    xTaskCreate(taskUART, "testUART", 100, NULL, configMAX_PRIORITIES - 1, NULL);
+//    xTaskCreate(taskUART, "testUART", 100, NULL, configMAX_PRIORITIES - 1, NULL);
 
 //    xTaskCreate(testTask2, "LED2", 100, NULL, configMAX_PRIORITIES - 1, NULL);
 //    xTaskCreate(testTask3, "LED3", 100, NULL, configMAX_PRIORITIES - 1, NULL);

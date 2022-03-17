@@ -4,17 +4,17 @@
 #include <libopencm3/stm32/gpio.h>
 #include <libopencm3/stm32/usart.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
+//#ifdef __cplusplus
+//extern "C" {
+//#endif
 
 #include "FreeRTOS.h"
-
 #include "queue.h"
 #include "uartlib.h"
-
 #include "task.h"
+
+
+static QueueHandle_t uart_txq;				// TX queue for UART
 
 void testTask1(void *args __attribute((unused)));
 void testTask2(void *args __attribute((unused)));
@@ -46,6 +46,6 @@ void setReleLine1(bool set);
 void setRele24V(bool set);
 
 
-#ifdef __cplusplus
-}
-#endif
+//#ifdef __cplusplus
+//}
+//#endif
