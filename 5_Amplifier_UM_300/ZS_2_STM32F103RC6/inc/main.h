@@ -13,6 +13,7 @@
 #include "uartlib.h"
 #include "task.h"
 
+#define mainECHO_TASK_PRIORITY				( tskIDLE_PRIORITY + 1 )
 
 static QueueHandle_t uart_txq;				// TX queue for UART
 

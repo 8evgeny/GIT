@@ -18,39 +18,84 @@ vApplicationStackOverflowHook(
 }
 
 static void
-uart_task(void *args __attribute__((unused))) {
-    char ch;
+uart_task(void *args) {
+    int gc;
+    char kbuf[256], ch;
 
-    for (;;)
-    {
-        // Receive char to be TX
-        if ( xQueueReceive(uart_txq,&ch,10) == pdPASS ) {
-            while ( !usart_get_flag(UART4, USART_SR_TXE) )
-                taskYIELD();	// Yield until ready
-            usart_send(UART4, ch);
+    (void)args;
+
+    puts_uart(4, "\n\ruart_task() has begun:\n\r");
+
+    for (;;) {
+        if ( (gc = getc_uart_nb(4)) != -1 )
+        {
+            puts_uart(4, "\r\n\nENTER INPUT: ");
+
+            ch = (char)gc;
+            if ( ch != '\r' && ch != '\n' ) {
+                /* Already received first character */
+                kbuf[0] = ch;
+                putc_uart(4, ch);
+                getline_uart(4, kbuf+1, sizeof kbuf-1);
+            } else	{
+                /* Read the entire line */
+                getline_uart(4, kbuf, sizeof kbuf);
+            }
+
+            puts_uart(4, "\r\nReceived input '");
+            puts_uart(4, kbuf);
+            puts_uart(4, "'\n\r\nResuming prints...\n\r");
         }
-        // Toggle LED to show signs of life
-//        gpio_toggle(GPIOD,GPIO2);
+
+        /* Receive char to be TX */
+        if ( xQueueReceive(uart_txq, &ch, 10) == pdPASS )
+            putc_uart(4, ch);
+        /* Toggle LED to show signs of life */
+        gpio_toggle(GPIOD,GPIO2);
+//        gpio_toggle(GPIOC,GPIO13);
     }
 }
 
-static void
+//static void
+//uart_task(void *args __attribute__((unused)))
+//{
+//    char ch;
+
+//    for (;;)
+//    {
+//        // Receive char to be TX
+//        if ( xQueueReceive(uart_txq,&ch,10) == pdPASS ) {
+//            while ( !usart_get_flag(UART4, USART_SR_TXE) )
+//                taskYIELD();	// Yield until ready
+//            usart_send(UART4, ch);
+//        }
+//        // Toggle LED to show signs of life
+////        gpio_toggle(GPIOD,GPIO2);
+//    }
+//}
+
+static inline void
 stringToUart(const char *s) {
 
     for ( ; *s; ++s ) {
         // blocks when queue is full
-        xQueueSend(uart_txq,s,portMAX_DELAY);
+        xQueueSend(uart_txq, s, portMAX_DELAY);
     }
 }
 
 static void
-testUART2(void *args __attribute__((unused)))
+testUART2(void *args)
 {
+    (void)args;
+
     for (;;)
     {
-        stringToUart("\nNow this is a message sent via FreeRTOS queues");
-        stringToUart("\n\r");
+        stringToUart("Now this is a message..\n\r");
+        stringToUart("  sent via FreeRTOS queues.\n\n\r");
         vTaskDelay(pdMS_TO_TICKS(1000));
+        stringToUart("Just start typing to enter a line, or..\n\r"
+                  "hit Enter first, then enter your input.\n\n\r");
+        vTaskDelay(pdMS_TO_TICKS(1500));
     }
 }
 
@@ -62,21 +107,18 @@ testUART2(void *args __attribute__((unused)))
 static void
 uart_setup()
 {
-    rcc_periph_clock_enable(RCC_GPIOC);
-    rcc_periph_clock_enable(RCC_UART4);
+//    usart_set_baudrate(UART4,115200);
+//    usart_set_databits(UART4,8);
+//    usart_set_stopbits(UART4,USART_STOPBITS_1);
+//    usart_set_mode(UART4,USART_MODE_TX);
+//    usart_set_parity(UART4,USART_PARITY_NONE);
+//    usart_set_flow_control(UART4,USART_FLOWCONTROL_NONE);
+//    usart_enable(UART4);
 
-    usart_set_baudrate(UART4,115200);
-    usart_set_databits(UART4,8);
-    usart_set_stopbits(UART4,USART_STOPBITS_1);
-    usart_set_mode(UART4,USART_MODE_TX);
-    usart_set_parity(UART4,USART_PARITY_NONE);
-    usart_set_flow_control(UART4,USART_FLOWCONTROL_NONE);
-    usart_enable(UART4);
+    open_uart(4, 115200, "8N1", "rw", 0, 0); //Описание в теле функции
 
     // Create a queue for data to transmit from UART
     uart_txq = xQueueCreate(256,sizeof(char));
-
-//    open_uart(4, 115200, "8N1", "rw", 0, 0); //Описание в теле функции
 
 }
 
