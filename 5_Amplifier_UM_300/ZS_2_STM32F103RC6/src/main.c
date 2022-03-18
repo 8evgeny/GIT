@@ -19,8 +19,6 @@ vApplicationStackOverflowHook(xTaskHandle *pxTask,signed portCHAR *pcTaskName)
     for(;;);
 }
 
-
-
 static void
 gpio_setup(void) {
     rcc_clock_setup_pll(&rcc_hse_configs[RCC_CLOCK_HSE8_72MHZ]);
@@ -30,25 +28,27 @@ gpio_setup(void) {
     rcc_periph_clock_enable(RCC_GPIOC);
     rcc_periph_clock_enable(RCC_GPIOD);
 
-
-//AFIO_MAPR_USART3_REMAP_PARTIAL_REMAP
-//    gpio_set_eventout(GPIOC, 10);
-
-
     if(usart3)
     {
         rcc_periph_clock_enable(RCC_AFIO);
         rcc_periph_clock_enable(RCC_USART3);
-//        rcc_periph_clock_enable(RCC_UART4);
-        gpio_primary_remap(AFIO_EVCR_PORT_PC, AFIO_MAPR_USART3_REMAP_PARTIAL_REMAP);
+        gpio_primary_remap(AFIO_MAPR, AFIO_MAPR_USART3_REMAP_PARTIAL_REMAP);
     }
 
     if(!usart3) gpio_set_mode(GPIOA, GPIO_MODE_OUTPUT_50_MHZ,GPIO_CNF_OUTPUT_ALTFN_PUSHPULL, GPIO_USART1_TX);
-    if(usart3) gpio_set_mode(GPIOC, GPIO_MODE_OUTPUT_50_MHZ,GPIO_CNF_OUTPUT_ALTFN_PUSHPULL, GPIO_USART3_PR_TX);
+    if(usart3) gpio_set_mode(GPIOC,
+                             GPIO_MODE_OUTPUT_50_MHZ,
+                             GPIO_CNF_OUTPUT_ALTFN_PUSHPULL,
+                             GPIO_USART3_PR_TX);
+
+
 //	gpio_set_mode(GPIOA,GPIO_MODE_OUTPUT_50_MHZ,GPIO_CNF_OUTPUT_ALTFN_PUSHPULL,GPIO11);
 
     if(!usart3) gpio_set_mode(GPIOA, GPIO_MODE_INPUT,GPIO_CNF_INPUT_FLOAT, GPIO_USART1_RX);
-    if(usart3) gpio_set_mode(GPIOC, GPIO_MODE_INPUT,GPIO_CNF_INPUT_FLOAT, GPIO_USART3_PR_RX);
+    if(usart3) gpio_set_mode(GPIOC,
+                             GPIO_MODE_INPUT,GPIO_CNF_INPUT_FLOAT,
+                             GPIO_USART3_PR_RX);
+
 //	gpio_set_mode(GPIOA,GPIO_MODE_INPUT,GPIO_CNF_INPUT_FLOAT,GPIO12);
 
     //Выходы
@@ -190,13 +190,21 @@ testUART2(void *args)
 static void
 uart_setup()
 {
-    usart_set_baudrate(UART4,115200);
-    usart_set_databits(UART4,8);
-    usart_set_stopbits(UART4,USART_STOPBITS_1);
-    usart_set_mode(UART4,USART_MODE_TX_RX);
-    usart_set_parity(UART4,USART_PARITY_NONE);
-    usart_set_flow_control(UART4,USART_FLOWCONTROL_NONE);
-    usart_enable(UART4);
+//    usart_set_baudrate(UART4,115200);
+//    usart_set_databits(UART4,8);
+//    usart_set_stopbits(UART4,USART_STOPBITS_1);
+//    usart_set_mode(UART4,USART_MODE_TX_RX);
+//    usart_set_parity(UART4,USART_PARITY_NONE);
+//    usart_set_flow_control(UART4,USART_FLOWCONTROL_NONE);
+//    usart_enable(UART4);
+
+    usart_set_baudrate(USART3,115200);
+    usart_set_databits(USART3,8);
+    usart_set_stopbits(USART3,USART_STOPBITS_1);
+    usart_set_mode(USART3,USART_MODE_TX_RX);
+    usart_set_parity(USART3,USART_PARITY_NONE);
+    usart_set_flow_control(USART3,USART_FLOWCONTROL_NONE);
+    usart_enable(USART3);
 
     if(!usart3) open_uart(1, 115200, "8N1", "rw", 0, 0); //Описание в теле функции
     if(usart3) open_uart(3, 115200, "8N1", "rw", 0, 0);
