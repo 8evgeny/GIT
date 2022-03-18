@@ -27,29 +27,12 @@ gpio_setup(void) {
     rcc_periph_clock_enable(RCC_GPIOB);
     rcc_periph_clock_enable(RCC_GPIOC);
     rcc_periph_clock_enable(RCC_GPIOD);
+    rcc_periph_clock_enable(RCC_AFIO);
+    rcc_periph_clock_enable(RCC_USART3);
 
-    if(usart3)
-    {
-        rcc_periph_clock_enable(RCC_AFIO);
-        rcc_periph_clock_enable(RCC_USART3);
-        gpio_primary_remap(AFIO_MAPR, AFIO_MAPR_USART3_REMAP_PARTIAL_REMAP);
-    }
-
-    if(!usart3) gpio_set_mode(GPIOA, GPIO_MODE_OUTPUT_50_MHZ,GPIO_CNF_OUTPUT_ALTFN_PUSHPULL, GPIO_USART1_TX);
-    if(usart3) gpio_set_mode(GPIOC,
-                             GPIO_MODE_OUTPUT_50_MHZ,
-                             GPIO_CNF_OUTPUT_ALTFN_PUSHPULL,
-                             GPIO_USART3_PR_TX);
-
-
-//	gpio_set_mode(GPIOA,GPIO_MODE_OUTPUT_50_MHZ,GPIO_CNF_OUTPUT_ALTFN_PUSHPULL,GPIO11);
-
-    if(!usart3) gpio_set_mode(GPIOA, GPIO_MODE_INPUT,GPIO_CNF_INPUT_FLOAT, GPIO_USART1_RX);
-    if(usart3) gpio_set_mode(GPIOC,
-                             GPIO_MODE_INPUT,GPIO_CNF_INPUT_FLOAT,
-                             GPIO_USART3_PR_RX);
-
-//	gpio_set_mode(GPIOA,GPIO_MODE_INPUT,GPIO_CNF_INPUT_FLOAT,GPIO12);
+    gpio_primary_remap(AFIO_MAPR, AFIO_MAPR_USART3_REMAP_PARTIAL_REMAP);
+    gpio_set_mode(GPIOC, GPIO_MODE_OUTPUT_50_MHZ, GPIO_CNF_OUTPUT_ALTFN_PUSHPULL, GPIO_USART3_PR_TX);
+    gpio_set_mode(GPIOC, GPIO_MODE_INPUT,GPIO_CNF_INPUT_FLOAT, GPIO_USART3_PR_RX);
 
     //Выходы
 //        gpio_set_mode(GPIOA, GPIO_MODE_OUTPUT_2_MHZ, GPIO_CNF_OUTPUT_PUSHPULL, GPIO8); //OUT11 IMP_RELE
@@ -89,7 +72,6 @@ gpio_setup(void) {
 //        gpio_set_mode(GPIOA, GPIO_MODE_INPUT, GPIO_CNF_INPUT_PULL_UPDOWN, GPIO4); //Внешний сигнал «Импеданс 20 - 72V»
 //        gpio_set_mode(GPIOA, GPIO_MODE_INPUT, GPIO_CNF_INPUT_PULL_UPDOWN, GPIO5); //Внешний сигнал «Трансляция 20 - 72V»
 
-
 }
 
 
@@ -100,54 +82,39 @@ uart_task(void *args) {
 
     (void)args;
 
-    if(!usart3) puts_uart(1, "\n\ruart_task() has begun:\n\r");
-    if(usart3) puts_uart(3, "\n\ruart_task() has begun:\n\r");
+    puts_uart(3, "\n\ruart_task() has begun:\n\r");
 
     for (;;) {
-        if(!usart3) gc = getc_uart_nb(1);
-        if(usart3) gc = getc_uart_nb(3);
+        gc = getc_uart_nb(3);
 
         if ( gc != -1 )
         {
-            if(!usart3) puts_uart(1, "\r\n\nENTER INPUT: ");
-            if(usart3) puts_uart(3, "\r\n\nENTER INPUT: ");
+            puts_uart(3, "\r\n\nENTER INPUT: ");
 
             ch = (char)gc;
-            if ( ch != '\r' && ch != '\n' ) {
+            if ( ch != '\r' && ch != '\n' )
+            {
                 /* Already received first character */
                 kbuf[0] = ch;
-                if(!usart3) putc_uart(1, ch);
-                if(usart3) putc_uart(3, ch);
+                putc_uart(3, ch);
+                getline_uart(3, kbuf+1, sizeof kbuf-1);
 
-                if(!usart3) getline_uart(1, kbuf+1, sizeof kbuf-1);
-                if(usart3) getline_uart(3, kbuf+1, sizeof kbuf-1);
-
-            } else	{
+            } else
+            {
                 /* Read the entire line */
-                if(!usart3) getline_uart(1, kbuf, sizeof kbuf);
-                if(usart3) getline_uart(3, kbuf, sizeof kbuf);
+                getline_uart(3, kbuf, sizeof kbuf);
+            }
 
-            }
-            if(!usart3)
-            {
-                puts_uart(1, "\r\nReceived input '");
-                puts_uart(1, kbuf);
-                puts_uart(1, "'\n\r\nResuming prints...\n\r");
-            }
-            if(usart3)
-            {
-                puts_uart(3, "\r\nReceived input '");
-                puts_uart(3, kbuf);
-                puts_uart(3, "'\n\r\nResuming prints...\n\r");
-            }
+            puts_uart(3, "\r\nReceived input '");
+            puts_uart(3, kbuf);
+            puts_uart(3, "'\n\r\nResuming prints...\n\r");
 
         }
 
         /* Receive char to be TX */
         if ( xQueueReceive(uart_txq, &ch, 10) == pdPASS )
         {
-            if(!usart3) putc_uart(1, ch);
-            if(usart3) putc_uart(3, ch);
+            putc_uart(3, ch);
         }
 
         /* Toggle LED to show signs of life */
@@ -175,10 +142,10 @@ testUART2(void *args)
     {
         stringToUart("Now this is a message..\n\r");
         stringToUart("  sent via FreeRTOS queues.\n\n\r");
-        vTaskDelay(pdMS_TO_TICKS(1000));
+        vTaskDelay(pdMS_TO_TICKS(2000));
         stringToUart("Just start typing to enter a line, or..\n\r"
                   "hit Enter first, then enter your input.\n\n\r");
-        vTaskDelay(pdMS_TO_TICKS(1500));
+        vTaskDelay(pdMS_TO_TICKS(2000));
     }
 }
 
@@ -190,24 +157,14 @@ testUART2(void *args)
 static void
 uart_setup()
 {
-//    usart_set_baudrate(UART4,115200);
-//    usart_set_databits(UART4,8);
-//    usart_set_stopbits(UART4,USART_STOPBITS_1);
-//    usart_set_mode(UART4,USART_MODE_TX_RX);
-//    usart_set_parity(UART4,USART_PARITY_NONE);
-//    usart_set_flow_control(UART4,USART_FLOWCONTROL_NONE);
-//    usart_enable(UART4);
-
-    usart_set_baudrate(USART3,115200);
-    usart_set_databits(USART3,8);
-    usart_set_stopbits(USART3,USART_STOPBITS_1);
-    usart_set_mode(USART3,USART_MODE_TX_RX);
-    usart_set_parity(USART3,USART_PARITY_NONE);
-    usart_set_flow_control(USART3,USART_FLOWCONTROL_NONE);
-    usart_enable(USART3);
-
-    if(!usart3) open_uart(1, 115200, "8N1", "rw", 0, 0); //Описание в теле функции
-    if(usart3) open_uart(3, 115200, "8N1", "rw", 0, 0);
+//    usart_set_baudrate(USART3,115200);
+//    usart_set_databits(USART3,8);
+//    usart_set_stopbits(USART3,USART_STOPBITS_1);
+//    usart_set_mode(USART3,USART_MODE_TX_RX);
+//    usart_set_parity(USART3,USART_PARITY_NONE);
+//    usart_set_flow_control(USART3,USART_FLOWCONTROL_NONE);
+//    usart_enable(USART3);
+    open_uart(3, 115200, "8N1", "rw", 0, 0); //аналог верхним 7 строкам
 
     // Create a queue for data to transmit from UART
     uart_txq = xQueueCreate(256,sizeof(char));
@@ -221,7 +178,7 @@ main(void) {
     uart_setup();
 
     xTaskCreate(uart_task,"UART",200,NULL,configMAX_PRIORITIES-1,NULL);
-//    xTaskCreate(testUART1, "UART4", 100, NULL, configMAX_PRIORITIES - 1, NULL);
+    xTaskCreate(testUART1, "UART4", 100, NULL, configMAX_PRIORITIES - 1, NULL);
     xTaskCreate(testUART2,"USART3",100,NULL,configMAX_PRIORITIES-1,NULL);
 
     xTaskCreate(testTask1, "LED1", 100, NULL, configMAX_PRIORITIES - 1, NULL);
