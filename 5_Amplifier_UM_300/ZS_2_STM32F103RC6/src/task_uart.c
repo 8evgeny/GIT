@@ -5,8 +5,8 @@
  *********************************************************************/
 static inline void
 uart_putc(char ch) {
-    if(!uart4) usart_send_blocking(USART1, ch);
-    if(uart4) usart_send_blocking(UART4, ch);
+    if(!usart3) usart_send_blocking(USART1, ch);
+    if(usart3) usart_send_blocking(UART4, ch);
 }
 
 static inline void

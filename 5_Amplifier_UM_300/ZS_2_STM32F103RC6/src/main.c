@@ -35,7 +35,7 @@ gpio_setup(void) {
 //    gpio_set_eventout(GPIOC, 10);
 
 
-    if(uart4)
+    if(usart3)
     {
         rcc_periph_clock_enable(RCC_AFIO);
         rcc_periph_clock_enable(RCC_USART3);
@@ -43,12 +43,12 @@ gpio_setup(void) {
         gpio_primary_remap(AFIO_EVCR_PORT_PC, AFIO_MAPR_USART3_REMAP_PARTIAL_REMAP);
     }
 
-    if(!uart4) gpio_set_mode(GPIOA, GPIO_MODE_OUTPUT_50_MHZ,GPIO_CNF_OUTPUT_ALTFN_PUSHPULL, GPIO_USART1_TX);
-    if(uart4) gpio_set_mode(GPIOC, GPIO_MODE_OUTPUT_50_MHZ,GPIO_CNF_OUTPUT_ALTFN_PUSHPULL, GPIO_USART3_PR_TX);
+    if(!usart3) gpio_set_mode(GPIOA, GPIO_MODE_OUTPUT_50_MHZ,GPIO_CNF_OUTPUT_ALTFN_PUSHPULL, GPIO_USART1_TX);
+    if(usart3) gpio_set_mode(GPIOC, GPIO_MODE_OUTPUT_50_MHZ,GPIO_CNF_OUTPUT_ALTFN_PUSHPULL, GPIO_USART3_PR_TX);
 //	gpio_set_mode(GPIOA,GPIO_MODE_OUTPUT_50_MHZ,GPIO_CNF_OUTPUT_ALTFN_PUSHPULL,GPIO11);
 
-    if(!uart4) gpio_set_mode(GPIOA, GPIO_MODE_INPUT,GPIO_CNF_INPUT_FLOAT, GPIO_USART1_RX);
-    if(uart4) gpio_set_mode(GPIOC, GPIO_MODE_INPUT,GPIO_CNF_INPUT_FLOAT, GPIO_USART3_PR_RX);
+    if(!usart3) gpio_set_mode(GPIOA, GPIO_MODE_INPUT,GPIO_CNF_INPUT_FLOAT, GPIO_USART1_RX);
+    if(usart3) gpio_set_mode(GPIOC, GPIO_MODE_INPUT,GPIO_CNF_INPUT_FLOAT, GPIO_USART3_PR_RX);
 //	gpio_set_mode(GPIOA,GPIO_MODE_INPUT,GPIO_CNF_INPUT_FLOAT,GPIO12);
 
     //Выходы
@@ -100,41 +100,41 @@ uart_task(void *args) {
 
     (void)args;
 
-    if(!uart4) puts_uart(1, "\n\ruart_task() has begun:\n\r");
-    if(uart4) puts_uart(3, "\n\ruart_task() has begun:\n\r");
+    if(!usart3) puts_uart(1, "\n\ruart_task() has begun:\n\r");
+    if(usart3) puts_uart(3, "\n\ruart_task() has begun:\n\r");
 
     for (;;) {
-        if(!uart4) gc = getc_uart_nb(1);
-        if(uart4) gc = getc_uart_nb(3);
+        if(!usart3) gc = getc_uart_nb(1);
+        if(usart3) gc = getc_uart_nb(3);
 
         if ( gc != -1 )
         {
-            if(!uart4) puts_uart(1, "\r\n\nENTER INPUT: ");
-            if(uart4) puts_uart(3, "\r\n\nENTER INPUT: ");
+            if(!usart3) puts_uart(1, "\r\n\nENTER INPUT: ");
+            if(usart3) puts_uart(3, "\r\n\nENTER INPUT: ");
 
             ch = (char)gc;
             if ( ch != '\r' && ch != '\n' ) {
                 /* Already received first character */
                 kbuf[0] = ch;
-                if(!uart4) putc_uart(1, ch);
-                if(uart4) putc_uart(3, ch);
+                if(!usart3) putc_uart(1, ch);
+                if(usart3) putc_uart(3, ch);
 
-                if(!uart4) getline_uart(1, kbuf+1, sizeof kbuf-1);
-                if(uart4) getline_uart(3, kbuf+1, sizeof kbuf-1);
+                if(!usart3) getline_uart(1, kbuf+1, sizeof kbuf-1);
+                if(usart3) getline_uart(3, kbuf+1, sizeof kbuf-1);
 
             } else	{
                 /* Read the entire line */
-                if(!uart4) getline_uart(1, kbuf, sizeof kbuf);
-                if(uart4) getline_uart(3, kbuf, sizeof kbuf);
+                if(!usart3) getline_uart(1, kbuf, sizeof kbuf);
+                if(usart3) getline_uart(3, kbuf, sizeof kbuf);
 
             }
-            if(!uart4)
+            if(!usart3)
             {
                 puts_uart(1, "\r\nReceived input '");
                 puts_uart(1, kbuf);
                 puts_uart(1, "'\n\r\nResuming prints...\n\r");
             }
-            if(uart4)
+            if(usart3)
             {
                 puts_uart(3, "\r\nReceived input '");
                 puts_uart(3, kbuf);
@@ -146,8 +146,8 @@ uart_task(void *args) {
         /* Receive char to be TX */
         if ( xQueueReceive(uart_txq, &ch, 10) == pdPASS )
         {
-            if(!uart4) putc_uart(1, ch);
-            if(uart4) putc_uart(3, ch);
+            if(!usart3) putc_uart(1, ch);
+            if(usart3) putc_uart(3, ch);
         }
 
         /* Toggle LED to show signs of life */
@@ -198,8 +198,8 @@ uart_setup()
     usart_set_flow_control(UART4,USART_FLOWCONTROL_NONE);
     usart_enable(UART4);
 
-    if(!uart4) open_uart(1, 115200, "8N1", "rw", 0, 0); //Описание в теле функции
-    if(uart4) open_uart(3, 115200, "8N1", "rw", 0, 0);
+    if(!usart3) open_uart(1, 115200, "8N1", "rw", 0, 0); //Описание в теле функции
+    if(usart3) open_uart(3, 115200, "8N1", "rw", 0, 0);
 
     // Create a queue for data to transmit from UART
     uart_txq = xQueueCreate(256,sizeof(char));
