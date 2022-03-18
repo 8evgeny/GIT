@@ -82,7 +82,13 @@ testUART2(void *args)
 
     for (;;)
     {
-        stringToUart("Now this is a message..\n\r");
+//        uint16_t gpioImpedance;
+//        gpioImpedance = gpio_get(GPIOA, GPIO0);
+//        char buf[5];
+//        sprintf(buf, "%d", gpioImpedance);
+//        stringToUart(buf);
+
+        stringToUart("\r\nNow this is a message..\n\r");
         stringToUart("  sent via FreeRTOS queues.\n\n\r");
         vTaskDelay(pdMS_TO_TICKS(2000));
         stringToUart("Just start typing to enter a line, or..\n\r"
@@ -113,6 +119,25 @@ uart_setup()
 
 }
 
+#include "stdio.h"
+void checkImpedance()
+{
+    uint16_t gpioImpedance;
+    gpioImpedance = gpio_get(GPIOA, GPIO0);
+    char buf[5];
+    sprintf(buf, "%d", gpioImpedance);
+    //    write_uart(3, buf, sizeof buf);
+    stringToUart(buf);
+    //    close_uart(3);
+    vTaskDelay(pdMS_TO_TICKS(1000));
+
+}
+
+
+
+
+
+
 int
 main(void) {
 
@@ -120,7 +145,8 @@ main(void) {
     uart_setup();
 
     xTaskCreate(uart_task,"UART",200,NULL,configMAX_PRIORITIES-1,NULL);
-//    xTaskCreate(testUART2,"USART3",100,NULL,configMAX_PRIORITIES-1,NULL);
+    xTaskCreate(testUART2,"USART3",100,NULL,configMAX_PRIORITIES-1,NULL);
+//    xTaskCreate(checkImpedance,"buttonImpedance",100,NULL,configMAX_PRIORITIES-1,NULL);
 
 //    xTaskCreate(testUART1, "UART4", 100, NULL, configMAX_PRIORITIES - 1, NULL);
 //    xTaskCreate(testTask1, "LED1", 100, NULL, configMAX_PRIORITIES - 1, NULL);

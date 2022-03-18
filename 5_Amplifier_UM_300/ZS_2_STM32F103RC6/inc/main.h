@@ -13,6 +13,7 @@
 #include "queue.h"
 #include "uartlib.h"
 #include "task.h"
+#include "stdio.h"
 
 #define mainECHO_TASK_PRIORITY				( tskIDLE_PRIORITY + 1 )
 
