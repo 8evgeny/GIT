@@ -19,7 +19,7 @@ vApplicationStackOverflowHook(xTaskHandle *pxTask,signed portCHAR *pcTaskName)
     for(;;);
 }
 
-bool uart4 = false;
+
 
 static void
 gpio_setup(void) {
@@ -189,7 +189,7 @@ main(void) {
     uart_setup();
 
     xTaskCreate(uart_task,"UART",200,NULL,configMAX_PRIORITIES-1,NULL);
-//    xTaskCreate(testUART1, "testUART", 100, NULL, configMAX_PRIORITIES - 1, NULL);
+    xTaskCreate(testUART1, "testUART", 100, NULL, configMAX_PRIORITIES - 1, NULL);
     xTaskCreate(testUART2,"DEMO",100,NULL,configMAX_PRIORITIES-2,NULL);
 
     xTaskCreate(testTask1, "LED1", 100, NULL, configMAX_PRIORITIES - 1, NULL);
