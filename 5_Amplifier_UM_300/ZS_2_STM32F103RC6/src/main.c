@@ -89,32 +89,44 @@ uart_task(void *args) {
 
     (void)args;
 
-    puts_uart(1, "\n\ruart_task() has begun:\n\r");
+    if(!uart4) puts_uart(1, "\n\ruart_task() has begun:\n\r");
 
     for (;;) {
-        if ( (gc = getc_uart_nb(1)) != -1 )
+        if(!uart4) gc = getc_uart_nb(1);
+
+        if ( gc != -1 )
         {
-            puts_uart(1, "\r\n\nENTER INPUT: ");
+            if(!uart4) puts_uart(1, "\r\n\nENTER INPUT: ");
 
             ch = (char)gc;
             if ( ch != '\r' && ch != '\n' ) {
                 /* Already received first character */
                 kbuf[0] = ch;
-                putc_uart(1, ch);
-                getline_uart(1, kbuf+1, sizeof kbuf-1);
+                if(!uart4) putc_uart(1, ch);
+
+                if(!uart4) getline_uart(1, kbuf+1, sizeof kbuf-1);
+
             } else	{
                 /* Read the entire line */
-                getline_uart(1, kbuf, sizeof kbuf);
+                if(!uart4) getline_uart(1, kbuf, sizeof kbuf);
+
+            }
+            if(!uart4)
+            {
+                puts_uart(1, "\r\nReceived input '");
+                puts_uart(1, kbuf);
+                puts_uart(1, "'\n\r\nResuming prints...\n\r");
             }
 
-            puts_uart(1, "\r\nReceived input '");
-            puts_uart(1, kbuf);
-            puts_uart(1, "'\n\r\nResuming prints...\n\r");
         }
 
         /* Receive char to be TX */
         if ( xQueueReceive(uart_txq, &ch, 10) == pdPASS )
-            putc_uart(1, ch);
+        {
+            if(!uart4) putc_uart(1, ch);
+
+        }
+
         /* Toggle LED to show signs of life */
         gpio_toggle(GPIOD,GPIO2);
 //        gpio_toggle(GPIOC,GPIO13);
@@ -163,7 +175,7 @@ uart_setup()
 //    usart_set_flow_control(UART4,USART_FLOWCONTROL_NONE);
 //    usart_enable(UART4);
 
-    open_uart(1, 115200, "8N1", "rw", 0, 0); //Описание в теле функции
+    if(!uart4) open_uart(1, 115200, "8N1", "rw", 0, 0); //Описание в теле функции
 
     // Create a queue for data to transmit from UART
     uart_txq = xQueueCreate(256,sizeof(char));
