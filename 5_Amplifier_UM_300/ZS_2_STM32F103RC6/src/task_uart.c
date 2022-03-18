@@ -29,20 +29,20 @@ testUART1(void *args __attribute__((unused))) {
     for (;;)
     {
 //        gpio_toggle(GPIOD,GPIO2);
-        vTaskDelay(pdMS_TO_TICKS(500));
+        vTaskDelay(pdMS_TO_TICKS(50));
 
-//        if ( ++c >= 'Z' )
-//        {
-//            uart_putc(c);
-//            uart_putc('\r');
-//            uart_putc('\n');
-//            c = '0' - 1;
-//        } else
-//        {
-//            uart_putc(c);
-//        }
+        if ( ++c >= 'Z' )
+        {
+            uart_putc(c);
+            uart_putc('\r');
+            uart_putc('\n');
+            c = '0' - 1;
+        } else
+        {
+            uart_putc(c);
+        }
 
-        uart_getc();
+//        uart_getc();
 
     }
 }
