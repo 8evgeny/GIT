@@ -23,21 +23,24 @@ vApplicationStackOverflowHook(xTaskHandle *pxTask,signed portCHAR *pcTaskName)
 
 static void
 gpio_setup(void) {
-
     rcc_clock_setup_pll(&rcc_hse_configs[RCC_CLOCK_HSE8_72MHZ]);
+    rcc_periph_clock_enable(RCC_AFIO);
     rcc_periph_clock_enable(RCC_GPIOA);
     rcc_periph_clock_enable(RCC_GPIOB);
     rcc_periph_clock_enable(RCC_GPIOC);
     rcc_periph_clock_enable(RCC_GPIOD);
 
+//AFIO_MAPR_USART3_REMAP_PARTIAL_REMAP
+//    gpio_set_eventout(GPIOC, 10);
+    gpio_primary_remap(AFIO_EVCR_PORT_PC, AFIO_MAPR_USART3_REMAP_PARTIAL_REMAP);
     if(uart4) rcc_periph_clock_enable(RCC_UART4);
 
-    if(!uart4) gpio_set_mode(GPIOA,GPIO_MODE_OUTPUT_50_MHZ,GPIO_CNF_OUTPUT_ALTFN_PUSHPULL,GPIO_USART1_TX);
-    if(uart4) gpio_set_mode(GPIOC,GPIO_MODE_OUTPUT_50_MHZ,GPIO_CNF_OUTPUT_ALTFN_PUSHPULL,GPIO_UART4_TX);
+    if(!uart4) gpio_set_mode(GPIOA, GPIO_MODE_OUTPUT_50_MHZ,GPIO_CNF_OUTPUT_ALTFN_PUSHPULL, GPIO_USART1_TX);
+    if(uart4) gpio_set_mode(GPIOC, GPIO_MODE_OUTPUT_50_MHZ,GPIO_CNF_OUTPUT_ALTFN_PUSHPULL, GPIO_USART3_PR_TX);
 //	gpio_set_mode(GPIOA,GPIO_MODE_OUTPUT_50_MHZ,GPIO_CNF_OUTPUT_ALTFN_PUSHPULL,GPIO11);
 
-    if(!uart4) gpio_set_mode(GPIOA,GPIO_MODE_INPUT,GPIO_CNF_INPUT_FLOAT,GPIO_USART1_RX);
-    if(uart4) gpio_set_mode(GPIOC,GPIO_MODE_INPUT,GPIO_CNF_INPUT_FLOAT,GPIO_UART4_RX);
+    if(!uart4) gpio_set_mode(GPIOA, GPIO_MODE_INPUT,GPIO_CNF_INPUT_FLOAT, GPIO_USART1_RX);
+    if(uart4) gpio_set_mode(GPIOC, GPIO_MODE_INPUT,GPIO_CNF_INPUT_FLOAT, GPIO_USART3_PR_RX);
 //	gpio_set_mode(GPIOA,GPIO_MODE_INPUT,GPIO_CNF_INPUT_FLOAT,GPIO12);
 
     //Выходы
@@ -90,31 +93,31 @@ uart_task(void *args) {
     (void)args;
 
     if(!uart4) puts_uart(1, "\n\ruart_task() has begun:\n\r");
-    if(uart4) puts_uart(4, "\n\ruart_task() has begun:\n\r");
+    if(uart4) puts_uart(3, "\n\ruart_task() has begun:\n\r");
 
     for (;;) {
         if(!uart4) gc = getc_uart_nb(1);
-        if(uart4) gc = getc_uart_nb(4);
+        if(uart4) gc = getc_uart_nb(3);
 
         if ( gc != -1 )
         {
             if(!uart4) puts_uart(1, "\r\n\nENTER INPUT: ");
-            if(uart4) puts_uart(4, "\r\n\nENTER INPUT: ");
+            if(uart4) puts_uart(3, "\r\n\nENTER INPUT: ");
 
             ch = (char)gc;
             if ( ch != '\r' && ch != '\n' ) {
                 /* Already received first character */
                 kbuf[0] = ch;
                 if(!uart4) putc_uart(1, ch);
-                if(uart4) putc_uart(4, ch);
+                if(uart4) putc_uart(3, ch);
 
                 if(!uart4) getline_uart(1, kbuf+1, sizeof kbuf-1);
-                if(uart4) getline_uart(4, kbuf+1, sizeof kbuf-1);
+                if(uart4) getline_uart(3, kbuf+1, sizeof kbuf-1);
 
             } else	{
                 /* Read the entire line */
                 if(!uart4) getline_uart(1, kbuf, sizeof kbuf);
-                if(uart4) getline_uart(4, kbuf, sizeof kbuf);
+                if(uart4) getline_uart(3, kbuf, sizeof kbuf);
 
             }
             if(!uart4)
@@ -125,9 +128,9 @@ uart_task(void *args) {
             }
             if(uart4)
             {
-                puts_uart(4, "\r\nReceived input '");
-                puts_uart(4, kbuf);
-                puts_uart(4, "'\n\r\nResuming prints...\n\r");
+                puts_uart(3, "\r\nReceived input '");
+                puts_uart(3, kbuf);
+                puts_uart(3, "'\n\r\nResuming prints...\n\r");
             }
 
         }
@@ -136,7 +139,7 @@ uart_task(void *args) {
         if ( xQueueReceive(uart_txq, &ch, 10) == pdPASS )
         {
             if(!uart4) putc_uart(1, ch);
-            if(uart4) putc_uart(4, ch);
+            if(uart4) putc_uart(3, ch);
         }
 
         /* Toggle LED to show signs of life */
@@ -188,7 +191,7 @@ uart_setup()
     usart_enable(UART4);
 
     if(!uart4) open_uart(1, 115200, "8N1", "rw", 0, 0); //Описание в теле функции
-    if(uart4) open_uart(4, 115200, "8N1", "rw", 0, 0);
+    if(uart4) open_uart(3, 115200, "8N1", "rw", 0, 0);
 
     // Create a queue for data to transmit from UART
     uart_txq = xQueueCreate(256,sizeof(char));
@@ -202,7 +205,7 @@ main(void) {
     uart_setup();
 
     xTaskCreate(uart_task,"UART",200,NULL,configMAX_PRIORITIES-1,NULL);
-    xTaskCreate(testUART1, "UART4", 100, NULL, configMAX_PRIORITIES - 1, NULL);
+//    xTaskCreate(testUART1, "UART4", 100, NULL, configMAX_PRIORITIES - 1, NULL);
     xTaskCreate(testUART2,"USART3",100,NULL,configMAX_PRIORITIES-1,NULL);
 
     xTaskCreate(testTask1, "LED1", 100, NULL, configMAX_PRIORITIES - 1, NULL);
