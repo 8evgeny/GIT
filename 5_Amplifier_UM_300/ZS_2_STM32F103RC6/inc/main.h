@@ -8,6 +8,7 @@
 //extern "C" {
 //#endif
 
+#include <string.h>
 #include "FreeRTOS.h"
 #include "queue.h"
 #include "uartlib.h"
@@ -15,7 +16,7 @@
 
 #define mainECHO_TASK_PRIORITY				( tskIDLE_PRIORITY + 1 )
 
-static QueueHandle_t uart_txq;				// TX queue for UART
+//static QueueHandle_t uart_txq;				// TX queue for UART
 
 void testTask1(void *args __attribute((unused)));
 void testTask2(void *args __attribute((unused)));
@@ -26,7 +27,7 @@ void testTask6(void *args __attribute((unused)));
 
 void testUART1(void *args __attribute__((unused)));
 
-void gpio_setup();
+//void gpio_setup();
 //void uart_setup();
 
 void setImpedanceRele(bool);
