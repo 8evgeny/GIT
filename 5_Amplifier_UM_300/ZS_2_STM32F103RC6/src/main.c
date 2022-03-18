@@ -24,16 +24,24 @@ vApplicationStackOverflowHook(xTaskHandle *pxTask,signed portCHAR *pcTaskName)
 static void
 gpio_setup(void) {
     rcc_clock_setup_pll(&rcc_hse_configs[RCC_CLOCK_HSE8_72MHZ]);
-    rcc_periph_clock_enable(RCC_AFIO);
+
     rcc_periph_clock_enable(RCC_GPIOA);
     rcc_periph_clock_enable(RCC_GPIOB);
     rcc_periph_clock_enable(RCC_GPIOC);
     rcc_periph_clock_enable(RCC_GPIOD);
 
+
 //AFIO_MAPR_USART3_REMAP_PARTIAL_REMAP
 //    gpio_set_eventout(GPIOC, 10);
-    gpio_primary_remap(AFIO_EVCR_PORT_PC, AFIO_MAPR_USART3_REMAP_PARTIAL_REMAP);
-    if(uart4) rcc_periph_clock_enable(RCC_UART4);
+
+
+    if(uart4)
+    {
+        rcc_periph_clock_enable(RCC_AFIO);
+        rcc_periph_clock_enable(RCC_USART3);
+//        rcc_periph_clock_enable(RCC_UART4);
+        gpio_primary_remap(AFIO_EVCR_PORT_PC, AFIO_MAPR_USART3_REMAP_PARTIAL_REMAP);
+    }
 
     if(!uart4) gpio_set_mode(GPIOA, GPIO_MODE_OUTPUT_50_MHZ,GPIO_CNF_OUTPUT_ALTFN_PUSHPULL, GPIO_USART1_TX);
     if(uart4) gpio_set_mode(GPIOC, GPIO_MODE_OUTPUT_50_MHZ,GPIO_CNF_OUTPUT_ALTFN_PUSHPULL, GPIO_USART3_PR_TX);
