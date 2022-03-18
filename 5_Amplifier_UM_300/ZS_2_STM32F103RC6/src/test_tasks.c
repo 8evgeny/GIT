@@ -16,23 +16,13 @@ testTask2(void *args __attribute((unused)))
 {
     for (;;)
     {
-        gpio_toggle(GPIOD, GPIO2);
-        vTaskDelay(pdMS_TO_TICKS(1000));
-    }
-}
-
-void
-testTask3(void *args __attribute((unused)))
-{
-    for (;;)
-    {
         gpio_toggle(GPIOB, GPIO10);
         vTaskDelay(pdMS_TO_TICKS(100));
     }
 }
 
 void
-testTask4(void *args __attribute((unused)))
+testTask3(void *args __attribute((unused)))
 {
     for (;;)
     {
@@ -42,7 +32,7 @@ testTask4(void *args __attribute((unused)))
 }
 
 void
-testTask5(void *args __attribute((unused)))
+testTask4(void *args __attribute((unused)))
 {
     for (;;)
     {
@@ -51,7 +41,7 @@ testTask5(void *args __attribute((unused)))
     }
 }
 void
-testTask6(void *args __attribute((unused)))
+testTask5(void *args __attribute((unused)))
 {
     for (;;)
     {

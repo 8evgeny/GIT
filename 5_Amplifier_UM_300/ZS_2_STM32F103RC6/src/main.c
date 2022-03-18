@@ -12,22 +12,24 @@ vApplicationStackOverflowHook(
 static QueueHandle_t uart_txq;				// TX queue for UART
 
 void
-vApplicationStackOverflowHook(xTaskHandle *pxTask,signed portCHAR *pcTaskName) {
+vApplicationStackOverflowHook(xTaskHandle *pxTask,signed portCHAR *pcTaskName)
+{
     (void)pxTask;
     (void)pcTaskName;
     for(;;);
 }
+
 bool uart4 = false;
+
 static void
 gpio_setup(void) {
 
-    rcc_clock_setup_in_hse_8mhz_out_72mhz();	// CPU clock is 72 MHz
-        rcc_periph_clock_enable(RCC_GPIOA);
-        rcc_periph_clock_enable(RCC_GPIOB);
-        rcc_periph_clock_enable(RCC_GPIOC);
-        rcc_periph_clock_enable(RCC_GPIOD);
+    rcc_clock_setup_pll(&rcc_hse_configs[RCC_CLOCK_HSE8_72MHZ]);
+    rcc_periph_clock_enable(RCC_GPIOA);
+    rcc_periph_clock_enable(RCC_GPIOB);
+    rcc_periph_clock_enable(RCC_GPIOC);
+    rcc_periph_clock_enable(RCC_GPIOD);
 
-    if(!uart4) rcc_periph_clock_enable(RCC_GPIOA);
     if(uart4) rcc_periph_clock_enable(RCC_UART4);
 
     if(!uart4) gpio_set_mode(GPIOA,GPIO_MODE_OUTPUT_50_MHZ,GPIO_CNF_OUTPUT_ALTFN_PUSHPULL,GPIO_USART1_TX);
@@ -46,7 +48,7 @@ gpio_setup(void) {
 //        gpio_set_mode(GPIOA, GPIO_MODE_OUTPUT_2_MHZ, GPIO_CNF_OUTPUT_PUSHPULL, GPIO12); //OUT15 RELE_TR4
 
 //        gpio_set_mode(GPIOB, GPIO_MODE_OUTPUT_2_MHZ, GPIO_CNF_OUTPUT_PUSHPULL, GPIO0); //OUT18 READY_LED
-    //    gpio_set_mode(GPIOB, GPIO_MODE_OUTPUT_2_MHZ, GPIO_CNF_OUTPUT_PUSHPULL, GPIO1); //OUT19 UPR1
+//        gpio_set_mode(GPIOB, GPIO_MODE_OUTPUT_2_MHZ, GPIO_CNF_OUTPUT_PUSHPULL, GPIO1); //OUT19 UPR1
 //        gpio_set_mode(GPIOB, GPIO_MODE_OUTPUT_2_MHZ, GPIO_CNF_OUTPUT_PUSHPULL, GPIO2); //OUT20 UPR2
 
 //        gpio_set_mode(GPIOB, GPIO_MODE_OUTPUT_2_MHZ, GPIO_CNF_OUTPUT_PUSHPULL, GPIO9); //OUT17 FAN_UPR
@@ -179,11 +181,11 @@ main(void) {
     xTaskCreate(testUART2,"DEMO",100,NULL,configMAX_PRIORITIES-2,NULL);
 
     xTaskCreate(testTask1, "LED1", 100, NULL, configMAX_PRIORITIES - 1, NULL);
-    xTaskCreate(testTask2, "LED2", 100, NULL, configMAX_PRIORITIES - 1, NULL);
-    xTaskCreate(testTask3, "LED3", 100, NULL, configMAX_PRIORITIES - 1, NULL);
-    xTaskCreate(testTask4, "LED4", 100, NULL, configMAX_PRIORITIES - 1, NULL);
-    xTaskCreate(testTask5, "LED5", 100, NULL, configMAX_PRIORITIES - 1, NULL);
-    xTaskCreate(testTask6, "LED6", 100, NULL, configMAX_PRIORITIES - 1, NULL);
+//    xTaskCreate(testTask2, "LED2", 100, NULL, configMAX_PRIORITIES - 1, NULL);
+//    xTaskCreate(testTask3, "LED3", 100, NULL, configMAX_PRIORITIES - 1, NULL);
+//    xTaskCreate(testTask4, "LED4", 100, NULL, configMAX_PRIORITIES - 1, NULL);
+//    xTaskCreate(testTask5, "LED5", 100, NULL, configMAX_PRIORITIES - 1, NULL);
+
 
 	vTaskStartScheduler();
 

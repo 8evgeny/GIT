@@ -23,7 +23,6 @@ void testTask2(void *args __attribute((unused)));
 void testTask3(void *args __attribute((unused)));
 void testTask4(void *args __attribute((unused)));
 void testTask5(void *args __attribute((unused)));
-void testTask6(void *args __attribute((unused)));
 
 void testUART1(void *args __attribute__((unused)));
 
