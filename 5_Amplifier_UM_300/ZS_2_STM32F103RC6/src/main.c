@@ -203,7 +203,7 @@ main(void) {
 
     xTaskCreate(uart_task,"UART",200,NULL,configMAX_PRIORITIES-1,NULL);
     xTaskCreate(testUART1, "testUART", 100, NULL, configMAX_PRIORITIES - 1, NULL);
-    xTaskCreate(testUART2,"DEMO",100,NULL,configMAX_PRIORITIES-2,NULL);
+    xTaskCreate(testUART2,"DEMO",100,NULL,configMAX_PRIORITIES-1,NULL);
 
     xTaskCreate(testTask1, "LED1", 100, NULL, configMAX_PRIORITIES - 1, NULL);
 //    xTaskCreate(testTask2, "LED2", 100, NULL, configMAX_PRIORITIES - 1, NULL);
