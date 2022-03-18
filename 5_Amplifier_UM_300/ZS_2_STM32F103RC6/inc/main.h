@@ -26,7 +26,7 @@ void testTask5(void *args __attribute((unused)));
 
 void testUART1(void *args __attribute__((unused)));
 
-//void gpio_setup();
+void gpio_setup();
 //void uart_setup();
 
 void setImpedanceRele(bool);
