@@ -9,7 +9,7 @@ vApplicationStackOverflowHook(
 	xTaskHandle *pxTask,
 	signed portCHAR *pcTaskName);
 
-static QueueHandle_t uart_txq;				// TX queue for UART
+
 
 void
 vApplicationStackOverflowHook(xTaskHandle *pxTask,signed portCHAR *pcTaskName)
@@ -62,15 +62,14 @@ gpio_setup(void) {
         gpio_set_mode(GPIOB, GPIO_MODE_OUTPUT_2_MHZ, GPIO_CNF_OUTPUT_PUSHPULL, GPIO12);
         gpio_set_mode(GPIOB, GPIO_MODE_OUTPUT_2_MHZ, GPIO_CNF_OUTPUT_PUSHPULL, GPIO14);
         gpio_set_mode(GPIOD,GPIO_MODE_OUTPUT_2_MHZ,GPIO_CNF_OUTPUT_PUSHPULL,GPIO2);
-//        gpio_set_mode(GPIOC,GPIO_MODE_OUTPUT_2_MHZ,GPIO_CNF_OUTPUT_PUSHPULL,GPIO13);
 
     //Входы
-//        gpio_set_mode(GPIOA, GPIO_MODE_INPUT, GPIO_CNF_INPUT_PULL_UPDOWN, GPIO0); //Кнопка "ИМПЕДАНС"
-//        gpio_set_mode(GPIOA, GPIO_MODE_INPUT, GPIO_CNF_INPUT_PULL_UPDOWN, GPIO1); //Кнопка "КАЛИБРОВКА"
-//        gpio_set_mode(GPIOA, GPIO_MODE_INPUT, GPIO_CNF_INPUT_PULL_UPDOWN, GPIO2); //Кнопка "СБРОС ОШИБКИ"
-//        gpio_set_mode(GPIOA, GPIO_MODE_INPUT, GPIO_CNF_INPUT_PULL_UPDOWN, GPIO3); //Внешний сигнал «Включение 20 - 72V»
-//        gpio_set_mode(GPIOA, GPIO_MODE_INPUT, GPIO_CNF_INPUT_PULL_UPDOWN, GPIO4); //Внешний сигнал «Импеданс 20 - 72V»
-//        gpio_set_mode(GPIOA, GPIO_MODE_INPUT, GPIO_CNF_INPUT_PULL_UPDOWN, GPIO5); //Внешний сигнал «Трансляция 20 - 72V»
+        gpio_set_mode(GPIOA, GPIO_MODE_INPUT, GPIO_CNF_INPUT_PULL_UPDOWN, GPIO0); //Кнопка "ИМПЕДАНС"
+        gpio_set_mode(GPIOA, GPIO_MODE_INPUT, GPIO_CNF_INPUT_PULL_UPDOWN, GPIO1); //Кнопка "КАЛИБРОВКА"
+        gpio_set_mode(GPIOA, GPIO_MODE_INPUT, GPIO_CNF_INPUT_PULL_UPDOWN, GPIO2); //Кнопка "СБРОС ОШИБКИ"
+        gpio_set_mode(GPIOA, GPIO_MODE_INPUT, GPIO_CNF_INPUT_PULL_UPDOWN, GPIO3); //Внешний сигнал «Включение 20 - 72V»
+        gpio_set_mode(GPIOA, GPIO_MODE_INPUT, GPIO_CNF_INPUT_PULL_UPDOWN, GPIO4); //Внешний сигнал «Импеданс 20 - 72V»
+        gpio_set_mode(GPIOA, GPIO_MODE_INPUT, GPIO_CNF_INPUT_PULL_UPDOWN, GPIO5); //Внешний сигнал «Трансляция 20 - 72V»
 
 }
 
@@ -82,14 +81,15 @@ uart_task(void *args) {
 
     (void)args;
 
-    puts_uart(3, "\n\ruart_task() has begun:\n\r");
+//    puts_uart(3, "\n\ruart_task() has begun:\n\r");
 
-    for (;;) {
+    for (;;)
+    {
         gc = getc_uart_nb(3);
 
         if ( gc != -1 )
         {
-            puts_uart(3, "\r\n\nENTER INPUT: ");
+//            puts_uart(3, "\r\n\nENTER INPUT: ");
 
             ch = (char)gc;
             if ( ch != '\r' && ch != '\n' )
@@ -105,10 +105,10 @@ uart_task(void *args) {
                 getline_uart(3, kbuf, sizeof kbuf);
             }
 
-            puts_uart(3, "\r\nReceived input '");
+            puts_uart(3, "\r\nReceived command: ");
             puts_uart(3, kbuf);
-            puts_uart(3, "'\n\r\nResuming prints...\n\r");
-
+            puts_uart(3, "\r\n");
+//            puts_uart(3, "'\n\r\nResuming prints...\n\r");
         }
 
         /* Receive char to be TX */
@@ -117,9 +117,7 @@ uart_task(void *args) {
             putc_uart(3, ch);
         }
 
-        /* Toggle LED to show signs of life */
         gpio_toggle(GPIOD,GPIO2);
-//        gpio_toggle(GPIOC,GPIO13);
     }
 }
 
@@ -178,10 +176,10 @@ main(void) {
     uart_setup();
 
     xTaskCreate(uart_task,"UART",200,NULL,configMAX_PRIORITIES-1,NULL);
-    xTaskCreate(testUART1, "UART4", 100, NULL, configMAX_PRIORITIES - 1, NULL);
-    xTaskCreate(testUART2,"USART3",100,NULL,configMAX_PRIORITIES-1,NULL);
+//    xTaskCreate(testUART2,"USART3",100,NULL,configMAX_PRIORITIES-1,NULL);
 
-    xTaskCreate(testTask1, "LED1", 100, NULL, configMAX_PRIORITIES - 1, NULL);
+//    xTaskCreate(testUART1, "UART4", 100, NULL, configMAX_PRIORITIES - 1, NULL);
+//    xTaskCreate(testTask1, "LED1", 100, NULL, configMAX_PRIORITIES - 1, NULL);
 //    xTaskCreate(testTask2, "LED2", 100, NULL, configMAX_PRIORITIES - 1, NULL);
 //    xTaskCreate(testTask3, "LED3", 100, NULL, configMAX_PRIORITIES - 1, NULL);
 //    xTaskCreate(testTask4, "LED4", 100, NULL, configMAX_PRIORITIES - 1, NULL);

@@ -16,7 +16,8 @@
 
 #define mainECHO_TASK_PRIORITY				( tskIDLE_PRIORITY + 1 )
 
-//static QueueHandle_t uart_txq;				// TX queue for UART
+static QueueHandle_t uart_txq;				// TX queue for UART
+
 void testTask1(void *args __attribute((unused)));
 void testTask2(void *args __attribute((unused)));
 void testTask3(void *args __attribute((unused)));
