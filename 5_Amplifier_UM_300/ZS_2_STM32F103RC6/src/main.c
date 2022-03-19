@@ -122,19 +122,21 @@ uart_setup()
 
 void checkImpedance()
 {
-    uint16_t gpioImpedance;
-    gpioImpedance = gpio_get(GPIOA, GPIO0);
-//    char buf[5];
-//    sprintf(buf, "%d", gpioImpedance);
-    //    write_uart(3, buf, sizeof buf);
-//    stringToUart(buf);
-    //    close_uart(3);
+    for(;;)
+    {
+        uint16_t gpioImpedance;
+        gpioImpedance = gpio_get(GPIOA, GPIO0);
+    //    char buf[5];
+    //    sprintf(buf, "%d", gpioImpedance);
+        //    write_uart(3, buf, sizeof buf);
+    //    stringToUart(buf);
+        //    close_uart(3);
 
-    if (gpioImpedance == 1) gpio_set(GPIOC, GPIO6);
-    if (gpioImpedance == 0) gpio_clear(GPIOC, GPIO6);
+        if (gpioImpedance == 1) gpio_set(GPIOC, GPIO6);
+        if (gpioImpedance == 0) gpio_clear(GPIOC, GPIO6);
 
-    vTaskDelay(pdMS_TO_TICKS(500));
-
+        vTaskDelay(pdMS_TO_TICKS(50));
+    }
 }
 
 
@@ -150,14 +152,14 @@ main(void) {
 
     xTaskCreate(uart_task,"UART",200,NULL,configMAX_PRIORITIES-1,NULL);
     xTaskCreate(testUART2,"USART3",100,NULL,configMAX_PRIORITIES-2,NULL);
-//    xTaskCreate(checkImpedance,"buttonImpedance",100,NULL,configMAX_PRIORITIES-3,NULL);
+    xTaskCreate(checkImpedance,"buttonImpedance",100,NULL,configMAX_PRIORITIES-3,NULL);
 
-    xTaskCreate(testUART1, "UART4", 100, NULL, configMAX_PRIORITIES - 1, NULL);
-    xTaskCreate(testTask1, "LED1", 100, NULL, configMAX_PRIORITIES - 1, NULL);
-    xTaskCreate(testTask2, "LED2", 100, NULL, configMAX_PRIORITIES - 1, NULL);
-    xTaskCreate(testTask3, "LED3", 100, NULL, configMAX_PRIORITIES - 1, NULL);
-    xTaskCreate(testTask4, "LED4", 100, NULL, configMAX_PRIORITIES - 1, NULL);
-    xTaskCreate(testTask5, "LED5", 100, NULL, configMAX_PRIORITIES - 1, NULL);
+//    xTaskCreate(testUART1, "UART4", 100, NULL, configMAX_PRIORITIES - 1, NULL);
+//    xTaskCreate(testTask1, "LED1", 100, NULL, configMAX_PRIORITIES - 1, NULL);
+//    xTaskCreate(testTask2, "LED2", 100, NULL, configMAX_PRIORITIES - 1, NULL);
+//    xTaskCreate(testTask3, "LED3", 100, NULL, configMAX_PRIORITIES - 1, NULL);
+//    xTaskCreate(testTask4, "LED4", 100, NULL, configMAX_PRIORITIES - 1, NULL);
+//    xTaskCreate(testTask5, "LED5", 100, NULL, configMAX_PRIORITIES - 1, NULL);
 
 
 	vTaskStartScheduler();
