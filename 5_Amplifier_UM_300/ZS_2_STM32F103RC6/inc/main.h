@@ -29,6 +29,8 @@ void testUART1(void *args __attribute__((unused)));
 void testUART2(void *args);
 
 void checkButtons();
+void checkStateRele();
+
 
 void gpio_setup();
 //void uart_setup();

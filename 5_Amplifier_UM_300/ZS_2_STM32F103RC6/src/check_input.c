@@ -1,6 +1,8 @@
 #include "main.h"
 #include "stdio.h"
 
+uint16_t releImpedance = 0;
+
 
 void checkButtons()
 {
@@ -16,16 +18,22 @@ void checkButtons()
 
             if (temp == 1)
             {
-                stringToUart("\r\nbtnImpedance ");
+                if (releImpedance != 1)
+                {
+                    releImpedance = 1;
+                    stringToUart("\r\nRele Impedance ON\n\r ");
+                }
+
+                stringToUart("\r\nButton Impedance ");
                 stringToUart("ON\n\r");
-                gpio_set(GPIOC,GPIO6);
+//                gpio_set(GPIOC,GPIO6);
             }
 
             if (temp == 0)
             {
-                stringToUart("\r\nbtnImpedance ");
+                stringToUart("\r\nButton Impedance ");
                 stringToUart("OFF\n\r");
-                gpio_clear(GPIOC,GPIO6);
+//                gpio_clear(GPIOC,GPIO6);
             }
 
             // sprintf подвешивает !!
@@ -38,4 +46,22 @@ void checkButtons()
 
         vTaskDelay(pdMS_TO_TICKS(50));
     }
+}
+
+void checkStateRele()
+{
+    for(;;)
+    {
+        if (releImpedance == 1)
+        {
+            gpio_set(GPIOC,GPIO6);
+        }
+        else
+        {
+            gpio_clear(GPIOC,GPIO6);
+        }
+
+
+    }
+
 }

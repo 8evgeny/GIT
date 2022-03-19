@@ -106,6 +106,7 @@ main(void) {
     xTaskCreate(uart_task,"UART",200,NULL,configMAX_PRIORITIES-1,NULL);
 
     xTaskCreate(checkButtons,"BUTTONS",100,NULL,configMAX_PRIORITIES-1,NULL);
+    xTaskCreate(checkStateRele,"StateRele",100,NULL,configMAX_PRIORITIES-1,NULL);
 
 
 //    xTaskCreate(testUART2,"USART3",100,NULL,configMAX_PRIORITIES-2,NULL);
