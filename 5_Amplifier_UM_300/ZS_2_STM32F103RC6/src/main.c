@@ -65,29 +65,11 @@ uart_task(void *args) {
     }
 }
 
-
-static inline void
-stringToUart(const char *s) {
+void stringToUart(const char *s) {
 
     for ( ; *s; ++s ) {
         // blocks when queue is full
         xQueueSend(uart_txq, s, portMAX_DELAY);
-    }
-}
-
-static void
-testUART2(void *args)
-{
-    (void)args;
-
-    for (;;)
-    {
-        stringToUart("\r\nNow this is a message..\n\r");
-        stringToUart("  sent via FreeRTOS queues.\n\n\r");
-        vTaskDelay(pdMS_TO_TICKS(2000));
-        stringToUart("Just start typing to enter a line, or..\n\r"
-                  "hit Enter first, then enter your input.\n\n\r");
-        vTaskDelay(pdMS_TO_TICKS(2000));
     }
 }
 
@@ -114,46 +96,6 @@ uart_setup()
 }
 
 
-void checkButtons()
-{
-    uint16_t gpioImpedance, temp;
-    gpioImpedance = gpio_get(GPIOA, GPIO0);
-//    char buf[80];
-    for(;;)
-    {
-        temp = gpio_get(GPIOA, GPIO0);
-
-        if (temp != gpioImpedance)
-        {
-
-            if (temp == 1)
-            {
-                stringToUart("\r\nbtnImpedance ");
-                stringToUart("ON\n\r");
-                gpio_set(GPIOC,GPIO6);
-            }
-
-            if (temp == 0)
-            {
-                stringToUart("\r\nbtnImpedance ");
-                stringToUart("OFF\n\r");
-                gpio_clear(GPIOC,GPIO6);
-            }
-
-// sprintf подвешивает !!
-//            sprintf(buf, "%d", gpioImpedance);
-//            write_uart(3, buf, sizeof buf);
-//            stringToUart("\r\n\r");
-
-            gpioImpedance = temp;
-        }
-
-        vTaskDelay(pdMS_TO_TICKS(50));
-    }
-}
-
-
-
 
 int
 main(void) {
@@ -167,7 +109,7 @@ main(void) {
 
 
 //    xTaskCreate(testUART2,"USART3",100,NULL,configMAX_PRIORITIES-2,NULL);
-//    xTaskCreate(testUART1, "UART4", 100, NULL, configMAX_PRIORITIES - 1, NULL);
+//    xTaskCreate(testUART1, "UART4", 100, NULL, configMAX_PRIORITIES - 2, NULL);
 
 //    xTaskCreate(testTask1, "LED1", 100, NULL, configMAX_PRIORITIES - 1, NULL);
 //    xTaskCreate(testTask2, "LED2", 100, NULL, configMAX_PRIORITIES - 1, NULL);

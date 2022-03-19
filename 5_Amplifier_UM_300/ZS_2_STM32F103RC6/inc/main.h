@@ -26,9 +26,14 @@ void testTask4(void *args __attribute((unused)));
 void testTask5(void *args __attribute((unused)));
 
 void testUART1(void *args __attribute__((unused)));
+void testUART2(void *args);
+
+void checkButtons();
 
 void gpio_setup();
 //void uart_setup();
+
+void stringToUart(const char *s);
 
 void setImpedanceRele(bool);
 void setReleTr1(bool);
