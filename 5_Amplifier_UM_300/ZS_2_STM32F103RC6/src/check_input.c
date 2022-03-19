@@ -48,17 +48,17 @@ void checkButtons()
     }
 }
 
-void checkStateRele()
+void setStateRele()
 {
     for(;;)
     {
         if (releImpedance == 1)
         {
-            gpio_set(GPIOC,GPIO6);
+            setImpedanceRele(true);
         }
         else
         {
-            gpio_clear(GPIOC,GPIO6);
+            setImpedanceRele(false);
         }
 
 
