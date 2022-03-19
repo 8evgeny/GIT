@@ -82,12 +82,6 @@ testUART2(void *args)
 
     for (;;)
     {
-//        uint16_t gpioImpedance;
-//        gpioImpedance = gpio_get(GPIOA, GPIO0);
-//        char buf[5];
-//        sprintf(buf, "%d", gpioImpedance);
-//        stringToUart(buf);
-
         stringToUart("\r\nNow this is a message..\n\r");
         stringToUart("  sent via FreeRTOS queues.\n\n\r");
         vTaskDelay(pdMS_TO_TICKS(2000));
@@ -120,26 +114,43 @@ uart_setup()
 }
 
 
-void checkImpedance()
+void checkButtons()
 {
+    uint16_t gpioImpedance, temp;
+    gpioImpedance = gpio_get(GPIOA, GPIO0);
+//    char buf[80];
     for(;;)
     {
-        uint16_t gpioImpedance;
-        gpioImpedance = gpio_get(GPIOA, GPIO0);
-    //    char buf[5];
-    //    sprintf(buf, "%d", gpioImpedance);
-        //    write_uart(3, buf, sizeof buf);
-    //    stringToUart(buf);
-        //    close_uart(3);
+        temp = gpio_get(GPIOA, GPIO0);
 
-        if (gpioImpedance == 1) gpio_set(GPIOC, GPIO6);
-        if (gpioImpedance == 0) gpio_clear(GPIOC, GPIO6);
+        if (temp != gpioImpedance)
+        {
+
+            if (temp == 1)
+            {
+                stringToUart("\r\nbtnImpedance ");
+                stringToUart("ON\n\r");
+                gpio_set(GPIOC,GPIO6);
+            }
+
+            if (temp == 0)
+            {
+                stringToUart("\r\nbtnImpedance ");
+                stringToUart("OFF\n\r");
+                gpio_clear(GPIOC,GPIO6);
+            }
+
+// sprintf подвешивает !!
+//            sprintf(buf, "%d", gpioImpedance);
+//            write_uart(3, buf, sizeof buf);
+//            stringToUart("\r\n\r");
+
+            gpioImpedance = temp;
+        }
 
         vTaskDelay(pdMS_TO_TICKS(50));
     }
 }
-
-
 
 
 
@@ -151,10 +162,13 @@ main(void) {
     uart_setup();
 
     xTaskCreate(uart_task,"UART",200,NULL,configMAX_PRIORITIES-1,NULL);
-    xTaskCreate(testUART2,"USART3",100,NULL,configMAX_PRIORITIES-2,NULL);
-    xTaskCreate(checkImpedance,"buttonImpedance",100,NULL,configMAX_PRIORITIES-3,NULL);
 
+    xTaskCreate(checkButtons,"BUTTONS",100,NULL,configMAX_PRIORITIES-1,NULL);
+
+
+//    xTaskCreate(testUART2,"USART3",100,NULL,configMAX_PRIORITIES-2,NULL);
 //    xTaskCreate(testUART1, "UART4", 100, NULL, configMAX_PRIORITIES - 1, NULL);
+
 //    xTaskCreate(testTask1, "LED1", 100, NULL, configMAX_PRIORITIES - 1, NULL);
 //    xTaskCreate(testTask2, "LED2", 100, NULL, configMAX_PRIORITIES - 1, NULL);
 //    xTaskCreate(testTask3, "LED3", 100, NULL, configMAX_PRIORITIES - 1, NULL);
