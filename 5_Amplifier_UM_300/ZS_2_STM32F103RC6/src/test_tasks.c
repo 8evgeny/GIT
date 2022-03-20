@@ -37,17 +37,7 @@ testTask3(void *args __attribute((unused)))
     }
 }
 
-void
-testTask4(void *args __attribute((unused)))
-{
-    for (;;)
-    {
-        setTestLed4(true);
-        vTaskDelay(pdMS_TO_TICKS(200));
-        setTestLed4(false);
-        vTaskDelay(pdMS_TO_TICKS(200));
-    }
-}
+
 
 
 
