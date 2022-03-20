@@ -175,16 +175,16 @@ void GPIO_Init(GPIO_TypeDef* GPIOx, GPIO_InitTypeDef* GPIO_InitStruct)
   uint32_t currentmode = 0x00, currentpin = 0x00, pinpos = 0x00, pos = 0x00;
   uint32_t tmpreg = 0x00, pinmask = 0x00;
   /* Check the parameters */
-  assert_param(IS_GPIO_ALL_PERIPH(GPIOx));
-  assert_param(IS_GPIO_MODE(GPIO_InitStruct->GPIO_Mode));
-  assert_param(IS_GPIO_PIN(GPIO_InitStruct->GPIO_Pin));  
+//  assert_param(IS_GPIO_ALL_PERIPH(GPIOx));
+//  assert_param(IS_GPIO_MODE(GPIO_InitStruct->GPIO_Mode));
+//  assert_param(IS_GPIO_PIN(GPIO_InitStruct->GPIO_Pin));
   
 /*---------------------------- GPIO Mode Configuration -----------------------*/
   currentmode = ((uint32_t)GPIO_InitStruct->GPIO_Mode) & ((uint32_t)0x0F);
   if ((((uint32_t)GPIO_InitStruct->GPIO_Mode) & ((uint32_t)0x10)) != 0x00)
   { 
     /* Check the parameters */
-    assert_param(IS_GPIO_SPEED(GPIO_InitStruct->GPIO_Speed));
+//    assert_param(IS_GPIO_SPEED(GPIO_InitStruct->GPIO_Speed));
     /* Output mode */
     currentmode |= (uint32_t)GPIO_InitStruct->GPIO_Speed;
   }

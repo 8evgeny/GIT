@@ -104,7 +104,7 @@ void displayKeyCodes(void) {
   }
 }
 
-void i2c_main()
+void i2c_main_vers2()
 {
 //  USART1_Init(); //Вызов функции инициализации периферии
 

@@ -195,13 +195,13 @@ void I2C_Init(I2C_TypeDef* I2Cx, I2C_InitTypeDef* I2C_InitStruct)
   uint32_t pclk1 = 8000000;
   RCC_ClocksTypeDef  rcc_clocks;
   /* Check the parameters */
-  assert_param(IS_I2C_ALL_PERIPH(I2Cx));
-  assert_param(IS_I2C_CLOCK_SPEED(I2C_InitStruct->I2C_ClockSpeed));
-  assert_param(IS_I2C_MODE(I2C_InitStruct->I2C_Mode));
-  assert_param(IS_I2C_DUTY_CYCLE(I2C_InitStruct->I2C_DutyCycle));
-  assert_param(IS_I2C_OWN_ADDRESS1(I2C_InitStruct->I2C_OwnAddress1));
-  assert_param(IS_I2C_ACK_STATE(I2C_InitStruct->I2C_Ack));
-  assert_param(IS_I2C_ACKNOWLEDGE_ADDRESS(I2C_InitStruct->I2C_AcknowledgedAddress));
+//  assert_param(IS_I2C_ALL_PERIPH(I2Cx));
+//  assert_param(IS_I2C_CLOCK_SPEED(I2C_InitStruct->I2C_ClockSpeed));
+//  assert_param(IS_I2C_MODE(I2C_InitStruct->I2C_Mode));
+//  assert_param(IS_I2C_DUTY_CYCLE(I2C_InitStruct->I2C_DutyCycle));
+//  assert_param(IS_I2C_OWN_ADDRESS1(I2C_InitStruct->I2C_OwnAddress1));
+//  assert_param(IS_I2C_ACK_STATE(I2C_InitStruct->I2C_Ack));
+//  assert_param(IS_I2C_ACKNOWLEDGE_ADDRESS(I2C_InitStruct->I2C_AcknowledgedAddress));
 
 /*---------------------------- I2Cx CR2 Configuration ------------------------*/
   /* Get the I2Cx CR2 value */
@@ -322,8 +322,8 @@ void I2C_StructInit(I2C_InitTypeDef* I2C_InitStruct)
 void I2C_Cmd(I2C_TypeDef* I2Cx, FunctionalState NewState)
 {
   /* Check the parameters */
-  assert_param(IS_I2C_ALL_PERIPH(I2Cx));
-  assert_param(IS_FUNCTIONAL_STATE(NewState));
+//  assert_param(IS_I2C_ALL_PERIPH(I2Cx));
+//  assert_param(IS_FUNCTIONAL_STATE(NewState));
   if (NewState != DISABLE)
   {
     /* Enable the selected I2C peripheral */
@@ -394,8 +394,8 @@ void I2C_DMALastTransferCmd(I2C_TypeDef* I2Cx, FunctionalState NewState)
 void I2C_GenerateSTART(I2C_TypeDef* I2Cx, FunctionalState NewState)
 {
   /* Check the parameters */
-  assert_param(IS_I2C_ALL_PERIPH(I2Cx));
-  assert_param(IS_FUNCTIONAL_STATE(NewState));
+//  assert_param(IS_I2C_ALL_PERIPH(I2Cx));
+//  assert_param(IS_FUNCTIONAL_STATE(NewState));
   if (NewState != DISABLE)
   {
     /* Generate a START condition */
@@ -418,8 +418,8 @@ void I2C_GenerateSTART(I2C_TypeDef* I2Cx, FunctionalState NewState)
 void I2C_GenerateSTOP(I2C_TypeDef* I2Cx, FunctionalState NewState)
 {
   /* Check the parameters */
-  assert_param(IS_I2C_ALL_PERIPH(I2Cx));
-  assert_param(IS_FUNCTIONAL_STATE(NewState));
+//  assert_param(IS_I2C_ALL_PERIPH(I2Cx));
+//  assert_param(IS_FUNCTIONAL_STATE(NewState));
   if (NewState != DISABLE)
   {
     /* Generate a STOP condition */
@@ -570,7 +570,7 @@ void I2C_ITConfig(I2C_TypeDef* I2Cx, uint16_t I2C_IT, FunctionalState NewState)
 void I2C_SendData(I2C_TypeDef* I2Cx, uint8_t Data)
 {
   /* Check the parameters */
-  assert_param(IS_I2C_ALL_PERIPH(I2Cx));
+//  assert_param(IS_I2C_ALL_PERIPH(I2Cx));
   /* Write in the DR register the data to be sent */
   I2Cx->DR = Data;
 }
@@ -601,8 +601,8 @@ uint8_t I2C_ReceiveData(I2C_TypeDef* I2Cx)
 void I2C_Send7bitAddress(I2C_TypeDef* I2Cx, uint8_t Address, uint8_t I2C_Direction)
 {
   /* Check the parameters */
-  assert_param(IS_I2C_ALL_PERIPH(I2Cx));
-  assert_param(IS_I2C_DIRECTION(I2C_Direction));
+//  assert_param(IS_I2C_ALL_PERIPH(I2Cx));
+//  assert_param(IS_I2C_DIRECTION(I2C_Direction));
   /* Test on the direction to set/reset the read/write bit */
   if (I2C_Direction != I2C_Direction_Transmitter)
   {
@@ -1034,8 +1034,8 @@ ErrorStatus I2C_CheckEvent(I2C_TypeDef* I2Cx, uint32_t I2C_EVENT)
   ErrorStatus status = ERROR;
 
   /* Check the parameters */
-  assert_param(IS_I2C_ALL_PERIPH(I2Cx));
-  assert_param(IS_I2C_EVENT(I2C_EVENT));
+//  assert_param(IS_I2C_ALL_PERIPH(I2Cx));
+//  assert_param(IS_I2C_EVENT(I2C_EVENT));
 
   /* Read the I2Cx status register */
   flag1 = I2Cx->SR1;
@@ -1136,8 +1136,8 @@ FlagStatus I2C_GetFlagStatus(I2C_TypeDef* I2Cx, uint32_t I2C_FLAG)
   __IO uint32_t i2creg = 0, i2cxbase = 0;
 
   /* Check the parameters */
-  assert_param(IS_I2C_ALL_PERIPH(I2Cx));
-  assert_param(IS_I2C_GET_FLAG(I2C_FLAG));
+//  assert_param(IS_I2C_ALL_PERIPH(I2Cx));
+//  assert_param(IS_I2C_GET_FLAG(I2C_FLAG));
 
   /* Get the I2Cx peripheral base address */
   i2cxbase = (uint32_t)I2Cx;
@@ -1274,7 +1274,7 @@ ITStatus I2C_GetITStatus(I2C_TypeDef* I2Cx, uint32_t I2C_IT)
 }
 
 /**
-  * @brief  Clears the I2Cx’s interrupt pending bits.
+  * @brief  Clears the I2Cxâ€™s interrupt pending bits.
   * @param  I2Cx: where x can be 1 or 2 to select the I2C peripheral.
   * @param  I2C_IT: specifies the interrupt pending bit to clear. 
   *   This parameter can be any combination of the following values:
