@@ -20,9 +20,16 @@ void setReleLine1(bool set) { if(set) gpio_set(GPIOB, GPIO15);  else gpio_clear(
 void setRele24V(bool set) { if(set) gpio_set(GPIOC, GPIO9);  else gpio_clear(GPIOC, GPIO9);}
 
 void setFan(bool set) { if(set) gpio_set(GPIOB, GPIO9);  else gpio_clear(GPIOB, GPIO9);}
-//void setPowerOut(bool set) { if(set) gpio_set(GPIOB, GPIO8);  else gpio_clear(GPIOB, GPIO8);} //на UART переходит
+
+
 void setPowerOut(bool set)
 {
     //Передача команды через UART
 
 }
+//Свободные пины
+void setTestLed1(bool set) { if(set) gpio_set(GPIOC, GPIO15);  else gpio_clear(GPIOC, GPIO15);}
+void setTestLed2(bool set) { if(set) gpio_set(GPIOC, GPIO14);  else gpio_clear(GPIOC, GPIO14);}
+void setTestLed3(bool set) { if(set) gpio_set(GPIOC, GPIO4);  else gpio_clear(GPIOC, GPIO4);}
+void setTestLed4(bool set) { if(set) gpio_set(GPIOC, GPIO5);  else gpio_clear(GPIOC, GPIO5);}
+void setTestLed5(bool set) { if(set) gpio_set(GPIOC, GPIO9);  else gpio_clear(GPIOC, GPIO9);}

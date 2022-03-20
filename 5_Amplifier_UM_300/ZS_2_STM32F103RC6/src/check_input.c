@@ -26,14 +26,14 @@ void checkButtons()
 
                 stringToUart("\r\nButton Impedance ");
                 stringToUart("ON\n\r");
-//                gpio_set(GPIOC,GPIO6);
+
             }
 
             if (temp == 0)
             {
                 stringToUart("\r\nButton Impedance ");
                 stringToUart("OFF\n\r");
-//                gpio_clear(GPIOC,GPIO6);
+
             }
 
             // sprintf подвешивает !!
@@ -55,10 +55,13 @@ void setStateRele()
         if (releImpedance == 1)
         {
             setImpedanceRele(true);
+setTestLed1(true);
+
         }
         else
         {
             setImpedanceRele(false);
+setTestLed1(false);
         }
 
 

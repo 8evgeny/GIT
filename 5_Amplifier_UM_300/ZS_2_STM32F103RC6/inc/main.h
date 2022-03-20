@@ -55,6 +55,11 @@ void setErrorRele(bool set);
 void setReleLine1(bool set);
 void setRele24V(bool set);
 
+void setTestLed1(bool set);
+void setTestLed2(bool set);
+void setTestLed3(bool set);
+void setTestLed4(bool set);
+void setTestLed5(bool set);
 
 //#ifdef __cplusplus
 //}
