@@ -33,6 +33,7 @@ void setStateRele();
 
 void i2c_main_vers1();
 void i2c_main_vers2();
+void LCDI2C_write_String(char* str);
 
 void gpio_setup();
 //void uart_setup();
