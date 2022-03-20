@@ -5,7 +5,9 @@ testTask1(void *args __attribute((unused)))
 {
     for (;;)
     {
-        gpio_toggle(GPIOB, GPIO5);
+        setTestLed1(true);
+        vTaskDelay(pdMS_TO_TICKS(700));
+        setTestLed1(false);
         vTaskDelay(pdMS_TO_TICKS(700));
     }
 }
@@ -16,7 +18,9 @@ testTask2(void *args __attribute((unused)))
 {
     for (;;)
     {
-        gpio_toggle(GPIOB, GPIO6);
+        setTestLed2(true);
+        vTaskDelay(pdMS_TO_TICKS(100));
+        setTestLed2(false);
         vTaskDelay(pdMS_TO_TICKS(100));
     }
 }
@@ -26,7 +30,9 @@ testTask3(void *args __attribute((unused)))
 {
     for (;;)
     {
-        gpio_toggle(GPIOC, GPIO4);
+        setTestLed3(true);
+        vTaskDelay(pdMS_TO_TICKS(500));
+        setTestLed3(false);
         vTaskDelay(pdMS_TO_TICKS(500));
     }
 }
@@ -36,8 +42,10 @@ testTask4(void *args __attribute((unused)))
 {
     for (;;)
     {
-        gpio_toggle(GPIOC, GPIO5);
-        vTaskDelay(pdMS_TO_TICKS(3000));
+        setTestLed4(true);
+        vTaskDelay(pdMS_TO_TICKS(200));
+        setTestLed4(false);
+        vTaskDelay(pdMS_TO_TICKS(200));
     }
 }
 void
@@ -45,7 +53,9 @@ testTask5(void *args __attribute((unused)))
 {
     for (;;)
     {
-        gpio_toggle(GPIOC, GPIO12);
+        setTestLed5(true);
+        vTaskDelay(pdMS_TO_TICKS(1500));
+        setTestLed5(false);
         vTaskDelay(pdMS_TO_TICKS(1500));
     }
 }
