@@ -47,18 +47,14 @@ SET(CMAKE_EXE_LINKER_FLAGS_INIT " \
 PROJECT(5_stm32f103rc6 C CXX ASM)
 set(CMAKE_CXX_STANDARD 11)
 
+set(I2C_version 2)
+
 #add_definitions(-DARM_MATH_CM4 -DARM_MATH_MATRIX_CHECK -DARM_MATH_ROUNDING -D__FPU_PRESENT=1)
 add_definitions(-DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB
     -DSTM32F1 #добавил
     )
 
 file(GLOB_RECURSE SOURCES_C
-#    src/main.c
-#    src/uart_setup.c
-#    src/task_uart.c
-#    src/test_tasks.c
-#    src/gpio_setup.c
-#    src/out_commands.c
     src/*.*
     rtos/heap_4.c
     rtos/list.c
@@ -67,14 +63,35 @@ file(GLOB_RECURSE SOURCES_C
     rtos/opencm3.c
     rtos/queue.c
     libwwg/src/uartlib.c
+    )
+if(${I2C_version} EQUAL 1)
+
+file(GLOB_RECURSE SOURCES_I2C
+    i2c_vers_1/i2c.c
+    i2c_vers_1/i2c_main.c
     libwwg/src/usbcdc.c
     )
+include_directories(
+    i2c_vers_1
+    )
+endif()
+
+if(${I2C_version} EQUAL 2)
+
+file(GLOB_RECURSE SOURCES_I2C
+
+    )
+include_directories(
+
+    )
+endif()
+
+
 
 
 file(GLOB_RECURSE SOURCES_CPP
 #    src/main.cpp
     )
-
 
 
 include_directories(
@@ -83,11 +100,13 @@ include_directories(
     rtos
     ./
     libwwg/include
-#    libopencm3/include/libopencm3/stm32/common
     )
+
+
 
 add_executable(${PROJECT_NAME}.elf
     ${SOURCES_C}
+    ${SOURCES_I2C}
     ${SOURCES_CPP}
     ${LINKER_SCRIPT}
     )
