@@ -250,8 +250,11 @@ void i2c_main() {
 	xTaskCreate(task1,"task1",800,NULL,1,NULL);
 	usb_start(1,1);
 
-	vTaskStartScheduler();
-	for (;;);
+//	vTaskStartScheduler();
+    for (;;)
+    {
+         vTaskDelay(pdMS_TO_TICKS(1000));
+    }
 
 }
 

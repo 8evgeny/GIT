@@ -48,16 +48,6 @@ testTask4(void *args __attribute((unused)))
         vTaskDelay(pdMS_TO_TICKS(200));
     }
 }
-void
-testTask5(void *args __attribute((unused)))
-{
-    for (;;)
-    {
-        setTestLed5(true);
-        vTaskDelay(pdMS_TO_TICKS(1500));
-        setTestLed5(false);
-        vTaskDelay(pdMS_TO_TICKS(1500));
-    }
-}
+
 
 

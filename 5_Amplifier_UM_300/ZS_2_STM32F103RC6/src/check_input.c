@@ -55,13 +55,13 @@ void setStateRele()
         if (releImpedance == 1)
         {
             setImpedanceRele(true);
-setTestLed1(true);
+setTestLed3(true);
 
         }
         else
         {
             setImpedanceRele(false);
-setTestLed1(false);
+setTestLed3(false);
         }
 
 

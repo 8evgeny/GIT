@@ -23,7 +23,7 @@ void testTask1(void *args __attribute((unused)));
 void testTask2(void *args __attribute((unused)));
 void testTask3(void *args __attribute((unused)));
 void testTask4(void *args __attribute((unused)));
-void testTask5(void *args __attribute((unused)));
+
 
 void testUART1(void *args __attribute__((unused)));
 void testUART2(void *args);
@@ -60,7 +60,7 @@ void setTestLed1(bool set);
 void setTestLed2(bool set);
 void setTestLed3(bool set);
 void setTestLed4(bool set);
-void setTestLed5(bool set);
+
 
 //#ifdef __cplusplus
 //}
