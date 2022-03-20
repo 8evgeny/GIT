@@ -79,10 +79,16 @@ endif()
 if(${I2C_version} EQUAL 2)
 
 file(GLOB_RECURSE SOURCES_I2C
-
+    i2c_vers_2/cmsis_boot/startup/startup_stm32f10x_md.S
+    i2c_vers_2/cmsis_boot/system_stm32f10x.c
+    i2c_vers_2/src/*.*
+    i2c_vers_2/stm_lib/src/*.*
     )
 include_directories(
-
+    i2c_vers_2/inc
+    i2c_vers_2/cmsis
+    i2c_vers_2/cmsis_boot
+    i2c_vers_2/stm_lib/inc
     )
 endif()
 
