@@ -31,6 +31,7 @@ void testUART2(void *args);
 void checkButtons();
 void setStateRele();
 
+void i2c_main();
 
 void gpio_setup();
 //void uart_setup();

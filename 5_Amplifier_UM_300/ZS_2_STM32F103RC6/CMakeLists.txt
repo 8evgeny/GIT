@@ -67,6 +67,7 @@ file(GLOB_RECURSE SOURCES_C
     rtos/opencm3.c
     rtos/queue.c
     libwwg/src/uartlib.c
+    libwwg/src/usbcdc.c
     )
 
 
