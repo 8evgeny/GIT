@@ -7,7 +7,7 @@
 //#include "USART.h" 
 #include "I2C.h"
 #include "LiquidCrystal_I2C.h"
-//#include "main.h"
+#include "main.h"
 
 uint8_t bell[8]  = {0x4,0xe,0xe,0xe,0x1f,0x0,0x4};
 uint8_t note[8]  = {0x2,0x3,0x2,0xe,0x1e,0xc,0x0};
@@ -34,18 +34,18 @@ uint8_t habr11[8] = {0x18,0x10,0x10,0x0,0x0,0x0,0x0, 0x0};
 
 // Function declarations
 // typedef __w64 unsigned int size_t
-int strlen(const char *);
+//int strlen(const char *);
 char *strrev(char *);
 char *itoa(int, char *, int);
 
-int strlen(const char *str) {
-	const char *s;
+//int strlen(const char *str) {
+//	const char *s;
 
-	s = str;
-	while (*s)
-		s++;
-	return s - str;
-}
+//	s = str;
+//	while (*s)
+//		s++;
+//	return s - str;
+//}
 
 char *strrev(char *str) {
 	char *p1, *p2;
