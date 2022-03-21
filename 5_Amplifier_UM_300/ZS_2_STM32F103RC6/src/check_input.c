@@ -22,12 +22,12 @@ void checkButtons()
                 {
                     releImpedance = 1;
                     stringToUart("\r\nRele Impedance ON\n\r ");
-                    stringToLcd("Rele Impedance ON   ");
+                    stringToLcd("Rele Impedance ON");
                 }
 
                 stringToUart("\r\nButton Impedance ");
                 stringToUart("ON\n\r");
-                stringToLcd("Button Impedance ON ");
+                stringToLcd("Button Impedance ON");
 
             }
 

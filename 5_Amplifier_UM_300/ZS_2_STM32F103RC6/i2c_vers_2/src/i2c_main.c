@@ -127,7 +127,9 @@ char line4[] = "                    ";
 
 void stringToLcd(char* str)
 {
-    memcpy (line4, str, 20);
+    char tmp[] = "                    ";
+    memcpy (tmp, str, strlen(str));
+    memcpy (line4, tmp, 20);
     LCDI2C_write_String(line1);
     LCDI2C_write_String(line2);
     LCDI2C_write_String(line3);
