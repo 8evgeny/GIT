@@ -57,7 +57,7 @@ int main (void)
   PortInit.PORT_PD_SHM = PORT_PD_SHM_OFF;
   PortInit.PORT_PD = PORT_PD_DRIVER;
   PortInit.PORT_GFEN = PORT_GFEN_OFF;
-  PortInit.PORT_FUNC = PORT_FUNC_OVERRID;
+  PortInit.PORT_FUNC = PORT_FUNC_OVERRID;  //ОШИБКА
   PortInit.PORT_SPEED = PORT_SPEED_MAXFAST;
   PortInit.PORT_MODE = PORT_MODE_DIGITAL;
 
@@ -71,12 +71,12 @@ int main (void)
   PortInit.PORT_Pin = PORT_Pin_0;
   PORT_Init(MDR_PORTF, &PortInit);
 
-  /* Configure PORTF pins 6 (UART1_TX) as output */
+  /* Configure PORTA pins 6 (UART1_TX) as output ?????????? */
   PortInit.PORT_OE = PORT_OE_OUT;
   PortInit.PORT_Pin = PORT_Pin_6;
   PORT_Init(MDR_PORTA, &PortInit);
 
-  /* Configure PORTF pins 5 (UART1_RX) as input */
+  /* Configure PORTA pins 5 (UART1_RX) as input ?????????? */
   PortInit.PORT_OE = PORT_OE_IN;
   PortInit.PORT_Pin = PORT_Pin_5;
   PORT_Init(MDR_PORTA, &PortInit);
