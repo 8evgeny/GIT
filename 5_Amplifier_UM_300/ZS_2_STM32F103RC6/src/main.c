@@ -64,7 +64,7 @@ uart_task(void *args) {
             putc_uart(3, ch);
         }
 
-        gpio_toggle(GPIOD,GPIO2);
+//        gpio_toggle(GPIOD,GPIO2);
     }
 }
 
