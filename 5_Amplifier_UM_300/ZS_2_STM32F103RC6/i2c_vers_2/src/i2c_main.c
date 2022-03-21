@@ -104,6 +104,39 @@ void displayKeyCodes(void) {
   }
 }
 
+//char  str1[21]; //4 строки на экране
+//char  str2[21];
+//char  str3[21];
+//char  str4[21];
+
+//memcpy (str1, BufferLCD + 3, 20);
+//memcpy (str2, BufferLCD + 23 , 20);
+//memcpy (str3, BufferLCD + 43 , 20);
+//memcpy (str4, BufferLCD + 63 , 20);
+
+//PrintString1(str1);
+//PrintString2(str2);
+//PrintString3(str3);
+//PrintString4(str4);
+
+
+uint8_t line = 1;
+char line1[20] = "--------------------";
+char line2[20] = "--------------------";
+char line3[20] = "--------------------";
+char line4[20] = "--------------------";
+char bufLCD[80] = "--------------------------------------------------------------------------------";
+
+void stringToLcd(char* str)
+{
+    memcpy (bufLCD, str , 20);
+
+    LCDI2C_command(LCD_CLEARDISPLAY);// clear display, set cursor position to zero
+    DelayMC(1000);  // this command takes a long time!
+    LCDI2C_write_String(bufLCD);
+}
+
+
 void i2c_main_vers2()
 {
 //  USART1_Init(); //Вызов функции инициализации периферии

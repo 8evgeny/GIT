@@ -26,7 +26,7 @@ void checkButtons()
 
                 stringToUart("\r\nButton Impedance ");
                 stringToUart("ON\n\r");
-                LCDI2C_write_String("Impedance ON");
+                stringToLcd("Impedance ON");
 
             }
 
@@ -34,7 +34,7 @@ void checkButtons()
             {
                 stringToUart("\r\nButton Impedance ");
                 stringToUart("OFF\n\r");
-                LCDI2C_write_String("Impedance OFF");
+                stringToLcd("Impedance OFF");
 
             }
 

@@ -28,12 +28,14 @@ void testTask4(void *args __attribute((unused)));
 void testUART1(void *args __attribute__((unused)));
 void testUART2(void *args);
 
+
 void checkButtons();
 void setStateRele();
 
 void i2c_main_vers1();
 void i2c_main_vers2();
-void LCDI2C_write_String(char* str);
+void stringToLcd(char* str);
+
 
 void gpio_setup();
 //void uart_setup();
