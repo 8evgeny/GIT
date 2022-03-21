@@ -6,23 +6,29 @@ static uint16_t btnCalibrovka = 0;
 static uint16_t btnReset = 0;
 static uint16_t signalPowerOn = 0;
 
+static uint16_t signalVnesh = 0;
+
 void checkButtons()
 {
     int gpioImpedance, temp1;
     int gpioCalibrovka, temp2;
     int gpioReset, temp3;
     int gpioPowerOn, temp4;
+    int gpioVnesh, temp5;
 
     gpioImpedance = gpio_get(GPIOA, GPIO0);
     gpioCalibrovka = gpio_get(GPIOA, GPIO1);
     gpioReset = gpio_get(GPIOA, GPIO2);
     gpioPowerOn = gpio_get(GPIOA, GPIO3);
+    gpioVnesh = gpio_get(GPIOC, GPIO13);
+
     for(;;)
     {
         temp1 = gpio_get(GPIOA, GPIO0);
         temp2 = gpio_get(GPIOA, GPIO1);
         temp3 = gpio_get(GPIOA, GPIO2);
         temp4 = gpio_get(GPIOA, GPIO3);
+        temp5 = gpio_get(GPIOC, GPIO13);
 
     //Кнопка Импеданс
         if (temp1 != gpioImpedance)
@@ -123,6 +129,32 @@ void checkButtons()
             }
             gpioPowerOn = temp4;
         }
+
+    //Сигнал Внешний
+        if (temp5 != gpioVnesh)
+        {
+            if (temp5 == 1)
+            {
+                if (signalVnesh != 1)
+                {
+                    signalVnesh = 1;
+                    stringToUart("\r\nsignalVnesh ON\n\r");
+                    stringToLcd("signalVnesh ON");
+                }
+            }
+
+            if (temp5 == 0)
+            {
+                if (signalVnesh == 1)
+                {
+                    signalVnesh = 0;
+                    stringToUart("\r\nsignalVnesh OFF\n\r");
+                    stringToLcd("signalVnesh OFF");
+                }
+            }
+            gpioVnesh = temp5;
+        }
+
 
         vTaskDelay(pdMS_TO_TICKS(50));
     }
