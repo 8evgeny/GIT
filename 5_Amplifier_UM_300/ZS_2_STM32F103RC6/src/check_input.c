@@ -33,13 +33,14 @@ void checkButtons()
     //Кнопка Импеданс
         if (temp1 != gpioImpedance)
         {
+         stringToUart("\r\nImpedance\n\r");
             if (temp1 == 1)
             {
                 if (btnImpedance != 1)
                 {
                     btnImpedance = 1;
-                    stringToUart("\r\nButton Impedance ON\n\r");
-                    stringToLcd("Button Impedance ON");
+//                    stringToUart("\r\nButton Impedance ON\n\r");
+//                    stringToLcd("Button Impedance ON");
                 }
             }
 
@@ -48,8 +49,8 @@ void checkButtons()
                 if (btnImpedance == 1)
                 {
                     btnImpedance = 0;
-                    stringToUart("\r\nButton Impedance OFF\n\r");
-                    stringToLcd("Button Impedance OFF");
+//                    stringToUart("\r\nButton Impedance OFF\n\r");
+//                    stringToLcd("Button Impedance OFF");
                 }
             }
             gpioImpedance = temp1;
@@ -58,13 +59,14 @@ void checkButtons()
     //Кнопка Калибровка
         if (temp2 != gpioCalibrovka)
         {
+        stringToUart("\r\nCalibrovka\n\r");
             if (temp2 == 1)
             {
                 if (btnCalibrovka != 1)
                 {
                     btnCalibrovka = 1;
-                    stringToUart("\r\nButton Calibrov ON\n\r");
-                    stringToLcd("Button Calibrov ON");
+//                    stringToUart("\r\nButton Calibrov ON\n\r");
+//                    stringToLcd("Button Calibrov ON");
                 }
             }
 
@@ -73,8 +75,8 @@ void checkButtons()
                 if (btnCalibrovka == 1)
                 {
                     btnCalibrovka = 0;
-                    stringToUart("\r\nButton Calibrov OFF\n\r");
-                    stringToLcd("Button Calibrov OFF");
+//                    stringToUart("\r\nButton Calibrov OFF\n\r");
+//                    stringToLcd("Button Calibrov OFF");
                 }
             }
             gpioCalibrovka = temp2;
@@ -83,13 +85,14 @@ void checkButtons()
     //Кнопка Сброс ошибки
         if (temp3 != gpioReset)
         {
+        stringToUart("\r\nReset\n\r");
             if (temp3 == 1)
             {
                 if (btnReset != 1)
                 {
                     btnReset = 1;
-                    stringToUart("\r\nButton Reset ON\n\r");
-                    stringToLcd("Button Reset ON");
+//                    stringToUart("\r\nButton Reset ON\n\r");
+//                    stringToLcd("Button Reset ON");
                 }
             }
 
@@ -98,8 +101,8 @@ void checkButtons()
                 if (btnReset == 1)
                 {
                     btnReset = 0;
-                    stringToUart("\r\nButton Reset OFF\n\r");
-                    stringToLcd("Button Reset OFF");
+//                    stringToUart("\r\nButton Reset OFF\n\r");
+//                    stringToLcd("Button Reset OFF");
                 }
             }
             gpioReset = temp3;
@@ -108,13 +111,14 @@ void checkButtons()
     //Сигнал PowerON
         if (temp4 != gpioPowerOn)
         {
+        stringToUart("\r\nPowerOn\n\r");
             if (temp4 == 1)
             {
                 if (signalPowerOn != 1)
                 {
                     signalPowerOn = 1;
-                    stringToUart("\r\nsignalPowerOn ON\n\r");
-                    stringToLcd("signalPowerOn ON");
+//                    stringToUart("\r\nsignalPowerOn ON\n\r");
+//                    stringToLcd("signalPowerOn ON");
                 }
             }
 
@@ -123,8 +127,8 @@ void checkButtons()
                 if (signalPowerOn == 1)
                 {
                     signalPowerOn = 0;
-                    stringToUart("\r\nsignalPowerOn OFF\n\r");
-                    stringToLcd("signalPowerOn OFF");
+//                    stringToUart("\r\nsignalPowerOn OFF\n\r");
+//                    stringToLcd("signalPowerOn OFF");
                 }
             }
             gpioPowerOn = temp4;
@@ -133,13 +137,14 @@ void checkButtons()
     //Сигнал Внешний
         if (temp5 != gpioVnesh)
         {
+        stringToUart("\r\nVnesh\n\r");
             if (temp5 == 1)
             {
                 if (signalVnesh != 1)
                 {
                     signalVnesh = 1;
-                    stringToUart("\r\nsignalVnesh ON\n\r");
-                    stringToLcd("signalVnesh ON");
+//                    stringToUart("\r\nsignalVnesh ON\n\r");
+//                    stringToLcd("signalVnesh ON");
                 }
             }
 
@@ -148,15 +153,15 @@ void checkButtons()
                 if (signalVnesh == 1)
                 {
                     signalVnesh = 0;
-                    stringToUart("\r\nsignalVnesh OFF\n\r");
-                    stringToLcd("signalVnesh OFF");
+//                    stringToUart("\r\nsignalVnesh OFF\n\r");
+//                    stringToLcd("signalVnesh OFF");
                 }
             }
             gpioVnesh = temp5;
         }
 
 
-        vTaskDelay(pdMS_TO_TICKS(50));
+        vTaskDelay(pdMS_TO_TICKS(100));
     }
 
 
