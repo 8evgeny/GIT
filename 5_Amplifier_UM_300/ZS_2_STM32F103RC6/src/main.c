@@ -109,6 +109,7 @@ main(void) {
     xTaskCreate(uart_task,"UART",200,NULL,configMAX_PRIORITIES-1,NULL);
 
     xTaskCreate(checkButtons,"BUTTONS",100,NULL,configMAX_PRIORITIES-1,NULL);
+
     xTaskCreate(setStateRele,"StateRele",100,NULL,configMAX_PRIORITIES-1,NULL);
 
 //    xTaskCreate(i2c_main_vers1,"i2c_vers2",100,NULL,configMAX_PRIORITIES-1,NULL);

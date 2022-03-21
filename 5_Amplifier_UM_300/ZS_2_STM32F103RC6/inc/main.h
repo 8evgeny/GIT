@@ -30,6 +30,7 @@ void testUART2(void *args);
 
 
 void checkButtons();
+
 void setStateRele();
 
 void i2c_main_vers1();
