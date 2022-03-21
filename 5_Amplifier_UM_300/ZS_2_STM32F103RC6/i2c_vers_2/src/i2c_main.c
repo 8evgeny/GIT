@@ -120,24 +120,21 @@ void displayKeyCodes(void) {
 //PrintString4(str4);
 
 
-uint8_t line = 1;
 char line1[] = "                    ";
 char line2[] = "                    ";
 char line3[] = "                    ";
 char line4[] = "                    ";
-//char bufLCD[80] = "--------------------------------------------------------------------------------";
-//static char bufLCD[80];
+
 void stringToLcd(char* str)
 {
-    if(line ==1)
-    {
-        memcpy (line4, str, 20);
-        LCDI2C_write_String(line1);
-        LCDI2C_write_String(line2);
-        LCDI2C_write_String(line3);
-        LCDI2C_write_String(line4);
-    }
-
+    memcpy (line4, str, 20);
+    LCDI2C_write_String(line1);
+    LCDI2C_write_String(line2);
+    LCDI2C_write_String(line3);
+    LCDI2C_write_String(line4);
+    memcpy (line1, line3, 20);
+    memcpy (line3, line2, 20);
+    memcpy (line2, line4, 20);
 }
 
 
