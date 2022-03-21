@@ -26,7 +26,7 @@ void checkButtons()
 
                 stringToUart("\r\nButton Impedance ");
                 stringToUart("ON\n\r");
-                stringToLcd("Impedance ON");
+                stringToLcd("Butt Impedance ON   ");
 
             }
 
@@ -34,7 +34,7 @@ void checkButtons()
             {
                 stringToUart("\r\nButton Impedance ");
                 stringToUart("OFF\n\r");
-                stringToLcd("Impedance OFF");
+                stringToLcd("Butt Impedance OFF  ");
 
             }
 

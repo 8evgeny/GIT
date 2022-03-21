@@ -121,19 +121,23 @@ void displayKeyCodes(void) {
 
 
 uint8_t line = 1;
-char line1[20] = "--------------------";
-char line2[20] = "--------------------";
-char line3[20] = "--------------------";
-char line4[20] = "--------------------";
-char bufLCD[80] = "--------------------------------------------------------------------------------";
-
+char line1[] = "                    ";
+char line2[] = "                    ";
+char line3[] = "                    ";
+char line4[] = "                    ";
+//char bufLCD[80] = "--------------------------------------------------------------------------------";
+//static char bufLCD[80];
 void stringToLcd(char* str)
 {
-    memcpy (bufLCD, str , 20);
+    if(line ==1)
+    {
+        memcpy (line4, str, 20);
+        LCDI2C_write_String(line1);
+        LCDI2C_write_String(line2);
+        LCDI2C_write_String(line3);
+        LCDI2C_write_String(line4);
+    }
 
-    LCDI2C_command(LCD_CLEARDISPLAY);// clear display, set cursor position to zero
-    DelayMC(1000);  // this command takes a long time!
-    LCDI2C_write_String(bufLCD);
 }
 
 
