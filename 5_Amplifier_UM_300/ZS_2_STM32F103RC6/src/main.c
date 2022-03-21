@@ -114,9 +114,9 @@ main(void) {
 //    xTaskCreate(testUART2,"USART3",100,NULL,configMAX_PRIORITIES-2,NULL);
 //    xTaskCreate(testUART1, "UART4", 100, NULL, configMAX_PRIORITIES - 2, NULL);
 
-    xTaskCreate(testTask1, "LED1", 100, NULL, configMAX_PRIORITIES - 1, NULL);
-    xTaskCreate(testTask2, "LED2", 100, NULL, configMAX_PRIORITIES - 1, NULL);
-    xTaskCreate(testTask3, "LED3", 100, NULL, configMAX_PRIORITIES - 1, NULL);
+//    xTaskCreate(testTask1, "LED1", 100, NULL, configMAX_PRIORITIES - 1, NULL);
+//    xTaskCreate(testTask2, "LED2", 100, NULL, configMAX_PRIORITIES - 1, NULL);
+//    xTaskCreate(testTask3, "LED3", 100, NULL, configMAX_PRIORITIES - 1, NULL);
 
 
 

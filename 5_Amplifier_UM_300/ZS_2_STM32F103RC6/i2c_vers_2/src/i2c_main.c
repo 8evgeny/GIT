@@ -119,30 +119,35 @@ void i2c_main_vers2()
       break;
     }
   }*/
-  Delay(3000);
+
+//  Delay(3000);
+
 //  Usart1_Send_String("Start");
 
   LCDI2C_init(0x27,20,4);
   // ------- Quick 3 blinks of backlight  -------------
-  int i;
-  for( i = 0; i< 3; i++)
-  {
-    LCDI2C_backlight();
-    Delay(250);
-    LCDI2C_noBacklight();
-    Delay(250);
-  }
+
+//  int i;
+//  for( i = 0; i< 3; i++)
+//  {
+//    LCDI2C_backlight();
+//    Delay(250);
+//    LCDI2C_noBacklight();
+//    Delay(250);
+//  }
+
   LCDI2C_backlight(); // finish with backlight on
 
 
-  LCDI2C_write(53);
+//  LCDI2C_write(53);
 //  Usart1_Send_String("End");
-  Delay(2000);
+//  Delay(2000);
   LCDI2C_clear();
 
-  displayKeyCodes();
 
-  Delay(2000);
+//  displayKeyCodes();
+
+//  Delay(2000);
 /*
   LCDI2C_createChar(0, bell);
 //  Usart1_Send_String("char1");
@@ -163,31 +168,31 @@ void i2c_main_vers2()
 
   Delay(3000);*/
     //установим кляксу
-  LCDI2C_createChar(0, habr1);
-  LCDI2C_createChar(1, habr2);
-  LCDI2C_createChar(2, habr3);
-  LCDI2C_createChar(3, habr4);
-  LCDI2C_createChar(4, habr5);
-  LCDI2C_createChar(5, habr6);
-  LCDI2C_createChar(6, habr7);
-  LCDI2C_createChar(7, habr8);
+//  LCDI2C_createChar(0, habr1);
+//  LCDI2C_createChar(1, habr2);
+//  LCDI2C_createChar(2, habr3);
+//  LCDI2C_createChar(3, habr4);
+//  LCDI2C_createChar(4, habr5);
+//  LCDI2C_createChar(5, habr6);
+//  LCDI2C_createChar(6, habr7);
+//  LCDI2C_createChar(7, habr8);
 
-  LCDI2C_clear();
-  LCDI2C_write_String("Hello Habrahabr");
-  LCDI2C_setCursor(16,0);
-  LCDI2C_write(0);
-  LCDI2C_write(1);
-  LCDI2C_write(2);
-  LCDI2C_write(3);
-  LCDI2C_setCursor(16,1);
-  LCDI2C_write(4);
-  LCDI2C_write(5);
-  LCDI2C_write(6);
-  LCDI2C_write(7);
-  LCDI2C_setCursor(16,2);
-  LCDI2C_write(201);
-  LCDI2C_write(177);
-  LCDI2C_write(162);
+//  LCDI2C_clear();
+//  LCDI2C_write_String("Hello Habrahabr");
+//  LCDI2C_setCursor(16,0);
+//  LCDI2C_write(0);
+//  LCDI2C_write(1);
+//  LCDI2C_write(2);
+//  LCDI2C_write(3);
+//  LCDI2C_setCursor(16,1);
+//  LCDI2C_write(4);
+//  LCDI2C_write(5);
+//  LCDI2C_write(6);
+//  LCDI2C_write(7);
+//  LCDI2C_setCursor(16,2);
+//  LCDI2C_write(201);
+//  LCDI2C_write(177);
+//  LCDI2C_write(162);
 
   for (;;)
   {
