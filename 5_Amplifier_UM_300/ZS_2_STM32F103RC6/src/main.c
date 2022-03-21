@@ -52,6 +52,9 @@ uart_task(void *args) {
             puts_uart(3, "\r\nReceived command: ");
             puts_uart(3, kbuf);
             puts_uart(3, "\r\n");
+
+            stringToLcd(kbuf);
+
 //            puts_uart(3, "'\n\r\nResuming prints...\n\r");
         }
 
