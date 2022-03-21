@@ -10,11 +10,12 @@ static uint16_t signalVnesh = 0;
 
 void checkButtons()
 {
-    int gpioImpedance, temp1;
-    int gpioCalibrovka, temp2;
-    int gpioReset, temp3;
-    int gpioPowerOn, temp4;
-    int gpioVnesh, temp5;
+    bool gpioImpedance;
+    bool gpioCalibrovka;
+    bool gpioReset;
+    bool gpioPowerOn;
+    bool gpioVnesh;
+    bool temp1,temp2,temp3,temp4,temp5;
 
     gpioImpedance = gpio_get(GPIOA, GPIO0);
     gpioCalibrovka = gpio_get(GPIOA, GPIO1);
@@ -33,24 +34,23 @@ void checkButtons()
     //Кнопка Импеданс
         if (temp1 != gpioImpedance)
         {
-         stringToUart("\r\nImpedance\n\r");
-            if (temp1 == 1)
+            if (temp1)
             {
-                if (btnImpedance != 1)
+                if (!btnImpedance)
                 {
                     btnImpedance = 1;
-//                    stringToUart("\r\nButton Impedance ON\n\r");
-//                    stringToLcd("Button Impedance ON");
+                    stringToUart("\r\nButton Impedance ON\n\r");
+                    stringToLcd("Button Impedance ON");
                 }
             }
 
-            if (temp1 == 0)
+            if (!temp1)
             {
-                if (btnImpedance == 1)
+                if (btnImpedance)
                 {
                     btnImpedance = 0;
-//                    stringToUart("\r\nButton Impedance OFF\n\r");
-//                    stringToLcd("Button Impedance OFF");
+                    stringToUart("\r\nButton Impedance OFF\n\r");
+                    stringToLcd("Button Impedance OFF");
                 }
             }
             gpioImpedance = temp1;
@@ -59,24 +59,23 @@ void checkButtons()
     //Кнопка Калибровка
         if (temp2 != gpioCalibrovka)
         {
-        stringToUart("\r\nCalibrovka\n\r");
-            if (temp2 == 1)
+            if (temp2)
             {
-                if (btnCalibrovka != 1)
+                if (!btnCalibrovka)
                 {
                     btnCalibrovka = 1;
-//                    stringToUart("\r\nButton Calibrov ON\n\r");
-//                    stringToLcd("Button Calibrov ON");
+                    stringToUart("\r\nButton Calibrov ON\n\r");
+                    stringToLcd("Button Calibrov ON");
                 }
             }
 
-            if (temp2 == 0)
+            if (!temp2)
             {
-                if (btnCalibrovka == 1)
+                if (btnCalibrovka)
                 {
                     btnCalibrovka = 0;
-//                    stringToUart("\r\nButton Calibrov OFF\n\r");
-//                    stringToLcd("Button Calibrov OFF");
+                    stringToUart("\r\nButton Calibrov OFF\n\r");
+                    stringToLcd("Button Calibrov OFF");
                 }
             }
             gpioCalibrovka = temp2;
@@ -85,24 +84,23 @@ void checkButtons()
     //Кнопка Сброс ошибки
         if (temp3 != gpioReset)
         {
-        stringToUart("\r\nReset\n\r");
-            if (temp3 == 1)
+            if (temp3)
             {
-                if (btnReset != 1)
+                if (!btnReset)
                 {
                     btnReset = 1;
-//                    stringToUart("\r\nButton Reset ON\n\r");
-//                    stringToLcd("Button Reset ON");
+                    stringToUart("\r\nButton Reset ON\n\r");
+                    stringToLcd("Button Reset ON");
                 }
             }
 
-            if (temp3 == 0)
+            if (!temp3)
             {
-                if (btnReset == 1)
+                if (btnReset)
                 {
                     btnReset = 0;
-//                    stringToUart("\r\nButton Reset OFF\n\r");
-//                    stringToLcd("Button Reset OFF");
+                    stringToUart("\r\nButton Reset OFF\n\r");
+                    stringToLcd("Button Reset OFF");
                 }
             }
             gpioReset = temp3;
@@ -111,24 +109,23 @@ void checkButtons()
     //Сигнал PowerON
         if (temp4 != gpioPowerOn)
         {
-        stringToUart("\r\nPowerOn\n\r");
-            if (temp4 == 1)
+            if (temp4)
             {
-                if (signalPowerOn != 1)
+                if (!signalPowerOn)
                 {
                     signalPowerOn = 1;
-//                    stringToUart("\r\nsignalPowerOn ON\n\r");
-//                    stringToLcd("signalPowerOn ON");
+                    stringToUart("\r\nsignalPowerOn ON\n\r");
+                    stringToLcd("signalPowerOn ON");
                 }
             }
 
-            if (temp4 == 0)
+            if (!temp4)
             {
-                if (signalPowerOn == 1)
+                if (signalPowerOn)
                 {
                     signalPowerOn = 0;
-//                    stringToUart("\r\nsignalPowerOn OFF\n\r");
-//                    stringToLcd("signalPowerOn OFF");
+                    stringToUart("\r\nsignalPowerOn OFF\n\r");
+                    stringToLcd("signalPowerOn OFF");
                 }
             }
             gpioPowerOn = temp4;
@@ -137,29 +134,27 @@ void checkButtons()
     //Сигнал Внешний
         if (temp5 != gpioVnesh)
         {
-        stringToUart("\r\nVnesh\n\r");
-            if (temp5 == 1)
+            if (temp5)
             {
-                if (signalVnesh != 1)
+                if (!signalVnesh)
                 {
                     signalVnesh = 1;
-//                    stringToUart("\r\nsignalVnesh ON\n\r");
-//                    stringToLcd("signalVnesh ON");
+                    stringToUart("\r\nsignalVnesh ON\n\r");
+                    stringToLcd("signalVnesh ON");
                 }
             }
 
-            if (temp5 == 0)
+            if (!temp5)
             {
-                if (signalVnesh == 1)
+                if (signalVnesh)
                 {
                     signalVnesh = 0;
-//                    stringToUart("\r\nsignalVnesh OFF\n\r");
-//                    stringToLcd("signalVnesh OFF");
+                    stringToUart("\r\nsignalVnesh OFF\n\r");
+                    stringToLcd("signalVnesh OFF");
                 }
             }
             gpioVnesh = temp5;
         }
-
 
         vTaskDelay(pdMS_TO_TICKS(100));
     }
