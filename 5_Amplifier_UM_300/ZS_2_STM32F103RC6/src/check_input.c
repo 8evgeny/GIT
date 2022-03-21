@@ -8,7 +8,6 @@ void checkButtons()
 {
     uint16_t gpioImpedance, temp;
     gpioImpedance = gpio_get(GPIOA, GPIO0);
-    //    char buf[80];
     for(;;)
     {
         temp = gpio_get(GPIOA, GPIO0);
@@ -25,24 +24,17 @@ void checkButtons()
                     stringToLcd("Rele Impedance ON");
                 }
 
-                stringToUart("\r\nButton Impedance ");
-                stringToUart("ON\n\r");
+                stringToUart("\r\nButton Impedance ON\n\r");
                 stringToLcd("Button Impedance ON");
 
             }
 
             if (temp == 0)
             {
-                stringToUart("\r\nButton Impedance ");
-                stringToUart("OFF\n\r");
+                stringToUart("\r\nButton Impedance OFF\n\r");
                 stringToLcd("Button Impedance OFF");
 
             }
-
-            // sprintf подвешивает !!
-            //            sprintf(buf, "%d", gpioImpedance);
-            //            write_uart(3, buf, sizeof buf);
-            //            stringToUart("\r\n\r");
 
             gpioImpedance = temp;
         }
@@ -58,13 +50,13 @@ void setStateRele()
         if (releImpedance == 1)
         {
             setImpedanceRele(true);
-setTestLed4(true);
+//setTestLed4(true);
 
         }
         else
         {
             setImpedanceRele(false);
-setTestLed4(false);
+//setTestLed4(false);
         }
 
 
