@@ -40,7 +40,7 @@ uart_task(void *args) {
             {
                 /* Already received first character */
                 kbuf[0] = ch;
-                putc_uart(3, ch);
+//                putc_uart(3, ch);
                 getline_uart(3, kbuf+1, sizeof kbuf-1);
 
             } else
@@ -49,9 +49,9 @@ uart_task(void *args) {
                 getline_uart(3, kbuf, sizeof kbuf);
             }
 
-            puts_uart(3, "\r\nReceived command: ");
-            puts_uart(3, kbuf);
-            puts_uart(3, "\r\n");
+//            puts_uart(3, "\r\nReceived command: ");
+//            puts_uart(3, kbuf);
+//            puts_uart(3, "\r\n");
 
             stringToLcd(kbuf);
 
