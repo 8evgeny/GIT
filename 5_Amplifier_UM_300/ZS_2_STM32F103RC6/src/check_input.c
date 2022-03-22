@@ -1,6 +1,23 @@
 #include "main.h"
 #include "stdio.h"
 
+#define toMilandr_BtnImpedance_On     "!"
+#define toMilandr_BtnImpedance_Off    "@"
+#define toMilandr_BtnCalibr_On        "#"
+#define toMilandr_BtnCalibr_Off       "$"
+#define toMilandr_BtnReset_On         "%"
+#define toMilandr_BtnReset_Off        "^"
+#define toMilandr_SignalPowerOn_ON    "&"
+#define toMilandr_SignalPowerOn_OFF   "*"
+#define toMilandr_SignalImpedanse_ON  "("
+#define toMilandr_SignalImpedanse_OFF ")"
+#define toMilandr_SignalTranslate_ON  "_"
+#define toMilandr_SignalTranslate_OFF "+"
+#define toMilandr_SignalFromOut_ON    "="
+#define toMilandr_SignalFromOut_OFF   "-"
+#define toMilandr_SignalMic_ON        "~"
+#define toMilandr_SignalMic_OFF       ";"
+
 static bool btnImpedance = 0;
 static bool btnCalibrovka = 0;
 static bool btnReset = 0;
@@ -68,7 +85,7 @@ void checkButtons()
                 if (!btnImpedance)
                 {
                     btnImpedance = 1;
-                    stringToUart("\r\nButton Impedance ON\n\r");
+                    stringToUart(toMilandr_BtnImpedance_On);
                     stringToLcd("Button Impedance ON");
                 }
             }
@@ -78,7 +95,7 @@ void checkButtons()
                 if (btnImpedance)
                 {
                     btnImpedance = 0;
-                    stringToUart("\r\nButton Impedance OFF\n\r");
+                    stringToUart(toMilandr_BtnImpedance_Off);
                     stringToLcd("Button Impedance OFF");
                 }
             }
@@ -93,7 +110,7 @@ void checkButtons()
                 if (!btnCalibrovka)
                 {
                     btnCalibrovka = 1;
-                    stringToUart("\r\nButton Calibrov ON\n\r");
+                    stringToUart(toMilandr_BtnCalibr_On);
                     stringToLcd("Button Calibrov ON");
                 }
             }
@@ -103,7 +120,7 @@ void checkButtons()
                 if (btnCalibrovka)
                 {
                     btnCalibrovka = 0;
-                    stringToUart("\r\nButton Calibrov OFF\n\r");
+                    stringToUart(toMilandr_BtnCalibr_Off);
                     stringToLcd("Button Calibrov OFF");
                 }
             }
