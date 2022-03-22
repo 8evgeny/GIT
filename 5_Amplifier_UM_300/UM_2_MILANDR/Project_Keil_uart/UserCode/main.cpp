@@ -33,23 +33,24 @@ void UART2_IRQHandler(void)
 #ifdef UART_1
 uint32_t uart1_IT_TX_flag = RESET; // Флаг устанавливается после передачи одного байта
 uint32_t uart1_IT_RX_flag = RESET; // Флаг устанавливается после приема одного байта
-void UART1_IRQHandler(void)
-{
-    if (UART_GetITStatusMasked(MDR_UART1, UART_IT_RX) == SET)
-    //проверка установки флага прерывания по окончании приема данных
-    {
-    UART_ClearITPendingBit(MDR_UART1, UART_IT_RX);//очистка флага прерывания
-    uart1_IT_RX_flag = SET; //установка флага передача данных завершена
-    }
-    if (UART_GetITStatusMasked(MDR_UART1, UART_IT_TX) == SET)
-    //проверка установки флага прерывания по окончании передачи данных
-    {
-    UART_ClearITPendingBit(MDR_UART1, UART_IT_TX); //очистка флага прерывания
-    uart1_IT_TX_flag = SET; //установка флага передача данных завершена
-    }
-
-}
 #endif
+
+//void UART1_IRQHandler(void)
+//{
+//    if (UART_GetITStatusMasked(MDR_UART1, UART_IT_RX) == SET)
+//    //проверка установки флага прерывания по окончании приема данных
+//    {
+//    UART_ClearITPendingBit(MDR_UART1, UART_IT_RX);//очистка флага прерывания
+//    uart1_IT_RX_flag = SET; //установка флага передача данных завершена
+//    }
+//    if (UART_GetITStatusMasked(MDR_UART1, UART_IT_TX) == SET)
+//    //проверка установки флага прерывания по окончании передачи данных
+//    {
+//    UART_ClearITPendingBit(MDR_UART1, UART_IT_TX); //очистка флага прерывания
+//    uart1_IT_TX_flag = SET; //установка флага передача данных завершена
+//    }
+//}
+
 
 
 int main (void)
@@ -107,7 +108,7 @@ int main (void)
   PORT_Init(MDR_PORTB, &PortInitUART1);
 
   // Разрешение прерывания для UART1
-  NVIC_EnableIRQ(UART1_IRQn);
+//  NVIC_EnableIRQ(UART1_IRQn);
 #endif
 
 #ifdef UART_2
@@ -166,8 +167,8 @@ int main (void)
   UART_Init (MDR_UART1,&UART_InitStructure1);
 
   /* Enables UART1 peripheral */
-  UART_ITConfig (MDR_UART1, UART_IT_RX, ENABLE);//Разрешение прерывания по приему
-  UART_ITConfig (MDR_UART1, UART_IT_TX, ENABLE);//Разрешение прерывания по окончани передачи
+//  UART_ITConfig (MDR_UART1, UART_IT_RX, ENABLE);//Разрешение прерывания по приему
+//  UART_ITConfig (MDR_UART1, UART_IT_TX, ENABLE);//Разрешение прерывания по окончани передачи
   UART_Cmd(MDR_UART1,ENABLE);
 
 #endif
@@ -206,32 +207,31 @@ int i; // Глобальная переменная счетчика, котор
   PORTC_Init.PORT_SPEED = PORT_SPEED_SLOW;    // Низкая частота тактования порта
   PORT_Init(MDR_PORTC, &PORTC_Init);          // Инициализация порта C объявленной структурой
 
-
   uint8_t ReciveByte;
 
   while (1)
   {
     /* Check TXFE flag */
 
-//    while (UART_GetFlagStatus (MDR_UART1, UART_FLAG_RXFE) == SET);//ждем пока не не установиться флаг по приему байта
-//    ReciveByte = UART_ReceiveData(MDR_UART1);                     //считываем принятый байт
-//    PORT_SetBits(MDR_PORTC, PORT_Pin_0);
-////    delay(0xFF);
-////    PORT_ResetBits(MDR_PORTC, PORT_Pin_0);
+    while (UART_GetFlagStatus (MDR_UART1, UART_FLAG_RXFE) == SET);//ждем пока не не установиться флаг по приему байта
+    ReciveByte = UART_ReceiveData(MDR_UART1);                     //считываем принятый байт
+    PORT_SetBits(MDR_PORTC, PORT_Pin_0);
+//    delay(0xFF);
+//    PORT_ResetBits(MDR_PORTC, PORT_Pin_0);
 
-//    UART_SendData(MDR_UART1, ReciveByte);                         //отправляем принятый байт обратно
-//    while (UART_GetFlagStatus (MDR_UART1, UART_FLAG_TXFE) != SET);//ждем пока байт уйдет
+    UART_SendData(MDR_UART1, ReciveByte);                         //отправляем принятый байт обратно
+    while (UART_GetFlagStatus (MDR_UART1, UART_FLAG_TXFE) != SET);//ждем пока байт уйдет
 
-//    PORT_SetBits(MDR_PORTC, PORT_Pin_1);
-////    delay(0xFF);
-////    PORT_ResetBits(MDR_PORTC, PORT_Pin_1);
+    PORT_SetBits(MDR_PORTC, PORT_Pin_1);
+//    delay(0xFF);
+//    PORT_ResetBits(MDR_PORTC, PORT_Pin_1);
 
-      while (uart1_IT_RX_flag != SET); //ждем пока не не установиться флаг по приему байта
-      uart1_IT_RX_flag = RESET; //очищаем флаг приема
-      ReciveByte = UART_ReceiveData (MDR_UART2); //считываем принятый байт
-      UART_SendData (MDR_UART2, ReciveByte); //отправляем принятый байт обратно
-      while (uart1_IT_TX_flag != SET); //ждем пока байт уйдет
-      uart1_IT_TX_flag = RESET; //очищаем флаг передачи
+//      while (uart1_IT_RX_flag != SET); //ждем пока не не установиться флаг по приему байта
+//      uart1_IT_RX_flag = RESET; //очищаем флаг приема
+//      ReciveByte = UART_ReceiveData (MDR_UART2); //считываем принятый байт
+//      UART_SendData (MDR_UART2, ReciveByte); //отправляем принятый байт обратно
+//      while (uart1_IT_TX_flag != SET); //ждем пока байт уйдет
+//      uart1_IT_TX_flag = RESET; //очищаем флаг передачи
  
 
   }
