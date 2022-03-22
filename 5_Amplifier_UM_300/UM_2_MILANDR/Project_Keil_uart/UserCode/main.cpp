@@ -182,10 +182,15 @@ int i; // Глобальная переменная счетчика, котор
 //    delay(0xFF);
 //    PORT_ResetBits(MDR_PORTC, PORT_Pin_0);
 
-    UART_SendData(MDR_UART1, ReciveByte);                         //отправляем принятый байт обратно
-    while (UART_GetFlagStatus (MDR_UART1, UART_FLAG_TXFE) != SET);//ждем пока байт уйдет
+    if ((char)ReciveByte == '@')
+    {
+        UART_SendData(MDR_UART1, ReciveByte);                         //отправляем принятый байт обратно
+        while (UART_GetFlagStatus (MDR_UART1, UART_FLAG_TXFE) != SET);//ждем пока байт уйдет
 
-    PORT_SetBits(MDR_PORTC, PORT_Pin_1);
+        PORT_SetBits(MDR_PORTC, PORT_Pin_1);
+    }
+
+
 //    delay(0xFF);
 //    PORT_ResetBits(MDR_PORTC, PORT_Pin_1);
 
