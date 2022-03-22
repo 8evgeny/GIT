@@ -1,37 +1,7 @@
 #include "main.h"
 #include "stdio.h"
 
-#define toMilandr_BtnImpedance_On     "!"
-#define toMilandr_BtnImpedance_Off    "@"
-#define toMilandr_BtnCalibr_On        "#"
-#define toMilandr_BtnCalibr_Off       "$"
-#define toMilandr_BtnReset_On         "%"
-#define toMilandr_BtnReset_Off        "^"
-#define toMilandr_SignalPowerOn_ON    "&"
-#define toMilandr_SignalPowerOn_OFF   "*"
-#define toMilandr_SignalImpedanse_ON  "("
-#define toMilandr_SignalImpedanse_OFF ")"
-#define toMilandr_SignalTranslate_ON  "_"
-#define toMilandr_SignalTranslate_OFF "+"
-#define toMilandr_SignalFromOut_ON    "="
-#define toMilandr_SignalFromOut_OFF   "-"
-#define toMilandr_SignalMic_ON        "~"
-#define toMilandr_SignalMic_OFF       ";"
-
-static bool btnImpedance = 0;
-static bool btnCalibrovka = 0;
-static bool btnReset = 0;
-static bool signalPowerOn = 0;
-static bool signalImpedance = 0;
-static bool signalTranslate = 0;
-static bool input_IMP_UPR = 0;
-static bool input_VOLT_UPR = 0;
-static bool input_CUR_UPR1 = 0;
-static bool input_CUR_UPR2 = 0;
-static bool signalVnesh = 0;
-static bool signalMic = 0;
-
-void checkButtons()
+void checkInputs()
 {
     bool gpioImpedance;          //Кнопка "ИМПЕДАНС"
     bool gpioCalibrovka;         //Кнопка "КАЛИБРОВКА"
@@ -368,8 +338,6 @@ void checkButtons()
             }
             gpioMic = temp12;
         }
-
-
         vTaskDelay(pdMS_TO_TICKS(100));
     }
 
@@ -379,20 +347,4 @@ void checkButtons()
 
 
 
-void setStateRele()
-{
-    for(;;)
-    {
-        if (btnImpedance)
-        {
-            setImpedanceRele(true);
-        }
-        else
-        {
-            setImpedanceRele(false);
-        }
 
-
-    }
-
-}
