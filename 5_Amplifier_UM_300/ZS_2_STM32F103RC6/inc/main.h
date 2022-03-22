@@ -26,8 +26,6 @@ void testTask4(void *args __attribute((unused)));
 
 
 void testUART1(void *args __attribute__((unused)));
-void testUART2(void *args);
-
 
 void checkButtons();
 
