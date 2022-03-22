@@ -142,6 +142,33 @@ int main (void)
   /* Enables UART2 peripheral */
   UART_Cmd(MDR_UART2,ENABLE);
 #endif
+//При приеме данных моргаем светодиодом
+  PORT_InitTypeDef PORTC_Init;
+int i; // Глобальная переменная счетчика, которая используется в функции delay()
+#define delay(T) for(i = T; i > 0; i--)
+  // Включение тактования порта C
+  RST_CLK_PCLKcmd(RST_CLK_PCLK_PORTC, ENABLE);
+  // Объявляем номера ножек порта, которые настраиваются данной структурой
+  PORTC_Init.PORT_Pin =
+  PORT_Pin_0 | PORT_Pin_1 ;
+  PORTC_Init.PORT_OE = PORT_OE_OUT;           // Конфигурация группы выводов как выход
+  PORTC_Init.PORT_FUNC = PORT_FUNC_PORT;      // Работа а режиме порта ввода-вывода
+  PORTC_Init.PORT_MODE = PORT_MODE_DIGITAL;   // Цифровой режим
+  PORTC_Init.PORT_SPEED = PORT_SPEED_SLOW;    // Низкая частота тактования порта
+  PORT_Init(MDR_PORTC, &PORTC_Init);          // Инициализация порта C объявленной структурой
+
+
+  while(1){
+      PORT_SetBits(MDR_PORTC, PORT_Pin_0);
+      PORT_SetBits(MDR_PORTC, PORT_Pin_1);
+      delay(0xFFFF);                         // Задержка
+
+      PORT_ResetBits(MDR_PORTC, PORT_Pin_0);
+      PORT_ResetBits(MDR_PORTC, PORT_Pin_1);
+      delay(0xFFFF);
+  }
+
+
 
   uint8_t tmp_data;
 
@@ -155,9 +182,15 @@ int main (void)
 
     while (UART_GetFlagStatus (MDR_UART1, UART_FLAG_RXFE) == SET);
     tmp_data = UART_ReceiveData(MDR_UART1);
+    PORT_SetBits(MDR_PORTC, PORT_Pin_0);
+    delay(0xFF);
+    PORT_ResetBits(MDR_PORTC, PORT_Pin_0);
 
     UART_SendData(MDR_UART1, tmp_data);
     while (UART_GetFlagStatus (MDR_UART1, UART_FLAG_TXFE) != SET);
+    PORT_SetBits(MDR_PORTC, PORT_Pin_1);
+    delay(0xFF);
+    PORT_ResetBits(MDR_PORTC, PORT_Pin_1);
  
 
   }
