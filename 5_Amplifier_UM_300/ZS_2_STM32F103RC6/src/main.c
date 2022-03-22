@@ -6,8 +6,8 @@
 
 extern void
 vApplicationStackOverflowHook(
-	xTaskHandle *pxTask,
-	signed portCHAR *pcTaskName);
+    xTaskHandle *pxTask,
+    signed portCHAR *pcTaskName);
 
 void
 vApplicationStackOverflowHook(xTaskHandle *pxTask,signed portCHAR *pcTaskName)
@@ -84,14 +84,14 @@ void stringToUart(const char *s) {
 static void
 uart_setup()
 {
-//    usart_set_baudrate(USART3,115200);
+//    usart_set_baudrate(USART3,19200);
 //    usart_set_databits(USART3,8);
 //    usart_set_stopbits(USART3,USART_STOPBITS_1);
 //    usart_set_mode(USART3,USART_MODE_TX_RX);
 //    usart_set_parity(USART3,USART_PARITY_NONE);
 //    usart_set_flow_control(USART3,USART_FLOWCONTROL_NONE);
 //    usart_enable(USART3);
-    open_uart(3, 115200, "8N1", "rw", 0, 0); //аналог верхним 7 строкам
+    open_uart(3, 19200, "8N1", "rw", 0, 0); //аналог верхним 7 строкам
 
     // Create a queue for data to transmit from UART
     uart_txq = xQueueCreate(256,sizeof(char));
@@ -125,10 +125,10 @@ main(void) {
 
 
 
-	vTaskStartScheduler();
+    vTaskStartScheduler();
 
-	for (;;);
+    for (;;);
 
-	return 0;
+    return 0;
 }
 
