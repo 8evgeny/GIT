@@ -1,0 +1,4 @@
+STM32                                          MILANDR
+USART3 TX - PC10 белый (RX)    - - - - - - - -  UART1 RX - PB6  X13(19) белый (RX)         
+USART3 RX - PC11 зеленый (TX)  - - - - - - - -  UART1 TX - PB5  X13(18) зеленый (TX) 
+
