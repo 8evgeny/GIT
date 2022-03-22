@@ -184,7 +184,8 @@ int i; // Глобальная переменная счетчика, котор
 
     if ((char)ReciveByte == '@')
     {
-        UART_SendData(MDR_UART1, ReciveByte);                         //отправляем принятый байт обратно
+//        UART_SendData(MDR_UART1, ReciveByte);                         //отправляем принятый байт обратно
+        UART_SendData(MDR_UART1, '*');
         while (UART_GetFlagStatus (MDR_UART1, UART_FLAG_TXFE) != SET);//ждем пока байт уйдет
 
         PORT_SetBits(MDR_PORTC, PORT_Pin_1);

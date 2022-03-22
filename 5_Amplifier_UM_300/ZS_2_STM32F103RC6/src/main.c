@@ -36,6 +36,11 @@ uart_task(void *args) {
 //            puts_uart(3, "\r\n\nENTER INPUT: ");
 
             ch = (char)gc;
+            if ( ch == '*' )
+            {
+                stringToLcd("Recrive Cmd");
+            }
+
             if ( ch != '\r' && ch != '\n' )
             {
                 /* Already received first character */
@@ -59,7 +64,7 @@ uart_task(void *args) {
         }
 
         /* Receive char to be TX */
-        if ( xQueueReceive(uart_txq, &ch, 10) == pdPASS )
+        if ( xQueueReceive(uart_txq, &ch, 1000) == pdPASS )
         {
             putc_uart(3, ch);
         }
