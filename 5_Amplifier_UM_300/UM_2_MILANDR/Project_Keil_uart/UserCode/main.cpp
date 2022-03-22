@@ -31,21 +31,21 @@ void UART2_IRQHandler(void)
 }
 #endif
 #ifdef UART_1
-uint32_t uart2_IT_TX_flag = RESET; // Флаг устанавливается после передачи одного байта
-uint32_t uart2_IT_RX_flag = RESET; // Флаг устанавливается после приема одного байта
+uint32_t uart1_IT_TX_flag = RESET; // Флаг устанавливается после передачи одного байта
+uint32_t uart1_IT_RX_flag = RESET; // Флаг устанавливается после приема одного байта
 void UART1_IRQHandler(void)
 {
-    if (UART_GetITStatusMasked(MDR_UART2, UART_IT_RX) == SET)
+    if (UART_GetITStatusMasked(MDR_UART1, UART_IT_RX) == SET)
     //проверка установки флага прерывания по окончании приема данных
     {
-    UART_ClearITPendingBit(MDR_UART2, UART_IT_RX);//очистка флага прерывания
-    uart2_IT_RX_flag = SET; //установка флага передача данных завершена
+    UART_ClearITPendingBit(MDR_UART1, UART_IT_RX);//очистка флага прерывания
+    uart1_IT_RX_flag = SET; //установка флага передача данных завершена
     }
-    if (UART_GetITStatusMasked(MDR_UART2, UART_IT_TX) == SET)
+    if (UART_GetITStatusMasked(MDR_UART1, UART_IT_TX) == SET)
     //проверка установки флага прерывания по окончании передачи данных
     {
-    UART_ClearITPendingBit(MDR_UART2, UART_IT_TX); //очистка флага прерывания
-    uart2_IT_TX_flag = SET; //установка флага передача данных завершена
+    UART_ClearITPendingBit(MDR_UART1, UART_IT_TX); //очистка флага прерывания
+    uart1_IT_TX_flag = SET; //установка флага передача данных завершена
     }
 
 }
@@ -230,12 +230,12 @@ int i; // Глобальная переменная счетчика, котор
 //    delay(0xFF);
 //    PORT_ResetBits(MDR_PORTC, PORT_Pin_1);
 
-      while (uart2_IT_RX_flag != SET); //ждем пока не не установиться флаг по приему байта
-      uart2_IT_RX_flag = RESET; //очищаем флаг приема
+      while (uart1_IT_RX_flag != SET); //ждем пока не не установиться флаг по приему байта
+      uart1_IT_RX_flag = RESET; //очищаем флаг приема
       ReciveByte = UART_ReceiveData (MDR_UART2); //считываем принятый байт
       UART_SendData (MDR_UART2, ReciveByte); //отправляем принятый байт обратно
-      while (uart2_IT_TX_flag != SET); //ждем пока байт уйдет
-      uart2_IT_TX_flag = RESET; //очищаем флаг передачи
+      while (uart1_IT_TX_flag != SET); //ждем пока байт уйдет
+      uart1_IT_TX_flag = RESET; //очищаем флаг передачи
  
 
   }
