@@ -13,12 +13,17 @@
 #include "MDR32F9Qx_rst_clk.h"
 //#include "MDR32F9Qx_eeprom.h"
 
+#define UART_1
+//#define UART_2
 
+#ifdef UART_1
 static PORT_InitTypeDef PortInitUART1;
-static PORT_InitTypeDef PortInitUART2;
 static UART_InitTypeDef UART_InitStructure1;
+#endif
+#ifdef UART_2
+static PORT_InitTypeDef PortInitUART2;
 static UART_InitTypeDef UART_InitStructure2;
-
+#endif
 int main (void)
 {
    RST_CLK_HSEconfig(RST_CLK_HSE_ON);
@@ -53,8 +58,9 @@ int main (void)
   /* Enables the HSE clock on PORTF */
   RST_CLK_PCLKcmd(RST_CLK_PCLK_PORTF,ENABLE);
 
+#ifdef UART_1
   /* Fill PortInit UART1 structure*/
-  PortInitUART1.PORT_PULL_UP = PORT_PULL_UP_OFF;
+    PortInitUART1.PORT_PULL_UP = PORT_PULL_UP_OFF;
   PortInitUART1.PORT_PULL_DOWN = PORT_PULL_DOWN_OFF;
   PortInitUART1.PORT_PD_SHM = PORT_PD_SHM_OFF;
   PortInitUART1.PORT_PD = PORT_PD_DRIVER;
@@ -71,9 +77,9 @@ int main (void)
   PortInitUART1.PORT_OE = PORT_OE_IN;
   PortInitUART1.PORT_Pin = PORT_Pin_6;
   PORT_Init(MDR_PORTB, &PortInitUART1);
+#endif
 
-
-
+#ifdef UART_2
   /* Fill PortInit UART2 structure*/
   PortInitUART2.PORT_PULL_UP = PORT_PULL_UP_OFF;
   PortInitUART2.PORT_PULL_DOWN = PORT_PULL_DOWN_OFF;
@@ -93,23 +99,24 @@ int main (void)
   PortInitUART2.PORT_OE = PORT_OE_IN;
   PortInitUART2.PORT_Pin = PORT_Pin_0;
   PORT_Init(MDR_PORTF, &PortInitUART2);
-
+#endif
 
   /* Select HSI/2 as CPU_CLK source*/
   //RST_CLK_CPU_PLLconfig (RST_CLK_CPU_PLLsrcHSIdiv2,0);
-
+#ifdef UART_1
   /* Enables the CPU_CLK clock on UART1 */
   RST_CLK_PCLKcmd(RST_CLK_PCLK_UART1, ENABLE);
-
-  /* Enables the CPU_CLK clock on UART2 */
-  RST_CLK_PCLKcmd(RST_CLK_PCLK_UART2, ENABLE);
-
   /* Set the HCLK division factor = 1 for UART1*/
   UART_BRGInit(MDR_UART1, UART_HCLKdiv1);
-
+#endif
+ #ifdef UART_2
+  /* Enables the CPU_CLK clock on UART2 */
+  RST_CLK_PCLKcmd(RST_CLK_PCLK_UART2, ENABLE);
   /* Set the HCLK division factor = 1 for UART2*/
   UART_BRGInit(MDR_UART2, UART_HCLKdiv1);
+#endif
 
+#ifdef UART_1
   /* Initialize UART_InitStructure1 */
   UART_InitStructure1.UART_BaudRate                = 115000;
   UART_InitStructure1.UART_WordLength              = UART_WordLength8b;
@@ -121,8 +128,8 @@ int main (void)
   UART_Init (MDR_UART1,&UART_InitStructure1);
   /* Enables UART1 peripheral */
   UART_Cmd(MDR_UART1,ENABLE);
-
-
+#endif
+#ifdef UART_2
   /* Initialize UART_InitStructure2 */
   UART_InitStructure2.UART_BaudRate                = 115000;
   UART_InitStructure2.UART_WordLength              = UART_WordLength8b;
@@ -134,6 +141,7 @@ int main (void)
   UART_Init (MDR_UART2,&UART_InitStructure2);
   /* Enables UART2 peripheral */
   UART_Cmd(MDR_UART2,ENABLE);
+#endif
 
   uint8_t tmp_data;
 
