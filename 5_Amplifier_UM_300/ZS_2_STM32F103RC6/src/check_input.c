@@ -68,7 +68,7 @@ void checkButtons()
                 if (!btnImpedance)
                 {
                     btnImpedance = 1;
-                    stringToUart("ImpON\n");
+                    stringToUart("\r\nButton Impedance ON\n\r");
                     stringToLcd("Button Impedance ON");
                 }
             }
@@ -78,7 +78,7 @@ void checkButtons()
                 if (btnImpedance)
                 {
                     btnImpedance = 0;
-                    stringToUart("ImpOFF\n");
+                    stringToUart("\r\nButton Impedance OFF\n\r");
                     stringToLcd("Button Impedance OFF");
                 }
             }
