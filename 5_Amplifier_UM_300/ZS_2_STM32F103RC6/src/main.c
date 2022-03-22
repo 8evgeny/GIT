@@ -38,35 +38,40 @@ uart_task(void *args) {
             ch = (char)gc;
             if ( ch == '*' )
             {
-                stringToLcd("Recrive Cmd");
+                stringToLcd("Receive Cmd1");
             }
 
-            if ( ch != '\r' && ch != '\n' )
+            if ( ch == '%' )
             {
-                /* Already received first character */
-                kbuf[0] = ch;
-                putc_uart(3, ch);
-                getline_uart(3, kbuf+1, sizeof kbuf-1);
-
-            } else
-            {
-                /* Read the entire line */
-                getline_uart(3, kbuf, sizeof kbuf);
+                stringToLcd("Receive Cmd2");
             }
 
-            puts_uart(3, "\r\nReceived command: ");
-            puts_uart(3, kbuf);
-            puts_uart(3, "\r\n");
+//            if ( ch != '\r' && ch != '\n' )
+//            {
+//                /* Already received first character */
+//                kbuf[0] = ch;
+//                putc_uart(3, ch);
+//                getline_uart(3, kbuf+1, sizeof kbuf-1);
 
-            stringToLcd(kbuf);
+//            } else
+//            {
+//                /* Read the entire line */
+//                getline_uart(3, kbuf, sizeof kbuf);
+//            }
+
+//            puts_uart(3, "\r\nReceived command: ");
+//            puts_uart(3, kbuf);
+//            puts_uart(3, "\r\n");
+
+//            stringToLcd(kbuf);
 
 //            puts_uart(3, "'\n\r\nResuming prints...\n\r");
         }
 
         /* Receive char to be TX */
-        if ( xQueueReceive(uart_txq, &ch, 1000) == pdPASS )
+        if ( xQueueReceive(uart_txq, &ch, 10) == pdPASS )
         {
-            putc_uart(3, ch);
+//            putc_uart(3, ch);
         }
 
 //        gpio_toggle(GPIOD,GPIO2);

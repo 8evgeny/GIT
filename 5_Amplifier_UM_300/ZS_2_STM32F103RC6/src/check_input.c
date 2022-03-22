@@ -318,7 +318,7 @@ void checkButtons()
                 if (!signalVnesh)
                 {
                     signalVnesh = 1;
-                    stringToUart("\r\nsignalVnesh ON\n\r");
+                    stringToUart("\r\nsignalVne#sh ON\n\r");
                     stringToLcd("signalVnesh ON");
                 }
             }
