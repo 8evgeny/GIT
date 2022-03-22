@@ -71,7 +71,7 @@ uart_task(void *args) {
         /* Receive char to be TX */
         if ( xQueueReceive(uart_txq, &ch, 10) == pdPASS )
         {
-//            putc_uart(3, ch);
+            putc_uart(3, ch);
         }
 
 //        gpio_toggle(GPIOD,GPIO2);
