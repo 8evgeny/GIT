@@ -11,7 +11,7 @@
 #include "MDR32F9Qx_uart.h"
 #include "MDR32F9Qx_port.h"
 #include "MDR32F9Qx_rst_clk.h"
-//#include "MDR32F9Qx_eeprom.h"
+#include "MDR32F9Qx_eeprom.h"
 
 #define UART_1
 //#define UART_2
@@ -39,10 +39,10 @@ int main (void)
    }
 
    /* Enables the RST_CLK_PCLK_EEPROM */
-//   RST_CLK_PCLKcmd(RST_CLK_PCLK_EEPROM, ENABLE);
+   RST_CLK_PCLKcmd(RST_CLK_PCLK_EEPROM, ENABLE);
    /* Sets the code latency value */
 
-//   EEPROM_SetLatency(EEPROM_Latency_3);
+   EEPROM_SetLatency(EEPROM_Latency_3);
 
    /* Select the CPU_PLL output as input for CPU_C3_SEL */
    RST_CLK_CPU_PLLuse(ENABLE);
@@ -60,7 +60,7 @@ int main (void)
 
 #ifdef UART_1
   /* Fill PortInit UART1 structure*/
-    PortInitUART1.PORT_PULL_UP = PORT_PULL_UP_OFF;
+  PortInitUART1.PORT_PULL_UP = PORT_PULL_UP_OFF;
   PortInitUART1.PORT_PULL_DOWN = PORT_PULL_DOWN_OFF;
   PortInitUART1.PORT_PD_SHM = PORT_PD_SHM_OFF;
   PortInitUART1.PORT_PD = PORT_PD_DRIVER;
