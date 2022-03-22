@@ -135,7 +135,7 @@ void checkButtons()
                 if (!btnReset)
                 {
                     btnReset = 1;
-                    stringToUart("\r\nButton Reset ON\n\r");
+                    stringToUart(toMilandr_BtnReset_On);
                     stringToLcd("Button Reset ON");
                 }
             }
@@ -145,7 +145,7 @@ void checkButtons()
                 if (btnReset)
                 {
                     btnReset = 0;
-                    stringToUart("\r\nButton Reset OFF\n\r");
+                    stringToUart(toMilandr_BtnReset_Off);
                     stringToLcd("Button Reset OFF");
                 }
             }
@@ -160,7 +160,7 @@ void checkButtons()
                 if (!signalPowerOn)
                 {
                     signalPowerOn = 1;
-                    stringToUart("\r\nsignalPowerOn ON\n\r");
+                    stringToUart(toMilandr_SignalPowerOn_ON);
                     stringToLcd("signalPowerOn ON");
                 }
             }
@@ -170,7 +170,7 @@ void checkButtons()
                 if (signalPowerOn)
                 {
                     signalPowerOn = 0;
-                    stringToUart("\r\nsignalPowerOn OFF\n\r");
+                    stringToUart(toMilandr_SignalPowerOn_OFF);
                     stringToLcd("signalPowerOn OFF");
                 }
             }
@@ -185,7 +185,7 @@ void checkButtons()
                 if (!signalImpedance)
                 {
                     signalImpedance = 1;
-                    stringToUart("\r\nsignal Impedance ON\n\r");
+                    stringToUart(toMilandr_SignalImpedanse_ON);
                     stringToLcd("signal Impedance ON");
                 }
             }
@@ -195,7 +195,7 @@ void checkButtons()
                 if (signalImpedance)
                 {
                     signalImpedance = 0;
-                    stringToUart("\r\nsignal Impedance OFF\n\r");
+                    stringToUart(toMilandr_SignalImpedanse_OFF);
                     stringToLcd("signal Impedance OFF");
                 }
             }
@@ -210,7 +210,7 @@ void checkButtons()
                 if (!signalTranslate)
                 {
                     signalTranslate = 1;
-                    stringToUart("\r\nsignal Translate ON\n\r");
+                    stringToUart(toMilandr_SignalTranslate_ON);
                     stringToLcd("signal Translate ON");
                 }
             }
@@ -220,7 +220,7 @@ void checkButtons()
                 if (signalTranslate)
                 {
                     signalTranslate = 0;
-                    stringToUart("\r\nsignal Translate OFF\n\r");
+                    stringToUart(toMilandr_SignalTranslate_OFF);
                     stringToLcd("signal Translate OFF");
                 }
             }
@@ -235,7 +235,6 @@ void checkButtons()
                 if (!input_IMP_UPR)
                 {
                     input_IMP_UPR = 1;
-                    stringToUart("\r\ninput_IMP_UPR ON\n\r");
                     stringToLcd("input_IMP_UPR ON");
                 }
             }
@@ -245,7 +244,6 @@ void checkButtons()
                 if (input_IMP_UPR)
                 {
                     input_IMP_UPR = 0;
-                    stringToUart("\r\ninput_IMP_UPR OFF\n\r");
                     stringToLcd("input_IMP_UPR OFF");
                 }
             }
@@ -260,7 +258,6 @@ void checkButtons()
                 if (!input_VOLT_UPR)
                 {
                     input_VOLT_UPR = 1;
-                    stringToUart("\r\ninput_VOLT_UPR ON\n\r");
                     stringToLcd("input_VOLT_UPR ON");
                 }
             }
@@ -270,7 +267,6 @@ void checkButtons()
                 if (input_VOLT_UPR)
                 {
                     input_VOLT_UPR = 0;
-                    stringToUart("\r\ninput_VOLT_UPR OFF\n\r");
                     stringToLcd("input_VOLT_UPR OFF");
                 }
             }
@@ -285,7 +281,6 @@ void checkButtons()
                 if (!input_CUR_UPR1)
                 {
                     input_CUR_UPR1 = 1;
-                    stringToUart("\r\ninput_CUR_UPR1 ON\n\r");
                     stringToLcd("input_CUR_UPR1 ON");
                 }
             }
@@ -295,7 +290,6 @@ void checkButtons()
                 if (input_CUR_UPR1)
                 {
                     input_CUR_UPR1 = 0;
-                    stringToUart("\r\ninput_CUR_UPR1 OFF\n\r");
                     stringToLcd("input_CUR_UPR1 OFF");
                 }
             }
@@ -310,7 +304,6 @@ void checkButtons()
                 if (!input_CUR_UPR2)
                 {
                     input_CUR_UPR2 = 1;
-                    stringToUart("\r\ninput_CUR_UPR2 ON\n\r");
                     stringToLcd("input_CUR_UPR2 ON");
                 }
             }
@@ -320,7 +313,6 @@ void checkButtons()
                 if (input_CUR_UPR2)
                 {
                     input_CUR_UPR2 = 0;
-                    stringToUart("\r\ninput_CUR_UPR2 OFF\n\r");
                     stringToLcd("input_CUR_UPR2 OFF");
                 }
             }
@@ -335,7 +327,7 @@ void checkButtons()
                 if (!signalVnesh)
                 {
                     signalVnesh = 1;
-                    stringToUart("\r\nsignalVne#sh ON\n\r");
+                    stringToUart(toMilandr_SignalFromOut_ON);
                     stringToLcd("signalVnesh ON");
                 }
             }
@@ -345,7 +337,7 @@ void checkButtons()
                 if (signalVnesh)
                 {
                     signalVnesh = 0;
-                    stringToUart("\r\nsignalVne@sh OFF\n\r");
+                    stringToUart(toMilandr_SignalFromOut_OFF);
                     stringToLcd("signalVnesh OFF");
                 }
             }
@@ -360,7 +352,7 @@ void checkButtons()
                 if (!signalMic)
                 {
                     signalMic = 1;
-                    stringToUart("\r\nsignalMic ON\n\r");
+                    stringToUart(toMilandr_SignalMic_ON);
                     stringToLcd("signalMic ON");
                 }
             }
@@ -370,7 +362,7 @@ void checkButtons()
                 if (signalMic)
                 {
                     signalMic = 0;
-                    stringToUart("\r\nsignalMic OFF\n\r");
+                    stringToUart(toMilandr_SignalMic_OFF);
                     stringToLcd("signalMic OFF");
                 }
             }
