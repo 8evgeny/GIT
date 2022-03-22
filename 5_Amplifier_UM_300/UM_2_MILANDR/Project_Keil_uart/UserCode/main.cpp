@@ -13,6 +13,57 @@
 #include "MDR32F9Qx_rst_clk.h"
 //#include "MDR32F9Qx_eeprom.h"
 
+static bool btnImpedance = 0;
+static bool btnCalibrovka = 0;
+static bool btnReset = 0;
+static bool signalPowerOn = 0;
+static bool signalImpedance = 0;
+static bool signalTranslate = 0;
+static bool input_IMP_UPR = 0;
+static bool input_VOLT_UPR = 0;
+static bool input_CUR_UPR1 = 0;
+static bool input_CUR_UPR2 = 0;
+static bool signalVnesh = 0;
+static bool signalMic = 0;
+
+#define fromStm_BtnImpedance_On     'Q'
+#define fromStm_BtnImpedance_Off    'W'
+#define fromStm_BtnCalibr_On        'E'
+#define fromStm_BtnCalibr_Off       'R'
+#define fromStm_BtnReset_On         'T'
+#define fromStm_BtnReset_Off        'Y'
+#define fromStm_SignalPowerOn_ON    'U'
+#define fromStm_SignalPowerOn_OFF   'I'
+#define fromStm_SignalImpedanse_ON  'O'
+#define fromStm_SignalImpedanse_OFF 'P'
+#define fromStm_SignalTranslate_ON  'A'
+#define fromStm_SignalTranslate_OFF 'S'
+#define fromStm_SignalFromOut_ON    'D'
+#define fromStm_SignalFromOut_OFF   'F'
+#define fromStm_SignalMic_ON        'G'
+#define fromStm_SignalMic_OFF       'H'
+
+#define toStm_BtnImpedance_On_OK     'q'
+#define toStm_BtnImpedance_Off_OK    'w'
+#define toStm_BtnCalibr_On_OK        'e'
+#define toStm_BtnCalibr_Off_OK       'r'
+#define toStm_BtnReset_On_OK         't'
+#define toStm_BtnReset_Off_OK        'y'
+#define toStm_SignalPowerOn_ON_OK    'u'
+#define toStm_SignalPowerOn_OFF_OK   'i'
+#define toStm_SignalImpedanse_ON_OK  'o'
+#define toStm_SignalImpedanse_OFF_OK 'p'
+#define toStm_SignalTranslate_ON_OK  'a'
+#define toStm_SignalTranslate_OFF_OK 's'
+#define toStm_SignalFromOut_ON_OK    'd'
+#define toStm_SignalFromOut_OFF_OK   'f'
+#define toStm_SignalMic_ON_OK        'g'
+#define toStm_SignalMic_OFF_OK       'h'
+
+
+
+
+
 #define UART_1
 //#define UART_2
 
@@ -178,13 +229,10 @@ int i; // Глобальная переменная счетчика, котор
 
     while (UART_GetFlagStatus (MDR_UART1, UART_FLAG_RXFE) == SET);//ждем пока не не установиться флаг по приему байта
     ReciveByte = UART_ReceiveData(MDR_UART1);                     //считываем принятый байт
-    PORT_SetBits(MDR_PORTC, PORT_Pin_0);
-//    delay(0xFF);
-//    PORT_ResetBits(MDR_PORTC, PORT_Pin_0);
 
-    if ((char)ReciveByte == '@')
+    if ((char)ReciveByte == fromStm_BtnImpedance_On)
     {
-//        UART_SendData(MDR_UART1, ReciveByte);                         //отправляем принятый байт обратно
+        UART_SendData(MDR_UART1, ReciveByte);                         //отправляем подтверждение
         UART_SendData(MDR_UART1, '*');
         while (UART_GetFlagStatus (MDR_UART1, UART_FLAG_TXFE) != SET);//ждем пока байт уйдет
 

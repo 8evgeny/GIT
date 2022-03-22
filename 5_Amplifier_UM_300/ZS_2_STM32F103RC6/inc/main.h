@@ -17,22 +17,40 @@
 
 #define mainECHO_TASK_PRIORITY				( tskIDLE_PRIORITY + 1 )
 
-#define toMilandr_BtnImpedance_On     "!"
-#define toMilandr_BtnImpedance_Off    "@"
-#define toMilandr_BtnCalibr_On        "#"
-#define toMilandr_BtnCalibr_Off       "$"
-#define toMilandr_BtnReset_On         "%"
-#define toMilandr_BtnReset_Off        "^"
-#define toMilandr_SignalPowerOn_ON    "&"
-#define toMilandr_SignalPowerOn_OFF   "*"
-#define toMilandr_SignalImpedanse_ON  "("
-#define toMilandr_SignalImpedanse_OFF ")"
-#define toMilandr_SignalTranslate_ON  "_"
-#define toMilandr_SignalTranslate_OFF "+"
-#define toMilandr_SignalFromOut_ON    "="
-#define toMilandr_SignalFromOut_OFF   "-"
-#define toMilandr_SignalMic_ON        "~"
-#define toMilandr_SignalMic_OFF       ";"
+#define toMilandr_BtnImpedance_On     "Q"
+#define toMilandr_BtnImpedance_Off    "W"
+#define toMilandr_BtnCalibr_On        "E"
+#define toMilandr_BtnCalibr_Off       "R"
+#define toMilandr_BtnReset_On         "T"
+#define toMilandr_BtnReset_Off        "Y"
+#define toMilandr_SignalPowerOn_ON    "U"
+#define toMilandr_SignalPowerOn_OFF   "I"
+#define toMilandr_SignalImpedanse_ON  "O"
+#define toMilandr_SignalImpedanse_OFF "P"
+#define toMilandr_SignalTranslate_ON  "A"
+#define toMilandr_SignalTranslate_OFF "S"
+#define toMilandr_SignalFromOut_ON    "D"
+#define toMilandr_SignalFromOut_OFF   "F"
+#define toMilandr_SignalMic_ON        "G"
+#define toMilandr_SignalMic_OFF       "H"
+
+#define fromMilandr_BtnImpedance_On_OK     'q'
+#define fromMilandr_BtnImpedance_Off_OK    'w'
+#define fromMilandr_BtnCalibr_On_OK        'e'
+#define fromMilandr_BtnCalibr_Off_OK       'r'
+#define fromMilandr_BtnReset_On_OK         't'
+#define fromMilandr_BtnReset_Off_OK        'y'
+#define fromMilandr_SignalPowerOn_ON_OK    'u'
+#define fromMilandr_SignalPowerOn_OFF_OK   'i'
+#define fromMilandr_SignalImpedanse_ON_OK  'o'
+#define fromMilandr_SignalImpedanse_OFF_OK 'p'
+#define fromMilandr_SignalTranslate_ON_OK  'a'
+#define fromMilandr_SignalTranslate_OFF_OK 's'
+#define fromMilandr_SignalFromOut_ON_OK    'd'
+#define fromMilandr_SignalFromOut_OFF_OK   'f'
+#define fromMilandr_SignalMic_ON_OK        'g'
+#define fromMilandr_SignalMic_OFF_OK       'h'
+
 
 static bool btnImpedance = 0;
 static bool btnCalibrovka = 0;

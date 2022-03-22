@@ -1,5 +1,6 @@
 #include "main.h"
 
+#if 0
 static inline void
 uart_putc(char ch) {
     usart_send_blocking(USART3, ch);
@@ -25,4 +26,4 @@ testUART1(void *args __attribute__((unused)))
         }
     }
 }
-
+#endif
