@@ -24,35 +24,6 @@ static UART_InitTypeDef UART_InitStructure1;
 static PORT_InitTypeDef PortInitUART2;
 static UART_InitTypeDef UART_InitStructure2;
 #endif
-#ifdef UART_2
-void UART2_IRQHandler(void)
-{
-
-}
-#endif
-#ifdef UART_1
-uint32_t uart1_IT_TX_flag = RESET; // Флаг устанавливается после передачи одного байта
-uint32_t uart1_IT_RX_flag = RESET; // Флаг устанавливается после приема одного байта
-#endif
-
-//void UART1_IRQHandler(void)
-//{
-//    if (UART_GetITStatusMasked(MDR_UART1, UART_IT_RX) == SET)
-//    //проверка установки флага прерывания по окончании приема данных
-//    {
-//    UART_ClearITPendingBit(MDR_UART1, UART_IT_RX);//очистка флага прерывания
-//    uart1_IT_RX_flag = SET; //установка флага передача данных завершена
-//    }
-//    if (UART_GetITStatusMasked(MDR_UART1, UART_IT_TX) == SET)
-//    //проверка установки флага прерывания по окончании передачи данных
-//    {
-//    UART_ClearITPendingBit(MDR_UART1, UART_IT_TX); //очистка флага прерывания
-//    uart1_IT_TX_flag = SET; //установка флага передача данных завершена
-//    }
-//}
-
-
-
 int main (void)
 {
    RST_CLK_HSEconfig(RST_CLK_HSE_ON);
@@ -106,9 +77,6 @@ int main (void)
   PortInitUART1.PORT_OE = PORT_OE_IN;
   PortInitUART1.PORT_Pin = PORT_Pin_6;
   PORT_Init(MDR_PORTB, &PortInitUART1);
-
-  // Разрешение прерывания для UART1
-//  NVIC_EnableIRQ(UART1_IRQn);
 #endif
 
 #ifdef UART_2
@@ -131,11 +99,6 @@ int main (void)
   PortInitUART2.PORT_OE = PORT_OE_IN;
   PortInitUART2.PORT_Pin = PORT_Pin_0;
   PORT_Init(MDR_PORTF, &PortInitUART2);
-
-  // Разрешение прерывания для UART2
-  NVIC_EnableIRQ(UART2_IRQn);
-
-
 #endif
 
   /* Select HSI/2 as CPU_CLK source*/
@@ -157,7 +120,7 @@ int main (void)
 
 #ifdef UART_1
   /* Initialize UART_InitStructure1 */
-  UART_InitStructure1.UART_BaudRate                = 115000;
+  UART_InitStructure1.UART_BaudRate                = 19200;
   UART_InitStructure1.UART_WordLength              = UART_WordLength8b;
   UART_InitStructure1.UART_StopBits                = UART_StopBits1;
   UART_InitStructure1.UART_Parity                  = UART_Parity_No;
