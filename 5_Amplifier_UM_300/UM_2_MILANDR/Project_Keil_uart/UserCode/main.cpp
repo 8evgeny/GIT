@@ -24,6 +24,34 @@ static UART_InitTypeDef UART_InitStructure1;
 static PORT_InitTypeDef PortInitUART2;
 static UART_InitTypeDef UART_InitStructure2;
 #endif
+#ifdef UART_2
+void UART2_IRQHandler(void)
+{
+
+}
+#endif
+#ifdef UART_1
+uint32_t uart2_IT_TX_flag = RESET; // Флаг устанавливается после передачи одного байта
+uint32_t uart2_IT_RX_flag = RESET; // Флаг устанавливается после приема одного байта
+void UART1_IRQHandler(void)
+{
+    if (UART_GetITStatusMasked(MDR_UART2, UART_IT_RX) == SET)
+    //проверка установки флага прерывания по окончании приема данных
+    {
+    UART_ClearITPendingBit(MDR_UART2, UART_IT_RX);//очистка флага прерывания
+    uart2_IT_RX_flag = SET; //установка флага передача данных завершена
+    }
+    if (UART_GetITStatusMasked(MDR_UART2, UART_IT_TX) == SET)
+    //проверка установки флага прерывания по окончании передачи данных
+    {
+    UART_ClearITPendingBit(MDR_UART2, UART_IT_TX); //очистка флага прерывания
+    uart2_IT_TX_flag = SET; //установка флага передача данных завершена
+    }
+
+}
+#endif
+
+
 int main (void)
 {
    RST_CLK_HSEconfig(RST_CLK_HSE_ON);
@@ -60,7 +88,7 @@ int main (void)
 
 #ifdef UART_1
   /* Fill PortInit UART1 structure*/
-    PortInitUART1.PORT_PULL_UP = PORT_PULL_UP_OFF;
+  PortInitUART1.PORT_PULL_UP = PORT_PULL_UP_OFF;
   PortInitUART1.PORT_PULL_DOWN = PORT_PULL_DOWN_OFF;
   PortInitUART1.PORT_PD_SHM = PORT_PD_SHM_OFF;
   PortInitUART1.PORT_PD = PORT_PD_DRIVER;
@@ -77,6 +105,9 @@ int main (void)
   PortInitUART1.PORT_OE = PORT_OE_IN;
   PortInitUART1.PORT_Pin = PORT_Pin_6;
   PORT_Init(MDR_PORTB, &PortInitUART1);
+
+  // Разрешение прерывания для UART1
+  NVIC_EnableIRQ(UART1_IRQn);
 #endif
 
 #ifdef UART_2
@@ -99,6 +130,11 @@ int main (void)
   PortInitUART2.PORT_OE = PORT_OE_IN;
   PortInitUART2.PORT_Pin = PORT_Pin_0;
   PORT_Init(MDR_PORTF, &PortInitUART2);
+
+  // Разрешение прерывания для UART2
+  NVIC_EnableIRQ(UART2_IRQn);
+
+
 #endif
 
   /* Select HSI/2 as CPU_CLK source*/
@@ -108,12 +144,14 @@ int main (void)
   RST_CLK_PCLKcmd(RST_CLK_PCLK_UART1, ENABLE);
   /* Set the HCLK division factor = 1 for UART1*/
   UART_BRGInit(MDR_UART1, UART_HCLKdiv1);
+
 #endif
  #ifdef UART_2
   /* Enables the CPU_CLK clock on UART2 */
   RST_CLK_PCLKcmd(RST_CLK_PCLK_UART2, ENABLE);
   /* Set the HCLK division factor = 1 for UART2*/
   UART_BRGInit(MDR_UART2, UART_HCLKdiv1);
+
 #endif
 
 #ifdef UART_1
@@ -126,8 +164,12 @@ int main (void)
   UART_InitStructure1.UART_HardwareFlowControl     = UART_HardwareFlowControl_RXE | UART_HardwareFlowControl_TXE;
   /* Configure UART1 parameters*/
   UART_Init (MDR_UART1,&UART_InitStructure1);
+
   /* Enables UART1 peripheral */
+  UART_ITConfig (MDR_UART1, UART_IT_RX, ENABLE);//Разрешение прерывания по приему
+  UART_ITConfig (MDR_UART1, UART_IT_TX, ENABLE);//Разрешение прерывания по окончани передачи
   UART_Cmd(MDR_UART1,ENABLE);
+
 #endif
 #ifdef UART_2
   /* Initialize UART_InitStructure2 */
@@ -139,9 +181,16 @@ int main (void)
   UART_InitStructure2.UART_HardwareFlowControl     = UART_HardwareFlowControl_RXE | UART_HardwareFlowControl_TXE;
   /* Configure UART2 parameters*/
   UART_Init (MDR_UART2,&UART_InitStructure2);
+
   /* Enables UART2 peripheral */
+  UART_ITConfig (MDR_UART2, UART_IT_RX, ENABLE);//Разрешение прерывания по приему
+  UART_ITConfig (MDR_UART2, UART_IT_TX, ENABLE);//Разрешение прерывания по окончани передачи
   UART_Cmd(MDR_UART2,ENABLE);
 #endif
+
+
+
+
 //При приеме данных моргаем светодиодом
   PORT_InitTypeDef PORTC_Init;
 int i; // Глобальная переменная счетчика, которая используется в функции delay()
@@ -158,19 +207,7 @@ int i; // Глобальная переменная счетчика, котор
   PORT_Init(MDR_PORTC, &PORTC_Init);          // Инициализация порта C объявленной структурой
 
 
-  while(1){
-      PORT_SetBits(MDR_PORTC, PORT_Pin_0);
-      PORT_SetBits(MDR_PORTC, PORT_Pin_1);
-      delay(0xFFFF);                         // Задержка
-
-      PORT_ResetBits(MDR_PORTC, PORT_Pin_0);
-      PORT_ResetBits(MDR_PORTC, PORT_Pin_1);
-      delay(0xFFFF);
-  }
-
-
-
-  uint8_t tmp_data;
+  uint8_t ReciveByte;
 
   while (1)
   {
@@ -180,17 +217,25 @@ int i; // Глобальная переменная счетчика, котор
 //    UART_SendData(MDR_UART2, tmp_data); // обратно во 2 uart
 //    while (UART_GetFlagStatus (MDR_UART2, UART_FLAG_TXFE) != SET);
 
-    while (UART_GetFlagStatus (MDR_UART1, UART_FLAG_RXFE) == SET);
-    tmp_data = UART_ReceiveData(MDR_UART1);
-    PORT_SetBits(MDR_PORTC, PORT_Pin_0);
-    delay(0xFF);
-    PORT_ResetBits(MDR_PORTC, PORT_Pin_0);
+//    while (UART_GetFlagStatus (MDR_UART1, UART_FLAG_RXFE) == SET);//ждем пока не не установиться флаг по приему байта
+//    ReciveByte = UART_ReceiveData(MDR_UART1);                     //считываем принятый байт
+//    PORT_SetBits(MDR_PORTC, PORT_Pin_0);
+//    delay(0xFF);
+//    PORT_ResetBits(MDR_PORTC, PORT_Pin_0);
 
-    UART_SendData(MDR_UART1, tmp_data);
-    while (UART_GetFlagStatus (MDR_UART1, UART_FLAG_TXFE) != SET);
-    PORT_SetBits(MDR_PORTC, PORT_Pin_1);
-    delay(0xFF);
-    PORT_ResetBits(MDR_PORTC, PORT_Pin_1);
+//    UART_SendData(MDR_UART1, ReciveByte);                         //отправляем принятый байт обратно
+//    while (UART_GetFlagStatus (MDR_UART1, UART_FLAG_TXFE) != SET);//ждем пока байт уйдет
+
+//    PORT_SetBits(MDR_PORTC, PORT_Pin_1);
+//    delay(0xFF);
+//    PORT_ResetBits(MDR_PORTC, PORT_Pin_1);
+
+      while (uart2_IT_RX_flag != SET); //ждем пока не не установиться флаг по приему байта
+      uart2_IT_RX_flag = RESET; //очищаем флаг приема
+      ReciveByte = UART_ReceiveData (MDR_UART2); //считываем принятый байт
+      UART_SendData (MDR_UART2, ReciveByte); //отправляем принятый байт обратно
+      while (uart2_IT_TX_flag != SET); //ждем пока байт уйдет
+      uart2_IT_TX_flag = RESET; //очищаем флаг передачи
  
 
   }
