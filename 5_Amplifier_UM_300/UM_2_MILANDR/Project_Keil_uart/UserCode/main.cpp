@@ -211,31 +211,27 @@ int i; // Глобальная переменная счетчика, котор
 
   while (1)
   {
-//    /* Check TXFE flag */
-//    while (UART_GetFlagStatus (MDR_UART2, UART_FLAG_RXFE) == SET);
-//    tmp_data = UART_ReceiveData(MDR_UART2);
-//    UART_SendData(MDR_UART2, tmp_data); // обратно во 2 uart
-//    while (UART_GetFlagStatus (MDR_UART2, UART_FLAG_TXFE) != SET);
+    /* Check TXFE flag */
 
-//    while (UART_GetFlagStatus (MDR_UART1, UART_FLAG_RXFE) == SET);//ждем пока не не установиться флаг по приему байта
-//    ReciveByte = UART_ReceiveData(MDR_UART1);                     //считываем принятый байт
-//    PORT_SetBits(MDR_PORTC, PORT_Pin_0);
+    while (UART_GetFlagStatus (MDR_UART1, UART_FLAG_RXFE) == SET);//ждем пока не не установиться флаг по приему байта
+    ReciveByte = UART_ReceiveData(MDR_UART1);                     //считываем принятый байт
+    PORT_SetBits(MDR_PORTC, PORT_Pin_0);
 //    delay(0xFF);
 //    PORT_ResetBits(MDR_PORTC, PORT_Pin_0);
 
-//    UART_SendData(MDR_UART1, ReciveByte);                         //отправляем принятый байт обратно
-//    while (UART_GetFlagStatus (MDR_UART1, UART_FLAG_TXFE) != SET);//ждем пока байт уйдет
+    UART_SendData(MDR_UART1, ReciveByte);                         //отправляем принятый байт обратно
+    while (UART_GetFlagStatus (MDR_UART1, UART_FLAG_TXFE) != SET);//ждем пока байт уйдет
 
-//    PORT_SetBits(MDR_PORTC, PORT_Pin_1);
+    PORT_SetBits(MDR_PORTC, PORT_Pin_1);
 //    delay(0xFF);
 //    PORT_ResetBits(MDR_PORTC, PORT_Pin_1);
 
-      while (uart1_IT_RX_flag != SET); //ждем пока не не установиться флаг по приему байта
-      uart1_IT_RX_flag = RESET; //очищаем флаг приема
-      ReciveByte = UART_ReceiveData (MDR_UART2); //считываем принятый байт
-      UART_SendData (MDR_UART2, ReciveByte); //отправляем принятый байт обратно
-      while (uart1_IT_TX_flag != SET); //ждем пока байт уйдет
-      uart1_IT_TX_flag = RESET; //очищаем флаг передачи
+//      while (uart1_IT_RX_flag != SET); //ждем пока не не установиться флаг по приему байта
+//      uart1_IT_RX_flag = RESET; //очищаем флаг приема
+//      ReciveByte = UART_ReceiveData (MDR_UART2); //считываем принятый байт
+//      UART_SendData (MDR_UART2, ReciveByte); //отправляем принятый байт обратно
+//      while (uart1_IT_TX_flag != SET); //ждем пока байт уйдет
+//      uart1_IT_TX_flag = RESET; //очищаем флаг передачи
  
 
   }
