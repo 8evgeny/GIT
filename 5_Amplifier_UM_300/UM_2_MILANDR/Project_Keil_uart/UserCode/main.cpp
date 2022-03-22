@@ -1,163 +1,113 @@
-#include "MDR32Fx.h"
-#include "MDR32F9Qx_rst_clk.h"
-#include "MDR32F9Qx_port.h"
-#include "MDR32F9Qx_timer.h"
-#include "MDR32F9Qx_iwdg.h"
-
-#include "main.h"
-
-#include "MDR32F9Qx_config.h"
-#include "MDR32Fx.h"
 #include "MDR32F9Qx_uart.h"
 #include "MDR32F9Qx_port.h"
 #include "MDR32F9Qx_rst_clk.h"
-//#include "MDR32F9Qx_eeprom.h"
 
-#define UART_1
-//#define UART_2
 
-#ifdef UART_1
-static PORT_InitTypeDef PortInitUART1;
-static UART_InitTypeDef UART_InitStructure1;
-#endif
-#ifdef UART_2
-static PORT_InitTypeDef PortInitUART2;
-static UART_InitTypeDef UART_InitStructure2;
-#endif
+PORT_InitTypeDef PortInitUART1; // определение переменной для инициализации портов ввода вывода
+UART_InitTypeDef UART_InitStructure; // определение переменной для инициализации UART
+
+uint32_t uart2_IT_TX_flag = RESET; // Флаг устанавливается после передачи одного байта
+uint32_t uart2_IT_RX_flag = RESET; // Флаг устанавливается после приема одного байта
+
+void UART2_IRQHandler(void)
+{
+    if (UART_GetITStatusMasked(MDR_UART2, UART_IT_RX) == SET) //проверка установки флага прерывания по окончании приема данных
+    {
+        UART_ClearITPendingBit(MDR_UART2, UART_IT_RX);//очистка флага прерывания
+        uart2_IT_RX_flag = SET; //установка флага передача данных завершена
+    }
+    if (UART_GetITStatusMasked(MDR_UART2, UART_IT_TX) == SET) //проверка установки флага прерывания по окончании передачи данных
+    {
+        UART_ClearITPendingBit(MDR_UART2, UART_IT_TX); //очистка флага прерывания
+        uart2_IT_TX_flag = SET; //установка флага передача данных завершена
+    }
+}
+
 int main (void)
 {
-   RST_CLK_HSEconfig(RST_CLK_HSE_ON);
-   while(RST_CLK_HSEstatus() != SUCCESS);
+    static uint8_t ReciveByte=0x00; //данные для приема
+    // Включение HSE осциллятора (внешнего кварцевого резонатора) для обеспечения стабильной частоты UART
+    RST_CLK_HSEconfig(RST_CLK_HSE_ON);
+    if (RST_CLK_HSEstatus() == SUCCESS)
+    {
+        // Если HSE осциллятор включился и прошел тест - выбор HSE осциллятора в качестве источника тактовых
+        // импульсов для CPU_PLL  и установка умножителя тактовой частоты CPU_PLL равного 8 = 7+1
+        RST_CLK_CPU_PLLconfig(RST_CLK_CPU_PLLsrcHSEdiv1, 7);
+//        RST_CLK_CPU_PLLconfig(RST_CLK_CPU_PLLsrcHSEdiv1, RST_CLK_CPU_PLLmul10);
+//        RST_CLK_CPU_PLLconfig(RST_CLK_CPU_PLLsrcHSIdiv2,0);
 
-   /* Configures the CPU_PLL clock source */
-   RST_CLK_CPU_PLLconfig(RST_CLK_CPU_PLLsrcHSEdiv1, RST_CLK_CPU_PLLmul10);
+        // Включение схемы PLL
+        RST_CLK_CPU_PLLcmd(ENABLE);
 
-   /* Enables the CPU_PLL */
-   RST_CLK_CPU_PLLcmd(ENABLE);
-   if (RST_CLK_CPU_PLLstatus() == ERROR) {
-      while (1);
-   }
+        if (RST_CLK_HSEstatus() == SUCCESS)
+        {   //Если включение CPU_PLL прошло успешно
+            RST_CLK_CPUclkPrescaler(RST_CLK_CPUclkDIV2); // Установка CPU_C3_prescaler = 2
+            RST_CLK_CPU_PLLuse(ENABLE);
+            // Установка CPU_C2_SEL от CPU_PLL выхода вместо CPU_C1 такта
+            // Выбор CPU_C3 такта на мультиплексоре тактовых импульсов микропроцессора (CPU clock MUX)
+            RST_CLK_CPUclkSelection(RST_CLK_CPUclkCPU_C3);
+        }
+        else while(1);// блок CPU_PLL не включился
+    }
+    else while(1); // кварцевый резонатор HSE не включился
 
-   /* Enables the RST_CLK_PCLK_EEPROM */
-//   RST_CLK_PCLKcmd(RST_CLK_PCLK_EEPROM, ENABLE);
-   /* Sets the code latency value */
+    RST_CLK_PCLKcmd(RST_CLK_PCLK_PORTB, ENABLE); //Разрешение тактирования порта B
+    // заполнение полей переменной PortInit для обеспечения работы UART
+    PortInitUART1.PORT_PULL_UP = PORT_PULL_UP_OFF;
+    PortInitUART1.PORT_PULL_DOWN = PORT_PULL_DOWN_OFF;
+    PortInitUART1.PORT_PD_SHM = PORT_PD_SHM_OFF;
+    PortInitUART1.PORT_PD = PORT_PD_DRIVER;
+    PortInitUART1.PORT_GFEN = PORT_GFEN_OFF;
+    PortInitUART1.PORT_FUNC = PORT_FUNC_ALTER;
+    PortInitUART1.PORT_SPEED = PORT_SPEED_MAXFAST;
+    PortInitUART1.PORT_MODE = PORT_MODE_DIGITAL;
+    /* Configure PORTB pins 5 (UART1_TX) as output  */
+    PortInitUART1.PORT_OE = PORT_OE_OUT;
+    PortInitUART1.PORT_Pin = PORT_Pin_5;
+    PORT_Init(MDR_PORTB, &PortInitUART1);
+    /* Configure PORTB pins 6 (UART1_RX) as input  */
+    PortInitUART1.PORT_OE = PORT_OE_IN;
+    PortInitUART1.PORT_Pin = PORT_Pin_6;
+    PORT_Init(MDR_PORTB, &PortInitUART1);
 
-//   EEPROM_SetLatency(EEPROM_Latency_3);
+    //Разрешение тактирования UART1
+    RST_CLK_PCLKcmd(RST_CLK_PCLK_UART1, ENABLE);
+    // Инициализация делителя тактовой частоты для UART1
+    UART_BRGInit(MDR_UART1, UART_HCLKdiv1);
+    // Разрешение прерывания для UART1
+    NVIC_EnableIRQ(UART1_IRQn);
 
-   /* Select the CPU_PLL output as input for CPU_C3_SEL */
-   RST_CLK_CPU_PLLuse(ENABLE);
-   /* Set CPUClk Prescaler */
-   RST_CLK_CPUclkPrescaler(RST_CLK_CPUclkDIV1);
+    // Заполнение полей для переменной UART_InitStructure
+    UART_InitStructure.UART_BaudRate                = 115000;
+    UART_InitStructure.UART_WordLength              = UART_WordLength8b;
+    UART_InitStructure.UART_StopBits                = UART_StopBits1;
+    UART_InitStructure.UART_Parity                  = UART_Parity_No;
+//    UART_InitStructure.UART_FIFOMode                = UART_FIFO_ON;
+    UART_InitStructure.UART_FIFOMode                = UART_FIFO_OFF; // выключение FIFO буфера
+    UART_InitStructure.UART_HardwareFlowControl     = UART_HardwareFlowControl_RXE | UART_HardwareFlowControl_TXE;
 
-  /* Select the CPU clock source */
-  RST_CLK_CPUclkSelection(RST_CLK_CPUclkCPU_C3);
+    UART_Init (MDR_UART1, &UART_InitStructure); //Инициализация UART1
+    UART_ITConfig (MDR_UART1, UART_IT_RX, ENABLE);//Разрешение прерывания по приему
+    UART_ITConfig (MDR_UART1, UART_IT_TX, ENABLE);//Разрешение прерывания по окончани передачи
 
-  /* Enables the HSE clock on PORTB */
-  RST_CLK_PCLKcmd(RST_CLK_PCLK_PORTB,ENABLE);
-
-  /* Enables the HSE clock on PORTF */
-  RST_CLK_PCLKcmd(RST_CLK_PCLK_PORTF,ENABLE);
-
-#ifdef UART_1
-  /* Fill PortInit UART1 structure*/
-  PortInitUART1.PORT_PULL_UP = PORT_PULL_UP_OFF;
-  PortInitUART1.PORT_PULL_DOWN = PORT_PULL_DOWN_OFF;
-  PortInitUART1.PORT_PD_SHM = PORT_PD_SHM_OFF;
-  PortInitUART1.PORT_PD = PORT_PD_DRIVER;
-  PortInitUART1.PORT_GFEN = PORT_GFEN_OFF;
-  PortInitUART1.PORT_FUNC = PORT_FUNC_ALTER;
-  PortInitUART1.PORT_SPEED = PORT_SPEED_MAXFAST;
-  PortInitUART1.PORT_MODE = PORT_MODE_DIGITAL;
-
-  /* Configure PORTB pins 5 (UART1_TX) as output  */
-  PortInitUART1.PORT_OE = PORT_OE_OUT;
-  PortInitUART1.PORT_Pin = PORT_Pin_5;
-  PORT_Init(MDR_PORTB, &PortInitUART1);
-  /* Configure PORTB pins 6 (UART1_RX) as input  */
-  PortInitUART1.PORT_OE = PORT_OE_IN;
-  PortInitUART1.PORT_Pin = PORT_Pin_6;
-  PORT_Init(MDR_PORTB, &PortInitUART1);
-#endif
-
-#ifdef UART_2
-  /* Fill PortInit UART2 structure*/
-  PortInitUART2.PORT_PULL_UP = PORT_PULL_UP_OFF;
-  PortInitUART2.PORT_PULL_DOWN = PORT_PULL_DOWN_OFF;
-  PortInitUART2.PORT_PD_SHM = PORT_PD_SHM_OFF;
-  PortInitUART2.PORT_PD = PORT_PD_DRIVER;
-  PortInitUART2.PORT_GFEN = PORT_GFEN_OFF;
-  PortInitUART2.PORT_FUNC = PORT_FUNC_OVERRID;
-  PortInitUART2.PORT_SPEED = PORT_SPEED_MAXFAST;
-  PortInitUART2.PORT_MODE = PORT_MODE_DIGITAL;
-
-  //UART2 использую для прошивки в Linux
-  /* Configure PORTF pins 1 (UART2_TX) as output */
-  PortInitUART2.PORT_OE = PORT_OE_OUT;
-  PortInitUART2.PORT_Pin = PORT_Pin_1;
-  PORT_Init(MDR_PORTF, &PortInitUART2);
-  /* Configure PORTF pins 0 (UART2_RX) as input */
-  PortInitUART2.PORT_OE = PORT_OE_IN;
-  PortInitUART2.PORT_Pin = PORT_Pin_0;
-  PORT_Init(MDR_PORTF, &PortInitUART2);
-#endif
-
-  /* Select HSI/2 as CPU_CLK source*/
-  //RST_CLK_CPU_PLLconfig (RST_CLK_CPU_PLLsrcHSIdiv2,0);
-#ifdef UART_1
-  /* Enables the CPU_CLK clock on UART1 */
-  RST_CLK_PCLKcmd(RST_CLK_PCLK_UART1, ENABLE);
-  /* Set the HCLK division factor = 1 for UART1*/
-  UART_BRGInit(MDR_UART1, UART_HCLKdiv1);
-#endif
- #ifdef UART_2
-  /* Enables the CPU_CLK clock on UART2 */
-  RST_CLK_PCLKcmd(RST_CLK_PCLK_UART2, ENABLE);
-  /* Set the HCLK division factor = 1 for UART2*/
-  UART_BRGInit(MDR_UART2, UART_HCLKdiv1);
-#endif
-
-#ifdef UART_1
-  /* Initialize UART_InitStructure1 */
-  UART_InitStructure1.UART_BaudRate                = 115000;
-  UART_InitStructure1.UART_WordLength              = UART_WordLength8b;
-  UART_InitStructure1.UART_StopBits                = UART_StopBits1;
-  UART_InitStructure1.UART_Parity                  = UART_Parity_No;
-  UART_InitStructure1.UART_FIFOMode                = UART_FIFO_ON;
-  UART_InitStructure1.UART_HardwareFlowControl     = UART_HardwareFlowControl_RXE | UART_HardwareFlowControl_TXE;
-  /* Configure UART1 parameters*/
-  UART_Init (MDR_UART1,&UART_InitStructure1);
-  /* Enables UART1 peripheral */
-  UART_Cmd(MDR_UART1,ENABLE);
-#endif
-#ifdef UART_2
-  /* Initialize UART_InitStructure2 */
-  UART_InitStructure2.UART_BaudRate                = 115000;
-  UART_InitStructure2.UART_WordLength              = UART_WordLength8b;
-  UART_InitStructure2.UART_StopBits                = UART_StopBits1;
-  UART_InitStructure2.UART_Parity                  = UART_Parity_No;
-  UART_InitStructure2.UART_FIFOMode                = UART_FIFO_ON;
-  UART_InitStructure2.UART_HardwareFlowControl     = UART_HardwareFlowControl_RXE | UART_HardwareFlowControl_TXE;
-  /* Configure UART2 parameters*/
-  UART_Init (MDR_UART2,&UART_InitStructure2);
-  /* Enables UART2 peripheral */
-  UART_Cmd(MDR_UART2,ENABLE);
-#endif
+    UART_Cmd(MDR_UART1, ENABLE); //Разрешение работы UART1
 
   uint8_t tmp_data;
 
   while (1)
   {
-//    /* Check TXFE flag */
-//    while (UART_GetFlagStatus (MDR_UART2, UART_FLAG_RXFE) == SET);
-//    tmp_data = UART_ReceiveData(MDR_UART2);
-//    UART_SendData(MDR_UART2, tmp_data); // обратно во 2 uart
-//    while (UART_GetFlagStatus (MDR_UART2, UART_FLAG_TXFE) != SET);
+      while (uart2_IT_RX_flag != SET); //ждем пока не не установиться флаг по приему байта
+      uart2_IT_RX_flag = RESET; //очищаем флаг приема
+      ReciveByte = UART_ReceiveData (MDR_UART2); //считываем принятый байт
+      UART_SendData (MDR_UART2, ReciveByte); //отправляем принятый байт обратно
+      while (uart2_IT_TX_flag != SET); //ждем пока байт уйдет
+      uart2_IT_TX_flag = RESET; //очищаем флаг передачи
 
-    while (UART_GetFlagStatus (MDR_UART1, UART_FLAG_RXFE) == SET);
-    tmp_data = UART_ReceiveData(MDR_UART1);
+//      while (UART_GetFlagStatus (MDR_UART1, UART_FLAG_RXFE) == SET);
+//      tmp_data = UART_ReceiveData(MDR_UART1);
 
-    UART_SendData(MDR_UART1, tmp_data);
-    while (UART_GetFlagStatus (MDR_UART1, UART_FLAG_TXFE) != SET);
+//      UART_SendData(MDR_UART1, tmp_data);
+//      while (UART_GetFlagStatus (MDR_UART1, UART_FLAG_TXFE) != SET);
  
 
   }
