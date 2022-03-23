@@ -225,27 +225,95 @@ int i; // Глобальная переменная счетчика, котор
 
   while (1)
   {
-    /* Check TXFE flag */
 
     while (UART_GetFlagStatus (MDR_UART1, UART_FLAG_RXFE) == SET);//ждем пока не не установиться флаг по приему байта
     ReciveByte = UART_ReceiveData(MDR_UART1);                     //считываем принятый байт
 
     if ((char)ReciveByte == fromStm_BtnImpedance_On)
     {
-        UART_SendData(MDR_UART1, ReciveByte);                         //отправляем подтверждение
-        UART_SendData(MDR_UART1, '*');
-        while (UART_GetFlagStatus (MDR_UART1, UART_FLAG_TXFE) != SET);//ждем пока байт уйдет
-
-        PORT_SetBits(MDR_PORTC, PORT_Pin_1);
+        UART_SendData(MDR_UART1, toStm_BtnImpedance_On_OK);
+        while (UART_GetFlagStatus (MDR_UART1, UART_FLAG_TXFE) != SET);
     }
-    if ((char)ReciveByte == '#')
+    if ((char)ReciveByte == fromStm_BtnImpedance_Off)
     {
-//        UART_SendData(MDR_UART1, ReciveByte);                         //отправляем принятый байт обратно
-        UART_SendData(MDR_UART1, '%');
-        while (UART_GetFlagStatus (MDR_UART1, UART_FLAG_TXFE) != SET);//ждем пока байт уйдет
-
-        PORT_SetBits(MDR_PORTC, PORT_Pin_1);
+        UART_SendData(MDR_UART1, toStm_BtnImpedance_Off_OK);
+        while (UART_GetFlagStatus (MDR_UART1, UART_FLAG_TXFE) != SET);
     }
+    if ((char)ReciveByte == fromStm_BtnCalibr_On)
+    {
+        UART_SendData(MDR_UART1, toStm_BtnCalibr_On_OK);
+        while (UART_GetFlagStatus (MDR_UART1, UART_FLAG_TXFE) != SET);
+    }
+    if ((char)ReciveByte == fromStm_BtnCalibr_Off)
+    {
+        UART_SendData(MDR_UART1, toStm_BtnCalibr_Off_OK);
+        while (UART_GetFlagStatus (MDR_UART1, UART_FLAG_TXFE) != SET);
+    }
+    if ((char)ReciveByte == fromStm_BtnReset_On)
+    {
+        UART_SendData(MDR_UART1, toStm_BtnReset_On_OK);
+        while (UART_GetFlagStatus (MDR_UART1, UART_FLAG_TXFE) != SET);
+    }
+    if ((char)ReciveByte == fromStm_BtnReset_Off)
+    {
+        UART_SendData(MDR_UART1, toStm_BtnReset_Off_OK);
+        while (UART_GetFlagStatus (MDR_UART1, UART_FLAG_TXFE) != SET);
+    }
+    if ((char)ReciveByte == fromStm_SignalPowerOn_ON)
+    {
+        UART_SendData(MDR_UART1, toStm_SignalPowerOn_ON_OK);
+        while (UART_GetFlagStatus (MDR_UART1, UART_FLAG_TXFE) != SET);
+    }
+    if ((char)ReciveByte == fromStm_SignalPowerOn_OFF)
+    {
+        UART_SendData(MDR_UART1, toStm_SignalPowerOn_OFF_OK);
+        while (UART_GetFlagStatus (MDR_UART1, UART_FLAG_TXFE) != SET);
+    }
+    if ((char)ReciveByte == fromStm_SignalImpedanse_ON)
+    {
+        UART_SendData(MDR_UART1, toStm_SignalImpedanse_ON_OK);
+        while (UART_GetFlagStatus (MDR_UART1, UART_FLAG_TXFE) != SET);
+    }
+    if ((char)ReciveByte == fromStm_SignalImpedanse_OFF)
+    {
+        UART_SendData(MDR_UART1, toStm_SignalImpedanse_OFF_OK);
+        while (UART_GetFlagStatus (MDR_UART1, UART_FLAG_TXFE) != SET);
+    }
+    if ((char)ReciveByte == fromStm_SignalTranslate_ON)
+    {
+        UART_SendData(MDR_UART1, toStm_SignalTranslate_ON_OK);
+        while (UART_GetFlagStatus (MDR_UART1, UART_FLAG_TXFE) != SET);
+    }
+    if ((char)ReciveByte == fromStm_SignalTranslate_OFF)
+    {
+        UART_SendData(MDR_UART1, toStm_SignalTranslate_OFF_OK);
+        while (UART_GetFlagStatus (MDR_UART1, UART_FLAG_TXFE) != SET);
+    }
+    if ((char)ReciveByte == fromStm_SignalFromOut_ON)
+    {
+        UART_SendData(MDR_UART1, toStm_SignalFromOut_ON_OK);
+        while (UART_GetFlagStatus (MDR_UART1, UART_FLAG_TXFE) != SET);
+    }
+    if ((char)ReciveByte == fromStm_SignalFromOut_OFF)
+    {
+        UART_SendData(MDR_UART1, toStm_SignalFromOut_OFF_OK);
+        while (UART_GetFlagStatus (MDR_UART1, UART_FLAG_TXFE) != SET);
+    }
+    if ((char)ReciveByte == fromStm_SignalMic_ON)
+    {
+        UART_SendData(MDR_UART1, toStm_SignalMic_ON_OK);
+        while (UART_GetFlagStatus (MDR_UART1, UART_FLAG_TXFE) != SET);
+    }
+    if ((char)ReciveByte == fromStm_SignalMic_OFF)
+    {
+        UART_SendData(MDR_UART1, toStm_SignalMic_OFF_OK);
+        while (UART_GetFlagStatus (MDR_UART1, UART_FLAG_TXFE) != SET);
+    }
+ 
+
+  }
+}
+
 
 //    delay(0xFF);
 //    PORT_ResetBits(MDR_PORTC, PORT_Pin_1);
@@ -256,8 +324,3 @@ int i; // Глобальная переменная счетчика, котор
 //      UART_SendData (MDR_UART2, ReciveByte); //отправляем принятый байт обратно
 //      while (uart1_IT_TX_flag != SET); //ждем пока байт уйдет
 //      uart1_IT_TX_flag = RESET; //очищаем флаг передачи
- 
-
-  }
-}
-
