@@ -31,7 +31,7 @@
 #define fromStm_SignalMic_ON        'G'
 #define fromStm_SignalMic_OFF       'H'
 
-//Сигналы Milandr -> Stm (подтверждение получения команды)
+//Milandr -> Stm (подтверждение получения команды)
 #define toStm_BtnImpedance_On_OK     'q'
 #define toStm_BtnImpedance_Off_OK    'w'
 #define toStm_BtnCalibr_On_OK        'e'
@@ -49,7 +49,32 @@
 #define toStm_SignalMic_ON_OK        'g'
 #define toStm_SignalMic_OFF_OK       'h'
 
-//Сигналы   Stm -> Milandr
+//Команды Milandr -> Stm
+#define cmdToStm_OVERHEAT_60_ON      'j'
+#define cmdToStm_OVERHEAT_60_OFF     'k'
+#define cmdToStm_OVERHEAT_85_ON      'l'
+#define cmdToStm_OVERHEAT_85_OFF     'z'
+#define cmdToStm_OVERHEAT_MC_ON      'x'
+#define cmdToStm_OVERHEAT_MC_OFF     'c'
+#define cmdToStm_READY_UPR_ON        'v'
+#define cmdToStm_READY_UPR_OFF       'b'
+#define cmdToStm_ERROR_MC_ON         'n'
+#define cmdToStm_ERROR_MC_OFF        'm'
+
+//Stm -> Milandr (подтверждение получения команды)
+#define fromStm_OVERHEAT_60_ON_OK        'J'
+#define fromStm_OVERHEAT_60_OFF_OK       'K'
+#define fromStm_OVERHEAT_85_ON_OK        'L'
+#define fromStm_OVERHEAT_85_OFF_OK       'Z'
+#define fromStm_OVERHEAT_MC_ON_OK        'X'
+#define fromStm_OVERHEAT_MC_OFF_OK       'C'
+#define fromStm_READY_UPR_ON_OK          'V'
+#define fromStm_READY_UPR_OFF_OK         'B'
+#define fromStm_ERROR_MC_ON_OK           'N'
+#define fromStm_ERROR_MC_OFF_OK          'M'
+
+
+//Stm -> Milandr
 static bool btnImpedance = 0;
 static bool btnCalibrovka = 0;
 static bool btnReset = 0;
@@ -62,9 +87,8 @@ static bool input_CUR_UPR1 = 0;
 static bool input_CUR_UPR2 = 0;
 static bool signalVnesh = 0;
 static bool signalMic = 0;
-static bool POWER_OUT = 0;
 
-//Сигналы Milandr -> Stm
+//Milandr -> Stm
 static bool OVERHEAT_60 = 0;
 static bool OVERHEAT_85 = 0;
 static bool OVERHEAT_MC = 0;

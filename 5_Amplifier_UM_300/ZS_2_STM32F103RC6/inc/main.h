@@ -66,16 +66,16 @@
 #define cmdFromMilandr_ERROR_MC_OFF        'm'
 
 //Stm -> Milandr (подтверждение получения команды)
-#define toMilandr_OVERHEAT_60_ON_OK        "j"
-#define toMilandr_OVERHEAT_60_OFF_OK       "k"
-#define toMilandr_OVERHEAT_85_ON_OK        "l"
-#define toMilandr_OVERHEAT_85_OFF_OK       "z"
-#define toMilandr_OVERHEAT_MC_ON_OK        "x"
-#define toMilandr_OVERHEAT_MC_OFF_OK       "c"
-#define toMilandr_READY_UPR_ON_OK          "v"
-#define toMilandr_READY_UPR_OFF_OK         "b"
-#define toMilandr_ERROR_MC_ON_OK           "n"
-#define toMilandr_ERROR_MC_OFF_OK          "m"
+#define toMilandr_OVERHEAT_60_ON_OK        "J"
+#define toMilandr_OVERHEAT_60_OFF_OK       "K"
+#define toMilandr_OVERHEAT_85_ON_OK        "L"
+#define toMilandr_OVERHEAT_85_OFF_OK       "Z"
+#define toMilandr_OVERHEAT_MC_ON_OK        "X"
+#define toMilandr_OVERHEAT_MC_OFF_OK       "C"
+#define toMilandr_READY_UPR_ON_OK          "V"
+#define toMilandr_READY_UPR_OFF_OK         "B"
+#define toMilandr_ERROR_MC_ON_OK           "N"
+#define toMilandr_ERROR_MC_OFF_OK          "M"
 
 
 //Stm -> Milandr
