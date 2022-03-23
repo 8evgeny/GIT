@@ -140,6 +140,10 @@ void setfan(bool);
 void setPowerOut(bool);
 void setErrorRele(bool set);
 void setReleLine1(bool set);
+void setReleLine2(bool set);
+void setReleLine3(bool set);
+void setReleLine4(bool set);
+
 void setRele24V(bool set);
 
 void setTestLed1(bool set);

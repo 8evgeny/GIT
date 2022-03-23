@@ -16,6 +16,10 @@ void setLedOvercutOut(bool set) { if(set) gpio_set(GPIOB, GPIO12);  else gpio_cl
 void setLedOverheatOut(bool set) { if(set) gpio_set(GPIOB, GPIO13);  else gpio_clear(GPIOB, GPIO13);}
 void setErrorRele(bool set) { if(set) gpio_set(GPIOB, GPIO14);  else gpio_clear(GPIOB, GPIO14);}
 void setReleLine1(bool set) { if(set) gpio_set(GPIOB, GPIO15);  else gpio_clear(GPIOB, GPIO15);}
+void setReleLine2(bool set) { if(set) gpio_set(GPIOC, GPIO6);  else gpio_clear(GPIOC, GPIO6);}
+void setReleLine3(bool set) { if(set) gpio_set(GPIOC, GPIO7);  else gpio_clear(GPIOC, GPIO7);}
+void setReleLine4(bool set) { if(set) gpio_set(GPIOC, GPIO8);  else gpio_clear(GPIOC, GPIO8);}
+
 void setRele24V(bool set) { if(set) gpio_set(GPIOC, GPIO9);  else gpio_clear(GPIOC, GPIO9);}
 void setFan(bool set) { if(set) gpio_set(GPIOB, GPIO9);  else gpio_clear(GPIOB, GPIO9);}
 void setPowerOut(bool set) { if(set) gpio_set(GPIOB, GPIO8);  else gpio_clear(GPIOB, GPIO8);}
