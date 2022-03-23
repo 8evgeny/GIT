@@ -20,6 +20,7 @@ SET(LINKER_SCRIPT ${CMAKE_SOURCE_DIR}/stm32f103rct6.ld)
 #Uncomment for hardware floating point
 #SET(FPU_FLAGS "-mfloat-abi=hard -mfpu=fpv4-sp-d16")
 #add_definitions(-DARM_MATH_CM4 -DARM_MATH_MATRIX_CHECK -DARM_MATH_ROUNDING -D__FPU_PRESENT=1)
+add_definitions(-DUSE_STDPERIPH_DRIVER -DUSE_FULL_ASSERT)
 
 #Uncomment for software floating point
 #SET(FPU_FLAGS "-mfloat-abi=soft")
