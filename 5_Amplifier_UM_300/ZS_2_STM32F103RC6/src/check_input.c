@@ -346,6 +346,7 @@ void checkInputs()
 
 char * checkReceivedByteFromMilandr(char data)
 {
+    //Подтверждения принятия команд от Миландра
     if (data == 'q') return "BtnImpedance_On_OK";
     if (data == 'w') return "BtnImpedance_Off_OK";
     if (data == 'e') return "BtnCalibr_On_OK";
@@ -362,6 +363,68 @@ char * checkReceivedByteFromMilandr(char data)
     if (data == 'f') return "SigFromOut_OFF_OK";
     if (data == 'g') return "SignalMic_ON_OK";
     if (data == 'h') return "SignalMic_OFF_OK";
+
+    //Команды от Миландра
+    if (data == cmdFromMilandr_OVERHEAT_60_ON)
+    {
+        OVERHEAT_60 = 1;
+        stringToUart(toMilandr_OVERHEAT_60_ON_OK);
+        return "CMD: OVERHEAT_60_ON";
+    }
+    if (data == cmdFromMilandr_OVERHEAT_60_OFF)
+    {
+        OVERHEAT_60 = 0;
+        stringToUart(toMilandr_OVERHEAT_60_OFF_OK);
+        return "CMD: OVERHEAT_60_OFF";
+    }
+    if (data == cmdFromMilandr_OVERHEAT_85_ON)
+    {
+        OVERHEAT_85 = 1;
+        stringToUart(toMilandr_OVERHEAT_85_ON_OK);
+        return "CMD: OVERHEAT_85_ON";
+    }
+    if (data == cmdFromMilandr_OVERHEAT_85_OFF)
+    {
+        OVERHEAT_85 = 0;
+        stringToUart(toMilandr_OVERHEAT_85_OFF_OK);
+        return "CMD: OVERHEAT_85_OFF";
+    }
+    if (data == cmdFromMilandr_OVERHEAT_MC_ON)
+    {
+        OVERHEAT_MC = 1;
+        stringToUart(toMilandr_OVERHEAT_MC_ON_OK);
+        return "CMD: OVERHEAT_MC_ON";
+    }
+    if (data == cmdFromMilandr_OVERHEAT_MC_OFF)
+    {
+        OVERHEAT_MC = 0;
+        stringToUart(toMilandr_OVERHEAT_MC_OFF_OK);
+        return "CMD: OVERHEAT_MC_OFF";
+    }
+    if (data == cmdFromMilandr_READY_UPR_ON)
+    {
+        READY_UPR = 1;
+        stringToUart(toMilandr_READY_UPR_ON_OK);
+        return "CMD: READY_UPR_ON";
+    }
+    if (data == cmdFromMilandr_READY_UPR_OFF)
+    {
+        READY_UPR = 0;
+        stringToUart(toMilandr_READY_UPR_OFF_OK);
+        return "CMD: READY_UPR_OFF";
+    }
+    if (data == cmdFromMilandr_ERROR_MC_ON)
+    {
+        ERROR_MC = 1;
+        stringToUart(toMilandr_ERROR_MC_ON_OK);
+        return "CMD: ERROR_MC_ON";
+    }
+    if (data == cmdFromMilandr_ERROR_MC_OFF)
+    {
+        ERROR_MC = 0;
+        stringToUart(toMilandr_ERROR_MC_OFF_OK);
+        return "CMD: ERROR_MC_OFF";
+    }
 
   return "? Command";
 }
