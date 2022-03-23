@@ -36,15 +36,8 @@ uart_task(void *args) {
 //            puts_uart(3, "\r\n\nENTER INPUT: ");
 
             ch = (char)gc;
-            if ( ch == '*' )
-            {
-                stringToLcd("Receive Cmd1");
-            }
+            stringToLcd( checkReceivedByteFromMilandr (ch));
 
-            if ( ch == '%' )
-            {
-                stringToLcd("Receive Cmd2");
-            }
 
 //            if ( ch != '\r' && ch != '\n' )
 //            {
@@ -120,6 +113,7 @@ main(void) {
     xTaskCreate(checkInputs,"BUTTONS",100,NULL,configMAX_PRIORITIES-1,NULL);
     xTaskCreate(setOutputs,"StateRele",100,NULL,configMAX_PRIORITIES-1,NULL);
     xTaskCreate(i2c_main_vers2,"i2c_vers2",100,NULL,configMAX_PRIORITIES-1,NULL);
+    xTaskCreate(testSendUartCommand,"i2c_vers2",100,NULL,configMAX_PRIORITIES-1,NULL);
 
 //    xTaskCreate(testUART1, "UART4", 100, NULL, configMAX_PRIORITIES - 2, NULL);
 //    xTaskCreate(testTask1, "LED1", 100, NULL, configMAX_PRIORITIES - 1, NULL);

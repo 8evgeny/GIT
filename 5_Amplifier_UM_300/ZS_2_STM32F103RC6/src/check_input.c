@@ -344,7 +344,27 @@ void checkInputs()
 
 }
 
+char * checkReceivedByteFromMilandr(char data)
+{
+    if (data == 'q') return "BtnImpedance_On_OK";
+    if (data == 'w') return "BtnImpedance_Off_OK";
+    if (data == 'e') return "BtnCalibr_On_OK";
+    if (data == 'r') return "BtnCalibr_Off_OK";
+    if (data == 't') return "BtnReset_On_OK";
+    if (data == 'y') return "BtnReset_Off_OK";
+    if (data == 'u') return "SigPowerOn_ON_OK";
+    if (data == 'i') return "SigPowerOn_OFF_OK";
+    if (data == 'o') return "SigImpedanse_ON_OK";
+    if (data == 'p') return "SigImpedanse_OFF_OK";
+    if (data == 'a') return "SigTranslate_ON_OK";
+    if (data == 's') return "SigTranslate_OFF_OK";
+    if (data == 'd') return "SigFromOut_ON_OK";
+    if (data == 'f') return "SigFromOut_OFF_OK";
+    if (data == 'g') return "SignalMic_ON_OK";
+    if (data == 'h') return "SignalMic_OFF_OK";
 
+  return "? Command";
+}
 
 
 
