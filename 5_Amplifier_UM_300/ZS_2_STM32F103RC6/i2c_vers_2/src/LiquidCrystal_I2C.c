@@ -5,6 +5,7 @@
 #include "delay.h"
 #include "I2C.h"
 #include "LiquidCrystal_I2C.h"
+#include "main.h"
 
 //YWROBOT
 //last updated on 21/12/2011
