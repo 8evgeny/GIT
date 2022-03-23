@@ -17,23 +17,25 @@
 
 #define mainECHO_TASK_PRIORITY				( tskIDLE_PRIORITY + 1 )
 
-#define toMilandr_BtnImpedance_On     "Q"
-#define toMilandr_BtnImpedance_Off    "W"
-#define toMilandr_BtnCalibr_On        "E"
-#define toMilandr_BtnCalibr_Off       "R"
-#define toMilandr_BtnReset_On         "T"
-#define toMilandr_BtnReset_Off        "Y"
-#define toMilandr_SignalPowerOn_ON    "U"
-#define toMilandr_SignalPowerOn_OFF   "I"
-#define toMilandr_SignalImpedanse_ON  "O"
-#define toMilandr_SignalImpedanse_OFF "P"
-#define toMilandr_SignalTranslate_ON  "A"
-#define toMilandr_SignalTranslate_OFF "S"
-#define toMilandr_SignalFromOut_ON    "D"
-#define toMilandr_SignalFromOut_OFF   "F"
-#define toMilandr_SignalMic_ON        "G"
-#define toMilandr_SignalMic_OFF       "H"
+//Команды  Stm -> Milandr
+#define toMilandr_BtnImpedance_On          "Q"
+#define toMilandr_BtnImpedance_Off         "W"
+#define toMilandr_BtnCalibr_On             "E"
+#define toMilandr_BtnCalibr_Off            "R"
+#define toMilandr_BtnReset_On              "T"
+#define toMilandr_BtnReset_Off             "Y"
+#define toMilandr_SignalPowerOn_ON         "U"
+#define toMilandr_SignalPowerOn_OFF        "I"
+#define toMilandr_SignalImpedanse_ON       "O"
+#define toMilandr_SignalImpedanse_OFF      "P"
+#define toMilandr_SignalTranslate_ON       "A"
+#define toMilandr_SignalTranslate_OFF      "S"
+#define toMilandr_SignalFromOut_ON         "D"
+#define toMilandr_SignalFromOut_OFF        "F"
+#define toMilandr_SignalMic_ON             "G"
+#define toMilandr_SignalMic_OFF            "H"
 
+//Milandr -> Stm (подтверждение получения команды)
 #define fromMilandr_BtnImpedance_On_OK     'q'
 #define fromMilandr_BtnImpedance_Off_OK    'w'
 #define fromMilandr_BtnCalibr_On_OK        'e'
@@ -51,7 +53,32 @@
 #define fromMilandr_SignalMic_ON_OK        'g'
 #define fromMilandr_SignalMic_OFF_OK       'h'
 
+//Команды Milandr -> Stm
+#define cmdFromMilandr_OVERHEAT_60_ON      'j'
+#define cmdFromMilandr_OVERHEAT_60_OFF     'k'
+#define cmdFromMilandr_OVERHEAT_85_ON      'l'
+#define cmdFromMilandr_OVERHEAT_85_OFF     'z'
+#define cmdFromMilandr_OVERHEAT_MC_ON      'x'
+#define cmdFromMilandr_OVERHEAT_MC_OFF     'c'
+#define cmdFromMilandr_READY_UPR_ON        'v'
+#define cmdFromMilandr_READY_UPR_OFF       'b'
+#define cmdFromMilandr_ERROR_MC_ON         'n'
+#define cmdFromMilandr_ERROR_MC_OFF        'm'
 
+//Stm -> Milandr (подтверждение получения команды)
+#define toMilandr_OVERHEAT_60_ON_OK        'j'
+#define toMilandr_OVERHEAT_60_OFF_OK       'k'
+#define toMilandr_OVERHEAT_85_ON_OK        'l'
+#define toMilandr_OVERHEAT_85_OFF_OK       'z'
+#define toMilandr_OVERHEAT_MC_ON_OK        'x'
+#define toMilandr_OVERHEAT_MC_OFF_OK       'c'
+#define toMilandr_READY_UPR_ON_OK          'v'
+#define toMilandr_READY_UPR_OFF_OK         'b'
+#define toMilandr_ERROR_MC_ON_OK           'n'
+#define toMilandr_ERROR_MC_OFF_OK          'm'
+
+
+//Stm -> Milandr
 static bool btnImpedance = 0;
 static bool btnCalibrovka = 0;
 static bool btnReset = 0;
@@ -65,7 +92,12 @@ static bool input_CUR_UPR2 = 0;
 static bool signalVnesh = 0;
 static bool signalMic = 0;
 
-
+//Milandr -> Stm
+static bool OVERHEAT_60 = 0;
+static bool OVERHEAT_85 = 0;
+static bool OVERHEAT_MC = 0;
+static bool READY_UPR = 0;
+static bool ERROR_MC = 0;
 
 static QueueHandle_t uart_txq;				// TX queue for UART
 
@@ -113,7 +145,7 @@ void setRele24V(bool set);
 void setTestLed1(bool set);
 void setTestLed2(bool set);
 void setTestLed3(bool set);
-void setTestLed4(bool set);
+
 
 
 //#ifdef __cplusplus

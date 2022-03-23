@@ -13,19 +13,7 @@
 #include "MDR32F9Qx_rst_clk.h"
 //#include "MDR32F9Qx_eeprom.h"
 
-static bool btnImpedance = 0;
-static bool btnCalibrovka = 0;
-static bool btnReset = 0;
-static bool signalPowerOn = 0;
-static bool signalImpedance = 0;
-static bool signalTranslate = 0;
-static bool input_IMP_UPR = 0;
-static bool input_VOLT_UPR = 0;
-static bool input_CUR_UPR1 = 0;
-static bool input_CUR_UPR2 = 0;
-static bool signalVnesh = 0;
-static bool signalMic = 0;
-
+//Команды  Stm -> Milandr
 #define fromStm_BtnImpedance_On     'Q'
 #define fromStm_BtnImpedance_Off    'W'
 #define fromStm_BtnCalibr_On        'E'
@@ -43,6 +31,7 @@ static bool signalMic = 0;
 #define fromStm_SignalMic_ON        'G'
 #define fromStm_SignalMic_OFF       'H'
 
+//Сигналы Milandr -> Stm (подтверждение получения команды)
 #define toStm_BtnImpedance_On_OK     'q'
 #define toStm_BtnImpedance_Off_OK    'w'
 #define toStm_BtnCalibr_On_OK        'e'
@@ -60,8 +49,27 @@ static bool signalMic = 0;
 #define toStm_SignalMic_ON_OK        'g'
 #define toStm_SignalMic_OFF_OK       'h'
 
+//Сигналы   Stm -> Milandr
+static bool btnImpedance = 0;
+static bool btnCalibrovka = 0;
+static bool btnReset = 0;
+static bool signalPowerOn = 0;
+static bool signalImpedance = 0;
+static bool signalTranslate = 0;
+static bool input_IMP_UPR = 0;
+static bool input_VOLT_UPR = 0;
+static bool input_CUR_UPR1 = 0;
+static bool input_CUR_UPR2 = 0;
+static bool signalVnesh = 0;
+static bool signalMic = 0;
+static bool POWER_OUT = 0;
 
-
+//Сигналы Milandr -> Stm
+static bool OVERHEAT_60 = 0;
+static bool OVERHEAT_85 = 0;
+static bool OVERHEAT_MC = 0;
+static bool READY_UPR = 0;
+static bool ERROR_MC = 0;
 
 
 #define UART_1
