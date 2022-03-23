@@ -1,6 +1,7 @@
 #include "main.h"
 
 void setImpedanceRele(bool set) { if(set) gpio_set(GPIOA, GPIO8);  else gpio_clear(GPIOA, GPIO8);}
+
 void setReleTr1(bool set) { if(set) gpio_set(GPIOA, GPIO9);  else gpio_clear(GPIOA, GPIO9);}
 void setReleTr2(bool set) { if(set) gpio_set(GPIOA, GPIO10);  else gpio_clear(GPIOA, GPIO10);}
 void setReleTr3(bool set) { if(set) gpio_set(GPIOA, GPIO11);  else gpio_clear(GPIOA, GPIO11);}
@@ -22,7 +23,6 @@ void setReleLine4(bool set) { if(set) gpio_set(GPIOC, GPIO8);  else gpio_clear(G
 
 void setRele24V(bool set) { if(set) gpio_set(GPIOC, GPIO9);  else gpio_clear(GPIOC, GPIO9);}
 void setFan(bool set) { if(set) gpio_set(GPIOB, GPIO9);  else gpio_clear(GPIOB, GPIO9);}
-void setPowerOut(bool set) { if(set) gpio_set(GPIOB, GPIO8);  else gpio_clear(GPIOB, GPIO8);}
 
 
 //Свободные пины

@@ -137,7 +137,6 @@ void setLedBreakOut(bool);
 void setLedOvercutOut(bool);
 void setLedOverheatOut(bool);
 void setfan(bool);
-void setPowerOut(bool);
 void setErrorRele(bool set);
 void setReleLine1(bool set);
 void setReleLine2(bool set);
