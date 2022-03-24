@@ -67,8 +67,8 @@ extern "C" {
 #define cmdToStm_OVERHEAT_85_OFF     'z'
 #define cmdToStm_OVERHEAT_MC_ON      'x'
 #define cmdToStm_OVERHEAT_MC_OFF     'c'
-#define cmdToStm_READY_UPR_ON        'v'
-#define cmdToStm_READY_UPR_OFF       'b'
+#define cmdToStm_BOARD_OK_ON         'v'
+#define cmdToStm_BOARD_OK_OFF        'b'
 #define cmdToStm_ERROR_MC_ON         'n'
 #define cmdToStm_ERROR_MC_OFF        'm'
 
@@ -79,8 +79,8 @@ extern "C" {
 #define fromStm_OVERHEAT_85_OFF_OK       'Z'
 #define fromStm_OVERHEAT_MC_ON_OK        'X'
 #define fromStm_OVERHEAT_MC_OFF_OK       'C'
-#define fromStm_READY_UPR_ON_OK          'V'
-#define fromStm_READY_UPR_OFF_OK         'B'
+#define fromStm_BOARD_OK_ON_OK           'V'
+#define fromStm_BOARD_OK_OFF_OK          'B'
 #define fromStm_ERROR_MC_ON_OK           'N'
 #define fromStm_ERROR_MC_OFF_OK          'M'
 
@@ -106,7 +106,7 @@ static bool signalMic = 0;
 static bool OVERHEAT_60 = 0;
 static bool OVERHEAT_85 = 0;
 static bool OVERHEAT_MC = 0;
-static bool READY_UPR = 0;
+static bool BOARD_OK = 0;
 static bool ERROR_MC = 0;
 
 #define UART_1
