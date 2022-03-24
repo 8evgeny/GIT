@@ -388,6 +388,21 @@
               <FileType>8</FileType>
               <FilePath>.\UserCode\main.cpp</FilePath>
             </File>
+            <File>
+              <FileName>init_UART.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\UserCode\init_UART.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>init_GPIO.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\UserCode\init_GPIO.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>check_receive_data.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\UserCode\check_receive_data.cpp</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
