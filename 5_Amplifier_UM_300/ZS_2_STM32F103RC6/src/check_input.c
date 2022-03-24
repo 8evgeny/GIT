@@ -347,23 +347,27 @@ void checkInputs()
 char * checkReceivedByteFromMilandr(char data)
 {
     //Подтверждения принятия команд от Миландра
-    if (data == 'q') return "BtnImpedance_On_OK";
-    if (data == 'w') return "BtnImpedance_Off_OK";
-    if (data == 'e') return "BtnCalibr_On_OK";
-    if (data == 'r') return "BtnCalibr_Off_OK";
-    if (data == 't') return "BtnReset_On_OK";
-    if (data == 'y') return "BtnReset_Off_OK";
-    if (data == 'u') return "SigPowerOn_ON_OK";
-    if (data == 'i') return "SigPowerOn_OFF_OK";
-    if (data == 'o') return "SigImpedanse_ON_OK";
-    if (data == 'p') return "SigImpedanse_OFF_OK";
-    if (data == 'a') return "SigTranslate_ON_OK";
-    if (data == 's') return "SigTranslate_OFF_OK";
-    if (data == 'd') return "SigFromOut_ON_OK";
-    if (data == 'f') return "SigFromOut_OFF_OK";
-    if (data == 'g') return "SignalMic_ON_OK";
-    if (data == 'h') return "SignalMic_OFF_OK";
-
+    if (data == fromMilandr_BtnImpedance_On_OK)     return "BtnImpedance_On_OK";
+    if (data == fromMilandr_BtnImpedance_Off_OK)    return "BtnImpedance_Off_OK";
+    if (data == fromMilandr_BtnCalibr_On_OK)        return "BtnCalibr_On_OK";
+    if (data == fromMilandr_BtnCalibr_Off_OK)       return "BtnCalibr_Off_OK";
+    if (data == fromMilandr_BtnReset_On_OK)         return "BtnReset_On_OK";
+    if (data == fromMilandr_BtnReset_Off_OK)        return "BtnReset_Off_OK";
+    if (data == fromMilandr_SignalPowerOn_ON_OK)    return "SigPowerOn_ON_OK";
+    if (data == fromMilandr_SignalPowerOn_OFF_OK)   return "SigPowerOn_OFF_OK";
+    if (data == fromMilandr_SignalImpedanse_ON_OK)  return "SigImpedanse_ON_OK";
+    if (data == fromMilandr_SignalImpedanse_OFF_OK) return "SigImpedanse_OFF_OK";
+    if (data == fromMilandr_SignalTranslate_ON_OK)  return "SigTranslate_ON_OK";
+    if (data == fromMilandr_SignalTranslate_OFF_OK) return "SigTranslate_OFF_OK";
+    if (data == fromMilandr_SignalFromOut_ON_OK)    return "SigFromOut_ON_OK";
+    if (data == fromMilandr_SignalFromOut_OFF_OK)   return "SigFromOut_OFF_OK";
+    if (data == fromMilandr_SignalMic_ON_OK)        return "SignalMic_ON_OK";
+    if (data == fromMilandr_SignalMic_OFF_OK)       return "SignalMic_OFF_OK";
+    if (data == fromMilandr_MilandrNoReceiveCmd)
+    {
+        MilandrNoReceiveCmd = 1;
+        return "MilandrNoReceiveCmd";
+    }
     //Команды от Миландра
     if (data == cmdFromMilandr_OVERHEAT_60_ON)
     {
@@ -426,7 +430,8 @@ char * checkReceivedByteFromMilandr(char data)
         return "CMD: ERROR_MC_OFF";
     }
 
-  return "? Command";
+    UncnownCmdFromMilandr = 1;
+  return "UncnowCmdFromMilandr";
 }
 
 

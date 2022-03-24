@@ -18,7 +18,8 @@
 
 #define mainECHO_TASK_PRIORITY				( tskIDLE_PRIORITY + 1 )
 
-//Команды  Stm -> Milandr
+//Команды  Stm -> Milandr   (обработка в  check_input.c)
+//В тесте отправляются в цикле в UART
 #define toMilandr_BtnImpedance_On          "Q"
 #define toMilandr_BtnImpedance_Off         "W"
 #define toMilandr_BtnCalibr_On             "E"
@@ -37,6 +38,7 @@
 #define toMilandr_SignalMic_OFF            "H"
 
 //Milandr -> Stm (подтверждение получения команды)
+//
 #define fromMilandr_BtnImpedance_On_OK     'q'
 #define fromMilandr_BtnImpedance_Off_OK    'w'
 #define fromMilandr_BtnCalibr_On_OK        'e'
@@ -53,6 +55,7 @@
 #define fromMilandr_SignalFromOut_OFF_OK   'f'
 #define fromMilandr_SignalMic_ON_OK        'g'
 #define fromMilandr_SignalMic_OFF_OK       'h'
+#define fromMilandr_MilandrNoReceiveCmd    '#'
 
 //Команды Milandr -> Stm
 #define cmdFromMilandr_OVERHEAT_60_ON      'j'
@@ -78,6 +81,8 @@
 #define toMilandr_ERROR_MC_ON_OK           "N"
 #define toMilandr_ERROR_MC_OFF_OK          "M"
 
+static bool MilandrNoReceiveCmd = 0;
+static bool UncnownCmdFromMilandr = 0;
 
 //Stm -> Milandr
 static bool btnImpedance = 0;

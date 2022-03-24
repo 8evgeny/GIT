@@ -113,8 +113,8 @@ include_directories(
 set (SOURCES_C
     )
 
-set (SOURCES_CPP
-    UserCode/main.cpp
+file(GLOB_RECURSE SOURCES_CPP
+    UserCode/*.*
     )
 
 set (SOURCES_SPL

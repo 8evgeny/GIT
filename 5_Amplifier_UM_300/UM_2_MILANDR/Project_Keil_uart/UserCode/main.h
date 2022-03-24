@@ -1,7 +1,4 @@
-//---------------------------------
-// main.h
-// Плата индикации (MDR32)
-//---------------------------------
+#pragma once
 
 #ifdef __cplusplus
 extern "C" {
@@ -60,7 +57,8 @@ extern "C" {
 #define toStm_SignalFromOut_OFF_OK   'f'
 #define toStm_SignalMic_ON_OK        'g'
 #define toStm_SignalMic_OFF_OK       'h'
-#define toStm_UncnownCmd             '#'
+
+#define UncnownCmd                   '#'
 
 //Команды Milandr -> Stm
 #define cmdToStm_OVERHEAT_60_ON      'j'
@@ -85,6 +83,9 @@ extern "C" {
 #define fromStm_READY_UPR_OFF_OK         'B'
 #define fromStm_ERROR_MC_ON_OK           'N'
 #define fromStm_ERROR_MC_OFF_OK          'M'
+
+static bool StmNoReceiveCmd = 0;
+static bool UncnownCmdFromStm = 0;
 
 
 //Stm -> Milandr
@@ -111,8 +112,7 @@ static bool ERROR_MC = 0;
 #define UART_1
 //#define UART_2
 
-uint8_t ReciveByte; //для приема в UART
-int i_delay; // Глобальная переменная счетчика, которая используется в функции delay()
+static int i_delay; // Глобальная переменная счетчика, которая используется в функции delay()
 #define delay(T) for(i_delay = T; i_delay > 0; i_delay--)
 
 #ifdef UART_1
