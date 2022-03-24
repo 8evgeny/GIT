@@ -14,7 +14,7 @@
 #include "uartlib.h"
 #include "task.h"
 #include "stdio.h"
-#include "stm32f10x.h"
+//#include "stm32f10x.h"
 
 #define mainECHO_TASK_PRIORITY				( tskIDLE_PRIORITY + 1 )
 
@@ -151,8 +151,8 @@ void setTestLed2(bool set);
 void setTestLed3(bool set);
 
 void init_I2C1();
-void I2C_StartTransmission(I2C_TypeDef* I2Cx, uint8_t transmissionDirection,  uint8_t slaveAddress);
-void I2C_WriteData(I2C_TypeDef* I2Cx, uint8_t data);
+//void I2C_StartTransmission(I2C_TypeDef* I2Cx, uint8_t transmissionDirection,  uint8_t slaveAddress);
+//void I2C_WriteData(I2C_TypeDef* I2Cx, uint8_t data);
 void backlight();
 void noBacklight();
 
