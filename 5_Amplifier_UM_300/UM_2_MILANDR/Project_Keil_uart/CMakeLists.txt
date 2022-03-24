@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.15)
 set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
 
 # Set ARM compiler
-#set(TOOLS_PATH /home/evg/toolchain/gcc-arm-none-eabi-new)
+set(TOOLS_PATH /home/evg/toolchain/gcc-arm-none-eabi-new)
 #set(CMAKE_C_COMPILER ${TOOLS_PATH}/bin/arm-none-eabi-gcc)
 #set(CMAKE_CXX_COMPILER ${TOOLS_PATH}/bin/arm-none-eabi-g++)
 
@@ -166,9 +166,12 @@ add_custom_command(TARGET ${PROJECT_NAME}.elf POST_BUILD
     COMMAND ${CMAKE_OBJCOPY} -Oihex $<TARGET_FILE:${PROJECT_NAME}.elf> ${HEX_FILE}
     COMMENT "Building ${HEX_FILE} ")
 
-add_custom_command(TARGET ${PROJECT_NAME}.elf POST_BUILD
-    COMMAND ${CMAKE_OBJCOPY} -O binary $<TARGET_FILE:${PROJECT_NAME}.elf> ${BIN_FILE}
-    COMMENT "Building ${BIN_FILE} ")
+# Сборка ведется в Keil - c Linux нужно разбираться
+# (bin на домашнем компе не создается - а на рабочем создается)
+
+#add_custom_command(TARGET ${PROJECT_NAME}.elf POST_BUILD
+#    COMMAND ${CMAKE_OBJCOPY} -O binary $<TARGET_FILE:${PROJECT_NAME}.elf> ${BIN_FILE}
+#    COMMENT "Building ${BIN_FILE} ")
 
 #include(${CMAKE_SOURCE_DIR}/conanbuildinfo.cmake)
 #include(${CMAKE_SOURCE_DIR}/conanbuildinfo.cmake)
