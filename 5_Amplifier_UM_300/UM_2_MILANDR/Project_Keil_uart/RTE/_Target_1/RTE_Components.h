@@ -1,19 +1,20 @@
 
 /*
- * Auto generated Run-Time-Environment Configuration File
+ * Auto generated Run-Time-Environment Component Configuration File
  *      *** Do not modify ! ***
  *
- * Project: 'display' 
+ * Project: 'cantest' 
  * Target:  'Target 1' 
  */
 
 #ifndef RTE_COMPONENTS_H
 #define RTE_COMPONENTS_H
 
-/* Keil::Device:Startup:2.0.3 */
-/* Target microcontroller definition */
-#define USE_MDR1986VE9x
-#define USE_MDR1986VE92
+
+/*
+ * Define the Device Header File: 
+ */
+#define CMSIS_device_header "MDR32Fx.h"
 
 
 #endif /* RTE_COMPONENTS_H */
