@@ -3,11 +3,10 @@
 
 int main (void)
 {
-    using std::chrono::system_clock;
     initGPIO();
     initUART();
 
-    typedef std::chrono::high_resolution_clock Time;
+    typedef std::chrono::system_clock Time;
     typedef std::chrono::microseconds mcs;
     typedef std::chrono::duration<float> fsec;
     auto t0 = Time::now();
