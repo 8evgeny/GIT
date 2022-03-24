@@ -64,8 +64,8 @@
 #define cmdFromMilandr_OVERHEAT_85_OFF     'z'
 #define cmdFromMilandr_OVERHEAT_MC_ON      'x'
 #define cmdFromMilandr_OVERHEAT_MC_OFF     'c'
-#define cmdFromMilandr_READY_UPR_ON        'v'
-#define cmdFromMilandr_READY_UPR_OFF       'b'
+#define cmdFromMilandr_BOARD_OK_ON        'v'
+#define cmdFromMilandr_BOARD_OK_OFF       'b'
 #define cmdFromMilandr_ERROR_MC_ON         'n'
 #define cmdFromMilandr_ERROR_MC_OFF        'm'
 
@@ -76,8 +76,8 @@
 #define toMilandr_OVERHEAT_85_OFF_OK       "Z"
 #define toMilandr_OVERHEAT_MC_ON_OK        "X"
 #define toMilandr_OVERHEAT_MC_OFF_OK       "C"
-#define toMilandr_READY_UPR_ON_OK          "V"
-#define toMilandr_READY_UPR_OFF_OK         "B"
+#define toMilandr_BOARD_OK_ON_OK          "V"
+#define toMilandr_BOARD_OK_OFF_OK         "B"
 #define toMilandr_ERROR_MC_ON_OK           "N"
 #define toMilandr_ERROR_MC_OFF_OK          "M"
 
@@ -102,7 +102,7 @@ static bool signalMic = 0;
 static bool OVERHEAT_60 = 0;
 static bool OVERHEAT_85 = 0;
 static bool OVERHEAT_MC = 0;
-static bool READY_UPR = 0;
+static bool BOARD_OK = 0;
 static bool ERROR_MC = 0;
 
 static QueueHandle_t uart_txq;				// TX queue for UART
