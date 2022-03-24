@@ -9,7 +9,7 @@ int main (void)
     typedef std::chrono::system_clock Time;
     typedef std::chrono::microseconds mcs;
     typedef std::chrono::duration<float> fsec;
-    auto t0 = Time::now();
+//    auto t0 = Time::now();
 
     while (1)
     {
