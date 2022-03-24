@@ -116,7 +116,6 @@ static int i_delay; // Глобальная переменная счетчик�
 #define delay(T) for(i_delay = T; i_delay > 0; i_delay--)
 
 #ifdef UART_1
-static PORT_InitTypeDef PortInitUART1;
 static UART_InitTypeDef UART_InitStructure1;
 #endif
 #ifdef UART_2

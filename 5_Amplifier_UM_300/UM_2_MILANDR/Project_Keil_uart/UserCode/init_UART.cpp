@@ -35,26 +35,6 @@ void initUART()
     /* Enables the HSE clock on PORTF */
     RST_CLK_PCLKcmd(RST_CLK_PCLK_PORTF,ENABLE);
 
-#ifdef UART_1
-    /* Fill PortInit UART1 structure*/
-    PortInitUART1.PORT_PULL_UP = PORT_PULL_UP_OFF;
-    PortInitUART1.PORT_PULL_DOWN = PORT_PULL_DOWN_OFF;
-    PortInitUART1.PORT_PD_SHM = PORT_PD_SHM_OFF;
-    PortInitUART1.PORT_PD = PORT_PD_DRIVER;
-    PortInitUART1.PORT_GFEN = PORT_GFEN_OFF;
-    PortInitUART1.PORT_FUNC = PORT_FUNC_ALTER;
-    PortInitUART1.PORT_SPEED = PORT_SPEED_MAXFAST;
-    PortInitUART1.PORT_MODE = PORT_MODE_DIGITAL;
-
-    /* Configure PORTB pins 5 (UART1_TX) as output  */
-    PortInitUART1.PORT_OE = PORT_OE_OUT;
-    PortInitUART1.PORT_Pin = PORT_Pin_5;
-    PORT_Init(MDR_PORTB, &PortInitUART1);
-    /* Configure PORTB pins 6 (UART1_RX) as input  */
-    PortInitUART1.PORT_OE = PORT_OE_IN;
-    PortInitUART1.PORT_Pin = PORT_Pin_6;
-    PORT_Init(MDR_PORTB, &PortInitUART1);
-#endif
 
 #ifdef UART_2
     /* Fill PortInit UART2 structure*/
