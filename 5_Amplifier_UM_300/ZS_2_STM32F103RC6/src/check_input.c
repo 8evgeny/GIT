@@ -405,17 +405,17 @@ char * checkReceivedByteFromMilandr(char data)
         stringToUart(toMilandr_OVERHEAT_MC_OFF_OK);
         return "CMD: OVERHEAT_MC_OFF";
     }
-    if (data == cmdFromMilandr_READY_UPR_ON)
+    if (data == cmdFromMilandr_BOARD_OK_ON)
     {
-        READY_UPR = 1;
-        stringToUart(toMilandr_READY_UPR_ON_OK);
-        return "CMD: READY_UPR_ON";
+        BOARD_OK = 1;
+        stringToUart(toMilandr_BOARD_OK_ON_OK);
+        return "CMD: BOARD_OK_ON";
     }
-    if (data == cmdFromMilandr_READY_UPR_OFF)
+    if (data == cmdFromMilandr_BOARD_OK_OFF)
     {
-        READY_UPR = 0;
-        stringToUart(toMilandr_READY_UPR_OFF_OK);
-        return "CMD: READY_UPR_OFF";
+        BOARD_OK = 0;
+        stringToUart(toMilandr_BOARD_OK_OFF_OK);
+        return "CMD: BOARD_OK_OFF";
     }
     if (data == cmdFromMilandr_ERROR_MC_ON)
     {
