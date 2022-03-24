@@ -33,31 +33,6 @@ void initGPIO()
     PORTA_Init.PORT_Pin =   PORT_Pin_0 | PORT_Pin_1 | PORT_Pin_4 | PORT_Pin_5 | PORT_Pin_6;
     PORT_Init(MDR_PORTA, &PORTA_Init);
 
-    //Порт B
-#ifdef UART_1
-    static PORT_InitTypeDef PORTB_Init;
-    /* Fill PortInit UART1 structure*/
-    PORTB_Init.PORT_PULL_UP = PORT_PULL_UP_OFF;
-    PORTB_Init.PORT_PULL_DOWN = PORT_PULL_DOWN_OFF;
-    PORTB_Init.PORT_PD_SHM = PORT_PD_SHM_OFF;
-    PORTB_Init.PORT_PD = PORT_PD_DRIVER;
-    PORTB_Init.PORT_GFEN = PORT_GFEN_OFF;
-    PORTB_Init.PORT_FUNC = PORT_FUNC_ALTER;
-    PORTB_Init.PORT_SPEED = PORT_SPEED_MAXFAST;
-    PORTB_Init.PORT_MODE = PORT_MODE_DIGITAL;
+    //Порт B инициализируется с UART
 
-    /* Configure PORTB pins 5 (UART1_TX) as output  */
-    PORTB_Init.PORT_OE = PORT_OE_OUT;
-    PORTB_Init.PORT_Pin = PORT_Pin_5;
-    PORT_Init(MDR_PORTB, &PORTB_Init);
-    /* Configure PORTB pins 6 (UART1_RX) as input  */
-    PORTB_Init.PORT_OE = PORT_OE_IN;
-    PORTB_Init.PORT_Pin = PORT_Pin_6;
-    PORT_Init(MDR_PORTB, &PORTB_Init);
-
-    PORTB_Init.PORT_FUNC = PORT_FUNC_PORT;
-    PORTB_Init.PORT_OE = PORT_OE_OUT;
-    PORTB_Init.PORT_Pin = PORT_Pin_8;
-    PORT_Init(MDR_PORTB, &PORTB_Init);
-#endif
 }
