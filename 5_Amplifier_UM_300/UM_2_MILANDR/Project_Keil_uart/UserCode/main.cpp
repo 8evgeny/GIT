@@ -100,24 +100,6 @@ int main(void)
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 #if (USE_ASSERT_INFO == 1)
 void assert_failed(uint32_t file_id, uint32_t line)
 {

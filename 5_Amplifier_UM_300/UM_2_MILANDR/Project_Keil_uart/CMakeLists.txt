@@ -108,6 +108,8 @@ include_directories(
 #    include
 #    src
     UserCode
+    ./
+    rtos/include
     )
 
 set (SOURCES_C
