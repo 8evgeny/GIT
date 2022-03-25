@@ -1,5 +1,9 @@
 #include "main.h"
+//#define VARIANT_INT
+#define VARIANT_NOINT
 
+#ifdef VARIANT_INT
+//Попытка через прерывания
 PORT_InitTypeDef PortInit;           // определение переменной для инициализации портов ввода вывода
 UART_InitTypeDef UART_InitStructure; // определение переменной для инициализации UART
 uint32_t uart1_IT_TX_flag = RESET;   // Флаг устанавливается после передачи одного байта
@@ -18,12 +22,17 @@ void UART1_IRQHandler(void)
         uart1_IT_TX_flag = SET;                               //установка флага передача данных завершена
     }
 }
+#endif
 
 int main (void)
 {
-//    initGPIO();
-//    initUART();
+#ifdef VARIANT_NOINT
+    initGPIO();
+    initUART();
+#endif
 
+#ifdef VARIANT_INT
+//Попытка через прерывания
     static uint8_t ReciveByte=0x00; //данные для приема
     // Включение HSE осциллятора (внешнего кварцевого резонатора) для обеспечения стабильной частоты UART
     RST_CLK_HSEconfig(RST_CLK_HSE_ON);
@@ -83,29 +92,36 @@ int main (void)
     UART_ITConfig (MDR_UART1, UART_IT_RX, ENABLE);//Разрешение прерывания по приему
     UART_ITConfig (MDR_UART1, UART_IT_TX, ENABLE);//Разрешение прерывания по окончани передачи
     UART_Cmd(MDR_UART1, ENABLE); //Разрешение работы UART1
+#endif
 
     while (1)
     {
-//        while (UART_GetFlagStatus (MDR_UART1, UART_FLAG_RXFE) == SET);  //ждем пока не не установиться флаг по приему байта
-//        uint8_t ReciveByte = UART_ReceiveData(MDR_UART1);               //считываем принятый байт
-//        UART_SendData(MDR_UART1, checkReceivedByte(ReciveByte));
-//        while (UART_GetFlagStatus (MDR_UART1, UART_FLAG_TXFE) != SET);
+#ifdef VARIANT_NOINT
 
-//        PORT_SetBits(MDR_PORTC, PORT_Pin_1);
-//        delay(0x6FFFF);
-//        PORT_ResetBits(MDR_PORTC, PORT_Pin_1);
+        while (UART_GetFlagStatus (MDR_UART1, UART_FLAG_RXFE) == SET);  //ждем пока не не установиться флаг по приему байта
+        uint8_t ReciveByte = UART_ReceiveData(MDR_UART1);               //считываем принятый байт
+        UART_SendData(MDR_UART1, checkReceivedByte(ReciveByte));
+        while (UART_GetFlagStatus (MDR_UART1, UART_FLAG_TXFE) != SET);
 
-    while (uart1_IT_RX_flag != SET);           //ждем пока не не установиться флаг по приему байта
-    uart1_IT_RX_flag = RESET;                  //очищаем флаг приема
-    ReciveByte = UART_ReceiveData (MDR_UART1); //считываем принятый байт
-    UART_SendData (MDR_UART1, checkReceivedByte(ReciveByte));     //отправляем принятый байт обратно
-    while (uart1_IT_TX_flag != SET);           //ждем пока байт уйдет
-    uart1_IT_TX_flag = RESET;                  //очищаем флаг передачи
+        PORT_SetBits(MDR_PORTC, PORT_Pin_1);
+        delay(0x6FFFF);
+        PORT_ResetBits(MDR_PORTC, PORT_Pin_1);
 
+#endif
+
+#ifdef VARIANT_INT
+//Попытка через прерывания
+        while (uart1_IT_RX_flag != SET);           //ждем пока не не установиться флаг по приему байта
+        uart1_IT_RX_flag = RESET;                  //очищаем флаг приема
+        ReciveByte = UART_ReceiveData (MDR_UART1); //считываем принятый байт
+        UART_SendData (MDR_UART1, checkReceivedByte(ReciveByte));     //отправляем принятый байт обратно
+        while (uart1_IT_TX_flag != SET);           //ждем пока байт уйдет
+        uart1_IT_TX_flag = RESET;                  //очищаем флаг передачи
+#endif
     }
 }
 
-
+//Попытка через RTOS
 //#include "MDR32Fx.h"
 //#include "MDR32F9Qx_config.h"
 //#include "MDR32F9Qx_can.h"
@@ -129,7 +145,6 @@ int main (void)
 //    }
 //}
 
-
 //void vLed2(void *argument)
 //{
 //    while(1)
@@ -140,7 +155,6 @@ int main (void)
 //        vTaskDelay(500);
 //    }
 //}
-
 
 //void vLed3(void *argument)
 //{
@@ -153,7 +167,6 @@ int main (void)
 //    }
 //}
 
-
 //void vLed4(void *argument)
 //{
 //    while(1)
@@ -165,11 +178,9 @@ int main (void)
 //    }
 //}
 
-
 //void vApplicationIdleHook (void)
 //{
 //}
-
 
 //int main(void)
 //{
