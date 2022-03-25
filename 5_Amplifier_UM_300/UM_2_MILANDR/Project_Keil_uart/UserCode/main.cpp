@@ -31,9 +31,9 @@ int main (void)
     initUART();
 #endif
 
+    static uint8_t ReciveByte=0x00; //данные для приема
 #ifdef VARIANT_INT
 //Попытка через прерывания
-    static uint8_t ReciveByte=0x00; //данные для приема
     // Включение HSE осциллятора (внешнего кварцевого резонатора) для обеспечения стабильной частоты UART
     RST_CLK_HSEconfig(RST_CLK_HSE_ON);
     if (RST_CLK_HSEstatus() == SUCCESS)
@@ -98,10 +98,14 @@ int main (void)
     {
 #ifdef VARIANT_NOINT
 
-        while (UART_GetFlagStatus (MDR_UART1, UART_FLAG_RXFE) == SET);  //ждем пока не не установиться флаг по приему байта
-        uint8_t ReciveByte = UART_ReceiveData(MDR_UART1);               //считываем принятый байт
-        UART_SendData(MDR_UART1, checkReceivedByte(ReciveByte));
-        while (UART_GetFlagStatus (MDR_UART1, UART_FLAG_TXFE) != SET);
+//        while (UART_GetFlagStatus (MDR_UART1, UART_FLAG_RXFE) == SET);  //ждем пока не не установиться флаг по приему байта
+        if (UART_GetFlagStatus (MDR_UART1, UART_FLAG_RXFE) == SET)
+        {
+            ReciveByte = UART_ReceiveData(MDR_UART1);               //считываем принятый байт
+            UART_SendData(MDR_UART1, checkReceivedByte(ReciveByte));
+            while (UART_GetFlagStatus (MDR_UART1, UART_FLAG_TXFE) != SET);
+        }
+
 
         PORT_SetBits(MDR_PORTC, PORT_Pin_1);
         delay(0x6FFFF);
