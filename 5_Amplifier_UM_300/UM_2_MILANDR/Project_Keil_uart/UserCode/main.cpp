@@ -31,7 +31,8 @@ int main (void)
     initUART();
 #endif
 
-    static uint8_t ReciveByte=0x00; //данные для приема
+static uint8_t ReciveByte=0x00; //данные для приема
+
 #ifdef VARIANT_INT
 //Попытка через прерывания
     // Включение HSE осциллятора (внешнего кварцевого резонатора) для обеспечения стабильной частоты UART
