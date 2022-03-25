@@ -9,6 +9,8 @@ UART_InitTypeDef UART_InitStructure; // определение переменн�
 uint32_t uart1_IT_TX_flag = RESET;   // Флаг устанавливается после передачи одного байта
 uint32_t uart1_IT_RX_flag = RESET;   // Флаг устанавливается после приема одного байта
 
+
+
 void UART1_IRQHandler(void)
 {
     PORT_SetBits(MDR_PORTC, PORT_Pin_1);
