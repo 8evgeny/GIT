@@ -98,14 +98,14 @@ int main (void)
     {
 #ifdef VARIANT_NOINT
 
-//        while (UART_GetFlagStatus (MDR_UART1, UART_FLAG_RXFE) == SET);  //ждем пока не не установиться флаг по приему байта
-        if (UART_GetFlagStatus (MDR_UART1, UART_FLAG_RXFE) == SET)
-        {
-            ReciveByte = UART_ReceiveData(MDR_UART1);               //считываем принятый байт
-            UART_SendData(MDR_UART1, checkReceivedByte(ReciveByte));
-            while (UART_GetFlagStatus (MDR_UART1, UART_FLAG_TXFE) != SET);
-        }
+        while (UART_GetFlagStatus (MDR_UART1, UART_FLAG_RXFE) == SET);  //ждем пока не не установиться флаг по приему байта
+//        if (UART_GetFlagStatus (MDR_UART1, UART_FLAG_RXFE) == SET)
+//        {
 
+//        }
+        ReciveByte = UART_ReceiveData(MDR_UART1);               //считываем принятый байт
+        UART_SendData(MDR_UART1, checkReceivedByte(ReciveByte));
+        while (UART_GetFlagStatus (MDR_UART1, UART_FLAG_TXFE) != SET);
 
         PORT_SetBits(MDR_PORTC, PORT_Pin_1);
         delay(0x6FFFF);
