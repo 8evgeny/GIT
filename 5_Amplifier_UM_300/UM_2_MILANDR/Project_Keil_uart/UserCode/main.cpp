@@ -11,6 +11,9 @@ uint32_t uart1_IT_RX_flag = RESET;   // Флаг устанавливается 
 
 void UART1_IRQHandler(void)
 {
+    PORT_SetBits(MDR_PORTC, PORT_Pin_1);
+    delay(0x6FFFF);
+    PORT_ResetBits(MDR_PORTC, PORT_Pin_1);
 
     if (UART_GetFlagStatus (MDR_UART1, UART_FLAG_RXFE) == SET) //проверка установки флага прерывания по окончании приема данных
     {
