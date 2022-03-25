@@ -113,8 +113,9 @@ void initUART()
     UART_Init (MDR_UART1,&UART_InitStructure1);
 
     /* Enables UART1 peripheral */
-    //  UART_ITConfig (MDR_UART1, UART_IT_RX, ENABLE);//Разрешение прерывания по приему
-    //  UART_ITConfig (MDR_UART1, UART_IT_TX, ENABLE);//Разрешение прерывания по окончани передачи
+    UART_ITConfig (MDR_UART1, UART_IT_RX, ENABLE);//Разрешение прерывания по приему
+    UART_ITConfig (MDR_UART1, UART_IT_TX, ENABLE);//Разрешение прерывания по окончани передачи
+
     UART_Cmd(MDR_UART1,ENABLE);
 
 #endif
