@@ -9,26 +9,38 @@ UART_InitTypeDef UART_InitStructure; // определение переменн�
 uint32_t uart1_IT_TX_flag = RESET;   // Флаг устанавливается после передачи одного байта
 uint32_t uart1_IT_RX_flag = RESET;   // Флаг устанавливается после приема одного байта
 
-
-
 void UART1_IRQHandler(void)
 {
-    PORT_SetBits(MDR_PORTC, PORT_Pin_1);
-    delay(0x6FFFF);
-    PORT_ResetBits(MDR_PORTC, PORT_Pin_1);
-
-    if (UART_GetFlagStatus (MDR_UART1, UART_FLAG_RXFE) == SET) //проверка установки флага прерывания по окончании приема данных
+    if (UART_GetITStatusMasked(MDR_UART1, UART_IT_TX) == SET)
     {
-        UART_ClearITPendingBit(MDR_UART1, UART_FLAG_RXFE);        //очистка флага прерывания
-        uart1_IT_RX_flag = SET;                               //установка флага передача данных завершена
-    }
-    if (UART_GetITStatusMasked(MDR_UART1, UART_IT_TX) == SET) //проверка установки флага прерывания по окончании передачи данных
-    {
-        UART_ClearITPendingBit(MDR_UART1, UART_IT_TX);        //очистка флага прерывания
-        uart1_IT_TX_flag = SET;                               //установка флага передача данных завершена
-    }
+        UART_ClearITPendingBit(MDR_UART1, UART_IT_TX);
+        uart1_IT_TX_flag = SET;
+      }
 
+    if (UART_GetITStatusMasked(MDR_UART2, UART_IT_RX) == SET)
+    {
+        UART_ClearITPendingBit(MDR_UART2, UART_IT_RX);
+        uart1_IT_RX_flag = SET;
+    }
 }
+//void UART1_IRQHandler(void)
+//{
+//    PORT_SetBits(MDR_PORTC, PORT_Pin_1);
+//    delay(0x6FFFF);
+//    PORT_ResetBits(MDR_PORTC, PORT_Pin_1);
+
+//    if (UART_GetFlagStatus (MDR_UART1, UART_FLAG_RXFE) == SET) //проверка установки флага прерывания по окончании приема данных
+//    {
+//        UART_ClearITPendingBit(MDR_UART1, UART_FLAG_RXFE);        //очистка флага прерывания
+//        uart1_IT_RX_flag = SET;                               //установка флага передача данных завершена
+//    }
+//    if (UART_GetITStatusMasked(MDR_UART1, UART_IT_TX) == SET) //проверка установки флага прерывания по окончании передачи данных
+//    {
+//        UART_ClearITPendingBit(MDR_UART1, UART_IT_TX);        //очистка флага прерывания
+//        uart1_IT_TX_flag = SET;                               //установка флага передача данных завершена
+//    }
+
+//}
 #endif
 
 int main (void)
