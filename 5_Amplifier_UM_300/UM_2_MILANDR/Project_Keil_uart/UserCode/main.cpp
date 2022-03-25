@@ -98,7 +98,7 @@ int main (void)
     while (uart1_IT_RX_flag != SET);           //ждем пока не не установиться флаг по приему байта
     uart1_IT_RX_flag = RESET;                  //очищаем флаг приема
     ReciveByte = UART_ReceiveData (MDR_UART1); //считываем принятый байт
-    UART_SendData (MDR_UART1, ReciveByte);     //отправляем принятый байт обратно
+    UART_SendData (MDR_UART1, checkReceivedByte(ReciveByte));     //отправляем принятый байт обратно
     while (uart1_IT_TX_flag != SET);           //ждем пока байт уйдет
     uart1_IT_TX_flag = RESET;                  //очищаем флаг передачи
 
