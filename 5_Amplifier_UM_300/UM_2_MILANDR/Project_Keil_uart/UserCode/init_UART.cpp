@@ -114,6 +114,8 @@ void initUART()
     /* Configure UART1 parameters*/
     UART_Init (MDR_UART1,&UART_InitStructure1);
 
+    NVIC_EnableIRQ (UART1_IRQn);
+
     /* Enables UART1 peripheral */
     UART_ITConfig (MDR_UART1, UART_IT_RX, ENABLE);//Разрешение прерывания по приему
     UART_ITConfig (MDR_UART1, UART_IT_TX, ENABLE);//Разрешение прерывания по окончани передачи

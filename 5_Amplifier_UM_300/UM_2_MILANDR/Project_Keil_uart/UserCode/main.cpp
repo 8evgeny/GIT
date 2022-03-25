@@ -40,7 +40,6 @@ int main (void)
 static uint8_t ReciveByte=0x00; //данные для приема
 
 
-
     while (1)
     {
 #ifdef VARIANT_NOINT
