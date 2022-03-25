@@ -11,9 +11,9 @@ uint32_t uart1_IT_RX_flag = RESET;   // Флаг устанавливается 
 
 void UART1_IRQHandler(void)
 {
-    if (UART_GetITStatusMasked(MDR_UART1, UART_IT_RX) == SET) //проверка установки флага прерывания по окончании приема данных
+    if (UART_GetFlagStatus (MDR_UART1, UART_FLAG_RXFE) == SET) //проверка установки флага прерывания по окончании приема данных
     {
-        UART_ClearITPendingBit(MDR_UART1, UART_IT_RX);        //очистка флага прерывания
+        UART_ClearITPendingBit(MDR_UART1, UART_FLAG_RXFE);        //очистка флага прерывания
         uart1_IT_RX_flag = SET;                               //установка флага передача данных завершена
     }
     if (UART_GetITStatusMasked(MDR_UART1, UART_IT_TX) == SET) //проверка установки флага прерывания по окончании передачи данных
@@ -21,6 +21,9 @@ void UART1_IRQHandler(void)
         UART_ClearITPendingBit(MDR_UART1, UART_IT_TX);        //очистка флага прерывания
         uart1_IT_TX_flag = SET;                               //установка флага передача данных завершена
     }
+
+
+
 }
 #endif
 
