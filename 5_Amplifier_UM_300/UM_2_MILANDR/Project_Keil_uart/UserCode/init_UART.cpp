@@ -114,6 +114,7 @@ void initUART()
     /* Configure UART1 parameters*/
     UART_Init (MDR_UART1,&UART_InitStructure1);
 
+    NVIC_SetPriority (UART1_IRQn, 5);
     NVIC_EnableIRQ (UART1_IRQn);
 
     /* Enables UART1 peripheral */
