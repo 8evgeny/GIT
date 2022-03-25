@@ -1,6 +1,6 @@
 #include "main.h"
-//#define VARIANT_INT
-#define VARIANT_NOINT
+#define VARIANT_INT
+//#define VARIANT_NOINT
 
 #ifdef VARIANT_INT
 //Попытка через прерывания
@@ -85,7 +85,7 @@ static uint8_t ReciveByte=0x00; //данные для приема
     UART_InitStructure.UART_WordLength = UART_WordLength8b; //длина символов 8 бит
     UART_InitStructure.UART_StopBits = UART_StopBits1; //1 стоп бит
     UART_InitStructure.UART_Parity = UART_Parity_No; // нет контроля четности
-    UART_InitStructure.UART_FIFOMode = UART_FIFO_ON; // выключение FIFO буфера
+    UART_InitStructure.UART_FIFOMode = UART_FIFO_OFF; // выключение FIFO буфера
     /* Аппаратный контроль за передачей и приемом */
     UART_InitStructure.UART_HardwareFlowControl = UART_HardwareFlowControl_RXE | UART_HardwareFlowControl_TXE;
     UART_Init (MDR_UART1, &UART_InitStructure); //Инициализация UART1
@@ -116,12 +116,12 @@ static uint8_t ReciveByte=0x00; //данные для приема
 
 #ifdef VARIANT_INT
 //Попытка через прерывания
-        while (uart1_IT_RX_flag != SET);           //ждем пока не не установиться флаг по приему байта
-        uart1_IT_RX_flag = RESET;                  //очищаем флаг приема
-        ReciveByte = UART_ReceiveData (MDR_UART1); //считываем принятый байт
-        UART_SendData (MDR_UART1, checkReceivedByte(ReciveByte));     //отправляем принятый байт обратно
-        while (uart1_IT_TX_flag != SET);           //ждем пока байт уйдет
-        uart1_IT_TX_flag = RESET;                  //очищаем флаг передачи
+        while (uart1_IT_RX_flag != SET);                            //ждем пока не не установиться флаг по приему байта
+        uart1_IT_RX_flag = RESET;                                   //очищаем флаг приема
+        ReciveByte = UART_ReceiveData (MDR_UART1);                  //считываем принятый байт
+        UART_SendData (MDR_UART1, checkReceivedByte(ReciveByte));   //отправляем принятый байт обратно
+        while (uart1_IT_TX_flag != SET);                            //ждем пока байт уйдет
+        uart1_IT_TX_flag = RESET;                                   //очищаем флаг передачи
 #endif
     }
 }
