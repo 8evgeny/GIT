@@ -94,7 +94,7 @@ uart_setup()
 //    usart_set_parity(USART3,USART_PARITY_NONE);
 //    usart_set_flow_control(USART3,USART_FLOWCONTROL_NONE);
 //    usart_enable(USART3);
-    open_uart(3, 19200, "8N1", "rw", 0, 0); //аналог верхним 7 строкам
+    open_uart(3, 115200, "8N1", "rw", 0, 0); //аналог верхним 7 строкам
 
     // Create a queue for data to transmit from UART
     uart_txq = xQueueCreate(256,sizeof(char));
@@ -109,7 +109,7 @@ main(void) {
     gpio_setup();
     uart_setup();
 
-    xTaskCreate(uart_task,"UART",200,NULL,configMAX_PRIORITIES-1,NULL);
+    xTaskCreate(uart_task,"UART",100,NULL,configMAX_PRIORITIES-1,NULL);
     xTaskCreate(checkInputs,"BUTTONS",100,NULL,configMAX_PRIORITIES-1,NULL);
     xTaskCreate(setOutputs,"StateRele",100,NULL,configMAX_PRIORITIES-1,NULL);
     xTaskCreate(i2c_main_vers2,"i2c_vers2",100,NULL,configMAX_PRIORITIES-1,NULL);
