@@ -1,6 +1,6 @@
 #include "main.h"
-//#define VARIANT_INT
-#define VARIANT_NOINT
+#define VARIANT_INT
+//#define VARIANT_NOINT
 
 #ifdef VARIANT_INT
 //Попытка через прерывания
@@ -17,9 +17,9 @@ void UART1_IRQHandler(void)
         uart1_IT_TX_flag = SET;
       }
 
-    if (UART_GetITStatus(MDR_UART2, UART_IT_RX) == SET)
+    if (UART_GetITStatus(MDR_UART1, UART_IT_RX) == SET)
     {
-        UART_ClearITPendingBit(MDR_UART2, UART_IT_RX);
+        UART_ClearITPendingBit(MDR_UART1, UART_IT_RX);
         uart1_IT_RX_flag = SET;
     }
 }
