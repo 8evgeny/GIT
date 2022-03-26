@@ -60,11 +60,11 @@ static uint8_t ReciveByte=0x00; //данные для приема
         UART_SendData(MDR_UART1, checkReceivedByte(ReciveByte));
         while (UART_GetFlagStatus (MDR_UART1, UART_FLAG_TXFE) != SET);
 
-
-        PORT_SetBits(MDR_PORTC, PORT_Pin_1);
-        delay(0x3FFFF);
-        PORT_ResetBits(MDR_PORTC, PORT_Pin_1);
-        delay(0x3FFFF);
+//Виснет
+//        PORT_SetBits(MDR_PORTC, PORT_Pin_1);
+//        delay(0x1FFFF);
+//        PORT_ResetBits(MDR_PORTC, PORT_Pin_1);
+//        delay(0x1FFFF);
 
 #endif
 
