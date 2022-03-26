@@ -12,3 +12,16 @@ typedef enum
     UART_IT_CTS = ((uint32_t)0x0002), /*!< Line nUARTCTS change interrupt (UARTCTSINTR) */
     UART_IT_RI  = ((uint32_t)0x0001)  /*!< Line nUARTRI change interrupt (UARTRIINTR) */
 } UART_IT_TypeDef;
+
+typedef enum
+{
+    UART_FLAG_RI   = ((uint32_t)0x0100),
+    UART_FLAG_TXFE = ((uint32_t)0x0080),
+    UART_FLAG_RXFF = ((uint32_t)0x0040),
+    UART_FLAG_TXFF = ((uint32_t)0x0020),
+    UART_FLAG_RXFE = ((uint32_t)0x0010),
+    UART_FLAG_BUSY = ((uint32_t)0x0008),
+    UART_FLAG_DCD  = ((uint32_t)0x0004),
+    UART_FLAG_DSR  = ((uint32_t)0x0002),
+    UART_FLAG_CTS  = ((uint32_t)0x0001)
+} UART_Flags_TypeDef;
