@@ -8,15 +8,6 @@
 //#include "MDR32F9Qx_usb_handlers.h"
 //---------------------------------
 #include "main.h"
-//=================================
-// Настройка порта В
-//---------------------------------
-#define LED1_ERROR	PORT_Pin_5
-#define LED2_REC	PORT_Pin_6
-#define BUZZER		PORT_Pin_7
-#define RS			PORT_Pin_8
-#define RW 			PORT_Pin_9
-#define EN 			PORT_Pin_10
 
 #define delay(T) for(i = T; i > 0; i--) // Определение функции задержки (см. примечение 1)
 // Объявление структуры, с помощью которой будет происходить инициализация порта
@@ -24,27 +15,37 @@ PORT_InitTypeDef PORTC_Init;
 int i; // Глобальная переменная счетчика, которая используется в функции delay()
 
 int main (int argc, char** argv) {
-    // Включение тактования порта C
     RST_CLK_PCLKcmd(RST_CLK_PCLK_PORTC, ENABLE);
-    // Объявляем номера ножек порта, которые настраиваются данной структурой
+    RST_CLK_PCLKcmd(RST_CLK_PCLK_PORTE, ENABLE);
 
-    PORTC_Init.PORT_Pin =
-    PORT_Pin_0 | PORT_Pin_1 ;
+    PORTC_Init.PORT_Pin = PORT_Pin_0 | PORT_Pin_1 ;
     PORTC_Init.PORT_OE = PORT_OE_OUT;           // Конфигурация группы выводов как выход
     PORTC_Init.PORT_FUNC = PORT_FUNC_PORT;      // Работа а режиме порта ввода-вывода
     PORTC_Init.PORT_MODE = PORT_MODE_DIGITAL;   // Цифровой режим
     PORTC_Init.PORT_SPEED = PORT_SPEED_SLOW;    // Низкая частота тактования порта
     PORT_Init(MDR_PORTC, &PORTC_Init);          // Инициализация порта C объявленной структурой
     
-    
-    while(1){
-        PORT_SetBits(MDR_PORTC, PORT_Pin_0);
-        PORT_SetBits(MDR_PORTC, PORT_Pin_1);
-        delay(0xFFFF);                         // Задержка
+    PORTC_Init.PORT_Pin = PORT_Pin_0 |PORT_Pin_1 ;
+    PORTC_Init.PORT_OE = PORT_OE_IN;
+    PORTC_Init.PORT_FUNC = PORT_FUNC_PORT;
+    PORTC_Init.PORT_MODE = PORT_MODE_DIGITAL;
+    PORTC_Init.PORT_SPEED = PORT_SPEED_SLOW;
+    PORT_Init(MDR_PORTE, &PORTC_Init);
 
-        PORT_ResetBits(MDR_PORTC, PORT_Pin_0);
-        PORT_ResetBits(MDR_PORTC, PORT_Pin_1);
-        delay(0xFFFF);
+    while(1){
+        if( PORT_ReadInputDataBit(MDR_PORTE, PORT_Pin_0) == 0 ||
+            PORT_ReadInputDataBit(MDR_PORTE, PORT_Pin_1) == 0
+            )
+        {
+            PORT_SetBits(MDR_PORTC, PORT_Pin_0);
+            PORT_SetBits(MDR_PORTC, PORT_Pin_1);
+            delay(0xFFFF);                         // Задержка
+
+            PORT_ResetBits(MDR_PORTC, PORT_Pin_0);
+            PORT_ResetBits(MDR_PORTC, PORT_Pin_1);
+            delay(0xFFFF);
+        }
+
     }
 }
 #if 0
