@@ -27,3 +27,14 @@ testUART1(void *args __attribute__((unused)))
     }
 }
 #endif
+
+void SendUartCommand(void *args __attribute((unused)))
+{
+    int delay = 1000;
+    for (;;)
+    {
+        stringToUart(toMilandr_BlankCommand);
+        vTaskDelay(pdMS_TO_TICKS(delay));
+
+    }
+}

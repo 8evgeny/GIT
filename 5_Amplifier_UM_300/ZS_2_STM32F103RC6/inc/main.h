@@ -36,6 +36,7 @@
 #define toMilandr_SignalFromOut_OFF        "F"
 #define toMilandr_SignalMic_ON             "G"
 #define toMilandr_SignalMic_OFF            "H"
+#define toMilandr_BlankCommand             "&"
 
 //Milandr -> Stm (подтверждение получения команды)
 //
@@ -111,7 +112,7 @@ void testTask1(void *args __attribute((unused)));
 void testTask2(void *args __attribute((unused)));
 void testTask3(void *args __attribute((unused)));
 void testSendUartCommand(void *args __attribute((unused)));
-
+void SendUartCommand(void *args __attribute((unused)));
 
 void testUART1(void *args __attribute__((unused)));
 
