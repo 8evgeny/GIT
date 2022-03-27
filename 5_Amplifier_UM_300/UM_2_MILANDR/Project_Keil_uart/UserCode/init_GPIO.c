@@ -2,16 +2,25 @@
 
 void initGPIO()
 {
-    PORT_InitTypeDef PORTC_Init;
+    PORT_InitTypeDef PortGPIO_Init;
+   // Тестовые кнопки на отладочном комплекте
+    RST_CLK_PCLKcmd(RST_CLK_PCLK_PORTE, ENABLE);
+    PortGPIO_Init.PORT_Pin = PORT_Pin_0 |PORT_Pin_1 ;
+    PortGPIO_Init.PORT_OE = PORT_OE_IN;
+    PortGPIO_Init.PORT_FUNC = PORT_FUNC_PORT;
+    PortGPIO_Init.PORT_MODE = PORT_MODE_DIGITAL;
+    PortGPIO_Init.PORT_SPEED = PORT_SPEED_SLOW;
+    PORT_Init(MDR_PORTE, &PortGPIO_Init);
+
     // Включение тактования порта C
     RST_CLK_PCLKcmd(RST_CLK_PCLK_PORTC, ENABLE);
     // Объявляем номера ножек порта, которые настраиваются данной структурой
-    PORTC_Init.PORT_Pin =   PORT_Pin_0 | PORT_Pin_1 ; //На отладочной плате
-    PORTC_Init.PORT_OE =    PORT_OE_OUT;              // Конфигурация группы выводов как выход
-    PORTC_Init.PORT_FUNC =  PORT_FUNC_PORT;           // Работа а режиме порта ввода-вывода
-    PORTC_Init.PORT_MODE =  PORT_MODE_DIGITAL;        // Цифровой режим
-    PORTC_Init.PORT_SPEED = PORT_SPEED_SLOW;          // Низкая частота тактования порта
-    PORT_Init(MDR_PORTC, &PORTC_Init);                // Инициализация порта объявленной структурой
+    PortGPIO_Init.PORT_Pin =   PORT_Pin_0 | PORT_Pin_1 ; //На отладочной плате
+    PortGPIO_Init.PORT_OE =    PORT_OE_OUT;              // Конфигурация группы выводов как выход
+    PortGPIO_Init.PORT_FUNC =  PORT_FUNC_PORT;           // Работа а режиме порта ввода-вывода
+    PortGPIO_Init.PORT_MODE =  PORT_MODE_DIGITAL;        // Цифровой режим
+    PortGPIO_Init.PORT_SPEED = PORT_SPEED_SLOW;          // Низкая частота тактования порта
+    PORT_Init(MDR_PORTC, &PortGPIO_Init);                // Инициализация порта объявленной структурой
 
     //Порт A
     PORT_InitTypeDef PORTA_Init;
