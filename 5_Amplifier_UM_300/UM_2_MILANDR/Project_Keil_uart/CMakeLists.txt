@@ -15,41 +15,24 @@ project(milandr_uart C CXX)
 
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}\
     -mcpu=cortex-m3 \
+    -std=gnu11 \
     -mthumb \
-    -O2 \
+    -Os \
     -ffunction-sections \
     -fdata-sections \
     -Wall \
-    -Wextra \
-    -Wshadow \
-    -Wredundant-decls \
-    -Wno-missing-field-initializers \
-    -Wconversion \
-    -Wno-packed-bitfield-compat \
-    -pipe \
+    -mno-unaligned-access \
+    -fstack-usage \
+    -MMD \
+    -MP \
     -std=c99 \
     -DUSE_MDR1986VE9x \
     -D__STARTUP_CLEAR_BSS \
     -D__START=main \
     --specs=nosys.specs \
     --specs=nano.specs \
+    -Xlinker -Map=${PROJECT_NAME}.map \
     ")
-
-
-#-fno-exceptions \
-#-D__HEAP_SIZE=0x0C00 \
-#-D__STACK_SIZE=0x0400 \
-#-mfloat-abi=soft \
-#-fno-strict-aliasing \
-
-#-nostdli
-#-xc
-#--target=arm-arm-none-eabi
-#-c
-#-fno-rtti
-#-funsigned-char
-#-fshort-enums
-#-fshort-wchar
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} \
     -fno-rtti \
@@ -151,12 +134,33 @@ add_library(CMSIS
     ${STARTUP_DEVICE_SUPPORT}
     )
 
+
+
 add_executable(${PROJECT_NAME}.elf
     ${SOURCES_C}
     ${SOURCES_CPP}
     )
 
-set_target_properties(${PROJECT_NAME}.elf PROPERTIES LINKER_LANGUAGE CXX)
+set_target_properties(${PROJECT_NAME}.elf PROPERTIES LINKER_LANGUAGE C)
+
+set(LINKER_SCRIPT_FLASH "${CMAKE_SOURCE_DIR}/Milandr_MCU_1986x_Standard_Peripherals_Library/CMSIS/CM3/DeviceSupport/MDR32F9Qx/startup/gcc/MDR32F9Qx.ld")
+#set(LINKER_SCRIPT_RAM "${CMAKE_SOURCE_DIR}/STM32H753IITX_RAM.ld")
+set(LINKER_FLAGS "SHELL: \
+    -T${LINKER_SCRIPT_FLASH} \
+    -mcpu=cortex-m3 \
+    --specs=nosys.specs \
+    -Wl,--gc-sections \
+    -static \
+    --specs=nano.specs \
+    -mthumb
+    -Wl,--start-group \
+    -lc \
+    -lm \
+    -Wl,--end-group \
+    ")
+#    -T${LINKER_SCRIPT_RAM} \
+
+
 
 target_link_libraries(${PROJECT_NAME}.elf PUBLIC
     CMSIS
@@ -171,11 +175,11 @@ add_custom_command(TARGET ${PROJECT_NAME}.elf POST_BUILD
     COMMAND ${CMAKE_OBJCOPY} -Oihex $<TARGET_FILE:${PROJECT_NAME}.elf> ${HEX_FILE}
     COMMENT "Building ${HEX_FILE} ")
 
-#add_custom_command(TARGET ${PROJECT_NAME}.elf POST_BUILD
-#    COMMAND ${CMAKE_OBJCOPY} -O binary $<TARGET_FILE:${PROJECT_NAME}.elf> ${BIN_FILE}
-#    COMMENT "Building ${BIN_FILE} ")
+add_custom_command(TARGET ${PROJECT_NAME}.elf POST_BUILD
+    COMMAND ${CMAKE_OBJCOPY} -O binary $<TARGET_FILE:${PROJECT_NAME}.elf> ${BIN_FILE}
+    COMMENT "Building ${BIN_FILE} ")
 
 # Сборка ведется в Keil - c Linux нужно разбираться
-# (bin на домашнем компе не создается - а на рабочем создается)
+
 
 
