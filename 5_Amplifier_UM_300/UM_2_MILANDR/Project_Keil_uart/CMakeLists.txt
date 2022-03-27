@@ -112,11 +112,12 @@ include_directories(
     rtos/include
     )
 
-set (SOURCES_C
+file(GLOB_RECURSE SOURCES_C
+    UserCode/*.c
     )
 
 file(GLOB_RECURSE SOURCES_CPP
-    UserCode/*.*
+    UserCode/*.cpp
     )
 
 set (SOURCES_SPL

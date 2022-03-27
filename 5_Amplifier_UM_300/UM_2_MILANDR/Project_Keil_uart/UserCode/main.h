@@ -12,7 +12,7 @@ extern "C" {
 #include "MDR32F9Qx_config.h"
 #include "MDR32F9Qx_uart.h"
 //#include "MDR32F9Qx_eeprom.h"
-
+#include <stdbool.h>
 
 
 //---------------------------------
