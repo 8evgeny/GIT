@@ -1,0 +1,236 @@
+{
+	"artifacts" : 
+	[
+		{
+			"path" : "milandr_uart_rtos.elf"
+		}
+	],
+	"backtrace" : 1,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_executable",
+			"target_link_libraries",
+			"include_directories"
+		],
+		"files" : 
+		[
+			"CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 144,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 0,
+				"line" : 170,
+				"parent" : 0
+			},
+			{
+				"command" : 2,
+				"file" : 0,
+				"line" : 87,
+				"parent" : 0
+			}
+		]
+	},
+	"compileGroups" : 
+	[
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : "    -mcpu=cortex-m3     -std=gnu11     -mthumb     -Os     -ffunction-sections     -fdata-sections     -Wall     -mno-unaligned-access     -fstack-usage     -MMD     -MP     -std=c99     -DUSE_MDR1986VE9x     -D__STARTUP_CLEAR_BSS     -D__START=main     --specs=nosys.specs     --specs=nano.specs     -Wl,-Map=milandr_uart_rtos.map     -Wl,--print-memory-usage     -Wl,--defsym=__STACK_SIZE=0x0100     -Wl,--defsym=__HEAP_SIZE=0x0000     -Wl,--gc-sections     -Xlinker -Map=milandr_uart_rtos.map      -O3 -DNDEBUG  "
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 3,
+					"path" : "/home/evg/SOFT/Github/GIT/5_Amplifier_UM_300/UM_2_MILANDR/uart_rtos/../MDR1986BExx/2.0.3/Libraries/CMSIS/MDR32Fx/DeviceSupport/MDR1986VE9x/inc"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "/home/evg/SOFT/Github/GIT/5_Amplifier_UM_300/UM_2_MILANDR/uart_rtos/../MDR1986BExx/2.0.3/Libraries/CMSIS/MDR32Fx/DeviceSupport/MDR1986VE9x/startup/arm"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "/home/evg/SOFT/Github/GIT/5_Amplifier_UM_300/UM_2_MILANDR/uart_rtos/../Milandr_MCU_1986x_Standard_Peripherals_Library/CMSIS/CM3/DeviceSupport/MDR32F9Qx/startup/gcc"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "/home/evg/SOFT/Github/GIT/5_Amplifier_UM_300/UM_2_MILANDR/uart_rtos/../MDR1986BExx/2.0.3/Libraries/CMSIS/MDR32Fx/CoreSupport/CM3"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "/home/evg/SOFT/Github/GIT/5_Amplifier_UM_300/UM_2_MILANDR/uart_rtos/../MDR1986BExx/2.0.3/Libraries/SPL/MDR32Fx"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "/home/evg/SOFT/Github/GIT/5_Amplifier_UM_300/UM_2_MILANDR/uart_rtos/../MDR1986BExx/2.0.3/Libraries/SPL/MDR32Fx/inc"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "/home/evg/SOFT/Github/GIT/5_Amplifier_UM_300/UM_2_MILANDR/uart_rtos/../MDR1986BExx/2.0.3/Libraries/SPL/MDR32Fx/inc/USB_Library"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "/home/evg/SOFT/Github/GIT/5_Amplifier_UM_300/UM_2_MILANDR/uart_rtos/../MDR1986BExx/2.0.3/Libraries/MDR32Fx/inc"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "/home/evg/SOFT/Github/GIT/5_Amplifier_UM_300/UM_2_MILANDR/uart_rtos/../MDR1986BExx/2.0.3/Libraries/SPL/MDR32Fx/src"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "/home/evg/toolchain/gcc-arm-none-eabi-new/arm-none-eabi"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "/home/evg/SOFT/Github/GIT/5_Amplifier_UM_300/UM_2_MILANDR/uart_rtos/UserCode"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "/home/evg/SOFT/Github/GIT/5_Amplifier_UM_300/UM_2_MILANDR/uart_rtos/."
+				},
+				{
+					"backtrace" : 3,
+					"path" : "/home/evg/SOFT/Github/GIT/5_Amplifier_UM_300/UM_2_MILANDR/uart_rtos/rtos/include"
+				}
+			],
+			"language" : "C",
+			"sourceIndexes" : 
+			[
+				0,
+				1,
+				2,
+				3,
+				4,
+				5,
+				6,
+				7,
+				8
+			]
+		}
+	],
+	"dependencies" : 
+	[
+		{
+			"backtrace" : 2,
+			"id" : "CMSIS::@6890427a1f51a3e7e1df"
+		}
+	],
+	"id" : "milandr_uart_rtos.elf::@6890427a1f51a3e7e1df",
+	"link" : 
+	{
+		"commandFragments" : 
+		[
+			{
+				"fragment" : "-mcpu=cortex-m3     -std=gnu11     -mthumb     -Os     -ffunction-sections     -fdata-sections     -Wall     -mno-unaligned-access     -fstack-usage     -MMD     -MP     -std=c99     -DUSE_MDR1986VE9x     -D__STARTUP_CLEAR_BSS     -D__START=main     --specs=nosys.specs     --specs=nano.specs     -Wl,-Map=milandr_uart_rtos.map     -Wl,--print-memory-usage     -Wl,--defsym=__STACK_SIZE=0x0100     -Wl,--defsym=__HEAP_SIZE=0x0000     -Wl,--gc-sections     -Xlinker -Map=milandr_uart_rtos.map      -O3 -DNDEBUG",
+				"role" : "flags"
+			},
+			{
+				"fragment" : "",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "libCMSIS.a",
+				"role" : "libraries"
+			}
+		],
+		"language" : "C"
+	},
+	"name" : "milandr_uart_rtos.elf",
+	"nameOnDisk" : "milandr_uart_rtos.elf",
+	"paths" : 
+	{
+		"build" : ".",
+		"source" : "."
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "Source Files",
+			"sourceIndexes" : 
+			[
+				0,
+				1,
+				2,
+				3,
+				4,
+				5,
+				6,
+				7,
+				8
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "UserCode/SPL_src/MDR32F9Qx_iwdg.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "UserCode/SPL_src/MDR32F9Qx_port.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "UserCode/SPL_src/MDR32F9Qx_rst_clk.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "UserCode/SPL_src/MDR32F9Qx_timer.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "UserCode/SPL_src/MDR32F9Qx_usb.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "UserCode/check_receive_data.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "UserCode/init_GPIO.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "UserCode/init_UART.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "UserCode/main.c",
+			"sourceGroupIndex" : 0
+		}
+	],
+	"type" : "EXECUTABLE"
+}

@@ -1,0 +1,15 @@
+MDR32F9Qx_usb_CDC.c:576:19:USB_CDC_OnDataSent	0	static
+MDR32F9Qx_usb_CDC.c:596:19:USB_CDC_OnDataReceive	8	static
+MDR32F9Qx_usb_CDC.c:631:19:USB_CDC_DoDataOut	8	static
+MDR32F9Qx_usb_CDC.c:256:12:USB_CDC_Init	4	static
+MDR32F9Qx_usb_CDC.c:277:12:USB_CDC_SetReceiveBuffer	0	static
+MDR32F9Qx_usb_CDC.c:294:12:USB_CDC_ReceiveStart	8	static
+MDR32F9Qx_usb_CDC.c:307:12:USB_CDC_ReceiveStop	0	static
+MDR32F9Qx_usb_CDC.c:322:12:USB_CDC_SendData	12	static
+MDR32F9Qx_usb_CDC.c:369:12:USB_CDC_Reset	8	static
+MDR32F9Qx_usb_CDC.c:405:12:USB_CDC_GetDescriptor	0	static
+MDR32F9Qx_usb_CDC.c:450:12:USB_CDC_ClassRequest	8	static
+MDR32F9Qx_usb_CDC.c:673:12:USB_CDC_DummyDataReceive	0	static
+MDR32F9Qx_usb_CDC.c:683:12:USB_CDC_DummyDataSent	0	static
+MDR32F9Qx_usb_CDC.c:763:12:USB_CDC_DummyGetLineCoding	0	static
+MDR32F9Qx_usb_CDC.c:775:12:USB_CDC_DummySetLineCoding	0	static
