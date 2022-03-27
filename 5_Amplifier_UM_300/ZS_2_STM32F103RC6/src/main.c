@@ -33,32 +33,8 @@ uart_task(void *args) {
 
         if ( gc != -1 )
         {
-//            puts_uart(3, "\r\n\nENTER INPUT: ");
-
             ch = (char)gc;
             stringToLcd( checkReceivedByteFromMilandr (ch));
-
-
-//            if ( ch != '\r' && ch != '\n' )
-//            {
-//                /* Already received first character */
-//                kbuf[0] = ch;
-//                putc_uart(3, ch);
-//                getline_uart(3, kbuf+1, sizeof kbuf-1);
-
-//            } else
-//            {
-//                /* Read the entire line */
-//                getline_uart(3, kbuf, sizeof kbuf);
-//            }
-
-//            puts_uart(3, "\r\nReceived command: ");
-//            puts_uart(3, kbuf);
-//            puts_uart(3, "\r\n");
-
-//            stringToLcd(kbuf);
-
-//            puts_uart(3, "'\n\r\nResuming prints...\n\r");
         }
 
         /* Receive char to be TX */
@@ -66,8 +42,6 @@ uart_task(void *args) {
         {
             putc_uart(3, ch);
         }
-
-//        gpio_toggle(GPIOD,GPIO2);
     }
 }
 
@@ -113,9 +87,11 @@ main(void) {
     xTaskCreate(checkInputs,"BUTTONS",100,NULL,configMAX_PRIORITIES-1,NULL);
     xTaskCreate(setOutputs,"StateRele",100,NULL,configMAX_PRIORITIES-1,NULL);
     xTaskCreate(i2c_main_vers2,"i2c_vers2",100,NULL,configMAX_PRIORITIES-1,NULL);
-//    xTaskCreate(testSendUartCommand,"testSendUartCommand",100,NULL,configMAX_PRIORITIES-1,NULL);
+
     xTaskCreate(SendUartCommand,"SendUartCommand",100,NULL,configMAX_PRIORITIES-1,NULL);
 
+
+//    xTaskCreate(testSendUartCommand,"testSendUartCommand",100,NULL,configMAX_PRIORITIES-1,NULL);
 //    xTaskCreate(testUART1, "UART4", 100, NULL, configMAX_PRIORITIES - 2, NULL);
 //    xTaskCreate(testTask1, "LED1", 100, NULL, configMAX_PRIORITIES - 1, NULL);
 //    xTaskCreate(testTask2, "LED2", 100, NULL, configMAX_PRIORITIES - 1, NULL);
