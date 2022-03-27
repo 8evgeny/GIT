@@ -26,7 +26,7 @@ static uint8_t ReciveByte=0x00; //данные для приема
         char temp = checkReceivedByte(ReciveByte);
         if (temp != 0x00)
         {
-            UART_SendData(MDR_UART1, checkReceivedByte(ReciveByte));
+            UART_SendData(MDR_UART1, temp);
             while (UART_GetFlagStatus (MDR_UART1, UART_FLAG_TXFE) != SET);
         }
 
