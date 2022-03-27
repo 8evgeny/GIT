@@ -1,4 +1,0 @@
-/home/evg/SOFT/Github/GIT/5_Amplifier_UM_300/UM_2_MILANDR/Project_Keil_uart_rtos/build_linux_release/CMakeFiles/rebuild_cache.dir
-/home/evg/SOFT/Github/GIT/5_Amplifier_UM_300/UM_2_MILANDR/Project_Keil_uart_rtos/build_linux_release/CMakeFiles/edit_cache.dir
-/home/evg/SOFT/Github/GIT/5_Amplifier_UM_300/UM_2_MILANDR/Project_Keil_uart_rtos/build_linux_release/CMakeFiles/milandr_uart_rtos.elf.dir
-/home/evg/SOFT/Github/GIT/5_Amplifier_UM_300/UM_2_MILANDR/Project_Keil_uart_rtos/build_linux_release/CMakeFiles/CMSIS.dir
