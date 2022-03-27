@@ -15,14 +15,20 @@ static uint8_t ReciveByte=0x00; //данные для приема
 
         while (UART_GetFlagStatus (MDR_UART1, UART_FLAG_RXFE) == SET);  //ждем пока не не установиться флаг по приему байта
         ReciveByte = UART_ReceiveData(MDR_UART1);                       //считываем принятый байт
-        UART_SendData(MDR_UART1, checkReceivedByte(ReciveByte));
-        while (UART_GetFlagStatus (MDR_UART1, UART_FLAG_TXFE) != SET);
+
 
 //Виснет
 //        PORT_SetBits(MDR_PORTC, PORT_Pin_1);
 //        delay(0x1FFFF);
 //        PORT_ResetBits(MDR_PORTC, PORT_Pin_1);
 //        delay(0x1FFFF);
+
+        char temp = checkReceivedByte(ReciveByte);
+        if (temp != 0x00)
+        {
+            UART_SendData(MDR_UART1, checkReceivedByte(ReciveByte));
+            while (UART_GetFlagStatus (MDR_UART1, UART_FLAG_TXFE) != SET);
+        }
 
 
     }
