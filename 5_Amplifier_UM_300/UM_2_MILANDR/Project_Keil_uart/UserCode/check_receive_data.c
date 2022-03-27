@@ -2,6 +2,10 @@
 
 char checkReceivedByte(uint8_t data)
 {
+    if ((char)data == fromStm_BlankCommand)
+    {
+        return 0x00;
+    }
     if ((char)data == fromStm_BtnImpedance_On)
     {
         return toStm_BtnImpedance_On_OK;

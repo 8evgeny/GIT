@@ -39,6 +39,7 @@ extern "C" {
 #define fromStm_SignalFromOut_OFF   'F'
 #define fromStm_SignalMic_ON        'G'
 #define fromStm_SignalMic_OFF       'H'
+#define fromStm_BlankCommand        '&'
 
 //Milandr -> Stm (подтверждение получения команды)
 #define toStm_BtnImpedance_On_OK     'q'
@@ -57,7 +58,7 @@ extern "C" {
 #define toStm_SignalFromOut_OFF_OK   'f'
 #define toStm_SignalMic_ON_OK        'g'
 #define toStm_SignalMic_OFF_OK       'h'
-
+#define toStm_SignalMic_OFF_OK       'h'
 #define UncnownCmd                   '#'
 
 //Команды Milandr -> Stm
@@ -71,6 +72,7 @@ extern "C" {
 #define cmdToStm_BOARD_OK_OFF        'b'
 #define cmdToStm_ERROR_MC_ON         'n'
 #define cmdToStm_ERROR_MC_OFF        'm'
+#define toStm_BlankCommand           '&'
 
 //Stm -> Milandr (подтверждение получения команды)
 #define fromStm_OVERHEAT_60_ON_OK        'J'
