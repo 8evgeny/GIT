@@ -384,24 +384,24 @@
           <GroupName>src</GroupName>
           <Files>
             <File>
-              <FileName>main.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\UserCode\main.cpp</FilePath>
+              <FileName>check_receive_data.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\UserCode\check_receive_data.c</FilePath>
             </File>
             <File>
-              <FileName>init_UART.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\UserCode\init_UART.cpp</FilePath>
+              <FileName>init_GPIO.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\UserCode\init_GPIO.c</FilePath>
             </File>
             <File>
-              <FileName>init_GPIO.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\UserCode\init_GPIO.cpp</FilePath>
+              <FileName>init_UART.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\UserCode\init_UART.c</FilePath>
             </File>
             <File>
-              <FileName>check_receive_data.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\UserCode\check_receive_data.cpp</FilePath>
+              <FileName>main.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\UserCode\main.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -533,7 +533,7 @@
         <package name="CMSIS-Driver_Validation" schemaVersion="1.4.9" url="http://www.keil.com/pack/" vendor="ARM" version="2.0.0"/>
         <targetInfos/>
       </file>
-      <file attr="config" category="linkerScript" name="IDE\Keil\scatter\MDR32Fx\MDR1986VE9x.sct" version="2.0.3">
+      <file attr="config" category="linkerScript" name="IDE\Keil\scatter\MDR32Fx\MDR1986VE9x.sct">
         <instance index="0">RTE\Device\MDR1986BE92\MDR1986VE9x.sct</instance>
         <component Cclass="Device" Cgroup="Startup" Cvendor="Keil" Cversion="2.0.3" condition="CON_MDR1986VE92"/>
         <package name="MDR1986BExx" schemaVersion="1.2" url="https://ic.milandr.ru/soft/" vendor="Keil" version="2.0.3"/>
