@@ -168,18 +168,11 @@ add_custom_command(TARGET ${PROJECT_NAME}.elf POST_BUILD
     COMMAND ${CMAKE_OBJCOPY} -Oihex $<TARGET_FILE:${PROJECT_NAME}.elf> ${HEX_FILE}
     COMMENT "Building ${HEX_FILE} ")
 
-# Сборка ведется в Keil - c Linux нужно разбираться
-# (bin на домашнем компе не создается - а на рабочем создается)
-
 #add_custom_command(TARGET ${PROJECT_NAME}.elf POST_BUILD
 #    COMMAND ${CMAKE_OBJCOPY} -O binary $<TARGET_FILE:${PROJECT_NAME}.elf> ${BIN_FILE}
 #    COMMENT "Building ${BIN_FILE} ")
 
-#include(${CMAKE_SOURCE_DIR}/conanbuildinfo.cmake)
-#include(${CMAKE_SOURCE_DIR}/conanbuildinfo.cmake)
-#conan_basic_setup()
+# Сборка ведется в Keil - c Linux нужно разбираться
+# (bin на домашнем компе не создается - а на рабочем создается)
 
 
-#target_link_libraries(${PROJECT_NAME}
-#    ${CONAN_LIBS}
-#    )
