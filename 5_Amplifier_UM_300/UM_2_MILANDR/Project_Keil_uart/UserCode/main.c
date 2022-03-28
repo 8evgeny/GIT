@@ -36,9 +36,10 @@ PORT_SetBits(MDR_PORTA, PORT_Pin_3); //COMP_UPR
         if (temp == 0x00)// от STM поступила пустая команда
         {
         //Основная логика (При возникновении команды сбрасываем toStmCmdSend  сама команда - toStmCmd )
-             logic();
+//             logic();
 
-
+             UART_SendData(MDR_UART1, cmdToStm_BOARD_OK_ON);
+             while (UART_GetFlagStatus (MDR_UART1, UART_FLAG_TXFE) != SET);
 
         }
 
@@ -51,8 +52,7 @@ PORT_SetBits(MDR_PORTA, PORT_Pin_3); //COMP_UPR
             sendReplayToCmdFromStm = true;
         }
 
-UART_SendData(MDR_UART1, cmdToStm_BOARD_OK_ON);
-while (UART_GetFlagStatus (MDR_UART1, UART_FLAG_TXFE) != SET);
+
 
 
         if (!toStmCmdSend)//Отправка команды в адрес Stm
