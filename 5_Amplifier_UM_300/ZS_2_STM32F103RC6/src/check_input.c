@@ -363,7 +363,7 @@ char * checkReceivedByteFromMilandr(char data)
     if (data == fromMilandr_SignalFromOut_OFF_OK)   return "SigFromOut_OFF_OK";
     if (data == fromMilandr_SignalMic_ON_OK)        return "SignalMic_ON_OK";
     if (data == fromMilandr_SignalMic_OFF_OK)       return "SignalMic_OFF_OK";
-    if (data == fromMilandr_MilandrNoReceiveCmd)
+    if (data == fromMilandr_MilandrNoReceiveCmd) //В Миландре отключил
     {
         MilandrNoReceiveCmd = 1;
         return "MilandrNoReceiveCmd";

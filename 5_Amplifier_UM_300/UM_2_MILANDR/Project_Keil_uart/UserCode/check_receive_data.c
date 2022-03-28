@@ -87,6 +87,5 @@ char checkReceivedByte(uint8_t data)
         return toStm_SignalMic_OFF_OK;
     }
 
-    UncnownCmdFromStm = 1;
-    return UncnownCmd;
+    return 0x00;
 }
