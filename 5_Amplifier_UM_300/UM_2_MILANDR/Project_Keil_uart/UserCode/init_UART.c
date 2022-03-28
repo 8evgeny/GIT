@@ -2,6 +2,9 @@
 
 void initUART()
 {
+    static PORT_InitTypeDef PORTB_Init;
+    static UART_InitTypeDef UART_InitStructure1;
+
     RST_CLK_HSEconfig(RST_CLK_HSE_ON);
     while(RST_CLK_HSEstatus() != SUCCESS);
 
@@ -54,6 +57,7 @@ void initUART()
     PORTB_Init.PORT_Pin = PORT_Pin_6;
     PORT_Init(MDR_PORTB, &PORTB_Init);
 
+    //Один пин на выход настраиваю
     PORTB_Init.PORT_FUNC = PORT_FUNC_PORT;
     PORTB_Init.PORT_OE = PORT_OE_OUT;
     PORTB_Init.PORT_Pin = PORT_Pin_8;
@@ -88,17 +92,5 @@ void initUART()
     UART_ITConfig (MDR_UART1, UART_IT_FE, ENABLE);
     UART_ITConfig (MDR_UART1, UART_IT_OE, ENABLE);
     UART_Cmd(MDR_UART1,ENABLE);
-
-//UART_IT_OE  = ((uint32_t)0x0400), /*!< Buffer overflow interrupt (UARTOEINTR) */
-//UART_IT_BE  = ((uint32_t)0x0200), /*!< Line break interrupt (UARTBEINTR) */
-//UART_IT_PE  = ((uint32_t)0x0100), /*!< Parity error interrupt (UARTPEINTR) */
-//UART_IT_FE  = ((uint32_t)0x0080), /*!< Frame structure error interrupt (UARTFEINTR) */
-//UART_IT_RT  = ((uint32_t)0x0040), /*!< Data input timeout interrupt (UARTRTINTR) */
-//UART_IT_TX  = ((uint32_t)0x0020), /*!< Transmitter interrupt (UARTTXINTR) */
-//UART_IT_RX  = ((uint32_t)0x0010), /*!< Receiver interrupt (UARTRXINTR) */
-//UART_IT_DSR = ((uint32_t)0x0008), /*!< Line nUARTDSR change interrupt (UARTDSRINTR) */
-//UART_IT_DCD = ((uint32_t)0x0004), /*!< Line nUARTDCD change interrupt (UARTDCDINTR) */
-//UART_IT_CTS = ((uint32_t)0x0002), /*!< Line nUARTCTS change interrupt (UARTCTSINTR) */
-//UART_IT_RI  = ((uint32_t)0x0001)  /*!< Line nUARTRI change interrupt (UARTRIINTR) */
 
 }

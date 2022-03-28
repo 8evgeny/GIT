@@ -23,7 +23,6 @@ PORT_SetBits(MDR_PORTA, PORT_Pin_3); //COMP_UPR
 
     while (1)
     {
-
         while (UART_GetFlagStatus (MDR_UART1, UART_FLAG_RXFE) == SET);  //ждем пока не не установиться флаг по приему байта
         ReciveByte = UART_ReceiveData(MDR_UART1);                       //считываем принятый байт
         temp = checkReceivedByte(ReciveByte);
@@ -36,7 +35,7 @@ PORT_SetBits(MDR_PORTA, PORT_Pin_3); //COMP_UPR
 
         else //Основная логика (При возникновении команды сбрасываем toStmCmdSend  сама команда - toStmCmd )
         {
-            checkPinStates();
+
             checkGlobalVarables();
 
         }

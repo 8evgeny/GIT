@@ -117,17 +117,19 @@ static bool toStmCmdSend = true;
 static int i_delay; // Глобальная переменная счетчика, которая используется в функции delay()
 #define delay(T) for(i_delay = T; i_delay > 0; i_delay--)
 
-static PORT_InitTypeDef PORTB_Init;
-static UART_InitTypeDef UART_InitStructure1;
-
 void initUART();
 void initGPIO();
 char checkReceivedByte(uint8_t data);
 void checkGlobalVarables();
 void checkPinStates();
+bool getMAINPOWER();
+bool getRESPOWER();
+bool getFAULT();
+bool getCLIP_OTW();
+bool getPOW_READY();
 
-static uint8_t gpioOVERHEAT_60;
-static uint8_t gpioBOARD_OK;
+
+
 
 
 

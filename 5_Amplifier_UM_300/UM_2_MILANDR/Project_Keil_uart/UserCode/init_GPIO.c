@@ -2,28 +2,6 @@
 
 void initGPIO()
 {
-    PORT_InitTypeDef PortGPIO_Init;
-
-   // Тестовые кнопки на отладочном комплекте
-    RST_CLK_PCLKcmd(RST_CLK_PCLK_PORTE, ENABLE);
-    PortGPIO_Init.PORT_Pin = PORT_Pin_0 |PORT_Pin_1 ;
-    PortGPIO_Init.PORT_OE = PORT_OE_IN;
-    PortGPIO_Init.PORT_FUNC = PORT_FUNC_PORT;
-    PortGPIO_Init.PORT_MODE = PORT_MODE_DIGITAL;
-    PortGPIO_Init.PORT_SPEED = PORT_SPEED_SLOW;
-    PORT_Init(MDR_PORTE, &PortGPIO_Init);
-    gpioOVERHEAT_60 = PORT_ReadInputDataBit(MDR_PORTE, PORT_Pin_0);
-    gpioBOARD_OK = PORT_ReadInputDataBit(MDR_PORTE, PORT_Pin_1);
-
-    // 2 светодиода на отладочном комплекте
-    RST_CLK_PCLKcmd(RST_CLK_PCLK_PORTC, ENABLE);
-    PortGPIO_Init.PORT_Pin =   PORT_Pin_0 | PORT_Pin_1 ;
-    PortGPIO_Init.PORT_OE =    PORT_OE_OUT;
-    PortGPIO_Init.PORT_FUNC =  PORT_FUNC_PORT;
-    PortGPIO_Init.PORT_MODE =  PORT_MODE_DIGITAL;
-    PortGPIO_Init.PORT_SPEED = PORT_SPEED_SLOW;
-    PORT_Init(MDR_PORTC, &PortGPIO_Init);
-
     //Порт A
     PORT_InitTypeDef PORTA_Init;
     RST_CLK_PCLKcmd(RST_CLK_PCLK_PORTA, ENABLE);
@@ -45,9 +23,4 @@ void initGPIO()
     PORT_Init(MDR_PORTA, &PORTA_Init);
 
     //Порт B инициализируется с UART
-
-
-
-
-
 }
