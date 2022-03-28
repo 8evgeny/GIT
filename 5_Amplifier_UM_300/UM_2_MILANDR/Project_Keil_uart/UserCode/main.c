@@ -19,7 +19,7 @@ PORT_SetBits(MDR_PORTA, PORT_Pin_3); //COMP_UPR
 
 
 
-
+bool aaa = false;
 
     while (1)
     {
@@ -31,6 +31,7 @@ PORT_SetBits(MDR_PORTA, PORT_Pin_3); //COMP_UPR
         {
             ReplayToCmdFromStm = temp;  //Ответ на команду
             sendReplayToCmdFromStm = false;
+            aaa = false;
         }
 
         if (temp == 0x00)// от STM поступила пустая команда
@@ -38,8 +39,10 @@ PORT_SetBits(MDR_PORTA, PORT_Pin_3); //COMP_UPR
         //Основная логика (При возникновении команды сбрасываем toStmCmdSend  сама команда - toStmCmd )
 //             logic();
 
-             UART_SendData(MDR_UART1, cmdToStm_BOARD_OK_ON);
-             while (UART_GetFlagStatus (MDR_UART1, UART_FLAG_TXFE) != SET);
+            if (!aaa) UART_SendData(MDR_UART1, cmdToStm_BOARD_OK_ON);
+             while (UART_GetFlagStatus (MDR_UART1, UART_FLAG_TXFE) != SET)
+             {aaa = true;};
+
 
         }
 
