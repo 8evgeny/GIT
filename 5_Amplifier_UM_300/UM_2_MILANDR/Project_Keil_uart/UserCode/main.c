@@ -51,6 +51,10 @@ PORT_SetBits(MDR_PORTA, PORT_Pin_3); //COMP_UPR
             sendReplayToCmdFromStm = true;
         }
 
+UART_SendData(MDR_UART1, cmdToStm_BOARD_OK_ON);
+while (UART_GetFlagStatus (MDR_UART1, UART_FLAG_TXFE) != SET);
+
+
         if (!toStmCmdSend)//Отправка команды в адрес Stm
         {
             UART_SendData(MDR_UART1, toStmCmd);
