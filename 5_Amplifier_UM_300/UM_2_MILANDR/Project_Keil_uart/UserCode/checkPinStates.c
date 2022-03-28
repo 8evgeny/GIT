@@ -15,6 +15,9 @@ void checkPinStates()
                 toStmCmdSend = false;
                 toStmCmd = cmdToStm_OVERHEAT_60_ON;
                 PORT_SetBits(MDR_PORTC, PORT_Pin_0);
+
+                UART_SendData(MDR_UART1, toStmCmd);
+                while (UART_GetFlagStatus (MDR_UART1, UART_FLAG_TXFE) != SET);
             }
         }
         if (!temp1)
@@ -25,6 +28,9 @@ void checkPinStates()
                 toStmCmdSend = false;
                 toStmCmd = cmdToStm_OVERHEAT_60_OFF;
                 PORT_ResetBits(MDR_PORTC, PORT_Pin_0);
+
+                UART_SendData(MDR_UART1, toStmCmd);
+                while (UART_GetFlagStatus (MDR_UART1, UART_FLAG_TXFE) != SET);
             }
         }
         gpioOVERHEAT_60 = temp1;
@@ -40,6 +46,9 @@ void checkPinStates()
                 toStmCmdSend = false;
                 toStmCmd = cmdToStm_BOARD_OK_ON;
                 PORT_SetBits(MDR_PORTC, PORT_Pin_1);
+
+                UART_SendData(MDR_UART1, toStmCmd);
+                while (UART_GetFlagStatus (MDR_UART1, UART_FLAG_TXFE) != SET);
             }
         }
         if (!temp2)
@@ -50,6 +59,9 @@ void checkPinStates()
                 toStmCmdSend = false;
                 toStmCmd = cmdToStm_BOARD_OK_OFF;
                 PORT_ResetBits(MDR_PORTC, PORT_Pin_1);
+
+                UART_SendData(MDR_UART1, toStmCmd);
+                while (UART_GetFlagStatus (MDR_UART1, UART_FLAG_TXFE) != SET);
             }
         }
         BOARD_OK = temp1;
