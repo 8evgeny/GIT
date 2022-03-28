@@ -17,11 +17,11 @@ if (true)
     {
         if(tmpBOARD_OK)
         {
-            toStmCmd = fromStm_BOARD_OK_ON_OK;
+            toStmCmd = cmdToStm_BOARD_OK_ON;
         }
         if(!tmpBOARD_OK)
         {
-            toStmCmd = fromStm_BOARD_OK_OFF_OK;
+            toStmCmd = cmdToStm_BOARD_OK_OFF;
         }
         toStmCmdSend = false;
         BOARD_OK = tmpBOARD_OK;
