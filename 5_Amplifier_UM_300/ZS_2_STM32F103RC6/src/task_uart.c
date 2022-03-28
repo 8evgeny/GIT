@@ -30,7 +30,7 @@ testUART1(void *args __attribute__((unused)))
 
 void SendUartCommand(void *args __attribute((unused)))
 {
-    int delay = 1000;
+    int delay = 500;
     for (;;)
     {
         stringToUart(toMilandr_BlankCommand);

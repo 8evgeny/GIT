@@ -73,7 +73,7 @@ void initUART()
     /* Initialize UART_InitStructure1 */
     UART_DeInit(MDR_UART1);
 
-    UART_InitStructure1.UART_BaudRate                = 38400;
+    UART_InitStructure1.UART_BaudRate                = 19200;
     UART_InitStructure1.UART_WordLength              = UART_WordLength8b;
     UART_InitStructure1.UART_StopBits                = UART_StopBits1;
     UART_InitStructure1.UART_Parity                  = UART_Parity_No;
