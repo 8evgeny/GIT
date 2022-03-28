@@ -7,6 +7,10 @@ int main (void)
     initGPIO();
     initUART();
 
+    PORT_SetBits(MDR_PORTB, PORT_Pin_8); //RESET_UPR
+    PORT_SetBits(MDR_PORTA, PORT_Pin_2); //GAIN_UPR
+    PORT_SetBits(MDR_PORTA, PORT_Pin_3); //COMP_UPR
+
 static uint8_t ReciveByte=0x00; //данные для приема
 
 
