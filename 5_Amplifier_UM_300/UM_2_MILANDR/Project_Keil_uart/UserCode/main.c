@@ -38,9 +38,9 @@ bool first = true;
 //             logic();
 if(first)
 {
-    UART_SendData(MDR_UART1, cmdToStm_BOARD_OK_ON);
-    while (UART_GetFlagStatus (MDR_UART1, UART_FLAG_TXFE) != SET);
     first = false;
+    toStmCmdSend = false;
+    toStmCmd = cmdToStm_BOARD_OK_ON;
 }
 
 
