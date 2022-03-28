@@ -110,6 +110,13 @@ static bool OVERHEAT_85 = 0;
 static bool OVERHEAT_MC = 0;
 static bool BOARD_OK = 0;
 static bool ERROR_MC = 0;
+static bool tmpOVERHEAT_60 = 0;
+static bool tmpOVERHEAT_85 = 0;
+static bool tmpOVERHEAT_MC = 0;
+static bool tmpBOARD_OK = 0;
+static bool tmpERROR_MC = 0;
+
+
 
 static char toStmCmd = 0x00;
 static bool toStmCmdSend = true;
@@ -120,8 +127,8 @@ static int i_delay; // Глобальная переменная счетчик�
 void initUART();
 void initGPIO();
 char checkReceivedByte(uint8_t data);
-void checkGlobalVarables();
-void checkPinStates();
+void logic();
+
 bool getMAINPOWER();
 bool getRESPOWER();
 bool getFAULT();

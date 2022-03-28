@@ -33,13 +33,14 @@ PORT_SetBits(MDR_PORTA, PORT_Pin_3); //COMP_UPR
             sendReplayToCmdFromStm = false;
         }
 
-        else //Основная логика (При возникновении команды сбрасываем toStmCmdSend  сама команда - toStmCmd )
+        if (temp == 0x00)// от STM поступила пустая команда
         {
+        //Основная логика (При возникновении команды сбрасываем toStmCmdSend  сама команда - toStmCmd )
+             logic();
 
-            checkGlobalVarables();
+
 
         }
-
 
 
 
