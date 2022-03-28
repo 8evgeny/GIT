@@ -8,7 +8,7 @@ set(TOOLS_PATH /home/evg/toolchain/gcc-arm-none-eabi-new)
 #set(CMAKE_CXX_LINKER_LAUNCHER ${TOOLS_PATH}/bin/arm-none-eabi-g++)
 set(CMAKE_OBJCOPY ${TOOLS_PATH}/bin/arm-none-eabi-objcopy)
 
-project(milandr_uart C CXX)
+project(milandr_uart C ASM CXX)
 
 #set(CMAKE_BUILD_TYPE debug)
 #set(CMAKE_BUILD_TYPE release)
@@ -141,7 +141,7 @@ add_executable(${PROJECT_NAME}.elf
     ${SOURCES_CPP}
     )
 
-set_target_properties(${PROJECT_NAME}.elf PROPERTIES LINKER_LANGUAGE C)
+set_target_properties(${PROJECT_NAME}.elf PROPERTIES LINKER_LANGUAGE CXX)
 
 set(LINKER_SCRIPT_FLASH "${CMAKE_SOURCE_DIR}/Milandr_MCU_1986x_Standard_Peripherals_Library/CMSIS/CM3/DeviceSupport/MDR32F9Qx/startup/gcc/MDR32F9Qx.ld")
 #set(LINKER_SCRIPT_RAM "${CMAKE_SOURCE_DIR}/STM32H753IITX_RAM.ld")
