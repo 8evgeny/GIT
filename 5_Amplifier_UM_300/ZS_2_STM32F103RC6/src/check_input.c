@@ -368,6 +368,7 @@ char * checkReceivedByteFromMilandr(char data)
         MilandrNoReceiveCmd = 1;
         return "MilandrNoReceiveCmd";
     }
+
     //Команды от Миландра
     if (data == cmdFromMilandr_OVERHEAT_60_ON)
     {
@@ -431,7 +432,8 @@ char * checkReceivedByteFromMilandr(char data)
     }
 
     UncnownCmdFromMilandr = 1;
-  return "UncnowCmdFromMilandr";
+//  return "UncnowCmdFromMilandr";
+    return "";
 }
 
 

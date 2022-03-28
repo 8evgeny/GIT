@@ -34,7 +34,8 @@ uart_task(void *args) {
         if ( gc != -1 )
         {
             ch = (char)gc;
-            stringToLcd( checkReceivedByteFromMilandr (ch));
+            char* toLcd = checkReceivedByteFromMilandr (ch);
+            stringToLcd(toLcd);
         }
 
         /* Receive char to be TX */
