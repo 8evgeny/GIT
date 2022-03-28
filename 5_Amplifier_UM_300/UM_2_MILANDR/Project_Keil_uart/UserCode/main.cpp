@@ -1,24 +1,15 @@
 #include "main.h"
-
+#include "milandr.h"
 
 int main (void)
 {
+    Milandr milandr;
 
-    initGPIO();
-    initUART();
-
-//Временно для теста - все разрешаю
-PORT_SetBits(MDR_PORTB, PORT_Pin_8); //RESET_UPR
-PORT_SetBits(MDR_PORTA, PORT_Pin_2); //GAIN_UPR
-PORT_SetBits(MDR_PORTA, PORT_Pin_3); //COMP_UPR
 
     static uint8_t ReciveByte=0x00; //данные для приема
     char temp;
     char ReplayToCmdFromStm = 0x00;
     bool sendReplayToCmdFromStm = false;
-
-    setRESET_UPR (true); //Активный - ноль
-
 
 
 
@@ -38,7 +29,7 @@ PORT_SetBits(MDR_PORTA, PORT_Pin_3); //COMP_UPR
         if (temp == 0x00)// от STM поступила пустая команда
         {
         //Основная логика (При возникновении команды сбрасываем toStmCmdSend  сама команда - toStmCmd )
-             logic();
+//             logic();
 
 
 

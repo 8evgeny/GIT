@@ -117,28 +117,17 @@ static bool tmpOVERHEAT_MC = 0;
 static bool tmpBOARD_OK = 0;
 static bool tmpERROR_MC = 0;
 
-
-
 static char toStmCmd = 0x00;
 static bool toStmCmdSend = true;
 
 static int i_delay; // Глобальная переменная счетчика, которая используется в функции delay()
 #define delay(T) for(i_delay = T; i_delay > 0; i_delay--)
 
-void initUART();
-void initGPIO();
+
 char checkReceivedByte(uint8_t data);
 void logic();
 
-bool getMAINPOWER();
-bool getRESPOWER();
-bool getFAULT();
-bool getCLIP_OTW();
-bool getPOW_READY();
-void setGAIN_UPR (bool set);
-void setCOMP_UPR (bool set);
-void setFAN_ON (bool set);
-void setRESET_UPR (bool set);
+
 
 
 
