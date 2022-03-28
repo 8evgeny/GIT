@@ -105,11 +105,12 @@ static bool signalVnesh = 0;
 static bool signalMic = 0;
 
 //Milandr -> Stm
-static bool OVERHEAT_60 = 0;
-static bool OVERHEAT_85 = 0;
-static bool OVERHEAT_MC = 0;
-static bool BOARD_OK = 0;
+static bool OVERHEAT_60 = 0; //
+static bool OVERHEAT_85 = 0; //
+static bool OVERHEAT_MC = 0; //
+static bool BOARD_OK = 0; //+(только питание)
 static bool ERROR_MC = 0;
+
 static bool tmpOVERHEAT_60 = 0;
 static bool tmpOVERHEAT_85 = 0;
 static bool tmpOVERHEAT_MC = 0;
@@ -134,10 +135,10 @@ bool getRESPOWER();
 bool getFAULT();
 bool getCLIP_OTW();
 bool getPOW_READY();
-
-
-
-
+void setGAIN_UPR (bool set);
+void setCOMP_UPR (bool set);
+void setFAN_ON (bool set);
+void setRESET_UPR (bool set);
 
 
 

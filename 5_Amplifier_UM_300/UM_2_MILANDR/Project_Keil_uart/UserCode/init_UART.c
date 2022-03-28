@@ -57,7 +57,7 @@ void initUART()
     PORTB_Init.PORT_Pin = PORT_Pin_6;
     PORT_Init(MDR_PORTB, &PORTB_Init);
 
-    //Один пин на выход настраиваю
+    //Один пин на выход
     PORTB_Init.PORT_FUNC = PORT_FUNC_PORT;
     PORTB_Init.PORT_OE = PORT_OE_OUT;
     PORTB_Init.PORT_Pin = PORT_Pin_8;

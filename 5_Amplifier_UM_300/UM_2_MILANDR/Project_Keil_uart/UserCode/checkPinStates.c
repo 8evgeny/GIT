@@ -20,7 +20,7 @@ bool getRESPOWER()
 
 bool getFAULT() //Инверсный
 {
-    if (0 == PORT_ReadInputDataBit(MDR_PORTA, PORT_Pin_4))
+    if (1 == PORT_ReadInputDataBit(MDR_PORTA, PORT_Pin_4))
     {
         return true;
     }
@@ -29,7 +29,7 @@ bool getFAULT() //Инверсный
 
 bool getCLIP_OTW() //Инверсный
 {
-    if (0 == PORT_ReadInputDataBit(MDR_PORTA, PORT_Pin_5))
+    if (1 == PORT_ReadInputDataBit(MDR_PORTA, PORT_Pin_5))
     {
         return true;
     }
