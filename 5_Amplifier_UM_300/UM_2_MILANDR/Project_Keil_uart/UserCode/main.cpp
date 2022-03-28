@@ -1,23 +1,21 @@
 #include "main.h"
 #include "milandr.h"
+#include <memory>
 
 int main (void)
 {
-    Milandr milandr;
-
+    auto m = std::unique_ptr<Milandr>(new Milandr);
 
     static uint8_t ReciveByte=0x00; //данные для приема
     char temp;
     char ReplayToCmdFromStm = 0x00;
     bool sendReplayToCmdFromStm = false;
 
-
-
     while (1)
     {
         while (UART_GetFlagStatus (MDR_UART1, UART_FLAG_RXFE) == SET);  //ждем пока не не установиться флаг по приему байта
         ReciveByte = UART_ReceiveData(MDR_UART1);                       //считываем принятый байт
-        temp = checkReceivedByte(ReciveByte);
+        temp = m->checkReceivedByte(ReciveByte);
 
         if (temp != 0x00)// от STM поступила команда
         {
@@ -29,7 +27,7 @@ int main (void)
         if (temp == 0x00)// от STM поступила пустая команда
         {
         //Основная логика (При возникновении команды сбрасываем toStmCmdSend  сама команда - toStmCmd )
-//             logic();
+
 
 
 
@@ -44,11 +42,11 @@ int main (void)
             sendReplayToCmdFromStm = true;
         }
 
-        if (!toStmCmdSend)//Отправка команды в адрес Stm
+        if (!m->getToStmCmdSend())//Отправка команды в адрес Stm
         {
-            UART_SendData(MDR_UART1, toStmCmd);
+            UART_SendData(MDR_UART1, m->getToStmCmd());
             while (UART_GetFlagStatus (MDR_UART1, UART_FLAG_TXFE) != SET);
-            toStmCmdSend = true;
+            m->setToStmCmdSend(true);
         }
 
 
