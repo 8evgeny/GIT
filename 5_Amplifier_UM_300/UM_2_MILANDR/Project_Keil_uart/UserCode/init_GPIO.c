@@ -44,4 +44,10 @@ void initGPIO()
 
     //Порт B инициализируется с UART
 
+    //Для тестовой платы
+    gpioOVERHEAT_60 = PORT_ReadInputDataBit(MDR_PORTE, PORT_Pin_0);
+    gpioBOARD_OK = PORT_ReadInputDataBit(MDR_PORTE, PORT_Pin_1);
+
+
+
 }

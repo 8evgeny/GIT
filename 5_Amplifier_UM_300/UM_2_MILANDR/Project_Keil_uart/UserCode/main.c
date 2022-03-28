@@ -17,8 +17,7 @@ PORT_SetBits(MDR_PORTA, PORT_Pin_3); //COMP_UPR
     char ReplayToCmdFromStm = 0x00;
     bool sendReplayToCmdFromStm = false;
 
-    char toStmCmd = 0x00;
-    bool toStmCmdSend = true;
+
 
 
 
@@ -34,27 +33,16 @@ PORT_SetBits(MDR_PORTA, PORT_Pin_3); //COMP_UPR
             ReplayToCmdFromStm = temp;  //Ответ на команду
             sendReplayToCmdFromStm = false;
         }
+
         else //Основная логика (При возникновении команды сбрасываем toStmCmdSend  сама команда - toStmCmd )
         {
-
-
-
-
-
+            checkPinStates();
+            checkGlobalVarables();
 
         }
 
 
-//Тестовые команды
-if( PORT_ReadInputDataBit(MDR_PORTE, PORT_Pin_0) == 0)
-{
-    UART_SendData(MDR_UART1, cmdToStm_OVERHEAT_60_ON);
-}
 
-if( PORT_ReadInputDataBit(MDR_PORTE, PORT_Pin_1) == 0)
-{
-    UART_SendData(MDR_UART1, cmdToStm_OVERHEAT_85_ON);
-}
 
         if (!sendReplayToCmdFromStm)//Отправка ответа на команду Stm
         {

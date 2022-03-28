@@ -111,29 +111,23 @@ static bool OVERHEAT_MC = 0;
 static bool BOARD_OK = 0;
 static bool ERROR_MC = 0;
 
-#define UART_1
-//#define UART_2
+static char toStmCmd = 0x00;
+static bool toStmCmdSend = true;
 
 static int i_delay; // Глобальная переменная счетчика, которая используется в функции delay()
 #define delay(T) for(i_delay = T; i_delay > 0; i_delay--)
 
-#ifdef UART_1
 static PORT_InitTypeDef PORTB_Init;
 static UART_InitTypeDef UART_InitStructure1;
-#endif
-#ifdef UART_2
-static PORT_InitTypeDef PortInitUART2;
-static UART_InitTypeDef UART_InitStructure2;
-#endif
-
 
 void initUART();
 void initGPIO();
 char checkReceivedByte(uint8_t data);
+void checkGlobalVarables();
+void checkPinStates();
 
-
-
-
+uint8_t gpioOVERHEAT_60;
+uint8_t gpioBOARD_OK;
 
 
 
