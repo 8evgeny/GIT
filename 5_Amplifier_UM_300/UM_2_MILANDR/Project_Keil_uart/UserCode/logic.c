@@ -3,7 +3,8 @@
 void logic()
 {
     //BOARD_OK
-    if (getMAINPOWER() && getRESPOWER() && getPOW_READY())
+//    if (getMAINPOWER() && getRESPOWER() && getPOW_READY())
+if (true)
     {
         tmpBOARD_OK = true;
     }
