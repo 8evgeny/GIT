@@ -126,8 +126,8 @@ char checkReceivedByte(uint8_t data);
 void checkGlobalVarables();
 void checkPinStates();
 
-uint8_t gpioOVERHEAT_60;
-uint8_t gpioBOARD_OK;
+static uint8_t gpioOVERHEAT_60;
+static uint8_t gpioBOARD_OK;
 
 
 
