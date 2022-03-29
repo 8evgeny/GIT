@@ -40,7 +40,6 @@ extern "C" {
 #define toMilandr_BlankCommand             "&"
 
 //Milandr -> Stm (подтверждение получения команды)
-//
 #define fromMilandr_BtnImpedance_On_OK     'q'
 #define fromMilandr_BtnImpedance_Off_OK    'w'
 #define fromMilandr_BtnCalibr_On_OK        'e'
@@ -60,10 +59,6 @@ extern "C" {
 #define fromMilandr_MilandrNoReceiveCmd    '#'
 
 //Команды Milandr -> Stm
-#define cmdFromMilandr_OVERHEAT_60_ON      'j'
-#define cmdFromMilandr_OVERHEAT_60_OFF     'k'
-#define cmdFromMilandr_OVERHEAT_85_ON      'l'
-#define cmdFromMilandr_OVERHEAT_85_OFF     'z'
 #define cmdFromMilandr_OVERHEAT_MC_ON      'x'
 #define cmdFromMilandr_OVERHEAT_MC_OFF     'c'
 #define cmdFromMilandr_BOARD_OK_ON        'v'
@@ -72,10 +67,6 @@ extern "C" {
 #define cmdFromMilandr_ERROR_MC_OFF        'm'
 
 //Stm -> Milandr (подтверждение получения команды)
-#define toMilandr_OVERHEAT_60_ON_OK        "J"
-#define toMilandr_OVERHEAT_60_OFF_OK       "K"
-#define toMilandr_OVERHEAT_85_ON_OK        "L"
-#define toMilandr_OVERHEAT_85_OFF_OK       "Z"
 #define toMilandr_OVERHEAT_MC_ON_OK        "X"
 #define toMilandr_OVERHEAT_MC_OFF_OK       "C"
 #define toMilandr_BOARD_OK_ON_OK          "V"
@@ -101,8 +92,6 @@ static bool signalVnesh = 0;
 static bool signalMic = 0;
 
 //Milandr -> Stm
-static bool OVERHEAT_60 = 0;
-static bool OVERHEAT_85 = 0;
 static bool OVERHEAT_MC = 0;
 static bool BOARD_OK = 0;
 static bool ERROR_MC = 0;

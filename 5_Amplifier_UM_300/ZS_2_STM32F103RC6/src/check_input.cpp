@@ -372,30 +372,6 @@ char * checkReceivedByteFromMilandr(char data)
     }
 
     //Команды от Миландра
-    if (data == cmdFromMilandr_OVERHEAT_60_ON)
-    {
-        OVERHEAT_60 = 1;
-        stringToUart(toMilandr_OVERHEAT_60_ON_OK);
-        return "CMD: OVERHEAT_60_ON";
-    }
-    if (data == cmdFromMilandr_OVERHEAT_60_OFF)
-    {
-        OVERHEAT_60 = 0;
-        stringToUart(toMilandr_OVERHEAT_60_OFF_OK);
-        return "CMD: OVERHEAT_60_OFF";
-    }
-    if (data == cmdFromMilandr_OVERHEAT_85_ON)
-    {
-        OVERHEAT_85 = 1;
-        stringToUart(toMilandr_OVERHEAT_85_ON_OK);
-        return "CMD: OVERHEAT_85_ON";
-    }
-    if (data == cmdFromMilandr_OVERHEAT_85_OFF)
-    {
-        OVERHEAT_85 = 0;
-        stringToUart(toMilandr_OVERHEAT_85_OFF_OK);
-        return "CMD: OVERHEAT_85_OFF";
-    }
     if (data == cmdFromMilandr_OVERHEAT_MC_ON)
     {
         OVERHEAT_MC = 1;
