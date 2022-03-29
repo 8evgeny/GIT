@@ -1,8 +1,10 @@
 #include "main.h"
 #include "stdio.h"
 
-void checkInputs()
+void checkInputs(void *args)
 {
+    (void)args;
+
     bool gpioImpedance;          //Кнопка "ИМПЕДАНС"
     bool gpioCalibrovka;         //Кнопка "КАЛИБРОВКА"
     bool gpioReset;              //Кнопка "СБРОС ОШИБКИ"

@@ -1,12 +1,13 @@
 #pragma once
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+
 #include <libopencm3/stm32/rcc.h>
 #include <libopencm3/stm32/gpio.h>
 #include <libopencm3/stm32/usart.h>
-
-//#ifdef __cplusplus
-//extern "C" {
-//#endif
 
 #include <string.h>
 #include "FreeRTOS.h"
@@ -113,16 +114,16 @@ void testTask2(void *args __attribute((unused)));
 void testTask3(void *args __attribute((unused)));
 void testSendUartCommand(void *args __attribute((unused)));
 void SendUartCommand(void *args __attribute((unused)));
-
 void testUART1(void *args __attribute__((unused)));
+void checkInputs(void *args __attribute__((unused)));
+void setOutputs(void *args __attribute((unused)));
+void i2c_main_vers2(void *args __attribute((unused)));
 
-void checkInputs();
 char * checkReceivedByteFromMilandr(char data);
-void setOutputs();
 
 
 void i2c_main_vers1();
-void i2c_main_vers2();
+
 void stringToLcd(char* str);
 
 
@@ -162,6 +163,6 @@ void init_I2C1();
 void backlight();
 void noBacklight();
 
-//#ifdef __cplusplus
-//}
-//#endif
+#ifdef __cplusplus
+}
+#endif

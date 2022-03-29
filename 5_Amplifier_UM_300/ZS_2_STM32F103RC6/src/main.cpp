@@ -1,8 +1,8 @@
 #include "main.h"
 
-//#ifdef __cplusplus
-//extern "C" {
-//#endif
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 extern void
 vApplicationStackOverflowHook(
@@ -55,9 +55,7 @@ void stringToUart(const char *s) {
 }
 
 
-//#ifdef __cplusplus
-//}
-//#endif
+
 
 static void
 uart_setup()
@@ -106,5 +104,10 @@ main(void) {
     for (;;);
 
     return 0;
+
+#ifdef __cplusplus
+}
+#endif
+
 }
 

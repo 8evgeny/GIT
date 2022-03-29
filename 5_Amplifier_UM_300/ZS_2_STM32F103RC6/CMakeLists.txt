@@ -56,7 +56,7 @@ add_definitions(-DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB
     )
 
 file(GLOB_RECURSE SOURCES_C
-    src/*.*
+    src/*.c
     rtos/heap_4.c
     rtos/list.c
     rtos/port.c
@@ -97,7 +97,7 @@ endif()
 
 
 file(GLOB_RECURSE SOURCES_CPP
-#    src/main.cpp
+    src/*.cpp
     )
 
 

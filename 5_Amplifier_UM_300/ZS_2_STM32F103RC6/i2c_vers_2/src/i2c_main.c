@@ -139,9 +139,10 @@ void stringToLcd(char* str)
     memcpy (line2, line4, 20);
 }
 
-
-void i2c_main_vers2()
+void i2c_main_vers2(void *args)
 {
+    (void)args;
+
 //  USART1_Init(); //Вызов функции инициализации периферии
 
   uint8_t data;

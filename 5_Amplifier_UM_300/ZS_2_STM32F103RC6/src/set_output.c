@@ -1,7 +1,9 @@
 #include "main.h"
 
-void setOutputs()
+void setOutputs(void *args)
 {
+    (void)args;
+
     for(;;)
     {
         if (btnImpedance)
