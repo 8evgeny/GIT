@@ -86,7 +86,7 @@ int main() {
 
     auto pot = std::shared_ptr<CAT5132_digitalPOT>(new CAT5132_digitalPOT);
     auto but = std::shared_ptr<Buttons>(new Buttons);
-    auto lcd = std::shared_ptr<Lcd>(new Lcd);
+    auto lcd = std::shared_ptr<Led>(new Led);
     auto rel = std::shared_ptr<Relays>(new Relays);
     auto dis = std::shared_ptr<Display>(new Display);
     auto stm = std::shared_ptr<Stm32>(new Stm32);
