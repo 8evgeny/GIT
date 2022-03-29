@@ -211,10 +211,7 @@ void Milandr::setRESET_UPR (bool set)
 
 bool Milandr::isPowerOk()
 {
-    return (getMAINPOWER()
-            ||  getRESPOWER())
-            && getPOW_READY()
-            && _inp->getSignalPowerOn();
+    return (getMAINPOWER() ||  getRESPOWER()) && getPOW_READY() && _inp->getSignalPowerOn();
 }
 
 

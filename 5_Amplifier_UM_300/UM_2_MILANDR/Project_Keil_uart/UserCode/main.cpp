@@ -46,16 +46,19 @@ int main (void)
                 out->setBOARD_OK(false);
             }
 
+        //Трансляция | Микрофон
+            if (out->getBOARD_OK() && (inp->getSignalTranslate() || inp->getSignalMic()))
+            {
+                pre->micPreampON();
+                pre->micPreampCompressionON();
+            }
+            else
+            {
+                pre->micPreampOFF();
+                pre->micPreampCompressionOFF();
+            }
 
 
-
-            pre->micPreampON();
-            pre->micPreampCompressionON();
-            amp->reset();
-
-        //Выключение усилителя
-            pre->micPreampOFF();
-            pre->micPreampCompressionOFF();
 
         //Проверка перегрузки
             if(!amp->isFault())
