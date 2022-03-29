@@ -34,22 +34,25 @@ int main (void)
 
         if (temp == 0x00)// от STM поступила пустая команда
         {
-//Основная логика
+        //Основная логика
+        //Последовательно обрабатываем полученные ранее входные сигналы
 
-    //Последовательно обрабатываем полученные ранее входные сигналы
             if(inp->getBtnImpedance())
             {
     //Не реализовано
+
             }
 
             if(inp->getBtnCalibrovka())
             {
     //Не реализовано
+
             }
 
             if(inp->getBtnReset())
             {
     //Не реализовано
+
             }
 
             if(inp->getSignalPowerOn())
@@ -67,6 +70,7 @@ int main (void)
             if(inp->getSignalImpedance())
             {
     //Не реализовано
+
             }
 
             if(inp->getSignalTranslate())
@@ -86,6 +90,7 @@ int main (void)
             if(inp->getSignalVnesh())
             {
     //Не реализовано
+
             }
 
             if(inp->getSignalMic())
@@ -102,8 +107,8 @@ int main (void)
                 }
             }
 
-    //Последовательно формируем выходные сигналы
-    //BOARD_OK
+          //Последовательно формируем выходные сигналы
+            //BOARD_OK
             if(mil->isPowerOk())
             {
                 out->setBOARD_OK(true);
@@ -113,7 +118,7 @@ int main (void)
                 out->setBOARD_OK(false);
             }
 
-    //OVERHEAT_MC
+            //OVERHEAT_MC
             if(!amp->isOverHeart())
             {
                 //Перегрева нет
@@ -128,7 +133,7 @@ int main (void)
                 amp->reset();
             }
 
-    //ERROR_MC
+            //ERROR_MC
             if(!amp->isFault())
             {
                 //Перегрузки нет
@@ -143,13 +148,9 @@ int main (void)
                 amp->reset();
             }
 
-    //Проверка переменных и если не совпадает с temp отправка сигнала
-    //Не реализовано (При возникновении команды сбрасываем toStmCmdSend  сама команда - toStmCmd )
-
+            //Проверка переменных и если не совпадает с temp отправка сигнала
             out->checkBOARD_OK();
-
             out->checkOVERHEAT_MC();
-
             out->checkERROR_MC();
 
         }//end if

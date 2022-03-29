@@ -89,17 +89,53 @@ char OutputSig::getToStmCmd() const
 
 void OutputSig::checkOVERHEAT_MC()
 {
-
+    if (OVERHEAT_MC != tmpOVERHEAT_MC)
+    {
+        if(OVERHEAT_MC)
+        {
+            toStmCmd = cmdToStm_OVERHEAT_MC_ON;
+        }
+        if(!OVERHEAT_MC)
+        {
+            toStmCmd = cmdToStm_OVERHEAT_MC_OFF;
+        }
+        toStmCmdSend = false;
+        tmpOVERHEAT_MC = OVERHEAT_MC;
+    }
 }
 
 void OutputSig::checkBOARD_OK()
 {
-
+    if (BOARD_OK != tmpBOARD_OK)
+    {
+        if(BOARD_OK)
+        {
+            toStmCmd = cmdToStm_BOARD_OK_ON;
+        }
+        if(!BOARD_OK)
+        {
+            toStmCmd = cmdToStm_BOARD_OK_OFF;
+        }
+        toStmCmdSend = false;
+        tmpBOARD_OK = BOARD_OK;
+    }
 }
 
 void OutputSig::checkERROR_MC()
 {
-
+    if (ERROR_MC != tmpERROR_MC)
+    {
+        if(ERROR_MC)
+        {
+            toStmCmd = cmdToStm_ERROR_MC_ON;
+        }
+        if(!ERROR_MC)
+        {
+            toStmCmd = cmdToStm_ERROR_MC_OFF;
+        }
+        toStmCmdSend = false;
+        tmpERROR_MC = ERROR_MC;
+    }
 }
 
 
