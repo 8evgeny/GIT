@@ -19,3 +19,12 @@ void TPA3255_Amplifier::reset()
     milandr->setRESET_UPR(true);
 
 }
+
+bool TPA3255_Amplifier::isOverHeart()
+{
+    return !milandr->getCLIP_OTW(); //Инверсный
+}
+bool TPA3255_Amplifier::isFault()
+{
+    return !milandr->getFAULT(); //Инверсный
+}

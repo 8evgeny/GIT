@@ -6,9 +6,9 @@
 
 int main (void)
 {
-    auto m = std::shared_ptr<Milandr>(new Milandr);
-    auto p = std::shared_ptr<SSM2166_MicPreamp>(new SSM2166_MicPreamp(m));
-    auto a = std::shared_ptr<TPA3255_Amplifier>(new TPA3255_Amplifier(m));
+    auto mil = std::shared_ptr<Milandr>(new Milandr);
+    auto preamp = std::shared_ptr<SSM2166_MicPreamp>(new SSM2166_MicPreamp(mil));
+    auto ampl = std::shared_ptr<TPA3255_Amplifier>(new TPA3255_Amplifier(mil));
 
     static uint8_t ReciveByte=0x00; //данные для приема
     char temp;
@@ -19,7 +19,7 @@ int main (void)
     {
         while (UART_GetFlagStatus (MDR_UART1, UART_FLAG_RXFE) == SET);  //ждем пока не не установиться флаг по приему байта
         ReciveByte = UART_ReceiveData(MDR_UART1);                       //считываем принятый байт
-        temp = m->checkReceivedByte(ReciveByte);
+        temp = mil->checkReceivedByte(ReciveByte);
 
         if (temp != 0x00)// от STM поступила команда
         {
@@ -35,7 +35,71 @@ int main (void)
 
 
 
+
+        //Питание
+            if(mil->isPowerOk())
+            {
+                mil->setBOARD_OK(true);
+            }
+            else
+            {
+                mil->setBOARD_OK(false);
+            }
+
+
+
+
+            preamp->micPreampON();
+            preamp->micPreampCompressionON();
+            ampl->reset();
+
+        //Выключение усилителя
+            preamp->micPreampOFF();
+            preamp->micPreampCompressionOFF();
+
+        //Проверка перегрузки
+            if(!ampl->isFault())
+            {
+                //Перегрузки нет
+                preamp->micPreampON();
+                mil->setERROR_MC(false);
+            }
+            else
+            {
+                //Перегрузка
+                preamp->micPreampOFF();
+                mil->setERROR_MC(true);
+                ampl->reset();
+            }
+
+        //Проверка перегрева
+            if(!ampl->isOverHeart())
+            {
+                //Перегрева нет
+                preamp->micPreampON();
+                mil->setOVERHEAT_MC(false);
+            }
+            else
+            {
+                //Перегрев
+                preamp->micPreampOFF();
+                mil->setOVERHEAT_MC(true);
+                ampl->reset();
+            }
+
+
+
+
         }
+
+
+        //Проверка переменных и если не совпадает с temp - сигнал отправка
+
+
+
+
+
+
 
 
 
@@ -46,11 +110,11 @@ int main (void)
             sendReplayToCmdFromStm = true;
         }
 
-        if (!m->getToStmCmdSend())//Отправка команды в адрес Stm
+        if (!mil->getToStmCmdSend())//Отправка команды в адрес Stm
         {
-            UART_SendData(MDR_UART1, m->getToStmCmd());
+            UART_SendData(MDR_UART1, mil->getToStmCmd());
             while (UART_GetFlagStatus (MDR_UART1, UART_FLAG_TXFE) != SET);
-            m->setToStmCmdSend(true);
+            mil->setToStmCmdSend(true);
         }
 
 

@@ -9,8 +9,8 @@ public:
     TPA3255_Amplifier(std::shared_ptr<Milandr>);
     ~TPA3255_Amplifier();
     void reset();
-//Прописать функции Overheate
-
+    bool isOverHeart();
+    bool isFault();
 
 private:
     std::shared_ptr<Milandr> milandr;

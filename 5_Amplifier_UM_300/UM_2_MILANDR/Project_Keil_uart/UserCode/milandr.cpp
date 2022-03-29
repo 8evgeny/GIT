@@ -311,3 +311,41 @@ char Milandr::getToStmCmd() const
     return toStmCmd;
 }
 
+bool Milandr::isPowerOk()
+{
+    return (getMAINPOWER()
+            ||  getRESPOWER())
+            && getPOW_READY()
+            && signalPowerOn ;
+}
+
+bool Milandr::getOVERHEAT_MC() const
+{
+    return OVERHEAT_MC;
+}
+
+void Milandr::setOVERHEAT_MC(bool newOVERHEAT_MC)
+{
+    OVERHEAT_MC = newOVERHEAT_MC;
+}
+
+bool Milandr::getERROR_MC() const
+{
+    return ERROR_MC;
+}
+
+void Milandr::setERROR_MC(bool newERROR_MC)
+{
+    ERROR_MC = newERROR_MC;
+}
+
+bool Milandr::getBOARD_OK() const
+{
+    return BOARD_OK;
+}
+
+void Milandr::setBOARD_OK(bool newBOARD_OK)
+{
+    BOARD_OK = newBOARD_OK;
+}
+

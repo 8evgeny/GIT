@@ -42,10 +42,6 @@
 #define UncnownCmd                   '#'
 
 //Команды Milandr -> Stm
-#define cmdToStm_OVERHEAT_60_ON      'j'
-#define cmdToStm_OVERHEAT_60_OFF     'k'
-#define cmdToStm_OVERHEAT_85_ON      'l'
-#define cmdToStm_OVERHEAT_85_OFF     'z'
 #define cmdToStm_OVERHEAT_MC_ON      'x'
 #define cmdToStm_OVERHEAT_MC_OFF     'c'
 #define cmdToStm_BOARD_OK_ON         'v'
@@ -55,10 +51,6 @@
 #define toStm_BlankCommand           '&'
 
 //Stm -> Milandr (подтверждение получения команды)
-#define fromStm_OVERHEAT_60_ON_OK        'J'
-#define fromStm_OVERHEAT_60_OFF_OK       'K'
-#define fromStm_OVERHEAT_85_ON_OK        'L'
-#define fromStm_OVERHEAT_85_OFF_OK       'Z'
 #define fromStm_OVERHEAT_MC_ON_OK        'X'
 #define fromStm_OVERHEAT_MC_OFF_OK       'C'
 #define fromStm_BOARD_OK_ON_OK           'V'
@@ -91,6 +83,16 @@ public:
     void setToStmCmdSend(bool newToStmCmdSend);
     char getToStmCmd() const;
 
+    bool isPowerOk();
+
+    bool getOVERHEAT_MC() const;
+    void setOVERHEAT_MC(bool newOVERHEAT_MC);
+
+    bool getERROR_MC() const;
+    void setERROR_MC(bool newERROR_MC);
+
+    bool getBOARD_OK() const;
+    void setBOARD_OK(bool newBOARD_OK);
 
 private:
     bool StmNoReceiveCmd = 0;
@@ -112,14 +114,10 @@ private:
     bool signalMic = 0;
 
     //Milandr -> Stm
-    bool OVERHEAT_60 = 0;
-    bool OVERHEAT_85 = 0;
     bool OVERHEAT_MC = 0;
     bool BOARD_OK = 0;
     bool ERROR_MC = 0;
 
-    bool tmpOVERHEAT_60 = 0;
-    bool tmpOVERHEAT_85 = 0;
     bool tmpOVERHEAT_MC = 0;
     bool tmpBOARD_OK = 0;
     bool tmpERROR_MC = 0;
