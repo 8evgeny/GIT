@@ -7,8 +7,8 @@
 int main (void)
 {
     auto mil = std::shared_ptr<Milandr>(new Milandr);
-    auto preamp = std::shared_ptr<SSM2166_MicPreamp>(new SSM2166_MicPreamp(mil));
-    auto ampl = std::shared_ptr<TPA3255_Amplifier>(new TPA3255_Amplifier(mil));
+    auto pre = std::shared_ptr<SSM2166_MicPreamp>(new SSM2166_MicPreamp(mil));
+    auto amp = std::shared_ptr<TPA3255_Amplifier>(new TPA3255_Amplifier(mil));
 
     static uint8_t ReciveByte=0x00; //данные для приема
     char temp;
@@ -49,42 +49,42 @@ int main (void)
 
 
 
-            preamp->micPreampON();
-            preamp->micPreampCompressionON();
-            ampl->reset();
+            pre->micPreampON();
+            pre->micPreampCompressionON();
+            amp->reset();
 
         //Выключение усилителя
-            preamp->micPreampOFF();
-            preamp->micPreampCompressionOFF();
+            pre->micPreampOFF();
+            pre->micPreampCompressionOFF();
 
         //Проверка перегрузки
-            if(!ampl->isFault())
+            if(!amp->isFault())
             {
                 //Перегрузки нет
-                preamp->micPreampON();
+                pre->micPreampON();
                 mil->setERROR_MC(false);
             }
             else
             {
                 //Перегрузка
-                preamp->micPreampOFF();
+                pre->micPreampOFF();
                 mil->setERROR_MC(true);
-                ampl->reset();
+                amp->reset();
             }
 
         //Проверка перегрева
-            if(!ampl->isOverHeart())
+            if(!amp->isOverHeart())
             {
                 //Перегрева нет
-                preamp->micPreampON();
+                pre->micPreampON();
                 mil->setOVERHEAT_MC(false);
             }
             else
             {
                 //Перегрев
-                preamp->micPreampOFF();
+                pre->micPreampOFF();
                 mil->setOVERHEAT_MC(true);
-                ampl->reset();
+                amp->reset();
             }
 
 
