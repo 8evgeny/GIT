@@ -34,11 +34,7 @@ int main (void)
 
         if (temp == 0x00)// от STM поступила пустая команда
         {
-        //Основная логика (При возникновении команды сбрасываем toStmCmdSend  сама команда - toStmCmd )
-
-
-
-
+        //Основная логика
 
         //Питание
             if(mil->isPowerOk())
@@ -92,6 +88,7 @@ int main (void)
             }
 
             //Проверка переменных и если не совпадает с temp отправка сигнала
+//Не реализовано (При возникновении команды сбрасываем toStmCmdSend  сама команда - toStmCmd )
             out->checkBOARD_OK();
             out->checkOVERHEAT_MC();
             out->checkERROR_MC();
