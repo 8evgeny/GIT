@@ -2,8 +2,9 @@
 #include "milandr.h"
 
 
-Milandr::Milandr()
+Milandr::Milandr(std::shared_ptr<InputSig> inp)
 {
+    _inp = inp;
     initGPIO();
     initUART();
 
@@ -226,8 +227,8 @@ bool Milandr::isPowerOk()
 {
     return (getMAINPOWER()
             ||  getRESPOWER())
-            && getPOW_READY();
-//            && signalPowerOn ;
+            && getPOW_READY()
+            && _inp->getSignalPowerOn();
 }
 
 bool Milandr::getOVERHEAT_MC() const

@@ -1,9 +1,8 @@
 #include "main.h"
 #include "inputSig.h"
 
-InputSig::InputSig(std::shared_ptr<Milandr> mil)
+InputSig::InputSig()
 {
-    milandr = mil;
 
 }
 
@@ -100,4 +99,44 @@ char InputSig::checkReceivedByte(uint8_t data)
     }
 
     return 0x00;
+}
+
+bool InputSig::getSignalPowerOn() const
+{
+    return signalPowerOn;
+}
+
+bool InputSig::getBtnImpedance() const
+{
+    return btnImpedance;
+}
+
+bool InputSig::getBtnCalibrovka() const
+{
+    return btnCalibrovka;
+}
+
+bool InputSig::getBtnReset() const
+{
+    return btnReset;
+}
+
+bool InputSig::getSignalImpedance() const
+{
+    return signalImpedance;
+}
+
+bool InputSig::getSignalTranslate() const
+{
+    return signalTranslate;
+}
+
+bool InputSig::getSignalVnesh() const
+{
+    return signalVnesh;
+}
+
+bool InputSig::getSignalMic() const
+{
+    return signalMic;
 }
