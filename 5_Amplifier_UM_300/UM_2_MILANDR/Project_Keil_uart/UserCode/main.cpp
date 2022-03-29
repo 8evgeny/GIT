@@ -60,10 +60,12 @@ int main (void)
                 if(mil->isPowerOk())
                 {
                     out->setBOARD_OK(true);
+                    mil->setFAN_ON(true);
                 }
                 else
                 {
                     out->setBOARD_OK(false);
+                    mil->setFAN_ON(false);
                 }
             }
 
