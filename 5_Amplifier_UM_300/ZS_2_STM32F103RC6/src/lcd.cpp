@@ -1,12 +1,12 @@
 #include "main.h"
 #include "lcd.h"
 
-lcd::lcd()
+Lcd::Lcd()
 {
 
 
 }
 
-lcd::~lcd()
+Lcd::~Lcd()
 {
 }

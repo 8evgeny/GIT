@@ -1,4 +1,12 @@
 #include "main.h"
+#include "CAT5132_digitalPOT.h"
+#include "buttons.h"
+#include "lcd.h"
+#include "relays.h"
+#include "display.h"
+#include "stm32.h"
+#include "inputSignals.h"
+#include <memory>
 
 #ifdef __cplusplus
 extern "C" {
@@ -74,10 +82,15 @@ uart_setup()
 
 }
 
+int main() {
 
+    auto pot = std::shared_ptr<CAT5132_digitalPOT>(new CAT5132_digitalPOT);
+    auto but = std::shared_ptr<Buttons>(new Buttons);
+    auto lcd = std::shared_ptr<Lcd>(new Lcd);
+    auto rel = std::shared_ptr<Relays>(new Relays);
+    auto dis = std::shared_ptr<Display>(new Display);
+    auto stm = std::shared_ptr<Stm32>(new Stm32);
 
-int
-main(void) {
 
     gpio_setup();
     uart_setup();

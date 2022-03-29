@@ -1,12 +1,12 @@
 #include "main.h"
 #include "stm32.h"
 
-stm32::stm32()
+Stm32::Stm32()
 {
 
 
 }
 
-stm32::~stm32()
+Stm32::~Stm32()
 {
 }

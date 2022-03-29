@@ -1,11 +1,11 @@
 #pragma once
 #include "main.h"
 
-class relay
+class Relays
 {
 public:
-    relay();
-    ~relay();
+    Relays();
+    ~Relays();
 
 
 

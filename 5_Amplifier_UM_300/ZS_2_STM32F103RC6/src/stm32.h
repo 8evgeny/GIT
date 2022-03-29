@@ -1,11 +1,11 @@
 #pragma once
 #include "main.h"
 
-class stm32
+class Stm32
 {
 public:
-    stm32();
-    ~stm32();
+    Stm32();
+    ~Stm32();
 
 
 
