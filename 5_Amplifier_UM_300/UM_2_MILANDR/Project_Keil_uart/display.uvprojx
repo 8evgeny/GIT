@@ -381,37 +381,52 @@
       </TargetOption>
       <Groups>
         <Group>
-          <GroupName>src</GroupName>
-          <Files>
-            <File>
-              <FileName>check_receive_data.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\UserCode\check_receive_data.c</FilePath>
-            </File>
-            <File>
-              <FileName>init_GPIO.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\UserCode\init_GPIO.c</FilePath>
-            </File>
-            <File>
-              <FileName>init_UART.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\UserCode\init_UART.c</FilePath>
-            </File>
-            <File>
-              <FileName>main.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\UserCode\main.c</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
           <GroupName>inc</GroupName>
           <Files>
             <File>
               <FileName>main.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\UserCode\main.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>src</GroupName>
+          <Files>
+            <File>
+              <FileName>logic.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\UserCode\logic.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>main.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\UserCode\main.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>milandr.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\UserCode\milandr.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>SSM2166_MicPreamp.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\UserCode\SSM2166_MicPreamp.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>TPA3255_Amplifier.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\UserCode\TPA3255_Amplifier.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>inputSig.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\UserCode\inputSig.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>outputSig.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\UserCode\outputSig.cpp</FilePath>
             </File>
           </Files>
         </Group>
@@ -533,7 +548,7 @@
         <package name="CMSIS-Driver_Validation" schemaVersion="1.4.9" url="http://www.keil.com/pack/" vendor="ARM" version="2.0.0"/>
         <targetInfos/>
       </file>
-      <file attr="config" category="linkerScript" name="IDE\Keil\scatter\MDR32Fx\MDR1986VE9x.sct">
+      <file attr="config" category="linkerScript" name="IDE\Keil\scatter\MDR32Fx\MDR1986VE9x.sct" version="2.0.3">
         <instance index="0">RTE\Device\MDR1986BE92\MDR1986VE9x.sct</instance>
         <component Cclass="Device" Cgroup="Startup" Cvendor="Keil" Cversion="2.0.3" condition="CON_MDR1986VE92"/>
         <package name="MDR1986BExx" schemaVersion="1.2" url="https://ic.milandr.ru/soft/" vendor="Keil" version="2.0.3"/>
