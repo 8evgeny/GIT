@@ -43,11 +43,11 @@ int main (void)
         //Питание
             if(mil->isPowerOk())
             {
-                mil->setBOARD_OK(true);
+                out->setBOARD_OK(true);
             }
             else
             {
-                mil->setBOARD_OK(false);
+                out->setBOARD_OK(false);
             }
 
 
@@ -66,13 +66,13 @@ int main (void)
             {
                 //Перегрузки нет
                 pre->micPreampON();
-                mil->setERROR_MC(false);
+                out->setERROR_MC(false);
             }
             else
             {
                 //Перегрузка
                 pre->micPreampOFF();
-                mil->setERROR_MC(true);
+                out->setERROR_MC(true);
                 amp->reset();
             }
 
@@ -81,23 +81,22 @@ int main (void)
             {
                 //Перегрева нет
                 pre->micPreampON();
-                mil->setOVERHEAT_MC(false);
+                out->setOVERHEAT_MC(false);
             }
             else
             {
                 //Перегрев
                 pre->micPreampOFF();
-                mil->setOVERHEAT_MC(true);
+                out->setOVERHEAT_MC(true);
                 amp->reset();
             }
-
+//Проверка переменных и если не совпадает с temp - сигнал отправка
 
 
 
         }
 
 
-        //Проверка переменных и если не совпадает с temp - сигнал отправка
 
 
 
@@ -114,11 +113,11 @@ int main (void)
             sendReplayToCmdFromStm = true;
         }
 
-        if (!mil->getToStmCmdSend())//Отправка команды в адрес Stm
+        if (!out->getToStmCmdSend())//Отправка команды в адрес Stm
         {
-            UART_SendData(MDR_UART1, mil->getToStmCmd());
+            UART_SendData(MDR_UART1, out->getToStmCmd());
             while (UART_GetFlagStatus (MDR_UART1, UART_FLAG_TXFE) != SET);
-            mil->setToStmCmdSend(true);
+            out->setToStmCmdSend(true);
         }
 
 
