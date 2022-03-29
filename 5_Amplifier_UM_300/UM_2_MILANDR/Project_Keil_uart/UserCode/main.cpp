@@ -23,7 +23,7 @@ int main (void)
     {
         while (UART_GetFlagStatus (MDR_UART1, UART_FLAG_RXFE) == SET);  //ждем пока не не установиться флаг по приему байта
         ReciveByte = UART_ReceiveData(MDR_UART1);                       //считываем принятый байт
-        temp = mil->checkReceivedByte(ReciveByte);
+        temp = inp->checkReceivedByte(ReciveByte);
 
         if (temp != 0x00)// от STM поступила команда
         {

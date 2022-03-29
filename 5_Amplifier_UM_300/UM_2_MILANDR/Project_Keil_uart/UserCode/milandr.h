@@ -78,8 +78,6 @@ public:
     void setFAN_ON (bool set);
     void setRESET_UPR (bool set);
 
-    char checkReceivedByte(uint8_t data);
-
     bool getToStmCmdSend() const;
     void setToStmCmdSend(bool newToStmCmdSend);
     char getToStmCmd() const;
@@ -99,20 +97,6 @@ private:
     bool StmNoReceiveCmd = 0;
     bool UncnownCmdFromStm = 0;
 
-
-    //Stm -> Milandr
-    bool btnImpedance = 0;
-    bool btnCalibrovka = 0;
-    bool btnReset = 0;
-    bool signalPowerOn = 0;
-    bool signalImpedance = 0;
-    bool signalTranslate = 0;
-    bool input_IMP_UPR = 0;
-    bool input_VOLT_UPR = 0;
-    bool input_CUR_UPR1 = 0;
-    bool input_CUR_UPR2 = 0;
-    bool signalVnesh = 0;
-    bool signalMic = 0;
 
     //Milandr -> Stm
     bool OVERHEAT_MC = 0;
