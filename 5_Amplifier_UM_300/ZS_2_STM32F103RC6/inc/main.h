@@ -110,17 +110,10 @@ void i2c_main_vers2(void *args __attribute((unused)));
 
 char * checkReceivedByteFromMilandr(char data);
 
-
 void i2c_main_vers1();
-
 void stringToLcd(char* str);
-
-
 void gpio_setup();
-//void uart_setup();
-
 void stringToUart(const char *s);
-
 void setImpedanceRele(bool);
 void setReleTr1(bool);
 void setReleTr2(bool);
