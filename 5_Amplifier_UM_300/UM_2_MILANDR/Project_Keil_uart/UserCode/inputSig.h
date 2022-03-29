@@ -11,5 +11,8 @@ public:
 
 
 private:
+
+
+
     std::shared_ptr<Milandr> milandr;
 };

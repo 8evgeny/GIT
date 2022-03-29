@@ -2,6 +2,8 @@
 #include "milandr.h"
 #include "SSM2166_MicPreamp.h"
 #include "TPA3255_Amplifier.h"
+#include "inputSig.h"
+#include "outputSig.h"
 #include <memory>
 
 int main (void)
@@ -9,6 +11,8 @@ int main (void)
     auto mil = std::shared_ptr<Milandr>(new Milandr);
     auto pre = std::shared_ptr<SSM2166_MicPreamp>(new SSM2166_MicPreamp(mil));
     auto amp = std::shared_ptr<TPA3255_Amplifier>(new TPA3255_Amplifier(mil));
+    auto inp = std::shared_ptr<InputSig>(new InputSig(mil));
+    auto out = std::shared_ptr<OutputSig>(new OutputSig(mil));
 
     static uint8_t ReciveByte=0x00; //данные для приема
     char temp;

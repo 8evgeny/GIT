@@ -77,6 +77,7 @@ public:
     void setCOMP_UPR (bool set);
     void setFAN_ON (bool set);
     void setRESET_UPR (bool set);
+
     char checkReceivedByte(uint8_t data);
 
     bool getToStmCmdSend() const;

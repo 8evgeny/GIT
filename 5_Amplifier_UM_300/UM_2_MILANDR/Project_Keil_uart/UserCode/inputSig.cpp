@@ -10,3 +10,5 @@ InputSig::InputSig(std::shared_ptr<Milandr> mil)
 InputSig::~InputSig()
 {
 }
+
+
