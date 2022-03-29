@@ -91,7 +91,6 @@ int main() {
     auto dis = std::shared_ptr<Display>(new Display);
     auto stm = std::shared_ptr<Stm32>(new Stm32);
 
-
     gpio_setup();
     uart_setup();
 
@@ -99,18 +98,13 @@ int main() {
     xTaskCreate(checkInputs,"BUTTONS",100,NULL,configMAX_PRIORITIES-1,NULL);
     xTaskCreate(setOutputs,"StateRele",100,NULL,configMAX_PRIORITIES-1,NULL);
     xTaskCreate(i2c_main_vers2,"i2c_vers2",100,NULL,configMAX_PRIORITIES-1,NULL);
-
     xTaskCreate(SendUartCommand,"SendUartCommand",100,NULL,configMAX_PRIORITIES-1,NULL);
-
 
 //    xTaskCreate(testSendUartCommand,"testSendUartCommand",100,NULL,configMAX_PRIORITIES-1,NULL);
 //    xTaskCreate(testUART1, "UART4", 100, NULL, configMAX_PRIORITIES - 2, NULL);
 //    xTaskCreate(testTask1, "LED1", 100, NULL, configMAX_PRIORITIES - 1, NULL);
 //    xTaskCreate(testTask2, "LED2", 100, NULL, configMAX_PRIORITIES - 1, NULL);
 //    xTaskCreate(testTask3, "LED3", 100, NULL, configMAX_PRIORITIES - 1, NULL);
-
-
-
 
     vTaskStartScheduler();
 
