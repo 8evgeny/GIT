@@ -44,6 +44,11 @@ public:
     void setToStmCmdSend(bool newToStmCmdSend);
     char getToStmCmd() const;
 
+    //Проверка переменных и если не совпадает с temp - сигнал отправка
+    void checkOVERHEAT_MC();
+    void checkBOARD_OK();
+    void checkERROR_MC();
+
 private:
     //Milandr -> Stm
     bool OVERHEAT_MC = 0;

@@ -86,3 +86,20 @@ char OutputSig::getToStmCmd() const
 {
     return toStmCmd;
 }
+
+void OutputSig::checkOVERHEAT_MC()
+{
+
+}
+
+void OutputSig::checkBOARD_OK()
+{
+
+}
+
+void OutputSig::checkERROR_MC()
+{
+
+}
+
+

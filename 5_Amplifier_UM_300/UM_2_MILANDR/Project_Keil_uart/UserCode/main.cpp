@@ -90,20 +90,12 @@ int main (void)
                 out->setOVERHEAT_MC(true);
                 amp->reset();
             }
-//Проверка переменных и если не совпадает с temp - сигнал отправка
 
-
-
-        }
-
-
-
-
-
-
-
-
-
+            //Проверка переменных и если не совпадает с temp отправка сигнала
+            out->checkBOARD_OK();
+            out->checkOVERHEAT_MC();
+            out->checkERROR_MC();
+        }//end if
 
 
         if (!sendReplayToCmdFromStm)//Отправка ответа на команду Stm
