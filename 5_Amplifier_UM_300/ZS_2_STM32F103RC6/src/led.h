@@ -1,11 +1,11 @@
 #pragma once
 #include "main.h"
 
-class Lcd
+class Led
 {
 public:
-    Lcd();
-    ~Lcd();
+    Led();
+    ~Led();
 
 
 

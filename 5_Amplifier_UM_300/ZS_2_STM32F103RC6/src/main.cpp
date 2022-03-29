@@ -1,7 +1,7 @@
 #include "main.h"
 #include "CAT5132_digitalPOT.h"
 #include "buttons.h"
-#include "lcd.h"
+#include "led.h"
 #include "relays.h"
 #include "display.h"
 #include "stm32.h"
