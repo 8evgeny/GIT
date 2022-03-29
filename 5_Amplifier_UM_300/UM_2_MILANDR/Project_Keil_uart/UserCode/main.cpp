@@ -34,9 +34,76 @@ int main (void)
 
         if (temp == 0x00)// от STM поступила пустая команда
         {
-        //Основная логика
+//Основная логика
 
-        //Питание
+    //Последовательно обрабатываем полученные ранее входные сигналы
+            if(inp->getBtnImpedance())
+            {
+    //Не реализовано
+            }
+
+            if(inp->getBtnCalibrovka())
+            {
+    //Не реализовано
+            }
+
+            if(inp->getBtnReset())
+            {
+    //Не реализовано
+            }
+
+            if(inp->getSignalPowerOn())
+            {
+                if(mil->isPowerOk())
+                {
+                    out->setBOARD_OK(true);
+                }
+                else
+                {
+                    out->setBOARD_OK(false);
+                }
+            }
+
+            if(inp->getSignalImpedance())
+            {
+    //Не реализовано
+            }
+
+            if(inp->getSignalTranslate())
+            {
+                if (out->getBOARD_OK())
+                {
+                    pre->micPreampON();
+                    pre->micPreampCompressionON();
+                }
+                else
+                {
+                    pre->micPreampOFF();
+                    pre->micPreampCompressionOFF();
+                }
+            }
+
+            if(inp->getSignalVnesh())
+            {
+    //Не реализовано
+            }
+
+            if(inp->getSignalMic())
+            {
+                if (out->getBOARD_OK())
+                {
+                    pre->micPreampON();
+                    pre->micPreampCompressionON();
+                }
+                else
+                {
+                    pre->micPreampOFF();
+                    pre->micPreampCompressionOFF();
+                }
+            }
+
+    //Последовательно формируем выходные сигналы
+    //BOARD_OK
             if(mil->isPowerOk())
             {
                 out->setBOARD_OK(true);
@@ -46,36 +113,7 @@ int main (void)
                 out->setBOARD_OK(false);
             }
 
-        //Трансляция | Микрофон
-            if (out->getBOARD_OK() && (inp->getSignalTranslate() || inp->getSignalMic()))
-            {
-                pre->micPreampON();
-                pre->micPreampCompressionON();
-            }
-            else
-            {
-                pre->micPreampOFF();
-                pre->micPreampCompressionOFF();
-            }
-
-
-
-        //Проверка перегрузки
-            if(!amp->isFault())
-            {
-                //Перегрузки нет
-                pre->micPreampON();
-                out->setERROR_MC(false);
-            }
-            else
-            {
-                //Перегрузка
-                pre->micPreampOFF();
-                out->setERROR_MC(true);
-                amp->reset();
-            }
-
-        //Проверка перегрева
+    //OVERHEAT_MC
             if(!amp->isOverHeart())
             {
                 //Перегрева нет
@@ -90,11 +128,30 @@ int main (void)
                 amp->reset();
             }
 
-            //Проверка переменных и если не совпадает с temp отправка сигнала
-//Не реализовано (При возникновении команды сбрасываем toStmCmdSend  сама команда - toStmCmd )
+    //ERROR_MC
+            if(!amp->isFault())
+            {
+                //Перегрузки нет
+                pre->micPreampON();
+                out->setERROR_MC(false);
+            }
+            else
+            {
+                //Перегрузка
+                pre->micPreampOFF();
+                out->setERROR_MC(true);
+                amp->reset();
+            }
+
+    //Проверка переменных и если не совпадает с temp отправка сигнала
+    //Не реализовано (При возникновении команды сбрасываем toStmCmdSend  сама команда - toStmCmd )
+
             out->checkBOARD_OK();
+
             out->checkOVERHEAT_MC();
+
             out->checkERROR_MC();
+
         }//end if
 
 
@@ -112,8 +169,7 @@ int main (void)
             out->setToStmCmdSend(true);
         }
 
-
-    }
+    }//end while (1)
 }
 
 
