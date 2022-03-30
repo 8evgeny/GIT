@@ -1,14 +1,24 @@
 #include "main.h"
 #include "delay.h"
 
-#include "stm32f10x.h"
-#include "stm32f10x_gpio.h"
-#include "stm32f10x_rcc.h"
-#include "stm32f10x_i2c.h"
+//#include "stm32f10x.h"
+//#include "stm32f10x_gpio.h"
+//#include "stm32f10x_rcc.h"
+//#include "stm32f10x_i2c.h"
 
 #define     __IO    volatile
-//typedef enum {RESET = 0, SET = !RESET} FlagStatus, ITStatus;
-//typedef enum {ERROR = 0, SUCCESS = !ERROR} ErrorStatus;
+#define I2C_FLAG_BUSY                   ((uint32_t)0x00020000)
+#define  I2C_EVENT_MASTER_MODE_SELECT                      ((uint32_t)0x00030001)  /* BUSY, MSL and SB flag */
+#define  I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED        ((uint32_t)0x00070082)  /* BUSY, MSL, ADDR, TXE and TRA flags */
+#define  I2C_EVENT_MASTER_RECEIVER_MODE_SELECTED           ((uint32_t)0x00030002)  /* BUSY, MSL and ADDR flags */
+#define  I2C_EVENT_MASTER_BYTE_TRANSMITTED                 ((uint32_t)0x00070084)  /* TRA, BUSY, MSL, TXE and BTF flags */
+#define  I2C_EVENT_MASTER_BYTE_RECEIVED                    ((uint32_t)0x00030040)  /* BUSY, MSL and RXNE flags */
+#define  I2C_Direction_Transmitter      ((uint8_t)0x00)
+#define  I2C_Direction_Receiver         ((uint8_t)0x01)
+
+
+typedef enum {RESET = 0, SET = !RESET} FlagStatus, ITStatus;
+typedef enum {ERROR = 0, SUCCESS = !ERROR} ErrorStatus;
 
 //для I2C
 //GPIO_InitTypeDef i2c_gpio;
