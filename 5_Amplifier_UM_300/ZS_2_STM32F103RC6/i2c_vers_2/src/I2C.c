@@ -6,8 +6,9 @@
 #include "stm32f10x_rcc.h"
 #include "stm32f10x_i2c.h"
 
-
-
+#define     __IO    volatile
+//typedef enum {RESET = 0, SET = !RESET} FlagStatus, ITStatus;
+//typedef enum {ERROR = 0, SUCCESS = !ERROR} ErrorStatus;
 
 //для I2C
 //GPIO_InitTypeDef i2c_gpio;
@@ -82,26 +83,130 @@ void init_I2C1(void)
 //    I2C_Cmd(I2C1, ENABLE);
 }
 
-/*******************************************************************/
-void I2C_StartTransmission(I2C_TypeDef* I2Cx, uint8_t transmissionDirection,  uint8_t slaveAddress)
+
+FlagStatus I2C_GetFlagStatus_(uint32_t i2c, uint32_t I2C_FLAG)
+//FlagStatus I2C_GetFlagStatus_(I2C_TypeDef* I2Cx, uint32_t I2C_FLAG)
 {
-    // На всякий слуыай ждем, пока шина осовободится
-    while(I2C_GetFlagStatus(I2Cx, I2C_FLAG_BUSY));
-    // Генерируем старт - тут все понятно )
-    I2C_GenerateSTART(I2Cx, ENABLE);
+    #define FLAG_Mask               ((uint32_t)0x00FFFFFF)
+  FlagStatus bitstatus = RESET;
+  __IO uint32_t i2creg = 0, i2cxbase = 0;
+
+  /* Check the parameters */
+//  assert_param(IS_I2C_ALL_PERIPH(I2Cx));
+//  assert_param(IS_I2C_GET_FLAG(I2C_FLAG));
+
+  /* Get the I2Cx peripheral base address */
+
+  if(i2c == (uint32_t)I2C1) i2cxbase = I2C1_BASE;
+  if(i2c == (uint32_t)I2C2) i2cxbase = I2C2_BASE;
+  #ifdef I2C3_BASE
+  if(i2c == (uint32_t)I2C3) i2cxbase = I2C3_BASE;
+  #endif
+
+//  i2cxbase = (uint32_t)I2Cx;
+
+  /* Read flag register index */
+  i2creg = I2C_FLAG >> 28;
+
+  /* Get bit[23:0] of the flag */
+  I2C_FLAG &= FLAG_Mask;
+
+  if(i2creg != 0)
+  {
+    /* Get the I2Cx SR1 register address */
+    i2cxbase += 0x14;
+  }
+  else
+  {
+    /* Flag in I2Cx SR2 Register */
+    I2C_FLAG = (uint32_t)(I2C_FLAG >> 16);
+    /* Get the I2Cx SR2 register address */
+    i2cxbase += 0x18;
+  }
+
+  if(((*(__IO uint32_t *)i2cxbase) & I2C_FLAG) != (uint32_t)RESET)
+  {
+    /* I2C_FLAG is set */
+    bitstatus = SET;
+  }
+  else
+  {
+    /* I2C_FLAG is reset */
+    bitstatus = RESET;
+  }
+
+  /* Return the I2C_FLAG status */
+  return  bitstatus;
+}
+
+
+ErrorStatus I2C_CheckEvent_(uint32_t i2c, uint32_t I2C_EVENT)
+{
+  #define FLAG_Mask               ((uint32_t)0x00FFFFFF)
+  uint32_t lastevent = 0;
+  uint32_t flag1 = 0, flag2 = 0;
+  ErrorStatus status = ERROR;
+
+  /* Check the parameters */
+//  assert_param(IS_I2C_ALL_PERIPH(I2Cx));
+//  assert_param(IS_I2C_EVENT(I2C_EVENT));
+
+  /* Read the I2Cx status register */
+  flag1 = I2C_SR1(i2c);
+  flag2 = I2C_SR2(i2c);
+  flag2 = flag2 << 16;
+
+  /* Get the last event value from I2C status register */
+  lastevent = (flag1 | flag2) & FLAG_Mask;
+
+  /* Check whether the last event contains the I2C_EVENT */
+  if ((lastevent & I2C_EVENT) == I2C_EVENT)
+  {
+    /* SUCCESS: last event is equal to I2C_EVENT */
+    status = SUCCESS;
+  }
+  else
+  {
+    /* ERROR: last event is different from I2C_EVENT */
+    status = ERROR;
+  }
+  /* Return status */
+  return status;
+}
+
+
+
+void I2C_StartTransmission(uint32_t i2c, uint8_t transmissionDirection,  uint8_t slaveAddress)
+//void I2C_StartTransmission(I2C_TypeDef* I2Cx, uint8_t transmissionDirection,  uint8_t slaveAddress)
+{
+
+//    i2c_send_start(I2C1);
+//    i2c_send_7bit_address(I2C1, slaveAddress, transmissionDirection);
+
+//    // На всякий слуыай ждем, пока шина осовободится
+    while(I2C_GetFlagStatus_(i2c, I2C_FLAG_BUSY));
+//    // Генерируем старт - тут все понятно )
+//    I2C_GenerateSTART(I2Cx, ENABLE);
+
+        i2c_send_start(I2C1);
+
+
     // Ждем пока взлетит нужный флаг
-    while(!I2C_CheckEvent(I2Cx, I2C_EVENT_MASTER_MODE_SELECT));
+    while(!I2C_CheckEvent_(i2c, I2C_EVENT_MASTER_MODE_SELECT));
     // Посылаем адрес подчиненному  //возможно тут нужен сдвиг влево  //судя по исходникам - да, нужен сдвиг влево
     //http://microtechnics.ru/stm32-ispolzovanie-i2c/#comment-8109
-    I2C_Send7bitAddress(I2Cx, slaveAddress<<1, transmissionDirection);
-    // А теперь у нас два варианта развития событий - в зависимости от выбранного направления обмена данными
+//    I2C_Send7bitAddress(I2Cx, slaveAddress<<1, transmissionDirection);
+
+    i2c_send_7bit_address(I2C1, slaveAddress, transmissionDirection);
+
+//    // А теперь у нас два варианта развития событий - в зависимости от выбранного направления обмена данными
     if(transmissionDirection== I2C_Direction_Transmitter)
     {
-        while(!I2C_CheckEvent(I2Cx, I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED));
+        while(!I2C_CheckEvent_(i2c, I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED));
     }
     if(transmissionDirection== I2C_Direction_Receiver)
     {
-    while(!I2C_CheckEvent(I2Cx, I2C_EVENT_MASTER_RECEIVER_MODE_SELECTED));
+    while(!I2C_CheckEvent_(i2c, I2C_EVENT_MASTER_RECEIVER_MODE_SELECTED));
     }
 }
 
