@@ -15,7 +15,7 @@ void setOutputs(void *args)
             setErrorRele(false);
         }
 
-//setErrorRele(bool set)
+//Нужно реализовать выходные сигналы
 
 
 
