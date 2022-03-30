@@ -6,14 +6,19 @@ void setOutputs(void *args)
 
     for(;;)
     {
-        if (btnImpedance)
+        if (ERROR_MC  || OVERHEAT_MC )
         {
-            setImpedanceRele(true);
+            setErrorRele(true);
         }
         else
         {
-            setImpedanceRele(false);
+            setErrorRele(false);
         }
+
+//setErrorRele(bool set)
+
+
+
 
         vTaskDelay(pdMS_TO_TICKS(100));
     }
