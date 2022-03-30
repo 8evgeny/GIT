@@ -80,21 +80,15 @@ endif()
 if(${I2C_version} EQUAL 2)
 
 file(GLOB_RECURSE SOURCES_I2C
-#    i2c_vers_2/cmsis_boot/startup/startup_stm32f10x_md.S
-#    i2c_vers_2/cmsis_boot/system_stm32f10x.c
     i2c_vers_2/src/LiquidCrystal_I2C.c
     i2c_vers_2/src/I2C.c
     i2c_vers_2/src/i2c_main.c
     i2c_vers_2/src/delay.c
-#    i2c_vers_2/stm_lib/src/*.*
     libopencm3/lib/stm32/f1/12c.c
     libopencm3/lib/stm32/common/i2c_common_v1.c
     )
 include_directories(
     i2c_vers_2/inc
-#    i2c_vers_2/cmsis
-#    i2c_vers_2/cmsis_boot
-#    i2c_vers_2/stm_lib/inc
     )
 endif()
 

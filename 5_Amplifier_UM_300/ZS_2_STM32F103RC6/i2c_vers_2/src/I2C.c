@@ -1,6 +1,7 @@
-#include "main.h"
 #include "delay.h"
 #include "I2C.h"
+
+Digital_POT_I2C_Def poti2c;
 
 //для I2C
 //GPIO_InitTypeDef i2c_gpio;
@@ -214,7 +215,6 @@ void I2C_WriteData(uint32_t i2c, uint8_t data)
 }
 
 
-
 //uint8_t I2C_ReadData(I2C_TypeDef* I2Cx)
 uint8_t I2C_ReadData(uint32_t  i2c)
 {
@@ -224,5 +224,57 @@ uint8_t I2C_ReadData(uint32_t  i2c)
 //    data = I2C_ReceiveData(I2Cx);
     data = i2c_get_data(i2c);
     return data;
+}
+
+
+void I2C_POD_StartTransm (uint32_t i2c, uint8_t transmissionDirection,  uint8_t slaveAddress)
+//void I2C_StartTransmission(I2C_TypeDef* I2Cx, uint8_t transmissionDirection,  uint8_t slaveAddress)
+{
+
+    //    i2c_send_start(I2C1);
+    //    i2c_send_7bit_address(I2C1, slaveAddress, transmissionDirection);
+
+    //    // На всякий слуыай ждем, пока шина осовободится
+    while(I2C_GetFlagStatus_(i2c, I2C_FLAG_BUSY));
+    //    // Генерируем старт - тут все понятно )
+    //    I2C_GenerateSTART(I2Cx, ENABLE);
+
+    i2c_send_start(I2C1);
+
+
+    // Ждем пока взлетит нужный флаг
+    while(!I2C_CheckEvent_(i2c, I2C_EVENT_MASTER_MODE_SELECT));
+    // Посылаем адрес подчиненному  //возможно тут нужен сдвиг влево  //судя по исходникам - да, нужен сдвиг влево
+    //http://microtechnics.ru/stm32-ispolzovanie-i2c/#comment-8109
+    //    I2C_Send7bitAddress(I2Cx, slaveAddress<<1, transmissionDirection);
+
+    i2c_send_7bit_address(I2C1, slaveAddress, transmissionDirection);
+
+    //    // А теперь у нас два варианта развития событий - в зависимости от выбранного направления обмена данными
+    if(transmissionDirection== I2C_Direction_Transmitter)
+    {
+        while(!I2C_CheckEvent_(i2c, I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED));
+    }
+    if(transmissionDirection== I2C_Direction_Receiver)
+    {
+        while(!I2C_CheckEvent_(i2c, I2C_EVENT_MASTER_RECEIVER_MODE_SELECTED));
+    }
+}
+
+
+void digitalPOT_I2C_init(uint8_t pot_Addr)
+{
+
+    poti2c.Addr = pot_Addr;
+    //    init_I2C1(); // Wire.begin();
+}
+
+void digitalPOT_send_data(uint8_t byte1, uint8_t byte2, uint8_t byte3 )
+{
+    I2C_POD_StartTransm (I2C1, I2C_Direction_Transmitter, poti2c.Addr);
+    //            I2C_WriteDat(I2C1,(int)byte1);
+    //            I2C_WriteDat(I2C1,(int)byte2);
+    //            I2C_WriteDat(I2C1,(int)byte3);
+    //            I2C_GenerateSTOP(I2C1, ENABLE);
 }
 
