@@ -80,12 +80,12 @@ int main (void)
                 if (out->getBOARD_OK())
                 {
                     pre->micPreampON();
-                    pre->micPreampCompressionON();
+//                    pre->micPreampCompressionON(); //Для микрофона
                 }
                 else
                 {
                     pre->micPreampOFF();
-                    pre->micPreampCompressionOFF();
+//                    pre->micPreampCompressionOFF();
                 }
             }
 
