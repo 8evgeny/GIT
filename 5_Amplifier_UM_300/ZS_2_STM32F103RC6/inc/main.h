@@ -6,6 +6,10 @@
 #include <libopencm3/stm32/usart.h>
 //#include <libopencm3/stm32/common/i2c_common_v1.h>
 
+#include <libopencm3/stm32/flash.h>
+#include <libopencm3/stm32/i2c.h>
+
+
 #include <errno.h>
 #include <stdio.h>
 #include <libopencm3/stm32/i2c.h>
