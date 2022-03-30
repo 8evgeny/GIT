@@ -210,23 +210,26 @@ void I2C_StartTransmission(uint32_t i2c, uint8_t transmissionDirection,  uint8_t
     }
 }
 
-/*******************************************************************/
-void I2C_WriteData(I2C_TypeDef* I2Cx, uint8_t data)
+//void I2C_WriteData(I2C_TypeDef* I2Cx, uint8_t data)
+void I2C_WriteData(uint32_t i2c, uint8_t data)
 {
     // Просто вызываем готоваую функцию из SPL и ждем, пока данные улетят
-    I2C_SendData(I2Cx, data);
-    while(!I2C_CheckEvent(I2Cx, I2C_EVENT_MASTER_BYTE_TRANSMITTED));
+
+//    I2C_SendData(I2Cx, data);
+    i2c_send_data(i2c, data);
+    while(!I2C_CheckEvent_(i2c, I2C_EVENT_MASTER_BYTE_TRANSMITTED));
 }
 
 
 
-/*******************************************************************/
-uint8_t I2C_ReadData(I2C_TypeDef* I2Cx)
+//uint8_t I2C_ReadData(I2C_TypeDef* I2Cx)
+uint8_t I2C_ReadData(uint32_t  i2c)
 {
     // Тут картина похожа, как только данные пришли быстренько считываем их и возвращаем
-    while( !I2C_CheckEvent(I2Cx, I2C_EVENT_MASTER_BYTE_RECEIVED) );
+    while( !I2C_CheckEvent_(i2c, I2C_EVENT_MASTER_BYTE_RECEIVED) );
     uint8_t data;
-    data = I2C_ReceiveData(I2Cx);
+//    data = I2C_ReceiveData(I2Cx);
+    data = i2c_get_data(i2c);
     return data;
 }
 
