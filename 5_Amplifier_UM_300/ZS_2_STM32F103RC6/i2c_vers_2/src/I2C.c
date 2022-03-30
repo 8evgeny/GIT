@@ -8,16 +8,28 @@
 
 
 
+
+
+
 //для I2C
 GPIO_InitTypeDef i2c_gpio;
 I2C_InitTypeDef i2c;
 
 void init_I2C1(void)
 {
+
+//    rcc_set_i2c_clock_hsi(I2C1);
+
+
+
     // Включаем тактирование нужных модулей
-    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB,ENABLE);
-    RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO, ENABLE);
-    RCC_APB1PeriphClockCmd(RCC_APB1Periph_I2C1, ENABLE);
+    rcc_periph_clock_enable(RCC_GPIOB);
+    rcc_periph_clock_enable(RCC_AFIO);
+    rcc_periph_clock_enable(RCC_I2C1);
+
+//    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB,ENABLE);
+//    RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO, ENABLE);
+//    RCC_APB1PeriphClockCmd(RCC_APB1Periph_I2C1, ENABLE);
 
     // А вот и настройка I2C
     i2c.I2C_ClockSpeed = 100000;

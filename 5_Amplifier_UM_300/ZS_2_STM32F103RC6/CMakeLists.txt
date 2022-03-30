@@ -84,6 +84,8 @@ file(GLOB_RECURSE SOURCES_I2C
     i2c_vers_2/cmsis_boot/system_stm32f10x.c
     i2c_vers_2/src/*.*
     i2c_vers_2/stm_lib/src/*.*
+    libopencm3/lib/stm32/f1/12c.c
+    libopencm3/lib/stm32/common/i2c_common_v1.c
     )
 include_directories(
     i2c_vers_2/inc
@@ -103,6 +105,7 @@ file(GLOB_RECURSE SOURCES_CPP
 include_directories(
     inc
     libopencm3/include
+    libopencm3/stm32/common
     rtos
     ./
     libwwg/include

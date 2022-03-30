@@ -4,6 +4,12 @@
 #include <libopencm3/stm32/rcc.h>
 #include <libopencm3/stm32/gpio.h>
 #include <libopencm3/stm32/usart.h>
+//#include <libopencm3/stm32/common/i2c_common_v1.h>
+
+#include <errno.h>
+#include <stdio.h>
+#include <libopencm3/stm32/i2c.h>
+
 
 
 
