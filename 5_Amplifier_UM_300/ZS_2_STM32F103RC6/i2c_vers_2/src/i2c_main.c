@@ -145,7 +145,7 @@ void i2c_main_vers2(void *args)
 
 //  USART1_Init(); //Вызов функции инициализации периферии
 
-  uint8_t data;
+//  uint8_t data;
     //дождались команды и начали работу
 /*  while(1)
   {
