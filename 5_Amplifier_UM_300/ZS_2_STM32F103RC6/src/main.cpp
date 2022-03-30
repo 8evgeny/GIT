@@ -44,7 +44,7 @@ uart_task(void *args) {
         if ( gc != -1 )
         {
             ch = (char)gc;
-            char* toLcd = checkReceivedByteFromMilandr (ch);
+            const char* toLcd = checkReceivedByteFromMilandr (ch);
             stringToLcd(toLcd);
         }
 

@@ -107,10 +107,10 @@ void checkInputs(void *args __attribute__((unused)));
 void setOutputs(void *args __attribute((unused)));
 void i2c_main_vers2(void *args __attribute((unused)));
 
-char * checkReceivedByteFromMilandr(char data);
+const char * checkReceivedByteFromMilandr(char data);
 
 void i2c_main_vers1();
-void stringToLcd(char* str);
+void stringToLcd(const char* str);
 void gpio_setup();
 void stringToUart(const char *s);
 void setImpedanceRele(bool);

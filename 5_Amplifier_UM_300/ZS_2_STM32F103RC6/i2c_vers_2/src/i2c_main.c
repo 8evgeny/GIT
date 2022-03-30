@@ -125,7 +125,7 @@ char line2[] = "                    ";
 char line3[] = "                    ";
 char line4[] = "                    ";
 
-void stringToLcd(char* str)
+void stringToLcd(const char* str)
 {
     char tmp[] = "                    ";
     memcpy (tmp, str, strlen(str));

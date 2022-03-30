@@ -346,7 +346,7 @@ void checkInputs(void *args)
 
 }
 
-char * checkReceivedByteFromMilandr(char data)
+const char * checkReceivedByteFromMilandr(char data)
 {
     //Подтверждения принятия команд от Миландра
     if (data == fromMilandr_BtnImpedance_On_OK)     return "BtnImpedance_On_OK";
