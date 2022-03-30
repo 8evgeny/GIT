@@ -4,8 +4,6 @@
 #include "stm32f10x_usart.h"
 #include "stm32f10x_i2c.h"
 #include "delay.h"
-//#include "USART.h" 
-#include "I2C.h"
 #include "LiquidCrystal_I2C.h"
 #include "main.h"
 

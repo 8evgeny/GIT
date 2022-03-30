@@ -3,7 +3,6 @@
 #include "stm32f10x_rcc.h"
 #include "delay.h"
 #include "stm32f10x_i2c.h"
-#include "I2C.h"
 
 
 //для I2C
