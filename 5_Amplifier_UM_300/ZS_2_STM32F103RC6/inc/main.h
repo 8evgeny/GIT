@@ -5,6 +5,8 @@
 #include <libopencm3/stm32/gpio.h>
 #include <libopencm3/stm32/usart.h>
 
+
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -14,6 +16,7 @@ extern "C" {
 #include "uartlib.h"
 #include "task.h"
 #include "stdio.h"
+
 //#include "stm32f10x.h"
 
 #define mainECHO_TASK_PRIORITY				( tskIDLE_PRIORITY + 1 )
@@ -97,6 +100,21 @@ static bool ERROR_MC = 0;
 
 static QueueHandle_t uart_txq;				// TX queue for UART
 
+typedef struct
+{
+  uint8_t Addr;
+  uint8_t Access_Control_Register_byte1;
+  uint8_t Access_Control_Register_byte2;
+  uint8_t Access_Control_Register_byte3;
+  uint8_t MEMORY_REGISTER_DR_7_bit;
+  uint8_t WIPER_CONTROL_REGISTER_WCR_7_bit;
+} Digital_POT_I2C_Def;
+
+void digitaPOT(void *args __attribute((unused)));
+void digitalPOT_send_data(uint8_t byte1,uint8_t byte2,uint8_t byte3 );
+
+
+
 void testTask1(void *args __attribute((unused)));
 void testTask2(void *args __attribute((unused)));
 void testTask3(void *args __attribute((unused)));
@@ -106,7 +124,6 @@ void testUART1(void *args __attribute__((unused)));
 void checkInputs(void *args __attribute__((unused)));
 void setOutputs(void *args __attribute((unused)));
 void i2c_main_vers2(void *args __attribute((unused)));
-void digitaPOT(void *args __attribute((unused)));
 
 const char * checkReceivedByteFromMilandr(char data);
 
@@ -140,6 +157,10 @@ void setTestLed2(bool set);
 void setTestLed3(bool set);
 
 void init_I2C1();
+
+void digitalPOT_I2C_init(uint8_t pot_Addr);
+
+
 //void I2C_StartTransmission(I2C_TypeDef* I2Cx, uint8_t transmissionDirection,  uint8_t slaveAddress);
 //void I2C_WriteData(I2C_TypeDef* I2Cx, uint8_t data);
 void backlight();
