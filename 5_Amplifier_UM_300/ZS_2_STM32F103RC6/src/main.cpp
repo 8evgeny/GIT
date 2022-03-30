@@ -1,12 +1,14 @@
 #include "main.h"
-#include "CAT5132_digitalPOT.h"
-#include "buttons.h"
-#include "led.h"
-#include "relays.h"
-#include "display.h"
-#include "stm32.h"
-#include "inputSignals.h"
-#include <memory>
+
+//Временно классы отключаю
+//#include "CAT5132_digitalPOT.h"
+//#include "buttons.h"
+//#include "led.h"
+//#include "relays.h"
+//#include "display.h"
+//#include "stm32.h"
+//#include "inputSignals.h"
+//#include <memory>
 
 #ifdef __cplusplus
 extern "C" {
@@ -64,7 +66,6 @@ void stringToUart(const char *s) {
 
 
 
-
 static void
 uart_setup()
 {
@@ -84,18 +85,20 @@ uart_setup()
 
 int main() {
 
-    auto pot = std::shared_ptr<CAT5132_digitalPOT>(new CAT5132_digitalPOT);
-    auto but = std::shared_ptr<Buttons>(new Buttons);
-    auto lcd = std::shared_ptr<Led>(new Led);
-    auto rel = std::shared_ptr<Relays>(new Relays);
-    auto dis = std::shared_ptr<Display>(new Display);
-    auto stm = std::shared_ptr<Stm32>(new Stm32);
+//Временно классы отключаю
+//    auto pot = std::shared_ptr<CAT5132_digitalPOT>(new CAT5132_digitalPOT);
+//    auto but = std::shared_ptr<Buttons>(new Buttons);
+//    auto lcd = std::shared_ptr<Led>(new Led);
+//    auto rel = std::shared_ptr<Relays>(new Relays);
+//    auto dis = std::shared_ptr<Display>(new Display);
+//    auto stm = std::shared_ptr<Stm32>(new Stm32);
+//    auto inp = std::shared_ptr<InputSignals>(new InputSignals);
 
     gpio_setup();
     uart_setup();
 
     xTaskCreate(uart_task,"UART",100,NULL,configMAX_PRIORITIES-1,NULL);
-    xTaskCreate(checkInputs,"BUTTONS",100,NULL,configMAX_PRIORITIES-1,NULL);
+    xTaskCreate(checkInputs,"InputSignals",100,NULL,configMAX_PRIORITIES-1,NULL);
     xTaskCreate(setOutputs,"StateRele",100,NULL,configMAX_PRIORITIES-1,NULL);
     xTaskCreate(i2c_main_vers2,"i2c_vers2",100,NULL,configMAX_PRIORITIES-1,NULL);
     xTaskCreate(SendUartCommand,"SendUartCommand",100,NULL,configMAX_PRIORITIES-1,NULL);

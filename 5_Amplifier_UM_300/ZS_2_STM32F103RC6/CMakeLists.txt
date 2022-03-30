@@ -94,10 +94,9 @@ include_directories(
 endif()
 
 
-
-
 file(GLOB_RECURSE SOURCES_CPP
     src/*.cpp
+    src_classes/*.cpp
     )
 
 
@@ -107,6 +106,7 @@ include_directories(
     rtos
     ./
     libwwg/include
+    src_classes
     )
 
 
