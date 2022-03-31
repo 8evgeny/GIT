@@ -2,7 +2,7 @@
 #include "main.h"
 
 #define     __IO    volatile
-#define I2C_FLAG_BUSY                   ((uint32_t)0x00020000)
+#define  I2C_FLAG_BUSY                                     ((uint32_t)0x00020000)
 #define  I2C_EVENT_MASTER_MODE_SELECT                      ((uint32_t)0x00030001)  /* BUSY, MSL and SB flag */
 #define  I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED        ((uint32_t)0x00070082)  /* BUSY, MSL, ADDR, TXE and TRA flags */
 #define  I2C_EVENT_MASTER_RECEIVER_MODE_SELECTED           ((uint32_t)0x00030002)  /* BUSY, MSL and ADDR flags */

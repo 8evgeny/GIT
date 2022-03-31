@@ -207,6 +207,7 @@ void I2C_StartTransmission(uint32_t i2c, uint8_t transmissionDirection,  uint8_t
 #endif
     // Ждем пока взлетит нужный флаг
     while(!I2C_CheckEvent_(i2c, I2C_EVENT_MASTER_MODE_SELECT));
+
     // Посылаем адрес подчиненному  //возможно тут нужен сдвиг влево  //судя по исходникам - да, нужен сдвиг влево
     //http://microtechnics.ru/stm32-ispolzovanie-i2c/#comment-8109
 //    I2C_Send7bitAddress(I2Cx, slaveAddress<<1, transmissionDirection);
