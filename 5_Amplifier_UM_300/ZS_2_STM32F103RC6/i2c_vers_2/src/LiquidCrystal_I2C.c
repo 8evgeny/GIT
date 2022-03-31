@@ -241,10 +241,18 @@ void LCDI2C_write4bits(uint8_t value) {
 }
 
 void LCDI2C_expanderWrite(uint8_t _data){
+    #ifdef useI2C1
 	I2C_StartTransmission (I2C1, I2C_Direction_Transmitter, lcdi2c.Addr); //Wire.beginTransmission(_Addr);
 	I2C_WriteData(I2C1, (int)(_data) | lcdi2c.backlightval);  //printIIC((int)(_data) | _backlightval);
     i2c_send_stop(I2C1);
 //    I2C_GenerateSTOP(I2C1, 1); //Wire.endTransmission();
+    #endif
+    #ifdef useI2C2
+    I2C_StartTransmission (I2C2, I2C_Direction_Transmitter, lcdi2c.Addr); //Wire.beginTransmission(_Addr);
+    I2C_WriteData(I2C2, (int)(_data) | lcdi2c.backlightval);  //printIIC((int)(_data) | _backlightval);
+    i2c_send_stop(I2C2);
+    //    I2C_GenerateSTOP(I2C2, 1); //Wire.endTransmission();
+    #endif
 }
 
 void LCDI2C_pulseEnable(uint8_t _data){

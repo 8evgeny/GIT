@@ -228,18 +228,23 @@ void I2C_StartTransmission(uint32_t i2c, uint8_t transmissionDirection,  uint8_t
       {};
 //    // Генерируем старт - тут все понятно )
 //    I2C_GenerateSTART(I2Cx, ENABLE);
-
+#ifdef useI2C1
         i2c_send_start(I2C1);
-
-
+#endif
+#ifdef useI2C2
+        i2c_send_start(I2C2);
+#endif
     // Ждем пока взлетит нужный флаг
     while(!I2C_CheckEvent_(i2c, I2C_EVENT_MASTER_MODE_SELECT));
     // Посылаем адрес подчиненному  //возможно тут нужен сдвиг влево  //судя по исходникам - да, нужен сдвиг влево
     //http://microtechnics.ru/stm32-ispolzovanie-i2c/#comment-8109
 //    I2C_Send7bitAddress(I2Cx, slaveAddress<<1, transmissionDirection);
-
+#ifdef useI2C1
     i2c_send_7bit_address(I2C1, slaveAddress, transmissionDirection);
-
+#endif
+#ifdef useI2C2
+    i2c_send_7bit_address(I2C2, slaveAddress, transmissionDirection);
+#endif
 //    // А теперь у нас два варианта развития событий - в зависимости от выбранного направления обмена данными
     if(transmissionDirection== I2C_Direction_Transmitter)
     {
@@ -287,7 +292,6 @@ void I2C_POD_StartTransm (uint32_t i2c, uint8_t transmissionDirection,  uint8_t 
     //    I2C_GenerateSTART(I2Cx, ENABLE);
 
     i2c_send_start(I2C1);
-
 
     // Ждем пока взлетит нужный флаг
     while(!I2C_CheckEvent_(i2c, I2C_EVENT_MASTER_MODE_SELECT));
