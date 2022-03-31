@@ -3,7 +3,6 @@
 #include "delay.h"
 
 
-
 void digitaPOT(void *args)
 {
     (void)args;
@@ -62,8 +61,6 @@ DR WRITE OPERATION                  start 56 02 00 stop start 56 00 data stop
 DR READ OPERATION                   start 56 02 00 stop start 56 00 start 57 data stop
 #endif
 
-
-
 //start 56 02 00 stop start 56 00 data stop
 
 //void i2c_send_start(uint32_t i2c)
@@ -72,18 +69,15 @@ DR READ OPERATION                   start 56 02 00 stop start 56 00 start 57 dat
 //}
 
 
-
-
     for(;;)
     {
         init_I2C1();
         for (int i = 0; i < 127 ; ++i)
         {
-//            send_to_POT(i);
+            send_to_POT(i);
 
             vTaskDelay(pdMS_TO_TICKS(1000));
         }
-
 
 //        vTaskDelay(pdMS_TO_TICKS(1000));
     }

@@ -111,6 +111,7 @@ void testUART1(void *args __attribute__((unused)));
 void checkInputs(void *args __attribute__((unused)));
 void setOutputs(void *args __attribute((unused)));
 void i2c_main_vers2(void *args __attribute((unused)));
+void send_to_POT(uint8_t data);
 
 const char * checkReceivedByteFromMilandr(char data);
 

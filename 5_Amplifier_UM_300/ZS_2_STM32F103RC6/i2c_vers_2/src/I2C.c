@@ -253,7 +253,7 @@ uint8_t I2C_ReadData(uint32_t  i2c)
 }
 
 
-void I2C_POD_StartTransm (uint32_t i2c, uint8_t transmissionDirection,  uint8_t slaveAddress)
+void I2C_POD_StartTransmission(uint32_t i2c, uint8_t transmissionDirection,  uint8_t slaveAddress)
 //void I2C_StartTransmission(I2C_TypeDef* I2Cx, uint8_t transmissionDirection,  uint8_t slaveAddress)
 {
 
@@ -287,26 +287,20 @@ void I2C_POD_StartTransm (uint32_t i2c, uint8_t transmissionDirection,  uint8_t 
 }
 
 
-void digitalPOT_I2C_init(uint8_t pot_Addr)
+void send_to_POT(uint8_t data)
 {
-    poti2c.Addr = pot_Addr;
-    init_I2C1(); // Wire.begin();
-}
-
-void send_to_POT(char data)
-{
-    uint8_t data_to_POT = 0;
-    I2C_POD_StartTransm (I2C1, I2C_Direction_Transmitter, 0x56);
+//DR WRITE OPERATION  start 56 02 00 stop start 56 00 data stop
+    I2C_POD_StartTransmission(I2C1, I2C_Direction_Transmitter, 0x56);
     i2c_send_data(I2C1,0x02);
     while(!I2C_CheckEvent_(I2C1, I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED));
     i2c_send_data(I2C1,0x00);
     while(!I2C_CheckEvent_(I2C1, I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED));
     i2c_send_stop(I2C1);
 
-    I2C_POD_StartTransm (I2C1, I2C_Direction_Transmitter, 0x56);
+    I2C_POD_StartTransmission(I2C1, I2C_Direction_Transmitter, 0x56);
     i2c_send_data(I2C1,0x00);
     while(!I2C_CheckEvent_(I2C1, I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED));
-    i2c_send_data(I2C1,data_to_POT);
+    i2c_send_data(I2C1,data);
     while(!I2C_CheckEvent_(I2C1, I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED));
     i2c_send_stop(I2C1);
 }

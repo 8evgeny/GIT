@@ -32,6 +32,5 @@ void I2C_StartTransmission(uint32_t i2c, uint8_t transmissionDirection,  uint8_t
 void I2C_WriteData(uint32_t i2c, uint8_t data);
 uint8_t I2C_ReadData(uint32_t  i2c);
 
-void I2C_POD_StartTransm (uint32_t i2c, uint8_t transmissionDirection,  uint8_t slaveAddress);
-void digitalPOT_I2C_init(uint8_t pot_Addr);
+void I2C_POD_StartTransmission(uint32_t i2c, uint8_t transmissionDirection,  uint8_t slaveAddress);
 void digitalPOT_send_data(uint8_t byte1, uint8_t byte2, uint8_t byte3 );
