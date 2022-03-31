@@ -7,9 +7,8 @@ Digital_POT_I2C_Def poti2c;
 //GPIO_InitTypeDef i2c_gpio;
 //I2C_InitTypeDef i2c;
 
-void init_I2C(void)
+void init_I2C1(void)
 {
-#ifdef useI2C1 //i2c2 диагностический экранчик на i2c1
     rcc_periph_clock_enable(RCC_GPIOB);
     rcc_periph_clock_enable(RCC_I2C1);
     rcc_periph_clock_enable(RCC_AFIO);
@@ -46,12 +45,14 @@ void init_I2C(void)
      * This is our slave address - needed only if we want to receive from
      * other masters.
      */
-    i2c_set_own_7bit_slave_address(I2C1, 0x27);
+    i2c_set_own_7bit_slave_address(I2C1, 0x11);
 
     /* If everything is configured -> enable the peripheral. */
     i2c_peripheral_enable(I2C1);
-#endif
-#ifdef useI2C2 //i2c2 диагностический экранчик на i2c2
+}
+
+void init_I2C2(void)
+{
     rcc_periph_clock_enable(RCC_GPIOB);
     rcc_periph_clock_enable(RCC_I2C2);
     rcc_periph_clock_enable(RCC_AFIO);
@@ -92,37 +93,7 @@ void init_I2C(void)
 
     /* If everything is configured -> enable the peripheral. */
     i2c_peripheral_enable(I2C2);
-#endif
-
-
-
-
-
-//    // Включаем тактирование нужных модулей
-//    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB,ENABLE);
-//    RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO, ENABLE);
-//    RCC_APB1PeriphClockCmd(RCC_APB1Periph_I2C1, ENABLE);
-
-//    // А вот и настройка I2C
-//    i2c.I2C_ClockSpeed = 100000;
-//    i2c.I2C_Mode = I2C_Mode_I2C;
-//    i2c.I2C_DutyCycle = I2C_DutyCycle_2;
-//    // Адрес я тут взял первый пришедший в голову
-//    i2c.I2C_OwnAddress1 = 0x15;
-//    i2c.I2C_Ack = I2C_Ack_Enable;
-//    i2c.I2C_AcknowledgedAddress = I2C_AcknowledgedAddress_7bit;
-//    I2C_Init(I2C1, &i2c);
-
-//    // I2C использует две ноги микроконтроллера, их тоже нужно настроить
-//    i2c_gpio.GPIO_Pin = GPIO_Pin_6 | GPIO_Pin_7;
-//    i2c_gpio.GPIO_Mode = GPIO_Mode_AF_OD;
-//    i2c_gpio.GPIO_Speed = GPIO_Speed_50MHz;
-//    GPIO_Init(GPIOB, &i2c_gpio);
-
-//    // Ну и включаем, собственно, модуль I2C1
-//    I2C_Cmd(I2C1, ENABLE);
 }
-
 
 bool I2C_GetFlagStatus_(uint32_t i2c, uint32_t I2C_FLAG)
 //FlagStatus I2C_GetFlagStatus_(I2C_TypeDef* I2Cx, uint32_t I2C_FLAG)
@@ -315,9 +286,8 @@ void I2C_POD_StartTransm (uint32_t i2c, uint8_t transmissionDirection,  uint8_t 
 
 void digitalPOT_I2C_init(uint8_t pot_Addr)
 {
-
     poti2c.Addr = pot_Addr;
-    //    init_I2C1(); // Wire.begin();
+    init_I2C1(); // Wire.begin();
 }
 
 void digitalPOT_send_data(uint8_t byte1, uint8_t byte2, uint8_t byte3 )
