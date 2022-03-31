@@ -6,7 +6,7 @@
 void digitaPOT(void *args)
 {
     (void)args;
-    DelayMC(50000);
+
 #if 0
 void i2c_reset(uint32_t i2c);
 void i2c_peripheral_enable(uint32_t i2c);
@@ -68,22 +68,23 @@ DR READ OPERATION                   start 56 02 00 stop start 56 00 start 57 dat
 //	I2C_CR1(i2c) |= I2C_CR1_START; !!!!!!!!!!!!!!!!!!!!!!!!!!! тут все
 //}
 
-
+    stringToLcd("buf");
     for(;;)
     {
-//        init_I2C1();
-//        for (uint8_t i = 0; i < 127 ; ++i)
-//        {
+        init_I2C1();
+        for (ii = 0; ii < 127 ; ++ii)
+        {
 //            char buf[10];
-//            sprintf(buf, "%d", i);
-//            send_to_POT(i);
+//            sprintf(buf, "%d", ii);
+            send_to_POT(ii);
 //            stringToLcd("buf");
 //            stringToLcd(buf);
 
-//            vTaskDelay(pdMS_TO_TICKS(1000));
-//        }
+            vTaskDelay(pdMS_TO_TICKS(100));
+        }
 
-//        vTaskDelay(pdMS_TO_TICKS(1000));
+
+        vTaskDelay(pdMS_TO_TICKS(100));
     }
 
 

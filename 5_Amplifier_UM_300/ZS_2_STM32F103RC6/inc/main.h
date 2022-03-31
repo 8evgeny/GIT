@@ -75,6 +75,8 @@ extern "C" {
 #define toMilandr_ERROR_MC_ON_OK           "N"
 #define toMilandr_ERROR_MC_OFF_OK          "M"
 
+static uint8_t ii;
+
 static bool MilandrNoReceiveCmd = 0;
 static bool UncnownCmdFromMilandr = 0;
 

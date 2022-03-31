@@ -340,7 +340,7 @@ void checkInputs(void *args)
             }
             gpioMic = temp12;
         }
-        vTaskDelay(pdMS_TO_TICKS(5));
+        vTaskDelay(pdMS_TO_TICKS(50));
     }
 
 
