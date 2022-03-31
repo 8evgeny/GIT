@@ -18,6 +18,9 @@ extern "C" {
 #include "task.h"
 #include "stdio.h"
 
+#define useI2C2 //i2c2 диагностический экранчик
+
+
 #define mainECHO_TASK_PRIORITY				( tskIDLE_PRIORITY + 1 )
 
 //Команды  Stm -> Milandr   (обработка в  check_input.c)

@@ -46,7 +46,7 @@ void LCDI2C_init(uint8_t lcd_Addr,uint8_t lcd_cols,uint8_t lcd_rows)
   lcdi2c.rows = lcd_rows;
   lcdi2c.backlightval = LCD_NOBACKLIGHT;
 
-  init_I2C1(); // Wire.begin();
+  init_I2C(); // Wire.begin();
   lcdi2c.displayfunction = LCD_4BITMODE | LCD_1LINE | LCD_5x8DOTS;
   LCDI2C_begin(lcd_cols, lcd_rows);
 }

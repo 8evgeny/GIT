@@ -24,7 +24,7 @@ typedef struct
     uint8_t WIPER_CONTROL_REGISTER_WCR_7_bit;
 } Digital_POT_I2C_Def ;
 
-void init_I2C1(void);
+void init_I2C(void);
 bool I2C_GetFlagStatus_(uint32_t i2c, uint32_t I2C_FLAG);
 ErrorStatus I2C_CheckEvent_(uint32_t i2c, uint32_t I2C_EVENT);
 void I2C_StartTransmission(uint32_t i2c, uint8_t transmissionDirection,  uint8_t slaveAddress);

@@ -7,7 +7,7 @@ Digital_POT_I2C_Def poti2c;
 //GPIO_InitTypeDef i2c_gpio;
 //I2C_InitTypeDef i2c;
 
-void init_I2C1(void)
+void init_I2C(void)
 {
 
     rcc_periph_clock_enable(RCC_GPIOB);

@@ -11,8 +11,11 @@ void setReadyLed(bool set) { if(set) gpio_set(GPIOB, GPIO8);  else gpio_clear(GP
 void setUpr1(bool set) { if(set) gpio_set(GPIOB, GPIO1);  else gpio_clear(GPIOB, GPIO1);}
 void setUpr2(bool set) { if(set) gpio_set(GPIOB, GPIO2);  else gpio_clear(GPIOB, GPIO2);}
 
+#ifndef useI2C2 //i2c2 диагностический экранчик
 void setLedShortOut(bool set) { if(set) gpio_set(GPIOB, GPIO10);  else gpio_clear(GPIOB, GPIO10);}
 void setLedBreakOut(bool set) { if(set) gpio_set(GPIOB, GPIO11);  else gpio_clear(GPIOB, GPIO11);}
+#endif
+
 void setLedOvercutOut(bool set) { if(set) gpio_set(GPIOB, GPIO12);  else gpio_clear(GPIOB, GPIO12);}
 void setLedOverheatOut(bool set) { if(set) gpio_set(GPIOB, GPIO13);  else gpio_clear(GPIOB, GPIO13);}
 void setErrorRele(bool set) { if(set) gpio_set(GPIOB, GPIO14);  else gpio_clear(GPIOB, GPIO14);}
