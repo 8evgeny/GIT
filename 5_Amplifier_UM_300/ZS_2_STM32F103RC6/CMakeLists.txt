@@ -25,9 +25,9 @@ add_definitions(-DUSE_STDPERIPH_DRIVER -DUSE_FULL_ASSERT)
 
 add_definitions(-DuseDisplay) #использовать диагностический экранчик
 
-add_definitions(-DuseI2C1) #i2c2 диагностический экранчик на i2c1
+#add_definitions(-DuseI2C1) #i2c2 диагностический экранчик на i2c1
 #на 12с2 пока не работает (PB6 -> PB10  PB7 -> PB11)
-#add_definitions(-DuseI2C2) #i2c2 диагностический экранчик на i2c2
+add_definitions(-DuseI2C2) #i2c2 диагностический экранчик на i2c2
 
 #Uncomment for software floating point
 #SET(FPU_FLAGS "-mfloat-abi=soft")
