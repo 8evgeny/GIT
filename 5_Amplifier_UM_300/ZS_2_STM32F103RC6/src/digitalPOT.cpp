@@ -6,8 +6,8 @@ void digitaPOT(void *args)
 {
     (void)args;
 
-    digitalPOT_I2C_init(0x25);
-    digitalPOT_send_data(0x11,0x22,0x44);
+//    digitalPOT_I2C_init(0x25);
+//    digitalPOT_send_data(0x11,0x22,0x44);
 
 
 
