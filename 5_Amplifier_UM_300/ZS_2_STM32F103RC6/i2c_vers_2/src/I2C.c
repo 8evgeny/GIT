@@ -158,11 +158,7 @@ ErrorStatus I2C_CheckEvent_(uint32_t i2c, uint32_t I2C_EVENT)
   uint32_t flag1 = 0, flag2 = 0;
   ErrorStatus status = ERROR;
 
-  /* Check the parameters */
-//  assert_param(IS_I2C_ALL_PERIPH(I2Cx));
-//  assert_param(IS_I2C_EVENT(I2C_EVENT));
-
-  /* Read the I2Cx status register */
+/* Read the I2Cx status register */
   flag1 = I2C_SR1(i2c);
   flag2 = I2C_SR2(i2c);
   flag2 = flag2 << 16;
@@ -195,8 +191,8 @@ void I2C_StartTransmission(uint32_t i2c, uint8_t transmissionDirection,  uint8_t
 //    i2c_send_7bit_address(I2C1, slaveAddress, transmissionDirection);
 
 //    // На всякий слуыай ждем, пока шина осовободится
-//      while(I2C_GetFlagStatus_(i2c, I2C_FLAG_BUSY))
-      while(I2C_SR2(i2c) && ~I2C_SR2_BUSY != 0x00000000)
+      while(I2C_GetFlagStatus_(i2c, I2C_FLAG_BUSY))
+//      while((I2C_SR2(i2c) & ~I2C_SR2_BUSY) != 0x00000000)
       {};
 //    // Генерируем старт - тут все понятно )
 //    I2C_GenerateSTART(I2Cx, ENABLE);
@@ -208,7 +204,12 @@ void I2C_StartTransmission(uint32_t i2c, uint8_t transmissionDirection,  uint8_t
 #endif
     // Ждем пока взлетит нужный флаг
     while(!I2C_CheckEvent_(i2c, I2C_EVENT_MASTER_MODE_SELECT));
-
+//    while(!
+//          ((I2C_SR1(i2c) & I2C_SR1_SB) == I2C_SR1_SB) &&
+//          ((I2C_SR2(i2c) & I2C_SR2_MSL) == I2C_SR2_MSL) &&
+//          ((I2C_SR2(i2c) & I2C_SR2_BUSY) == I2C_SR2_BUSY)
+//          );
+//BUSY, MSL and SB flag
     // Посылаем адрес подчиненному  //возможно тут нужен сдвиг влево  //судя по исходникам - да, нужен сдвиг влево
     //http://microtechnics.ru/stm32-ispolzovanie-i2c/#comment-8109
 //    I2C_Send7bitAddress(I2Cx, slaveAddress<<1, transmissionDirection);
@@ -292,12 +293,20 @@ void digitalPOT_I2C_init(uint8_t pot_Addr)
     init_I2C1(); // Wire.begin();
 }
 
-void digitalPOT_send_data(uint8_t byte1, uint8_t byte2, uint8_t byte3 )
+void send_to_POT(char data)
 {
-    I2C_POD_StartTransm (I2C1, I2C_Direction_Transmitter, poti2c.Addr);
-    //            I2C_WriteDat(I2C1,(int)byte1);
-    //            I2C_WriteDat(I2C1,(int)byte2);
-    //            I2C_WriteDat(I2C1,(int)byte3);
-    //            I2C_GenerateSTOP(I2C1, ENABLE);
-}
+    uint8_t data_to_POT = 0;
+    I2C_POD_StartTransm (I2C1, I2C_Direction_Transmitter, 0x56);
+    i2c_send_data(I2C1,0x02);
+    while(!I2C_CheckEvent_(I2C1, I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED));
+    i2c_send_data(I2C1,0x00);
+    while(!I2C_CheckEvent_(I2C1, I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED));
+    i2c_send_stop(I2C1);
 
+    I2C_POD_StartTransm (I2C1, I2C_Direction_Transmitter, 0x56);
+    i2c_send_data(I2C1,0x00);
+    while(!I2C_CheckEvent_(I2C1, I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED));
+    i2c_send_data(I2C1,data_to_POT);
+    while(!I2C_CheckEvent_(I2C1, I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED));
+    i2c_send_stop(I2C1);
+}
