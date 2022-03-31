@@ -11,7 +11,7 @@ void setReadyLed(bool set) { if(set) gpio_set(GPIOB, GPIO8);  else gpio_clear(GP
 void setUpr1(bool set) { if(set) gpio_set(GPIOB, GPIO1);  else gpio_clear(GPIOB, GPIO1);}
 void setUpr2(bool set) { if(set) gpio_set(GPIOB, GPIO2);  else gpio_clear(GPIOB, GPIO2);}
 
-#ifndef useI2C2 //i2c2 диагностический экранчик
+#ifdef useI2C1 //i2c2 диагностический экранчик на i2c1
 void setLedShortOut(bool set) { if(set) gpio_set(GPIOB, GPIO10);  else gpio_clear(GPIOB, GPIO10);}
 void setLedBreakOut(bool set) { if(set) gpio_set(GPIOB, GPIO11);  else gpio_clear(GPIOB, GPIO11);}
 #endif
