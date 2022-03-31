@@ -40,27 +40,40 @@ void i2c_clear_dma_last_transfer(uint32_t i2c);
 void i2c_transfer7(uint32_t i2c, uint8_t addr, const uint8_t *w, size_t wn, uint8_t *r, size_t rn);
 void i2c_set_speed(uint32_t i2c, enum i2c_speeds speed, uint32_t clock_megahz);
 
-    AR - только запись
-    57 - чтение
-    56 - запись
-            56 02 80 выбор WCR
-            56 02 00 выбор DR
+AR - только запись
+57 - чтение
+56 - запись
+56 02 80 выбор WCR
+56 02 00 выбор DR
+The WCR is a volatile register and is written with the contents of the nonvolatile Data Register (DR) on power-up.
 
+WCR WRITE OPERATION                 start 56 02 80 stop start 56 00 data stop
 
+WCR INCREMENT/DECREMENT OPERATION - start 56 02 80 stop start 5E 00 ??
 
+WCR READ OPERATION                  start 56 02 80 stop start 56 00 start 57 data stop
+
+The WCR is also written during a write to DR
+
+DR WRITE OPERATION                  start 56 02 00 stop start 56 00 data stop
+
+DR READ OPERATION                   start 56 02 00 stop start 56 00 start 57 data stop
 #endif
-//                    typedef struct
-//                    {
-//                        uint8_t Addr;
-//                        uint8_t Access_Control_Register_byte1;
-//                        uint8_t Access_Control_Register_byte2;
-//                        uint8_t Access_Control_Register_byte3;
-//                        uint8_t MEMORY_REGISTER_DR_7_bit;
-//                        uint8_t WIPER_CONTROL_REGISTER_WCR_7_bit;
-//                    } Digital_POT_I2C_Def ;
 
-//    digitalPOT_I2C_init(0x11);
-//    digitalPOT_send_data(0x11,0x22,0x44);
+
+//    init_I2C1();
+
+//start 56 02 00 stop start 56 00 data stop
+
+//void i2c_send_start(uint32_t i2c)
+//{
+//	I2C_CR1(i2c) |= I2C_CR1_START; !!!!!!!!!!!!!!!!!!!!!!!!!!! тут все
+//}
+
+
+//    I2C_POD_StartTransm (I2C1, I2C_Direction_Transmitter, 0x56);
+//    while(!I2C_CheckEvent_(I2C1, I2C_EVENT_MASTER_MODE_SELECT));
+//    i2c_send_data(I2C1,0x02);
 
 
 
