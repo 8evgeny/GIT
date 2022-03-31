@@ -71,19 +71,20 @@ DR READ OPERATION                   start 56 02 00 stop start 56 00 start 57 dat
 
     for(;;)
     {
-        init_I2C1();
-        for (uint8_t i = 0; i < 127 ; ++i)
-        {
-            char buf[10];
-            sprintf(buf, "%d", i);
-            send_to_POT(i);
+//        init_I2C1();
+//        for (uint8_t i = 0; i < 127 ; ++i)
+//        {
+//            char buf[10];
+//            sprintf(buf, "%d", i);
+//            send_to_POT(i);
+//            stringToLcd("buf");
+//            stringToLcd(buf);
 
-            stringToLcd(buf);
-
-            vTaskDelay(pdMS_TO_TICKS(1000));
-        }
+//            vTaskDelay(pdMS_TO_TICKS(1000));
+//        }
 
 //        vTaskDelay(pdMS_TO_TICKS(1000));
     }
+
 
 }
