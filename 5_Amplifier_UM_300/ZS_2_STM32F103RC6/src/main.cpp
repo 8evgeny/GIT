@@ -46,7 +46,7 @@ usart1_diadnostic_setup()
 }
 
 static void
-uart1_diagnosyic_task(void *args) {
+usart1_diagnostic_task(void *args) {
     int gc;
     char kbuf[256], ch;
 
@@ -186,7 +186,7 @@ int main() {
     usart1_diadnostic_setup();
 
     xTaskCreate(uart_task,"UART",100,NULL,configMAX_PRIORITIES-1,NULL);
-    xTaskCreate(uart1_diagnosyic_task,"UART",100,NULL,configMAX_PRIORITIES-1,NULL);
+    xTaskCreate(usart1_diagnostic_task,"UART",100,NULL,configMAX_PRIORITIES-1,NULL);
 
     xTaskCreate(i2c_main_vers2,"i2c_vers2",100,NULL,configMAX_PRIORITIES-2,NULL);
     xTaskCreate(SendUartCommand,"SendUartCommand",100,NULL,configMAX_PRIORITIES-2,NULL);
