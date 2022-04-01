@@ -24,8 +24,8 @@ void init_I2C1(void)
     i2c_set_clock_frequency(I2C1, 36);
 
     /* 400KHz - I2C Fast Mode */
-//    i2c_set_fast_mode(I2C1);
-    i2c_set_standard_mode(I2C1);
+    i2c_set_fast_mode(I2C1);
+//    i2c_set_standard_mode(I2C1);
 
     /*
      * fclock for I2C is 36MHz APB2 -> cycle time 28ns, low time at 400kHz
