@@ -154,12 +154,6 @@ void init_I2C1();
 
 void digitalPOT_I2C_init(uint8_t pot_Addr);
 
-
-
-
-
-//void I2C_StartTransmission(I2C_TypeDef* I2Cx, uint8_t transmissionDirection,  uint8_t slaveAddress);
-//void I2C_WriteData(I2C_TypeDef* I2Cx, uint8_t data);
 void backlight();
 void noBacklight();
 
