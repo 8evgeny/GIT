@@ -89,7 +89,7 @@ void init_I2C2(void)
      * This is our slave address - needed only if we want to receive from
      * other masters.
      */
-    i2c_set_own_7bit_slave_address(I2C2, 0x27);
+    i2c_set_own_7bit_slave_address(I2C2, 0x11);
 
     /* If everything is configured -> enable the peripheral. */
     i2c_peripheral_enable(I2C2);
