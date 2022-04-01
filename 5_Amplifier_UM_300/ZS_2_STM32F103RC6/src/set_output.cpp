@@ -6,6 +6,8 @@ void setOutputs(void *args)
 
     for(;;)
     {
+//stringTo_diagnostic_Usart1("test\n\r");
+
         if (ERROR_MC  || OVERHEAT_MC )
         {
             setErrorRele(true);

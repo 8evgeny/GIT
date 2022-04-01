@@ -36,6 +36,7 @@ void checkInputs(void *args)
 
     for(;;)
     {
+//        stringTo_diagnostic_Usart1("test\n\r");
         temp1 = gpio_get(GPIOA, GPIO0);
         temp2 = gpio_get(GPIOA, GPIO1);
         temp3 = gpio_get(GPIOA, GPIO2);

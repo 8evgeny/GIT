@@ -121,7 +121,10 @@ const char * checkReceivedByteFromMilandr(char data);
 void i2c_main_vers1();
 void stringToLcd(const char* str);
 void gpio_setup();
+
 void stringToUart(const char *s);
+void stringTo_diagnostic_Usart1(const char *s);
+
 void setImpedanceRele(bool);
 void setReleTr1(bool);
 void setReleTr2(bool);

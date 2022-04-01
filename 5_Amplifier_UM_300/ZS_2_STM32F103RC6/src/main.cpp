@@ -63,6 +63,7 @@ uart1_diagnosyic_task(void *args) {
             ch = (char)gc;
             const char* toLcd = checkReceivedByteFromMilandr (ch);
             stringToLcd(toLcd);
+            stringTo_diagnostic_Usart1(toLcd);
         }
 
         /* Receive char to be TX */
@@ -85,6 +86,8 @@ test_diadnostic_USART1(void *args __attribute__((unused)))
     for (;;)
     {
         vTaskDelay(pdMS_TO_TICKS(200));
+
+        stringTo_diagnostic_Usart1("test\n\r");
 
         if ( ++c >= 'Z' )
         {
@@ -120,6 +123,7 @@ uart_task(void *args) {
             ch = (char)gc;
             const char* toLcd = checkReceivedByteFromMilandr (ch);
             stringToLcd(toLcd);
+            stringTo_diagnostic_Usart1(toLcd);
         }
 
         /* Receive char to be TX */
@@ -138,6 +142,15 @@ void stringToUart(const char *s) {
     }
 }
 
+void stringTo_diagnostic_Usart1(const char *s) {
+
+    for ( ; *s; ++s ) {
+        // blocks when queue is full
+        xQueueSend(usart_diagnostic_txq, s, portMAX_DELAY);
+    }
+    xQueueSend(usart_diagnostic_txq, "\n", portMAX_DELAY);
+    xQueueSend(usart_diagnostic_txq, "\r", portMAX_DELAY);
+}
 
 
 static void
@@ -175,14 +188,13 @@ int main() {
     xTaskCreate(uart_task,"UART",100,NULL,configMAX_PRIORITIES-1,NULL);
     xTaskCreate(uart1_diagnosyic_task,"UART",100,NULL,configMAX_PRIORITIES-1,NULL);
 
-
     xTaskCreate(i2c_main_vers2,"i2c_vers2",100,NULL,configMAX_PRIORITIES-2,NULL);
     xTaskCreate(SendUartCommand,"SendUartCommand",100,NULL,configMAX_PRIORITIES-2,NULL);
     xTaskCreate(checkInputs,"+InputSignals",100,NULL,configMAX_PRIORITIES-1,NULL);
     xTaskCreate(setOutputs,"+StateRele",100,NULL,configMAX_PRIORITIES-1,NULL);
     xTaskCreate(digitaPOT,"digitaPOT",200,NULL,configMAX_PRIORITIES-2,NULL);
 
-    xTaskCreate(test_diadnostic_USART1, "USART1", 100, NULL, configMAX_PRIORITIES - 1, NULL);
+//    xTaskCreate(test_diadnostic_USART1, "USART1", 100, NULL, configMAX_PRIORITIES - 1, NULL);
 //    xTaskCreate(testSendUartCommand,"testSendUartCommand",100,NULL,configMAX_PRIORITIES-1,NULL);
 //    xTaskCreate(testTask1, "LED1", 100, NULL, configMAX_PRIORITIES - 1, NULL);
 //    xTaskCreate(testTask2, "LED2", 100, NULL, configMAX_PRIORITIES - 1, NULL);
