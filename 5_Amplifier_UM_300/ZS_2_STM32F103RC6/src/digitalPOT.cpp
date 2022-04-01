@@ -7,19 +7,20 @@ void digitaPOT(void *args)
 {
     (void)args;
 
+    init_I2C1();
     for(;;)
     {
-//        init_I2C1();
-//        for (ii = 0; ii < 127 ; ++ii)
-//        {
-//            char buf[10];
-//            sprintf(buf, "%d", ii);
-//            send_to_POT(ii);
+
+        for (ii = 0; ii < 127 ; ++ii)
+        {
+            char buf[10];
+            sprintf(buf, "%d", ii);
+            send_to_POT(ii);
 //            stringToLcd("buf");
 //            stringToLcd(buf);
 
 
-//        }
+        }
 
 //        stringToLcd("buf12345");
 
