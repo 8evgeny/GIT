@@ -29,6 +29,56 @@ vApplicationStackOverflowHook(xTaskHandle *pxTask,signed portCHAR *pcTaskName)
 
 
 static void
+usart1_diadnostic_setup()
+{
+//    usart_set_baudrate(USART3,19200);
+//    usart_set_databits(USART3,8);
+//    usart_set_stopbits(USART3,USART_STOPBITS_1);
+//    usart_set_mode(USART3,USART_MODE_TX_RX);
+//    usart_set_parity(USART3,USART_PARITY_NONE);
+//    usart_set_flow_control(USART3,USART_FLOWCONTROL_NONE);
+//    usart_enable(USART3);
+    open_uart(1, 38400, "8N1", "rw", 0, 0); //аналог верхним 7 строкам
+
+    // Create a queue for data to transmit from UART
+//    uart_txq = xQueueCreate(256,sizeof(char));
+
+}
+
+
+
+static inline void
+uart_putc(char ch) {
+    usart_send_blocking(USART1, ch);
+}
+
+void
+test_diadnostic_USART1(void *args __attribute__((unused)))
+{
+    int c = '0' - 1;
+    for (;;)
+    {
+        vTaskDelay(pdMS_TO_TICKS(200));
+
+        if ( ++c >= 'Z' )
+        {
+            uart_putc(c);
+            uart_putc('\r');
+            uart_putc('\n');
+            c = '0' - 1;
+        } else
+        {
+            uart_putc(c);
+        }
+    }
+}
+
+
+
+
+
+
+static void
 uart_task(void *args) {
     int gc;
     char kbuf[256], ch;
@@ -96,6 +146,7 @@ int main() {
 
     gpio_setup();
     uart_setup();
+    usart1_diadnostic_setup();
 
     xTaskCreate(uart_task,"UART",100,NULL,configMAX_PRIORITIES-1,NULL);
     xTaskCreate(checkInputs,"InputSignals",100,NULL,configMAX_PRIORITIES-1,NULL);
@@ -105,7 +156,7 @@ int main() {
     xTaskCreate(digitaPOT,"digitaPOT",200,NULL,configMAX_PRIORITIES-1,NULL);
 
 //    xTaskCreate(testSendUartCommand,"testSendUartCommand",100,NULL,configMAX_PRIORITIES-1,NULL);
-//    xTaskCreate(testUART1, "UART4", 100, NULL, configMAX_PRIORITIES - 2, NULL);
+    xTaskCreate(test_diadnostic_USART1, "USART1", 100, NULL, configMAX_PRIORITIES - 2, NULL);
 //    xTaskCreate(testTask1, "LED1", 100, NULL, configMAX_PRIORITIES - 1, NULL);
 //    xTaskCreate(testTask2, "LED2", 100, NULL, configMAX_PRIORITIES - 1, NULL);
 //    xTaskCreate(testTask3, "LED3", 100, NULL, configMAX_PRIORITIES - 1, NULL);

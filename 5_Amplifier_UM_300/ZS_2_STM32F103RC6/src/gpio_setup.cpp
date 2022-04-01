@@ -9,12 +9,9 @@ void gpio_setup(void) {
     rcc_periph_clock_enable(RCC_GPIOC);
     rcc_periph_clock_enable(RCC_GPIOD);
     rcc_periph_clock_enable(RCC_AFIO);
+    rcc_periph_clock_enable(RCC_USART1);
     rcc_periph_clock_enable(RCC_USART3);
 
-    //USART3 переопределяем выводы PC10-TX (белый) PC11-RX (зеленый)
-    gpio_primary_remap(AFIO_MAPR, AFIO_MAPR_USART3_REMAP_PARTIAL_REMAP);
-    gpio_set_mode(GPIOC, GPIO_MODE_OUTPUT_50_MHZ, GPIO_CNF_OUTPUT_ALTFN_PUSHPULL, GPIO_USART3_PR_TX);
-    gpio_set_mode(GPIOC, GPIO_MODE_INPUT,GPIO_CNF_INPUT_FLOAT, GPIO_USART3_PR_RX);
 
     //Выходы
     gpio_set_mode(GPIOA, GPIO_MODE_OUTPUT_2_MHZ, GPIO_CNF_OUTPUT_PUSHPULL, GPIO8);  //OUT11 IMP_RELE
@@ -22,6 +19,13 @@ void gpio_setup(void) {
     #ifndef useUSART1 //При диагностике отключаем - пины определяем с USART1
     gpio_set_mode(GPIOA, GPIO_MODE_OUTPUT_2_MHZ, GPIO_CNF_OUTPUT_PUSHPULL, GPIO9);  //OUT12 RELE_TR1
     gpio_set_mode(GPIOA, GPIO_MODE_OUTPUT_2_MHZ, GPIO_CNF_OUTPUT_PUSHPULL, GPIO10); //OUT13 RELE_TR2
+    #endif
+
+    #ifdef useUSART1
+    //USART1 определяем выводы PA9-USART2_TX PA10-USART2_RX
+//    gpio_primary_remap(AFIO_MAPR, AFIO_MAPR_USART3_REMAP_PARTIAL_REMAP);
+    gpio_set_mode(GPIOA, GPIO_MODE_OUTPUT_50_MHZ, GPIO_CNF_OUTPUT_ALTFN_PUSHPULL, GPIO_USART1_TX);
+    gpio_set_mode(GPIOA, GPIO_MODE_INPUT,GPIO_CNF_INPUT_FLOAT, GPIO_USART1_RX);
     #endif
 
     gpio_set_mode(GPIOA, GPIO_MODE_OUTPUT_2_MHZ, GPIO_CNF_OUTPUT_PUSHPULL, GPIO11); //OUT14 RELE_TR3
@@ -46,6 +50,11 @@ void gpio_setup(void) {
     gpio_set_mode(GPIOC, GPIO_MODE_OUTPUT_2_MHZ, GPIO_CNF_OUTPUT_PUSHPULL, GPIO7);  //OUT6 RELE_LINE3
     gpio_set_mode(GPIOC, GPIO_MODE_OUTPUT_2_MHZ, GPIO_CNF_OUTPUT_PUSHPULL, GPIO8);  //OUT6 RELE_LINE4
     gpio_set_mode(GPIOC, GPIO_MODE_OUTPUT_2_MHZ, GPIO_CNF_OUTPUT_PUSHPULL, GPIO9);  //OUT10 RELE_24V
+
+    //USART3 переопределяем выводы PC10-TX (белый) PC11-RX (зеленый)
+    gpio_primary_remap(AFIO_MAPR, AFIO_MAPR_USART3_REMAP_PARTIAL_REMAP);
+    gpio_set_mode(GPIOC, GPIO_MODE_OUTPUT_50_MHZ, GPIO_CNF_OUTPUT_ALTFN_PUSHPULL, GPIO_USART3_PR_TX);
+    gpio_set_mode(GPIOC, GPIO_MODE_INPUT,GPIO_CNF_INPUT_FLOAT, GPIO_USART3_PR_RX);
 
     //тестовые задачи - blink
     gpio_set_mode(GPIOC, GPIO_MODE_OUTPUT_2_MHZ, GPIO_CNF_OUTPUT_PUSHPULL, GPIO4);
