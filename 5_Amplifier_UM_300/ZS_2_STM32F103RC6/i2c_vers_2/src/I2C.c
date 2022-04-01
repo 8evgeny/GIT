@@ -191,8 +191,8 @@ void I2C_StartTransmission(uint32_t i2c, uint8_t transmissionDirection,  uint8_t
 //    i2c_send_7bit_address(I2C1, slaveAddress, transmissionDirection);
 
 //    // На всякий слуыай ждем, пока шина осовободится
-      while(I2C_GetFlagStatus_(i2c, I2C_FLAG_BUSY))
-//      while((I2C_SR2(i2c) & ~I2C_SR2_BUSY) != 0x00000000)
+//      while(I2C_GetFlagStatus_(i2c, I2C_FLAG_BUSY))
+      while((I2C_SR2(i2c) & I2C_SR2_BUSY) != 0x00000000)
       {};
 //    // Генерируем старт - тут все понятно )
 //    I2C_GenerateSTART(I2Cx, ENABLE);
