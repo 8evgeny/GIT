@@ -205,7 +205,7 @@ void I2C_StartTransmission(uint32_t i2c, uint8_t transmissionDirection,  uint8_t
     // Ждем пока взлетит нужный флаг
 //    while(!I2C_CheckEvent_(i2c, I2C_EVENT_MASTER_MODE_SELECT));
 
-    while(
+    while(// Выход из цикла когда все флаги упадут в 0
           ((I2C_SR1(i2c) & I2C_SR1_SB) == 0x00000000)  ||     //Start condition generated.
           ((I2C_SR2(i2c) & I2C_SR2_MSL) == 0x00000000) ||     //Master
           ((I2C_SR2(i2c) & I2C_SR2_BUSY) == 0x00000000)       //Занято
@@ -224,11 +224,27 @@ void I2C_StartTransmission(uint32_t i2c, uint8_t transmissionDirection,  uint8_t
 //    // А теперь у нас два варианта развития событий - в зависимости от выбранного направления обмена данными
     if(transmissionDirection== I2C_Direction_Transmitter)
     {
-        while(!I2C_CheckEvent_(i2c, I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED));
+//        while(!I2C_CheckEvent_(i2c, I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED));
+//((uint32_t)0x00070082)  /* BUSY, MSL, ADDR, TXE and TRA flags */
+
+        while( // Выход из цикла когда все флаги упадут в 0
+              ((I2C_SR1(i2c) & I2C_SR1_TxE) == 0x00000000)  ||  //TXE
+              ((I2C_SR1(i2c) & I2C_SR1_ADDR) == 0x00000000) ||  //ADDR
+              ((I2C_SR2(i2c) & I2C_SR2_BUSY) == 0x00000000) ||  //BUSY
+              ((I2C_SR2(i2c) & I2C_SR2_MSL) == 0x00000000)  ||  //MSL
+              ((I2C_SR2(i2c) & I2C_SR2_TRA) == 0x00000000)      //TRA
+              );
     }
     if(transmissionDirection== I2C_Direction_Receiver)
     {
-    while(!I2C_CheckEvent_(i2c, I2C_EVENT_MASTER_RECEIVER_MODE_SELECTED));
+//    while(!I2C_CheckEvent_(i2c, I2C_EVENT_MASTER_RECEIVER_MODE_SELECTED));
+//((uint32_t)0x00030002)  /* BUSY, MSL and ADDR flags */
+
+        while( // Выход из цикла когда все флаги упадут в 0
+              ((I2C_SR1(i2c) & I2C_SR1_ADDR) == 0x00000000) ||  //ADDR
+              ((I2C_SR2(i2c) & I2C_SR2_BUSY) == 0x00000000) ||  //BUSY
+              ((I2C_SR2(i2c) & I2C_SR2_MSL) == 0x00000000)      //MSL
+              );
     }
 }
 
