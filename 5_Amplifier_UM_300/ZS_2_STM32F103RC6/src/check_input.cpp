@@ -60,6 +60,7 @@ void checkInputs(void *args)
                     btnImpedance = 1;
                     stringToUart(toMilandr_BtnImpedance_On);
 //                    stringToLcd("Button Impedance ON");
+                    stringTo_diagnostic_Usart1("Button Impedance ON");
                 }
             }
 
@@ -70,6 +71,7 @@ void checkInputs(void *args)
                     btnImpedance = 0;
                     stringToUart(toMilandr_BtnImpedance_Off);
 //                    stringToLcd("Button Impedance OFF");
+                    stringTo_diagnostic_Usart1("Button Impedance OFF");
                 }
             }
             gpioImpedance = temp1;
@@ -85,6 +87,8 @@ void checkInputs(void *args)
                     btnCalibrovka = 1;
                     stringToUart(toMilandr_BtnCalibr_On);
 //                    stringToLcd("Button Calibrov ON");
+                    stringTo_diagnostic_Usart1("Button Calibrov ON");
+
                 }
             }
 
@@ -95,6 +99,7 @@ void checkInputs(void *args)
                     btnCalibrovka = 0;
                     stringToUart(toMilandr_BtnCalibr_Off);
 //                    stringToLcd("Button Calibrov OFF");
+                    stringTo_diagnostic_Usart1("Button Calibrov OFF");
                 }
             }
             gpioCalibrovka = temp2;
@@ -110,6 +115,7 @@ void checkInputs(void *args)
                     btnReset = 1;
                     stringToUart(toMilandr_BtnReset_On);
 //                    stringToLcd("Button Reset ON");
+                    stringTo_diagnostic_Usart1("Button Reset ON");
                 }
             }
 
@@ -120,6 +126,7 @@ void checkInputs(void *args)
                     btnReset = 0;
                     stringToUart(toMilandr_BtnReset_Off);
 //                    stringToLcd("Button Reset OFF");
+                    stringTo_diagnostic_Usart1("Button Reset OFF");
                 }
             }
             gpioReset = temp3;
@@ -135,6 +142,7 @@ void checkInputs(void *args)
                     signalPowerOn = 1;
                     stringToUart(toMilandr_SignalPowerOn_ON);
 //                    stringToLcd("signalPowerOn ON");
+                    stringTo_diagnostic_Usart1("signalPowerOn ON");
                 }
             }
 
@@ -145,6 +153,7 @@ void checkInputs(void *args)
                     signalPowerOn = 0;
                     stringToUart(toMilandr_SignalPowerOn_OFF);
 //                    stringToLcd("signalPowerOn OFF");
+                    stringTo_diagnostic_Usart1("signalPowerOn OFF");
                 }
             }
             gpioPowerOn = temp4;
@@ -160,6 +169,7 @@ void checkInputs(void *args)
                     signalImpedance = 1;
                     stringToUart(toMilandr_SignalImpedanse_ON);
 //                    stringToLcd("signal Impedance ON");
+                    stringTo_diagnostic_Usart1("signal Impedance ON");
                 }
             }
 
@@ -170,6 +180,7 @@ void checkInputs(void *args)
                     signalImpedance = 0;
                     stringToUart(toMilandr_SignalImpedanse_OFF);
 //                    stringToLcd("signal Impedance OFF");
+                    stringTo_diagnostic_Usart1("signal Impedance OFF");
                 }
             }
             gpioSignalImpedance = temp5;
@@ -185,6 +196,7 @@ void checkInputs(void *args)
                     signalTranslate = 1;
                     stringToUart(toMilandr_SignalTranslate_ON);
 //                    stringToLcd("signal Translate ON");
+                    stringTo_diagnostic_Usart1("signal Translate ON");
                 }
             }
 
@@ -195,6 +207,7 @@ void checkInputs(void *args)
                     signalTranslate = 0;
                     stringToUart(toMilandr_SignalTranslate_OFF);
 //                    stringToLcd("signal Translate OFF");
+                    stringTo_diagnostic_Usart1("signal Translate OFF");
                 }
             }
             gpioSignalTranslate = temp6;
@@ -209,6 +222,7 @@ void checkInputs(void *args)
                 {
                     input_IMP_UPR = 1;
 //                    stringToLcd("input_IMP_UPR ON");
+                    stringTo_diagnostic_Usart1("input_IMP_UPR ON");
                 }
             }
 
@@ -218,6 +232,7 @@ void checkInputs(void *args)
                 {
                     input_IMP_UPR = 0;
 //                    stringToLcd("input_IMP_UPR OFF");
+                    stringTo_diagnostic_Usart1("input_IMP_UPR OFF");
                 }
             }
             gpio_IMP_UPR = temp7;
@@ -232,6 +247,7 @@ void checkInputs(void *args)
                 {
                     input_VOLT_UPR = 1;
 //                    stringToLcd("input_VOLT_UPR ON");
+                    stringTo_diagnostic_Usart1("input_VOLT_UPR ON");
                 }
             }
 
@@ -241,6 +257,7 @@ void checkInputs(void *args)
                 {
                     input_VOLT_UPR = 0;
 //                    stringToLcd("input_VOLT_UPR OFF");
+                    stringTo_diagnostic_Usart1("input_VOLT_UPR OFF");
                 }
             }
             gpio_VOLT_UPR = temp8;
@@ -255,6 +272,7 @@ void checkInputs(void *args)
                 {
                     input_CUR_UPR1 = 1;
 //                    stringToLcd("input_CUR_UPR1 ON");
+                    stringTo_diagnostic_Usart1("input_CUR_UPR1 ON");
                 }
             }
 
@@ -264,6 +282,7 @@ void checkInputs(void *args)
                 {
                     input_CUR_UPR1 = 0;
 //                    stringToLcd("input_CUR_UPR1 OFF");
+                    stringTo_diagnostic_Usart1("input_CUR_UPR1 OFF");
                 }
             }
             gpio_CUR_UPR1 = temp9;
@@ -278,6 +297,7 @@ void checkInputs(void *args)
                 {
                     input_CUR_UPR2 = 1;
 //                    stringToLcd("input_CUR_UPR2 ON");
+                    stringTo_diagnostic_Usart1("input_CUR_UPR2 ON");
                 }
             }
 
@@ -287,6 +307,7 @@ void checkInputs(void *args)
                 {
                     input_CUR_UPR2 = 0;
 //                    stringToLcd("input_CUR_UPR2 OFF");
+                    stringTo_diagnostic_Usart1("input_CUR_UPR2 OFF");
                 }
             }
             gpio_CUR_UPR2 = temp10;
@@ -302,6 +323,7 @@ void checkInputs(void *args)
                     signalVnesh = 1;
                     stringToUart(toMilandr_SignalFromOut_ON);
 //                    stringToLcd("signalVnesh ON");
+                    stringTo_diagnostic_Usart1("signalVnesh ON");
                 }
             }
 
@@ -312,6 +334,7 @@ void checkInputs(void *args)
                     signalVnesh = 0;
                     stringToUart(toMilandr_SignalFromOut_OFF);
 //                    stringToLcd("signalVnesh OFF");
+                    stringTo_diagnostic_Usart1("signalVnesh OFF");
                 }
             }
             gpioVnesh = temp11;
@@ -327,6 +350,7 @@ void checkInputs(void *args)
                     signalMic = 1;
                     stringToUart(toMilandr_SignalMic_ON);
 //                    stringToLcd("signalMic ON");
+                    stringTo_diagnostic_Usart1("signalMic ON");
                 }
             }
 
@@ -337,6 +361,7 @@ void checkInputs(void *args)
                     signalMic = 0;
                     stringToUart(toMilandr_SignalMic_OFF);
 //                    stringToLcd("signalMic OFF");
+                    stringTo_diagnostic_Usart1("signalMic OFF");
                 }
             }
             gpioMic = temp12;

@@ -170,6 +170,17 @@ uart_setup()
 
 }
 
+void SendUartCommand(void *args __attribute((unused)))
+{
+    int delay = 500;
+    for (;;)
+    {
+        stringToUart(toMilandr_BlankCommand);
+        vTaskDelay(pdMS_TO_TICKS(delay));
+
+    }
+}
+
 int main() {
 
 //Временно классы отключаю
