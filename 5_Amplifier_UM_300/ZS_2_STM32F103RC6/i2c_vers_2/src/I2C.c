@@ -151,41 +151,9 @@ bool I2C_GetFlagStatus_(uint32_t i2c, uint32_t I2C_FLAG)
 }
 
 
-ErrorStatus I2C_CheckEvent_(uint32_t i2c, uint32_t I2C_EVENT)
-{
-  #define FLAG_Mask               ((uint32_t)0x00FFFFFF)
-  uint32_t lastevent = 0;
-  uint32_t flag1 = 0, flag2 = 0;
-  ErrorStatus status = ERROR;
-
-/* Read the I2Cx status register */
-  flag1 = I2C_SR1(i2c);
-  flag2 = I2C_SR2(i2c);
-  flag2 = flag2 << 16;
-
-  /* Get the last event value from I2C status register */
-  lastevent = (flag1 | flag2) & FLAG_Mask;
-
-  /* Check whether the last event contains the I2C_EVENT */
-  if ((lastevent & I2C_EVENT) == I2C_EVENT)
-  {
-    /* SUCCESS: last event is equal to I2C_EVENT */
-    status = SUCCESS;
-  }
-  else
-  {
-    /* ERROR: last event is different from I2C_EVENT */
-    status = ERROR;
-  }
-  /* Return status */
-  return status;
-}
-
 void I2C_StartTransmission(uint32_t i2c, uint8_t transmissionDirection,  uint8_t slaveAddress)
 {
-//      while(I2C_GetFlagStatus_(i2c, I2C_FLAG_BUSY))
-      while((I2C_SR2(i2c) & I2C_SR2_BUSY) != 0x00000000)
-      {};
+      while((I2C_SR2(i2c) & I2C_SR2_BUSY) != 0x00000000){};
 
 #ifdef useI2C1
         i2c_send_start(I2C1);
@@ -193,8 +161,6 @@ void I2C_StartTransmission(uint32_t i2c, uint8_t transmissionDirection,  uint8_t
 #ifdef useI2C2
         i2c_send_start(I2C2);
 #endif
-
-//    while(!I2C_CheckEvent_(i2c, I2C_EVENT_MASTER_MODE_SELECT));
 
     while(// Выход из цикла когда все флаги упадут в 0
           ((I2C_SR1(i2c) & I2C_SR1_SB) == 0x00000000)  ||     //Start condition generated.
@@ -211,10 +177,8 @@ void I2C_StartTransmission(uint32_t i2c, uint8_t transmissionDirection,  uint8_t
 
     if(transmissionDirection== I2C_Direction_Transmitter)
     {
-//        while(!I2C_CheckEvent_(i2c, I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED));
-//((uint32_t)0x00070082)  /* BUSY, MSL, ADDR, TXE and TRA flags */
 
-        while( // Выход из цикла когда все флаги упадут в 0
+        while(
               ((I2C_SR1(i2c) & I2C_SR1_TxE) == 0x00000000)  ||  //TXE
               ((I2C_SR1(i2c) & I2C_SR1_ADDR) == 0x00000000) ||  //ADDR
               ((I2C_SR2(i2c) & I2C_SR2_BUSY) == 0x00000000) ||  //BUSY
@@ -224,10 +188,8 @@ void I2C_StartTransmission(uint32_t i2c, uint8_t transmissionDirection,  uint8_t
     }
     if(transmissionDirection== I2C_Direction_Receiver)
     {
-//    while(!I2C_CheckEvent_(i2c, I2C_EVENT_MASTER_RECEIVER_MODE_SELECTED));
-//((uint32_t)0x00030002)  /* BUSY, MSL and ADDR flags */
 
-        while( // Выход из цикла когда все флаги упадут в 0
+        while(
               ((I2C_SR1(i2c) & I2C_SR1_ADDR) == 0x00000000) ||  //ADDR
               ((I2C_SR2(i2c) & I2C_SR2_BUSY) == 0x00000000) ||  //BUSY
               ((I2C_SR2(i2c) & I2C_SR2_MSL) == 0x00000000)      //MSL
@@ -238,8 +200,6 @@ void I2C_StartTransmission(uint32_t i2c, uint8_t transmissionDirection,  uint8_t
 void I2C_WriteData(uint32_t i2c, uint8_t data)
 {
     i2c_send_data(i2c, data);
-//    while(!I2C_CheckEvent_(i2c, I2C_EVENT_MASTER_BYTE_TRANSMITTED));
-//((uint32_t)0x00070084)  /* TRA, BUSY, MSL, TXE and BTF flags */
 
     while( // Выход из цикла когда все флаги упадут в 0
           ((I2C_SR1(i2c) & I2C_SR1_TxE) == 0x00000000)  ||  //TXE
@@ -254,9 +214,6 @@ void I2C_WriteData(uint32_t i2c, uint8_t data)
 //uint8_t I2C_ReadData(I2C_TypeDef* I2Cx)
 uint8_t I2C_ReadData(uint32_t  i2c)
 {
-    // Тут картина похожа, как только данные пришли быстренько считываем их и возвращаем
-//    while( !I2C_CheckEvent_(i2c, I2C_EVENT_MASTER_BYTE_RECEIVED) );
-//((uint32_t)0x00030040)  /* BUSY, MSL and RXNE flags */
 
     while( // Выход из цикла когда все флаги упадут в 0
           ((I2C_SR1(i2c) & I2C_SR1_RxNE) == 0x00000000) ||  //RXNE
@@ -272,16 +229,11 @@ uint8_t I2C_ReadData(uint32_t  i2c)
 
 
 void I2C_POD_StartTransmission(uint32_t i2c, uint8_t transmissionDirection,  uint8_t slaveAddress)
-//void I2C_StartTransmission(I2C_TypeDef* I2Cx, uint8_t transmissionDirection,  uint8_t slaveAddress)
 {
 
-    while(// Выход из цикла когда все флаги упадут в 0
-          ((I2C_SR1(i2c) & I2C_SR1_SB) == 0x00000000)  ||     //Start condition generated.
-          ((I2C_SR2(i2c) & I2C_SR2_MSL) == 0x00000000) ||     //MSL
-          ((I2C_SR2(i2c) & I2C_SR2_BUSY) == 0x00000000)       //BUSY
-          );
+    while((I2C_SR2(i2c) & I2C_SR2_BUSY) != 0x00000000){};
 
-    i2c_send_start(I2C1);
+    i2c_send_start(i2c);
 
     while( // Выход из цикла когда все флаги упадут в 0
           ((I2C_SR1(i2c) & I2C_SR1_TxE) == 0x00000000)  ||  //TXE
@@ -291,7 +243,7 @@ void I2C_POD_StartTransmission(uint32_t i2c, uint8_t transmissionDirection,  uin
           ((I2C_SR2(i2c) & I2C_SR2_TRA) == 0x00000000)      //TRA
           );
 
-    i2c_send_7bit_address(I2C1, slaveAddress, transmissionDirection);
+    i2c_send_7bit_address(i2c, slaveAddress, transmissionDirection);
 
     if(transmissionDirection== I2C_Direction_Transmitter)
     {
