@@ -100,6 +100,7 @@ static bool BOARD_OK = 0;
 static bool ERROR_MC = 0;
 
 static QueueHandle_t uart_txq;				// TX queue for UART
+static QueueHandle_t usart_diagnostic_txq;
 
 void digitaPOT(void *args __attribute((unused)));
 void digitalPOT_send_data(uint8_t byte1,uint8_t byte2,uint8_t byte3 );
