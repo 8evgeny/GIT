@@ -181,8 +181,6 @@ ErrorStatus I2C_CheckEvent_(uint32_t i2c, uint32_t I2C_EVENT)
   return status;
 }
 
-
-
 void I2C_StartTransmission(uint32_t i2c, uint8_t transmissionDirection,  uint8_t slaveAddress)
 //void I2C_StartTransmission(I2C_TypeDef* I2Cx, uint8_t transmissionDirection,  uint8_t slaveAddress)
 {
@@ -202,26 +200,22 @@ void I2C_StartTransmission(uint32_t i2c, uint8_t transmissionDirection,  uint8_t
 #ifdef useI2C2
         i2c_send_start(I2C2);
 #endif
-    // Ждем пока взлетит нужный флаг
+
 //    while(!I2C_CheckEvent_(i2c, I2C_EVENT_MASTER_MODE_SELECT));
 
     while(// Выход из цикла когда все флаги упадут в 0
           ((I2C_SR1(i2c) & I2C_SR1_SB) == 0x00000000)  ||     //Start condition generated.
-          ((I2C_SR2(i2c) & I2C_SR2_MSL) == 0x00000000) ||     //Master
-          ((I2C_SR2(i2c) & I2C_SR2_BUSY) == 0x00000000)       //Занято
+          ((I2C_SR2(i2c) & I2C_SR2_MSL) == 0x00000000) ||     //MSL
+          ((I2C_SR2(i2c) & I2C_SR2_BUSY) == 0x00000000)       //BUSY
           );
 
-//BUSY, MSL and SB flag
-    // Посылаем адрес подчиненному  //возможно тут нужен сдвиг влево  //судя по исходникам - да, нужен сдвиг влево
-    //http://microtechnics.ru/stm32-ispolzovanie-i2c/#comment-8109
-//    I2C_Send7bitAddress(I2Cx, slaveAddress<<1, transmissionDirection);
 #ifdef useI2C1
     i2c_send_7bit_address(I2C1, slaveAddress, transmissionDirection);
 #endif
 #ifdef useI2C2
     i2c_send_7bit_address(I2C2, slaveAddress, transmissionDirection);
 #endif
-//    // А теперь у нас два варианта развития событий - в зависимости от выбранного направления обмена данными
+
     if(transmissionDirection== I2C_Direction_Transmitter)
     {
 //        while(!I2C_CheckEvent_(i2c, I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED));
@@ -248,14 +242,19 @@ void I2C_StartTransmission(uint32_t i2c, uint8_t transmissionDirection,  uint8_t
     }
 }
 
-//void I2C_WriteData(I2C_TypeDef* I2Cx, uint8_t data)
 void I2C_WriteData(uint32_t i2c, uint8_t data)
 {
-    // Просто вызываем готоваую функцию из SPL и ждем, пока данные улетят
-
-//    I2C_SendData(I2Cx, data);
     i2c_send_data(i2c, data);
     while(!I2C_CheckEvent_(i2c, I2C_EVENT_MASTER_BYTE_TRANSMITTED));
+//((uint32_t)0x00070084)  /* TRA, BUSY, MSL, TXE and BTF flags */
+
+    while( // Выход из цикла когда все флаги упадут в 0
+          ((I2C_SR1(i2c) & I2C_SR1_TxE) == 0x00000000)  ||  //TXE
+          ((I2C_SR1(i2c) & I2C_SR1_BTF) == 0x00000000) ||   //BTF
+          ((I2C_SR2(i2c) & I2C_SR2_BUSY) == 0x00000000) ||  //BUSY
+          ((I2C_SR2(i2c) & I2C_SR2_MSL) == 0x00000000)  ||  //MSL
+          ((I2C_SR2(i2c) & I2C_SR2_TRA) == 0x00000000)      //TRA
+          );
 }
 
 
