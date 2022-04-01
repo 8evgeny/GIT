@@ -11,19 +11,18 @@ void digitaPOT(void *args)
     for(;;)
     {
 
-//        for (ii = 0; ii < 127 ; ++ii)
-//        {
-//            char buf[10];
-//            sprintf(buf, "%d", ii);
+        for (ii = 0; ii < 127 ; ++ii)
+        {
+            vTaskDelay(pdMS_TO_TICKS(200));
+
+            char buf[10];
+            sprintf(buf, "%d", ii);
 //            send_to_POT(ii);
-////            stringToLcd("buf");
-////            stringToLcd(buf);
+            stringTo_diagnostic_Usart1(buf);
 
-//stringTo_diagnostic_Usart1("test\n\r");
+        }
 
-//        }
 
-//stringTo_diagnostic_Usart1("test\n\r");
         vTaskDelay(pdMS_TO_TICKS(500));
     }
 
