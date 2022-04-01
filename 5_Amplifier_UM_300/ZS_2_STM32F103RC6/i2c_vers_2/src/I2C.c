@@ -203,12 +203,14 @@ void I2C_StartTransmission(uint32_t i2c, uint8_t transmissionDirection,  uint8_t
         i2c_send_start(I2C2);
 #endif
     // Ждем пока взлетит нужный флаг
-    while(!I2C_CheckEvent_(i2c, I2C_EVENT_MASTER_MODE_SELECT));
-//    while(!
-//          ((I2C_SR1(i2c) & I2C_SR1_SB) == I2C_SR1_SB) &&
-//          ((I2C_SR2(i2c) & I2C_SR2_MSL) == I2C_SR2_MSL) &&
-//          ((I2C_SR2(i2c) & I2C_SR2_BUSY) == I2C_SR2_BUSY)
-//          );
+//    while(!I2C_CheckEvent_(i2c, I2C_EVENT_MASTER_MODE_SELECT));
+
+    while(
+          ((I2C_SR1(i2c) & I2C_SR1_SB) == 0x00000000)  ||     //Start condition generated.
+          ((I2C_SR2(i2c) & I2C_SR2_MSL) == 0x00000000) ||     //Master
+          ((I2C_SR2(i2c) & I2C_SR2_BUSY) == 0x00000000)       //Занято
+          );
+
 //BUSY, MSL and SB flag
     // Посылаем адрес подчиненному  //возможно тут нужен сдвиг влево  //судя по исходникам - да, нужен сдвиг влево
     //http://microtechnics.ru/stm32-ispolzovanie-i2c/#comment-8109
