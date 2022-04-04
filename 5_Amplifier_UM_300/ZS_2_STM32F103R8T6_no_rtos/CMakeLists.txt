@@ -42,6 +42,7 @@ SET(COMMON_FLAGS
     -g \
     -fno-common \
     -fmessage-length=0 \
+    -Xlinker -Map=${PROJECT_NAME}.map \
     ")
 
 SET(CMAKE_CXX_FLAGS_INIT "${COMMON_FLAGS} -std=c++11")
