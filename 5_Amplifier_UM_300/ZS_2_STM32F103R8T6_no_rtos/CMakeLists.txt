@@ -101,8 +101,8 @@ endif()
 
 
 file(GLOB_RECURSE SOURCES_CPP
-    src/*.cpp
-    src_classes/*.cpp
+#    src/*.cpp
+#    src_classes/*.cpp
     )
 
 
