@@ -54,10 +54,12 @@ void setOutputs(void *args)
         if (signalTranslate)
         {
             setReleTr1(true);
+            setRele24V(true);
         }
         else
         {
             setReleTr1(false);
+            setRele24V(false);
         }
 
 
