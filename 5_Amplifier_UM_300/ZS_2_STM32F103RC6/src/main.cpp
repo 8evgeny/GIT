@@ -176,7 +176,9 @@ void SendUartCommand(void *args __attribute((unused)))
     for (;;)
     {
         stringTo_diagnostic_Usart1("test");
-//        stringToUart(toMilandr_BlankCommand);
+
+
+        stringToUart(toMilandr_BlankCommand);
         vTaskDelay(pdMS_TO_TICKS(delay));
 
     }
