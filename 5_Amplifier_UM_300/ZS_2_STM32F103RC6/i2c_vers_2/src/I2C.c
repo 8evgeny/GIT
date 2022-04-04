@@ -232,10 +232,10 @@ void I2C_POD_StartTransmission(uint32_t i2c, uint8_t transmissionDirection,  uin
     i2c_send_start(i2c);
 
     while( // Выход из цикла когда все флаги упадут в 0
-          ((I2C_SR1(i2c) & I2C_SR1_TxE) == 0x00000000)  ||  //TXE
-          ((I2C_SR1(i2c) & I2C_SR1_ADDR) == 0x00000000) ||  //ADDR
+          ((I2C_SR1(i2c) & I2C_SR1_TxE) == 0x00000000)  ||  //TxE: Data register empty (transmitters)
+          ((I2C_SR1(i2c) & I2C_SR1_ADDR) == 0x00000000) ||  //ADDR: Address sent
           ((I2C_SR2(i2c) & I2C_SR2_BUSY) == 0x00000000) ||  //BUSY
-          ((I2C_SR2(i2c) & I2C_SR2_MSL) == 0x00000000)  ||  //MSL
+          ((I2C_SR2(i2c) & I2C_SR2_MSL) == 0x00000000)  ||  //MSL Master/slave
           ((I2C_SR2(i2c) & I2C_SR2_TRA) == 0x00000000)      //TRA
           );
 
@@ -291,7 +291,7 @@ void send_to_POT(uint8_t data)
 
     while( // Выход из цикла когда все флаги упадут в 0
           ((I2C_SR1(I2C1) & I2C_SR1_TxE) == 0x00000000)  ||  //TXE
-          ((I2C_SR1(I2C1) & I2C_SR1_BTF) == 0x00000000) ||   //BTF
+          ((I2C_SR1(I2C1) & I2C_SR1_BTF) == 0x00000000)  ||  //BTF
           ((I2C_SR2(I2C1) & I2C_SR2_BUSY) == 0x00000000) ||  //BUSY
           ((I2C_SR2(I2C1) & I2C_SR2_MSL) == 0x00000000)  ||  //MSL
           ((I2C_SR2(I2C1) & I2C_SR2_TRA) == 0x00000000)      //TRA
@@ -301,7 +301,7 @@ void send_to_POT(uint8_t data)
 
     while( // Выход из цикла когда все флаги упадут в 0
           ((I2C_SR1(I2C1) & I2C_SR1_TxE) == 0x00000000)  ||  //TXE
-          ((I2C_SR1(I2C1) & I2C_SR1_BTF) == 0x00000000) ||   //BTF
+          ((I2C_SR1(I2C1) & I2C_SR1_BTF) == 0x00000000)  ||  //BTF
           ((I2C_SR2(I2C1) & I2C_SR2_BUSY) == 0x00000000) ||  //BUSY
           ((I2C_SR2(I2C1) & I2C_SR2_MSL) == 0x00000000)  ||  //MSL
           ((I2C_SR2(I2C1) & I2C_SR2_TRA) == 0x00000000)      //TRA
@@ -315,7 +315,7 @@ void send_to_POT(uint8_t data)
 
     while( // Выход из цикла когда все флаги упадут в 0
           ((I2C_SR1(I2C1) & I2C_SR1_TxE) == 0x00000000)  ||  //TXE
-          ((I2C_SR1(I2C1) & I2C_SR1_BTF) == 0x00000000) ||   //BTF
+          ((I2C_SR1(I2C1) & I2C_SR1_BTF) == 0x00000000)  ||  //BTF
           ((I2C_SR2(I2C1) & I2C_SR2_BUSY) == 0x00000000) ||  //BUSY
           ((I2C_SR2(I2C1) & I2C_SR2_MSL) == 0x00000000)  ||  //MSL
           ((I2C_SR2(I2C1) & I2C_SR2_TRA) == 0x00000000)      //TRA
@@ -325,7 +325,7 @@ void send_to_POT(uint8_t data)
 
     while( // Выход из цикла когда все флаги упадут в 0
           ((I2C_SR1(I2C1) & I2C_SR1_TxE) == 0x00000000)  ||  //TXE
-          ((I2C_SR1(I2C1) & I2C_SR1_BTF) == 0x00000000) ||   //BTF
+          ((I2C_SR1(I2C1) & I2C_SR1_BTF) == 0x00000000)  ||  //BTF
           ((I2C_SR2(I2C1) & I2C_SR2_BUSY) == 0x00000000) ||  //BUSY
           ((I2C_SR2(I2C1) & I2C_SR2_MSL) == 0x00000000)  ||  //MSL
           ((I2C_SR2(I2C1) & I2C_SR2_TRA) == 0x00000000)      //TRA
