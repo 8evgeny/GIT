@@ -85,9 +85,9 @@ test_diadnostic_USART1(void *args __attribute__((unused)))
     int c = '0' - 1;
     for (;;)
     {
-        vTaskDelay(pdMS_TO_TICKS(200));
+        vTaskDelay(pdMS_TO_TICKS(500));
 
-        stringTo_diagnostic_Usart1("test\n\r");
+        stringTo_diagnostic_Usart1("test");
 
         if ( ++c >= 'Z' )
         {
@@ -202,11 +202,11 @@ int main() {
     xTaskCreate(uart_task,"UART",100,NULL,configMAX_PRIORITIES-1,NULL);
     xTaskCreate(usart1_diagnostic_task,"UART",100,NULL,configMAX_PRIORITIES-1,NULL);
 
-//    xTaskCreate(i2c_main_vers2,"i2c_vers2",100,NULL,configMAX_PRIORITIES-2,NULL);
+    xTaskCreate(i2c_main_vers2,"i2c_vers2",100,NULL,configMAX_PRIORITIES-2,NULL);
     xTaskCreate(SendUartCommand,"SendUartCommand",100,NULL,configMAX_PRIORITIES-2,NULL);
     xTaskCreate(checkInputs,"+InputSignals",100,NULL,configMAX_PRIORITIES-1,NULL);
     xTaskCreate(setOutputs,"+StateRele",100,NULL,configMAX_PRIORITIES-1,NULL);
-//    xTaskCreate(digitaPOT,"digitaPOT",200,NULL,configMAX_PRIORITIES-2,NULL);
+//    xTaskCreate(digitaPOT,"digitaPOT",50,NULL,configMAX_PRIORITIES-2,NULL);
 
     xTaskCreate(test_diadnostic_USART1, "USART1", 100, NULL, configMAX_PRIORITIES - 1, NULL);
 //    xTaskCreate(testSendUartCommand,"testSendUartCommand",100,NULL,configMAX_PRIORITIES-1,NULL);
