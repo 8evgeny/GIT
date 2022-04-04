@@ -7,19 +7,19 @@ char line2[] = "                    ";
 char line3[] = "                    ";
 char line4[] = "                    ";
 
-void stringToLcd(const char* str)
-{
-    char tmp[] = "                    ";
-    memcpy (tmp, str, strlen(str));
-    memcpy (line4, tmp, 20);
-    LCDI2C_write_String(line1);
-    LCDI2C_write_String(line2);
-    LCDI2C_write_String(line3);
-    LCDI2C_write_String(line4);
-    memcpy (line1, line3, 20);
-    memcpy (line3, line2, 20);
-    memcpy (line2, line4, 20);
-}
+//void stringToLcd(const char* str)
+//{
+//    char tmp[] = "                    ";
+//    memcpy (tmp, str, strlen(str));
+//    memcpy (line4, tmp, 20);
+//    LCDI2C_write_String(line1);
+//    LCDI2C_write_String(line2);
+//    LCDI2C_write_String(line3);
+//    LCDI2C_write_String(line4);
+//    memcpy (line1, line3, 20);
+//    memcpy (line3, line2, 20);
+//    memcpy (line2, line4, 20);
+//}
 
 void i2c_main_vers2(void *args)
 {

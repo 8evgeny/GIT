@@ -62,7 +62,7 @@ usart1_diagnostic_task(void *args) {
         {
             ch = (char)gc;
             const char* toLcd = checkReceivedByteFromMilandr (ch);
-            stringToLcd(toLcd);
+//            stringToLcd(toLcd);
             stringTo_diagnostic_Usart1(toLcd);
         }
 
@@ -87,18 +87,18 @@ test_diadnostic_USART1(void *args __attribute__((unused)))
     {
         vTaskDelay(pdMS_TO_TICKS(500));
 
-        stringTo_diagnostic_Usart1("test");
+        stringTo_diagnostic_Usart1("test1");
 
-        if ( ++c >= 'Z' )
-        {
-            uart_putc(c);
-            uart_putc('\r');
-            uart_putc('\n');
-            c = '0' - 1;
-        } else
-        {
-            uart_putc(c);
-        }
+//        if ( ++c >= 'Z' )
+//        {
+//            uart_putc(c);
+//            uart_putc('\r');
+//            uart_putc('\n');
+//            c = '0' - 1;
+//        } else
+//        {
+//            uart_putc(c);
+//        }
     }
 }
 
@@ -122,7 +122,7 @@ uart_task(void *args) {
         {
             ch = (char)gc;
             const char* toLcd = checkReceivedByteFromMilandr (ch);
-            stringToLcd(toLcd);
+//            stringToLcd(toLcd);
             stringTo_diagnostic_Usart1(toLcd);
         }
 
@@ -172,10 +172,10 @@ uart_setup()
 
 void SendUartCommand(void *args __attribute((unused)))
 {
-    int delay = 500;
+ const int delay = 200;
     for (;;)
     {
-        stringTo_diagnostic_Usart1("test");
+        stringTo_diagnostic_Usart1("test2");
 
 
         stringToUart(toMilandr_BlankCommand);
@@ -206,7 +206,7 @@ int main() {
     xTaskCreate(SendUartCommand,"SendUartCommand",100,NULL,configMAX_PRIORITIES-2,NULL);
     xTaskCreate(checkInputs,"+InputSignals",100,NULL,configMAX_PRIORITIES-1,NULL);
     xTaskCreate(setOutputs,"+StateRele",100,NULL,configMAX_PRIORITIES-1,NULL);
-//    xTaskCreate(digitaPOT,"digitaPOT",50,NULL,configMAX_PRIORITIES-2,NULL);
+    xTaskCreate(digitaPOT,"digitaPOT",200,NULL,configMAX_PRIORITIES-2,NULL);
 
     xTaskCreate(test_diadnostic_USART1, "USART1", 100, NULL, configMAX_PRIORITIES - 1, NULL);
 //    xTaskCreate(testSendUartCommand,"testSendUartCommand",100,NULL,configMAX_PRIORITIES-1,NULL);

@@ -36,7 +36,7 @@ void testTask3(void *args __attribute((unused)))
 
 void testSendUartCommand(void *args __attribute((unused)))
 {
-    int delay = 1000;
+    const int delay = 1000;
     for (;;)
     {
         stringToUart(toMilandr_BtnImpedance_On);
