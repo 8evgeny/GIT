@@ -41,6 +41,16 @@ void setOutputs(void *args)
             setFan(false);
         }
 
+        if (signalVnesh)
+        {
+            setRele24V(true);
+        }
+        else
+        {
+            setRele24V(false);
+        }
+
+
         if (signalTranslate)
         {
             setReleTr1(true);
