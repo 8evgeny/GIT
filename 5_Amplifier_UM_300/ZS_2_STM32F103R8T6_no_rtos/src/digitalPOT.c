@@ -21,12 +21,12 @@ void digitaPOT(void *args)
 
         for (ii = 0; ii < 127 ; ++ii)
         {
-            vTaskDelay(pdMS_TO_TICKS(500));
+            vTaskDelay(pdMS_TO_TICKS(100));
 
             char buf[10];
             sprintf(buf, "%d", ii);
             stringTo_diagnostic_Usart1(buf);
-            send_to_POT(ii);
+//            send_to_POT(ii);
         }
 
 

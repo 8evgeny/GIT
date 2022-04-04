@@ -87,18 +87,18 @@ test_diadnostic_USART1(void *args __attribute__((unused)))
     {
         vTaskDelay(pdMS_TO_TICKS(500));
 
-        stringTo_diagnostic_Usart1("test_diadnostic_USART1 - 500");
+//        stringTo_diagnostic_Usart1("test_diadnostic_USART1 - 500");
 
-//        if ( ++c >= 'Z' )
-//        {
-//            uart_putc(c);
-//            uart_putc('\r');
-//            uart_putc('\n');
-//            c = '0' - 1;
-//        } else
-//        {
-//            uart_putc(c);
-//        }
+        if ( ++c >= 'Z' )
+        {
+            uart_putc(c);
+            uart_putc('\r');
+            uart_putc('\n');
+            c = '0' - 1;
+        } else
+        {
+            uart_putc(c);
+        }
     }
 }
 
@@ -175,7 +175,7 @@ void SendUartCommand(void *args __attribute((unused)))
  const int delay = 200;
     for (;;)
     {
-        stringTo_diagnostic_Usart1("SendUartCommand - 200");
+//        stringTo_diagnostic_Usart1("SendUartCommand - 200");
 
 
         stringToUart(toMilandr_BlankCommand);
