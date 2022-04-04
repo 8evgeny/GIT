@@ -6,7 +6,8 @@ void setOutputs(void *args)
 
     for(;;)
     {
-//stringTo_diagnostic_Usart1("test\n\r");
+        vTaskDelay(pdMS_TO_TICKS(200));
+        stringTo_diagnostic_Usart1("setOutputs - 200");
 
         if (ERROR_MC)
         {
@@ -70,7 +71,7 @@ void setOutputs(void *args)
 
 
 
-        vTaskDelay(pdMS_TO_TICKS(500));
+
     }
 
 }

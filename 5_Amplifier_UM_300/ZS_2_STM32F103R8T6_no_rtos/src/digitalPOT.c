@@ -25,8 +25,8 @@ void digitaPOT(void *args)
 
             char buf[10];
             sprintf(buf, "%d", ii);
-//            stringTo_diagnostic_Usart1(buf);
-//            send_to_POT(ii);
+            stringTo_diagnostic_Usart1(buf);
+            send_to_POT(ii);
         }
 
 

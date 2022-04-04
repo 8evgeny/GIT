@@ -87,7 +87,7 @@ test_diadnostic_USART1(void *args __attribute__((unused)))
     {
         vTaskDelay(pdMS_TO_TICKS(500));
 
-        stringTo_diagnostic_Usart1("test1");
+        stringTo_diagnostic_Usart1("test_diadnostic_USART1 - 500");
 
 //        if ( ++c >= 'Z' )
 //        {
@@ -175,7 +175,7 @@ void SendUartCommand(void *args __attribute((unused)))
  const int delay = 200;
     for (;;)
     {
-        stringTo_diagnostic_Usart1("test2");
+        stringTo_diagnostic_Usart1("SendUartCommand - 200");
 
 
         stringToUart(toMilandr_BlankCommand);
@@ -208,7 +208,7 @@ int main() {
     xTaskCreate(setOutputs,"+StateRele",100,NULL,configMAX_PRIORITIES-1,NULL);
     xTaskCreate(digitaPOT,"digitaPOT",200,NULL,configMAX_PRIORITIES-2,NULL);
 
-    xTaskCreate(test_diadnostic_USART1, "USART1", 100, NULL, configMAX_PRIORITIES - 1, NULL);
+//    xTaskCreate(test_diadnostic_USART1, "USART1", 100, NULL, configMAX_PRIORITIES - 1, NULL);
 //    xTaskCreate(testSendUartCommand,"testSendUartCommand",100,NULL,configMAX_PRIORITIES-1,NULL);
 //    xTaskCreate(testTask1, "LED1", 100, NULL, configMAX_PRIORITIES - 1, NULL);
 //    xTaskCreate(testTask2, "LED2", 100, NULL, configMAX_PRIORITIES - 1, NULL);

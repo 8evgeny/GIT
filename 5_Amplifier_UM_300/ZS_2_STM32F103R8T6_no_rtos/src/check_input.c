@@ -36,7 +36,8 @@ void checkInputs(void *args)
 
     for(;;)
     {
-//        stringTo_diagnostic_Usart1("test\n\r");
+        vTaskDelay(pdMS_TO_TICKS(200));
+        stringTo_diagnostic_Usart1("checkInputs - 200");
 
         temp1 = gpio_get(GPIOA, GPIO0);
         temp2 = gpio_get(GPIOA, GPIO1);
@@ -367,7 +368,7 @@ void checkInputs(void *args)
             }
             gpioMic = temp12;
         }
-        vTaskDelay(pdMS_TO_TICKS(200));
+
     }
 
 

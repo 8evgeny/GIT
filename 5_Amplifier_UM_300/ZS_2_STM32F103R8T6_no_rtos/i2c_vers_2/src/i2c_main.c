@@ -33,7 +33,7 @@ void i2c_main_vers2(void *args)
 
   for (;;)
   {
-//      vTaskDelay(pdMS_TO_TICKS(50));
+      vTaskDelay(pdMS_TO_TICKS(50));
   }
 
 }
