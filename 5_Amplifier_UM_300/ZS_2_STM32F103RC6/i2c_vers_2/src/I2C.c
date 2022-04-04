@@ -11,7 +11,7 @@ void init_I2C1(void)
 
     gpio_set_mode(GPIOB, GPIO_MODE_OUTPUT_50_MHZ,
               GPIO_CNF_OUTPUT_ALTFN_OPENDRAIN,
-              GPIO6 | GPIO7);
+              GPIO_I2C1_SCL | GPIO_I2C1_SDA);
 
     /* Disable the I2C before changing any configuration. */
     i2c_peripheral_disable(I2C1);
@@ -55,7 +55,7 @@ void init_I2C2(void)
 
     gpio_set_mode(GPIOB, GPIO_MODE_OUTPUT_50_MHZ,
               GPIO_CNF_OUTPUT_ALTFN_OPENDRAIN,
-              GPIO10 | GPIO11);
+              GPIO_I2C2_SCL | GPIO_I2C2_SDA);
 
     /* Disable the I2C before changing any configuration. */
     i2c_peripheral_disable(I2C2);
