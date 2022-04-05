@@ -21,7 +21,7 @@ void digitaPOT(void *args)
 
         for (ii = 0; ii < 127 ; ++ii)
         {
-            vTaskDelay(pdMS_TO_TICKS(100));
+            vTaskDelay(pdMS_TO_TICKS(500));
 
             char buf[10];
             sprintf(buf, "%d", ii);

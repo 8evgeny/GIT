@@ -184,24 +184,27 @@ void SendUartCommand(void *args __attribute((unused)))
     }
 }
 
-void initLed()
+void initOuts()
 {
-        setErrorRele(0);
-        setReleLine1(0);
-        setReleLine2(0);
-        setReleLine3(0);
-        setReleLine4(0);
-        setReleTr1(0);
-        setReleTr2(0);
-        setReleTr3(0);
-        setReleTr4(0);
-        setReadyLed(0);
-        setLedOvercutOut(0);
-        setLedOverheatOut(0);
-        setLedShortOut(0);
-        setLedBreakOut(0);
-        setRele24V(0);
-        setFan(0);
+    //Выходные сигналы
+            setLedOverheatOut(0);
+            setLedOvercutOut(0);
+            setLedShortOut(0);
+            setLedBreakOut(0);
+            setErrorRele(0);
+
+    //Реле и Led
+            setReleLine1(0);
+            setRele24V(0);
+            setReleLine2(0);
+            setReleLine3(0);
+            setReleLine4(0);
+            setReleTr1(0);
+            setReleTr2(0);
+            setReleTr3(0);
+            setReleTr4(0);
+            setReadyLed(0);
+            setFan(0);
 }
 
 
@@ -220,7 +223,7 @@ int main() {
     gpio_setup();
     uart_setup();
     usart1_diadnostic_setup();
-    initLed();
+    initOuts();
 
     xTaskCreate(uart_task,"UART",100,NULL,configMAX_PRIORITIES-1,NULL);
     xTaskCreate(usart1_diagnostic_task,"UART",100,NULL,configMAX_PRIORITIES-1,NULL);
