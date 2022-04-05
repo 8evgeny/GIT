@@ -273,6 +273,132 @@ void I2C_POD_StartTransmission(uint32_t i2c, uint8_t transmissionDirection,  uin
 }
 
 
+
+//#define SCL     TRISB4   // I2C bus
+//#define SDA     TRISB1   //
+//#define SCL_IN  RB4    //
+//#define SDA_IN  RB1    //
+
+//// initialize
+//SDA = SCL = 1 ;
+//SCL_IN = SDA_IN = 0 ;
+
+//// make master wait
+//void i2c_dly(void) {
+//    // i2c is not quite fast, needs delay time
+//}
+
+//void i2c_start(void) {
+//    /* I2C start condition is defined as
+//     * a High to Low Transition on the SDA line
+//     * as the SCL in a high level */
+
+//    SDA = 1;
+//    i2c_dly();
+//    SCL = 1;             // SCL High
+//    i2c_dly();
+//    SDA = 0;             // SDA level change
+//    i2c_dly();
+//    SCL = 0;             // SCL low, prepare to generate pulse
+//    i2c_dly();
+//}
+
+
+//void i2c_stop(void) {
+//    /* I2C stop condition is defined as
+//     * a Low to High Transition on the SDA line
+//     * as the SCL in a high level */
+
+//    SDA = 0;
+//    i2c_dly();
+//    SCL = 1;             // SCL on
+//    i2c_dly();
+//    SDA = 1;             // SDA level change
+//    i2c_dly();           // there is no need to make SCL off
+//}
+
+//bit i2c_tx(unsigned char data)
+//{
+//    /* An I2C output data is usually send out from bit 7 to 0 (MSB to LSB).
+//     * Implement this by shift one bit at each time,  set level as bit's value
+//     * and them make one SCL pulse.
+//     * Don't forget to add extra one pulse for slave's ACK */
+
+//    char x;
+//    static bit b ;
+
+//    // write data to slave
+//    for(x=8 ; x; x --) {
+//        if(data & 0x80 ) SDA = 1 ;    // 0x80 = 1000 0000, read from MSB
+//        else SDA = 0 ;
+//        SCL = 1 ;                    // make SCL pulse
+//        data <<= 1 ;                 // make bits shift left, keep SDA high/low
+//        SCL = 0 ;                    // one bit send finish
+//    }
+
+//    // Read ACK from slave
+//    SDA = 1;             // SDA need to be high, slave will pull SDA low
+//    SCL = 1;             // the 9th pulse of SCL
+//    i2c_dly();           // wait for slave
+//    b = SDA_IN ;        // possible ACK bit, if b is 0, means successful data transport
+//    SCL = 0;             // finish the 9th pulse
+//    return b ;
+//}
+
+//unsigned char i2c_rx(char ack){
+//    /* An I2C input data is usually send out from bit 7 to 0 (MSB to LSB) by slave.
+//     * First we need to check if we can pull high SCL,
+//     *      make sure not under clock stretching.
+//     * Next put SDA value in the Low bit, and then shift left one bit at each time,
+//     *      and finish this pulse
+//     * In the end, send an ACK if there is another byte need to read */
+
+//    char x, d =0;
+//    SDA = 1;                     // initialize
+
+//    // Read from slave
+//    for(x=0 ; x< 8; x ++) {
+//        d <<= 1 ;                // move to next bit
+//        do {
+//            SCL = 1 ;            // master's SCL needs to always pull high?
+//        }
+//        while(SCL_IN ==0);       // wait for any SCL clock stretching
+//        i2c_dly ();             // slave ready, SCL_IN back to high
+//        if(SDA_IN ) d |= 1 ;    // get data, and put into d
+//        SCL = 0 ;                // finish this bit
+//    }
+
+//    // Send ACK back to slave
+//    if(ack) SDA = 0 ;            // ACK value is 0
+//    else SDA = 1 ;
+//    SCL = 1;
+//    i2c_dly();                   // master need to send (N)ACK bit
+
+//    SCL = 0;                     // SCL and SDA get initialize
+//    SDA = 1;
+//    return d ;
+//}
+
+
+//void main(){
+//    // the hole process is about how to get light sensor value, not sure yet
+
+//    i2c_start();                 // send start sequence
+
+//    // Write message about where is light sensor's address
+//    i2c_tx(0xE0 );               // SRF08 I2C address with R/W bit clear(write)
+//    i2c_tx(0x01 );               // SRF08 light sensor register address
+
+//    // Read message
+//    i2c_start();                 // send a restart sequence
+//    i2c_tx(0xE1 );               // SRF08 I2C address with R/W bit set(read)
+//    lightsensor = i2c_rx (1);     // get light sensor and send acknowledge. Internal register address will increment automatically.
+//    rangehigh = i2c_rx (1);      // get the high byte of the range and send acknowledge.
+//    rangelow = i2c_rx (0);       // get low byte of the range - note we don't acknowledge the last byte.
+//    i2c_stop();                 // send stop sequence
+//}
+
+
 void send_to_POT(uint8_t data)
 {
     //AR - только запись
