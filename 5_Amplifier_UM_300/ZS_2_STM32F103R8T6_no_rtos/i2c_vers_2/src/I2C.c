@@ -226,10 +226,21 @@ uint8_t I2C_ReadData(uint32_t  i2c)
 
 void I2C_POD_StartTransmission(uint32_t i2c, uint8_t transmissionDirection,  uint8_t slaveAddress)
 {
+    char buf[10];
 
     while((I2C_SR2(i2c) & I2C_SR2_BUSY) != 0x00000000){};
 
+    sprintf(buf, "%d", I2C1_SR1);
+    stringTo_diagnostic_Usart1(buf);
+    sprintf(buf, "%d", I2C1_SR2);
+    stringTo_diagnostic_Usart1(buf);
+
     i2c_send_start(i2c);
+
+    sprintf(buf, "%d", I2C1_SR1);
+    stringTo_diagnostic_Usart1(buf);
+    sprintf(buf, "%d", I2C1_SR2);
+    stringTo_diagnostic_Usart1(buf);
 
     while( // Выход из цикла когда все флаги упадут в 0
           ((I2C_SR1(i2c) & I2C_SR1_TxE) == 0x00000000)  ||  //TxE: Data register empty (transmitters)
