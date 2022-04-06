@@ -230,21 +230,21 @@ void I2C_POD_StartTransmission(uint32_t i2c, uint8_t transmissionDirection,  uin
 
     while((I2C_SR2(i2c) & I2C_SR2_BUSY) != 0x00000000){};
 
-//    sprintf(buf, "%04X", (uint16_t)I2C1_SR1);
-//    stringTo_diagnostic_Usart1("I2C1_SR1");
-//    stringTo_diagnostic_Usart1(buf);
-//    sprintf(buf, "%04X", (uint16_t)I2C1_SR2);
-//    stringTo_diagnostic_Usart1("I2C1_SR2");
-//    stringTo_diagnostic_Usart1(buf);
+    sprintf(buf, "%04X", (uint16_t)I2C1_SR1);
+    stringTo_diagnostic_Usart1("I2C1_SR1");
+    stringTo_diagnostic_Usart1(buf);
+    sprintf(buf, "%04X", (uint16_t)I2C1_SR2);
+    stringTo_diagnostic_Usart1("I2C1_SR2");
+    stringTo_diagnostic_Usart1(buf);
 
     i2c_send_start(i2c);
 
-//    sprintf(buf, "%04X", (uint16_t)I2C1_SR1);
-//    stringTo_diagnostic_Usart1("I2C1_SR1");
-//    stringTo_diagnostic_Usart1(buf);
-//    sprintf(buf, "%04X", (uint16_t)I2C1_SR2);
-//    stringTo_diagnostic_Usart1("I2C1_SR2");  //MSL BUSY
-//    stringTo_diagnostic_Usart1(buf);
+    sprintf(buf, "%04X", (uint16_t)I2C1_SR1);
+    stringTo_diagnostic_Usart1("I2C1_SR1");
+    stringTo_diagnostic_Usart1(buf);
+    sprintf(buf, "%04X", (uint16_t)I2C1_SR2);
+    stringTo_diagnostic_Usart1("I2C1_SR2");  //MSL BUSY
+    stringTo_diagnostic_Usart1(buf);
 
 vTaskDelay(pdMS_TO_TICKS(1));
 
