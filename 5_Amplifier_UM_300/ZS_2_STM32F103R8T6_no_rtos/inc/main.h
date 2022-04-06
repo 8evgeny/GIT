@@ -175,6 +175,7 @@ void i2c_stop_cond (void) ;                 // Генерация условия
 uint8_t i2c_send_byte (uint8_t data) ;      //Передать байт (вх. аргумент передаваемый байт) (возвращает 0 - АСК, 1 - NACK)
 uint8_t i2c_get_byte (uint8_t last_byte) ;  //Принять байт (если последний байт то входной аргумент = 1, если будем считывать еще то 0)(возвращает принятый байт)
 void send_Programm_to_POT(uint8_t data);
+void send_Programm_to_POT1(uint8_t data);
 #endif
 
 

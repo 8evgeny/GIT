@@ -615,6 +615,66 @@ void send_Programm_to_POT(uint8_t data)
     sprintf(buf, "%d", data);
     stringTo_diagnostic_Usart1(buf);
 
+    i2c_stop_cond();
+}
+
+void send_Programm_to_POT1(uint8_t data)
+{
+    //AR - только запись
+    //57 - чтение
+    //56 - запись
+    //56 02 80 выбор WCR
+    //56 02 00 выбор DR
+    //The WCR is a volatile register and is written with the contents of the nonvolatile Data Register (DR) on power-up.
+
+    //WCR WRITE OPERATION                 start 56 02 80 stop start 56 00 data stop
+    //WCR INCREMENT/DECREMENT OPERATION - start 56 02 80 stop start 5E 00 ??
+    //WCR READ OPERATION                  start 56 02 80 stop start 56 00 start 57 data stop
+    //The WCR is also written during a write to DR
+    //DR WRITE OPERATION                  start 56 02 00 stop start 56 00 data stop
+    //DR READ OPERATION                   start 56 02 00 stop start 56 00 start 57 data stop
+
+    //start 56 02 00 stop start 56 00 data stop
+
+//DR WRITE OPERATION  start 56 02 00 stop start 56 00 data stop
+    uint8_t tmp;
+    char buf[10];
+
+    i2c_start_cond();
+    tmp = i2c_send_byte (0x56);
+    sprintf(buf, "%X", tmp);
+    stringTo_diagnostic_Usart1("i2c_send_byte (0x56)");
+    stringTo_diagnostic_Usart1(buf);
+
+    tmp = i2c_send_byte (0x02);
+    sprintf(buf, "%X", tmp);
+    stringTo_diagnostic_Usart1("i2c_send_byte (0x02)");
+    stringTo_diagnostic_Usart1(buf);
+
+    tmp = i2c_send_byte (0x00);
+    sprintf(buf, "%X", tmp);
+    stringTo_diagnostic_Usart1("i2c_send_byte (0x00)");
+    stringTo_diagnostic_Usart1(buf);
+
+    i2c_stop_cond();
+
+    i2c_start_cond();
+    tmp = i2c_send_byte (0x56);
+    sprintf(buf, "%X", tmp);
+    stringTo_diagnostic_Usart1("i2c_send_byte (0x56)");
+    stringTo_diagnostic_Usart1(buf);
+
+    tmp = i2c_send_byte (0x00);
+    sprintf(buf, "%X", tmp);
+    stringTo_diagnostic_Usart1("i2c_send_byte (0x00)");
+    stringTo_diagnostic_Usart1(buf);
+
+    tmp = i2c_send_byte (data);
+    sprintf(buf, "%X", tmp);
+    stringTo_diagnostic_Usart1("i2c_send_byte (data)");
+    stringTo_diagnostic_Usart1(buf);
+    sprintf(buf, "%d", data);
+    stringTo_diagnostic_Usart1(buf);
 
     i2c_stop_cond();
 }
