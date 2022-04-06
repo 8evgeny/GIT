@@ -178,7 +178,7 @@ uint8_t I2C_ReadData(uint32_t  i2c)
 }
 
 // Аппаратная реализация i2c1 - пока не работает
-#ifndef usePrograaI2C1
+#ifndef useProgI2C1
 
 void init_I2C1(void)
 {
@@ -377,7 +377,7 @@ vTaskDelay(pdMS_TO_TICKS(1));
 
 
 
-#ifdef usePrograaI2C1
+#ifdef useProgI2C1
 // Программная реализация i2c1
 
 volatile uint8_t i2c_frame_error=0;
@@ -385,7 +385,6 @@ volatile uint8_t i2c_frame_error=0;
 void i2c_init (void) // функция инициализации шины
 {
     delay_setup();
-    rcc_periph_clock_enable(RCC_GPIOB);
     i2c_stop_cond();   // стоп шины
     i2c_stop_cond();   // стоп шины
 }
@@ -397,11 +396,18 @@ void SCL_in (void) //функция отпускания SCL в 1, порт на
 
 }
 
-void SCL_out (void) //функция притягивания SCL в 0
+void SCL_out_DOWN (void) //функция притягивания SCL в 0
 {
     gpio_set_mode(GPIOB, GPIO_MODE_OUTPUT_2_MHZ, GPIO_CNF_OUTPUT_OPENDRAIN, GPIO_I2C1_SCL);
     SCL_O;
 }
+
+void SCL_out_UP (void) //функция притягивания SCL в 1
+{
+    gpio_set_mode(GPIOB, GPIO_MODE_OUTPUT_2_MHZ, GPIO_CNF_OUTPUT_OPENDRAIN, GPIO_I2C1_SCL);
+    SCL_1;
+}
+
 
 void SDA_in (void) //функция отпускания SDA в 1, порт на вход
 {
@@ -409,42 +415,50 @@ void SDA_in (void) //функция отпускания SDA в 1, порт на
 //    gpio_set_mode(GPIOB, GPIO_MODE_OUTPUT_2_MHZ, GPIO_CNF_INPUT_PULL_UPDOWN, GPIO_I2C1_SDA);
 }
 
-void SDA_out (void) //функция притягивания SDA в 0
+void SDA_out_DOWN (void) //функция притягивания SDA в 0
 {
     gpio_set_mode(GPIOB, GPIO_MODE_OUTPUT_2_MHZ, GPIO_CNF_OUTPUT_OPENDRAIN, GPIO_I2C1_SDA);
     SDA_O;
 }
 
+void SDA_out_UP (void) //функция притягивания SDA в 1
+{
+    gpio_set_mode(GPIOB, GPIO_MODE_OUTPUT_2_MHZ, GPIO_CNF_OUTPUT_OPENDRAIN, GPIO_I2C1_SDA);
+    SDA_1;
+}
+
 #include <stdint.h>
 void i2c_stop_cond (void)  // функция генерации условия стоп
 {
-//#include "delay.h"
-
     uint16_t SCL, SDA;
-    SCL_out(); // притянуть SCL (лог.0)
+    SCL_out_DOWN(); // притянуть SCL (лог.0)
     delay_us(10);
-    SDA_out(); // притянуть SDA (лог.0)
+    SDA_out_DOWN(); // притянуть SDA (лог.0)
     delay_us(10);
 
-    SCL_in(); // отпустить SCL (лог.1)
+//    SCL_in(); // отпустить SCL (лог.1)
+    SCL_out_UP();
     delay_us(10);
-    SDA_in(); // отпустить SDA (лог.1)
+//    SDA_in(); // отпустить SDA (лог.1)
+    SDA_out_UP();
     delay_us(10);
 
     // проверка фрейм-ошибки
     i2c_frame_error=0;		// сброс счётчика фрейм-ошибок
+    SCL_in();
     SCL=SCL_I;
+    SDA_in();
     SDA=SDA_I;
-    if (SCL == 0) i2c_frame_error++;   // проберяем, чтобы на ноге SDA была лог.1, иначе выдаём ошибку фрейма
-    if (SDA == 0) i2c_frame_error++;   // проберяем, чтобы на ноге SCL была лог.1, иначе выдаём ошибку фрейма
+    if (SCL == 0) i2c_frame_error++;   // проверяем, чтобы на ноге SDA была лог.1, иначе выдаём ошибку фрейма
+    if (SDA == 0) i2c_frame_error++;   // проверяем, чтобы на ноге SCL была лог.1, иначе выдаём ошибку фрейма
     delay_us(40);
 }
 
 void i2c_start_cond (void)  // функция генерации условия старт
 {
-    SDA_out(); // притянуть SDA (лог.0)
+    SDA_out_DOWN(); // притянуть SDA (лог.0)
     delay_us(10);
-    SCL_out(); // притянуть SCL (лог.0)
+    SCL_out_DOWN(); // притянуть SCL (лог.0)
     delay_us(10);
 }
 
@@ -454,9 +468,9 @@ void i2c_restart_cond (void)   // функция генерации услови
     delay_us(10);
     SCL_in(); // отпустить SCL (лог.1)
     delay_us(10);
-    SDA_out(); // притянуть SDA (лог.0)
+    SDA_out_DOWN(); // притянуть SDA (лог.0)
     delay_us(10);
-    SCL_out(); // притянуть SCL (лог.0)
+    SCL_out_DOWN(); // притянуть SCL (лог.0)
     delay_us(10);
 }
 
@@ -469,27 +483,32 @@ uint8_t i2c_send_byte (uint8_t data)  // функция  отправки бай
     {
         if (data & 0x80)
         {
-            SDA_in(); // лог.1
+//            SDA_in(); // лог.1
+            SDA_out_UP();
         }
         else
         {
-            SDA_out(); // Выставить бит на SDA (лог.0
+            SDA_out_DOWN(); // Выставить бит на SDA (лог.0
         }
         delay_us(10);
         SCL_in();      // Записать его импульсом на SCL       // отпустить SCL (лог.1)
         delay_us(10);
-        SCL_out();     // притянуть SCL (лог.0)
+        SCL_out_DOWN();     // притянуть SCL (лог.0)
         data<<=1;      // сдвигаем на 1 бит влево
     }
+    SDA_out_UP();
+    delay_us(1);
     SDA_in();          // отпустить SDA (лог.1), чтобы ведомое устройство смогло сгенерировать ACK
     delay_us(10);
+    SCL_out_UP();
+    delay_us(1);
     SCL_in();          // отпустить SCL (лог.1), чтобы ведомое устройство передало ACK
     delay_us(10);
     SDA=SDA_I;
     if (SDA == 0x00) ack=1;
     else ack=0;         // Считать ACK
 
-    SCL_out();         // притянуть SCL (лог.0)  // приём ACK завершён
+    SCL_out_DOWN();         // притянуть SCL (лог.0)  // приём ACK завершён
 
     return ack;        // вернуть ACK (0) или NACK (1)
 }
@@ -498,32 +517,41 @@ uint8_t i2c_get_byte (uint8_t last_byte) // функция принятия ба
 {
     uint8_t i, res=0;
     uint16_t SDA;
-    SDA_in();                // отпустить SDA (лог.1)
+//    SDA_in();                // отпустить SDA (лог.1)
+    SDA_out_UP();
     for (i=0;i<8;i++)
     {
         res<<=1;
-        SCL_in();            // отпустить SCL (лог.1)      //Импульс на SCL
+//        SCL_in();            // отпустить SCL (лог.1)      //Импульс на SCL
+        SCL_out_UP();
         delay_us(10);
+        SDA_out_UP();
+        delay_us(1);
         SDA_in();
         SDA=SDA_I;
         if (SDA == 1) res=res|0x01;    // Чтение SDA в переменную  Если SDA=1 то записываем 1
-        SCL_out();                     // притянуть SCL (лог.0)
+        SCL_out_DOWN();                     // притянуть SCL (лог.0)
         delay_us(10);
     }
 
     if (last_byte == 0)
     {
-        SDA_out();  // притянуть SDA (лог.0) Подтверждение, ACK, будем считывать ещё один байт
+        SDA_out_DOWN();  // притянуть SDA (лог.0) Подтверждение, ACK, будем считывать ещё один байт
     }
     else
     {
-        SDA_in();   // отпустить SDA (лог.1) Без подтверждения, NACK, это последний считанный байт
+//        SDA_in();   // отпустить SDA (лог.1) Без подтверждения, NACK, это последний считанный байт
+        SDA_out_UP();
     }
     delay_us(10);
+    SCL_out_UP();
+    delay_us(1);
     SCL_in(); // отпустить SCL (лог.1)
     delay_us(10);
-    SCL_out(); // притянуть SCL (лог.0)
+    SCL_out_DOWN(); // притянуть SCL (лог.0)
     delay_us(10);
+    SDA_out_UP();
+    delay_us(1);
     SDA_in(); // отпустить SDA (лог.1)
 
     return res; // вернуть считанное значение
@@ -549,21 +577,45 @@ void send_Programm_to_POT(uint8_t data)
 
 //DR WRITE OPERATION  start 56 02 00 stop start 56 00 data stop
     uint8_t tmp;
-    i2c_start_cond();
-     tmp = i2c_send_byte (0x56);
-
     char buf[10];
+
+    i2c_start_cond();
+    tmp = i2c_send_byte (0x56);
     sprintf(buf, "%X", tmp);
     stringTo_diagnostic_Usart1("i2c_send_byte (0x56)");
     stringTo_diagnostic_Usart1(buf);
 
-    i2c_send_byte (0x02);
-    i2c_send_byte (0x00);
+    tmp = i2c_send_byte (0x02);
+    sprintf(buf, "%X", tmp);
+    stringTo_diagnostic_Usart1("i2c_send_byte (0x02)");
+    stringTo_diagnostic_Usart1(buf);
+
+    tmp = i2c_send_byte (0x00);
+    sprintf(buf, "%X", tmp);
+    stringTo_diagnostic_Usart1("i2c_send_byte (0x00)");
+    stringTo_diagnostic_Usart1(buf);
+
     i2c_stop_cond();
+
     i2c_start_cond();
-    i2c_send_byte (0x56);
-    i2c_send_byte (0x00);
-    i2c_send_byte (data);
+    tmp = i2c_send_byte (0x56);
+    sprintf(buf, "%X", tmp);
+    stringTo_diagnostic_Usart1("i2c_send_byte (0x56)");
+    stringTo_diagnostic_Usart1(buf);
+
+    tmp = i2c_send_byte (0x00);
+    sprintf(buf, "%X", tmp);
+    stringTo_diagnostic_Usart1("i2c_send_byte (0x00)");
+    stringTo_diagnostic_Usart1(buf);
+
+    tmp = i2c_send_byte (data);
+    sprintf(buf, "%X", tmp);
+    stringTo_diagnostic_Usart1("i2c_send_byte (data)");
+    stringTo_diagnostic_Usart1(buf);
+    sprintf(buf, "%d", data);
+    stringTo_diagnostic_Usart1(buf);
+
+
     i2c_stop_cond();
 }
 

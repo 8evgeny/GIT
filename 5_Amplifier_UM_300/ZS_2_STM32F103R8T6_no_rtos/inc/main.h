@@ -108,6 +108,8 @@ void digitalPOT_send_data(uint8_t byte1,uint8_t byte2,uint8_t byte3 );
 void testTask1(void *args __attribute((unused)));
 void testTask2(void *args __attribute((unused)));
 void testTask3(void *args __attribute((unused)));
+void testTaski2C(void *args __attribute((unused)));
+
 void testSendUartCommand(void *args __attribute((unused)));
 void SendUartCommand(void *args __attribute((unused)));
 void testUART1(void *args __attribute__((unused)));
@@ -149,6 +151,8 @@ void setRele24V(bool set);
 void setTestLed1(bool set);
 void setTestLed2(bool set);
 void setTestLed3(bool set);
+void setTestSCL(bool set);
+void setTestSDA(bool set);
 
 void init_I2C1();
 
@@ -157,11 +161,13 @@ void digitalPOT_I2C_init(uint8_t pot_Addr);
 void backlight();
 void noBacklight();
 
-#ifdef usePrograaI2C1
-#define SCL_I  gpio_get(GPIOB, GPIO_I2C1_SCL);
-#define SDA_I  gpio_get(GPIOB, GPIO_I2C1_SDA);
-#define SCL_O  gpio_clear(GPIOB, GPIO_I2C1_SCL);
-#define SDA_O  gpio_clear(GPIOB, GPIO_I2C1_SDA);
+#ifdef useProgI2C1
+#define SCL_I  gpio_get(GPIOB, GPIO_I2C1_SCL)
+#define SDA_I  gpio_get(GPIOB, GPIO_I2C1_SDA)
+#define SCL_O  gpio_clear(GPIOB, GPIO_I2C1_SCL)
+#define SDA_O  gpio_clear(GPIOB, GPIO_I2C1_SDA)
+#define SCL_1  gpio_set(GPIOB, GPIO_I2C1_SCL)
+#define SDA_1  gpio_set(GPIOB, GPIO_I2C1_SDA)
 void i2c_init (void);                       // Инициализация шины
 void i2c_start_cond (void);                 // Генерация условия старт
 void i2c_restart_cond (void);               // Генерация условия рестарт

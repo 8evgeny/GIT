@@ -14,11 +14,11 @@ The following is the required sequence in master mode.
 void digitaPOT(void *args)
 {
     (void)args;
-#ifndef usePrograaI2C1
+#ifndef useProgI2C1
     init_I2C1();
 #endif
-#ifdef usePrograaI2C1
-    i2c_init();
+#ifdef useProgI2C1
+//    i2c_init();
 #endif
 
     for(;;)
@@ -30,11 +30,11 @@ void digitaPOT(void *args)
 
             char buf[10];
             sprintf(buf, "%d", ii);
-//            stringTo_diagnostic_Usart1(buf);
-#ifndef usePrograaI2C1
+            stringTo_diagnostic_Usart1(buf);
+#ifndef useProgI2C1
             send_to_POT(ii);
 #endif
-#ifdef usePrograaI2C1
+#ifdef useProgI2C1
             send_Programm_to_POT(ii);
 #endif
         }
