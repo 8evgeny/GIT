@@ -391,8 +391,8 @@ void i2c_init (void) // функция инициализации шины
 
 void SCL_in (void) //функция отпускания SCL в 1, порт на вход
 {
-    gpio_set_mode(GPIOB, GPIO_MODE_OUTPUT_2_MHZ, GPIO_CNF_INPUT_FLOAT, GPIO_I2C1_SCL);
-//    gpio_set_mode(GPIOB, GPIO_MODE_OUTPUT_2_MHZ, GPIO_CNF_INPUT_PULL_UPDOWN, GPIO_I2C1_SCL);
+//    gpio_set_mode(GPIOB, GPIO_MODE_OUTPUT_2_MHZ, GPIO_CNF_INPUT_FLOAT, GPIO_I2C1_SCL);
+    gpio_set_mode(GPIOB, GPIO_MODE_OUTPUT_2_MHZ, GPIO_CNF_INPUT_PULL_UPDOWN, GPIO_I2C1_SCL);
 
 }
 
@@ -411,8 +411,8 @@ void SCL_out_UP (void) //функция притягивания SCL в 1
 
 void SDA_in (void) //функция отпускания SDA в 1, порт на вход
 {
-    gpio_set_mode(GPIOB, GPIO_MODE_OUTPUT_2_MHZ, GPIO_CNF_INPUT_FLOAT, GPIO_I2C1_SDA);
-//    gpio_set_mode(GPIOB, GPIO_MODE_OUTPUT_2_MHZ, GPIO_CNF_INPUT_PULL_UPDOWN, GPIO_I2C1_SDA);
+//    gpio_set_mode(GPIOB, GPIO_MODE_OUTPUT_2_MHZ, GPIO_CNF_INPUT_FLOAT, GPIO_I2C1_SDA);
+    gpio_set_mode(GPIOB, GPIO_MODE_OUTPUT_2_MHZ, GPIO_CNF_INPUT_PULL_UPDOWN, GPIO_I2C1_SDA);
 }
 
 void SDA_out_DOWN (void) //функция притягивания SDA в 0
@@ -483,8 +483,8 @@ uint8_t i2c_send_byte (uint8_t data)  // функция  отправки бай
     {
         if (data & 0x80)
         {
-//            SDA_in(); // лог.1
-            SDA_out_UP();
+            SDA_in(); // лог.1
+//            SDA_out_UP();
         }
         else
         {
@@ -496,12 +496,12 @@ uint8_t i2c_send_byte (uint8_t data)  // функция  отправки бай
         SCL_out_DOWN();     // притянуть SCL (лог.0)
         data<<=1;      // сдвигаем на 1 бит влево
     }
-    SDA_out_UP();
-    delay_us(1);
+//    SDA_out_UP();
+//    delay_us(1);
     SDA_in();          // отпустить SDA (лог.1), чтобы ведомое устройство смогло сгенерировать ACK
     delay_us(10);
-    SCL_out_UP();
-    delay_us(1);
+//    SCL_out_UP();
+//    delay_us(1);
     SCL_in();          // отпустить SCL (лог.1), чтобы ведомое устройство передало ACK
     delay_us(10);
     SDA=SDA_I;
@@ -654,7 +654,8 @@ void send_Programm_to_POT1(uint8_t data)
     stringTo_diagnostic_Usart1("i2c_send_byte (0x00)");
     stringTo_diagnostic_Usart1(buf);
 
-    tmp = i2c_send_byte (data);
+//    tmp = i2c_send_byte (data);
+    tmp = i2c_send_byte (0xF0);
     sprintf(buf, "%X", tmp);
     stringTo_diagnostic_Usart1("i2c_send_byte (data)");
     stringTo_diagnostic_Usart1(buf);
