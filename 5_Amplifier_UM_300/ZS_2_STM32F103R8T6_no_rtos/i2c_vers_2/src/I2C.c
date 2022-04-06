@@ -391,8 +391,8 @@ void i2c_init (void) // функция инициализации шины
 
 void SCL_in (void) //функция отпускания SCL в 1, порт на вход
 {
-//    gpio_set_mode(GPIOB, GPIO_MODE_OUTPUT_2_MHZ, GPIO_CNF_INPUT_FLOAT, GPIO_I2C1_SCL);
-    gpio_set_mode(GPIOB, GPIO_MODE_OUTPUT_2_MHZ, GPIO_CNF_INPUT_PULL_UPDOWN, GPIO_I2C1_SCL);
+    gpio_set_mode(GPIOB, GPIO_MODE_OUTPUT_2_MHZ, GPIO_CNF_INPUT_FLOAT, GPIO_I2C1_SCL);
+//    gpio_set_mode(GPIOB, GPIO_MODE_OUTPUT_2_MHZ, GPIO_CNF_INPUT_PULL_UPDOWN, GPIO_I2C1_SCL);
 
 }
 
@@ -411,8 +411,8 @@ void SCL_out_UP (void) //функция притягивания SCL в 1
 
 void SDA_in (void) //функция отпускания SDA в 1, порт на вход
 {
-//    gpio_set_mode(GPIOB, GPIO_MODE_OUTPUT_2_MHZ, GPIO_CNF_INPUT_FLOAT, GPIO_I2C1_SDA);
-    gpio_set_mode(GPIOB, GPIO_MODE_OUTPUT_2_MHZ, GPIO_CNF_INPUT_PULL_UPDOWN, GPIO_I2C1_SDA);
+    gpio_set_mode(GPIOB, GPIO_MODE_OUTPUT_2_MHZ, GPIO_CNF_INPUT_FLOAT, GPIO_I2C1_SDA);
+//    gpio_set_mode(GPIOB, GPIO_MODE_OUTPUT_2_MHZ, GPIO_CNF_INPUT_PULL_UPDOWN, GPIO_I2C1_SDA);
 }
 
 void SDA_out_DOWN (void) //функция притягивания SDA в 0
@@ -436,11 +436,11 @@ void i2c_stop_cond (void)  // функция генерации условия �
     SDA_out_DOWN(); // притянуть SDA (лог.0)
     delay_us(10);
 
-//    SCL_in(); // отпустить SCL (лог.1)
-    SCL_out_UP();
+    SCL_in(); // отпустить SCL (лог.1)
+//    SCL_out_UP();
     delay_us(10);
-//    SDA_in(); // отпустить SDA (лог.1)
-    SDA_out_UP();
+    SDA_in(); // отпустить SDA (лог.1)
+//    SDA_out_UP();
     delay_us(10);
 
     // проверка фрейм-ошибки
@@ -512,6 +512,26 @@ uint8_t i2c_send_byte (uint8_t data)  // функция  отправки бай
 
     return ack;        // вернуть ACK (0) или NACK (1)
 }
+
+
+void testImpuls(void *args)
+{
+    (void)args;
+
+    for(;;)
+    {
+    vTaskDelay(pdMS_TO_TICKS(100));
+    SCL_out_DOWN();
+    SDA_in();
+    delay_us(50);
+    SDA_out_DOWN();
+    SCL_in();
+    delay_us(50);
+
+    }
+}
+
+
 
 uint8_t i2c_get_byte (uint8_t last_byte) // функция принятия байта
 {

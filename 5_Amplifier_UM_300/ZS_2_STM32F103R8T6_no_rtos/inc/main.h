@@ -109,6 +109,7 @@ void testTask1(void *args __attribute((unused)));
 void testTask2(void *args __attribute((unused)));
 void testTask3(void *args __attribute((unused)));
 void testTaski2C(void *args __attribute((unused)));
+void testImpuls(void *args);
 
 void testSendUartCommand(void *args __attribute((unused)));
 void SendUartCommand(void *args __attribute((unused)));
