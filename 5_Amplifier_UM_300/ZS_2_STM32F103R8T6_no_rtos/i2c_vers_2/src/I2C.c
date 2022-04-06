@@ -246,15 +246,9 @@ void I2C_POD_StartTransmission(uint32_t i2c, uint8_t transmissionDirection,  uin
     stringTo_diagnostic_Usart1("I2C1_SR2");  //MSL BUSY
     stringTo_diagnostic_Usart1(buf);
 
-vTaskDelay(pdMS_TO_TICKS(1));
 
-//    while( // Выход из цикла когда все флаги упадут в 0
-////          ((I2C_SR1(i2c) & I2C_SR1_TxE) == 0x00000000)  ||  //TxE: Data register empty (transmitters)
-////          ((I2C_SR1(i2c) & I2C_SR1_ADDR) == 0x00000000) ||  //ADDR: Address sent
-//          ((I2C_SR2(i2c) & I2C_SR2_BUSY) == 0x00000000) ||  //BUSY
-//          ((I2C_SR2(i2c) & I2C_SR2_MSL) == 0x00000000)    //MSL Master/slave
-////          ((I2C_SR2(i2c) & I2C_SR2_TRA) == 0x00000000)      //TRA
-//          );
+    /* Waiting for START is send and switched to master mode. */
+    while (!((I2C_SR1(i2c) & I2C_SR1_SB) & (I2C_SR2(i2c) & (I2C_SR2_MSL | I2C_SR2_BUSY))));
 
 //    sprintf(buf, "%04X", (uint16_t)I2C1_SR1);
 //    stringTo_diagnostic_Usart1("I2C1_SR1");
@@ -266,7 +260,8 @@ vTaskDelay(pdMS_TO_TICKS(1));
 
     i2c_send_7bit_address(i2c, slaveAddress, transmissionDirection);
 
-vTaskDelay(pdMS_TO_TICKS(1));
+    /* Waiting for address is transferred. */
+    while (!(I2C_SR1(i2c) & I2C_SR1_ADDR));
 
     if(transmissionDirection== I2C_Direction_Transmitter)
     {
@@ -315,32 +310,15 @@ void send_to_POT(uint8_t data)
     I2C_POD_StartTransmission(I2C1, I2C_Direction_Transmitter, 0x56);
 
     i2c_send_data(I2C1,0x02);
-
-vTaskDelay(pdMS_TO_TICKS(1));
-
-//    while( // Выход из цикла когда все флаги упадут в 0
-//          ((I2C_SR1(I2C1) & I2C_SR1_TxE) == 0x00000000)  ||  //TXE
-//          ((I2C_SR1(I2C1) & I2C_SR1_BTF) == 0x00000000)  ||  //BTF
-//          ((I2C_SR2(I2C1) & I2C_SR2_BUSY) == 0x00000000) ||  //BUSY
-//          ((I2C_SR2(I2C1) & I2C_SR2_MSL) == 0x00000000)  ||  //MSL
-//          ((I2C_SR2(I2C1) & I2C_SR2_TRA) == 0x00000000)      //TRA
-//          );
+    while (!(I2C_SR1(I2C1) & I2C_SR1_BTF));
 
     i2c_send_data(I2C1,0x00);
+    /* After the last byte we have to wait for TxE too. */
+    while (!(I2C_SR1(I2C1) & (I2C_SR1_BTF | I2C_SR1_TxE)));
 
-vTaskDelay(pdMS_TO_TICKS(1));
+    /* Send STOP condition. */
+    i2c_send_stop(I2C1);
 
-//    while( // Выход из цикла когда все флаги упадут в 0
-//          ((I2C_SR1(I2C1) & I2C_SR1_TxE) == 0x00000000)  ||  //TXE
-//          ((I2C_SR1(I2C1) & I2C_SR1_BTF) == 0x00000000)  ||  //BTF
-//          ((I2C_SR2(I2C1) & I2C_SR2_BUSY) == 0x00000000) ||  //BUSY
-//          ((I2C_SR2(I2C1) & I2C_SR2_MSL) == 0x00000000)  ||  //MSL
-//          ((I2C_SR2(I2C1) & I2C_SR2_TRA) == 0x00000000)      //TRA
-//          );
-
-i2c_send_stop(I2C1);
-
-vTaskDelay(pdMS_TO_TICKS(1));
 
 I2C_POD_StartTransmission(I2C1, I2C_Direction_Transmitter, 0x56);
 
