@@ -153,11 +153,11 @@ void I2C_WriteData(uint32_t i2c, uint8_t data)
     i2c_send_data(i2c, data);
 
     while( // Выход из цикла когда все флаги упадут в 0
-          ((I2C_SR1(i2c) & I2C_SR1_TxE) == 0x00000000)  ||  //TXE
-          ((I2C_SR1(i2c) & I2C_SR1_BTF) == 0x00000000) ||   //BTF
-          ((I2C_SR2(i2c) & I2C_SR2_BUSY) == 0x00000000) ||  //BUSY
-          ((I2C_SR2(i2c) & I2C_SR2_MSL) == 0x00000000)  ||  //MSL
-          ((I2C_SR2(i2c) & I2C_SR2_TRA) == 0x00000000)      //TRA
+          ((I2C_SR1(i2c) & I2C_SR1_TxE) == 0x00000000)  ||  //TXE  Data register empty (transmitters) 0 - Data register not empty
+          ((I2C_SR1(i2c) & I2C_SR1_BTF) == 0x00000000) ||   //BTF  Byte transfer finished 0 - Data byte transfer not done
+          ((I2C_SR2(i2c) & I2C_SR2_BUSY) == 0x00000000) ||  //BUSY 0: No communication on the bus
+          ((I2C_SR2(i2c) & I2C_SR2_MSL) == 0x00000000)  ||  //MSL  0: Slave Mode
+          ((I2C_SR2(i2c) & I2C_SR2_TRA) == 0x00000000)      //TRA  0: Data bytes received  1: Data bytes transmitted
           );
 }
 
