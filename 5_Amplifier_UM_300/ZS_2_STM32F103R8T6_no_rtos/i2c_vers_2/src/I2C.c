@@ -546,9 +546,15 @@ void send_Programm_to_POT(uint8_t data)
     //start 56 02 00 stop start 56 00 data stop
 
 //DR WRITE OPERATION  start 56 02 00 stop start 56 00 data stop
-
+    uint8_t tmp;
     i2c_start_cond();
-    i2c_send_byte (0x56);
+     tmp = i2c_send_byte (0x56);
+
+    char buf[10];
+    sprintf(buf, "%X", tmp);
+    stringTo_diagnostic_Usart1("i2c_send_byte (0x56)");
+    stringTo_diagnostic_Usart1(buf);
+
     i2c_send_byte (0x02);
     i2c_send_byte (0x00);
     i2c_stop_cond();
