@@ -658,10 +658,15 @@ void send_Programm_to_POT1(uint8_t data)
     sprintf(buf, "%X", tmp);
     stringTo_diagnostic_Usart1("i2c_send_byte (data)");
     stringTo_diagnostic_Usart1(buf);
+
     sprintf(buf, "%d", data);
+    stringTo_diagnostic_Usart1("i2c_value");
     stringTo_diagnostic_Usart1(buf);
 
     i2c_stop_cond();
+    sprintf(buf, "%d", i2c_frame_error);
+    stringTo_diagnostic_Usart1("i2c_frame_error");
+    stringTo_diagnostic_Usart1(buf);
 }
 
 #endif
