@@ -28,6 +28,8 @@ add_definitions(-DUSE_STDPERIPH_DRIVER -DUSE_FULL_ASSERT)
 #add_definitions(-DuseI2C1) #i2c2 диагностический экранчик на i2c1 (PB6 - I2C1_SCL   PB7 - I2C1_SDA)
 #add_definitions(-DuseI2C2) #i2c2 диагностический экранчик на i2c2 (PB10 - I2C1_SCL   PB11 - I2C1_SDA)
 add_definitions(-DuseUSART1) #использовать USART1 для диагностики (PA9 - USART2_TX PA10 - USART2_RX) Rele TR1 TR2 off
+add_definitions(-DusePrograaI2C1) #использовать программный а не аппаратный i2c1
+
 
 #Uncomment for software floating point
 #SET(FPU_FLAGS "-mfloat-abi=soft")

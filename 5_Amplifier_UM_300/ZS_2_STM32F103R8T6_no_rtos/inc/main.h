@@ -157,6 +157,16 @@ void digitalPOT_I2C_init(uint8_t pot_Addr);
 void backlight();
 void noBacklight();
 
+#ifdef usePrograaI2C1
+void i2c_init (void);                       // Инициализация шины
+void i2c_start_cond (void);                 // Генерация условия старт
+void i2c_restart_cond (void);               // Генерация условия рестарт
+void i2c_stop_cond (void) ;                 // Генерация условия стоп
+uint8_t i2c_send_byte (uint8_t data) ;      //Передать байт (вх. аргумент передаваемый байт) (возвращает 0 - АСК, 1 - NACK)
+uint8_t i2c_get_byte (uint8_t last_byte) ;  //Принять байт (если последний байт то входной аргумент = 1, если будем считывать еще то 0)(возвращает принятый байт)
+#endif
+
+
 #ifdef __cplusplus
 }
 #endif
