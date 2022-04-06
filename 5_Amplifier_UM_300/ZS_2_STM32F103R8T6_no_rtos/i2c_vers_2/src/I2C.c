@@ -177,9 +177,11 @@ uint8_t I2C_ReadData(uint32_t  i2c)
     return data;
 }
 
+// Аппаратная реализация i2c1 - пока не работает
+#ifndef usePrograaI2C1
+
 void init_I2C1(void)
 {
-#ifndef usePrograaI2C1
     rcc_periph_clock_enable(RCC_GPIOB);
     rcc_periph_clock_enable(RCC_I2C1);
     rcc_periph_clock_enable(RCC_AFIO);
@@ -220,7 +222,6 @@ void init_I2C1(void)
 
     /* If everything is configured -> enable the peripheral. */
     i2c_peripheral_enable(I2C1);
-#endif
 }
 
 void I2C_POD_StartTransmission(uint32_t i2c, uint8_t transmissionDirection,  uint8_t slaveAddress)
@@ -372,28 +373,20 @@ vTaskDelay(pdMS_TO_TICKS(1));
 vTaskDelay(pdMS_TO_TICKS(1));
 
 }
+#endif
 
 
 
-
-
-// Далее программная реализация i2c
+#ifdef usePrograaI2C1
+// Программная реализация i2c1
 
 volatile uint8_t i2c_frame_error=0;
 
 void i2c_init (void) // функция инициализации шины
 {
-#ifdef usePrograaI2C1
     rcc_periph_clock_enable(RCC_GPIOB);
     gpio_set_mode(GPIOB, GPIO_MODE_OUTPUT_2_MHZ, GPIO_CNF_OUTPUT_OPENDRAIN, GPIO_I2C1_SCL);
     gpio_set_mode(GPIOB, GPIO_MODE_OUTPUT_2_MHZ, GPIO_CNF_OUTPUT_OPENDRAIN, GPIO_I2C1_SDA);
-
-#define SCL_I  gpio_get(GPIOB, GPIO_I2C1_SCL);
-#define SDA_I  gpio_get(GPIOB, GPIO_I2C1_SDA);
-#define SCL_O  gpio_clear(GPIOB, GPIO_I2C1_SCL);
-#define SDA_O  gpio_clear(GPIOB, GPIO_I2C1_SDA);
-
-#endif
     i2c_stop_cond();   // стоп шины
     i2c_stop_cond();   // стоп шины
 }
@@ -534,8 +527,39 @@ uint8_t i2c_get_byte (uint8_t last_byte) // функция принятия ба
     return res; // вернуть считанное значение
 }
 
+void send_Programm_to_POT(uint8_t data)
+{
+    //AR - только запись
+    //57 - чтение
+    //56 - запись
+    //56 02 80 выбор WCR
+    //56 02 00 выбор DR
+    //The WCR is a volatile register and is written with the contents of the nonvolatile Data Register (DR) on power-up.
 
+    //WCR WRITE OPERATION                 start 56 02 80 stop start 56 00 data stop
+    //WCR INCREMENT/DECREMENT OPERATION - start 56 02 80 stop start 5E 00 ??
+    //WCR READ OPERATION                  start 56 02 80 stop start 56 00 start 57 data stop
+    //The WCR is also written during a write to DR
+    //DR WRITE OPERATION                  start 56 02 00 stop start 56 00 data stop
+    //DR READ OPERATION                   start 56 02 00 stop start 56 00 start 57 data stop
 
+    //start 56 02 00 stop start 56 00 data stop
+
+//DR WRITE OPERATION  start 56 02 00 stop start 56 00 data stop
+
+    i2c_start_cond();
+    i2c_send_byte (0x56);
+    i2c_send_byte (0x02);
+    i2c_send_byte (0x00);
+    i2c_stop_cond();
+    i2c_start_cond();
+    i2c_send_byte (0x56);
+    i2c_send_byte (0x00);
+    i2c_send_byte (data);
+    i2c_stop_cond();
+}
+
+#endif
 
 //Какой-то пример
 
