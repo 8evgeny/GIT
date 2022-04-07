@@ -30,12 +30,12 @@ void digitaPOT(void *args)
 
             char buf[10];
             sprintf(buf, "%d", ii);
-//            stringTo_diagnostic_Usart1(buf);
+            stringTo_diagnostic_Usart1(buf);
 #ifndef useProgI2C1
             send_to_POT(ii);
 #endif
 #ifdef useProgI2C1
-            send_Programm_to_POT(ii);
+//            send_Programm_to_POT(ii);
 //            send_Programm_to_POT1(ii);
 #endif
         }
