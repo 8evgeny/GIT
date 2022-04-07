@@ -34,3 +34,10 @@ uint8_t I2C_ReadData(uint32_t  i2c);
 
 void I2C_POD_StartTransmission(uint32_t i2c, uint8_t transmissionDirection,  uint8_t slaveAddress);
 void digitalPOT_send_data(uint8_t byte1, uint8_t byte2, uint8_t byte3 );
+
+void SCL_in (void);
+void SCL_out_DOWN (void);
+void SCL_out_UP (void);
+void SDA_in (void);
+void SDA_out_DOWN (void);
+void SDA_out_UP (void);

@@ -362,9 +362,10 @@ volatile uint8_t i2c_frame_error=0;
 
 void i2c_init (void) // функция инициализации шины
 {
-    delay_setup();
-    i2c_stop_cond();   // стоп шины
-    i2c_stop_cond();   // стоп шины
+//    delay_setup();
+
+//    i2c_stop_cond();   // стоп шины
+//    i2c_stop_cond();   // стоп шины
 }
 
 void SCL_in (void) //функция отпускания SCL в 1, порт на вход
@@ -498,22 +499,24 @@ void testImpuls(void *args)
 
     for(;;)
     {
-//    vTaskDelay(pdMS_TO_TICKS(100));
-    delay_us(20);
+    vTaskDelay(pdMS_TO_TICKS(20));
+
 //    SCL_out_DOWN();
-//    SDA_in();
-//    delay_us(50);
 //    SDA_out_DOWN();
+
+//    delay_us(4);
+
+//    SDA_in();
 //    SCL_in();
-//    delay_us(50);
+
+
     SCL_out_DOWN();
-    SDA_out_UP();
-    delay_us(5);
     SDA_out_DOWN();
+
+    delay_us(4);
+
     SCL_out_UP();
-    delay_us(5);
-
-
+    SDA_out_UP();
 
     }
 }
