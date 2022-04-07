@@ -16,7 +16,7 @@ void delay_setup(void)
 
 void delay_us(uint16_t us)
 {
-    TIM_ARR(TIM6) = us;
+    TIM_ARR(TIM6) = us * 10;
     TIM_EGR(TIM6) = TIM_EGR_UG;
     TIM_CR1(TIM6) |= TIM_CR1_CEN;
     //timer_enable_counter(TIM6);

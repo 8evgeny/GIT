@@ -498,13 +498,22 @@ void testImpuls(void *args)
 
     for(;;)
     {
-    vTaskDelay(pdMS_TO_TICKS(100));
+//    vTaskDelay(pdMS_TO_TICKS(100));
+    delay_us(20);
+//    SCL_out_DOWN();
+//    SDA_in();
+//    delay_us(50);
+//    SDA_out_DOWN();
+//    SCL_in();
+//    delay_us(50);
     SCL_out_DOWN();
-    SDA_in();
-    delay_us(50);
+    SDA_out_UP();
+    delay_us(5);
     SDA_out_DOWN();
-    SCL_in();
-    delay_us(50);
+    SCL_out_UP();
+    delay_us(5);
+
+
 
     }
 }
