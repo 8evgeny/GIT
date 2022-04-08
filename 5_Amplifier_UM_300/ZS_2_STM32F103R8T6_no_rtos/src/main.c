@@ -206,8 +206,10 @@ void initOuts()
             setReleLine2(0);
             setReleLine3(0);
             setReleLine4(0);
+#ifndef useUSART1
             setReleTr1(0);
             setReleTr2(0);
+#endif
             setReleTr3(0);
             setReleTr4(0);
             setReadyLed(0);

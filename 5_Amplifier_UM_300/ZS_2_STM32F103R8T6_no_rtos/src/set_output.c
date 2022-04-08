@@ -54,12 +54,16 @@ void setOutputs(void *args)
 
         if (signalTranslate)
         {
+#ifndef useUSART1
             setReleTr1(true);
+#endif
             setRele24V(true);
         }
         else
         {
+#ifndef useUSART1
             setReleTr1(false);
+#endif
             setRele24V(false);
         }
 
