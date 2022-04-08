@@ -3,6 +3,17 @@
 
 Digital_POT_I2C_Def poti2c;
 char buf[10];
+void toUart(const char* data)
+{
+    stringTo_diagnostic_Usart1(data);
+    sprintf(buf, "%04X", (uint16_t)I2C1_SR1);
+    stringTo_diagnostic_Usart1("I2C1_SR1");
+    stringTo_diagnostic_Usart1(buf);
+    sprintf(buf, "%04X", (uint16_t)I2C1_SR2);
+    stringTo_diagnostic_Usart1("I2C1_SR2");
+    stringTo_diagnostic_Usart1(buf);
+}
+
 void init_I2C2(void)
 {
     rcc_periph_clock_enable(RCC_GPIOB);
@@ -222,17 +233,6 @@ void init_I2C1(void)
 
     /* If everything is configured -> enable the peripheral. */
     i2c_peripheral_enable(I2C1);
-}
-
-void toUart(const char* data)
-{
-    stringTo_diagnostic_Usart1(data);
-    sprintf(buf, "%04X", (uint16_t)I2C1_SR1);
-    stringTo_diagnostic_Usart1("I2C1_SR1");
-    stringTo_diagnostic_Usart1(buf);
-    sprintf(buf, "%04X", (uint16_t)I2C1_SR2);
-    stringTo_diagnostic_Usart1("I2C1_SR2");
-    stringTo_diagnostic_Usart1(buf);
 }
 
 void I2C_POD_StartTransmission(uint32_t i2c, uint8_t transmissionDirection,  uint8_t slaveAddress)

@@ -35,8 +35,8 @@ void digitaPOT(void *args)
             send_to_POT(ii);
 #endif
 #ifdef useProgI2C1
-//            send_Programm_to_POT(ii);//DR WRITE OPERATION
-            send_Programm_to_POT1(ii);//WCR WRITE OPERATION
+            send_Programm_to_POT(ii);//DR WRITE OPERATION
+//            send_Programm_to_POT1(ii);//WCR WRITE OPERATION
 #endif
         }
 
