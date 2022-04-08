@@ -104,7 +104,7 @@ test_diadnostic_USART1(void *args __attribute__((unused)))
 
 
 
-#if defined useUSART3
+#if defined useMilandr
 static void
 uart_task(void *args)
 {
@@ -180,7 +180,7 @@ void SendUartCommand(void *args __attribute((unused)))
     {
 //        stringTo_diagnostic_Usart1("SendUartCommand - 200");
 
-#if defined useUSART3
+#if defined useMilandr
         stringToUart(toMilandr_BlankCommand);
 #endif
         vTaskDelay(pdMS_TO_TICKS(delay));
@@ -225,12 +225,12 @@ int main() {
 //    auto inp = std::shared_ptr<InputSignals>(new InputSignals);
 
     gpio_setup();
-#if defined useUSART3
+#if defined useMilandr
     uart_setup();
 #endif
     usart1_diadnostic_setup();
     initOuts();
-#if defined useUSART3
+#if defined useMilandr
     xTaskCreate(uart_task,"UART",100,NULL,configMAX_PRIORITIES-1,NULL);
 #endif
     xTaskCreate(usart1_diagnostic_task,"UART",100,NULL,configMAX_PRIORITIES-1,NULL);

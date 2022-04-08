@@ -92,7 +92,7 @@ void testSendUartCommand(void *args __attribute((unused)))
     const int delay = 1000;
     for (;;)
     {
-#if defined useUSART3
+#if defined useMilandr
         stringToUart(toMilandr_BtnImpedance_On);
         vTaskDelay(pdMS_TO_TICKS(delay));
         stringToUart(toMilandr_BtnImpedance_Off);
