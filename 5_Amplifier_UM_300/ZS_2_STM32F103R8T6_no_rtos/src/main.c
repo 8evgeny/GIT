@@ -155,7 +155,7 @@ void stringTo_diagnostic_Usart1(const char *s) {
     xQueueSend(usart_diagnostic_txq, "\r", portMAX_DELAY);
 }
 
-
+#ifdef useMilandr
 static void
 uart_setup()
 {
@@ -180,13 +180,15 @@ void SendUartCommand(void *args __attribute((unused)))
     {
 //        stringTo_diagnostic_Usart1("SendUartCommand - 200");
 
-#if defined useMilandr
+
         stringToUart(toMilandr_BlankCommand);
-#endif
+
         vTaskDelay(pdMS_TO_TICKS(delay));
 
     }
 }
+#endif
+
 
 void initOuts()
 {
@@ -230,13 +232,17 @@ int main() {
 #endif
     usart1_diadnostic_setup();
     initOuts();
+
+
 #if defined useMilandr
     xTaskCreate(uart_task,"UART",100,NULL,configMAX_PRIORITIES-1,NULL);
 #endif
     xTaskCreate(usart1_diagnostic_task,"UART",100,NULL,configMAX_PRIORITIES-1,NULL);
 
 //    xTaskCreate(i2c_main_vers2,"i2c_vers2",100,NULL,configMAX_PRIORITIES-2,NULL);
-//    xTaskCreate(SendUartCommand,"SendUartBlankCommand",100,NULL,configMAX_PRIORITIES-2,NULL);
+#if defined useMilandr
+    xTaskCreate(SendUartCommand,"SendUartBlankCommand",100,NULL,configMAX_PRIORITIES-2,NULL);
+#endif
     xTaskCreate(checkInputs,"+InputSignals",100,NULL,configMAX_PRIORITIES-1,NULL);
     xTaskCreate(setOutputs,"+StateRele",100,NULL,configMAX_PRIORITIES-1,NULL);
     xTaskCreate(digitaPOT,"digitaPOT",200,NULL,configMAX_PRIORITIES-2,NULL);

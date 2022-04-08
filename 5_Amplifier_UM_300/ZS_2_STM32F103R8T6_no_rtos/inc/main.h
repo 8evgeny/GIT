@@ -81,10 +81,6 @@ extern "C" {
 #endif
 static uint8_t ii;
 
-static bool MilandrNoReceiveCmd = 0;
-static bool UncnownCmdFromMilandr = 0;
-
-//Stm -> Milandr
 static bool btnImpedance = 0;
 static bool btnCalibrovka = 0;
 static bool btnReset = 0;
@@ -98,19 +94,20 @@ static bool input_CUR_UPR2 = 0;
 static bool signalVnesh = 0;
 static bool signalMic = 0;
 
-//Milandr -> Stm
 static bool OVERHEAT_MC = 0;
 static bool BOARD_OK = 0;
 static bool ERROR_MC = 0;
 
-#ifndef useUSART3 //Эти сигналы раньше формировал Миландр
+#ifndef useMilandr //Эти сигналы раньше формировал Миландр
 static bool RESET_AMP = 0;
 static bool UNMUTE_PREAMP = 0;
 static bool PREAMP_LEVEL = 0;
 #endif
 
-
+#if defined useMilandr
 static QueueHandle_t uart_txq;				// TX queue for UART
+#endif
+
 static QueueHandle_t usart_diagnostic_txq;
 
 void digitaPOT(void *args __attribute((unused)));
@@ -123,7 +120,9 @@ void testTaski2C(void *args __attribute((unused)));
 void testImpuls(void *args);
 
 void testSendUartCommand(void *args __attribute((unused)));
+#if defined useMilandr
 void SendUartCommand(void *args __attribute((unused)));
+#endif
 void testUART1(void *args __attribute__((unused)));
 void checkInputs(void *args __attribute__((unused)));
 void setOutputs(void *args __attribute((unused)));
