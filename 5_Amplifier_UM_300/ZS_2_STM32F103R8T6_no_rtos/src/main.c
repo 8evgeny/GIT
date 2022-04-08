@@ -104,9 +104,10 @@ test_diadnostic_USART1(void *args __attribute__((unused)))
 
 
 
-
+#if defined useUSART3
 static void
-uart_task(void *args) {
+uart_task(void *args)
+{
     int gc;
     char kbuf[256], ch;
 
@@ -134,13 +135,15 @@ uart_task(void *args) {
     }
 }
 
-void stringToUart(const char *s) {
+void stringToUart(const char *s)
+{
 
     for ( ; *s; ++s ) {
         // blocks when queue is full
         xQueueSend(uart_txq, s, portMAX_DELAY);
     }
 }
+#endif
 
 void stringTo_diagnostic_Usart1(const char *s) {
 
@@ -221,11 +224,14 @@ int main() {
 //    auto inp = std::shared_ptr<InputSignals>(new InputSignals);
 
     gpio_setup();
+#if defined useUSART3
     uart_setup();
+#endif
     usart1_diadnostic_setup();
     initOuts();
-
+#if defined useUSART3
     xTaskCreate(uart_task,"UART",100,NULL,configMAX_PRIORITIES-1,NULL);
+#endif
     xTaskCreate(usart1_diagnostic_task,"UART",100,NULL,configMAX_PRIORITIES-1,NULL);
 
 //    xTaskCreate(i2c_main_vers2,"i2c_vers2",100,NULL,configMAX_PRIORITIES-2,NULL);

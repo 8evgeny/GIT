@@ -60,7 +60,9 @@ void checkInputs(void *args)
                 if (!btnImpedance)
                 {
                     btnImpedance = 1;
+#if defined useUSART3
                     stringToUart(toMilandr_BtnImpedance_On);
+#endif
 //                    stringToLcd("Button Impedance ON");
                     stringTo_diagnostic_Usart1("Button Impedance ON");
                 }
@@ -71,7 +73,9 @@ void checkInputs(void *args)
                 if (btnImpedance)
                 {
                     btnImpedance = 0;
+#if defined useUSART3
                     stringToUart(toMilandr_BtnImpedance_Off);
+#endif
 //                    stringToLcd("Button Impedance OFF");
                     stringTo_diagnostic_Usart1("Button Impedance OFF");
                 }
@@ -87,7 +91,9 @@ void checkInputs(void *args)
                 if (!btnCalibrovka)
                 {
                     btnCalibrovka = 1;
+#if defined useUSART3
                     stringToUart(toMilandr_BtnCalibr_On);
+#endif
 //                    stringToLcd("Button Calibrov ON");
                     stringTo_diagnostic_Usart1("Button Calibrov ON");
 
@@ -99,7 +105,9 @@ void checkInputs(void *args)
                 if (btnCalibrovka)
                 {
                     btnCalibrovka = 0;
+#if defined useUSART3
                     stringToUart(toMilandr_BtnCalibr_Off);
+#endif
 //                    stringToLcd("Button Calibrov OFF");
                     stringTo_diagnostic_Usart1("Button Calibrov OFF");
                 }
@@ -115,7 +123,9 @@ void checkInputs(void *args)
                 if (!btnReset)
                 {
                     btnReset = 1;
+#if defined useUSART3
                     stringToUart(toMilandr_BtnReset_On);
+#endif
 //                    stringToLcd("Button Reset ON");
                     stringTo_diagnostic_Usart1("Button Reset ON");
                 }
@@ -126,7 +136,9 @@ void checkInputs(void *args)
                 if (btnReset)
                 {
                     btnReset = 0;
+#if defined useUSART3
                     stringToUart(toMilandr_BtnReset_Off);
+#endif
 //                    stringToLcd("Button Reset OFF");
                     stringTo_diagnostic_Usart1("Button Reset OFF");
                 }
@@ -142,7 +154,9 @@ void checkInputs(void *args)
                 if (!signalPowerOn)
                 {
                     signalPowerOn = 1;
+#if defined useUSART3
                     stringToUart(toMilandr_SignalPowerOn_ON);
+#endif
 //                    stringToLcd("signalPowerOn ON");
                     stringTo_diagnostic_Usart1("signalPowerOn ON");
                 }
@@ -153,7 +167,9 @@ void checkInputs(void *args)
                 if (signalPowerOn)
                 {
                     signalPowerOn = 0;
+#if defined useUSART3
                     stringToUart(toMilandr_SignalPowerOn_OFF);
+#endif
 //                    stringToLcd("signalPowerOn OFF");
                     stringTo_diagnostic_Usart1("signalPowerOn OFF");
                 }
@@ -169,7 +185,10 @@ void checkInputs(void *args)
                 if (!signalImpedance)
                 {
                     signalImpedance = 1;
+#if defined useUSART3
                     stringToUart(toMilandr_SignalImpedanse_ON);
+#endif
+
 //                    stringToLcd("signal Impedance ON");
                     stringTo_diagnostic_Usart1("signal Impedance ON");
                 }
@@ -180,7 +199,9 @@ void checkInputs(void *args)
                 if (signalImpedance)
                 {
                     signalImpedance = 0;
+#if defined useUSART3
                     stringToUart(toMilandr_SignalImpedanse_OFF);
+#endif
 //                    stringToLcd("signal Impedance OFF");
                     stringTo_diagnostic_Usart1("signal Impedance OFF");
                 }
@@ -196,7 +217,9 @@ void checkInputs(void *args)
                 if (!signalTranslate)
                 {
                     signalTranslate = 1;
+#if defined useUSART3
                     stringToUart(toMilandr_SignalTranslate_ON);
+#endif
 //                    stringToLcd("signal Translate ON");
                     stringTo_diagnostic_Usart1("signal Translate ON");
                 }
@@ -207,7 +230,9 @@ void checkInputs(void *args)
                 if (signalTranslate)
                 {
                     signalTranslate = 0;
+#if defined useUSART3
                     stringToUart(toMilandr_SignalTranslate_OFF);
+#endif
 //                    stringToLcd("signal Translate OFF");
                     stringTo_diagnostic_Usart1("signal Translate OFF");
                 }
@@ -323,7 +348,9 @@ void checkInputs(void *args)
                 if (!signalVnesh)
                 {
                     signalVnesh = 1;
+#if defined useUSART3
                     stringToUart(toMilandr_SignalFromOut_ON);
+#endif
 //                    stringToLcd("signalVnesh ON");
                     stringTo_diagnostic_Usart1("signalVnesh ON");
                 }
@@ -334,7 +361,9 @@ void checkInputs(void *args)
                 if (signalVnesh)
                 {
                     signalVnesh = 0;
+#if defined useUSART3
                     stringToUart(toMilandr_SignalFromOut_OFF);
+#endif
 //                    stringToLcd("signalVnesh OFF");
                     stringTo_diagnostic_Usart1("signalVnesh OFF");
                 }
@@ -350,7 +379,9 @@ void checkInputs(void *args)
                 if (!signalMic)
                 {
                     signalMic = 1;
+#if defined useUSART3
                     stringToUart(toMilandr_SignalMic_ON);
+#endif
 //                    stringToLcd("signalMic ON");
                     stringTo_diagnostic_Usart1("signalMic ON");
                 }
@@ -361,7 +392,9 @@ void checkInputs(void *args)
                 if (signalMic)
                 {
                     signalMic = 0;
+#if defined useUSART3
                     stringToUart(toMilandr_SignalMic_OFF);
+#endif
 //                    stringToLcd("signalMic OFF");
                     stringTo_diagnostic_Usart1("signalMic OFF");
                 }
@@ -376,6 +409,7 @@ void checkInputs(void *args)
 
 const char * checkReceivedByteFromMilandr(char data)
 {
+#if defined useUSART3
     //Подтверждения принятия команд от Миландра
     if (data == fromMilandr_BtnImpedance_On_OK)     return "BtnImpedance_On_OK";
     if (data == fromMilandr_BtnImpedance_Off_OK)    return "BtnImpedance_Off_OK";
@@ -440,6 +474,7 @@ const char * checkReceivedByteFromMilandr(char data)
     UncnownCmdFromMilandr = 1;
 //  return "UncnowCmdFromMilandr";
     return "";
+#endif
 }
 
 

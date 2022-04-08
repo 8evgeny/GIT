@@ -125,7 +125,9 @@ void i2c_main_vers1();
 void stringToLcd(const char* str);
 void gpio_setup();
 
+#if defined useUSART3
 void stringToUart(const char *s);
+#endif
 void stringTo_diagnostic_Usart1(const char *s);
 
 void setImpedanceRele(bool);
