@@ -20,7 +20,7 @@ void testTask1(void *args __attribute((unused)))
 //        setTestLed1(true);
 //        vTaskDelay(pdMS_TO_TICKS(700));
 //        setTestLed1(false);
-        vTaskDelay(pdMS_TO_TICKS(700));
+
         setLedOverheatOut(0);
         setLedOvercutOut(0);
         setLedShortOut(0);
@@ -39,8 +39,8 @@ void testTask1(void *args __attribute((unused)))
         setReleTr4(0);
         setReadyLed(0);
         setFan(0);
+vTaskDelay(pdMS_TO_TICKS(5000));
 
-vTaskDelay(pdMS_TO_TICKS(700));
         setLedOverheatOut(1);
         setLedOvercutOut(1);
         setLedShortOut(1);
@@ -60,6 +60,7 @@ vTaskDelay(pdMS_TO_TICKS(700));
         setReadyLed(1);
         setFan(1);
 
+        vTaskDelay(pdMS_TO_TICKS(5000));
 
     }
 }

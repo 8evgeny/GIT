@@ -179,8 +179,6 @@ void noBacklight();
 #define SDA_I  gpio_get(GPIOB, GPIO_I2C1_SDA)
 #define SCL_O  gpio_clear(GPIOB, GPIO_I2C1_SCL)
 #define SDA_O  gpio_clear(GPIOB, GPIO_I2C1_SDA)
-#define SCL_1  gpio_set(GPIOB, GPIO_I2C1_SCL)
-#define SDA_1  gpio_set(GPIOB, GPIO_I2C1_SDA)
 void i2c_init (void);                       // Инициализация шины
 void i2c_start_cond (void);                 // Генерация условия старт
 void i2c_restart_cond (void);               // Генерация условия рестарт

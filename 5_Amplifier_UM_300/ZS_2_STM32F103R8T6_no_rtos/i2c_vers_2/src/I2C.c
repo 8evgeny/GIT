@@ -364,15 +364,13 @@ void i2c_init (void) // функция инициализации шины
 {
 //    delay_setup();
 
-//    i2c_stop_cond();   // стоп шины
-//    i2c_stop_cond();   // стоп шины
+    i2c_stop_cond();   // стоп шины
+    i2c_stop_cond();   // стоп шины
 }
 
 void SCL_in (void) //функция отпускания SCL в 1, порт на вход
 {
-    gpio_set_mode(GPIOB, GPIO_MODE_OUTPUT_2_MHZ, GPIO_CNF_INPUT_FLOAT, GPIO_I2C1_SCL);
-//    gpio_set_mode(GPIOB, GPIO_MODE_OUTPUT_2_MHZ, GPIO_CNF_INPUT_PULL_UPDOWN, GPIO_I2C1_SCL);
-
+    gpio_set_mode(GPIOB, GPIO_MODE_INPUT, GPIO_CNF_INPUT_FLOAT, GPIO_I2C1_SCL);
 }
 
 void SCL_out_DOWN (void) //функция притягивания SCL в 0
@@ -381,29 +379,15 @@ void SCL_out_DOWN (void) //функция притягивания SCL в 0
     SCL_O;
 }
 
-void SCL_out_UP (void) //функция притягивания SCL в 1
-{
-    gpio_set_mode(GPIOB, GPIO_MODE_OUTPUT_2_MHZ, GPIO_CNF_OUTPUT_OPENDRAIN, GPIO_I2C1_SCL);
-    SCL_1;
-}
-
-
 void SDA_in (void) //функция отпускания SDA в 1, порт на вход
 {
-    gpio_set_mode(GPIOB, GPIO_MODE_OUTPUT_2_MHZ, GPIO_CNF_INPUT_FLOAT, GPIO_I2C1_SDA);
-//    gpio_set_mode(GPIOB, GPIO_MODE_OUTPUT_2_MHZ, GPIO_CNF_INPUT_PULL_UPDOWN, GPIO_I2C1_SDA);
+    gpio_set_mode(GPIOB, GPIO_MODE_INPUT, GPIO_CNF_INPUT_FLOAT, GPIO_I2C1_SDA);
 }
 
 void SDA_out_DOWN (void) //функция притягивания SDA в 0
 {
     gpio_set_mode(GPIOB, GPIO_MODE_OUTPUT_2_MHZ, GPIO_CNF_OUTPUT_OPENDRAIN, GPIO_I2C1_SDA);
     SDA_O;
-}
-
-void SDA_out_UP (void) //функция притягивания SDA в 1
-{
-    gpio_set_mode(GPIOB, GPIO_MODE_OUTPUT_2_MHZ, GPIO_CNF_OUTPUT_OPENDRAIN, GPIO_I2C1_SDA);
-    SDA_1;
 }
 
 #include <stdint.h>
@@ -499,24 +483,27 @@ void testImpuls(void *args)
 
     for(;;)
     {
-    vTaskDelay(pdMS_TO_TICKS(20));
+        SCL_out_DOWN();
+        SDA_out_DOWN();
+
+        vTaskDelay(pdMS_TO_TICKS(10));
+
+        SCL_in();
+        SDA_in();
+
+        vTaskDelay(pdMS_TO_TICKS(100));
+
 
 //    SCL_out_DOWN();
 //    SDA_out_DOWN();
 
-//    delay_us(4);
+//    vTaskDelay(pdMS_TO_TICKS(10));
+////    delay_us(4);
 
-//    SDA_in();
-//    SCL_in();
+//    SCL_out_UP();
+//    SDA_out_UP();
 
-
-    SCL_out_DOWN();
-    SDA_out_DOWN();
-
-    delay_us(4);
-
-    SCL_out_UP();
-    SDA_out_UP();
+//    vTaskDelay(pdMS_TO_TICKS(100));
 
     }
 }
