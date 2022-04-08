@@ -2,7 +2,7 @@
 #include "I2C.h"
 
 Digital_POT_I2C_Def poti2c;
-
+char buf[10];
 void init_I2C2(void)
 {
     rcc_periph_clock_enable(RCC_GPIOB);
@@ -224,63 +224,36 @@ void init_I2C1(void)
     i2c_peripheral_enable(I2C1);
 }
 
-void I2C_POD_StartTransmission(uint32_t i2c, uint8_t transmissionDirection,  uint8_t slaveAddress)
+void toUart(const char* data)
 {
-    char buf[10];
-
-    while((I2C_SR2(i2c) & I2C_SR2_BUSY) != 0x00000000){};
-
+    stringTo_diagnostic_Usart1(data);
     sprintf(buf, "%04X", (uint16_t)I2C1_SR1);
     stringTo_diagnostic_Usart1("I2C1_SR1");
     stringTo_diagnostic_Usart1(buf);
     sprintf(buf, "%04X", (uint16_t)I2C1_SR2);
     stringTo_diagnostic_Usart1("I2C1_SR2");
     stringTo_diagnostic_Usart1(buf);
+}
+
+void I2C_POD_StartTransmission(uint32_t i2c, uint8_t transmissionDirection,  uint8_t slaveAddress)
+{
+
+    uint32_t reg32 __attribute__((unused));
 
     i2c_send_start(i2c);
-
-    sprintf(buf, "%04X", (uint16_t)I2C1_SR1);
-    stringTo_diagnostic_Usart1("I2C1_SR1");
-    stringTo_diagnostic_Usart1(buf);
-    sprintf(buf, "%04X", (uint16_t)I2C1_SR2);
-    stringTo_diagnostic_Usart1("I2C1_SR2");  //MSL BUSY
-    stringTo_diagnostic_Usart1(buf);
-
+    toUart("i2c_send_start");
 
     /* Waiting for START is send and switched to master mode. */
     while (!((I2C_SR1(i2c) & I2C_SR1_SB) & (I2C_SR2(i2c) & (I2C_SR2_MSL | I2C_SR2_BUSY))));
 
-//    sprintf(buf, "%04X", (uint16_t)I2C1_SR1);
-//    stringTo_diagnostic_Usart1("I2C1_SR1");
-//    stringTo_diagnostic_Usart1(buf);
-//    sprintf(buf, "%04X", (uint16_t)I2C1_SR2);
-//    stringTo_diagnostic_Usart1("I2C1_SR2");
-//    stringTo_diagnostic_Usart1(buf);
-
-
     i2c_send_7bit_address(i2c, slaveAddress, transmissionDirection);
+    toUart("i2c_send_7bit_address");
 
     /* Waiting for address is transferred. */
     while (!(I2C_SR1(i2c) & I2C_SR1_ADDR));
 
-    if(transmissionDirection== I2C_Direction_Transmitter)
-    {
-//        while( // Выход из цикла когда все флаги упадут в 0
-//              ((I2C_SR1(i2c) & I2C_SR1_TxE) == 0x00000000)  ||  //TXE
-//              ((I2C_SR1(i2c) & I2C_SR1_ADDR) == 0x00000000) ||  //ADDR
-//              ((I2C_SR2(i2c) & I2C_SR2_BUSY) == 0x00000000) ||  //BUSY
-//              ((I2C_SR2(i2c) & I2C_SR2_MSL) == 0x00000000)  ||  //MSL
-//              ((I2C_SR2(i2c) & I2C_SR2_TRA) == 0x00000000)      //TRA
-//              );
-    }
-    if(transmissionDirection== I2C_Direction_Receiver)
-    {
-//        while( // Выход из цикла когда все флаги упадут в 0
-//              ((I2C_SR1(i2c) & I2C_SR1_ADDR) == 0x00000000) ||  //ADDR
-//              ((I2C_SR2(i2c) & I2C_SR2_BUSY) == 0x00000000) ||  //BUSY
-//              ((I2C_SR2(i2c) & I2C_SR2_MSL) == 0x00000000)      //MSL
-//              );
-    }
+    /* Cleaning ADDR condition sequence. */
+    reg32 = I2C_SR2(i2c);
 }
 
 void send_to_POT(uint8_t data)
@@ -310,45 +283,34 @@ void send_to_POT(uint8_t data)
     I2C_POD_StartTransmission(I2C1, I2C_Direction_Transmitter, 0x56);
 
     i2c_send_data(I2C1,0x02);
+    toUart("i2c_send_data 02");
     while (!(I2C_SR1(I2C1) & I2C_SR1_BTF));
 
     i2c_send_data(I2C1,0x00);
+    toUart("i2c_send_data 00");
     /* After the last byte we have to wait for TxE too. */
     while (!(I2C_SR1(I2C1) & (I2C_SR1_BTF | I2C_SR1_TxE)));
 
     /* Send STOP condition. */
     i2c_send_stop(I2C1);
+    toUart("i2c_send_stop");
 
+    I2C_POD_StartTransmission(I2C1, I2C_Direction_Transmitter, 0x56);
 
-I2C_POD_StartTransmission(I2C1, I2C_Direction_Transmitter, 0x56);
+    i2c_send_data(I2C1,0x00);
+    toUart("i2c_send_data 00");
 
-i2c_send_data(I2C1,0x00);
+    vTaskDelay(pdMS_TO_TICKS(1));
 
-vTaskDelay(pdMS_TO_TICKS(1));
+    i2c_send_data(I2C1,data);
+    toUart("i2c_send_data data");
 
-//    while( // Выход из цикла когда все флаги упадут в 0
-//          ((I2C_SR1(I2C1) & I2C_SR1_TxE) == 0x00000000)  ||  //TXE
-//          ((I2C_SR1(I2C1) & I2C_SR1_BTF) == 0x00000000)  ||  //BTF
-//          ((I2C_SR2(I2C1) & I2C_SR2_BUSY) == 0x00000000) ||  //BUSY
-//          ((I2C_SR2(I2C1) & I2C_SR2_MSL) == 0x00000000)  ||  //MSL
-//          ((I2C_SR2(I2C1) & I2C_SR2_TRA) == 0x00000000)      //TRA
-//          );
-
-i2c_send_data(I2C1,data);
-
-vTaskDelay(pdMS_TO_TICKS(1));
-
-//    while( // Выход из цикла когда все флаги упадут в 0
-//          ((I2C_SR1(I2C1) & I2C_SR1_TxE) == 0x00000000)  ||  //TXE
-//          ((I2C_SR1(I2C1) & I2C_SR1_BTF) == 0x00000000)  ||  //BTF
-//          ((I2C_SR2(I2C1) & I2C_SR2_BUSY) == 0x00000000) ||  //BUSY
-//          ((I2C_SR2(I2C1) & I2C_SR2_MSL) == 0x00000000)  ||  //MSL
-//          ((I2C_SR2(I2C1) & I2C_SR2_TRA) == 0x00000000)      //TRA
-//          );
+    vTaskDelay(pdMS_TO_TICKS(1));
 
     i2c_send_stop(I2C1);
+    toUart("i2c_send_stop");
 
-vTaskDelay(pdMS_TO_TICKS(1));
+    vTaskDelay(pdMS_TO_TICKS(1));
 
 }
 #endif
