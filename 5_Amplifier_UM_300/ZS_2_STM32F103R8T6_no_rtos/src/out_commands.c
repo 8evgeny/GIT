@@ -1,16 +1,19 @@
 #include "main.h"
 
+void setMute(bool set) { if(set) gpio_clear(GPIOA, GPIO7);  else gpio_set(GPIOA, GPIO7);}       //Выключить звук
 void setImpedanceRele(bool set) { if(set) gpio_clear(GPIOA, GPIO8);  else gpio_set(GPIOA, GPIO8);}
-
+#ifndef useUSART1
 void setReleTr1(bool set) { if(set) gpio_clear(GPIOA, GPIO9);  else gpio_set(GPIOA, GPIO9);}    //LED Трансляция1
 void setReleTr2(bool set) { if(set) gpio_clear(GPIOA, GPIO10);  else gpio_set(GPIOA, GPIO10);}  //LED Трансляция2
+#endif
 void setReleTr3(bool set) { if(set) gpio_clear(GPIOA, GPIO11);  else gpio_set(GPIOA, GPIO11);}  //LED Трансляция3
 void setReleTr4(bool set) { if(set) gpio_clear(GPIOA, GPIO12);  else gpio_set(GPIOA, GPIO12);}  //LED Трансляция4
 
 void setReadyLed(bool set) { if(set) gpio_set(GPIOB, GPIO0);  else gpio_clear(GPIOB, GPIO0);}   //LED Готовность
 void setUpr1(bool set) { if(set) gpio_clear(GPIOB, GPIO1);  else gpio_set(GPIOB, GPIO1);}       //UPR 078 микширование не задействованы
 void setUpr2(bool set) { if(set) gpio_clear(GPIOB, GPIO2);  else gpio_set(GPIOB, GPIO2);}       //UPR ST  микширование не задействованы
-
+void setGAIN(bool set) { if(set) gpio_set(GPIOB, GPIO5);  else gpio_clear(GPIOB, GPIO5);}       //Поднять усиление
+void setRESET(bool set) { if(set) gpio_clear(GPIOB, GPIO5);  else gpio_set(GPIOB, GPIO5);}      //Сброс усилителя
 void setFan(bool set) { if(set) gpio_clear(GPIOB, GPIO9);  else gpio_set(GPIOB, GPIO9);}        //Вентилятор
 //#if (defined useI2C1 && defined  useDisplay)//i2c2 диагностический экранчик на i2c1
 void setLedShortOut(bool set) { if(set) gpio_clear(GPIOB, GPIO10);  else gpio_set(GPIOB, GPIO10);}    //КЗ ->
