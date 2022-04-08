@@ -17,9 +17,13 @@ void checkInputs(void *args)
     bool gpio_CUR_UPR2;          //вход CUR_UPR2
     bool gpioVnesh;              //Внешний сигнал «Внешний сигнал 20 - 72V»
     bool gpioMic;                //Внешний сигнал «Микрофон 20 - 72V»
+    bool gpio_OVERHEAT_MC;       //вход OVERHEAT_MC
+    bool gpio_BOARD_OK;          //вход BOARD_OK
+    bool gpio_ERROR_MC;          //вход ERROR_MC
 
     bool temp1,temp2,temp3,temp4,temp5,temp6;
     bool temp7,temp8,temp9,temp10,temp11,temp12;
+    bool temp13,temp14,temp15;
 
     gpioImpedance = gpio_get(GPIOA, GPIO0);
     gpioCalibrovka = gpio_get(GPIOA, GPIO1);
@@ -33,7 +37,9 @@ void checkInputs(void *args)
     gpio_CUR_UPR2 = gpio_get(GPIOC, GPIO3);
     gpioVnesh = gpio_get(GPIOC, GPIO13);
     gpioMic = gpio_get(GPIOD, GPIO2);
-
+    gpio_OVERHEAT_MC = gpio_get(GPIOA, GPIO6);
+    gpio_BOARD_OK = gpio_get(GPIOC, GPIO4);
+    gpio_ERROR_MC = gpio_get(GPIOC, GPIO5);
     for(;;)
     {
         vTaskDelay(pdMS_TO_TICKS(100));
@@ -51,6 +57,9 @@ void checkInputs(void *args)
         temp10 = gpio_get(GPIOC, GPIO3);
         temp11 = gpio_get(GPIOC, GPIO13);
         temp12 = gpio_get(GPIOD, GPIO2);
+        temp13 = gpio_get(GPIOA, GPIO6);
+        temp14 = gpio_get(GPIOC, GPIO4);
+        temp15 = gpio_get(GPIOC, GPIO5);
 
     //Кнопка Импеданс
         if (temp1 != gpioImpedance)
