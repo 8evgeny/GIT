@@ -13,6 +13,10 @@ void toUart(const char* data)
     stringTo_diagnostic_Usart1("I2C1_SR2");
     stringTo_diagnostic_Usart1(buf);
 }
+void toUart_(const char* data)
+{
+    stringTo_diagnostic_Usart1(data);
+}
 
 void init_I2C2(void)
 {
@@ -527,35 +531,35 @@ void send_Programm_to_POT(uint8_t data)
     //start 56 02 00 stop start 56 00 data stop
 
 //DR WRITE OPERATION  start 56 02 00 stop start 56 00 data stop
-
-    char buf[10];
+    sprintf(buf, "%d", data);
+    toUart_(buf);
 
     i2c_start_cond();
-    toUart("i2c_start_cond");
+    toUart_("i2c_start_cond");
 
     i2c_send_byte (0x56);
-    toUart("i2c_send_byte (0x56)");
+    toUart_("i2c_send_byte (0x56)");
 
     i2c_send_byte (0x02);
-    toUart("i2c_send_byte (0x02)");
+    toUart_("i2c_send_byte (0x02)");
 
     i2c_send_byte (0x00);
-    toUart("i2c_send_byte (0x00)");
+    toUart_("i2c_send_byte (0x00)");
 
     i2c_stop_cond();
-    toUart("i2c_stop_cond");
+    toUart_("i2c_stop_cond");
 
     i2c_start_cond();
-    toUart("i2c_start_cond");
+    toUart_("i2c_start_cond");
 
     i2c_send_byte (0x00);
-    toUart("i2c_send_byte (0x00)");
+    toUart_("i2c_send_byte (0x00)");
 
     i2c_send_byte (data);
-    toUart("i2c_send_byte (data)");
+    toUart_("i2c_send_byte (data)");
 
     i2c_stop_cond();
-    toUart("i2c_stop_cond");
+    toUart_("i2c_stop_cond");
 }
 
 void send_Programm_to_POT1(uint8_t data)
