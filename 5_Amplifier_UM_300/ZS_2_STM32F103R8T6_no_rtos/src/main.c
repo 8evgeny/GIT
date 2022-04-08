@@ -180,8 +180,9 @@ void SendUartCommand(void *args __attribute((unused)))
     {
 //        stringTo_diagnostic_Usart1("SendUartCommand - 200");
 
-
+#if defined useUSART3
         stringToUart(toMilandr_BlankCommand);
+#endif
         vTaskDelay(pdMS_TO_TICKS(delay));
 
     }

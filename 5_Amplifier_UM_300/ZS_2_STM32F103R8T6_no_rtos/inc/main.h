@@ -20,6 +20,8 @@ extern "C" {
 
 #define mainECHO_TASK_PRIORITY				( tskIDLE_PRIORITY + 1 )
 
+
+#if defined useUSART3
 //Команды  Stm -> Milandr   (обработка в  check_input.c)
 //В тесте отправляются в цикле в UART
 #define toMilandr_BtnImpedance_On          "Q"
@@ -59,6 +61,7 @@ extern "C" {
 #define fromMilandr_SignalMic_OFF_OK       'h'
 #define fromMilandr_MilandrNoReceiveCmd    '#'
 
+
 //Команды Milandr -> Stm
 #define cmdFromMilandr_OVERHEAT_MC_ON      'x'
 #define cmdFromMilandr_OVERHEAT_MC_OFF     'c'
@@ -67,6 +70,7 @@ extern "C" {
 #define cmdFromMilandr_ERROR_MC_ON         'n'
 #define cmdFromMilandr_ERROR_MC_OFF        'm'
 
+
 //Stm -> Milandr (подтверждение получения команды)
 #define toMilandr_OVERHEAT_MC_ON_OK        "X"
 #define toMilandr_OVERHEAT_MC_OFF_OK       "C"
@@ -74,7 +78,7 @@ extern "C" {
 #define toMilandr_BOARD_OK_OFF_OK         "B"
 #define toMilandr_ERROR_MC_ON_OK           "N"
 #define toMilandr_ERROR_MC_OFF_OK          "M"
-
+#endif
 static uint8_t ii;
 
 static bool MilandrNoReceiveCmd = 0;
@@ -98,6 +102,13 @@ static bool signalMic = 0;
 static bool OVERHEAT_MC = 0;
 static bool BOARD_OK = 0;
 static bool ERROR_MC = 0;
+
+#ifndef useUSART3 //Эти сигналы раньше формировал Миландр
+static bool RESET_AMP = 0;
+static bool UNMUTE_PREAMP = 0;
+static bool PREAMP_LEVEL = 0;
+#endif
+
 
 static QueueHandle_t uart_txq;				// TX queue for UART
 static QueueHandle_t usart_diagnostic_txq;
