@@ -9,6 +9,33 @@ void setOutputs(void *args)
         vTaskDelay(pdMS_TO_TICKS(200));
 //        stringTo_diagnostic_Usart1("setOutputs - 200");
 
+        if (PREAMP_LEVEL)
+        {
+            setGAIN(true);
+        }
+        else
+        {
+            setGAIN(false);
+        }
+
+        if (MUTE_PREAMP)
+        {
+            setMute(true);
+        }
+        else
+        {
+            setMute(false);
+        }
+
+        if (RESET_AMP)
+        {
+            setRESET(true);
+        }
+        else
+        {
+            setRESET(false);
+        }
+
         if (ERROR_MC)
         {
             setErrorRele(true);

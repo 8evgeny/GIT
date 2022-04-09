@@ -167,6 +167,10 @@ void setTestLed3(bool set);
 void setTestSCL(bool set);
 void setTestSDA(bool set);
 
+void setRESET(bool set);
+void setMute(bool set);
+void setGAIN(bool set);
+
 void init_I2C1();
 
 void digitalPOT_I2C_init(uint8_t pot_Addr);
