@@ -411,6 +411,32 @@ void checkInputs(void *args)
             gpioMic = temp12;
         }
 
+        //вход OVERHEAT_MC
+        if (temp13 != gpio_OVERHEAT_MC)
+        {
+            if (temp13)
+            {
+                if (!OVERHEAT_MC)
+                {
+                    OVERHEAT_MC = 1;
+                    //                    stringToLcd("OVERHEAT_MC ON");
+                    stringTo_diagnostic_Usart1("OVERHEAT_MC ON");
+                }
+            }
+
+            if (!temp13)
+            {
+                if (OVERHEAT_MC)
+                {
+                    OVERHEAT_MC = 0;
+                    //                    stringToLcd("OVERHEAT_MC OFF");
+                    stringTo_diagnostic_Usart1("OVERHEAT_MC OFF");
+                }
+            }
+            gpio_OVERHEAT_MC = temp13;
+        }
+
+
     }
 
 
