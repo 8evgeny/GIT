@@ -18,7 +18,7 @@ void checkInputs(void *args)
     bool gpioVnesh;              //Внешний сигнал «Внешний сигнал 20 - 72V»
     bool gpioMic;                //Внешний сигнал «Микрофон 20 - 72V»
     bool gpio_OVERHEAT_MC;       //вход OVERHEAT_MC
-    bool gpio_BOARD_OK;          //вход BOARD_OK
+    bool gpio_POWER_OK;          //вход POWER_OK
     bool gpio_ERROR_MC;          //вход ERROR_MC
 
     bool temp1,temp2,temp3,temp4,temp5,temp6;
@@ -38,7 +38,7 @@ void checkInputs(void *args)
     gpioVnesh = gpio_get(GPIOC, GPIO13);
     gpioMic = gpio_get(GPIOD, GPIO2);
     gpio_OVERHEAT_MC = gpio_get(GPIOA, GPIO6);
-    gpio_BOARD_OK = gpio_get(GPIOC, GPIO4);
+    gpio_POWER_OK = gpio_get(GPIOC, GPIO4);
     gpio_ERROR_MC = gpio_get(GPIOC, GPIO5);
     for(;;)
     {
@@ -436,10 +436,56 @@ void checkInputs(void *args)
             gpio_OVERHEAT_MC = temp13;
         }
 
+        //вход POWER_OK
+        if (temp14 != gpio_POWER_OK)
+        {
+            if (temp14)
+            {
+                if (!POWER_OK)
+                {
+                    POWER_OK = 1;
+                    //                    stringToLcd("POWER_OK ON");
+                    stringTo_diagnostic_Usart1("POWER_OK ON");
+                }
+            }
 
+            if (!temp14)
+            {
+                if (POWER_OK)
+                {
+                    POWER_OK = 0;
+                    //                    stringToLcd("POWER_OK OFF");
+                    stringTo_diagnostic_Usart1("POWER_OK OFF");
+                }
+            }
+            gpio_POWER_OK = temp14;
+        }
+
+        //вход ERROR_MC
+        if (temp15 != gpio_ERROR_MC)
+        {
+            if (temp15)
+            {
+                if (!ERROR_MC)
+                {
+                    ERROR_MC = 1;
+                    //                    stringToLcd("ERROR_MC ON");
+                    stringTo_diagnostic_Usart1("ERROR_MC ON");
+                }
+            }
+
+            if (!temp15)
+            {
+                if (ERROR_MC)
+                {
+                    ERROR_MC = 0;
+                    //                    stringToLcd("ERROR_MC OFF");
+                    stringTo_diagnostic_Usart1("ERROR_MC OFF");
+                }
+            }
+            gpio_ERROR_MC = temp15;
+        }
     }
-
-
 }
 
 const char * checkReceivedByteFromMilandr(char data)
@@ -483,13 +529,13 @@ const char * checkReceivedByteFromMilandr(char data)
     }
     if (data == cmdFromMilandr_BOARD_OK_ON)
     {
-        BOARD_OK = 1;
+        POWER_OK = 1;
         stringToUart(toMilandr_BOARD_OK_ON_OK);
         return "CMD: BOARD_OK_ON";
     }
     if (data == cmdFromMilandr_BOARD_OK_OFF)
     {
-        BOARD_OK = 0;
+        POWER_OK = 0;
         stringToUart(toMilandr_BOARD_OK_OFF_OK);
         return "CMD: BOARD_OK_OFF";
     }

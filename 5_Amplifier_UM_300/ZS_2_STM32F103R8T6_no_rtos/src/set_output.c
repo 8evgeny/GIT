@@ -31,7 +31,7 @@ void setOutputs(void *args)
             setLedOverheatOut(false);
         }
 
-        if (BOARD_OK)
+        if (POWER_OK)
         {
             setReadyLed(true);
             setFan(true);

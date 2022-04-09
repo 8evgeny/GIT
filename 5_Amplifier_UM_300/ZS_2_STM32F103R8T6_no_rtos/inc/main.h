@@ -95,7 +95,7 @@ static bool signalVnesh = 0;
 static bool signalMic = 0;
 
 static bool OVERHEAT_MC = 0;
-static bool BOARD_OK = 0;
+static bool POWER_OK = 0;
 static bool ERROR_MC = 0;
 
 #ifndef useMilandr //Эти сигналы раньше формировал Миландр
