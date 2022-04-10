@@ -254,7 +254,7 @@ int main() {
 
 //    xTaskCreate(testImpuls, "testImpuls", 100, NULL, configMAX_PRIORITIES - 1, NULL);
 //    xTaskCreate(test_diadnostic_USART1, "USART1", 100, NULL, configMAX_PRIORITIES - 1, NULL);
-//    xTaskCreate(testTask2, "LED2", 100, NULL, configMAX_PRIORITIES - 1, NULL);
+    xTaskCreate(testTask2, "LED2", 100, NULL, configMAX_PRIORITIES - 1, NULL);
 //    xTaskCreate(testTask3, "LED3", 100, NULL, configMAX_PRIORITIES - 1, NULL);
 
     vTaskStartScheduler();

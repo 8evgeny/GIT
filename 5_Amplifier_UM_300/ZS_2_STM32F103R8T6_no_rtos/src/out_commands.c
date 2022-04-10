@@ -35,5 +35,3 @@ void setTestLed1(bool set) { if(set) gpio_clear(GPIOC, GPIO15);  else gpio_set(G
 void setTestLed2(bool set) { if(set) gpio_clear(GPIOC, GPIO14);  else gpio_set(GPIOC, GPIO14);}
 void setTestLed3(bool set) { if(set) gpio_clear(GPIOC, GPIO5);  else gpio_set(GPIOC, GPIO5);}
 
-void setTestSCL(bool set) { if(set) gpio_clear(GPIOB, GPIO6);  else gpio_set(GPIOB, GPIO6);}
-void setTestSDA(bool set) { if(set) gpio_clear(GPIOB, GPIO7);  else gpio_set(GPIOB, GPIO7);}

@@ -163,8 +163,6 @@ void setRele24V(bool set);
 void setTestLed1(bool set);
 void setTestLed2(bool set);
 void setTestLed3(bool set);
-void setTestSCL(bool set);
-void setTestSDA(bool set);
 
 void setRESET(bool set);
 void setMute(bool set);
