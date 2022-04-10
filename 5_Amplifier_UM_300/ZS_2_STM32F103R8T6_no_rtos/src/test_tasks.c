@@ -1,18 +1,5 @@
 #include "main.h"
 
-void testTaski2C(void *args __attribute((unused)))
-{
-    for (;;)
-    {
-        setTestSCL(true);
-        setTestSDA(true);
-        vTaskDelay(pdMS_TO_TICKS(300));
-        setTestSCL(false);
-        setTestSDA(false);
-        vTaskDelay(pdMS_TO_TICKS(300));
-    }
-}
-
 void testTask1(void *args __attribute((unused)))
 {
     for (;;)

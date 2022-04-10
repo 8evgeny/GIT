@@ -116,7 +116,6 @@ void digitalPOT_send_data(uint8_t byte1,uint8_t byte2,uint8_t byte3 );
 void testTask1(void *args __attribute((unused)));
 void testTask2(void *args __attribute((unused)));
 void testTask3(void *args __attribute((unused)));
-void testTaski2C(void *args __attribute((unused)));
 void testImpuls(void *args);
 
 void testSendUartCommand(void *args __attribute((unused)));

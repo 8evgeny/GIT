@@ -236,30 +236,25 @@ int main() {
     usart1_diadnostic_setup();
     initOuts();
 
-
-#if defined useMilandr
-    xTaskCreate(uart_task,"UART",100,NULL,configMAX_PRIORITIES-1,NULL);
-#endif
     xTaskCreate(usart1_diagnostic_task,"UART",100,NULL,configMAX_PRIORITIES-1,NULL);
-
-//    xTaskCreate(i2c_main_vers2,"i2c_vers2",100,NULL,configMAX_PRIORITIES-2,NULL);
-#if defined useMilandr
-    xTaskCreate(SendUartCommand,"SendUartBlankCommand",100,NULL,configMAX_PRIORITIES-2,NULL);
-#endif
     xTaskCreate(checkInputs,"+InputSignals",100,NULL,configMAX_PRIORITIES-1,NULL);
     xTaskCreate(setOutputs,"+StateRele",100,NULL,configMAX_PRIORITIES-1,NULL);
     xTaskCreate(digitaPOT,"digitaPOT",200,NULL,configMAX_PRIORITIES-2,NULL);
+
+#ifdef useDisplay
+    xTaskCreate(i2c_main_vers2,"i2c_vers2",100,NULL,configMAX_PRIORITIES-2,NULL);
+#endif
+
+#if defined useMilandr
+    xTaskCreate(uart_task,"UART",100,NULL,configMAX_PRIORITIES-1,NULL);
+    xTaskCreate(SendUartCommand,"SendUartBlankCommand",100,NULL,configMAX_PRIORITIES-2,NULL);
 //    xTaskCreate(testTask1, "TestSignalls", 100, NULL, configMAX_PRIORITIES - 1, NULL);
+//    xTaskCreate(testSendUartCommand,"testSendUartCommand",100,NULL,configMAX_PRIORITIES-1,NULL);
+#endif
+
 //    xTaskCreate(testImpuls, "testImpuls", 100, NULL, configMAX_PRIORITIES - 1, NULL);
-
-//    xTaskCreate(testTaski2C, "testTaski2C", 100, NULL, configMAX_PRIORITIES - 1, NULL);
-
 //    xTaskCreate(test_diadnostic_USART1, "USART1", 100, NULL, configMAX_PRIORITIES - 1, NULL);
-    //    xTaskCreate(testSendUartCommand,"testSendUartCommand",100,NULL,configMAX_PRIORITIES-1,NULL);
-
-
-
-    //    xTaskCreate(testTask2, "LED2", 100, NULL, configMAX_PRIORITIES - 1, NULL);
+//    xTaskCreate(testTask2, "LED2", 100, NULL, configMAX_PRIORITIES - 1, NULL);
 //    xTaskCreate(testTask3, "LED3", 100, NULL, configMAX_PRIORITIES - 1, NULL);
 
     vTaskStartScheduler();
