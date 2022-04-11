@@ -1,6 +1,30 @@
 #include "main.h"
 #include "stdio.h"
 
+void fsignalPowerOnON()
+{
+#if defined useMilandr
+    stringToUart(toMilandr_SignalPowerOn_ON);
+#endif
+//    stringToLcd("signalPowerOn ON");
+    stringTo_diagnostic_Usart1("signalPowerOn ON");
+    setReadyLed(true);
+    setFan(true);
+    setReleLine1(true);
+}
+void fsignalPowerOnOFF()
+{
+#if defined useMilandr
+    stringToUart(toMilandr_SignalPowerOn_OFF);
+#endif
+//    stringToLcd("signalPowerOn OFF");
+    stringTo_diagnostic_Usart1("signalPowerOn OFF");
+    setReadyLed(false);
+    setFan(false);
+    setReleLine1(false);
+}
+
+
 void checkInputs(void *args)
 {
     (void)args;
@@ -163,11 +187,7 @@ void checkInputs(void *args)
                 if (!signalPowerOn)
                 {
                     signalPowerOn = 1;
-#if defined useMilandr
-                    stringToUart(toMilandr_SignalPowerOn_ON);
-#endif
-//                    stringToLcd("signalPowerOn ON");
-                    stringTo_diagnostic_Usart1("signalPowerOn ON");
+                    fsignalPowerOnON();
                 }
             }
 
@@ -179,8 +199,7 @@ void checkInputs(void *args)
 #if defined useMilandr
                     stringToUart(toMilandr_SignalPowerOn_OFF);
 #endif
-//                    stringToLcd("signalPowerOn OFF");
-                    stringTo_diagnostic_Usart1("signalPowerOn OFF");
+                    fsignalPowerOnOFF();
                 }
             }
             gpioPowerOn = temp4;
@@ -362,6 +381,7 @@ void checkInputs(void *args)
 #endif
 //                    stringToLcd("signalVnesh ON");
                     stringTo_diagnostic_Usart1("signalVnesh ON");
+//setFan(true);
                 }
             }
 
@@ -375,6 +395,7 @@ void checkInputs(void *args)
 #endif
 //                    stringToLcd("signalVnesh OFF");
                     stringTo_diagnostic_Usart1("signalVnesh OFF");
+//setFan(false);
                 }
             }
             gpioVnesh = temp11;
@@ -393,6 +414,7 @@ void checkInputs(void *args)
 #endif
 //                    stringToLcd("signalMic ON");
                     stringTo_diagnostic_Usart1("signalMic ON");
+//setFan(true);
                 }
             }
 
@@ -406,6 +428,7 @@ void checkInputs(void *args)
 #endif
 //                    stringToLcd("signalMic OFF");
                     stringTo_diagnostic_Usart1("signalMic OFF");
+//setFan(false);
                 }
             }
             gpioMic = temp12;
