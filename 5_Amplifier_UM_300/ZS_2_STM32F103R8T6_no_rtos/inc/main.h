@@ -100,7 +100,7 @@ static bool ERROR_MC = 0;
 
 #ifndef useMilandr //Эти сигналы раньше формировал Миландр
 static bool RESET_AMP = 0;
-static bool MUTE_PREAMP = 0;
+static bool MUTE_PREAMP = 1;
 static bool PREAMP_LEVEL = 0;
 #endif
 
@@ -145,8 +145,8 @@ void setReleTr2(bool);
 void setReleTr3(bool);
 void setReleTr4(bool);
 void setReadyLed(bool);
-void setUpr1(bool);
-void setUpr2(bool);
+void setUpr_IN_078(bool);
+void setUpr_IN_ST(bool);
 void setLedShortOut(bool);
 void setLedBreakOut(bool);
 void setLedOvercutOut(bool);

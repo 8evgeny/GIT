@@ -6,6 +6,8 @@
 #include <string.h>
 #include <chrono>
 
+#define GIT_VIDEO
+//#define GIT_PDKV
 
 int main (int argc, char** argv) {
 
@@ -42,7 +44,7 @@ int main (int argc, char** argv) {
             {
                 PORT_SetBits(MDR_PORTB, LED2_REC);
             }
-            else
+            if(BufferLCD[0] == 48)
             {
                 PORT_ResetBits(MDR_PORTB, LED2_REC);
             }
@@ -50,7 +52,7 @@ int main (int argc, char** argv) {
             {
                 PORT_SetBits(MDR_PORTB, LED1_ERROR);
             }
-            else
+            if(BufferLCD[1] == 48)
             {
                 PORT_ResetBits(MDR_PORTB, LED1_ERROR);
             }
@@ -58,9 +60,20 @@ int main (int argc, char** argv) {
             {
                 PORT_SetBits(MDR_PORTB, BUZZER);
             }
-            else //Выключен
+            if(BufferLCD[2] == 48)
             {
                 PORT_ResetBits(MDR_PORTB, BUZZER);
+            }
+
+            while((Buffer[0] == 55) && (Buffer[1] == 55) && (Buffer[2] == 55))
+            {
+                PORT_ResetBits(MDR_PORTB, LED2_REC);
+                PORT_ResetBits(MDR_PORTB, LED1_ERROR);
+                PORT_ResetBits(MDR_PORTB, BUZZER);
+                firstScreen();
+                delay_ms(1000);
+                LCD_set_line(4); LCD_write_string((char*)"                    ");
+                delay_ms(1000);
             }
 
     //        checkLCD1();
@@ -193,6 +206,7 @@ void parsingBuffer()
 
 void firstScreen()
 {
+#ifdef GIT_PDKV
     LCD_set_line(1);
     LCD_write_string((char*)"    GIT-COMM IPS    ");
     LCD_set_XY(9, 2);
@@ -210,4 +224,21 @@ void firstScreen()
     LCD_write_data(0xBA);//к
     LCD_write_data(0x61);//а
     LCD_write_string((char*)"...");
+#endif
+#ifdef GIT_VIDEO
+    LCD_set_line(1);
+    LCD_write_string((char*)"   GIT-VIDEO  SURV  ");
+    LCD_set_line(2);
+    LCD_write_string((char*)"       GDMX S       ");
+    LCD_set_XY(6, 4);
+    LCD_write_data(0xA4);//З
+    LCD_write_data(0x61);//а
+    LCD_write_data(0xB4);//г
+    LCD_write_data(0x70);//р
+    LCD_write_data(0x79);//у
+    LCD_write_data(0xB7);//з
+    LCD_write_data(0xBA);//к
+    LCD_write_data(0x61);//а
+    LCD_write_string((char*)"...");
+#endif
 }

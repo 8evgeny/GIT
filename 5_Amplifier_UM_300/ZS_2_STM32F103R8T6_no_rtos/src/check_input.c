@@ -1,6 +1,130 @@
 #include "main.h"
 #include "stdio.h"
 
+void fsignalPowerOnON()
+{
+    signalPowerOn = 1;
+#if defined useMilandr
+    stringToUart(toMilandr_SignalPowerOn_ON);
+#endif
+//    stringToLcd("signalPowerOn ON");
+    stringTo_diagnostic_Usart1("signalPowerOn ON");
+    setFan(true);
+//    setUpr_IN_078(true); stringTo_diagnostic_Usart1("setUpr_IN_078 ON");
+    setReleLine1(true);
+    setMute(false); stringTo_diagnostic_Usart1("MUTE OFF");
+    setGAIN(true);  stringTo_diagnostic_Usart1("GAIN ON");
+    if (!RESET_AMP )
+    {
+        setRESET(true);
+        vTaskDelay(pdMS_TO_TICKS(3000));
+        setRESET(false);
+        RESET_AMP = true; stringTo_diagnostic_Usart1("RESETTING AMP");
+    }
+}
+void fsignalPowerOnOFF()
+{
+    signalPowerOn = 0;
+#if defined useMilandr
+    stringToUart(toMilandr_SignalPowerOn_OFF);
+#endif
+//    stringToLcd("signalPowerOn OFF");
+    stringTo_diagnostic_Usart1("signalPowerOn OFF");
+    setFan(false);
+//    setUpr_IN_078(false); stringTo_diagnostic_Usart1("setUpr_IN_078 OFF");
+    setReleLine1(false);
+    setMute(true); stringTo_diagnostic_Usart1("MUTE ON");
+    setGAIN(false); stringTo_diagnostic_Usart1("GAIN OFF");
+    RESET_AMP = false;
+}
+void fPOWER_OK_ON()
+{
+    POWER_OK = 1;
+    setReadyLed(true);
+//    stringToLcd("POWER_OK ON");
+    stringTo_diagnostic_Usart1("POWER_OK ON");
+}
+void fPOWER_OK_OFF()
+{
+    POWER_OK = 0;
+    setReadyLed(false);
+//    stringToLcd("POWER_OK OFF");
+    stringTo_diagnostic_Usart1("POWER_OK OFF");
+}
+void fOVERHEAT_MC_ON()
+{
+    OVERHEAT_MC = 1;
+//    stringToLcd("OVERHEAT_MC ON");
+    stringTo_diagnostic_Usart1("OVERHEAT_MC ON");
+    setLedOverheatOut(true);
+    setErrorRele(true);
+}
+void fOVERHEAT_MC_OFF()
+{
+    OVERHEAT_MC = 0;
+//    stringToLcd("OVERHEAT_MC OFF");
+    stringTo_diagnostic_Usart1("OVERHEAT_MC OFF");
+    setErrorRele(false);
+    setLedOverheatOut(false);
+}
+void fERROR_MC_ON()
+{
+    ERROR_MC = 1;
+//    stringToLcd("ERROR_MC ON");
+    stringTo_diagnostic_Usart1("ERROR_MC ON");
+    setLedOvercutOut(true);
+    setErrorRele(true);
+}
+void fERROR_MC_OFF()
+{
+    ERROR_MC = 0;
+//    stringToLcd("ERROR_MC OFF");
+    stringTo_diagnostic_Usart1("ERROR_MC OFF");
+    setLedOvercutOut(false);
+    setErrorRele(false);
+}
+void fsignalVneshON()
+{
+    signalVnesh = 1;
+#if defined useMilandr
+    stringToUart(toMilandr_SignalFromOut_ON);
+#endif
+//    stringToLcd("signalVnesh ON");
+    setUpr_IN_ST(true); stringTo_diagnostic_Usart1("setUpr_IN_ST ON");
+    stringTo_diagnostic_Usart1("signalVnesh ON");
+}
+void fsignalVneshOFF()
+{
+    signalVnesh = 0;
+#if defined useMilandr
+    stringToUart(toMilandr_SignalFromOut_OFF);
+#endif
+//    stringToLcd("signalVnesh OFF");
+    setUpr_IN_ST(false); stringTo_diagnostic_Usart1("setUpr_IN_ST OFF");
+    stringTo_diagnostic_Usart1("signalVnesh OFF");
+}
+void fsignalMicON()
+{
+    signalMic = 1;
+#if defined useMilandr
+    stringToUart(toMilandr_SignalMic_ON);
+#endif
+//    stringToLcd("signalMic ON");
+    setUpr_IN_ST(true); stringTo_diagnostic_Usart1("setUpr_IN_ST ON");
+    stringTo_diagnostic_Usart1("signalMic ON");
+}
+void fsignalMicOFF()
+{
+    signalMic = 0;
+#if defined useMilandr
+    stringToUart(toMilandr_SignalMic_OFF);
+#endif
+//    stringToLcd("signalMic OFF");
+    setUpr_IN_ST(false); stringTo_diagnostic_Usart1("setUpr_IN_ST OFF");
+    stringTo_diagnostic_Usart1("signalMic OFF");
+}
+
+
 void checkInputs(void *args)
 {
     (void)args;
@@ -162,12 +286,7 @@ void checkInputs(void *args)
             {
                 if (!signalPowerOn)
                 {
-                    signalPowerOn = 1;
-#if defined useMilandr
-                    stringToUart(toMilandr_SignalPowerOn_ON);
-#endif
-//                    stringToLcd("signalPowerOn ON");
-                    stringTo_diagnostic_Usart1("signalPowerOn ON");
+                    fsignalPowerOnON();
                 }
             }
 
@@ -175,12 +294,7 @@ void checkInputs(void *args)
             {
                 if (signalPowerOn)
                 {
-                    signalPowerOn = 0;
-#if defined useMilandr
-                    stringToUart(toMilandr_SignalPowerOn_OFF);
-#endif
-//                    stringToLcd("signalPowerOn OFF");
-                    stringTo_diagnostic_Usart1("signalPowerOn OFF");
+                    fsignalPowerOnOFF();
                 }
             }
             gpioPowerOn = temp4;
@@ -356,12 +470,7 @@ void checkInputs(void *args)
             {
                 if (!signalVnesh)
                 {
-                    signalVnesh = 1;
-#if defined useMilandr
-                    stringToUart(toMilandr_SignalFromOut_ON);
-#endif
-//                    stringToLcd("signalVnesh ON");
-                    stringTo_diagnostic_Usart1("signalVnesh ON");
+                    fsignalVneshON();
                 }
             }
 
@@ -369,12 +478,7 @@ void checkInputs(void *args)
             {
                 if (signalVnesh)
                 {
-                    signalVnesh = 0;
-#if defined useMilandr
-                    stringToUart(toMilandr_SignalFromOut_OFF);
-#endif
-//                    stringToLcd("signalVnesh OFF");
-                    stringTo_diagnostic_Usart1("signalVnesh OFF");
+                    fsignalVneshOFF();
                 }
             }
             gpioVnesh = temp11;
@@ -387,12 +491,7 @@ void checkInputs(void *args)
             {
                 if (!signalMic)
                 {
-                    signalMic = 1;
-#if defined useMilandr
-                    stringToUart(toMilandr_SignalMic_ON);
-#endif
-//                    stringToLcd("signalMic ON");
-                    stringTo_diagnostic_Usart1("signalMic ON");
+                    fsignalMicON();
                 }
             }
 
@@ -400,27 +499,20 @@ void checkInputs(void *args)
             {
                 if (signalMic)
                 {
-                    signalMic = 0;
-#if defined useMilandr
-                    stringToUart(toMilandr_SignalMic_OFF);
-#endif
-//                    stringToLcd("signalMic OFF");
-                    stringTo_diagnostic_Usart1("signalMic OFF");
+                    fsignalMicOFF();
                 }
             }
             gpioMic = temp12;
         }
 
-        //вход OVERHEAT_MC
+    //вход OVERHEAT_MC
         if (temp13 != gpio_OVERHEAT_MC)
         {
             if (temp13)
             {
                 if (!OVERHEAT_MC)
                 {
-                    OVERHEAT_MC = 1;
-                    //                    stringToLcd("OVERHEAT_MC ON");
-                    stringTo_diagnostic_Usart1("OVERHEAT_MC ON");
+                    fOVERHEAT_MC_ON();
                 }
             }
 
@@ -428,24 +520,20 @@ void checkInputs(void *args)
             {
                 if (OVERHEAT_MC)
                 {
-                    OVERHEAT_MC = 0;
-                    //                    stringToLcd("OVERHEAT_MC OFF");
-                    stringTo_diagnostic_Usart1("OVERHEAT_MC OFF");
+                    fOVERHEAT_MC_OFF();
                 }
             }
             gpio_OVERHEAT_MC = temp13;
         }
 
-        //вход POWER_OK
+    //вход POWER_OK
         if (temp14 != gpio_POWER_OK)
         {
             if (temp14)
             {
                 if (!POWER_OK)
                 {
-                    POWER_OK = 1;
-                    //                    stringToLcd("POWER_OK ON");
-                    stringTo_diagnostic_Usart1("POWER_OK ON");
+                    fPOWER_OK_ON();
                 }
             }
 
@@ -453,24 +541,20 @@ void checkInputs(void *args)
             {
                 if (POWER_OK)
                 {
-                    POWER_OK = 0;
-                    //                    stringToLcd("POWER_OK OFF");
-                    stringTo_diagnostic_Usart1("POWER_OK OFF");
+                    fPOWER_OK_OFF();
                 }
             }
             gpio_POWER_OK = temp14;
         }
 
-        //вход ERROR_MC
+    //вход ERROR_MC
         if (temp15 != gpio_ERROR_MC)
         {
             if (temp15)
             {
                 if (!ERROR_MC)
                 {
-                    ERROR_MC = 1;
-                    //                    stringToLcd("ERROR_MC ON");
-                    stringTo_diagnostic_Usart1("ERROR_MC ON");
+                    fERROR_MC_ON();
                 }
             }
 
@@ -478,15 +562,15 @@ void checkInputs(void *args)
             {
                 if (ERROR_MC)
                 {
-                    ERROR_MC = 0;
-                    //                    stringToLcd("ERROR_MC OFF");
-                    stringTo_diagnostic_Usart1("ERROR_MC OFF");
+                    fERROR_MC_OFF();
                 }
             }
             gpio_ERROR_MC = temp15;
         }
     }
 }
+
+
 
 const char * checkReceivedByteFromMilandr(char data)
 {
@@ -556,6 +640,7 @@ const char * checkReceivedByteFromMilandr(char data)
 //  return "UncnowCmdFromMilandr";
     return "";
 #endif
+    return "";
 }
 
 

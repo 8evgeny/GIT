@@ -212,8 +212,14 @@ void initOuts()
 #endif
             setReleTr3(0);
             setReleTr4(0);
-            setReadyLed(0);
+            setReadyLed(true);
             setFan(0);
+            setMute(true);
+            setGAIN(false);
+            if (!gpio_get(GPIOC, GPIO4)) stringTo_diagnostic_Usart1("POWER_OK ON");
+            if (gpio_get(GPIOC, GPIO4)) stringTo_diagnostic_Usart1("POWER_OK OFF");
+            setUpr_IN_078(true);
+            setUpr_IN_ST(false);
 }
 
 
@@ -238,8 +244,8 @@ int main() {
 
     xTaskCreate(usart1_diagnostic_task,"UART",100,NULL,configMAX_PRIORITIES-1,NULL);
     xTaskCreate(checkInputs,"+InputSignals",100,NULL,configMAX_PRIORITIES-1,NULL);
-    xTaskCreate(setOutputs,"+StateRele",100,NULL,configMAX_PRIORITIES-1,NULL);
-    xTaskCreate(digitaPOT,"digitaPOT",200,NULL,configMAX_PRIORITIES-2,NULL);
+    xTaskCreate(setOutputs,"+StateRele",100,NULL,configMAX_PRIORITIES-1,NULL); //ХЗ не работает
+//    xTaskCreate(digitaPOT,"digitaPOT",200,NULL,configMAX_PRIORITIES-2,NULL);
 
 #ifdef useDisplay
     xTaskCreate(i2c_main_vers2,"i2c_vers2",100,NULL,configMAX_PRIORITIES-2,NULL);
