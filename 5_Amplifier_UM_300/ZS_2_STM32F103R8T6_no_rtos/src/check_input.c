@@ -123,7 +123,44 @@ void fsignalMicOFF()
     setUpr_IN_ST(false); stringTo_diagnostic_Usart1("setUpr_IN_ST OFF");
     stringTo_diagnostic_Usart1("signalMic OFF");
 }
+void fsignalImpedanceON()
+{
+    signalImpedance = 1;
+#if defined useMilandr
+    stringToUart(toMilandr_SignalImpedanse_ON);
+#endif
 
+//    stringToLcd("signal Impedance ON");
+    stringTo_diagnostic_Usart1("signal Impedance ON");
+}
+void fsignalImpedanceOFF()
+{
+    signalImpedance = 0;
+#if defined useMilandr
+    stringToUart(toMilandr_SignalImpedanse_OFF);
+#endif
+
+//    stringToLcd("signal Impedance OFF");
+    stringTo_diagnostic_Usart1("signal Impedance OFF");
+}
+void fsignalTranslateON()
+{
+    signalTranslate = 1;
+#if defined useMilandr
+    stringToUart(toMilandr_SignalTranslate_ON);
+#endif
+//    stringToLcd("signal Translate ON");
+    stringTo_diagnostic_Usart1("signal Translate ON");
+}
+void fsignalTranslateOFF()
+{
+    signalTranslate = 0;
+#if defined useMilandr
+    stringToUart(toMilandr_SignalTranslate_OFF);
+#endif
+//    stringToLcd("signal Translate OFF");
+    stringTo_diagnostic_Usart1("signal Translate OFF");
+}
 
 void checkInputs(void *args)
 {
@@ -300,20 +337,14 @@ void checkInputs(void *args)
             gpioPowerOn = temp4;
         }
 
-    //Внешний сигнал «Импеданс 20 - 72V»
+    //+Внешний сигнал «Импеданс 20 - 72V»
         if (temp5 != gpioSignalImpedance)
         {
             if (temp5)
             {
                 if (!signalImpedance)
                 {
-                    signalImpedance = 1;
-#if defined useMilandr
-                    stringToUart(toMilandr_SignalImpedanse_ON);
-#endif
-
-//                    stringToLcd("signal Impedance ON");
-                    stringTo_diagnostic_Usart1("signal Impedance ON");
+                    fsignalImpedanceON();
                 }
             }
 
@@ -321,30 +352,20 @@ void checkInputs(void *args)
             {
                 if (signalImpedance)
                 {
-                    signalImpedance = 0;
-#if defined useMilandr
-                    stringToUart(toMilandr_SignalImpedanse_OFF);
-#endif
-//                    stringToLcd("signal Impedance OFF");
-                    stringTo_diagnostic_Usart1("signal Impedance OFF");
+                    fsignalImpedanceOFF();
                 }
             }
             gpioSignalImpedance = temp5;
         }
 
-    //Внешний сигнал «Трансляция 20 - 72V»
+    //+Внешний сигнал «Трансляция 20 - 72V»
         if (temp6 != gpioSignalTranslate)
         {
             if (temp6)
             {
                 if (!signalTranslate)
                 {
-                    signalTranslate = 1;
-#if defined useMilandr
-                    stringToUart(toMilandr_SignalTranslate_ON);
-#endif
-//                    stringToLcd("signal Translate ON");
-                    stringTo_diagnostic_Usart1("signal Translate ON");
+                    fsignalTranslateON();
                 }
             }
 
@@ -352,12 +373,7 @@ void checkInputs(void *args)
             {
                 if (signalTranslate)
                 {
-                    signalTranslate = 0;
-#if defined useMilandr
-                    stringToUart(toMilandr_SignalTranslate_OFF);
-#endif
-//                    stringToLcd("signal Translate OFF");
-                    stringTo_diagnostic_Usart1("signal Translate OFF");
+                    fsignalTranslateOFF();
                 }
             }
             gpioSignalTranslate = temp6;
@@ -463,7 +479,7 @@ void checkInputs(void *args)
             gpio_CUR_UPR2 = temp10;
         }
 
-    //Внешний сигнал «Внешний сигнал 20 - 72V»
+    //+Внешний сигнал «Внешний сигнал 20 - 72V»
         if (temp11 != gpioVnesh)
         {
             if (temp11)
@@ -484,7 +500,7 @@ void checkInputs(void *args)
             gpioVnesh = temp11;
         }
 
-    //Внешний сигнал «Микрофон 20 - 72V»
+    //+Внешний сигнал «Микрофон 20 - 72V»
         if (temp12 != gpioMic)
         {
             if (temp12)
@@ -505,7 +521,7 @@ void checkInputs(void *args)
             gpioMic = temp12;
         }
 
-    //вход OVERHEAT_MC
+    //+вход OVERHEAT_MC
         if (temp13 != gpio_OVERHEAT_MC)
         {
             if (temp13)
@@ -526,7 +542,7 @@ void checkInputs(void *args)
             gpio_OVERHEAT_MC = temp13;
         }
 
-    //вход POWER_OK
+    //+вход POWER_OK
         if (temp14 != gpio_POWER_OK)
         {
             if (temp14)
@@ -547,7 +563,7 @@ void checkInputs(void *args)
             gpio_POWER_OK = temp14;
         }
 
-    //вход ERROR_MC
+    //+вход ERROR_MC
         if (temp15 != gpio_ERROR_MC)
         {
             if (temp15)
