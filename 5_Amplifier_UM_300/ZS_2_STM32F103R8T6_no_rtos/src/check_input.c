@@ -110,7 +110,7 @@ void fsignalMicON()
     stringToUart(toMilandr_SignalMic_ON);
 #endif
 //    stringToLcd("signalMic ON");
-    setUpr_IN_ST(true); stringTo_diagnostic_Usart1("setUpr_IN_ST ON");
+    setUpr_IN_078(false);
     stringTo_diagnostic_Usart1("signalMic ON");
 }
 void fsignalMicOFF()
@@ -120,7 +120,7 @@ void fsignalMicOFF()
     stringToUart(toMilandr_SignalMic_OFF);
 #endif
 //    stringToLcd("signalMic OFF");
-    setUpr_IN_ST(false); stringTo_diagnostic_Usart1("setUpr_IN_ST OFF");
+    setUpr_IN_078(true);
     stringTo_diagnostic_Usart1("signalMic OFF");
 }
 void fsignalImpedanceON()
