@@ -488,6 +488,8 @@ void checkInputs(void *args)
     }
 }
 
+
+
 const char * checkReceivedByteFromMilandr(char data)
 {
 #if defined useMilandr
@@ -556,6 +558,7 @@ const char * checkReceivedByteFromMilandr(char data)
 //  return "UncnowCmdFromMilandr";
     return "";
 #endif
+    return "";
 }
 
 
