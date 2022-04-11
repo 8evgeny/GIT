@@ -10,8 +10,8 @@ void setReleTr3(bool set) { if(set) gpio_clear(GPIOA, GPIO11);  else gpio_set(GP
 void setReleTr4(bool set) { if(set) gpio_clear(GPIOA, GPIO12);  else gpio_set(GPIOA, GPIO12);}  //LED Трансляция4
 
 void setReadyLed(bool set) { if(set) gpio_set(GPIOB, GPIO0);  else gpio_clear(GPIOB, GPIO0);}   //LED Готовность
-void setUpr1(bool set) { if(set) gpio_clear(GPIOB, GPIO1);  else gpio_set(GPIOB, GPIO1);}       //UPR 078 микширование не задействованы
-void setUpr2(bool set) { if(set) gpio_clear(GPIOB, GPIO2);  else gpio_set(GPIOB, GPIO2);}       //UPR ST  микширование не задействованы
+void setUpr_IN_078(bool set) { if(set) gpio_clear(GPIOB, GPIO1);  else gpio_set(GPIOB, GPIO1);}       //UPR 078 микширование не задействованы
+void setUpr_IN_ST(bool set) { if(set) gpio_set(GPIOB, GPIO2);  else gpio_clear(GPIOB, GPIO2);}       //UPR ST  микширование не задействованы
 void setGAIN(bool set) { if(set) gpio_set(GPIOB, GPIO5);  else gpio_clear(GPIOB, GPIO5);}       //Поднять усиление
 void setRESET(bool set) { if(set) gpio_clear(GPIOB, GPIO8);  else gpio_set(GPIOB, GPIO8);}      //Сброс усилителя
 void setFan(bool set) { if(set) gpio_clear(GPIOB, GPIO9);  else gpio_set(GPIOB, GPIO9);}        //Вентилятор

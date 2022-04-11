@@ -10,15 +10,16 @@ void fsignalPowerOnON()
 //    stringToLcd("signalPowerOn ON");
     stringTo_diagnostic_Usart1("signalPowerOn ON");
     setFan(true);
+    setUpr_IN_078(true); stringTo_diagnostic_Usart1("setUpr_IN_078 ON");
     setReleLine1(true);
     setMute(false); stringTo_diagnostic_Usart1("MUTE OFF");
+    setGAIN(true);  stringTo_diagnostic_Usart1("GAIN ON");
     if (!RESET_AMP )
     {
         setRESET(true);
-        vTaskDelay(pdMS_TO_TICKS(1000));
+        vTaskDelay(pdMS_TO_TICKS(3000));
         setRESET(false);
         RESET_AMP = true; stringTo_diagnostic_Usart1("RESETTING AMP");
-        setGAIN(true);
     }
 }
 void fsignalPowerOnOFF()
@@ -30,10 +31,11 @@ void fsignalPowerOnOFF()
 //    stringToLcd("signalPowerOn OFF");
     stringTo_diagnostic_Usart1("signalPowerOn OFF");
     setFan(false);
+    setUpr_IN_078(false); stringTo_diagnostic_Usart1("setUpr_IN_078 OFF");
     setReleLine1(false);
     setMute(true); stringTo_diagnostic_Usart1("MUTE ON");
+    setGAIN(false); stringTo_diagnostic_Usart1("GAIN OFF");
     RESET_AMP = false;
-    setGAIN(false);
 }
 void fPOWER_OK_ON()
 {
@@ -80,6 +82,26 @@ void fERROR_MC_OFF()
     stringTo_diagnostic_Usart1("ERROR_MC OFF");
     setLedOvercutOut(false);
     setErrorRele(false);
+}
+void fsignalVneshON()
+{
+    signalVnesh = 1;
+#if defined useMilandr
+    stringToUart(toMilandr_SignalFromOut_ON);
+#endif
+//    stringToLcd("signalVnesh ON");
+    setUpr_IN_ST(true); stringTo_diagnostic_Usart1("setUpr_IN_ST ON");
+    stringTo_diagnostic_Usart1("signalVnesh ON");
+}
+void fsignalVneshOFF()
+{
+    signalVnesh = 0;
+#if defined useMilandr
+    stringToUart(toMilandr_SignalFromOut_OFF);
+#endif
+//    stringToLcd("signalVnesh OFF");
+    setUpr_IN_ST(false); stringTo_diagnostic_Usart1("setUpr_IN_ST OFF");
+    stringTo_diagnostic_Usart1("signalVnesh OFF");
 }
 
 
@@ -428,13 +450,7 @@ void checkInputs(void *args)
             {
                 if (!signalVnesh)
                 {
-                    signalVnesh = 1;
-#if defined useMilandr
-                    stringToUart(toMilandr_SignalFromOut_ON);
-#endif
-//                    stringToLcd("signalVnesh ON");
-                    stringTo_diagnostic_Usart1("signalVnesh ON");
-//setFan(true);
+                    fsignalVneshON();
                 }
             }
 
@@ -442,13 +458,7 @@ void checkInputs(void *args)
             {
                 if (signalVnesh)
                 {
-                    signalVnesh = 0;
-#if defined useMilandr
-                    stringToUart(toMilandr_SignalFromOut_OFF);
-#endif
-//                    stringToLcd("signalVnesh OFF");
-                    stringTo_diagnostic_Usart1("signalVnesh OFF");
-//setFan(false);
+                    fsignalVneshOFF();
                 }
             }
             gpioVnesh = temp11;
