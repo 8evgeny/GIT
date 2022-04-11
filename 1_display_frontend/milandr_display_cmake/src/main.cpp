@@ -193,6 +193,7 @@ void parsingBuffer()
 
 void firstScreen()
 {
+#ifdef GIT_PDKV
     LCD_set_line(1);
     LCD_write_string((char*)"    GIT-COMM IPS    ");
     LCD_set_XY(9, 2);
@@ -210,4 +211,21 @@ void firstScreen()
     LCD_write_data(0xBA);//к
     LCD_write_data(0x61);//а
     LCD_write_string((char*)"...");
+#endif
+#ifdef GIT_VIDEO
+    LCD_set_line(1);
+    LCD_write_string((char*)"   GIT-VIDEO  SURV  ");
+    LCD_set_line(2);
+    LCD_write_string((char*)"       GDMX S       ");
+    LCD_set_XY(6, 4);
+    LCD_write_data(0xA4);//З
+    LCD_write_data(0x61);//а
+    LCD_write_data(0xB4);//г
+    LCD_write_data(0x70);//р
+    LCD_write_data(0x79);//у
+    LCD_write_data(0xB7);//з
+    LCD_write_data(0xBA);//к
+    LCD_write_data(0x61);//а
+    LCD_write_string((char*)"...");
+#endif
 }
