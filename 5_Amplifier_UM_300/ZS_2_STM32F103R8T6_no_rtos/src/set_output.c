@@ -30,10 +30,10 @@ void setOutputs(void *args)
         if (RESET_AMP)
         {
             setRESET(true);
-        }
-        else
-        {
+            vTaskDelay(pdMS_TO_TICKS(10));
             setRESET(false);
+            RESET_AMP = false;
+            firstReset = true;
         }
 
         if (ERROR_MC)
@@ -94,6 +94,17 @@ void setOutputs(void *args)
             setRele24V(false);
         }
 
+
+        if (signalPowerOn)
+        {
+            if(POWER_OK)
+            {
+                if (!firstReset ) RESET_AMP = true;
+                MUTE_PREAMP = false;
+                PREAMP_LEVEL = true;
+            }
+
+        }
 
 //Нужно реализовать выходные сигналы
 

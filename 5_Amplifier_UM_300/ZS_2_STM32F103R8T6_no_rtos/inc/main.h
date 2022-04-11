@@ -100,8 +100,9 @@ static bool ERROR_MC = 0;
 
 #ifndef useMilandr //Эти сигналы раньше формировал Миландр
 static bool RESET_AMP = 0;
-static bool MUTE_PREAMP = 0;
+static bool MUTE_PREAMP = 1;
 static bool PREAMP_LEVEL = 0;
+static bool firstReset = 0;
 #endif
 
 #if defined useMilandr
