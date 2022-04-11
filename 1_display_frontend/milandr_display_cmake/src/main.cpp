@@ -67,6 +67,9 @@ int main (int argc, char** argv) {
 
             while((Buffer[0] == 55) && (Buffer[1] == 55) && (Buffer[2] == 55))
             {
+                PORT_ResetBits(MDR_PORTB, LED2_REC);
+                PORT_ResetBits(MDR_PORTB, LED1_ERROR);
+                PORT_ResetBits(MDR_PORTB, BUZZER);
                 firstScreen();
                 delay_ms(1000);
                 LCD_set_line(4); LCD_write_string((char*)"                    ");
