@@ -10,7 +10,7 @@ void fsignalPowerOnON()
 //    stringToLcd("signalPowerOn ON");
     stringTo_diagnostic_Usart1("signalPowerOn ON");
     setFan(true);
-    setUpr_IN_078(true); stringTo_diagnostic_Usart1("setUpr_IN_078 ON");
+//    setUpr_IN_078(true); stringTo_diagnostic_Usart1("setUpr_IN_078 ON");
     setReleLine1(true);
     setMute(false); stringTo_diagnostic_Usart1("MUTE OFF");
     setGAIN(true);  stringTo_diagnostic_Usart1("GAIN ON");
@@ -31,7 +31,7 @@ void fsignalPowerOnOFF()
 //    stringToLcd("signalPowerOn OFF");
     stringTo_diagnostic_Usart1("signalPowerOn OFF");
     setFan(false);
-    setUpr_IN_078(false); stringTo_diagnostic_Usart1("setUpr_IN_078 OFF");
+//    setUpr_IN_078(false); stringTo_diagnostic_Usart1("setUpr_IN_078 OFF");
     setReleLine1(false);
     setMute(true); stringTo_diagnostic_Usart1("MUTE ON");
     setGAIN(false); stringTo_diagnostic_Usart1("GAIN OFF");
@@ -102,6 +102,26 @@ void fsignalVneshOFF()
 //    stringToLcd("signalVnesh OFF");
     setUpr_IN_ST(false); stringTo_diagnostic_Usart1("setUpr_IN_ST OFF");
     stringTo_diagnostic_Usart1("signalVnesh OFF");
+}
+void fsignalMicON()
+{
+    signalMic = 1;
+#if defined useMilandr
+    stringToUart(toMilandr_SignalMic_ON);
+#endif
+//    stringToLcd("signalMic ON");
+    setUpr_IN_ST(true); stringTo_diagnostic_Usart1("setUpr_IN_ST ON");
+    stringTo_diagnostic_Usart1("signalMic ON");
+}
+void fsignalMicOFF()
+{
+    signalMic = 0;
+#if defined useMilandr
+    stringToUart(toMilandr_SignalMic_OFF);
+#endif
+//    stringToLcd("signalMic OFF");
+    setUpr_IN_ST(false); stringTo_diagnostic_Usart1("setUpr_IN_ST OFF");
+    stringTo_diagnostic_Usart1("signalMic OFF");
 }
 
 
@@ -471,13 +491,7 @@ void checkInputs(void *args)
             {
                 if (!signalMic)
                 {
-                    signalMic = 1;
-#if defined useMilandr
-                    stringToUart(toMilandr_SignalMic_ON);
-#endif
-//                    stringToLcd("signalMic ON");
-                    stringTo_diagnostic_Usart1("signalMic ON");
-//setFan(true);
+                    fsignalMicON();
                 }
             }
 
@@ -485,13 +499,7 @@ void checkInputs(void *args)
             {
                 if (signalMic)
                 {
-                    signalMic = 0;
-#if defined useMilandr
-                    stringToUart(toMilandr_SignalMic_OFF);
-#endif
-//                    stringToLcd("signalMic OFF");
-                    stringTo_diagnostic_Usart1("signalMic OFF");
-//setFan(false);
+                    fsignalMicOFF();
                 }
             }
             gpioMic = temp12;
