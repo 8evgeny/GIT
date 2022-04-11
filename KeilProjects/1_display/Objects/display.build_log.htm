@@ -21,32 +21,32 @@ Target DLL:      CMSIS_AGDI.dll V1.33.0.0
 Dialog DLL:      TCM.DLL V1.53.0.0
  
 <h2>Project:</h2>
-C:\Users\Professional\Documents\Keil_Projects\9_USB+rus\display.uvprojx
-Project File Date:  01/17/2022
+C:\Users\Professional\Documents\GIT\KeilProjects\1_display\display.uvprojx
+Project File Date:  04/11/2022
 
 <h2>Output:</h2>
 *** Using Compiler 'V6.16', folder: 'C:\Keil_v5\ARM\ARMCLANG\Bin'
 Rebuild target 'display'
-compiling var.c...
 compiling rcc_delay.c...
+compiling var.c...
 compiling gpio.c...
 compiling mt20s4.c...
 compiling checkLCD_BUZZER.cpp...
 compiling retarget_io.c...
 assembling startup_MDR32F9Qx.S...
 compiling usb.cpp...
-compiling logic.cpp...
-compiling main.cpp...
 compiling system_MDR32F9Qx.c...
+compiling logic.cpp...
 compiling MDR32F9Qx_iwdg.c...
 compiling MDR32F9Qx_port.c...
+compiling main.cpp...
 compiling MDR32F9Qx_rst_clk.c...
 compiling MDR32F9Qx_usb.c...
-compiling MDR32F9Qx_timer.c...
 compiling MDR32F9Qx_usb_CDC.c...
+compiling MDR32F9Qx_timer.c...
 compiling MDR32F9Qx_usb_device.c...
 linking...
-Program Size: Code=18188 RO-data=448 RW-data=92 ZI-data=2300  
+Program Size: Code=17836 RO-data=484 RW-data=92 ZI-data=2300  
 FromELF: creating hex file...
 ".\Objects\display.axf" - 0 Error(s), 0 Warning(s).
 
@@ -102,56 +102,56 @@ Package Vendor: Keil
       Include file:  CMSIS\Driver\Include\Driver_USBH.h
 
    * Component: ARM::CMSIS Driver:USART:Custom:1.0.0
-      Source file:   CMSIS\Driver\DriverTemplates\Driver_USART.c
       Include file:  CMSIS\Driver\Include\Driver_USART.h
+      Source file:   CMSIS\Driver\DriverTemplates\Driver_USART.c
 
    * Component: ARM::CMSIS Driver:USB Device:Custom:1.0.0
-      Include file:  CMSIS\Driver\Include\Driver_USBD.h
       Source file:   CMSIS\Driver\DriverTemplates\Driver_USBD.c
+      Include file:  CMSIS\Driver\Include\Driver_USBD.h
 
    * Component: ARM::CMSIS Driver:USB Host:Custom:1.0.0
-      Source file:   CMSIS\Driver\DriverTemplates\Driver_USBH.c
       Include file:  CMSIS\Driver\Include\Driver_USBH.h
+      Source file:   CMSIS\Driver\DriverTemplates\Driver_USBH.c
 
    * Component: Keil.ARM Compiler::Compiler:I/O:STDOUT:Breakpoint:1.2.0
       Source file:   Source\retarget_io.c
 
    * Component: Keil::Device:Startup:2.0.3
-      Source file:   Libraries\CMSIS\MDR32Fx\DeviceSupport\MDR1986VE9x\startup\arm\startup_MDR32F9Qx.S
-      Source file:   Libraries\CMSIS\MDR32Fx\DeviceSupport\MDR1986VE9x\startup\arm\system_MDR32F9Qx.c
-      Include file:  Libraries\CMSIS\MDR32Fx\CoreSupport\CM3\core_cm3.h
       Include file:  Libraries\SPL\MDR32Fx\inc\IRQ_Handler_Template\MDR32F9Qx_IT.h
-      Source file:   Libraries\SPL\MDR32Fx\src\IRQ_Handler_Template\MDR32F9Qx_IT.c
+      Source file:   Libraries\CMSIS\MDR32Fx\DeviceSupport\MDR1986VE9x\startup\arm\system_MDR32F9Qx.c
       Include file:  Libraries\CMSIS\MDR32Fx\DeviceSupport\MDR1986VE9x\startup\arm\system_MDR32F9Qx.h
+      Source file:   Libraries\CMSIS\MDR32Fx\DeviceSupport\MDR1986VE9x\startup\arm\startup_MDR32F9Qx.S
       Include file:  Libraries\CMSIS\MDR32Fx\DeviceSupport\MDR1986VE9x\inc\MDR32Fx.h
       Include file:  Libraries\SPL\MDR32Fx\MDR32F9Qx_config.h
+      Include file:  Libraries\CMSIS\MDR32Fx\CoreSupport\CM3\core_cm3.h
+      Source file:   Libraries\SPL\MDR32Fx\src\IRQ_Handler_Template\MDR32F9Qx_IT.c
 
    * Component: Keil::Drivers:IWDG:2.0.3
-      Source file:   Libraries\SPL\MDR32Fx\src\MDR32F9Qx_iwdg.c
       Include file:  Libraries\SPL\MDR32Fx\inc\MDR32F9Qx_iwdg.h
+      Source file:   Libraries\SPL\MDR32Fx\src\MDR32F9Qx_iwdg.c
 
    * Component: Keil::Drivers:PORT:2.0.3
-      Include file:  Libraries\SPL\MDR32Fx\inc\MDR32F9Qx_port.h
       Source file:   Libraries\SPL\MDR32Fx\src\MDR32F9Qx_port.c
+      Include file:  Libraries\SPL\MDR32Fx\inc\MDR32F9Qx_port.h
 
    * Component: Keil::Drivers:RST_CLK:2.0.3
-      Source file:   Libraries\SPL\MDR32Fx\src\MDR32F9Qx_rst_clk.c
       Include file:  Libraries\SPL\MDR32Fx\inc\MDR32F9Qx_rst_clk.h
+      Source file:   Libraries\SPL\MDR32Fx\src\MDR32F9Qx_rst_clk.c
 
    * Component: Keil::Drivers:TIMER:2.0.3
-      Include file:  Libraries\SPL\MDR32Fx\inc\MDR32F9Qx_timer.h
       Source file:   Libraries\SPL\MDR32Fx\src\MDR32F9Qx_timer.c
+      Include file:  Libraries\SPL\MDR32Fx\inc\MDR32F9Qx_timer.h
 
    * Component: Keil::Drivers:USB Library:2.0.3
-      Source file:   Libraries\SPL\MDR32Fx\src\USB_Library\MDR32F9Qx_usb_CDC.c
-      Include file:  Libraries\SPL\MDR32Fx\inc\USB_Library\MDR32F9Qx_usb_device.h
       Include file:  Libraries\SPL\MDR32Fx\inc\USB_Library\MDR32F9Qx_usb_CDC.h
+      Include file:  Libraries\SPL\MDR32Fx\inc\USB_Library\MDR32F9Qx_usb_device.h
+      Source file:   Libraries\SPL\MDR32Fx\src\USB_Library\MDR32F9Qx_usb_CDC.c
       Source file:   Libraries\SPL\MDR32Fx\src\USB_Library\MDR32F9Qx_usb_device.c
 
    * Component: Keil::Drivers:USB:2.0.3
       Include file:  Libraries\SPL\MDR32Fx\inc\MDR32F9Qx_usb.h
       Source file:   Libraries\SPL\MDR32Fx\src\MDR32F9Qx_usb.c
-Build Time Elapsed:  00:00:04
+Build Time Elapsed:  00:00:03
 </pre>
 </body>
 </html>
