@@ -9,7 +9,7 @@ set(TOOLS_PATH /home/evg/toolchain/gcc-arm-none-eabi-new)
 project(display_cmake_release C CXX)
 
 #add_definitions(-DGIT_PDKV)
-add_definitions(-DGIT_VIDEO)
+#add_definitions(-DGIT_VIDEO)
 
 #set(CMAKE_BUILD_TYPE debug)
 #set(CMAKE_BUILD_TYPE release)

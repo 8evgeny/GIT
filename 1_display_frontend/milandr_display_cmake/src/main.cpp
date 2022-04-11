@@ -6,6 +6,8 @@
 #include <string.h>
 #include <chrono>
 
+#define GIT_VIDEO
+//#define GIT_PDKV
 
 int main (int argc, char** argv) {
 
