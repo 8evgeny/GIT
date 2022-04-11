@@ -50,6 +50,7 @@ void parsingBuffer();
 void checkLCD1();
 void checkLCD2();
 void checkBUZZER();
+void checkCMD();
 
 void RCC_init(void);
 void IWDT_init(void);

@@ -7,10 +7,11 @@ void checkLCD1()
     {
         PORT_SetBits(MDR_PORTB, LED2_REC);
     }
-    else
+    if(Buffer[0] == 48) //если 0 то гасим
     {
         PORT_ResetBits(MDR_PORTB, LED2_REC);
     }
+
 }
 
 void checkLCD2()
@@ -19,7 +20,7 @@ void checkLCD2()
     {
         PORT_SetBits(MDR_PORTB, LED1_ERROR);
     }
-    else
+    if(Buffer[1] == 48) //если 0 то гасим
     {
         PORT_ResetBits(MDR_PORTB, LED1_ERROR);
     }
@@ -41,9 +42,18 @@ void checkBUZZER()
     {
         PORT_SetBits(MDR_PORTB, BUZZER);
     }
-    else //Выключен
+    if(Buffer[2] == 48) //если 0 то гасим
     {
         PORT_ResetBits(MDR_PORTB, BUZZER);
+    }
+
+}
+
+void checkCMD()
+{
+    if((Buffer[0] == 55) && (Buffer[1] == 55) && (Buffer[2] == 55))
+    {
+        firstScreen();
     }
 
 }
