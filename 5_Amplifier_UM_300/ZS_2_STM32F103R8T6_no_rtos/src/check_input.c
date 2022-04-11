@@ -279,7 +279,7 @@ void checkInputs(void *args)
             gpioReset = temp3;
         }
 
-    //Внешний сигнал «Включение 20 - 72V»
+    //+Внешний сигнал «Включение 20 - 72V»
         if (temp4 != gpioPowerOn)
         {
             if (temp4)
