@@ -3,27 +3,51 @@
 
 void fsignalPowerOnON()
 {
+    signalPowerOn = 1;
 #if defined useMilandr
     stringToUart(toMilandr_SignalPowerOn_ON);
 #endif
 //    stringToLcd("signalPowerOn ON");
     stringTo_diagnostic_Usart1("signalPowerOn ON");
-    setReadyLed(true);
     setFan(true);
     setReleLine1(true);
+    setMute(false); stringTo_diagnostic_Usart1("MUTE OFF");
+    if (!RESET_AMP )
+    {
+        setRESET(true);
+        vTaskDelay(pdMS_TO_TICKS(1000));
+        setRESET(false);
+        RESET_AMP = true; stringTo_diagnostic_Usart1("RESETTING AMP");
+    }
 }
 void fsignalPowerOnOFF()
 {
+    signalPowerOn = 0;
 #if defined useMilandr
     stringToUart(toMilandr_SignalPowerOn_OFF);
 #endif
 //    stringToLcd("signalPowerOn OFF");
     stringTo_diagnostic_Usart1("signalPowerOn OFF");
-    setReadyLed(false);
     setFan(false);
     setReleLine1(false);
-}
+    setMute(true); stringTo_diagnostic_Usart1("MUTE ON");
+    RESET_AMP = false;
 
+}
+void fPOWER_OK_ON()
+{
+    POWER_OK = 1;
+    setReadyLed(true);
+//    stringToLcd("POWER_OK ON");
+    stringTo_diagnostic_Usart1("POWER_OK ON");
+}
+void fPOWER_OK_OFF()
+{
+    POWER_OK = 0;
+    setReadyLed(false);
+//    stringToLcd("POWER_OK OFF");
+    stringTo_diagnostic_Usart1("POWER_OK OFF");
+}
 
 void checkInputs(void *args)
 {
@@ -186,7 +210,6 @@ void checkInputs(void *args)
             {
                 if (!signalPowerOn)
                 {
-                    signalPowerOn = 1;
                     fsignalPowerOnON();
                 }
             }
@@ -195,10 +218,6 @@ void checkInputs(void *args)
             {
                 if (signalPowerOn)
                 {
-                    signalPowerOn = 0;
-#if defined useMilandr
-                    stringToUart(toMilandr_SignalPowerOn_OFF);
-#endif
                     fsignalPowerOnOFF();
                 }
             }
@@ -434,7 +453,7 @@ void checkInputs(void *args)
             gpioMic = temp12;
         }
 
-        //вход OVERHEAT_MC
+    //вход OVERHEAT_MC
         if (temp13 != gpio_OVERHEAT_MC)
         {
             if (temp13)
@@ -459,16 +478,14 @@ void checkInputs(void *args)
             gpio_OVERHEAT_MC = temp13;
         }
 
-        //вход POWER_OK
+    //вход POWER_OK
         if (temp14 != gpio_POWER_OK)
         {
             if (temp14)
             {
                 if (!POWER_OK)
                 {
-                    POWER_OK = 1;
-                    //                    stringToLcd("POWER_OK ON");
-                    stringTo_diagnostic_Usart1("POWER_OK ON");
+                    fPOWER_OK_ON();
                 }
             }
 
@@ -476,9 +493,7 @@ void checkInputs(void *args)
             {
                 if (POWER_OK)
                 {
-                    POWER_OK = 0;
-                    //                    stringToLcd("POWER_OK OFF");
-                    stringTo_diagnostic_Usart1("POWER_OK OFF");
+                    fPOWER_OK_OFF();
                 }
             }
             gpio_POWER_OK = temp14;

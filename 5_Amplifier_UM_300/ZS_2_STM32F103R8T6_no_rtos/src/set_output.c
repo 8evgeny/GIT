@@ -8,6 +8,9 @@ void setOutputs(void *args)
     {
         vTaskDelay(pdMS_TO_TICKS(200));
 
+
+
+
 //        stringTo_diagnostic_Usart1("setOutputs - 200");
 
 //        if (PREAMP_LEVEL)
@@ -96,9 +99,9 @@ void setOutputs(void *args)
 //        }
 
 
-        if (signalPowerOn)
-        {
-            setFan(true);
+//        if (signalPowerOn)
+//        {
+//            setFan(true);
 //            if(POWER_OK)
 //            {
 //                if (!firstReset ) RESET_AMP = true;
@@ -112,11 +115,11 @@ void setOutputs(void *args)
 //                setReleLine1(false);
 //            }
 
-        }
-        if (!signalPowerOn)
-        {
-            setFan(false);
-        }
+//        }
+//        if (!signalPowerOn)
+//        {
+//            setFan(false);
+//        }
 
 
 //        setFan(true);
