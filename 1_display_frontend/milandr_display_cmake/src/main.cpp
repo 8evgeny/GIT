@@ -44,7 +44,7 @@ int main (int argc, char** argv) {
             {
                 PORT_SetBits(MDR_PORTB, LED2_REC);
             }
-            else
+            if(BufferLCD[0] == 48)
             {
                 PORT_ResetBits(MDR_PORTB, LED2_REC);
             }
@@ -52,7 +52,7 @@ int main (int argc, char** argv) {
             {
                 PORT_SetBits(MDR_PORTB, LED1_ERROR);
             }
-            else
+            if(BufferLCD[1] == 48)
             {
                 PORT_ResetBits(MDR_PORTB, LED1_ERROR);
             }
@@ -60,9 +60,17 @@ int main (int argc, char** argv) {
             {
                 PORT_SetBits(MDR_PORTB, BUZZER);
             }
-            else //Выключен
+            if(BufferLCD[2] == 48)
             {
                 PORT_ResetBits(MDR_PORTB, BUZZER);
+            }
+
+            while((Buffer[0] == 55) && (Buffer[1] == 55) && (Buffer[2] == 55))
+            {
+                firstScreen();
+                delay_ms(1000);
+                LCD_set_line(4); LCD_write_string((char*)"                    ");
+                delay_ms(1000);
             }
 
     //        checkLCD1();
