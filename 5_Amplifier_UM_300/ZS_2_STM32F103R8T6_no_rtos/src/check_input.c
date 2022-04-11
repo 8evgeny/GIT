@@ -18,6 +18,7 @@ void fsignalPowerOnON()
         vTaskDelay(pdMS_TO_TICKS(1000));
         setRESET(false);
         RESET_AMP = true; stringTo_diagnostic_Usart1("RESETTING AMP");
+        setGAIN(true);
     }
 }
 void fsignalPowerOnOFF()
@@ -32,7 +33,7 @@ void fsignalPowerOnOFF()
     setReleLine1(false);
     setMute(true); stringTo_diagnostic_Usart1("MUTE ON");
     RESET_AMP = false;
-
+    setGAIN(false);
 }
 void fPOWER_OK_ON()
 {
@@ -48,6 +49,39 @@ void fPOWER_OK_OFF()
 //    stringToLcd("POWER_OK OFF");
     stringTo_diagnostic_Usart1("POWER_OK OFF");
 }
+void fOVERHEAT_MC_ON()
+{
+    OVERHEAT_MC = 1;
+//    stringToLcd("OVERHEAT_MC ON");
+    stringTo_diagnostic_Usart1("OVERHEAT_MC ON");
+    setLedOverheatOut(true);
+    setErrorRele(true);
+}
+void fOVERHEAT_MC_OFF()
+{
+    OVERHEAT_MC = 0;
+//    stringToLcd("OVERHEAT_MC OFF");
+    stringTo_diagnostic_Usart1("OVERHEAT_MC OFF");
+    setErrorRele(false);
+    setLedOverheatOut(false);
+}
+void fERROR_MC_ON()
+{
+    ERROR_MC = 1;
+//    stringToLcd("ERROR_MC ON");
+    stringTo_diagnostic_Usart1("ERROR_MC ON");
+    setLedOvercutOut(true);
+    setErrorRele(true);
+}
+void fERROR_MC_OFF()
+{
+    ERROR_MC = 0;
+//    stringToLcd("ERROR_MC OFF");
+    stringTo_diagnostic_Usart1("ERROR_MC OFF");
+    setLedOvercutOut(false);
+    setErrorRele(false);
+}
+
 
 void checkInputs(void *args)
 {
@@ -460,9 +494,7 @@ void checkInputs(void *args)
             {
                 if (!OVERHEAT_MC)
                 {
-                    OVERHEAT_MC = 1;
-                    //                    stringToLcd("OVERHEAT_MC ON");
-                    stringTo_diagnostic_Usart1("OVERHEAT_MC ON");
+                    fOVERHEAT_MC_ON();
                 }
             }
 
@@ -470,9 +502,7 @@ void checkInputs(void *args)
             {
                 if (OVERHEAT_MC)
                 {
-                    OVERHEAT_MC = 0;
-                    //                    stringToLcd("OVERHEAT_MC OFF");
-                    stringTo_diagnostic_Usart1("OVERHEAT_MC OFF");
+                    fOVERHEAT_MC_OFF();
                 }
             }
             gpio_OVERHEAT_MC = temp13;
@@ -499,16 +529,14 @@ void checkInputs(void *args)
             gpio_POWER_OK = temp14;
         }
 
-        //вход ERROR_MC
+    //вход ERROR_MC
         if (temp15 != gpio_ERROR_MC)
         {
             if (temp15)
             {
                 if (!ERROR_MC)
                 {
-                    ERROR_MC = 1;
-                    //                    stringToLcd("ERROR_MC ON");
-                    stringTo_diagnostic_Usart1("ERROR_MC ON");
+                    fERROR_MC_ON();
                 }
             }
 
@@ -516,9 +544,7 @@ void checkInputs(void *args)
             {
                 if (ERROR_MC)
                 {
-                    ERROR_MC = 0;
-                    //                    stringToLcd("ERROR_MC OFF");
-                    stringTo_diagnostic_Usart1("ERROR_MC OFF");
+                    fERROR_MC_OFF();
                 }
             }
             gpio_ERROR_MC = temp15;
