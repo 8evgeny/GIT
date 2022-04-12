@@ -16,6 +16,7 @@
 #include "FreeRTOS.h"
 #include "task.h"
 #include "i2c.h"
+#include "main.h"
 
 #define systicks	xTaskGetTickCount
 
@@ -228,3 +229,70 @@ i2c_write_restart(I2C_Control *dev,uint8_t byte,uint8_t addr) {
 }
 
 // i2c.c
+
+char buf[10];
+void toUart(const char* data)
+{
+    stringTo_diagnostic_Usart1(data);
+    sprintf(buf, "%04X", (uint16_t)I2C1_SR1);
+    stringTo_diagnostic_Usart1("I2C1_SR1");
+    stringTo_diagnostic_Usart1(buf);
+    sprintf(buf, "%04X", (uint16_t)I2C1_SR2);
+    stringTo_diagnostic_Usart1("I2C1_SR2");
+    stringTo_diagnostic_Usart1(buf);
+}
+
+void I2C_POD_StartTransmission(uint32_t i2c, uint8_t transmissionDirection,  uint8_t slaveAddress)
+{
+
+    uint32_t reg32 __attribute__((unused));
+
+    i2c_send_start(i2c);
+    toUart("i2c_send_start");
+
+    /* Waiting for START is send and switched to master mode. */
+    while (!((I2C_SR1(i2c) & I2C_SR1_SB) & (I2C_SR2(i2c) & (I2C_SR2_MSL | I2C_SR2_BUSY))));
+
+    i2c_send_7bit_address(i2c, slaveAddress, transmissionDirection);
+    toUart("i2c_send_7bit_address");
+
+    /* Waiting for address is transferred. */
+    while (!(I2C_SR1(i2c) & I2C_SR1_ADDR));
+
+    /* Cleaning ADDR condition sequence. */
+    reg32 = I2C_SR2(i2c);
+}
+
+
+
+
+void send_to_POT_vers1(uint8_t data)
+{
+    //AR - только запись
+    //57 - чтение
+    //56 - запись
+    //56 02 80 выбор WCR
+    //56 02 00 выбор DR
+    //The WCR is a volatile register and is written with the contents of the nonvolatile Data Register (DR) on power-up.
+
+    //WCR WRITE OPERATION                 start 56 02 80 stop start 56 00 data stop
+    //WCR INCREMENT/DECREMENT OPERATION - start 56 02 80 stop start 5E 00 ??
+    //WCR READ OPERATION                  start 56 02 80 stop start 56 00 start 57 data stop
+    //The WCR is also written during a write to DR
+    //DR WRITE OPERATION                  start 56 02 00 stop start 56 00 data stop
+    //DR READ OPERATION                   start 56 02 00 stop start 56 00 start 57 data stop
+
+    //start 56 02 00 stop start 56 00 data stop
+
+    //void i2c_send_start(uint32_t i2c)
+    //{
+    //	I2C_CR1(i2c) |= I2C_CR1_START; !!!!!!!!!!!!!!!!!!!!!!!!!!! тут все
+    //}
+
+//DR WRITE OPERATION  start 56 02 00 stop start 56 00 data stop
+
+
+
+
+
+}

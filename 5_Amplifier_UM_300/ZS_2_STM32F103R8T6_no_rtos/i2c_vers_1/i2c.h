@@ -41,6 +41,9 @@ uint8_t i2c_read(I2C_Control *dev,bool lastf);
 
 inline void i2c_stop(I2C_Control *dev) { i2c_send_stop(dev->device); }
 
+
+void send_to_POT_vers1(uint8_t data);
+
 #endif // I2C_H
 
 // End i2c.h

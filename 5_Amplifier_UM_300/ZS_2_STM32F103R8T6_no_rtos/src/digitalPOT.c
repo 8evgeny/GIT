@@ -52,7 +52,7 @@ void digitaPOT(void *args)
 
 #ifndef useProgI2C1 //Аппаратная версия 1
 #ifdef useI2C_vers1
-//            send_to_POT_vers1(ii);
+            send_to_POT_vers1(ii);
 #endif
 #endif
 
