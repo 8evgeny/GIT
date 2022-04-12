@@ -160,6 +160,10 @@ void fsignalTranslateON()
     stringToUart(toMilandr_SignalTranslate_ON);
 #endif
 //    stringToLcd("signal Translate ON");
+#ifndef useUSART1
+    setReleTr1(true);
+#endif
+    setRele24V(true);
     stringTo_diagnostic_Usart1("signal Translate ON");
 }
 void fsignalTranslateOFF()
@@ -169,6 +173,10 @@ void fsignalTranslateOFF()
     stringToUart(toMilandr_SignalTranslate_OFF);
 #endif
 //    stringToLcd("signal Translate OFF");
+#ifndef useUSART1
+    setReleTr1(false);
+#endif
+    setRele24V(false);
     stringTo_diagnostic_Usart1("signal Translate OFF");
 }
 void fbtnRESET_ON()
