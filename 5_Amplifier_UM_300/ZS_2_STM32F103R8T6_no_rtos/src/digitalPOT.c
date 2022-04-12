@@ -26,9 +26,11 @@ void digitaPOT(void *args)
 #ifndef useProgI2C1
     init_I2C1();
 #endif
-    i2c_init();
 #endif
 
+#ifdef useProgI2C1
+   i2c_init();
+#endif
 
 #ifndef useProgI2C1 //Аппаратная версия 1
 #ifdef useI2C_vers1

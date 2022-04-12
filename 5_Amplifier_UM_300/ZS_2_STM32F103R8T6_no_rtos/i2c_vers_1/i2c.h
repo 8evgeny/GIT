@@ -33,6 +33,8 @@ typedef struct {
 
 extern jmp_buf i2c_exception;
 
+
+
 const char *i2c_error(I2C_Fails fcode);
 
 void i2c_configure(I2C_Control *dev,uint32_t i2c,uint32_t ticks);
