@@ -63,85 +63,175 @@ set(CMAKE_CXX_STANDARD 11)
 
 set(I2C_version 2)
 
+set(MainLIB libopencm3)
+#set(MainLIB HAL)
+
+if(${MainLIB} STREQUAL libopencm3)
+    add_definitions(-Duselibopencm3)
+endif()
+if(${MainLIB} STREQUAL HAL)
+    add_definitions(-DuseHAL)
+endif()
+
 #add_definitions(-DARM_MATH_CM4 -DARM_MATH_MATRIX_CHECK -DARM_MATH_ROUNDING -D__FPU_PRESENT=1)
 add_definitions(-DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB
     -DSTM32F1 #добавил
     )
 
-file(GLOB_RECURSE SOURCES_C
-    src/*.c
-    rtos/heap_4.c
-    rtos/list.c
-    rtos/port.c
-    rtos/tasks.c
-    rtos/opencm3.c
-    rtos/queue.c
-    libwwg/src/uartlib.c
-    )
-if(${I2C_version} EQUAL 1)
 
-file(GLOB_RECURSE SOURCES_I2C
-    i2c_vers_1/i2c.c
-    i2c_vers_1/i2c_main.c
-    libwwg/src/usbcdc.c
-    )
-include_directories(
-    i2c_vers_1
-    )
+if(${MainLIB} STREQUAL libopencm3)
+        file(GLOB_RECURSE SOURCES_C
+            src/*.c
+            rtos/heap_4.c
+            rtos/list.c
+            rtos/port.c
+            rtos/tasks.c
+            rtos/opencm3.c
+            rtos/queue.c
+            libwwg/src/uartlib.c
+            )
+
+        if(${I2C_version} EQUAL 1)
+
+        file(GLOB_RECURSE SOURCES_I2C
+            i2c_vers_1/i2c.c
+            i2c_vers_1/i2c_main.c
+            libwwg/src/usbcdc.c
+            )
+        include_directories(
+            i2c_vers_1
+            )
+        endif()
+
+        if(${I2C_version} EQUAL 2)
+
+        file(GLOB_RECURSE SOURCES_I2C
+            i2c_vers_2/src/LiquidCrystal_I2C.c
+            i2c_vers_2/src/I2C.c
+            i2c_vers_2/src/i2c_main.c
+            i2c_vers_2/src/delay.c
+            libopencm3/lib/stm32/f1/12c.c
+            libopencm3/lib/stm32/common/i2c_common_v1.c
+            )
+
+        include_directories(
+            i2c_vers_2/inc
+            )
+        endif()
+
+        file(GLOB_RECURSE SOURCES_CPP
+        #    src/*.cpp
+        #    src_classes/*.cpp
+            )
+
+
+        include_directories(
+            inc
+            libopencm3/include
+            libopencm3/stm32/common
+            rtos
+            ./
+            libwwg/include
+            src_classes
+            )
+
+        add_executable(${PROJECT_NAME}.elf
+            ${SOURCES_C}
+            ${SOURCES_I2C}
+            ${SOURCES_CPP}
+            ${LINKER_SCRIPT}
+            )
+
+        target_link_libraries(${PROJECT_NAME}.elf
+            --static -nostartfiles
+            -specs=nosys.specs
+            -Wl,--start-group
+            -lc
+            -lgcc
+            -lnosys
+            -Wl,--end-group
+            -L${CMAKE_SOURCE_DIR}/libopencm3/lib -lopencm3_stm32f1
+            -L${CMAKE_SOURCE_DIR}/libwwg -lwwg
+            )
+endif()
+if(${MainLIB} STREQUAL HAL)
+                file(GLOB_RECURSE SOURCES_C
+                    src/*.c
+                    rtos/heap_4.c
+                    rtos/list.c
+                    rtos/port.c
+                    rtos/tasks.c
+                    rtos/opencm3.c
+                    rtos/queue.c
+                    libwwg/src/uartlib.c
+                    )
+
+                if(${I2C_version} EQUAL 1)
+
+                file(GLOB_RECURSE SOURCES_I2C
+                    i2c_vers_1/i2c.c
+                    i2c_vers_1/i2c_main.c
+                    libwwg/src/usbcdc.c
+                    )
+                include_directories(
+                    i2c_vers_1
+                    )
+                endif()
+
+                if(${I2C_version} EQUAL 2)
+
+                file(GLOB_RECURSE SOURCES_I2C
+                    i2c_vers_2/src/LiquidCrystal_I2C.c
+                    i2c_vers_2/src/I2C.c
+                    i2c_vers_2/src/i2c_main.c
+                    i2c_vers_2/src/delay.c
+                    libopencm3/lib/stm32/f1/12c.c
+                    libopencm3/lib/stm32/common/i2c_common_v1.c
+                    )
+
+                include_directories(
+                    i2c_vers_2/inc
+                    )
+                endif()
+
+                file(GLOB_RECURSE SOURCES_CPP
+                #    src/*.cpp
+                #    src_classes/*.cpp
+                    )
+
+
+                include_directories(
+                    inc
+                    libopencm3/include
+                    libopencm3/stm32/common
+                    rtos
+                    ./
+                    libwwg/include
+                    src_classes
+                    )
+
+                add_executable(${PROJECT_NAME}.elf
+                    ${SOURCES_C}
+                    ${SOURCES_I2C}
+                    ${SOURCES_CPP}
+                    ${LINKER_SCRIPT}
+                    )
+
+                target_link_libraries(${PROJECT_NAME}.elf
+                    --static -nostartfiles
+                    -specs=nosys.specs
+                    -Wl,--start-group
+                    -lc
+                    -lgcc
+                    -lnosys
+                    -Wl,--end-group
+                    -L${CMAKE_SOURCE_DIR}/libopencm3/lib -lopencm3_stm32f1
+                    -L${CMAKE_SOURCE_DIR}/libwwg -lwwg
+                    )
 endif()
 
-if(${I2C_version} EQUAL 2)
-
-file(GLOB_RECURSE SOURCES_I2C
-    i2c_vers_2/src/LiquidCrystal_I2C.c
-    i2c_vers_2/src/I2C.c
-    i2c_vers_2/src/i2c_main.c
-    i2c_vers_2/src/delay.c
-    libopencm3/lib/stm32/f1/12c.c
-    libopencm3/lib/stm32/common/i2c_common_v1.c
-    )
-include_directories(
-    i2c_vers_2/inc
-    )
-endif()
 
 
-file(GLOB_RECURSE SOURCES_CPP
-#    src/*.cpp
-#    src_classes/*.cpp
-    )
-
-
-include_directories(
-    inc
-    libopencm3/include
-    libopencm3/stm32/common
-    rtos
-    ./
-    libwwg/include
-    src_classes
-    )
-
-
-
-add_executable(${PROJECT_NAME}.elf
-    ${SOURCES_C}
-    ${SOURCES_I2C}
-    ${SOURCES_CPP}
-    ${LINKER_SCRIPT}
-    )
-
-target_link_libraries(${PROJECT_NAME}.elf
-    --static -nostartfiles
-    -specs=nosys.specs
-    -Wl,--start-group
-    -lc
-    -lgcc
-    -lnosys
-    -Wl,--end-group
-    -L${CMAKE_SOURCE_DIR}/libopencm3/lib -lopencm3_stm32f1
-    -L${CMAKE_SOURCE_DIR}/libwwg -lwwg
-    )
 
 
 #set(CMAKE_EXE_LINKER_FLAGS
