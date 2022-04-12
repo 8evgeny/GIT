@@ -4,6 +4,11 @@
 #include "delay.h"
 #endif
 
+#ifdef useI2C_vers1
+#include "i2c.h"
+#endif
+
+
 #if 0
 The following is the required sequence in master mode.
 - Program the peripheral input clock in I2C_CR2 register in order to generate correct timings
@@ -21,9 +26,6 @@ void digitaPOT(void *args)
 #ifndef useProgI2C1
     init_I2C1();
 #endif
-#endif
-
-#ifdef useProgI2C1
     i2c_init();
 #endif
 
@@ -37,16 +39,26 @@ void digitaPOT(void *args)
             char buf[10];
             sprintf(buf, "%d", ii);
             stringTo_diagnostic_Usart1(buf);
-#ifndef useProgI2C1
+#ifndef useProgI2C1 //Аппаратная версия 2
 #ifdef useI2C_vers2
             send_to_POT(ii);
 #endif
 #endif
 
-#ifdef useProgI2C1
+#ifdef useProgI2C1 //Программная версия
             send_Programm_to_POT(ii);//DR WRITE OPERATION
 //            send_Programm_to_POT1(ii);//WCR WRITE OPERATION
 #endif
+
+#ifndef useProgI2C1 //Аппаратная версия 1
+#ifdef useI2C_vers1
+//            send_to_POT_vers1(ii);
+#endif
+#endif
+
+
+
+
         }
 
 
