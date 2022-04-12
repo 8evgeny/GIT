@@ -140,6 +140,7 @@ void fsignalImpedanceON()
 
 //    stringToLcd("signal Impedance ON");
     stringTo_diagnostic_Usart1("signal Impedance ON");
+    setImpedanceRele(true);
 }
 void fsignalImpedanceOFF()
 {
@@ -150,6 +151,7 @@ void fsignalImpedanceOFF()
 
 //    stringToLcd("signal Impedance OFF");
     stringTo_diagnostic_Usart1("signal Impedance OFF");
+    setImpedanceRele(false);
 }
 void fsignalTranslateON()
 {
@@ -194,6 +196,7 @@ void fbtnRESET_OFF()
 #endif
     stringTo_diagnostic_Usart1("Button Reset OFF");
 }
+
 
 
 void checkInputs(void *args)

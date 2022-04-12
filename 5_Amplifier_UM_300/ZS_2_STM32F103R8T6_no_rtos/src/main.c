@@ -220,6 +220,7 @@ void initOuts()
             if (isPOWER_OFF) stringTo_diagnostic_Usart1("POWER_OK OFF");
             setUpr_IN_078(true);
             setUpr_IN_ST(false);
+            setImpedanceRele(false);
 }
 
 
