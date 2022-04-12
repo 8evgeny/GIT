@@ -93,6 +93,9 @@ extern "C" {
 #define isBtnIMPEDANSE gpio_get(GPIOA, GPIO0)
 #define isBtnCALIBROVKA gpio_get(GPIOA, GPIO1)
 #define isBtnRESET gpio_get(GPIOA, GPIO2)
+#define isVOLT_UPR gpio_get(GPIOC, GPIO1)
+#define isCURR1_UPR gpio_get(GPIOC, GPIO2)
+#define isCURR2_UPR gpio_get(GPIOC, GPIO3)
 
 static uint8_t ii;
 

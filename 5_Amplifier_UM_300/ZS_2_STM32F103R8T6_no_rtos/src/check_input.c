@@ -196,7 +196,42 @@ void fbtnRESET_OFF()
 #endif
     stringTo_diagnostic_Usart1("Button Reset OFF");
 }
-
+void finput_VOLT_UPR_ON()
+{
+    input_VOLT_UPR = 1;
+//    stringToLcd("input_VOLT_UPR ON");
+    stringTo_diagnostic_Usart1("U less THRESHOLD");
+}
+void finput_VOLT_UPR_OFF()
+{
+    input_VOLT_UPR = 0;
+//    stringToLcd("input_VOLT_UPR OFF");
+    stringTo_diagnostic_Usart1("U bigger THRESHOLD");
+}
+void fCURRENT1_ON()
+{
+    input_CUR_UPR1 = 1;
+//    stringToLcd("input_CUR_UPR1 ON");
+    stringTo_diagnostic_Usart1("I_2 less THRESHOLD");
+}
+void fCURRENT1_OFF()
+{
+    input_CUR_UPR1 = 0;
+//    stringToLcd("input_CUR_UPR1 OFF");
+    stringTo_diagnostic_Usart1("I_2 bigger THRESHOLD");
+}
+void fCURRENT2_ON()
+{
+    input_CUR_UPR2 = 1;
+//    stringToLcd("input_CUR_UPR2 ON");
+    stringTo_diagnostic_Usart1("I_2 less THRESHOLD");
+}
+void fCURRENT2_OFF()
+{
+    input_CUR_UPR2 = 0;
+//    stringToLcd("input_CUR_UPR2 OFF");
+    stringTo_diagnostic_Usart1("I_2 bigger THRESHOLD");
+}
 
 
 void checkInputs(void *args)
@@ -230,9 +265,9 @@ void checkInputs(void *args)
     gpioSignalImpedance = gpio_get(GPIOA, GPIO4);
     gpioSignalTranslate = gpio_get(GPIOA, GPIO5);
     gpio_IMP_UPR = gpio_get(GPIOC, GPIO0);
-    gpio_VOLT_UPR = gpio_get(GPIOC, GPIO1);
-    gpio_CUR_UPR1 = gpio_get(GPIOC, GPIO2);
-    gpio_CUR_UPR2 = gpio_get(GPIOC, GPIO3);
+    gpio_VOLT_UPR = isVOLT_UPR;
+    gpio_CUR_UPR1 = isCURR1_UPR;
+    gpio_CUR_UPR2 = isCURR2_UPR;
     gpioVnesh = gpio_get(GPIOC, GPIO13);
     gpioMic = gpio_get(GPIOD, GPIO2);
     gpio_OVERHEAT_MC = gpio_get(GPIOA, GPIO6);
@@ -438,9 +473,7 @@ void checkInputs(void *args)
             {
                 if (!input_VOLT_UPR)
                 {
-                    input_VOLT_UPR = 1;
-//                    stringToLcd("input_VOLT_UPR ON");
-                    stringTo_diagnostic_Usart1("input_VOLT_UPR ON");
+                    finput_VOLT_UPR_ON();
                 }
             }
 
@@ -448,9 +481,7 @@ void checkInputs(void *args)
             {
                 if (input_VOLT_UPR)
                 {
-                    input_VOLT_UPR = 0;
-//                    stringToLcd("input_VOLT_UPR OFF");
-                    stringTo_diagnostic_Usart1("input_VOLT_UPR OFF");
+                    finput_VOLT_UPR_OFF();
                 }
             }
             gpio_VOLT_UPR = temp8;
@@ -463,9 +494,7 @@ void checkInputs(void *args)
             {
                 if (!input_CUR_UPR1)
                 {
-                    input_CUR_UPR1 = 1;
-//                    stringToLcd("input_CUR_UPR1 ON");
-                    stringTo_diagnostic_Usart1("input_CUR_UPR1 ON");
+                    fCURRENT1_ON();
                 }
             }
 
@@ -473,9 +502,7 @@ void checkInputs(void *args)
             {
                 if (input_CUR_UPR1)
                 {
-                    input_CUR_UPR1 = 0;
-//                    stringToLcd("input_CUR_UPR1 OFF");
-                    stringTo_diagnostic_Usart1("input_CUR_UPR1 OFF");
+                    fCURRENT1_OFF();
                 }
             }
             gpio_CUR_UPR1 = temp9;
@@ -488,9 +515,7 @@ void checkInputs(void *args)
             {
                 if (!input_CUR_UPR2)
                 {
-                    input_CUR_UPR2 = 1;
-//                    stringToLcd("input_CUR_UPR2 ON");
-                    stringTo_diagnostic_Usart1("input_CUR_UPR2 ON");
+                    fCURRENT2_ON();
                 }
             }
 
@@ -498,9 +523,7 @@ void checkInputs(void *args)
             {
                 if (input_CUR_UPR2)
                 {
-                    input_CUR_UPR2 = 0;
-//                    stringToLcd("input_CUR_UPR2 OFF");
-                    stringTo_diagnostic_Usart1("input_CUR_UPR2 OFF");
+                    fCURRENT2_OFF();
                 }
             }
             gpio_CUR_UPR2 = temp10;

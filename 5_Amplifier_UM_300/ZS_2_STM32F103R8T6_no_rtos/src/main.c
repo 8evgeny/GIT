@@ -221,6 +221,15 @@ void initOuts()
             setUpr_IN_078(true);
             setUpr_IN_ST(false);
             setImpedanceRele(false);
+            if (isVOLT_UPR) stringTo_diagnostic_Usart1("U bigger THRESHOLD");
+            if (!isVOLT_UPR) stringTo_diagnostic_Usart1("U less THRESHOLD");
+
+            if (isCURR1_UPR) stringTo_diagnostic_Usart1("I_1 bigger THRESHOLD");
+            if (!isCURR1_UPR) stringTo_diagnostic_Usart1("I_1 less THRESHOLD");
+
+            if (isCURR2_UPR) stringTo_diagnostic_Usart1("I_2 bigger THRESHOLD");
+            if (!isCURR2_UPR) stringTo_diagnostic_Usart1("I_2 less THRESHOLD");
+
 }
 
 
@@ -246,7 +255,7 @@ int main() {
     xTaskCreate(usart1_diagnostic_task,"UART",100,NULL,configMAX_PRIORITIES-1,NULL);
     xTaskCreate(checkInputs,"+InputSignals",100,NULL,configMAX_PRIORITIES-1,NULL);
     xTaskCreate(setOutputs,"+StateRele",100,NULL,configMAX_PRIORITIES-2,NULL); //ХЗ не работает
-    xTaskCreate(digitaPOT,"digitaPOT",200,NULL,configMAX_PRIORITIES-2,NULL);
+//    xTaskCreate(digitaPOT,"digitaPOT",200,NULL,configMAX_PRIORITIES-2,NULL);
 
 #ifdef useDisplay
     xTaskCreate(i2c_main_vers2,"i2c_vers2",100,NULL,configMAX_PRIORITIES-2,NULL);
