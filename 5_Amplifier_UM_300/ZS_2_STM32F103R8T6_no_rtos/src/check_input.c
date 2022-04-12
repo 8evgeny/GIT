@@ -3,24 +3,32 @@
 
 void fsignalPowerOnON()
 {
-    signalPowerOn = 1;
-#if defined useMilandr
-    stringToUart(toMilandr_SignalPowerOn_ON);
-#endif
-//    stringToLcd("signalPowerOn ON");
-    stringTo_diagnostic_Usart1("signalPowerOn ON");
-    setFan(true);
-//    setUpr_IN_078(true); stringTo_diagnostic_Usart1("setUpr_IN_078 ON");
-    setReleLine1(true);
-    setMute(false); stringTo_diagnostic_Usart1("MUTE OFF");
-    setGAIN(true);  stringTo_diagnostic_Usart1("GAIN ON");
-    if (!RESET_AMP )
+    if(!isPOWER_OFF)
     {
-        setRESET(true);
-        vTaskDelay(pdMS_TO_TICKS(3000));
-        setRESET(false);
-        RESET_AMP = true; stringTo_diagnostic_Usart1("RESETTING AMP");
+        signalPowerOn = 1;
+    #if defined useMilandr
+        stringToUart(toMilandr_SignalPowerOn_ON);
+    #endif
+    //    stringToLcd("signalPowerOn ON");
+        stringTo_diagnostic_Usart1("signalPowerOn ON");
+        setFan(true);
+    //    setUpr_IN_078(true); stringTo_diagnostic_Usart1("setUpr_IN_078 ON");
+        setReleLine1(true);
+        setMute(false); stringTo_diagnostic_Usart1("MUTE OFF");
+        setGAIN(true);  stringTo_diagnostic_Usart1("GAIN ON");
+        if (!RESET_AMP )
+        {
+            setRESET(true);
+            vTaskDelay(pdMS_TO_TICKS(3000));
+            setRESET(false);
+            RESET_AMP = true; stringTo_diagnostic_Usart1("RESETTING AMP");
+        }
     }
+    else
+    {
+        stringTo_diagnostic_Usart1("ERROR POWER");
+    }
+
 }
 void fsignalPowerOnOFF()
 {
@@ -61,11 +69,11 @@ void fOVERHEAT_MC_ON()
 }
 void fOVERHEAT_MC_OFF()
 {
-    OVERHEAT_MC = 0;
-//    stringToLcd("OVERHEAT_MC OFF");
-    stringTo_diagnostic_Usart1("OVERHEAT_MC OFF");
-    setErrorRele(false);
-    setLedOverheatOut(false);
+//    OVERHEAT_MC = 0;
+////    stringToLcd("OVERHEAT_MC OFF");
+//    stringTo_diagnostic_Usart1("OVERHEAT_MC OFF");
+//    setErrorRele(false);
+//    setLedOverheatOut(false);
 }
 void fERROR_MC_ON()
 {
@@ -77,11 +85,11 @@ void fERROR_MC_ON()
 }
 void fERROR_MC_OFF()
 {
-    ERROR_MC = 0;
-//    stringToLcd("ERROR_MC OFF");
-    stringTo_diagnostic_Usart1("ERROR_MC OFF");
-    setLedOvercutOut(false);
-    setErrorRele(false);
+//    ERROR_MC = 0;
+////    stringToLcd("ERROR_MC OFF");
+//    stringTo_diagnostic_Usart1("ERROR_MC OFF");
+//    setLedOvercutOut(false);
+//    setErrorRele(false);
 }
 void fsignalVneshON()
 {
