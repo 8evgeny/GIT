@@ -96,6 +96,7 @@ if(${MainLIB} STREQUAL libopencm3)
         file(GLOB_RECURSE SOURCES_I2C
             i2c_vers_1/i2c.c
             i2c_vers_1/i2c_main.c
+            i2c_vers_1/DigitalPot_vers1.c
             libwwg/src/usbcdc.c
             )
         include_directories(
