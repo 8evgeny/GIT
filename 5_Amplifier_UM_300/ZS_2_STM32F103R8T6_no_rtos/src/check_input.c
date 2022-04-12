@@ -19,7 +19,7 @@ void fsignalPowerOnON()
         if (!RESET_AMP )
         {
             setRESET(true);
-            vTaskDelay(pdMS_TO_TICKS(3000));
+            vTaskDelay(pdMS_TO_TICKS(500));
             setRESET(false);
             RESET_AMP = true; stringTo_diagnostic_Usart1("RESETTING AMP");
         }
@@ -169,6 +169,32 @@ void fsignalTranslateOFF()
 //    stringToLcd("signal Translate OFF");
     stringTo_diagnostic_Usart1("signal Translate OFF");
 }
+void fbtnRESET_ON()
+{
+    btnReset = 1;    stringTo_diagnostic_Usart1("Button Reset ON");
+    OVERHEAT_MC = 0; stringTo_diagnostic_Usart1("OVERHEAT_MC OFF");
+    ERROR_MC = 0;    stringTo_diagnostic_Usart1("ERROR_MC OFF");
+#if defined useMilandr
+    stringToUart(toMilandr_BtnReset_On);
+#endif
+
+    setErrorRele(false);
+    setLedOverheatOut(false);
+
+    setRESET(true);
+    vTaskDelay(pdMS_TO_TICKS(500));
+    setRESET(false);
+    RESET_AMP = true; stringTo_diagnostic_Usart1("RESETTING AMP");
+}
+void fbtnRESET_OFF()
+{
+    btnReset = 0;
+#if defined useMilandr
+    stringToUart(toMilandr_BtnReset_Off);
+#endif
+    stringTo_diagnostic_Usart1("Button Reset OFF");
+}
+
 
 void checkInputs(void *args)
 {
@@ -194,9 +220,9 @@ void checkInputs(void *args)
     bool temp7,temp8,temp9,temp10,temp11,temp12;
     bool temp13,temp14,temp15;
 
-    gpioImpedance = gpio_get(GPIOA, GPIO0);
-    gpioCalibrovka = gpio_get(GPIOA, GPIO1);
-    gpioReset = gpio_get(GPIOA, GPIO2);
+    gpioImpedance = !isBtnIMPEDANSE;  //Кнопки - инверсные
+    gpioCalibrovka = !isBtnCALIBROVKA;//Кнопки - инверсные
+    gpioReset = !isBtnRESET;          //Кнопки - инверсные
     gpioPowerOn = gpio_get(GPIOA, GPIO3);
     gpioSignalImpedance = gpio_get(GPIOA, GPIO4);
     gpioSignalTranslate = gpio_get(GPIOA, GPIO5);
@@ -214,9 +240,9 @@ void checkInputs(void *args)
         vTaskDelay(pdMS_TO_TICKS(100));
 //        stringTo_diagnostic_Usart1("checkInputs - 200");
 
-        temp1 = gpio_get(GPIOA, GPIO0);
-        temp2 = gpio_get(GPIOA, GPIO1);
-        temp3 = gpio_get(GPIOA, GPIO2);
+        temp1 = !isBtnIMPEDANSE;  //Кнопки - инверсные
+        temp2 = !isBtnCALIBROVKA; //Кнопки - инверсные
+        temp3 = !isBtnRESET;      //Кнопки - инверсные
         temp4 = gpio_get(GPIOA, GPIO3);
         temp5 = gpio_get(GPIOA, GPIO4);
         temp6 = gpio_get(GPIOA, GPIO5);
@@ -300,12 +326,7 @@ void checkInputs(void *args)
             {
                 if (!btnReset)
                 {
-                    btnReset = 1;
-#if defined useMilandr
-                    stringToUart(toMilandr_BtnReset_On);
-#endif
-//                    stringToLcd("Button Reset ON");
-                    stringTo_diagnostic_Usart1("Button Reset ON");
+                    fbtnRESET_ON();
                 }
             }
 
@@ -313,12 +334,7 @@ void checkInputs(void *args)
             {
                 if (btnReset)
                 {
-                    btnReset = 0;
-#if defined useMilandr
-                    stringToUart(toMilandr_BtnReset_Off);
-#endif
-//                    stringToLcd("Button Reset OFF");
-                    stringTo_diagnostic_Usart1("Button Reset OFF");
+                    fbtnRESET_OFF();
                 }
             }
             gpioReset = temp3;

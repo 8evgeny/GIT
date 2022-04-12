@@ -81,6 +81,9 @@ extern "C" {
 #endif
 
 #define isPOWER_OFF gpio_get(GPIOC, GPIO4)
+#define isBtnIMPEDANSE gpio_get(GPIOA, GPIO0)
+#define isBtnCALIBROVKA gpio_get(GPIOA, GPIO1)
+#define isBtnRESET gpio_get(GPIOA, GPIO2)
 
 static uint8_t ii;
 
