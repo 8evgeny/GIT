@@ -314,10 +314,10 @@ void checkInputs(void *args)
     gpio_OVERHEAT_MC = gpio_get(GPIOA, GPIO6);
     gpio_POWER_OK = isPOWER_OFF;
     gpio_ERROR_MC = gpio_get(GPIOC, GPIO5);
+
     for(;;)
     {
-        vTaskDelay(pdMS_TO_TICKS(100));
-//        stringTo_diagnostic_Usart1("checkInputs - 200");
+        vTaskDelay(pdMS_TO_TICKS(50));
 
         temp1 = !isBtnIMPEDANSE;  //Кнопки - инверсные
         temp2 = !isBtnCALIBROVKA; //Кнопки - инверсные

@@ -6,7 +6,7 @@ void setOutputs(void *args)
 
     for(;;)
     {
-        vTaskDelay(pdMS_TO_TICKS(200));
+        vTaskDelay(pdMS_TO_TICKS(100));
 
         while (!isBtnIMPEDANSE) //При нажатии  кн Импеданс - моргает
         {
