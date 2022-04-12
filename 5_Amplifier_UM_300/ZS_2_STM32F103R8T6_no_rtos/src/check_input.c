@@ -119,6 +119,10 @@ void fsignalMicON()
 #endif
 //    stringToLcd("signalMic ON");
     setUpr_IN_078(false);
+#ifndef useUSART1
+    setReleTr1(true);
+#endif
+    setRele24V(true);
     stringTo_diagnostic_Usart1("signalMic ON");
 }
 void fsignalMicOFF()
@@ -129,6 +133,10 @@ void fsignalMicOFF()
 #endif
 //    stringToLcd("signalMic OFF");
     setUpr_IN_078(true);
+#ifndef useUSART1
+    setReleTr1(false);
+#endif
+    setRele24V(false);
     stringTo_diagnostic_Usart1("signalMic OFF");
 }
 void fsignalImpedanceON()
