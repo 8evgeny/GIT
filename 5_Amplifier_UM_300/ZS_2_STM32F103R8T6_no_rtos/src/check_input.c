@@ -99,6 +99,7 @@ void fsignalVneshON()
 #endif
 //    stringToLcd("signalVnesh ON");
     setUpr_IN_ST(true); stringTo_diagnostic_Usart1("setUpr_IN_ST ON");
+    setRele24V(true);
     stringTo_diagnostic_Usart1("signalVnesh ON");
 }
 void fsignalVneshOFF()
@@ -109,6 +110,7 @@ void fsignalVneshOFF()
 #endif
 //    stringToLcd("signalVnesh OFF");
     setUpr_IN_ST(false); stringTo_diagnostic_Usart1("setUpr_IN_ST OFF");
+    setRele24V(false);
     stringTo_diagnostic_Usart1("signalVnesh OFF");
 }
 void fsignalMicON()
