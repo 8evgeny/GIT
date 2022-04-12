@@ -79,6 +79,9 @@ extern "C" {
 #define toMilandr_ERROR_MC_ON_OK           "N"
 #define toMilandr_ERROR_MC_OFF_OK          "M"
 #endif
+
+#define isPOWER_OFF gpio_get(GPIOC, GPIO4)
+
 static uint8_t ii;
 
 static bool btnImpedance = 0;

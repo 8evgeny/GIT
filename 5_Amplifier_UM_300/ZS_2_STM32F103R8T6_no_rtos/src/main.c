@@ -216,8 +216,8 @@ void initOuts()
             setFan(0);
             setMute(true);
             setGAIN(false);
-            if (!gpio_get(GPIOC, GPIO4)) stringTo_diagnostic_Usart1("POWER_OK ON");
-            if (gpio_get(GPIOC, GPIO4)) stringTo_diagnostic_Usart1("POWER_OK OFF");
+            if (!isPOWER_OFF) stringTo_diagnostic_Usart1("POWER_OK ON");
+            if (isPOWER_OFF) stringTo_diagnostic_Usart1("POWER_OK OFF");
             setUpr_IN_078(true);
             setUpr_IN_ST(false);
 }
