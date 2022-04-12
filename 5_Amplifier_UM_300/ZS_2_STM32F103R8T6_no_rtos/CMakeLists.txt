@@ -61,7 +61,7 @@ SET(CMAKE_EXE_LINKER_FLAGS_INIT " \
 PROJECT(5_stm32f103rc6 C CXX ASM)
 set(CMAKE_CXX_STANDARD 11)
 
-set(I2C_version 2)
+set(I2C_version 1)
 
 set(MainLIB libopencm3)
 #set(MainLIB HAL)

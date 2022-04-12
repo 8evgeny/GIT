@@ -16,9 +16,13 @@ The following is the required sequence in master mode.
 void digitaPOT(void *args)
 {
     (void)args;
+
+#ifdef useI2C_vers2
 #ifndef useProgI2C1
     init_I2C1();
 #endif
+#endif
+
 #ifdef useProgI2C1
     i2c_init();
 #endif
@@ -28,14 +32,17 @@ void digitaPOT(void *args)
 
         for (ii = 0; ii < 127 ; ++ii)
         {
-            vTaskDelay(pdMS_TO_TICKS(500));
+            vTaskDelay(pdMS_TO_TICKS(1500));
 
             char buf[10];
             sprintf(buf, "%d", ii);
-//            stringTo_diagnostic_Usart1(buf);
+            stringTo_diagnostic_Usart1(buf);
 #ifndef useProgI2C1
+#ifdef useI2C_vers2
             send_to_POT(ii);
 #endif
+#endif
+
 #ifdef useProgI2C1
             send_Programm_to_POT(ii);//DR WRITE OPERATION
 //            send_Programm_to_POT1(ii);//WCR WRITE OPERATION
