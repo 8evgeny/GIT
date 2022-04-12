@@ -219,12 +219,35 @@ void finput_VOLT_UPR_ON()
     input_VOLT_UPR = 1;
 //    stringToLcd("input_VOLT_UPR ON");
     stringTo_diagnostic_Usart1("U less THRESHOLD");
+//При коротком замыкании выходное напряжение меньше порогового значения, выходной
+//ток превышает первое (низкое) и/или второе (высокое) пороговое значение. Наличие двух
+//пороговых значений необходимо для обеспечения возможности различать перегрузку и
+//короткое замыкание на малых и больших уровнях напряжения на выходе усилителя
+    if(!input_CUR_UPR1)
+    {//КЗ
+        setLedShortOut(true); stringTo_diagnostic_Usart1("ShortOut ON");
+        setErrorRele(true); stringTo_diagnostic_Usart1("ERROR ON");
+        setMute(true); stringTo_diagnostic_Usart1("MUTE ON");
+        RESET_AMP = false;
+    }
+
+
 }
 void finput_VOLT_UPR_OFF()
 {
     input_VOLT_UPR = 0;
-//    stringToLcd("input_VOLT_UPR OFF");
     stringTo_diagnostic_Usart1("U bigger THRESHOLD");
+
+    //При перегрузке выхода выходное напряжение выше порогового значения, выходной ток
+    //превышает второе (высокое) пороговое значение.
+    if(!input_CUR_UPR2)
+    {//Перегрузка
+        setLedOvercutOut(true); stringTo_diagnostic_Usart1("OvercutOut");
+        setErrorRele(true); stringTo_diagnostic_Usart1("ERROR ON");
+        setMute(true); stringTo_diagnostic_Usart1("MUTE ON");
+        RESET_AMP = false;
+    }
+
 }
 void fCURRENT1_ON()
 {
