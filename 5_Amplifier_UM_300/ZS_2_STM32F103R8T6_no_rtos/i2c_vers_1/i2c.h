@@ -5,6 +5,9 @@
 #ifndef I2C_H
 #define I2C_H
 
+#define systicks	xTaskGetTickCount
+
+
 #include <stdbool.h>
 #include <setjmp.h>
 

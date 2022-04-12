@@ -94,7 +94,7 @@ if(${MainLIB} STREQUAL libopencm3)
         if(${I2C_version} EQUAL 1)
         add_definitions(-DuseI2C_vers1)
         file(GLOB_RECURSE SOURCES_I2C
-            i2c_vers_1/i2c.c
+#            i2c_vers_1/i2c.c
             i2c_vers_1/i2c_main.c
             i2c_vers_1/DigitalPot_vers1.c
             libwwg/src/usbcdc.c
