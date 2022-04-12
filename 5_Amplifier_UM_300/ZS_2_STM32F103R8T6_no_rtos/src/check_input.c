@@ -271,7 +271,7 @@ void checkInputs(void *args)
     gpioVnesh = gpio_get(GPIOC, GPIO13);
     gpioMic = gpio_get(GPIOD, GPIO2);
     gpio_OVERHEAT_MC = gpio_get(GPIOA, GPIO6);
-    gpio_POWER_OK = gpio_get(GPIOC, GPIO4);
+    gpio_POWER_OK = isPOWER_OFF;
     gpio_ERROR_MC = gpio_get(GPIOC, GPIO5);
     for(;;)
     {
@@ -285,13 +285,13 @@ void checkInputs(void *args)
         temp5 = gpio_get(GPIOA, GPIO4);
         temp6 = gpio_get(GPIOA, GPIO5);
         temp7 = gpio_get(GPIOC, GPIO0);
-        temp8 = gpio_get(GPIOC, GPIO1);
-        temp9 = gpio_get(GPIOC, GPIO2);
-        temp10 = gpio_get(GPIOC, GPIO3);
+        temp8 = isVOLT_UPR;
+        temp9 = isCURR1_UPR;
+        temp10 = isCURR2_UPR;
         temp11 = gpio_get(GPIOC, GPIO13);
         temp12 = gpio_get(GPIOD, GPIO2);
         temp13 = gpio_get(GPIOA, GPIO6);
-        temp14 = gpio_get(GPIOC, GPIO4);
+        temp14 = isPOWER_OFF;
         temp15 = gpio_get(GPIOC, GPIO5);
 
     //Кнопка Импеданс
