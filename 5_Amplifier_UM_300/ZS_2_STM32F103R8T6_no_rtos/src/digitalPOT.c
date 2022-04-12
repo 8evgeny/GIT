@@ -1,6 +1,8 @@
 #include "main.h"
+#ifdef I2C_vers2
 #include "I2C.h"
 #include "delay.h"
+#endif
 
 #if 0
 The following is the required sequence in master mode.
