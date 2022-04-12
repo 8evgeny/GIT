@@ -11,16 +11,16 @@ void setOutputs(void *args)
         while (!isBtnIMPEDANSE) //При нажатии  кн Импеданс - моргает
         {
             setErrorRele(true);
-            vTaskDelay(pdMS_TO_TICKS(500));
+            vTaskDelay(pdMS_TO_TICKS(200));
             setErrorRele(false);
-            vTaskDelay(pdMS_TO_TICKS(500));
+            vTaskDelay(pdMS_TO_TICKS(200));
         }
         while (!isBtnCALIBROVKA) //При нажатии  кн - моргает
         {
             setErrorRele(true);
-            vTaskDelay(pdMS_TO_TICKS(200));
+            vTaskDelay(pdMS_TO_TICKS(100));
             setErrorRele(false);
-            vTaskDelay(pdMS_TO_TICKS(200));
+            vTaskDelay(pdMS_TO_TICKS(100));
         }
 
 
