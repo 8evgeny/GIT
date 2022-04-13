@@ -11,7 +11,7 @@ void fsignalPowerOnON()
     #endif
     //    stringToLcd("signalPowerOn ON");
         stringTo_diagnostic_Usart1("signalPowerOn ON");
-//        setFan(true);
+        setFan(true);
     //    setUpr_IN_078(true); stringTo_diagnostic_Usart1("setUpr_IN_078 ON");
         setReleLine1(true);
         setMute(false); stringTo_diagnostic_Usart1("MUTE OFF");
@@ -38,7 +38,7 @@ void fsignalPowerOnOFF()
 #endif
 //    stringToLcd("signalPowerOn OFF");
     stringTo_diagnostic_Usart1("signalPowerOn OFF");
-//    setFan(false);
+    setFan(false);
 //    setUpr_IN_078(false); stringTo_diagnostic_Usart1("setUpr_IN_078 OFF");
     setReleLine1(false);
     setMute(true); stringTo_diagnostic_Usart1("MUTE ON");
