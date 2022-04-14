@@ -415,24 +415,20 @@ void readButtonThread(void const *arg)
 #endif
 //новый код
     (void)arg;
-    uint8_t a = 1;
     PackageRx tempPack;
     tempPack.packetType = GPIO::getInstance()->button;
 
-    GPIO_TypeDef * arrPortId[1] = {GPIOG}; //Изменил здесь
     while(true)
     {
-        uint8_t portId = 0;
         for (uint8_t i = 0; i < GPIO::getInstance()->sPinArray.size() ; ++i)
         {
-            if (i > 2)  portId = 1;
             uint16_t n = GPIO::getInstance()->sPinArray[i].n,
             k = GPIO::getInstance()->sPinArray[i].i;
 
-            if (HAL_GPIO_ReadPin(arrPortId[portId], GPIO::getInstance()->sPinArray[i].n) == GPIO_PIN_SET)
+            if (HAL_GPIO_ReadPin(GPIOG, GPIO::getInstance()->sPinArray[i].n) == GPIO_PIN_SET)
             {
                 osDelay(50);
-                if (HAL_GPIO_ReadPin(arrPortId[portId], GPIO::getInstance()->sPinArray[i].n)  == GPIO_PIN_SET)
+                if (HAL_GPIO_ReadPin(GPIOG, GPIO::getInstance()->sPinArray[i].n)  == GPIO_PIN_SET)
                 {
                     n = GPIO::getInstance()->sPinArray[i].i;
                     tempPack.payloadData = n;
@@ -475,11 +471,22 @@ extern "C" {
   */
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
+#if 00
     if (GPIO_Pin == GPIO_PIN_11) {
         HAL_GPIO_WritePin(GPIOG, GPIO_PIN_13, GPIO_PIN_SET);
         GPIO::getInstance()->testFlag = true;
         osSignalSet(GPIO::getInstance()->createTestTaskThreadId, 0x03);
     }
+#endif
+//новый код
+    if (GPIO_Pin == GPIO_PIN_5)
+    {
+        HAL_GPIO_WritePin(GPIOB, GPIO_PIN_9, GPIO_PIN_SET);
+        GPIO::getInstance()->testFlag = true;
+        osSignalSet(GPIO::getInstance()->createTestTaskThreadId, 0x03);
+    }
+
+//конец нового кода
 
 //    else if (GPIO_Pin == GPIO_PIN_14) {
 //        if (GPIO::getInstance()->dacDriverGainValue < 29)
