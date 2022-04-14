@@ -2,24 +2,28 @@ cmake_minimum_required(VERSION 3.15)
 set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
 
 # Set ARM compiler
-set(TOOLS_PATH /home/evg/toolchain/gcc-arm-none-eabi-new)
-set(CMAKE_C_COMPILER ${TOOLS_PATH}/bin/arm-none-eabi-gcc)
-set(CMAKE_CXX_COMPILER ${TOOLS_PATH}/bin/arm-none-eabi-g++)
+#set(TOOLS_PATH /home/evg/toolchain/gcc-arm-none-eabi-new)
+#set(CMAKE_C_COMPILER ${TOOLS_PATH}/bin/arm-none-eabi-gcc)
+#set(CMAKE_CXX_COMPILER ${TOOLS_PATH}/bin/arm-none-eabi-g++)
 set(CMAKE_CXX_LINKER_LAUNCHER ${TOOLS_PATH}/bin/arm-none-eabi-g++)
 set(CMAKE_OBJCOPY ${TOOLS_PATH}/bin/arm-none-eabi-objcopy)
 
 project(4_promwad2 C CXX ASM)
 
+add_definitions(-DSTM32F777xx)
+
 #set(CMAKE_BUILD_TYPE debug)
 #set(CMAKE_BUILD_TYPE release)
 
 set (DRV_CMSYS "Drivers/CMSIS_STM32F7xx")
-set (DRV_CMSYS_CORE ${DRV_CMSYS}"/Core")
-set (DRV_CMSYS_DSP ${DRV_CMSYS}"/DSP")
-set (DRV_CMSYS_Device ${DRV_CMSYS}"/Device/ST/STM32F7xx")
+set (DRV_CMSYS_CORE ${DRV_CMSYS}/Core)
+set (DRV_CMSYS_DSP ${DRV_CMSYS}/DSP)
+set (DRV_CMSYS_Device ${DRV_CMSYS}/Device/ST/STM32F7xx)
 set (DRV_HAL "Drivers/STM32F7xx_HAL_Driver")
 set (Third_Party "Middlewares/Third_Party")
 set (LwIP ${Third_Party}"/LwIP")
+
+
 
 include_directories(
     ${DRV_CMSYS_CORE}/Include
@@ -28,37 +32,45 @@ include_directories(
     ${DRV_CMSYS}/Include
     ${DRV_HAL}/Inc
     ${DRV_HAL}/Inc/Legacy
+    ${Third_Party}/CircularBuffer
+    ${Third_Party}/FreeRTOS/Source/CMSIS_RTOS_V2
+    ${Third_Party}/FreeRTOS/Source/include
+    ${Third_Party}/FreeRTOS/Source/portable/GCC/ARM_CM7/r0p1
     Inc
     startup
     )
 
+message("${DRV_CMSYS_Device}/Include")
+message(${DRV_CMSYS_Device}/Include)
+
+
 set (SRC "Src/")
-set (AUDIO ${SRC}"AUDIO")
-set (BSP ${SRC}"BSP")
-set (Bootloader ${SRC}"Bootloader")
-set (CAN_Command ${SRC}"CAN_Command")
-set (CAN_STM32Fxx ${SRC}"CAN_STM32Fxx")
-set (CRC16_CCITT ${SRC}"CRC16_CCITT")
-set (Call_control ${SRC}"Call_control")
-set (Call_control_for_SC2_board ${SRC}"Call_control_for_SC2_board")
-set (EEPROM ${SRC}"EEPROM")
-set (GPIO_SC2_BOARD ${SRC}"GPIO_SC2_BOARD")
-set (GPIO_STM32F7xx ${SRC}"GPIO_STM32F7xx")
-set (JSON ${SRC}"JSON")
-set (RS232 ${SRC}"RS232")
-set (RTC ${SRC}"RTC")
-set (RTP ${SRC}"RTP")
-set (SNTP ${SRC}"SNTP")
-set (SRAM ${SRC}"SRAM")
-set (Src_Bootloader ${SRC}"Src_Bootloader")
-set (TRNG ${SRC}"TRNG")
-set (Tests ${SRC}"Tests")
-set (UDP_JSON ${SRC}"UDP_JSON")
-set (UpdateMechanism ${SRC}"UpdateMechanism")
-set (WDT ${SRC}"WDT")
-set (c-ringbuf ${SRC}"c-ringbuf")
-set (flash ${SRC}"flash")
-set (uid ${SRC}"uid")
+set (AUDIO ${SRC}AUDIO)
+set (BSP ${SRC}BSP)
+set (Bootloader ${SRC}Bootloader)
+set (CAN_Command ${SRC}CAN_Command)
+set (CAN_STM32Fxx ${SRC}CAN_STM32Fxx)
+set (CRC16_CCITT ${SRC}CRC16_CCITT)
+set (Call_control ${SRC}Call_control)
+set (Call_control_for_SC2_board ${SRC}Call_control_for_SC2_board)
+set (EEPROM ${SRC}EEPROM)
+set (GPIO_SC2_BOARD ${SRC}GPIO_SC2_BOARD)
+set (GPIO_STM32F7xx ${SRC}GPIO_STM32F7xx)
+set (JSON ${SRC}JSON)
+set (RS232 ${SRC}RS232)
+set (RTC ${SRC}RTC)
+set (RTP ${SRC}RTP)
+set (SNTP ${SRC}SNTP)
+set (SRAM ${SRC}SRAM)
+set (Src_Bootloader ${SRC}Src_Bootloader)
+set (TRNG ${SRC}TRNG)
+set (Tests ${SRC}Tests)
+set (UDP_JSON ${SRC}UDP_JSON)
+set (UpdateMechanism ${SRC}UpdateMechanism)
+set (WDT ${SRC}WDT)
+set (c-ringbuf ${SRC}c-ringbuf)
+set (flash ${SRC}flash)
+set (uid ${SRC}uid)
 
 include_directories(
     ${AUDIO}
@@ -149,10 +161,11 @@ include_directories(
 #    ${Third_Party_SRC}
 #    )
 
+message("AUDIO")
+message(${AUDIO})
 
 
-
-file (GLOB SOURCES
+file (GLOB_RECURSE SOURCES
     ${AUDIO}/*.cpp
     ${BSP}/*.c
     ${Bootloader}/*.cpp
@@ -209,6 +222,10 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}\
 add_executable(${PROJECT_NAME}.elf
     ${SOURCES}
     )
+
+
+message("SOURCES")
+message(${SOURCES})
 
 #set_target_properties(${PROJECT_NAME}.elf PROPERTIES LINKER_LANGUAGE C)
 set_target_properties(${PROJECT_NAME}.elf PROPERTIES LINKER_LANGUAGE CXX)
