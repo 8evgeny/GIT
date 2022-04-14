@@ -60,6 +60,7 @@ void GPIOInit(void)
     if (!READ_BIT(RCC->AHB1ENR, RCC_AHB1ENR_GPIOGEN)) __HAL_RCC_GPIOG_CLK_ENABLE();
     if (!READ_BIT(RCC->AHB1ENR, RCC_AHB1ENR_GPIOFEN)) __HAL_RCC_GPIOF_CLK_ENABLE();
 
+#if 00 //Инициализация promwad
     /*##-2- Configure GPIO for CFG ##########################################*/
     /* GPIO pin configuration  */
     GPIO_InitStruct.Pin       = GPIO_PIN_10 | GPIO_PIN_11 | GPIO_PIN_12 | //CFG resistors
@@ -133,6 +134,45 @@ void GPIOInit(void)
     GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
     HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+#endif
+//новый код
+    //Выходы L1 - L6
+    GPIO_InitStruct.Pin       = GPIO_PIN_10 | GPIO_PIN_11 | GPIO_PIN_12 ; //L1 L2 L3
+    GPIO_InitStruct.Mode      = GPIO_MODE_OUTPUT_PP;
+    GPIO_InitStruct.Pull      = GPIO_NOPULL;
+    GPIO_InitStruct.Speed     = GPIO_SPEED_LOW;
+    HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+    HAL_GPIO_WritePin(GPIOC, GPIO_PIN_10 | GPIO_PIN_11 | GPIO_PIN_12, GPIO_PIN_SET);
+
+    GPIO_InitStruct.Pin       = GPIO_PIN_6 | GPIO_PIN_7 | GPIO_PIN_8 ; //L4 L5 L6
+    GPIO_InitStruct.Mode      = GPIO_MODE_OUTPUT_PP;
+    GPIO_InitStruct.Pull      = GPIO_NOPULL;
+    GPIO_InitStruct.Speed     = GPIO_SPEED_LOW;
+    HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
+    HAL_GPIO_WritePin(GPIOG, GPIO_PIN_6 | GPIO_PIN_7 | GPIO_PIN_8, GPIO_PIN_SET);
+
+    // Входы - Рычаги
+    GPIO_InitStruct.Pin       = GPIO_PIN_9 |  GPIO_PIN_10 | GPIO_PIN_11 |
+                                GPIO_PIN_12 |  GPIO_PIN_13 | GPIO_PIN_14 ;
+    GPIO_InitStruct.Mode      = GPIO_MODE_INPUT;
+    GPIO_InitStruct.Pull      = GPIO_NOPULL;
+    GPIO_InitStruct.Speed     = GPIO_SPEED_LOW;
+    HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
+
+    // Кнопка TEST - Режим прерывания
+    GPIO_InitStruct.Pin       = GPIO_PIN_5;
+    GPIO_InitStruct.Mode      = GPIO_MODE_IT_FALLING;
+    GPIO_InitStruct.Pull      = GPIO_NOPULL;
+    HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+
+    // Led TEST
+    GPIO_InitStruct.Pin       = GPIO_PIN_9;
+    GPIO_InitStruct.Mode      = GPIO_MODE_OUTPUT_PP;
+    GPIO_InitStruct.Pull      = GPIO_NOPULL;
+    GPIO_InitStruct.Speed     = GPIO_SPEED_LOW;
+    HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+    HAL_GPIO_WritePin(GPIOB, GPIO_PIN_9, GPIO_PIN_RESET);
+//конец нового кода
 
     /* EXTI interrupt init*/
     HAL_NVIC_SetPriority(EXTI2_IRQn, 5, 0);
@@ -314,21 +354,39 @@ void switchLEDsThread(void const *arg)
     while(true) {
         for(uint8_t i = 0; i < 6; ++i) {
 
-            if (GPIO::getInstance()->aLeds[i].ledState) {
+#if 00
+            if (GPIO::getInstance()->aLeds[i].ledState)
+            {
                 if (i > 2) HAL_GPIO_WritePin(GPIOF, GPIO::getInstance()->aLeds[i].ledPin, GPIO_PIN_RESET);
                 else HAL_GPIO_WritePin(GPIOA, GPIO::getInstance()->aLeds[i].ledPin, GPIO_PIN_RESET);
-            } else {
+            } else
+            {
                 if (i > 2) HAL_GPIO_WritePin(GPIOF, GPIO::getInstance()->aLeds[i].ledPin, GPIO_PIN_SET);
                 else HAL_GPIO_WritePin(GPIOA, GPIO::getInstance()->aLeds[i].ledPin, GPIO_PIN_SET);
             }
+#endif
+//новый код
+            if (GPIO::getInstance()->aLeds[i].ledState)
+            {
+                if (i > 2) HAL_GPIO_WritePin(GPIOG, GPIO::getInstance()->aLeds[i].ledPin, GPIO_PIN_RESET);
+                else HAL_GPIO_WritePin(GPIOC, GPIO::getInstance()->aLeds[i].ledPin, GPIO_PIN_RESET);
+            } else
+            {
+                if (i > 2) HAL_GPIO_WritePin(GPIOG, GPIO::getInstance()->aLeds[i].ledPin, GPIO_PIN_SET);
+                else HAL_GPIO_WritePin(GPIOC, GPIO::getInstance()->aLeds[i].ledPin, GPIO_PIN_SET);
+            }
+//конец нового кода
+
         }
         osDelay(1);
     }
 }
 
+
 [[ noreturn ]]
 void readButtonThread(void const *arg)
 {
+#if 00
     (void)arg;
     uint8_t a = 1;
     PackageRx tempPack;
@@ -354,6 +412,35 @@ void readButtonThread(void const *arg)
                     osMutexWait(GPIO::getInstance()->mutexRingBufferRx_id, osWaitForever);
                     GPIO::getInstance()->ringBufferRx.push(tempPack);
                     osMutexRelease(GPIO::getInstance()->mutexRingBufferRx_id);
+#endif
+//новый код
+    (void)arg;
+    uint8_t a = 1;
+    PackageRx tempPack;
+    tempPack.packetType = GPIO::getInstance()->button;
+
+    GPIO_TypeDef * arrPortId[1] = {GPIOG}; //Изменил здесь
+    while(true)
+    {
+        uint8_t portId = 0;
+        for (uint8_t i = 0; i < GPIO::getInstance()->sPinArray.size() ; ++i)
+        {
+            if (i > 2)  portId = 1;
+            uint16_t n = GPIO::getInstance()->sPinArray[i].n,
+            k = GPIO::getInstance()->sPinArray[i].i;
+
+            if (HAL_GPIO_ReadPin(arrPortId[portId], GPIO::getInstance()->sPinArray[i].n) == GPIO_PIN_SET)
+            {
+                osDelay(50);
+                if (HAL_GPIO_ReadPin(arrPortId[portId], GPIO::getInstance()->sPinArray[i].n)  == GPIO_PIN_SET)
+                {
+                    n = GPIO::getInstance()->sPinArray[i].i;
+                    tempPack.payloadData = n;
+
+                    osMutexWait(GPIO::getInstance()->mutexRingBufferRx_id, osWaitForever);
+                    GPIO::getInstance()->ringBufferRx.push(tempPack);
+                    osMutexRelease(GPIO::getInstance()->mutexRingBufferRx_id);
+//конец нового кода
 
 //                    osMessagePut(GPIO::getInstance()->message_q_id, n, osWaitForever);
                 }
