@@ -23,7 +23,7 @@ CppApplication  {
 
     property bool IsStm32f1: false
     property bool IsStm32f7: true
-    property bool SC2board: false
+    property bool SC2board: true
 
     property string nameOfBoard: "ST"
 
