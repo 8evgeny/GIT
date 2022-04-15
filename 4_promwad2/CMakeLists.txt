@@ -38,6 +38,14 @@ if(${Board_name} STREQUAL SC4)
         ${SRC}/../syscalls.c
         )
 endif()
+if(${Board_name} STREQUAL SC2)
+#    file (GLOB SRC_src
+#        ${SRC}/*.c
+#        ${SRC}/main.cpp
+#        ${SRC}/flash_diskio.cpp
+#        ${SRC}/../syscalls.c
+        )
+endif()
 
 include_directories( ${INC} )
 
@@ -105,23 +113,23 @@ set (RS232  ${SRC}RS232)
 file (GLOB RS232_src ${RS232}/*.cpp ${RS232}/*.c)
 include_directories( ${RS232} )
 
-#if(${Board_name} STREQUAL SC4)
+if(${Board_name} STREQUAL SC4)
     set (CAN_STM32F7xx  ${SRC}CAN_STM32F7xx)
     file (GLOB CAN_STM32F7xx_src ${CAN_STM32F7xx}/*.cpp )
     include_directories( ${CAN_STM32F7xx} )
-#endif()
+endif()
 
-#if(${Board_name} STREQUAL SC4)
+if(${Board_name} STREQUAL SC4)
     set (GPIO_STM32F7xx  ${SRC}GPIO_STM32F7xx)
     file (GLOB GPIO_STM32F7xx_src ${GPIO_STM32F7xx}/*.cpp )
     include_directories( ${GPIO_STM32F7xx} )
-#endif()
+endif()
 
-#if(${Board_name} STREQUAL SC2)
+if(${Board_name} STREQUAL SC2)
     set (GPIO_SC2_BOARD  ${SRC}GPIO_SC2_BOARD)
     file (GLOB GPIO_SC2_BOARD_src ${GPIO_SC2_BOARD}/*.cpp )
     include_directories( ${GPIO_SC2_BOARD} )
-#endif()
+endif()
 
 set (RTC  ${SRC}RTC)
 file (GLOB RTC_src ${RTC}/*.cpp )
@@ -254,37 +262,37 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}\
 add_executable(${PROJECT_NAME}.elf
     ${FatFs_src}
 #    ${Bootloader_src}
-    ${UpdateMechanism_src}
-    ${EEPROM_src}
+#    ${UpdateMechanism_src}
+#    ${EEPROM_src}
 #    ${TraceRecorder_src}
-    ${Tests_src}
-    ${UID_src}
-    ${RTT_src}
+#    ${Tests_src}
+#    ${UID_src}
+#    ${RTT_src}
 #    ${RTP_src}
-    ${WDT_src}
-    ${RTC_src}
+#    ${WDT_src}
+#    ${RTC_src}
 #    ${AUDIO_src}
 #    ${Flash_src}
-    ${TRNG_src}
-    ${Debug_src}
-    ${RS232_src}
-    ${CAN_STM32F7xx_src}
-    ${GPIO_STM32F7xx_src}
-    ${GPIO_SC2_BOARD_src}
-    ${RTC_src}
-    ${SRAM_src}
-    ${JSON_src}
-    ${UDP_JSON_src}
-    ${LwIP_src}
-    ${littlefs_src}
-    ${CircularBuffer_src}
-    ${CMSIS_RTOS_src}
-    ${STM32F7xx_HAL_src}
-    ${Call_Control_src}
-    ${SNTP_src}
-    ${SRC_src}
-    ${startup_src}
-    ${LD_src}
+#    ${TRNG_src}
+#    ${Debug_src}
+#    ${RS232_src}
+#    ${CAN_STM32F7xx_src}
+#    ${GPIO_STM32F7xx_src}
+#    ${GPIO_SC2_BOARD_src}
+#    ${RTC_src}
+#    ${SRAM_src}
+#    ${JSON_src}
+#    ${UDP_JSON_src}
+#    ${LwIP_src}
+#    ${littlefs_src}
+#    ${CircularBuffer_src}
+#    ${CMSIS_RTOS_src}
+#    ${STM32F7xx_HAL_src}
+#    ${Call_Control_src}
+#    ${SNTP_src}
+#    ${SRC_src}
+#    ${startup_src}
+#    ${LD_src}
     )
 
 if(${Board_name} STREQUAL SC4)
@@ -311,15 +319,16 @@ if(${Board_name} STREQUAL SC2)
 endif()
 
 
-#if(${Board_name} STREQUAL SC2)
+if(${Board_name} STREQUAL SC2)
     include_directories(
         ${FreeRTOS}/Source/include
         ${FreeRTOS}/Source/portable/GCC/ARM_CM7/r0p1
         ${FreeRTOS}/Source/CMSIS_RTOS
         Drivers/CMSIS_STM32F7xx/DSP/Include
         ${CMAKE_HOME_DIRECTORY}/Drivers/CMSIS_STM32F7xx/Core/Include
+        Src/CAN_STM32F7xx
         )
-#endif()
+endif()
 
 
 
