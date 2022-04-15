@@ -14,8 +14,12 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-
+set (Board_name SC2)
+set (HeapVersion 4)
+#set (HeapVersion 5)
+#set (Board_name SC4)
 add_definitions(-DSTM32F777xx)
+
 
 #set(CMAKE_BUILD_TYPE debug)
 #set(CMAKE_BUILD_TYPE release)
@@ -26,25 +30,14 @@ set (DRV_CMSYS_DSP ${DRV_CMSYS}/DSP)
 set (DRV_CMSYS_Device ${DRV_CMSYS}/Device/ST/STM32F7xx)
 set (DRV_HAL "Drivers/STM32F7xx_HAL_Driver")
 set (Third_Party "Middlewares/Third_Party")
-set (LwIP ${Third_Party}/LwIP)
-set (FreeRTOS ${Third_Party}/FreeRTOS/Source)
-
 
 set (SRC "Src/")
 set (BSP ${SRC}BSP)
 set (CAN_Command ${SRC}CAN_Command)
-set (CAN_STM32Fxx ${SRC}CAN_STM32Fxx)
 set (CRC16_CCITT ${SRC}CRC16_CCITT)
 set (Call_control ${SRC}Call_control)
 set (Call_control_for_SC2_board ${SRC}Call_control_for_SC2_board)
-set (EEPROM ${SRC}EEPROM)
-set (GPIO_SC2_BOARD ${SRC}GPIO_SC2_BOARD)
-set (GPIO_STM32F7xx ${SRC}GPIO_STM32F7xx)
-set (JSON ${SRC}JSON)
-set (RS232 ${SRC}RS232)
 set (SNTP ${SRC}SNTP)
-set (SRAM ${SRC}SRAM)
-set (UDP_JSON ${SRC}UDP_JSON)
 set (c-ringbuf ${SRC}c-ringbuf)
 
 include_directories(
@@ -54,56 +47,30 @@ include_directories(
     ${DRV_CMSYS}/Include
     ${DRV_HAL}/Inc
     ${DRV_HAL}/Inc/Legacy
-    ${Third_Party}/CircularBuffer
     ${FreeRTOS}/CMSIS_RTOS_V2
     ${FreeRTOS}/include
     ${FreeRTOS}/portable/GCC/ARM_CM7/r0p1
-    ${LwIP}/src/include
-    ${LwIP}/system
     Src/CAN_STM32F7xx
     Inc
     startup
     ${BSP}
-    ${Bootloader}
     ${Bootloader}/AES128
     ${Bootloader}/MD5
     ${CAN_Command}
-    ${CAN_STM32Fxx}
     ${CRC16_CCITT}
     ${Call_control}
     ${Call_control_for_SC2_board}
-    ${EEPROM}
-    ${GPIO_SC2_BOARD}
-    ${GPIO_STM32F7xx}
-    ${JSON}
     ${SNTP}
-    ${SRAM}
-    ${UDP_JSON}
     ${c-ringbuf}
     )
 
 set (FatFs ${Third_Party}/FatFs)
-file (GLOB_RECURSE FatFs_src
-    ${FatFs}/src/*.c
-    ${FatFs}/src/option/syscall.c
-    ${FatFs}/src/option/unicode.c
-    )
-include_directories(
-    ${FatFs}
-    ${FatFs}/src
-    )
+file (GLOB_RECURSE FatFs_src ${FatFs}/src/*.c ${FatFs}/src/option/syscall.c ${FatFs}/src/option/unicode.c )
+include_directories(${FatFs} ${FatFs}/src )
 
 set (Bootloader ${SRC}Bootloader)
-file (GLOB_RECURSE Bootloader_src
-    ${Bootloader}/*.cpp
-    ${Bootloader}/MD5/*.cpp
-    ${Bootloader}/AES128/*.c
-    )
-include_directories(
-    ${Bootloader}
-    ${Bootloader}/MD5
-    ${Bootloader}/AES128
-    )
+file (GLOB_RECURSE Bootloader_src ${Bootloader}/*.cpp ${Bootloader}/MD5/*.cpp ${Bootloader}/AES128/*.c )
+include_directories(${Bootloader} ${Bootloader}/MD5 ${Bootloader}/AES128 )
 
 set (UpdateMechanism  ${SRC}UpdateMechanism)
 file (GLOB UpdateMechanism_src ${UpdateMechanism}/*.cpp)
@@ -114,15 +81,8 @@ file (GLOB_RECURSE EEPROM_src ${EEPROM}/*.cpp ${EEPROM}/*.c )
 include_directories(${EEPROM})
 
 set (TraceRecorder  "Tracealyzer-4.2.12-linux64/FreeRTOS/TraceRecorder")
-file (GLOB_RECURSE TraceRecorder_src
-    ${TraceRecorder}/*.c
-    ${TraceRecorder}/streamports/TCPIP/*.c
-    )
-include_directories(
-    ${TraceRecorder}/streamports/TCPIP/include
-    ${TraceRecorder}/include
-    ${TraceRecorder}/config
-    )
+file (GLOB_RECURSE TraceRecorder_src ${TraceRecorder}/*.c ${TraceRecorder}/streamports/TCPIP/*.c )
+include_directories(${TraceRecorder}/streamports/TCPIP/include ${TraceRecorder}/include ${TraceRecorder}/config )
 
 set (Tests  ${SRC}Tests)
 file (GLOB Tests_src ${Tests}/*.cpp )
@@ -156,25 +116,103 @@ set (TRNG  ${SRC}TRNG)
 file (GLOB TRNG_src ${TRNG}/*.cpp )
 include_directories( ${TRNG} )
 
+set (Debug  ${SRC}Debug)
+file (GLOB Debug_src ${Debug}/*.cpp ${Debug}/*.c)
+include_directories( ${Debug} )
+
+set (RS232  ${SRC}RS232)
+file (GLOB RS232_src ${RS232}/*.cpp ${RS232}/*.c)
+include_directories( ${RS232} )
+
+if(${Board_name} STREQUAL SC4)
+    set (CAN_STM32F7xx  ${SRC}CAN_STM32F7xx)
+    file (GLOB CAN_STM32F7xx_src ${CAN_STM32F7xx}/*.cpp )
+    include_directories( ${CAN_STM32F7xx} )
+endif()
+
+if(${Board_name} STREQUAL SC4)
+    set (GPIO_STM32F7xx  ${SRC}GPIO_STM32F7xx)
+    file (GLOB GPIO_STM32F7xx_src ${GPIO_STM32F7xx}/*.cpp )
+    include_directories( ${GPIO_STM32F7xx} )
+endif()
+
+if(${Board_name} STREQUAL SC2)
+    set (GPIO_SC2_BOARD  ${SRC}GPIO_SC2_BOARD)
+    file (GLOB GPIO_SC2_BOARD_src ${GPIO_SC2_BOARD}/*.cpp )
+    include_directories( ${GPIO_SC2_BOARD} )
+endif()
+
+set (RTC  ${SRC}RTC)
+file (GLOB RTC_src ${RTC}/*.cpp )
+include_directories( ${RTC} )
+
+set (SRAM  ${SRC}SRAM)
+file (GLOB SRAM_src ${SRAM}/*.cpp )
+include_directories( ${SRAM} )
+
+set (JSON  ${SRC}JSON)
+file (GLOB JSON_src ${JSON}/*.cpp )
+include_directories( ${JSON} )
+
+set (UDP_JSON  ${SRC}UDP_JSON)
+file (GLOB UDP_JSON_src ${UDP_JSON}/*.cpp )
+include_directories( ${UDP_JSON} )
+
+set (LwIP ${Third_Party}/LwIP)
+file (GLOB_RECURSE LwIP_src
+    ${LwIP}/src/netif/*.c
+    ${LwIP}/src/api/*.c
+    ${LwIP}/src/apps/sntp/*.c
+    ${LwIP}/src/core/*.c
+    ${LwIP}/src/api/*.c
+    ${LwIP}/src/core/ipv4/*.c
+    ${LwIP}/system/OS/*.c
+    )
+include_directories(
+    ${LwIP}/src/include/*/*.h
+    ${LwIP}/src/include/*/*/*.h
+    ${LwIP}/system/*.h
+    ${LwIP}/system/OS/*.h
+    ${LwIP}/system/*.h
+    )
+
+set (littlefs ${Third_Party}/littlefs)
+file (GLOB littlefs_src ${littlefs}/*.c )
+include_directories( ${littlefs} )
+
+set (ArduinoJson ${Third_Party}/ArduinoJson)
+include_directories( ${ArduinoJson} )
+
+set (CircularBuffer ${Third_Party}/CircularBuffer)
+file (GLOB CircularBuffer_src ${CircularBuffer}/*.c )
+include_directories( ${CircularBuffer} )
+
+if(${HeapVersion} EQUAL 4)
+    set (FreeRTOS ${Third_Party}/FreeRTOS)
+    file (GLOB FreeRTOS_src ${FreeRTOS}/Source/portable/MemMang/heap_4.c )
+endif()
+
+if(${HeapVersion} EQUAL 5)
+    set (FreeRTOS ${Third_Party}/FreeRTOS)
+    file (GLOB FreeRTOS_src ${FreeRTOS}/Source/portable/MemMang/heap_5.c )
+endif()
+
+set (CMSIS_RTOS ${Third_Party}/FreeRTOS/CMSIS_RTOS)
+file (GLOB CMSIS_RTOS_src ${CMSIS_RTOS}/*.c )
+include_directories( ${CMSIS_RTOS} )
+#STM32F7xx_HAL
+
+
+
 
 file (GLOB_RECURSE SOURCES
     ${BSP}/*.c
     ${Bootloader}/*.cpp
     ${CAN_Command}/*.cpp
-    ${CAN_STM32Fxx}/*.cpp
     ${CRC16_CCITT}/*.cpp
     ${Call_control}/*.cpp
     ${Call_control_for_SC2_board}/*.cpp
-    ${EEPROM}/*.cpp
-    ${EEPROM}/*.c
-    ${GPIO_SC2_BOARD}/*.cpp
-    ${GPIO_STM32F7xx}/*.cpp
-    ${JSON}/*.cpp
-    ${RS232}/*.cpp
-    ${RS232}/*.c
     ${SNTP}/*.cpp
-    ${SRAM}/*.cpp
-    ${UDP_JSON}/*.cpp
     STM32F746NGHx_FLASH.ld
     )
 
@@ -214,6 +252,24 @@ add_executable(${PROJECT_NAME}.elf
     ${AUDIO_src}
     ${Flash_src}
     ${TRNG_src}
+    ${Debug_src}
+    ${RS232_src}
+    ${CAN_STM32F7xx_src}
+    ${GPIO_STM32F7xx_src}
+    ${GPIO_SC2_BOARD_src}
+    ${RTC_src}
+    ${SRAM_src}
+    ${JSON_src}
+    ${UDP_JSON_src}
+    ${LwIP_src}
+    ${littlefs_src}
+    ${CircularBuffer_src}
+    ${CMSIS_RTOS_src}
+    ${}
+    ${}
+    ${}
+    ${}
+    ${}
     )
 
 
