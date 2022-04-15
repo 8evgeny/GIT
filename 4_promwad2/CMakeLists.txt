@@ -31,9 +31,7 @@ set (FreeRTOS ${Third_Party}/FreeRTOS/Source)
 
 
 set (SRC "Src/")
-set (AUDIO ${SRC}AUDIO)
 set (BSP ${SRC}BSP)
-
 set (CAN_Command ${SRC}CAN_Command)
 set (CAN_STM32Fxx ${SRC}CAN_STM32Fxx)
 set (CRC16_CCITT ${SRC}CRC16_CCITT)
@@ -44,16 +42,10 @@ set (GPIO_SC2_BOARD ${SRC}GPIO_SC2_BOARD)
 set (GPIO_STM32F7xx ${SRC}GPIO_STM32F7xx)
 set (JSON ${SRC}JSON)
 set (RS232 ${SRC}RS232)
-set (RTC ${SRC}RTC)
-set (RTP ${SRC}RTP)
 set (SNTP ${SRC}SNTP)
 set (SRAM ${SRC}SRAM)
-set (TRNG ${SRC}TRNG)
 set (UDP_JSON ${SRC}UDP_JSON)
-set (WDT ${SRC}WDT)
 set (c-ringbuf ${SRC}c-ringbuf)
-set (flash ${SRC}flash)
-set (uid ${SRC}uid)
 
 include_directories(
     ${DRV_CMSYS_CORE}/Include
@@ -71,7 +63,6 @@ include_directories(
     Src/CAN_STM32F7xx
     Inc
     startup
-    ${AUDIO}
     ${BSP}
     ${Bootloader}
     ${Bootloader}/AES128
@@ -85,15 +76,10 @@ include_directories(
     ${GPIO_SC2_BOARD}
     ${GPIO_STM32F7xx}
     ${JSON}
-    ${RTC}
-    ${RTP}
     ${SNTP}
     ${SRAM}
-    ${TRNG}
     ${UDP_JSON}
-    ${WDT}
     ${c-ringbuf}
-    ${flash}
     )
 
 set (FatFs ${Third_Party}/FatFs)
@@ -120,18 +106,11 @@ include_directories(
     )
 
 set (UpdateMechanism  ${SRC}UpdateMechanism)
-file (GLOB_RECURSE UpdateMechanism_src
-    ${UpdateMechanism}/*.cpp
-    )
-include_directories(
-    ${UpdateMechanism}
-    )
+file (GLOB UpdateMechanism_src ${UpdateMechanism}/*.cpp)
+include_directories(${UpdateMechanism})
 
 set (EEPROM  ${SRC}EEPROM)
-file (GLOB_RECURSE EEPROM_src
-    ${EEPROM}/*.cpp
-    ${EEPROM}/*.c
-    )
+file (GLOB_RECURSE EEPROM_src ${EEPROM}/*.cpp ${EEPROM}/*.c )
 include_directories(${EEPROM})
 
 set (TraceRecorder  "Tracealyzer-4.2.12-linux64/FreeRTOS/TraceRecorder")
@@ -157,8 +136,28 @@ set (RTP  ${SRC}RTP)
 file (GLOB RTP_src ${RTP}/*.cpp )
 include_directories( ${RTP} )
 
+set (WDT  ${SRC}WDT)
+file (GLOB WDT_src ${WDT}/*.cpp )
+include_directories( ${WDT} )
+
+set (RTC  ${SRC}RTC)
+file (GLOB RTC_src ${WDT}/*.cpp )
+include_directories( ${RTC} )
+
+set (AUDIO  ${SRC}AUDIO)
+file (GLOB AUDIO_src ${AUDIO}/*.cpp )
+include_directories( ${AUDIO} )
+
+set (Flash  ${SRC}flash)
+file (GLOB Flash_src ${Flash}/*.cpp )
+include_directories( ${Flash} )
+
+set (TRNG  ${SRC}TRNG)
+file (GLOB TRNG_src ${TRNG}/*.cpp )
+include_directories( ${TRNG} )
+
+
 file (GLOB_RECURSE SOURCES
-    ${AUDIO}/*.cpp
     ${BSP}/*.c
     ${Bootloader}/*.cpp
     ${CAN_Command}/*.cpp
@@ -173,14 +172,9 @@ file (GLOB_RECURSE SOURCES
     ${JSON}/*.cpp
     ${RS232}/*.cpp
     ${RS232}/*.c
-    ${RTC}/*.cpp
-    ${RTP}/*.cpp
     ${SNTP}/*.cpp
     ${SRAM}/*.cpp
-    ${TRNG}/*.cpp
     ${UDP_JSON}/*.cpp
-    ${WDT}/*.cpp
-    ${flash}/*.cpp
     STM32F746NGHx_FLASH.ld
     )
 
@@ -214,6 +208,12 @@ add_executable(${PROJECT_NAME}.elf
     ${TraceRecorder_src}
     ${Tests_src}
     ${UID_src}
+    ${RTP_src}
+    ${WDT_src}
+    ${RTC_src}
+    ${AUDIO_src}
+    ${Flash_src}
+    ${TRNG_src}
     )
 
 
