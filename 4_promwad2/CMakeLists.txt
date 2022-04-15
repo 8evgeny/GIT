@@ -69,6 +69,10 @@ set (UID  ${SRC}uid)
 file (GLOB UID_src ${UID}/*.cpp )
 include_directories(${UID})
 
+set (RTT  ${CMAKE_HOME_DIRECTORY}/RTT)
+file (GLOB RTT_src ${RTT}/*.c )
+include_directories( ${RTT} )
+
 set (RTP  ${SRC}RTP)
 file (GLOB RTP_src ${RTP}/*.cpp )
 include_directories( ${RTP} )
@@ -101,23 +105,23 @@ set (RS232  ${SRC}RS232)
 file (GLOB RS232_src ${RS232}/*.cpp ${RS232}/*.c)
 include_directories( ${RS232} )
 
-if(${Board_name} STREQUAL SC4)
+#if(${Board_name} STREQUAL SC4)
     set (CAN_STM32F7xx  ${SRC}CAN_STM32F7xx)
     file (GLOB CAN_STM32F7xx_src ${CAN_STM32F7xx}/*.cpp )
     include_directories( ${CAN_STM32F7xx} )
-endif()
+#endif()
 
-if(${Board_name} STREQUAL SC4)
+#if(${Board_name} STREQUAL SC4)
     set (GPIO_STM32F7xx  ${SRC}GPIO_STM32F7xx)
     file (GLOB GPIO_STM32F7xx_src ${GPIO_STM32F7xx}/*.cpp )
     include_directories( ${GPIO_STM32F7xx} )
-endif()
+#endif()
 
-if(${Board_name} STREQUAL SC2)
+#if(${Board_name} STREQUAL SC2)
     set (GPIO_SC2_BOARD  ${SRC}GPIO_SC2_BOARD)
     file (GLOB GPIO_SC2_BOARD_src ${GPIO_SC2_BOARD}/*.cpp )
     include_directories( ${GPIO_SC2_BOARD} )
-endif()
+#endif()
 
 set (RTC  ${SRC}RTC)
 file (GLOB RTC_src ${RTC}/*.cpp )
@@ -151,6 +155,10 @@ include_directories(
     ${LwIP}/system/*.h
     ${LwIP}/system/OS/*.h
     ${LwIP}/system/*.h
+    ${LwIP}/src/include
+    ${LwIP}/system
+    ${LwIP}/system/OS
+    ${LwIP}/src
     )
 
 set (littlefs ${Third_Party}/littlefs)
@@ -158,7 +166,7 @@ file (GLOB littlefs_src ${littlefs}/*.c )
 include_directories( ${littlefs} )
 
 set (ArduinoJson ${Third_Party}/ArduinoJson)
-include_directories( ${ArduinoJson} )
+include_directories( ${ArduinoJson} ${ArduinoJson}/src ${ArduinoJson}/src/ArduinoJson)
 
 set (CircularBuffer ${Third_Party}/CircularBuffer)
 file (GLOB CircularBuffer_src ${CircularBuffer}/*.c )
@@ -215,8 +223,7 @@ set (SNTP  ${SRC}SNTP)
 file (GLOB SNTP_src ${SNTP}/*.cpp )
 include_directories( ${SNTP} )
 
-set (INC  ${SRC}Inc)
-include_directories( ${INC} )
+include_directories( Inc )
 
 set (startup  ${SRC}startup)
 file (GLOB startup_src ${startup}/startup_stm32f777xx.s )
@@ -246,17 +253,18 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}\
 
 add_executable(${PROJECT_NAME}.elf
     ${FatFs_src}
-    ${Bootloader_src}
+#    ${Bootloader_src}
     ${UpdateMechanism_src}
     ${EEPROM_src}
-    ${TraceRecorder_src}
+#    ${TraceRecorder_src}
     ${Tests_src}
     ${UID_src}
-    ${RTP_src}
+    ${RTT_src}
+#    ${RTP_src}
     ${WDT_src}
     ${RTC_src}
-    ${AUDIO_src}
-    ${Flash_src}
+#    ${AUDIO_src}
+#    ${Flash_src}
     ${TRNG_src}
     ${Debug_src}
     ${RS232_src}
@@ -282,8 +290,8 @@ add_executable(${PROJECT_NAME}.elf
 if(${Board_name} STREQUAL SC4)
     add_definitions(-DSTM32F777xx)
     add_definitions(-DUSE_HAL_DRIVER)
-    add_definitions(-D__weak=__attribute__((weak)))
-    add_definitions(-D__packed=__attribute__((__packed__)))
+#    add_definitions(-D__weak=__attribute__((weak)))
+#    add_definitions(-D__packed=__attribute__((__packed__)))
     add_definitions(-D__FPU_PRESENT=1)
     add_definitions(-DARM_MATH_CM7)
     add_definitions(-DHAVE_CONFIG_H)
@@ -294,19 +302,24 @@ endif()
 if(${Board_name} STREQUAL SC2)
     add_definitions(-DSTM32F777xx)
     add_definitions(-DUSE_HAL_DRIVER)
-    add_definitions(-D__weak=__attribute__((weak)))
-    add_definitions(-D__packed=__attribute__((__packed__)))
+#    add_definitions(-D__weak=__attribute__((weak)))
+#    add_definitions(-D__packed=__attribute__((__packed__)))
     add_definitions(-D__FPU_PRESENT=1)
     add_definitions(-DARM_MATH_CM7)
     add_definitions(-DHAVE_CONFIG_H)
     add_definitions(-DSC2BOARD)
 endif()
 
-include_directories(
-    /home/evg/SOFT/Github/GIT/4_promwad2/Drivers/CMSIS_STM32F7xx/Include
 
-    )
-
+#if(${Board_name} STREQUAL SC2)
+    include_directories(
+        ${FreeRTOS}/Source/include
+        ${FreeRTOS}/Source/portable/GCC/ARM_CM7/r0p1
+        ${FreeRTOS}/Source/CMSIS_RTOS
+        Drivers/CMSIS_STM32F7xx/DSP/Include
+        ${CMAKE_HOME_DIRECTORY}/Drivers/CMSIS_STM32F7xx/Core/Include
+        )
+#endif()
 
 
 
