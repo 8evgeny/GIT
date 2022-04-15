@@ -100,7 +100,6 @@ include_directories(
     ${uid}
     )
 
-
 #file (GLOB CORE_SOURCES
 #    Core/Src/*.c
 #    Drivers/BSP/Components/dp83848/dp83848.c
