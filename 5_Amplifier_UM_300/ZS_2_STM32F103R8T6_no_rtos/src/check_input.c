@@ -200,6 +200,7 @@ void fbtnRESET_ON()
 
     setErrorRele(false);
     setLedOverheatOut(false);
+    setLedOvercutOut(false);
 
     setRESET(true);
     vTaskDelay(pdMS_TO_TICKS(500));
