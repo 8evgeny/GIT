@@ -14,53 +14,32 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
+#Bootloader включен сейчас - написать выбор вкл/выкл
 set (Board_name SC2)
+#set (Board_name SC4)
+
 set (HeapVersion 4)
 #set (HeapVersion 5)
-#set (Board_name SC4)
+
 add_definitions(-DSTM32F777xx)
 
 
 #set(CMAKE_BUILD_TYPE debug)
 #set(CMAKE_BUILD_TYPE release)
 
-set (DRV_CMSYS "Drivers/CMSIS_STM32F7xx")
-set (DRV_CMSYS_CORE ${DRV_CMSYS}/Core)
-set (DRV_CMSYS_DSP ${DRV_CMSYS}/DSP)
-set (DRV_CMSYS_Device ${DRV_CMSYS}/Device/ST/STM32F7xx)
 set (Third_Party "Middlewares/Third_Party")
-
 set (SRC "Src/")
-set (BSP ${SRC}BSP)
-set (CAN_Command ${SRC}CAN_Command)
-set (CRC16_CCITT ${SRC}CRC16_CCITT)
-set (Call_control ${SRC}Call_control)
-set (Call_control_for_SC2_board ${SRC}Call_control_for_SC2_board)
-set (SNTP ${SRC}SNTP)
-set (c-ringbuf ${SRC}c-ringbuf)
 
-include_directories(
-    ${DRV_CMSYS_CORE}/Include
-    ${DRV_CMSYS_DSP}/Include
-    ${DRV_CMSYS_Device}/Include
-    ${DRV_CMSYS}/Include
+if(${Board_name} STREQUAL SC4)
+    file (GLOB SRC_src
+        ${SRC}/*.c
+        ${SRC}/main.cpp
+        ${SRC}/flash_diskio.cpp
+        ${SRC}/../syscalls.c
+        )
+endif()
 
-    ${FreeRTOS}/CMSIS_RTOS_V2
-    ${FreeRTOS}/include
-    ${FreeRTOS}/portable/GCC/ARM_CM7/r0p1
-    Src/CAN_STM32F7xx
-    Inc
-    startup
-    ${BSP}
-    ${Bootloader}/AES128
-    ${Bootloader}/MD5
-    ${CAN_Command}
-    ${CRC16_CCITT}
-    ${Call_control}
-    ${Call_control_for_SC2_board}
-    ${SNTP}
-    ${c-ringbuf}
-    )
+include_directories( ${INC} )
 
 set (FatFs ${Third_Party}/FatFs)
 file (GLOB_RECURSE FatFs_src ${FatFs}/src/*.c ${FatFs}/src/option/syscall.c ${FatFs}/src/option/unicode.c )
@@ -209,23 +188,40 @@ list(REMOVE_ITEM STM32F7xx_HAL_src
     )
 include_directories(${STM32F7xx_HAL}/Inc ${STM32F7xx_HAL}/Inc/Legacy )
 
-#message(${STM32F7xx_HAL_src})
-
-
-
-
-
-
-file (GLOB_RECURSE SOURCES
-    ${BSP}/*.c
-    ${Bootloader}/*.cpp
-    ${CAN_Command}/*.cpp
-    ${CRC16_CCITT}/*.cpp
-    ${Call_control}/*.cpp
-    ${Call_control_for_SC2_board}/*.cpp
-    ${SNTP}/*.cpp
-    STM32F746NGHx_FLASH.ld
+set (CMSIS_STM32F7xx "Drivers/CMSIS_STM32F7xx")
+file (GLOB_RECURSE CMSIS_STM32F7xx_src
+    ${CMSIS_STM32F7xx}/Device/ST/STM32F7xx/Source/Templates/*
+    ${CMSIS_STM32F7xx}/DSP/Source/SupportFunctions/*.c
+    ${CMSIS_STM32F7xx}/DSP/Source/StatisticsFunctions/*.c
+    ${CMSIS_STM32F7xx}/DSP/Source/BasicMathFunctions/*.c
     )
+list(REMOVE_ITEM CMSIS_STM32F7xx_src
+    ${CMAKE_HOME_DIRECTORY}/${CMSIS_STM32F7xx}/Device/ST/STM32F7xx/Include/stm32f7xx_hal_wwdg.h
+    ${CMAKE_HOME_DIRECTORY}/${CMSIS_STM32F7xx}/Src/stm32f7xx_hal_timebase_rtc_wakeup_template.c
+    ${CMAKE_HOME_DIRECTORY}/${CMSIS_STM32F7xx}/Device/ST/STM32F7xx/Source/Templates/system_stm32f7xx.c
+    ${CMAKE_HOME_DIRECTORY}/${CMSIS_STM32F7xx}/Device/ST/STM32F7xx/Include/stm32f7xx_hal_conf_template.h
+    )
+include_directories(
+    ${CMSIS_STM32F7xx}/Include
+    ${CMSIS_STM32F7xx}/Device/ST/STM32F7xx/Include
+    ${CMSIS_STM32F7xx}/DSP/Include/*.h
+    )
+
+set (Call_Control  ${SRC}Call_Control)
+file (GLOB Call_Control_src ${Call_Control}/*.cpp )
+include_directories( ${Call_Control} )
+
+set (SNTP  ${SRC}SNTP)
+file (GLOB SNTP_src ${SNTP}/*.cpp )
+include_directories( ${SNTP} )
+
+set (INC  ${SRC}Inc)
+include_directories( ${INC} )
+
+set (startup  ${SRC}startup)
+file (GLOB startup_src ${startup}/startup_stm32f777xx.s )
+
+file (GLOB LD_src STM32F777IITx_FLASH.ld )
 
 
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}\
@@ -249,7 +245,6 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}\
 
 
 add_executable(${PROJECT_NAME}.elf
-    ${SOURCES}
     ${FatFs_src}
     ${Bootloader_src}
     ${UpdateMechanism_src}
@@ -277,11 +272,44 @@ add_executable(${PROJECT_NAME}.elf
     ${CircularBuffer_src}
     ${CMSIS_RTOS_src}
     ${STM32F7xx_HAL_src}
-    ${}
-    ${}
-    ${}
-    ${}
+    ${Call_Control_src}
+    ${SNTP_src}
+    ${SRC_src}
+    ${startup_src}
+    ${LD_src}
     )
+
+if(${Board_name} STREQUAL SC4)
+    add_definitions(-DSTM32F777xx)
+    add_definitions(-DUSE_HAL_DRIVER)
+    add_definitions(-D__weak=__attribute__((weak)))
+    add_definitions(-D__packed=__attribute__((__packed__)))
+    add_definitions(-D__FPU_PRESENT=1)
+    add_definitions(-DARM_MATH_CM7)
+    add_definitions(-DHAVE_CONFIG_H)
+    add_definitions(-D__DCACHE_PRESENT)
+    add_definitions(-D__ICACHE_PRESENT)
+endif()
+
+if(${Board_name} STREQUAL SC2)
+    add_definitions(-DSTM32F777xx)
+    add_definitions(-DUSE_HAL_DRIVER)
+    add_definitions(-D__weak=__attribute__((weak)))
+    add_definitions(-D__packed=__attribute__((__packed__)))
+    add_definitions(-D__FPU_PRESENT=1)
+    add_definitions(-DARM_MATH_CM7)
+    add_definitions(-DHAVE_CONFIG_H)
+    add_definitions(-DSC2BOARD)
+endif()
+
+include_directories(
+    /home/evg/SOFT/Github/GIT/4_promwad2/Drivers/CMSIS_STM32F7xx/Include
+
+    )
+
+
+
+
 
 
 #message("SOURCES")
