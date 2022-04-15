@@ -45,7 +45,7 @@ firmware files/
 
 Debug/
 Release/
-build_linux_debug/
-build_linux_release/
+build_cmake_debug/
+build_cmake_release/
 build_qbs_debug/
 build_qbs_release/
