@@ -10,6 +10,11 @@ set(CMAKE_OBJCOPY ${TOOLS_PATH}/bin/arm-none-eabi-objcopy)
 
 project(4_promwad2 C CXX ASM)
 
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+
+
 add_definitions(-DSTM32F777xx)
 
 #set(CMAKE_BUILD_TYPE debug)
@@ -25,29 +30,10 @@ set (LwIP ${Third_Party}/LwIP)
 set (FreeRTOS ${Third_Party}/FreeRTOS/Source)
 
 
-include_directories(
-    ${DRV_CMSYS_CORE}/Include
-    ${DRV_CMSYS_DSP}/Include
-    ${DRV_CMSYS_Device}/Include
-    ${DRV_CMSYS}/Include
-    ${DRV_HAL}/Inc
-    ${DRV_HAL}/Inc/Legacy
-    ${Third_Party}/CircularBuffer
-    ${FreeRTOS}/CMSIS_RTOS_V2
-    ${FreeRTOS}/include
-    ${FreeRTOS}/portable/GCC/ARM_CM7/r0p1
-    Inc
-    startup
-    )
-
-message("${DRV_CMSYS_Device}/Include")
-message(${DRV_CMSYS_Device}/Include)
-
-
 set (SRC "Src/")
 set (AUDIO ${SRC}AUDIO)
 set (BSP ${SRC}BSP)
-set (Bootloader ${SRC}Bootloader)
+
 set (CAN_Command ${SRC}CAN_Command)
 set (CAN_STM32Fxx ${SRC}CAN_STM32Fxx)
 set (CRC16_CCITT ${SRC}CRC16_CCITT)
@@ -62,20 +48,34 @@ set (RTC ${SRC}RTC)
 set (RTP ${SRC}RTP)
 set (SNTP ${SRC}SNTP)
 set (SRAM ${SRC}SRAM)
-set (Src_Bootloader ${SRC}Src_Bootloader)
 set (TRNG ${SRC}TRNG)
-set (Tests ${SRC}Tests)
 set (UDP_JSON ${SRC}UDP_JSON)
-set (UpdateMechanism ${SRC}UpdateMechanism)
 set (WDT ${SRC}WDT)
 set (c-ringbuf ${SRC}c-ringbuf)
 set (flash ${SRC}flash)
 set (uid ${SRC}uid)
 
 include_directories(
+    ${DRV_CMSYS_CORE}/Include
+    ${DRV_CMSYS_DSP}/Include
+    ${DRV_CMSYS_Device}/Include
+    ${DRV_CMSYS}/Include
+    ${DRV_HAL}/Inc
+    ${DRV_HAL}/Inc/Legacy
+    ${Third_Party}/CircularBuffer
+    ${FreeRTOS}/CMSIS_RTOS_V2
+    ${FreeRTOS}/include
+    ${FreeRTOS}/portable/GCC/ARM_CM7/r0p1
+    ${LwIP}/src/include
+    ${LwIP}/system
+    Src/CAN_STM32F7xx
+    Inc
+    startup
     ${AUDIO}
     ${BSP}
     ${Bootloader}
+    ${Bootloader}/AES128
+    ${Bootloader}/MD5
     ${CAN_Command}
     ${CAN_STM32Fxx}
     ${CRC16_CCITT}
@@ -89,80 +89,73 @@ include_directories(
     ${RTP}
     ${SNTP}
     ${SRAM}
-    ${Src_Bootloader}
     ${TRNG}
-    ${Tests}
     ${UDP_JSON}
-    ${UpdateMechanism}
     ${WDT}
     ${c-ringbuf}
     ${flash}
-    ${uid}
     )
 
-#file (GLOB CORE_SOURCES
-#    Core/Src/*.c
-#    Drivers/BSP/Components/dp83848/dp83848.c
-#    LWIP/Target/ethernetif.c
-#    )
-#add_library(CORE ${CORE_SOURCES} )
+set (FatFs ${Third_Party}/FatFs)
+file (GLOB_RECURSE FatFs_src
+    ${FatFs}/src/*.c
+    ${FatFs}/src/option/syscall.c
+    ${FatFs}/src/option/unicode.c
+    )
+include_directories(
+    ${FatFs}
+    ${FatFs}/src
+    )
 
-#set (STARTUP_SOURCES ${patchSRC}/../Startup/startup_stm32h753iitx.s )
-#add_library(STARTUP ${STARTUP_SOURCES} )
+set (Bootloader ${SRC}Bootloader)
+file (GLOB_RECURSE Bootloader_src
+    ${Bootloader}/*.cpp
+    ${Bootloader}/MD5/*.cpp
+    ${Bootloader}/AES128/*.c
+    )
+include_directories(
+    ${Bootloader}
+    ${Bootloader}/MD5
+    ${Bootloader}/AES128
+    )
 
-#include_directories( ${patchDRV}/BSP/Components/lan8742 )
-#set (BSP_SOURCES ${patchDRV}/BSP/Components/lan8742/lan8742.c )
-#add_library(BSP ${BSP_SOURCES} )
+set (UpdateMechanism  ${SRC}UpdateMechanism)
+file (GLOB_RECURSE UpdateMechanism_src
+    ${UpdateMechanism}/*.cpp
+    )
+include_directories(
+    ${UpdateMechanism}
+    )
 
-#include_directories(
-#    ${patchDRV}/STM32H7xx_HAL_Driver/Inc
-#    ${patchDRV}/STM32H7xx_HAL_Driver/Inc/Legacy
-#    )
-#file (GLOB HAL_SRC ${patchHAL_SRC}/*)
-#add_library(STM32H7xx_HAL_Driver ${HAL_SRC})
+set (EEPROM  ${SRC}EEPROM)
+file (GLOB_RECURSE EEPROM_src
+    ${EEPROM}/*.cpp
+    ${EEPROM}/*.c
+    )
+include_directories(${EEPROM})
 
-#include_directories(
-#    LWIP/App
-#    LWIP/Target
-#    LWIP
-#    )
-#set (LWIP_SOURCES
-#    LWIP/App/lwip.c
-#    LWIP/Target/ethernetif.c
-#    LWIP/ping.c
-#    )
-#add_library(LWIP ${LWIP_SOURCES} )
+set (TraceRecorder  "Tracealyzer-4.2.12-linux64/FreeRTOS/TraceRecorder")
+file (GLOB_RECURSE TraceRecorder_src
+    ${TraceRecorder}/*.c
+    ${TraceRecorder}/streamports/TCPIP/*.c
+    )
+include_directories(
+    ${TraceRecorder}/streamports/TCPIP/include
+    ${TraceRecorder}/include
+    ${TraceRecorder}/config
+    )
 
-#include_directories(
-#    Middlewares/Third_Party/LwIP/system/arch
-#    Middlewares/Third_Party/LwIP/system
-#    Middlewares/Third_Party/LwIP/src/include/netif
-#    Middlewares/Third_Party/LwIP/src/include/netif/ppp
-#    Middlewares/Third_Party/LwIP/src/include
-#    Middlewares/Third_Party/LwIP/src/include/lwip
-#    Middlewares/Third_Party/LwIP/src/include/lwip/apps
-#    Middlewares/Third_Party/LwIP/src/include/lwip/priv
-#    Middlewares/Third_Party/LwIP/src/include/lwip/prot
-#    Middlewares/Third_Party/LwIP/src/include/compat/posix
-#    Middlewares/Third_Party/LwIP/src/include/compat/arpa
-#    Middlewares/Third_Party/LwIP/src/include/compat/net
-#    Middlewares/Third_Party/LwIP/src/include/compat/sys
-#    )
-#file (GLOB Third_Party_SRC
-#    Middlewares/Third_Party/LwIP/src/api/*
-#    Middlewares/Third_Party/LwIP/src/apps/mqtt/mqtt.c
-#    Middlewares/Third_Party/LwIP/src/core/*
-#    Middlewares/Third_Party/LwIP/src/core/ipv4/*
-#    Middlewares/Third_Party/LwIP/src/netif/*
-#    Middlewares/Third_Party/LwIP/src/netif/ppp/*
-#    )
-#add_library(Middlewares
-#    ${Third_Party_SRC}
-#    )
+set (Tests  ${SRC}Tests)
+file (GLOB Tests_src ${Tests}/*.cpp )
+include_directories(${Tests})
 
-message("AUDIO")
-message(${AUDIO})
+set (UID  ${SRC}uid)
+file (GLOB UID_src ${UID}/*.cpp )
+include_directories(${UID})
 
+set (RTP  ${SRC}RTP)
+file (GLOB RTP_src ${RTP}/*.cpp )
+include_directories( ${RTP} )
 
 file (GLOB_RECURSE SOURCES
     ${AUDIO}/*.cpp
@@ -184,16 +177,10 @@ file (GLOB_RECURSE SOURCES
     ${RTP}/*.cpp
     ${SNTP}/*.cpp
     ${SRAM}/*.cpp
-    ${Src_Bootloader}/*.cpp
-    ${Src_Bootloader}/*.c
     ${TRNG}/*.cpp
-    ${Tests}/*.cpp
     ${UDP_JSON}/*.cpp
-    ${UpdateMechanism}/*.cpp
     ${WDT}/*.cpp
     ${flash}/*.cpp
-    ${uid}/*.cpp
-    ${uid}/*.c
     STM32F746NGHx_FLASH.ld
     )
 
@@ -220,6 +207,13 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}\
 
 add_executable(${PROJECT_NAME}.elf
     ${SOURCES}
+    ${FatFs_src}
+    ${Bootloader_src}
+    ${UpdateMechanism_src}
+    ${EEPROM_src}
+    ${TraceRecorder_src}
+    ${Tests_src}
+    ${UID_src}
     )
 
 
