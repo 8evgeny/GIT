@@ -28,7 +28,6 @@ set (DRV_CMSYS "Drivers/CMSIS_STM32F7xx")
 set (DRV_CMSYS_CORE ${DRV_CMSYS}/Core)
 set (DRV_CMSYS_DSP ${DRV_CMSYS}/DSP)
 set (DRV_CMSYS_Device ${DRV_CMSYS}/Device/ST/STM32F7xx)
-set (DRV_HAL "Drivers/STM32F7xx_HAL_Driver")
 set (Third_Party "Middlewares/Third_Party")
 
 set (SRC "Src/")
@@ -45,8 +44,7 @@ include_directories(
     ${DRV_CMSYS_DSP}/Include
     ${DRV_CMSYS_Device}/Include
     ${DRV_CMSYS}/Include
-    ${DRV_HAL}/Inc
-    ${DRV_HAL}/Inc/Legacy
+
     ${FreeRTOS}/CMSIS_RTOS_V2
     ${FreeRTOS}/include
     ${FreeRTOS}/portable/GCC/ARM_CM7/r0p1
@@ -200,7 +198,20 @@ endif()
 set (CMSIS_RTOS ${Third_Party}/FreeRTOS/CMSIS_RTOS)
 file (GLOB CMSIS_RTOS_src ${CMSIS_RTOS}/*.c )
 include_directories( ${CMSIS_RTOS} )
-#STM32F7xx_HAL
+
+set (STM32F7xx_HAL "Drivers/STM32F7xx_HAL_Driver")
+file (GLOB_RECURSE STM32F7xx_HAL_src ${STM32F7xx_HAL}/Src/*.c )
+list(REMOVE_ITEM STM32F7xx_HAL_src
+    ${CMAKE_HOME_DIRECTORY}/${STM32F7xx_HAL}/Src/stm32f7xx_hal_timebase_rtc_alarm_template.c
+    ${CMAKE_HOME_DIRECTORY}/${STM32F7xx_HAL}/Src/stm32f7xx_hal_timebase_rtc_wakeup_template.c
+    ${CMAKE_HOME_DIRECTORY}/${STM32F7xx_HAL}/Src/stm32f7xx_hal_timebase_tim_template.c
+    ${CMAKE_HOME_DIRECTORY}/${STM32F7xx_HAL}/Src/stm32f7xx_hal_msp_template.c
+    )
+include_directories(${STM32F7xx_HAL}/Inc ${STM32F7xx_HAL}/Inc/Legacy )
+
+#message(${STM32F7xx_HAL_src})
+
+
 
 
 
@@ -265,7 +276,7 @@ add_executable(${PROJECT_NAME}.elf
     ${littlefs_src}
     ${CircularBuffer_src}
     ${CMSIS_RTOS_src}
-    ${}
+    ${STM32F7xx_HAL_src}
     ${}
     ${}
     ${}
@@ -273,8 +284,8 @@ add_executable(${PROJECT_NAME}.elf
     )
 
 
-message("SOURCES")
-message(${SOURCES})
+#message("SOURCES")
+#message(${SOURCES})
 
 #set_target_properties(${PROJECT_NAME}.elf PROPERTIES LINKER_LANGUAGE C)
 set_target_properties(${PROJECT_NAME}.elf PROPERTIES LINKER_LANGUAGE CXX)
