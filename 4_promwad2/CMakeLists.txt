@@ -44,17 +44,17 @@ if(${Board_name} STREQUAL SC2)
 #        ${SRC}/main.cpp
 #        ${SRC}/flash_diskio.cpp
 #        ${SRC}/../syscalls.c
-        )
+#        )
 endif()
 
 include_directories( ${INC} )
 
 set (FatFs ${Third_Party}/FatFs)
-file (GLOB_RECURSE FatFs_src ${FatFs}/src/*.c ${FatFs}/src/option/syscall.c ${FatFs}/src/option/unicode.c )
-include_directories(${FatFs} ${FatFs}/src )
+file (GLOB FatFs_src ${FatFs}/src/*.c ${FatFs}/src/option/syscall.c ${FatFs}/src/option/unicode.c )
+include_directories(${FatFs}/src )
 
 set (Bootloader ${SRC}Bootloader)
-file (GLOB_RECURSE Bootloader_src ${Bootloader}/*.cpp ${Bootloader}/MD5/*.cpp ${Bootloader}/AES128/*.c )
+file (GLOB Bootloader_src ${Bootloader}/*.cpp ${Bootloader}/MD5/*.cpp ${Bootloader}/AES128/*.c )
 include_directories(${Bootloader} ${Bootloader}/MD5 ${Bootloader}/AES128 )
 
 set (UpdateMechanism  ${SRC}UpdateMechanism)
@@ -234,65 +234,43 @@ include_directories( ${SNTP} )
 include_directories( Inc )
 
 set (startup  ${SRC}startup)
-file (GLOB startup_src ${startup}/startup_stm32f777xx.s )
+file (GLOB startup_src ${startup}/startup_stm32h753iitx.s )
 
-file (GLOB LD_src STM32F777IITx_FLASH.ld )
-
-
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}\
-    -mcpu=cortex-m7 \
-    -std=gnu11 \
-    -DUSE_HAL_DRIVER \
-    -DSTM32H753xx \
-    -Os \
-    -ffunction-sections \
-    -fdata-sections \
-    -Wall \
-    -mno-unaligned-access \
-    -fstack-usage \
-    -MMD \
-    -MP \
-    -mfpu=fpv5-d16 \
-    -mfloat-abi=hard \
-    -mthumb \
-    -Xlinker -Map=${PROJECT_NAME}.map \
-    ")
-
-
+file (GLOB LD_src STM32H753IITX_FLASH.ld )
 add_executable(${PROJECT_NAME}.elf
     ${FatFs_src}
-#    ${Bootloader_src}
-#    ${UpdateMechanism_src}
-#    ${EEPROM_src}
+    ${Bootloader_src}
+    ${UpdateMechanism_src}
+    ${EEPROM_src}
 #    ${TraceRecorder_src}
-#    ${Tests_src}
-#    ${UID_src}
-#    ${RTT_src}
-#    ${RTP_src}
-#    ${WDT_src}
-#    ${RTC_src}
-#    ${AUDIO_src}
-#    ${Flash_src}
-#    ${TRNG_src}
-#    ${Debug_src}
-#    ${RS232_src}
-#    ${CAN_STM32F7xx_src}
-#    ${GPIO_STM32F7xx_src}
-#    ${GPIO_SC2_BOARD_src}
-#    ${RTC_src}
-#    ${SRAM_src}
-#    ${JSON_src}
+    ${Tests_src}
+    ${UID_src}
+    ${RTT_src}
+    ${RTP_src}
+    ${WDT_src}
+    ${RTC_src}
+    ${AUDIO_src}
+    ${Flash_src}
+    ${TRNG_src}
+    ${Debug_src}
+    ${RS232_src}
+    ${CAN_STM32F7xx_src}
+    ${GPIO_STM32F7xx_src}
+    ${GPIO_SC2_BOARD_src}
+    ${RTC_src}
+    ${SRAM_src}
+    ${JSON_src}
 #    ${UDP_JSON_src}
-#    ${LwIP_src}
-#    ${littlefs_src}
-#    ${CircularBuffer_src}
-#    ${CMSIS_RTOS_src}
-#    ${STM32F7xx_HAL_src}
+    ${LwIP_src}
+    ${littlefs_src}
+    ${CircularBuffer_src}
+    ${CMSIS_RTOS_src}
+    ${STM32F7xx_HAL_src}
 #    ${Call_Control_src}
-#    ${SNTP_src}
-#    ${SRC_src}
-#    ${startup_src}
-#    ${LD_src}
+    ${SNTP_src}
+    ${SRC_src}
+    ${startup_src}
+    ${LD_src}
     )
 
 if(${Board_name} STREQUAL SC4)
@@ -319,7 +297,7 @@ if(${Board_name} STREQUAL SC2)
 endif()
 
 
-if(${Board_name} STREQUAL SC2)
+#if(${Board_name} STREQUAL SC2)
     include_directories(
         ${FreeRTOS}/Source/include
         ${FreeRTOS}/Source/portable/GCC/ARM_CM7/r0p1
@@ -327,21 +305,50 @@ if(${Board_name} STREQUAL SC2)
         Drivers/CMSIS_STM32F7xx/DSP/Include
         ${CMAKE_HOME_DIRECTORY}/Drivers/CMSIS_STM32F7xx/Core/Include
         Src/CAN_STM32F7xx
+        Drivers/CMSIS_STM32F7xx/Core/Include
         )
-endif()
+#endif()
 
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}\
+    -mcpu=cortex-m7 \
+    -std=gnu11 \
+    -DUSE_HAL_DRIVER \
+    -DSTM32H753xx \
+    -Os \
+    -ffunction-sections \
+    -fdata-sections \
+    -Wall \
+    -mno-unaligned-access \
+    -fstack-usage \
+    -MMD \
+    -MP \
+    -mfpu=fpv5-d16 \
+    -mfloat-abi=hard \
+    -mthumb \
+    -Xlinker -Map=${PROJECT_NAME}.map \
+    ")
 
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}\
+    -mcpu=cortex-m7 \
+    -std=gnu11 \
+    -DUSE_HAL_DRIVER \
+    -DSTM32H753xx \
+    -Os \
+    -ffunction-sections \
+    -fdata-sections \
+    -Wall \
+    -mno-unaligned-access \
+    -fstack-usage \
+    -MMD \
+    -MP \
+    -mfpu=fpv5-d16 \
+    -mfloat-abi=hard \
+    -mthumb \
+    -Xlinker -Map=${PROJECT_NAME}.map \
+    ")
 
-
-
-#message("SOURCES")
-#message(${SOURCES})
-
-#set_target_properties(${PROJECT_NAME}.elf PROPERTIES LINKER_LANGUAGE C)
-set_target_properties(${PROJECT_NAME}.elf PROPERTIES LINKER_LANGUAGE CXX)
-
-set(LINKER_SCRIPT_FLASH "${CMAKE_SOURCE_DIR}/STM32F746NGHx_FLASH.ld")
-
+set(LINKER_SCRIPT_FLASH "${CMAKE_SOURCE_DIR}/STM32H753IITX_FLASH.ld")
+set(LINKER_SCRIPT_RAM "${CMAKE_SOURCE_DIR}/STM32H753IITX_RAM.ld")
 set(LINKER_FLAGS "SHELL: \
     -T${LINKER_SCRIPT_FLASH} \
     -mcpu=cortex-m7 \
@@ -357,18 +364,15 @@ set(LINKER_FLAGS "SHELL: \
     -lm \
     -Wl,--end-group \
     ")
-
+#    -T${LINKER_SCRIPT_RAM} \
 target_link_options(${PROJECT_NAME}.elf PRIVATE ${LINKER_FLAGS})
 
 
-#target_link_libraries(${PROJECT_NAME}.elf PUBLIC
-#    CORE
-#    STARTUP
-#    BSP
-#    STM32H7xx_HAL_Driver
-#    LWIP
-#    Middlewares
-#    )
+
+#set_target_properties(${PROJECT_NAME}.elf PROPERTIES LINKER_LANGUAGE C)
+set_target_properties(${PROJECT_NAME}.elf PROPERTIES LINKER_LANGUAGE CXX)
+
+
 
 set(HEX_FILE ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.hex)
 set(BIN_FILE ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.bin)

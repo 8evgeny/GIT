@@ -50,3 +50,4 @@ build_cmake_release/
 build_qbs_debug/
 build_qbs_release/
 build_linux_release
+build_linux_debug
