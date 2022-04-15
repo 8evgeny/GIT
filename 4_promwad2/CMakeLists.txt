@@ -21,8 +21,8 @@ set (DRV_CMSYS_DSP ${DRV_CMSYS}/DSP)
 set (DRV_CMSYS_Device ${DRV_CMSYS}/Device/ST/STM32F7xx)
 set (DRV_HAL "Drivers/STM32F7xx_HAL_Driver")
 set (Third_Party "Middlewares/Third_Party")
-set (LwIP ${Third_Party}"/LwIP")
-
+set (LwIP ${Third_Party}/LwIP)
+set (FreeRTOS ${Third_Party}/FreeRTOS/Source)
 
 
 include_directories(
@@ -33,9 +33,9 @@ include_directories(
     ${DRV_HAL}/Inc
     ${DRV_HAL}/Inc/Legacy
     ${Third_Party}/CircularBuffer
-    ${Third_Party}/FreeRTOS/Source/CMSIS_RTOS_V2
-    ${Third_Party}/FreeRTOS/Source/include
-    ${Third_Party}/FreeRTOS/Source/portable/GCC/ARM_CM7/r0p1
+    ${FreeRTOS}/CMSIS_RTOS_V2
+    ${FreeRTOS}/include
+    ${FreeRTOS}/portable/GCC/ARM_CM7/r0p1
     Inc
     startup
     )
