@@ -14,7 +14,7 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-set (IsBootloader true)
+set (IsBootloader false)
 set (SC2board true)
 set (IsStm32f7 true)
 set (HeapVersion4 true)
@@ -509,13 +509,11 @@ add_executable(${PROJECT_NAME}.elf
     /home/evg/SOFT/Github/GIT/4_promwad2/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h
     /home/evg/SOFT/Github/GIT/4_promwad2/Src/Call_Control/os_timers.cpp
     /home/evg/SOFT/Github/GIT/4_promwad2/Middlewares/Third_Party/FreeRTOS/Source/timers.c
-
     ${HZ_src}
     ${HZ_src2}
     ${HZ_src3}
     ${HZ_src4}
     ${HZ_src5}
-
     /home/evg/SOFT/Github/GIT/4_promwad2/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_can.c
     /home/evg/SOFT/Github/GIT/4_promwad2/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal.c
     /home/evg/SOFT/Github/GIT/4_promwad2/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_dma.c
@@ -524,10 +522,10 @@ add_executable(${PROJECT_NAME}.elf
     /home/evg/SOFT/Github/GIT/4_promwad2/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_sai.c
     /home/evg/SOFT/Github/GIT/4_promwad2/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_i2c_ex.c
     /home/evg/SOFT/Github/GIT/4_promwad2/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_cortex.c
-
     /home/evg/SOFT/Github/GIT/4_promwad2/Drivers/CMSIS_STM32F7xx/DSP/Source/SupportFunctions/arm_copy_q7.c
     /home/evg/SOFT/Github/GIT/4_promwad2/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM7/r0p1/port.c
     /home/evg/SOFT/Github/GIT/4_promwad2/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_i2c.c
+
     )
 
 #add_definitions(-DSTM32F753xx)
@@ -535,8 +533,8 @@ if(IsStm32f7 AND NOT SC2board)
     add_definitions(-DLWIP_DEBUG)
     add_definitions(-DSTM32F777xx)
     add_definitions(-DUSE_HAL_DRIVER)
-#    add_definitions(-D__weak=__attribute__((weak)))
-#    add_definitions(-D__packed=__attribute__((__packed__)))
+#    add_definitions(-D__weak="__attribute__((weak))")
+#    add_definitions(-D__packed="__attribute__((__packed__))")
     add_definitions(-D__FPU_PRESENT=1)
     add_definitions(-DARM_MATH_CM7)
     add_definitions(-DHAVE_CONFIG_H)
@@ -547,8 +545,8 @@ endif()
 if(IsStm32f7 AND SC2board)
     add_definitions(-DSTM32F777xx)
     add_definitions(-DUSE_HAL_DRIVER)
-#    add_definitions(-D__weak=__attribute__((weak)))
-#    add_definitions(-D__packed=__attribute__((__packed__)))
+#    add_definitions(-D__weak="__attribute__((weak))")
+#    add_definitions(-D__packed="__attribute__((__packed__))")
     add_definitions(-D__FPU_PRESENT=1)
     add_definitions(-DARM_MATH_CM7)
     add_definitions(-DHAVE_CONFIG_H)
@@ -561,8 +559,8 @@ if(IsBootloader)
     add_definitions(-DLWIP_DEBUG)
     add_definitions(-DSTM32F777xx)
     add_definitions(-DUSE_HAL_DRIVER)
-#    add_definitions(-D__weak=__attribute__((weak)))
-#    add_definitions(-D__packed=__attribute__((__packed__)))
+#    add_definitions(-D__weak="__attribute__((weak))")
+#    add_definitions(-D__packed="__attribute__((__packed__))")
     add_definitions(-D__FPU_PRESENT=1)
     add_definitions(-DARM_MATH_CM7)
     add_definitions(-DHAVE_CONFIG_H)
@@ -571,27 +569,14 @@ if(IsBootloader)
     add_definitions(-DBOOTLOADER_FEZ)
 endif()
 
+#CompilerFlags
 
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}\
-    -mcpu=cortex-m7 \
-    -std=gnu11 \
-    -DUSE_HAL_DRIVER \
-    -DSTM32H753xx \
-    -Os \
-    -ffunction-sections \
-    -fdata-sections \
-    -Wall \
-    -mno-unaligned-access \
-    -fstack-usage \
-    -MMD \
-    -MP \
-    -mfpu=fpv5-d16 \
-    -mfloat-abi=hard \
-    -mthumb \
-    -Xlinker -Map=${PROJECT_NAME}.map \
-    ")
+#    -specs=nosys.specs \
+#    -specs=nano.specs \
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}\
+    -Wl,--start-group \
+    -Wl,--gc-sections \
     -mcpu=cortex-m7 \
     -std=gnu11 \
     -DUSE_HAL_DRIVER \
@@ -607,16 +592,75 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}\
     -mfpu=fpv5-d16 \
     -mfloat-abi=hard \
     -mthumb \
-    -Xlinker -Map=${PROJECT_NAME}.map \
+    -Xlinker \
+    -Map=${PROJECT_NAME}.map \
+    -Wl,-section-start=.rtt=0x20000000 \
+    -u_printf_float \
+    -fno-exceptions \
+    -fno-rtti \
+    -Wl,--end-group \
     ")
 
-set(LINKER_SCRIPT_FLASH "${CMAKE_SOURCE_DIR}/STM32F777IITx_FLASH.ld")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}\
+    -Wl,--start-group \
+    -Wl,--gc-sections \
+    -mcpu=cortex-m7 \
+    -std=gnu11 \
+    -DUSE_HAL_DRIVER \
+    -DSTM32H753xx \
+    -Os \
+    -ffunction-sections \
+    -fdata-sections \
+    -Wall \
+    -mno-unaligned-access \
+    -fstack-usage \
+    -MMD \
+    -MP \
+    -mfpu=fpv5-d16 \
+    -mfloat-abi=hard \
+    -mthumb \
+    -Xlinker \
+    -Map=${PROJECT_NAME}.map \
+    -Wl,-section-start=.rtt=0x20000000 \
+    -u_printf_float \
+    -fno-exceptions \
+    -fno-rtti \
+    -Wl,--end-group \
+    ")
 
-#set(LINKER_SCRIPT_FLASH "${CMAKE_SOURCE_DIR}/newSTM32H753IITX_FLASH.ld")
-#set(LINKER_SCRIPT_RAM "${CMAKE_SOURCE_DIR}/STM32H753IITX_RAM.ld")
+
+if (IsStm32f7)
+    set(LINKER_SCRIPT_FLASH1 "${CMAKE_SOURCE_DIR}/STM32F777IITx_FLASH.ld")
+    #set(LINKER_SCRIPT_FLASH "${CMAKE_SOURCE_DIR}/newSTM32H753IITX_FLASH.ld")
+
+    set(LINKER_FLAGS "SHELL: \
+        -T${LINKER_SCRIPT_FLASH1} \
+        -Wl,--start-group \
+        -Wl,--gc-sections \
+        -mcpu=cortex-m7 \
+        --specs=nosys.specs \
+        -Wl,--gc-sections \
+        -static \
+        --specs=nano.specs \
+        -mfpu=fpv5-d16 \
+        -mfloat-abi=hard \
+        -mthumb
+        -lgcc \
+        -lc \
+        -lstdc++ \
+        -lm \
+        -lnosys \
+        -Wl,--end-group \
+        ")
+endif()
+if (IsBootloader)
+    set(LINKER_SCRIPT_FLASH2 "${CMAKE_SOURCE_DIR}/STM32F777IITx_FLASH_BOOTLOADER.ld")
+    #set(LINKER_SCRIPT_FLASH "${CMAKE_SOURCE_DIR}/newSTM32H753IITX_FLASH.ld")
 
 set(LINKER_FLAGS "SHELL: \
-    -T${LINKER_SCRIPT_FLASH} \
+    -T${LINKER_SCRIPT_FLASH2} \
+    -Wl,--start-group \
+    -Wl,--gc-sections \
     -mcpu=cortex-m7 \
     --specs=nosys.specs \
     -Wl,--gc-sections \
@@ -625,15 +669,15 @@ set(LINKER_FLAGS "SHELL: \
     -mfpu=fpv5-d16 \
     -mfloat-abi=hard \
     -mthumb
-    -Wl,--start-group \
+    -lgcc \
     -lc \
+    -lstdc++ \
     -lm \
+    -lnosys \
     -Wl,--end-group \
     ")
-#    -T${LINKER_SCRIPT_RAM} \
+endif()
 target_link_options(${PROJECT_NAME}.elf PRIVATE ${LINKER_FLAGS})
-
-
 
 #set_target_properties(${PROJECT_NAME}.elf PROPERTIES LINKER_LANGUAGE C)
 set_target_properties(${PROJECT_NAME}.elf PROPERTIES LINKER_LANGUAGE CXX)
