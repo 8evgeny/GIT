@@ -461,7 +461,7 @@ if (IsBootloader)
     )
 endif()
 
-
+message(${RTP_src})
 add_executable(${PROJECT_NAME}.elf
     ${FatFs_src}
     ${Bootloader_src}
@@ -501,6 +501,9 @@ add_executable(${PROJECT_NAME}.elf
     ${SRC_src}
     ${startup_src}
     ${LD_src}
+    /home/evg/SOFT/Github/GIT/4_promwad2/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.c
+    /home/evg/SOFT/Github/GIT/4_promwad2/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h
+    /home/evg/SOFT/Github/GIT/4_promwad2/Src/Call_Control/os_timers.cpp
     )
 
 if(IsStm32f7)
