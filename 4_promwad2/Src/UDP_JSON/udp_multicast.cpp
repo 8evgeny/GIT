@@ -1,11 +1,12 @@
 #include "../UDP_JSON/udp_multicast.h"
 #include "callwaiting.h"
+#include <strings.h>
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-#include <strings.h>
+
 #include "lwip/sockets.h"
 #include "net_sockets.h"
 

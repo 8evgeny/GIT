@@ -343,6 +343,12 @@ endif()
 file (GLOB LD_src STM32H753IITX_FLASH.ld )
 
 
+file (GLOB HZ_src ${CMAKE_HOME_DIRECTORY}/Drivers/CMSIS_STM32F7xx/DSP/Source/*.c )
+#file (GLOB HZ_src2 ${CMAKE_HOME_DIRECTORY}/Drivers/STM32F7xx_HAL_Driver/Src/*.c )
+file (GLOB HZ_src3 ${CMAKE_HOME_DIRECTORY}/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM7/r0p1/*.c )
+file (GLOB HZ_src4 ${CMAKE_HOME_DIRECTORY}/Drivers/STM32F7xx_HAL_Driver/*.c )
+file (GLOB HZ_src5 ${CMAKE_HOME_DIRECTORY}/Middlewares/Third_Party/FreeRTOS/Source/*.c)
+
 if(IsStm32f7 AND NOT SC2board)
     include_directories (
     ${CMAKE_HOME_DIRECTORY}
@@ -461,7 +467,6 @@ if (IsBootloader)
     )
 endif()
 
-message(${RTP_src})
 add_executable(${PROJECT_NAME}.elf
     ${FatFs_src}
     ${Bootloader_src}
@@ -504,6 +509,25 @@ add_executable(${PROJECT_NAME}.elf
     /home/evg/SOFT/Github/GIT/4_promwad2/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.c
     /home/evg/SOFT/Github/GIT/4_promwad2/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h
     /home/evg/SOFT/Github/GIT/4_promwad2/Src/Call_Control/os_timers.cpp
+    /home/evg/SOFT/Github/GIT/4_promwad2/Middlewares/Third_Party/FreeRTOS/Source/timers.c
+
+    ${HZ_src}
+    ${HZ_src2}
+    ${HZ_src3}
+    ${HZ_src4}
+    ${HZ_src5}
+
+    /home/evg/SOFT/Github/GIT/4_promwad2/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal.c
+    /home/evg/SOFT/Github/GIT/4_promwad2/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_dma.c
+    /home/evg/SOFT/Github/GIT/4_promwad2/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_gpio.c
+    /home/evg/SOFT/Github/GIT/4_promwad2/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_eth.c
+    /home/evg/SOFT/Github/GIT/4_promwad2/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_sai.c
+    /home/evg/SOFT/Github/GIT/4_promwad2/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_i2c_ex.c
+    /home/evg/SOFT/Github/GIT/4_promwad2/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_cortex.c
+
+    /home/evg/SOFT/Github/GIT/4_promwad2/Drivers/CMSIS_STM32F7xx/DSP/Source/SupportFunctions/arm_copy_q7.c
+    /home/evg/SOFT/Github/GIT/4_promwad2/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM7/r0p1/port.c
+    /home/evg/SOFT/Github/GIT/4_promwad2/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_i2c.c
     )
 
 if(IsStm32f7)
