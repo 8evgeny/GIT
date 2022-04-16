@@ -15,7 +15,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 set (IsBootloader false)
-set (SC2board false)
+set (SC2board true)
 set (IsStm32f7 true)
 set (HeapVersion4 true)
 set (HeapVersion5 false)
