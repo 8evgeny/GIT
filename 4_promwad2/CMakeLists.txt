@@ -15,7 +15,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 set (IsBootloader false)
-set (SC2board true)
+set (SC2board false)
 set (IsStm32f7 true)
 set (HeapVersion4 true)
 set (HeapVersion5 false)
@@ -342,7 +342,7 @@ if(IsStm32f7 OR IsBootloader)
 endif()
 
 file (GLOB LD_src STM32F777IITx_FLASH.ld )
-#file (GLOB LD_src STM32H753IITX_FLASH.ld )
+#file (GLOB LD_src newSTM32H753IITX_FLASH.ld )
 
 file (GLOB HZ_src ${CMAKE_HOME_DIRECTORY}/Drivers/CMSIS_STM32F7xx/DSP/Source/*.c )
 #file (GLOB HZ_src2 ${CMAKE_HOME_DIRECTORY}/Drivers/STM32F7xx_HAL_Driver/Src/*.c )
@@ -594,9 +594,10 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}\
     -mthumb \
     -Xlinker -Map=${PROJECT_NAME}.map \
     ")
+
 set(LINKER_SCRIPT_FLASH "${CMAKE_SOURCE_DIR}/STM32F777IITx_FLASH.ld")
 
-#set(LINKER_SCRIPT_FLASH "${CMAKE_SOURCE_DIR}/STM32H753IITX_FLASH.ld")
+#set(LINKER_SCRIPT_FLASH "${CMAKE_SOURCE_DIR}/newSTM32H753IITX_FLASH.ld")
 #set(LINKER_SCRIPT_RAM "${CMAKE_SOURCE_DIR}/STM32H753IITX_RAM.ld")
 
 set(LINKER_FLAGS "SHELL: \
