@@ -14,15 +14,14 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-#Bootloader включен сейчас - написать выбор вкл/выкл
-set (Board_name SC2)
-#set (Board_name SC4)
+set (IsBootloader false)
+set (SC2board true)
+set (IsStm32f7 true)
 
 set (HeapVersion 4)
 #set (HeapVersion 5)
 
-add_definitions(-DSTM32F777xx)
-
+add_definitions(-DSTM32F753xx)
 
 #set(CMAKE_BUILD_TYPE debug)
 #set(CMAKE_BUILD_TYPE release)
@@ -30,80 +29,92 @@ add_definitions(-DSTM32F777xx)
 set (Third_Party "Middlewares/Third_Party")
 set (SRC "Src/")
 
-if(${Board_name} STREQUAL SC4)
+if(IsStm32f7)
     file (GLOB SRC_src
-        ${SRC}/*.c
-        ${SRC}/main.cpp
-        ${SRC}/flash_diskio.cpp
-        ${SRC}/../syscalls.c
-        )
-endif()
-if(${Board_name} STREQUAL SC2)
-#    file (GLOB SRC_src
-#        ${SRC}/*.c
-#        ${SRC}/main.cpp
-#        ${SRC}/flash_diskio.cpp
-#        ${SRC}/../syscalls.c
-#        )
+    ${SRC}/*.c
+    ${SRC}/main.cpp
+    ${SRC}/flash_diskio.cpp
+    ${SRC}/../syscalls.c
+    )
+elseif(IsBootloader)
+    file (GLOB SRC_src
+    ${SRC}/Bootloader/*.cpp
+    ${SRC}/../syscalls.c
+    )
 endif()
 
 include_directories( ${INC} )
 
-set (FatFs ${Third_Party}/FatFs)
-file (GLOB FatFs_src ${FatFs}/src/*.c ${FatFs}/src/option/syscall.c ${FatFs}/src/option/unicode.c )
-include_directories(${FatFs}/src )
+if(IsStm32f7 OR IsBootloader)
+    set (FatFs ${Third_Party}/FatFs)
+    file (GLOB FatFs_src ${FatFs}/src/*.c ${FatFs}/src/option/syscall.c ${FatFs}/src/option/unicode.c )
+    include_directories(${FatFs}/src )
+endif()
 
-set (Bootloader ${SRC}Bootloader)
-file (GLOB Bootloader_src ${Bootloader}/*.cpp ${Bootloader}/MD5/*.cpp ${Bootloader}/AES128/*.c )
-include_directories(${Bootloader} ${Bootloader}/MD5 ${Bootloader}/AES128 )
+if(IsBootloader)
+    set (Bootloader ${SRC}Bootloader)
+    file (GLOB Bootloader_src ${Bootloader}/*.cpp ${Bootloader}/MD5/*.cpp ${Bootloader}/AES128/*.c )
+    include_directories(${Bootloader} ${Bootloader}/MD5 ${Bootloader}/AES128 )
+endif()
 
-set (UpdateMechanism  ${SRC}UpdateMechanism)
-file (GLOB UpdateMechanism_src ${UpdateMechanism}/*.cpp)
-include_directories(${UpdateMechanism})
+if(IsStm32f7)
+    set (UpdateMechanism  ${SRC}UpdateMechanism)
+    file (GLOB UpdateMechanism_src ${UpdateMechanism}/*.cpp)
+    include_directories(${UpdateMechanism})
 
-set (EEPROM  ${SRC}EEPROM)
-file (GLOB_RECURSE EEPROM_src ${EEPROM}/*.cpp ${EEPROM}/*.c )
-include_directories(${EEPROM})
+    set (EEPROM  ${SRC}EEPROM)
+    file (GLOB_RECURSE EEPROM_src ${EEPROM}/*.cpp ${EEPROM}/*.c )
+    include_directories(${EEPROM})
 
-set (TraceRecorder  "Tracealyzer-4.2.12-linux64/FreeRTOS/TraceRecorder")
-file (GLOB_RECURSE TraceRecorder_src ${TraceRecorder}/*.c ${TraceRecorder}/streamports/TCPIP/*.c )
-include_directories(${TraceRecorder}/streamports/TCPIP/include ${TraceRecorder}/include ${TraceRecorder}/config )
+    set (TraceRecorder  "Tracealyzer-4.2.12-linux64/FreeRTOS/TraceRecorder")
+    file (GLOB_RECURSE TraceRecorder_src ${TraceRecorder}/*.c ${TraceRecorder}/streamports/TCPIP/*.c )
+    include_directories(${TraceRecorder}/streamports/TCPIP/include ${TraceRecorder}/include ${TraceRecorder}/config )
 
-set (Tests  ${SRC}Tests)
-file (GLOB Tests_src ${Tests}/*.cpp )
-include_directories(${Tests})
+    set (Tests  ${SRC}Tests)
+    file (GLOB Tests_src ${Tests}/*.cpp )
+    include_directories(${Tests})
 
-set (UID  ${SRC}uid)
-file (GLOB UID_src ${UID}/*.cpp )
-include_directories(${UID})
+    set (UID  ${SRC}uid)
+    file (GLOB UID_src ${UID}/*.cpp )
+    include_directories(${UID})
 
-set (RTT  ${CMAKE_HOME_DIRECTORY}/RTT)
-file (GLOB RTT_src ${RTT}/*.c )
-include_directories( ${RTT} )
+#Проверить RTT
+    set (RTT  ${CMAKE_HOME_DIRECTORY}/RTT)
+    file (GLOB RTT_src ${RTT}/*.c )
+    include_directories( ${RTT} )
 
-set (RTP  ${SRC}RTP)
-file (GLOB RTP_src ${RTP}/*.cpp )
-include_directories( ${RTP} )
+    set (RTP  ${SRC}RTP)
+    file (GLOB RTP_src ${RTP}/*.cpp )
+    include_directories( ${RTP} )
+endif()
 
 set (WDT  ${SRC}WDT)
 file (GLOB WDT_src ${WDT}/*.cpp )
 include_directories( ${WDT} )
 
-set (RTC  ${SRC}RTC)
-file (GLOB RTC_src ${WDT}/*.cpp )
-include_directories( ${RTC} )
+if(IsStm32f7)
+    set (RTC  ${SRC}RTC)
+    file (GLOB RTC_src ${WDT}/*.cpp )
+    include_directories( ${RTC} )
 
-set (AUDIO  ${SRC}AUDIO)
-file (GLOB AUDIO_src ${AUDIO}/*.cpp )
-include_directories( ${AUDIO} )
+    set (AUDIO  ${SRC}AUDIO)
+    file (GLOB AUDIO_src ${AUDIO}/*.cpp )
+    include_directories( ${AUDIO} )
+endif()
 
-set (Flash  ${SRC}flash)
-file (GLOB Flash_src ${Flash}/*.cpp )
-include_directories( ${Flash} )
+if(IsStm32f7 OR IsBootloader)
+    set (Flash  ${SRC}flash)
+    file (GLOB Flash_src ${Flash}/*.cpp )
+    include_directories( ${Flash} )
+endif()
 
-set (TRNG  ${SRC}TRNG)
-file (GLOB TRNG_src ${TRNG}/*.cpp )
-include_directories( ${TRNG} )
+if(IsStm32f7)
+    set (TRNG  ${SRC}TRNG)
+    file (GLOB TRNG_src ${TRNG}/*.cpp )
+    include_directories( ${TRNG} )
+endif()
+
+
 
 set (Debug  ${SRC}Debug)
 file (GLOB Debug_src ${Debug}/*.cpp ${Debug}/*.c)
@@ -113,19 +124,19 @@ set (RS232  ${SRC}RS232)
 file (GLOB RS232_src ${RS232}/*.cpp ${RS232}/*.c)
 include_directories( ${RS232} )
 
-if(${Board_name} STREQUAL SC4)
+if(IsStm32f7)
     set (CAN_STM32F7xx  ${SRC}CAN_STM32F7xx)
     file (GLOB CAN_STM32F7xx_src ${CAN_STM32F7xx}/*.cpp )
     include_directories( ${CAN_STM32F7xx} )
 endif()
 
-if(${Board_name} STREQUAL SC4)
+if(IsStm32f7)
     set (GPIO_STM32F7xx  ${SRC}GPIO_STM32F7xx)
     file (GLOB GPIO_STM32F7xx_src ${GPIO_STM32F7xx}/*.cpp )
     include_directories( ${GPIO_STM32F7xx} )
 endif()
 
-if(${Board_name} STREQUAL SC2)
+if(SC2board)
     set (GPIO_SC2_BOARD  ${SRC}GPIO_SC2_BOARD)
     file (GLOB GPIO_SC2_BOARD_src ${GPIO_SC2_BOARD}/*.cpp )
     include_directories( ${GPIO_SC2_BOARD} )
@@ -254,7 +265,7 @@ add_executable(${PROJECT_NAME}.elf
     ${TRNG_src}
     ${Debug_src}
     ${RS232_src}
-    ${CAN_STM32F7xx_src}
+#    ${CAN_STM32F7xx_src}
     ${GPIO_STM32F7xx_src}
     ${GPIO_SC2_BOARD_src}
     ${RTC_src}
@@ -273,7 +284,7 @@ add_executable(${PROJECT_NAME}.elf
     ${LD_src}
     )
 
-if(${Board_name} STREQUAL SC4)
+if(IsStm32f7)
     add_definitions(-DSTM32F777xx)
     add_definitions(-DUSE_HAL_DRIVER)
 #    add_definitions(-D__weak=__attribute__((weak)))
@@ -285,7 +296,7 @@ if(${Board_name} STREQUAL SC4)
     add_definitions(-D__ICACHE_PRESENT)
 endif()
 
-if(${Board_name} STREQUAL SC2)
+if(SC2board)
     add_definitions(-DSTM32F777xx)
     add_definitions(-DUSE_HAL_DRIVER)
 #    add_definitions(-D__weak=__attribute__((weak)))
