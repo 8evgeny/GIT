@@ -517,6 +517,7 @@ add_executable(${PROJECT_NAME}.elf
     ${HZ_src4}
     ${HZ_src5}
 
+    /home/evg/SOFT/Github/GIT/4_promwad2/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_can.c
     /home/evg/SOFT/Github/GIT/4_promwad2/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal.c
     /home/evg/SOFT/Github/GIT/4_promwad2/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_dma.c
     /home/evg/SOFT/Github/GIT/4_promwad2/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_gpio.c
