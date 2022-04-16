@@ -15,7 +15,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 set (IsBootloader false)
-set (SC2board true)
+set (SC2board false)
 set (IsStm32f7 true)
 set (HeapVersion4 true)
 set (HeapVersion5 false)
@@ -64,7 +64,7 @@ if(IsStm32f7)
     include_directories(${EEPROM})
 
     set (TraceRecorder  "Tracealyzer-4.2.12-linux64/FreeRTOS/TraceRecorder")
-    file (GLOB_RECURSE TraceRecorder_src ${TraceRecorder}/*.c ${TraceRecorder}/streamports/TCPIP/*.c )
+    file (GLOB TraceRecorder_src ${TraceRecorder}/*.c ${TraceRecorder}/streamports/TCPIP/*.c )
     include_directories(${TraceRecorder}/streamports/TCPIP/include ${TraceRecorder}/include ${TraceRecorder}/config )
 
     set (Tests  ${SRC}Tests)
@@ -356,13 +356,18 @@ if (IsStm32f7 AND SC2board)
     ${UDP_JSON}
     ${Call_Control}
 
+    )
+endif()
+
+include_directories(
     ${FreeRTOS}/Source/CMSIS_RTOS
     Drivers/CMSIS_STM32F7xx/DSP/Include
     Drivers/CMSIS_STM32F7xx/Core/Include
     Drivers/STM32F7xx_HAL_Driver/Inc
     Drivers/CMSIS_STM32F7xx/Device/ST/STM32F7xx/Include
-    )
-endif()
+    Src/CAN_STM32F7xx
+)
+
 
 if (IsBootloader)
     include_directories(
@@ -390,7 +395,7 @@ add_executable(${PROJECT_NAME}.elf
     ${Bootloader_src}
     ${UpdateMechanism_src}
     ${EEPROM_src}
-#    ${TraceRecorder_src}
+    ${TraceRecorder_src}
     ${Tests_src}
     ${UID_src}
     ${RTT_src}
@@ -402,13 +407,13 @@ add_executable(${PROJECT_NAME}.elf
     ${TRNG_src}
     ${Debug_src}
     ${RS232_src}
-#    ${CAN_STM32F7xx_src}
+    ${CAN_STM32F7xx_src}
     ${GPIO_STM32F7xx_src}
     ${GPIO_SC2_BOARD_src}
     ${RTC_src}
     ${SRAM_src}
     ${JSON_src}
-#    ${UDP_JSON_src}
+    ${UDP_JSON_src}
     ${LwIP_src}
     ${littlefs_src}
     ${CircularBuffer_src}
@@ -417,7 +422,7 @@ add_executable(${PROJECT_NAME}.elf
     ${CMSIS_RTOS_src}
     ${STM32F7xx_HAL_src}
     ${CMSIS_STM32F7xx_src}
-#    ${Call_Control_src}
+    ${Call_Control_src}
     ${SNTP_src}
     ${SRC_src}
     ${startup_src}
