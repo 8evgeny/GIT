@@ -2,8 +2,7 @@ import qbs
 import qbs.FileInfo
 import qbs.ModUtils
 
-//openocd -f board/stm32f746g-disco.cfg -c "init" -c "reset init" -c "tpiu config internal /home/user/prj.promwad.Fez-Telecom-Engineering/debug.itm uart off 200000000" -c "itm port 0 on" -c "reset"
-//./itmdump -f ../debug.itm -d1
+//openocd -f board/stm32f746g-disco.cfg -c "init" -c "reset init" -c "tpiu config internal /home/user/prj.promwad.Fez-Telecom-Engineering/debug.itm uart off 200000000" -c "itm port 0 on" -c "reset" ./itmdump -f ../debug.itm -d1
 CppApplication  {
 
     name: "4_promwad2"
