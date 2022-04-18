@@ -578,7 +578,6 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}\
     -Wl,--start-group \
     -Wl,--gc-sections \
     -mcpu=cortex-m7 \
-    -std=gnu11 \
     -DUSE_HAL_DRIVER \
     -DSTM32H753xx \
     -Os \
@@ -597,15 +596,14 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}\
     -Wl,-section-start=.rtt=0x20000000 \
     -u_printf_float \
     -fno-exceptions \
-    -fno-rtti \
     -Wl,--end-group \
     ")
-
+#    -fno-rtti \
+#    -std=gnu11 \
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}\
     -Wl,--start-group \
     -Wl,--gc-sections \
     -mcpu=cortex-m7 \
-    -std=gnu11 \
     -DUSE_HAL_DRIVER \
     -DSTM32H753xx \
     -Os \
@@ -624,10 +622,10 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}\
     -Wl,-section-start=.rtt=0x20000000 \
     -u_printf_float \
     -fno-exceptions \
-    -fno-rtti \
     -Wl,--end-group \
     ")
-
+#    -fno-rtti \
+#    -std=gnu11 \
 
 if (IsStm32f7)
     set(LINKER_SCRIPT_FLASH1 "${CMAKE_SOURCE_DIR}/STM32F777IITx_FLASH.ld")
