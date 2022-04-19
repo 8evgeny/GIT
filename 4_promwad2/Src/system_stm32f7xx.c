@@ -74,7 +74,7 @@
 /************************* Miscellaneous Configuration ************************/
 /*!< Uncomment the following line if you need to use external SRAM or SDRAM mounted
      on STMicroelectronics EVAL/Discovery boards as data memory  */
-/*!< In case of EVAL/Discovery’s LCD use in application code, the DATA_IN_ExtSDRAM define
+/*!< In case of EVAL/Discoveryâ€™s LCD use in application code, the DATA_IN_ExtSDRAM define
      need to be added  in the project preprocessor to avoid SDRAM multiple configuration
      (the LCD uses SDRAM as frame buffer, and its configuration is done by the BSP_SDRAM_Init()) */
 /* #define DATA_IN_ExtSRAM */ 
