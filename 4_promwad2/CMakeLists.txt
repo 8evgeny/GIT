@@ -340,7 +340,7 @@ if(IsStm32f7 OR IsBootloader)
 #    file (GLOB startup_src ${startup}/startup_stm32h753iitx.s )
 endif()
 
-file (GLOB LD_src STM32F777IITx_FLASH.ld )
+file (GLOB LD_src old_STM32F777IITx_FLASH.ld )
 #file (GLOB LD_src newSTM32H753IITX_FLASH.ld )
 
 file (GLOB HZ_src ${CMAKE_HOME_DIRECTORY}/Drivers/CMSIS_STM32F7xx/DSP/Source/*.c )
@@ -594,9 +594,10 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}\
     -mthumb \
     -Xlinker \
     -Map=${PROJECT_NAME}.map \
-    -Wl,-section-start=.rtt=0x24000000 \
+    -Wl,-section-start=.rtt=0x20000000 \
     -u_printf_float \
     -fno-exceptions \
+    -std=c++17 \
     -Wl,--end-group \
     ")
 #    -fno-rtti \
@@ -621,7 +622,7 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}\
     -mthumb \
     -Xlinker \
     -Map=${PROJECT_NAME}.map \
-    -Wl,-section-start=.rtt=0x24000000 \
+    -Wl,-section-start=.rtt=0x20000000 \
     -u_printf_float \
     -fno-exceptions \
     -Wl,--end-group \
@@ -630,7 +631,7 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}\
 #    -std=gnu11 \
 
 if (IsStm32f7)
-    set(LINKER_SCRIPT_FLASH1 "${CMAKE_SOURCE_DIR}/STM32F777IITx_FLASH.ld")
+    set(LINKER_SCRIPT_FLASH1 "${CMAKE_SOURCE_DIR}/old_STM32F777IITx_FLASH.ld")
     #set(LINKER_SCRIPT_FLASH "${CMAKE_SOURCE_DIR}/newSTM32H753IITX_FLASH.ld")
 
     set(LINKER_FLAGS "SHELL: \
