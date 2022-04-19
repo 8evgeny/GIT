@@ -6,12 +6,13 @@
   ******************************************************************************
   * @attention
   *
-  * Copyright (c) 2022 STMicroelectronics.
-  * All rights reserved.
+  * <h2><center>&copy; Copyright (c) 2021 STMicroelectronics.
+  * All rights reserved.</center></h2>
   *
-  * This software is licensed under terms that can be found in the LICENSE file
-  * in the root directory of this software component.
-  * If no LICENSE file comes with this software, it is provided AS-IS.
+  * This software component is licensed by ST under BSD 3-Clause license,
+  * the "License"; You may not use this file except in compliance with the
+  * License. You may obtain a copy of the License at:
+  *                        opensource.org/licenses/BSD-3-Clause
   *
   ******************************************************************************
   */
@@ -22,6 +23,7 @@
 #include "stm32h7xx_it.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "stdio.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -51,6 +53,46 @@
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+typedef struct __attribute__((packed)) ContextStateFrame {
+  uint32_t fr1;
+  uint32_t r0;
+  uint32_t r1;
+  uint32_t r2;
+  uint32_t r3;
+  uint32_t r12;
+  uint32_t lr;
+  uint32_t return_address;
+  uint32_t xpsr;
+} sContextStateFrame;
+
+__attribute__((optimize("O0"))) void fault_GetRegistersFromStack( sContextStateFrame *frame )
+{
+	volatile uint32_t _r0,_r1,_r2,_r3,_r12,_lr,_ret,_xpsr, _CFSR;
+
+	_r0=frame->r0;
+	_r1=frame->r1;
+	_r2=frame->r2;
+	_r3=frame->r3;
+	_r12=frame->r12;
+	_lr=frame->lr;
+	_ret=frame->return_address;
+	_xpsr=frame->xpsr;
+	_CFSR = SCB->CFSR;
+
+    printf(">>>HARDFAULT<<<< :(\r\n");
+    printf("CFSR = %.8lX\r\n", _CFSR);
+    printf("Context = %.8lX\r\n", (uint32_t)frame);
+    printf("r0 = %.8lX\r\n", _r0);
+    printf("r1 = %.8lX\r\n", _r1);
+    printf("r2 = %.8lX\r\n", _r2);
+    printf("r3 = %.8lX\r\n", _r3);
+    printf("r12 = %.8lX\r\n", _r12);
+    printf("lr = %.8lX\r\n", _lr);
+    printf("return = %.8lX\r\n", _ret);
+    printf("xpsr = %.8lX\r\n", _xpsr);
+
+	while (1) {};
+}
 
 /* USER CODE END 0 */
 
@@ -92,7 +134,14 @@ void NMI_Handler(void)
 void HardFault_Handler(void)
 {
   /* USER CODE BEGIN HardFault_IRQn 0 */
-
+	__ASM volatile
+	  (
+	     " tst lr, #4\n"
+	     " ite eq\n"
+	     " mrseq r0, msp\n"
+	     " mrsne r0, psp\n"
+	     " b fault_GetRegistersFromStack\n"
+	  );
   /* USER CODE END HardFault_IRQn 0 */
   while (1)
   {

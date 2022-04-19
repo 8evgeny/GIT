@@ -28,7 +28,10 @@
 #include "ethernetif.h"
 
 /* USER CODE BEGIN 0 */
-
+#include "main.h"
+#include "system_settings.h"
+#include "driver_UI.h"
+#include "CLI_io.h"
 /* USER CODE END 0 */
 /* Private function prototypes -----------------------------------------------*/
 static void ethernet_link_status_updated(struct netif *netif);
@@ -74,6 +77,19 @@ void MX_LWIP_Init(void)
   GATEWAY_ADDRESS[3] = 253;
 
 /* USER CODE BEGIN IP_ADDRESSES */
+  sPDOSettings *sset = sysset_get_settings();
+  IP_ADDRESS[0] = sset->network.ip[0];
+  IP_ADDRESS[1] = sset->network.ip[1];
+  IP_ADDRESS[2] = sset->network.ip[2];
+  IP_ADDRESS[3] = sset->network.ip[3];
+  NETMASK_ADDRESS[0] = sset->network.mask[0];
+  NETMASK_ADDRESS[1] = sset->network.mask[1];
+  NETMASK_ADDRESS[2] = sset->network.mask[2];
+  NETMASK_ADDRESS[3] = sset->network.mask[3];
+  GATEWAY_ADDRESS[0] = sset->network.gateway[0];
+  GATEWAY_ADDRESS[1] = sset->network.gateway[1];
+  GATEWAY_ADDRESS[2] = sset->network.gateway[2];
+  GATEWAY_ADDRESS[3] = sset->network.gateway[3];
 /* USER CODE END IP_ADDRESSES */
 
   /* Initilialize the LwIP stack without RTOS */
@@ -176,11 +192,18 @@ static void ethernet_link_status_updated(struct netif *netif)
   if (netif_is_up(netif))
   {
 /* USER CODE BEGIN 5 */
+	  if (get_pdo_work_mode()==WORK_MODE_OK)
+	   ui_setledstate(LED_NORMA, LED_STATE_ON);
+	  else
+	   ui_setledstate(LED_NORMA, LED_STATE_FL1);
+	  CLI_print_lev(CLI_PRINTLEVEL_SERVICE, "Ethernet link up\r\n");
 /* USER CODE END 5 */
   }
   else /* netif is down */
   {
 /* USER CODE BEGIN 6 */
+	  ui_setledstate(LED_NORMA, LED_STATE_FL3);
+	  CLI_print_lev(CLI_PRINTLEVEL_SERVICE, "Ethernet link down\r\n");
 /* USER CODE END 6 */
   }
 }

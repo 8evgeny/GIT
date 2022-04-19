@@ -33,7 +33,7 @@
 
 /* Within 'USER CODE' section, code will be kept by default at each generation */
 /* USER CODE BEGIN 0 */
-
+#include "system_settings.h"
 /* USER CODE END 0 */
 
 /* Private define ------------------------------------------------------------*/
@@ -293,7 +293,10 @@ static void low_level_init(struct netif *netif)
   heth.Init.RxBuffLen = 1536;
 
   /* USER CODE BEGIN MACADDRESS */
-
+  sPDOSettings *sset = sysset_get_settings();
+  MACAddr[3] = sset->network.ip[1];
+  MACAddr[4] = sset->network.ip[2];
+  MACAddr[5] = sset->network.ip[3];
   /* USER CODE END MACADDRESS */
 
   hal_eth_init_status = HAL_ETH_Init(&heth);

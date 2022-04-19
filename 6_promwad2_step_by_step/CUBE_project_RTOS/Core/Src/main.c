@@ -6,15 +6,22 @@
   ******************************************************************************
   * @attention
   *
-  * Copyright (c) 2022 STMicroelectronics.
-  * All rights reserved.
+  * <h2><center>&copy; Copyright (c) 2021 STMicroelectronics.
+  * All rights reserved.</center></h2>
   *
-  * This software is licensed under terms that can be found in the LICENSE file
-  * in the root directory of this software component.
-  * If no LICENSE file comes with this software, it is provided AS-IS.
+  * This software component is licensed by ST under BSD 3-Clause license,
+  * the "License"; You may not use this file except in compliance with the
+  * License. You may obtain a copy of the License at:
+  *                        opensource.org/licenses/BSD-3-Clause
   *
   ******************************************************************************
   */
+
+/** @defgroup main Main program module
+  * @brief Main program implementation
+  * @{
+  */
+
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
@@ -22,7 +29,24 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include <string.h>
+#include "cli_io.h"
+#include "driver_pinIO.h"
+#include "driver_ui.h"
+#include "driver_AIC.h"
+#include "driver_EEPROM.h"
+#include "driver_extRAM.h"
+#include "CLI_CmdDeviceFn.h"
+#include "CLI_CmdTestFn.h"
+#include "CLI_CmdServiceFn.h"
+#include "audio_process.h"
+#include "tone_gen_state_processor.h"
+#include "dp83848.h"
+#include "system_settings.h"
+#include "udp_exchange.h"
+#include "connect_manager.h"
+#include "CBuffer.h"
+#include "system_settings.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -80,6 +104,74 @@ static void MX_TIM3_Init(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
+/// debug print time
+#define TIME_DEBUG_PRINT	1000
+/// button delay time
+#define TIME_BTN_WAIT		200
+
+/// time for debug print
+uint32_t print_time;
+/// time for button delay
+uint32_t btn_wait_time;
+
+/// link to PHY controller control/status structure
+extern DP83848_Object_t DP83848;
+//extern unsigned int received_pcount; // for debug
+
+/// buffer for processing Ethernet packets
+uint8_t eth_pkt_cmd_data[1200];
+
+#define PDO_HWERROR_MEM		1
+#define PDO_HWERROR_AIC		2
+#define PDO_HWERROR_EEPROM	4
+#define PDO_HWERROR_PHY		8
+
+/// PDO working mode
+uint8_t pdo_work_mode;
+/// PDO hardware error flags
+uint8_t pdo_hwerror;
+
+/**
+  * @brief  get PDO work mode
+  * @retval result - PDO work mode
+  */
+uint8_t get_pdo_work_mode(){
+	return pdo_work_mode;
+}
+
+/**
+  * @brief  set LED to display hardware error
+  * @retval none
+  */
+void pdo_led_hwerror(){
+	if (pdo_hwerror&PDO_HWERROR_MEM) ui_setledstate(LED_AB1R + 4, LED_STATE_FL1);
+	if (pdo_hwerror&PDO_HWERROR_AIC) ui_setledstate(LED_AB1R + 6, LED_STATE_FL1);
+	if (pdo_hwerror&PDO_HWERROR_EEPROM) ui_setledstate(LED_AB1R + 8, LED_STATE_FL1);
+	if (pdo_hwerror&PDO_HWERROR_PHY) ui_setledstate(LED_AB1R + 10, LED_STATE_FL1);
+}
+
+/// time to display start sequence
+#define TIME_PDO_LED_START	1000
+
+/**
+  * @brief  set LED to display start sequence
+  * @retval none
+  */
+void pdo_led_start_task()
+{
+	uint8_t i;
+	uint32_t ledtimeout;
+
+	for (i=0;i<LED_NUM;i++) ui_setledstate(i, LED_STATE_FL2);
+
+	ledtimeout = HAL_GetTick();
+	while ((HAL_GetTick() - ledtimeout) < TIME_PDO_LED_START) ui_task();
+
+	for (i=0;i<LED_NUM;i++) ui_setledstate(i, LED_STATE_OFF);
+}
+
+//extern uint32_t ec_max_energy;
+
 /* USER CODE END 0 */
 
 /**
@@ -89,7 +181,8 @@ static void MX_TIM3_Init(void);
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-
+  uint8_t btn_idx, btn_st;
+  uint32_t loop_cnt;
   /* USER CODE END 1 */
 
   /* MPU Configuration--------------------------------------------------------*/
@@ -117,7 +210,6 @@ int main(void)
   PeriphCommonClock_Config();
 
   /* USER CODE BEGIN SysInit */
-
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
@@ -133,12 +225,221 @@ int main(void)
   MX_LWIP_Init();
   /* USER CODE BEGIN 2 */
 
+  pdo_work_mode = WORK_MODE_UDEF;
+  pdo_hwerror = 0;
+
+  CLI_init();
+
+  CLI_print("v----------v\r\n");
+  CLI_print("GIT-Comm IPS\r\n");
+  CLI_print("Starting PDO SC4 firmware...\r\n");
+
+  ui_init();
+
+  ui_setledstate(LED_TEST, LED_STATE_ON);
+
+  test_init();
+  
+  printDeviceID();
+
+  if (extram_init()<0) {
+	  pdo_work_mode = WORK_MODE_HWFAIL;
+	  pdo_hwerror |= PDO_HWERROR_MEM;
+  }
+
+  if (aic_init()<0) {
+	  pdo_work_mode = WORK_MODE_HWFAIL;
+	  pdo_hwerror |= PDO_HWERROR_AIC;
+  } else {
+      //aic_setSAIloop(1);	// disable to enable audiomixer out
+	  CLI_print("Test AIC : OK\r\n");
+	  audio_init();
+  }
+  tone_genInit();
+
+  pinio_set_UPR_SP(UPR_STATE_ON);
+  pinio_set_UPR_FAN(UPR_STATE_OFF);
+  pinio_set_UPR_RELE(UPR_STATE_OFF);
+
+  if (eeprom_init() == -1) {
+	  pdo_work_mode = WORK_MODE_HWFAIL;
+	  pdo_hwerror |= PDO_HWERROR_EEPROM;
+  } else {
+	  CLI_print("Test EEPROM : OK\r\n");
+	  if (sysset_init()<0) {
+		  if (pdo_work_mode != WORK_MODE_HWFAIL) pdo_work_mode = WORK_MODE_NOCFG;
+	  } else {
+		  CLI_print("Settings loaded from EEPROM\r\n");
+		  checkFirmware();
+		  if (pdo_work_mode != WORK_MODE_HWFAIL) pdo_work_mode = WORK_MODE_OK;
+	  }
+  }
+
+  MX_LWIP_Init();
+  if (DP83848.Is_Initialized) {
+	CLI_print("Test PHY : OK\r\n");
+  } else {
+	CLI_print("Test PHY : phy init fail\r\n");
+	pdo_work_mode = WORK_MODE_HWFAIL;
+	pdo_hwerror |= PDO_HWERROR_PHY;
+  }
+
+  if (pdo_work_mode == WORK_MODE_OK) {
+	  pdo_led_start_task();
+	  audio_start();
+  } else
+  if (pdo_work_mode == WORK_MODE_NOCFG) {
+	  ui_setledstate(LED_AB1R, LED_STATE_FL1);
+	  ui_setledstate(LED_AB1R + 2, LED_STATE_FL1);
+  } else {
+	  ui_setledstate(LED_AB1R, LED_STATE_FL1);
+	  ui_setledstate(LED_AB1R + 2, LED_STATE_FL3);
+	  pdo_led_hwerror();
+  }
+
+  ui_setledstate(LED_TEST, LED_STATE_OFF);
+  ui_setledstate(LED_NORMA, LED_STATE_FL3);
+  ui_setledstate(LED_MKVKL, LED_STATE_OFF);
+
+  print_time = HAL_GetTick();
+  loop_cnt = 0;
+  btn_wait_time = 0;
+
+  udp_ips_init(UDP_AUDIO_PORT, UDP_CTRL_PORT, UDP_CTRL_PORT);
+  cmanager_init(CM_ARRAY_COUNT);
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+
+	  CLI_uart_task();
+
+	  ui_task();
+
+	  test_task();
+
+	  if (pdo_work_mode == WORK_MODE_OK) {
+	   if (service_getmode()==svcNone) {
+	    aic_task();
+
+	    audio_process();
+	   }
+	  }
+
+	  tone_genProcess();
+
+	  MX_LWIP_Process();
+
+	  if (btn_wait_time) {
+	    if ((HAL_GetTick() - btn_wait_time) > TIME_BTN_WAIT) { ui_set_block_kbd(0); btn_wait_time = 0;}
+	  } else
+	  while ((btn_idx=ui_getactivebtn())!=BTN_NONE) {
+		  btn_st = ui_getbtnval(btn_idx);
+		  btn_wait_time =  HAL_GetTick();
+		  ui_set_block_kbd(1);
+		  CLI_print_lev(CLI_PRINTLEVEL_TEST, "BTN %.2X ",btn_idx);
+		  if (btn_st == BTN_VAL_DOWN)
+			  CLI_print_lev(CLI_PRINTLEVEL_TEST, "DOWN\r\n");
+		  else
+			  CLI_print_lev(CLI_PRINTLEVEL_TEST, "UP\r\n");
+
+		  if ((btn_idx >= (BTN_AB1))&&(btn_idx <= (BTN_AB48)))
+		  {
+		  	cmanager_process_button(btn_idx-8, btn_st);
+		  } else
+		  if (btn_idx == BTN_VOLUP) {
+		  	if (btn_st == BTN_VAL_DOWN) {
+		  	 aic_setOutVolUp();
+		    }
+		  } else
+		  if (btn_idx == BTN_VOLDN) {
+		  	if (btn_st == BTN_VAL_DOWN) {
+		  	 aic_setOutVolDown();
+		    }
+		  } else
+		  if (btn_idx == BTN_MICUP) {
+		  	if (btn_st == BTN_VAL_DOWN) {
+		  	 aic_setInVolUp();
+		    }
+		  } else
+		  if (btn_idx == BTN_MICDN) {
+		  	if (btn_st == BTN_VAL_DOWN) {
+		  	 aic_setInVolDown();
+		  	}
+		  } else
+		  if (btn_idx == BTN_TEST) {
+			if (btn_st == BTN_VAL_DOWN) {
+				if (test_get_mode()&TEST_MODE_ON)
+					fnStopTestMode(0,0);
+				else
+					fnStartTestMode(0,0);
+			}
+		  }
+	  }
+
+	  btn_idx = pinio_getstate_DET_PHONE();
+	  	  if (btn_idx!=DET_STATE_IDLE) {
+	  		  if (btn_idx == DET_STATE_ON) {
+	  			CLI_print_lev(CLI_PRINTLEVEL_SERVICE, "EXT_PHONE ON\r\n");
+	  			//aic_setOutDev(AIC_OUTDEV_PHONE);
+	  			pinio_set_UPR_SP(UPR_STATE_OFF);
+	  		  } else {
+	  			CLI_print_lev(CLI_PRINTLEVEL_SERVICE, "EXT_PHONE OFF\r\n");
+	  			//aic_setOutDev(AIC_OUTDEV_GR);
+	  			pinio_set_UPR_SP(UPR_STATE_ON);
+	  		  }
+	  	  }
+
+	  	btn_idx = pinio_getstate_DET_MIC();
+		  if (btn_idx!=DET_STATE_IDLE) {
+			  if (btn_idx == DET_STATE_ON) {
+				CLI_print_lev(CLI_PRINTLEVEL_SERVICE, "EXT_MIC ON\r\n");
+				aic_setInDev(AIC_INDEV_EXTMIC);
+			  } else {
+				CLI_print_lev(CLI_PRINTLEVEL_SERVICE, "EXT_MIC OFF\r\n");
+				aic_setInDev(AIC_INDEV_INTMIC);
+			  }
+		  }
+
+	  if ((HAL_GetTick() - print_time) > TIME_DEBUG_PRINT)
+	  {
+	  	loop_cnt++;
+	  	//CLI_print("--------------\r\nWHILE LOOP %lu\r\n",loop_cnt);
+	  	//CLI_print("Packet freq: %d \r\n", received_pcount);
+
+	  	//CLI_print("GR Max: %d \r\n", ec_GR_max_energy);
+	  	//CLI_print("MIC Max: %d \r\n", ec_MIC_max_energy);
+	  	//ec_GR_max_energy = 0;
+		//ec_MIC_max_energy = 0;
+
+	  	//received_pcount = 0;
+
+	  	print_time = HAL_GetTick();
+	  }
+
+	  uint16_t cmdcfg_next_size = CmdCfgBuffer_GetNextPktSize();
+
+	  if (cmdcfg_next_size)
+	  {
+		cmdcfg_pckt_read(&eth_pkt_cmd_data[0], cmdcfg_next_size); // <---reading next cmd packet to cmd_data
+		eth_pkt_cmd_data[cmdcfg_next_size] = 0;
+		if (memcmp(&eth_pkt_cmd_data[0], "CMD : ", 6) == 0) // <--- condition if cmd package arrived
+		{
+			//CLI_print_lev(CLI_PRINTLEVEL_SVCDEBUG, "IP CMD pktsize: %i \r\n", cmdcfg_next_size);
+			cmanager_process_cmd(&eth_pkt_cmd_data[6], cmdcfg_next_size - 6);
+		}
+		else if (memcmp(&eth_pkt_cmd_data[0], "CONFIG : ", 9) == 0) // <--- condition if cfg package arrived
+		{
+			//CLI_print_lev(CLI_PRINTLEVEL_SVCDEBUG, "IP CONFIG pktsize: %i \r\n", cmdcfg_next_size);
+			CLI_ethernet_input(&eth_pkt_cmd_data[0], cmdcfg_next_size, 0);
+		}
+	  }
+
+	  cmanager_task();
+
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -617,18 +918,15 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(POW_DOWN_GPIO_Port, POW_DOWN_Pin, GPIO_PIN_SET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOC, L1_Pin|L2_Pin|L3_Pin, GPIO_PIN_RESET);
-
-  /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(NORMA_UPR_GPIO_Port, NORMA_UPR_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(TEST_LED_GPIO_Port, TEST_LED_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pins : DET_48V_Pin UPR_PHONE_Pin UPR_MIC2_Pin CFG_UI0_Pin
-                           CFG_UI1_Pin I2C3_INT_Pin */
+                           CFG_UI1_Pin CFG_UI2_Pin INT_BUT_Pin */
   GPIO_InitStruct.Pin = DET_48V_Pin|UPR_PHONE_Pin|UPR_MIC2_Pin|CFG_UI0_Pin
-                          |CFG_UI1_Pin|I2C3_INT_Pin;
+                          |CFG_UI1_Pin|CFG_UI2_Pin|INT_BUT_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
@@ -660,13 +958,6 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
-
-  /*Configure GPIO pins : L1_Pin L2_Pin L3_Pin */
-  GPIO_InitStruct.Pin = L1_Pin|L2_Pin|L3_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
   /*Configure GPIO pin : NORMA_UPR_Pin */
   GPIO_InitStruct.Pin = NORMA_UPR_Pin;

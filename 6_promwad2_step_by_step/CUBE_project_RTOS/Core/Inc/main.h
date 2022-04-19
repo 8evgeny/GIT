@@ -7,12 +7,13 @@
   ******************************************************************************
   * @attention
   *
-  * Copyright (c) 2022 STMicroelectronics.
-  * All rights reserved.
+  * <h2><center>&copy; Copyright (c) 2021 STMicroelectronics.
+  * All rights reserved.</center></h2>
   *
-  * This software is licensed under terms that can be found in the LICENSE file
-  * in the root directory of this software component.
-  * If no LICENSE file comes with this software, it is provided AS-IS.
+  * This software component is licensed by ST under BSD 3-Clause license,
+  * the "License"; You may not use this file except in compliance with the
+  * License. You may obtain a copy of the License at:
+  *                        opensource.org/licenses/BSD-3-Clause
   *
   ******************************************************************************
   */
@@ -31,7 +32,12 @@ extern "C" {
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#define WORK_MODE_UDEF		0
+#define WORK_MODE_HWFAIL	1
+#define WORK_MODE_NOCFG		2
+#define WORK_MODE_OK		3
 
+uint8_t get_pdo_work_mode();
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/
@@ -77,8 +83,8 @@ void Error_Handler(void);
 #define CFG_UI0_GPIO_Port GPIOC
 #define CFG_UI1_Pin GPIO_PIN_7
 #define CFG_UI1_GPIO_Port GPIOC
-#define I2C3_INT_Pin GPIO_PIN_8
-#define I2C3_INT_GPIO_Port GPIOC
+#define CFG_UI2_Pin GPIO_PIN_8
+#define CFG_UI2_GPIO_Port GPIOC
 #define VOL_UP_Pin GPIO_PIN_9
 #define VOL_UP_GPIO_Port GPIOA
 #define VOL_DOWN_Pin GPIO_PIN_10
@@ -87,12 +93,8 @@ void Error_Handler(void);
 #define SENS_UP_GPIO_Port GPIOA
 #define SENS_DOWN_Pin GPIO_PIN_12
 #define SENS_DOWN_GPIO_Port GPIOA
-#define L1_Pin GPIO_PIN_10
-#define L1_GPIO_Port GPIOC
-#define L2_Pin GPIO_PIN_11
-#define L2_GPIO_Port GPIOC
-#define L3_Pin GPIO_PIN_12
-#define L3_GPIO_Port GPIOC
+#define INT_BUT_Pin GPIO_PIN_12
+#define INT_BUT_GPIO_Port GPIOC
 #define NORMA_UPR_Pin GPIO_PIN_6
 #define NORMA_UPR_GPIO_Port GPIOD
 #define TEST_BUT_Pin GPIO_PIN_5
