@@ -77,8 +77,8 @@ void Error_Handler(void);
 #define CFG_UI0_GPIO_Port GPIOC
 #define CFG_UI1_Pin GPIO_PIN_7
 #define CFG_UI1_GPIO_Port GPIOC
-#define CFG_UI2_Pin GPIO_PIN_8
-#define CFG_UI2_GPIO_Port GPIOC
+#define I2C3_INT_Pin GPIO_PIN_8
+#define I2C3_INT_GPIO_Port GPIOC
 #define VOL_UP_Pin GPIO_PIN_9
 #define VOL_UP_GPIO_Port GPIOA
 #define VOL_DOWN_Pin GPIO_PIN_10
@@ -87,8 +87,12 @@ void Error_Handler(void);
 #define SENS_UP_GPIO_Port GPIOA
 #define SENS_DOWN_Pin GPIO_PIN_12
 #define SENS_DOWN_GPIO_Port GPIOA
-#define INT_BUT_Pin GPIO_PIN_12
-#define INT_BUT_GPIO_Port GPIOC
+#define L1_Pin GPIO_PIN_10
+#define L1_GPIO_Port GPIOC
+#define L2_Pin GPIO_PIN_11
+#define L2_GPIO_Port GPIOC
+#define L3_Pin GPIO_PIN_12
+#define L3_GPIO_Port GPIOC
 #define NORMA_UPR_Pin GPIO_PIN_6
 #define NORMA_UPR_GPIO_Port GPIOD
 #define TEST_BUT_Pin GPIO_PIN_5

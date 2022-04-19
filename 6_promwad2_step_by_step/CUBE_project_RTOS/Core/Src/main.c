@@ -617,15 +617,18 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(POW_DOWN_GPIO_Port, POW_DOWN_Pin, GPIO_PIN_SET);
 
   /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOC, L1_Pin|L2_Pin|L3_Pin, GPIO_PIN_RESET);
+
+  /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(NORMA_UPR_GPIO_Port, NORMA_UPR_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(TEST_LED_GPIO_Port, TEST_LED_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pins : DET_48V_Pin UPR_PHONE_Pin UPR_MIC2_Pin CFG_UI0_Pin
-                           CFG_UI1_Pin CFG_UI2_Pin INT_BUT_Pin */
+                           CFG_UI1_Pin I2C3_INT_Pin */
   GPIO_InitStruct.Pin = DET_48V_Pin|UPR_PHONE_Pin|UPR_MIC2_Pin|CFG_UI0_Pin
-                          |CFG_UI1_Pin|CFG_UI2_Pin|INT_BUT_Pin;
+                          |CFG_UI1_Pin|I2C3_INT_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
@@ -657,6 +660,13 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : L1_Pin L2_Pin L3_Pin */
+  GPIO_InitStruct.Pin = L1_Pin|L2_Pin|L3_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
   /*Configure GPIO pin : NORMA_UPR_Pin */
   GPIO_InitStruct.Pin = NORMA_UPR_Pin;
