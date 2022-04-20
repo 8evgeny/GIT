@@ -83,83 +83,36 @@ void StartDefaultTask(void const * argument);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-volatile int i;
-void delay()
-{
-    for (i = 0; i < 20000000; i++)
-        __asm__("nop");
-}
-void simpleLedTest1()
-{
-    HAL_GPIO_WritePin(GPIOG, L4_Pin|L5_Pin|L6_Pin, GPIO_PIN_RESET);
-    delay();
-    delay();
-    HAL_GPIO_WritePin(GPIOG, L4_Pin|L5_Pin|L6_Pin, GPIO_PIN_SET);
-    delay();
-    delay();
-}
+
 void simpleLedTest1_RTOS()
 {
     for(;;)
     {
         HAL_GPIO_WritePin(GPIOG, L4_Pin|L5_Pin|L6_Pin, GPIO_PIN_RESET);
-        delay();
-        delay();
+        HAL_Delay(2000);
         HAL_GPIO_WritePin(GPIOG, L4_Pin|L5_Pin|L6_Pin, GPIO_PIN_SET);
-        delay();
-        delay();
+        HAL_Delay(200);
     }
-}
-
-void simpleLedTest2()
-{
-    HAL_GPIO_WritePin(GPIOC, L1_Pin|L2_Pin|L3_Pin, GPIO_PIN_RESET);
-    delay();
-    delay();
-    delay();
-    HAL_GPIO_WritePin(GPIOC, L1_Pin|L2_Pin|L3_Pin, GPIO_PIN_SET);
-    delay();
 }
 void simpleLedTest2_RTOS()
 {
     for(;;)
     {
         HAL_GPIO_WritePin(GPIOC, L1_Pin|L2_Pin|L3_Pin, GPIO_PIN_RESET);
-        delay();
-        delay();
-        delay();
+        HAL_Delay(1500);
         HAL_GPIO_WritePin(GPIOC, L1_Pin|L2_Pin|L3_Pin, GPIO_PIN_SET);
-        delay();
+        HAL_Delay(200);
     }
 }
-
-
-void simpleLedTest()
-{
-    HAL_GPIO_WritePin(TEST_LED_GPIO_Port, TEST_LED_Pin, GPIO_PIN_RESET);
-    delay();
-    delay();
-    delay();
-    delay();
-    delay();
-    delay();
-    HAL_GPIO_WritePin(TEST_LED_GPIO_Port, TEST_LED_Pin, GPIO_PIN_SET);
-    delay();
-}
-void simpleLedTest_RTOS(void const *argument)
+void simpleLedTest3_RTOS(void const *argument)
 {
     (void)argument;
     for(;;)
     {
         HAL_GPIO_WritePin(TEST_LED_GPIO_Port, TEST_LED_Pin, GPIO_PIN_RESET);
-        delay();
-        delay();
-        delay();
-        delay();
-        delay();
-        delay();
+        HAL_Delay(1000);
         HAL_GPIO_WritePin(TEST_LED_GPIO_Port, TEST_LED_Pin, GPIO_PIN_SET);
-        delay();
+        HAL_Delay(200);
     }
 }
 
@@ -240,14 +193,16 @@ int main(void)
   defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
 
   /* USER CODE BEGIN RTOS_THREADS */
-  osThreadDef(simpleLedTest_RTOS, simpleLedTest_RTOS, osPriorityHigh, 0, configMINIMAL_STACK_SIZE );
-  osThreadCreate(osThread(simpleLedTest_RTOS), NULL);
+  osThreadDef(simpleLedTest1_RTOS, simpleLedTest1_RTOS, osPriorityHigh, 0, configMINIMAL_STACK_SIZE );
+  osThreadCreate(osThread(simpleLedTest1_RTOS), NULL);
 
   osThreadDef(simpleLedTest2_RTOS, simpleLedTest2_RTOS, osPriorityHigh, 0, configMINIMAL_STACK_SIZE );
   osThreadCreate(osThread(simpleLedTest2_RTOS), NULL);
 
-  osThreadDef(simpleLedTest1_RTOS, simpleLedTest1_RTOS, osPriorityHigh, 0, configMINIMAL_STACK_SIZE );
-  osThreadCreate(osThread(simpleLedTest1_RTOS), NULL);
+  osThreadDef(simpleLedTest3_RTOS, simpleLedTest3_RTOS, osPriorityHigh, 0, configMINIMAL_STACK_SIZE );
+  osThreadCreate(osThread(simpleLedTest3_RTOS), NULL);
+
+
 
 
   /* add threads, ... */
@@ -262,12 +217,7 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-      simpleLedTest();
-      simpleLedTest1();
-      simpleLedTest2();
-
     /* USER CODE END WHILE */
-
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
