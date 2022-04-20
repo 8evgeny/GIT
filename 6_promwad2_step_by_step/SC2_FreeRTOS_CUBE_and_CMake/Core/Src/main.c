@@ -111,7 +111,7 @@ void simpleLedTest1_RTOS()
                  tickstart = HAL_GetTick();
             }
         }
-
+    HAL_Delay(10);
     } //end for(;;)
 }
 void simpleLedTest2_RTOS()
@@ -140,7 +140,7 @@ void simpleLedTest2_RTOS()
                  tickstart = HAL_GetTick();
             }
         }
-
+    HAL_Delay(10);
     } //end for(;;)
 }
 void simpleLedTest3_RTOS(void const *argument)
@@ -148,8 +148,8 @@ void simpleLedTest3_RTOS(void const *argument)
     (void)argument;
     bool reset = true;
     uint32_t tickstart = HAL_GetTick();
-    uint32_t timeSet = 100;
-    uint32_t timeReset = 2000;
+    uint32_t timeSet = 5;
+    uint32_t timeReset = 4000;
     for(;;)
     {
         if(reset)
@@ -170,7 +170,7 @@ void simpleLedTest3_RTOS(void const *argument)
                  tickstart = HAL_GetTick();
             }
         }
-
+    HAL_Delay(10);
     } //end for(;;)
 }
 
@@ -251,11 +251,11 @@ int main(void)
   defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
 
   /* USER CODE BEGIN RTOS_THREADS */
-  osThreadDef(simpleLedTest1_RTOS, simpleLedTest1_RTOS, osPriorityHigh, 0, configMINIMAL_STACK_SIZE );
-  osThreadCreate(osThread(simpleLedTest1_RTOS), NULL);
+//  osThreadDef(simpleLedTest1_RTOS, simpleLedTest1_RTOS, osPriorityHigh, 0, configMINIMAL_STACK_SIZE );
+//  osThreadCreate(osThread(simpleLedTest1_RTOS), NULL);
 
-  osThreadDef(simpleLedTest2_RTOS, simpleLedTest2_RTOS, osPriorityHigh, 0, configMINIMAL_STACK_SIZE );
-  osThreadCreate(osThread(simpleLedTest2_RTOS), NULL);
+//  osThreadDef(simpleLedTest2_RTOS, simpleLedTest2_RTOS, osPriorityHigh, 0, configMINIMAL_STACK_SIZE );
+//  osThreadCreate(osThread(simpleLedTest2_RTOS), NULL);
 
   osThreadDef(simpleLedTest3_RTOS, simpleLedTest3_RTOS, osPriorityHigh, 0, configMINIMAL_STACK_SIZE );
   osThreadCreate(osThread(simpleLedTest3_RTOS), NULL);
