@@ -79,6 +79,30 @@ static void MX_TIM3_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+void delay()
+{
+    for (int i = 0; i < 100000; i++)
+        __asm__("nop");
+}
+void simpleLedTest1()
+{
+    HAL_GPIO_WritePin(GPIOG, L4_Pin|L5_Pin|L6_Pin, GPIO_PIN_RESET);
+    delay();
+    HAL_GPIO_WritePin(GPIOG, L4_Pin|L5_Pin|L6_Pin, GPIO_PIN_SET);
+    delay();
+}
+void simpleLedTest2()
+{
+    HAL_GPIO_WritePin(GPIOG, L1_Pin|L2_Pin|L3_Pin, GPIO_PIN_RESET);
+    delay();
+    delay();
+    HAL_GPIO_WritePin(GPIOG, L1_Pin|L2_Pin|L3_Pin, GPIO_PIN_SET);
+    delay();
+    delay();
+}
+
+
+
 
 /* USER CODE END 0 */
 
@@ -140,6 +164,9 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
+
+      simpleLedTest1();
+      simpleLedTest2();
 
     /* USER CODE BEGIN 3 */
   }
