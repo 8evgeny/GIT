@@ -73,6 +73,25 @@ include_directories(
 file (GLOB HAL_SRC ${patchHAL_SRC}/*)
 add_library(STM32H7xx_HAL_Driver ${HAL_SRC})
 
+
+include_directories(
+    Middlewares/Third_Party/FreeRTOS/Source/include
+    Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS
+    Middlewares/Third_Party/FreeRTOS/Source/portable/MemMang
+    Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F
+    )
+file (GLOB CMSIS_RTOS_SOURCES
+    Middlewares/Third_Party/FreeRTOS/Source/*.c
+    Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.c
+    Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.c
+    Middlewares/Third_Party/LwIP/src/core/*.c
+    Middlewares/Third_Party/LwIP/system/OS/*.c
+    Middlewares/Third_Party/FreeRTOS/Source/portable/MemMang/*.c
+    )
+
+add_library(CMSIS_RTOS ${CMSIS_RTOS_SOURCES} )
+
+
 include_directories(
     LWIP/App
     LWIP/Target
@@ -149,6 +168,7 @@ target_link_libraries(${PROJECT_NAME}.elf PUBLIC
     STM32H7xx_HAL_Driver
     LWIP
     Middlewares
+    CMSIS_RTOS
     )
 
 set(HEX_FILE ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.hex)

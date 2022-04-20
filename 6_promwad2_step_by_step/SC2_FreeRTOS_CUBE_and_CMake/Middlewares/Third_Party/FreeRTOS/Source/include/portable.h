@@ -32,6 +32,8 @@
 #ifndef PORTABLE_H
 #define PORTABLE_H
 
+#include "stddef.h" //size_t
+
 /* Each FreeRTOS port has a unique portmacro.h header file.  Originally a
 pre-processor definition was used to ensure the pre-processor found the correct
 portmacro.h file for the port being used.  That scheme was deprecated in favour
