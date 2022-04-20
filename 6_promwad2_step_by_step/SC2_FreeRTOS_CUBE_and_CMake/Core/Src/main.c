@@ -84,36 +84,94 @@ void StartDefaultTask(void const * argument);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
+#include <stdbool.h>
 void simpleLedTest1_RTOS()
 {
+    bool reset = true;
+    uint32_t tickstart = HAL_GetTick();
+    uint32_t timeSet = 200;
+    uint32_t timeReset = 3000;
     for(;;)
     {
-        HAL_GPIO_WritePin(GPIOG, L4_Pin|L5_Pin|L6_Pin, GPIO_PIN_RESET);
-        HAL_Delay(2000);
-        HAL_GPIO_WritePin(GPIOG, L4_Pin|L5_Pin|L6_Pin, GPIO_PIN_SET);
-        HAL_Delay(200);
-    }
+        if(reset)
+        {
+            if (HAL_GetTick() > tickstart + timeReset)
+            {
+                 HAL_GPIO_WritePin(GPIOG, L4_Pin|L5_Pin|L6_Pin, GPIO_PIN_SET);
+                 reset = false;
+                 tickstart = HAL_GetTick();
+            }
+        }
+        if(!reset)
+        {
+            if (HAL_GetTick() > tickstart + timeSet)
+            {
+                 HAL_GPIO_WritePin(GPIOG, L4_Pin|L5_Pin|L6_Pin, GPIO_PIN_RESET);
+                 reset = true;
+                 tickstart = HAL_GetTick();
+            }
+        }
+
+    } //end for(;;)
 }
 void simpleLedTest2_RTOS()
 {
+    bool reset = true;
+    uint32_t tickstart = HAL_GetTick();
+    uint32_t timeSet = 100;
+    uint32_t timeReset = 1000;
     for(;;)
     {
-        HAL_GPIO_WritePin(GPIOC, L1_Pin|L2_Pin|L3_Pin, GPIO_PIN_RESET);
-        HAL_Delay(1500);
-        HAL_GPIO_WritePin(GPIOC, L1_Pin|L2_Pin|L3_Pin, GPIO_PIN_SET);
-        HAL_Delay(200);
-    }
+        if(reset)
+        {
+            if (HAL_GetTick() > tickstart + timeReset)
+            {
+                 HAL_GPIO_WritePin(GPIOC, L1_Pin|L2_Pin|L3_Pin, GPIO_PIN_SET);
+                 reset = false;
+                 tickstart = HAL_GetTick();
+            }
+        }
+        if(!reset)
+        {
+            if (HAL_GetTick() > tickstart + timeSet)
+            {
+                 HAL_GPIO_WritePin(GPIOC, L1_Pin|L2_Pin|L3_Pin, GPIO_PIN_RESET);
+                 reset = true;
+                 tickstart = HAL_GetTick();
+            }
+        }
+
+    } //end for(;;)
 }
 void simpleLedTest3_RTOS(void const *argument)
 {
     (void)argument;
+    bool reset = true;
+    uint32_t tickstart = HAL_GetTick();
+    uint32_t timeSet = 100;
+    uint32_t timeReset = 2000;
     for(;;)
     {
-        HAL_GPIO_WritePin(TEST_LED_GPIO_Port, TEST_LED_Pin, GPIO_PIN_RESET);
-        HAL_Delay(1000);
-        HAL_GPIO_WritePin(TEST_LED_GPIO_Port, TEST_LED_Pin, GPIO_PIN_SET);
-        HAL_Delay(200);
-    }
+        if(reset)
+        {
+            if (HAL_GetTick() > tickstart + timeReset)
+            {
+                 HAL_GPIO_WritePin(TEST_LED_GPIO_Port, TEST_LED_Pin, GPIO_PIN_SET);
+                 reset = false;
+                 tickstart = HAL_GetTick();
+            }
+        }
+        if(!reset)
+        {
+            if (HAL_GetTick() > tickstart + timeSet)
+            {
+                 HAL_GPIO_WritePin(TEST_LED_GPIO_Port, TEST_LED_Pin, GPIO_PIN_RESET);
+                 reset = true;
+                 tickstart = HAL_GetTick();
+            }
+        }
+
+    } //end for(;;)
 }
 
 
