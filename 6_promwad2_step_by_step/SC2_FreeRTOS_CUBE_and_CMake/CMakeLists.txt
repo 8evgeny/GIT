@@ -57,9 +57,16 @@ file (GLOB CORE_SOURCES
     Drivers/BSP/Components/dp83848/dp83848.c
     LWIP/Target/ethernetif.c
     )
-message (${CORE_SOURCES})
-
 add_library(CORE ${CORE_SOURCES} )
+
+
+#ХЗ не работает
+#set (GPIO_SC2  ${patchSRC}/GPIO_SC2_BOARD)
+#include_directories( ${GPIO_SC2_BOARD} )
+#file (GLOB GPIO_SC2_BOARD_SOURCES ${GPIO_SC2}/*.cpp )
+#add_library(GPIO_SC2_BOARD_LIB ${GPIO_SC2_BOARD_SOURCES} )
+
+
 
 set (STARTUP_SOURCES ${patchSRC}/../Startup/startup_stm32h753iitx.s )
 add_library(STARTUP ${STARTUP_SOURCES} )
@@ -172,6 +179,7 @@ target_link_libraries(${PROJECT_NAME}.elf PUBLIC
     LWIP
     Middlewares
     CMSIS_RTOS
+#    GPIO_SC2_BOARD_LIB
     )
 
 set(HEX_FILE ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.hex)
