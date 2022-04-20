@@ -98,20 +98,50 @@ void simpleLedTest1()
     delay();
     delay();
 }
+void simpleLedTest1_RTOS()
+{
+    for(;;)
+    {
+        HAL_GPIO_WritePin(GPIOG, L4_Pin|L5_Pin|L6_Pin, GPIO_PIN_RESET);
+        delay();
+        delay();
+        HAL_GPIO_WritePin(GPIOG, L4_Pin|L5_Pin|L6_Pin, GPIO_PIN_SET);
+        delay();
+        delay();
+    }
+}
+
 void simpleLedTest2()
 {
     HAL_GPIO_WritePin(GPIOC, L1_Pin|L2_Pin|L3_Pin, GPIO_PIN_RESET);
     delay();
+    delay();
+    delay();
     HAL_GPIO_WritePin(GPIOC, L1_Pin|L2_Pin|L3_Pin, GPIO_PIN_SET);
     delay();
 }
+void simpleLedTest2_RTOS()
+{
+    for(;;)
+    {
+        HAL_GPIO_WritePin(GPIOC, L1_Pin|L2_Pin|L3_Pin, GPIO_PIN_RESET);
+        delay();
+        delay();
+        delay();
+        HAL_GPIO_WritePin(GPIOC, L1_Pin|L2_Pin|L3_Pin, GPIO_PIN_SET);
+        delay();
+    }
+}
+
+
 void simpleLedTest()
 {
     HAL_GPIO_WritePin(TEST_LED_GPIO_Port, TEST_LED_Pin, GPIO_PIN_RESET);
     delay();
-    HAL_GPIO_WritePin(TEST_LED_GPIO_Port, TEST_LED_Pin, GPIO_PIN_SET);
     delay();
-    HAL_GPIO_WritePin(TEST_LED_GPIO_Port, TEST_LED_Pin, GPIO_PIN_RESET);
+    delay();
+    delay();
+    delay();
     delay();
     HAL_GPIO_WritePin(TEST_LED_GPIO_Port, TEST_LED_Pin, GPIO_PIN_SET);
     delay();
@@ -119,14 +149,18 @@ void simpleLedTest()
 void simpleLedTest_RTOS(void const *argument)
 {
     (void)argument;
-    HAL_GPIO_WritePin(TEST_LED_GPIO_Port, TEST_LED_Pin, GPIO_PIN_RESET);
-    delay();
-    HAL_GPIO_WritePin(TEST_LED_GPIO_Port, TEST_LED_Pin, GPIO_PIN_SET);
-    delay();
-    HAL_GPIO_WritePin(TEST_LED_GPIO_Port, TEST_LED_Pin, GPIO_PIN_RESET);
-    delay();
-    HAL_GPIO_WritePin(TEST_LED_GPIO_Port, TEST_LED_Pin, GPIO_PIN_SET);
-    delay();
+    for(;;)
+    {
+        HAL_GPIO_WritePin(TEST_LED_GPIO_Port, TEST_LED_Pin, GPIO_PIN_RESET);
+        delay();
+        delay();
+        delay();
+        delay();
+        delay();
+        delay();
+        HAL_GPIO_WritePin(TEST_LED_GPIO_Port, TEST_LED_Pin, GPIO_PIN_SET);
+        delay();
+    }
 }
 
 
@@ -206,8 +240,15 @@ int main(void)
   defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
 
   /* USER CODE BEGIN RTOS_THREADS */
-  osThreadDef(simpleLedTest_RTOS, StartDefaultTask, osPriorityNormal, 0, 128);
+  osThreadDef(simpleLedTest_RTOS, simpleLedTest_RTOS, osPriorityHigh, 0, configMINIMAL_STACK_SIZE );
   osThreadCreate(osThread(simpleLedTest_RTOS), NULL);
+
+  osThreadDef(simpleLedTest2_RTOS, simpleLedTest2_RTOS, osPriorityHigh, 0, configMINIMAL_STACK_SIZE );
+  osThreadCreate(osThread(simpleLedTest2_RTOS), NULL);
+
+  osThreadDef(simpleLedTest1_RTOS, simpleLedTest1_RTOS, osPriorityHigh, 0, configMINIMAL_STACK_SIZE );
+  osThreadCreate(osThread(simpleLedTest1_RTOS), NULL);
+
 
   /* add threads, ... */
   /* USER CODE END RTOS_THREADS */
