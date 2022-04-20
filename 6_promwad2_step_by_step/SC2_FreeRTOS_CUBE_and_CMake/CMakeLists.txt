@@ -44,6 +44,8 @@ include_directories(
     )
 file (GLOB SOURCES_C ${patchSRC}/*.c STM32H753IITX_FLASH.ld)
 
+file (GLOB SOURCES_CPP ${patchSRC}/*.cpp)
+
 include_directories(
     Core/Src
     ${patchDRV}/CMSIS/Include
@@ -135,6 +137,7 @@ add_library(Middlewares
 
 add_executable(${PROJECT_NAME}.elf
     ${SOURCES_C}
+     ${SOURCES_CPP}
     )
 
 set_target_properties(${PROJECT_NAME}.elf PROPERTIES LINKER_LANGUAGE C)
