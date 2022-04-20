@@ -116,7 +116,18 @@ void simpleLedTest()
     HAL_GPIO_WritePin(TEST_LED_GPIO_Port, TEST_LED_Pin, GPIO_PIN_SET);
     delay();
 }
-
+void simpleLedTest_RTOS(void const *argument)
+{
+    (void)argument;
+    HAL_GPIO_WritePin(TEST_LED_GPIO_Port, TEST_LED_Pin, GPIO_PIN_RESET);
+    delay();
+    HAL_GPIO_WritePin(TEST_LED_GPIO_Port, TEST_LED_Pin, GPIO_PIN_SET);
+    delay();
+    HAL_GPIO_WritePin(TEST_LED_GPIO_Port, TEST_LED_Pin, GPIO_PIN_RESET);
+    delay();
+    HAL_GPIO_WritePin(TEST_LED_GPIO_Port, TEST_LED_Pin, GPIO_PIN_SET);
+    delay();
+}
 
 
 /* USER CODE END 0 */
@@ -195,11 +206,15 @@ int main(void)
   defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
 
   /* USER CODE BEGIN RTOS_THREADS */
+  osThreadDef(simpleLedTest_RTOS, StartDefaultTask, osPriorityNormal, 0, 128);
+  osThreadCreate(osThread(simpleLedTest_RTOS), NULL);
+
   /* add threads, ... */
   /* USER CODE END RTOS_THREADS */
 
   /* Start scheduler */
-//  osKernelStart();
+
+  osKernelStart();
 
   /* We should never get here as control is now taken by the scheduler */
   /* Infinite loop */
