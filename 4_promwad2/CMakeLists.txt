@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.15)
 set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
 
 # Set ARM compiler
-set(TOOLS_PATH /home/evg/toolchain/gcc-arm-none-eabi-new)
+#set(TOOLS_PATH /home/evg/toolchain/gcc-arm-none-eabi-new)
 #set(TOOLS_PATH /home/evg/toolchain/gcc-arm-none-eabi-4_9-2014q4)
 #set(CMAKE_C_COMPILER ${TOOLS_PATH}/bin/arm-none-eabi-gcc)
 #set(CMAKE_CXX_COMPILER ${TOOLS_PATH}/bin/arm-none-eabi-g++)
@@ -15,7 +15,7 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-set (IsBootloader true)
+set (IsBootloader false)
 set (SC2board true)
 set (IsStm32f7 true)
 set (HeapVersion4 true)
@@ -534,8 +534,8 @@ if(IsStm32f7 AND NOT SC2board)
     add_definitions(-DLWIP_DEBUG)
     add_definitions(-DSTM32F777xx)
     add_definitions(-DUSE_HAL_DRIVER)
-    add_definitions(-D__weak=__attribute__\(\(weak\)\))
-    add_definitions(-D__packed=__attribute__\(\(__packed__\)\))
+#    add_definitions(-D__weak="__attribute__((weak))")
+#    add_definitions(-D__packed="__attribute__((__packed__))")
     add_definitions(-D__FPU_PRESENT=1)
     add_definitions(-DARM_MATH_CM7)
     add_definitions(-DHAVE_CONFIG_H)
@@ -546,8 +546,8 @@ endif()
 if(IsStm32f7 AND SC2board)
     add_definitions(-DSTM32F777xx)
     add_definitions(-DUSE_HAL_DRIVER)
-    add_definitions(-D__weak=__attribute__\(\(weak\)\))
-    add_definitions(-D__packed=__attribute__\(\(__packed__\)\))
+#    add_definitions(-D__weak="__attribute__((weak))")
+#    add_definitions(-D__packed="__attribute__((__packed__))")
     add_definitions(-D__FPU_PRESENT=1)
     add_definitions(-DARM_MATH_CM7)
     add_definitions(-DHAVE_CONFIG_H)
@@ -560,8 +560,8 @@ if(IsBootloader)
     add_definitions(-DLWIP_DEBUG)
     add_definitions(-DSTM32F777xx)
     add_definitions(-DUSE_HAL_DRIVER)
-    add_definitions(-D__weak=__attribute__\(\(weak\)\))
-    add_definitions(-D__packed=__attribute__\(\(__packed__\)\))
+#    add_definitions(-D__weak="__attribute__((weak))")
+#    add_definitions(-D__packed="__attribute__((__packed__))")
     add_definitions(-D__FPU_PRESENT=1)
     add_definitions(-DARM_MATH_CM7)
     add_definitions(-DHAVE_CONFIG_H)
@@ -580,7 +580,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}\
     -Wl,--gc-sections \
     -mcpu=cortex-m7 \
     -DUSE_HAL_DRIVER \
-    -DSTM32F777xx \
+    -DSTM32H753xx \
     -Os \
     -ffunction-sections \
     -fdata-sections \
@@ -597,18 +597,16 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}\
     -Wl,-section-start=.rtt=0x20000000 \
     -u_printf_float \
     -fno-exceptions \
-    -std=c++17 \
     -Wl,--end-group \
     ")
 #    -fno-rtti \
 #    -std=gnu11 \
-
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}\
     -Wl,--start-group \
     -Wl,--gc-sections \
     -mcpu=cortex-m7 \
     -DUSE_HAL_DRIVER \
-    -DSTM32F777xx \
+    -DSTM32H753xx \
     -Os \
     -ffunction-sections \
     -fdata-sections \
