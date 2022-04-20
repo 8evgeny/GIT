@@ -89,7 +89,7 @@ void simpleLedTest1_RTOS()
 {
     bool reset = true;
     uint32_t tickstart = HAL_GetTick();
-    uint32_t timeSet = 200;
+    uint32_t timeSet = 10;
     uint32_t timeReset = 3000;
     for(;;)
     {
@@ -118,8 +118,8 @@ void simpleLedTest2_RTOS()
 {
     bool reset = true;
     uint32_t tickstart = HAL_GetTick();
-    uint32_t timeSet = 100;
-    uint32_t timeReset = 1000;
+    uint32_t timeSet = 10;
+    uint32_t timeReset = 2000;
     for(;;)
     {
         if(reset)
@@ -251,11 +251,11 @@ int main(void)
   defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
 
   /* USER CODE BEGIN RTOS_THREADS */
-//  osThreadDef(simpleLedTest1_RTOS, simpleLedTest1_RTOS, osPriorityHigh, 0, configMINIMAL_STACK_SIZE );
-//  osThreadCreate(osThread(simpleLedTest1_RTOS), NULL);
+  osThreadDef(simpleLedTest1_RTOS, simpleLedTest1_RTOS, osPriorityHigh, 0, configMINIMAL_STACK_SIZE );
+  osThreadCreate(osThread(simpleLedTest1_RTOS), NULL);
 
-//  osThreadDef(simpleLedTest2_RTOS, simpleLedTest2_RTOS, osPriorityHigh, 0, configMINIMAL_STACK_SIZE );
-//  osThreadCreate(osThread(simpleLedTest2_RTOS), NULL);
+  osThreadDef(simpleLedTest2_RTOS, simpleLedTest2_RTOS, osPriorityHigh, 0, configMINIMAL_STACK_SIZE );
+  osThreadCreate(osThread(simpleLedTest2_RTOS), NULL);
 
   osThreadDef(simpleLedTest3_RTOS, simpleLedTest3_RTOS, osPriorityHigh, 0, configMINIMAL_STACK_SIZE );
   osThreadCreate(osThread(simpleLedTest3_RTOS), NULL);
