@@ -166,16 +166,9 @@ int main(void)
   defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
 
   /* USER CODE BEGIN RTOS_THREADS */
-  osThreadDef(simpleLedTest1_RTOS, simpleLedTest1_RTOS, osPriorityHigh, 0, configMINIMAL_STACK_SIZE );
-  osThreadCreate(osThread(simpleLedTest1_RTOS), NULL);
-
-  osThreadDef(simpleLedTest2_RTOS, simpleLedTest2_RTOS, osPriorityHigh, 0, configMINIMAL_STACK_SIZE );
-  osThreadCreate(osThread(simpleLedTest2_RTOS), NULL);
-
-  osThreadDef(simpleLedTest3_RTOS, simpleLedTest3_RTOS, osPriorityHigh, 0, configMINIMAL_STACK_SIZE );
-  osThreadCreate(osThread(simpleLedTest3_RTOS), NULL);
-
-
+  testLed1();
+  testLed2();
+  testLed3();
 
 
   /* add threads, ... */
