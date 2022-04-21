@@ -87,8 +87,9 @@ add_library(littlefs_LIB ${littlefs_src} )
 
 set (CircularBuffer Middlewares/Third_Party/CircularBuffer)
 include_directories( ${CircularBuffer} )
-#file (GLOB CircularBuffer_src ${CircularBuffer}/*.c  ${CircularBuffer}/*.h )
-
+file (GLOB CircularBuffer_src ${CircularBuffer}/*.tpp  ${CircularBuffer}/*.h )
+add_library(CircularBuffer_LIB ${CircularBuffer_src} )
+set_target_properties(CircularBuffer_LIB PROPERTIES LINKER_LANGUAGE CXX)
 
 
 #set (JSON  ${patchSRC}/JSON)
@@ -220,6 +221,7 @@ target_link_libraries(${PROJECT_NAME}.elf PUBLIC
 #    RS232_LIB
     EEPROM_LIB
     littlefs_LIB
+    CircularBuffer_LIB
 #    JSON_LIB
     )
 
