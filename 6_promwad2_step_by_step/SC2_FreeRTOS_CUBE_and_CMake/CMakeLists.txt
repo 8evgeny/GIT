@@ -170,7 +170,7 @@ set_target_properties(CircularBuffer_LIB PROPERTIES LINKER_LANGUAGE CXX)
 
 
 
-set (STARTUP_SOURCES ${patchSRC}/../Startup/startup_stm32h753iitx.s )
+set (STARTUP_SOURCES startup/startup_stm32h753iitx.s )
 add_library(STARTUP ${STARTUP_SOURCES} )
 
 include_directories( ${patchDRV}/BSP/Components/lan8742 )
