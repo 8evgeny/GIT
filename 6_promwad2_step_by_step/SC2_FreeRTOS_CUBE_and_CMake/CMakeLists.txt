@@ -79,7 +79,7 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}\
 #set(CMAKE_BUILD_TYPE debug)
 #set(CMAKE_BUILD_TYPE release)
 
-set (patchSRC "Core/Src")
+set (patchSRC "Src")
 set (patchDRV "Drivers")
 set (patchHAL_SRC "${patchDRV}/STM32H7xx_HAL_Driver/Src")
 
@@ -103,23 +103,18 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}\
     ")
 #    --specs=nano.specs \
 
-include_directories(
-    ${patchSRC}/../Inc
-    ${patchSRC}
-    ${patchSRC}/../Startup
-    )
+include_directories(Inc)
 file (GLOB SOURCES_C ${patchSRC}/*.c STM32H753IITX_FLASH.ld)
 
 file (GLOB SOURCES_CPP ${patchSRC}/*.cpp)
 
 include_directories(
-    Core/Src
     ${patchDRV}/CMSIS/Include
     ${patchDRV}/CMSIS/Device/ST/STM32H7xx/Include
     Drivers/BSP/Components/dp83848
     )
 file (GLOB CORE_SOURCES
-    Core/Src/*.c
+    Src/*.c
     Drivers/BSP/Components/dp83848/dp83848.c
     LWIP/Target/ethernetif.c
     )
