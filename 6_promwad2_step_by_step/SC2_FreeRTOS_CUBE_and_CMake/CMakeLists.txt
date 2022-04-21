@@ -11,6 +11,16 @@ set(CMAKE_OBJCOPY ${TOOLS_PATH}/bin/arm-none-eabi-objcopy)
 project(FreeRTOS_STMH753 C CXX ASM)
 
 add_definitions(-DSTM32H753xx)
+add_definitions(-DUSE_HAL_DRIVER)
+add_definitions(-D__weak=__attribute__\(\(weak\)\))
+add_definitions(-D__packed=__attribute__\(\(__packed__\)\))
+add_definitions(-D__FPU_PRESENT=1)
+add_definitions(-DARM_MATH_CM7)
+add_definitions(-DHAVE_CONFIG_H)
+add_definitions(-D__DCACHE_PRESENT)
+add_definitions(-D__ICACHE_PRESENT)
+add_definitions(-DSC2BOARD)
+
 
 #set(CMAKE_BUILD_TYPE debug)
 #set(CMAKE_BUILD_TYPE release)
@@ -70,10 +80,15 @@ add_library(CORE ${CORE_SOURCES} )
 #file (GLOB GPIO_SC2_BOARD_SOURCES ${GPIO_SC2}/*.cpp )
 #add_library(GPIO_SC2_BOARD_LIB ${GPIO_SC2_BOARD_SOURCES} )
 
-#set (RS232  ${patchSRC}/RS232)
-#include_directories( ${RS232} )
-#file (GLOB RS232_src ${RS232}/*.cpp ${RS232}/*.c ${RS232}/*.h )
-#add_library(RS232_LIB ${RS232_src} )
+set (RS232  ${patchSRC}/RS232)
+include_directories( ${RS232} )
+file (GLOB RS232_src ${RS232}/*.cpp ${RS232}/*.c ${RS232}/*.h )
+add_library(RS232_LIB ${RS232_src} )
+
+set (Debug  ${patchSRC}/Debug)
+include_directories( ${Debug} )
+file (GLOB Debug_src ${Debug}/*.cpp ${Debug}/*.c ${Debug}/*.h )
+add_library(Debug_LIB ${Debug_src} )
 
 set (EEPROM  ${patchSRC}/EEPROM)
 include_directories(${EEPROM})
@@ -218,7 +233,8 @@ target_link_libraries(${PROJECT_NAME}.elf PUBLIC
     Middlewares
     CMSIS_RTOS
 #    GPIO_SC2_BOARD_LIB
-#    RS232_LIB
+    RS232_LIB
+    Debug_LIB
     EEPROM_LIB
     littlefs_LIB
     CircularBuffer_LIB

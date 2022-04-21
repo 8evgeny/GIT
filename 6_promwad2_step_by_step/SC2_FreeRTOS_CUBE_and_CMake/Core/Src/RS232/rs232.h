@@ -2,15 +2,19 @@
 #define RS232_H
 
 #include <cstdint>
-#include "stm32f7xx_hal.h"
-#include "stm32f7xx_hal_uart.h"
-#include "stm32f7xx_hal_dma.h"
-#include "stm32f7xx_it.h"
+#include "stm32h7xx_hal.h"
+#include "stm32h7xx_hal_uart.h"
+#include "stm32h7xx_hal_dma.h"
+#include "stm32h7xx_it.h"
 #include <array>
 #include "CircularBuffer.h"
-#include "sram.h"
 #include "cmsis_os.h"
-#include "json.h"
+
+
+//#include "sram.h"
+//#include "json.h"
+
+
 
 /*!
  * \brief The Console class for streaming debug information
