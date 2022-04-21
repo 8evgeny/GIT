@@ -1,0 +1,1 @@
+void readButtonThread(void const *arg)              Не понимаю логику работы

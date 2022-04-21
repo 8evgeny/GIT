@@ -2,12 +2,12 @@ cmake_minimum_required(VERSION 3.15)
 set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
 
 # Set ARM compiler
-#set(TOOLS_PATH /home/evg/toolchain/gcc-arm-none-eabi-new)
+set(TOOLS_PATH /home/evg/toolchain/gcc-arm-none-eabi-new)
 #set(TOOLS_PATH /home/evg/toolchain/gcc-arm-none-eabi-4_9-2014q4)
 #set(CMAKE_C_COMPILER ${TOOLS_PATH}/bin/arm-none-eabi-gcc)
 #set(CMAKE_CXX_COMPILER ${TOOLS_PATH}/bin/arm-none-eabi-g++)
-#set(CMAKE_CXX_LINKER_LAUNCHER ${TOOLS_PATH}/bin/arm-none-eabi-g++)
-#set(CMAKE_OBJCOPY ${TOOLS_PATH}/bin/arm-none-eabi-objcopy)
+set(CMAKE_CXX_LINKER_LAUNCHER ${TOOLS_PATH}/bin/arm-none-eabi-g++)
+set(CMAKE_OBJCOPY ${TOOLS_PATH}/bin/arm-none-eabi-objcopy)
 
 project(4_promwad2 C CXX ASM)
 
@@ -506,26 +506,26 @@ add_executable(${PROJECT_NAME}.elf
     ${SRC_src}
     ${startup_src}
     ${LD_src}
-    /home/evg/SOFT/Github/GIT/4_promwad2/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.c
-    /home/evg/SOFT/Github/GIT/4_promwad2/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h
-    /home/evg/SOFT/Github/GIT/4_promwad2/Src/Call_Control/os_timers.cpp
-    /home/evg/SOFT/Github/GIT/4_promwad2/Middlewares/Third_Party/FreeRTOS/Source/timers.c
+    Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.c
+    Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h
+    Src/Call_Control/os_timers.cpp
+    Middlewares/Third_Party/FreeRTOS/Source/timers.c
     ${HZ_src}
     ${HZ_src2}
     ${HZ_src3}
     ${HZ_src4}
     ${HZ_src5}
-    /home/evg/SOFT/Github/GIT/4_promwad2/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_can.c
-    /home/evg/SOFT/Github/GIT/4_promwad2/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal.c
-    /home/evg/SOFT/Github/GIT/4_promwad2/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_dma.c
-    /home/evg/SOFT/Github/GIT/4_promwad2/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_gpio.c
-    /home/evg/SOFT/Github/GIT/4_promwad2/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_eth.c
-    /home/evg/SOFT/Github/GIT/4_promwad2/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_sai.c
-    /home/evg/SOFT/Github/GIT/4_promwad2/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_i2c_ex.c
-    /home/evg/SOFT/Github/GIT/4_promwad2/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_cortex.c
-    /home/evg/SOFT/Github/GIT/4_promwad2/Drivers/CMSIS_STM32F7xx/DSP/Source/SupportFunctions/arm_copy_q7.c
-    /home/evg/SOFT/Github/GIT/4_promwad2/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM7/r0p1/port.c
-    /home/evg/SOFT/Github/GIT/4_promwad2/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_i2c.c
+    Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_can.c
+    Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal.c
+    Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_dma.c
+    Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_gpio.c
+    Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_eth.c
+    Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_sai.c
+    Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_i2c_ex.c
+    Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_cortex.c
+    Drivers/CMSIS_STM32F7xx/DSP/Source/SupportFunctions/arm_copy_q7.c
+    Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM7/r0p1/port.c
+    Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_i2c.c
 
     )
 
