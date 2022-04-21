@@ -29,17 +29,18 @@ set (SRC "Src/")
 
 if(IsStm32f7)
     file (GLOB SRC_src
-    ${SRC}/*.c
-    ${SRC}/main.cpp
-    ${SRC}/flash_diskio.cpp
-    ${SRC}/../syscalls.c
+    ${SRC}*.c
+    ${SRC}main.cpp
+    ${SRC}flash_diskio.cpp
+    ${SRC}../syscalls.c
     )
 elseif(IsBootloader)
     file (GLOB SRC_src
-    ${SRC}/Bootloader/*.cpp
-    ${SRC}/../syscalls.c
+    ${SRC}Bootloader/*.cpp
+    ${SRC}../syscalls.c
     )
 endif()
+
 
 if(IsStm32f7 OR IsBootloader)
     set (FatFs ${Third_Party}/FatFs)
@@ -508,24 +509,24 @@ add_executable(${PROJECT_NAME}.elf
     ${LD_src}
     Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.c
     Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h
-    Src/Call_Control/os_timers.cpp
+#    Src/Call_Control/os_timers.cpp
     Middlewares/Third_Party/FreeRTOS/Source/timers.c
     ${HZ_src}
     ${HZ_src2}
     ${HZ_src3}
     ${HZ_src4}
     ${HZ_src5}
-    Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_can.c
-    Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal.c
-    Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_dma.c
-    Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_gpio.c
-    Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_eth.c
-    Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_sai.c
-    Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_i2c_ex.c
-    Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_cortex.c
-    Drivers/CMSIS_STM32F7xx/DSP/Source/SupportFunctions/arm_copy_q7.c
-    Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM7/r0p1/port.c
-    Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_i2c.c
+#    Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_can.c
+#    Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal.c
+#    Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_dma.c
+#    Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_gpio.c
+#    Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_eth.c
+#    Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_sai.c
+#    Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_i2c_ex.c
+#    Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_cortex.c
+#    Drivers/CMSIS_STM32F7xx/DSP/Source/SupportFunctions/arm_copy_q7.c
+#    Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM7/r0p1/port.c
+#    Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_i2c.c
 
     )
 

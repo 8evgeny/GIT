@@ -17,7 +17,7 @@
 //#include "gpio_stm32f7xx.h"
 #include <algorithm>
 #include <cstring>
-#include "../Debug/debug.h"
+//#include "../Debug/debug.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -52,156 +52,156 @@ static uint16_t aPin[16] = { GPIO_PIN_0, GPIO_PIN_1,
   */
 void GPIOInit(void)
 {
-    /*##-1- Enable GPIO Clocks #################################*/
-    /* Enable GPIO clock */
-    if (!READ_BIT(RCC->AHB1ENR, RCC_AHB1ENR_GPIOCEN)) __HAL_RCC_GPIOC_CLK_ENABLE();
-    if (!READ_BIT(RCC->AHB1ENR, RCC_AHB1ENR_GPIOBEN)) __HAL_RCC_GPIOB_CLK_ENABLE();
-    if (!READ_BIT(RCC->AHB1ENR, RCC_AHB1ENR_GPIOAEN)) __HAL_RCC_GPIOA_CLK_ENABLE();
-    if (!READ_BIT(RCC->AHB1ENR, RCC_AHB1ENR_GPIOGEN)) __HAL_RCC_GPIOG_CLK_ENABLE();
-    if (!READ_BIT(RCC->AHB1ENR, RCC_AHB1ENR_GPIOFEN)) __HAL_RCC_GPIOF_CLK_ENABLE();
+//    /*##-1- Enable GPIO Clocks #################################*/
+//    /* Enable GPIO clock */
+//    if (!READ_BIT(RCC->AHB1ENR, RCC_AHB1ENR_GPIOCEN)) __HAL_RCC_GPIOC_CLK_ENABLE();
+//    if (!READ_BIT(RCC->AHB1ENR, RCC_AHB1ENR_GPIOBEN)) __HAL_RCC_GPIOB_CLK_ENABLE();
+//    if (!READ_BIT(RCC->AHB1ENR, RCC_AHB1ENR_GPIOAEN)) __HAL_RCC_GPIOA_CLK_ENABLE();
+//    if (!READ_BIT(RCC->AHB1ENR, RCC_AHB1ENR_GPIOGEN)) __HAL_RCC_GPIOG_CLK_ENABLE();
+//    if (!READ_BIT(RCC->AHB1ENR, RCC_AHB1ENR_GPIOFEN)) __HAL_RCC_GPIOF_CLK_ENABLE();
 
-#if 00 //Инициализация promwad
-    /*##-2- Configure GPIO for CFG ##########################################*/
-    /* GPIO pin configuration  */
-    GPIO_InitStruct.Pin       = GPIO_PIN_10 | GPIO_PIN_11 | GPIO_PIN_12 | //CFG resistors
-                                GPIO_PIN_6 | GPIO_PIN_7 | GPIO_PIN_8 | GPIO_PIN_9 ; //DETEDCTION
-    GPIO_InitStruct.Mode      = GPIO_MODE_INPUT;
-    GPIO_InitStruct.Pull      = GPIO_NOPULL;
-    HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
-
-//    /*##-3- Configure GPIO for volume buttons ##########################################*/
+//#if 00 //Инициализация promwad
+//    /*##-2- Configure GPIO for CFG ##########################################*/
 //    /* GPIO pin configuration  */
-//    GPIO_InitStruct.Pin       = GPIO_PIN_14 | GPIO_PIN_15;
+//    GPIO_InitStruct.Pin       = GPIO_PIN_10 | GPIO_PIN_11 | GPIO_PIN_12 | //CFG resistors
+//                                GPIO_PIN_6 | GPIO_PIN_7 | GPIO_PIN_8 | GPIO_PIN_9 ; //DETEDCTION
+//    GPIO_InitStruct.Mode      = GPIO_MODE_INPUT;
+//    GPIO_InitStruct.Pull      = GPIO_NOPULL;
+//    HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+
+////    /*##-3- Configure GPIO for volume buttons ##########################################*/
+////    /* GPIO pin configuration  */
+////    GPIO_InitStruct.Pin       = GPIO_PIN_14 | GPIO_PIN_15;
+////    GPIO_InitStruct.Mode      = GPIO_MODE_IT_FALLING;
+////    GPIO_InitStruct.Pull      = GPIO_NOPULL;
+////    HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+
+//    /*##-4- Configure GPIO for test button ##########################################*/
+//    /* GPIO pin configuration  */
+//    GPIO_InitStruct.Pin       = GPIO_PIN_11;
+//    GPIO_InitStruct.Mode      = GPIO_MODE_IT_FALLING;
+//    GPIO_InitStruct.Pull      = GPIO_NOPULL;
+//    HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
+
+//    /*##-5- Configure GPIO for test LED ##########################################*/
+//    /* GPIO pin configuration  */
+//    GPIO_InitStruct.Pin       = GPIO_PIN_13;
+//    GPIO_InitStruct.Mode      = GPIO_MODE_OUTPUT_PP;
+//    GPIO_InitStruct.Pull      = GPIO_NOPULL;
+//    GPIO_InitStruct.Speed     = GPIO_SPEED_LOW;
+//    HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
+
+//    HAL_GPIO_WritePin(GPIOG, GPIO_PIN_13, GPIO_PIN_RESET);
+
+//    /*##-5- Configure GPIO for test LED ##########################################*/
+//    /* GPIO pin configuration  */
+//    GPIO_InitStruct.Pin       = GPIO_PIN_6 |  GPIO_PIN_7 | GPIO_PIN_8;
+//    GPIO_InitStruct.Mode      = GPIO_MODE_INPUT;
+//    GPIO_InitStruct.Pull      = GPIO_NOPULL;
+//    GPIO_InitStruct.Speed     = GPIO_SPEED_LOW;
+//    HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
+
+//    /*##-5- Configure GPIO for test LED ##########################################*/
+//    /* GPIO pin configuration  */
+//    GPIO_InitStruct.Pin       = GPIO_PIN_10 |  GPIO_PIN_11 | GPIO_PIN_12 |   // Buttons
+//                                GPIO_PIN_9; // BASE_DET
+//    GPIO_InitStruct.Mode      = GPIO_MODE_INPUT;
+//    GPIO_InitStruct.Pull      = GPIO_NOPULL;
+//    GPIO_InitStruct.Speed     = GPIO_SPEED_LOW;
+//    HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+//    /*##-5- Configure GPIO for test LED ##########################################*/
+//    /* GPIO pin configuration  */
+//    GPIO_InitStruct.Pin       = GPIO_PIN_4 |  GPIO_PIN_5 | GPIO_PIN_6;    // LEDs
+//    GPIO_InitStruct.Mode      = GPIO_MODE_OUTPUT_PP;
+//    GPIO_InitStruct.Pull      = GPIO_NOPULL;
+//    GPIO_InitStruct.Speed     = GPIO_SPEED_LOW;
+//    HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+//    HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4 | GPIO_PIN_5 | GPIO_PIN_6, GPIO_PIN_SET);
+
+//    /*##-5- Configure GPIO for test LED ##########################################*/
+//    /* GPIO pin configuration  */
+//    GPIO_InitStruct.Pin       = GPIO_PIN_8 | GPIO_PIN_9 | GPIO_PIN_10; //LEDs
+//    GPIO_InitStruct.Mode      = GPIO_MODE_OUTPUT_PP;
+//    GPIO_InitStruct.Pull      = GPIO_NOPULL;
+//    GPIO_InitStruct.Speed     = GPIO_SPEED_LOW;
+//    HAL_GPIO_Init(GPIOF, &GPIO_InitStruct);
+
+//    HAL_GPIO_WritePin(GPIOF, GPIO_PIN_8 | GPIO_PIN_9 | GPIO_PIN_10, GPIO_PIN_SET);
+
+//    GPIO_InitStruct.Pin = GPIO_PIN_2;
+//    GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
+//    GPIO_InitStruct.Pull = GPIO_NOPULL;
+//    HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+//#endif
+////новый код
+//    //Выходы L1 - L6
+//    GPIO_InitStruct.Pin       = GPIO_PIN_10 | GPIO_PIN_11 | GPIO_PIN_12 ; //L1 L2 L3
+//    GPIO_InitStruct.Mode      = GPIO_MODE_OUTPUT_PP;
+//    GPIO_InitStruct.Pull      = GPIO_NOPULL;
+//    GPIO_InitStruct.Speed     = GPIO_SPEED_LOW;
+//    HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+//    HAL_GPIO_WritePin(GPIOC, GPIO_PIN_10 | GPIO_PIN_11 | GPIO_PIN_12, GPIO_PIN_SET);
+
+//    GPIO_InitStruct.Pin       = GPIO_PIN_6 | GPIO_PIN_7 | GPIO_PIN_8 ; //L4 L5 L6
+//    GPIO_InitStruct.Mode      = GPIO_MODE_OUTPUT_PP;
+//    GPIO_InitStruct.Pull      = GPIO_NOPULL;
+//    GPIO_InitStruct.Speed     = GPIO_SPEED_LOW;
+//    HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
+//    HAL_GPIO_WritePin(GPIOG, GPIO_PIN_6 | GPIO_PIN_7 | GPIO_PIN_8, GPIO_PIN_SET);
+
+//    // Входы - Рычаги
+//    GPIO_InitStruct.Pin       = GPIO_PIN_9 |  GPIO_PIN_10 | GPIO_PIN_11 |
+//                                GPIO_PIN_12 |  GPIO_PIN_13 | GPIO_PIN_14 ;
+//    GPIO_InitStruct.Mode      = GPIO_MODE_INPUT;
+//    GPIO_InitStruct.Pull      = GPIO_NOPULL;
+//    GPIO_InitStruct.Speed     = GPIO_SPEED_LOW;
+//    HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
+
+//    // Кнопка TEST - Режим прерывания
+//    GPIO_InitStruct.Pin       = GPIO_PIN_5;
 //    GPIO_InitStruct.Mode      = GPIO_MODE_IT_FALLING;
 //    GPIO_InitStruct.Pull      = GPIO_NOPULL;
 //    HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
-    /*##-4- Configure GPIO for test button ##########################################*/
-    /* GPIO pin configuration  */
-    GPIO_InitStruct.Pin       = GPIO_PIN_11;
-    GPIO_InitStruct.Mode      = GPIO_MODE_IT_FALLING;
-    GPIO_InitStruct.Pull      = GPIO_NOPULL;
-    HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
+//    // Led TEST
+//    GPIO_InitStruct.Pin       = GPIO_PIN_9;
+//    GPIO_InitStruct.Mode      = GPIO_MODE_OUTPUT_PP;
+//    GPIO_InitStruct.Pull      = GPIO_NOPULL;
+//    GPIO_InitStruct.Speed     = GPIO_SPEED_LOW;
+//    HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+//    HAL_GPIO_WritePin(GPIOB, GPIO_PIN_9, GPIO_PIN_RESET);
+////конец нового кода
 
-    /*##-5- Configure GPIO for test LED ##########################################*/
-    /* GPIO pin configuration  */
-    GPIO_InitStruct.Pin       = GPIO_PIN_13;
-    GPIO_InitStruct.Mode      = GPIO_MODE_OUTPUT_PP;
-    GPIO_InitStruct.Pull      = GPIO_NOPULL;
-    GPIO_InitStruct.Speed     = GPIO_SPEED_LOW;
-    HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
+//    /* EXTI interrupt init*/
+//    HAL_NVIC_SetPriority(EXTI2_IRQn, 5, 0);
+//    HAL_NVIC_EnableIRQ(EXTI2_IRQn);
 
-    HAL_GPIO_WritePin(GPIOG, GPIO_PIN_13, GPIO_PIN_RESET);
+//    HAL_NVIC_SetPriority(EXTI9_5_IRQn, 5, 0);
+//    HAL_NVIC_EnableIRQ(EXTI9_5_IRQn);
 
-    /*##-5- Configure GPIO for test LED ##########################################*/
-    /* GPIO pin configuration  */
-    GPIO_InitStruct.Pin       = GPIO_PIN_6 |  GPIO_PIN_7 | GPIO_PIN_8;
-    GPIO_InitStruct.Mode      = GPIO_MODE_INPUT;
-    GPIO_InitStruct.Pull      = GPIO_NOPULL;
-    GPIO_InitStruct.Speed     = GPIO_SPEED_LOW;
-    HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
+//    HAL_NVIC_SetPriority(EXTI15_10_IRQn, 5, 0);
+//    HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
 
-    /*##-5- Configure GPIO for test LED ##########################################*/
-    /* GPIO pin configuration  */
-    GPIO_InitStruct.Pin       = GPIO_PIN_10 |  GPIO_PIN_11 | GPIO_PIN_12 |   // Buttons
-                                GPIO_PIN_9; // BASE_DET
-    GPIO_InitStruct.Mode      = GPIO_MODE_INPUT;
-    GPIO_InitStruct.Pull      = GPIO_NOPULL;
-    GPIO_InitStruct.Speed     = GPIO_SPEED_LOW;
-    HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+//    if ((osThreadCreate(osThread(switchLEDsThread), nullptr)) == nullptr) {
+//        Debug::getInstance().dbg << "Failed to create [switchLEDsThread]" << "\n";
+//    }
 
-    /*##-5- Configure GPIO for test LED ##########################################*/
-    /* GPIO pin configuration  */
-    GPIO_InitStruct.Pin       = GPIO_PIN_4 |  GPIO_PIN_5 | GPIO_PIN_6;    // LEDs
-    GPIO_InitStruct.Mode      = GPIO_MODE_OUTPUT_PP;
-    GPIO_InitStruct.Pull      = GPIO_NOPULL;
-    GPIO_InitStruct.Speed     = GPIO_SPEED_LOW;
-    HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+//    if ((osThreadCreate(osThread(readButtonThread), nullptr)) == nullptr) {
+//        Debug::getInstance().dbg << "Failed to create [readButtonThread]" << "\n";
+//    }
 
-    HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4 | GPIO_PIN_5 | GPIO_PIN_6, GPIO_PIN_SET);
+//    timerId7 = osTimerCreate( osTimer(timer7), osTimerPeriodic, nullptr); // create timer thread
+//    if (timerId7) {
+//        osStatus status = osTimerStart (timerId7, timerDelay);   // start timer
+//        if (status != osOK)  {
+//            Debug::getInstance().dbg << "Failed to start [timer]" << "\n";
+//            while(1);
+//        }
+//    }
 
-    /*##-5- Configure GPIO for test LED ##########################################*/
-    /* GPIO pin configuration  */
-    GPIO_InitStruct.Pin       = GPIO_PIN_8 | GPIO_PIN_9 | GPIO_PIN_10; //LEDs
-    GPIO_InitStruct.Mode      = GPIO_MODE_OUTPUT_PP;
-    GPIO_InitStruct.Pull      = GPIO_NOPULL;
-    GPIO_InitStruct.Speed     = GPIO_SPEED_LOW;
-    HAL_GPIO_Init(GPIOF, &GPIO_InitStruct);
-
-    HAL_GPIO_WritePin(GPIOF, GPIO_PIN_8 | GPIO_PIN_9 | GPIO_PIN_10, GPIO_PIN_SET);
-
-    GPIO_InitStruct.Pin = GPIO_PIN_2;
-    GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
-    GPIO_InitStruct.Pull = GPIO_NOPULL;
-    HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
-#endif
-//новый код
-    //Выходы L1 - L6
-    GPIO_InitStruct.Pin       = GPIO_PIN_10 | GPIO_PIN_11 | GPIO_PIN_12 ; //L1 L2 L3
-    GPIO_InitStruct.Mode      = GPIO_MODE_OUTPUT_PP;
-    GPIO_InitStruct.Pull      = GPIO_NOPULL;
-    GPIO_InitStruct.Speed     = GPIO_SPEED_LOW;
-    HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
-    HAL_GPIO_WritePin(GPIOC, GPIO_PIN_10 | GPIO_PIN_11 | GPIO_PIN_12, GPIO_PIN_SET);
-
-    GPIO_InitStruct.Pin       = GPIO_PIN_6 | GPIO_PIN_7 | GPIO_PIN_8 ; //L4 L5 L6
-    GPIO_InitStruct.Mode      = GPIO_MODE_OUTPUT_PP;
-    GPIO_InitStruct.Pull      = GPIO_NOPULL;
-    GPIO_InitStruct.Speed     = GPIO_SPEED_LOW;
-    HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
-    HAL_GPIO_WritePin(GPIOG, GPIO_PIN_6 | GPIO_PIN_7 | GPIO_PIN_8, GPIO_PIN_SET);
-
-    // Входы - Рычаги
-    GPIO_InitStruct.Pin       = GPIO_PIN_9 |  GPIO_PIN_10 | GPIO_PIN_11 |
-                                GPIO_PIN_12 |  GPIO_PIN_13 | GPIO_PIN_14 ;
-    GPIO_InitStruct.Mode      = GPIO_MODE_INPUT;
-    GPIO_InitStruct.Pull      = GPIO_NOPULL;
-    GPIO_InitStruct.Speed     = GPIO_SPEED_LOW;
-    HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
-
-    // Кнопка TEST - Режим прерывания
-    GPIO_InitStruct.Pin       = GPIO_PIN_5;
-    GPIO_InitStruct.Mode      = GPIO_MODE_IT_FALLING;
-    GPIO_InitStruct.Pull      = GPIO_NOPULL;
-    HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
-
-    // Led TEST
-    GPIO_InitStruct.Pin       = GPIO_PIN_9;
-    GPIO_InitStruct.Mode      = GPIO_MODE_OUTPUT_PP;
-    GPIO_InitStruct.Pull      = GPIO_NOPULL;
-    GPIO_InitStruct.Speed     = GPIO_SPEED_LOW;
-    HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
-    HAL_GPIO_WritePin(GPIOB, GPIO_PIN_9, GPIO_PIN_RESET);
-//конец нового кода
-
-    /* EXTI interrupt init*/
-    HAL_NVIC_SetPriority(EXTI2_IRQn, 5, 0);
-    HAL_NVIC_EnableIRQ(EXTI2_IRQn);
-
-    HAL_NVIC_SetPriority(EXTI9_5_IRQn, 5, 0);
-    HAL_NVIC_EnableIRQ(EXTI9_5_IRQn);
-
-    HAL_NVIC_SetPriority(EXTI15_10_IRQn, 5, 0);
-    HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
-
-    if ((osThreadCreate(osThread(switchLEDsThread), nullptr)) == nullptr) {
-        Debug::getInstance().dbg << "Failed to create [switchLEDsThread]" << "\n";
-    }
-
-    if ((osThreadCreate(osThread(readButtonThread), nullptr)) == nullptr) {
-        Debug::getInstance().dbg << "Failed to create [readButtonThread]" << "\n";
-    }
-
-    timerId7 = osTimerCreate( osTimer(timer7), osTimerPeriodic, nullptr); // create timer thread
-    if (timerId7) {
-        osStatus status = osTimerStart (timerId7, timerDelay);   // start timer
-        if (status != osOK)  {
-            Debug::getInstance().dbg << "Failed to start [timer]" << "\n";
-            while(1);
-        }
-    }
-
-}
+//}
 
 #ifdef __cplusplus
 }

@@ -29,15 +29,15 @@ set (SRC "Src/")
 
 if(IsStm32f7)
     file (GLOB SRC_src
-    ${SRC}/*.c
-    ${SRC}/main.cpp
-    ${SRC}/flash_diskio.cpp
-    ${SRC}/../syscalls.c
+    ${SRC}*.c
+    ${SRC}main.cpp
+    ${SRC}flash_diskio.cpp
+    ${SRC}../syscalls.c
     )
 elseif(IsBootloader)
     file (GLOB SRC_src
-    ${SRC}/Bootloader/*.cpp
-    ${SRC}/../syscalls.c
+    ${SRC}Bootloader/*.cpp
+    ${SRC}../syscalls.c
     )
 endif()
 

@@ -1,8 +1,3 @@
-/*!
- \file gpio_stm32f7xx.h
-
-*/
-
 #ifndef GPIO_SC2_BOARD_H
 #define GPIO_SC2_BOARD_H
 
@@ -13,7 +8,7 @@
 #include <array>
 #include "CircularBuffer.h"
 #include "cmsis_os.h"
-#include "../AUDIO/tlv320aic3254.h"
+//#include "../AUDIO/tlv320aic3254.h"
 
 /*!
  \brief The structure that stores variables for configuration keys of the keyboard
