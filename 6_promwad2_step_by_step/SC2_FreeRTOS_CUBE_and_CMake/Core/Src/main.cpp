@@ -20,7 +20,7 @@
 #include "main.h"
 #include "cmsis_os.h"
 #include "lwip.h"
-
+#include "rs232.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -181,6 +181,8 @@ int main(void)
   testLed1();
   testLed2();
   testLed3();
+
+//  RS232::getInstance().test();
 
 
   /* add threads, ... */
