@@ -21,6 +21,60 @@ add_definitions(-D__DCACHE_PRESENT)
 add_definitions(-D__ICACHE_PRESENT)
 add_definitions(-DSC2BOARD)
 
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}\
+    -Wl,--start-group \
+    -Wl,--gc-sections \
+    -mcpu=cortex-m7 \
+    -DUSE_HAL_DRIVER \
+    -DSTM32H753xx \
+    -Os \
+    -ffunction-sections \
+    -fdata-sections \
+    -Wall \
+    -mno-unaligned-access \
+    -fstack-usage \
+    -MMD \
+    -MP \
+    -mfpu=fpv5-d16 \
+    -mfloat-abi=hard \
+    -mthumb \
+    -Xlinker \
+    -Map=${PROJECT_NAME}.map \
+    -Wl,-section-start=.rtt=0x20000000 \
+    -u_printf_float \
+    -fno-exceptions \
+    -Wl,--end-group \
+    ")
+#    -fno-rtti \
+#    -std=gnu11 \
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}\
+    -Wl,--start-group \
+    -Wl,--gc-sections \
+    -mcpu=cortex-m7 \
+    -DUSE_HAL_DRIVER \
+    -DSTM32H753xx \
+    -Os \
+    -ffunction-sections \
+    -fdata-sections \
+    -Wall \
+    -mno-unaligned-access \
+    -fstack-usage \
+    -MMD \
+    -MP \
+    -mfpu=fpv5-d16 \
+    -mfloat-abi=hard \
+    -mthumb \
+    -Xlinker \
+    -Map=${PROJECT_NAME}.map \
+    -Wl,-section-start=.rtt=0x20000000 \
+    -u_printf_float \
+    -fno-exceptions \
+    -Wl,--end-group \
+    ")
+#    -fno-rtti \
+#    -std=gnu11 \
+
+
 
 #set(CMAKE_BUILD_TYPE debug)
 #set(CMAKE_BUILD_TYPE release)
