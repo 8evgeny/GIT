@@ -10,6 +10,7 @@ set(CMAKE_OBJCOPY ${TOOLS_PATH}/bin/arm-none-eabi-objcopy)
 
 project(FreeRTOS_STMH753 C CXX ASM)
 
+add_definitions(-DSTM32H753xx)
 
 #set(CMAKE_BUILD_TYPE debug)
 #set(CMAKE_BUILD_TYPE release)
@@ -69,20 +70,31 @@ add_library(CORE ${CORE_SOURCES} )
 #file (GLOB GPIO_SC2_BOARD_SOURCES ${GPIO_SC2}/*.cpp )
 #add_library(GPIO_SC2_BOARD_LIB ${GPIO_SC2_BOARD_SOURCES} )
 
-set (RS232  ${patchSRC}/RS232)
-include_directories( ${RS232} )
-file (GLOB RS232_src ${RS232}/*.cpp ${RS232}/*.c ${RS232}/*.h )
-add_library(RS232_LIB ${RS232_src} )
+#set (RS232  ${patchSRC}/RS232)
+#include_directories( ${RS232} )
+#file (GLOB RS232_src ${RS232}/*.cpp ${RS232}/*.c ${RS232}/*.h )
+#add_library(RS232_LIB ${RS232_src} )
 
 set (EEPROM  ${patchSRC}/EEPROM)
 include_directories(${EEPROM})
 file (GLOB_RECURSE EEPROM_src ${EEPROM}/*.cpp ${EEPROM}/*.c ${EEPROM}/*.h )
 add_library(EEPROM_LIB ${EEPROM_src} )
 
-set (JSON  ${patchSRC}/JSON)
-include_directories( ${JSON} )
-file (GLOB JSON_src ${JSON}/*.cpp ${JSON}/*.h )
-add_library(JSON_LIB ${JSON_src} )
+set (littlefs Middlewares/Third_Party/littlefs)
+include_directories( ${littlefs} )
+file (GLOB littlefs_src ${littlefs}/*.c ${littlefs}/*.h  )
+add_library(littlefs_LIB ${littlefs_src} )
+
+set (CircularBuffer Middlewares/Third_Party/CircularBuffer)
+include_directories( ${CircularBuffer} )
+#file (GLOB CircularBuffer_src ${CircularBuffer}/*.c  ${CircularBuffer}/*.h )
+
+
+
+#set (JSON  ${patchSRC}/JSON)
+#include_directories( ${JSON} )
+#file (GLOB JSON_src ${JSON}/*.cpp ${JSON}/*.h )
+#add_library(JSON_LIB ${JSON_src} )
 
 
 
@@ -205,9 +217,10 @@ target_link_libraries(${PROJECT_NAME}.elf PUBLIC
     Middlewares
     CMSIS_RTOS
 #    GPIO_SC2_BOARD_LIB
-    RS232_LIB
+#    RS232_LIB
     EEPROM_LIB
-    JSON_LIB
+    littlefs_LIB
+#    JSON_LIB
     )
 
 set(HEX_FILE ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.hex)
