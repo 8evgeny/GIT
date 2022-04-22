@@ -70,6 +70,11 @@ UART_HandleTypeDef huart7;
 SRAM_HandleTypeDef hsram1;
 
 osThreadId defaultTaskHandle;
+
+osThreadDef(simpleLedTest1_RTOS, simpleLedTest1_RTOS, osPriorityHigh, 0, configMINIMAL_STACK_SIZE );
+osThreadDef(simpleLedTest2_RTOS, simpleLedTest2_RTOS, osPriorityHigh, 0, configMINIMAL_STACK_SIZE );
+osThreadDef(simpleLedTest3_RTOS, simpleLedTest3_RTOS, osPriorityHigh, 0, configMINIMAL_STACK_SIZE );
+
 /* USER CODE BEGIN PV */
 
 /* USER CODE END PV */
@@ -107,32 +112,19 @@ int main(void)
     /* Configure the MPU attributes as Device memory for ETH DMA descriptors */
     MPU_Config();
 
-  /* Enable I-Cache---------------------------------------------------------*/
-//  SCB_EnableICache();
+  /* Enable the CPU Cache */
+//    SCB_EnableICache();
+//    SCB_EnableDCache();
 
-  /* Enable D-Cache---------------------------------------------------------*/
-//  SCB_EnableDCache();
-
-
-  /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
   HAL_Init();
 
-  /* USER CODE BEGIN Init */
-
-  /* USER CODE END Init */
-
-  /* Configure the system clock */
   SystemClock_Config();
 
 /* Configure the peripherals common clocks */
   PeriphCommonClock_Config();
 
-  /* USER CODE BEGIN SysInit */
-
-  /* USER CODE END SysInit */
-
   /* Initialize all configured peripherals */
-  MX_GPIO_Init();
+  MX_GPIO_Init(); // Запускаются 3 тестовых процесса
   MX_FMC_Init();
   MX_I2C1_Init();
   MX_I2C2_Init();
@@ -142,37 +134,18 @@ int main(void)
   MX_TIM3_Init();
   MX_DMA_Init();
   MX_RNG_Init();
-  /* USER CODE BEGIN 2 */
 
-  /* USER CODE END 2 */
 
-  /* USER CODE BEGIN RTOS_MUTEX */
-  /* add mutexes, ... */
-  /* USER CODE END RTOS_MUTEX */
-
-  /* USER CODE BEGIN RTOS_SEMAPHORES */
-  /* add semaphores, ... */
-  /* USER CODE END RTOS_SEMAPHORES */
-
-  /* USER CODE BEGIN RTOS_TIMERS */
-  /* start timers, add new ones, ... */
-  /* USER CODE END RTOS_TIMERS */
-
-  /* USER CODE BEGIN RTOS_QUEUES */
-  /* add queues, ... */
-  /* USER CODE END RTOS_QUEUES */
-
-  /* Create the thread(s) */
-  /* definition and creation of defaultTask */
   osThreadDef(defaultTask, StartDefaultTask, osPriorityNormal, 0, 128);
   defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
 
   /* USER CODE BEGIN RTOS_THREADS */
 
 
-  testLed1();
-  testLed2();
-  testLed3();
+//  testLed1();
+//  testLed2();
+//  testLed3();
+
 
 
 
@@ -698,12 +671,15 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
 
-  /*Configure GPIO pin : TEST_BUT_Pin */
-  GPIO_InitStruct.Pin = TEST_BUT_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
-  GPIO_InitStruct.Pull = GPIO_PULLUP;
-  HAL_GPIO_Init(TEST_BUT_GPIO_Port, &GPIO_InitStruct);
+    /*Configure GPIO pin : TEST_BUT_Pin */
+    GPIO_InitStruct.Pin = TEST_BUT_Pin;
+    GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+    GPIO_InitStruct.Pull = GPIO_PULLUP;
+    HAL_GPIO_Init(TEST_BUT_GPIO_Port, &GPIO_InitStruct);
 
+    osThreadCreate(osThread(simpleLedTest1_RTOS), NULL);
+    osThreadCreate(osThread(simpleLedTest2_RTOS), NULL);
+    osThreadCreate(osThread(simpleLedTest3_RTOS), NULL);
 }
 
 /* USER CODE BEGIN 4 */
