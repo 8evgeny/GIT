@@ -182,7 +182,7 @@ int main(void)
   testLed2();
   testLed3();
 
-  RS232::getInstance().test();
+//  RS232::getInstance().test();
 
 
   /* add threads, ... */
