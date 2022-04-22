@@ -141,7 +141,7 @@ int main(void)
   MX_DMA_Init();
   MX_RNG_Init();
 
-  RS232::getInstance();
+  RS232::getInstance().test();
 //  if ((RS232::getInstance().readFromUartThreadId = osThreadCreate(osThread(readFromUartThread), nullptr)) == nullptr)
 //  {
 

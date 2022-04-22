@@ -47,8 +47,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}\
     -fno-exceptions \
     -Wl,--end-group \
     ")
-#    -fno-rtti \
-#    -std=gnu11 \
+
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}\
     -Wl,--start-group \
     -Wl,--gc-sections \
@@ -103,7 +102,6 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}\
     -mthumb \
     -Xlinker -Map=${PROJECT_NAME}.map \
     ")
-#    --specs=nano.specs \
 
 include_directories(Inc)
 file (GLOB SOURCES_C ${patchSRC}/*.c STM32H753IITX_FLASH.ld)
@@ -135,6 +133,7 @@ set (RS232  ${patchSRC}/RS232)
 include_directories( ${RS232} )
 file (GLOB RS232_src ${RS232}/*.cpp ${RS232}/*.c ${RS232}/*.h )
 add_library(RS232_LIB ${RS232_src} )
+
 
 set (Debug  ${patchSRC}/Debug)
 include_directories( ${Debug} )
@@ -251,13 +250,14 @@ add_executable(${PROJECT_NAME}.elf
      ${SOURCES_CPP}
     )
 
-set_target_properties(${PROJECT_NAME}.elf PROPERTIES LINKER_LANGUAGE C)
+set_target_properties(${PROJECT_NAME}.elf PROPERTIES LINKER_LANGUAGE CXX)
 
 set(LINKER_SCRIPT_FLASH "${CMAKE_SOURCE_DIR}/STM32H753IITX_FLASH.ld")
 set(LINKER_SCRIPT_RAM "${CMAKE_SOURCE_DIR}/STM32H753IITX_RAM.ld")
 set(LINKER_FLAGS "SHELL: \
     -T${LINKER_SCRIPT_FLASH} \
     -mcpu=cortex-m7 \
+    -lstdc++ \
     --specs=nosys.specs \
     -Wl,--gc-sections \
     -static \
