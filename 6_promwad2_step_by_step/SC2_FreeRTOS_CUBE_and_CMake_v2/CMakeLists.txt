@@ -15,7 +15,11 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-    file (GLOB MAIN_src Src/*.c Src/main.cpp Src/flash_diskio.cpp Src/../syscalls.c )
+    file (GLOB MAIN_src
+#        Src/*.c
+        Src/main.cpp
+        Src/flash_diskio.cpp
+        Src/../syscalls.c )
 
     set (FatFs Middlewares/Third_Party/FatFs)
     file (GLOB FatFs_src ${FatFs}/src/*.c ${FatFs}/src/option/syscall.c ${FatFs}/src/option/unicode.c ${FatFs}/src/*.h )
@@ -24,7 +28,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
     file (GLOB UpdateMechanism_src ${UpdateMechanism}/*.cpp ${UpdateMechanism}/*.h )
 
     set (EEPROM  Src/EEPROM)
-    file (GLOB_RECURSE EEPROM_src ${EEPROM}/*.cpp ${EEPROM}/*.c ${EEPROM}/*.h )
+    file (GLOB EEPROM_src ${EEPROM}/*.cpp ${EEPROM}/*.c ${EEPROM}/*.h )
 
     set (TraceRecorder  "Tracealyzer-4.2.12-linux64/FreeRTOS/TraceRecorder")
     file (GLOB TraceRecorder_src ${TraceRecorder}/*.c ${TraceRecorder}/streamports/TCPIP/*.c ${TraceRecorder}/streamports/TCPIP/include/*.h ${TraceRecorder}/include/*.h ${TraceRecorder}/config/*.h )
@@ -115,10 +119,10 @@ set(CMAKE_CXX_EXTENSIONS OFF)
     file (GLOB INC_src ${INC}/*.h)
 
     set (startup  Src/startup)
-    file (GLOB startup_src ${startup}/startup_stm32f777xx.s )
+    file (GLOB startup_src ${startup}/startup_stm32h753xx.s )
 
-    file (GLOB LD_src STM32F777IITx_FLASH.ld )
-    #file (GLOB LD_src newSTM32H753IITX_FLASH.ld )
+#    file (GLOB LD_src STM32F777IITx_FLASH.ld )
+    file (GLOB LD_src STM32H753IITX_FLASH.ld )
 
     file (GLOB HZ_src ${CMAKE_HOME_DIRECTORY}/Drivers/CMSIS_STM32h7xx/DSP/Source/*.c )
     #file (GLOB HZ_src2 ${CMAKE_HOME_DIRECTORY}/Drivers/STM32H7xx_HAL_Driver/Src/*.c )
@@ -172,6 +176,10 @@ include_directories(
     Drivers/CMSIS_STM32h7xx/Device/ST/STM32h7xx/Include
     Src/CAN_STM32h7xx
     LWIP/App
+    Drivers/CMSIS/Device/ST/STM32H7xx/Include
+    Drivers/CMSIS/Include
+    Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F
+    LWIP/Target
 )
 
 add_executable(${PROJECT_NAME}.elf
@@ -198,10 +206,10 @@ add_executable(${PROJECT_NAME}.elf
 #    ${SRAM_src}
 #    ${JSON_src}
 #    ${UDP_JSON_src}
-#    ${LwIP_src}
-#    ${littlefs_src}
+    ${LwIP_src}
+    ${littlefs_src}
 #    ${ArduinoJson_src}
-#    ${CircularBuffer_src}
+    ${CircularBuffer_src}
     ${FreeRTOS_src}
     ${FreeRTOS_src2}
     ${CMSIS_RTOS_src}
@@ -218,11 +226,11 @@ add_executable(${PROJECT_NAME}.elf
 #    Src/Call_Control/os_timers.cpp
     Middlewares/Third_Party/FreeRTOS/Source/timers.c
     ${HZ_src}
-    ${HZ_src2}
+#    ${HZ_src2}
     ${HZ_src3}
     ${HZ_src4}
     ${HZ_src5}
-    Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_can.c
+#    Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_can.c
     Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal.c
     Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_dma.c
     Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_gpio.c
@@ -230,8 +238,8 @@ add_executable(${PROJECT_NAME}.elf
     Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_sai.c
     Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_i2c_ex.c
     Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_cortex.c
-    Drivers/CMSIS_STM32h7xx/DSP/Source/SupportFunctions/arm_copy_q7.c
-    Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM7/r0p1/port.c
+#    Drivers/CMSIS_STM32h7xx/DSP/Source/SupportFunctions/arm_copy_q7.c
+#    Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM7/r0p1/port.c
     Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_i2c.c
     )
 
@@ -296,12 +304,10 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}\
     -Wl,--end-group \
     ")
 
-    set(LINKER_SCRIPT_FLASH1 "${CMAKE_SOURCE_DIR}/STM32F777IITx_FLASH.ld")
-    #set(LINKER_SCRIPT_FLASH "${CMAKE_SOURCE_DIR}/newSTM32H753IITX_FLASH.ld")
+    set(LINKER_SCRIPT_FLASH "${CMAKE_SOURCE_DIR}/STM32H753IITX_FLASH.ld")
 
     set(LINKER_FLAGS "SHELL: \
-        -T${LINKER_SCRIPT_FLASH1} \
-        -Wl,--start-group \
+        -T${LINKER_SCRIPT_FLASH} \
         -Wl,--gc-sections \
         -mcpu=cortex-m7 \
         --specs=nosys.specs \
@@ -312,6 +318,7 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}\
         -mfloat-abi=hard \
         -mthumb
         -lgcc \
+        -Wl,--start-group \
         -lc \
         -lstdc++ \
         -lm \
