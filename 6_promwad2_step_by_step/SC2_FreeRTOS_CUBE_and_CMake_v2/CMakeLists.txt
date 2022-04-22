@@ -121,9 +121,9 @@ set(CMAKE_CXX_EXTENSIONS OFF)
     #file (GLOB LD_src newSTM32H753IITX_FLASH.ld )
 
     file (GLOB HZ_src ${CMAKE_HOME_DIRECTORY}/Drivers/CMSIS_STM32F7xx/DSP/Source/*.c )
-    #file (GLOB HZ_src2 ${CMAKE_HOME_DIRECTORY}/Drivers/STM32F7xx_HAL_Driver/Src/*.c )
+    #file (GLOB HZ_src2 ${CMAKE_HOME_DIRECTORY}/Drivers/STM32H7xx_HAL_Driver/Src/*.c )
     file (GLOB HZ_src3 ${CMAKE_HOME_DIRECTORY}/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM7/r0p1/*.c )
-    file (GLOB HZ_src4 ${CMAKE_HOME_DIRECTORY}/Drivers/STM32F7xx_HAL_Driver/*.c )
+    file (GLOB HZ_src4 ${CMAKE_HOME_DIRECTORY}/Drivers/STM32H7xx_HAL_Driver/*.c )
     file (GLOB HZ_src5 ${CMAKE_HOME_DIRECTORY}/Middlewares/Third_Party/FreeRTOS/Source/*.c)
 
 include_directories(
@@ -168,70 +168,71 @@ include_directories(
     ${FreeRTOS}/Source/CMSIS_RTOS
     Drivers/CMSIS_STM32F7xx/DSP/Include
     Drivers/CMSIS_STM32F7xx/Core/Include
-    Drivers/STM32F7xx_HAL_Driver/Inc
+    Drivers/STM32H7xx_HAL_Driver/Inc
     Drivers/CMSIS_STM32F7xx/Device/ST/STM32F7xx/Include
     Src/CAN_STM32F7xx
+    LWIP/App
 )
 
 add_executable(${PROJECT_NAME}.elf
-    ${FatFs_src}
-    ${Bootloader_src}
-    ${UpdateMechanism_src}
+#    ${FatFs_src}
+#    ${Bootloader_src}
+#    ${UpdateMechanism_src}
     ${EEPROM_src}
-    ${TraceRecorder_src}
-    ${Tests_src}
-    ${UID_src}
-    ${RTT_src}
-    ${RTP_src}
-    ${WDT_src}
-    ${RTC_src}
-    ${AUDIO_src}
-    ${Flash_src}
-    ${TRNG_src}
+#    ${TraceRecorder_src}
+#    ${Tests_src}
+#    ${UID_src}
+#    ${RTT_src}
+#    ${RTP_src}
+#    ${WDT_src}
+#    ${RTC_src}
+#    ${AUDIO_src}
+#    ${Flash_src}
+#    ${TRNG_src}
     ${Debug_src}
     ${RS232_src}
-    ${CAN_STM32F7xx_src}
-    ${GPIO_STM32F7xx_src}
-    ${GPIO_SC2_BOARD_src}
-    ${RTC_src}
-    ${SRAM_src}
-    ${JSON_src}
-    ${UDP_JSON_src}
-    ${LwIP_src}
-    ${littlefs_src}
-    ${ArduinoJson_src}
-    ${CircularBuffer_src}
+#    ${CAN_STM32F7xx_src}
+#    ${GPIO_STM32F7xx_src}
+#    ${GPIO_SC2_BOARD_src}
+#    ${RTC_src}
+#    ${SRAM_src}
+#    ${JSON_src}
+#    ${UDP_JSON_src}
+#    ${LwIP_src}
+#    ${littlefs_src}
+#    ${ArduinoJson_src}
+#    ${CircularBuffer_src}
     ${FreeRTOS_src}
     ${FreeRTOS_src2}
     ${CMSIS_RTOS_src}
     ${STM32F7xx_HAL_src}
     ${CMSIS_STM32F7xx_src}
-    ${Call_Control_src}
-    ${SNTP_src}
+#    ${Call_Control_src}
+#    ${SNTP_src}
     ${INC_src}
     ${MAIN_src}
     ${startup_src}
     ${LD_src}
     Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.c
     Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h
-    Src/Call_Control/os_timers.cpp
+#    Src/Call_Control/os_timers.cpp
     Middlewares/Third_Party/FreeRTOS/Source/timers.c
     ${HZ_src}
     ${HZ_src2}
     ${HZ_src3}
     ${HZ_src4}
     ${HZ_src5}
-    Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_can.c
-    Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal.c
-    Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_dma.c
-    Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_gpio.c
-    Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_eth.c
-    Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_sai.c
-    Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_i2c_ex.c
-    Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_cortex.c
+    Drivers/STM32H7xx_HAL_Driver/Src/stm32f7xx_hal_can.c
+    Drivers/STM32H7xx_HAL_Driver/Src/stm32f7xx_hal.c
+    Drivers/STM32H7xx_HAL_Driver/Src/stm32f7xx_hal_dma.c
+    Drivers/STM32H7xx_HAL_Driver/Src/stm32f7xx_hal_gpio.c
+    Drivers/STM32H7xx_HAL_Driver/Src/stm32f7xx_hal_eth.c
+    Drivers/STM32H7xx_HAL_Driver/Src/stm32f7xx_hal_sai.c
+    Drivers/STM32H7xx_HAL_Driver/Src/stm32f7xx_hal_i2c_ex.c
+    Drivers/STM32H7xx_HAL_Driver/Src/stm32f7xx_hal_cortex.c
     Drivers/CMSIS_STM32F7xx/DSP/Source/SupportFunctions/arm_copy_q7.c
     Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM7/r0p1/port.c
-    Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_i2c.c
+    Drivers/STM32H7xx_HAL_Driver/Src/stm32f7xx_hal_i2c.c
     )
 
 #add_definitions(-DSTM32F753xx)
