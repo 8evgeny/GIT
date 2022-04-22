@@ -120,7 +120,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
     file (GLOB LD_src STM32F777IITx_FLASH.ld )
     #file (GLOB LD_src newSTM32H753IITX_FLASH.ld )
 
-    file (GLOB HZ_src ${CMAKE_HOME_DIRECTORY}/Drivers/CMSIS_STM32F7xx/DSP/Source/*.c )
+    file (GLOB HZ_src ${CMAKE_HOME_DIRECTORY}/Drivers/CMSIS_STM32h7xx/DSP/Source/*.c )
     #file (GLOB HZ_src2 ${CMAKE_HOME_DIRECTORY}/Drivers/STM32H7xx_HAL_Driver/Src/*.c )
     file (GLOB HZ_src3 ${CMAKE_HOME_DIRECTORY}/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM7/r0p1/*.c )
     file (GLOB HZ_src4 ${CMAKE_HOME_DIRECTORY}/Drivers/STM32H7xx_HAL_Driver/*.c )
@@ -128,16 +128,16 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 include_directories(
     ${CMAKE_HOME_DIRECTORY}
-    ${CMSIS_STM32F7xx}
-    ${CMSIS_STM32F7xx}/Include
-    ${CMSIS_STM32F7xx}/Device/ST/STM32F7xx/Include
-    ${CMSIS_STM32F7xx}/DSP/Include,
+    ${CMSIS_STM32h7xx}
+    ${CMSIS_STM32h7xx}/Include
+    ${CMSIS_STM32h7xx}/Device/ST/STM32h7xx/Include
+    ${CMSIS_STM32h7xx}/DSP/Include,
     Inc
     ${FreeRTOS}/Source/include
     ${FreeRTOS}/Source/portable/GCC/ARM_CM7/r0p1
     ${CMSIS_RTOS}
-    ${STM32F7xx_HAL}/Inc
-    ${STM32F7xx_HAL}/Inc/Legacy
+    ${STM32h7xx_HAL}/Inc
+    ${STM32h7xx_HAL}/Inc/Legacy
     ${TraceRecorder}/streamports/TCPIP/include
     ${TraceRecorder}/include
     ${TraceRecorder}/config
@@ -166,11 +166,11 @@ include_directories(
     ${UDP_JSON}
     ${Call_Control}
     ${FreeRTOS}/Source/CMSIS_RTOS
-    Drivers/CMSIS_STM32F7xx/DSP/Include
-    Drivers/CMSIS_STM32F7xx/Core/Include
+    Drivers/CMSIS_STM32h7xx/DSP/Include
+    Drivers/CMSIS_STM32h7xx/Core/Include
     Drivers/STM32H7xx_HAL_Driver/Inc
-    Drivers/CMSIS_STM32F7xx/Device/ST/STM32F7xx/Include
-    Src/CAN_STM32F7xx
+    Drivers/CMSIS_STM32h7xx/Device/ST/STM32h7xx/Include
+    Src/CAN_STM32h7xx
     LWIP/App
 )
 
@@ -191,8 +191,8 @@ add_executable(${PROJECT_NAME}.elf
 #    ${TRNG_src}
     ${Debug_src}
     ${RS232_src}
-#    ${CAN_STM32F7xx_src}
-#    ${GPIO_STM32F7xx_src}
+#    ${CAN_STM32h7xx_src}
+#    ${GPIO_STM32h7xx_src}
 #    ${GPIO_SC2_BOARD_src}
 #    ${RTC_src}
 #    ${SRAM_src}
@@ -205,8 +205,8 @@ add_executable(${PROJECT_NAME}.elf
     ${FreeRTOS_src}
     ${FreeRTOS_src2}
     ${CMSIS_RTOS_src}
-    ${STM32F7xx_HAL_src}
-    ${CMSIS_STM32F7xx_src}
+    ${STM32h7xx_HAL_src}
+    ${CMSIS_STM32h7xx_src}
 #    ${Call_Control_src}
 #    ${SNTP_src}
     ${INC_src}
@@ -222,22 +222,20 @@ add_executable(${PROJECT_NAME}.elf
     ${HZ_src3}
     ${HZ_src4}
     ${HZ_src5}
-    Drivers/STM32H7xx_HAL_Driver/Src/stm32f7xx_hal_can.c
-    Drivers/STM32H7xx_HAL_Driver/Src/stm32f7xx_hal.c
-    Drivers/STM32H7xx_HAL_Driver/Src/stm32f7xx_hal_dma.c
-    Drivers/STM32H7xx_HAL_Driver/Src/stm32f7xx_hal_gpio.c
-    Drivers/STM32H7xx_HAL_Driver/Src/stm32f7xx_hal_eth.c
-    Drivers/STM32H7xx_HAL_Driver/Src/stm32f7xx_hal_sai.c
-    Drivers/STM32H7xx_HAL_Driver/Src/stm32f7xx_hal_i2c_ex.c
-    Drivers/STM32H7xx_HAL_Driver/Src/stm32f7xx_hal_cortex.c
-    Drivers/CMSIS_STM32F7xx/DSP/Source/SupportFunctions/arm_copy_q7.c
+    Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_can.c
+    Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal.c
+    Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_dma.c
+    Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_gpio.c
+    Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_eth.c
+    Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_sai.c
+    Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_i2c_ex.c
+    Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_cortex.c
+    Drivers/CMSIS_STM32h7xx/DSP/Source/SupportFunctions/arm_copy_q7.c
     Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM7/r0p1/port.c
-    Drivers/STM32H7xx_HAL_Driver/Src/stm32f7xx_hal_i2c.c
+    Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_i2c.c
     )
 
-#add_definitions(-DSTM32F753xx)
-
-    add_definitions(-DSTM32F777xx)
+    add_definitions(-DSTM32F753xx)
     add_definitions(-DUSE_HAL_DRIVER)
     add_definitions(-D__weak=__attribute__\(\(weak\)\))
     add_definitions(-D__packed=__attribute__\(\(__packed__\)\))
