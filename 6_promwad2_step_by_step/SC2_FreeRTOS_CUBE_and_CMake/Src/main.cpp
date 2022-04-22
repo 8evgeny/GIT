@@ -184,17 +184,6 @@ int main(void)
   testLed2();
   testLed3();
 
-#ifdef __cplusplus
-}
-#endif
-
-
-
-
-
-#ifdef __cplusplus
-extern "C" {
-#endif
 
 //  RS232::getInstance().test();
 
