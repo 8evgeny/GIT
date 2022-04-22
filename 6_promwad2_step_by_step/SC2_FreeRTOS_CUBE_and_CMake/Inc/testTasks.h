@@ -15,3 +15,6 @@ void testLed3();
 #ifdef __cplusplus
 }
 #endif
+
+#include "rs232.h"
+void test_UART();

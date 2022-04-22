@@ -1,5 +1,4 @@
 #include "testTasks.h"
-
 #include <stdbool.h>
 #include <stdint.h>
 #include "cmsis_os.h"
@@ -7,8 +6,6 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-
 
 void testLed1()
 {
@@ -119,3 +116,8 @@ void simpleLedTest3_RTOS(void const *argument)
 #ifdef __cplusplus
 }
 #endif
+
+//void test_UART()
+//{
+//    RS232::getInstance().test();
+//}
