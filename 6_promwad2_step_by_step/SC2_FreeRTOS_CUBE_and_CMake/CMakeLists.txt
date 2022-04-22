@@ -21,6 +21,8 @@ add_definitions(-D__DCACHE_PRESENT)
 add_definitions(-D__ICACHE_PRESENT)
 add_definitions(-DSC2BOARD)
 
+#include "stm32h753xx.h"  // все регистры
+
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}\
     -Wl,--start-group \
     -Wl,--gc-sections \
