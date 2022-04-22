@@ -178,6 +178,8 @@ int main(void)
   defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
 
   /* USER CODE BEGIN RTOS_THREADS */
+
+
   testLed1();
   testLed2();
   testLed3();

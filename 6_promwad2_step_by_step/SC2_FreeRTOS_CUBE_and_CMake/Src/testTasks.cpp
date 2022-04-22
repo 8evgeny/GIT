@@ -1,7 +1,14 @@
 #include "testTasks.h"
-#include <stdint.h>
+
 #include <stdbool.h>
+#include <stdint.h>
 #include "cmsis_os.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+
 
 void testLed1()
 {
@@ -18,9 +25,9 @@ void testLed3()
     osThreadDef(simpleLedTest3_RTOS, simpleLedTest3_RTOS, osPriorityHigh, 0, configMINIMAL_STACK_SIZE );
     osThreadCreate(osThread(simpleLedTest3_RTOS), NULL);
 }
-void simpleLedTest1_RTOS()
+void simpleLedTest1_RTOS(void const *argument)
 {
-
+    (void)argument;
     bool reset = true;
     uint32_t tickstart = HAL_GetTick();
     uint32_t timeSet = 10;
@@ -48,8 +55,9 @@ void simpleLedTest1_RTOS()
     HAL_Delay(10);
     } //end for(;;)
 }
-void simpleLedTest2_RTOS()
+void simpleLedTest2_RTOS(void const *argument)
 {
+    (void)argument;
     bool reset = true;
     uint32_t tickstart = HAL_GetTick();
     uint32_t timeSet = 10;
@@ -107,3 +115,7 @@ void simpleLedTest3_RTOS(void const *argument)
     HAL_Delay(10);
     } //end for(;;)
 }
+
+#ifdef __cplusplus
+}
+#endif

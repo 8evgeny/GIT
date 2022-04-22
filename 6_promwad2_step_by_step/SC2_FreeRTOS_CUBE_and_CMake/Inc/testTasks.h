@@ -1,8 +1,17 @@
 #pragma once
 #include "main.h"
-void simpleLedTest1_RTOS();
-void simpleLedTest2_RTOS();
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+void simpleLedTest1_RTOS(void const *argument);
+void simpleLedTest2_RTOS(void const *argument);
 void simpleLedTest3_RTOS(void const *argument);
 void testLed1();
 void testLed2();
 void testLed3();
+
+#ifdef __cplusplus
+}
+#endif

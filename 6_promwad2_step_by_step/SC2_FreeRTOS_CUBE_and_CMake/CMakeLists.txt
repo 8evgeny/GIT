@@ -141,7 +141,7 @@ add_library(Debug_LIB ${Debug_src} )
 
 set (EEPROM  ${patchSRC}/EEPROM)
 include_directories(${EEPROM})
-file (GLOB_RECURSE EEPROM_src ${EEPROM}/*.cpp ${EEPROM}/*.c ${EEPROM}/*.h )
+file (GLOB EEPROM_src ${EEPROM}/*.cpp ${EEPROM}/*.c ${EEPROM}/*.h )
 add_library(EEPROM_LIB ${EEPROM_src} )
 
 set (littlefs Middlewares/Third_Party/littlefs)
@@ -283,7 +283,7 @@ target_link_libraries(${PROJECT_NAME}.elf PUBLIC
     CMSIS_RTOS
 #    GPIO_SC2_BOARD_LIB
     RS232_LIB
-    Debug_LIB
+#    Debug_LIB
     EEPROM_LIB
     littlefs_LIB
     CircularBuffer_LIB
