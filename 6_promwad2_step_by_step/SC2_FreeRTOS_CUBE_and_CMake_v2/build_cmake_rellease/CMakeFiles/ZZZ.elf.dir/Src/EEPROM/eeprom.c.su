@@ -1,0 +1,4 @@
+eeprom.c:45:10:BSP_EEPROM_Init	8	static
+eeprom.c:288:13:BSP_EEPROM_TIMEOUT_UserCallback	0	static
+eeprom.c:72:10:BSP_EEPROM_ReadBuffer	8	static
+eeprom.c:97:10:BSP_EEPROM_WriteBuffer	40	static
