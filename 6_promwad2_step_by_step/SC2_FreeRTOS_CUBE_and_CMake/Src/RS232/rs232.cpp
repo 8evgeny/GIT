@@ -276,8 +276,8 @@ static void writeByte(unsigned char byte)
   \param huart: UART handle pointer
   \retval None
   */
-void HAL_UART_MspInit(UART_HandleTypeDef *huart)
-{
+//void HAL_UART_MspInit(UART_HandleTypeDef *huart)
+//{
 
 //    GPIO_InitTypeDef GPIO_InitStruct = {0};
 //    if (huart->Instance == UART7) {
@@ -355,7 +355,7 @@ void HAL_UART_MspInit(UART_HandleTypeDef *huart)
 //        /* USER CODE END UART7_MspInit 1 */
 //    }
 
-}
+//}
 
 /**
 * @brief UART MSP De-Initialization
@@ -363,32 +363,32 @@ void HAL_UART_MspInit(UART_HandleTypeDef *huart)
 * @param huart: UART handle pointer
 * @retval None
 */
-void HAL_UART_MspDeInit(UART_HandleTypeDef *huart)
-{
-    if (huart->Instance == UART7) {
-        /* USER CODE BEGIN UART7_MspDeInit 0 */
+//void HAL_UART_MspDeInit(UART_HandleTypeDef *huart)
+//{
+//    if (huart->Instance == UART7) {
+//        /* USER CODE BEGIN UART7_MspDeInit 0 */
 
-        /* USER CODE END UART7_MspDeInit 0 */
-        /* Peripheral clock disable */
-        __HAL_RCC_UART7_CLK_DISABLE();
+//        /* USER CODE END UART7_MspDeInit 0 */
+//        /* Peripheral clock disable */
+//        __HAL_RCC_UART7_CLK_DISABLE();
 
-        /**UART7 GPIO Configuration
-        PF6     ------> UART7_RX
-        PF7     ------> UART7_TX
-        */
-        HAL_GPIO_DeInit(GPIOF, GPIO_PIN_6 | GPIO_PIN_7);
+//        /**UART7 GPIO Configuration
+//        PF6     ------> UART7_RX
+//        PF7     ------> UART7_TX
+//        */
+//        HAL_GPIO_DeInit(GPIOF, GPIO_PIN_6 | GPIO_PIN_7);
 
-        /* UART7 DMA DeInit */
-        HAL_DMA_DeInit(huart->hdmatx);
-        HAL_DMA_DeInit(huart->hdmarx);
+//        /* UART7 DMA DeInit */
+//        HAL_DMA_DeInit(huart->hdmatx);
+//        HAL_DMA_DeInit(huart->hdmarx);
 
-        /* UART7 interrupt DeInit */
-        HAL_NVIC_DisableIRQ(UART7_IRQn);
-        /* USER CODE BEGIN UART7_MspDeInit 1 */
+//        /* UART7 interrupt DeInit */
+//        HAL_NVIC_DisableIRQ(UART7_IRQn);
+//        /* USER CODE BEGIN UART7_MspDeInit 1 */
 
-        /* USER CODE END UART7_MspDeInit 1 */
-    }
-}
+//        /* USER CODE END UART7_MspDeInit 1 */
+//    }
+//}
 
 /*!
   \brief  Tx Transfer completed callback
@@ -452,23 +452,24 @@ void DMA1_Stream3_IRQHandler(void)
 /**
   * @brief This function handles DMA1 stream1 global interrupt.
   */
-void DMA1_Stream1_IRQHandler(void)
-{
-    /* USER CODE BEGIN DMA1_Stream1_IRQn 0 */
+//void DMA1_Stream1_IRQHandler(void)
+//{
+//    /* USER CODE BEGIN DMA1_Stream1_IRQn 0 */
 
-    /* USER CODE END DMA1_Stream1_IRQn 0 */
-    HAL_DMA_IRQHandler(RS232::getInstance().uartHandle->hdmatx);
-    /* USER CODE BEGIN DMA1_Stream1_IRQn 1 */
+//    /* USER CODE END DMA1_Stream1_IRQn 0 */
+//    HAL_DMA_IRQHandler(RS232::getInstance().uartHandle->hdmatx);
+//    /* USER CODE BEGIN DMA1_Stream1_IRQn 1 */
 
-    /* USER CODE END DMA1_Stream1_IRQn 1 */
-}
+//    /* USER CODE END DMA1_Stream1_IRQn 1 */
+//}
 /**
   * @brief This function handles UART7 global interrupt.
   */
-void UART7_IRQHandler(void)
-{
-    HAL_UART_IRQHandler(RS232::getInstance().uartHandle);
-}
+
+//void UART7_IRQHandler(void)
+//{
+//    HAL_UART_IRQHandler(RS232::getInstance().uartHandle);
+//}
 
 #ifdef __cplusplus
 }
