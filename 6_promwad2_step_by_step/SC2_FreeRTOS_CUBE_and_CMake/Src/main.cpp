@@ -101,26 +101,18 @@ void StartDefaultTask(void const * argument);
 
 /* USER CODE END 0 */
 
-/**
-  * @brief  The application entry point.
-  * @retval int
-  */
 int main(void)
 {
-  /* USER CODE BEGIN 1 */
 
-  /* USER CODE END 1 */
-
-  /* MPU Configuration--------------------------------------------------------*/
-  MPU_Config();
+    /* Configure the MPU attributes as Device memory for ETH DMA descriptors */
+    MPU_Config();
 
   /* Enable I-Cache---------------------------------------------------------*/
-  SCB_EnableICache();
+//  SCB_EnableICache();
 
   /* Enable D-Cache---------------------------------------------------------*/
-  SCB_EnableDCache();
+//  SCB_EnableDCache();
 
-  /* MCU Configuration--------------------------------------------------------*/
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
   HAL_Init();
@@ -203,10 +195,6 @@ int main(void)
   /* USER CODE END 3 */
 }
 
-/**
-  * @brief System Clock Configuration
-  * @retval None
-  */
 void SystemClock_Config(void)
 {
   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
@@ -266,10 +254,6 @@ void SystemClock_Config(void)
   HAL_RCC_EnableCSS();
 }
 
-/**
-  * @brief Peripherals Common Clock Configuration
-  * @retval None
-  */
 void PeriphCommonClock_Config(void)
 {
   RCC_PeriphCLKInitTypeDef PeriphClkInitStruct = {0};
@@ -292,11 +276,6 @@ void PeriphCommonClock_Config(void)
   }
 }
 
-/**
-  * @brief I2C1 Initialization Function
-  * @param None
-  * @retval None
-  */
 static void MX_I2C1_Init(void)
 {
 
@@ -338,11 +317,6 @@ static void MX_I2C1_Init(void)
 
 }
 
-/**
-  * @brief I2C2 Initialization Function
-  * @param None
-  * @retval None
-  */
 static void MX_I2C2_Init(void)
 {
 
@@ -384,11 +358,6 @@ static void MX_I2C2_Init(void)
 
 }
 
-/**
-  * @brief I2C3 Initialization Function
-  * @param None
-  * @retval None
-  */
 static void MX_I2C3_Init(void)
 {
 
@@ -430,11 +399,6 @@ static void MX_I2C3_Init(void)
 
 }
 
-/**
-  * @brief RNG Initialization Function
-  * @param None
-  * @retval None
-  */
 static void MX_RNG_Init(void)
 {
 
@@ -457,11 +421,6 @@ static void MX_RNG_Init(void)
 
 }
 
-/**
-  * @brief SAI1 Initialization Function
-  * @param None
-  * @retval None
-  */
 static void MX_SAI1_Init(void)
 {
 
@@ -506,11 +465,6 @@ static void MX_SAI1_Init(void)
 
 }
 
-/**
-  * @brief TIM3 Initialization Function
-  * @param None
-  * @retval None
-  */
 static void MX_TIM3_Init(void)
 {
 
@@ -551,11 +505,6 @@ static void MX_TIM3_Init(void)
 
 }
 
-/**
-  * @brief UART7 Initialization Function
-  * @param None
-  * @retval None
-  */
 static void MX_UART7_Init(void)
 {
 
@@ -599,9 +548,6 @@ static void MX_UART7_Init(void)
 
 }
 
-/**
-  * Enable DMA controller clock
-  */
 static void MX_DMA_Init(void)
 {
 
@@ -679,11 +625,6 @@ static void MX_FMC_Init(void)
   /* USER CODE END FMC_Init 2 */
 }
 
-/**
-  * @brief GPIO Initialization Function
-  * @param None
-  * @retval None
-  */
 static void MX_GPIO_Init(void)
 {
   GPIO_InitTypeDef GPIO_InitStruct = {0};

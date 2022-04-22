@@ -286,7 +286,7 @@ int main()
     /* Configure the MPU attributes as Device memory for ETH DMA descriptors */
     MPU_Config();
     /* Enable the CPU Cache */
-    // CPU_CACHE_Enable();
+//     CPU_CACHE_Enable();
 
     HAL_Init();
     SystemClock_Config();
