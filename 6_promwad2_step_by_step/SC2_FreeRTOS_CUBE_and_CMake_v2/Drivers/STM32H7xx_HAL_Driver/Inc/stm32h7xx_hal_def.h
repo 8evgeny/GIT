@@ -21,6 +21,9 @@
 #ifndef STM32H7xx_HAL_DEF
 #define STM32H7xx_HAL_DEF
 
+#include <stddef.h>
+#include <math.h>
+
 #ifdef __cplusplus
  extern "C" {
 #endif
@@ -28,8 +31,6 @@
 /* Includes ------------------------------------------------------------------*/
 #include "stm32h7xx.h"
 #include "Legacy/stm32_hal_legacy.h"
-#include <stddef.h>
-#include <math.h>
 
 /* Exported types ------------------------------------------------------------*/
 

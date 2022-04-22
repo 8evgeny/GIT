@@ -17,7 +17,7 @@
 //#include "gpio_stm32f7xx.h"
 #include <algorithm>
 #include <cstring>
-//#include "../Debug/debug.h"
+#include "../Debug/debug.h"
 
 #ifdef __cplusplus
 extern "C" {

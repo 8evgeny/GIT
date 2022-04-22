@@ -2,9 +2,9 @@
 #define GPIO_SC2_BOARD_H
 
 #include <cstdint>
-#include "stm32f7xx_hal.h"
-#include "stm32f7xx_hal_gpio.h"
-#include "stm32f7xx_hal_dma.h"
+#include "stm32h7xx_hal.h"
+#include "stm32h7xx_hal_gpio.h"
+#include "stm32h7xx_hal_dma.h"
 #include <array>
 #include "CircularBuffer.h"
 #include "cmsis_os.h"
