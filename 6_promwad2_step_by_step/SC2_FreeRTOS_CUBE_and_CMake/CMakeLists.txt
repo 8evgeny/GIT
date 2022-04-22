@@ -167,10 +167,14 @@ file (GLOB JSON_src ${JSON}/*.cpp ${JSON}/*.h )
 add_library(JSON_LIB ${JSON_src} )
 
 set (ArduinoJson Middlewares/Third_Party/ArduinoJson)
-include_directories(
-    ${ArduinoJson}
-    Middlewares/Third_Party/ArduinoJson/src
-    )
+include_directories( ${ArduinoJson} Middlewares/Third_Party/ArduinoJson/src )
+
+set (AUDIO  ${patchSRC}/AUDIO)
+include_directories( ${AUDIO} )
+file (GLOB AUDIO_src ${AUDIO}/*.cpp ${AUDIO}/*.h )
+add_library(AUDIO_LIB ${AUDIO_src} )
+
+
 
 
 
@@ -298,6 +302,7 @@ target_link_libraries(${PROJECT_NAME}.elf PUBLIC
     CircularBuffer_LIB
     SRAM_LIB
     JSON_LIB
+    AUDIO_LIB
     )
 
 set(HEX_FILE ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.hex)

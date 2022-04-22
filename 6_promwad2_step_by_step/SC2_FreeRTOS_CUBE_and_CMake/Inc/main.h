@@ -26,6 +26,8 @@
 #define ECANCELED 66
 #define EOWNERDEAD 66
 #define ENOTRECOVERABLE 66
+#define ENOTSUP 66
+
 
 #ifdef __cplusplus
 extern "C" {
