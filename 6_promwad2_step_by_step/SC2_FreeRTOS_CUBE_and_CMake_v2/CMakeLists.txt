@@ -9,56 +9,30 @@ set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
 #set(CMAKE_CXX_LINKER_LAUNCHER ${TOOLS_PATH}/bin/arm-none-eabi-g++)
 #set(CMAKE_OBJCOPY ${TOOLS_PATH}/bin/arm-none-eabi-objcopy)
 
-project(4_promwad2 C CXX ASM)
+project(RTOS_753 C CXX ASM)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-set (IsBootloader false)
-set (SC2board true)
-set (IsStm32f7 true)
-set (HeapVersion4 true)
-set (HeapVersion5 false)
-
-#set(CMAKE_BUILD_TYPE debug)
-#set(CMAKE_BUILD_TYPE release)
-
 set (Third_Party "Middlewares/Third_Party")
 set (SRC "Src/")
 
-if(IsStm32f7)
     file (GLOB SRC_src
     ${SRC}*.c
     ${SRC}main.cpp
     ${SRC}flash_diskio.cpp
     ${SRC}../syscalls.c
     )
-elseif(IsBootloader)
-    file (GLOB SRC_src
-    ${SRC}Bootloader/*.cpp
-    ${SRC}../syscalls.c
-    )
-endif()
 
-if(IsStm32f7 OR IsBootloader)
     set (FatFs ${Third_Party}/FatFs)
     file (GLOB FatFs_src
         ${FatFs}/src/*.c ${FatFs}/src/option/syscall.c ${FatFs}/src/option/unicode.c
         ${FatFs}/src/*.h
         )
 #    include_directories(${FatFs}/src )
-endif()
 
-if(IsBootloader)
-    set (Bootloader ${SRC}Bootloader)
-    file (GLOB Bootloader_src ${Bootloader}/*.cpp ${Bootloader}/MD5/*.cpp ${Bootloader}/AES128/*.c
-        ${Bootloader}/*.h  ${Bootloader}/AES128/*.h ${Bootloader}/MD5/*.h
-        )
-#    include_directories(${Bootloader} ${Bootloader}/MD5 ${Bootloader}/AES128 )
-endif()
 
-if(IsStm32f7)
     set (UpdateMechanism  ${SRC}UpdateMechanism)
     file (GLOB UpdateMechanism_src ${UpdateMechanism}/*.cpp
         ${UpdateMechanism}/*.h
@@ -102,7 +76,6 @@ if(IsStm32f7)
         ${RTP}/*.h
         )
 #    include_directories( ${RTP} )
-endif()
 
 set (WDT  ${SRC}WDT)
 file (GLOB WDT_src ${WDT}/*.cpp
@@ -110,30 +83,24 @@ file (GLOB WDT_src ${WDT}/*.cpp
     )
 #include_directories( ${WDT} )
 
-if(IsStm32f7)
+
     set (AUDIO  ${SRC}AUDIO)
     file (GLOB AUDIO_src ${AUDIO}/*.cpp
         ${AUDIO}/*.h
         )
 #    include_directories( ${AUDIO} )
-endif()
 
-if(IsStm32f7 OR IsBootloader)
     set (Flash  ${SRC}flash)
     file (GLOB Flash_src ${Flash}/*.cpp
         ${Flash}/*.h
         )
 #    include_directories( ${Flash} )
-endif()
 
-if(IsStm32f7)
     set (TRNG  ${SRC}TRNG)
     file (GLOB TRNG_src ${TRNG}/*.cpp
         ${TRNG}/*.h
         )
 #    include_directories( ${TRNG} )
-endif()
-
 
 set (Debug  ${SRC}Debug)
 file (GLOB Debug_src ${Debug}/*.cpp ${Debug}/*.c
@@ -141,39 +108,19 @@ file (GLOB Debug_src ${Debug}/*.cpp ${Debug}/*.c
     )
 #include_directories( ${Debug} )
 
-if(IsStm32f7)
     set (RS232  ${SRC}RS232)
     file (GLOB RS232_src ${RS232}/*.cpp ${RS232}/*.c
         ${RS232}/*.h
         )
 #    include_directories( ${RS232} )
-endif()
 
-if(IsStm32f7 AND NOT SC2board)
-    set (CAN_STM32F7xx  ${SRC}CAN_STM32F7xx)
-    file (GLOB CAN_STM32F7xx_src ${CAN_STM32F7xx}/*.cpp
-        ${CAN_STM32F7xx}/*.h
-        )
-#    include_directories( ${CAN_STM32F7xx} )
-endif()
 
-if(IsStm32f7 AND NOT SC2board)
-    set (GPIO_STM32F7xx  ${SRC}GPIO_STM32F7xx)
-    file (GLOB GPIO_STM32F7xx_src ${GPIO_STM32F7xx}/*.cpp
-        ${GPIO_STM32F7xx}/*.h
-        )
-#    include_directories( ${GPIO_STM32F7xx} )
-endif()
-
-if(SC2board AND IsStm32f7)
     set (GPIO_SC2_BOARD  ${SRC}GPIO_SC2_BOARD)
     file (GLOB GPIO_SC2_BOARD_src ${GPIO_SC2_BOARD}/*.cpp
         ${GPIO_SC2_BOARD}/*.h
         )
 #    include_directories( ${GPIO_SC2_BOARD} )
-endif()
 
-if(IsStm32f7)
     set (RTC  ${SRC}RTC)
     file (GLOB RTC_src ${RTC}/*.cpp
         ${RTC}/*.h
@@ -233,7 +180,6 @@ set (LwIP ${Third_Party}/LwIP)
     set (ArduinoJson ${Third_Party}/ArduinoJson)
     file (GLOB ArduinoJson_src ${ArduinoJson}/*.h )
 #    include_directories( ${ArduinoJson} ${ArduinoJson}/src ${ArduinoJson}/src/ArduinoJson)
-endif()
 
 set (CircularBuffer ${Third_Party}/CircularBuffer)
 file (GLOB CircularBuffer_src ${CircularBuffer}/*.c
@@ -241,29 +187,8 @@ file (GLOB CircularBuffer_src ${CircularBuffer}/*.c
     )
 #include_directories( ${CircularBuffer} )
 
-if(IsStm32f7 AND IsBootloader)
-    set (FreeRTOS ${Third_Party}/FreeRTOS)
-    file (GLOB FreeRTOS_src
-    ${FreeRTOS}/Source/*.c
-    ${FreeRTOS}/Source/portable/GCC/ARM_CM7/r0p1/*.c
-    ${FreeRTOS}/Source/include/*.h
-    ${FreeRTOS}/Source/portable/GCC/ARM_CM7/r0p1/*.h
-    )
-#    include_directories(
-#        ${FreeRTOS}/Source/include
-#        ${FreeRTOS}/Source/portable/GCC/ARM_CM7/r0p1
-#        )
-endif()
-
-if(HeapVersion4)
     set (FreeRTOS ${Third_Party}/FreeRTOS)
     file (GLOB FreeRTOS_src2 ${FreeRTOS}/Source/portable/MemMang/heap_4.c )
-endif()
-
-if(HeapVersion5 AND IsStm32f7)
-    set (FreeRTOS ${Third_Party}/FreeRTOS)
-    file (GLOB FreeRTOS_src2 ${FreeRTOS}/Source/portable/MemMang/heap_5.c )
-endif()
 
 set (CMSIS_RTOS ${Third_Party}/FreeRTOS/CMSIS_RTOS)
 file (GLOB CMSIS_RTOS_src ${CMSIS_RTOS}/*.c
@@ -271,46 +196,6 @@ file (GLOB CMSIS_RTOS_src ${CMSIS_RTOS}/*.c
     )
 #include_directories( ${CMSIS_RTOS} )
 
-if(IsStm32f7 AND IsBootloader)
-    set (STM32F7xx_HAL "Drivers/STM32F7xx_HAL_Driver")
-    file (GLOB STM32F7xx_HAL_src ${STM32F7xx_HAL}/Src/*.c
-        ${STM32F7xx_HAL}/Inc/*.h
-        ${STM32F7xx_HAL}/Legacy/*.h
-        )
-    list(REMOVE_ITEM STM32F7xx_HAL_src
-        ${CMAKE_HOME_DIRECTORY}/${STM32F7xx_HAL}/Src/stm32f7xx_hal_timebase_rtc_alarm_template.c
-        ${CMAKE_HOME_DIRECTORY}/${STM32F7xx_HAL}/Src/stm32f7xx_hal_timebase_rtc_wakeup_template.c
-        ${CMAKE_HOME_DIRECTORY}/${STM32F7xx_HAL}/Src/stm32f7xx_hal_timebase_tim_template.c
-        ${CMAKE_HOME_DIRECTORY}/${STM32F7xx_HAL}/Src/stm32f7xx_hal_msp_template.c
-        )
-#    include_directories(${STM32F7xx_HAL}/Inc ${STM32F7xx_HAL}/Inc/Legacy )
-endif()
-
-if(IsStm32f7 AND IsBootloader)
-    set (CMSIS_STM32F7xx "Drivers/CMSIS_STM32F7xx")
-    file (GLOB CMSIS_STM32F7xx_src
-        ${CMSIS_STM32F7xx}/Device/ST/STM32F7xx/Source/Templates/*
-        ${CMSIS_STM32F7xx}/DSP/Source/SupportFunctions/*.c
-        ${CMSIS_STM32F7xx}/DSP/Source/StatisticsFunctions/*.c
-        ${CMSIS_STM32F7xx}/DSP/Source/BasicMathFunctions/*.c
-        ${CMSIS_STM32F7xx}/Include/*.h
-        ${CMSIS_STM32F7xx}/Device/ST/STM32F7xx/Include/*.h
-        ${CMSIS_STM32F7xx}/DSP/Include/*.h
-        )
-
-    list(REMOVE_ITEM CMSIS_STM32F7xx_src
-        ${CMAKE_HOME_DIRECTORY}/${CMSIS_STM32F7xx}/Device/ST/STM32F7xx/Include/stm32f7xx_hal_wwdg.h
-        ${CMAKE_HOME_DIRECTORY}/${CMSIS_STM32F7xx}/Device/ST/STM32F7xx/Source/Templates/system_stm32f7xx.c
-        ${CMAKE_HOME_DIRECTORY}/${CMSIS_STM32F7xx}/Device/ST/STM32F7xx/Include/stm32f7xx_hal_conf_template.h
-        )
-#    include_directories(
-#        ${CMSIS_STM32F7xx}/Include
-#        ${CMSIS_STM32F7xx}/Device/ST/STM32F7xx/Include
-#        ${CMSIS_STM32F7xx}/DSP/Include/*.h
-#        )
-endif()
-
-if(IsStm32f7)
     set (Call_Control  ${SRC}Call_Control)
     file (GLOB Call_Control_src ${Call_Control}/*.cpp
         ${Call_Control}/*.h
@@ -326,19 +211,14 @@ if(IsStm32f7)
         ${SNTP}/*.h
         )
 #    include_directories( ${SNTP} )
-endif()
 
-if(IsStm32f7 OR IsBootloader)
 set (INC  ${SRC}Inc)
 file (GLOB INC_src ${INC}/*.h)
 #    include_directories( Inc )
-endif()
 
-if(IsStm32f7 OR IsBootloader)
     set (startup  ${SRC}startup)
     file (GLOB startup_src ${startup}/startup_stm32f777xx.s )
 #    file (GLOB startup_src ${startup}/startup_stm32h753iitx.s )
-endif()
 
 file (GLOB LD_src STM32F777IITx_FLASH.ld )
 #file (GLOB LD_src newSTM32H753IITX_FLASH.ld )
@@ -349,51 +229,6 @@ file (GLOB HZ_src3 ${CMAKE_HOME_DIRECTORY}/Middlewares/Third_Party/FreeRTOS/Sour
 file (GLOB HZ_src4 ${CMAKE_HOME_DIRECTORY}/Drivers/STM32F7xx_HAL_Driver/*.c )
 file (GLOB HZ_src5 ${CMAKE_HOME_DIRECTORY}/Middlewares/Third_Party/FreeRTOS/Source/*.c)
 
-if(IsStm32f7 AND NOT SC2board)
-    include_directories (
-    ${CMAKE_HOME_DIRECTORY}
-    ${CMSIS_STM32F7xx}
-    ${CMSIS_STM32F7xx}/Include
-    ${CMSIS_STM32F7xx}/DSP/Include,
-    ${CMSIS_STM32F7xx}/Device/ST/STM32F7xx/Include
-    Inc
-    ${FreeRTOS}/Source/include
-    ${FreeRTOS}/Source/portable/GCC/ARM_CM7/r0p1
-    ${CMSIS_RTOS}
-    ${STM32F7xx_HAL}/Inc
-    ${STM32F7xx_HAL}/Inc/Legacy
-    ${TraceRecorder}/streamports/TCPIP/include
-    ${TraceRecorder}/include
-    ${TraceRecorder}/config
-    ${LwIP}/src/include
-    ${LwIP}/system
-    ${LwIP}/system/OS
-    ${LwIP}/src
-    ${ArduinoJson}
-    ${ArduinoJson}/src
-    ${ArduinoJson}/src/ArduinoJson
-    ${CircularBuffer}
-    ${littlefs}
-    ${FatFs}/src
-    ${RTP}
-    ${Audio}
-    ${UID}
-    ${Flash}
-    ${EEPROM}
-    ${CAN_STM32F7xx}
-    ${GPIO_STM32F7xx}
-    ${RTT}
-    ${RTC}
-    ${SRAM}
-    ${RS232}
-    ${JSON}
-    ${Flash}
-    ${WDT}
-    ${UDP_JSON}
-    ${Call_Control}
-    )
-endif()
-if (IsStm32f7 AND SC2board)
     include_directories(
     ${CMAKE_HOME_DIRECTORY}
     ${CMSIS_STM32F7xx}
@@ -435,7 +270,6 @@ if (IsStm32f7 AND SC2board)
     ${Call_Control}
 
     )
-endif()
 
 include_directories(
     ${FreeRTOS}/Source/CMSIS_RTOS
@@ -446,26 +280,6 @@ include_directories(
     Src/CAN_STM32F7xx
 )
 
-
-if (IsBootloader)
-    include_directories(
-    ${CMAKE_HOME_DIRECTORY}
-    ${CMSIS_STM32F7xx}
-    ${CMSIS_STM32F7xx}/Include
-    ${CMSIS_STM32F7xx}/Device/ST/STM32F7xx/Include
-    Inc
-    ${FreeRTOS}/Source/include
-    ${FreeRTOS}/Source/portable/GCC/ARM_CM7/r0p1
-    ${CMSIS_RTOS}
-    ${STM32F7xx_HAL}
-    ${STM32F7xx_HAL}/Inc/Legacy
-    ${FatFs}/src
-    ${Flash}
-    ${Flash}
-    ${CircularBuffer}
-    ${AES128}
-    )
-endif()
 
 add_executable(${PROJECT_NAME}.elf
     ${FatFs_src}
@@ -530,20 +344,9 @@ add_executable(${PROJECT_NAME}.elf
     )
 
 #add_definitions(-DSTM32F753xx)
-if(IsStm32f7 AND NOT SC2board)
-    add_definitions(-DLWIP_DEBUG)
-    add_definitions(-DSTM32F777xx)
-    add_definitions(-DUSE_HAL_DRIVER)
-#    add_definitions(-D__weak="__attribute__((weak))")
-#    add_definitions(-D__packed="__attribute__((__packed__))")
-    add_definitions(-D__FPU_PRESENT=1)
-    add_definitions(-DARM_MATH_CM7)
-    add_definitions(-DHAVE_CONFIG_H)
-    add_definitions(-D__DCACHE_PRESENT)
-    add_definitions(-D__ICACHE_PRESENT)
-endif()
 
-if(IsStm32f7 AND SC2board)
+
+
     add_definitions(-DSTM32F777xx)
     add_definitions(-DUSE_HAL_DRIVER)
 #    add_definitions(-D__weak="__attribute__((weak))")
@@ -554,21 +357,6 @@ if(IsStm32f7 AND SC2board)
     add_definitions(-D__DCACHE_PRESENT)
     add_definitions(-D__ICACHE_PRESENT)
     add_definitions(-DSC2BOARD)
-endif()
-
-if(IsBootloader)
-    add_definitions(-DLWIP_DEBUG)
-    add_definitions(-DSTM32F777xx)
-    add_definitions(-DUSE_HAL_DRIVER)
-#    add_definitions(-D__weak="__attribute__((weak))")
-#    add_definitions(-D__packed="__attribute__((__packed__))")
-    add_definitions(-D__FPU_PRESENT=1)
-    add_definitions(-DARM_MATH_CM7)
-    add_definitions(-DHAVE_CONFIG_H)
-    add_definitions(-D__DCACHE_PRESENT)
-    add_definitions(-D__ICACHE_PRESENT)
-    add_definitions(-DBOOTLOADER_FEZ)
-endif()
 
 #CompilerFlags
 
@@ -628,7 +416,6 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}\
 #    -fno-rtti \
 #    -std=gnu11 \
 
-if (IsStm32f7)
     set(LINKER_SCRIPT_FLASH1 "${CMAKE_SOURCE_DIR}/STM32F777IITx_FLASH.ld")
     #set(LINKER_SCRIPT_FLASH "${CMAKE_SOURCE_DIR}/newSTM32H753IITX_FLASH.ld")
 
@@ -651,37 +438,11 @@ if (IsStm32f7)
         -lnosys \
         -Wl,--end-group \
         ")
-endif()
-if (IsBootloader)
-    set(LINKER_SCRIPT_FLASH2 "${CMAKE_SOURCE_DIR}/STM32F777IITx_FLASH_BOOTLOADER.ld")
-    #set(LINKER_SCRIPT_FLASH "${CMAKE_SOURCE_DIR}/newSTM32H753IITX_FLASH.ld")
 
-set(LINKER_FLAGS "SHELL: \
-    -T${LINKER_SCRIPT_FLASH2} \
-    -Wl,--start-group \
-    -Wl,--gc-sections \
-    -mcpu=cortex-m7 \
-    --specs=nosys.specs \
-    -Wl,--gc-sections \
-    -static \
-    --specs=nano.specs \
-    -mfpu=fpv5-d16 \
-    -mfloat-abi=hard \
-    -mthumb
-    -lgcc \
-    -lc \
-    -lstdc++ \
-    -lm \
-    -lnosys \
-    -Wl,--end-group \
-    ")
-endif()
 target_link_options(${PROJECT_NAME}.elf PRIVATE ${LINKER_FLAGS})
 
 #set_target_properties(${PROJECT_NAME}.elf PROPERTIES LINKER_LANGUAGE C)
 set_target_properties(${PROJECT_NAME}.elf PROPERTIES LINKER_LANGUAGE CXX)
-
-
 
 set(HEX_FILE ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.hex)
 set(BIN_FILE ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.bin)
