@@ -10,7 +10,7 @@ extern "C" {
 
 /* Includes ------------------------------------------------------------------*/
 //#include "stm32746g_discovery.h"
-#include "stm32h7xx_hal.h"
+#include "stm32f7xx_hal.h"
 
 
 #define EEPROM_I2C_ADDRESS                    0xA0

@@ -47,12 +47,7 @@
 //#else
 ////#include "../Call_control_for_SC2_board/call_control_sc2.h"
 //#endif
-
-
-//#include "json.h"
-
-
-
+#include "json.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -275,81 +270,81 @@ static void writeByte(unsigned char byte)
 void HAL_UART_MspInit(UART_HandleTypeDef *huart)
 {
 
-//    GPIO_InitTypeDef GPIO_InitStruct = {0};
-//    if (huart->Instance == UART7) {
+    GPIO_InitTypeDef GPIO_InitStruct = {0};
+    if (huart->Instance == UART7) {
 
 
 
-//        /* USER CODE BEGIN UART7_MspInit 0 */
+        /* USER CODE BEGIN UART7_MspInit 0 */
 
-//        /* USER CODE END UART7_MspInit 0 */
-//        /* Peripheral clock enable */
-//        __HAL_RCC_UART7_CLK_ENABLE();
+        /* USER CODE END UART7_MspInit 0 */
+        /* Peripheral clock enable */
+        __HAL_RCC_UART7_CLK_ENABLE();
 
-//        __HAL_RCC_DMA1_CLK_ENABLE();
-//        __HAL_RCC_GPIOF_CLK_ENABLE();
-//        /**UART7 GPIO Configuration
-//        PF6     ------> UART7_RX
-//        PF7     ------> UART7_TX
-//        */
-//        GPIO_InitStruct.Pin = GPIO_PIN_6 | GPIO_PIN_7;
-//        GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
-//        GPIO_InitStruct.Pull = GPIO_PULLUP;
-//        GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
-//        GPIO_InitStruct.Alternate = GPIO_AF8_UART7;
-//        HAL_GPIO_Init(GPIOF, &GPIO_InitStruct);
+        __HAL_RCC_DMA1_CLK_ENABLE();
+        __HAL_RCC_GPIOF_CLK_ENABLE();
+        /**UART7 GPIO Configuration
+        PF6     ------> UART7_RX
+        PF7     ------> UART7_TX
+        */
+        GPIO_InitStruct.Pin = GPIO_PIN_6 | GPIO_PIN_7;
+        GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+        GPIO_InitStruct.Pull = GPIO_PULLUP;
+        GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+        GPIO_InitStruct.Alternate = GPIO_AF8_UART7;
+        HAL_GPIO_Init(GPIOF, &GPIO_InitStruct);
 
-//        /* UART7 DMA Init */
-//        /* UART7_TX Init */
-//        hdma_uart7_tx.Instance = DMA1_Stream1;
-//        hdma_uart7_tx.Init.Channel = DMA_CHANNEL_5;
-//        hdma_uart7_tx.Init.Direction = DMA_MEMORY_TO_PERIPH;
-//        hdma_uart7_tx.Init.PeriphInc = DMA_PINC_DISABLE;
-//        hdma_uart7_tx.Init.MemInc = DMA_MINC_ENABLE;
-//        hdma_uart7_tx.Init.PeriphDataAlignment = DMA_PDATAALIGN_BYTE;
-//        hdma_uart7_tx.Init.MemDataAlignment = DMA_MDATAALIGN_BYTE;
-//        hdma_uart7_tx.Init.Mode = DMA_NORMAL;
-//        hdma_uart7_tx.Init.Priority = DMA_PRIORITY_LOW;
-//        hdma_uart7_tx.Init.FIFOMode = DMA_FIFOMODE_DISABLE;
-//        HAL_DMA_Init(&hdma_uart7_tx);
-
-
-//        __HAL_LINKDMA(huart, hdmatx, hdma_uart7_tx);
-
-//        /* UART7_RX Init */
-//        hdma_uart7_rx.Instance = DMA1_Stream3;
-//        hdma_uart7_rx.Init.Channel = DMA_CHANNEL_5;
-//        hdma_uart7_rx.Init.Direction = DMA_PERIPH_TO_MEMORY;
-//        hdma_uart7_rx.Init.PeriphInc = DMA_PINC_DISABLE;
-//        hdma_uart7_rx.Init.MemInc = DMA_MINC_ENABLE;
-//        hdma_uart7_rx.Init.PeriphDataAlignment = DMA_PDATAALIGN_BYTE;
-//        hdma_uart7_rx.Init.MemDataAlignment = DMA_MDATAALIGN_BYTE;
-//        hdma_uart7_rx.Init.Mode = DMA_NORMAL;
-//        hdma_uart7_rx.Init.Priority = DMA_PRIORITY_HIGH;
-//        hdma_uart7_rx.Init.FIFOMode = DMA_FIFOMODE_DISABLE;
-//        HAL_DMA_Init(&hdma_uart7_rx);
+        /* UART7 DMA Init */
+        /* UART7_TX Init */
+        hdma_uart7_tx.Instance = DMA1_Stream1;
+        hdma_uart7_tx.Init.Channel = DMA_CHANNEL_5;
+        hdma_uart7_tx.Init.Direction = DMA_MEMORY_TO_PERIPH;
+        hdma_uart7_tx.Init.PeriphInc = DMA_PINC_DISABLE;
+        hdma_uart7_tx.Init.MemInc = DMA_MINC_ENABLE;
+        hdma_uart7_tx.Init.PeriphDataAlignment = DMA_PDATAALIGN_BYTE;
+        hdma_uart7_tx.Init.MemDataAlignment = DMA_MDATAALIGN_BYTE;
+        hdma_uart7_tx.Init.Mode = DMA_NORMAL;
+        hdma_uart7_tx.Init.Priority = DMA_PRIORITY_LOW;
+        hdma_uart7_tx.Init.FIFOMode = DMA_FIFOMODE_DISABLE;
+        HAL_DMA_Init(&hdma_uart7_tx);
 
 
-//        __HAL_LINKDMA(huart, hdmarx, hdma_uart7_rx);
+        __HAL_LINKDMA(huart, hdmatx, hdma_uart7_tx);
 
-//        /* UART7 interrupt Init */
-//        HAL_NVIC_SetPriority(UART7_IRQn, 0, 1);
-//        HAL_NVIC_EnableIRQ(UART7_IRQn);
-//        /* USER CODE BEGIN UART7_MspInit 1 */
-
-
-
-//        /* DMA1_Stream1_IRQn interrupt configuration */
-//        HAL_NVIC_SetPriority(DMA1_Stream1_IRQn, 0, 1);
-//        HAL_NVIC_EnableIRQ(DMA1_Stream1_IRQn);
-
-//        /* DMA1_Stream3_IRQn interrupt configuration */
-//        HAL_NVIC_SetPriority(DMA1_Stream3_IRQn, 0, 0);
-//        HAL_NVIC_EnableIRQ(DMA1_Stream3_IRQn);
+        /* UART7_RX Init */
+        hdma_uart7_rx.Instance = DMA1_Stream3;
+        hdma_uart7_rx.Init.Channel = DMA_CHANNEL_5;
+        hdma_uart7_rx.Init.Direction = DMA_PERIPH_TO_MEMORY;
+        hdma_uart7_rx.Init.PeriphInc = DMA_PINC_DISABLE;
+        hdma_uart7_rx.Init.MemInc = DMA_MINC_ENABLE;
+        hdma_uart7_rx.Init.PeriphDataAlignment = DMA_PDATAALIGN_BYTE;
+        hdma_uart7_rx.Init.MemDataAlignment = DMA_MDATAALIGN_BYTE;
+        hdma_uart7_rx.Init.Mode = DMA_NORMAL;
+        hdma_uart7_rx.Init.Priority = DMA_PRIORITY_HIGH;
+        hdma_uart7_rx.Init.FIFOMode = DMA_FIFOMODE_DISABLE;
+        HAL_DMA_Init(&hdma_uart7_rx);
 
 
-//        /* USER CODE END UART7_MspInit 1 */
-//    }
+        __HAL_LINKDMA(huart, hdmarx, hdma_uart7_rx);
+
+        /* UART7 interrupt Init */
+        HAL_NVIC_SetPriority(UART7_IRQn, 0, 1);
+        HAL_NVIC_EnableIRQ(UART7_IRQn);
+        /* USER CODE BEGIN UART7_MspInit 1 */
+
+
+
+        /* DMA1_Stream1_IRQn interrupt configuration */
+        HAL_NVIC_SetPriority(DMA1_Stream1_IRQn, 0, 1);
+        HAL_NVIC_EnableIRQ(DMA1_Stream1_IRQn);
+
+        /* DMA1_Stream3_IRQn interrupt configuration */
+        HAL_NVIC_SetPriority(DMA1_Stream3_IRQn, 0, 0);
+        HAL_NVIC_EnableIRQ(DMA1_Stream3_IRQn);
+
+
+        /* USER CODE END UART7_MspInit 1 */
+    }
 
 }
 
@@ -604,86 +599,86 @@ static int32_t counterFrames = 0;
 
 void readFromUartThread(void const *arg)
 {
-//    (void)arg;
-//    constexpr int32_t SIZE_DEF_BLOCK_UDP = 256;
-//    constexpr int32_t SIZE_WRITE_BLOCK = 128;
+    (void)arg;
+    constexpr int32_t SIZE_DEF_BLOCK_UDP = 256;
+    constexpr int32_t SIZE_WRITE_BLOCK = 128;
 
-//    uint8_t buffUart[SIZE_DEF_BLOCK_UDP] = {0};
-//    char buf[SIZE_DEF_BLOCK_UDP] {0};
-//    uint32_t tmp[SIZE_DEF_BLOCK_UDP / 4];
-
-
+    uint8_t buffUart[SIZE_DEF_BLOCK_UDP] = {0};
+    char buf[SIZE_DEF_BLOCK_UDP] {0};
+    uint32_t tmp[SIZE_DEF_BLOCK_UDP / 4];
 
 
 
-//    while (true) {
-
-//        const int capacityJson = 2000;
-//        StaticJsonDocument <capacityJson> doc;
-
-//        const int capacity = JSON_OBJECT_SIZE(3);
-//        StaticJsonDocument<capacity> configDoc;
-
-//        while (1) {
-
-//            RS232::getInstance().read(buffUart, sizeof(buffUart));
-//            if (buffUart[0] == 0) {
-//                memcpy(buf, buffUart + 1, SIZE_DEF_BLOCK_UDP - 1);
-//            } else {
-//                memcpy(buf, buffUart, SIZE_DEF_BLOCK_UDP);
-//            }
-
-//            DeserializationError err = deserializeJson(doc, buf);
-//            if (DeserializationError::Ok == err) {
-
-//                //int writeConfigId = doc["writeConfigId"];
-//                int number =  doc["number"];
-//                int all = doc["all"];
-//                int size = doc["size"];
-//                const char *config  = doc["config"];
-
-//                if (number == 0) {
-//                    commonSizeAllFrames = 0;
-//                    counterFrames = 0;
-//                }
-
-//                if (number == counterFrames) {
-//                    counterFrames++;
-//                    commonSizeAllFrames += size;
-//                    std::fill(tmp, tmp + SIZE_DEF_BLOCK_UDP / 4, 0);
-//                    std::memcpy(tmp, config, SIZE_WRITE_BLOCK);
-//                    SRAM::getInstance()->writeData(reinterpret_cast<uint32_t *>(tmp), sizeof(tmp) / sizeof(uint8_t), reinterpret_cast<uint32_t *>(0x60000000  + number * SIZE_WRITE_BLOCK));
-//                    if (number == all) {
-//                        break;
-//                    }
-//                }
-//            }
-//        }
-
-//        uint8_t readSramBuff[SIZE_WRITE_BLOCK] {0};
-
-//        lfs_remove(FsForEeprom::getInstance().lfsPtr, "boot_config");
-//        lfs_file_open(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, "boot_config", LFS_O_RDWR | LFS_O_CREAT);
-
-//        for (int32_t i = 0; i < commonSizeAllFrames; i += SIZE_WRITE_BLOCK) {
-//            SRAM::getInstance()->readData(reinterpret_cast<uint32_t *>(readSramBuff), SIZE_WRITE_BLOCK, reinterpret_cast<uint32_t *>(0x60000000 + i));
-//            lfs_file_write(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, readSramBuff,  commonSizeAllFrames - i < SIZE_WRITE_BLOCK ? static_cast<uint32_t>(commonSizeAllFrames - i) : SIZE_WRITE_BLOCK);
-//        }
-//        lfs_file_close(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr);
-
-//        commonSizeAllFrames = 0;
-//        counterFrames = 0;
 
 
-//        //send msg configuration write OK
+    while (true) {
 
-//        char tmpWriteBuf[SIZE_DEF_BLOCK_UDP] {0};
-//        std::fill(tmpWriteBuf, tmpWriteBuf + SIZE_DEF_BLOCK_UDP, 0);
+        const int capacityJson = 2000;
+        StaticJsonDocument <capacityJson> doc;
 
-//        configDoc["writeConfigId"] = Json::getInstance()->thisStation.id;
-//        configDoc["status"].set("ok");
-//        serializeJson(configDoc, tmpWriteBuf, capacity);
-//        RS232::getInstance().write(reinterpret_cast<uint8_t *>(tmpWriteBuf), static_cast<uint16_t>(std::strlen(tmpWriteBuf)));
+        const int capacity = JSON_OBJECT_SIZE(3);
+        StaticJsonDocument<capacity> configDoc;
 
-//    }
+        while (1) {
+
+            RS232::getInstance().read(buffUart, sizeof(buffUart));
+            if (buffUart[0] == 0) {
+                memcpy(buf, buffUart + 1, SIZE_DEF_BLOCK_UDP - 1);
+            } else {
+                memcpy(buf, buffUart, SIZE_DEF_BLOCK_UDP);
+            }
+
+            DeserializationError err = deserializeJson(doc, buf);
+            if (DeserializationError::Ok == err) {
+
+                //int writeConfigId = doc["writeConfigId"];
+                int number =  doc["number"];
+                int all = doc["all"];
+                int size = doc["size"];
+                const char *config  = doc["config"];
+
+                if (number == 0) {
+                    commonSizeAllFrames = 0;
+                    counterFrames = 0;
+                }
+
+                if (number == counterFrames) {
+                    counterFrames++;
+                    commonSizeAllFrames += size;
+                    std::fill(tmp, tmp + SIZE_DEF_BLOCK_UDP / 4, 0);
+                    std::memcpy(tmp, config, SIZE_WRITE_BLOCK);
+                    SRAM::getInstance()->writeData(reinterpret_cast<uint32_t *>(tmp), sizeof(tmp) / sizeof(uint8_t), reinterpret_cast<uint32_t *>(0x60000000  + number * SIZE_WRITE_BLOCK));
+                    if (number == all) {
+                        break;
+                    }
+                }
+            }
+        }
+
+        uint8_t readSramBuff[SIZE_WRITE_BLOCK] {0};
+
+        lfs_remove(FsForEeprom::getInstance().lfsPtr, "boot_config");
+        lfs_file_open(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, "boot_config", LFS_O_RDWR | LFS_O_CREAT);
+
+        for (int32_t i = 0; i < commonSizeAllFrames; i += SIZE_WRITE_BLOCK) {
+            SRAM::getInstance()->readData(reinterpret_cast<uint32_t *>(readSramBuff), SIZE_WRITE_BLOCK, reinterpret_cast<uint32_t *>(0x60000000 + i));
+            lfs_file_write(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, readSramBuff,  commonSizeAllFrames - i < SIZE_WRITE_BLOCK ? static_cast<uint32_t>(commonSizeAllFrames - i) : SIZE_WRITE_BLOCK);
+        }
+        lfs_file_close(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr);
+
+        commonSizeAllFrames = 0;
+        counterFrames = 0;
+
+
+        //send msg configuration write OK
+
+        char tmpWriteBuf[SIZE_DEF_BLOCK_UDP] {0};
+        std::fill(tmpWriteBuf, tmpWriteBuf + SIZE_DEF_BLOCK_UDP, 0);
+
+        configDoc["writeConfigId"] = Json::getInstance()->thisStation.id;
+        configDoc["status"].set("ok");
+        serializeJson(configDoc, tmpWriteBuf, capacity);
+        RS232::getInstance().write(reinterpret_cast<uint8_t *>(tmpWriteBuf), static_cast<uint16_t>(std::strlen(tmpWriteBuf)));
+
+    }
 }
