@@ -156,6 +156,10 @@ file (GLOB CircularBuffer_src ${CircularBuffer}/*.tpp  ${CircularBuffer}/*.h )
 add_library(CircularBuffer_LIB ${CircularBuffer_src} )
 set_target_properties(CircularBuffer_LIB PROPERTIES LINKER_LANGUAGE CXX)
 
+set (SRAM ${patchSRC}/SRAM)
+include_directories( ${SRAM} )
+file (GLOB SRAM_src ${SRAM}/*.cpp ${SRAM}/*.h  )
+add_library(SRAM_LIB ${SRAM_src} )
 
 #set (JSON  ${patchSRC}/JSON)
 #include_directories( ${JSON} )
@@ -289,6 +293,7 @@ target_link_libraries(${PROJECT_NAME}.elf PUBLIC
     EEPROM_LIB
     littlefs_LIB
     CircularBuffer_LIB
+    SRAM_LIB
 #    JSON_LIB
     )
 
