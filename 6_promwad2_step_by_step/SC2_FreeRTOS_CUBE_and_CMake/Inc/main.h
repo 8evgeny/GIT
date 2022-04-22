@@ -22,6 +22,11 @@
 #ifndef __MAIN_H
 #define __MAIN_H
 
+//Возникают ошибки на этих константах - баг компилятора
+#define ECANCELED 66
+#define EOWNERDEAD 66
+#define ENOTRECOVERABLE 66
+
 #ifdef __cplusplus
 extern "C" {
 #endif

@@ -161,13 +161,16 @@ include_directories( ${SRAM} )
 file (GLOB SRAM_src ${SRAM}/*.cpp ${SRAM}/*.h  )
 add_library(SRAM_LIB ${SRAM_src} )
 
-#set (JSON  ${patchSRC}/JSON)
-#include_directories( ${JSON} )
-#file (GLOB JSON_src ${JSON}/*.cpp ${JSON}/*.h )
-#add_library(JSON_LIB ${JSON_src} )
+set (JSON  ${patchSRC}/JSON)
+include_directories( ${JSON} )
+file (GLOB JSON_src ${JSON}/*.cpp ${JSON}/*.h )
+add_library(JSON_LIB ${JSON_src} )
 
-
-
+set (ArduinoJson Middlewares/Third_Party/ArduinoJson)
+include_directories(
+    ${ArduinoJson}
+    Middlewares/Third_Party/ArduinoJson/src
+    )
 
 
 
@@ -289,12 +292,12 @@ target_link_libraries(${PROJECT_NAME}.elf PUBLIC
     CMSIS_RTOS
 #    GPIO_SC2_BOARD_LIB
     RS232_LIB
-#    Debug_LIB
+    Debug_LIB
     EEPROM_LIB
     littlefs_LIB
     CircularBuffer_LIB
     SRAM_LIB
-#    JSON_LIB
+    JSON_LIB
     )
 
 set(HEX_FILE ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.hex)
