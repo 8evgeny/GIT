@@ -99,8 +99,6 @@ void StartDefaultTask(void const * argument);
 
 
 
-
-
 /* USER CODE END 0 */
 
 /**
@@ -185,7 +183,6 @@ int main(void)
   testLed3();
 
 
-//  RS232::getInstance().test();
 
 
   /* add threads, ... */

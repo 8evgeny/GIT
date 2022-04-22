@@ -143,6 +143,11 @@ public:
     */
     static RS232 &getInstance();
 
+
+    void  C_test(RS232* p);
+    static RS232 & C_getInstance(RS232* p);
+
+
     /*!
      * \brief read data from UART
      * \param buf Buffer for saving data

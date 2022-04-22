@@ -131,6 +131,10 @@ RS232 &RS232::getInstance()
     return *pInstance;
 }
 
+extern "C" RS232& RS232::C_getInstance(RS232* p)
+{
+   return p->RS232::getInstance();
+}
 
 
 HAL_StatusTypeDef RS232::write(uint8_t *buf, uint16_t size)
@@ -584,6 +588,12 @@ void RS232::test()
     RS232::getInstance().read(buf.begin(), buf.size(), 100, true); //with save data to RingBuffer
     RS232::getInstance().term << buf.begin();
 }
+
+extern "C" void  RS232::C_test(RS232* p)
+{
+   return p->RS232::test();
+}
+
 
 
 Console &operator>>(Console &console, std::string &data)
