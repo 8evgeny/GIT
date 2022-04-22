@@ -1,3 +1,0 @@
-/home/evg/SOFT/Github/GIT/6_promwad2_step_by_step/SC2_FreeRTOS_CUBE_and_CMake_v2/build_cmake_debug/CMakeFiles/rebuild_cache.dir
-/home/evg/SOFT/Github/GIT/6_promwad2_step_by_step/SC2_FreeRTOS_CUBE_and_CMake_v2/build_cmake_debug/CMakeFiles/edit_cache.dir
-/home/evg/SOFT/Github/GIT/6_promwad2_step_by_step/SC2_FreeRTOS_CUBE_and_CMake_v2/build_cmake_debug/CMakeFiles/4_promwad2.elf.dir
