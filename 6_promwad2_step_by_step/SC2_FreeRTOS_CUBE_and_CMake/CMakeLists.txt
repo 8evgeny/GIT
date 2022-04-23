@@ -178,10 +178,10 @@ include_directories( ${TRNG} )
 file (GLOB TRNG_src ${TRNG}/*.cpp ${TRNG}/*.h )
 add_library(TRNG_LIB ${TRNG_src} )
 
-#set (GPIO_SC2  ${patchSRC}/GPIO_SC2_BOARD)
-#include_directories( ${GPIO_SC2} )
-#file (GLOB GPIO_SC2_SOURCES ${GPIO_SC2}/*.cpp ${GPIO_SC2}/*.h)
-#add_library(GPIO_SC2_LIB ${GPIO_SC2_SOURCES} )
+set (GPIO_SC2  ${patchSRC}/GPIO_SC2_BOARD)
+include_directories( ${GPIO_SC2} )
+file (GLOB GPIO_SC2_SOURCES ${GPIO_SC2}/*.cpp ${GPIO_SC2}/*.h)
+add_library(GPIO_SC2_LIB ${GPIO_SC2_SOURCES} )
 
 #set (AUDIO  ${patchSRC}/AUDIO)
 #include_directories(
@@ -368,7 +368,7 @@ target_link_libraries(${PROJECT_NAME}.elf PUBLIC
     RTC_LIB
     SNTP_LIB
     TRNG_LIB
-#    GPIO_SC2_LIB
+    GPIO_SC2_LIB
 #    AUDIO_LIB
 #    RTP_LIB
 #    UDP_JSON_LIB

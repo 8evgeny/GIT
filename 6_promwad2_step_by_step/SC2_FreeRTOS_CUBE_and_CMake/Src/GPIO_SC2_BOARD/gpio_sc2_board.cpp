@@ -203,7 +203,7 @@ void GPIOInit(void)
 //        }
 //    }
 
-//}
+}
 
 #ifdef __cplusplus
 }
@@ -466,43 +466,45 @@ void GPIO::initLEDs()
 #ifdef __cplusplus
 extern "C" {
 #endif
+
 /*!
   * @brief EXTI line detection callbacks
   * @param GPIO_Pin: Specifies the pins connected EXTI line
   * @retval None
   */
-void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
-{
-#if 00
-    if (GPIO_Pin == GPIO_PIN_11) {
-        HAL_GPIO_WritePin(GPIOG, GPIO_PIN_13, GPIO_PIN_SET);
-        GPIO::getInstance()->testFlag = true;
-        osSignalSet(GPIO::getInstance()->createTestTaskThreadId, 0x03);
-    }
-#endif
-//новый код
-    if (GPIO_Pin == GPIO_PIN_5)
+    void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
     {
-        HAL_GPIO_WritePin(GPIOB, GPIO_PIN_9, GPIO_PIN_SET);
-        GPIO::getInstance()->testFlag = true;
-        osSignalSet(GPIO::getInstance()->createTestTaskThreadId, 0x03);
+    #if 00
+        if (GPIO_Pin == GPIO_PIN_11) {
+            HAL_GPIO_WritePin(GPIOG, GPIO_PIN_13, GPIO_PIN_SET);
+            GPIO::getInstance()->testFlag = true;
+            osSignalSet(GPIO::getInstance()->createTestTaskThreadId, 0x03);
+        }
+    #endif
+
+    //новый код
+        if (GPIO_Pin == GPIO_PIN_5)
+        {
+            HAL_GPIO_WritePin(GPIOB, GPIO_PIN_9, GPIO_PIN_SET);
+            GPIO::getInstance()->testFlag = true;
+            osSignalSet(GPIO::getInstance()->createTestTaskThreadId, 0x03);
+        }
+
+    //конец нового кода
+
+    //    else if (GPIO_Pin == GPIO_PIN_14) {
+    //        if (GPIO::getInstance()->dacDriverGainValue < 29)
+    //            ++GPIO::getInstance()->dacDriverGainValue;
+    //    } else if (GPIO_Pin == GPIO_PIN_15) {
+    //        if (GPIO::getInstance()->dacDriverGainValue > -6)
+    //            --GPIO::getInstance()->dacDriverGainValue;
+    //    }
+
+        if (GPIO_Pin == GPIO_PIN_2) {
+            osSemaphoreRelease(Netif_LinkSemaphore);
+        }
+
     }
-
-//конец нового кода
-
-//    else if (GPIO_Pin == GPIO_PIN_14) {
-//        if (GPIO::getInstance()->dacDriverGainValue < 29)
-//            ++GPIO::getInstance()->dacDriverGainValue;
-//    } else if (GPIO_Pin == GPIO_PIN_15) {
-//        if (GPIO::getInstance()->dacDriverGainValue > -6)
-//            --GPIO::getInstance()->dacDriverGainValue;
-//    }
-
-    if (GPIO_Pin == GPIO_PIN_2) {
-        osSemaphoreRelease(Netif_LinkSemaphore);
-    }
-
-}
 
 void EXTI2_IRQHandler(void)
 {
@@ -519,6 +521,7 @@ void EXTI15_10_IRQHandler(void)
 //    HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_14);
 //    HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_15);
 }
+
 #ifdef __cplusplus
 }
 #endif
