@@ -188,7 +188,8 @@ void HAL_RTC_MspDeInit(RTC_HandleTypeDef *hrtc)
 
     /*##-2- Disables the PWR Clock and Disables access to the backup domain ###################################*/
     HAL_PWR_DisableBkUpAccess();
-    __HAL_RCC_PWR_CLK_DISABLE();
+
+//    __HAL_RCC_PWR_CLK_DISABLE();
 
 }
 

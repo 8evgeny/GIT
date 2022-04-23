@@ -9,7 +9,7 @@
 #include <cstdint>
 #include <ctime>
 #include "stm32h7xx_hal.h"
-#include "stm32f7xx_hal_rtc.h"
+#include "stm32h7xx_hal_rtc.h"
 
 /*!
  \brief Implementation: ensure that only one instance of the singleton class ever exists
