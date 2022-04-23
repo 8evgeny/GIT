@@ -237,7 +237,10 @@ add_library(TRNG_LIB ${TRNG_src} )
 #file (GLOB WDT_src ${WDT}/*.cpp ${WDT}/*.h )
 #add_library(WDT_LIB ${WDT_src} )
 
-
+#set (CRC16  ${patchSRC}/CRC16)
+#include_directories( ${CRC16} )
+#file (GLOB CRC16_src ${CRC16}/*.cpp ${CRC16}/*.h )
+#add_library(CRC16_LIB ${CRC16_src} )
 
 
 
@@ -376,6 +379,7 @@ target_link_libraries(${PROJECT_NAME}.elf PUBLIC
 #    Tests_LIB
 #    uid_LIB
 #    WDT_LIB
+#    CRC16_LIB
     )
 
 set(HEX_FILE ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.hex)
