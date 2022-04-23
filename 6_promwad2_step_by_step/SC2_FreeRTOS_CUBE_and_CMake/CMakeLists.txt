@@ -208,7 +208,10 @@ include_directories( ${ArduinoJson} Middlewares/Third_Party/ArduinoJson/src )
 #file (GLOB FatFs_src ${FatFs}/src/*.c ${FatFs}/src/option/syscall.c ${FatFs}/src/option/unicode.c ${FatFs}/src/*.h )
 #add_library(FatFs_LIB ${FatFs_src} )
 
-
+set (RTC  ${patchSRC}/RTC)
+include_directories( ${JSON} )
+file (GLOB RTC_src ${RTC}/*.cpp ${RTC}/*.h )
+add_library(RTC_LIB ${RTC_src} )
 
 
 
@@ -347,6 +350,7 @@ target_link_libraries(${PROJECT_NAME}.elf PUBLIC
 #    Call_Control_SC2_LIB
 #    flash_LIB
 #    FatFs_LIB
+    RTC_LIB
     )
 
 set(HEX_FILE ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.hex)
