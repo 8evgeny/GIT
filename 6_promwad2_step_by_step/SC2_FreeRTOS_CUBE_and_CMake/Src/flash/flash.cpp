@@ -125,7 +125,7 @@ void Flash::write(uint32_t addr, const char *buf, uint32_t size)
         //std::copy(buf, buf + chunkSize, reinterpret_cast<uint8_t *>(&tmp + alignOffset));
 
         /* Write the new data in flash */
-        HAL_FLASH_Program(FLASH_TYPEPROGRAM_WORD, alignedFlashAddress, tmp);
+        HAL_FLASH_Program(FLASH_TYPEPROGRAM_FLASHWORD, alignedFlashAddress, tmp);
 
         /* Advance */
         addr += chunkSize;
@@ -139,7 +139,7 @@ void Flash::write(uint32_t addr, const char *buf, uint32_t size)
 
     while (size >= sizeof(uint32_t)) {
 
-        HAL_FLASH_Program(FLASH_TYPEPROGRAM_WORD, addr, *(const uint32_t *)buf);
+        HAL_FLASH_Program(FLASH_TYPEPROGRAM_FLASHWORD, addr, *(const uint32_t *)buf);
         addr += sizeof(uint32_t);
         buf += sizeof(uint32_t);
         size -= sizeof(uint32_t);
@@ -154,7 +154,7 @@ void Flash::write(uint32_t addr, const char *buf, uint32_t size)
         std::memcpy(&tmp, buf, size);
         //std::copy(buf, buf + size, &tmp);
 
-        HAL_FLASH_Program(FLASH_TYPEPROGRAM_WORD, addr, tmp);
+        HAL_FLASH_Program(FLASH_TYPEPROGRAM_FLASHWORD, addr, tmp);
     }
 }
 
