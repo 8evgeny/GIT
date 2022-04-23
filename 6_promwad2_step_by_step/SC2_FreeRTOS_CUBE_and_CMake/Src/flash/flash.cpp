@@ -99,7 +99,7 @@ void Flash::write(uint32_t addr, const char *buf, uint32_t size)
     uint32_t chunkSize;
 
     /* Wait for any busy flags */
-    while (FLASH_WaitForLastOperation(10, FLASH_BANK_BOTH ) != HAL_OK);
+    while (FLASH_WaitForLastOperation(10, FLASH_BANK_BOTH) != HAL_OK);
 
     /* Check if the flash address is correctly aligned */
     alignOffset = addr % sizeof(uint32_t);
