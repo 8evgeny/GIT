@@ -183,6 +183,11 @@ include_directories( ${GPIO_SC2} )
 file (GLOB GPIO_SC2_SOURCES ${GPIO_SC2}/*.cpp ${GPIO_SC2}/*.h)
 add_library(GPIO_SC2_LIB ${GPIO_SC2_SOURCES} )
 
+set (RTP  ${patchSRC}/RTP)
+include_directories( ${RTP} Drivers/CMSIS/DSP/Include)
+file (GLOB RTP_src ${RTP}/*.cpp ${RTP}/*.h )
+add_library(RTP_LIB ${RTP_src} )
+
 #set (AUDIO  ${patchSRC}/AUDIO)
 #include_directories(
 #    ${AUDIO}
@@ -190,11 +195,6 @@ add_library(GPIO_SC2_LIB ${GPIO_SC2_SOURCES} )
 #    )
 #file (GLOB AUDIO_src ${AUDIO}/*.cpp ${AUDIO}/*.h )
 #add_library(AUDIO_LIB ${AUDIO_src} )
-
-#set (RTP  ${patchSRC}/RTP)
-#include_directories( ${RTP} )
-#file (GLOB RTP_src ${RTP}/*.cpp ${RTP}/*.h )
-#add_library(RTP_LIB ${RTP_src} )
 
 #set (UDP_JSON  ${patchSRC}/UDP_JSON)
 #include_directories( ${UDP_JSON} )
@@ -369,8 +369,8 @@ target_link_libraries(${PROJECT_NAME}.elf PUBLIC
     SNTP_LIB
     TRNG_LIB
     GPIO_SC2_LIB
+    RTP_LIB
 #    AUDIO_LIB
-#    RTP_LIB
 #    UDP_JSON_LIB
 #    Call_Control_LIB
 #    Call_Control_SC2_LIB

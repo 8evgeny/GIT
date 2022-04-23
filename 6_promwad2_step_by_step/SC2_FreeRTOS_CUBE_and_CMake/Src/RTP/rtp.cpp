@@ -2,8 +2,11 @@
 #include "../Debug/debug.h"
 #include <cstring>
 #include <algorithm>
+
 #include "../UDP_JSON/udp_multicast.h"
 
+#include "stm32h7xx_hal_cryp.h"
+#include "json.h"
 
 //TODO need to use namespace for signals
 
