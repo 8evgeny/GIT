@@ -217,11 +217,20 @@ add_library(SNTP_LIB ${SNTP_src} )
 #file (GLOB FatFs_src ${FatFs}/src/*.c ${FatFs}/src/option/syscall.c ${FatFs}/src/option/unicode.c ${FatFs}/src/*.h )
 #add_library(FatFs_LIB ${FatFs_src} )
 
+#set (Tests  ${patchSRC}/Tests)
+#include_directories( ${Tests} )
+#file (GLOB Tests_src ${Tests}/*.cpp ${Tests}/*.h )
+#add_library(Tests_LIB ${Tests_src} )
 
+#set (uid  ${patchSRC}/uid)
+#include_directories( ${uid} )
+#file (GLOB uid_src ${uid}/*.cpp ${uid}/*.h )
+#add_library(uid_LIB ${uid_src} )
 
-
-
-
+set (TRNG  ${patchSRC}/TRNG)
+include_directories( ${TRNG} )
+file (GLOB TRNG_src ${TRNG}/*.cpp ${TRNG}/*.h )
+add_library(TRNG_LIB ${TRNG_src} )
 
 
 
@@ -358,6 +367,9 @@ target_link_libraries(${PROJECT_NAME}.elf PUBLIC
 #    FatFs_LIB
     RTC_LIB
     SNTP_LIB
+#    Tests_LIB
+#    uid_LIB
+    TRNG_LIB
     )
 
 set(HEX_FILE ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.hex)
