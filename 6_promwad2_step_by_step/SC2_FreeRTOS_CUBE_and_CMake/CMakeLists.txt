@@ -173,6 +173,11 @@ include_directories( ${SNTP} )
 file (GLOB SNTP_src ${SNTP}/*.cpp ${SNTP}/*.h )
 add_library(SNTP_LIB ${SNTP_src} )
 
+set (TRNG  ${patchSRC}/TRNG)
+include_directories( ${TRNG} )
+file (GLOB TRNG_src ${TRNG}/*.cpp ${TRNG}/*.h )
+add_library(TRNG_LIB ${TRNG_src} )
+
 #set (GPIO_SC2  ${patchSRC}/GPIO_SC2_BOARD)
 #include_directories( ${GPIO_SC2} )
 #file (GLOB GPIO_SC2_SOURCES ${GPIO_SC2}/*.cpp ${GPIO_SC2}/*.h)
@@ -227,10 +232,10 @@ add_library(SNTP_LIB ${SNTP_src} )
 #file (GLOB uid_src ${uid}/*.cpp ${uid}/*.h )
 #add_library(uid_LIB ${uid_src} )
 
-set (TRNG  ${patchSRC}/TRNG)
-include_directories( ${TRNG} )
-file (GLOB TRNG_src ${TRNG}/*.cpp ${TRNG}/*.h )
-add_library(TRNG_LIB ${TRNG_src} )
+#set (WDT  ${patchSRC}/WDT)
+#include_directories( ${WDT} )
+#file (GLOB WDT_src ${WDT}/*.cpp ${WDT}/*.h )
+#add_library(WDT_LIB ${WDT_src} )
 
 
 
@@ -357,6 +362,9 @@ target_link_libraries(${PROJECT_NAME}.elf PUBLIC
     CircularBuffer_LIB
     SRAM_LIB
     JSON_LIB
+    RTC_LIB
+    SNTP_LIB
+    TRNG_LIB
 #    GPIO_SC2_LIB
 #    AUDIO_LIB
 #    RTP_LIB
@@ -365,11 +373,9 @@ target_link_libraries(${PROJECT_NAME}.elf PUBLIC
 #    Call_Control_SC2_LIB
 #    flash_LIB
 #    FatFs_LIB
-    RTC_LIB
-    SNTP_LIB
 #    Tests_LIB
 #    uid_LIB
-    TRNG_LIB
+#    WDT_LIB
     )
 
 set(HEX_FILE ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.hex)
