@@ -1,8 +1,8 @@
 #ifndef I2C_H
 #define I2C_H
 
-#include <stm32f7xx_hal.h>
-#include <stm32f7xx_hal_i2c.h>
+#include <stm32h7xx_hal.h>
+#include <stm32h7xx_hal_i2c.h>
 
 /*!
  \brief

@@ -3,8 +3,8 @@
 
 #include <cstdint>
 
-#include "stm32f7xx_hal.h"
-#include "stm32f7xx_hal_sai.h"
+#include "stm32h7xx_hal.h"
+#include "stm32h7xx_hal_sai.h"
 
 #include "sai.h"
 #include "i2c.h"

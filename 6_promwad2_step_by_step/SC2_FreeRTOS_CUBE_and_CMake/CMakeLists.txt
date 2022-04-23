@@ -123,17 +123,15 @@ add_library(CORE ${CORE_SOURCES} )
 
 
 
-#ХЗ не работает
-#set (GPIO_SC2  ${patchSRC}/GPIO_SC2_BOARD)
-#include_directories( ${GPIO_SC2_BOARD} )
-#file (GLOB GPIO_SC2_BOARD_SOURCES ${GPIO_SC2}/*.cpp )
-#add_library(GPIO_SC2_BOARD_LIB ${GPIO_SC2_BOARD_SOURCES} )
+set (GPIO_SC2  ${patchSRC}/GPIO_SC2_BOARD)
+include_directories( ${GPIO_SC2} )
+file (GLOB GPIO_SC2_SOURCES ${GPIO_SC2}/*.cpp ${GPIO_SC2}/*.h)
+add_library(GPIO_SC2_LIB ${GPIO_SC2_SOURCES} )
 
 set (RS232  ${patchSRC}/RS232)
 include_directories( ${RS232} )
 file (GLOB RS232_src ${RS232}/*.cpp ${RS232}/*.c ${RS232}/*.h )
 add_library(RS232_LIB ${RS232_src} )
-
 
 set (Debug  ${patchSRC}/Debug)
 include_directories( ${Debug} )
@@ -170,10 +168,38 @@ set (ArduinoJson Middlewares/Third_Party/ArduinoJson)
 include_directories( ${ArduinoJson} Middlewares/Third_Party/ArduinoJson/src )
 
 set (AUDIO  ${patchSRC}/AUDIO)
-include_directories( ${AUDIO} )
+include_directories(
+    ${AUDIO}
+    Drivers/CMSIS/DSP/Include
+    )
 file (GLOB AUDIO_src ${AUDIO}/*.cpp ${AUDIO}/*.h )
 add_library(AUDIO_LIB ${AUDIO_src} )
 
+set (RTP  ${patchSRC}/RTP)
+include_directories( ${RTP} )
+file (GLOB RTP_src ${RTP}/*.cpp ${RTP}/*.h )
+add_library(RTP_LIB ${RTP_src} )
+
+set (UDP_JSON  ${patchSRC}/UDP_JSON)
+include_directories( ${UDP_JSON} )
+file (GLOB UDP_JSON_src ${UDP_JSON}/*.cpp ${UDP_JSON}/*.h )
+add_library(UDP_JSON_LIB ${UDP_JSON_src} )
+
+set (Call_Control  ${patchSRC}/Call_Control)
+include_directories( ${Call_Control} )
+file (GLOB Call_Control_src ${Call_Control}/*.cpp ${Call_Control}/*.h )
+list(REMOVE_ITEM Call_Control_src ${Call_Control}/call_control.h ${Call_Control}/call_control.cpp )
+add_library(Call_Control_LIB ${Call_Control_src} )
+
+set (flash  ${patchSRC}/flash)
+include_directories( ${flash} )
+file (GLOB flash_src ${flash}/*.cpp ${flash}/*.h )
+add_library(flash_LIB ${flash_src} )
+
+set (FatFs Middlewares/Third_Party/FatFs)
+include_directories(${FatFs}/src )
+file (GLOB FatFs_src ${FatFs}/src/*.c ${FatFs}/src/option/syscall.c ${FatFs}/src/option/unicode.c ${FatFs}/src/*.h )
+add_library(FatFs_LIB ${FatFs_src} )
 
 
 
@@ -294,7 +320,7 @@ target_link_libraries(${PROJECT_NAME}.elf PUBLIC
     LWIP
     Middlewares
     CMSIS_RTOS
-#    GPIO_SC2_BOARD_LIB
+    GPIO_SC2_LIB
     RS232_LIB
     Debug_LIB
     EEPROM_LIB
@@ -303,6 +329,11 @@ target_link_libraries(${PROJECT_NAME}.elf PUBLIC
     SRAM_LIB
     JSON_LIB
     AUDIO_LIB
+    RTP_LIB
+    UDP_JSON_LIB
+    Call_Control_LIB
+    flash_LIB
+    FatFs_LIB
     )
 
 set(HEX_FILE ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.hex)
