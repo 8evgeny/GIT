@@ -183,64 +183,63 @@ include_directories( ${GPIO_SC2} )
 file (GLOB GPIO_SC2_SOURCES ${GPIO_SC2}/*.cpp ${GPIO_SC2}/*.h)
 add_library(GPIO_SC2_LIB ${GPIO_SC2_SOURCES} )
 
-set (RTP  ${patchSRC}/RTP)
-include_directories( ${RTP} Drivers/CMSIS/DSP/Include)
-file (GLOB RTP_src ${RTP}/*.cpp ${RTP}/*.h )
-add_library(RTP_LIB ${RTP_src} )
+#set (RTP  ${patchSRC}/RTP)
+#include_directories( ${RTP} Drivers/CMSIS/DSP/Include)
+#file (GLOB RTP_src ${RTP}/*.cpp ${RTP}/*.h )
+#add_library(RTP_LIB ${RTP_src} )
 
-set (AUDIO  ${patchSRC}/AUDIO)
-include_directories(
-    ${AUDIO}
-    Drivers/CMSIS/DSP/Include
-    )
-file (GLOB AUDIO_src ${AUDIO}/*.cpp ${AUDIO}/*.h )
-add_library(AUDIO_LIB ${AUDIO_src} )
+#set (AUDIO  ${patchSRC}/AUDIO)
+#include_directories(
+#    ${AUDIO}
+#    Drivers/CMSIS/DSP/Include
+#    )
+#file (GLOB AUDIO_src ${AUDIO}/*.cpp ${AUDIO}/*.h )
+#add_library(AUDIO_LIB ${AUDIO_src} )
 
-set (UDP_JSON  ${patchSRC}/UDP_JSON)
-include_directories( ${UDP_JSON} )
-file (GLOB UDP_JSON_src ${UDP_JSON}/*.cpp ${UDP_JSON}/*.h )
-add_library(UDP_JSON_LIB ${UDP_JSON_src} )
+#set (UDP_JSON  ${patchSRC}/UDP_JSON)
+#include_directories( ${UDP_JSON} )
+#file (GLOB UDP_JSON_src ${UDP_JSON}/*.cpp ${UDP_JSON}/*.h )
+#add_library(UDP_JSON_LIB ${UDP_JSON_src} )
 
-set (Call_Control  ${patchSRC}/Call_Control)
-include_directories( ${Call_Control} )
-file (GLOB Call_Control_src ${Call_Control}/*.cpp ${Call_Control}/*.h )
-list(REMOVE_ITEM Call_Control_src ${Call_Control}/call_control.h ${Call_Control}/call_control.cpp )
-add_library(Call_Control_LIB ${Call_Control_src} )
+#set (Call_Control  ${patchSRC}/Call_Control)
+#include_directories( ${Call_Control} )
+#file (GLOB Call_Control_src ${Call_Control}/*.cpp ${Call_Control}/*.h )
+#list(REMOVE_ITEM Call_Control_src ${Call_Control}/call_control.h ${Call_Control}/call_control.cpp )
+#add_library(Call_Control_LIB ${Call_Control_src} )
 
-set (Call_control_SC2  ${patchSRC}/Call_control_SC2)
-include_directories( ${Call_control_SC2} )
-file (GLOB Call_Control_SC2_src ${Call_control_SC2}/*.cpp ${Call_control_SC2}/*.h )
-add_library(Call_Control_SC2_LIB ${Call_Control_SC2_src} )
+#set (flash  ${patchSRC}/flash)
+#include_directories( ${flash} )
+#file (GLOB flash_src ${flash}/*.cpp ${flash}/*.h )
+#add_library(flash_LIB ${flash_src} )
 
-set (flash  ${patchSRC}/flash)
-include_directories( ${flash} )
-file (GLOB flash_src ${flash}/*.cpp ${flash}/*.h )
-add_library(flash_LIB ${flash_src} )
+#set (FatFs Middlewares/Third_Party/FatFs)
+#include_directories(${FatFs}/src )
+#file (GLOB FatFs_src ${FatFs}/src/*.c ${FatFs}/src/option/syscall.c ${FatFs}/src/option/unicode.c ${FatFs}/src/*.h )
+#add_library(FatFs_LIB ${FatFs_src} )
 
-set (FatFs Middlewares/Third_Party/FatFs)
-include_directories(${FatFs}/src )
-file (GLOB FatFs_src ${FatFs}/src/*.c ${FatFs}/src/option/syscall.c ${FatFs}/src/option/unicode.c ${FatFs}/src/*.h )
-add_library(FatFs_LIB ${FatFs_src} )
+#set (Tests  ${patchSRC}/Tests)
+#include_directories( ${Tests} )
+#file (GLOB Tests_src ${Tests}/*.cpp ${Tests}/*.h )
+#add_library(Tests_LIB ${Tests_src} )
 
-set (Tests  ${patchSRC}/Tests)
-include_directories( ${Tests} )
-file (GLOB Tests_src ${Tests}/*.cpp ${Tests}/*.h )
-add_library(Tests_LIB ${Tests_src} )
+#set (uid  ${patchSRC}/uid)
+#include_directories( ${uid} )
+#file (GLOB uid_src ${uid}/*.cpp ${uid}/*.h )
+#add_library(uid_LIB ${uid_src} )
 
-set (uid  ${patchSRC}/uid)
-include_directories( ${uid} )
-file (GLOB uid_src ${uid}/*.cpp ${uid}/*.h )
-add_library(uid_LIB ${uid_src} )
+#set (WDT  ${patchSRC}/WDT)
+#include_directories( ${WDT} )
+#file (GLOB WDT_src ${WDT}/*.cpp ${WDT}/*.h )
+#add_library(WDT_LIB ${WDT_src} )
 
-set (WDT  ${patchSRC}/WDT)
-include_directories( ${WDT} )
-file (GLOB WDT_src ${WDT}/*.cpp ${WDT}/*.h )
-add_library(WDT_LIB ${WDT_src} )
+#set (CRC16  ${patchSRC}/CRC16)
+#include_directories( ${CRC16} )
+#file (GLOB CRC16_src ${CRC16}/*.cpp ${CRC16}/*.h )
+#add_library(CRC16_LIB ${CRC16_src} )
 
-set (CRC16  ${patchSRC}/CRC16)
-include_directories( ${CRC16} )
-file (GLOB CRC16_src ${CRC16}/*.cpp ${CRC16}/*.h )
-add_library(CRC16_LIB ${CRC16_src} )
+
+
+
 
 
 
@@ -369,17 +368,16 @@ target_link_libraries(${PROJECT_NAME}.elf PUBLIC
     SNTP_LIB
     TRNG_LIB
     GPIO_SC2_LIB
-    RTP_LIB
-    AUDIO_LIB
-    UDP_JSON_LIB
-    Call_Control_LIB
-    Call_Control_SC2_LIB
-    flash_LIB
-    FatFs_LIB
-    Tests_LIB
-    uid_LIB
-    WDT_LIB
-    CRC16_LIB
+#    RTP_LIB
+#    AUDIO_LIB
+#    UDP_JSON_LIB
+#    Call_Control_LIB
+#    flash_LIB
+#    FatFs_LIB
+#    Tests_LIB
+#    uid_LIB
+#    WDT_LIB
+#    CRC16_LIB
     )
 
 set(HEX_FILE ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.hex)

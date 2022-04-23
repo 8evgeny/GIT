@@ -89,7 +89,7 @@ public:
 
 private:
 
-    constexpr static float M_PI       {3.14159265358979323846}, /*!< The identifier stores the PI number value */
+    constexpr static float M_PI_       {3.14159265358979323846}, /*!< The identifier stores the PI number value */
               SAMPLING_FREQ {16000},                             /*!< The identifier stores the sampling frequency */
               STEP_770 {(float)(770 * TABLESIZE)/SAMPLING_FREQ}, /*!< The identifier stores the sampling step from the look up table */
               STEP_1336 {(float)(1336 * TABLESIZE)/SAMPLING_FREQ}, /*!< The identifier stores the sampling step from the look up table */
