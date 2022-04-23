@@ -1,0 +1,15 @@
+stm32h750b_discovery.c:104:9:BSP_GetVersion	4	static
+stm32h750b_discovery.c:113:16:BSP_GetBoardName	4	static
+stm32h750b_discovery.c:122:16:BSP_GetBoardID	4	static
+stm32h750b_discovery.c:135:10:BSP_LED_Init	48	static
+stm32h750b_discovery.c:176:9:BSP_LED_DeInit	40	static
+stm32h750b_discovery.c:197:9:BSP_LED_On	24	static
+stm32h750b_discovery.c:213:9:BSP_LED_Off	24	static
+stm32h750b_discovery.c:228:9:BSP_LED_Toggle	24	static
+stm32h750b_discovery.c:242:10:BSP_LED_GetState	24	static
+stm32h750b_discovery.c:260:9:BSP_PB_Init	40	static
+stm32h750b_discovery.c:303:9:BSP_PB_DeInit	40	static
+stm32h750b_discovery.c:322:9:BSP_PB_GetState	16	static
+stm32h750b_discovery.c:331:6:BSP_PB_IRQHandler	16	static
+stm32h750b_discovery.c:339:13:BUTTON_USER_EXTI_Callback	8	static
+stm32h750b_discovery.c:348:13:BSP_PB_Callback	16	static

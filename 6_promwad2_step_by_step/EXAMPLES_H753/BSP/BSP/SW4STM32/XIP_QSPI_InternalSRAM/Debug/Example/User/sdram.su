@@ -1,0 +1,6 @@
+sdram.c:51:6:SDRAM_demo	8	static
+sdram.c:116:6:SDRAM_DMA_demo	40	static,ignoring_inline_asm
+sdram.c:190:13:SDRAM_SetHint	24	static
+sdram.c:223:13:SDRAM_DMA_SetHint	24	static
+sdram.c:258:13:Fill_Buffer	32	static
+sdram.c:276:16:Buffercmp	24	static

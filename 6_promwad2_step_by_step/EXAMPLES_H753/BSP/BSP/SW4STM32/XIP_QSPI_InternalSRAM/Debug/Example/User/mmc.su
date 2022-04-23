@@ -1,0 +1,6 @@
+mmc.c:51:6:MMC_demo	16	static
+mmc.c:149:6:BSP_MMC_WriteCpltCallback	16	static
+mmc.c:160:6:BSP_MMC_ReadCpltCallback	16	static
+mmc.c:170:13:MMC_SetHint	24	static
+mmc.c:207:13:Fill_Buffer	32	static
+mmc.c:225:16:Buffercmp	24	static
