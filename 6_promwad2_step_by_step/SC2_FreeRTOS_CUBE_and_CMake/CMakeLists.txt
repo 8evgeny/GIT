@@ -193,6 +193,11 @@ include_directories( ${ArduinoJson} Middlewares/Third_Party/ArduinoJson/src )
 #list(REMOVE_ITEM Call_Control_src ${Call_Control}/call_control.h ${Call_Control}/call_control.cpp )
 #add_library(Call_Control_LIB ${Call_Control_src} )
 
+#set (Call_control_SC2  ${patchSRC}/Call_control_SC2)
+#include_directories( ${Call_control_SC2} )
+#file (GLOB Call_Control_SC2_src ${Call_control_SC2}/*.cpp ${Call_control_SC2}/*.h )
+#add_library(Call_Control_SC2_LIB ${Call_Control_SC2_src} )
+
 #set (flash  ${patchSRC}/flash)
 #include_directories( ${flash} )
 #file (GLOB flash_src ${flash}/*.cpp ${flash}/*.h )
@@ -339,6 +344,7 @@ target_link_libraries(${PROJECT_NAME}.elf PUBLIC
 #    RTP_LIB
 #    UDP_JSON_LIB
 #    Call_Control_LIB
+#    Call_Control_SC2_LIB
 #    flash_LIB
 #    FatFs_LIB
     )
