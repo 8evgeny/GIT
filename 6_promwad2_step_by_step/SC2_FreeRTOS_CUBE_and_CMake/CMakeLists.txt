@@ -105,7 +105,6 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}\
 
 include_directories(Inc)
 file (GLOB SOURCES_C ${patchSRC}/*.c STM32H753IITX_FLASH.ld)
-
 file (GLOB SOURCES_CPP ${patchSRC}/*.cpp)
 
 include_directories(
@@ -119,9 +118,6 @@ file (GLOB CORE_SOURCES
     LWIP/Target/ethernetif.c
     )
 add_library(CORE ${CORE_SOURCES} )
-
-
-
 
 
 set (RS232  ${patchSRC}/RS232)
@@ -326,7 +322,7 @@ add_library(Middlewares
 
 add_executable(${PROJECT_NAME}.elf
     ${SOURCES_C}
-     ${SOURCES_CPP}
+    ${SOURCES_CPP}
     )
 
 set_target_properties(${PROJECT_NAME}.elf PROPERTIES LINKER_LANGUAGE CXX)
