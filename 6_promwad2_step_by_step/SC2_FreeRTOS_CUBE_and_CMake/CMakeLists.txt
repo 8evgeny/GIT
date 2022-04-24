@@ -189,54 +189,54 @@ include_directories(${TraceRecorder}/streamports/TCPIP/include ${TraceRecorder}/
 file (GLOB TraceRecorder_src ${TraceRecorder}/*.c ${TraceRecorder}/streamports/TCPIP/*.c ${TraceRecorder}/streamports/TCPIP/include/*.h ${TraceRecorder}/include/*.h ${TraceRecorder}/config/*.h )
 add_library(TraceRecorder_LIB ${TraceRecorder_src} )
 
-#set (RTP  ${patchSRC}/RTP)
-#include_directories( ${RTP} Drivers/CMSIS/DSP/Include)
-#file (GLOB RTP_src ${RTP}/*.cpp ${RTP}/*.h )
-#add_library(RTP_LIB ${RTP_src} )
+set (RTP  ${patchSRC}/RTP)
+include_directories( ${RTP} Drivers/CMSIS/DSP/Include)
+file (GLOB RTP_src ${RTP}/*.cpp ${RTP}/*.h )
+add_library(RTP_LIB ${RTP_src} )
 
-#set (AUDIO  ${patchSRC}/AUDIO)
-#include_directories(
-#    ${AUDIO}
-#    Drivers/CMSIS/DSP/Include
-#    )
-#file (GLOB AUDIO_src ${AUDIO}/*.cpp ${AUDIO}/*.h )
-#add_library(AUDIO_LIB ${AUDIO_src} )
+set (AUDIO  ${patchSRC}/AUDIO)
+include_directories(
+    ${AUDIO}
+    Drivers/CMSIS/DSP/Include
+    )
+file (GLOB AUDIO_src ${AUDIO}/*.cpp ${AUDIO}/*.h )
+add_library(AUDIO_LIB ${AUDIO_src} )
 
-#set (UDP_JSON  ${patchSRC}/UDP_JSON)
-#include_directories( ${UDP_JSON} )
-#file (GLOB UDP_JSON_src ${UDP_JSON}/*.cpp ${UDP_JSON}/*.h )
-#add_library(UDP_JSON_LIB ${UDP_JSON_src} )
+set (UDP_JSON  ${patchSRC}/UDP_JSON)
+include_directories( ${UDP_JSON} )
+file (GLOB UDP_JSON_src ${UDP_JSON}/*.cpp ${UDP_JSON}/*.h )
+add_library(UDP_JSON_LIB ${UDP_JSON_src} )
 
-#set (Call_Control  ${patchSRC}/Call_Control)
-#include_directories( ${Call_Control} )
-#file (GLOB Call_Control_src ${Call_Control}/*.cpp ${Call_Control}/*.h )
-#list(REMOVE_ITEM Call_Control_src ${Call_Control}/call_control.h ${Call_Control}/call_control.cpp )
-#add_library(Call_Control_LIB ${Call_Control_src} )
+set (Call_Control  ${patchSRC}/Call_Control)
+include_directories( ${Call_Control} )
+file (GLOB Call_Control_src ${Call_Control}/*.cpp ${Call_Control}/*.h )
+list(REMOVE_ITEM Call_Control_src ${Call_Control}/call_control.h ${Call_Control}/call_control.cpp )
+add_library(Call_Control_LIB ${Call_Control_src} )
 
-#set (flash  ${patchSRC}/flash)
-#include_directories( ${flash} )
-#file (GLOB flash_src ${flash}/*.cpp ${flash}/*.h )
-#add_library(flash_LIB ${flash_src} )
+set (flash  ${patchSRC}/flash)
+include_directories( ${flash} )
+file (GLOB flash_src ${flash}/*.cpp ${flash}/*.h )
+add_library(flash_LIB ${flash_src} )
 
-#set (FatFs Middlewares/Third_Party/FatFs)
-#include_directories(${FatFs}/src )
-#file (GLOB FatFs_src ${FatFs}/src/*.c ${FatFs}/src/option/syscall.c ${FatFs}/src/option/unicode.c ${FatFs}/src/*.h )
-#add_library(FatFs_LIB ${FatFs_src} )
+set (FatFs Middlewares/Third_Party/FatFs)
+include_directories(${FatFs}/src )
+file (GLOB FatFs_src ${FatFs}/src/*.c ${FatFs}/src/option/syscall.c ${FatFs}/src/option/unicode.c ${FatFs}/src/*.h )
+add_library(FatFs_LIB ${FatFs_src} )
 
-#set (Tests  ${patchSRC}/Tests)
-#include_directories( ${Tests} )
-#file (GLOB Tests_src ${Tests}/*.cpp ${Tests}/*.h )
-#add_library(Tests_LIB ${Tests_src} )
+set (Tests  ${patchSRC}/Tests)
+include_directories( ${Tests} )
+file (GLOB Tests_src ${Tests}/*.cpp ${Tests}/*.h )
+add_library(Tests_LIB ${Tests_src} )
 
-#set (uid  ${patchSRC}/uid)
-#include_directories( ${uid} )
-#file (GLOB uid_src ${uid}/*.cpp ${uid}/*.h )
-#add_library(uid_LIB ${uid_src} )
+set (uid  ${patchSRC}/uid)
+include_directories( ${uid} )
+file (GLOB uid_src ${uid}/*.cpp ${uid}/*.h )
+add_library(uid_LIB ${uid_src} )
 
-#set (WDT  ${patchSRC}/WDT)
-#include_directories( ${WDT} )
-#file (GLOB WDT_src ${WDT}/*.cpp ${WDT}/*.h )
-#add_library(WDT_LIB ${WDT_src} )
+set (WDT  ${patchSRC}/WDT)
+include_directories( ${WDT} )
+file (GLOB WDT_src ${WDT}/*.cpp ${WDT}/*.h )
+add_library(WDT_LIB ${WDT_src} )
 
 
 
@@ -371,15 +371,15 @@ target_link_libraries(${PROJECT_NAME}.elf PUBLIC
     GPIO_SC2_LIB
     UpdateMechanism_LIB
     TraceRecorder_LIB
-#    RTP_LIB
-#    AUDIO_LIB
-#    UDP_JSON_LIB
-#    Call_Control_LIB
-#    flash_LIB
-#    FatFs_LIB
-#    Tests_LIB
-#    uid_LIB
-#    WDT_LIB
+    RTP_LIB
+    AUDIO_LIB
+    UDP_JSON_LIB
+    Call_Control_LIB
+    flash_LIB
+    FatFs_LIB
+    Tests_LIB
+    uid_LIB
+    WDT_LIB
 
     )
 

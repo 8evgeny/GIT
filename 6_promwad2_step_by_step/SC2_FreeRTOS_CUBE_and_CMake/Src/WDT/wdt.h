@@ -10,6 +10,8 @@
 #include "cmsis_os.h"
 #include "../Debug/debug.h"
 
+#include "stm32h7xx_hal_wwdg.h"
+
 /**
  * \brief Implementation: ensure that only one instance of the singleton class ever exists
         and provide global access to that instance.

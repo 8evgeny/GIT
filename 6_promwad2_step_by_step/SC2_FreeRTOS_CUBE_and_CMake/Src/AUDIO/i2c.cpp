@@ -1,6 +1,6 @@
 #include "i2c.h"
-#include "stm32f7xx_hal.h"
-#include "stm32f7xx_hal_i2c.h"
+#include "stm32h7xx_hal.h"
+#include "stm32h7xx_hal_i2c.h"
 
 #ifdef __cplusplus
 extern "C" {

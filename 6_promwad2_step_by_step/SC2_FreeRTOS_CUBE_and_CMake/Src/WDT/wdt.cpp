@@ -8,34 +8,37 @@
 extern "C" {
 #endif
 
+#include "stm32h7xx_hal_rcc.h"
+#include "stm32h753xx.h"
+
 static WWDG_HandleTypeDef hwwdg;
 
 void WDTInit(void)
 {
     /*Check if the system has resumed from WWDG reset ####################*/
-    if (__HAL_RCC_GET_FLAG(RCC_FLAG_WWDGRST) != RESET) {
+//    if (__HAL_RCC_GET_FLAG(RCC_FLAG_WWDGRST) != RESET) {
 
 
-        /* Insert 4s delay */
-        HAL_Delay(4000);
+//        /* Insert 4s delay */
+//        HAL_Delay(4000);
 
-        /* Clear reset flags */
-        __HAL_RCC_CLEAR_RESET_FLAGS();
-    }
+//        /* Clear reset flags */
+//        __HAL_RCC_CLEAR_RESET_FLAGS();
+//    }
 
-    hwwdg.Instance = WWDG;
+//    hwwdg.Instance = WWDG1;
 
-    hwwdg.Init.Window = 127;
-    hwwdg.Init.Prescaler = WWDG_PRESCALER_8;
+//    hwwdg.Init.Window = 127;
+//    hwwdg.Init.Prescaler = WWDG_PRESCALER_8;
 
-    hwwdg.Init.Counter = 0x7E;
-    hwwdg.Init.EWIMode = WWDG_EWI_ENABLE;
+//    hwwdg.Init.Counter = 0x7E;
+//    hwwdg.Init.EWIMode = WWDG_EWI_ENABLE;
 
-    if (HAL_WWDG_Init(&hwwdg) != HAL_OK) {
-        while (1) {
-            Debug::getInstance().dbg << "WWDG Init Error!" << "\n";
-        }
-    }
+//    if (HAL_WWDG_Init(&hwwdg) != HAL_OK) {
+//        while (1) {
+//            Debug::getInstance().dbg << "WWDG Init Error!" << "\n";
+//        }
+//    }
 }
 
 #ifdef __cplusplus
@@ -115,7 +118,7 @@ extern "C" {
 */
 void HAL_WWDG_MspInit(WWDG_HandleTypeDef* hwwdg)
 {
-    if(hwwdg->Instance==WWDG) {
+    if(hwwdg->Instance==WWDG1) {
 
         /* Peripheral clock enable */
         __HAL_RCC_WWDG_CLK_ENABLE();
@@ -134,7 +137,7 @@ void HAL_WWDG_MspInit(WWDG_HandleTypeDef* hwwdg)
 */
 void HAL_WWDG_MspDeInit(WWDG_HandleTypeDef* hwwdg)
 {
-    if(hwwdg->Instance==WWDG) {
+    if(hwwdg->Instance==WWDG1) {
 
         /* Peripheral clock enable */
         __HAL_RCC_WWDG_CLK_DISABLE();
@@ -152,7 +155,7 @@ void HAL_WWDG_MspDeInit(WWDG_HandleTypeDef* hwwdg)
 */
 void HAL_WWDG_EarlyWakeupCallback(WWDG_HandleTypeDef *hwwdg)
 {
-    if (hwwdg->Instance == WWDG) {
+    if (hwwdg->Instance == WWDG1) {
         //Empty
         WDT::getInstance()->refresh();
     }

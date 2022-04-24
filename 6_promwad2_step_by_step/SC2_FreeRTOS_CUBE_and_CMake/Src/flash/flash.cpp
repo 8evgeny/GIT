@@ -63,6 +63,9 @@
 #include <cstring>
 #include <../Debug/debug.h>
 
+#include "stm32h7xx_hal_flash_ex.h"
+
+
 Flash *Flash::pInstance = nullptr;
 FlashDestroyer Flash::destroyer;
 
@@ -230,9 +233,9 @@ void Flash::test()
 
     Flash::getInstance().unlock();
 
-    __HAL_FLASH_ART_DISABLE();
-    __HAL_FLASH_ART_RESET();
-    __HAL_FLASH_ART_ENABLE();
+//    __HAL_FLASH_ART_DISABLE();
+//    __HAL_FLASH_ART_RESET();
+//    __HAL_FLASH_ART_ENABLE();
 
     while (HAL_FLASHEx_Erase(&EraseInitStruct, &SECTORError) != HAL_OK) {
         /*
@@ -252,9 +255,9 @@ void Flash::test()
 
     unlock();
 
-    __HAL_FLASH_ART_DISABLE();
-    __HAL_FLASH_ART_RESET();
-    __HAL_FLASH_ART_ENABLE();
+//    __HAL_FLASH_ART_DISABLE();
+//    __HAL_FLASH_ART_RESET();
+//    __HAL_FLASH_ART_ENABLE();
 
     write(ADDR_FLASH_SECTOR_7, reinterpret_cast<const char *>(bufWrite), sizeof(bufWrite));
 
@@ -275,7 +278,7 @@ void Flash::erase(){
     /* Get the 1st sector to erase */
     EraseInitStruct.TypeErase     = FLASH_TYPEERASE_SECTORS;
     EraseInitStruct.VoltageRange  = FLASH_VOLTAGE_RANGE_3;
-    EraseInitStruct.Sector        = FLASH_SECTOR_8;
+//    EraseInitStruct.Sector        = FLASH_SECTOR_8;
     EraseInitStruct.NbSectors     = 4;
 
     //if you need to write, you erase
@@ -294,9 +297,9 @@ void Flash::erase(){
 
     Flash::getInstance().unlock();
 
-    __HAL_FLASH_ART_DISABLE();
-    __HAL_FLASH_ART_RESET();
-    __HAL_FLASH_ART_ENABLE();
+//    __HAL_FLASH_ART_DISABLE();
+//    __HAL_FLASH_ART_RESET();
+//    __HAL_FLASH_ART_ENABLE();
 
     while (HAL_FLASHEx_Erase(&EraseInitStruct, &SECTORError) != HAL_OK) {
         /*
@@ -308,7 +311,7 @@ void Flash::erase(){
         /* Infinite loop */
     }
 
-    SCB_CleanInvalidateDCache_by_Addr((uint32_t *)FLASH_SECTOR_8, 4 * 256 * 1024);
+//    SCB_CleanInvalidateDCache_by_Addr((uint32_t *)FLASH_SECTOR_8, 4 * 256 * 1024);
     SCB_InvalidateICache();
 
     Flash::getInstance().lock();
@@ -343,9 +346,9 @@ void Flash::eraseForUpdate(){
 
     Flash::getInstance().unlock();
 
-    __HAL_FLASH_ART_DISABLE();
-    __HAL_FLASH_ART_RESET();
-    __HAL_FLASH_ART_ENABLE();
+//    __HAL_FLASH_ART_DISABLE();
+//    __HAL_FLASH_ART_RESET();
+//    __HAL_FLASH_ART_ENABLE();
 
     while (HAL_FLASHEx_Erase(&EraseInitStruct, &SECTORError) != HAL_OK) {
         /*

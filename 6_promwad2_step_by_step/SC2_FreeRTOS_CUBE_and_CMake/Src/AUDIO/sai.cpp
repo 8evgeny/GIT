@@ -15,6 +15,8 @@
 #include <cmath>
 #include "arm_math.h"
 
+#include "stm32h7xx_hal_cryp.h"
+
 #define PI 3.141592653589793
 
 osTimerDef (ringToneTimer, ringToneTimer_Callback);
@@ -271,7 +273,7 @@ void HAL_SAI_MspInit(SAI_HandleTypeDef *hsai)
         /* Peripheral DMA init*/
 
         hdmaSaiTx.Instance = DMA2_Stream3;
-        hdmaSaiTx.Init.Channel = DMA_CHANNEL_0;
+        hdmaSaiTx.Init.Request = HAL_DMAMUX2_SYNC_DMAMUX2_CH0_EVT;
         hdmaSaiTx.Init.Direction = DMA_MEMORY_TO_PERIPH;
         hdmaSaiTx.Init.PeriphInc = DMA_PINC_DISABLE;
         hdmaSaiTx.Init.MemInc = DMA_MINC_ENABLE;
@@ -318,7 +320,7 @@ void HAL_SAI_MspInit(SAI_HandleTypeDef *hsai)
 
         /* Peripheral DMA init*/
         hdmaSaiRx.Instance = DMA2_Stream4;
-        hdmaSaiRx.Init.Channel = DMA_CHANNEL_1;
+        hdmaSaiRx.Init.Request = HAL_DMAMUX2_SYNC_DMAMUX2_CH1_EVT;
         hdmaSaiRx.Init.Direction = DMA_PERIPH_TO_MEMORY;
         hdmaSaiRx.Init.PeriphInc = DMA_PINC_DISABLE;
         hdmaSaiRx.Init.MemInc = DMA_MINC_ENABLE;
