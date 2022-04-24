@@ -102,8 +102,6 @@ include_directories(
     Drivers/BSP/Components/dp83848
     )
 file (GLOB CORE_SOURCES
-    Src/*.c
-    Drivers/BSP/Components/dp83848/dp83848.c
     LWIP/Target/ethernetif.c
     )
 add_library(CORE ${CORE_SOURCES} )
