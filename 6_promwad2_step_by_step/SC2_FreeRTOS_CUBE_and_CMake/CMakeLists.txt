@@ -183,6 +183,11 @@ include_directories( ${GPIO_SC2} )
 file (GLOB GPIO_SC2_SOURCES ${GPIO_SC2}/*.cpp ${GPIO_SC2}/*.h)
 add_library(GPIO_SC2_LIB ${GPIO_SC2_SOURCES} )
 
+set (UpdateMechanism  ${patchSRC}/UpdateMechanism)
+include_directories( ${UpdateMechanism} )
+file (GLOB UpdateMechanism_src ${UpdateMechanism}/*.cpp ${UpdateMechanism}/*.h )
+add_library(UpdateMechanism_LIB ${UpdateMechanism_src} )
+
 #set (RTP  ${patchSRC}/RTP)
 #include_directories( ${RTP} Drivers/CMSIS/DSP/Include)
 #file (GLOB RTP_src ${RTP}/*.cpp ${RTP}/*.h )
@@ -231,11 +236,6 @@ add_library(GPIO_SC2_LIB ${GPIO_SC2_SOURCES} )
 #include_directories( ${WDT} )
 #file (GLOB WDT_src ${WDT}/*.cpp ${WDT}/*.h )
 #add_library(WDT_LIB ${WDT_src} )
-
-#set (CRC16  ${patchSRC}/CRC16)
-#include_directories( ${CRC16} )
-#file (GLOB CRC16_src ${CRC16}/*.cpp ${CRC16}/*.h )
-#add_library(CRC16_LIB ${CRC16_src} )
 
 
 
@@ -368,6 +368,7 @@ target_link_libraries(${PROJECT_NAME}.elf PUBLIC
     SNTP_LIB
     TRNG_LIB
     GPIO_SC2_LIB
+    UpdateMechanism_LIB
 #    RTP_LIB
 #    AUDIO_LIB
 #    UDP_JSON_LIB
@@ -377,7 +378,6 @@ target_link_libraries(${PROJECT_NAME}.elf PUBLIC
 #    Tests_LIB
 #    uid_LIB
 #    WDT_LIB
-#    CRC16_LIB
     )
 
 set(HEX_FILE ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.hex)
