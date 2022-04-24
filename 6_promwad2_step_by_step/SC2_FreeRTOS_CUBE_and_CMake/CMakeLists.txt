@@ -188,6 +188,11 @@ include_directories( ${UpdateMechanism} )
 file (GLOB UpdateMechanism_src ${UpdateMechanism}/*.cpp ${UpdateMechanism}/*.h )
 add_library(UpdateMechanism_LIB ${UpdateMechanism_src} )
 
+set (TraceRecorder  "Tracealyzer-4.2.12-linux64/FreeRTOS/TraceRecorder")
+include_directories(${TraceRecorder}/streamports/TCPIP/include ${TraceRecorder}/include ${TraceRecorder}/config )
+file (GLOB TraceRecorder_src ${TraceRecorder}/*.c ${TraceRecorder}/streamports/TCPIP/*.c ${TraceRecorder}/streamports/TCPIP/include/*.h ${TraceRecorder}/include/*.h ${TraceRecorder}/config/*.h )
+add_library(TraceRecorder_LIB ${TraceRecorder_src} )
+
 #set (RTP  ${patchSRC}/RTP)
 #include_directories( ${RTP} Drivers/CMSIS/DSP/Include)
 #file (GLOB RTP_src ${RTP}/*.cpp ${RTP}/*.h )
@@ -369,6 +374,7 @@ target_link_libraries(${PROJECT_NAME}.elf PUBLIC
     TRNG_LIB
     GPIO_SC2_LIB
     UpdateMechanism_LIB
+    TraceRecorder_LIB
 #    RTP_LIB
 #    AUDIO_LIB
 #    UDP_JSON_LIB
@@ -378,6 +384,7 @@ target_link_libraries(${PROJECT_NAME}.elf PUBLIC
 #    Tests_LIB
 #    uid_LIB
 #    WDT_LIB
+
     )
 
 set(HEX_FILE ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.hex)
