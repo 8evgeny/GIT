@@ -21,6 +21,8 @@
 #include "cmsis_os.h"
 #include "lwip.h"
 #include "rs232.h"
+#include "../Debug/debug_printf.h"
+#include "debug.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -173,9 +175,7 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    /* USER CODE END WHILE */
-
-    /* USER CODE BEGIN 3 */
+      Debug::getInstance().dbg << __FUNCTION__ << " " << __LINE__ << " " << "\n";
   }
   /* USER CODE END 3 */
 }
