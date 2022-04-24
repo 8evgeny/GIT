@@ -72,17 +72,6 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}\
     -fno-exceptions \
     -Wl,--end-group \
     ")
-#    -fno-rtti \
-#    -std=gnu11 \
-
-
-
-#set(CMAKE_BUILD_TYPE debug)
-#set(CMAKE_BUILD_TYPE release)
-
-set (patchSRC "Src")
-set (patchDRV "Drivers")
-set (patchHAL_SRC "${patchDRV}/STM32H7xx_HAL_Driver/Src")
 
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}\
     -mcpu=cortex-m7 \
@@ -104,12 +93,12 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}\
     ")
 
 include_directories(Inc)
-file (GLOB SOURCES_C ${patchSRC}/*.c STM32H753IITX_FLASH.ld)
-file (GLOB SOURCES_CPP ${patchSRC}/*.cpp)
+file (GLOB SOURCES_C Src/*.c STM32H753IITX_FLASH.ld)
+file (GLOB SOURCES_CPP Src/*.cpp)
 
 include_directories(
-    ${patchDRV}/CMSIS/Include
-    ${patchDRV}/CMSIS/Device/ST/STM32H7xx/Include
+    Drivers/CMSIS/Include
+    Drivers/CMSIS/Device/ST/STM32H7xx/Include
     Drivers/BSP/Components/dp83848
     )
 file (GLOB CORE_SOURCES
@@ -120,17 +109,17 @@ file (GLOB CORE_SOURCES
 add_library(CORE ${CORE_SOURCES} )
 
 
-set (RS232  ${patchSRC}/RS232)
+set (RS232  Src/RS232)
 include_directories( ${RS232} )
 file (GLOB RS232_src ${RS232}/*.cpp ${RS232}/*.c ${RS232}/*.h )
 add_library(RS232_LIB ${RS232_src} )
 
-set (Debug  ${patchSRC}/Debug)
+set (Debug  Src/Debug)
 include_directories( ${Debug} )
 file (GLOB Debug_src ${Debug}/*.cpp ${Debug}/*.c ${Debug}/*.h )
 add_library(Debug_LIB ${Debug_src} )
 
-set (EEPROM  ${patchSRC}/EEPROM)
+set (EEPROM  Src/EEPROM)
 include_directories(${EEPROM})
 file (GLOB EEPROM_src ${EEPROM}/*.cpp ${EEPROM}/*.c ${EEPROM}/*.h )
 add_library(EEPROM_LIB ${EEPROM_src} )
@@ -146,12 +135,12 @@ file (GLOB CircularBuffer_src ${CircularBuffer}/*.tpp  ${CircularBuffer}/*.h )
 add_library(CircularBuffer_LIB ${CircularBuffer_src} )
 set_target_properties(CircularBuffer_LIB PROPERTIES LINKER_LANGUAGE CXX)
 
-set (SRAM ${patchSRC}/SRAM)
+set (SRAM Src/SRAM)
 include_directories( ${SRAM} )
 file (GLOB SRAM_src ${SRAM}/*.cpp ${SRAM}/*.h  )
 add_library(SRAM_LIB ${SRAM_src} )
 
-set (JSON  ${patchSRC}/JSON)
+set (JSON  Src/JSON)
 include_directories( ${JSON} )
 file (GLOB JSON_src ${JSON}/*.cpp ${JSON}/*.h )
 add_library(JSON_LIB ${JSON_src} )
@@ -159,27 +148,27 @@ add_library(JSON_LIB ${JSON_src} )
 set (ArduinoJson Middlewares/Third_Party/ArduinoJson)
 include_directories( ${ArduinoJson} Middlewares/Third_Party/ArduinoJson/src )
 
-set (RTC  ${patchSRC}/RTC)
+set (RTC  Src/RTC)
 include_directories( ${RTC} )
 file (GLOB RTC_src ${RTC}/*.cpp ${RTC}/*.h )
 add_library(RTC_LIB ${RTC_src} )
 
-set (SNTP  ${patchSRC}/SNTP)
+set (SNTP  Src/SNTP)
 include_directories( ${SNTP} )
 file (GLOB SNTP_src ${SNTP}/*.cpp ${SNTP}/*.h )
 add_library(SNTP_LIB ${SNTP_src} )
 
-set (TRNG  ${patchSRC}/TRNG)
+set (TRNG  Src/TRNG)
 include_directories( ${TRNG} )
 file (GLOB TRNG_src ${TRNG}/*.cpp ${TRNG}/*.h )
 add_library(TRNG_LIB ${TRNG_src} )
 
-set (GPIO_SC2  ${patchSRC}/GPIO_SC2_BOARD)
+set (GPIO_SC2  Src/GPIO_SC2_BOARD)
 include_directories( ${GPIO_SC2} )
 file (GLOB GPIO_SC2_SOURCES ${GPIO_SC2}/*.cpp ${GPIO_SC2}/*.h)
 add_library(GPIO_SC2_LIB ${GPIO_SC2_SOURCES} )
 
-set (UpdateMechanism  ${patchSRC}/UpdateMechanism)
+set (UpdateMechanism  Src/UpdateMechanism)
 include_directories( ${UpdateMechanism} )
 file (GLOB UpdateMechanism_src ${UpdateMechanism}/*.cpp ${UpdateMechanism}/*.h )
 add_library(UpdateMechanism_LIB ${UpdateMechanism_src} )
@@ -189,12 +178,12 @@ include_directories(${TraceRecorder}/streamports/TCPIP/include ${TraceRecorder}/
 file (GLOB TraceRecorder_src ${TraceRecorder}/*.c ${TraceRecorder}/streamports/TCPIP/*.c ${TraceRecorder}/streamports/TCPIP/include/*.h ${TraceRecorder}/include/*.h ${TraceRecorder}/config/*.h )
 add_library(TraceRecorder_LIB ${TraceRecorder_src} )
 
-set (RTP  ${patchSRC}/RTP)
+set (RTP  Src/RTP)
 include_directories( ${RTP} Drivers/CMSIS/DSP/Include)
 file (GLOB RTP_src ${RTP}/*.cpp ${RTP}/*.h )
 add_library(RTP_LIB ${RTP_src} )
 
-set (AUDIO  ${patchSRC}/AUDIO)
+set (AUDIO  Src/AUDIO)
 include_directories(
     ${AUDIO}
     Drivers/CMSIS/DSP/Include
@@ -202,18 +191,18 @@ include_directories(
 file (GLOB AUDIO_src ${AUDIO}/*.cpp ${AUDIO}/*.h )
 add_library(AUDIO_LIB ${AUDIO_src} )
 
-set (UDP_JSON  ${patchSRC}/UDP_JSON)
+set (UDP_JSON  Src/UDP_JSON)
 include_directories( ${UDP_JSON} )
 file (GLOB UDP_JSON_src ${UDP_JSON}/*.cpp ${UDP_JSON}/*.h )
 add_library(UDP_JSON_LIB ${UDP_JSON_src} )
 
-set (Call_Control  ${patchSRC}/Call_Control)
+set (Call_Control  Src/Call_Control)
 include_directories( ${Call_Control} )
 file (GLOB Call_Control_src ${Call_Control}/*.cpp ${Call_Control}/*.h )
 list(REMOVE_ITEM Call_Control_src ${Call_Control}/call_control.h ${Call_Control}/call_control.cpp )
 add_library(Call_Control_LIB ${Call_Control_src} )
 
-set (flash  ${patchSRC}/flash)
+set (flash  Src/flash)
 include_directories( ${flash} )
 file (GLOB flash_src ${flash}/*.cpp ${flash}/*.h )
 add_library(flash_LIB ${flash_src} )
@@ -223,17 +212,17 @@ include_directories(${FatFs}/src )
 file (GLOB FatFs_src ${FatFs}/src/*.c ${FatFs}/src/option/syscall.c ${FatFs}/src/option/unicode.c ${FatFs}/src/*.h )
 add_library(FatFs_LIB ${FatFs_src} )
 
-set (Tests  ${patchSRC}/Tests)
+set (Tests  Src/Tests)
 include_directories( ${Tests} )
 file (GLOB Tests_src ${Tests}/*.cpp ${Tests}/*.h )
 add_library(Tests_LIB ${Tests_src} )
 
-set (uid  ${patchSRC}/uid)
+set (uid  Src/uid)
 include_directories( ${uid} )
 file (GLOB uid_src ${uid}/*.cpp ${uid}/*.h )
 add_library(uid_LIB ${uid_src} )
 
-set (WDT  ${patchSRC}/WDT)
+set (WDT  Src/WDT)
 include_directories( ${WDT} )
 file (GLOB WDT_src ${WDT}/*.cpp ${WDT}/*.h )
 add_library(WDT_LIB ${WDT_src} )
@@ -241,12 +230,12 @@ add_library(WDT_LIB ${WDT_src} )
 set (STARTUP_SOURCES startup/startup_stm32h753iitx.s )
 add_library(STARTUP ${STARTUP_SOURCES} )
 
-set (BSP_SOURCES ${patchDRV}/BSP/Components/lan8742/lan8742.c )
-include_directories( ${patchDRV}/BSP/Components/lan8742 )
+set (BSP_SOURCES Drivers/BSP/Components/lan8742/lan8742.c )
+include_directories( Drivers/BSP/Components/lan8742 )
 add_library(BSP ${BSP_SOURCES} )
 
-file (GLOB HAL_SRC ${patchHAL_SRC}/*)
-include_directories(${patchDRV}/STM32H7xx_HAL_Driver/Inc  ${patchDRV}/STM32H7xx_HAL_Driver/Inc/Legacy )
+file (GLOB HAL_SRC Drivers/STM32H7xx_HAL_Driver/Src/*)
+include_directories(Drivers/STM32H7xx_HAL_Driver/Inc  Drivers/STM32H7xx_HAL_Driver/Inc/Legacy )
 add_library(STM32H7xx_HAL_Driver ${HAL_SRC})
 
 file (GLOB CMSIS_RTOS_SOURCES
