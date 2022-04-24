@@ -238,35 +238,17 @@ include_directories( ${WDT} )
 file (GLOB WDT_src ${WDT}/*.cpp ${WDT}/*.h )
 add_library(WDT_LIB ${WDT_src} )
 
-
-
-
-
-
-
-
-
 set (STARTUP_SOURCES startup/startup_stm32h753iitx.s )
 add_library(STARTUP ${STARTUP_SOURCES} )
 
-include_directories( ${patchDRV}/BSP/Components/lan8742 )
 set (BSP_SOURCES ${patchDRV}/BSP/Components/lan8742/lan8742.c )
+include_directories( ${patchDRV}/BSP/Components/lan8742 )
 add_library(BSP ${BSP_SOURCES} )
 
-include_directories(
-    ${patchDRV}/STM32H7xx_HAL_Driver/Inc
-    ${patchDRV}/STM32H7xx_HAL_Driver/Inc/Legacy
-    )
 file (GLOB HAL_SRC ${patchHAL_SRC}/*)
+include_directories(${patchDRV}/STM32H7xx_HAL_Driver/Inc  ${patchDRV}/STM32H7xx_HAL_Driver/Inc/Legacy )
 add_library(STM32H7xx_HAL_Driver ${HAL_SRC})
 
-
-include_directories(
-    Middlewares/Third_Party/FreeRTOS/Source/include
-    Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS
-    Middlewares/Third_Party/FreeRTOS/Source/portable/MemMang
-    Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F
-    )
 file (GLOB CMSIS_RTOS_SOURCES
     Middlewares/Third_Party/FreeRTOS/Source/*.c
     Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.c
@@ -275,22 +257,26 @@ file (GLOB CMSIS_RTOS_SOURCES
     Middlewares/Third_Party/LwIP/system/OS/*.c
     Middlewares/Third_Party/FreeRTOS/Source/portable/MemMang/*.c
     )
-
+include_directories(
+    Middlewares/Third_Party/FreeRTOS/Source/include
+    Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS
+    Middlewares/Third_Party/FreeRTOS/Source/portable/MemMang
+    Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F
+    )
 add_library(CMSIS_RTOS ${CMSIS_RTOS_SOURCES} )
 
-
-include_directories(
-    LWIP/App
-    LWIP/Target
-    LWIP
-    )
-set (LWIP_SOURCES
-    LWIP/App/lwip.c
-    LWIP/Target/ethernetif.c
-    LWIP/ping.c
-    )
+set (LWIP_SOURCES LWIP/App/lwip.c  LWIP/Target/ethernetif.c LWIP/ping.c )
+include_directories(LWIP/App LWIP/Target LWIP )
 add_library(LWIP ${LWIP_SOURCES} )
 
+file (GLOB Third_Party_SRC
+    Middlewares/Third_Party/LwIP/src/api/*
+    Middlewares/Third_Party/LwIP/src/apps/mqtt/mqtt.c
+    Middlewares/Third_Party/LwIP/src/core/*
+    Middlewares/Third_Party/LwIP/src/core/ipv4/*
+    Middlewares/Third_Party/LwIP/src/netif/*
+    Middlewares/Third_Party/LwIP/src/netif/ppp/*
+    )
 include_directories(
     Middlewares/Third_Party/LwIP/system/arch
     Middlewares/Third_Party/LwIP/system
@@ -306,27 +292,13 @@ include_directories(
     Middlewares/Third_Party/LwIP/src/include/compat/net
     Middlewares/Third_Party/LwIP/src/include/compat/sys
     )
+add_library(Middlewares ${Third_Party_SRC} )
 
-file (GLOB Third_Party_SRC
-    Middlewares/Third_Party/LwIP/src/api/*
-    Middlewares/Third_Party/LwIP/src/apps/mqtt/mqtt.c
-    Middlewares/Third_Party/LwIP/src/core/*
-    Middlewares/Third_Party/LwIP/src/core/ipv4/*
-    Middlewares/Third_Party/LwIP/src/netif/*
-    Middlewares/Third_Party/LwIP/src/netif/ppp/*
-    )
 
-add_library(Middlewares
-    ${Third_Party_SRC}
-    )
+add_executable(${PROJECT_NAME}.elf  ${SOURCES_C}  ${SOURCES_CPP} )
 
-add_executable(${PROJECT_NAME}.elf
-    ${SOURCES_C}
-    ${SOURCES_CPP}
-    )
 
 set_target_properties(${PROJECT_NAME}.elf PROPERTIES LINKER_LANGUAGE CXX)
-
 set(LINKER_SCRIPT_FLASH "${CMAKE_SOURCE_DIR}/STM32H753IITX_FLASH.ld")
 set(LINKER_SCRIPT_RAM "${CMAKE_SOURCE_DIR}/STM32H753IITX_RAM.ld")
 set(LINKER_FLAGS "SHELL: \
@@ -348,7 +320,6 @@ set(LINKER_FLAGS "SHELL: \
 #    -T${LINKER_SCRIPT_RAM} \
 
 target_link_options(${PROJECT_NAME}.elf PRIVATE ${LINKER_FLAGS})
-
 
 target_link_libraries(${PROJECT_NAME}.elf PUBLIC
     CORE
@@ -380,16 +351,13 @@ target_link_libraries(${PROJECT_NAME}.elf PUBLIC
     Tests_LIB
     uid_LIB
     WDT_LIB
-
     )
 
 set(HEX_FILE ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.hex)
 set(BIN_FILE ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.bin)
-
 add_custom_command(TARGET ${PROJECT_NAME}.elf POST_BUILD
     COMMAND ${CMAKE_OBJCOPY} -O ihex $<TARGET_FILE:${PROJECT_NAME}.elf> ${HEX_FILE}
     COMMENT "Building ${HEX_FILE} ")
-
 add_custom_command(TARGET ${PROJECT_NAME}.elf POST_BUILD
     COMMAND ${CMAKE_OBJCOPY} -O binary $<TARGET_FILE:${PROJECT_NAME}.elf> ${BIN_FILE}
     COMMENT "Building ${BIN_FILE} ")
