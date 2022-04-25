@@ -137,8 +137,9 @@ void simpletestUART_RTOS(void const *argument)
         {
             if (HAL_GetTick() > tickstart + timeReset)
             {
-                  uint8_t buf[22] = {"12345678901234567890\n"};
-                  RS232::getInstance().write(buf,21);
+                 RS232::getInstance().term << "12345678901234567890abcdefghjkl\n";
+//                 uint8_t buf[22] = {"12345678901234567890\n"};
+//                 RS232::getInstance().write(buf,21);
                  reset = false;
                  tickstart = HAL_GetTick();
             }
@@ -147,10 +148,11 @@ void simpletestUART_RTOS(void const *argument)
         {
             if (HAL_GetTick() > tickstart + timeSet)
             {
-                uint8_t buf[22] = {"09876543210987654321\n"};
-                RS232::getInstance().write(buf,21);
-                 reset = true;
-                 tickstart = HAL_GetTick();
+                RS232::getInstance().term << "09876543210987654321qwertyuiop\n";
+//                uint8_t buf[22] = {"09876543210987654321\n"};
+//                RS232::getInstance().write(buf,21);
+                reset = true;
+                tickstart = HAL_GetTick();
             }
         }
     HAL_Delay(1);

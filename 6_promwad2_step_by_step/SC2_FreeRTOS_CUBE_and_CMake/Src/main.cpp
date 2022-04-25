@@ -122,9 +122,7 @@ int main(void)
 //    testLed3();
     testUART();
 
-    uint8_t buf[12] = {"XXXXXXXXXX\n"};
-    RS232::getInstance().write(buf,11);
-
+    RS232::getInstance().term <<"XXXXXXXXXX\n";
 
   /* Start scheduler */
   osKernelStart();
