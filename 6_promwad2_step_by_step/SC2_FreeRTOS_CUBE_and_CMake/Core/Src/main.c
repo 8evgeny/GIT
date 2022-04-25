@@ -20,19 +20,9 @@
 #include "main.h"
 #include "cmsis_os.h"
 #include "lwip.h"
-#include "rs232.h"
-#include "../Debug/debug_printf.h"
-#include "debug.h"
-
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
-#include "testTasks.h"
 
 /* USER CODE END Includes */
 
@@ -68,21 +58,12 @@ DMA_HandleTypeDef hdma_sai1_b;
 TIM_HandleTypeDef htim3;
 
 UART_HandleTypeDef huart7;
+DMA_HandleTypeDef hdma_uart7_rx;
+DMA_HandleTypeDef hdma_uart7_tx;
 
 SRAM_HandleTypeDef hsram1;
 
 osThreadId defaultTaskHandle;
-
-osThreadDef(simpleLedTest1_RTOS, simpleLedTest1_RTOS, osPriorityHigh, 0, configMINIMAL_STACK_SIZE );
-osThreadDef(simpleLedTest2_RTOS, simpleLedTest2_RTOS, osPriorityHigh, 0, configMINIMAL_STACK_SIZE );
-osThreadDef(simpleLedTest3_RTOS, simpleLedTest3_RTOS, osPriorityHigh, 0, configMINIMAL_STACK_SIZE );
-
-osThreadDef(readFromUartThread, readFromUartThread, osPriorityHigh, 0, configMINIMAL_STACK_SIZE * 10);
-//osThreadDef(StartWdtThread, StartWdtThread, osPriorityRealtime, 0, configMINIMAL_STACK_SIZE * 1);
-//osThreadDef(recvUdpThread, recvUdpThread, osPriorityHigh, 0, configMINIMAL_STACK_SIZE * 20);
-
-//osThreadDef(audioInitThread, threadAudioInit, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 10);
-
 /* USER CODE BEGIN PV */
 
 /* USER CODE END PV */
@@ -110,29 +91,48 @@ void StartDefaultTask(void const * argument);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
-
-
 /* USER CODE END 0 */
 
+/**
+  * @brief  The application entry point.
+  * @retval int
+  */
 int main(void)
 {
+  /* USER CODE BEGIN 1 */
 
-    /* Configure the MPU attributes as Device memory for ETH DMA descriptors */
-    MPU_Config();
+  /* USER CODE END 1 */
 
-  /* Enable the CPU Cache */
-//    SCB_EnableICache();
-//    SCB_EnableDCache();
+  /* MPU Configuration--------------------------------------------------------*/
+  MPU_Config();
 
+  /* Enable I-Cache---------------------------------------------------------*/
+  SCB_EnableICache();
+
+  /* Enable D-Cache---------------------------------------------------------*/
+  SCB_EnableDCache();
+
+  /* MCU Configuration--------------------------------------------------------*/
+
+  /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
   HAL_Init();
 
+  /* USER CODE BEGIN Init */
+
+  /* USER CODE END Init */
+
+  /* Configure the system clock */
   SystemClock_Config();
 
 /* Configure the peripherals common clocks */
   PeriphCommonClock_Config();
 
+  /* USER CODE BEGIN SysInit */
+
+  /* USER CODE END SysInit */
+
   /* Initialize all configured peripherals */
-  MX_GPIO_Init(); // Запускаются 3 тестовых процесса
+  MX_GPIO_Init();
   MX_FMC_Init();
   MX_I2C1_Init();
   MX_I2C2_Init();
@@ -142,30 +142,32 @@ int main(void)
   MX_TIM3_Init();
   MX_DMA_Init();
   MX_RNG_Init();
+  /* USER CODE BEGIN 2 */
 
-  RS232Init();
+  /* USER CODE END 2 */
 
-//  RS232::getInstance().test();
-//  if ((RS232::getInstance().readFromUartThreadId = osThreadCreate(osThread(readFromUartThread), nullptr)) == nullptr)
-//  {
+  /* USER CODE BEGIN RTOS_MUTEX */
+  /* add mutexes, ... */
+  /* USER CODE END RTOS_MUTEX */
 
-//  }
+  /* USER CODE BEGIN RTOS_SEMAPHORES */
+  /* add semaphores, ... */
+  /* USER CODE END RTOS_SEMAPHORES */
 
+  /* USER CODE BEGIN RTOS_TIMERS */
+  /* start timers, add new ones, ... */
+  /* USER CODE END RTOS_TIMERS */
 
+  /* USER CODE BEGIN RTOS_QUEUES */
+  /* add queues, ... */
+  /* USER CODE END RTOS_QUEUES */
+
+  /* Create the thread(s) */
+  /* definition and creation of defaultTask */
   osThreadDef(defaultTask, StartDefaultTask, osPriorityNormal, 0, 128);
   defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
 
   /* USER CODE BEGIN RTOS_THREADS */
-
-
-//  testLed1();
-//  testLed2();
-//  testLed3();
-
-
-
-
-
   /* add threads, ... */
   /* USER CODE END RTOS_THREADS */
 
@@ -177,11 +179,17 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-      Debug::getInstance().dbg << __FUNCTION__ << " " << __LINE__ << " " << "\n";
+    /* USER CODE END WHILE */
+
+    /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
 }
 
+/**
+  * @brief System Clock Configuration
+  * @retval None
+  */
 void SystemClock_Config(void)
 {
   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
@@ -241,6 +249,10 @@ void SystemClock_Config(void)
   HAL_RCC_EnableCSS();
 }
 
+/**
+  * @brief Peripherals Common Clock Configuration
+  * @retval None
+  */
 void PeriphCommonClock_Config(void)
 {
   RCC_PeriphCLKInitTypeDef PeriphClkInitStruct = {0};
@@ -263,6 +275,11 @@ void PeriphCommonClock_Config(void)
   }
 }
 
+/**
+  * @brief I2C1 Initialization Function
+  * @param None
+  * @retval None
+  */
 static void MX_I2C1_Init(void)
 {
 
@@ -304,6 +321,11 @@ static void MX_I2C1_Init(void)
 
 }
 
+/**
+  * @brief I2C2 Initialization Function
+  * @param None
+  * @retval None
+  */
 static void MX_I2C2_Init(void)
 {
 
@@ -345,6 +367,11 @@ static void MX_I2C2_Init(void)
 
 }
 
+/**
+  * @brief I2C3 Initialization Function
+  * @param None
+  * @retval None
+  */
 static void MX_I2C3_Init(void)
 {
 
@@ -386,6 +413,11 @@ static void MX_I2C3_Init(void)
 
 }
 
+/**
+  * @brief RNG Initialization Function
+  * @param None
+  * @retval None
+  */
 static void MX_RNG_Init(void)
 {
 
@@ -408,6 +440,11 @@ static void MX_RNG_Init(void)
 
 }
 
+/**
+  * @brief SAI1 Initialization Function
+  * @param None
+  * @retval None
+  */
 static void MX_SAI1_Init(void)
 {
 
@@ -452,6 +489,11 @@ static void MX_SAI1_Init(void)
 
 }
 
+/**
+  * @brief TIM3 Initialization Function
+  * @param None
+  * @retval None
+  */
 static void MX_TIM3_Init(void)
 {
 
@@ -492,6 +534,11 @@ static void MX_TIM3_Init(void)
 
 }
 
+/**
+  * @brief UART7 Initialization Function
+  * @param None
+  * @retval None
+  */
 static void MX_UART7_Init(void)
 {
 
@@ -535,6 +582,9 @@ static void MX_UART7_Init(void)
 
 }
 
+/**
+  * Enable DMA controller clock
+  */
 static void MX_DMA_Init(void)
 {
 
@@ -543,9 +593,15 @@ static void MX_DMA_Init(void)
   __HAL_RCC_DMA2_CLK_ENABLE();
 
   /* DMA interrupt init */
+  /* DMA1_Stream1_IRQn interrupt configuration */
+  HAL_NVIC_SetPriority(DMA1_Stream1_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(DMA1_Stream1_IRQn);
   /* DMA1_Stream2_IRQn interrupt configuration */
   HAL_NVIC_SetPriority(DMA1_Stream2_IRQn, 5, 0);
   HAL_NVIC_EnableIRQ(DMA1_Stream2_IRQn);
+  /* DMA1_Stream3_IRQn interrupt configuration */
+  HAL_NVIC_SetPriority(DMA1_Stream3_IRQn, 5, 0);
+  HAL_NVIC_EnableIRQ(DMA1_Stream3_IRQn);
   /* DMA1_Stream4_IRQn interrupt configuration */
   HAL_NVIC_SetPriority(DMA1_Stream4_IRQn, 5, 0);
   HAL_NVIC_EnableIRQ(DMA1_Stream4_IRQn);
@@ -612,9 +668,15 @@ static void MX_FMC_Init(void)
   /* USER CODE END FMC_Init 2 */
 }
 
+/**
+  * @brief GPIO Initialization Function
+  * @param None
+  * @retval None
+  */
 static void MX_GPIO_Init(void)
 {
   GPIO_InitTypeDef GPIO_InitStruct = {0};
+
   /* GPIO Ports Clock Enable */
   __HAL_RCC_GPIOE_CLK_ENABLE();
   __HAL_RCC_GPIOC_CLK_ENABLE();
@@ -684,15 +746,12 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
 
-    /*Configure GPIO pin : TEST_BUT_Pin */
-    GPIO_InitStruct.Pin = TEST_BUT_Pin;
-    GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
-    GPIO_InitStruct.Pull = GPIO_PULLUP;
-    HAL_GPIO_Init(TEST_BUT_GPIO_Port, &GPIO_InitStruct);
+  /*Configure GPIO pin : TEST_BUT_Pin */
+  GPIO_InitStruct.Pin = TEST_BUT_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  HAL_GPIO_Init(TEST_BUT_GPIO_Port, &GPIO_InitStruct);
 
-//    osThreadCreate(osThread(simpleLedTest1_RTOS), NULL);
-//    osThreadCreate(osThread(simpleLedTest2_RTOS), NULL);
-    osThreadCreate(osThread(simpleLedTest3_RTOS), NULL);
 }
 
 /* USER CODE BEGIN 4 */
@@ -786,6 +845,3 @@ void assert_failed(uint8_t *file, uint32_t line)
 }
 #endif /* USE_FULL_ASSERT */
 
-#ifdef __cplusplus
-}
-#endif
