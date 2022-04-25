@@ -187,7 +187,7 @@ HAL_StatusTypeDef RS232::read(uint8_t *buf, uint16_t size, uint32_t timeout, boo
 
 HAL_StatusTypeDef RS232::read(char *buf, uint16_t size, uint32_t timeout, bool saveDataToRingBuffer)
 {
-//    std::fill(buf, buf + size, 0);
+    std::fill(buf, buf + size, 0);
     HAL_StatusTypeDef status;
     uint8_t tmp = 0;
     do {

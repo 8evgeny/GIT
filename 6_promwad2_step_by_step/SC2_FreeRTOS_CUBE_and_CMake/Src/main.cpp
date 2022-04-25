@@ -76,6 +76,7 @@ osThreadId defaultTaskHandle;
 osThreadDef(simpleLedTest1_RTOS, simpleLedTest1_RTOS, osPriorityHigh, 0, configMINIMAL_STACK_SIZE );
 osThreadDef(simpleLedTest2_RTOS, simpleLedTest2_RTOS, osPriorityHigh, 0, configMINIMAL_STACK_SIZE );
 osThreadDef(simpleLedTest3_RTOS, simpleLedTest3_RTOS, osPriorityHigh, 0, configMINIMAL_STACK_SIZE );
+osThreadDef(simpletestUART_RTOS, simpletestUART_RTOS, osPriorityHigh, 0, configMINIMAL_STACK_SIZE );
 
 osThreadDef(readFromUartThread, readFromUartThread, osPriorityHigh, 0, configMINIMAL_STACK_SIZE * 10);
 //osThreadDef(StartWdtThread, StartWdtThread, osPriorityRealtime, 0, configMINIMAL_STACK_SIZE * 1);
@@ -143,9 +144,11 @@ int main(void)
   MX_DMA_Init();
   MX_RNG_Init();
 
+
   RS232Init();
 
-//  RS232::getInstance().test();
+
+
 //  if ((RS232::getInstance().readFromUartThreadId = osThreadCreate(osThread(readFromUartThread), nullptr)) == nullptr)
 //  {
 
@@ -158,10 +161,10 @@ int main(void)
   /* USER CODE BEGIN RTOS_THREADS */
 
 
-//  testLed1();
-//  testLed2();
-//  testLed3();
-
+//    testLed1();
+//    testLed2();
+//    testLed3();
+    testUART();
 
 
 
@@ -693,6 +696,7 @@ static void MX_GPIO_Init(void)
 //    osThreadCreate(osThread(simpleLedTest1_RTOS), NULL);
 //    osThreadCreate(osThread(simpleLedTest2_RTOS), NULL);
     osThreadCreate(osThread(simpleLedTest3_RTOS), NULL);
+
 }
 
 /* USER CODE BEGIN 4 */

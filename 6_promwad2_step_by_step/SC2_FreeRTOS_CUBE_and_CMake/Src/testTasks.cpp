@@ -2,6 +2,7 @@
 #include <stdbool.h>
 #include <stdint.h>
 #include "cmsis_os.h"
+#include "debug.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -22,6 +23,15 @@ void testLed3()
     osThreadDef(simpleLedTest3_RTOS, simpleLedTest3_RTOS, osPriorityHigh, 0, configMINIMAL_STACK_SIZE );
     osThreadCreate(osThread(simpleLedTest3_RTOS), NULL);
 }
+void testUART()
+{
+    osThreadDef(simpletestUART_RTOS, simpletestUART_RTOS, osPriorityHigh, 0, configMINIMAL_STACK_SIZE );
+    osThreadCreate(osThread(simpletestUART_RTOS), NULL);
+}
+
+
+
+
 void simpleLedTest1_RTOS(void const *argument)
 {
     (void)argument;
@@ -112,6 +122,41 @@ void simpleLedTest3_RTOS(void const *argument)
     HAL_Delay(1);
     } //end for(;;)
 }
+void simpletestUART_RTOS(void const *argument)
+{
+    (void)argument;
+    bool reset = true;
+    uint32_t tickstart = HAL_GetTick();
+    uint32_t timeSet = 1000;
+    uint32_t timeReset = 1000;
+    for(;;)
+    {
+       Debug::getInstance().test();
+
+        if(reset)
+        {
+            if (HAL_GetTick() > tickstart + timeReset)
+            {
+                uint8_t buf[10] = {'1','2','3','4','5'};
+                RS232::getInstance().write(buf,10);
+                 reset = false;
+                 tickstart = HAL_GetTick();
+            }
+        }
+        if(!reset)
+        {
+            if (HAL_GetTick() > tickstart + timeSet)
+            {
+                uint8_t buf[10] = {'5','4','3','2','1'};
+                RS232::getInstance().write(buf,10);
+                 reset = true;
+                 tickstart = HAL_GetTick();
+            }
+        }
+    HAL_Delay(1);
+    } //end for(;;)
+}
+
 
 #ifdef __cplusplus
 }
