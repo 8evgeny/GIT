@@ -122,8 +122,8 @@ int main(void)
 //    testLed3();
     testUART();
 
-//    uint8_t buf[12] = {"1234567890\n"};
-//    RS232::getInstance().write(buf,11);
+    uint8_t buf[12] = {"XXXXXXXXXX\n"};
+    RS232::getInstance().write(buf,11);
 
 
   /* Start scheduler */
