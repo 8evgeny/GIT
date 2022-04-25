@@ -28,6 +28,8 @@
 #define ENOTRECOVERABLE 66
 #define ENOTSUP 66
 
+//Макрос для отладки
+#define term(x) (RS232::getInstance().term << x);
 
 #ifdef __cplusplus
 extern "C" {
