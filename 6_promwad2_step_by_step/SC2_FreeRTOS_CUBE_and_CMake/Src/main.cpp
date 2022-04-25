@@ -87,8 +87,9 @@ int main(void)
   MX_I2C2_Init();
   MX_I2C3_Init();
   MX_SAI1_Init();
-  MX_UART7_Init();
+//  MX_UART7_Init(); //Вынесен в RS232
 
+  debugInit();
   RS232Init();
 
   MX_TIM3_Init();
@@ -112,12 +113,13 @@ int main(void)
   /* USER CODE BEGIN RTOS_THREADS */
 
 
-//    testLed1();
+    testLed1();
 //    testLed2();
 //    testLed3();
-    testUART();
+//    testUART();
 
-
+//  uint8_t buf[10] = {'5','4','3','2','1'};
+//  RS232::getInstance().write(buf,10);
 
 
   /* add threads, ... */
