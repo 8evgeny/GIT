@@ -26,7 +26,7 @@ void testLed3()
 }
 void testUART()
 {
-    osThreadDef(simpletestUART_RTOS, simpletestUART_RTOS, osPriorityNormal, 0, configMINIMAL_STACK_SIZE );
+    osThreadDef(simpletestUART_RTOS, simpletestUART_RTOS, osPriorityHigh, 0, configMINIMAL_STACK_SIZE );
     osThreadCreate(osThread(simpletestUART_RTOS), NULL);
 }
 
@@ -137,8 +137,8 @@ void simpletestUART_RTOS(void const *argument)
         {
             if (HAL_GetTick() > tickstart + timeReset)
             {
-                  uint8_t buf[21] = {"12345678901234567890"};
-                  RS232::getInstance().write(buf,10);
+                  uint8_t buf[22] = {"12345678901234567890\n"};
+                  RS232::getInstance().write(buf,21);
                  reset = false;
                  tickstart = HAL_GetTick();
             }
@@ -147,8 +147,8 @@ void simpletestUART_RTOS(void const *argument)
         {
             if (HAL_GetTick() > tickstart + timeSet)
             {
-                uint8_t buf[21] = {"asdfghjklqwertyuiopz"};
-                RS232::getInstance().write(buf,10);
+                uint8_t buf[22] = {"asdfghjklqwertyuiopz\n"};
+                RS232::getInstance().write(buf,21);
                  reset = true;
                  tickstart = HAL_GetTick();
             }

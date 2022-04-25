@@ -343,18 +343,46 @@ void HAL_UART_MspInit(UART_HandleTypeDef *huart)
 
         __HAL_LINKDMA(huart, hdmarx, hdma_uart7_rx);
 
-        /* UART7 interrupt Init */
-        HAL_NVIC_SetPriority(UART7_IRQn, 0, 1);
-        HAL_NVIC_EnableIRQ(UART7_IRQn);
+//        /* UART7 interrupt Init */
+//        HAL_NVIC_SetPriority(UART7_IRQn, 0, 1);
+//        HAL_NVIC_EnableIRQ(UART7_IRQn);
 
 
-        /* DMA1_Stream1_IRQn interrupt configuration */
-        HAL_NVIC_SetPriority(DMA1_Stream1_IRQn, 0, 1);
-        HAL_NVIC_EnableIRQ(DMA1_Stream1_IRQn);
+//        /* DMA1_Stream1_IRQn interrupt configuration */
+//        HAL_NVIC_SetPriority(DMA1_Stream1_IRQn, 0, 1);
+//        HAL_NVIC_EnableIRQ(DMA1_Stream1_IRQn);
 
-        /* DMA1_Stream3_IRQn interrupt configuration */
-        HAL_NVIC_SetPriority(DMA1_Stream3_IRQn, 0, 0);
-        HAL_NVIC_EnableIRQ(DMA1_Stream3_IRQn);
+//        /* DMA1_Stream3_IRQn interrupt configuration */
+//        HAL_NVIC_SetPriority(DMA1_Stream3_IRQn, 0, 0);
+//        HAL_NVIC_EnableIRQ(DMA1_Stream3_IRQn);
+
+
+        //    __HAL_RCC_DMA1_CLK_ENABLE();
+        //    __HAL_RCC_DMA2_CLK_ENABLE();
+
+            /* DMA interrupt init */
+            /* DMA1_Stream1_IRQn interrupt configuration */
+            HAL_NVIC_SetPriority(DMA1_Stream1_IRQn, 5, 0);
+            HAL_NVIC_EnableIRQ(DMA1_Stream1_IRQn);
+            /* DMA1_Stream2_IRQn interrupt configuration */
+            HAL_NVIC_SetPriority(DMA1_Stream2_IRQn, 5, 0);
+            HAL_NVIC_EnableIRQ(DMA1_Stream2_IRQn);
+            /* DMA1_Stream3_IRQn interrupt configuration */
+            HAL_NVIC_SetPriority(DMA1_Stream3_IRQn, 5, 0);
+            HAL_NVIC_EnableIRQ(DMA1_Stream3_IRQn);
+            /* DMA1_Stream4_IRQn interrupt configuration */
+            HAL_NVIC_SetPriority(DMA1_Stream4_IRQn, 5, 0);
+            HAL_NVIC_EnableIRQ(DMA1_Stream4_IRQn);
+            /* DMA2_Stream3_IRQn interrupt configuration */
+            HAL_NVIC_SetPriority(DMA2_Stream3_IRQn, 5, 0);
+            HAL_NVIC_EnableIRQ(DMA2_Stream3_IRQn);
+            /* DMA2_Stream4_IRQn interrupt configuration */
+            HAL_NVIC_SetPriority(DMA2_Stream4_IRQn, 5, 0);
+            HAL_NVIC_EnableIRQ(DMA2_Stream4_IRQn);
+
+
+
+
 
     }
 
