@@ -27,8 +27,8 @@ void simpleLedTest1_RTOS(void const *argument)
     (void)argument;
     bool reset = true;
     uint32_t tickstart = HAL_GetTick();
-    uint32_t timeSet = 10;
-    uint32_t timeReset = 3000;
+    uint32_t timeSet = 5;
+    uint32_t timeReset = 700;
     for(;;)
     {
         if(reset)
@@ -49,7 +49,7 @@ void simpleLedTest1_RTOS(void const *argument)
                  tickstart = HAL_GetTick();
             }
         }
-    HAL_Delay(10);
+    HAL_Delay(1);
     } //end for(;;)
 }
 void simpleLedTest2_RTOS(void const *argument)
@@ -57,8 +57,8 @@ void simpleLedTest2_RTOS(void const *argument)
     (void)argument;
     bool reset = true;
     uint32_t tickstart = HAL_GetTick();
-    uint32_t timeSet = 10;
-    uint32_t timeReset = 2000;
+    uint32_t timeSet = 5;
+    uint32_t timeReset = 500;
     for(;;)
     {
         if(reset)
@@ -79,7 +79,7 @@ void simpleLedTest2_RTOS(void const *argument)
                  tickstart = HAL_GetTick();
             }
         }
-    HAL_Delay(10);
+    HAL_Delay(1);
     } //end for(;;)
 }
 void simpleLedTest3_RTOS(void const *argument)
@@ -87,8 +87,8 @@ void simpleLedTest3_RTOS(void const *argument)
     (void)argument;
     bool reset = true;
     uint32_t tickstart = HAL_GetTick();
-    uint32_t timeSet = 5;
-    uint32_t timeReset = 4000;
+    uint32_t timeSet = 1;
+    uint32_t timeReset = 1000;
     for(;;)
     {
         if(reset)
@@ -109,7 +109,7 @@ void simpleLedTest3_RTOS(void const *argument)
                  tickstart = HAL_GetTick();
             }
         }
-    HAL_Delay(10);
+    HAL_Delay(1);
     } //end for(;;)
 }
 

@@ -290,7 +290,6 @@ set(LINKER_SCRIPT_FLASH "${CMAKE_SOURCE_DIR}/STM32H753IITX_FLASH.ld")
 set(LINKER_SCRIPT_RAM "${CMAKE_SOURCE_DIR}/STM32H753IITX_RAM.ld")
 set(LINKER_FLAGS "SHELL: \
     -T${LINKER_SCRIPT_FLASH} \
-    -T${LINKER_SCRIPT_RAM} \
     -mcpu=cortex-m7 \
     -lstdc++ \
     --specs=nosys.specs \
