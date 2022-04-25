@@ -57,8 +57,8 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-static UART_HandleTypeDef huart7;
+extern UART_HandleTypeDef huart7;
+//static UART_HandleTypeDef huart7;
 static DMA_HandleTypeDef hdma_uart7_rx;
 static DMA_HandleTypeDef hdma_uart7_tx;
 static unsigned char readByte();
