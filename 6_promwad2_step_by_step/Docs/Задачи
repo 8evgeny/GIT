@@ -1,0 +1,17 @@
+обработка клавиш в отдельном потоке - реакция - вкл светодиодов
+
+Debug - test
+
+fsforeeprom.cpp  - FsForEeprom::test()
+
+flash.cpp - test
+
+tests.cpp  - все тесты
+
+TRNG - test
+
+SNTP - test  точное время
+RTC - test
+
+кнопка test - EXTI
+
