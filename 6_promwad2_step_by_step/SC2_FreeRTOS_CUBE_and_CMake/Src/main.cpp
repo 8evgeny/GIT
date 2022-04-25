@@ -118,9 +118,13 @@ int main(void)
 //    testLed3();
 //    testUART();
 
-//  uint8_t buf[10] = {'5','4','3','2','1'};
-//  RS232::getInstance().write(buf,10);
+//   Debug::getInstance().dbg << "UART Init Error!" << "\n";
 
+//  uint8_t buf[10] = {'1','2','3','4','5','6','7','8','9','0'};
+//  while(RS232::getInstance().write(buf,10) != HAL_OK);
+
+//  uint8_t buf2[10] = {'0','1','2','3','4','5','6','7','8','9'};
+//  RS232::getInstance().write(buf2,10);
 
   /* add threads, ... */
   /* USER CODE END RTOS_THREADS */
