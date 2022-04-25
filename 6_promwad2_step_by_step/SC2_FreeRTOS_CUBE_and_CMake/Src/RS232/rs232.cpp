@@ -66,8 +66,11 @@ static void writeByte(unsigned char byte);
 
 void RS232Init(void)
 {
+
+
     RS232DevOut(writeByte);
     RS232DevIn(readByte);
+
 
     GPIO_InitTypeDef GPIO_InitStruct = {0};
     __HAL_RCC_UART7_CLK_ENABLE();

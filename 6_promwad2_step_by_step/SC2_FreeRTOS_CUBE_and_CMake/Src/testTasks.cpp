@@ -3,6 +3,7 @@
 #include <stdint.h>
 #include "cmsis_os.h"
 #include "debug.h"
+#include "rs232_printf.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -131,6 +132,9 @@ void simpletestUART_RTOS(void const *argument)
     uint32_t timeReset = 1000;
     for(;;)
     {
+        char buf[10] = "123456";
+        RS232Printf(buf,"s");
+
         RS232::getInstance().test();
        Debug::getInstance().test();
 
