@@ -116,18 +116,11 @@ int main(void)
     testLed1();
 //    testLed2();
 //    testLed3();
-//    testUART();
+    testUART();
 
-//   Debug::getInstance().dbg << "UART Init Error!" << "\n";
+    uint8_t buf[12] = {"1234567890\n"};
+    RS232::getInstance().write(buf,11);
 
-
-//  uint8_t buf[21] = {"12345678901234567890"};
-//  while(RS232::getInstance().write(buf,10) != HAL_OK);
-
-//  RS232::getInstance().write(buf,10);
-
-  /* add threads, ... */
-  /* USER CODE END RTOS_THREADS */
 
   /* Start scheduler */
   osKernelStart();

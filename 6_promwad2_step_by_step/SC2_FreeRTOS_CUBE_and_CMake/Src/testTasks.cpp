@@ -26,7 +26,7 @@ void testLed3()
 }
 void testUART()
 {
-    osThreadDef(simpletestUART_RTOS, simpletestUART_RTOS, osPriorityHigh, 0, configMINIMAL_STACK_SIZE );
+    osThreadDef(simpletestUART_RTOS, simpletestUART_RTOS, osPriorityNormal, 0, configMINIMAL_STACK_SIZE );
     osThreadCreate(osThread(simpletestUART_RTOS), NULL);
 }
 
@@ -132,22 +132,13 @@ void simpletestUART_RTOS(void const *argument)
     uint32_t timeReset = 1000;
     for(;;)
     {
-//        Debug::getInstance().test();
-//        char buf[10] = "123456";
-//        RS232Printf(buf,"s");
-        uint8_t buf[10] = {'5','4','3','2','1'};
-        RS232::getInstance().write(buf,10);
-
-
-//        RS232::getInstance().test();
-//       Debug::getInstance().test();
 
         if(reset)
         {
             if (HAL_GetTick() > tickstart + timeReset)
             {
-                uint8_t buf[10] = {'1','2','3','4','5'};
-                RS232::getInstance().write(buf,10);
+                  uint8_t buf[21] = {"12345678901234567890"};
+                  RS232::getInstance().write(buf,10);
                  reset = false;
                  tickstart = HAL_GetTick();
             }
@@ -156,7 +147,7 @@ void simpletestUART_RTOS(void const *argument)
         {
             if (HAL_GetTick() > tickstart + timeSet)
             {
-                uint8_t buf[10] = {'5','4','3','2','1'};
+                uint8_t buf[21] = {"asdfghjklqwertyuiopz"};
                 RS232::getInstance().write(buf,10);
                  reset = true;
                  tickstart = HAL_GetTick();
