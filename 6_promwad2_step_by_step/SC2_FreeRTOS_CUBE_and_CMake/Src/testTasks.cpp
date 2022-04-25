@@ -147,7 +147,7 @@ void simpletestUART_RTOS(void const *argument)
         {
             if (HAL_GetTick() > tickstart + timeSet)
             {
-                uint8_t buf[22] = {"asdfghjklqwertyuiopz\n"};
+                uint8_t buf[22] = {"09876543210987654321\n"};
                 RS232::getInstance().write(buf,21);
                  reset = true;
                  tickstart = HAL_GetTick();
