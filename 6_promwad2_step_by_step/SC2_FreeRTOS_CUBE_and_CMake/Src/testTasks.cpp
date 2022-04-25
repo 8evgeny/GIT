@@ -131,6 +131,7 @@ void simpletestUART_RTOS(void const *argument)
     uint32_t timeReset = 1000;
     for(;;)
     {
+        RS232::getInstance().test();
        Debug::getInstance().test();
 
         if(reset)

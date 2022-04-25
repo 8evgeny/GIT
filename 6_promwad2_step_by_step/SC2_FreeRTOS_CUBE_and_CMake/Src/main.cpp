@@ -140,12 +140,15 @@ int main(void)
   MX_I2C3_Init();
   MX_SAI1_Init();
   MX_UART7_Init();
+
+  RS232Init();
+
   MX_TIM3_Init();
   MX_DMA_Init();
   MX_RNG_Init();
 
 
-  RS232Init();
+
 
 
 
@@ -497,44 +500,55 @@ static void MX_TIM3_Init(void)
 
 static void MX_UART7_Init(void)
 {
+//        GPIO_InitTypeDef GPIO_InitStruct = {0};
+//    __HAL_RCC_UART7_CLK_ENABLE();
 
-  /* USER CODE BEGIN UART7_Init 0 */
+//    __HAL_RCC_DMA1_CLK_ENABLE();
+//    __HAL_RCC_GPIOF_CLK_ENABLE();
+//    /**UART7 GPIO Configuration
+//    PF6     ------> UART7_RX
+//    PF7     ------> UART7_TX
+//    */
+//    GPIO_InitStruct.Pin = GPIO_PIN_6 | GPIO_PIN_7;
+//    GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+//    GPIO_InitStruct.Pull = GPIO_PULLUP;
+//    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+//    GPIO_InitStruct.Alternate = GPIO_AF7_UART7;
+//    HAL_GPIO_Init(GPIOF, &GPIO_InitStruct);
 
-  /* USER CODE END UART7_Init 0 */
+//    /* UART7 DMA Init */
+//    /* UART7_TX Init */
+//  huart7.Instance = UART7;
+//  huart7.Init.BaudRate = 115200;
+//  huart7.Init.WordLength = UART_WORDLENGTH_8B;
+//  huart7.Init.StopBits = UART_STOPBITS_1;
+//  huart7.Init.Parity = UART_PARITY_NONE;
+//  huart7.Init.Mode = UART_MODE_TX_RX;
+//  huart7.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+//  huart7.Init.OverSampling = UART_OVERSAMPLING_16;
+//  huart7.Init.OneBitSampling = UART_ONE_BIT_SAMPLE_DISABLE;
+////  huart7.Init.ClockPrescaler = UART_PRESCALER_DIV1;
+//  huart7.AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_NO_INIT;
+//  if (HAL_UART_Init(&huart7) != HAL_OK) {
+//      while (1) {
+//          Debug::getInstance().dbg << "UART Init Error!" << "\n";
+//      }
+//  }
+////  if (HAL_UARTEx_SetTxFifoThreshold(&huart7, UART_TXFIFO_THRESHOLD_1_2) != HAL_OK)
+////  {
+////    Error_Handler();
+////  }
+////  if (HAL_UARTEx_SetRxFifoThreshold(&huart7, UART_RXFIFO_THRESHOLD_1_2) != HAL_OK)
+////  {
+////    Error_Handler();
+////  }
+////  if (HAL_UARTEx_EnableFifoMode(&huart7) != HAL_OK)
+////  {
+////    Error_Handler();
+////  }
+//  /* USER CODE BEGIN UART7_Init 2 */
 
-  /* USER CODE BEGIN UART7_Init 1 */
-
-  /* USER CODE END UART7_Init 1 */
-  huart7.Instance = UART7;
-  huart7.Init.BaudRate = 115200;
-  huart7.Init.WordLength = UART_WORDLENGTH_8B;
-  huart7.Init.StopBits = UART_STOPBITS_1;
-  huart7.Init.Parity = UART_PARITY_NONE;
-  huart7.Init.Mode = UART_MODE_TX_RX;
-  huart7.Init.HwFlowCtl = UART_HWCONTROL_NONE;
-  huart7.Init.OverSampling = UART_OVERSAMPLING_16;
-  huart7.Init.OneBitSampling = UART_ONE_BIT_SAMPLE_DISABLE;
-  huart7.Init.ClockPrescaler = UART_PRESCALER_DIV1;
-  huart7.AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_NO_INIT;
-  if (HAL_UART_Init(&huart7) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  if (HAL_UARTEx_SetTxFifoThreshold(&huart7, UART_TXFIFO_THRESHOLD_1_2) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  if (HAL_UARTEx_SetRxFifoThreshold(&huart7, UART_RXFIFO_THRESHOLD_1_2) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  if (HAL_UARTEx_EnableFifoMode(&huart7) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /* USER CODE BEGIN UART7_Init 2 */
-
-  /* USER CODE END UART7_Init 2 */
+//  /* USER CODE END UART7_Init 2 */
 
 }
 

@@ -66,10 +66,27 @@ static void writeByte(unsigned char byte);
 
 void RS232Init(void)
 {
-
     RS232DevOut(writeByte);
     RS232DevIn(readByte);
 
+    GPIO_InitTypeDef GPIO_InitStruct = {0};
+    __HAL_RCC_UART7_CLK_ENABLE();
+
+    __HAL_RCC_DMA1_CLK_ENABLE();
+    __HAL_RCC_GPIOF_CLK_ENABLE();
+    /**UART7 GPIO Configuration
+    PF6     ------> UART7_RX
+    PF7     ------> UART7_TX
+    */
+    GPIO_InitStruct.Pin = GPIO_PIN_6 | GPIO_PIN_7;
+    GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+    GPIO_InitStruct.Pull = GPIO_PULLUP;
+    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+    GPIO_InitStruct.Alternate = GPIO_AF7_UART7;
+    HAL_GPIO_Init(GPIOF, &GPIO_InitStruct);
+
+    /* UART7 DMA Init */
+    /* UART7_TX Init */
     huart7.Instance = UART7;
     huart7.Init.BaudRate = 115200;
     huart7.Init.WordLength = UART_WORDLENGTH_8B;
@@ -79,18 +96,18 @@ void RS232Init(void)
     huart7.Init.HwFlowCtl = UART_HWCONTROL_NONE;
     huart7.Init.OverSampling = UART_OVERSAMPLING_16;
     huart7.Init.OneBitSampling = UART_ONE_BIT_SAMPLE_DISABLE;
+    //  huart7.Init.ClockPrescaler = UART_PRESCALER_DIV1;
     huart7.AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_NO_INIT;
+
     huart7.hdmarx = &hdma_uart7_rx;
     huart7.hdmatx = &hdma_uart7_tx;
-//    huart7.
-    if (HAL_UART_Init(&huart7) != HAL_OK) {
-        while (1) {
-            Debug::getInstance().dbg << "UART Init Error!" << "\n";
-        }
-    }
-    /* USER CODE BEGIN UART7_Init 2 */
 
-    /* USER CODE END UART7_Init 2 */
+    if (HAL_UART_Init(&huart7) != HAL_OK) {
+      while (1) {
+          Debug::getInstance().dbg << "UART Init Error!" << "\n";
+      }
+    }
+
 }
 
 #ifdef __cplusplus
