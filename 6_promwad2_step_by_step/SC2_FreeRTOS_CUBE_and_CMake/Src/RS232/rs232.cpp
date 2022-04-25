@@ -49,7 +49,7 @@
 //#endif
 
 
-//#include "json.h"
+#include "json.h"
 
 
 
@@ -610,19 +610,19 @@ static int32_t counterFrames = 0;
 
 void readFromUartThread(void const *arg)
 {
-//    (void)arg;
-//    constexpr int32_t SIZE_DEF_BLOCK_UDP = 256;
-//    constexpr int32_t SIZE_WRITE_BLOCK = 128;
+    (void)arg;
+    constexpr int32_t SIZE_DEF_BLOCK_UDP = 256;
+    constexpr int32_t SIZE_WRITE_BLOCK = 128;
 
-//    uint8_t buffUart[SIZE_DEF_BLOCK_UDP] = {0};
-//    char buf[SIZE_DEF_BLOCK_UDP] {0};
-//    uint32_t tmp[SIZE_DEF_BLOCK_UDP / 4];
-
-
+    uint8_t buffUart[SIZE_DEF_BLOCK_UDP] = {0};
+    char buf[SIZE_DEF_BLOCK_UDP] {0};
+    uint32_t tmp[SIZE_DEF_BLOCK_UDP / 4];
 
 
 
-//    while (true) {
+
+
+    while (true) {
 
 //        const int capacityJson = 2000;
 //        StaticJsonDocument <capacityJson> doc;
@@ -691,5 +691,5 @@ void readFromUartThread(void const *arg)
 //        serializeJson(configDoc, tmpWriteBuf, capacity);
 //        RS232::getInstance().write(reinterpret_cast<uint8_t *>(tmpWriteBuf), static_cast<uint16_t>(std::strlen(tmpWriteBuf)));
 
-//    }
+    }
 }
