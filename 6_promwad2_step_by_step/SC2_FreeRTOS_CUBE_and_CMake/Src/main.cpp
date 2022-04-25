@@ -114,17 +114,13 @@ int main(void)
   osThreadDef(defaultTask, StartDefaultTask, osPriorityNormal, 0, 128);
   defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
 
-  /* USER CODE BEGIN RTOS_THREADS */
-
-
-    testLed1();
+    //Тестовые потоки
+//    testLed1();
 //    testLed2();
-//    testLed3();
+    testLed3();
     testUART();
 
     term("XXXXXXXXXX\n")
-
-//    RS232::getInstance().term <<"XXXXXXXXXX\n";
 
   /* Start scheduler */
   osKernelStart();
@@ -663,10 +659,6 @@ static void MX_GPIO_Init(void)
     GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
     GPIO_InitStruct.Pull = GPIO_PULLUP;
     HAL_GPIO_Init(TEST_BUT_GPIO_Port, &GPIO_InitStruct);
-
-//    osThreadCreate(osThread(simpleLedTest1_RTOS), NULL);
-//    osThreadCreate(osThread(simpleLedTest2_RTOS), NULL);
-    osThreadCreate(osThread(simpleLedTest3_RTOS), NULL);
 
 }
 
