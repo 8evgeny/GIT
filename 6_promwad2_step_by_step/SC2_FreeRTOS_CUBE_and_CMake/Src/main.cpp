@@ -7,20 +7,20 @@
 
 #include "gpio_sc2_board.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 #include "testTasks.h"
 #include "fsforeeprom.h"
-
-//#include "json.h"
-//#include "udp_multicast.h"
-
+#include "json.h"
+#include "udp_multicast.h"
 #include "flash/flash.h"
 #include "net_sockets.h"
 
+extern void flashErraseBank2();
 
+
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 
 I2C_HandleTypeDef hi2c1;
