@@ -16,11 +16,17 @@
 
 extern void flashErraseBank2();
 
-
+static osThreadId readPackageTypeThreadId;
+static osSemaphoreId canSemId;
 
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+#include "eeprom.h"
+#include "stm32h7xx_hal.h"
+#include "cmsis_os.h"
+
 
 
 I2C_HandleTypeDef hi2c1;
