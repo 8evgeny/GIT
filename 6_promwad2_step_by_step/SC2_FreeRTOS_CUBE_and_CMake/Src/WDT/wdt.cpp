@@ -3,6 +3,7 @@
  *
  */
 #include "wdt.h"
+#include "rs232.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -36,7 +37,7 @@ void WDTInit(void)
 
 //    if (HAL_WWDG_Init(&hwwdg) != HAL_OK) {
 //        while (1) {
-//            Debug::getInstance().dbg << "WWDG Init Error!" << "\n";
+//            RS232::getInstance().term << "WWDG Init Error!" << "\n";
 //        }
 //    }
 }
@@ -80,7 +81,7 @@ WDT::WDT()
 void WDT::refresh(void)
 {
     if (HAL_WWDG_Refresh(wwdgtHandle) != HAL_OK) {
-        Debug::getInstance().dbg << "WWDG Refresh Error!" << "\n";
+        RS232::getInstance().term << "WWDG Refresh Error!" << "\n";
         while(1);
     }
 }

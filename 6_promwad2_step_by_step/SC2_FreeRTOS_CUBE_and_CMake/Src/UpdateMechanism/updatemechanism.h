@@ -9,7 +9,7 @@
 
 #include <vector>
 #include <cstdio>
-#include "../Debug/debug.h"
+#include "rs232.h"
 
 /*!
  \brief It is common object for setting parameters our system
@@ -38,7 +38,7 @@ public:
     */
     void attach(ObserverForUpdateMechanism *obs)
     {
-        Debug::getInstance().dbg << __FUNCTION__ <<  __LINE__ << "\n";
+        RS232::getInstance().term << __FUNCTION__ <<  __LINE__ << "\n";
         views.push_back(obs);
     }
 
@@ -50,7 +50,7 @@ public:
     */
     void setInfoData(StateInfoBoardData &val)
     {
-        Debug::getInstance().dbg << __FUNCTION__ <<  __LINE__ << "\n";
+        RS232::getInstance().term << __FUNCTION__ <<  __LINE__ << "\n";
         info = val;
         notify(); //notify, because data was updated
     }
@@ -63,7 +63,7 @@ public:
     */
     StateInfoBoardData &getInfoData()
     {
-        Debug::getInstance().dbg << __FUNCTION__ <<  __LINE__ << "\n";
+        RS232::getInstance().term << __FUNCTION__ <<  __LINE__ << "\n";
         return info;
     }
 
@@ -97,7 +97,7 @@ public:
         model = mod;
         model->attach(this);
         demon = diff;
-        Debug::getInstance().dbg << __FUNCTION__ <<  __LINE__ << "\n";
+        RS232::getInstance().term << __FUNCTION__ <<  __LINE__ << "\n";
     }
     /*!
      \brief
@@ -115,7 +115,7 @@ protected:
     */
     UpdateMechanism *getSubject()
     {
-        Debug::getInstance().dbg << __FUNCTION__ <<  __LINE__ << "\n";
+        RS232::getInstance().term << __FUNCTION__ <<  __LINE__ << "\n";
         return model;
     }
 
@@ -126,7 +126,7 @@ protected:
      \return StateInfoBoardData
     */
     StateInfoBoardData& getDiff(){
-        Debug::getInstance().dbg << __FUNCTION__ <<  __LINE__ << "\n";
+        RS232::getInstance().term << __FUNCTION__ <<  __LINE__ << "\n";
         return demon;
     }
 };
@@ -140,7 +140,7 @@ void UpdateMechanism::notify()
 {
     for (int i = 0; i < views.size(); i++) {
         views[i]->update();
-        Debug::getInstance().dbg << __FUNCTION__ <<  __LINE__ << "\n";
+        RS232::getInstance().term << __FUNCTION__ <<  __LINE__ << "\n";
     }
 }
 
@@ -169,7 +169,7 @@ public:
     */
     void update()
     {
-        Debug::getInstance().dbg << __FUNCTION__ <<  __LINE__ << "\n";
+        RS232::getInstance().term << __FUNCTION__ <<  __LINE__ << "\n";
     }
 };
 
@@ -198,7 +198,7 @@ public:
     */
     void update()
     {
-        Debug::getInstance().dbg << __FUNCTION__ <<  __LINE__ << "\n";
+        RS232::getInstance().term << __FUNCTION__ <<  __LINE__ << "\n";
     }
 };
 

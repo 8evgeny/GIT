@@ -1,5 +1,5 @@
 #include "os_timers.h"
-#include "../Debug/debug.h"
+#include "rs232.h"
 #include "../UDP_JSON/udp_multicast.h"
 #include "callwaiting.h"
 #include "conferencecall.h"
@@ -20,19 +20,19 @@ osTimerDef (requestTimer, requestTimer_Callback);                           /*!<
 OSTimer::OSTimer()
 {
     if ((button_timerId = osTimerCreate (osTimer(handleRelasedButtonTimer), osTimerPeriodic, nullptr)) == nullptr) {
-        Debug::getInstance().dbg << __FUNCTION__ << " " << __LINE__ << " " << "\n";
+        RS232::getInstance().term << __FUNCTION__ << " " << __LINE__ << " " << "\n";
     }
 
     if ((telephone_timerId = osTimerCreate (osTimer(dialingTimer), osTimerPeriodic, nullptr)) == nullptr) {
-        Debug::getInstance().dbg << __FUNCTION__ << " " << __LINE__ << " " << "\n";
+        RS232::getInstance().term << __FUNCTION__ << " " << __LINE__ << " " << "\n";
     }
 
     if ((autoAnsw_timerId = osTimerCreate (osTimer(autoAnswTimer), osTimerPeriodic, nullptr)) == nullptr) {
-        Debug::getInstance().dbg << __FUNCTION__ << " " << __LINE__ << " " << "\n";
+        RS232::getInstance().term << __FUNCTION__ << " " << __LINE__ << " " << "\n";
     }
 
     if ((request_timerId = osTimerCreate (osTimer(requestTimer), osTimerPeriodic, nullptr)) == nullptr) {
-        Debug::getInstance().dbg << __FUNCTION__ << " " << __LINE__ << " " << "\n";
+        RS232::getInstance().term << __FUNCTION__ << " " << __LINE__ << " " << "\n";
     }
 }
 
@@ -40,7 +40,7 @@ osStatus OSTimer::start(osTimerId id, osStatus& status, const uint16_t timerDela
 {
     status = osTimerStart (id, timerDelay);     // timer starting
     if (status != osOK)  {
-        Debug::getInstance().dbg << __FUNCTION__ << " " << __LINE__ << " " << "\n";
+        RS232::getInstance().term << __FUNCTION__ << " " << __LINE__ << " " << "\n";
     }
     return status;
 }
@@ -50,7 +50,7 @@ osStatus OSTimer::stop(osTimerId id, osStatus& status)
     if (status == osOK) {
         status = osTimerStop (id);            // timer stopping
         if (status != osOK)  {
-            Debug::getInstance().dbg << __FUNCTION__ << " " << __LINE__ << " " << "\n";
+            RS232::getInstance().term << __FUNCTION__ << " " << __LINE__ << " " << "\n";
         }
         status = osErrorOS;
     }

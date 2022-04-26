@@ -2,7 +2,7 @@
 #include <cstring>
 #include <array>
 #include <cstdint>
-#include "../Debug/debug.h"
+#include "rs232.h"
 #include "sai.h"
 #include "ringBack.h"
 
@@ -94,7 +94,7 @@ static void crypInit(uint32_t *key)
     hcryp.Init.Algorithm = CRYP_AES_ECB;
     hcryp.Init.DataWidthUnit = CRYP_DATAWIDTHUNIT_WORD;
     if (HAL_CRYP_Init(&hcryp) != HAL_OK) {
-        Debug::getInstance().dbg << "crypInit -> ERROR\n";
+        RS232::getInstance().term << "crypInit -> ERROR\n";
     }
 }
 
@@ -108,7 +108,7 @@ SAI::SAI()
     hInSai = &audioRxSai;
 
     if ((ringToneTimer_id = osTimerCreate (osTimer(ringToneTimer), osTimerPeriodic, nullptr)) == nullptr) {
-        Debug::getInstance().dbg << __FUNCTION__ << " " << __LINE__ << " " << "\n";
+        RS232::getInstance().term << __FUNCTION__ << " " << __LINE__ << " " << "\n";
     }
 }
 
@@ -169,7 +169,7 @@ void saiInitAudio(void)
     audioTxSai.Init.CompandingMode = SAI_NOCOMPANDING;
     audioTxSai.Init.TriState = SAI_OUTPUT_NOTRELEASED;
     if (HAL_SAI_InitProtocol(&audioTxSai, SAI_I2S_STANDARD, SAI_PROTOCOL_DATASIZE_16BIT, 2) != HAL_OK) {
-        Debug::getInstance().dbg << "HAL_SAI_InitProtocol(&haudioOutSai, SAI_I2S_STANDARD, SAI_PROTOCOL_DATASIZE_16BIT, 2) -> ERROR\n";
+        RS232::getInstance().term << "HAL_SAI_InitProtocol(&haudioOutSai, SAI_I2S_STANDARD, SAI_PROTOCOL_DATASIZE_16BIT, 2) -> ERROR\n";
     }
 
     audioRxSai.Instance = SAI1_Block_B;
@@ -182,7 +182,7 @@ void saiInitAudio(void)
     audioRxSai.Init.CompandingMode = SAI_NOCOMPANDING;
     audioRxSai.Init.TriState = SAI_OUTPUT_NOTRELEASED;
     if (HAL_SAI_InitProtocol(&audioRxSai, SAI_I2S_STANDARD, SAI_PROTOCOL_DATASIZE_16BIT, 2) != HAL_OK) {
-        Debug::getInstance().dbg << "HAL_SAI_InitProtocol(&haudioInSai, SAI_I2S_STANDARD, SAI_PROTOCOL_DATASIZE_16BIT, 2) -> ERROR\n";
+        RS232::getInstance().term << "HAL_SAI_InitProtocol(&haudioInSai, SAI_I2S_STANDARD, SAI_PROTOCOL_DATASIZE_16BIT, 2) -> ERROR\n";
     }
 }
 
@@ -287,7 +287,7 @@ void HAL_SAI_MspInit(SAI_HandleTypeDef *hsai)
         hdmaSaiTx.Init.PeriphBurst = DMA_PBURST_SINGLE;
 
         if (HAL_DMA_Init(&hdmaSaiTx) != HAL_OK) {
-            Debug::getInstance().dbg << "HAL_DMA_Init(&hdmaSaiTx) -> ERROR\n";
+            RS232::getInstance().term << "HAL_DMA_Init(&hdmaSaiTx) -> ERROR\n";
         }
 
         /* Several peripheral DMA handle pointers point to the same DMA handle.
@@ -334,7 +334,7 @@ void HAL_SAI_MspInit(SAI_HandleTypeDef *hsai)
         hdmaSaiRx.Init.PeriphBurst = DMA_PBURST_SINGLE;
 
         if (HAL_DMA_Init(&hdmaSaiRx) != HAL_OK) {
-            Debug::getInstance().dbg << "HAL_DMA_Init(&hdmaSaiRx) -> ERROR\n";
+            RS232::getInstance().term << "HAL_DMA_Init(&hdmaSaiRx) -> ERROR\n";
         }
 
         /* Several peripheral DMA handle pointers point to the same DMA handle.
@@ -347,7 +347,7 @@ void HAL_SAI_MspInit(SAI_HandleTypeDef *hsai)
 void HAL_SAI_MspDeInit(SAI_HandleTypeDef *hsai)
 {
 
-    Debug::getInstance().dbg << __FUNCTION__ <<  " " << __LINE__ << "\n";
+    RS232::getInstance().term << __FUNCTION__ <<  " " << __LINE__ << "\n";
     /* SAI1 */
     if (hsai->Instance == SAI1_Block_A) {
         SAI1_client --;
@@ -448,8 +448,8 @@ void threadAudioInit(void const *arg)
     do {
         sendThreadHalfId = osThreadCreate(osThread(sendHalfRtp), nullptr);
         if (sendThreadHalfId == nullptr) {
-            Debug::getInstance().dbg << __FUNCTION__ << " " << __LINE__ << " " << "\n";
-            Debug::getInstance().dbg << "heap size: " << xPortGetFreeHeapSize()  << "\n";
+            RS232::getInstance().term << __FUNCTION__ << " " << __LINE__ << " " << "\n";
+            RS232::getInstance().term << "heap size: " << xPortGetFreeHeapSize()  << "\n";
             osDelay(TIME_OUT);
         }
     } while (sendThreadHalfId == nullptr);
@@ -457,8 +457,8 @@ void threadAudioInit(void const *arg)
     do {
         sendThreadFullId = osThreadCreate(osThread(sendFullRtp), nullptr);
         if (sendThreadFullId == nullptr) {
-            Debug::getInstance().dbg << __FUNCTION__ << " " << __LINE__ << " " << "\n";
-            Debug::getInstance().dbg << "heap size: " << xPortGetFreeHeapSize()  << "\n";
+            RS232::getInstance().term << __FUNCTION__ << " " << __LINE__ << " " << "\n";
+            RS232::getInstance().term << "heap size: " << xPortGetFreeHeapSize()  << "\n";
             osDelay(TIME_OUT);
         }
     } while (sendThreadFullId == nullptr);
@@ -468,8 +468,8 @@ void threadAudioInit(void const *arg)
     do {
         SAI::getInstance()->threadAudioTxHalfId = osThreadCreate(osThread(audioTxHalfThread), nullptr);
         if (SAI::getInstance()->threadAudioTxHalfId == nullptr) {
-            Debug::getInstance().dbg << __FUNCTION__ << " " << __LINE__ << " " << "\n";
-            Debug::getInstance().dbg << "heap size: " << xPortGetFreeHeapSize()  << "\n";
+            RS232::getInstance().term << __FUNCTION__ << " " << __LINE__ << " " << "\n";
+            RS232::getInstance().term << "heap size: " << xPortGetFreeHeapSize()  << "\n";
             osDelay(TIME_OUT);
         }
     } while (SAI::getInstance()->threadAudioTxHalfId == nullptr);
@@ -477,8 +477,8 @@ void threadAudioInit(void const *arg)
     do {
         SAI::getInstance()->threadAudioTxFullId = osThreadCreate(osThread(audioTxFullThread), nullptr);
         if (SAI::getInstance()->threadAudioTxFullId == nullptr) {
-            Debug::getInstance().dbg << __FUNCTION__ << " " << __LINE__ << " " << "\n";
-            Debug::getInstance().dbg << "heap size: " << xPortGetFreeHeapSize()  << "\n";
+            RS232::getInstance().term << __FUNCTION__ << " " << __LINE__ << " " << "\n";
+            RS232::getInstance().term << "heap size: " << xPortGetFreeHeapSize()  << "\n";
             osDelay(TIME_OUT);
         }
     } while (SAI::getInstance()->threadAudioTxFullId == nullptr);
@@ -486,8 +486,8 @@ void threadAudioInit(void const *arg)
     do {
         sendThreadMixAudioId = osThreadCreate(osThread(handelMixAudio), nullptr);
         if (sendThreadMixAudioId == nullptr) {
-            Debug::getInstance().dbg << __FUNCTION__ << " " << __LINE__ << " " << "\n";
-            Debug::getInstance().dbg << "heap size: " << xPortGetFreeHeapSize()  << "\n";
+            RS232::getInstance().term << __FUNCTION__ << " " << __LINE__ << " " << "\n";
+            RS232::getInstance().term << "heap size: " << xPortGetFreeHeapSize()  << "\n";
             osDelay(TIME_OUT);
         }
     } while (sendThreadMixAudioId == nullptr);
@@ -495,8 +495,8 @@ void threadAudioInit(void const *arg)
     do {
         SAI::getInstance()->threadAudioRxFullId = osThreadCreate(osThread(audioRxFullThread), nullptr);
         if (SAI::getInstance()->threadAudioRxFullId == nullptr) {
-            Debug::getInstance().dbg << __FUNCTION__ << " " << __LINE__ << " " << "\n";
-            Debug::getInstance().dbg << "heap size: " << xPortGetFreeHeapSize()  << "\n";
+            RS232::getInstance().term << __FUNCTION__ << " " << __LINE__ << " " << "\n";
+            RS232::getInstance().term << "heap size: " << xPortGetFreeHeapSize()  << "\n";
             osDelay(TIME_OUT);
         }
     } while (SAI::getInstance()->threadAudioRxFullId == nullptr) ;
@@ -504,8 +504,8 @@ void threadAudioInit(void const *arg)
     do {
         SAI::getInstance()->threadAudioRxHalfId = osThreadCreate(osThread(audioRxHalfThread), nullptr);
         if (SAI::getInstance()->threadAudioRxHalfId == nullptr) {
-            Debug::getInstance().dbg << __FUNCTION__ << " " << __LINE__ << " " << "\n";
-            Debug::getInstance().dbg << "heap size: " << xPortGetFreeHeapSize()  << "\n";
+            RS232::getInstance().term << __FUNCTION__ << " " << __LINE__ << " " << "\n";
+            RS232::getInstance().term << "heap size: " << xPortGetFreeHeapSize()  << "\n";
             osDelay(TIME_OUT);
         }
     } while (SAI::getInstance()->threadAudioRxHalfId == nullptr);
@@ -513,8 +513,8 @@ void threadAudioInit(void const *arg)
     do {
         lostPackThreadId = osThreadCreate(osThread(lostPackThread), nullptr);
         if (lostPackThreadId == nullptr) {
-            Debug::getInstance().dbg << __FUNCTION__ << " " << __LINE__ << " " << "\n";
-            Debug::getInstance().dbg << "heap size: " << xPortGetFreeHeapSize()  << "\n";
+            RS232::getInstance().term << __FUNCTION__ << " " << __LINE__ << " " << "\n";
+            RS232::getInstance().term << "heap size: " << xPortGetFreeHeapSize()  << "\n";
             osDelay(TIME_OUT);
         }
     } while (lostPackThreadId == nullptr);
@@ -677,8 +677,8 @@ ErrorCode rtpCreate(uint32_t port, uint32_t type)
         do {
             recvThreadId = osThreadCreate(osThread(recvThread), reinterpret_cast<void *>(port));
             if (recvThreadId == nullptr) {
-                Debug::getInstance().dbg << __FUNCTION__ << " " << __LINE__ << " " << "\n";
-                Debug::getInstance().dbg << "heap size: " << xPortGetFreeHeapSize()  << "\n";
+                RS232::getInstance().term << __FUNCTION__ << " " << __LINE__ << " " << "\n";
+                RS232::getInstance().term << "heap size: " << xPortGetFreeHeapSize()  << "\n";
                 osDelay(TIME_OUT);
             }
         } while (recvThreadId == nullptr);
@@ -794,7 +794,7 @@ void startRingTone(const RingToneType type)
         HAL_SAI_Transmit_DMA(&audioTxSai, buff, buffSize/2);
 
         if (SAI::getInstance()->ringToneStatus != osOK)  {
-            Debug::getInstance().dbg << __FUNCTION__ << " " << __LINE__ << " " << "\n";
+            RS232::getInstance().term << __FUNCTION__ << " " << __LINE__ << " " << "\n";
         }
     }
 

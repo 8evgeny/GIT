@@ -1,5 +1,5 @@
 #include "sai.h"
-#include "../Debug/debug.h"
+#include "rs232.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -44,7 +44,7 @@ void HAL_CRYP_MspInit(CRYP_HandleTypeDef *hcryp)
 //        hdmaCrypIn.Init.MemBurst = DMA_MBURST_INC16;
 //        hdmaCrypIn.Init.PeriphBurst  = DMA_MBURST_INC16;
         if (HAL_DMA_Init(&hdmaCrypIn) != HAL_OK) {
-            Debug::getInstance().dbg << __FUNCTION__ << " " << __LINE__ << "\n";
+            RS232::getInstance().term << __FUNCTION__ << " " << __LINE__ << "\n";
         }
 
         __HAL_LINKDMA(hcryp, hdmain, hdmaCrypIn);
@@ -65,7 +65,7 @@ void HAL_CRYP_MspInit(CRYP_HandleTypeDef *hcryp)
 //        hdmaCrypOut.Init.MemBurst = DMA_MBURST_INC16;
 //        hdmaCrypOut.Init.PeriphBurst  = DMA_MBURST_INC16;
         if (HAL_DMA_Init(&hdmaCrypOut) != HAL_OK) {
-            Debug::getInstance().dbg << __FUNCTION__ << " " << __LINE__ << "\n";
+            RS232::getInstance().term << __FUNCTION__ << " " << __LINE__ << "\n";
         }
 
         __HAL_LINKDMA(hcryp, hdmaout, hdmaCrypOut);

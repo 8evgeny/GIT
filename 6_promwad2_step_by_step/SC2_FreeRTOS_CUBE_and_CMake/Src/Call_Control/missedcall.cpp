@@ -1,5 +1,6 @@
 #include "missedcall.h"
 #include "../UDP_JSON/udp_multicast.h"
+#include "rs232.h"
 
 osThreadDef(missedCallThread, missedCallThread, osPriorityNormal, 1, configMINIMAL_STACK_SIZE);
 
@@ -8,7 +9,7 @@ MissedCall::MissedCall()
     missedCalls.reserve(32);
 
     if (osThreadCreate(osThread(missedCallThread), nullptr) == nullptr) {
-        Debug::getInstance().dbg << __FUNCTION__ << " " << __LINE__ << " " << "\n";
+        RS232::getInstance().term << __FUNCTION__ << " " << __LINE__ << " " << "\n";
     }
 }
 

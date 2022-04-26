@@ -19,7 +19,7 @@
 
 #include <algorithm>
 #include <cstring>
-#include "../Debug/debug.h"
+#include "rs232.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -187,18 +187,18 @@ void GPIOInit(void)
 //    HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
 
 //    if ((osThreadCreate(osThread(switchLEDsThread), nullptr)) == nullptr) {
-//        Debug::getInstance().dbg << "Failed to create [switchLEDsThread]" << "\n";
+//        RS232::getInstance().term << "Failed to create [switchLEDsThread]" << "\n";
 //    }
 
 //    if ((osThreadCreate(osThread(readButtonThread), nullptr)) == nullptr) {
-//        Debug::getInstance().dbg << "Failed to create [readButtonThread]" << "\n";
+//        RS232::getInstance().term << "Failed to create [readButtonThread]" << "\n";
 //    }
 
 //    timerId7 = osTimerCreate( osTimer(timer7), osTimerPeriodic, nullptr); // create timer thread
 //    if (timerId7) {
 //        osStatus status = osTimerStart (timerId7, timerDelay);   // start timer
 //        if (status != osOK)  {
-//            Debug::getInstance().dbg << "Failed to start [timer]" << "\n";
+//            RS232::getInstance().term << "Failed to start [timer]" << "\n";
 //            while(1);
 //        }
 //    }
@@ -219,7 +219,7 @@ GPIO::GPIO()
     mutexRingBufferRx_id = osMutexCreate(osMutex(mutexRingBufferRx));
     if (mutexRingBufferRx_id == nullptr) {
         while(1)
-            Debug::getInstance().dbg << "Failed to create [mutexRingBufferRx]" << "\n";
+            RS232::getInstance().term << "Failed to create [mutexRingBufferRx]" << "\n";
     }
 
 //    message_q_id = osMessageCreate(osMessageQ(message_q), NULL);

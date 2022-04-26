@@ -32,7 +32,7 @@
     __HAL_FLASH_ART_ENABLE();
 
     while (HAL_FLASHEx_Erase(&EraseInitStruct, &SECTORError) != HAL_OK) {
-        Debug::getInstance().dbg << "Error occurred while sector erase.\n";
+        RS232::getInstance().term << "Error occurred while sector erase.\n";
     }
 
     SCB_CleanInvalidateDCache_by_Addr((uint32_t *)FLASH_SECTOR_7, 256 * 1024);
@@ -61,7 +61,7 @@
 #include <algorithm>
 #include "stm32h7xx_hal.h"
 #include <cstring>
-#include <../Debug/debug.h>
+#include <rs232.h>
 
 #include "stm32h7xx_hal_flash_ex.h"
 
@@ -245,7 +245,7 @@ void Flash::test()
         user can call function 'HAL_FLASH_GetError()'
         */
         /* Infinite loop */
-        Debug::getInstance().dbg << "Error occurred while sector erase.\n";
+        RS232::getInstance().term << "Error occurred while sector erase.\n";
     }
 
     SCB_CleanInvalidateDCache_by_Addr((uint32_t *)FLASH_SECTOR_7, 256 * 1024);

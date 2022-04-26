@@ -1,6 +1,7 @@
 #include "../UDP_JSON/udp_multicast.h"
 #include "callwaiting.h"
 #include <strings.h>
+#include "rs232.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -77,19 +78,19 @@ UdpJsonExch::UdpJsonExch()
     mutexSock_id = osMutexCreate(osMutex(mutexSock));
     if (mutexSock_id == nullptr) {
         while(1)
-            Debug::getInstance().dbg << "Failed to create [mutexSock]" << "\n";
+            RS232::getInstance().term << "Failed to create [mutexSock]" << "\n";
     }
 
 //    mutexSend_sock_id = osMutexCreate(osMutex(mutexS));
 //    if (mutexSend_sock_id == nullptr) {
 //        while(1)
-//            Debug::getInstance().dbg << "Failed to create [mutexSock]" << "\n";
+//            RS232::getInstance().term << "Failed to create [mutexSock]" << "\n";
 //    }
 
     mutexCallControlId = osMutexCreate(osMutex(mutexCallControl));
     if (mutexCallControlId == nullptr) {
         while(1)
-            Debug::getInstance().dbg << __FUNCTION__ << " " << __LINE__ << " " << "\n";
+            RS232::getInstance().term << __FUNCTION__ << " " << __LINE__ << " " << "\n";
     }
 }
 

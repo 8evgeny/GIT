@@ -8,15 +8,15 @@
     uint32_t secondPart = UID::getInstance().getSecondPartOfUid();
     uint32_t thirdPart = UID::getInstance().getThirdPartOfUid();
 
-    Debug::getInstance().dbg << "First part " << firstPart << "\n";
-    Debug::getInstance().dbg << "Second part " << secondPart << "\n";
-    Debug::getInstance().dbg << "Third part " << thirdPart << "\n";
+    RS232::getInstance().term << "First part " << firstPart << "\n";
+    RS232::getInstance().term << "Second part " << secondPart << "\n";
+    RS232::getInstance().term << "Third part " << thirdPart << "\n";
 
  \endcode
 */
 
 #include "uid.h"
-#include "../Debug/debug.h"
+#include "rs232.h"
 
 UID *UID::pInstance = nullptr;
 UIDDestroyer UID::destroyer;
@@ -46,7 +46,7 @@ void UID::test()
     uint32_t secondPart = UID::getInstance().getSecondPartOfUid();
     uint32_t thirdPart = UID::getInstance().getThirdPartOfUid();
 
-    Debug::getInstance().dbg << "First part " << firstPart << "\n";
-    Debug::getInstance().dbg << "Second part " << secondPart << "\n";
-    Debug::getInstance().dbg << "Third part " << thirdPart << "\n";
+    RS232::getInstance().term << "First part " << firstPart << "\n";
+    RS232::getInstance().term << "Second part " << secondPart << "\n";
+    RS232::getInstance().term << "Third part " << thirdPart << "\n";
 }

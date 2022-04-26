@@ -1,5 +1,5 @@
 #include "i2ceeprom.h"
-#include "../Debug/debug.h"
+#include "rs232.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -23,21 +23,21 @@ void I2C1Init(void)
     hi2c1.Init.NoStretchMode = I2C_NOSTRETCH_DISABLE;
     if (HAL_I2C_Init(&hi2c1) != HAL_OK) {
         while(1) {
-            Debug::getInstance().dbg << "I2C1 Init Error!" << "\n";
+            RS232::getInstance().term << "I2C1 Init Error!" << "\n";
         }
     }
     /** Configure Analogue filter
     */
     if (HAL_I2CEx_ConfigAnalogFilter(&hi2c1, I2C_ANALOGFILTER_ENABLE) != HAL_OK) {
         while(1) {
-            Debug::getInstance().dbg << "I2C1 Configure Digital filter Error!" << "\n";
+            RS232::getInstance().term << "I2C1 Configure Digital filter Error!" << "\n";
         }
     }
     /** Configure Digital filter
     */
     if (HAL_I2CEx_ConfigDigitalFilter(&hi2c1, 0) != HAL_OK) {
         while(1) {
-            Debug::getInstance().dbg << "I2C1 Configure Digital filter Error!" << "\n";
+            RS232::getInstance().term << "I2C1 Configure Digital filter Error!" << "\n";
         }
     }
 //    HAL_Delay(10);

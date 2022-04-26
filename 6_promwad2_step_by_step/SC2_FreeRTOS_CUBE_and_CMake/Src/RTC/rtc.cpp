@@ -18,7 +18,7 @@
 */
 #include "rtc.h"
 #include "rtc_set_time.h"
-#include "../Debug/debug.h"
+#include "rs232.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -47,7 +47,7 @@ void RTCInit()
 
     if (HAL_RTC_Init(&hrtc) != HAL_OK) {
         /* Initialization Error */
-        Debug::getInstance().dbg << "RTC Init Error!" << "\n";
+        RS232::getInstance().term << "RTC Init Error!" << "\n";
     }
 }
 
@@ -83,7 +83,7 @@ void sRTC::RTC_CalendarConfig()
 
     if(HAL_RTC_SetDate(rtcHandle, &sDateStruct, RTC_FORMAT_BIN) != HAL_OK) {
         /* Initialization Error */
-        Debug::getInstance().dbg << "RTC Data Set Error!" << "\n";
+        RS232::getInstance().term << "RTC Data Set Error!" << "\n";
     }
 
     /*##-2- Configure the Time #################################################*/
@@ -96,7 +96,7 @@ void sRTC::RTC_CalendarConfig()
 
     if (HAL_RTC_SetTime(rtcHandle, &sTimeStruct, RTC_FORMAT_BIN) != HAL_OK) {
         /* Initialization Error */
-        Debug::getInstance().dbg << "RTC Time Set Error!" << "\n";
+        RS232::getInstance().term << "RTC Time Set Error!" << "\n";
     }
 
     /*##-3- Writes a data in a RTC Backup data Register1 #######################*/
@@ -113,9 +113,9 @@ void sRTC::RTC_CalendarShow()
     /* Get the RTC current Date */
     HAL_RTC_GetDate(rtcHandle, &sDateStructGet, RTC_FORMAT_BIN);
     /* Display time Format : hh:mm:ss */
-    Debug::getInstance().dbg << sTimeStructGet.Hours << " " << sTimeStructGet.Minutes << " " << sTimeStructGet.Seconds << " " << "\n";
+    RS232::getInstance().term << sTimeStructGet.Hours << " " << sTimeStructGet.Minutes << " " << sTimeStructGet.Seconds << " " << "\n";
     /* Display date Format : mm-dd-yy */
-    Debug::getInstance().dbg << sDateStructGet.Date << " " << sDateStructGet.Month << " " << 2000 + sDateStructGet.Year << " " << "\n";
+    RS232::getInstance().term << sDateStructGet.Date << " " << sDateStructGet.Month << " " << 2000 + sDateStructGet.Year << " " << "\n";
 }
 
 void sRTC::test(void)
@@ -159,7 +159,7 @@ void HAL_RTC_MspInit(RTC_HandleTypeDef *hrtc)
 
     if(HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK) {
         /* Initialization Error */
-        Debug::getInstance().dbg << "LSE Init Error!" << "\n";
+        RS232::getInstance().term << "LSE Init Error!" << "\n";
     }
 
     PeriphClkInitStruct.PeriphClockSelection = RCC_PERIPHCLK_RTC;
@@ -167,7 +167,7 @@ void HAL_RTC_MspInit(RTC_HandleTypeDef *hrtc)
 
     if(HAL_RCCEx_PeriphCLKConfig(&PeriphClkInitStruct) != HAL_OK) {
         /* Initialization Error */
-        Debug::getInstance().dbg << "RTC/LSE clock Init Error!" << "\n";
+        RS232::getInstance().term << "RTC/LSE clock Init Error!" << "\n";
     }
 
     /*##-3- Enable RTC peripheral Clocks #######################################*/

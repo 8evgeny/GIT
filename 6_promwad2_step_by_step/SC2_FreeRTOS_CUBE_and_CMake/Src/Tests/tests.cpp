@@ -48,14 +48,14 @@ void Tests::uidTest()
 
 void DebugTest::rs232Test(Tests *m)
 {
-    Debug::getInstance().dbg << __FUNCTION__ <<  __LINE__ << "\n";
+    RS232::getInstance().term << __FUNCTION__ <<  __LINE__ << "\n";
     m->setCurrent(new RS232Test);
     delete this;
 }
 
 void RS232Test::fatFsTest(Tests *m)
 {
-    Debug::getInstance().dbg << "RS232 test \n";
+    RS232::getInstance().term << "RS232 test \n";
     m->setCurrent(new FatFsTest);
     delete this;
 }
@@ -63,7 +63,7 @@ void RS232Test::fatFsTest(Tests *m)
 void FatFsTest::littleFsTest(Tests *m)
 {
 
-    Debug::getInstance().dbg << __FUNCTION__ <<  __LINE__ << "\n";
+    RS232::getInstance().term << __FUNCTION__ <<  __LINE__ << "\n";
     m->setCurrent(new LittleFsTest);
     delete this;
 }
@@ -72,7 +72,7 @@ void LittleFsTest::uidTest(Tests *m)
 {
 
 
-//   Debug::getInstance().dbg << __FUNCTION__ <<  __LINE__ << "\n";
+//   RS232::getInstance().term << __FUNCTION__ <<  __LINE__ << "\n";
 //   FsForEeprom::getInstance().test();
 //   m->setCurrent(new UidTest);
 
@@ -81,7 +81,7 @@ void LittleFsTest::uidTest(Tests *m)
 
 void UidTest::trngTest(Tests *m)
 {
-    Debug::getInstance().dbg << __FUNCTION__ <<  __LINE__ << "\n";
+    RS232::getInstance().term << __FUNCTION__ <<  __LINE__ << "\n";
     UID::getInstance().test();
     m->setCurrent(new Trng);
     delete this;
@@ -89,7 +89,7 @@ void UidTest::trngTest(Tests *m)
 
 void Trng::testsCompleted(Tests *m)
 {
-    Debug::getInstance().dbg << __FUNCTION__ <<  __LINE__ << "\n";
+    RS232::getInstance().term << __FUNCTION__ <<  __LINE__ << "\n";
     TRNG::getInstance().test();
     delete this;
 }

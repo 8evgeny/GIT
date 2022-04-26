@@ -1,6 +1,6 @@
 
 #include "json.h"
-
+#include "rs232.h"
 
 Json::Json()
 {
@@ -21,8 +21,8 @@ bool Json::deserialize(JsonDocument &doc, void *jsonBuff, size_t size)
     auto error = deserializeJson(doc, reinterpret_cast<const char *>(jsonBuff), size);
     if (error) {
         deserializeJsonFlag = JsonFlags::ERR;
-        Debug::getInstance().dbg << "deserialize UDP_Json() failed with code ";
-        Debug::getInstance().dbg << error.c_str() << "\n";
+        RS232::getInstance().term << "deserialize UDP_Json() failed with code ";
+        RS232::getInstance().term << error.c_str() << "\n";
         return false;
     } else {
         deserializeJsonFlag = JsonFlags::OK;
@@ -44,7 +44,7 @@ inline void Json::read()
         /*memory allocating*/
         tempBuff = new char [fileSize];
         if(tempBuff == nullptr) {
-            Debug::getInstance().dbg << "not enough space" << fileSize << "\n";
+            RS232::getInstance().term << "not enough space" << fileSize << "\n";
         }
 
         /*filling of tempBuff*/

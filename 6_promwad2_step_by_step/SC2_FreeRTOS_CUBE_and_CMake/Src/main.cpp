@@ -180,7 +180,7 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-      Debug::getInstance().dbg << __FUNCTION__ << " " << __LINE__ << " " << "\n";
+      RS232::getInstance().term << __FUNCTION__ << " " << __LINE__ << " " << "\n";
   }
   /* USER CODE END 3 */
 }
@@ -200,7 +200,7 @@ static void trackRingBufferThread(void const *arg)
                 UdpJsonExch::getInstance()->callControl->button(GPIO::getInstance()->packageRx);
                 osMutexRelease(UdpJsonExch::getInstance()->mutexCallControlId);
             } else {
-                Debug::getInstance().dbg << "Button [" << GPIO::getInstance()->packageRx.payloadData << "] was pressed" << "\n";
+                RS232::getInstance().term << "Button [" << GPIO::getInstance()->packageRx.payloadData << "] was pressed" << "\n";
                 GPIO::getInstance()->configLed(GPIO::getInstance()->packageRx.payloadData, true, 250, 250);
             }
         } else osMutexRelease(GPIO::getInstance()->mutexRingBufferRx_id);
@@ -559,7 +559,7 @@ static void MX_UART7_Init(void)
 //  huart7.AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_NO_INIT;
 //  if (HAL_UART_Init(&huart7) != HAL_OK) {
 //      while (1) {
-//          Debug::getInstance().dbg << "UART Init Error!" << "\n";
+//          RS232::getInstance().term << "UART Init Error!" << "\n";
 //      }
 //  }
 ////  if (HAL_UARTEx_SetTxFifoThreshold(&huart7, UART_TXFIFO_THRESHOLD_1_2) != HAL_OK)

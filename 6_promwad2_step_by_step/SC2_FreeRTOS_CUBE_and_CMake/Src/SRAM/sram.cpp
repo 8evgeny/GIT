@@ -1,4 +1,4 @@
-
+#include "rs232.h"
 #include "sram.h"
 #include <stdlib.h>
 
@@ -49,7 +49,7 @@ void SRAMInit(void)
 
 //    if (HAL_SRAM_Init(&hsram1, &Timing, NULL) != HAL_OK) {
 //        while (1) {
-//            Debug::getInstance().dbg << "SRAM Init Error!" << "\n";
+//            RS232::getInstance().term << "SRAM Init Error!" << "\n";
 //        }
 //    }
 
@@ -84,7 +84,7 @@ static void DMAInit(void)
 
 //    if (HAL_DMA_Init(&hdma_memtomem_dma2_stream0) != HAL_OK) {
 //        while (1) {
-//            Debug::getInstance().dbg << "SRAM DMA Init Error!" << "\n";
+//            RS232::getInstance().term << "SRAM DMA Init Error!" << "\n";
 //        }
 //    }
 

@@ -4,7 +4,7 @@
  \authors Shulenkov R.A.
 */
 #include "trng.h"
-#include "../Debug/debug.h"
+#include "rs232.h"
 
 TRNG *TRNG::pInstance = nullptr;
 TRNGDestroyer TRNG::destroyer;
@@ -42,7 +42,7 @@ void rngInit(void)
     if (HAL_RNG_DeInit(&RngHandle) != HAL_OK) {
         /* DeInitialization Error */
         while (1) {
-            Debug::getInstance().dbg << "DeInitialization Error\n";
+            RS232::getInstance().term << "DeInitialization Error\n";
         }
     }
 
@@ -50,7 +50,7 @@ void rngInit(void)
     if (HAL_RNG_Init(&RngHandle) != HAL_OK) {
         /* Initialization Error */
         while (1) {
-            Debug::getInstance().dbg << "Initialization Error\n";
+            RS232::getInstance().term << "Initialization Error\n";
         }
     }
 }
@@ -63,7 +63,7 @@ uint32_t TRNG::random()
 {
     uint32_t randomNum = 0;
     while (HAL_RNG_GenerateRandomNumber(handle, &randomNum) != HAL_OK) {
-        Debug::getInstance().dbg << "Generate random number Error\n";
+        RS232::getInstance().term << "Generate random number Error\n";
     }
     return randomNum;
 }
@@ -75,8 +75,8 @@ TRNG::TRNG()
 
 void TRNG::test()
 {
-    Debug::getInstance().dbg << random() <<" - 1\n";
-    Debug::getInstance().dbg << random() <<" - 2\n";
-    Debug::getInstance().dbg << random() <<" - 3\n";
-    Debug::getInstance().dbg << random() <<" - 4\n";
+    RS232::getInstance().term << random() <<" - 1\n";
+    RS232::getInstance().term << random() <<" - 2\n";
+    RS232::getInstance().term << random() <<" - 3\n";
+    RS232::getInstance().term << random() <<" - 4\n";
 }
