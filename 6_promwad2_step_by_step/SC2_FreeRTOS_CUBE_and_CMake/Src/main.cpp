@@ -122,6 +122,9 @@ int main(void)
 
     term("XXXXXXXXXX\n")
 
+    //Debug пока не работает
+    Debug::getInstance().dbg<<"ee";
+
   /* Start scheduler */
   osKernelStart();
 
