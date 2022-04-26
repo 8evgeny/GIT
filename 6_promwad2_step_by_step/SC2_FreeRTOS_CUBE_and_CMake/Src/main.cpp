@@ -162,28 +162,26 @@ int main(void)
   defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
 
     //Тестовые потоки
-//    testLed1();
+    testLed1();
 //    testLed2();
     testLed3();
     testUART();
 
     term("XXXXXXXXXX\n")
 
-    //Debug пока не работает
-    Debug::getInstance().dbg<<"ee";
+    //Debug пока не работает - выпилил везде из кода
+    Debug::getInstance().dbg << "ee";
 
   /* Start scheduler */
   osKernelStart();
 
   /* We should never get here as control is now taken by the scheduler */
-  /* Infinite loop */
-  /* USER CODE BEGIN WHILE */
   while (1)
   {
       RS232::getInstance().term << __FUNCTION__ << " " << __LINE__ << " " << "\n";
   }
-  /* USER CODE END 3 */
-}
+
+} //main
 
 [[ noreturn ]]
 static void trackRingBufferThread(void const *arg)
