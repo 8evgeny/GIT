@@ -210,6 +210,9 @@ void timerCallback(void const *arg);
  \param arg not used
 */
 [[ noreturn ]] void switchLEDsThread(void const *arg);
+
+[[ noreturn ]] void switchLEDsThreadTest(void const *arg);
+
 /*!
  \brief The OS thread function that reads button click data from the keyboard
 
@@ -217,6 +220,8 @@ void timerCallback(void const *arg);
  \param arg not used
 */
 [[ noreturn ]] void readButtonThread(void const *arg);
+
+
 
 #ifdef __cplusplus
 }

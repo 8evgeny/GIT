@@ -375,6 +375,20 @@ void switchLEDsThread(void const *arg)
     }
 }
 
+[[ noreturn ]]
+void switchLEDsThreadTest(void const *arg)
+{
+    (void)arg;
+    while(true)
+    {
+       term("switchLEDsThreadTest\n")
+        osDelay(2000);
+    }
+}
+
+
+
+
 
 [[ noreturn ]]
 void readButtonThread(void const *arg)
@@ -392,9 +406,11 @@ void readButtonThread(void const *arg)
 
             if (HAL_GPIO_ReadPin(GPIOG, GPIO::getInstance()->sPinArray[i].n) == GPIO_PIN_SET)
             {
-                term("Pressed button: ")
-                term(std::to_string(i + 1))
-                term("\n")
+
+    term("Pressed button: ")
+    term(std::to_string(i + 1))
+    term("\n")
+
                 osDelay(50);
                 if (HAL_GPIO_ReadPin(GPIOG, GPIO::getInstance()->sPinArray[i].n)  == GPIO_PIN_SET)
                 {
@@ -439,23 +455,12 @@ extern "C" {
   */
     void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
     {
-    #if 00
-        if (GPIO_Pin == GPIO_PIN_11) {
-            HAL_GPIO_WritePin(GPIOG, GPIO_PIN_13, GPIO_PIN_SET);
-            GPIO::getInstance()->testFlag = true;
-            osSignalSet(GPIO::getInstance()->createTestTaskThreadId, 0x03);
-        }
-    #endif
-
-    //новый код
         if (GPIO_Pin == GPIO_PIN_5)
         {
             HAL_GPIO_WritePin(GPIOB, GPIO_PIN_9, GPIO_PIN_SET);
             GPIO::getInstance()->testFlag = true;
             osSignalSet(GPIO::getInstance()->createTestTaskThreadId, 0x03);
         }
-
-    //конец нового кода
 
     //    else if (GPIO_Pin == GPIO_PIN_14) {
     //        if (GPIO::getInstance()->dacDriverGainValue < 29)
