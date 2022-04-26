@@ -1,12 +1,10 @@
 #include "main.h"
-#include "cmsis_os.h"
 #include "lwip.h"
 #include "rs232.h"
-#include "../Debug/debug_printf.h"
 #include "debug.h"
-
+#include "wdt.h"
+#include "sai.h"
 #include "gpio_sc2_board.h"
-
 #include "testTasks.h"
 #include "fsforeeprom.h"
 #include "json.h"
@@ -70,7 +68,7 @@ osThreadDef(simpleLedTest3_RTOS, simpleLedTest3_RTOS, osPriorityHigh, 0, configM
 osThreadDef(simpletestUART_RTOS, simpletestUART_RTOS, osPriorityHigh, 0, configMINIMAL_STACK_SIZE );
 osThreadDef(trackRingBufferThread, trackRingBufferThread, osPriorityHigh, 0, configMINIMAL_STACK_SIZE * 20);
 osThreadDef(readFromUartThread, readFromUartThread, osPriorityHigh, 0, configMINIMAL_STACK_SIZE * 10);
-//osThreadDef(StartWdtThread, StartWdtThread, osPriorityRealtime, 0, configMINIMAL_STACK_SIZE * 1);
+osThreadDef(StartWdtThread, StartWdtThread, osPriorityRealtime, 0, configMINIMAL_STACK_SIZE * 1);
 osThreadDef(recvUdpThread, recvUdpThread, osPriorityHigh, 0, configMINIMAL_STACK_SIZE * 20);
 osThreadDef(audioInitThread, threadAudioInit, osPriorityHigh, 0, configMINIMAL_STACK_SIZE * 10);
 
