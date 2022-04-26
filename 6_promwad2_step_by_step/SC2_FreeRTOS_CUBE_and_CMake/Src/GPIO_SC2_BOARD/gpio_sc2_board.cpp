@@ -231,21 +231,21 @@ term("Ctor\n")
     }
 
 //    message_q_id = osMessageCreate(osMessageQ(message_q), NULL);
-    for (uint8_t var = 6, j = 0; var < 13; ++var, ++j) {
 
-        if (var == 9) {
-            --j;
-            continue;
-        }
+//    Для старых пинов
+//    for (uint8_t var = 6, j = 0; var < 13; ++var, ++j)
+//    {
+//        if (var == 9) {
+//            --j;
+//            continue;
+//        }
+//        sPinArray[j].i = j + 1;
+//        sPinArray[j].n = aPin[var];
+//    }
+    for (uint8_t var = 9, j = 0; var < 15; ++var, ++j)
+    {
         sPinArray[j].i = j + 1;
-//term("sPinArray.i=")
-//term(j + 1)
-//term("\n")
         sPinArray[j].n = aPin[var];
-//term("sPinArray.n=")
-        auto x = aPin[var];
-//term(x)
-//term("\n")
     }
 
     uint16_t temp = sPinArray.at(0).n;
