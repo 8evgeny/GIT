@@ -105,6 +105,14 @@ void vApplicationMallocFailedHook(void)
 }
 #endif
 
+[[ noreturn ]]
+static void empty(void const *arg)
+{
+    (void)arg;
+    while (1) {
+        osDelay(10);
+    }
+}
 
 int main(void)
 {
@@ -176,6 +184,32 @@ int main(void)
   }
   /* USER CODE END 3 */
 }
+
+[[ noreturn ]]
+static void trackRingBufferThread(void const *arg)
+{
+    (void)arg;
+    while(true) {
+        osMutexWait(GPIO::getInstance()->mutexRingBufferRx_id, osWaitForever);
+        if (GPIO::getInstance()->ringBufferRx.size() != 0) {
+
+            GPIO::getInstance()->packageRx = GPIO::getInstance()->ringBufferRx.shift();
+            osMutexRelease(GPIO::getInstance()->mutexRingBufferRx_id);
+            if (!GPIO::getInstance()->testFlag) {
+                osMutexWait(UdpJsonExch::getInstance()->mutexCallControlId, osWaitForever);
+                UdpJsonExch::getInstance()->callControl->button(GPIO::getInstance()->packageRx);
+                osMutexRelease(UdpJsonExch::getInstance()->mutexCallControlId);
+            } else {
+                Debug::getInstance().dbg << "Button [" << GPIO::getInstance()->packageRx.payloadData << "] was pressed" << "\n";
+                GPIO::getInstance()->configLed(GPIO::getInstance()->packageRx.payloadData, true, 250, 250);
+            }
+        } else osMutexRelease(GPIO::getInstance()->mutexRingBufferRx_id);
+
+        osDelay(50);
+    }
+}
+
+
 
 
 #ifdef __cplusplus
