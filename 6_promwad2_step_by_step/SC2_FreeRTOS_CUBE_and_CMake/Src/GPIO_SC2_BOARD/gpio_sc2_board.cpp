@@ -31,7 +31,7 @@ osTimerDef(timer7, timerCallback); /*!< Define the attributes of the timer */
 //osMessageQDef(message_q, 1, uint16_t); // Declare a message queue
 osMutexDef (mutexRingBufferRx);
 
-extern osSemaphoreId Netif_LinkSemaphore;
+osSemaphoreId Netif_LinkSemaphore;
 static osTimerId timerId7; /*!< The thread ID of the timer */
 constexpr static uint8_t timerDelay = 50;
 

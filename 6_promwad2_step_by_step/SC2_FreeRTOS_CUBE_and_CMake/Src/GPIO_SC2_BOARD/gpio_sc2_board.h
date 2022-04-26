@@ -182,6 +182,7 @@ public:
 
 };
 
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -191,6 +192,8 @@ extern "C" {
 
  \fn GPIOInit
 */
+
+
 void GPIOInit(void);
 /*!
  \brief The callback function for the timer

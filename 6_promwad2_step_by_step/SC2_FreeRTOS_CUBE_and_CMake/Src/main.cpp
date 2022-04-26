@@ -70,6 +70,9 @@ osThreadDef(StartWdtThread, StartWdtThread, osPriorityRealtime, 0, configMINIMAL
 osThreadDef(recvUdpThread, recvUdpThread, osPriorityHigh, 0, configMINIMAL_STACK_SIZE * 20);
 osThreadDef(audioInitThread, threadAudioInit, osPriorityHigh, 0, configMINIMAL_STACK_SIZE * 10);
 
+osThreadDef(switchLEDsThread, switchLEDsThread, osPriorityHigh, 0, configMINIMAL_STACK_SIZE * 2);
+osThreadDef(readButtonThread, readButtonThread, osPriorityHigh, 0, configMINIMAL_STACK_SIZE * 5);
+
 void vApplicationStackOverflowHook(TaskHandle_t xTask, char *pcTaskName)
 {
     /* Run time stack overflow checking is performed if
@@ -732,6 +735,18 @@ static void MX_GPIO_Init(void)
     GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
     GPIO_InitStruct.Pull = GPIO_PULLUP;
     HAL_GPIO_Init(TEST_BUT_GPIO_Port, &GPIO_InitStruct);
+
+
+    if ((osThreadCreate(osThread(switchLEDsThread), nullptr)) == nullptr)
+    {
+        RS232::getInstance().term << "Failed to create [switchLEDsThread]" << "\n";
+    }
+
+    if ((osThreadCreate(osThread(readButtonThread), nullptr)) == nullptr)
+    {
+        RS232::getInstance().term << "Failed to create [readButtonThread]" << "\n";
+    }
+
 
 }
 
