@@ -405,8 +405,8 @@ void readButtonThread(void const *arg)
 
             if (HAL_GPIO_ReadPin(GPIOG, GPIO::getInstance()->sPinArray[i].n) == GPIO_PIN_SET)
             {
-//term(std::to_string(i))
-//term("\n")
+term(std::to_string(i))
+term("\n")
                 osDelay(50);
                 if (HAL_GPIO_ReadPin(GPIOG, GPIO::getInstance()->sPinArray[i].n)  == GPIO_PIN_SET)
                 {
