@@ -434,8 +434,8 @@ void readButtonThread(void const *arg)
 
 void GPIO::initLEDs()
 {
-    for (uint8_t i = 0, j = 4; i < 6; i++, j++) {
-        if (i == 3) j++;
+    for (uint8_t i = 0, j = 6; i < 6; i++, j++) {
+        if (i == 3) j+=2;
         aLeds[i].ledPin = aPin[j];
     }
 }
