@@ -27,48 +27,10 @@ extern "C" {
 #include "stm32h7xx_hal.h"
 #include "cmsis_os.h"
 
-
-
-I2C_HandleTypeDef hi2c1;
-I2C_HandleTypeDef hi2c2;
-I2C_HandleTypeDef hi2c3;
-DMA_HandleTypeDef hdma_i2c2_rx;
-DMA_HandleTypeDef hdma_i2c2_tx;
-
-RNG_HandleTypeDef hrng;
-
-SAI_HandleTypeDef hsai_BlockA1;
-SAI_HandleTypeDef hsai_BlockB1;
-DMA_HandleTypeDef hdma_sai1_a;
-DMA_HandleTypeDef hdma_sai1_b;
-
-TIM_HandleTypeDef htim3;
-
-UART_HandleTypeDef huart7;
-
-SRAM_HandleTypeDef hsram1;
-
-osThreadId defaultTaskHandle;
-
-osThreadDef(simpleLedTest1_RTOS, simpleLedTest1_RTOS, osPriorityHigh, 0, configMINIMAL_STACK_SIZE );
-osThreadDef(simpleLedTest2_RTOS, simpleLedTest2_RTOS, osPriorityHigh, 0, configMINIMAL_STACK_SIZE );
-osThreadDef(simpleLedTest3_RTOS, simpleLedTest3_RTOS, osPriorityHigh, 0, configMINIMAL_STACK_SIZE );
-osThreadDef(simpletestUART_RTOS, simpletestUART_RTOS, osPriorityHigh, 0, configMINIMAL_STACK_SIZE );
-
-//Код пока закомментирован
-//osThreadDef(readFromUartThread, readFromUartThread, osPriorityHigh, 0, configMINIMAL_STACK_SIZE * 10);
-
-
-
-//osThreadDef(StartWdtThread, StartWdtThread, osPriorityRealtime, 0, configMINIMAL_STACK_SIZE * 1);
-//osThreadDef(recvUdpThread, recvUdpThread, osPriorityHigh, 0, configMINIMAL_STACK_SIZE * 20);
-
-//osThreadDef(audioInitThread, threadAudioInit, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 10);
-
-/* USER CODE BEGIN PV */
-
-/* USER CODE END PV */
-
+[[ noreturn ]] static void trackRingBufferThread(void const *arg);
+//[[ noreturn ]] static void readPackageTypeThread(void const *arg);
+//[[ noreturn ]] static void createTestTaskThread(void const *arg);
+//[[ noreturn ]] static void testThread(void const *arg);
 void SystemClock_Config(void);
 void PeriphCommonClock_Config(void);
 static void MPU_Config(void);
@@ -83,6 +45,35 @@ static void MX_TIM3_Init(void);
 static void MX_DMA_Init(void);
 static void MX_RNG_Init(void);
 void StartDefaultTask(void const * argument);
+
+
+
+I2C_HandleTypeDef hi2c1;
+I2C_HandleTypeDef hi2c2;
+I2C_HandleTypeDef hi2c3;
+DMA_HandleTypeDef hdma_i2c2_rx;
+DMA_HandleTypeDef hdma_i2c2_tx;
+RNG_HandleTypeDef hrng;
+SAI_HandleTypeDef hsai_BlockA1;
+SAI_HandleTypeDef hsai_BlockB1;
+DMA_HandleTypeDef hdma_sai1_a;
+DMA_HandleTypeDef hdma_sai1_b;
+TIM_HandleTypeDef htim3;
+UART_HandleTypeDef huart7;
+SRAM_HandleTypeDef hsram1;
+
+
+osThreadId defaultTaskHandle;
+osThreadDef(simpleLedTest1_RTOS, simpleLedTest1_RTOS, osPriorityHigh, 0, configMINIMAL_STACK_SIZE );
+osThreadDef(simpleLedTest2_RTOS, simpleLedTest2_RTOS, osPriorityHigh, 0, configMINIMAL_STACK_SIZE );
+osThreadDef(simpleLedTest3_RTOS, simpleLedTest3_RTOS, osPriorityHigh, 0, configMINIMAL_STACK_SIZE );
+osThreadDef(simpletestUART_RTOS, simpletestUART_RTOS, osPriorityHigh, 0, configMINIMAL_STACK_SIZE );
+osThreadDef(trackRingBufferThread, trackRingBufferThread, osPriorityHigh, 0, configMINIMAL_STACK_SIZE * 20);
+osThreadDef(readFromUartThread, readFromUartThread, osPriorityHigh, 0, configMINIMAL_STACK_SIZE * 10);
+//osThreadDef(StartWdtThread, StartWdtThread, osPriorityRealtime, 0, configMINIMAL_STACK_SIZE * 1);
+osThreadDef(recvUdpThread, recvUdpThread, osPriorityHigh, 0, configMINIMAL_STACK_SIZE * 20);
+osThreadDef(audioInitThread, threadAudioInit, osPriorityHigh, 0, configMINIMAL_STACK_SIZE * 10);
+
 
 
 int main(void)
