@@ -5,11 +5,23 @@
 #include "../Debug/debug_printf.h"
 #include "debug.h"
 
+#include "gpio_sc2_board.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif
 
 #include "testTasks.h"
+#include "fsforeeprom.h"
+
+//#include "json.h"
+//#include "udp_multicast.h"
+
+#include "flash/flash.h"
+#include "net_sockets.h"
+
+
+
 
 I2C_HandleTypeDef hi2c1;
 I2C_HandleTypeDef hi2c2;
