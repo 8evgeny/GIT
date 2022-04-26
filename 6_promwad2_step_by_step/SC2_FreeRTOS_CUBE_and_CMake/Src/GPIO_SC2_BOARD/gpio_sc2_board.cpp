@@ -406,12 +406,14 @@ void readButtonThread(void const *arg)
 
             if (HAL_GPIO_ReadPin(GPIOG, GPIO::getInstance()->sPinArray[i].n) == GPIO_PIN_SET)
             {
-     HAL_GPIO_WritePin(GPIOG, GPIO::getInstance()->aLeds[i].ledPin, GPIO_PIN_SET);
+                if (i < 3 )  HAL_GPIO_WritePin(GPIOG, GPIO::getInstance()->aLeds[i].ledPin, GPIO_PIN_SET);
+                if ((i == 5 ) || (i == 4 )) HAL_GPIO_WritePin(GPIOC, GPIO::getInstance()->aLeds[i - 1].ledPin, GPIO_PIN_SET);
+//                if (i == 3 ) HAL_GPIO_WritePin(GPIOC, GPIO::getInstance()->aLeds[2].ledPin, GPIO_PIN_SET); //ХЗ не работает
+                if (i == 3 ) HAL_GPIO_WritePin(GPIOC, L1_Pin, GPIO_PIN_SET);
 
-
-    term("Pressed button: ")
-    term(std::to_string(i + 1))
-    term("\n")
+                term("Pressed button: ")
+                term(std::to_string(i + 1))
+                term("\n")
 
                 osDelay(50);
                 if (HAL_GPIO_ReadPin(GPIOG, GPIO::getInstance()->sPinArray[i].n)  == GPIO_PIN_SET)
@@ -428,7 +430,11 @@ void readButtonThread(void const *arg)
             }
             else
             {
-                HAL_GPIO_WritePin(GPIOG, GPIO::getInstance()->aLeds[i].ledPin, GPIO_PIN_RESET);
+                if (i < 3 ) HAL_GPIO_WritePin(GPIOG, GPIO::getInstance()->aLeds[i].ledPin, GPIO_PIN_RESET);
+                if ((i == 5 ) || (i == 4 )) HAL_GPIO_WritePin(GPIOC, GPIO::getInstance()->aLeds[i - 1].ledPin, GPIO_PIN_RESET);
+//                if (i == 3 ) HAL_GPIO_WritePin(GPIOC, GPIO::getInstance()->aLeds[2].ledPin, GPIO_PIN_RESET); //ХЗ не работает
+                if (i == 3 ) HAL_GPIO_WritePin(GPIOC, L1_Pin, GPIO_PIN_RESET);
+
             }
 
         }

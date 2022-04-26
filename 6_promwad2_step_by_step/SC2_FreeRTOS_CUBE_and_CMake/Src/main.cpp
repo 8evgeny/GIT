@@ -165,10 +165,10 @@ int main(void)
     defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
 
     //Тестовые потоки
-//    testLed1();
-//    testLed2();
+    testLed1();
+    testLed2();
 //    testLed3();
-//    testUART();
+    testUART();
 
     //Debug пока не работает - выпилил везде из кода
     Debug::getInstance().dbg << "ee";

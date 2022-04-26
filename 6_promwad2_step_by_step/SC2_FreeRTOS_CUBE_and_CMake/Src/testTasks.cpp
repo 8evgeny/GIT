@@ -38,8 +38,8 @@ void simpleLedTest1_RTOS(void const *argument)
     (void)argument;
     bool reset = true;
     uint32_t tickstart = HAL_GetTick();
-    uint32_t timeSet = 5;
-    uint32_t timeReset = 700;
+    uint32_t timeSet = 1;
+    uint32_t timeReset = 3000;
     for(;;)
     {
         if(reset)
@@ -68,8 +68,8 @@ void simpleLedTest2_RTOS(void const *argument)
     (void)argument;
     bool reset = true;
     uint32_t tickstart = HAL_GetTick();
-    uint32_t timeSet = 5;
-    uint32_t timeReset = 500;
+    uint32_t timeSet = 1;
+    uint32_t timeReset = 3000;
     for(;;)
     {
         if(reset)
@@ -99,7 +99,7 @@ void simpleLedTest3_RTOS(void const *argument)
     bool reset = true;
     uint32_t tickstart = HAL_GetTick();
     uint32_t timeSet = 1;
-    uint32_t timeReset = 1000;
+    uint32_t timeReset = 3000;
     for(;;)
     {
         if(reset)
@@ -128,8 +128,8 @@ void simpletestUART_RTOS(void const *argument)
     (void)argument;
     bool reset = true;
     uint32_t tickstart = HAL_GetTick();
-    uint32_t timeSet = 3000;
-    uint32_t timeReset = 3000;
+    uint32_t timeSet = 1700;
+    uint32_t timeReset = 1700;
     for(;;)
     {
 
