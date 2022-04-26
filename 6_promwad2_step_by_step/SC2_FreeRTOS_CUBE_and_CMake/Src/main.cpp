@@ -124,42 +124,35 @@ int main(void)
 //    SCB_EnableICache();
 //    SCB_EnableDCache();
 
-  HAL_Init();
-
-  SystemClock_Config();
+    HAL_Init();
+    SystemClock_Config();
 
 /* Configure the peripherals common clocks */
-  PeriphCommonClock_Config();
+    PeriphCommonClock_Config();
 
-  /* Initialize all configured peripherals */
-  MX_GPIO_Init(); // Запускаются 3 тестовых процесса
-  MX_FMC_Init();
-  MX_I2C1_Init();
-  MX_I2C2_Init();
-  MX_I2C3_Init();
-  MX_SAI1_Init();
-//  MX_UART7_Init(); //Вынесен в RS232
-
-  debugInit();
-  RS232Init();
-
-  MX_TIM3_Init();
-  MX_DMA_Init();
-  MX_RNG_Init();
+    /* Initialize all configured peripherals */
+    MX_GPIO_Init(); // Запускаются 3 тестовых процесса
+    MX_FMC_Init();
+    MX_I2C1_Init();
+    MX_I2C2_Init();
+    MX_I2C3_Init();
+    MX_SAI1_Init();
+//    MX_UART7_Init(); //Вынесен в RS232
+    debugInit();
+    RS232Init();
+    MX_TIM3_Init();
+//    MX_DMA_Init(); //Вынесен в RS232
+    MX_RNG_Init();
 
 
+  if ((RS232::getInstance().readFromUartThreadId = osThreadCreate(osThread(readFromUartThread), nullptr)) == nullptr)
+  {
+      RS232::getInstance().term << " " << __LINE__ << " " << "\n";
+  }
 
 
-
-
-//  if ((RS232::getInstance().readFromUartThreadId = osThreadCreate(osThread(readFromUartThread), nullptr)) == nullptr)
-//  {
-
-//  }
-
-
-  osThreadDef(defaultTask, StartDefaultTask, osPriorityNormal, 0, 128);
-  defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
+    osThreadDef(defaultTask, StartDefaultTask, osPriorityNormal, 0, 128);
+    defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
 
     //Тестовые потоки
     testLed1();
@@ -172,14 +165,14 @@ int main(void)
     //Debug пока не работает - выпилил везде из кода
     Debug::getInstance().dbg << "ee";
 
-  /* Start scheduler */
-  osKernelStart();
+    /* Start scheduler */
+    osKernelStart();
 
-  /* We should never get here as control is now taken by the scheduler */
-  while (1)
-  {
-      RS232::getInstance().term << __FUNCTION__ << " " << __LINE__ << " " << "\n";
-  }
+    /* We should never get here as control is now taken by the scheduler */
+    while (1)
+    {
+        RS232::getInstance().term << __FUNCTION__ << " " << __LINE__ << " " << "\n";
+    }
 
 } //main
 
