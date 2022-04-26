@@ -406,18 +406,17 @@ void readButtonThread(void const *arg)
 
             if (HAL_GPIO_ReadPin(GPIOG, GPIO::getInstance()->sPinArray[i].n) == GPIO_PIN_SET)
             {
-                if (i < 3 )  HAL_GPIO_WritePin(GPIOG, GPIO::getInstance()->aLeds[i].ledPin, GPIO_PIN_SET);
-                if ((i == 5 ) || (i == 4 )) HAL_GPIO_WritePin(GPIOC, GPIO::getInstance()->aLeds[i - 1].ledPin, GPIO_PIN_SET);
-//                if (i == 3 ) HAL_GPIO_WritePin(GPIOC, GPIO::getInstance()->aLeds[2].ledPin, GPIO_PIN_SET); //ХЗ не работает
-                if (i == 3 ) HAL_GPIO_WritePin(GPIOC, L1_Pin, GPIO_PIN_SET);
-
-                term("Pressed button: ")
-                term(std::to_string(i + 1))
-                term("\n")
 
                 osDelay(50);
                 if (HAL_GPIO_ReadPin(GPIOG, GPIO::getInstance()->sPinArray[i].n)  == GPIO_PIN_SET)
                 {
+
+                term("Pressed button: ")
+                term(std::to_string(i + 1))
+                term("\n")
+                if (i < 3 )  HAL_GPIO_WritePin(GPIOG, GPIO::getInstance()->aLeds[i].ledPin, GPIO_PIN_SET);
+                if (i >= 3 ) HAL_GPIO_WritePin(GPIOC, GPIO::getInstance()->aLeds[i ].ledPin, GPIO_PIN_SET);
+
                     n = GPIO::getInstance()->sPinArray[i].i;
                     tempPack.payloadData = n;
 
@@ -431,10 +430,7 @@ void readButtonThread(void const *arg)
             else
             {
                 if (i < 3 ) HAL_GPIO_WritePin(GPIOG, GPIO::getInstance()->aLeds[i].ledPin, GPIO_PIN_RESET);
-                if ((i == 5 ) || (i == 4 )) HAL_GPIO_WritePin(GPIOC, GPIO::getInstance()->aLeds[i - 1].ledPin, GPIO_PIN_RESET);
-//                if (i == 3 ) HAL_GPIO_WritePin(GPIOC, GPIO::getInstance()->aLeds[2].ledPin, GPIO_PIN_RESET); //ХЗ не работает
-                if (i == 3 ) HAL_GPIO_WritePin(GPIOC, L1_Pin, GPIO_PIN_RESET);
-
+                if (i >= 3 ) HAL_GPIO_WritePin(GPIOC, GPIO::getInstance()->aLeds[i ].ledPin, GPIO_PIN_RESET);
             }
 
         }
@@ -451,7 +447,7 @@ void readButtonThread(void const *arg)
 void GPIO::initLEDs()
 {
     for (uint8_t i = 0, j = 6; i < 6; i++, j++) {
-        if (i == 3) j+=2;
+        if (i == 3) j = 10;
         aLeds[i].ledPin = aPin[j];
     }
 }
