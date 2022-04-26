@@ -145,6 +145,11 @@ int main(void)
     MX_RNG_Init();
 
 
+//    SRAMInit();
+//    BSP_EEPROM_Init();
+//    littleFsInit();
+
+
   if ((RS232::getInstance().readFromUartThreadId = osThreadCreate(osThread(readFromUartThread), nullptr)) == nullptr)
   {
       RS232::getInstance().term << " " << __LINE__ << " " << "\n";
