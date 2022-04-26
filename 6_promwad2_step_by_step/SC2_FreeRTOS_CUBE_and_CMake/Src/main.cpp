@@ -165,11 +165,9 @@ int main(void)
 
     //Тестовые потоки
 //    testLed1();
-    testLed2();
+//    testLed2();
 //    testLed3();
 //    testUART();
-
-    term("XXXXXXXXXX\n")
 
     //Debug пока не работает - выпилил везде из кода
     Debug::getInstance().dbg << "ee";

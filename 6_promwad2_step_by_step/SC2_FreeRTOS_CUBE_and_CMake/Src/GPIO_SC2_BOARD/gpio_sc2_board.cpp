@@ -222,8 +222,6 @@ GPIO::GPIO()
 
     initLEDs();
 
-term("Ctor\n")
-
     mutexRingBufferRx_id = osMutexCreate(osMutex(mutexRingBufferRx));
     if (mutexRingBufferRx_id == nullptr) {
         while(1)
@@ -232,16 +230,6 @@ term("Ctor\n")
 
 //    message_q_id = osMessageCreate(osMessageQ(message_q), NULL);
 
-//    Для старых пинов
-//    for (uint8_t var = 6, j = 0; var < 13; ++var, ++j)
-//    {
-//        if (var == 9) {
-//            --j;
-//            continue;
-//        }
-//        sPinArray[j].i = j + 1;
-//        sPinArray[j].n = aPin[var];
-//    }
     for (uint8_t var = 9, j = 0; var < 15; ++var, ++j)
     {
         sPinArray[j].i = j + 1;
@@ -251,7 +239,6 @@ term("Ctor\n")
     uint16_t temp = sPinArray.at(0).n;
     sPinArray.at(0).n = sPinArray.at(2).n;
     sPinArray.at(2).n = temp;
-
 }
 
 
@@ -405,8 +392,9 @@ void readButtonThread(void const *arg)
 
             if (HAL_GPIO_ReadPin(GPIOG, GPIO::getInstance()->sPinArray[i].n) == GPIO_PIN_SET)
             {
-term(std::to_string(i))
-term("\n")
+                term("Pressed button: ")
+                term(std::to_string(i + 1))
+                term("\n")
                 osDelay(50);
                 if (HAL_GPIO_ReadPin(GPIOG, GPIO::getInstance()->sPinArray[i].n)  == GPIO_PIN_SET)
                 {
