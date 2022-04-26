@@ -195,9 +195,14 @@ void GPIOInit(void)
 //    }
 
     timerId7 = osTimerCreate( osTimer(timer7), osTimerPeriodic, nullptr); // create timer thread
+    term("timerId7atempt\n")
     if (timerId7)
     {
         osStatus status = osTimerStart (timerId7, timerDelay);   // start timer
+
+        term("status=")
+        term(status)
+
         if (status != osOK)  {
             RS232::getInstance().term << "Failed to start [timer]" << "\n";
             while(1);
@@ -216,8 +221,9 @@ GPIO::GPIO()
     gpioInit = & GPIO_InitStruct;
 
     initLEDs();
-term("Ctor")
-term("\n")
+
+term("Ctor\n")
+
     mutexRingBufferRx_id = osMutexCreate(osMutex(mutexRingBufferRx));
     if (mutexRingBufferRx_id == nullptr) {
         while(1)
@@ -232,14 +238,14 @@ term("\n")
             continue;
         }
         sPinArray[j].i = j + 1;
-term("sPinArray.i=")
-term(j + 1)
-term("\n")
+//term("sPinArray.i=")
+//term(j + 1)
+//term("\n")
         sPinArray[j].n = aPin[var];
-term("sPinArray.n=")
+//term("sPinArray.n=")
         auto x = aPin[var];
-term(x)
-term("\n")
+//term(x)
+//term("\n")
     }
 
     uint16_t temp = sPinArray.at(0).n;
@@ -309,6 +315,7 @@ void GPIO::configLed(uint8_t ledNumber,
                      uint32_t timeOff,
                      uint8_t repeatNum)
 {
+term("GPIO::configLed")
     --ledNumber;
     if (timeOn < 50 && timeOff < 50) {
         aLeds[ledNumber].ledState = ledOn;
