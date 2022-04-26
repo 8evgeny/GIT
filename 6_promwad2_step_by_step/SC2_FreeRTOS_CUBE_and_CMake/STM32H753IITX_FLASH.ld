@@ -49,10 +49,10 @@ MEMORY
   Memory_B2(xrw)   : ORIGIN = 0x30020080, LENGTH = 0x80
   Memory_B3(xrw)   : ORIGIN = 0x30020100, LENGTH = 0x17d0
   Memory_B4(xrw)   : ORIGIN = 0x300218D0, LENGTH = 0x17d0
-/*  DTCMRAM (xrw)  : ORIGIN = 0x20000000, LENGTH = 128K
+  DTCMRAM (xrw)  : ORIGIN = 0x20000000, LENGTH = 128K
   RAM_D2 (xrw)   : ORIGIN = 0x30000000, LENGTH = 288K
   RAM_D3 (xrw)   : ORIGIN = 0x38000000, LENGTH = 64K
-  ITCMRAM (xrw)  : ORIGIN = 0x00000000, LENGTH = 64K*/
+  ITCMRAM (xrw)  : ORIGIN = 0x00000000, LENGTH = 64K
 }
 
 /* Define output sections */
