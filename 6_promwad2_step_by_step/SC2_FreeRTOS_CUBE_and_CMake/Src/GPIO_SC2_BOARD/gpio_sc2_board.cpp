@@ -194,14 +194,15 @@ void GPIOInit(void)
 //        RS232::getInstance().term << "Failed to create [readButtonThread]" << "\n";
 //    }
 
-//    timerId7 = osTimerCreate( osTimer(timer7), osTimerPeriodic, nullptr); // create timer thread
-//    if (timerId7) {
-//        osStatus status = osTimerStart (timerId7, timerDelay);   // start timer
-//        if (status != osOK)  {
-//            RS232::getInstance().term << "Failed to start [timer]" << "\n";
-//            while(1);
-//        }
-//    }
+    timerId7 = osTimerCreate( osTimer(timer7), osTimerPeriodic, nullptr); // create timer thread
+    if (timerId7)
+    {
+        osStatus status = osTimerStart (timerId7, timerDelay);   // start timer
+        if (status != osOK)  {
+            RS232::getInstance().term << "Failed to start [timer]" << "\n";
+            while(1);
+        }
+    }
 
 }
 
@@ -215,7 +216,8 @@ GPIO::GPIO()
     gpioInit = & GPIO_InitStruct;
 
     initLEDs();
-
+term("Ctor")
+term("\n")
     mutexRingBufferRx_id = osMutexCreate(osMutex(mutexRingBufferRx));
     if (mutexRingBufferRx_id == nullptr) {
         while(1)
@@ -230,7 +232,14 @@ GPIO::GPIO()
             continue;
         }
         sPinArray[j].i = j + 1;
+term("sPinArray.i=")
+term(j + 1)
+term("\n")
         sPinArray[j].n = aPin[var];
+term("sPinArray.n=")
+        auto x = aPin[var];
+term(x)
+term("\n")
     }
 
     uint16_t temp = sPinArray.at(0).n;
@@ -322,6 +331,7 @@ extern "C" {
 
 void timerCallback(void const *arg)
 {
+term("timerCallback\n")
     (void)arg;
     for (uint8_t i = 0; i < 6; i++) {
         if (GPIO::getInstance()->aLeds[i].timeStart) {
@@ -356,18 +366,6 @@ void switchLEDsThread(void const *arg)
     while(true) {
         for(uint8_t i = 0; i < 6; ++i) {
 
-#if 00
-            if (GPIO::getInstance()->aLeds[i].ledState)
-            {
-                if (i > 2) HAL_GPIO_WritePin(GPIOF, GPIO::getInstance()->aLeds[i].ledPin, GPIO_PIN_RESET);
-                else HAL_GPIO_WritePin(GPIOA, GPIO::getInstance()->aLeds[i].ledPin, GPIO_PIN_RESET);
-            } else
-            {
-                if (i > 2) HAL_GPIO_WritePin(GPIOF, GPIO::getInstance()->aLeds[i].ledPin, GPIO_PIN_SET);
-                else HAL_GPIO_WritePin(GPIOA, GPIO::getInstance()->aLeds[i].ledPin, GPIO_PIN_SET);
-            }
-#endif
-//новый код
             if (GPIO::getInstance()->aLeds[i].ledState)
             {
                 if (i > 2) HAL_GPIO_WritePin(GPIOG, GPIO::getInstance()->aLeds[i].ledPin, GPIO_PIN_RESET);
@@ -377,7 +375,6 @@ void switchLEDsThread(void const *arg)
                 if (i > 2) HAL_GPIO_WritePin(GPIOG, GPIO::getInstance()->aLeds[i].ledPin, GPIO_PIN_SET);
                 else HAL_GPIO_WritePin(GPIOC, GPIO::getInstance()->aLeds[i].ledPin, GPIO_PIN_SET);
             }
-//конец нового кода
 
         }
         osDelay(1);
@@ -388,34 +385,6 @@ void switchLEDsThread(void const *arg)
 [[ noreturn ]]
 void readButtonThread(void const *arg)
 {
-#if 00
-    (void)arg;
-    uint8_t a = 1;
-    PackageRx tempPack;
-    tempPack.packetType = GPIO::getInstance()->button;
-
-    GPIO_TypeDef * arrPortId[2] = {GPIOG, GPIOA};
-    while(true) {
-        uint8_t portId = 0;
-        for (uint8_t i = 0; i < GPIO::getInstance()->sPinArray.size() ; ++i) {
-
-            if (i > 2)  portId = 1;
-            uint16_t n = GPIO::getInstance()->sPinArray[i].n,
-                     k = GPIO::getInstance()->sPinArray[i].i;
-
-            if (HAL_GPIO_ReadPin(arrPortId[portId], GPIO::getInstance()->sPinArray[i].n) == GPIO_PIN_SET) {
-                osDelay(50);
-                if (HAL_GPIO_ReadPin(arrPortId[portId], GPIO::getInstance()->sPinArray[i].n)  == GPIO_PIN_SET) {
-
-                    n = GPIO::getInstance()->sPinArray[i].i;
-
-                    tempPack.payloadData = n;
-
-                    osMutexWait(GPIO::getInstance()->mutexRingBufferRx_id, osWaitForever);
-                    GPIO::getInstance()->ringBufferRx.push(tempPack);
-                    osMutexRelease(GPIO::getInstance()->mutexRingBufferRx_id);
-#endif
-//новый код
     (void)arg;
     PackageRx tempPack;
     tempPack.packetType = GPIO::getInstance()->button;
@@ -429,6 +398,8 @@ void readButtonThread(void const *arg)
 
             if (HAL_GPIO_ReadPin(GPIOG, GPIO::getInstance()->sPinArray[i].n) == GPIO_PIN_SET)
             {
+//term(std::to_string(i))
+//term("\n")
                 osDelay(50);
                 if (HAL_GPIO_ReadPin(GPIOG, GPIO::getInstance()->sPinArray[i].n)  == GPIO_PIN_SET)
                 {
@@ -438,7 +409,6 @@ void readButtonThread(void const *arg)
                     osMutexWait(GPIO::getInstance()->mutexRingBufferRx_id, osWaitForever);
                     GPIO::getInstance()->ringBufferRx.push(tempPack);
                     osMutexRelease(GPIO::getInstance()->mutexRingBufferRx_id);
-//конец нового кода
 
 //                    osMessagePut(GPIO::getInstance()->message_q_id, n, osWaitForever);
                 }

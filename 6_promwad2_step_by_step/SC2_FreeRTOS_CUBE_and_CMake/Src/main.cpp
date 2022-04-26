@@ -134,6 +134,7 @@ int main(void)
     PeriphCommonClock_Config();
 
     /* Initialize all configured peripherals */
+
     MX_GPIO_Init();
     MX_FMC_Init();
     MX_I2C1_Init();
@@ -146,7 +147,7 @@ int main(void)
     MX_TIM3_Init();
 //    MX_DMA_Init(); //Вынесен в RS232
     MX_RNG_Init();
-
+    GPIOInit();
 
 //    SRAMInit();
 //    BSP_EEPROM_Init();
@@ -163,10 +164,10 @@ int main(void)
     defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
 
     //Тестовые потоки
-    testLed1();
+//    testLed1();
 //    testLed2();
-    testLed3();
-    testUART();
+//    testLed3();
+//    testUART();
 
     term("XXXXXXXXXX\n")
 
@@ -746,6 +747,7 @@ static void MX_GPIO_Init(void)
     {
         RS232::getInstance().term << "Failed to create [readButtonThread]" << "\n";
     }
+
 
 
 }
