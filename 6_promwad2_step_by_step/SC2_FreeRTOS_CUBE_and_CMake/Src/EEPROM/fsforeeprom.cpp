@@ -32,7 +32,8 @@ int user_provided_block_device_read(const struct lfs_config *c,
                                     void *buffer, lfs_size_t size)
 {
     uint32_t addr = (uint32_t)(block * c->block_size + off);
-    uint16_t NumByteToRead = (uint16_t)size;
+    //Изменил 4 *
+    uint16_t NumByteToRead = 4 * (uint16_t)size;
     uint8_t *buffer_data = (uint8_t *)buffer;
     return BSP_EEPROM_ReadBuffer(buffer_data, addr, &NumByteToRead);
 }
@@ -43,13 +44,15 @@ int user_provided_block_device_prog(const struct lfs_config *c,
 {
     uint32_t addr = (uint32_t)(block * c->block_size + off);
     uint8_t *buffer_data = (uint8_t *)buffer;
-    return BSP_EEPROM_WriteBuffer(buffer_data, addr, size);
+    //Изменил 4 *
+    return BSP_EEPROM_WriteBuffer(buffer_data, addr, 4 * size);
 }
 
 int user_provided_block_device_erase(const struct lfs_config *c,
                                      lfs_block_t block)
 {
-    uint32_t addr = (uint32_t)(block * c->block_size);
+    //Изменил 4 *
+    uint32_t addr = (uint32_t)( 4 * block * c->block_size);
 //    std::memset((void *)littlefs_mem[addr], c->block_size, 0);
 //    for (int i = 0; i < c->block_size; i++) littlefs_mem[addr + i] = 0;
     return 0;
@@ -87,9 +90,11 @@ term("2")
     cfg.file_buffer = lfs_file_buf;
 
 // mount the filesystem
+
+term("3")
     int err = lfs_mount(&lfs, &cfg);
 
-term(err)
+term("4")
 
 // reformat if we can't mount the filesystem
 // this should only happen on the first boot

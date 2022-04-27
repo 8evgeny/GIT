@@ -152,7 +152,15 @@ int main(void)
 
 //    SRAMInit();
     BSP_EEPROM_Init();
-//    littleFsInit();
+    littleFsInit();
+
+//    uint32_t addr = 0;
+//    uint16_t NumByteToRead  = 10;
+//    uint8_t buff[100];
+//    BSP_EEPROM_ReadBuffer(buff, addr, &NumByteToRead);
+//    term("buff")
+//    term(buff)
+
 
 //FsForEeprom::getInstance().test();
 
