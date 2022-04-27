@@ -31,6 +31,9 @@ int user_provided_block_device_read(const struct lfs_config *c,
                                     lfs_block_t block, lfs_off_t off,
                                     void *buffer, lfs_size_t size)
 {
+
+term("user_provided_block_device_read")
+
     uint32_t addr = (uint32_t)(block * c->block_size + off);
     //Изменил 4 *
     uint16_t NumByteToRead = 4 * (uint16_t)size;
