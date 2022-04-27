@@ -5,7 +5,8 @@
 extern "C" {
 #endif
 
-extern I2C_HandleTypeDef hi2c1;
+//extern I2C_HandleTypeDef hi2c1;
+static I2C_HandleTypeDef hi2c1;
 DMA_HandleTypeDef hdma_i2c1_rx,
                   hdma_i2c1_tx;
 
@@ -61,7 +62,11 @@ HAL_StatusTypeDef EEPROM_IO_WriteData(uint16_t DevAddress, uint16_t MemAddress, 
 
 HAL_StatusTypeDef EEPROM_IO_ReadData(uint16_t DevAddress, uint16_t MemAddress, uint8_t *pBuffer, uint32_t BufferSize)
 {
+    term("EEPROM_IO_ReadData__begin_read_data\n")
+
     HAL_StatusTypeDef status = I2c1::getInstance()->readData(DevAddress, MemAddress, pBuffer, BufferSize);
+
+    term("EEPROM_IO_ReadData__end_read_data\n")
     return status;
 }
 
@@ -103,14 +108,20 @@ HAL_StatusTypeDef I2c1::writeData(uint16_t DevAddress, uint16_t MemAddress, uint
 
 HAL_StatusTypeDef I2c1::readData(uint16_t DevAddress, uint16_t MemAddress, uint8_t *pData, uint16_t Size)
 {
-    while (HAL_I2C_GetState(i2c1Handle) != HAL_I2C_STATE_READY);
-    HAL_Delay(10);
+    term("I2c1::readData__begin_HAL_I2C_GetState\n")
+
+    while (HAL_I2C_GetState(i2c1Handle) != HAL_I2C_STATE_READY)
+        HAL_Delay(10);
+    term("I2c1::readData__end_HAL_I2C_GetState\n")
 
 //    osDelay(5);
     HAL_StatusTypeDef status = HAL_I2C_Mem_Read_IT(i2c1Handle, DevAddress, MemAddress, I2C_MEMADD_SIZE_16BIT, pData, Size);
-    while(i2cReadReady != SET);
-    i2cReadReady = RESET;
 
+    term("HAL_I2C_Mem_Read_IT__end\n")
+
+    while(i2cReadReady != SET)
+            i2cReadReady = RESET;
+term("11\n")
     return status;
 }
 

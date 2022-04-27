@@ -32,7 +32,7 @@ int user_provided_block_device_read(const struct lfs_config *c,
                                     void *buffer, lfs_size_t size)
 {
 
-term("user_provided_block_device_read")
+term("user_provided_block_device_read_1\n")
 
     uint32_t addr = (uint32_t)(block * c->block_size + off);
     //Изменил 4 *
@@ -71,15 +71,11 @@ void littleFsInit()
 // release any resources we were using
     lfs_unmount(&lfs);
 
-term("littleFsInit_1\n")
-
 // example littlefs
     cfg.read = user_provided_block_device_read;
     cfg.prog = user_provided_block_device_prog;
     cfg.erase = user_provided_block_device_erase;
     cfg.sync = user_provided_block_device_sync;
-
-term("littleFsInit_2\n")
 
     cfg.read_size = 256;
     cfg.prog_size = 256;
@@ -94,10 +90,11 @@ term("littleFsInit_2\n")
 
 // mount the filesystem
 
-term("littleFsInit_3\n")
+term("lfs_mount___begin\n")
+
     int err = lfs_mount(&lfs, &cfg);
 
-term("littleFsInit_4\n")
+term("lfs_mount___end\n")
 
 // reformat if we can't mount the filesystem
 // this should only happen on the first boot

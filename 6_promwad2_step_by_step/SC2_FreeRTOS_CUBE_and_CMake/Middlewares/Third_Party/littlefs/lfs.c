@@ -14,18 +14,13 @@
 static int
 lfs_cache_read(lfs_t *lfs, lfs_cache_t *rcache, const lfs_cache_t *pcache, lfs_block_t block, lfs_off_t off, void *buffer, lfs_size_t size)
 {
-RS232Puts("lfs_cache_read_1\n") ;
-
     uint8_t *data = buffer;
     LFS_ASSERT(block < lfs->cfg->block_count);
-
-RS232Puts("lfs_cache_read_2\n") ;
 
     while (size > 0)
     {
         if (pcache && block == pcache->block && off >= pcache->off &&  off < pcache->off + lfs->cfg->prog_size)
         {
-RS232Puts("lfs_cache_read_3\n") ;
 
             // is already in pcache?
             lfs_size_t diff = lfs_min(size, lfs->cfg->prog_size - (off-pcache->off));
@@ -37,12 +32,9 @@ RS232Puts("lfs_cache_read_3\n") ;
             continue;
         }
 
-RS232Puts("lfs_cache_read_4\n") ;
-
         if (block == rcache->block && off >= rcache->off &&
                 off < rcache->off + lfs->cfg->read_size)
         {
-RS232Puts("lfs_cache_read_5\n") ;
             // is already in rcache?
             lfs_size_t diff = lfs_min(size,
                     lfs->cfg->read_size - (off-rcache->off));
@@ -53,11 +45,9 @@ RS232Puts("lfs_cache_read_5\n") ;
             size -= diff;
             continue;
         }
-RS232Puts("lfs_cache_read_6\n") ;
 
         if (off % lfs->cfg->read_size == 0 && size >= lfs->cfg->read_size)
         {
-RS232Puts("lfs_cache_read_7\n") ;
 
             // bypass cache?
             lfs_size_t diff = size - (size % lfs->cfg->read_size);
@@ -72,17 +62,16 @@ RS232Puts("lfs_cache_read_7\n") ;
             continue;
         }
 
-RS232Puts("lfs_cache_read_8\n") ;
 
         // load to cache, first condition can no longer fail
         rcache->block = block;
         rcache->off = off - (off % lfs->cfg->read_size);
 
-RS232Puts("lfs_cache_read_9\n") ;
+RS232Puts("lfs_cache_read__begin_read\n") ;
 
         int err = lfs->cfg->read(lfs->cfg, rcache->block, rcache->off, rcache->buffer, lfs->cfg->read_size);
 
-RS232Puts("lfs_cache_read_10\n") ;
+RS232Puts("lfs_cache_read__end_read\n") ;
 
         if (err) {
             return err;
@@ -460,8 +449,6 @@ static int lfs_dir_fetch(lfs_t *lfs,
         lfs_dir_t *dir, const lfs_block_t pair[2]) {
     // copy out pair, otherwise may be aliasing dir
 
-RS232Puts("lfs_mount_4_1\n") ;
-
     const lfs_block_t tpair[2] = {pair[0], pair[1]};
     bool valid = false;
 
@@ -469,11 +456,11 @@ RS232Puts("lfs_mount_4_1\n") ;
     for (int i = 0; i < 2; i++) {
         struct lfs_disk_dir test;
 
-RS232Puts("lfs_mount_4_2\n") ;
+RS232Puts("lfs_bd_read__begin\n") ;
 
         int err = lfs_bd_read(lfs, tpair[i], 0, &test, sizeof(test));
 
-RS232Puts("lfs_mount_4_3\n") ;
+RS232Puts("lfs_bd_read__end\n") ;
 
         lfs_dir_fromle32(&test);
 
@@ -2216,16 +2203,9 @@ cleanup:
 
 int lfs_mount(lfs_t *lfs, const struct lfs_config *cfg) {
 
-
-RS232Puts("lfs_mount_1\n") ;
-
-
-
     int err = 0;
     if (true) {
-RS232Puts("lfs_mount_2\n") ;
         err = lfs_init(lfs, cfg);
-RS232Puts("lfs_mount_3\n") ;
         if (err) {
             return err;
         }
@@ -2235,8 +2215,6 @@ RS232Puts("lfs_mount_3\n") ;
         lfs->free.size = 0;
         lfs->free.i = 0;
         lfs_alloc_ack(lfs);
-
-RS232Puts("lfs_mount_4\n") ;
 
         // load superblock
         lfs_dir_t dir;

@@ -34,6 +34,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32h7xx_hal.h"
+#include "rs232_printf.h"
 
 /** @addtogroup STM32H7xx_HAL_Driver
   * @{
@@ -162,6 +163,7 @@ uint32_t common_system_clock;
   }
 
   /* Init the low level hardware */
+
   HAL_MspInit();
 
   /* Return function status */

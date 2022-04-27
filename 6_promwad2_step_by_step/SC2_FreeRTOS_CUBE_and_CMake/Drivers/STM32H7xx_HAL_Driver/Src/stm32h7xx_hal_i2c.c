@@ -4695,6 +4695,7 @@ __weak void HAL_I2C_AbortCpltCallback(I2C_HandleTypeDef *hi2c)
 HAL_I2C_StateTypeDef HAL_I2C_GetState(I2C_HandleTypeDef *hi2c)
 {
   /* Return I2C handle state */
+
   return hi2c->State;
 }
 

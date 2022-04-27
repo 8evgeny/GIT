@@ -93,7 +93,7 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}\
     ")
 
 include_directories(Inc)
-file (GLOB SOURCES_C Src/*.c STM32H753IITX_FLASH.ld)
+file (GLOB SOURCES_C Src/*.c STM32H753IITX_FLASH.ld )
 file (GLOB SOURCES_CPP Src/*.cpp)
 
 include_directories(
