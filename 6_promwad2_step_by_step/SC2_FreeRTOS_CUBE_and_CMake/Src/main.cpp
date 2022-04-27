@@ -154,6 +154,8 @@ int main(void)
     BSP_EEPROM_Init();
     littleFsInit();
 
+
+
 //    uint32_t addr = 0;
 //    uint16_t NumByteToRead  = 10;
 //    uint8_t buff[100];

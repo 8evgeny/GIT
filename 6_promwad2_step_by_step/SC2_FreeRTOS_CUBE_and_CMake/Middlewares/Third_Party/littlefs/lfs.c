@@ -8,7 +8,7 @@
 #include "lfs_util.h"
 
 #include <inttypes.h>
-
+#include "rs232_printf.h"
 
 /// Caching block device operations ///
 static int lfs_cache_read(lfs_t *lfs, lfs_cache_t *rcache,
@@ -2185,6 +2185,12 @@ cleanup:
 }
 
 int lfs_mount(lfs_t *lfs, const struct lfs_config *cfg) {
+
+
+RS232Puts("lfs_mount_1") ;
+
+
+
     int err = 0;
     if (true) {
         err = lfs_init(lfs, cfg);

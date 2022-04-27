@@ -68,7 +68,7 @@ void littleFsInit()
 // release any resources we were using
     lfs_unmount(&lfs);
 
-term("1")
+term("littleFsInit_1\n")
 
 // example littlefs
     cfg.read = user_provided_block_device_read;
@@ -76,7 +76,7 @@ term("1")
     cfg.erase = user_provided_block_device_erase;
     cfg.sync = user_provided_block_device_sync;
 
-term("2")
+term("littleFsInit_2\n")
 
     cfg.read_size = 256;
     cfg.prog_size = 256;
@@ -91,10 +91,10 @@ term("2")
 
 // mount the filesystem
 
-term("3")
+term("littleFsInit_3\n")
     int err = lfs_mount(&lfs, &cfg);
 
-term("4")
+term("littleFsInit_4\n")
 
 // reformat if we can't mount the filesystem
 // this should only happen on the first boot
