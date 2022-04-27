@@ -5,14 +5,16 @@
 extern "C" {
 #endif
 
-static I2C_HandleTypeDef hi2c1;
+extern I2C_HandleTypeDef hi2c1;
 DMA_HandleTypeDef hdma_i2c1_rx,
                   hdma_i2c1_tx;
 
 
 void I2C1Init(void)
 {
+
     hi2c1.Instance = I2C1;
+//    hi2c1.Init.Timing = 0x307075B1;
     hi2c1.Init.Timing = FAST_MODE_PLUS;
     hi2c1.Init.OwnAddress1 = 0x00;
     hi2c1.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
@@ -21,7 +23,8 @@ void I2C1Init(void)
     hi2c1.Init.OwnAddress2Masks = I2C_OA2_NOMASK;
     hi2c1.Init.GeneralCallMode = I2C_GENERALCALL_DISABLE;
     hi2c1.Init.NoStretchMode = I2C_NOSTRETCH_DISABLE;
-    if (HAL_I2C_Init(&hi2c1) != HAL_OK) {
+    if (HAL_I2C_Init(&hi2c1) != HAL_OK)
+    {
         while(1) {
             RS232::getInstance().term << "I2C1 Init Error!" << "\n";
         }
@@ -40,6 +43,7 @@ void I2C1Init(void)
             RS232::getInstance().term << "I2C1 Configure Digital filter Error!" << "\n";
         }
     }
+
 //    HAL_Delay(10);
 }
 

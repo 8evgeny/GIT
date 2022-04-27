@@ -5,6 +5,7 @@
 */
 #include "fsforeeprom.h"
 #include "eeprom.h"
+#include "rs232.h"
 
 #include <cstring>
 
@@ -64,11 +65,15 @@ void littleFsInit()
 // release any resources we were using
     lfs_unmount(&lfs);
 
+term("1")
+
 // example littlefs
     cfg.read = user_provided_block_device_read;
     cfg.prog = user_provided_block_device_prog;
     cfg.erase = user_provided_block_device_erase;
     cfg.sync = user_provided_block_device_sync;
+
+term("2")
 
     cfg.read_size = 256;
     cfg.prog_size = 256;
@@ -83,6 +88,8 @@ void littleFsInit()
 
 // mount the filesystem
     int err = lfs_mount(&lfs, &cfg);
+
+term(err)
 
 // reformat if we can't mount the filesystem
 // this should only happen on the first boot
