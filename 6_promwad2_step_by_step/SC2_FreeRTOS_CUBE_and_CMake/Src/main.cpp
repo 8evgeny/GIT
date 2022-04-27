@@ -152,7 +152,7 @@ int main(void)
 
 //    SRAMInit();
     BSP_EEPROM_Init();
-    littleFsInit();
+//    littleFsInit();
 
 //FsForEeprom::getInstance().test();
 
