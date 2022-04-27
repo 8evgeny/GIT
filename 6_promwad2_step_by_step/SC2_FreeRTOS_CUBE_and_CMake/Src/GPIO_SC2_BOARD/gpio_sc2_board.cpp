@@ -376,13 +376,41 @@ void switchLEDsThread(void const *arg)
 }
 
 [[ noreturn ]]
-void switchLEDsThreadTest(void const *arg)
+void replaceTimerCallback(void const *arg)
 {
     (void)arg;
-    while(true)
+
+
+    for (;;)
+    HAL_Delay(50);
+
     {
-       term("switchLEDsThreadTest\n")
-        osDelay(2000);
+
+        for (uint8_t i = 0; i < 6; i++)
+        {
+            if (GPIO::getInstance()->aLeds[i].timeStart) {
+                GPIO::getInstance()->aLeds[i].count += 1;
+                if(GPIO::getInstance()->aLeds[i].ledState == false && GPIO::getInstance()->aLeds[i].count >= GPIO::getInstance()->aLeds[i].timeOff/timerDelay) {
+                    GPIO::getInstance()->aLeds[i].ledState = true;
+                    GPIO::getInstance()->aLeds[i].count = 0;
+                    if (GPIO::getInstance()->aLeds[i].reiterationNum > 0)
+                        GPIO::getInstance()->aLeds[i].reiterationNum -= 1;
+                    if (GPIO::getInstance()->aLeds[i].reiterationNum == 0) {
+                        GPIO::getInstance()->aLeds[i].timeStart = false;
+                        GPIO::getInstance()->aLeds[i].reiterationNum -= 1;
+                    }
+                } else if (GPIO::getInstance()->aLeds[i].ledState == true && GPIO::getInstance()->aLeds[i].count >= GPIO::getInstance()->aLeds[i].timeOn/timerDelay) {
+                    GPIO::getInstance()->aLeds[i].ledState = false;
+                    GPIO::getInstance()->aLeds[i].count = 0;
+                    if (GPIO::getInstance()->aLeds[i].reiterationNum > 0)
+                        GPIO::getInstance()->aLeds[i].reiterationNum -= 1;
+                    if (GPIO::getInstance()->aLeds[i].reiterationNum == 0) {
+                        GPIO::getInstance()->aLeds[i].timeStart = false;
+                        GPIO::getInstance()->aLeds[i].reiterationNum -= 1;
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -414,6 +442,7 @@ void readButtonThread(void const *arg)
                 term("Pressed button: ")
                 term(std::to_string(i + 1))
                 term("\n")
+                //Включаю Led
                 if (i < 3 )  HAL_GPIO_WritePin(GPIOG, GPIO::getInstance()->aLeds[i].ledPin, GPIO_PIN_SET);
                 if (i >= 3 ) HAL_GPIO_WritePin(GPIOC, GPIO::getInstance()->aLeds[i ].ledPin, GPIO_PIN_SET);
 
@@ -429,6 +458,7 @@ void readButtonThread(void const *arg)
             }
             else
             {
+                //Гашу Led
                 if (i < 3 ) HAL_GPIO_WritePin(GPIOG, GPIO::getInstance()->aLeds[i].ledPin, GPIO_PIN_RESET);
                 if (i >= 3 ) HAL_GPIO_WritePin(GPIOC, GPIO::getInstance()->aLeds[i ].ledPin, GPIO_PIN_RESET);
             }

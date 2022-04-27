@@ -211,7 +211,7 @@ void timerCallback(void const *arg);
 */
 [[ noreturn ]] void switchLEDsThread(void const *arg);
 
-[[ noreturn ]] void switchLEDsThreadTest(void const *arg);
+[[ noreturn ]] void replaceTimerCallback(void const *arg);
 
 /*!
  \brief The OS thread function that reads button click data from the keyboard
