@@ -107,7 +107,7 @@ term("##########   lfs_mount   ###########")
 // this should only happen on the first boot
     if (err) {
 
-term("error - lfs_format")
+term("error - FORMAT lfs")
 
         lfs_format(&lfs, &cfg);
         lfs_mount(&lfs, &cfg);
