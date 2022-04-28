@@ -58,7 +58,7 @@ term("EEPROM_IO_Init__sucsess\n")
         const char wmsg[] = "Some data";
             char rmsg[sizeof(wmsg)];
             // HAL expects address to be shifted one bit to the left
-            uint16_t devAddr = (0x50 << 1);
+            uint16_t devAddr = 0xA0;
             uint16_t memAddr = 0x0100;
             HAL_StatusTypeDef status;
 
