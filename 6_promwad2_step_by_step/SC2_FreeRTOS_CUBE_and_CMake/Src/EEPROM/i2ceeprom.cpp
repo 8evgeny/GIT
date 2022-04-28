@@ -107,9 +107,19 @@ HAL_StatusTypeDef I2c1::writeData(uint16_t DevAddress, uint16_t MemAddress, uint
 
 HAL_StatusTypeDef I2c1::readData(uint16_t DevAddress, uint16_t MemAddress, uint8_t *pData, uint16_t Size)
 {
-
     while (HAL_I2C_GetState(i2c1Handle) != HAL_I2C_STATE_READY)
         HAL_Delay(10);
+//Муромский код начало
+
+
+
+
+
+
+
+
+
+//Муромский код конец
 
 term("HAL_I2C_Mem_Read_IT__begin\n")
     HAL_StatusTypeDef status = HAL_I2C_Mem_Read_IT(i2c1Handle, DevAddress, MemAddress, I2C_MEMADD_SIZE_16BIT, pData, Size);
