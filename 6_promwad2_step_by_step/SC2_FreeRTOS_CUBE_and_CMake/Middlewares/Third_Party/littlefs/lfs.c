@@ -456,11 +456,11 @@ static int lfs_dir_fetch(lfs_t *lfs,
     for (int i = 0; i < 2; i++) {
         struct lfs_disk_dir test;
 
-RS232Puts("__lfs_bd_read__begin\n") ;
+//RS232Puts("__lfs_bd_read__begin\n") ;
 
         int err = lfs_bd_read(lfs, tpair[i], 0, &test, sizeof(test));
 
-RS232Puts("__lfs_bd_read__end\n") ;
+//RS232Puts("__lfs_bd_read__end\n") ;
 
         lfs_dir_fromle32(&test);
 

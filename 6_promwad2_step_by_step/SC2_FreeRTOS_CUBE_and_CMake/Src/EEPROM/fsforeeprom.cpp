@@ -47,6 +47,8 @@ int user_provided_block_device_prog(const struct lfs_config *c,
                                     lfs_block_t block, lfs_off_t off,
                                     const void *buffer, lfs_size_t size)
 {
+term("*****  user_provided_block_device_prog  ******")
+
     uint32_t addr = (uint32_t)(block * c->block_size + off);
     uint8_t *buffer_data = (uint8_t *)buffer;
     //Изменил 4 * и вернул
@@ -56,6 +58,8 @@ int user_provided_block_device_prog(const struct lfs_config *c,
 int user_provided_block_device_erase(const struct lfs_config *c,
                                      lfs_block_t block)
 {
+term("*****  user_provided_block_device_erase  ******")
+
     //Изменил 4 * и вернул
     uint32_t addr = (uint32_t)( block * c->block_size);
 //    std::memset((void *)littlefs_mem[addr], c->block_size, 0);
@@ -93,11 +97,11 @@ void littleFsInit()
 
 // mount the filesystem
 
-term("lfs_mount___begin")
+//term("lfs_mount___begin")
 
     int err = lfs_mount(&lfs, &cfg);
 
-term("lfs_mount___end")
+term("##########   lfs_mount   ###########")
 
 // reformat if we can't mount the filesystem
 // this should only happen on the first boot
