@@ -126,7 +126,9 @@ void EEPROM_IO_Init(void)
 
 HAL_StatusTypeDef EEPROM_IO_WriteData(uint16_t DevAddress, uint16_t MemAddress, uint8_t *pBuffer, uint32_t BufferSize)
 {
+    term("1")
     HAL_StatusTypeDef status = I2c1::getInstance()->writeData(DevAddress, MemAddress, pBuffer, BufferSize);
+    term("2")
     return status;
 }
 
@@ -166,7 +168,14 @@ I2c1 *I2c1::pInstance = nullptr;
 
 HAL_StatusTypeDef I2c1::writeData(uint16_t DevAddress, uint16_t MemAddress, uint8_t *pData, uint16_t Size)
 {
-    HAL_Delay(10);
+    for(;;)
+    { // wait...
+       HAL_StatusTypeDef status = HAL_I2C_IsDeviceReady(&hi2c1, MemAddress, 1, HAL_MAX_DELAY);
+        if(status == HAL_OK)
+            break;
+    }
+
+//    HAL_Delay(10);
 
     while (HAL_I2C_GetState(i2c1Handle) != HAL_I2C_STATE_READY);
 //    HAL_StatusTypeDef status = HAL_I2C_Mem_Write_IT(i2c1Handle, DevAddress, MemAddress, I2C_MEMADD_SIZE_16BIT, pData, Size); //Выпилил

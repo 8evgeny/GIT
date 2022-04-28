@@ -153,7 +153,7 @@ int main(void)
 
 //    SRAMInit();
     BSP_EEPROM_Init();
-//    simpleEEPROM_test();
+    simpleEEPROM_test();
 //    simpleEEPROM_test2();
     littleFsInit();
 

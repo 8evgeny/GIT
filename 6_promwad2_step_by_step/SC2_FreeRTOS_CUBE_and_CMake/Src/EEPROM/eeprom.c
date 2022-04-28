@@ -269,9 +269,13 @@ RS232Puts("EEPROM_WritePage_1\n") ;
         status = EEPROM_FAIL;
     }
 
+RS232Puts("EEPROM_WritePage_2\n") ;
+
     while (EEPROM_WaitEepromStandbyState() != EEPROM_OK) {
         return EEPROM_FAIL;
     }
+
+RS232Puts("EEPROM_WritePage_3\n") ;
 
     /* If all operations OK, return EEPROM_OK (0) */
     return status;
