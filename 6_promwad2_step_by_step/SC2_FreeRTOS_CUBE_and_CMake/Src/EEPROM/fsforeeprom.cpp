@@ -17,7 +17,9 @@ extern "C" {
 lfs_t lfs;
 lfs_file_t file;
 
-uint8_t littlefs_mem[8192];
+//Изменил параметры EEPROM
+//uint8_t littlefs_mem[8192];
+uint8_t littlefs_mem[131072];
 
 uint8_t lfs_read_buf[256];
 uint8_t lfs_prog_buf[256];
