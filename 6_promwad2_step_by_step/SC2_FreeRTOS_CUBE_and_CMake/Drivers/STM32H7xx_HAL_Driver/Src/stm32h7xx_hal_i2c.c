@@ -321,6 +321,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32h7xx_hal.h"
+#include "rs232_printf.h"
 
 /** @addtogroup STM32H7xx_HAL_Driver
   * @{
@@ -2746,9 +2747,10 @@ HAL_StatusTypeDef HAL_I2C_Mem_Read_IT(I2C_HandleTypeDef *hi2c, uint16_t DevAddre
 
   /* Check the parameters */
   assert_param(IS_I2C_MEMADD_SIZE(MemAddSize));
-
+RS232Puts("1\n") ;
   if (hi2c->State == HAL_I2C_STATE_READY)
   {
+RS232Puts("2\n") ;
     if ((pData == NULL) || (Size == 0U))
     {
       hi2c->ErrorCode = HAL_I2C_ERROR_INVALID_PARAM;
@@ -2762,7 +2764,7 @@ HAL_StatusTypeDef HAL_I2C_Mem_Read_IT(I2C_HandleTypeDef *hi2c, uint16_t DevAddre
 
     /* Process Locked */
     __HAL_LOCK(hi2c);
-
+RS232Puts("3\n") ;
     /* Init tickstart for timeout management*/
     tickstart = HAL_GetTick();
 
@@ -2775,7 +2777,7 @@ HAL_StatusTypeDef HAL_I2C_Mem_Read_IT(I2C_HandleTypeDef *hi2c, uint16_t DevAddre
     hi2c->XferCount   = Size;
     hi2c->XferOptions = I2C_NO_OPTION_FRAME;
     hi2c->XferISR     = I2C_Master_ISR_IT;
-
+RS232Puts("4\n") ;
     if (hi2c->XferCount > MAX_NBYTE_SIZE)
     {
       hi2c->XferSize = MAX_NBYTE_SIZE;
@@ -2794,10 +2796,10 @@ HAL_StatusTypeDef HAL_I2C_Mem_Read_IT(I2C_HandleTypeDef *hi2c, uint16_t DevAddre
       __HAL_UNLOCK(hi2c);
       return HAL_ERROR;
     }
-
+RS232Puts("5\n") ;
     /* Set NBYTES to write and reload if hi2c->XferCount > MAX_NBYTE_SIZE and generate RESTART */
     I2C_TransferConfig(hi2c, DevAddress, (uint8_t)hi2c->XferSize, xfermode, I2C_GENERATE_START_READ);
-
+RS232Puts("6\n") ;
     /* Process Unlocked */
     __HAL_UNLOCK(hi2c);
 
@@ -2810,7 +2812,7 @@ HAL_StatusTypeDef HAL_I2C_Mem_Read_IT(I2C_HandleTypeDef *hi2c, uint16_t DevAddre
     /* I2C_IT_ERRI | I2C_IT_TCI | I2C_IT_STOPI | I2C_IT_NACKI |
       I2C_IT_ADDRI | I2C_IT_RXI | I2C_IT_TXI */
     I2C_Enable_IRQ(hi2c, I2C_XFER_RX_IT);
-
+RS232Puts("7\n") ;
     return HAL_OK;
   }
   else

@@ -114,6 +114,7 @@ HAL_StatusTypeDef I2c1::readData(uint16_t DevAddress, uint16_t MemAddress, uint8
 
 term("HAL_I2C_Mem_Read_IT__begin\n")
     HAL_StatusTypeDef status = HAL_I2C_Mem_Read_IT(i2c1Handle, DevAddress, MemAddress, I2C_MEMADD_SIZE_16BIT, pData, Size);
+term("while(i2cReadReady != SET\n")
     while(i2cReadReady != SET);
     i2cReadReady = RESET;
 term("HAL_I2C_Mem_Read_IT__end\n")
@@ -184,7 +185,7 @@ term("HAL_I2C_MemRxCpltCallback")
   */
 void DMA1_Stream5_IRQHandler(void)
 {
-    HAL_DMA_IRQHandler(hi2c1.hdmatx);
+    HAL_DMA_IRQHandler(hi2c1.hdmarx);
 
 }
 
