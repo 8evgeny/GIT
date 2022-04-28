@@ -49,7 +49,9 @@ static void I2C1Init(void)
 
 void EEPROM_IO_Init(void)
 {
+term("EEPROM_IO_Init__begin\n")
     I2C1Init();
+term("EEPROM_IO_Init__sucsess\n")
 }
 
 HAL_StatusTypeDef EEPROM_IO_WriteData(uint16_t DevAddress, uint16_t MemAddress, uint8_t *pBuffer, uint32_t BufferSize)

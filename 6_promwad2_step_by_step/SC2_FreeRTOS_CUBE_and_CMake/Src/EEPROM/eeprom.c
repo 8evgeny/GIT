@@ -45,7 +45,6 @@ static uint32_t EEPROM_WaitEepromStandbyState(void);
   */
 uint32_t BSP_EEPROM_Init(void)
 {
-RS232Puts("BSP_EEPROM_Init_begin\n") ;
 
     /* I2C Initialization */
     EEPROM_IO_Init();
