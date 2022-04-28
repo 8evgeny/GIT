@@ -129,7 +129,7 @@ add_library(littlefs_LIB ${littlefs_src} )
 
 set (CircularBuffer Middlewares/Third_Party/CircularBuffer)
 include_directories( ${CircularBuffer} )
-file (GLOB CircularBuffer_src ${CircularBuffer}/*.tpp  ${CircularBuffer}/*.h )
+file (GLOB CircularBuffer_src ${CircularBuffer}/*.tpp ${CircularBuffer}/*.hpp ${CircularBuffer}/*.h )
 add_library(CircularBuffer_LIB ${CircularBuffer_src} )
 set_target_properties(CircularBuffer_LIB PROPERTIES LINKER_LANGUAGE CXX)
 
