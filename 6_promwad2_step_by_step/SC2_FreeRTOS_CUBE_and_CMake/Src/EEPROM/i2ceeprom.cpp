@@ -169,9 +169,17 @@ HAL_StatusTypeDef I2c1::writeData(uint16_t DevAddress, uint16_t MemAddress, uint
     HAL_Delay(10);
 
     while (HAL_I2C_GetState(i2c1Handle) != HAL_I2C_STATE_READY);
-    HAL_StatusTypeDef status = HAL_I2C_Mem_Write_IT(i2c1Handle, DevAddress, MemAddress, I2C_MEMADD_SIZE_16BIT, pData, Size);
-    while( i2cWriteReady != SET);
-    i2cWriteReady = RESET;
+//    HAL_StatusTypeDef status = HAL_I2C_Mem_Write_IT(i2c1Handle, DevAddress, MemAddress, I2C_MEMADD_SIZE_16BIT, pData, Size); //Выпилил
+    HAL_StatusTypeDef status = HAL_I2C_Mem_Write(&hi2c1, DevAddress, MemAddress, I2C_MEMADD_SIZE_16BIT, pData, Size, HAL_MAX_DELAY);
+    for(;;)
+    { // wait...
+        status = HAL_I2C_IsDeviceReady(&hi2c1, DevAddress, 1, HAL_MAX_DELAY);
+        if(status == HAL_OK)
+            break;
+    }
+
+//    while( i2cWriteReady != SET); //Выпилил
+//    i2cWriteReady = RESET;
 
     return status;
 }

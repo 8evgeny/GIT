@@ -263,7 +263,8 @@ RS232Puts("EEPROM_WritePage_1\n") ;
 
     /* Set the pointer to the Number of data to be written */
     EEPROMDataWrite = *NumByteToWrite;
-    if (EEPROM_IO_WriteData(EEPROM_I2C_ADDRESS, WriteAddr, pBuffer, buffersize) != HAL_OK) {
+    if (EEPROM_IO_WriteData(EEPROM_I2C_ADDRESS, WriteAddr, pBuffer, buffersize) != HAL_OK)
+    {
         BSP_EEPROM_TIMEOUT_UserCallback();
         status = EEPROM_FAIL;
     }
