@@ -119,7 +119,9 @@ add_library(Debug_LIB ${Debug_src} )
 
 set (EEPROM  Src/EEPROM)
 include_directories(${EEPROM})
-file (GLOB EEPROM_src ${EEPROM}/*.cpp ${EEPROM}/*.c ${EEPROM}/*.h )
+file (GLOB EEPROM_src ${EEPROM}/*.cpp ${EEPROM}/*.c ${EEPROM}/*.h
+    /home/evg/SOFT/Github/GIT/6_promwad2_step_by_step/SC2_FreeRTOS_CUBE_and_CMake/Src/EEPROM/MUROM_EEPROM.c
+    )
 add_library(EEPROM_LIB ${EEPROM_src} )
 
 set (littlefs Middlewares/Third_Party/littlefs)

@@ -158,6 +158,7 @@ uint32_t eeprom_get_totalsize(SystemBlockHdr *sb);
   */
 int8_t eeprom_test_writedelay();
 
+uint8_t eeprom_read_bytes(uint32_t address, uint8_t *data, uint32_t size);
 /**
   * @}
   */
