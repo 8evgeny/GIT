@@ -67,11 +67,11 @@ lfs_cache_read(lfs_t *lfs, lfs_cache_t *rcache, const lfs_cache_t *pcache, lfs_b
         rcache->block = block;
         rcache->off = off - (off % lfs->cfg->read_size);
 
-RS232Puts("lfs_cache_read__begin_read\n") ;
+//RS232Puts("____lfs_cache_read__begin_read\n") ;
 
         int err = lfs->cfg->read(lfs->cfg, rcache->block, rcache->off, rcache->buffer, lfs->cfg->read_size);
 
-RS232Puts("lfs_cache_read__end_read\n") ;
+//RS232Puts("____lfs_cache_read__end_read\n") ;
 
         if (err) {
             return err;
@@ -456,11 +456,11 @@ static int lfs_dir_fetch(lfs_t *lfs,
     for (int i = 0; i < 2; i++) {
         struct lfs_disk_dir test;
 
-RS232Puts("lfs_bd_read__begin\n") ;
+RS232Puts("__lfs_bd_read__begin\n") ;
 
         int err = lfs_bd_read(lfs, tpair[i], 0, &test, sizeof(test));
 
-RS232Puts("lfs_bd_read__end\n") ;
+RS232Puts("__lfs_bd_read__end\n") ;
 
         lfs_dir_fromle32(&test);
 
@@ -2223,8 +2223,6 @@ int lfs_mount(lfs_t *lfs, const struct lfs_config *cfg) {
         if (err && err != LFS_ERR_CORRUPT) {
             goto cleanup;
         }
-
-RS232Puts("lfs_mount_5\n") ;
 
         if (!err) {
             err = lfs_bd_read(lfs, dir.pair[0], sizeof(dir.d),

@@ -34,7 +34,7 @@ int user_provided_block_device_read(const struct lfs_config *c,
                                     void *buffer, lfs_size_t size)
 {
 
-term("user_provided_block_device_read_1\n")
+term("*****  user_provided_block_device_read  ******")
 
     uint32_t addr = (uint32_t)(block * c->block_size + off);
     //Изменил 4 * и вернул
@@ -93,19 +93,20 @@ void littleFsInit()
 
 // mount the filesystem
 
-term("lfs_mount___begin\n")
+term("lfs_mount___begin")
 
     int err = lfs_mount(&lfs, &cfg);
 
-term("lfs_mount___end\n")
+term("lfs_mount___end")
 
 // reformat if we can't mount the filesystem
 // this should only happen on the first boot
     if (err) {
-term("lfs_format___begin\n")
+
+term("error - lfs_format")
+
         lfs_format(&lfs, &cfg);
         lfs_mount(&lfs, &cfg);
-term("lfs_format&mount___end\n")
     }
 
 }

@@ -128,11 +128,11 @@ HAL_StatusTypeDef EEPROM_IO_WriteData(uint16_t DevAddress, uint16_t MemAddress, 
 
 HAL_StatusTypeDef EEPROM_IO_ReadData(uint16_t DevAddress, uint16_t MemAddress, uint8_t *pBuffer, uint32_t BufferSize)
 {
-    term("EEPROM_IO_ReadData__begin_read_data\n")
+//    term("EEPROM_IO_ReadData__begin_read_data")
 
     HAL_StatusTypeDef status = I2c1::getInstance()->readData(DevAddress, MemAddress, pBuffer, BufferSize);
 
-    term("EEPROM_IO_ReadData__end_read_data\n")
+//    term("EEPROM_IO_ReadData__end_read_data")
     return status;
 }
 
@@ -176,36 +176,16 @@ HAL_StatusTypeDef I2c1::readData(uint16_t DevAddress, uint16_t MemAddress, uint8
 {
     while (HAL_I2C_GetState(i2c1Handle) != HAL_I2C_STATE_READY)
         HAL_Delay(10);
-//Муромский код начало
 
-//    uint8_t buf[128];
-//    HAL_I2C_Mem_Read(&hi2c1, M24M01_Address | ((DevAddress >> 16) << 1), DevAddress,I2C_MEMADD_SIZE_16BIT, buf, 18 , 100);
-//    term("RearData = ")
-//    term(buf)
-//    term("\n")
+//term("--------- HAL_I2C_Mem_Read__begin ------------")
 
-//    uint8_t buf1[128] = {"1234567890"};
-//    HAL_I2C_Mem_Write(&hi2c1, M24M01_Address | ((DevAddress >> 16) << 1), DevAddress,I2C_MEMADD_SIZE_16BIT, buf1, 18 , 100);
+//    HAL_StatusTypeDef status = HAL_I2C_Mem_Read_IT(i2c1Handle, DevAddress, MemAddress, I2C_MEMADD_SIZE_16BIT, pData, Size); //Выпилил
+    HAL_StatusTypeDef status = HAL_I2C_Mem_Read(&hi2c1, DevAddress, MemAddress, I2C_MEMADD_SIZE_16BIT, pData, Size, HAL_MAX_DELAY);
 
-//    HAL_I2C_Mem_Read(&hi2c1, M24M01_Address | ((DevAddress >> 16) << 1), DevAddress,I2C_MEMADD_SIZE_16BIT, buf, 18 , 100);
+//    while(i2cReadReady != SET); //Выпилил
+//    i2cReadReady = RESET;
 
-//    term("RearData = ")
-//    term(buf)
-//    term("\n")
-
-//Муромский код конец
-
-term("HAL_I2C_Mem_Read_IT__begin\n")
-
-    HAL_StatusTypeDef status = HAL_I2C_Mem_Read_IT(i2c1Handle, DevAddress, MemAddress, I2C_MEMADD_SIZE_16BIT, pData, Size);
-
-term("while(i2cReadReady != SET\n")
-
-    while(i2cReadReady != SET);
-    i2cReadReady = RESET;
-
-term("HAL_I2C_Mem_Read_IT__end\n")
-
+//term("--------- HAL_I2C_Mem_Read__end ------------")
     return status;
 }
 
