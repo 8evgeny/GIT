@@ -29,7 +29,7 @@
 #define ENOTSUP 66
 
 //Макрос для отладки
-#define term(x) (RS232::getInstance().term << x);
+#define term(x) (RS232::getInstance().term << x << "\r\n");
 
 #ifdef __cplusplus
 extern "C" {

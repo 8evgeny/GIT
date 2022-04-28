@@ -1,5 +1,6 @@
 #include "i2ceeprom.h"
 #include "rs232.h"
+#include "MUROM_EEPROM.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -111,47 +112,33 @@ HAL_StatusTypeDef I2c1::readData(uint16_t DevAddress, uint16_t MemAddress, uint8
         HAL_Delay(10);
 //Муромский код начало
 
+//    uint8_t buf[128];
+//    HAL_I2C_Mem_Read(&hi2c1, M24M01_Address | ((DevAddress >> 16) << 1), DevAddress,I2C_MEMADD_SIZE_16BIT, buf, 18 , 100);
+//    term("RearData = ")
+//    term(buf)
+//    term("\n")
 
+//    uint8_t buf1[128] = {"1234567890"};
+//    HAL_I2C_Mem_Write(&hi2c1, M24M01_Address | ((DevAddress >> 16) << 1), DevAddress,I2C_MEMADD_SIZE_16BIT, buf1, 18 , 100);
 
+//    HAL_I2C_Mem_Read(&hi2c1, M24M01_Address | ((DevAddress >> 16) << 1), DevAddress,I2C_MEMADD_SIZE_16BIT, buf, 18 , 100);
 
-
-
-
-
+//    term("RearData = ")
+//    term(buf)
+//    term("\n")
 
 //Муромский код конец
 
 term("HAL_I2C_Mem_Read_IT__begin\n")
+
     HAL_StatusTypeDef status = HAL_I2C_Mem_Read_IT(i2c1Handle, DevAddress, MemAddress, I2C_MEMADD_SIZE_16BIT, pData, Size);
+
 term("while(i2cReadReady != SET\n")
+
     while(i2cReadReady != SET);
     i2cReadReady = RESET;
+
 term("HAL_I2C_Mem_Read_IT__end\n")
-
-
-//    term("Data = ")
-//    term(pData)
-//    term("\n")
-//    unsigned char buf[128] = {"1234567890"};
-//    HAL_StatusTypeDef status = HAL_I2C_Mem_Write_IT(i2c1Handle, DevAddress, MemAddress, I2C_MEMADD_SIZE_16BIT, buf, 8);
-
-//    while(i2cReadReady != SET);
-//    i2cReadReady = RESET;
-
-//    term("Write buf ")
-//    term(buf)
-//    term("\n")
-
-//    unsigned char buf1[128] = {"0000000000"};
-//    HAL_I2C_Mem_Read_IT(i2c1Handle, DevAddress, MemAddress, I2C_MEMADD_SIZE_16BIT, buf1, 8) ;
-
-
-
-//    term("Read buf1 ")
-//    term(buf1)
-//    term("\n")
-
-
 
     return status;
 }
