@@ -98,7 +98,16 @@ void HAL_MspInit(void)
 void HAL_I2C_MspInit(I2C_HandleTypeDef* hi2c)
 {
     GPIO_InitTypeDef GPIO_InitStruct = {0};
-    if (hi2c->Instance == I2C1) {
+    RCC_PeriphCLKInitTypeDef PeriphClkInitStruct = {0};
+    if (hi2c->Instance == I2C1)
+    {
+        PeriphClkInitStruct.PeriphClockSelection = RCC_PERIPHCLK_I2C1;
+        PeriphClkInitStruct.I2c123ClockSelection = RCC_I2C123CLKSOURCE_D2PCLK1;
+        if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInitStruct) != HAL_OK)
+        {
+          Error_Handler();
+        }
+
         __HAL_RCC_GPIOB_CLK_ENABLE();
         /**I2C1 GPIO Configuration
         PB6     ------> I2C1_SCL
@@ -107,12 +116,12 @@ void HAL_I2C_MspInit(I2C_HandleTypeDef* hi2c)
         GPIO_InitStruct.Pin = GPIO_PIN_6 | GPIO_PIN_7;
         GPIO_InitStruct.Mode = GPIO_MODE_AF_OD;
         GPIO_InitStruct.Pull = GPIO_PULLUP;
-        GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+        GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
         GPIO_InitStruct.Alternate = GPIO_AF4_I2C1;
         HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
         /* Peripheral clock enable */
-        __HAL_RCC_DMA1_CLK_ENABLE();
+        __HAL_RCC_DMA1_CLK_ENABLE(); //Этого у Мурома нет
         __HAL_RCC_I2C1_CLK_ENABLE();
 
         /* I2C1 DMA Init */
@@ -166,6 +175,7 @@ void HAL_I2C_MspInit(I2C_HandleTypeDef* hi2c)
 
         HAL_NVIC_SetPriority(I2C1_EV_IRQn, 0, 2);
         HAL_NVIC_EnableIRQ(I2C1_EV_IRQn);
+
     } else if (hi2c->Instance == I2C2) {
 
         static DMA_HandleTypeDef hdma_i2c2_rx;
