@@ -15,10 +15,9 @@ static void I2C1Init(void)
 {
 
     hi2c1.Instance = I2C1;
-//    hi2c1.Init.Timing = 0x307075B1;
+    hi2c1.Init.Timing = 0x307075B1; //Код формирует CUBE
 //    hi2c1.Init.Timing = FAST_MODE_PLUS;
-    hi2c1.Init.Timing = STANDART_MODE;
-    hi2c1.Init.OwnAddress1 = 0x00;
+    hi2c1.Init.OwnAddress1 = 0;
     hi2c1.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
     hi2c1.Init.DualAddressMode = I2C_DUALADDRESS_DISABLE;
     hi2c1.Init.OwnAddress2 = 0;
@@ -35,7 +34,7 @@ static void I2C1Init(void)
     */
     if (HAL_I2CEx_ConfigAnalogFilter(&hi2c1, I2C_ANALOGFILTER_ENABLE) != HAL_OK) {
         while(1) {
-            RS232::getInstance().term << "I2C1 Configure Digital filter Error!" << "\n";
+            RS232::getInstance().term << "I2C1 Configure Analogue filter Error!" << "\n";
         }
     }
     /** Configure Digital filter
@@ -46,7 +45,6 @@ static void I2C1Init(void)
         }
     }
 
-//    HAL_Delay(10);
 }
 
 void EEPROM_IO_Init(void)
