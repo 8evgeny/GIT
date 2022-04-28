@@ -11,6 +11,7 @@
 #include "udp_multicast.h"
 #include "flash/flash.h"
 #include "net_sockets.h"
+#include "i2ceeprom.h"
 
 extern void flashErraseBank2();
 
@@ -152,6 +153,8 @@ int main(void)
 
 //    SRAMInit();
     BSP_EEPROM_Init();
+//    simpleEEPROM_test();
+    simpleEEPROM_test2();
 //    littleFsInit();
 
 

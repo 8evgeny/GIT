@@ -48,49 +48,75 @@ static void I2C1Init(void)
 
 }
 
+void simpleEEPROM_test()
+{
+    const char wmsg[] = "Some data";
+        char rmsg[sizeof(wmsg)];
+        // HAL expects address to be shifted one bit to the left
+        uint16_t devAddr = 0xA0;
+//        uint16_t memAddr = 0x0100;
+        uint16_t memAddr = 0x0000;   // Адресуется максимум 64 кб   У нас 128 кб
+//        Чипы, имеющие более 64 Кбайт памяти, начинают использовать для адресации младшие биты I2С-адреса устройства.
+//        То есть, с точки зрения нашего кода, они будут выглядеть, как 2 или более отдельных I2C-устройства
+
+        HAL_StatusTypeDef status;
+
+        // Hint: try to comment this line
+        HAL_I2C_Mem_Write(&hi2c1, devAddr, memAddr, I2C_MEMADD_SIZE_16BIT, (uint8_t*)wmsg, sizeof(wmsg), HAL_MAX_DELAY);
+
+        for(;;)
+        { // wait...
+            status = HAL_I2C_IsDeviceReady(&hi2c1, devAddr, 1, HAL_MAX_DELAY);
+            if(status == HAL_OK)
+                break;
+        }
+
+        HAL_I2C_Mem_Read(&hi2c1, devAddr, memAddr, I2C_MEMADD_SIZE_16BIT, (uint8_t*)rmsg, sizeof(rmsg), HAL_MAX_DELAY);
+
+        if(memcmp(rmsg, wmsg, sizeof(rmsg)) == 0)
+        {
+            const char result[] = "Test EEPROM passed!\r";
+            term(result)
+
+        } else
+        {
+            const char result[] = "Test EEPROM failed :(\r";
+            term(result)
+        }
+}
+
+void simpleEEPROM_test2()
+{
+    const char wmsg[] = "1234567890";
+        char rmsg[128];
+        uint16_t devAddr = 0xA0;
+        uint16_t memAddr = 0x0000;
+        HAL_StatusTypeDef status;
+
+        HAL_I2C_Mem_Read(&hi2c1, devAddr, memAddr, I2C_MEMADD_SIZE_16BIT, (uint8_t*)rmsg, sizeof(rmsg), HAL_MAX_DELAY);
+        term ("Read Data:")
+        term (rmsg)
+
+        HAL_I2C_Mem_Write(&hi2c1, devAddr, memAddr, I2C_MEMADD_SIZE_16BIT, (uint8_t*)wmsg, sizeof(wmsg), HAL_MAX_DELAY);
+        for(;;)
+        { // wait...
+            status = HAL_I2C_IsDeviceReady(&hi2c1, devAddr, 1, HAL_MAX_DELAY);
+            if(status == HAL_OK)
+                break;
+        }
+
+        HAL_I2C_Mem_Read(&hi2c1, devAddr, memAddr, I2C_MEMADD_SIZE_16BIT, (uint8_t*)rmsg, sizeof(rmsg), HAL_MAX_DELAY);
+        term ("Read Data2:")
+        term (rmsg)
+
+}
+
+
 void EEPROM_IO_Init(void)
 {
-term("EEPROM_IO_Init__begin\n")
+//term("EEPROM_IO_Init__begin")
     I2C1Init();
-term("EEPROM_IO_Init__sucsess\n")
-
-
-        const char wmsg[] = "Some data";
-            char rmsg[sizeof(wmsg)];
-            // HAL expects address to be shifted one bit to the left
-            uint16_t devAddr = 0xA0;
-            uint16_t memAddr = 0x0100;
-            HAL_StatusTypeDef status;
-
-            // Hint: try to comment this line
-            HAL_I2C_Mem_Write(&hi2c1, devAddr, memAddr, I2C_MEMADD_SIZE_16BIT,
-                (uint8_t*)wmsg, sizeof(wmsg), HAL_MAX_DELAY);
-
-            for(;;) { // wait...
-                status = HAL_I2C_IsDeviceReady(&hi2c1, devAddr, 1,
-                                               HAL_MAX_DELAY);
-                if(status == HAL_OK)
-                    break;
-            }
-
-            HAL_I2C_Mem_Read(&hi2c1, devAddr, memAddr, I2C_MEMADD_SIZE_16BIT,
-                (uint8_t*)rmsg, sizeof(rmsg), HAL_MAX_DELAY);
-
-            if(memcmp(rmsg, wmsg, sizeof(rmsg)) == 0)
-            {
-                const char result[] = "Test passed!\r\n";
-                term(result)
-
-            } else
-            {
-                const char result[] = "Test failed :(\r\n";
-                term(result)
-            }
-
-
-
-
-
+//term("EEPROM_IO_Init__sucsess")
 
 }
 

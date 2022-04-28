@@ -119,6 +119,10 @@ enum {
  \fn EEPROM_IO_Init
 */
 void EEPROM_IO_Init(void);
+
+void simpleEEPROM_test();
+void simpleEEPROM_test2();
+
 /*!
  \brief The function writes data to the EEPROM
 
