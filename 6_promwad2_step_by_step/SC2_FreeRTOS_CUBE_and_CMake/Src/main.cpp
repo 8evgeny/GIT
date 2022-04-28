@@ -44,7 +44,7 @@ static void MX_TIM3_Init(void);
 static void MX_RNG_Init(void);
 void StartDefaultTask(void const * argument);
 
-//I2C_HandleTypeDef hi2c1;
+I2C_HandleTypeDef hi2c1;
 I2C_HandleTypeDef hi2c2;
 I2C_HandleTypeDef hi2c3;
 DMA_HandleTypeDef hdma_i2c2_rx;
