@@ -25,9 +25,10 @@
 extern "C" {
 #endif
 
-osThreadDef(switchLEDsThread, switchLEDsThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 2);
-osThreadDef(readButtonThread, readButtonThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 5);
+//osThreadDef(switchLEDsThread, switchLEDsThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 2);
+//osThreadDef(readButtonThread, readButtonThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 5);
 osTimerDef(timer7, timerCallback); /*!< Define the attributes of the timer */
+
 //osMessageQDef(message_q, 1, uint16_t); // Declare a message queue
 osMutexDef (mutexRingBufferRx);
 
