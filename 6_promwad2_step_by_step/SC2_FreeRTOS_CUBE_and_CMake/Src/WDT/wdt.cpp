@@ -17,29 +17,30 @@ static WWDG_HandleTypeDef hwwdg;
 void WDTInit(void)
 {
     /*Check if the system has resumed from WWDG reset ####################*/
-//    if (__HAL_RCC_GET_FLAG(RCC_FLAG_WWDGRST) != RESET) {
+//    if (__HAL_RCC_GET_FLAG(RCC_FLAG_WWDGRST) != RESET) {  /* Flags in the CSR register */
+    if (__HAL_RCC_GET_FLAG((uint8_t)0x7EU) != RESET) {
 
 
-//        /* Insert 4s delay */
-//        HAL_Delay(4000);
+        /* Insert 4s delay */
+        HAL_Delay(4000);
 
-//        /* Clear reset flags */
-//        __HAL_RCC_CLEAR_RESET_FLAGS();
-//    }
+        /* Clear reset flags */
+        __HAL_RCC_CLEAR_RESET_FLAGS();
+    }
 
-//    hwwdg.Instance = WWDG1;
+    hwwdg.Instance = WWDG1;
 
-//    hwwdg.Init.Window = 127;
-//    hwwdg.Init.Prescaler = WWDG_PRESCALER_8;
+    hwwdg.Init.Window = 127;
+    hwwdg.Init.Prescaler = WWDG_PRESCALER_8;
 
-//    hwwdg.Init.Counter = 0x7E;
-//    hwwdg.Init.EWIMode = WWDG_EWI_ENABLE;
+    hwwdg.Init.Counter = 0x7E;
+    hwwdg.Init.EWIMode = WWDG_EWI_ENABLE;
 
-//    if (HAL_WWDG_Init(&hwwdg) != HAL_OK) {
-//        while (1) {
-//            RS232::getInstance().term << "WWDG Init Error!" << "\n";
-//        }
-//    }
+    if (HAL_WWDG_Init(&hwwdg) != HAL_OK) {
+        while (1) {
+            RS232::getInstance().term << "WWDG Init Error!" << "\n";
+        }
+    }
 }
 
 #ifdef __cplusplus
