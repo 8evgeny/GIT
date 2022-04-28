@@ -2,11 +2,11 @@ cmake_minimum_required(VERSION 3.15)
 set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
 
 # Set ARM compiler
-#set(TOOLS_PATH /home/evg/toolchain/gcc-arm-none-eabi-new)
+set(TOOLS_PATH /home/evg/toolchain/gcc-arm-none-eabi-new)
 #set(CMAKE_C_COMPILER ${TOOLS_PATH}/bin/arm-none-eabi-gcc)
 #set(CMAKE_CXX_COMPILER ${TOOLS_PATH}/bin/arm-none-eabi-g++)
-#set(CMAKE_CXX_LINKER_LAUNCHER ${TOOLS_PATH}/bin/arm-none-eabi-g++)
-#set(CMAKE_OBJCOPY ${TOOLS_PATH}/bin/arm-none-eabi-objcopy)
+set(CMAKE_CXX_LINKER_LAUNCHER ${TOOLS_PATH}/bin/arm-none-eabi-g++)
+set(CMAKE_OBJCOPY ${TOOLS_PATH}/bin/arm-none-eabi-objcopy)
 
 project(FreeRTOS_STMH753 C CXX ASM)
 
@@ -14,11 +14,11 @@ add_definitions(-DSTM32H753xx)
 add_definitions(-DUSE_HAL_DRIVER)
 add_definitions(-D__weak=__attribute__\(\(weak\)\))
 add_definitions(-D__packed=__attribute__\(\(__packed__\)\))
-add_definitions(-D__FPU_PRESENT=1)
+#add_definitions(-D__FPU_PRESENT=1)
 add_definitions(-DARM_MATH_CM7)
 add_definitions(-DHAVE_CONFIG_H)
-add_definitions(-D__DCACHE_PRESENT)
-add_definitions(-D__ICACHE_PRESENT)
+#add_definitions(-D__DCACHE_PRESENT)
+#add_definitions(-D__ICACHE_PRESENT)
 add_definitions(-DSC2BOARD)
 
 #include "stm32h753xx.h"  // все регистры
