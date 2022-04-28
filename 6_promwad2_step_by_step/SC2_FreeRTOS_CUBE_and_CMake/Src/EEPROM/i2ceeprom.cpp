@@ -1,6 +1,7 @@
 #include "i2ceeprom.h"
 #include "rs232.h"
 #include "MUROM_EEPROM.h"
+#include <cstring>
 
 #ifdef __cplusplus
 extern "C" {
@@ -52,6 +53,45 @@ void EEPROM_IO_Init(void)
 term("EEPROM_IO_Init__begin\n")
     I2C1Init();
 term("EEPROM_IO_Init__sucsess\n")
+
+
+        const char wmsg[] = "Some data";
+            char rmsg[sizeof(wmsg)];
+            // HAL expects address to be shifted one bit to the left
+            uint16_t devAddr = (0x50 << 1);
+            uint16_t memAddr = 0x0100;
+            HAL_StatusTypeDef status;
+
+            // Hint: try to comment this line
+            HAL_I2C_Mem_Write(&hi2c1, devAddr, memAddr, I2C_MEMADD_SIZE_16BIT,
+                (uint8_t*)wmsg, sizeof(wmsg), HAL_MAX_DELAY);
+
+            for(;;) { // wait...
+                status = HAL_I2C_IsDeviceReady(&hi2c1, devAddr, 1,
+                                               HAL_MAX_DELAY);
+                if(status == HAL_OK)
+                    break;
+            }
+
+            HAL_I2C_Mem_Read(&hi2c1, devAddr, memAddr, I2C_MEMADD_SIZE_16BIT,
+                (uint8_t*)rmsg, sizeof(rmsg), HAL_MAX_DELAY);
+
+            if(memcmp(rmsg, wmsg, sizeof(rmsg)) == 0)
+            {
+                const char result[] = "Test passed!\r\n";
+                term(result)
+
+            } else
+            {
+                const char result[] = "Test failed :(\r\n";
+                term(result)
+            }
+
+
+
+
+
+
 }
 
 HAL_StatusTypeDef EEPROM_IO_WriteData(uint16_t DevAddress, uint16_t MemAddress, uint8_t *pBuffer, uint32_t BufferSize)
