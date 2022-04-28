@@ -108,19 +108,44 @@ HAL_StatusTypeDef I2c1::writeData(uint16_t DevAddress, uint16_t MemAddress, uint
 
 HAL_StatusTypeDef I2c1::readData(uint16_t DevAddress, uint16_t MemAddress, uint8_t *pData, uint16_t Size)
 {
-    term("I2c1::readData__begin_HAL_I2C_GetState\n")
 
     while (HAL_I2C_GetState(i2c1Handle) != HAL_I2C_STATE_READY)
         HAL_Delay(10);
-    term("I2c1::readData__end_HAL_I2C_GetState\n")
 
-//    osDelay(5);
-    HAL_StatusTypeDef status = HAL_I2C_Mem_Read_IT(i2c1Handle, DevAddress, MemAddress, I2C_MEMADD_SIZE_16BIT, pData, Size);
+    osDelay(5);
+
+    term("HAL_I2C_Mem_Read_IT__begin\n")
+
+//    HAL_StatusTypeDef status = HAL_I2C_Mem_Read_IT(i2c1Handle, DevAddress, MemAddress, I2C_MEMADD_SIZE_16BIT, pData, Size);
+
+    term("Data = ")
+    term(pData)
+    term("\n")
+    unsigned char buf[128] = {"1234567890"};
+    HAL_StatusTypeDef status = HAL_I2C_Mem_Write_IT(i2c1Handle, DevAddress, MemAddress, I2C_MEMADD_SIZE_16BIT, buf, 8);
+
+    while(i2cReadReady != SET);
+    i2cReadReady = RESET;
+
+    term("Write buf ")
+    term(buf)
+    term("\n")
+
+    unsigned char buf1[128] = {"0000000000"};
+    HAL_I2C_Mem_Read_IT(i2c1Handle, DevAddress, MemAddress, I2C_MEMADD_SIZE_16BIT, buf1, 8) ;
+
+    while(i2cReadReady != SET);
+    i2cReadReady = RESET;
+
+    term("Read buf1 ")
+    term(buf1)
+    term("\n")
 
     term("HAL_I2C_Mem_Read_IT__end\n")
 
-    while(i2cReadReady != SET)
-            i2cReadReady = RESET;
+    while(i2cReadReady != SET);
+    i2cReadReady = RESET;
+
 term("11\n")
     return status;
 }
@@ -138,6 +163,7 @@ extern "C" {
   */
 void HAL_I2C_MemTxCpltCallback(I2C_HandleTypeDef *I2cHandle)
 {
+term("HAL_I2C_MemTxCpltCallback")
     I2c1::getInstance()->i2cWriteReady = SET;
 }
 
@@ -150,6 +176,7 @@ void HAL_I2C_MemTxCpltCallback(I2C_HandleTypeDef *I2cHandle)
   */
 void HAL_I2C_MemRxCpltCallback(I2C_HandleTypeDef *I2cHandle)
 {
+term("HAL_I2C_MemRxCpltCallback")
     I2c1::getInstance()->i2cReadReady = SET;
 }
 /**
