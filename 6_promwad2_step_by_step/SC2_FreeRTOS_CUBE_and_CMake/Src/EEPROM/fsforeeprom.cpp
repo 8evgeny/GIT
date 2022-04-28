@@ -77,6 +77,7 @@ void littleFsInit()
     cfg.erase = user_provided_block_device_erase;
     cfg.sync = user_provided_block_device_sync;
 
+//Параметры lfs похожи на правильные
     cfg.read_size = 256;
     cfg.prog_size = 256;
     cfg.block_size = 1024;
@@ -99,8 +100,10 @@ term("lfs_mount___end\n")
 // reformat if we can't mount the filesystem
 // this should only happen on the first boot
     if (err) {
+term("lfs_format___begin\n")
         lfs_format(&lfs, &cfg);
         lfs_mount(&lfs, &cfg);
+term("lfs_format&mount___end\n")
     }
 
 }
