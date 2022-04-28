@@ -112,7 +112,7 @@ enum {
 
  \fn I2C1Init
 */
-void I2C1Init(void);
+//void I2C1Init(void);
 /*!
  \brief The function initializes periphery to read and write data to the EEPROM.
 

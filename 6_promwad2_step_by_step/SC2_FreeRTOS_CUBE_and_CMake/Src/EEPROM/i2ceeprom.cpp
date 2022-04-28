@@ -11,7 +11,7 @@ DMA_HandleTypeDef hdma_i2c1_rx,
                   hdma_i2c1_tx;
 
 
-void I2C1Init(void)
+static void I2C1Init(void)
 {
 
     hi2c1.Instance = I2C1;

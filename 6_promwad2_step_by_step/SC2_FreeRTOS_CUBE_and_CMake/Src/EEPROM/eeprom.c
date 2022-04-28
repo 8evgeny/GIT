@@ -45,7 +45,7 @@ static uint32_t EEPROM_WaitEepromStandbyState(void);
   */
 uint32_t BSP_EEPROM_Init(void)
 {
-RS232Puts("BSP_EEPROM_Init_1\n") ;
+RS232Puts("BSP_EEPROM_Init_begin\n") ;
 
     /* I2C Initialization */
     EEPROM_IO_Init();
@@ -54,7 +54,7 @@ RS232Puts("BSP_EEPROM_Init_1\n") ;
     /* Select the EEPROM address and check if OK */
     if (EEPROM_IO_IsDeviceReady(EEPROM_I2C_ADDRESS, EEPROM_MAX_TRIALS) != HAL_OK) {
 
-RS232Puts("BSP_EEPROM_Init_NO_INIT!!!\n") ;
+RS232Puts("BSP_EEPROM_Init__error\n") ;
 
         return EEPROM_FAIL;
     }
