@@ -196,7 +196,9 @@ void GPIOInit(void)
 //    }
 
     timerId7 = osTimerCreate( osTimer(timer7), osTimerPeriodic, nullptr); // create timer thread
-    term("timerId7atempt\n")
+
+//    term("timerId7atempt\n")
+
     if (timerId7)
     {
         osStatus status = osTimerStart (timerId7, timerDelay);   // start timer
