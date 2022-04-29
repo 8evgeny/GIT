@@ -45,10 +45,10 @@ MEMORY
 {
   RAM_D1_main (xrw)   : ORIGIN = 0x24000000, LENGTH = 512K
   FLASH (rx)     : ORIGIN = 0x08000000, LENGTH = 2048K
-  Memory_B1(xrw)   : ORIGIN = 0x30020000, LENGTH = 0x80
-  Memory_B2(xrw)   : ORIGIN = 0x30020080, LENGTH = 0x80
-  Memory_B3(xrw)   : ORIGIN = 0x30020100, LENGTH = 0x17d0
-  Memory_B4(xrw)   : ORIGIN = 0x300218D0, LENGTH = 0x17d0
+  Memory_B1(xrw)   : ORIGIN = 0x38020000, LENGTH = 0x80
+  Memory_B2(xrw)   : ORIGIN = 0x38020080, LENGTH = 0x80
+  Memory_B3(xrw)   : ORIGIN = 0x38020100, LENGTH = 0x17d0
+  Memory_B4(xrw)   : ORIGIN = 0x380218D0, LENGTH = 0x17d0
   DTCMRAM (xrw)  : ORIGIN = 0x20000000, LENGTH = 128K
   RAM_D2 (xrw)   : ORIGIN = 0x30000000, LENGTH = 288K
   RAM_D3 (xrw)   : ORIGIN = 0x38000000, LENGTH = 64K
@@ -175,10 +175,10 @@ SECTIONS
   }
 
   .ARM.attributes 0 : { *(.ARM.attributes) }
-/*  .RxDecripSection : { *(.RxDescripSection) } >Memory_B1
+  .RxDecripSection : { *(.RxDescripSection) } >Memory_B1
   .TxDescripSection : { *(.TxDescripSection) } >Memory_B2
   .RxarraySection : { *(.RxBUF) } >Memory_B3
-  .TxarraySection : { *(.TxBUF) } >Memory_B4*/
+  .TxarraySection : { *(.TxBUF) } >Memory_B4
 }
 
 
