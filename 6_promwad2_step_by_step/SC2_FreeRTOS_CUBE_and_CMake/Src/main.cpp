@@ -156,7 +156,7 @@ int main(void)
     simpleEEPROM_test();
 //    simpleEEPROM_test2();
     littleFsInit();
-//    FsForEepromTEST;
+    FsForEepromTEST;
 //    Flash::getInstance().test(); // Не работает
 
 
