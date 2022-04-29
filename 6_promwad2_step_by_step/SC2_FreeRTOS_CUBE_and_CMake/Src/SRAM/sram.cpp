@@ -7,7 +7,7 @@ extern "C" {
 #endif
 
 extern SRAM_HandleTypeDef hsram1;
-DMA_HandleTypeDef hdma_memtomem_dma2_stream0;
+MDMA_HandleTypeDef hmdma_memtomem_dma2_stream0;
 static void DMAInit(void);
 
 /*!
@@ -18,43 +18,57 @@ static void DMAInit(void);
 /* FMC initialization function */
 void SRAMInit(void)
 {
-//    DMAInit();
-//    FMC_NORSRAM_TimingTypeDef Timing = {0};
+    DMAInit();
 
-//    /** Perform the SRAM1 memory initialization sequence
-//    */
-//    hsram1.Instance = FMC_NORSRAM_DEVICE;
-//    hsram1.Extended = FMC_NORSRAM_EXTENDED_DEVICE;
-//    /* hsram1.Init */
-//    hsram1.Init.NSBank = FMC_NORSRAM_BANK1;
-//    hsram1.Init.DataAddressMux = FMC_DATA_ADDRESS_MUX_DISABLE;
-//    hsram1.Init.MemoryType = FMC_MEMORY_TYPE_SRAM;
-//    hsram1.Init.MemoryDataWidth = FMC_NORSRAM_MEM_BUS_WIDTH_32;
-//    hsram1.Init.BurstAccessMode = FMC_BURST_ACCESS_MODE_DISABLE;
-//    hsram1.Init.WaitSignalPolarity = FMC_WAIT_SIGNAL_POLARITY_LOW;
-//    hsram1.Init.WaitSignalActive = FMC_WAIT_TIMING_BEFORE_WS;
-//    hsram1.Init.WriteOperation = FMC_WRITE_OPERATION_ENABLE;
-//    hsram1.Init.WaitSignal = FMC_WAIT_SIGNAL_DISABLE;
-//    hsram1.Init.ExtendedMode = FMC_EXTENDED_MODE_DISABLE;
-//    hsram1.Init.AsynchronousWait = FMC_ASYNCHRONOUS_WAIT_DISABLE;
-//    hsram1.Init.WriteBurst = FMC_WRITE_BURST_DISABLE;
+//То что Куб сгенерил
+    FMC_NORSRAM_TimingTypeDef Timing = {0};
+
+    /** Perform the SRAM1 memory initialization sequence
+    */
+    hsram1.Instance = FMC_NORSRAM_DEVICE;
+    hsram1.Extended = FMC_NORSRAM_EXTENDED_DEVICE;
+    /* hsram1.Init */
+    hsram1.Init.NSBank = FMC_NORSRAM_BANK1;
+    hsram1.Init.DataAddressMux = FMC_DATA_ADDRESS_MUX_DISABLE;
+    hsram1.Init.MemoryType = FMC_MEMORY_TYPE_SRAM;
+    hsram1.Init.MemoryDataWidth = FMC_NORSRAM_MEM_BUS_WIDTH_32;
+    hsram1.Init.BurstAccessMode = FMC_BURST_ACCESS_MODE_DISABLE;
+    hsram1.Init.WaitSignalPolarity = FMC_WAIT_SIGNAL_POLARITY_LOW;
+    hsram1.Init.WaitSignalActive = FMC_WAIT_TIMING_BEFORE_WS;
+    hsram1.Init.WriteOperation = FMC_WRITE_OPERATION_ENABLE;
+    hsram1.Init.WaitSignal = FMC_WAIT_SIGNAL_DISABLE;
+    hsram1.Init.ExtendedMode = FMC_EXTENDED_MODE_DISABLE;
+    hsram1.Init.AsynchronousWait = FMC_ASYNCHRONOUS_WAIT_DISABLE;
+    hsram1.Init.WriteBurst = FMC_WRITE_BURST_DISABLE;
+    hsram1.Init.ContinuousClock = FMC_CONTINUOUS_CLOCK_SYNC_ONLY;
 //    hsram1.Init.ContinuousClock = FMC_CONTINUOUS_CLOCK_SYNC_ASYNC;
-//    hsram1.Init.WriteFifo = FMC_WRITE_FIFO_DISABLE;
-//    hsram1.Init.PageSize = FMC_PAGE_SIZE_NONE;
-//    hsram1.hdma = &hdma_memtomem_dma2_stream0;
-//    /* Timing */
+    hsram1.Init.WriteFifo = FMC_WRITE_FIFO_ENABLE;
+    hsram1.Init.PageSize = FMC_PAGE_SIZE_NONE;
+
+    hsram1.hmdma = &hmdma_memtomem_dma2_stream0;
+
+    /* Timing */
+    Timing.AddressSetupTime = 15;
+    Timing.AddressHoldTime = 15;
+    Timing.DataSetupTime = 255;
 //    Timing.AddressSetupTime = 2;
 //    Timing.AddressHoldTime = 1;
 //    Timing.DataSetupTime = 2;
-
-//    if (HAL_SRAM_Init(&hsram1, &Timing, NULL) != HAL_OK) {
-//        while (1) {
-//            RS232::getInstance().term << "SRAM Init Error!" << "\n";
-//        }
-//    }
+    Timing.BusTurnAroundDuration = 15;
+    Timing.CLKDivision = 16;
+    Timing.DataLatency = 17;
+    Timing.AccessMode = FMC_ACCESS_MODE_A;
 
 
-//    HAL_Delay(40);
+    if (HAL_SRAM_Init(&hsram1, &Timing, NULL) != HAL_OK)
+    {
+        while (1)
+        {
+            RS232::getInstance().term << "SRAM Init Error!" << "\n";
+        }
+    }
+
+    HAL_Delay(40);
 }
 
 /*!
@@ -64,32 +78,32 @@ void SRAMInit(void)
   */
 static void DMAInit(void)
 {
-//    /* DMA controller clock enable */
-//    __HAL_RCC_DMA2_CLK_ENABLE();
+    /* DMA controller clock enable */
+    __HAL_RCC_DMA2_CLK_ENABLE();
 
-//    /* Configure DMA request hdma_memtomem_dma2_stream0 on DMA2_Stream0 */
-//    hdma_memtomem_dma2_stream0.Instance = DMA2_Stream0;
-//    hdma_memtomem_dma2_stream0.Init.Channel = DMA_CHANNEL_0;
-//    hdma_memtomem_dma2_stream0.Init.Direction = DMA_MEMORY_TO_MEMORY;
-//    hdma_memtomem_dma2_stream0.Init.PeriphInc = DMA_PINC_ENABLE;
-//    hdma_memtomem_dma2_stream0.Init.MemInc = DMA_MINC_ENABLE;
-//    hdma_memtomem_dma2_stream0.Init.PeriphDataAlignment = DMA_PDATAALIGN_WORD;
-//    hdma_memtomem_dma2_stream0.Init.MemDataAlignment = DMA_MDATAALIGN_WORD;
-//    hdma_memtomem_dma2_stream0.Init.Mode = DMA_NORMAL;
-//    hdma_memtomem_dma2_stream0.Init.Priority = DMA_PRIORITY_HIGH;
-//    hdma_memtomem_dma2_stream0.Init.FIFOMode = DMA_FIFOMODE_DISABLE;
-//    hdma_memtomem_dma2_stream0.Init.FIFOThreshold = DMA_FIFO_THRESHOLD_FULL;
-//    hdma_memtomem_dma2_stream0.Init.MemBurst = DMA_MBURST_SINGLE;
-//    hdma_memtomem_dma2_stream0.Init.PeriphBurst = DMA_PBURST_SINGLE;
+    /* Configure DMA request hdma_memtomem_dma2_stream0 on DMA2_Stream0 */
+    hmdma_memtomem_dma2_stream0.Instance = DMA2_Stream0;
+    hmdma_memtomem_dma2_stream0.Init.Channel = DMA_CHANNEL_0;
+    hmdma_memtomem_dma2_stream0.Init.Direction = DMA_MEMORY_TO_MEMORY;
+    hmdma_memtomem_dma2_stream0.Init.PeriphInc = DMA_PINC_ENABLE;
+    hmdma_memtomem_dma2_stream0.Init.MemInc = DMA_MINC_ENABLE;
+    hmdma_memtomem_dma2_stream0.Init.PeriphDataAlignment = DMA_PDATAALIGN_WORD;
+    hmdma_memtomem_dma2_stream0.Init.MemDataAlignment = DMA_MDATAALIGN_WORD;
+    hmdma_memtomem_dma2_stream0.Init.Mode = DMA_NORMAL;
+    hmdma_memtomem_dma2_stream0.Init.Priority = DMA_PRIORITY_HIGH;
+    hmdma_memtomem_dma2_stream0.Init.FIFOMode = DMA_FIFOMODE_DISABLE;
+    hmdma_memtomem_dma2_stream0.Init.FIFOThreshold = DMA_FIFO_THRESHOLD_FULL;
+    hmdma_memtomem_dma2_stream0.Init.MemBurst = DMA_MBURST_SINGLE;
+    hmdma_memtomem_dma2_stream0.Init.PeriphBurst = DMA_PBURST_SINGLE;
 
-//    if (HAL_DMA_Init(&hdma_memtomem_dma2_stream0) != HAL_OK) {
-//        while (1) {
-//            RS232::getInstance().term << "SRAM DMA Init Error!" << "\n";
-//        }
-//    }
+    if (HAL_DMA_Init(&hmdma_memtomem_dma2_stream0) != HAL_OK) {
+        while (1) {
+            RS232::getInstance().term << "SRAM DMA Init Error!" << "\n";
+        }
+    }
 
-//    HAL_NVIC_SetPriority(DMA2_Stream0_IRQn, 0, 0);
-//    HAL_NVIC_EnableIRQ(DMA2_Stream0_IRQn);
+    HAL_NVIC_SetPriority(DMA2_Stream0_IRQn, 0, 0);
+    HAL_NVIC_EnableIRQ(DMA2_Stream0_IRQn);
 
 }
 
