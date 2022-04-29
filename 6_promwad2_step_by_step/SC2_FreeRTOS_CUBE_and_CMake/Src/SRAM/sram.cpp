@@ -18,6 +18,7 @@ static void DMAInit(void);
 /* FMC initialization function */
 void SRAMInit(void)
 {
+
     DMAInit();
 
 //То что Куб сгенерил
@@ -68,7 +69,6 @@ void SRAMInit(void)
         }
     }
 
-    HAL_Delay(40);
 }
 
 /*!
@@ -81,7 +81,7 @@ static void DMAInit(void)
     /* DMA controller clock enable */
     __HAL_RCC_DMA2_CLK_ENABLE();
 
-//    /* Configure DMA request hdma_memtomem_dma2_stream0 on DMA2_Stream0 */
+    /* Configure DMA request hdma_memtomem_dma2_stream0 on DMA2_Stream0 */
 //    hmdma_memtomem_dma2_stream0.Instance = DMA2_Stream0;
 //    hmdma_memtomem_dma2_stream0.Init.Channel = MDMA_Channel0;
 //    hmdma_memtomem_dma2_stream0.Init.Direction = DMA_MEMORY_TO_MEMORY;
@@ -96,11 +96,11 @@ static void DMAInit(void)
 //    hmdma_memtomem_dma2_stream0.Init.MemBurst = DMA_MBURST_SINGLE;
 //    hmdma_memtomem_dma2_stream0.Init.PeriphBurst = DMA_PBURST_SINGLE;
 
-//    if (HAL_DMA_Init(&hmdma_memtomem_dma2_stream0) != HAL_OK) {
-//        while (1) {
-//            RS232::getInstance().term << "SRAM DMA Init Error!" << "\n";
-//        }
-//    }
+    if (HAL_MDMA_Init(&hmdma_memtomem_dma2_stream0) != HAL_OK) {
+        while (1) {
+            RS232::getInstance().term << "SRAM DMA Init Error!" << "\n";
+        }
+    }
 
     HAL_NVIC_SetPriority(DMA2_Stream0_IRQn, 0, 0);
     HAL_NVIC_EnableIRQ(DMA2_Stream0_IRQn);
@@ -133,10 +133,10 @@ HAL_StatusTypeDef SRAM::readData(uint32_t *dataBuf, size_t bufSize, uint32_t *ad
 
 HAL_StatusTypeDef SRAM::writeData(uint32_t *data, size_t dataSize, uint32_t *addr)
 {
-//    HAL_StatusTypeDef status = HAL_SRAM_Write_DMA(sram1Handle, addr, data, dataSize);
-//    while (sramDataReady != SET);
-//    sramDataReady = RESET;
-//    return status;
+    HAL_StatusTypeDef status = HAL_SRAM_Write_DMA(sram1Handle, addr, data, dataSize);
+    while (sramDataReady != SET);
+    sramDataReady = RESET;
+    return status;
 }
 
 #ifdef __cplusplus
@@ -389,8 +389,8 @@ void HAL_SRAM_MspDeInit(SRAM_HandleTypeDef* hsram)
 
 void DMA2_Stream0_IRQHandler(void)
 {
-//    HAL_DMA_IRQHandler(hsram1.hdma);
-//    SRAM::getInstance()->sramDataReady = SET;
+    HAL_MDMA_IRQHandler(hsram1.hmdma);
+    SRAM::getInstance()->sramDataReady = SET;
 }
 
 #ifdef __cplusplus

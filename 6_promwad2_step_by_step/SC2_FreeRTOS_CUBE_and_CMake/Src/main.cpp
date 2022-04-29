@@ -151,7 +151,7 @@ int main(void)
     MX_RNG_Init();
     GPIOInit();  //Тут остался только таймер - не стартует ??
 
-//    SRAMInit();
+    SRAMInit();
     BSP_EEPROM_Init();
     simpleEEPROM_test();
     simpleEEPROM_test2();
@@ -170,9 +170,9 @@ int main(void)
 //    defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL); //При включении система виснет
 
 
-    Json::getInstance()->configStation();
-    if (Json::getInstance()->deserializeJsonFlag == Json::JsonFlags::OK)
-    {
+//    Json::getInstance()->configStation();
+//    if (Json::getInstance()->deserializeJsonFlag == Json::JsonFlags::OK)
+//    {
 
 //        netInit(Json::getInstance()->thisStation.ip, Json::getInstance()->thisStation.mask, Json::getInstance()->thisStation.gateway);
 
@@ -193,11 +193,11 @@ int main(void)
 
 //        firmwareInitThread();
 
-    }
-    else
-    {
-        term("deserializeJsonFlag  -  error")
-    }
+//    }
+//    else
+//    {
+//        term("deserializeJsonFlag  -  error")
+//    }
 
 //     WDTInit();  // не собирается
 //    if ((osThreadCreate(osThread(StartWdtThread), nullptr)) == nullptr)

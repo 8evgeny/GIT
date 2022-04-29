@@ -291,6 +291,7 @@ add_executable(${PROJECT_NAME}.elf
     ${SOURCES_C}
     ${SOURCES_CPP}
     ${CMAKE_SOURCE_DIR}/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_flash.c
+    ${CMAKE_SOURCE_DIR}/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_sram.c
     )
 
 
