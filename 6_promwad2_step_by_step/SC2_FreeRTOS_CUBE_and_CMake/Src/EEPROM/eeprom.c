@@ -45,6 +45,7 @@ static uint32_t EEPROM_WaitEepromStandbyState(void);
   */
 uint32_t BSP_EEPROM_Init(void)
 {
+RS232Puts("******  BSP_EEPROM_Init  ******\n") ;
 
     /* I2C Initialization */
     EEPROM_IO_Init();
@@ -77,7 +78,7 @@ RS232Puts("BSP_EEPROM_Init__error\n") ;
   */
 uint32_t BSP_EEPROM_ReadBuffer(uint8_t *pBuffer, uint16_t ReadAddr, uint16_t *NumByteToRead)
 {
-
+RS232Puts("******  BSP_EEPROM_ReadBuffer  ******\n") ;
 
     uint32_t buffersize = *NumByteToRead;
 
@@ -86,8 +87,6 @@ uint32_t BSP_EEPROM_ReadBuffer(uint8_t *pBuffer, uint16_t ReadAddr, uint16_t *Nu
 
     if (EEPROM_IO_ReadData(EEPROM_I2C_ADDRESS, ReadAddr, pBuffer, buffersize) != HAL_OK)
     {
-
-RS232Puts("EEPROM_IO_ReadData\n") ;
 
         BSP_EEPROM_TIMEOUT_UserCallback();
         return EEPROM_FAIL;
@@ -109,7 +108,7 @@ RS232Puts("EEPROM_IO_ReadData\n") ;
 uint32_t BSP_EEPROM_WriteBuffer(uint8_t *pBuffer, uint16_t WriteAddr, uint16_t NumByteToWrite)
 {
 
-RS232Puts("BSP_EEPROM_WriteBuffer_1\n") ;
+RS232Puts("******  BSP_EEPROM_WriteBuffer  ******\n") ;
 
     uint8_t  numofpage = 0, numofsingle = 0, count = 0;
     uint16_t addr = 0;
@@ -255,8 +254,7 @@ RS232Puts("BSP_EEPROM_WriteBuffer_1\n") ;
   */
 static uint32_t EEPROM_WritePage(uint8_t *pBuffer, uint16_t WriteAddr, uint8_t *NumByteToWrite)
 {
-
-RS232Puts("EEPROM_WritePage_1\n") ;
+RS232Puts("******  EEPROM_WritePage  ******\n") ;
 
     uint32_t buffersize = *NumByteToWrite;
     uint32_t status = EEPROM_OK;
@@ -269,13 +267,11 @@ RS232Puts("EEPROM_WritePage_1\n") ;
         status = EEPROM_FAIL;
     }
 
-RS232Puts("EEPROM_WritePage_2\n") ;
 
     while (EEPROM_WaitEepromStandbyState() != EEPROM_OK) {
         return EEPROM_FAIL;
     }
 
-RS232Puts("EEPROM_WritePage_3\n") ;
 
     /* If all operations OK, return EEPROM_OK (0) */
     return status;

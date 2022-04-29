@@ -170,11 +170,7 @@ I2c1 *I2c1::pInstance = nullptr;
 HAL_StatusTypeDef I2c1::writeData(uint16_t DevAddress, uint16_t MemAddress, uint8_t *pData, uint16_t Size)
 {
 
-term("HAL_I2C_GetState__XXXXXXXXXX")
-
     while (HAL_I2C_GetState(i2c1Handle) != HAL_I2C_STATE_READY);
-
-term("HAL_I2C_GetState__XXXXXXXXXX")
 
 //    HAL_StatusTypeDef status = HAL_I2C_Mem_Write_IT(i2c1Handle, DevAddress, MemAddress, I2C_MEMADD_SIZE_16BIT, pData, Size); //Выпилил
     HAL_StatusTypeDef status = HAL_I2C_Mem_Write(&hi2c1, DevAddress, MemAddress, I2C_MEMADD_SIZE_16BIT, pData, Size, HAL_MAX_DELAY);

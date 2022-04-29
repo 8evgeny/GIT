@@ -145,7 +145,7 @@ int main(void)
     MX_TIM3_Init();
 //    MX_DMA_Init(); //Вынесен в RS232
     MX_RNG_Init();
-    GPIOInit();
+    GPIOInit();  //Тут остался только таймер - не стартует ??
 
 //    SRAMInit();
     BSP_EEPROM_Init();
@@ -153,6 +153,7 @@ int main(void)
 //    simpleEEPROM_test2();
     littleFsInit();
 
+//    FsForEeprom::getInstance().test();
 
 
 //    uint32_t addr = 0;

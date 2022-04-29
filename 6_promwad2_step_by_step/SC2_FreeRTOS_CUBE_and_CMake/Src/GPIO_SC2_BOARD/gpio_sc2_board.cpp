@@ -360,6 +360,10 @@ term("timerCallback\n")
 void switchLEDsThread(void const *arg)
 {
     (void)arg;
+
+HAL_Delay(200);
+term("****  switchLEDsThread  start  ****")
+
     while(true) {
         for(uint8_t i = 0; i < 6; ++i) {
 
@@ -382,6 +386,10 @@ void switchLEDsThread(void const *arg)
 void replaceTimerCallback(void const *arg)
 {
     (void)arg;
+
+
+HAL_Delay(300);
+term("****  replaceTimerCallbackThread  start  ****")
 
 
     for (;;)
@@ -427,6 +435,9 @@ void readButtonThread(void const *arg)
     (void)arg;
     PackageRx tempPack;
     tempPack.packetType = GPIO::getInstance()->button;
+
+HAL_Delay(250);
+term("****  readButtonThread  start  ****")
 
     while(true)
     {
