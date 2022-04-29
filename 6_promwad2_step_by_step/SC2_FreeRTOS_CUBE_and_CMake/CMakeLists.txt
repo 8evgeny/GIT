@@ -14,11 +14,11 @@ add_definitions(-DSTM32H753xx)
 add_definitions(-DUSE_HAL_DRIVER)
 add_definitions(-D__weak=__attribute__\(\(weak\)\))
 add_definitions(-D__packed=__attribute__\(\(__packed__\)\))
-#add_definitions(-D__FPU_PRESENT=1)
+add_definitions(-D__FPU_PRESENT=1)
 add_definitions(-DARM_MATH_CM7)
 add_definitions(-DHAVE_CONFIG_H)
-#add_definitions(-D__DCACHE_PRESENT)
-#add_definitions(-D__ICACHE_PRESENT)
+add_definitions(-D__DCACHE_PRESENT)
+add_definitions(-D__ICACHE_PRESENT)
 add_definitions(-DSC2BOARD)
 
 #include "stm32h753xx.h"  // все регистры
@@ -207,6 +207,9 @@ include_directories( ${flash} )
 file (GLOB flash_src ${flash}/*.cpp ${flash}/*.h )
 add_library(flash_LIB ${flash_src} )
 
+message("flash_LIB")
+message("${flash_src}")
+
 set (FatFs Middlewares/Third_Party/FatFs)
 include_directories(${FatFs}/src )
 file (GLOB FatFs_src ${FatFs}/src/*.c ${FatFs}/src/option/syscall.c ${FatFs}/src/option/unicode.c ${FatFs}/src/*.h )
@@ -284,7 +287,11 @@ include_directories(
 add_library(Middlewares ${Third_Party_SRC} )
 
 
-add_executable(${PROJECT_NAME}.elf  ${SOURCES_C}  ${SOURCES_CPP} )
+add_executable(${PROJECT_NAME}.elf
+    ${SOURCES_C}
+    ${SOURCES_CPP}
+    ${CMAKE_SOURCE_DIR}/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_flash.c
+    )
 
 
 set_target_properties(${PROJECT_NAME}.elf PROPERTIES LINKER_LANGUAGE CXX)

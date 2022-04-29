@@ -157,6 +157,8 @@ int main(void)
 //    simpleEEPROM_test2();
     littleFsInit();
 //    FsForEepromTEST;
+//    Flash::getInstance().test(); // Не работает
+
 
 //При включении рычаги перестают работать
 //    if ((RS232::getInstance().readFromUartThreadId = osThreadCreate(osThread(readFromUartThread), nullptr)) == nullptr)

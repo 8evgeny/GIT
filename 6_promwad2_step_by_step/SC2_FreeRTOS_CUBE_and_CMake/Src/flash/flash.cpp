@@ -200,6 +200,9 @@ bool Flash::compare(uint32_t address, const uint8_t *buffer, uint32_t size)
 
 void Flash::test()
 {
+
+term("**** FlashTest 1 ****")
+
     char bufWrite[512] = "hello world";
     char bufRead[512];
 
@@ -231,7 +234,11 @@ void Flash::test()
     /* Allow Access to option bytes sector */
     HAL_FLASH_OB_Lock();
 
+term("**** FlashTest 2 ****")
+
     Flash::getInstance().unlock();
+
+term("**** FlashTest 3 ****")
 
 //    __HAL_FLASH_ART_DISABLE()   это       CLEAR_BIT(FLASH->ACR, FLASH_ACR_ARTEN)
 //    FLASH_ACR_ARTEN             это       FLASH_ACR_ARTEN_Msk
@@ -249,7 +256,8 @@ void Flash::test()
     FLASH->ACR |= 0x1UL << 11U;
     SET_BIT(FLASH->ACR, (0x1UL << 8U));
 
-    while (HAL_FLASHEx_Erase(&EraseInitStruct, &SECTORError) != HAL_OK) {
+    while (HAL_FLASHEx_Erase(&EraseInitStruct, &SECTORError) != HAL_OK)
+    {
         /*
         Error occurred while sector erase.
         User can add here some code to deal with this error.
@@ -260,8 +268,13 @@ void Flash::test()
         RS232::getInstance().term << "Error occurred while sector erase.\n";
     }
 
+term("**** FlashTest 4 ****")
+
     SCB_CleanInvalidateDCache_by_Addr((uint32_t *)FLASH_SECTOR_7, 256 * 1024);
+term("**** FlashTest 5 ****")
     SCB_InvalidateICache();
+
+term("**** FlashTest 6 ****")
 
     Flash::getInstance().lock();
 
