@@ -165,10 +165,10 @@ int main(void)
 
 //FsForEeprom::getInstance().test();
 
-  if ((RS232::getInstance().readFromUartThreadId = osThreadCreate(osThread(readFromUartThread), nullptr)) == nullptr)
-  {
-      RS232::getInstance().term << " " << __LINE__ << " " << "\n";
-  }
+    if ((RS232::getInstance().readFromUartThreadId = osThreadCreate(osThread(readFromUartThread), nullptr)) == nullptr)
+    {
+        RS232::getInstance().term << __FUNCTION__ << " " << __LINE__ << " " << "\n";
+    }
 
 
     osThreadDef(defaultTask, StartDefaultTask, osPriorityNormal, 0, 128);

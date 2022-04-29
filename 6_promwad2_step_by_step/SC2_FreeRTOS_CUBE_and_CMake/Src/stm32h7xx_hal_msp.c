@@ -789,15 +789,15 @@ static void HAL_FMC_MspInit(void){
   /* USER CODE END FMC_MspInit 1 */
 }
 
-void HAL_SRAM_MspInit(SRAM_HandleTypeDef* hsram){
-  /* USER CODE BEGIN SRAM_MspInit 0 */
+//void HAL_SRAM_MspInit(SRAM_HandleTypeDef* hsram){
+//  /* USER CODE BEGIN SRAM_MspInit 0 */
 
-  /* USER CODE END SRAM_MspInit 0 */
-  HAL_FMC_MspInit();
-  /* USER CODE BEGIN SRAM_MspInit 1 */
+//  /* USER CODE END SRAM_MspInit 0 */
+//  HAL_FMC_MspInit();
+//  /* USER CODE BEGIN SRAM_MspInit 1 */
 
-  /* USER CODE END SRAM_MspInit 1 */
-}
+//  /* USER CODE END SRAM_MspInit 1 */
+//}
 
 static uint32_t FMC_DeInitialized = 0;
 
@@ -898,15 +898,15 @@ static void HAL_FMC_MspDeInit(void){
   /* USER CODE END FMC_MspDeInit 1 */
 }
 
-void HAL_SRAM_MspDeInit(SRAM_HandleTypeDef* hsram){
-  /* USER CODE BEGIN SRAM_MspDeInit 0 */
+//void HAL_SRAM_MspDeInit(SRAM_HandleTypeDef* hsram){
+//  /* USER CODE BEGIN SRAM_MspDeInit 0 */
 
-  /* USER CODE END SRAM_MspDeInit 0 */
-  HAL_FMC_MspDeInit();
-  /* USER CODE BEGIN SRAM_MspDeInit 1 */
+//  /* USER CODE END SRAM_MspDeInit 0 */
+//  HAL_FMC_MspDeInit();
+//  /* USER CODE BEGIN SRAM_MspDeInit 1 */
 
-  /* USER CODE END SRAM_MspDeInit 1 */
-}
+//  /* USER CODE END SRAM_MspDeInit 1 */
+//}
 
 extern DMA_HandleTypeDef hdma_sai1_a;
 

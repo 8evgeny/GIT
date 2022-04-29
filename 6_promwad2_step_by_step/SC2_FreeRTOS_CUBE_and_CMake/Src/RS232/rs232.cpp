@@ -647,78 +647,77 @@ void readFromUartThread(void const *arg)
     char buf[SIZE_DEF_BLOCK_UDP] {0};
     uint32_t tmp[SIZE_DEF_BLOCK_UDP / 4];
 
-
-
-
+HAL_Delay(350);
+term("****  readFromUartThread  start  ****")
 
     while (true) {
 
-//        const int capacityJson = 2000;
-//        StaticJsonDocument <capacityJson> doc;
+        const int capacityJson = 2000;
+        StaticJsonDocument <capacityJson> doc;
 
-//        const int capacity = JSON_OBJECT_SIZE(3);
-//        StaticJsonDocument<capacity> configDoc;
+        const int capacity = JSON_OBJECT_SIZE(3);
+        StaticJsonDocument<capacity> configDoc;
 
-//        while (1) {
+        while (1) {
 
-//            RS232::getInstance().read(buffUart, sizeof(buffUart));
-//            if (buffUart[0] == 0) {
-//                memcpy(buf, buffUart + 1, SIZE_DEF_BLOCK_UDP - 1);
-//            } else {
-//                memcpy(buf, buffUart, SIZE_DEF_BLOCK_UDP);
-//            }
+            RS232::getInstance().read(buffUart, sizeof(buffUart));
+            if (buffUart[0] == 0) {
+                memcpy(buf, buffUart + 1, SIZE_DEF_BLOCK_UDP - 1);
+            } else {
+                memcpy(buf, buffUart, SIZE_DEF_BLOCK_UDP);
+            }
 
-//            DeserializationError err = deserializeJson(doc, buf);
-//            if (DeserializationError::Ok == err) {
+            DeserializationError err = deserializeJson(doc, buf);
+            if (DeserializationError::Ok == err) {
 
-//                //int writeConfigId = doc["writeConfigId"];
-//                int number =  doc["number"];
-//                int all = doc["all"];
-//                int size = doc["size"];
-//                const char *config  = doc["config"];
+                //int writeConfigId = doc["writeConfigId"];
+                int number =  doc["number"];
+                int all = doc["all"];
+                int size = doc["size"];
+                const char *config  = doc["config"];
 
-//                if (number == 0) {
-//                    commonSizeAllFrames = 0;
-//                    counterFrames = 0;
-//                }
+                if (number == 0) {
+                    commonSizeAllFrames = 0;
+                    counterFrames = 0;
+                }
 
-//                if (number == counterFrames) {
-//                    counterFrames++;
-//                    commonSizeAllFrames += size;
-//                    std::fill(tmp, tmp + SIZE_DEF_BLOCK_UDP / 4, 0);
-//                    std::memcpy(tmp, config, SIZE_WRITE_BLOCK);
-//                    SRAM::getInstance()->writeData(reinterpret_cast<uint32_t *>(tmp), sizeof(tmp) / sizeof(uint8_t), reinterpret_cast<uint32_t *>(0x60000000  + number * SIZE_WRITE_BLOCK));
-//                    if (number == all) {
-//                        break;
-//                    }
-//                }
-//            }
-//        }
+                if (number == counterFrames) {
+                    counterFrames++;
+                    commonSizeAllFrames += size;
+                    std::fill(tmp, tmp + SIZE_DEF_BLOCK_UDP / 4, 0);
+                    std::memcpy(tmp, config, SIZE_WRITE_BLOCK);
+                    SRAM::getInstance()->writeData(reinterpret_cast<uint32_t *>(tmp), sizeof(tmp) / sizeof(uint8_t), reinterpret_cast<uint32_t *>(0x60000000  + number * SIZE_WRITE_BLOCK));
+                    if (number == all) {
+                        break;
+                    }
+                }
+            }
+        }
 
-//        uint8_t readSramBuff[SIZE_WRITE_BLOCK] {0};
+        uint8_t readSramBuff[SIZE_WRITE_BLOCK] {0};
 
-//        lfs_remove(FsForEeprom::getInstance().lfsPtr, "boot_config");
-//        lfs_file_open(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, "boot_config", LFS_O_RDWR | LFS_O_CREAT);
+        lfs_remove(FsForEeprom::getInstance().lfsPtr, "boot_config");
+        lfs_file_open(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, "boot_config", LFS_O_RDWR | LFS_O_CREAT);
 
-//        for (int32_t i = 0; i < commonSizeAllFrames; i += SIZE_WRITE_BLOCK) {
-//            SRAM::getInstance()->readData(reinterpret_cast<uint32_t *>(readSramBuff), SIZE_WRITE_BLOCK, reinterpret_cast<uint32_t *>(0x60000000 + i));
-//            lfs_file_write(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, readSramBuff,  commonSizeAllFrames - i < SIZE_WRITE_BLOCK ? static_cast<uint32_t>(commonSizeAllFrames - i) : SIZE_WRITE_BLOCK);
-//        }
-//        lfs_file_close(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr);
+        for (int32_t i = 0; i < commonSizeAllFrames; i += SIZE_WRITE_BLOCK) {
+            SRAM::getInstance()->readData(reinterpret_cast<uint32_t *>(readSramBuff), SIZE_WRITE_BLOCK, reinterpret_cast<uint32_t *>(0x60000000 + i));
+            lfs_file_write(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, readSramBuff,  commonSizeAllFrames - i < SIZE_WRITE_BLOCK ? static_cast<uint32_t>(commonSizeAllFrames - i) : SIZE_WRITE_BLOCK);
+        }
+        lfs_file_close(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr);
 
-//        commonSizeAllFrames = 0;
-//        counterFrames = 0;
+        commonSizeAllFrames = 0;
+        counterFrames = 0;
 
 
-//        //send msg configuration write OK
+        //send msg configuration write OK
 
-//        char tmpWriteBuf[SIZE_DEF_BLOCK_UDP] {0};
-//        std::fill(tmpWriteBuf, tmpWriteBuf + SIZE_DEF_BLOCK_UDP, 0);
+        char tmpWriteBuf[SIZE_DEF_BLOCK_UDP] {0};
+        std::fill(tmpWriteBuf, tmpWriteBuf + SIZE_DEF_BLOCK_UDP, 0);
 
-//        configDoc["writeConfigId"] = Json::getInstance()->thisStation.id;
-//        configDoc["status"].set("ok");
-//        serializeJson(configDoc, tmpWriteBuf, capacity);
-//        RS232::getInstance().write(reinterpret_cast<uint8_t *>(tmpWriteBuf), static_cast<uint16_t>(std::strlen(tmpWriteBuf)));
+        configDoc["writeConfigId"] = Json::getInstance()->thisStation.id;
+        configDoc["status"].set("ok");
+        serializeJson(configDoc, tmpWriteBuf, capacity);
+        RS232::getInstance().write(reinterpret_cast<uint8_t *>(tmpWriteBuf), static_cast<uint16_t>(std::strlen(tmpWriteBuf)));
 
     }
 }

@@ -6,7 +6,7 @@
 extern "C" {
 #endif
 
-SRAM_HandleTypeDef hsram1;
+extern SRAM_HandleTypeDef hsram1;
 DMA_HandleTypeDef hdma_memtomem_dma2_stream0;
 static void DMAInit(void);
 
