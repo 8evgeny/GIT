@@ -453,9 +453,9 @@ term("****  readButtonThread  start  ****")
                 if (HAL_GPIO_ReadPin(GPIOG, GPIO::getInstance()->sPinArray[i].n)  == GPIO_PIN_SET)
                 {
 
-                term("Pressed button: ")
+                RS232::getInstance().term << "Pressed button: ";
                 term(std::to_string(i + 1))
-                term("\n")
+
                 //Включаю Led
                 if (i < 3 )  HAL_GPIO_WritePin(GPIOG, GPIO::getInstance()->aLeds[i].ledPin, GPIO_PIN_SET);
                 if (i >= 3 ) HAL_GPIO_WritePin(GPIOC, GPIO::getInstance()->aLeds[i ].ledPin, GPIO_PIN_SET);
