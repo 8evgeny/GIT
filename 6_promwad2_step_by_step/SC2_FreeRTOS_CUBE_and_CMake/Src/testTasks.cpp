@@ -12,22 +12,34 @@ extern "C" {
 void testLed1()
 {
     osThreadDef(simpleLedTest1_RTOS, simpleLedTest1_RTOS, osPriorityHigh, 0, configMINIMAL_STACK_SIZE );
-    osThreadCreate(osThread(simpleLedTest1_RTOS), NULL);
+    if ((osThreadCreate(osThread(simpleLedTest1_RTOS), nullptr)) == nullptr)
+    {
+        term("Failed to create simpleLedTest1_RTOS");
+    }
 }
 void testLed2()
 {
     osThreadDef(simpleLedTest2_RTOS, simpleLedTest2_RTOS, osPriorityHigh, 0, configMINIMAL_STACK_SIZE );
-    osThreadCreate(osThread(simpleLedTest2_RTOS), NULL);
+    if ((osThreadCreate(osThread(simpleLedTest2_RTOS), nullptr)) == nullptr)
+    {
+        term("Failed to create simpleLedTest2_RTOS");
+    }
 }
 void testLed3()
 {
     osThreadDef(simpleLedTest3_RTOS, simpleLedTest3_RTOS, osPriorityHigh, 0, configMINIMAL_STACK_SIZE );
-    osThreadCreate(osThread(simpleLedTest3_RTOS), NULL);
+    if ((osThreadCreate(osThread(simpleLedTest3_RTOS), nullptr)) == nullptr)
+    {
+        term("Failed to create simpleLedTest3_RTOS");
+    }
 }
 void testUART()
 {
     osThreadDef(simpletestUART_RTOS, simpletestUART_RTOS, osPriorityHigh, 0, configMINIMAL_STACK_SIZE );
-    osThreadCreate(osThread(simpletestUART_RTOS), NULL);
+    if ((osThreadCreate(osThread(simpletestUART_RTOS), nullptr)) == nullptr)
+    {
+        term("Failed to create simpletestUART_RTOS");
+    }
 }
 
 
