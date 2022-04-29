@@ -151,7 +151,7 @@ int main(void)
     MX_RNG_Init();
     GPIOInit();  //Тут остался только таймер - не стартует ??
 
-    SRAMInit();
+//    SRAMInit();
     BSP_EEPROM_Init();
 //    simpleEEPROM_test();
 //    simpleEEPROM_test2();

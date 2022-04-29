@@ -60,13 +60,13 @@ void SRAMInit(void)
     Timing.AccessMode = FMC_ACCESS_MODE_A;
 
 
-    if (HAL_SRAM_Init(&hsram1, &Timing, NULL) != HAL_OK)
-    {
-        while (1)
-        {
-            RS232::getInstance().term << "SRAM Init Error!" << "\n";
-        }
-    }
+//    if (HAL_SRAM_Init(&hsram1, &Timing, NULL) != HAL_OK)
+//    {
+//        while (1)
+//        {
+//            RS232::getInstance().term << "SRAM Init Error!" << "\n";
+//        }
+//    }
 
     HAL_Delay(40);
 }
@@ -81,26 +81,26 @@ static void DMAInit(void)
     /* DMA controller clock enable */
     __HAL_RCC_DMA2_CLK_ENABLE();
 
-    /* Configure DMA request hdma_memtomem_dma2_stream0 on DMA2_Stream0 */
-    hmdma_memtomem_dma2_stream0.Instance = DMA2_Stream0;
-    hmdma_memtomem_dma2_stream0.Init.Channel = DMA_CHANNEL_0;
-    hmdma_memtomem_dma2_stream0.Init.Direction = DMA_MEMORY_TO_MEMORY;
-    hmdma_memtomem_dma2_stream0.Init.PeriphInc = DMA_PINC_ENABLE;
-    hmdma_memtomem_dma2_stream0.Init.MemInc = DMA_MINC_ENABLE;
-    hmdma_memtomem_dma2_stream0.Init.PeriphDataAlignment = DMA_PDATAALIGN_WORD;
-    hmdma_memtomem_dma2_stream0.Init.MemDataAlignment = DMA_MDATAALIGN_WORD;
-    hmdma_memtomem_dma2_stream0.Init.Mode = DMA_NORMAL;
-    hmdma_memtomem_dma2_stream0.Init.Priority = DMA_PRIORITY_HIGH;
-    hmdma_memtomem_dma2_stream0.Init.FIFOMode = DMA_FIFOMODE_DISABLE;
-    hmdma_memtomem_dma2_stream0.Init.FIFOThreshold = DMA_FIFO_THRESHOLD_FULL;
-    hmdma_memtomem_dma2_stream0.Init.MemBurst = DMA_MBURST_SINGLE;
-    hmdma_memtomem_dma2_stream0.Init.PeriphBurst = DMA_PBURST_SINGLE;
+//    /* Configure DMA request hdma_memtomem_dma2_stream0 on DMA2_Stream0 */
+//    hmdma_memtomem_dma2_stream0.Instance = DMA2_Stream0;
+//    hmdma_memtomem_dma2_stream0.Init.Channel = MDMA_Channel0;
+//    hmdma_memtomem_dma2_stream0.Init.Direction = DMA_MEMORY_TO_MEMORY;
+//    hmdma_memtomem_dma2_stream0.Init.PeriphInc = DMA_PINC_ENABLE;
+//    hmdma_memtomem_dma2_stream0.Init.MemInc = DMA_MINC_ENABLE;
+//    hmdma_memtomem_dma2_stream0.Init.PeriphDataAlignment = DMA_PDATAALIGN_WORD;
+//    hmdma_memtomem_dma2_stream0.Init.MemDataAlignment = DMA_MDATAALIGN_WORD;
+//    hmdma_memtomem_dma2_stream0.Init.Mode = DMA_NORMAL;
+//    hmdma_memtomem_dma2_stream0.Init.Priority = DMA_PRIORITY_HIGH;
+//    hmdma_memtomem_dma2_stream0.Init.FIFOMode = DMA_FIFOMODE_DISABLE;
+//    hmdma_memtomem_dma2_stream0.Init.FIFOThreshold = DMA_FIFO_THRESHOLD_FULL;
+//    hmdma_memtomem_dma2_stream0.Init.MemBurst = DMA_MBURST_SINGLE;
+//    hmdma_memtomem_dma2_stream0.Init.PeriphBurst = DMA_PBURST_SINGLE;
 
-    if (HAL_DMA_Init(&hmdma_memtomem_dma2_stream0) != HAL_OK) {
-        while (1) {
-            RS232::getInstance().term << "SRAM DMA Init Error!" << "\n";
-        }
-    }
+//    if (HAL_DMA_Init(&hmdma_memtomem_dma2_stream0) != HAL_OK) {
+//        while (1) {
+//            RS232::getInstance().term << "SRAM DMA Init Error!" << "\n";
+//        }
+//    }
 
     HAL_NVIC_SetPriority(DMA2_Stream0_IRQn, 0, 0);
     HAL_NVIC_EnableIRQ(DMA2_Stream0_IRQn);
@@ -133,10 +133,10 @@ HAL_StatusTypeDef SRAM::readData(uint32_t *dataBuf, size_t bufSize, uint32_t *ad
 
 HAL_StatusTypeDef SRAM::writeData(uint32_t *data, size_t dataSize, uint32_t *addr)
 {
-    HAL_StatusTypeDef status = HAL_SRAM_Write_DMA(sram1Handle, addr, data, dataSize);
-    while (sramDataReady != SET);
-    sramDataReady = RESET;
-    return status;
+//    HAL_StatusTypeDef status = HAL_SRAM_Write_DMA(sram1Handle, addr, data, dataSize);
+//    while (sramDataReady != SET);
+//    sramDataReady = RESET;
+//    return status;
 }
 
 #ifdef __cplusplus
