@@ -60,13 +60,13 @@ void SRAMInit(void)
     Timing.AccessMode = FMC_ACCESS_MODE_A;
 
 
-//    if (HAL_SRAM_Init(&hsram1, &Timing, NULL) != HAL_OK)
-//    {
-//        while (1)
-//        {
-//            RS232::getInstance().term << "SRAM Init Error!" << "\n";
-//        }
-//    }
+    if (HAL_SRAM_Init(&hsram1, &Timing, NULL) != HAL_OK)
+    {
+        while (1)
+        {
+            RS232::getInstance().term << "SRAM Init Error!" << "\n";
+        }
+    }
 
     HAL_Delay(40);
 }
