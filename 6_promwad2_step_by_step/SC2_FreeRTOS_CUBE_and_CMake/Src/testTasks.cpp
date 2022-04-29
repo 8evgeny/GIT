@@ -40,6 +40,9 @@ void simpleLedTest1_RTOS(void const *argument)
     uint32_t tickstart = HAL_GetTick();
     uint32_t timeSet = 1;
     uint32_t timeReset = 3000;
+
+term("startingSimpleLedTest1_RTOS")
+
     for(;;)
     {
         if(reset)
@@ -70,6 +73,10 @@ void simpleLedTest2_RTOS(void const *argument)
     uint32_t tickstart = HAL_GetTick();
     uint32_t timeSet = 1;
     uint32_t timeReset = 3000;
+
+HAL_Delay(50);
+term("startingSimpleLedTest2_RTOS")
+
     for(;;)
     {
         if(reset)
@@ -100,6 +107,10 @@ void simpleLedTest3_RTOS(void const *argument)
     uint32_t tickstart = HAL_GetTick();
     uint32_t timeSet = 1;
     uint32_t timeReset = 3000;
+
+HAL_Delay(100);
+term("startingSimpleLedTest3_RTOS")
+
     for(;;)
     {
         if(reset)
@@ -128,8 +139,12 @@ void simpletestUART_RTOS(void const *argument)
     (void)argument;
     bool reset = true;
     uint32_t tickstart = HAL_GetTick();
-    uint32_t timeSet = 1700;
-    uint32_t timeReset = 1700;
+    uint32_t timeSet = 3000;
+    uint32_t timeReset = 3000;
+
+HAL_Delay(150);
+term("startingSimpleTestUART_RTOS")
+
     for(;;)
     {
 
@@ -137,7 +152,7 @@ void simpletestUART_RTOS(void const *argument)
         {
             if (HAL_GetTick() > tickstart + timeReset)
             {
-                 term("12345678901234567890abcdefghjkl\n")
+                 term("*************  SimpleTestUART_RTOS  *************")
                  reset = false;
                  tickstart = HAL_GetTick();
             }
@@ -146,7 +161,7 @@ void simpletestUART_RTOS(void const *argument)
         {
             if (HAL_GetTick() > tickstart + timeSet)
             {
-                term("09876543210987654321qwertyuiop\n")
+                term("#############  SimpleTestUART_RTOS  #############")
                 reset = true;
                 tickstart = HAL_GetTick();
             }
