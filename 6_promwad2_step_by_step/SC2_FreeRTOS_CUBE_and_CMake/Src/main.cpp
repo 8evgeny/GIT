@@ -152,18 +152,8 @@ int main(void)
 //    simpleEEPROM_test();
 //    simpleEEPROM_test2();
     littleFsInit();
-//    FsForEeprom::getInstance().test();
+//    FsForEepromTEST;
 
-
-//    uint32_t addr = 0;
-//    uint16_t NumByteToRead  = 10;
-//    uint8_t buff[100];
-//    BSP_EEPROM_ReadBuffer(buff, addr, &NumByteToRead);
-//    term("buff")
-//    term(buff)
-
-
-//FsForEeprom::getInstance().test();
 
     if ((RS232::getInstance().readFromUartThreadId = osThreadCreate(osThread(readFromUartThread), nullptr)) == nullptr)
     {

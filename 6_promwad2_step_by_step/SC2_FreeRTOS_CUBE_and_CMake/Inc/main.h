@@ -30,6 +30,7 @@
 
 //Макрос для отладки
 #define term(x) (RS232::getInstance().term << x << "\r\n");
+#define FsForEepromTEST FsForEeprom::getInstance().test()
 
 #ifdef __cplusplus
 extern "C" {
