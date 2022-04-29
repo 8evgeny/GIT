@@ -109,6 +109,10 @@ void vApplicationMallocFailedHook(void)
 [[ noreturn ]]
 static void empty(void const *arg)
 {
+
+HAL_Delay(400);
+term("****  empty  start  ****")
+
     (void)arg;
     while (1) {
         osDelay(10);
@@ -154,35 +158,75 @@ int main(void)
     littleFsInit();
 //    FsForEepromTEST;
 
+//При включении рычаги перестают работать
+//    if ((RS232::getInstance().readFromUartThreadId = osThreadCreate(osThread(readFromUartThread), nullptr)) == nullptr)
+//    {
+//        RS232::getInstance().term << __FUNCTION__ << " " << __LINE__ << " " << "\n";
+//    }
 
-    if ((RS232::getInstance().readFromUartThreadId = osThreadCreate(osThread(readFromUartThread), nullptr)) == nullptr)
+    osThreadDef(defaultTask, StartDefaultTask, osPriorityHigh, 0, 128);
+//    defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL); //При включении система виснет
+
+
+    Json::getInstance()->configStation();
+    if (Json::getInstance()->deserializeJsonFlag == Json::JsonFlags::OK)
     {
-        RS232::getInstance().term << __FUNCTION__ << " " << __LINE__ << " " << "\n";
+
+//        netInit(Json::getInstance()->thisStation.ip, Json::getInstance()->thisStation.mask, Json::getInstance()->thisStation.gateway);
+
+        osThreadDef(emptyThread, empty, osPriorityHigh, 0, configMINIMAL_STACK_SIZE);
+        osThreadCreate(osThread(emptyThread), nullptr);
+
+//        SAI::getInstance()->threadAudioInitId = osThreadCreate(osThread(audioInitThread), nullptr);
+
+//        if ((GPIO::getInstance()->trackRingBufferThreadId = osThreadCreate(osThread(trackRingBufferThread), nullptr)) == nullptr)
+//        {
+//            Debug::getInstance().dbg << __FUNCTION__ << " " << __LINE__ << " " << "\n";
+//        }
+
+//        if ((UdpJsonExch::getInstance()->recvUdpThreadId = osThreadCreate(osThread(recvUdpThread), nullptr)) == nullptr)
+//        {
+//            Debug::getInstance().dbg << __FUNCTION__ << " " << __LINE__ << " " << "\n";
+//        }
+
+//        firmwareInitThread();
+
+    }
+    else
+    {
+        term("deserializeJsonFlag  -  error")
     }
 
+//     WDTInit();  // не собирается
+//    if ((osThreadCreate(osThread(StartWdtThread), nullptr)) == nullptr)
+//    {
+//        RS232::getInstance().term << __FUNCTION__ << " " << __LINE__ << " " << "\n";
+//    }
 
-    osThreadDef(defaultTask, StartDefaultTask, osPriorityNormal, 0, 128);
-    defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
 
     //Тестовые потоки
     testLed1();
     testLed2();
-    testLed3();
+//    testLed3();
 //    testUART();
+
 
     //Debug пока не работает - выпилил везде из кода
     Debug::getInstance().dbg << "ee";
 
-    /* Start scheduler */
+
+//    vTraceEnable(TRC_INIT);  //Разобраться что позволяет
+
     osKernelStart();
 
-    /* We should never get here as control is now taken by the scheduler */
     while (1)
     {
         RS232::getInstance().term << __FUNCTION__ << " " << __LINE__ << " " << "\n";
     }
 
 } //main
+
+
 
 [[ noreturn ]]
 static void trackRingBufferThread(void const *arg)
@@ -756,10 +800,16 @@ static void MX_GPIO_Init(void)
 
 void StartDefaultTask(void const * argument)
 {
+term("StartDefaultTask_1")
+
   /* init code for LWIP */
   MX_LWIP_Init();
   /* USER CODE BEGIN 5 */
   /* Infinite loop */
+
+HAL_Delay(350);
+term("****  TaskLWIP  start  ****")
+
   for(;;)
   {
     osDelay(1);
