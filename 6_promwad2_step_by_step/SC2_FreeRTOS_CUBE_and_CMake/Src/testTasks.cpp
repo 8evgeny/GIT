@@ -77,6 +77,8 @@ term("startingSimpleLedTest1_RTOS")
         }
     HAL_Delay(1);
     } //end for(;;)
+
+    vTaskDelete(nullptr);
 }
 void simpleLedTest2_RTOS(void const *argument)
 {
@@ -111,6 +113,8 @@ term("startingSimpleLedTest2_RTOS")
         }
     HAL_Delay(1);
     } //end for(;;)
+
+    vTaskDelete(nullptr);
 }
 void simpleLedTest3_RTOS(void const *argument)
 {
@@ -145,6 +149,8 @@ term("startingSimpleLedTest3_RTOS")
         }
     HAL_Delay(1);
     } //end for(;;)
+
+    vTaskDelete(nullptr);
 }
 void simpletestUART_RTOS(void const *argument)
 {
@@ -180,6 +186,8 @@ term("startingSimpleTestUART_RTOS")
         }
     HAL_Delay(1);
     } //end for(;;)
+
+    vTaskDelete(nullptr);
 }
 
 
