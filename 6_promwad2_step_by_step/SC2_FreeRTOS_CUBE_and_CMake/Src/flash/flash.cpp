@@ -240,21 +240,10 @@ term("**** FlashTest 2 ****")
 
 term("**** FlashTest 3 ****")
 
-//    __HAL_FLASH_ART_DISABLE()   это       CLEAR_BIT(FLASH->ACR, FLASH_ACR_ARTEN)
-//    FLASH_ACR_ARTEN             это       FLASH_ACR_ARTEN_Msk
-//    FLASH_ACR_ARTEN_Msk         это       0x1UL << FLASH_ACR_ARTEN_Pos
-//    FLASH_ACR_ARTEN_Pos         это       8U
-
-//    __HAL_FLASH_ART_RESET()     это       (FLASH->ACR |= FLASH_ACR_ARTRST)
-//    FLASH_ACR_ARTRST            это       FLASH_ACR_ARTRST_Msk
-//    FLASH_ACR_ARTRST_Msk        это       0x1UL << FLASH_ACR_ARTRST_Pos
-//    FLASH_ACR_ARTRST_Pos        это       11U
-
-//    __HAL_FLASH_ART_ENABLE()    это       SET_BIT(FLASH->ACR, FLASH_ACR_ARTEN)
-
-    CLEAR_BIT(FLASH->ACR, (0x1UL << 8U)); //Три строки нужно проверить по даташиту
-    FLASH->ACR |= 0x1UL << 11U;
-    SET_BIT(FLASH->ACR, (0x1UL << 8U));
+//   В 753 не используется упреждающее чтение
+//    __HAL_FLASH_ART_DISABLE();
+//    __HAL_FLASH_ART_RESET();
+//    __HAL_FLASH_ART_ENABLE();
 
     while (HAL_FLASHEx_Erase(&EraseInitStruct, &SECTORError) != HAL_OK)
     {
@@ -280,12 +269,10 @@ term("**** FlashTest 6 ****")
 
     unlock();
 
+//   В 753 не используется упреждающее чтение
 //    __HAL_FLASH_ART_DISABLE();
 //    __HAL_FLASH_ART_RESET();
 //    __HAL_FLASH_ART_ENABLE();
-    CLEAR_BIT(FLASH->ACR, (0x1UL << 8U)); //Три строки нужно проверить по даташиту
-    FLASH->ACR |= 0x1UL << 11U;
-    SET_BIT(FLASH->ACR, (0x1UL << 8U));
 
     write(ADDR_FLASH_SECTOR_7, reinterpret_cast<const char *>(bufWrite), sizeof(bufWrite));
 
@@ -325,12 +312,10 @@ void Flash::erase(){
 
     Flash::getInstance().unlock();
 
+//   В 753 не используется упреждающее чтение
 //    __HAL_FLASH_ART_DISABLE();
 //    __HAL_FLASH_ART_RESET();
 //    __HAL_FLASH_ART_ENABLE();
-    CLEAR_BIT(FLASH->ACR, (0x1UL << 8U)); //Три строки нужно проверить по даташиту
-    FLASH->ACR |= 0x1UL << 11U;
-    SET_BIT(FLASH->ACR, (0x1UL << 8U));
 
     while (HAL_FLASHEx_Erase(&EraseInitStruct, &SECTORError) != HAL_OK) {
         /*
@@ -377,12 +362,10 @@ void Flash::eraseForUpdate(){
 
     Flash::getInstance().unlock();
 
+//   В 753 не используется упреждающее чтение
 //    __HAL_FLASH_ART_DISABLE();
 //    __HAL_FLASH_ART_RESET();
 //    __HAL_FLASH_ART_ENABLE();
-    CLEAR_BIT(FLASH->ACR, (0x1UL << 8U)); //Три строки нужно проверить по даташиту
-    FLASH->ACR |= 0x1UL << 11U;
-    SET_BIT(FLASH->ACR, (0x1UL << 8U));
 
     while (HAL_FLASHEx_Erase(&EraseInitStruct, &SECTORError) != HAL_OK) {
         /*

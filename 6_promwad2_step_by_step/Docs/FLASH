@@ -1,0 +1,71 @@
+ ==============================================================================
+                        ##### FLASH peripheral features #####
+  ==============================================================================
+
+  [..] The Flash memory interface manages CPU AXI I-Code and D-Code accesses
+       to the Flash memory. It implements the erase and program Flash memory operations
+       and the read and write protection mechanisms.
+
+  [..] The FLASH main features are:
+      (+) Flash memory read operations
+      (+) Flash memory program/erase operations
+      (+) Read / write protections
+      (+) Option bytes programming
+      (+) Error code correction (ECC) : Data in flash are 266-bits word
+          (10 bits added per flash word)
+
+                        ##### How to use this driver #####
+ ==============================================================================
+    [..]
+      This driver provides functions and macros to configure and program the FLASH
+      memory of all STM32H7xx devices.
+
+      (#) FLASH Memory IO Programming functions:
+           (++) Lock and Unlock the FLASH interface using HAL_FLASH_Unlock() and
+                HAL_FLASH_Lock() functions
+           (++) Program functions: 256-bit word only
+           (++) There Two modes of programming :
+            (+++) Polling mode using HAL_FLASH_Program() function
+            (+++) Interrupt mode using HAL_FLASH_Program_IT() function
+
+      (#) Interrupts and flags management functions :
+           (++) Handle FLASH interrupts by calling HAL_FLASH_IRQHandler()
+           (++) Callback functions are called when the flash operations are finished :
+                HAL_FLASH_EndOfOperationCallback() when everything is ok, otherwise
+                HAL_FLASH_OperationErrorCallback()
+           (++) Get error flag status by calling HAL_FLASH_GetError()
+
+      (#) Option bytes management functions :
+           (++) Lock and Unlock the option bytes using HAL_FLASH_OB_Unlock() and
+                HAL_FLASH_OB_Lock() functions
+           (++) Launch the reload of the option bytes using HAL_FLASH_OB_Launch() function.
+                In this case, a reset is generated
+    [..]
+      In addition to these functions, this driver includes a set of macros allowing
+      to handle the following operations:
+       (+) Set the latency
+       (+) Enable/Disable the FLASH interrupts
+       (+) Monitor the FLASH flags status
+     [..]
+    (@) For any Flash memory program operation (erase or program), the CPU clock frequency
+        (HCLK) must be at least 1MHz.
+    (@) The contents of the Flash memory are not guaranteed if a device reset occurs during
+        a Flash memory operation.
+    (@) The application can simultaneously request a read and a write operation through each AXI
+        interface.
+        As the Flash memory is divided into two independent banks, the embedded Flash
+        memory interface can drive different operations at the same time on each bank. For
+        example a read, write or erase operation can be executed on bank 1 while another read,
+        write or erase operation is executed on bank 2.
+
+ @endverbatim
+  ******************************************************************************
+  * @attention
+  *
+  * Copyright (c) 2017 STMicroelectronics.
+  * All rights reserved.
+  *
+  * This software is licensed under terms that can be found in the LICENSE file in
+  * the root directory of this software component.
+  * If no LICENSE file comes with this software, it is provided AS-IS.
+  ******************************************************************************
