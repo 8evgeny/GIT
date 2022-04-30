@@ -137,7 +137,7 @@ set_target_properties(CircularBuffer_LIB PROPERTIES LINKER_LANGUAGE CXX)
 
 set (SRAM Src/SRAM)
 include_directories( ${SRAM} )
-file (GLOB SRAM_src ${SRAM}/*.cpp ${SRAM}/*.h  )
+file (GLOB SRAM_src ${SRAM}/*.cpp ${SRAM}/*.h  ${CMAKE_SOURCE_DIR}/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_sram.c)
 add_library(SRAM_LIB ${SRAM_src} )
 
 set (JSON  Src/JSON)
@@ -290,8 +290,6 @@ add_library(Middlewares ${Third_Party_SRC} )
 add_executable(${PROJECT_NAME}.elf
     ${SOURCES_C}
     ${SOURCES_CPP}
-    ${CMAKE_SOURCE_DIR}/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_flash.c
-    ${CMAKE_SOURCE_DIR}/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_sram.c
     )
 
 
@@ -322,6 +320,8 @@ target_link_libraries(${PROJECT_NAME}.elf PUBLIC
     ETH
     STARTUP
     BSP
+    SRAM_LIB
+    flash_LIB
     STM32H7xx_HAL_Driver
     LWIP
     Middlewares
@@ -331,7 +331,6 @@ target_link_libraries(${PROJECT_NAME}.elf PUBLIC
     EEPROM_LIB
     littlefs_LIB
     CircularBuffer_LIB
-    SRAM_LIB
     JSON_LIB
     RTC_LIB
     SNTP_LIB
@@ -343,7 +342,6 @@ target_link_libraries(${PROJECT_NAME}.elf PUBLIC
     AUDIO_LIB
     UDP_JSON_LIB
     Call_Control_LIB
-    flash_LIB
     FatFs_LIB
     Tests_LIB
     uid_LIB
