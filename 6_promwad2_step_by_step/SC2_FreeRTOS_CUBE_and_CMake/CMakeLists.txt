@@ -100,13 +100,14 @@ include_directories(
     Drivers/CMSIS/Include
     Drivers/CMSIS/Device/ST/STM32H7xx/Include
     Drivers/BSP/Components/dp83848
+    LWIP/Target
     )
 
 #Это файл от другого проекта
-#file (GLOB ETH_SOURCES
-#    LWIP/Target/ethernetif.c
-#    )
-#add_library(ETH ${ETH_SOURCES} )
+file (GLOB ETH_SOURCES
+    LWIP/Target/ethernetif.c
+    )
+add_library(ETH_LIB ${ETH_SOURCES} )
 
 
 set (RS232  Src/RS232)
@@ -321,6 +322,7 @@ target_link_options(${PROJECT_NAME}.elf PRIVATE ${LINKER_FLAGS})
 target_link_libraries(${PROJECT_NAME}.elf PUBLIC
     STARTUP
     BSP
+    ETH_LIB
     SRAM_LIB
     flash_LIB
     STM32H7xx_HAL_Driver
