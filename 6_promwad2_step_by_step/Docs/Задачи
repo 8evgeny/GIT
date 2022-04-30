@@ -2,8 +2,6 @@
 
 Debug - test
 
-fsforeeprom.cpp  - FsForEeprom::test()
-
 flash.cpp - test
 
 tests.cpp  - все тесты
