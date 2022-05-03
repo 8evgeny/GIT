@@ -1,0 +1,1 @@
+{ "groupsAll" : [  ], "stationsAll" : [ { "keys" : [  ], "name" : { "nameGateway" : "192.168.0.1", "nameIP" : "192.168.0.2", "nameMaskNetwork" : "255.255.255.0", "nameOfID" : "CID 100", "nameOfStation" : "Digital station 100" } } ] }

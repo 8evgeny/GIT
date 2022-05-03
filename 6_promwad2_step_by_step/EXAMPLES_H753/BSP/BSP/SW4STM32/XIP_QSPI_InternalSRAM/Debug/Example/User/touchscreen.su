@@ -1,9 +1,0 @@
-touchscreen.c:91:6:Touchscreen_demo1	32	static
-touchscreen.c:198:6:Touchscreen_demo2	24	static
-touchscreen.c:247:6:Touchscreen_demo3	32	static
-touchscreen.c:286:6:BSP_TS_Callback	16	static
-touchscreen.c:294:13:TS_Update	32	static
-touchscreen.c:333:17:Touchscreen_Handle_NewTouch	224	static
-touchscreen.c:459:13:Touchscreen_SetHint_Demo	32	static
-touchscreen.c:514:6:Touchscreen_DrawBackground_Circles	24	static
-touchscreen.c:632:9:TouchScreen_GetTouchPosition	16	static

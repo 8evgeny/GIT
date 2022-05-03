@@ -1,3 +1,0 @@
-audio_record.c:111:6:AudioRecord_demo	32	static
-audio_record.c:181:6:BSP_AUDIO_IN_TransferComplete_CallBack	48	static,ignoring_inline_asm
-audio_record.c:208:6:BSP_AUDIO_IN_HalfTransfer_CallBack	48	static,ignoring_inline_asm

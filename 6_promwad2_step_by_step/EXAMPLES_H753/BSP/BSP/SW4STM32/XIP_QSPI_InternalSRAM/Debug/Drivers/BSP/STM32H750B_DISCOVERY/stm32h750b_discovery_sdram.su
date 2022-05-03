@@ -1,7 +1,0 @@
-stm32h750b_discovery_sdram.c:109:9:BSP_SDRAM_Init	24	static
-stm32h750b_discovery_sdram.c:164:9:BSP_SDRAM_DeInit	24	static
-stm32h750b_discovery_sdram.c:191:26:MX_SDRAM_BANK2_Init	56	static
-stm32h750b_discovery_sdram.c:305:9:BSP_SDRAM_SendCmd	24	static
-stm32h750b_discovery_sdram.c:330:6:BSP_SDRAM_IRQHandler	16	static
-stm32h750b_discovery_sdram.c:347:13:SDRAM_MspInit	64	static
-stm32h750b_discovery_sdram.c:440:13:SDRAM_MspDeInit	16	static

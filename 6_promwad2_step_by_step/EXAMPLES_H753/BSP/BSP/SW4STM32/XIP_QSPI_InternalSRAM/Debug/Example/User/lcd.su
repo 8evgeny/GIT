@@ -1,3 +1,0 @@
-lcd.c:46:6:LCD_demo	8	static
-lcd.c:75:13:LCD_SetHint	24	static
-lcd.c:107:13:LCD_Show_Feature	88	static

@@ -1,8 +1,0 @@
-audio_play.c:100:6:AudioPlay_demo	576	static
-audio_play.c:339:13:Audio_SetHint	32	static
-audio_play.c:372:20:AUDIO_Start	24	static
-audio_play.c:399:17:GetData	32	static
-audio_play.c:419:9:AUDIO_Process	48	static,ignoring_inline_asm
-audio_play.c:487:6:BSP_AUDIO_OUT_TransferComplete_CallBack	16	static
-audio_play.c:501:6:BSP_AUDIO_OUT_HalfTransfer_CallBack	16	static
-audio_play.c:515:6:BSP_AUDIO_OUT_Error_CallBack	16	static
