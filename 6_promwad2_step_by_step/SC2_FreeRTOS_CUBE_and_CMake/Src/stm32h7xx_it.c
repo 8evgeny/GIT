@@ -73,7 +73,7 @@ extern UART_HandleTypeDef huart7;
 extern DMA_HandleTypeDef hdma_i2c1_rx;
 extern DMA_HandleTypeDef hdma_i2c1_tx;
 extern I2C_HandleTypeDef hi2c1;
-extern MDMA_HandleTypeDef hmdma_mdma_channel41_dma2_stream0_tc_0;
+extern MDMA_HandleTypeDef hmdma_memtomem_dma2_stream0;
 
 
 /* USER CODE BEGIN EV */
@@ -154,7 +154,7 @@ void MDMA_IRQHandler(void)
   /* USER CODE BEGIN MDMA_IRQn 0 */
 
   /* USER CODE END MDMA_IRQn 0 */
-  HAL_MDMA_IRQHandler(&hmdma_mdma_channel41_dma2_stream0_tc_0);
+  HAL_MDMA_IRQHandler(&hmdma_memtomem_dma2_stream0);
   /* USER CODE BEGIN MDMA_IRQn 1 */
 
   /* USER CODE END MDMA_IRQn 1 */

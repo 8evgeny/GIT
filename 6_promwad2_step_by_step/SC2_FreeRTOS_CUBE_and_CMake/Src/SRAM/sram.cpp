@@ -7,8 +7,8 @@ extern "C" {
 #endif
 
 extern SRAM_HandleTypeDef hsram1;
-MDMA_HandleTypeDef hmdma_memtomem_dma2_stream0;
-static void DMAInit(void);
+extern MDMA_HandleTypeDef hmdma_memtomem_dma2_stream0;
+static void MDMAInit(void);
 
 /*!
   \brief FMC Initialization Function
@@ -19,7 +19,7 @@ static void DMAInit(void);
 void SRAMInit(void)
 {
 
-    DMAInit();
+    MDMAInit();
 
 //То что Куб сгенерил
     FMC_NORSRAM_TimingTypeDef Timing = {0};
@@ -76,33 +76,52 @@ void SRAMInit(void)
   \param None
   \retval None
   */
-static void DMAInit(void)
+static void MDMAInit(void)
 {
-    /* DMA controller clock enable */
-    __HAL_RCC_DMA2_CLK_ENABLE();
 
+
+    /* MDMA controller clock enable */
     __HAL_RCC_MDMA_CLK_ENABLE();
+    /* Local variables */
 
-    /* Configure DMA request hdma_memtomem_dma2_stream0 on DMA2_Stream0 */
-//    hmdma_memtomem_dma2_stream0.Instance = DMA2_Stream0;
-//    hmdma_memtomem_dma2_stream0.Init.Channel = MDMA_Channel0;
-//    hmdma_memtomem_dma2_stream0.Init.Direction = DMA_MEMORY_TO_MEMORY;
-//    hmdma_memtomem_dma2_stream0.Init.PeriphInc = DMA_PINC_ENABLE;
-//    hmdma_memtomem_dma2_stream0.Init.MemInc = DMA_MINC_ENABLE;
-//    hmdma_memtomem_dma2_stream0.Init.PeriphDataAlignment = DMA_PDATAALIGN_WORD;
-//    hmdma_memtomem_dma2_stream0.Init.MemDataAlignment = DMA_MDATAALIGN_WORD;
-//    hmdma_memtomem_dma2_stream0.Init.Mode = DMA_NORMAL;
-//    hmdma_memtomem_dma2_stream0.Init.Priority = DMA_PRIORITY_HIGH;
-//    hmdma_memtomem_dma2_stream0.Init.FIFOMode = DMA_FIFOMODE_DISABLE;
-//    hmdma_memtomem_dma2_stream0.Init.FIFOThreshold = DMA_FIFO_THRESHOLD_FULL;
-//    hmdma_memtomem_dma2_stream0.Init.MemBurst = DMA_MBURST_SINGLE;
-//    hmdma_memtomem_dma2_stream0.Init.PeriphBurst = DMA_PBURST_SINGLE;
-
-    if (HAL_MDMA_Init(&hmdma_memtomem_dma2_stream0) != HAL_OK) {
-        while (1) {
-            RS232::getInstance().term << "SRAM DMA Init Error!" << "\n";
+    /* Configure MDMA channel MDMA_Channel1 */
+    /* Configure MDMA request hmdma_memtomem_dma2_stream0 on MDMA_Channel1 */
+    hmdma_memtomem_dma2_stream0.Instance = MDMA_Channel1;
+    hmdma_memtomem_dma2_stream0.Init.Request = MDMA_REQUEST_DMA2_Stream0_TC;
+    hmdma_memtomem_dma2_stream0.Init.TransferTriggerMode = MDMA_BUFFER_TRANSFER;
+    hmdma_memtomem_dma2_stream0.Init.Priority = MDMA_PRIORITY_HIGH;
+    hmdma_memtomem_dma2_stream0.Init.Endianness = MDMA_LITTLE_ENDIANNESS_PRESERVE;
+    hmdma_memtomem_dma2_stream0.Init.SourceInc = MDMA_SRC_INC_BYTE;
+    hmdma_memtomem_dma2_stream0.Init.DestinationInc = MDMA_DEST_INC_BYTE;
+    hmdma_memtomem_dma2_stream0.Init.SourceDataSize = MDMA_SRC_DATASIZE_BYTE;
+    hmdma_memtomem_dma2_stream0.Init.DestDataSize = MDMA_DEST_DATASIZE_BYTE;
+    hmdma_memtomem_dma2_stream0.Init.DataAlignment = MDMA_DATAALIGN_PACKENABLE;
+    hmdma_memtomem_dma2_stream0.Init.BufferTransferLength = 1;
+    hmdma_memtomem_dma2_stream0.Init.SourceBurst = MDMA_SOURCE_BURST_SINGLE;
+    hmdma_memtomem_dma2_stream0.Init.DestBurst = MDMA_DEST_BURST_SINGLE;
+    hmdma_memtomem_dma2_stream0.Init.SourceBlockAddressOffset = 0;
+    hmdma_memtomem_dma2_stream0.Init.DestBlockAddressOffset = 0;
+    if (HAL_MDMA_Init(&hmdma_memtomem_dma2_stream0) != HAL_OK)
+    {
+        while (1)
+        {
+            RS232::getInstance().term << "SRAM MDMA Init Error!" << "\n";
         }
     }
+
+    /* Configure post request address and data masks */
+    if (HAL_MDMA_ConfigPostRequestMask(&hmdma_memtomem_dma2_stream0, 0, 0) != HAL_OK)
+    {
+        while (1)
+        {
+            RS232::getInstance().term << "SRAM MDMA Init Error!" << "\n";
+        }
+    }
+
+    /* MDMA interrupt initialization */
+    /* MDMA_IRQn interrupt configuration */
+    HAL_NVIC_SetPriority(MDMA_IRQn, 5, 0);
+    HAL_NVIC_EnableIRQ(MDMA_IRQn);
 
     HAL_NVIC_SetPriority(DMA2_Stream0_IRQn, 0, 0);
     HAL_NVIC_EnableIRQ(DMA2_Stream0_IRQn);
