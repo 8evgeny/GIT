@@ -69,6 +69,7 @@ void ETH_WKUP_IRQHandler(void);
 void I2C3_EV_IRQHandler(void);
 void UART7_IRQHandler(void);
 void SAI1_IRQHandler(void);
+void MDMA_IRQHandler(void);
 /* USER CODE BEGIN EFP */
 
 /* USER CODE END EFP */

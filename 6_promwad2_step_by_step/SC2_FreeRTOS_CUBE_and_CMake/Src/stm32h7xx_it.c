@@ -67,6 +67,15 @@ extern SAI_HandleTypeDef hsai_BlockA1;
 extern SAI_HandleTypeDef hsai_BlockB1;
 extern TIM_HandleTypeDef htim3;
 extern UART_HandleTypeDef huart7;
+
+
+//Добавил_CUBE_03_05_2022
+extern DMA_HandleTypeDef hdma_i2c1_rx;
+extern DMA_HandleTypeDef hdma_i2c1_tx;
+extern I2C_HandleTypeDef hi2c1;
+extern MDMA_HandleTypeDef hmdma_mdma_channel41_dma2_stream0_tc_0;
+
+
 /* USER CODE BEGIN EV */
 
 /* USER CODE END EV */
@@ -134,6 +143,25 @@ void BusFault_Handler(void)
     /* USER CODE END W1_BusFault_IRQn 0 */
   }
 }
+
+
+//Добавил_CUBE_03_05_2022
+/**
+  * @brief This function handles MDMA global interrupt.
+  */
+void MDMA_IRQHandler(void)
+{
+  /* USER CODE BEGIN MDMA_IRQn 0 */
+
+  /* USER CODE END MDMA_IRQn 0 */
+  HAL_MDMA_IRQHandler(&hmdma_mdma_channel41_dma2_stream0_tc_0);
+  /* USER CODE BEGIN MDMA_IRQn 1 */
+
+  /* USER CODE END MDMA_IRQn 1 */
+}
+
+
+
 
 /**
   * @brief This function handles Undefined instruction or illegal state.

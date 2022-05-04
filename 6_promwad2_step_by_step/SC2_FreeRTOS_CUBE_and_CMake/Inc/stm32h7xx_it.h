@@ -63,6 +63,10 @@ void ETH_WKUP_IRQHandler(void);
 void I2C3_EV_IRQHandler(void);
 void UART7_IRQHandler(void);
 void SAI1_IRQHandler(void);
+
+//Добавил_CUBE_03_05_2022
+void MDMA_IRQHandler(void);
+
 /* USER CODE BEGIN EFP */
 
 /* USER CODE END EFP */

@@ -41,8 +41,8 @@ void SRAMInit(void)
     hsram1.Init.ExtendedMode = FMC_EXTENDED_MODE_DISABLE;
     hsram1.Init.AsynchronousWait = FMC_ASYNCHRONOUS_WAIT_DISABLE;
     hsram1.Init.WriteBurst = FMC_WRITE_BURST_DISABLE;
-    hsram1.Init.ContinuousClock = FMC_CONTINUOUS_CLOCK_SYNC_ONLY;
-//    hsram1.Init.ContinuousClock = FMC_CONTINUOUS_CLOCK_SYNC_ASYNC;
+//    hsram1.Init.ContinuousClock = FMC_CONTINUOUS_CLOCK_SYNC_ONLY;
+    hsram1.Init.ContinuousClock = FMC_CONTINUOUS_CLOCK_SYNC_ASYNC;
     hsram1.Init.WriteFifo = FMC_WRITE_FIFO_ENABLE;
     hsram1.Init.PageSize = FMC_PAGE_SIZE_NONE;
 
@@ -80,6 +80,8 @@ static void DMAInit(void)
 {
     /* DMA controller clock enable */
     __HAL_RCC_DMA2_CLK_ENABLE();
+
+    __HAL_RCC_MDMA_CLK_ENABLE();
 
     /* Configure DMA request hdma_memtomem_dma2_stream0 on DMA2_Stream0 */
 //    hmdma_memtomem_dma2_stream0.Instance = DMA2_Stream0;
