@@ -96,14 +96,36 @@ static const struct Aic3254Configs ConfigurePower[] {
 static const struct Aic3254Configs ConfigureADC[] {
     //Select Page 1
     {0x00, 0x01},
+
+//Добавил_CUBE_03_05_2022
+//    //Route IN2L to LEFT_P with 10K input impedance
+//    {0x34, 0x10},
+//    //Route IN2R to LEFT_M with 10K input impedance
+//    {0x36, 0x10},
+//    //Route IN1R to RIGHT_P with 10K input impedance
+//    {0x37, 0x40},
+//    //Route IN1L to RIGHT_M with 10K input impedance
+//    {0x39, 0x10},
+
+
+//IN1 не используется
+/*
+IN2L -> LEFT_P
+IN2R -> LEFT_N
+IN3L -> RIGHT_P
+IN3R -> RIGHT_N
+*/
+//Добавил_CUBE_03_05_2022
     //Route IN2L to LEFT_P with 10K input impedance
     {0x34, 0x10},
     //Route IN2R to LEFT_M with 10K input impedance
     {0x36, 0x10},
-    //Route IN1R to RIGHT_P with 10K input impedance
-    {0x37, 0x40},
-    //Route IN1L to RIGHT_M with 10K input impedance
-    {0x39, 0x10},
+    //Route IN3R to RIGHT_P with 10K input impedance
+    {0x37, 0x04},
+    //Route IN3L to RIGHT_M with 10K input impedance
+    {0x39, 0x04},
+
+
     //Unmute Left MICPGA, Gain selection of 6dB to
     //make channel gain 0dB, since 20K input
     //impedance is usedsingle ended
@@ -115,11 +137,16 @@ static const struct Aic3254Configs ConfigureADC[] {
     //impedance is usedsingle ended
     //{0x3c, 0x5f},
 
+//Добавил_CUBE_03_05_2022
     //micbias
     //10: MICBIAS = 2.075V(CM = 0.75V) or MICBIAS = 2.5V(CM = 0.9V)
     //1: MICBIAS powered up
     //1: MICBIAS voltage is generated from LDOIN
-    {0x33, 0x58},
+
+//    {0x33, 0x58},
+//Отключил micbias
+    {0x33, 0x18},
+
 
     //Select Page 0
     {0x00, 0x00},
