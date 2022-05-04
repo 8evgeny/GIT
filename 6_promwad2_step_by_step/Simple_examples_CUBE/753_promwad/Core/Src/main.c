@@ -18,8 +18,8 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "string.h"
 #include "cmsis_os.h"
-#include "lwip.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -41,6 +41,32 @@
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
+#if defined ( __ICCARM__ ) /*!< IAR Compiler */
+
+#pragma location=0x30000000
+ETH_DMADescTypeDef  DMARxDscrTab[ETH_RX_DESC_CNT]; /* Ethernet Rx DMA Descriptors */
+#pragma location=0x30000060
+ETH_DMADescTypeDef  DMATxDscrTab[ETH_TX_DESC_CNT]; /* Ethernet Tx DMA Descriptors */
+#pragma location=0x30000200
+uint8_t Rx_Buff[ETH_RX_DESC_CNT][ETH_MAX_PACKET_SIZE]; /* Ethernet Receive Buffers */
+
+#elif defined ( __CC_ARM )  /* MDK ARM Compiler */
+
+__attribute__((at(0x30000000))) ETH_DMADescTypeDef  DMARxDscrTab[ETH_RX_DESC_CNT]; /* Ethernet Rx DMA Descriptors */
+__attribute__((at(0x30000060))) ETH_DMADescTypeDef  DMATxDscrTab[ETH_TX_DESC_CNT]; /* Ethernet Tx DMA Descriptors */
+__attribute__((at(0x30000200))) uint8_t Rx_Buff[ETH_RX_DESC_CNT][ETH_MAX_PACKET_SIZE]; /* Ethernet Receive Buffer */
+
+#elif defined ( __GNUC__ ) /* GNU Compiler */
+
+ETH_DMADescTypeDef DMARxDscrTab[ETH_RX_DESC_CNT] __attribute__((section(".RxDecripSection"))); /* Ethernet Rx DMA Descriptors */
+ETH_DMADescTypeDef DMATxDscrTab[ETH_TX_DESC_CNT] __attribute__((section(".TxDecripSection")));   /* Ethernet Tx DMA Descriptors */
+uint8_t Rx_Buff[ETH_RX_DESC_CNT][ETH_MAX_PACKET_SIZE] __attribute__((section(".RxArraySection"))); /* Ethernet Receive Buffers */
+
+#endif
+
+ETH_TxPacketConfig TxConfig;
+
+ETH_HandleTypeDef heth;
 
 I2C_HandleTypeDef hi2c1;
 I2C_HandleTypeDef hi2c2;
@@ -63,7 +89,7 @@ UART_HandleTypeDef huart7;
 DMA_HandleTypeDef hdma_uart7_rx;
 DMA_HandleTypeDef hdma_uart7_tx;
 
-MDMA_HandleTypeDef hmdma_mdma_channel41_dma2_stream3_tc_0;
+MDMA_HandleTypeDef hmdma_mdma_channel40_dma2_stream3_tc_0;
 SRAM_HandleTypeDef hsram1;
 
 osThreadId defaultTaskHandle;
@@ -86,6 +112,7 @@ static void MX_TIM3_Init(void);
 static void MX_DMA_Init(void);
 static void MX_RNG_Init(void);
 static void MX_MDMA_Init(void);
+static void MX_ETH_Init(void);
 void StartDefaultTask(void const * argument);
 
 /* USER CODE BEGIN PFP */
@@ -147,6 +174,7 @@ int main(void)
   MX_DMA_Init();
   MX_RNG_Init();
   MX_MDMA_Init();
+  MX_ETH_Init();
   /* USER CODE BEGIN 2 */
 
   /* USER CODE END 2 */
@@ -278,6 +306,55 @@ void PeriphCommonClock_Config(void)
   {
     Error_Handler();
   }
+}
+
+/**
+  * @brief ETH Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_ETH_Init(void)
+{
+
+  /* USER CODE BEGIN ETH_Init 0 */
+
+  /* USER CODE END ETH_Init 0 */
+
+   static uint8_t MACAddr[6];
+
+  /* USER CODE BEGIN ETH_Init 1 */
+
+  /* USER CODE END ETH_Init 1 */
+  heth.Instance = ETH;
+  MACAddr[0] = 0x30;
+  MACAddr[1] = 0x31;
+  MACAddr[2] = 0x32;
+  MACAddr[3] = 0x00;
+  MACAddr[4] = 0x00;
+  MACAddr[5] = 0x00;
+  heth.Init.MACAddr = &MACAddr[0];
+  heth.Init.MediaInterface = HAL_ETH_MII_MODE;
+  heth.Init.TxDesc = DMATxDscrTab;
+  heth.Init.RxDesc = DMARxDscrTab;
+  heth.Init.RxBuffLen = 1524;
+
+  /* USER CODE BEGIN MACADDRESS */
+
+  /* USER CODE END MACADDRESS */
+
+  if (HAL_ETH_Init(&heth) != HAL_OK)
+  {
+    Error_Handler();
+  }
+
+  memset(&TxConfig, 0 , sizeof(ETH_TxPacketConfig));
+  TxConfig.Attributes = ETH_TX_PACKETS_FEATURES_CSUM | ETH_TX_PACKETS_FEATURES_CRCPAD;
+  TxConfig.ChecksumCtrl = ETH_CHECKSUM_IPHDR_PAYLOAD_INSERT_PHDR_CALC;
+  TxConfig.CRCPadCtrl = ETH_CRC_PAD_INSERT;
+  /* USER CODE BEGIN ETH_Init 2 */
+
+  /* USER CODE END ETH_Init 2 */
+
 }
 
 /**
@@ -628,7 +705,7 @@ static void MX_DMA_Init(void)
 /**
   * Enable MDMA controller clock
   * Configure MDMA for global transfers
-  *   hmdma_mdma_channel41_dma2_stream3_tc_0
+  *   hmdma_mdma_channel40_dma2_stream3_tc_0
   */
 static void MX_MDMA_Init(void)
 {
@@ -638,29 +715,29 @@ static void MX_MDMA_Init(void)
   /* Local variables */
 
   /* Configure MDMA channel MDMA_Channel1 */
-  /* Configure MDMA request hmdma_mdma_channel41_dma2_stream3_tc_0 on MDMA_Channel1 */
-  hmdma_mdma_channel41_dma2_stream3_tc_0.Instance = MDMA_Channel1;
-  hmdma_mdma_channel41_dma2_stream3_tc_0.Init.Request = MDMA_REQUEST_DMA2_Stream3_TC;
-  hmdma_mdma_channel41_dma2_stream3_tc_0.Init.TransferTriggerMode = MDMA_BUFFER_TRANSFER;
-  hmdma_mdma_channel41_dma2_stream3_tc_0.Init.Priority = MDMA_PRIORITY_HIGH;
-  hmdma_mdma_channel41_dma2_stream3_tc_0.Init.Endianness = MDMA_LITTLE_ENDIANNESS_PRESERVE;
-  hmdma_mdma_channel41_dma2_stream3_tc_0.Init.SourceInc = MDMA_SRC_INC_BYTE;
-  hmdma_mdma_channel41_dma2_stream3_tc_0.Init.DestinationInc = MDMA_DEST_INC_BYTE;
-  hmdma_mdma_channel41_dma2_stream3_tc_0.Init.SourceDataSize = MDMA_SRC_DATASIZE_BYTE;
-  hmdma_mdma_channel41_dma2_stream3_tc_0.Init.DestDataSize = MDMA_DEST_DATASIZE_BYTE;
-  hmdma_mdma_channel41_dma2_stream3_tc_0.Init.DataAlignment = MDMA_DATAALIGN_PACKENABLE;
-  hmdma_mdma_channel41_dma2_stream3_tc_0.Init.BufferTransferLength = 1;
-  hmdma_mdma_channel41_dma2_stream3_tc_0.Init.SourceBurst = MDMA_SOURCE_BURST_SINGLE;
-  hmdma_mdma_channel41_dma2_stream3_tc_0.Init.DestBurst = MDMA_DEST_BURST_SINGLE;
-  hmdma_mdma_channel41_dma2_stream3_tc_0.Init.SourceBlockAddressOffset = 0;
-  hmdma_mdma_channel41_dma2_stream3_tc_0.Init.DestBlockAddressOffset = 0;
-  if (HAL_MDMA_Init(&hmdma_mdma_channel41_dma2_stream3_tc_0) != HAL_OK)
+  /* Configure MDMA request hmdma_mdma_channel40_dma2_stream3_tc_0 on MDMA_Channel1 */
+  hmdma_mdma_channel40_dma2_stream3_tc_0.Instance = MDMA_Channel1;
+  hmdma_mdma_channel40_dma2_stream3_tc_0.Init.Request = MDMA_REQUEST_DMA2_Stream3_TC;
+  hmdma_mdma_channel40_dma2_stream3_tc_0.Init.TransferTriggerMode = MDMA_BUFFER_TRANSFER;
+  hmdma_mdma_channel40_dma2_stream3_tc_0.Init.Priority = MDMA_PRIORITY_HIGH;
+  hmdma_mdma_channel40_dma2_stream3_tc_0.Init.Endianness = MDMA_LITTLE_ENDIANNESS_PRESERVE;
+  hmdma_mdma_channel40_dma2_stream3_tc_0.Init.SourceInc = MDMA_SRC_INC_BYTE;
+  hmdma_mdma_channel40_dma2_stream3_tc_0.Init.DestinationInc = MDMA_DEST_INC_BYTE;
+  hmdma_mdma_channel40_dma2_stream3_tc_0.Init.SourceDataSize = MDMA_SRC_DATASIZE_BYTE;
+  hmdma_mdma_channel40_dma2_stream3_tc_0.Init.DestDataSize = MDMA_DEST_DATASIZE_BYTE;
+  hmdma_mdma_channel40_dma2_stream3_tc_0.Init.DataAlignment = MDMA_DATAALIGN_PACKENABLE;
+  hmdma_mdma_channel40_dma2_stream3_tc_0.Init.BufferTransferLength = 1;
+  hmdma_mdma_channel40_dma2_stream3_tc_0.Init.SourceBurst = MDMA_SOURCE_BURST_SINGLE;
+  hmdma_mdma_channel40_dma2_stream3_tc_0.Init.DestBurst = MDMA_DEST_BURST_SINGLE;
+  hmdma_mdma_channel40_dma2_stream3_tc_0.Init.SourceBlockAddressOffset = 0;
+  hmdma_mdma_channel40_dma2_stream3_tc_0.Init.DestBlockAddressOffset = 0;
+  if (HAL_MDMA_Init(&hmdma_mdma_channel40_dma2_stream3_tc_0) != HAL_OK)
   {
     Error_Handler();
   }
 
   /* Configure post request address and data masks */
-  if (HAL_MDMA_ConfigPostRequestMask(&hmdma_mdma_channel41_dma2_stream3_tc_0, 0, 0) != HAL_OK)
+  if (HAL_MDMA_ConfigPostRequestMask(&hmdma_mdma_channel40_dma2_stream3_tc_0, 0, 0) != HAL_OK)
   {
     Error_Handler();
   }
@@ -825,8 +902,6 @@ static void MX_GPIO_Init(void)
 /* USER CODE END Header_StartDefaultTask */
 void StartDefaultTask(void const * argument)
 {
-  /* init code for LWIP */
-  MX_LWIP_Init();
   /* USER CODE BEGIN 5 */
   /* Infinite loop */
   for(;;)
