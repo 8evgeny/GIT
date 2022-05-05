@@ -104,11 +104,14 @@ include_directories(
     )
 
 #Это файл от другого проекта
-file (GLOB ETH_SOURCES
-    LWIP/Target/ethernetif.c
-    )
-add_library(ETH_LIB ${ETH_SOURCES} )
+#file (GLOB ETH_SOURCES
+#    LWIP/Target/ethernetif.c
+#    )
+#add_library(ETH_LIB ${ETH_SOURCES} )
 
+#set (LWIP_SOURCES LWIP/App/lwip.c  LWIP/Target/ethernetif.c LWIP/ping.c )
+#include_directories(LWIP/App LWIP/Target LWIP )
+#add_library(LWIP ${LWIP_SOURCES} )
 
 set (RS232  Src/RS232)
 include_directories( ${RS232} )
@@ -260,9 +263,6 @@ include_directories(
     )
 add_library(CMSIS_RTOS ${CMSIS_RTOS_SOURCES} )
 
-set (LWIP_SOURCES LWIP/App/lwip.c  LWIP/Target/ethernetif.c LWIP/ping.c )
-include_directories(LWIP/App LWIP/Target LWIP )
-add_library(LWIP ${LWIP_SOURCES} )
 
 file (GLOB Third_Party_SRC
     Middlewares/Third_Party/LwIP/src/api/*
@@ -322,11 +322,11 @@ target_link_options(${PROJECT_NAME}.elf PRIVATE ${LINKER_FLAGS})
 target_link_libraries(${PROJECT_NAME}.elf PUBLIC
     STARTUP
     BSP
-    ETH_LIB
+#    ETH_LIB
+#    LWIP
     SRAM_LIB
     flash_LIB
     STM32H7xx_HAL_Driver
-    LWIP
     Middlewares
     CMSIS_RTOS
     RS232_LIB

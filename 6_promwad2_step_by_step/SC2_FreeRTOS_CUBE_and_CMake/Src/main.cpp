@@ -1,5 +1,5 @@
 #include "main.h"
-#include "lwip.h"
+//#include "lwip.h"
 #include "rs232.h"
 #include "debug.h"
 #include "wdt.h"
