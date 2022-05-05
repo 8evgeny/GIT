@@ -247,12 +247,15 @@ RS232Puts("*** low_level_init start ***\n") ;
 
     hal_eth_init_status = HAL_ETH_Init(&heth);
 
-RS232Puts("*** low_level_init 1 ***\n") ;
-
     if (hal_eth_init_status == HAL_OK) {
         /* Set netif link flag */
         netif->flags |= NETIF_FLAG_LINK_UP;
     }
+
+
+
+RS232Puts("$$$$ FIX POINT $$$$\n") ;
+
 
 //    /* Initialize Tx Descriptors list: Chain Mode */
 //    HAL_ETH_DMATxDescListInit(&heth, DMATxDscrTab, &Tx_Buff[0][0], ETH_TXBUFNB);

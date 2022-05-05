@@ -351,7 +351,7 @@ RS232Puts("*** HAL_ETH_Init start ***\n") ;
 //    }
 //  }
 
-RS232Puts("### HAL_ETH_Init COMMENT_SOFT_RESET ################\n") ;
+RS232Puts("### HAL_ETH_Init COMMENT_SOFT_RESET ###############\n") ;
 
   /*------------------ MDIO CSR Clock Range Configuration --------------------*/
   ETH_MAC_MDIO_ClkConfig(heth);
