@@ -180,9 +180,9 @@ int main(void)
 //    if (Json::getInstance()->deserializeJsonFlag == Json::JsonFlags::OK)
 //    {
 
-        netInit(Json::getInstance()->thisStation.ip,
-                Json::getInstance()->thisStation.mask,
-                Json::getInstance()->thisStation.gateway);
+//        netInit(Json::getInstance()->thisStation.ip,
+//                Json::getInstance()->thisStation.mask,
+//                Json::getInstance()->thisStation.gateway);
 
         osThreadDef(emptyThread, empty, osPriorityHigh, 0, configMINIMAL_STACK_SIZE);
         osThreadCreate(osThread(emptyThread), nullptr);
