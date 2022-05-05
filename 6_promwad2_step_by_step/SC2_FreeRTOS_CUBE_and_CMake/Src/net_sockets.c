@@ -6,7 +6,7 @@
 #include "lwip/tcpip.h"
 #include "lwip/netdb.h"
 #include "lwip/sockets.h"
-
+#include "rs232_printf.h"
 
 #include "netif/ethernet.h"
 
@@ -96,9 +96,13 @@ int32_t netInit(const char *ipSet, const char *netmaskSet, const char *gatwaySet
     IP4_ADDR(&netmask, NETMASK_ADDRESS[0], NETMASK_ADDRESS[1], NETMASK_ADDRESS[2], NETMASK_ADDRESS[3]);
     IP4_ADDR(&gw, GATEWAY_ADDRESS[0], GATEWAY_ADDRESS[1], GATEWAY_ADDRESS[2], GATEWAY_ADDRESS[3]);
 
+RS232Puts("netif_add_start\n");
 
     /* add the network interface (IPv4/IPv6) with RTOS */
     netif_add(&gnetif, &ipaddr, &netmask, &gw, NULL, &ethernetif_init, &tcpip_input);
+
+RS232Puts("netif_add_end\n");
+
 
     /* Registers the default network interface */
     netif_set_default(&gnetif);

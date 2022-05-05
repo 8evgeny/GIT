@@ -29,7 +29,7 @@
 #include "cmsis_os.h"
 #include "main.h"
 #include "stm32h7xx_hal_conf.h"
-
+#include "rs232_printf.h"
 
 /* Private define ------------------------------------------------------------*/
 /* The time to block waiting for input. */
@@ -223,6 +223,8 @@ void HAL_ETH_RxCpltCallback(ETH_HandleTypeDef *heth)
  */
 static void low_level_init(struct netif *netif)
 {
+RS232Puts("low_level_init start\n") ;
+
     uint32_t regvalue = 0;
     HAL_StatusTypeDef hal_eth_init_status;
 
