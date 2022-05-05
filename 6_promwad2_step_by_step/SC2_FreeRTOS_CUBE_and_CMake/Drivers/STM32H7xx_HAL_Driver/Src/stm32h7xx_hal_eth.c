@@ -145,6 +145,8 @@
 /* Includes ------------------------------------------------------------------*/
 #include "stm32h7xx_hal.h"
 
+#include "rs232_printf.h"
+
 /** @addtogroup STM32H7xx_HAL_Driver
   * @{
   */
@@ -276,6 +278,8 @@ static void ETH_InitCallbacksToDefault(ETH_HandleTypeDef *heth);
   */
 HAL_StatusTypeDef HAL_ETH_Init(ETH_HandleTypeDef *heth)
 {
+RS232Puts("HAL_ETH_Init start\n") ;
+
   uint32_t tickstart;
 
   if(heth == NULL)
@@ -332,9 +336,12 @@ HAL_StatusTypeDef HAL_ETH_Init(ETH_HandleTypeDef *heth)
   /* Get tick */
   tickstart = HAL_GetTick();
 
+RS232Puts("HAL_ETH_Init 1\n") ;
+
   /* Wait for software reset */
   while (READ_BIT(heth->Instance->DMAMR, ETH_DMAMR_SWR) > 0U)
   {
+
     if(((HAL_GetTick() - tickstart ) > ETH_SWRESET_TIMEOUT))
     {
       /* Set Error Code */
@@ -346,6 +353,8 @@ HAL_StatusTypeDef HAL_ETH_Init(ETH_HandleTypeDef *heth)
     }
   }
 
+RS232Puts("HAL_ETH_Init 2\n") ;
+
   /*------------------ MDIO CSR Clock Range Configuration --------------------*/
   ETH_MAC_MDIO_ClkConfig(heth);
 
@@ -353,6 +362,7 @@ HAL_StatusTypeDef HAL_ETH_Init(ETH_HandleTypeDef *heth)
   WRITE_REG(heth->Instance->MAC1USTCR, (((uint32_t)HAL_RCC_GetHCLKFreq() / ETH_MAC_US_TICK) - 1U));
 
   /*------------------ MAC, MTL and DMA default Configuration ----------------*/
+
   ETH_MACDMAConfig(heth);
 
   /* SET DSL to 64 bit */
