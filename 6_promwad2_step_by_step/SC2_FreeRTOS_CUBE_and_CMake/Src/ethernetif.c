@@ -157,8 +157,7 @@ void HAL_ETH_MspInit(ETH_HandleTypeDef *ethHandle)
         HAL_NVIC_SetPriority(ETH_IRQn, 0x7, 0);
         HAL_NVIC_EnableIRQ(ETH_IRQn);
 
-        /* Enable Peripheral clock */
-        __HAL_RCC_ETH_CLK_ENABLE();
+
     }
 }
 
@@ -251,11 +250,11 @@ static void low_level_init(struct netif *netif)
         netif->flags |= NETIF_FLAG_LINK_UP;
     }
 
-    /* Initialize Tx Descriptors list: Chain Mode */
-    HAL_ETH_DMATxDescListInit(&heth, DMATxDscrTab, &Tx_Buff[0][0], ETH_TXBUFNB);
+//    /* Initialize Tx Descriptors list: Chain Mode */
+//    HAL_ETH_DMATxDescListInit(&heth, DMATxDscrTab, &Tx_Buff[0][0], ETH_TXBUFNB);
 
-    /* Initialize Rx Descriptors list: Chain Mode  */
-    HAL_ETH_DMARxDescListInit(&heth, DMARxDscrTab, &Rx_Buff[0][0], ETH_RXBUFNB);
+//    /* Initialize Rx Descriptors list: Chain Mode  */
+//    HAL_ETH_DMARxDescListInit(&heth, DMARxDscrTab, &Rx_Buff[0][0], ETH_RXBUFNB);
 
 #if LWIP_ARP || LWIP_ETHERNET
 
@@ -295,20 +294,20 @@ static void low_level_init(struct netif *netif)
 
     /**** Configure PHY to generate an interrupt when Eth Link state changes ****/
     /* Read Register Configuration */
-    HAL_ETH_ReadPHYRegister(&heth, PHY_MICR, &regvalue);
+//    HAL_ETH_ReadPHYRegister(&heth, PHY_MICR, &regvalue);
 
-    regvalue |= (PHY_MICR_INT_EN | PHY_MICR_INT_OE);
+//    regvalue |= (PHY_MICR_INT_EN | PHY_MICR_INT_OE);
 
-    /* Enable Interrupts */
-    HAL_ETH_WritePHYRegister(&heth, PHY_MICR, regvalue);
+//    /* Enable Interrupts */
+//    HAL_ETH_WritePHYRegister(&heth, PHY_MICR, regvalue);
 
-    /* Read Register Configuration */
-    HAL_ETH_ReadPHYRegister(&heth, PHY_MISR, &regvalue);
+//    /* Read Register Configuration */
+//    HAL_ETH_ReadPHYRegister(&heth, PHY_MISR, &regvalue);
 
-    regvalue |= PHY_MISR_LINK_INT_EN;
+//    regvalue |= PHY_MISR_LINK_INT_EN;
 
     /* Enable Interrupt on change of link status */
-    HAL_ETH_WritePHYRegister(&heth, PHY_MISR, regvalue);
+//    HAL_ETH_WritePHYRegister(&heth, PHY_MISR, regvalue);
 
 #endif /* LWIP_ARP || LWIP_ETHERNET */
 
@@ -334,70 +333,70 @@ static err_t low_level_output(struct netif *netif, struct pbuf *p)
 {
     err_t errval;
     struct pbuf *q;
-    uint8_t *buffer = (uint8_t *)(heth.TxDesc->Buffer1Addr);
+//    uint8_t *buffer = (uint8_t *)(heth.TxDesc->Buffer1Addr);
     __IO ETH_DMADescTypeDef *DmaTxDesc;
     uint32_t framelength = 0;
     uint32_t bufferoffset = 0;
     uint32_t byteslefttocopy = 0;
     uint32_t payloadoffset = 0;
-    DmaTxDesc = heth.TxDesc;
+//    DmaTxDesc = heth.TxDesc;
     bufferoffset = 0;
 
     /* copy frame from pbufs to driver buffers */
     for (q = p; q != NULL; q = q->next) {
         /* Is this buffer available? If not, goto error */
-        if ((DmaTxDesc->Status & ETH_DMATXDESC_OWN) != (uint32_t)RESET) {
-            errval = ERR_USE;
-            goto error;
-        }
+//        if ((DmaTxDesc->Status & ETH_DMATXDESC_OWN) != (uint32_t)RESET) {
+//            errval = ERR_USE;
+//            goto error;
+//        }
 
         /* Get bytes in current lwIP buffer */
         byteslefttocopy = q->len;
         payloadoffset = 0;
 
         /* Check if the length of data to copy is bigger than Tx buffer size*/
-        while ((byteslefttocopy + bufferoffset) > ETH_TX_BUF_SIZE) {
-            /* Copy data to Tx buffer*/
-            memcpy((uint8_t *)((uint8_t *)buffer + bufferoffset), (uint8_t *)((uint8_t *)q->payload + payloadoffset), (ETH_TX_BUF_SIZE - bufferoffset));
+//        while ((byteslefttocopy + bufferoffset) > ETH_TX_BUF_SIZE) {
+//            /* Copy data to Tx buffer*/
+//            memcpy((uint8_t *)((uint8_t *)buffer + bufferoffset), (uint8_t *)((uint8_t *)q->payload + payloadoffset), (ETH_TX_BUF_SIZE - bufferoffset));
 
-            /* Point to next descriptor */
-            DmaTxDesc = (ETH_DMADescTypeDef *)(DmaTxDesc->Buffer2NextDescAddr);
+//            /* Point to next descriptor */
+//            DmaTxDesc = (ETH_DMADescTypeDef *)(DmaTxDesc->Buffer2NextDescAddr);
 
-            /* Check if the buffer is available */
-            if ((DmaTxDesc->Status & ETH_DMATXDESC_OWN) != (uint32_t)RESET) {
-                errval = ERR_USE;
-                goto error;
-            }
+//            /* Check if the buffer is available */
+//            if ((DmaTxDesc->Status & ETH_DMATXDESC_OWN) != (uint32_t)RESET) {
+//                errval = ERR_USE;
+//                goto error;
+//            }
 
-            buffer = (uint8_t *)(DmaTxDesc->Buffer1Addr);
+//            buffer = (uint8_t *)(DmaTxDesc->Buffer1Addr);
 
-            byteslefttocopy = byteslefttocopy - (ETH_TX_BUF_SIZE - bufferoffset);
-            payloadoffset = payloadoffset + (ETH_TX_BUF_SIZE - bufferoffset);
-            framelength = framelength + (ETH_TX_BUF_SIZE - bufferoffset);
-            bufferoffset = 0;
-        }
+//            byteslefttocopy = byteslefttocopy - (ETH_TX_BUF_SIZE - bufferoffset);
+//            payloadoffset = payloadoffset + (ETH_TX_BUF_SIZE - bufferoffset);
+//            framelength = framelength + (ETH_TX_BUF_SIZE - bufferoffset);
+//            bufferoffset = 0;
+//        }
 
         /* Copy the remaining bytes */
-        memcpy((uint8_t *)((uint8_t *)buffer + bufferoffset), (uint8_t *)((uint8_t *)q->payload + payloadoffset), byteslefttocopy);
+//        memcpy((uint8_t *)((uint8_t *)buffer + bufferoffset), (uint8_t *)((uint8_t *)q->payload + payloadoffset), byteslefttocopy);
         bufferoffset = bufferoffset + byteslefttocopy;
         framelength = framelength + byteslefttocopy;
     }
 
     /* Prepare transmit descriptors to give to DMA */
-    HAL_ETH_TransmitFrame(&heth, framelength);
+//    HAL_ETH_TransmitFrame(&heth, framelength);
 
     errval = ERR_OK;
 
 error:
 
     /* When Transmit Underflow flag is set, clear it and issue a Transmit Poll Demand to resume transmission */
-    if ((heth.Instance->DMASR & ETH_DMASR_TUS) != (uint32_t)RESET) {
-        /* Clear TUS ETHERNET DMA flag */
-        heth.Instance->DMASR = ETH_DMASR_TUS;
+//    if ((heth.Instance->DMASR & ETH_DMASR_TUS) != (uint32_t)RESET) {
+//        /* Clear TUS ETHERNET DMA flag */
+//        heth.Instance->DMASR = ETH_DMASR_TUS;
 
-        /* Resume DMA transmission*/
-        heth.Instance->DMATPDR = 0;
-    }
+//        /* Resume DMA transmission*/
+//        heth.Instance->DMATPDR = 0;
+//    }
     return errval;
 }
 
@@ -423,12 +422,12 @@ static struct pbuf *low_level_input(struct netif *netif)
 
 
     /* get received frame */
-    if (HAL_ETH_GetReceivedFrame_IT(&heth) != HAL_OK)
+//    if (HAL_ETH_GetReceivedFrame_IT(&heth) != HAL_OK)
         return NULL;
 
     /* Obtain the size of the packet and put it into the "len" variable. */
-    len = heth.RxFrameInfos.length;
-    buffer = (uint8_t *)heth.RxFrameInfos.buffer;
+//    len = heth.RxFrameInfos.length;
+//    buffer = (uint8_t *)heth.RxFrameInfos.buffer;
 
     if (len > 0) {
         /* We allocate a pbuf chain of pbufs from the Lwip buffer pool */
@@ -436,25 +435,25 @@ static struct pbuf *low_level_input(struct netif *netif)
     }
 
     if (p != NULL) {
-        dmarxdesc = heth.RxFrameInfos.FSRxDesc;
+//        dmarxdesc = heth.RxFrameInfos.FSRxDesc;
         bufferoffset = 0;
         for (q = p; q != NULL; q = q->next) {
             byteslefttocopy = q->len;
             payloadoffset = 0;
 
             /* Check if the length of bytes to copy in current pbuf is bigger than Rx buffer size*/
-            while ((byteslefttocopy + bufferoffset) > ETH_RX_BUF_SIZE) {
-                /* Copy data to pbuf */
-                memcpy((uint8_t *)((uint8_t *)q->payload + payloadoffset), (uint8_t *)((uint8_t *)buffer + bufferoffset), (ETH_RX_BUF_SIZE - bufferoffset));
+//            while ((byteslefttocopy + bufferoffset) > ETH_RX_BUF_SIZE) {
+//                /* Copy data to pbuf */
+//                memcpy((uint8_t *)((uint8_t *)q->payload + payloadoffset), (uint8_t *)((uint8_t *)buffer + bufferoffset), (ETH_RX_BUF_SIZE - bufferoffset));
 
-                /* Point to next descriptor */
-                dmarxdesc = (ETH_DMADescTypeDef *)(dmarxdesc->Buffer2NextDescAddr);
-                buffer = (uint8_t *)(dmarxdesc->Buffer1Addr);
+//                /* Point to next descriptor */
+//                dmarxdesc = (ETH_DMADescTypeDef *)(dmarxdesc->Buffer2NextDescAddr);
+//                buffer = (uint8_t *)(dmarxdesc->Buffer1Addr);
 
-                byteslefttocopy = byteslefttocopy - (ETH_RX_BUF_SIZE - bufferoffset);
-                payloadoffset = payloadoffset + (ETH_RX_BUF_SIZE - bufferoffset);
-                bufferoffset = 0;
-            }
+//                byteslefttocopy = byteslefttocopy - (ETH_RX_BUF_SIZE - bufferoffset);
+//                payloadoffset = payloadoffset + (ETH_RX_BUF_SIZE - bufferoffset);
+//                bufferoffset = 0;
+//            }
             /* Copy remaining data in pbuf */
             memcpy((uint8_t *)((uint8_t *)q->payload + payloadoffset), (uint8_t *)((uint8_t *)buffer + bufferoffset), byteslefttocopy);
             bufferoffset = bufferoffset + byteslefttocopy;
@@ -463,23 +462,23 @@ static struct pbuf *low_level_input(struct netif *netif)
 
     /* Release descriptors to DMA */
     /* Point to first descriptor */
-    dmarxdesc = heth.RxFrameInfos.FSRxDesc;
+//    dmarxdesc = heth.RxFrameInfos.FSRxDesc;
     /* Set Own bit in Rx descriptors: gives the buffers back to DMA */
-    for (i = 0; i < heth.RxFrameInfos.SegCount; i++) {
-        dmarxdesc->Status |= ETH_DMARXDESC_OWN;
-        dmarxdesc = (ETH_DMADescTypeDef *)(dmarxdesc->Buffer2NextDescAddr);
-    }
+//    for (i = 0; i < heth.RxFrameInfos.SegCount; i++) {
+//        dmarxdesc->Status |= ETH_DMARXDESC_OWN;
+//        dmarxdesc = (ETH_DMADescTypeDef *)(dmarxdesc->Buffer2NextDescAddr);
+//    }
 
     /* Clear Segment_Count */
-    heth.RxFrameInfos.SegCount = 0;
+//    heth.RxFrameInfos.SegCount = 0;
 
     /* When Rx Buffer unavailable flag is set: clear it and resume reception */
-    if ((heth.Instance->DMASR & ETH_DMASR_RBUS) != (uint32_t)RESET) {
-        /* Clear RBUS ETHERNET DMA flag */
-        heth.Instance->DMASR = ETH_DMASR_RBUS;
-        /* Resume DMA reception */
-        heth.Instance->DMARPDR = 0;
-    }
+//    if ((heth.Instance->DMASR & ETH_DMASR_RBUS) != (uint32_t)RESET) {
+//        /* Clear RBUS ETHERNET DMA flag */
+//        heth.Instance->DMASR = ETH_DMASR_RBUS;
+//        /* Resume DMA reception */
+//        heth.Instance->DMARPDR = 0;
+//    }
     return p;
 }
 
@@ -610,71 +609,71 @@ u32_t sys_now(void)
   */
 void ethernetif_update_config(struct netif *netif)
 {
-    __IO uint32_t tickstart = 0;
-    uint32_t regvalue = 0;
+//    __IO uint32_t tickstart = 0;
+//    uint32_t regvalue = 0;
 
-    if (netif_is_link_up(netif)) {
-        /* Restart the auto-negotiation */
-        if (heth.Init.AutoNegotiation != ETH_AUTONEGOTIATION_DISABLE) {
-            /* Enable Auto-Negotiation */
-            HAL_ETH_WritePHYRegister(&heth, PHY_BCR, PHY_AUTONEGOTIATION);
+//    if (netif_is_link_up(netif)) {
+//        /* Restart the auto-negotiation */
+//        if (heth.Init.AutoNegotiation != ETH_AUTONEGOTIATION_DISABLE) {
+//            /* Enable Auto-Negotiation */
+//            HAL_ETH_WritePHYRegister(&heth, PHY_BCR, PHY_AUTONEGOTIATION);
 
-            /* Get tick */
-            tickstart = HAL_GetTick();
+//            /* Get tick */
+//            tickstart = HAL_GetTick();
 
-            /* Wait until the auto-negotiation will be completed */
-            do {
-                HAL_ETH_ReadPHYRegister(&heth, PHY_BSR, &regvalue);
+//            /* Wait until the auto-negotiation will be completed */
+//            do {
+//                HAL_ETH_ReadPHYRegister(&heth, PHY_BSR, &regvalue);
 
-                /* Check for the Timeout ( 1s ) */
-                if ((HAL_GetTick() - tickstart) > 1000) {
-                    /* In case of timeout */
-                    goto error;
-                }
-            } while (((regvalue & PHY_AUTONEGO_COMPLETE) != PHY_AUTONEGO_COMPLETE));
+//                /* Check for the Timeout ( 1s ) */
+//                if ((HAL_GetTick() - tickstart) > 1000) {
+//                    /* In case of timeout */
+//                    goto error;
+//                }
+//            } while (((regvalue & PHY_AUTONEGO_COMPLETE) != PHY_AUTONEGO_COMPLETE));
 
-            /* Read the result of the auto-negotiation */
-            HAL_ETH_ReadPHYRegister(&heth, PHY_SR, &regvalue);
-            int linkup = !!(regvalue & PHY_LINK_STATUS);
+//            /* Read the result of the auto-negotiation */
+//            HAL_ETH_ReadPHYRegister(&heth, PHY_SR, &regvalue);
+//            int linkup = !!(regvalue & PHY_LINK_STATUS);
 
-            /* Configure the MAC with the Duplex Mode fixed by the auto-negotiation process */
-            if ((regvalue & PHY_DUPLEX_STATUS) != (uint32_t)RESET) {
-                /* Set Ethernet duplex mode to Full-duplex following the auto-negotiation */
-                heth.Init.DuplexMode = ETH_MODE_FULLDUPLEX;
-            } else {
-                /* Set Ethernet duplex mode to Half-duplex following the auto-negotiation */
-                heth.Init.DuplexMode = ETH_MODE_HALFDUPLEX;
-            }
-            /* Configure the MAC with the speed fixed by the auto-negotiation process */
-            if (regvalue & PHY_SPEED_STATUS) {
-                /* Set Ethernet speed to 10M following the auto-negotiation */
-                heth.Init.Speed = ETH_SPEED_10M;
-            } else {
-                /* Set Ethernet speed to 100M following the auto-negotiation */
-                heth.Init.Speed = ETH_SPEED_100M;
-            }
-        } else { /* AutoNegotiation Disable */
-error :
-            /* Check parameters */
-            assert_param(IS_ETH_SPEED(heth.Init.Speed));
-            assert_param(IS_ETH_DUPLEX_MODE(heth.Init.DuplexMode));
+//            /* Configure the MAC with the Duplex Mode fixed by the auto-negotiation process */
+//            if ((regvalue & PHY_DUPLEX_STATUS) != (uint32_t)RESET) {
+//                /* Set Ethernet duplex mode to Full-duplex following the auto-negotiation */
+//                heth.Init.DuplexMode = ETH_MODE_FULLDUPLEX;
+//            } else {
+//                /* Set Ethernet duplex mode to Half-duplex following the auto-negotiation */
+//                heth.Init.DuplexMode = ETH_MODE_HALFDUPLEX;
+//            }
+//            /* Configure the MAC with the speed fixed by the auto-negotiation process */
+//            if (regvalue & PHY_SPEED_STATUS) {
+//                /* Set Ethernet speed to 10M following the auto-negotiation */
+//                heth.Init.Speed = ETH_SPEED_10M;
+//            } else {
+//                /* Set Ethernet speed to 100M following the auto-negotiation */
+//                heth.Init.Speed = ETH_SPEED_100M;
+//            }
+//        } else { /* AutoNegotiation Disable */
+//error :
+//            /* Check parameters */
+//            assert_param(IS_ETH_SPEED(heth.Init.Speed));
+//            assert_param(IS_ETH_DUPLEX_MODE(heth.Init.DuplexMode));
 
-            /* Set MAC Speed and Duplex Mode to PHY */
-            HAL_ETH_WritePHYRegister(&heth, PHY_BCR, ((uint16_t)(heth.Init.DuplexMode >> 3) |
-                                     (uint16_t)(heth.Init.Speed >> 1)));
-        }
+//            /* Set MAC Speed and Duplex Mode to PHY */
+//            HAL_ETH_WritePHYRegister(&heth, PHY_BCR, ((uint16_t)(heth.Init.DuplexMode >> 3) |
+//                                     (uint16_t)(heth.Init.Speed >> 1)));
+//        }
 
-        /* ETHERNET MAC Re-Configuration */
-        HAL_ETH_ConfigMAC(&heth, (ETH_MACInitTypeDef *) NULL);
+//        /* ETHERNET MAC Re-Configuration */
+//        HAL_ETH_ConfigMAC(&heth, (ETH_MACInitTypeDef *) NULL);
 
-        /* Restart MAC interface */
-        HAL_ETH_Start(&heth);
-    } else {
-        /* Stop MAC interface */
-        HAL_ETH_Stop(&heth);
-    }
+//        /* Restart MAC interface */
+//        HAL_ETH_Start(&heth);
+//    } else {
+//        /* Stop MAC interface */
+//        HAL_ETH_Stop(&heth);
+//    }
 
-    ethernetif_notify_conn_changed(netif);
+//    ethernetif_notify_conn_changed(netif);
 }
 
 /**
@@ -713,26 +712,26 @@ void ETH_WKUP_IRQHandler(void)
   */
 void ethernetif_set_link(void const *argument)
 {
-    uint32_t regvalue = 0;
-    struct link_str *link_arg = (struct link_str *)argument;
+//    uint32_t regvalue = 0;
+//    struct link_str *link_arg = (struct link_str *)argument;
 
-    for (;;) {
-        if (osSemaphoreWait(link_arg->semaphore, osWaitForever) == osOK) {
-            /* Read PHY_MISR*/
-            HAL_ETH_ReadPHYRegister(&heth, PHY_MISR, &regvalue);
+//    for (;;) {
+//        if (osSemaphoreWait(link_arg->semaphore, osWaitForever) == osOK) {
+//            /* Read PHY_MISR*/
+//            HAL_ETH_ReadPHYRegister(&heth, PHY_MISR, &regvalue);
 
-            /* Check whether the link interrupt has occurred or not */
-            if ((regvalue & PHY_LINK_INTERRUPT) != (uint16_t)RESET) {
-                /* Read PHY_SR*/
-                HAL_ETH_ReadPHYRegister(&heth, PHY_SR, &regvalue);
+//            /* Check whether the link interrupt has occurred or not */
+//            if ((regvalue & PHY_LINK_INTERRUPT) != (uint16_t)RESET) {
+//                /* Read PHY_SR*/
+//                HAL_ETH_ReadPHYRegister(&heth, PHY_SR, &regvalue);
 
-                /* Check whether the link is up or down*/
-                if ((regvalue & PHY_LINK_STATUS) != (uint16_t)RESET) {
-                    netif_set_link_up(link_arg->netif);
-                } else {
-                    netif_set_link_down(link_arg->netif);
-                }
-            }
-        }
-    }
+//                /* Check whether the link is up or down*/
+//                if ((regvalue & PHY_LINK_STATUS) != (uint16_t)RESET) {
+//                    netif_set_link_up(link_arg->netif);
+//                } else {
+//                    netif_set_link_down(link_arg->netif);
+//                }
+//            }
+//        }
+//    }
 }

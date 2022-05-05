@@ -43,7 +43,7 @@ static void MX_SAI1_Init(void);
 static void MX_TIM3_Init(void);
 //static void MX_DMA_Init(void);
 static void MX_RNG_Init(void);
-void StartDefaultTask(void const * argument);
+//void StartDefaultTask(void const * argument);
 
 I2C_HandleTypeDef hi2c1;
 I2C_HandleTypeDef hi2c2;
@@ -64,7 +64,7 @@ MDMA_HandleTypeDef hmdma_memtomem_dma2_stream0;
 //static void MX_MDMA_Init(void); //Вынес с SRAM
 
 
-osThreadId defaultTaskHandle;
+//osThreadId defaultTaskHandle;
 osThreadDef(trackRingBufferThread, trackRingBufferThread, osPriorityHigh, 0, configMINIMAL_STACK_SIZE * 20);
 osThreadDef(readFromUartThread, readFromUartThread, osPriorityHigh, 0, configMINIMAL_STACK_SIZE * 10);
 osThreadDef(StartWdtThread, StartWdtThread, osPriorityRealtime, 0, configMINIMAL_STACK_SIZE * 1);
@@ -172,7 +172,7 @@ int main(void)
 //        RS232::getInstance().term << __FUNCTION__ << " " << __LINE__ << " " << "\n";
 //    }
 
-    osThreadDef(defaultTask, StartDefaultTask, osPriorityHigh, 0, 128);
+//    osThreadDef(defaultTask, StartDefaultTask, osPriorityHigh, 0, 128);
 //    defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL); //При включении система виснет
 
 
@@ -808,24 +808,24 @@ static void MX_GPIO_Init(void)
 
 }
 
-void StartDefaultTask(void const * argument)
-{
-term("StartDefaultTask_1")
+//void StartDefaultTask(void const * argument)
+//{
+//term("StartDefaultTask_1")
 
-  /* init code for LWIP */
-  MX_LWIP_Init();
-  /* USER CODE BEGIN 5 */
-  /* Infinite loop */
+//  /* init code for LWIP */
+//  MX_LWIP_Init();
+//  /* USER CODE BEGIN 5 */
+//  /* Infinite loop */
 
-HAL_Delay(350);
-term("****  TaskLWIP  start  ****")
+//HAL_Delay(350);
+//term("****  TaskLWIP  start  ****")
 
-  for(;;)
-  {
-    osDelay(1);
-  }
-  /* USER CODE END 5 */
-}
+//  for(;;)
+//  {
+//    osDelay(1);
+//  }
+//  /* USER CODE END 5 */
+//}
 
 
 //Добавил_CUBE_03_05_2022
