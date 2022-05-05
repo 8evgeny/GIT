@@ -278,7 +278,7 @@ static void ETH_InitCallbacksToDefault(ETH_HandleTypeDef *heth);
   */
 HAL_StatusTypeDef HAL_ETH_Init(ETH_HandleTypeDef *heth)
 {
-RS232Puts("HAL_ETH_Init start\n") ;
+RS232Puts("*** HAL_ETH_Init start ***\n") ;
 
   uint32_t tickstart;
 
@@ -336,24 +336,22 @@ RS232Puts("HAL_ETH_Init start\n") ;
   /* Get tick */
   tickstart = HAL_GetTick();
 
-RS232Puts("HAL_ETH_Init 1\n") ;
-
   /* Wait for software reset */
-  while (READ_BIT(heth->Instance->DMAMR, ETH_DMAMR_SWR) > 0U)
-  {
+//  while (READ_BIT(heth->Instance->DMAMR, ETH_DMAMR_SWR) > 0U)
+//  {
 
-    if(((HAL_GetTick() - tickstart ) > ETH_SWRESET_TIMEOUT))
-    {
-      /* Set Error Code */
-      heth->ErrorCode = HAL_ETH_ERROR_TIMEOUT;
-      /* Set State as Error */
-      heth->gState = HAL_ETH_STATE_ERROR;
-      /* Return Error */
-      return HAL_ERROR;
-    }
-  }
+//    if(((HAL_GetTick() - tickstart ) > ETH_SWRESET_TIMEOUT))
+//    {
+//      /* Set Error Code */
+//      heth->ErrorCode = HAL_ETH_ERROR_TIMEOUT;
+//      /* Set State as Error */
+//      heth->gState = HAL_ETH_STATE_ERROR;
+//      /* Return Error */
+//      return HAL_ERROR;
+//    }
+//  }
 
-RS232Puts("HAL_ETH_Init 2\n") ;
+RS232Puts("### HAL_ETH_Init COMMENT_SOFT_RESET ################\n") ;
 
   /*------------------ MDIO CSR Clock Range Configuration --------------------*/
   ETH_MAC_MDIO_ClkConfig(heth);

@@ -73,7 +73,7 @@ static int ipStringToNumber(const char       *pDottedQuad,
  */
 int32_t netInit(const char *ipSet, const char *netmaskSet, const char *gatwaySet)
 {
-
+RS232Puts("*** netInit start ***\n") ;
     if (ipSet == NULL)
         return -1;
 
@@ -91,17 +91,17 @@ int32_t netInit(const char *ipSet, const char *netmaskSet, const char *gatwaySet
     /* Initilialize the LwIP stack with RTOS */
     tcpip_init(NULL, NULL);
 
+RS232Puts("*** tcpip_init Ok ***\n") ;
+
     /* IP addresses initialization without DHCP (IPv4) */
     IP4_ADDR(&ipaddr, IP_ADDRESS[0], IP_ADDRESS[1], IP_ADDRESS[2], IP_ADDRESS[3]);
     IP4_ADDR(&netmask, NETMASK_ADDRESS[0], NETMASK_ADDRESS[1], NETMASK_ADDRESS[2], NETMASK_ADDRESS[3]);
     IP4_ADDR(&gw, GATEWAY_ADDRESS[0], GATEWAY_ADDRESS[1], GATEWAY_ADDRESS[2], GATEWAY_ADDRESS[3]);
 
-RS232Puts("netif_add_start\n");
 
     /* add the network interface (IPv4/IPv6) with RTOS */
     netif_add(&gnetif, &ipaddr, &netmask, &gw, NULL, &ethernetif_init, &tcpip_input);
 
-RS232Puts("netif_add_end\n");
 
 
     /* Registers the default network interface */

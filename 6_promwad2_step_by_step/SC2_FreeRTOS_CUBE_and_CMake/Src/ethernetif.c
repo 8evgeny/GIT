@@ -223,7 +223,7 @@ void HAL_ETH_RxCpltCallback(ETH_HandleTypeDef *heth)
  */
 static void low_level_init(struct netif *netif)
 {
-RS232Puts("low_level_init start\n") ;
+RS232Puts("*** low_level_init start ***\n") ;
 
     uint32_t regvalue = 0;
     HAL_StatusTypeDef hal_eth_init_status;
@@ -246,6 +246,8 @@ RS232Puts("low_level_init start\n") ;
     heth.Init.MediaInterface = HAL_ETH_MII_MODE;
 
     hal_eth_init_status = HAL_ETH_Init(&heth);
+
+RS232Puts("*** low_level_init 1 ***\n") ;
 
     if (hal_eth_init_status == HAL_OK) {
         /* Set netif link flag */
