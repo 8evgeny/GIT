@@ -95,6 +95,11 @@ void HAL_ETH_MspInit(ETH_HandleTypeDef *ethHandle)
     GPIO_InitTypeDef GPIO_InitStruct = {0};
     if (ethHandle->Instance == ETH) {
 
+        /* Enable Peripheral clock */
+        __HAL_RCC_ETH1MAC_CLK_ENABLE();
+        __HAL_RCC_ETH1TX_CLK_ENABLE();
+        __HAL_RCC_ETH1RX_CLK_ENABLE();
+
         __HAL_RCC_GPIOC_CLK_ENABLE();
         __HAL_RCC_GPIOA_CLK_ENABLE();
         __HAL_RCC_GPIOH_CLK_ENABLE();
@@ -226,8 +231,8 @@ static void low_level_init(struct netif *netif)
 
     uint8_t MACAddr[6] ;
     heth.Instance = ETH;
-    heth.Init.AutoNegotiation = ETH_AUTONEGOTIATION_ENABLE;
-    heth.Init.PhyAddress = DP83848_PHY_ADDRESS;
+//    heth.Init.AutoNegotiation = ETH_AUTONEGOTIATION_ENABLE;
+//    heth.Init.PhyAddress = DP83848_PHY_ADDRESS;
     MACAddr[0] = 0x40;
     MACAddr[1] = 0x8d;
     MACAddr[2] = 0x5c;
@@ -235,9 +240,9 @@ static void low_level_init(struct netif *netif)
     MACAddr[4] = 0xf6;
     MACAddr[5] = 0x22;
     heth.Init.MACAddr = &MACAddr[0];
-    heth.Init.RxMode = ETH_RXINTERRUPT_MODE;
-    heth.Init.ChecksumMode = ETH_CHECKSUM_BY_HARDWARE;
-    heth.Init.MediaInterface = ETH_MEDIA_INTERFACE_MII;
+//    heth.Init.RxMode = ETH_RXINTERRUPT_MODE;
+//    heth.Init.ChecksumMode = ETH_CHECKSUM_BY_HARDWARE;
+    heth.Init.MediaInterface = HAL_ETH_MII_MODE;
 
     hal_eth_init_status = HAL_ETH_Init(&heth);
 
