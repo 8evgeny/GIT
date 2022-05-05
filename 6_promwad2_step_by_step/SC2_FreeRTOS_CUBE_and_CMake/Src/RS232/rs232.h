@@ -9,7 +9,7 @@
 #include <array>
 #include "CircularBuffer.h"
 #include "cmsis_os.h"
-
+#include "main.h"
 
 //#include "sram.h"
 //#include "json.h"
