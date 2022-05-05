@@ -181,6 +181,11 @@ int main(void)
 //    if (Json::getInstance()->deserializeJsonFlag == Json::JsonFlags::OK)
 //    {
 
+term("ip:")      term(Json::getInstance()->thisStation.ip)
+term("mask:")    term(Json::getInstance()->thisStation.mask)
+term("gateway:") term(Json::getInstance()->thisStation.gateway)
+
+
         netInit(Json::getInstance()->thisStation.ip,
                 Json::getInstance()->thisStation.mask,
                 Json::getInstance()->thisStation.gateway);
