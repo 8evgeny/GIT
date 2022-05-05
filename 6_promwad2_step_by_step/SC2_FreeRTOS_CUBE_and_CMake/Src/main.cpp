@@ -163,6 +163,7 @@ int main(void)
     simpleEEPROM_test2();
     littleFsInit();
     FsForEepromTEST;
+
 //    Flash::getInstance().test(); // Не работает
 
 
@@ -180,9 +181,13 @@ int main(void)
 //    if (Json::getInstance()->deserializeJsonFlag == Json::JsonFlags::OK)
 //    {
 
-//        netInit(Json::getInstance()->thisStation.ip,
-//                Json::getInstance()->thisStation.mask,
-//                Json::getInstance()->thisStation.gateway);
+term("netInit_start")
+
+        netInit(Json::getInstance()->thisStation.ip,
+                Json::getInstance()->thisStation.mask,
+                Json::getInstance()->thisStation.gateway);
+
+term("netInit_end")
 
         osThreadDef(emptyThread, empty, osPriorityHigh, 0, configMINIMAL_STACK_SIZE);
         osThreadCreate(osThread(emptyThread), nullptr);
