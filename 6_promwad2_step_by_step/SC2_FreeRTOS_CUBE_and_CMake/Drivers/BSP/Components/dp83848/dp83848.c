@@ -32,7 +32,6 @@ int32_t DP83848_Init(DP83848_Object_t *pObj)
 {
    uint32_t tickstart = 0, regvalue = 0;
    int32_t status = DP83848_STATUS_OK;
-RS232Puts("DP83848_Init  1 \n") ;
    if(pObj->Is_Initialized == 0)
    {
 
@@ -103,8 +102,6 @@ RS232Puts("DP83848_Init  1 \n") ;
        return DP83848_STATUS_READ_ERROR;
      }
 
-RS232Puts("DP83848_Init  2 \n") ;
-
      //set Auto MDIX
      if(pObj->IO.ReadReg(pObj->DevAddr, DP83848_PHYCR, &regvalue) >= 0)
      {
@@ -118,7 +115,8 @@ RS232Puts("DP83848_Init  2 \n") ;
      {
        return DP83848_STATUS_READ_ERROR;
      }
-RS232Puts("DP83848_Init  3 \n") ;
+
+RS232Puts("DP83848_Init  HAL_Delay  not working \n") ;
 //     HAL_Delay(1000);
 
 
@@ -145,7 +143,6 @@ RS232Puts("DP83848_Init  3 \n") ;
 
      pObj->Is_Initialized = 1;
    }
-RS232Puts("DP83848_Init  end \n") ;
    return status;
  }
 

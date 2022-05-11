@@ -248,7 +248,7 @@ void HAL_ETH_RxCpltCallback(ETH_HandleTypeDef *heth)
  */
 static void low_level_init(struct netif *netif)
 {
-RS232Puts("*** low_level_init start ***\n") ;
+RS232Puts("low_level_init start\n") ;
 
     uint32_t idx = 0;
     uint32_t regvalue = 0;
@@ -337,7 +337,6 @@ RS232Puts("$$$$ FIX POINT - NOT WORK $$$$\n") ;
 
     /* Initialize the DP83848 ETH PHY */
     DP83848_Init(&DP83848);
-
 
 
     netif->flags |= NETIF_FLAG_IGMP;
@@ -556,6 +555,8 @@ void ethernetif_input(void const *argument)
     struct pbuf *p;
     struct netif *netif = (struct netif *) argument;
 
+RS232Puts("****  ethernetif_input  start  ****\n");
+
     for (;;) {
         if (osSemaphoreWait(s_xSemaphore, TIME_WAITING_FOR_INPUT) == osOK) {
             do {
@@ -772,10 +773,11 @@ void ETH_WKUP_IRQHandler(void)
   */
 void ethernetif_set_link(void const *argument)
 {
-//    uint32_t regvalue = 0;
-//    struct link_str *link_arg = (struct link_str *)argument;
+    uint32_t regvalue = 0;
+    struct link_str *link_arg = (struct link_str *)argument;
 
-//    for (;;) {
+//    for (;;)
+//    {
 //        if (osSemaphoreWait(link_arg->semaphore, osWaitForever) == osOK) {
 //            /* Read PHY_MISR*/
 //            HAL_ETH_ReadPHYRegister(&heth, PHY_MISR, &regvalue);

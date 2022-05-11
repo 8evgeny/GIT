@@ -73,7 +73,7 @@ static int ipStringToNumber(const char       *pDottedQuad,
  */
 int32_t netInit(const char *ipSet, const char *netmaskSet, const char *gatwaySet)
 {
-RS232Puts("*** netInit start ***\n") ;
+RS232Puts("netInit start\n") ;
     if (ipSet == NULL)
         return -1;
 
