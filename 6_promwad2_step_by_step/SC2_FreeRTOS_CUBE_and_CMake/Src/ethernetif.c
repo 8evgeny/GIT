@@ -335,6 +335,8 @@ RS232Puts("$$$$ FIX POINT - NOT WORK $$$$\n") ;
     /* Set PHY IO functions */
     DP83848_RegisterBusIO(&DP83848, &DP83848_IOCtx);
 
+    /* Initialize the DP83848 ETH PHY */
+    DP83848_Init(&DP83848);
 
 
 

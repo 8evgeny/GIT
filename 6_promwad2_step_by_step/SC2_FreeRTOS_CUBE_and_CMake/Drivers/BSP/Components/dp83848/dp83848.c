@@ -7,6 +7,7 @@
   */
 #include "stm32h7xx_hal.h"
 #include "dp83848.h"
+#include "rs232_printf.h"
 
 /// DP83848 software reset timeout
 #define DP83848_SW_RESET_TO    ((uint32_t)500U)
@@ -31,7 +32,7 @@ int32_t DP83848_Init(DP83848_Object_t *pObj)
 {
    uint32_t tickstart = 0, regvalue = 0;
    int32_t status = DP83848_STATUS_OK;
-   
+RS232Puts("DP83848_Init  1 \n") ;
    if(pObj->Is_Initialized == 0)
    {
 
