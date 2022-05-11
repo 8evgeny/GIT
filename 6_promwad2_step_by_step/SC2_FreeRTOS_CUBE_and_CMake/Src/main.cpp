@@ -630,10 +630,10 @@ static void MX_UART7_Init(void)
 
 }
 
-static void MX_DMA_Init(void)
-{
+//static void MX_DMA_Init(void)
+//{
 
-    /* DMA controller clock enable */
+//    /* DMA controller clock enable */
 //    __HAL_RCC_DMA1_CLK_ENABLE();
 //    __HAL_RCC_DMA2_CLK_ENABLE();
 
@@ -657,7 +657,7 @@ static void MX_DMA_Init(void)
 //    HAL_NVIC_SetPriority(DMA2_Stream4_IRQn, 5, 0);
 //    HAL_NVIC_EnableIRQ(DMA2_Stream4_IRQn);
 
-}
+//}
 
 //static void MX_FMC_Init(void)
 //{
