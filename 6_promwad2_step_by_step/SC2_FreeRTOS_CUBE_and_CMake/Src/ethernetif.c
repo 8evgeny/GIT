@@ -56,6 +56,10 @@ osSemaphoreId s_xSemaphore = NULL;
 ETH_HandleTypeDef heth;
 ETH_TxPacketConfig TxConfig;
 
+/* Memory Pool Declaration */
+LWIP_MEMPOOL_DECLARE(RX_POOL, 10, sizeof(struct pbuf_custom), "Zero-copy RX PBUF pool");
+
+
 /* Private functions ---------------------------------------------------------*/
 
 void HAL_ETH_MspInit(ETH_HandleTypeDef *ethHandle)
@@ -199,6 +203,7 @@ static void low_level_init(struct netif *netif)
 {
 RS232Puts("*** low_level_init start ***\n") ;
 
+    uint32_t idx = 0;
     uint32_t regvalue = 0;
     HAL_StatusTypeDef hal_eth_init_status;
 
@@ -249,8 +254,7 @@ RS232Puts("$$$$ FIX POINT - NOT WORK $$$$\n") ;
 //    HAL_ETH_DMARxDescListInit(&heth, DMARxDscrTab, &Rx_Buff[0][0], ETH_RXBUFNB);
 
 
-
-
+    LWIP_MEMPOOL_INIT(RX_POOL);
 
 #if LWIP_ARP || LWIP_ETHERNET
 
@@ -275,6 +279,15 @@ RS232Puts("$$$$ FIX POINT - NOT WORK $$$$\n") ;
 #else
     netif->flags |= NETIF_FLAG_BROADCAST;
 #endif /* LWIP_ARP */
+
+    for(idx = 0; idx < ETH_RX_DESC_CNT; idx ++)
+    {
+      HAL_ETH_DescAssignMemory(&heth, idx, Rx_Buff[idx], NULL);
+    }
+
+
+
+
 
     netif->flags |= NETIF_FLAG_IGMP;
 
