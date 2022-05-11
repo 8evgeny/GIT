@@ -54,7 +54,7 @@ uint8_t Tx_Buff[((uint32_t)4U)][((uint32_t)1524U)] __attribute__((section(".Txar
 osSemaphoreId s_xSemaphore = NULL;
 /* Global Ethernet handle */
 ETH_HandleTypeDef heth;
-
+ETH_TxPacketConfig TxConfig;
 
 /* Private functions ---------------------------------------------------------*/
 
@@ -226,6 +226,13 @@ RS232Puts("*** low_level_init start ***\n") ;
 
     hal_eth_init_status = HAL_ETH_Init(&heth);
 
+    memset(&TxConfig, 0 , sizeof(ETH_TxPacketConfig));
+    TxConfig.Attributes = ETH_TX_PACKETS_FEATURES_CSUM | ETH_TX_PACKETS_FEATURES_CRCPAD;
+    TxConfig.ChecksumCtrl = ETH_CHECKSUM_IPHDR_PAYLOAD_INSERT_PHDR_CALC;
+    TxConfig.CRCPadCtrl = ETH_CRC_PAD_INSERT;
+
+
+
     if (hal_eth_init_status == HAL_OK) {
         /* Set netif link flag */
         netif->flags |= NETIF_FLAG_LINK_UP;
@@ -233,14 +240,17 @@ RS232Puts("*** low_level_init start ***\n") ;
 
 
 
-RS232Puts("$$$$ FIX POINT $$$$\n") ;
-
+RS232Puts("$$$$ FIX POINT - NOT WORK $$$$\n") ;
 
 //    /* Initialize Tx Descriptors list: Chain Mode */
 //    HAL_ETH_DMATxDescListInit(&heth, DMATxDscrTab, &Tx_Buff[0][0], ETH_TXBUFNB);
 
 //    /* Initialize Rx Descriptors list: Chain Mode  */
 //    HAL_ETH_DMARxDescListInit(&heth, DMARxDscrTab, &Rx_Buff[0][0], ETH_RXBUFNB);
+
+
+
+
 
 #if LWIP_ARP || LWIP_ETHERNET
 
@@ -256,7 +266,7 @@ RS232Puts("$$$$ FIX POINT $$$$\n") ;
     netif->hwaddr[5] =  heth.Init.MACAddr[5];
 
     /* maximum transfer unit */
-    netif->mtu = 1500;
+    netif->mtu = ETH_MAX_PAYLOAD;
 
     /* Accept broadcast address and ARP traffic */
     /* don't set NETIF_FLAG_ETHARP if this device is not an ethernet one */
