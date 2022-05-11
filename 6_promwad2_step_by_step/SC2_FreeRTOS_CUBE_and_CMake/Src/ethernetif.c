@@ -30,6 +30,8 @@
 #include "main.h"
 #include "stm32h7xx_hal_conf.h"
 #include "rs232_printf.h"
+#include "dp83848.h"
+
 
 /* Private define ------------------------------------------------------------*/
 /* The time to block waiting for input. */
@@ -58,6 +60,51 @@ ETH_TxPacketConfig TxConfig;
 
 /* Memory Pool Declaration */
 LWIP_MEMPOOL_DECLARE(RX_POOL, 10, sizeof(struct pbuf_custom), "Zero-copy RX PBUF pool");
+
+int32_t ETH_PHY_IO_Init(void)
+{
+  /* We assume that MDIO GPIO configuration is already done
+     in the ETH_MspInit() else it should be done here
+  */
+
+  /* Configure the MDIO Clock */
+  HAL_ETH_SetMDIOClockRange(&heth);
+
+  return 0;
+}
+int32_t ETH_PHY_IO_DeInit (void)
+{
+  return 0;
+}
+int32_t ETH_PHY_IO_ReadReg(uint32_t DevAddr, uint32_t RegAddr, uint32_t *pRegVal)
+{
+  if(HAL_ETH_ReadPHYRegister(&heth, DevAddr, RegAddr, pRegVal) != HAL_OK)
+  {
+    return -1;
+  }
+
+  return 0;
+}
+int32_t ETH_PHY_IO_WriteReg(uint32_t DevAddr, uint32_t RegAddr, uint32_t RegVal)
+{
+  if(HAL_ETH_WritePHYRegister(&heth, DevAddr, RegAddr, RegVal) != HAL_OK)
+  {
+    return -1;
+  }
+
+  return 0;
+}
+int32_t ETH_PHY_IO_GetTick(void)
+{
+  return HAL_GetTick();
+}
+
+DP83848_Object_t DP83848;
+DP83848_IOCtx_t  DP83848_IOCtx = {ETH_PHY_IO_Init,
+                                  ETH_PHY_IO_DeInit,
+                                  ETH_PHY_IO_WriteReg,
+                                  ETH_PHY_IO_ReadReg,
+                                  ETH_PHY_IO_GetTick};
 
 
 /* Private functions ---------------------------------------------------------*/
@@ -285,6 +332,8 @@ RS232Puts("$$$$ FIX POINT - NOT WORK $$$$\n") ;
       HAL_ETH_DescAssignMemory(&heth, idx, Rx_Buff[idx], NULL);
     }
 
+    /* Set PHY IO functions */
+    DP83848_RegisterBusIO(&DP83848, &DP83848_IOCtx);
 
 
 
@@ -743,4 +792,7 @@ void ethernetif_set_link(void const *argument)
 //            }
 //        }
 //    }
+
+
+
 }

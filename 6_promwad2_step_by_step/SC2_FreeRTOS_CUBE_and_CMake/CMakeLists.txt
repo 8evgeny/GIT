@@ -93,7 +93,11 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}\
     ")
 
 include_directories(Inc)
-file (GLOB SOURCES_C Src/*.c STM32H753IITX_FLASH.ld )
+file (GLOB SOURCES_C
+    Src/*.c
+    STM32H753IITX_FLASH.ld
+    Drivers/BSP/Components/dp83848/dp83848.c
+    )
 file (GLOB SOURCES_CPP Src/*.cpp)
 
 include_directories(
@@ -101,6 +105,7 @@ include_directories(
     Drivers/CMSIS/Device/ST/STM32H7xx/Include
     Drivers/BSP/Components/dp83848
     LWIP/Target
+    Drivers/BSP/Components/dp83848
     )
 
 #Это файл от другого проекта
