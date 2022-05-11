@@ -40,38 +40,6 @@
 #define IFNAME0 's'
 #define IFNAME1 't'
 
-/* Private macro -------------------------------------------------------------*/
-/* Private variables ---------------------------------------------------------*/
-/*
-  @Note: The DMARxDscrTab and DMATxDscrTab must be declared in a device non cacheable memory region
-         In this example they are declared in the first 256 Byte of SRAM2 memory, so this
-         memory region is configured by MPU as a device memory.
-
-In this example the ETH buffers are located in the SRAM2 with MPU configured as normal
-         not cacheable memory.
-
-    Please refer to MPU_Config() in main.c file.
-    */
-/* Private variables ---------------------------------------------------------*/
-//#if defined ( __ICCARM__ ) /*!< IAR Compiler */
-//#pragma data_alignment=4
-//#endif
-//__ALIGN_BEGIN ETH_DMADescTypeDef  DMARxDscrTab[ETH_RXBUFNB] __ALIGN_END;/* Ethernet Rx MA Descriptor */
-
-//#if defined ( __ICCARM__ ) /*!< IAR Compiler */
-//#pragma data_alignment=4
-//#endif
-//__ALIGN_BEGIN ETH_DMADescTypeDef  DMATxDscrTab[ETH_TXBUFNB] __ALIGN_END;/* Ethernet Tx DMA Descriptor */
-
-//#if defined ( __ICCARM__ ) /*!< IAR Compiler */
-//#pragma data_alignment=4
-//#endif
-//__ALIGN_BEGIN uint8_t Rx_Buff[ETH_RXBUFNB][ETH_RX_BUF_SIZE] __ALIGN_END; /* Ethernet Receive Buffer */
-
-//#if defined ( __ICCARM__ ) /*!< IAR Compiler */
-//#pragma data_alignment=4
-//#endif
-//__ALIGN_BEGIN uint8_t Tx_Buff[ETH_TXBUFNB][ETH_TX_BUF_SIZE] __ALIGN_END; /* Ethernet Transmit Buffer */
 
 ETH_DMADescTypeDef  DMARxDscrTab[((uint32_t)4U)] __attribute__((section(".RxDecripSection")));/* Ethernet Rx DMA Descriptors */
 
@@ -250,6 +218,11 @@ RS232Puts("*** low_level_init start ***\n") ;
 //    heth.Init.RxMode = ETH_RXINTERRUPT_MODE;
 //    heth.Init.ChecksumMode = ETH_CHECKSUM_BY_HARDWARE;
     heth.Init.MediaInterface = HAL_ETH_MII_MODE;
+
+    heth.Init.TxDesc = DMATxDscrTab;
+    heth.Init.RxDesc = DMARxDscrTab;
+    heth.Init.RxBuffLen = 1524;
+
 
     hal_eth_init_status = HAL_ETH_Init(&heth);
 
