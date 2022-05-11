@@ -154,8 +154,10 @@ void HAL_ETH_MspInit(ETH_HandleTypeDef *ethHandle)
         HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
         /* Peripheral interrupt init */
-        HAL_NVIC_SetPriority(ETH_IRQn, 0x7, 0);
+        HAL_NVIC_SetPriority(ETH_IRQn, 1, 0);
         HAL_NVIC_EnableIRQ(ETH_IRQn);
+        HAL_NVIC_SetPriority(ETH_WKUP_IRQn, 1, 0);
+        HAL_NVIC_EnableIRQ(ETH_WKUP_IRQn);
 
 
     }
@@ -165,7 +167,9 @@ void HAL_ETH_MspDeInit(ETH_HandleTypeDef *ethHandle)
 {
     if (ethHandle->Instance == ETH) {
         /* Peripheral clock disable */
-        __HAL_RCC_ETH_CLK_DISABLE();
+        __HAL_RCC_ETH1MAC_CLK_DISABLE();
+        __HAL_RCC_ETH1TX_CLK_DISABLE();
+        __HAL_RCC_ETH1RX_CLK_DISABLE();
 
         /**ETH GPIO Configuration
         PC1     ------> ETH_MDC
@@ -198,6 +202,8 @@ void HAL_ETH_MspDeInit(ETH_HandleTypeDef *ethHandle)
 
         /* Peripheral interrupt Deinit*/
         HAL_NVIC_DisableIRQ(ETH_IRQn);
+
+        HAL_NVIC_DisableIRQ(ETH_WKUP_IRQn);
     }
 }
 
