@@ -103,6 +103,8 @@ RS232Puts("DP83848_Init  1 \n") ;
        return DP83848_STATUS_READ_ERROR;
      }
 
+RS232Puts("DP83848_Init  2 \n") ;
+
      //set Auto MDIX
      if(pObj->IO.ReadReg(pObj->DevAddr, DP83848_PHYCR, &regvalue) >= 0)
      {
@@ -116,12 +118,14 @@ RS232Puts("DP83848_Init  1 \n") ;
      {
        return DP83848_STATUS_READ_ERROR;
      }
+RS232Puts("DP83848_Init  3 \n") ;
+//     HAL_Delay(1000);
 
-     HAL_Delay(1000);
 
      // restart autonegotiation
      if(pObj->IO.ReadReg(pObj->DevAddr, DP83848_BMCR, &regvalue) >= 0)
       {
+
         regvalue |= DP83848_BMCR_AUTONEGO_EN;
         if(pObj->IO.WriteReg(pObj->DevAddr, DP83848_BMCR, regvalue) < 0)
         {
@@ -135,12 +139,13 @@ RS232Puts("DP83848_Init  1 \n") ;
       }
       else
       {
+
         status = DP83848_STATUS_READ_ERROR;
       }
 
      pObj->Is_Initialized = 1;
    }
-
+RS232Puts("DP83848_Init  end \n") ;
    return status;
  }
 
