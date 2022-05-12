@@ -1,0 +1,8 @@
+state.c:51:1:_systnm	8	static
+state.c:63:1:_report	56	static
+state.c:90:1:_lws_state_transition	56	static
+state.c:28:1:lws_state_reg_notifier	8	static
+state.c:35:1:lws_state_reg_deregister	8	static
+state.c:41:1:lws_state_reg_notifier_list	16	static
+state.c:114:1:lws_state_transition_steps	32	static
+state.c:134:1:lws_state_transition	8	static

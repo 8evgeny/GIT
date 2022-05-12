@@ -1,0 +1,15 @@
+sequencer.c:135:1:seq_ev_destroy	8	static
+sequencer.c:85:1:lws_seq_pt_init	8	static
+sequencer.c:147:1:lws_seq_destroy	24	static
+sequencer.c:184:1:lws_seq_sul_pending_cb	32	static
+sequencer.c:171:1:lws_seq_destroy_all_on_pt	16	static
+sequencer.c:218:1:lws_seq_queue_event	24	static
+sequencer.c:62:1:lws_sul_seq_heartbeat_cb	16	static
+sequencer.c:97:1:lws_seq_create	24	static
+sequencer.c:289:1:lws_seq_sul_timeout_cb	8	static
+sequencer.c:265:1:lws_seq_check_wsi	0	static
+sequencer.c:299:1:lws_seq_timeout_us	8	static
+sequencer.c:308:1:lws_seq_from_user	0	static
+sequencer.c:314:1:lws_seq_name	0	static
+sequencer.c:320:1:lws_seq_us_since_creation	8	static
+sequencer.c:326:1:lws_seq_get_context	0	static

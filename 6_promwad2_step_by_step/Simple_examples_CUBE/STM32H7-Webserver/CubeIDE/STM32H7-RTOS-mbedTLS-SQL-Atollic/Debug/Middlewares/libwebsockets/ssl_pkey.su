@@ -1,0 +1,11 @@
+ssl_pkey.c:23:11:__EVP_PKEY_new	16	static
+ssl_pkey.c:57:11:EVP_PKEY_new	8	static
+ssl_pkey.c:65:6:EVP_PKEY_free	8	static
+ssl_pkey.c:78:11:d2i_PrivateKey	24	static
+ssl_pkey.c:124:5:SSL_CTX_use_PrivateKey	16	static
+ssl_pkey.c:143:5:SSL_use_PrivateKey	16	static
+ssl_pkey.c:162:5:SSL_CTX_use_PrivateKey_ASN1	24	static
+ssl_pkey.c:191:5:SSL_use_PrivateKey_ASN1	24	static
+ssl_pkey.c:220:5:SSL_CTX_use_PrivateKey_file	0	static
+ssl_pkey.c:228:5:SSL_use_PrivateKey_file	0	static
+ssl_pkey.c:236:5:SSL_CTX_use_RSAPrivateKey_ASN1	8	static

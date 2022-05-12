@@ -1,0 +1,7 @@
+close.c:40:1:__lws_reset_wsi	8	static
+close.c:143:1:__lws_free_wsi	16	static
+close.c:164:1:lws_remove_child_from_any_parent	24	static
+close.c:219:1:lws_addrinfo_clean	0	static
+close.c:613:1:__lws_close_free_wsi_final	24	static
+close.c:235:1:__lws_close_free_wsi	32	static
+close.c:654:1:lws_close_free_wsi	8	static

@@ -1,0 +1,11 @@
+system.c:33:1:lws_system_get_ops	0	static
+system.c:40:1:lws_system_blob_direct_set	0	static
+system.c:48:1:lws_system_blob_heap_empty	8	static
+system.c:55:1:lws_system_blob_heap_append	8	static
+system.c:66:1:lws_system_blob_get_size	8	static
+system.c:75:1:lws_system_blob_get	16	static
+system.c:106:1:lws_system_blob_get_single_ptr	0	static
+system.c:125:1:lws_system_blob_destroy	8	static
+system.c:134:1:lws_system_get_blob	0	static
+system.c:151:1:__lws_system_attach	24	static
+system.c:209:1:lws_system_do_attach	32	static

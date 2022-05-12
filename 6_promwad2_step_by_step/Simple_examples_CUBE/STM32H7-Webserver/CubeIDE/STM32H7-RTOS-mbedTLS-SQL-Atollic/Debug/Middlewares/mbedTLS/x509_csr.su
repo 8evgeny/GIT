@@ -1,0 +1,7 @@
+x509_csr.c:67:12:x509_csr_get_version	8	static
+x509_csr.c:336:5:mbedtls_x509_csr_info	72	static
+x509_csr.c:379:6:mbedtls_x509_csr_init	8	static
+x509_csr.c:387:6:mbedtls_x509_csr_free	16	static
+x509_csr.c:90:5:mbedtls_x509_csr_parse_der	56	static
+x509_csr.c:262:5:mbedtls_x509_csr_parse	56	static
+x509_csr.c:313:5:mbedtls_x509_csr_parse_file	24	static

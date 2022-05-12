@@ -1,0 +1,5 @@
+freertos-misc.c:28:1:lws_now_usecs	40	static
+freertos-misc.c:36:1:lws_get_random	8	static
+freertos-misc.c:72:6:lwsl_emit_syslog	8	static
+freertos-misc.c:78:1:lws_plat_drop_app_privileges	0	static
+freertos-misc.c:84:1:lws_plat_recommended_rsa_bits	0	static

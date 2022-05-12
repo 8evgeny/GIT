@@ -1,0 +1,9 @@
+lejp.c:70:1:lejp_construct	16	static
+lejp.c:107:1:lejp_destruct	8	static
+lejp.c:136:1:lejp_change_callback	16	static
+lejp.c:146:1:lejp_check_path_match	20	static
+lejp.c:197:1:lejp_get_wildcard	12	static
+lejp.c:233:1:lejp_parse	32	static
+lejp.c:807:1:lejp_parser_push	32	static
+lejp.c:837:1:lejp_parser_pop	16	static
+lejp.c:852:1:lejp_error_to_string	0	static

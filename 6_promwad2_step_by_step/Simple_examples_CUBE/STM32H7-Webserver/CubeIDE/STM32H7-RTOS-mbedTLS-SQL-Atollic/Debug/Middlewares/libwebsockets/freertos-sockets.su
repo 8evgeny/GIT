@@ -1,0 +1,13 @@
+freertos-sockets.c:28:1:lws_send_pipe_choked	48	static
+freertos-sockets.c:61:1:lws_poll_listen_fd	40	static
+freertos-sockets.c:73:1:lws_plat_check_connection_error	0	static
+freertos-sockets.c:79:1:lws_plat_set_nonblocking	8	static
+freertos-sockets.c:85:1:lws_plat_set_socket_options	32	static
+freertos-sockets.c:143:1:lws_interface_to_sa	0	static
+freertos-sockets.c:216:1:lws_plat_inet_ntop	8	static
+freertos-sockets.c:222:1:lws_plat_inet_pton	8	static
+freertos-sockets.c:228:1:lws_plat_ifname_to_hwaddr	8	static
+freertos-sockets.c:236:1:lws_plat_rawudp_broadcast	8	static
+freertos-sockets.c:245:1:lws_plat_if_up	8	static
+freertos-sockets.c:253:1:lws_plat_BINDTODEVICE	8	static
+freertos-sockets.c:261:1:lws_plat_ifconfig_ip	8	static

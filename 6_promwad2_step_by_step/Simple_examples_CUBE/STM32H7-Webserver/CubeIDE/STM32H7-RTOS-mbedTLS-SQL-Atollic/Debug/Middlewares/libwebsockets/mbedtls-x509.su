@@ -1,0 +1,10 @@
+mbedtls-x509.c:48:1:lws_tls_mbedtls_time_to_unix	48	static
+mbedtls-x509.c:69:1:lws_tls_mbedtls_get_x509_name	24	static
+mbedtls-x509.c:92:1:lws_tls_mbedtls_cert_info	40	static
+mbedtls-x509.c:179:1:lws_tls_vhost_cert_info	16	static
+mbedtls-x509.c:190:1:lws_tls_peer_cert_info	24	static
+mbedtls-x509.c:215:1:lws_x509_info	8	static
+mbedtls-x509.c:222:1:lws_x509_create	8	static
+mbedtls-x509.c:235:1:lws_x509_parse_from_pem	16	static
+mbedtls-x509.c:254:1:lws_x509_verify	32	static
+mbedtls-x509.c:426:1:lws_x509_destroy	8	static

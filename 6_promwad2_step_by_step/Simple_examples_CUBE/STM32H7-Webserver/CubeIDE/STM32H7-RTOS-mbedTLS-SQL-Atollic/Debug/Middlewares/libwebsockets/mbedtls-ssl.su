@@ -1,0 +1,11 @@
+mbedtls-ssl.c:317:1:tops_fake_POLLIN_for_buffered_mbedtls	8	static
+mbedtls-ssl.c:30:1:lws_ssl_destroy	8	static
+mbedtls-ssl.c:46:1:lws_ssl_capable_read	32	static
+mbedtls-ssl.c:152:1:lws_ssl_pending	8	static
+mbedtls-ssl.c:161:1:lws_ssl_capable_write	16	static
+mbedtls-ssl.c:197:1:lws_ssl_info_callback	40	static
+mbedtls-ssl.c:226:1:lws_ssl_close	16	static
+mbedtls-ssl.c:255:1:lws_ssl_SSL_CTX_destroy	8	static
+mbedtls-ssl.c:268:1:lws_ssl_context_destroy	0	static
+mbedtls-ssl.c:273:1:lws_tls_ctx_from_wsi	8	static
+mbedtls-ssl.c:282:1:__lws_tls_shutdown	16	static

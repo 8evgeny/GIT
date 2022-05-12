@@ -1,0 +1,4 @@
+freertos-fds.c:28:1:lws_plat_insert_socket_into_fds	0	static
+freertos-fds.c:36:1:lws_plat_delete_socket_from_fds	0	static
+freertos-fds.c:45:1:lws_plat_change_pollfd	0	static
+freertos-fds.c:52:1:insert_wsi	8	static

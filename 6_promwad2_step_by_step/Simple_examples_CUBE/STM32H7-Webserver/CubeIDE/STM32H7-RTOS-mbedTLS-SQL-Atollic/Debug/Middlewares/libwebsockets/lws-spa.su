@@ -1,0 +1,12 @@
+lws-spa.c:426:1:lws_urldecode_s_destroy	32	static
+lws-spa.c:448:1:lws_urldecode_spa_lookup	24	static
+lws-spa.c:467:1:lws_urldecode_spa_cb	32	static
+lws-spa.c:93:1:lws_urldecode_s_create	232	static
+lws-spa.c:150:1:lws_urldecode_s_process	32	static
+lws-spa.c:517:1:lws_spa_create_via_info	32	static
+lws-spa.c:594:1:lws_spa_create	40	static
+lws-spa.c:611:1:lws_spa_process	8	static
+lws-spa.c:625:1:lws_spa_get_length	0	static
+lws-spa.c:634:1:lws_spa_get_string	0	static
+lws-spa.c:643:1:lws_spa_finalize	8	static
+lws-spa.c:659:1:lws_spa_destroy	16	static

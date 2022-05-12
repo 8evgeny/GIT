@@ -1,0 +1,12 @@
+service.c:28:1:lws_callback_as_writeable	16	static
+service.c:64:1:lws_handle_POLLOUT_event	24	static
+service.c:241:1:lws_rxflow_cache	56	static
+service.c:290:1:lws_service_adjust_timeout	16	static
+service.c:348:1:lws_buflist_aware_read	56	static
+service.c:437:1:lws_buflist_aware_finished_consuming	16	static
+service.c:491:1:lws_service_do_ripe_rxflow	40	static
+service.c:540:1:lws_service_flag_pending	24	static
+service.c:608:1:lws_service_fd_tsi	24	static
+service.c:740:1:lws_service_fd	8	static
+service.c:746:1:lws_service	8	static
+service.c:773:1:lws_service_tsi	16	static

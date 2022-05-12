@@ -1,0 +1,4 @@
+aws_logging_task_dynamic_buffers.c:115:13:prvLoggingTask	16	static
+aws_logging_task_dynamic_buffers.c:85:12:xLoggingTaskInitialize	24	static
+aws_logging_task_dynamic_buffers.c:140:6:vLoggingPrintf	40	static,ignoring_inline_asm
+aws_logging_task_dynamic_buffers.c:231:6:vLoggingPrint	24	static,ignoring_inline_asm

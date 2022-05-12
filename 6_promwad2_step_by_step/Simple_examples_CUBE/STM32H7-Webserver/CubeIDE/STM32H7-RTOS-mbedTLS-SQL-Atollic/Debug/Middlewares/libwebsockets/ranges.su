@@ -1,0 +1,3 @@
+ranges.c:68:1:lws_ranges_next	24	static
+ranges.c:166:1:lws_ranges_reset	8	static
+ranges.c:181:1:lws_ranges_init	24	static

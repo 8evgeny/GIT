@@ -1,0 +1,3 @@
+mbedtls-tls.c:29:1:lws_tls_err_describe_clear	0	static
+mbedtls-tls.c:34:1:lws_context_init_ssl_library	8	static
+mbedtls-tls.c:46:1:lws_context_deinit_ssl_library	0	static

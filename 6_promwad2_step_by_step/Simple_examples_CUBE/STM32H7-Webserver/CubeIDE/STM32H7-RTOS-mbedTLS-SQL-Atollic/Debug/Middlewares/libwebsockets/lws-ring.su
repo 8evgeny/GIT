@@ -1,0 +1,12 @@
+lws-ring.c:29:1:lws_ring_create	24	static
+lws-ring.c:54:1:lws_ring_destroy	8	static
+lws-ring.c:71:1:lws_ring_get_count_free_elements	0	static
+lws-ring.c:101:1:lws_ring_get_count_waiting_elements	0	static
+lws-ring.c:127:1:lws_ring_next_linear_insert_range	16	static
+lws-ring.c:152:1:lws_ring_bump_head	0	static
+lws-ring.c:158:1:lws_ring_insert	24	static
+lws-ring.c:255:1:lws_ring_get_element	0	static
+lws-ring.c:267:1:lws_ring_update_oldest_tail	16	static
+lws-ring.c:199:1:lws_ring_consume	40	static
+lws-ring.c:282:1:lws_ring_get_oldest_tail	0	static
+lws-ring.c:288:1:lws_ring_dump	64	static

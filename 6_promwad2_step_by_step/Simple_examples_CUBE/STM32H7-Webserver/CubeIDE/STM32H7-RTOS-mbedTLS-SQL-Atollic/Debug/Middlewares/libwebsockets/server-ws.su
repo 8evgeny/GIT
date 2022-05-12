@@ -1,0 +1,5 @@
+server-ws.c:725:1:lws_ws_frame_rest_is_payload	48	static
+server-ws.c:579:1:handshake_0405	80	static
+server-ws.c:255:1:lws_process_ws_upgrade2	40	static
+server-ws.c:407:1:lws_process_ws_upgrade	232	static
+server-ws.c:910:1:lws_parse_ws	32	static

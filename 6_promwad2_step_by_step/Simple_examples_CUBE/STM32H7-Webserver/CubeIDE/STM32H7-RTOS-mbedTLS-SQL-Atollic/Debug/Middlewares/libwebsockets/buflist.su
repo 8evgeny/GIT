@@ -1,0 +1,8 @@
+buflist.c:83:1:lws_buflist_destroy_segment	8	static
+buflist.c:34:1:lws_buflist_append_segment	32	static
+buflist.c:97:1:lws_buflist_destroy_all_segments	16	static
+buflist.c:112:1:lws_buflist_next_segment_len	16	static
+buflist.c:139:1:lws_buflist_use_segment	8	static
+buflist.c:162:1:lws_buflist_total_len	0	static
+buflist.c:176:1:lws_buflist_linear_copy	24	static
+buflist.c:202:1:lws_buflist_describe	56	static

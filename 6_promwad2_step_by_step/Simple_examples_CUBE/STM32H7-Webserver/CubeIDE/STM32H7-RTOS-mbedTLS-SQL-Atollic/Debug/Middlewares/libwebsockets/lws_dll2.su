@@ -1,0 +1,9 @@
+lws_dll2.c:32:1:lws_dll2_foreach_safe	16	static
+lws_dll2.c:44:1:lws_dll2_add_head	8	static
+lws_dll2.c:76:1:lws_dll2_add_before	8	static
+lws_dll2.c:115:1:lws_dll2_add_tail	8	static
+lws_dll2.c:141:1:lws_dll2_remove	0	static
+lws_dll2.c:171:1:lws_dll2_clear	0	static
+lws_dll2.c:179:1:lws_dll2_owner_clear	0	static
+lws_dll2.c:187:1:lws_dll2_add_sorted	24	static
+lws_dll2.c:215:1:lws_dll2_describe	32	static

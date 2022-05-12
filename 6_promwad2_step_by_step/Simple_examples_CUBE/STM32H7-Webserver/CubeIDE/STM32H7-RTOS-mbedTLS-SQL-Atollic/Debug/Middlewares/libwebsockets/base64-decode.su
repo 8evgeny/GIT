@@ -1,0 +1,8 @@
+base64-decode.c:53:1:_lws_b64_encode_string	32	static
+base64-decode.c:92:1:lws_b64_encode_string	16	static
+base64-decode.c:98:1:lws_b64_encode_string_url	16	static
+base64-decode.c:105:1:lws_b64_decode_state_init	0	static
+base64-decode.c:111:1:lws_b64_decode_stateful	48	static
+base64-decode.c:185:1:_lws_b64_decode_string	56	static
+base64-decode.c:203:1:lws_b64_decode_string	8	static
+base64-decode.c:209:1:lws_b64_decode_string_len	8	static

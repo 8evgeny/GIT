@@ -1,0 +1,3 @@
+hardware_rng.c:75:10:stm32_random	16	static
+hardware_rng.c:91:5:os_get_random	24	static
+hardware_rng.c:65:5:mbedtls_hardware_poll	16	static

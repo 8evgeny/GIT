@@ -1,0 +1,3 @@
+mbedtls.c:108:13:CRYPTO_ConfigureHeap	8	static
+mbedtls.c:92:15:prvCalloc	16	static
+mbedtls.c:74:6:MX_MBEDTLS_Init	8	static

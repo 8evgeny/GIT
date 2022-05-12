@@ -1,0 +1,10 @@
+ops-h1.c:699:1:rops_handle_POLLOUT_h1	0	static
+ops-h1.c:1095:1:rops_close_kill_connection_h1	0	static
+ops-h1.c:1112:1:rops_pt_init_destroy_h1	0	static
+ops-h1.c:830:1:rops_alpn_negotiated_h1	8	static
+ops-h1.c:885:1:rops_adoption_bind_h1	16	static
+ops-h1.c:850:1:rops_destroy_role_h1	24	static
+ops-h1.c:762:1:rops_write_role_protocol_h1	8	static
+ops-h1.c:42:1:lws_read_h1	48	static
+ops-h1.c:295:1:lws_h1_server_socket_service	32	static
+ops-h1.c:539:1:rops_handle_POLLIN_h1	32	static

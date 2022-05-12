@@ -1,0 +1,10 @@
+stm32h743i_eval_io.c:121:9:BSP_IO_Init	8	static
+stm32h743i_eval_io.c:157:9:BSP_IO_DeInit	0	static
+stm32h743i_eval_io.c:169:10:BSP_IO_ITGetStatus	8	static
+stm32h743i_eval_io.c:179:6:BSP_IO_ITClear	8	static
+stm32h743i_eval_io.c:189:6:BSP_IO_ITClearPin	8	static
+stm32h743i_eval_io.c:228:9:BSP_IO_ConfigPin	8	static
+stm32h743i_eval_io.c:242:9:BSP_IO_ConfigIrqOutPin	8	static
+stm32h743i_eval_io.c:261:6:BSP_IO_WritePin	8	static
+stm32h743i_eval_io.c:273:10:BSP_IO_ReadPin	8	static
+stm32h743i_eval_io.c:285:6:BSP_IO_TogglePin	8	static

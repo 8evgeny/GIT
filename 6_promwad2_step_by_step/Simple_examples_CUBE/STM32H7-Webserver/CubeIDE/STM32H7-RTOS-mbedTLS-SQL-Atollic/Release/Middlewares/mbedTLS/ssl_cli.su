@@ -1,0 +1,7 @@
+ssl_internal.h:887:35:mbedtls_ssl_own_key	0	static
+ssl_cli.c:2383:12:ssl_write_encrypted_pms	48	static
+ssl_internal.h:941:22:mbedtls_ssl_hs_hdr_len.isra.0	0	static
+ssl_cli.c:2200:12:ssl_check_server_ecdh_params	24	static
+ssl_cli.c:817:12:ssl_validate_ciphersuite.isra.0	8	static
+ssl_cli.c:859:12:ssl_write_client_hello	72	static
+ssl_cli.c:3932:5:mbedtls_ssl_handshake_client_step	168	static

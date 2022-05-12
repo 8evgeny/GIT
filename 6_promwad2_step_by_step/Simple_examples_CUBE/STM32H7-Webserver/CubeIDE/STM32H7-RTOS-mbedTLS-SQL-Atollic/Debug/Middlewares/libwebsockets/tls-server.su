@@ -1,0 +1,3 @@
+tls-server.c:30:1:lws_sul_tls_cb	8	static
+tls-server.c:42:1:lws_context_init_server_ssl	32	static
+tls-server.c:126:1:lws_server_socket_service_ssl	24	static

@@ -1,0 +1,5 @@
+lwip.c:254:13:ethernet_link_status_updated	0	static
+lwip.c:91:6:DHCP_Thread	40	static
+lwip.c:167:13:get_current_ipaddress	8	static
+lwip.c:172:5:gethostname	16	static
+lwip.c:187:6:MX_LWIP_Init	80	static
