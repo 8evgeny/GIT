@@ -634,6 +634,8 @@ u32_t sys_now(void)
   */
 void ethernetif_update_config(struct netif *netif)
 {
+    ethernet_link_check_state(netif);
+
 //    __IO uint32_t tickstart = 0;
 //    uint32_t regvalue = 0;
 
