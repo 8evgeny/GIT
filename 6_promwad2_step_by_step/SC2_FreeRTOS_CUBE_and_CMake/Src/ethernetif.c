@@ -31,7 +31,7 @@
 #include "stm32h7xx_hal_conf.h"
 #include "rs232_printf.h"
 #include "dp83848.h"
-
+#include <stdio.h>
 
 /* Private define ------------------------------------------------------------*/
 /* The time to block waiting for input. */
@@ -747,10 +747,14 @@ RS232Puts("****  ethernetif_set_link  start  ****\n");
 
     for (;;)
     {
-        if (osSemaphoreWait(link_arg->semaphore, osWaitForever) == osOK)
-        {
+
+//        if (osSemaphoreWait(link_arg->semaphore, osWaitForever) == osOK)
+//        {
+
 
             ethernet_link_check_state(link_arg->netif);
+
+
 
 //            /* Read PHY_MISR*/
 //            HAL_ETH_ReadPHYRegister(&heth, PHY_MISR, &regvalue);
@@ -767,7 +771,8 @@ RS232Puts("****  ethernetif_set_link  start  ****\n");
 //                    netif_set_link_down(link_arg->netif);
 //                }
 //            }
-        }
+
+//        }
     }
 
 }
@@ -782,12 +787,18 @@ void ethernet_link_check_state(struct netif *netif)
 
   if(netif_is_link_up(netif) && (PHYLinkState <= DP83848_STATUS_LINK_DOWN))
   {
+      char str[10];
+      sprintf(str, "%d", PHYLinkState);
+RS232Puts(str);
+RS232Puts("****  ethernet_link_check_state  1  ****\n");
+
     HAL_ETH_Stop(&heth);
     netif_set_down(netif);
     netif_set_link_down(netif);
   }
   else if(!netif_is_link_up(netif) && (PHYLinkState > DP83848_STATUS_LINK_DOWN))
   {
+RS232Puts("****  ethernet_link_check_state  2  ****\n");
     switch (PHYLinkState)
     {
     case DP83848_STATUS_100MBITS_FULLDUPLEX:
@@ -816,6 +827,8 @@ void ethernet_link_check_state(struct netif *netif)
 
     if(linkchanged)
     {
+RS232Puts("****  ethernet_link_check_state  3  ****\n");
+
       /* Get MAC Config MAC */
       HAL_ETH_GetMACConfig(&heth, &MACConf);
       MACConf.DuplexMode = duplex;
