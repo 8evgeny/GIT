@@ -250,16 +250,12 @@ static void low_level_init(struct netif *netif)
 {
 RS232Puts("low_level_init start\n") ;
 
+    HAL_StatusTypeDef hal_eth_init_status = HAL_OK;
     uint32_t idx = 0;
-    uint32_t regvalue = 0;
-    HAL_StatusTypeDef hal_eth_init_status;
-
-    /* Init ETH */
+    /* Start ETH HAL Init */
 
     uint8_t MACAddr[6] ;
     heth.Instance = ETH;
-//    heth.Init.AutoNegotiation = ETH_AUTONEGOTIATION_ENABLE;
-//    heth.Init.PhyAddress = DP83848_PHY_ADDRESS;
     MACAddr[0] = 0x40;
     MACAddr[1] = 0x8d;
     MACAddr[2] = 0x5c;
@@ -267,14 +263,17 @@ RS232Puts("low_level_init start\n") ;
     MACAddr[4] = 0xf6;
     MACAddr[5] = 0x22;
     heth.Init.MACAddr = &MACAddr[0];
-//    heth.Init.RxMode = ETH_RXINTERRUPT_MODE;
-//    heth.Init.ChecksumMode = ETH_CHECKSUM_BY_HARDWARE;
     heth.Init.MediaInterface = HAL_ETH_MII_MODE;
-
     heth.Init.TxDesc = DMATxDscrTab;
     heth.Init.RxDesc = DMARxDscrTab;
     heth.Init.RxBuffLen = 1524;
 
+    /* USER CODE BEGIN MACADDRESS */
+//    sPDOSettings *sset = sysset_get_settings();
+//    MACAddr[3] = sset->network.ip[1];
+//    MACAddr[4] = sset->network.ip[2];
+//    MACAddr[5] = sset->network.ip[3];
+    /* USER CODE END MACADDRESS */
 
     hal_eth_init_status = HAL_ETH_Init(&heth);
 
@@ -283,6 +282,10 @@ RS232Puts("low_level_init start\n") ;
     TxConfig.ChecksumCtrl = ETH_CHECKSUM_IPHDR_PAYLOAD_INSERT_PHDR_CALC;
     TxConfig.CRCPadCtrl = ETH_CRC_PAD_INSERT;
 
+    /* End ETH HAL Init */
+
+    /* Initialize the RX POOL */
+    LWIP_MEMPOOL_INIT(RX_POOL);
 
 
     if (hal_eth_init_status == HAL_OK) {
@@ -291,8 +294,7 @@ RS232Puts("low_level_init start\n") ;
     }
 
 
-
-RS232Puts("$$$$ FIX POINT - NOT WORK $$$$\n") ;
+RS232Puts("$$$$ NEED CHANGE TX RX DESCRIPTORS $$$$\n") ;
 
 //    /* Initialize Tx Descriptors list: Chain Mode */
 //    HAL_ETH_DMATxDescListInit(&heth, DMATxDscrTab, &Tx_Buff[0][0], ETH_TXBUFNB);
@@ -301,7 +303,7 @@ RS232Puts("$$$$ FIX POINT - NOT WORK $$$$\n") ;
 //    HAL_ETH_DMARxDescListInit(&heth, DMARxDscrTab, &Rx_Buff[0][0], ETH_RXBUFNB);
 
 
-    LWIP_MEMPOOL_INIT(RX_POOL);
+
 
 #if LWIP_ARP || LWIP_ETHERNET
 
@@ -338,6 +340,18 @@ RS232Puts("$$$$ FIX POINT - NOT WORK $$$$\n") ;
     /* Initialize the DP83848 ETH PHY */
     DP83848_Init(&DP83848);
 
+    if (hal_eth_init_status == HAL_OK)
+    {
+    /* Get link state */
+    ethernet_link_check_state(netif);
+    }
+    else
+    {
+      Error_Handler();
+    }
+
+RS232Puts("$$$$ ethernetif.c  353 $$$$\n") ;
+
 
     netif->flags |= NETIF_FLAG_IGMP;
 
@@ -348,6 +362,7 @@ RS232Puts("$$$$ FIX POINT - NOT WORK $$$$\n") ;
     /* create the task that handles the ETH_MAC */
     osThreadDef(EthIf, ethernetif_input, osPriorityRealtime, 0, INTERFACE_THREAD_STACK_SIZE);
     osThreadCreate(osThread(EthIf), netif);
+
     /* Enable MAC and DMA transmission and reception */
     HAL_ETH_Start(&heth);
 
@@ -558,10 +573,13 @@ void ethernetif_input(void const *argument)
 RS232Puts("****  ethernetif_input  start  ****\n");
 
     for (;;) {
-        if (osSemaphoreWait(s_xSemaphore, TIME_WAITING_FOR_INPUT) == osOK) {
+        if (osSemaphoreWait(s_xSemaphore, TIME_WAITING_FOR_INPUT) == osOK)
+        {
             do {
                 p = low_level_input(netif);
-                if (p != NULL) {
+                if (p != NULL)
+                {
+RS232Puts("----  ethernetif_input  osSemaphoreWait  ----\n");
                     if (netif->input(p, netif) != ERR_OK) {
                         pbuf_free(p);
                     }
@@ -797,6 +815,62 @@ void ethernetif_set_link(void const *argument)
 //        }
 //    }
 
+}
 
+void ethernet_link_check_state(struct netif *netif)
+{
+  ETH_MACConfigTypeDef MACConf;
+  int32_t PHYLinkState;
+  uint32_t linkchanged = 0, speed = 0, duplex =0;
+
+  PHYLinkState = DP83848_GetLinkState(&DP83848);
+
+  if(netif_is_link_up(netif) && (PHYLinkState <= DP83848_STATUS_LINK_DOWN))
+  {
+    HAL_ETH_Stop(&heth);
+    netif_set_down(netif);
+    netif_set_link_down(netif);
+  }
+  else if(!netif_is_link_up(netif) && (PHYLinkState > DP83848_STATUS_LINK_DOWN))
+  {
+    switch (PHYLinkState)
+    {
+    case DP83848_STATUS_100MBITS_FULLDUPLEX:
+      duplex = ETH_FULLDUPLEX_MODE;
+      speed = ETH_SPEED_100M;
+      linkchanged = 1;
+      break;
+    case DP83848_STATUS_100MBITS_HALFDUPLEX:
+      duplex = ETH_HALFDUPLEX_MODE;
+      speed = ETH_SPEED_100M;
+      linkchanged = 1;
+      break;
+    case DP83848_STATUS_10MBITS_FULLDUPLEX:
+      duplex = ETH_FULLDUPLEX_MODE;
+      speed = ETH_SPEED_10M;
+      linkchanged = 1;
+      break;
+    case DP83848_STATUS_10MBITS_HALFDUPLEX:
+      duplex = ETH_HALFDUPLEX_MODE;
+      speed = ETH_SPEED_10M;
+      linkchanged = 1;
+      break;
+    default:
+      break;
+    }
+
+    if(linkchanged)
+    {
+      /* Get MAC Config MAC */
+      HAL_ETH_GetMACConfig(&heth, &MACConf);
+      MACConf.DuplexMode = duplex;
+      MACConf.Speed = speed;
+      HAL_ETH_SetMACConfig(&heth, &MACConf);
+
+      HAL_ETH_Start(&heth);
+      netif_set_up(netif);
+      netif_set_link_up(netif);
+    }
+  }
 
 }

@@ -116,7 +116,7 @@ int32_t DP83848_Init(DP83848_Object_t *pObj)
        return DP83848_STATUS_READ_ERROR;
      }
 
-RS232Puts("DP83848_Init  HAL_Delay  not working \n") ;
+RS232Puts("$$$$ DP83848_Init  HAL_Delay  not working $$$$ \n") ;
 //     HAL_Delay(1000);
 
 
