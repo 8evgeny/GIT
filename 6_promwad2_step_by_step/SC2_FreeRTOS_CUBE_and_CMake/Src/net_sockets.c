@@ -108,10 +108,16 @@ RS232Puts("*** tcpip_init Ok ***\n") ;
     netif_set_default(&gnetif);
 
     if (netif_is_link_up(&gnetif)) {
+
+    RS232Puts("*** netif_link_UP ***\n") ;
+
         /* When the netif is fully configured this function must be called */
         netif_set_up(&gnetif);
     } else {
         /* When the netif link is down this function must be called */
+
+    RS232Puts("*** netif_link_DOWN ***\n") ;
+
         netif_set_down(&gnetif);
     }
 
