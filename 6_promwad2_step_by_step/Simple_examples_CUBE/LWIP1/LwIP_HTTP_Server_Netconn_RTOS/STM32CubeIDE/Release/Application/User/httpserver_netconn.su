@@ -1,0 +1,3 @@
+httpserver_netconn.c:270:6:http_server_netconn_init	16	static
+httpserver_netconn.c:281:6:DynWebPage	552	static
+httpserver_netconn.c:230:13:http_server_netconn_thread	80	static

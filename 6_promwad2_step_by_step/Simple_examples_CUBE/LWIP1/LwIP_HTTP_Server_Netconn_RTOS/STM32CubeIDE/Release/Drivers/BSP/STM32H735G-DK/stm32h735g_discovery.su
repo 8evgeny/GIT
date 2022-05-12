@@ -1,0 +1,13 @@
+stm32h735g_discovery.c:105:9:BSP_GetVersion	0	static
+stm32h735g_discovery.c:118:9:BSP_LED_Init	56	static
+stm32h735g_discovery.c:158:9:BSP_LED_DeInit	16	static
+stm32h735g_discovery.c:179:9:BSP_LED_On	8	static
+stm32h735g_discovery.c:195:9:BSP_LED_Off	8	static
+stm32h735g_discovery.c:210:9:BSP_LED_Toggle	8	static
+stm32h735g_discovery.c:225:9:BSP_LED_GetState	8	static
+stm32h735g_discovery.c:244:9:BSP_PB_Init	32	static
+stm32h735g_discovery.c:287:9:BSP_PB_DeInit	8	static
+stm32h735g_discovery.c:305:9:BSP_PB_GetState	8	static
+stm32h735g_discovery.c:315:6:BSP_PB_IRQHandler	0	static
+stm32h735g_discovery.c:334:13:BSP_PB_Callback	0	static
+stm32h735g_discovery.c:324:13:BUTTON_USER_EXTI_Callback	8	static

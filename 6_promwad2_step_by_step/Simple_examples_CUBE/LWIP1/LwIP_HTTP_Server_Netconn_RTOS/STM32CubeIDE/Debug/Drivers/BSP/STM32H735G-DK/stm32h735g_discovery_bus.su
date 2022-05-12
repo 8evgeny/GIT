@@ -1,0 +1,16 @@
+stm32h735g_discovery_bus.c:196:9:BSP_I2C4_Init	16	static
+stm32h735g_discovery_bus.c:243:9:BSP_I2C4_DeInit	16	static
+stm32h735g_discovery_bus.c:272:26:MX_I2C4_Init	24	static
+stm32h735g_discovery_bus.c:318:9:BSP_I2C4_WriteReg	40	static
+stm32h735g_discovery_bus.c:355:9:BSP_I2C4_ReadReg	40	static
+stm32h735g_discovery_bus.c:392:9:BSP_I2C4_WriteReg16	40	static
+stm32h735g_discovery_bus.c:429:9:BSP_I2C4_ReadReg16	40	static
+stm32h735g_discovery_bus.c:465:9:BSP_I2C4_IsReady	24	static
+stm32h735g_discovery_bus.c:487:9:BSP_GetTick	8	static
+stm32h735g_discovery_bus.c:575:17:I2C_GetTiming	32	static
+stm32h735g_discovery_bus.c:613:13:I2C_Compute_PRESC_SCLDEL_SDADEL	64	static
+stm32h735g_discovery_bus.c:694:17:I2C_Compute_SCLL_SCLH	80	static
+stm32h735g_discovery_bus.c:772:13:I2C4_MspInit	48	static
+stm32h735g_discovery_bus.c:814:13:I2C4_MspDeInit	40	static
+stm32h735g_discovery_bus.c:840:16:I2C4_WriteReg	40	static
+stm32h735g_discovery_bus.c:857:16:I2C4_ReadReg	40	static
