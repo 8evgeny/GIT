@@ -737,12 +737,19 @@ void ETH_WKUP_IRQHandler(void)
   */
 void ethernetif_set_link(void const *argument)
 {
-    uint32_t regvalue = 0;
+//    uint32_t regvalue = 0;
     struct link_str *link_arg = (struct link_str *)argument;
 
-//    for (;;)
-//    {
-//        if (osSemaphoreWait(link_arg->semaphore, osWaitForever) == osOK) {
+HAL_Delay(500);
+RS232Puts("****  ethernetif_set_link  start  ****\n");
+
+    for (;;)
+    {
+        if (osSemaphoreWait(link_arg->semaphore, osWaitForever) == osOK)
+        {
+
+            ethernet_link_check_state(link_arg->netif);
+
 //            /* Read PHY_MISR*/
 //            HAL_ETH_ReadPHYRegister(&heth, PHY_MISR, &regvalue);
 
@@ -758,8 +765,8 @@ void ethernetif_set_link(void const *argument)
 //                    netif_set_link_down(link_arg->netif);
 //                }
 //            }
-//        }
-//    }
+        }
+    }
 
 }
 

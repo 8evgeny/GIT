@@ -119,7 +119,6 @@ int32_t DP83848_Init(DP83848_Object_t *pObj)
 RS232Puts("$$$$ DP83848_Init  HAL_Delay  not working $$$$ \n") ;
 //     HAL_Delay(1000);
 
-
      // restart autonegotiation
      if(pObj->IO.ReadReg(pObj->DevAddr, DP83848_BMCR, &regvalue) >= 0)
       {
