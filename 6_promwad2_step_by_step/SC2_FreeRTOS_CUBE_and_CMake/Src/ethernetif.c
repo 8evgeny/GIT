@@ -41,7 +41,7 @@
 /* Network interface name */
 #define IFNAME0 's'
 #define IFNAME1 't'
-
+#define ETH_DMA_TRANSMIT_TIMEOUT               ( 20U )
 
 ETH_DMADescTypeDef  DMARxDscrTab[((uint32_t)4U)] __attribute__((section(".RxDecripSection")));/* Ethernet Rx DMA Descriptors */
 
@@ -405,72 +405,39 @@ RS232Puts("$$$$ ethernetif.c  353 $$$$\n") ;
 
 static err_t low_level_output(struct netif *netif, struct pbuf *p)
 {
-    err_t errval;
+    uint32_t i=0;
     struct pbuf *q;
-//    uint8_t *buffer = (uint8_t *)(heth.TxDesc->Buffer1Addr);
-    __IO ETH_DMADescTypeDef *DmaTxDesc;
-    uint32_t framelength = 0;
-    uint32_t bufferoffset = 0;
-    uint32_t byteslefttocopy = 0;
-    uint32_t payloadoffset = 0;
-//    DmaTxDesc = heth.TxDesc;
-    bufferoffset = 0;
+    err_t errval = ERR_OK;
+    ETH_BufferTypeDef Txbuffer[ETH_TX_DESC_CNT];
 
-    /* copy frame from pbufs to driver buffers */
-    for (q = p; q != NULL; q = q->next) {
-        /* Is this buffer available? If not, goto error */
-//        if ((DmaTxDesc->Status & ETH_DMATXDESC_OWN) != (uint32_t)RESET) {
-//            errval = ERR_USE;
-//            goto error;
-//        }
+    memset(Txbuffer, 0 , ETH_TX_DESC_CNT*sizeof(ETH_BufferTypeDef));
 
-        /* Get bytes in current lwIP buffer */
-        byteslefttocopy = q->len;
-        payloadoffset = 0;
+    for(q = p; q != NULL; q = q->next)
+    {
+      if(i >= ETH_TX_DESC_CNT)
+        return ERR_IF;
 
-        /* Check if the length of data to copy is bigger than Tx buffer size*/
-//        while ((byteslefttocopy + bufferoffset) > ETH_TX_BUF_SIZE) {
-//            /* Copy data to Tx buffer*/
-//            memcpy((uint8_t *)((uint8_t *)buffer + bufferoffset), (uint8_t *)((uint8_t *)q->payload + payloadoffset), (ETH_TX_BUF_SIZE - bufferoffset));
+      Txbuffer[i].buffer = q->payload;
+      Txbuffer[i].len = q->len;
 
-//            /* Point to next descriptor */
-//            DmaTxDesc = (ETH_DMADescTypeDef *)(DmaTxDesc->Buffer2NextDescAddr);
+      if(i>0)
+      {
+        Txbuffer[i-1].next = &Txbuffer[i];
+      }
 
-//            /* Check if the buffer is available */
-//            if ((DmaTxDesc->Status & ETH_DMATXDESC_OWN) != (uint32_t)RESET) {
-//                errval = ERR_USE;
-//                goto error;
-//            }
+      if(q->next == NULL)
+      {
+        Txbuffer[i].next = NULL;
+      }
 
-//            buffer = (uint8_t *)(DmaTxDesc->Buffer1Addr);
-
-//            byteslefttocopy = byteslefttocopy - (ETH_TX_BUF_SIZE - bufferoffset);
-//            payloadoffset = payloadoffset + (ETH_TX_BUF_SIZE - bufferoffset);
-//            framelength = framelength + (ETH_TX_BUF_SIZE - bufferoffset);
-//            bufferoffset = 0;
-//        }
-
-        /* Copy the remaining bytes */
-//        memcpy((uint8_t *)((uint8_t *)buffer + bufferoffset), (uint8_t *)((uint8_t *)q->payload + payloadoffset), byteslefttocopy);
-        bufferoffset = bufferoffset + byteslefttocopy;
-        framelength = framelength + byteslefttocopy;
+      i++;
     }
 
-    /* Prepare transmit descriptors to give to DMA */
-//    HAL_ETH_TransmitFrame(&heth, framelength);
+    TxConfig.Length =  p->tot_len;
+    TxConfig.TxBuffer = Txbuffer;
 
-    errval = ERR_OK;
+    HAL_ETH_Transmit(&heth, &TxConfig, ETH_DMA_TRANSMIT_TIMEOUT);
 
-error:
-
-    /* When Transmit Underflow flag is set, clear it and issue a Transmit Poll Demand to resume transmission */
-//    if ((heth.Instance->DMASR & ETH_DMASR_TUS) != (uint32_t)RESET) {
-//        /* Clear TUS ETHERNET DMA flag */
-//        heth.Instance->DMASR = ETH_DMASR_TUS;
-
-//        /* Resume DMA transmission*/
-//        heth.Instance->DMATPDR = 0;
-//    }
     return errval;
 }
 
