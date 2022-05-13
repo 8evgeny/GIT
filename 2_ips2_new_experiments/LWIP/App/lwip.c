@@ -65,7 +65,7 @@ void MX_LWIP_Init(void)
   /* IP addresses initialization */
   IP_ADDRESS[0] = 192;
   IP_ADDRESS[1] = 168;
-  IP_ADDRESS[2] = 1;
+  IP_ADDRESS[2] = 42;
   IP_ADDRESS[3] = 102;
   NETMASK_ADDRESS[0] = 255;
   NETMASK_ADDRESS[1] = 255;
@@ -73,23 +73,23 @@ void MX_LWIP_Init(void)
   NETMASK_ADDRESS[3] = 0;
   GATEWAY_ADDRESS[0] = 192;
   GATEWAY_ADDRESS[1] = 168;
-  GATEWAY_ADDRESS[2] = 1;
+  GATEWAY_ADDRESS[2] = 42;
   GATEWAY_ADDRESS[3] = 254;
 
 /* USER CODE BEGIN IP_ADDRESSES */
-  sPDOSettings *sset = sysset_get_settings();
-  IP_ADDRESS[0] = sset->network.ip[0];
-  IP_ADDRESS[1] = sset->network.ip[1];
-  IP_ADDRESS[2] = sset->network.ip[2];
-  IP_ADDRESS[3] = sset->network.ip[3];
-  NETMASK_ADDRESS[0] = sset->network.mask[0];
-  NETMASK_ADDRESS[1] = sset->network.mask[1];
-  NETMASK_ADDRESS[2] = sset->network.mask[2];
-  NETMASK_ADDRESS[3] = sset->network.mask[3];
-  GATEWAY_ADDRESS[0] = sset->network.gateway[0];
-  GATEWAY_ADDRESS[1] = sset->network.gateway[1];
-  GATEWAY_ADDRESS[2] = sset->network.gateway[2];
-  GATEWAY_ADDRESS[3] = sset->network.gateway[3];
+//  sPDOSettings *sset = sysset_get_settings();
+//  IP_ADDRESS[0] = sset->network.ip[0];
+//  IP_ADDRESS[1] = sset->network.ip[1];
+//  IP_ADDRESS[2] = sset->network.ip[2];
+//  IP_ADDRESS[3] = sset->network.ip[3];
+//  NETMASK_ADDRESS[0] = sset->network.mask[0];
+//  NETMASK_ADDRESS[1] = sset->network.mask[1];
+//  NETMASK_ADDRESS[2] = sset->network.mask[2];
+//  NETMASK_ADDRESS[3] = sset->network.mask[3];
+//  GATEWAY_ADDRESS[0] = sset->network.gateway[0];
+//  GATEWAY_ADDRESS[1] = sset->network.gateway[1];
+//  GATEWAY_ADDRESS[2] = sset->network.gateway[2];
+//  GATEWAY_ADDRESS[3] = sset->network.gateway[3];
 /* USER CODE END IP_ADDRESSES */
 
   /* Initilialize the LwIP stack without RTOS */
