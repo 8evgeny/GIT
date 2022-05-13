@@ -161,6 +161,19 @@ SECTIONS
     . = . + _Min_Stack_Size;
     . = ALIGN(8);
   } >RAM_D1
+  
+   .lwip_sec (NOLOAD) : 
+   {
+    . = ABSOLUTE(0x30000000);
+    *(.RxDecripSection) 
+    
+    . = ABSOLUTE(0x30000080);
+    *(.TxDecripSection)
+    
+    . = ABSOLUTE(0x30000100);
+    *(.RxArraySection) 
+  } >RAM_D2 AT> ROM 
+
 
   /* Remove information from the standard libraries */
   /DISCARD/ :
@@ -169,7 +182,6 @@ SECTIONS
     libm.a ( * )
     libgcc.a ( * )
   }
-  
 
   .ARM.attributes 0 : { *(.ARM.attributes) }
 }
