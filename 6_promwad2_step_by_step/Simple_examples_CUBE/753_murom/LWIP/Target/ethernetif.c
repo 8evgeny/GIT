@@ -290,7 +290,7 @@ static void low_level_init(struct netif *netif)
   heth.Init.MediaInterface = HAL_ETH_MII_MODE;
   heth.Init.TxDesc = DMATxDscrTab;
   heth.Init.RxDesc = DMARxDscrTab;
-  heth.Init.RxBuffLen = 1536;
+  heth.Init.RxBuffLen = 1524;
 
   /* USER CODE BEGIN MACADDRESS */
 

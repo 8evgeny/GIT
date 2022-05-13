@@ -80,6 +80,8 @@ static void MX_TIM3_Init(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
+extern struct netif gnetif;
+
 /* USER CODE END 0 */
 
 /**
@@ -140,6 +142,10 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
+
+	ethernetif_input(&gnetif);
+
+	sys_check_timeouts();
 
     /* USER CODE BEGIN 3 */
   }
@@ -690,11 +696,11 @@ void MPU_Config(void)
   MPU_InitStruct.Enable = MPU_REGION_ENABLE;
   MPU_InitStruct.Number = MPU_REGION_NUMBER0;
   MPU_InitStruct.BaseAddress = 0x30000000;
-  MPU_InitStruct.Size = MPU_REGION_SIZE_512B;
+  MPU_InitStruct.Size = MPU_REGION_SIZE_32KB;
   MPU_InitStruct.SubRegionDisable = 0x0;
-  MPU_InitStruct.TypeExtField = MPU_TEX_LEVEL0;
+  MPU_InitStruct.TypeExtField = MPU_TEX_LEVEL1;
   MPU_InitStruct.AccessPermission = MPU_REGION_FULL_ACCESS;
-  MPU_InitStruct.DisableExec = MPU_INSTRUCTION_ACCESS_ENABLE;
+  MPU_InitStruct.DisableExec = MPU_INSTRUCTION_ACCESS_DISABLE;
   MPU_InitStruct.IsShareable = MPU_ACCESS_SHAREABLE;
   MPU_InitStruct.IsCacheable = MPU_ACCESS_NOT_CACHEABLE;
   MPU_InitStruct.IsBufferable = MPU_ACCESS_NOT_BUFFERABLE;
@@ -704,7 +710,8 @@ void MPU_Config(void)
   */
   MPU_InitStruct.Number = MPU_REGION_NUMBER1;
   MPU_InitStruct.BaseAddress = 0x30040000;
-  MPU_InitStruct.Size = MPU_REGION_SIZE_32KB;
+  MPU_InitStruct.TypeExtField = MPU_TEX_LEVEL0;
+  MPU_InitStruct.DisableExec = MPU_INSTRUCTION_ACCESS_ENABLE;
 
   HAL_MPU_ConfigRegion(&MPU_InitStruct);
   /* Enables the MPU */
