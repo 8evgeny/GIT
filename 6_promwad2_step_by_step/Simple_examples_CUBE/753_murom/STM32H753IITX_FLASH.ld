@@ -172,7 +172,7 @@ SECTIONS
     
     . = ABSOLUTE(0x30000100);
     *(.RxArraySection) 
-  } >RAM_D2 AT> ROM 
+  } >RAM_D2 
 
 
   /* Remove information from the standard libraries */

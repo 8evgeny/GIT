@@ -74,13 +74,13 @@ static void MX_SAI1_Init(void);
 static void MX_UART7_Init(void);
 static void MX_TIM3_Init(void);
 /* USER CODE BEGIN PFP */
-
+extern struct netif gnetif;
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
-extern struct netif gnetif;
+
 
 /* USER CODE END 0 */
 
@@ -142,10 +142,6 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-
-	ethernetif_input(&gnetif);
-
-	sys_check_timeouts();
 
     /* USER CODE BEGIN 3 */
   }
