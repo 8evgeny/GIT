@@ -162,6 +162,15 @@ SECTIONS
     . = ALIGN(8);
   } >RAM_D1
   
+
+  /* Remove information from the standard libraries */
+  /DISCARD/ :
+  {
+    libc.a ( * )
+    libm.a ( * )
+    libgcc.a ( * )
+  }
+
    .lwip_sec (NOLOAD) : 
    {
     . = ABSOLUTE(0x30000000);
@@ -174,14 +183,6 @@ SECTIONS
     *(.RxArraySection) 
   } >RAM_D2 
 
-
-  /* Remove information from the standard libraries */
-  /DISCARD/ :
-  {
-    libc.a ( * )
-    libm.a ( * )
-    libgcc.a ( * )
-  }
 
   .ARM.attributes 0 : { *(.ARM.attributes) }
 }
