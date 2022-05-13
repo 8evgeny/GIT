@@ -142,8 +142,11 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
+	ethernetif_input(&gnetif);
 
+	sys_check_timeouts();
     /* USER CODE BEGIN 3 */
+
   }
   /* USER CODE END 3 */
 }
