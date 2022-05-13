@@ -186,9 +186,9 @@ term("mask:")    term(Json::getInstance()->thisStation.mask)
 term("gateway:") term(Json::getInstance()->thisStation.gateway)
 
 
-//        netInit(Json::getInstance()->thisStation.ip,
-//                Json::getInstance()->thisStation.mask,
-//                Json::getInstance()->thisStation.gateway);
+        netInit(Json::getInstance()->thisStation.ip,
+                Json::getInstance()->thisStation.mask,
+                Json::getInstance()->thisStation.gateway);
 
         osThreadDef(emptyThread, empty, osPriorityHigh, 0, configMINIMAL_STACK_SIZE);
         osThreadCreate(osThread(emptyThread), nullptr);
@@ -223,7 +223,7 @@ term("gateway:") term(Json::getInstance()->thisStation.gateway)
     //Тестовые потоки
     testLed1();
     testLed2();
-//    testLed3();
+    testLed3();
 //    testUART();
 
 
