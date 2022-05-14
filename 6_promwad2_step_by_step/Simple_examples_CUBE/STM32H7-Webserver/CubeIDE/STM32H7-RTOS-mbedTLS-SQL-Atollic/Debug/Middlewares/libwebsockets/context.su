@@ -1,9 +1,0 @@
-context.c:143:1:lws_context_creation_completion_cb	8	static
-context.c:100:1:lws_state_notify_protocol_init	24	static
-context.c:859:1:lws_context_destroy3	32	static
-context.c:1015:1:lws_pt_destroy	16	static
-context.c:46:1:lws_get_library_version	0	static
-context.c:826:1:lws_context_is_deprecated	0	static
-context.c:920:1:lws_context_destroy2	16	static
-context.c:1059:1:lws_context_destroy	16	static
-context.c:155:1:lws_create_context	40	static

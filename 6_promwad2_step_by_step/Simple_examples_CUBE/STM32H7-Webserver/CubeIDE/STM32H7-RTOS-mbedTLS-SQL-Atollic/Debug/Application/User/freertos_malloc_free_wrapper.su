@@ -1,5 +1,0 @@
-freertos_malloc_free_wrapper.c:19:7:pvPortRealloc	16	static
-freertos_malloc_free_wrapper.c:40:7:__wrap__malloc_r	8	static
-freertos_malloc_free_wrapper.c:45:7:__wrap__realloc_r	8	static
-freertos_malloc_free_wrapper.c:50:6:__wrap__free_r	8	static
-freertos_malloc_free_wrapper.c:55:7:__wrap__calloc_r	16	static

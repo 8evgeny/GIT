@@ -1,5 +1,0 @@
-alloc.c:84:1:_realloc	24	static
-alloc.c:128:7:lws_realloc	8	static
-alloc.c:133:7:lws_zalloc	16	static
-alloc.c:143:6:lws_set_allocator	0	static
-alloc.c:148:8:lws_get_allocated_heap	0	static

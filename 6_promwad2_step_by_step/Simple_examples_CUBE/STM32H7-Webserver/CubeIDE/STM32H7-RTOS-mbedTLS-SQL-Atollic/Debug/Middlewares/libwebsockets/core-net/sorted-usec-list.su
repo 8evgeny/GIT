@@ -1,4 +1,0 @@
-sorted-usec-list.c:28:1:sul_compare	0	static
-sorted-usec-list.c:47:1:__lws_sul_insert	32	static
-sorted-usec-list.c:97:1:lws_sul_schedule	8	static
-sorted-usec-list.c:108:1:__lws_sul_service_ripe	24	static

@@ -1,5 +1,0 @@
-fatfs.c:246:13:SD_Initialize	8	static
-fatfs.c:463:13:FATFS_SDDiskInit	16	static
-fatfs.c:89:6:MX_FATFS_Init	8	static
-fatfs.c:117:7:get_fattime	16	static
-fatfs.c:450:6:HAL_GPIO_EXTI_Callback	8	static

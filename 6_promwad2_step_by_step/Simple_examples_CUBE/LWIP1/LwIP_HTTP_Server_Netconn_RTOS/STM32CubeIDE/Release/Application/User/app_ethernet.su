@@ -1,2 +1,0 @@
-app_ethernet.c:46:6:ethernet_link_status_updated	0	static
-app_ethernet.c:82:6:DHCP_Thread	64	static

@@ -1,3 +1,0 @@
-rtc_api.c:22:6:MX_RTC_Init	32	static
-rtc_api.c:81:8:RTC_READ	80	static
-rtc_api.c:104:6:RTC_WRITE	40	static

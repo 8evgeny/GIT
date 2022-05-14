@@ -1,2 +1,0 @@
-stm32h7xx_hal_cryp_ex.c:109:19:HAL_CRYPEx_AESGCM_GenerateAuthTAG	32	static,ignoring_inline_asm
-stm32h7xx_hal_cryp_ex.c:262:19:HAL_CRYPEx_AESCCM_GenerateAuthTAG	48	static,ignoring_inline_asm

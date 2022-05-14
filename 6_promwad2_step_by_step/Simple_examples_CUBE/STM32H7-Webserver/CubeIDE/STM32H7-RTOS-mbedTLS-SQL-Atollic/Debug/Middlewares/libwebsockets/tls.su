@@ -1,8 +1,0 @@
-tls.c:32:1:alpn_cb	0	static
-tls.c:49:1:lws_tls_restrict_borrow	8	static
-tls.c:68:1:lws_tls_restrict_return	8	static
-tls.c:78:1:lws_context_init_alpn	16	static
-tls.c:103:1:lws_tls_server_conn_alpn	40	static
-tls.c:172:5:alloc_file	24	static
-tls.c:236:1:lws_tls_alloc_pem_to_der_file	48	static
-tls.c:391:1:lws_tls_use_any_upgrade_check_extant	0	static

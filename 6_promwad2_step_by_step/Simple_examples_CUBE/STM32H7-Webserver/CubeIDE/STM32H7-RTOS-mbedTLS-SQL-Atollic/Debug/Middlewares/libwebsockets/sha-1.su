@@ -1,6 +1,0 @@
-sha-1.c:193:1:_sha1_init	8	static
-sha-1.c:105:1:sha1_step	160	static
-sha-1.c:204:1:sha1_pad	16	static
-sha-1.c:238:1:sha1_loop	32	static
-sha-1.c:259:1:sha1_result	16	static
-sha-1.c:286:1:lws_SHA1	120	static

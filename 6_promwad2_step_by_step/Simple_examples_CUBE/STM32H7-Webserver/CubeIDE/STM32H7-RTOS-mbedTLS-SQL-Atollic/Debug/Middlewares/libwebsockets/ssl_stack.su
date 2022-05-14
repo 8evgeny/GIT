@@ -1,3 +1,0 @@
-ssl_stack.c:28:16:OPENSSL_sk_new	16	static
-ssl_stack.c:60:16:OPENSSL_sk_new_null	8	static
-ssl_stack.c:68:6:OPENSSL_sk_free	8	static

@@ -1,2 +1,0 @@
-ops-listen.c:174:5:rops_handle_POLLOUT_listen	0	static
-ops-listen.c:28:1:rops_handle_POLLIN_listen	88	static

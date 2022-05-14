@@ -1,3 +1,0 @@
-ssl_cert.c:24:7:__ssl_cert_new	16	static
-ssl_cert.c:70:7:ssl_cert_new	8	static
-ssl_cert.c:78:6:ssl_cert_free	8	static

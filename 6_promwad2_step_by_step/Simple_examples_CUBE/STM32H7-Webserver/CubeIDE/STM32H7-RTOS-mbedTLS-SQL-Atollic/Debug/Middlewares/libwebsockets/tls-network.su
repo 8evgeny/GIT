@@ -1,9 +1,0 @@
-tls-network.c:34:1:lws_tls_fake_POLLIN_for_buffered	12	static
-tls-network.c:56:1:__lws_ssl_remove_wsi_from_buffered_list	8	static
-tls-network.c:62:1:lws_ssl_remove_wsi_from_buffered_list	8	static
-tls-network.c:73:1:lws_tls_check_cert_lifetime	144	static
-tls-network.c:106:1:lws_tls_check_all_cert_lifetimes	8	static
-tls-network.c:125:1:lws_tls_generic_cert_checks	24	static
-tls-network.c:171:1:lws_tls_cert_updated	688	static
-tls-network.c:200:1:lws_gate_accepts	16	static
-tls-network.c:225:1:lws_alpn_comma_to_openssl	8	static

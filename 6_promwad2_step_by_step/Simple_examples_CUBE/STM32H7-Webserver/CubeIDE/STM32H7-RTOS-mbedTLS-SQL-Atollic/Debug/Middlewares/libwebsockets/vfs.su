@@ -1,9 +1,0 @@
-vfs.c:28:1:lws_set_fops	0	static
-vfs.c:34:1:lws_vfs_tell	0	static
-vfs.c:40:1:lws_vfs_get_length	0	static
-vfs.c:46:1:lws_vfs_get_mod_time	0	static
-vfs.c:52:1:lws_vfs_file_seek_set	16	static
-vfs.c:63:1:lws_vfs_file_seek_end	24	static
-vfs.c:71:1:lws_vfs_select_fops	32	static
-vfs.c:119:1:lws_vfs_file_open	32	static
-vfs.c:132:1:lws_get_fops	0	static

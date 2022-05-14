@@ -1,9 +1,0 @@
-logs.c:63:1:lwsl_timestamp	136	static
-logs.c:134:1:lwsl_emit_stderr	80	static
-logs.c:157:1:lwsl_emit_stderr_notimestamp	24	static
-logs.c:180:6:_lws_logv	8	static
-logs.c:208:6:_lws_log	12	static
-logs.c:217:6:lws_set_log_level	0	static
-logs.c:225:5:lwsl_visible	0	static
-logs.c:231:1:lwsl_hexdump_level	120	static
-logs.c:284:1:lwsl_hexdump	8	static

@@ -1,3 +1,0 @@
-freertos-pipe.c:28:1:lws_plat_pipe_create	24	static
-freertos-pipe.c:70:1:lws_plat_pipe_signal	24	static
-freertos-pipe.c:96:1:lws_plat_pipe_close	16	static

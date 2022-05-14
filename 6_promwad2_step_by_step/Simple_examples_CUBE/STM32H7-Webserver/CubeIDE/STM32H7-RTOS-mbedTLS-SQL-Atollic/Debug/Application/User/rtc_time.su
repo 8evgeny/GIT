@@ -1,3 +1,0 @@
-rtc_time.c:71:13:rtc_mutex_init	16	static
-rtc_time.c:19:5:_gettimeofday	24	static
-rtc_time.c:52:5:_settimeofday	8	static

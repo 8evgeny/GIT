@@ -1,5 +1,0 @@
-output.c:31:1:lws_issue_raw	40	static
-output.c:223:1:lws_write	24	static
-output.c:281:1:lws_ssl_capable_read_no_ssl	8	static
-output.c:330:1:lws_ssl_capable_write_no_ssl	24	static
-output.c:392:1:lws_ssl_pending_no_ssl	0	static

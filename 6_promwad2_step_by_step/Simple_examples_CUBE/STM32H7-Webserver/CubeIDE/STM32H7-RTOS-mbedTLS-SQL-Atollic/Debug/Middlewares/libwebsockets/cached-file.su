@@ -1,4 +1,0 @@
-cached-file.c:78:1:lwsac_use_cached_file_start	0	static
-cached-file.c:88:1:lwsac_use_cached_file_end	24	static
-cached-file.c:109:1:lwsac_use_cached_file_detach	16	static
-cached-file.c:127:1:lwsac_cached_file	152	static

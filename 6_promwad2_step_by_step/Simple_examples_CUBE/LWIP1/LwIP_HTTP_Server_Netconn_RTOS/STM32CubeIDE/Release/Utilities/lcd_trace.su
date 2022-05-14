@@ -1,9 +1,0 @@
-lcd_trace.c:131:6:UTIL_LCD_TRACE_DeInit	0	static
-lcd_trace.c:102:25:UTIL_LCD_TRACE_Init	16	static
-lcd_trace.c:152:6:UTIL_LCD_TRACE_SetHeader	32	static
-lcd_trace.c:178:6:UTIL_LCD_TRACE_SetFooter	32	static
-lcd_trace.c:205:6:UTIL_LCD_TRACE_ClearTextZone	8	static
-lcd_trace.c:300:6:UTIL_LCD_TRACE_UpdateDisplay	32	static
-lcd_trace.c:222:1:__io_putchar	32	static
-lcd_trace.c:341:25:UTIL_LCD_TRACE_ScrollBack	8	static
-lcd_trace.c:405:25:UTIL_LCD_TRACE_ScrollForward	8	static

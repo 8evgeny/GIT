@@ -1,2 +1,0 @@
-ops-raw-file.c:59:1:rops_adoption_bind_raw_file	16	static
-ops-raw-file.c:28:1:rops_handle_POLLIN_raw_file	24	static

@@ -1,7 +1,0 @@
-freertos-file.c:27:5:lws_plat_apply_FD_CLOEXEC	0	static
-freertos-file.c:34:1:_lws_plat_file_open	104	static
-freertos-file.c:67:1:_lws_plat_file_close	16	static
-freertos-file.c:78:1:_lws_plat_file_seek_cur	8	static
-freertos-file.c:84:1:_lws_plat_file_read	24	static
-freertos-file.c:101:1:_lws_plat_file_write	24	static
-freertos-file.c:119:1:lws_find_string_in_file	0	static

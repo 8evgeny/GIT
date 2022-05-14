@@ -1,7 +1,0 @@
-mbedtls-server.c:60:1:lws_mbedtls_sni_cb	32	static
-mbedtls-server.c:29:1:lws_tls_server_client_cert_verify_config	32	static
-mbedtls-server.c:112:1:lws_tls_server_certs_load	64	static
-mbedtls-server.c:203:1:lws_tls_server_vhost_backend_init	48	static
-mbedtls-server.c:264:1:lws_tls_server_new_nonblocking	16	static
-mbedtls-server.c:290:1:lws_tls_server_abort_connection	8	static
-mbedtls-server.c:299:1:lws_tls_server_accept	96	static

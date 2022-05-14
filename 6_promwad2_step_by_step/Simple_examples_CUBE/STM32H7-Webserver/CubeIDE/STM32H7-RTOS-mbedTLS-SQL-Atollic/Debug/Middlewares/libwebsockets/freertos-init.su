@@ -1,4 +1,0 @@
-freertos-init.c:28:1:lws_plat_context_early_init	0	static
-freertos-init.c:34:1:lws_plat_context_early_destroy	8	static
-freertos-init.c:43:1:lws_plat_context_late_destroy	8	static
-freertos-init.c:73:1:lws_plat_init	24	static

@@ -1,9 +1,0 @@
-ssl_internal.h:887:35:mbedtls_ssl_own_key	0	static
-ssl_srv.c:3561:12:ssl_parse_client_dh_public	32	static
-ssl_srv.c:153:12:ssl_conf_has_psk_or_cb	0	static
-ssl_srv.c:3809:12:ssl_parse_client_psk_identity	48	static
-ssl_srv.c:3712:12:ssl_parse_encrypted_pms	168	static
-ssl_srv.c:1296:12:ssl_parse_client_hello	256	static
-ssl_srv.c:54:5:mbedtls_ssl_set_client_transport_id	16	static
-ssl_srv.c:72:6:mbedtls_ssl_conf_dtls_cookies	0	static
-ssl_srv.c:4446:5:mbedtls_ssl_handshake_server_step	136	static

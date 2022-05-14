@@ -1,2 +1,0 @@
-freertos-service.c:41:1:_lws_plat_service_tsi	96	static
-freertos-service.c:28:1:lws_plat_service	8	static
