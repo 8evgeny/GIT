@@ -1,7 +1,7 @@
 #MicroXplorer Configuration settings - do not modify
 CORTEX_M7.AccessPermission-Cortex_Memory_Protection_Unit_Region0_Settings=MPU_REGION_FULL_ACCESS
 CORTEX_M7.AccessPermission-Cortex_Memory_Protection_Unit_Region1_Settings=MPU_REGION_FULL_ACCESS
-CORTEX_M7.BaseAddress-Cortex_Memory_Protection_Unit_Region0_Settings=0x30040000
+CORTEX_M7.BaseAddress-Cortex_Memory_Protection_Unit_Region0_Settings=0x30000000
 CORTEX_M7.BaseAddress-Cortex_Memory_Protection_Unit_Region1_Settings=0x30040000
 CORTEX_M7.CPU_DCache=Enabled
 CORTEX_M7.CPU_ICache=Enabled
@@ -80,6 +80,7 @@ MxCube.Version=6.4.0
 MxDb.Version=DB.6.0.40
 NVIC.BusFault_IRQn=true\:0\:0\:false\:false\:true\:false\:false\:false
 NVIC.DebugMonitor_IRQn=true\:0\:0\:false\:false\:true\:false\:false\:false
+NVIC.ETH_IRQn=true\:5\:0\:false\:false\:true\:true\:true\:true
 NVIC.ForceEnableDMAVector=true
 NVIC.HardFault_IRQn=true\:0\:0\:false\:false\:true\:false\:false\:false
 NVIC.MemoryManagement_IRQn=true\:0\:0\:false\:false\:true\:false\:false\:false

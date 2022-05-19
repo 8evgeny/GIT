@@ -143,28 +143,17 @@ SECTIONS
     *(.RAM_D1_data) 
    } >RAM_D1  
 
-  .eth_dma (NOLOAD) : {
-    . = ABSOLUTE(0x30000000);
+  .lwip_sec (NOLOAD) : 
+  {
+    . = ABSOLUTE(0x30040000);
     *(.RxDecripSection) 
     
-    . = ABSOLUTE(0x30000060);
+    . = ABSOLUTE(0x30040060);
     *(.TxDecripSection)
     
-    . = ABSOLUTE(0x30000200);
+    . = ABSOLUTE(0x30040200);
     *(.RxArraySection) 
-  } >RAM_D2
-
-  .RAM_D2_data (NOLOAD) : {
-    . = ABSOLUTE(0x30002000);
-    *(.RAM_D2_data)
-    . = ABSOLUTE(0x30040000);
-  } >RAM_D2  
-  
-  .lwip_pool_space (NOLOAD) : {
-    . = ABSOLUTE(0x30040000);    
-    *(.lwip_pool)
-    . = ABSOLUTE(0x30047FFF);    
-  } >RAM_D2 
+  } >RAM_D2 AT> FLASH
 
   .ext_ram (NOLOAD) : {
     *(.ExtRamData)
