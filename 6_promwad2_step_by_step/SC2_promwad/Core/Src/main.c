@@ -58,6 +58,14 @@ UART_HandleTypeDef huart7;
 SRAM_HandleTypeDef hsram1;
 
 osThreadId defaultTaskHandle;
+osThreadId trackRingBufferHandle;
+osThreadId readFromUartThrHandle;
+osThreadId StartWdtThreadHandle;
+osThreadId recvUdpThreadHandle;
+osThreadId audioInitThreadHandle;
+osThreadId switchLEDsThreaHandle;
+osThreadId replaceTimerCalHandle;
+osThreadId readButtonThreaHandle;
 /* USER CODE BEGIN PV */
 
 /* USER CODE END PV */
@@ -75,7 +83,15 @@ static void MX_I2C3_Init(void);
 static void MX_SAI1_Init(void);
 static void MX_UART7_Init(void);
 static void MX_TIM3_Init(void);
-void StartDefaultTask(void const * argument);
+void StartDefaultTask_(void const * argument);
+void trackRingBufferThread_(void const * argument);
+void readFromUartThread_(void const * argument);
+void StartWdtThread_(void const * argument);
+void recvUdpThread_(void const * argument);
+void audioInitThread_(void const * argument);
+void switchLEDsThread_(void const * argument);
+void replaceTimerCallback_(void const * argument);
+void readButtonThread_(void const * argument);
 
 /* USER CODE BEGIN PFP */
 
@@ -156,8 +172,40 @@ int main(void)
 
   /* Create the thread(s) */
   /* definition and creation of defaultTask */
-  osThreadDef(defaultTask, StartDefaultTask, osPriorityNormal, 0, 128);
+  osThreadDef(defaultTask, StartDefaultTask_, osPriorityNormal, 0, 128);
   defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
+
+  /* definition and creation of trackRingBuffer */
+  osThreadDef(trackRingBuffer, trackRingBufferThread_, osPriorityNormal, 0, 2560);
+  trackRingBufferHandle = osThreadCreate(osThread(trackRingBuffer), NULL);
+
+  /* definition and creation of readFromUartThr */
+  osThreadDef(readFromUartThr, readFromUartThread_, osPriorityNormal, 0, 1280);
+  readFromUartThrHandle = osThreadCreate(osThread(readFromUartThr), NULL);
+
+  /* definition and creation of StartWdtThread */
+  osThreadDef(StartWdtThread, StartWdtThread_, osPriorityNormal, 0, 128);
+  StartWdtThreadHandle = osThreadCreate(osThread(StartWdtThread), NULL);
+
+  /* definition and creation of recvUdpThread */
+  osThreadDef(recvUdpThread, recvUdpThread_, osPriorityNormal, 0, 2560);
+  recvUdpThreadHandle = osThreadCreate(osThread(recvUdpThread), NULL);
+
+  /* definition and creation of audioInitThread */
+  osThreadDef(audioInitThread, audioInitThread_, osPriorityNormal, 0, 1280);
+  audioInitThreadHandle = osThreadCreate(osThread(audioInitThread), NULL);
+
+  /* definition and creation of switchLEDsThrea */
+  osThreadDef(switchLEDsThrea, switchLEDsThread_, osPriorityNormal, 0, 256);
+  switchLEDsThreaHandle = osThreadCreate(osThread(switchLEDsThrea), NULL);
+
+  /* definition and creation of replaceTimerCal */
+  osThreadDef(replaceTimerCal, replaceTimerCallback_, osPriorityNormal, 0, 256);
+  replaceTimerCalHandle = osThreadCreate(osThread(replaceTimerCal), NULL);
+
+  /* definition and creation of readButtonThrea */
+  osThreadDef(readButtonThrea, readButtonThread_, osPriorityNormal, 0, 640);
+  readButtonThreaHandle = osThreadCreate(osThread(readButtonThrea), NULL);
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
@@ -709,14 +757,14 @@ static void MX_GPIO_Init(void)
 
 /* USER CODE END 4 */
 
-/* USER CODE BEGIN Header_StartDefaultTask */
+/* USER CODE BEGIN Header_StartDefaultTask_ */
 /**
   * @brief  Function implementing the defaultTask thread.
   * @param  argument: Not used
   * @retval None
   */
-/* USER CODE END Header_StartDefaultTask */
-void StartDefaultTask(void const * argument)
+/* USER CODE END Header_StartDefaultTask_ */
+void StartDefaultTask_(void const * argument)
 {
   /* init code for LWIP */
   MX_LWIP_Init();
@@ -727,6 +775,150 @@ void StartDefaultTask(void const * argument)
     osDelay(1);
   }
   /* USER CODE END 5 */
+}
+
+/* USER CODE BEGIN Header_trackRingBufferThread_ */
+/**
+* @brief Function implementing the trackRingBuffer thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_trackRingBufferThread_ */
+void trackRingBufferThread_(void const * argument)
+{
+  /* USER CODE BEGIN trackRingBufferThread_ */
+  /* Infinite loop */
+  for(;;)
+  {
+    osDelay(1);
+  }
+  /* USER CODE END trackRingBufferThread_ */
+}
+
+/* USER CODE BEGIN Header_readFromUartThread_ */
+/**
+* @brief Function implementing the readFromUartThr thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_readFromUartThread_ */
+void readFromUartThread_(void const * argument)
+{
+  /* USER CODE BEGIN readFromUartThread_ */
+  /* Infinite loop */
+  for(;;)
+  {
+    osDelay(1);
+  }
+  /* USER CODE END readFromUartThread_ */
+}
+
+/* USER CODE BEGIN Header_StartWdtThread_ */
+/**
+* @brief Function implementing the StartWdtThread thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_StartWdtThread_ */
+void StartWdtThread_(void const * argument)
+{
+  /* USER CODE BEGIN StartWdtThread_ */
+  /* Infinite loop */
+  for(;;)
+  {
+    osDelay(1);
+  }
+  /* USER CODE END StartWdtThread_ */
+}
+
+/* USER CODE BEGIN Header_recvUdpThread_ */
+/**
+* @brief Function implementing the recvUdpThread thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_recvUdpThread_ */
+void recvUdpThread_(void const * argument)
+{
+  /* USER CODE BEGIN recvUdpThread_ */
+  /* Infinite loop */
+  for(;;)
+  {
+    osDelay(1);
+  }
+  /* USER CODE END recvUdpThread_ */
+}
+
+/* USER CODE BEGIN Header_audioInitThread_ */
+/**
+* @brief Function implementing the audioInitThread thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_audioInitThread_ */
+void audioInitThread_(void const * argument)
+{
+  /* USER CODE BEGIN audioInitThread_ */
+  /* Infinite loop */
+  for(;;)
+  {
+    osDelay(1);
+  }
+  /* USER CODE END audioInitThread_ */
+}
+
+/* USER CODE BEGIN Header_switchLEDsThread_ */
+/**
+* @brief Function implementing the switchLEDsThrea thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_switchLEDsThread_ */
+void switchLEDsThread_(void const * argument)
+{
+  /* USER CODE BEGIN switchLEDsThread_ */
+  /* Infinite loop */
+  for(;;)
+  {
+    osDelay(1);
+  }
+  /* USER CODE END switchLEDsThread_ */
+}
+
+/* USER CODE BEGIN Header_replaceTimerCallback_ */
+/**
+* @brief Function implementing the replaceTimerCal thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_replaceTimerCallback_ */
+void replaceTimerCallback_(void const * argument)
+{
+  /* USER CODE BEGIN replaceTimerCallback_ */
+  /* Infinite loop */
+  for(;;)
+  {
+    osDelay(1);
+  }
+  /* USER CODE END replaceTimerCallback_ */
+}
+
+/* USER CODE BEGIN Header_readButtonThread_ */
+/**
+* @brief Function implementing the readButtonThrea thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_readButtonThread_ */
+void readButtonThread_(void const * argument)
+{
+  /* USER CODE BEGIN readButtonThread_ */
+  /* Infinite loop */
+  for(;;)
+  {
+    osDelay(1);
+  }
+  /* USER CODE END readButtonThread_ */
 }
 
 /* MPU Configuration */
