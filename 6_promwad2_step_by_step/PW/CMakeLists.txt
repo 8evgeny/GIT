@@ -115,6 +115,8 @@ add_library(Middlewares
     )
 
 add_executable(${PROJECT_NAME}.elf
+#    Drivers/BSP/Components/dp83848/dp83848.c
+#    Drivers/BSP/Components/lan8742/lan8742.c
     ${SOURCES_C}
     )
 
