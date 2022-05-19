@@ -19,13 +19,6 @@
 #include "system_settings.h"
 #include "audio_process.h"
 
-#define AUDIO_MIX_CHANNEL_FREE		0	///< channel is free code
-#define AUDIO_MIX_CHANNEL_STOP		1	///< channel is stopped code
-#define AUDIO_MIX_CHANNEL_PLAY		2	///< channel is playing code
-
-///overflow level of output mixer buffer
-#define MAX_BUFIN_OCCUPANCY (AUDIO_FRAME_SIZE*8)
-
 /// link to TIMER3 hardware module control/status structure
 extern TIM_HandleTypeDef htim3;
 /// link to connect manager abonent states structure array
@@ -213,37 +206,37 @@ int8_t audio_stop_mix_channel(uint8_t ch_num)
 /**
   * @brief audio mixer timer interrupt callback
   */
-void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
-{
-	uint8_t i;
-	int16_t sum;
-	uint8_t smp;
+//void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
+//{
+//	uint8_t i;
+//	int16_t sum;
+//	uint8_t smp;
 
-	if (htim != &htim3) return;
+//	if (htim != &htim3) return;
 
-	smp_count++;
-//	if (smp_count>16000) {  // debug
-//		CLI_print("Mix Onesec");
-//		smp_count=0;
+//	smp_count++;
+////	if (smp_count>16000) {  // debug
+////		CLI_print("Mix Onesec");
+////		smp_count=0;
+////	}
+//	if (smp_count&1) {
+//	 // mix sig_gen/audio_udp_input to audio_mix_output
+//	 mixsmpcnt++;
+//	 sum = 0;
+//	 for (i = 0 ; i < AUDIO_MAX_MIX_CHANNELS; i++)
+//	 {
+//	   if (audio_mix_channels_state[i]==AUDIO_MIX_CHANNEL_PLAY) {
+//	    if (audio_mix_channels[i].datalen)
+//	      smp = CBuffer_ReadByte(&audio_mix_channels[i]);
+//	    else
+//		  smp = 0xD5; // silence
+
+//	    sum = sum + g711_A2l[smp];
+
+//	    if (audio_mix_channels[i].datalen > MAX_BUFIN_OCCUPANCY) // flush if overflow
+//		   smp = CBuffer_ReadByte(&audio_mix_channels[i]);
+//	   }
+//	 }
+//	 CBuffer_WriteData(&audio_mix_output, (uint8_t *)&sum, 2);
 //	}
-	if (smp_count&1) {
-	 // mix sig_gen/audio_udp_input to audio_mix_output
-	 mixsmpcnt++;
-	 sum = 0;
-	 for (i = 0 ; i < AUDIO_MAX_MIX_CHANNELS; i++)
-	 {
-	   if (audio_mix_channels_state[i]==AUDIO_MIX_CHANNEL_PLAY) {
-	    if (audio_mix_channels[i].datalen)
-	      smp = CBuffer_ReadByte(&audio_mix_channels[i]);
-	    else
-		  smp = 0xD5; // silence
-
-	    sum = sum + g711_A2l[smp];
-
-	    if (audio_mix_channels[i].datalen > MAX_BUFIN_OCCUPANCY) // flush if overflow
-		   smp = CBuffer_ReadByte(&audio_mix_channels[i]);
-	   }
-	 }
-	 CBuffer_WriteData(&audio_mix_output, (uint8_t *)&sum, 2);
-	}
-}
+//}

@@ -487,7 +487,7 @@ void fnTestPHY(int numParam, char** params)
 			timeout = HAL_GetTick();
 			while (1) {
 				ui_task();
-				MX_LWIP_Process();
+//				MX_LWIP_Process();
 				if (ping_get_result()) {
 			 		CLI_print("Test PHY PING : OK , %i ms\r\n",HAL_GetTick() - timeout);
 			 		break;

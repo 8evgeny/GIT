@@ -15,6 +15,9 @@ extern "C" {
 
 #include "stdint.h"
 
+///overflow level of output mixer buffer
+#define MAX_BUFIN_OCCUPANCY (AUDIO_FRAME_SIZE*8)
+
 /** @defgroup audio_process Audio processing module
   * @brief audio processing implementation
   * @{
@@ -29,6 +32,10 @@ extern "C" {
 #define AUDIO_MAX_MIX_CHANNELS	16
 /// audio mixer buffer size
 #define AUDIO_MIX_BUFFER_SIZE	4000
+
+#define AUDIO_MIX_CHANNEL_FREE		0	///< channel is free code
+#define AUDIO_MIX_CHANNEL_STOP		1	///< channel is stopped code
+#define AUDIO_MIX_CHANNEL_PLAY		2	///< channel is playing code
 
 /**
   * @brief  audio processing module initialization

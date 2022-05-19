@@ -99,6 +99,10 @@ include_directories(
     Middlewares/Third_Party/LwIP/src/include/compat/arpa
     Middlewares/Third_Party/LwIP/src/include/compat/net
     Middlewares/Third_Party/LwIP/src/include/compat/sys
+    Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS
+    Middlewares/Third_Party/FreeRTOS/Source/include
+    Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F
+    LWIP/App
     )
 
 file (GLOB Third_Party_SRC
@@ -108,6 +112,12 @@ file (GLOB Third_Party_SRC
     Middlewares/Third_Party/LwIP/src/core/ipv4/*
     Middlewares/Third_Party/LwIP/src/netif/*
     Middlewares/Third_Party/LwIP/src/netif/ppp/*
+    Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.c
+    Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.c
+    Middlewares/Third_Party/FreeRTOS/Source/*.c
+    Middlewares/Third_Party/LwIP/system/OS/sys_arch.c
+    Middlewares/Third_Party/FreeRTOS/Source/portable/MemMang/heap_4.c
+    LWIP/*
     )
 
 add_library(Middlewares
@@ -115,8 +125,9 @@ add_library(Middlewares
     )
 
 add_executable(${PROJECT_NAME}.elf
-#    Drivers/BSP/Components/dp83848/dp83848.c
-#    Drivers/BSP/Components/lan8742/lan8742.c
+    Drivers/BSP/Components/dp83848/dp83848.c
+    Drivers/BSP/Components/lan8742/lan8742.c
+    Core/Src/audio_process.c
     ${SOURCES_C}
     )
 

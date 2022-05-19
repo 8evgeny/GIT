@@ -48,11 +48,27 @@
 #include "connect_manager.h"
 #include "cbuffer.h"
 #include "system_settings.h"
+#include "rtp.h"
+#include "audio_process.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
-
+extern uint32_t smp_count;
+extern uint32_t mixsmpcnt; // debug
+/// audio input buffer description structure
+extern CBuffer audio_mic_input;
+/// audio mixer output buffer description structure
+extern CBuffer audio_mix_output;
+/// audio mixer channel buffer description structures
+extern CBuffer audio_mix_channels[AUDIO_MAX_MIX_CHANNELS];
+/// audio mixer channels states
+extern uint8_t audio_mix_channels_state[AUDIO_MAX_MIX_CHANNELS];
+/// buffer for G711 encoding
+extern uint8_t audio_g711_buf[SAI_DMA_BUFFER_SIZE];
+/// buffer for RTP transmitting
+extern uint8_t RTP_audio_buf[AUDIO_FRAME_SIZE + RTP_HDR_SIZE];
+extern const short g711_A2l[];
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
@@ -119,7 +135,7 @@ uint32_t print_time;
 uint32_t btn_wait_time;
 
 /// link to PHY controller control/status structure
-extern DP83848_Object_t DP83848;
+DP83848_Object_t DP83848;
 //extern unsigned int received_pcount; // for debug
 
 /// buffer for processing Ethernet packets
@@ -363,7 +379,7 @@ int main(void)
 
 	  tone_genProcess();
 
-	  MX_LWIP_Process();
+//	  MX_LWIP_Process();
 
 	  if (btn_wait_time) {
 	    if ((HAL_GetTick() - btn_wait_time) > TIME_BTN_WAIT) { ui_set_block_kbd(0); btn_wait_time = 0;}
@@ -1078,7 +1094,37 @@ void MPU_Config(void)
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
   /* USER CODE BEGIN Callback 0 */
+    uint8_t i;
+    int16_t sum;
+    uint8_t smp;
 
+    if (htim != &htim3) return;
+
+    smp_count++;
+    //	if (smp_count>16000) {  // debug
+    //		CLI_print("Mix Onesec");
+    //		smp_count=0;
+    //	}
+    if (smp_count&1) {
+        // mix sig_gen/audio_udp_input to audio_mix_output
+        mixsmpcnt++;
+        sum = 0;
+        for (i = 0 ; i < AUDIO_MAX_MIX_CHANNELS; i++)
+        {
+            if (audio_mix_channels_state[i]==AUDIO_MIX_CHANNEL_PLAY) {
+                if (audio_mix_channels[i].datalen)
+                    smp = CBuffer_ReadByte(&audio_mix_channels[i]);
+                else
+                    smp = 0xD5; // silence
+
+                sum = sum + g711_A2l[smp];
+
+                if (audio_mix_channels[i].datalen > MAX_BUFIN_OCCUPANCY) // flush if overflow
+                    smp = CBuffer_ReadByte(&audio_mix_channels[i]);
+            }
+        }
+        CBuffer_WriteData(&audio_mix_output, (uint8_t *)&sum, 2);
+    }
   /* USER CODE END Callback 0 */
   if (htim->Instance == TIM1) {
     HAL_IncTick();
