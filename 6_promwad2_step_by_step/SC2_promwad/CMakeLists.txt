@@ -94,11 +94,11 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}\
 
 include_directories(Inc)
 file (GLOB SOURCES_C
-    Src/*.c
     STM32H753IITX_FLASH.ld
     Drivers/BSP/Components/dp83848/dp83848.c
+    Core/Src/*.c
     )
-file (GLOB SOURCES_CPP Src/*.cpp)
+file (GLOB SOURCES_CPP Core/Src/*.cpp)
 
 include_directories(
     Drivers/CMSIS/Include
@@ -115,9 +115,9 @@ include_directories(
 #    )
 #add_library(ETH_LIB ${ETH_SOURCES} )
 
-#set (LWIP_SOURCES LWIP/App/lwip.c  LWIP/Target/ethernetif.c LWIP/ping.c )
-#include_directories(LWIP/App LWIP/Target LWIP )
-#add_library(LWIP ${LWIP_SOURCES} )
+file (GLOB LWIP_SOURCES  LWIP/App/lwip.c LWIP/Target/ethernetif.c LWIP/ping.c )
+include_directories(LWIP/App LWIP/Target LWIP )
+add_library(LWIP ${LWIP_SOURCES} )
 
 #set (RS232  Src/RS232)
 #include_directories( ${RS232} )
@@ -350,6 +350,7 @@ target_link_libraries(${PROJECT_NAME}.elf PUBLIC
 #    Tests_LIB
 #    uid_LIB
 #    WDT_LIB
+    LWIP
     )
 
 set(HEX_FILE ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.hex)
