@@ -51,10 +51,18 @@
 #define ETH_RX_BUFFER_SIZE 1536
 /*----- Default Value for LWIP_DNS: 0 ---*/
 #define LWIP_DNS 1
+/*----- Value in opt.h for LWIP_TCP: 1 -----*/
+#define LWIP_TCP 0
+/*----- Default Value for SYS_LIGHTWEIGHT_PROT: 1 ---*/
+#define SYS_LIGHTWEIGHT_PROT 0
 /*----- Value in opt.h for MEM_ALIGNMENT: 1 -----*/
 #define MEM_ALIGNMENT 4
+/*----- Default Value for MEM_SIZE: 1600 ---*/
+#define MEM_SIZE 32744
 /*----- Default Value for H7 devices: 0x30044000 -----*/
-#define LWIP_RAM_HEAP_POINTER 0x30044000
+#define LWIP_RAM_HEAP_POINTER 0x30040000
+/*----- Default Value for MEMP_NUM_PBUF: 16 ---*/
+#define MEMP_NUM_PBUF 20
 /*----- Value supported for H7 devices: 1 -----*/
 #define LWIP_SUPPORT_CUSTOM_PBUF 1
 /*----- Value in opt.h for LWIP_ETHERNET: LWIP_ARP || PPPOE_SUPPORT -*/
@@ -87,8 +95,6 @@
 #define DEFAULT_THREAD_PRIO 3
 /*----- Value in opt.h for DEFAULT_UDP_RECVMBOX_SIZE: 0 -----*/
 #define DEFAULT_UDP_RECVMBOX_SIZE 6
-/*----- Value in opt.h for DEFAULT_TCP_RECVMBOX_SIZE: 0 -----*/
-#define DEFAULT_TCP_RECVMBOX_SIZE 6
 /*----- Value in opt.h for DEFAULT_ACCEPTMBOX_SIZE: 0 -----*/
 #define DEFAULT_ACCEPTMBOX_SIZE 6
 /*----- Value in opt.h for RECV_BUFSIZE_DEFAULT: INT_MAX -----*/
