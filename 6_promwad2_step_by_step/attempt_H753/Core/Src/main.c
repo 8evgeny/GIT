@@ -105,6 +105,9 @@ int main(void)
   MX_UART7_Init();
   /* USER CODE BEGIN 2 */
 
+  char testUart7[128] = "------- testUart7 ------\r\n";
+  HAL_UART_Transmit (&huart7,(uint8_t*)testUart7, sizeof(testUart7),1000);
+
   /* USER CODE END 2 */
 
   /* USER CODE BEGIN RTOS_MUTEX */
