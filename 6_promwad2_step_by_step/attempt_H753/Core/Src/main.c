@@ -46,7 +46,7 @@ UART_HandleTypeDef huart7;
 
 osThreadId defaultTaskHandle;
 /* USER CODE BEGIN PV */
-
+char msgUart7[128];
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -105,8 +105,8 @@ int main(void)
   MX_UART7_Init();
   /* USER CODE BEGIN 2 */
 
-  char testUart7[128] = "------- testUart7 ------\r\n";
-  HAL_UART_Transmit (&huart7,(uint8_t*)testUart7, sizeof(testUart7),1000);
+    sprintf(msgUart7,"%s ","------- testUart7 ------\r\n");
+    HAL_UART_Transmit (&huart7,(uint8_t*)msgUart7, sizeof(msgUart7),1000);
 
   /* USER CODE END 2 */
 
@@ -298,6 +298,9 @@ void StartDefaultTask(void const * argument)
   /* init code for LWIP */
   MX_LWIP_Init();
   /* USER CODE BEGIN 5 */
+  sprintf(msgUart7,"%s","\r------- StartDefaultTask ------\r\n");
+  HAL_UART_Transmit (&huart7,(uint8_t*)msgUart7, sizeof(msgUart7),1000);
+
   /* Infinite loop */
   for(;;)
   {
