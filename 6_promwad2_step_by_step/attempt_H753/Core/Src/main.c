@@ -43,6 +43,8 @@
 /* Private variables ---------------------------------------------------------*/
 
 osThreadId defaultTaskHandle;
+extern struct netif gnetif;
+
 /* USER CODE BEGIN PV */
 
 /* USER CODE END PV */
@@ -137,6 +139,8 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
+    ethernetif_input(&gnetif);
+    sys_check_timeouts();
 
     /* USER CODE BEGIN 3 */
   }
