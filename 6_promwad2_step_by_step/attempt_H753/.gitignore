@@ -7,3 +7,4 @@ built_linux_Release/
 /CMakeLists.txt.user
 build_cmake_debug
 build_cmake_release
+build_cmake_rellease
