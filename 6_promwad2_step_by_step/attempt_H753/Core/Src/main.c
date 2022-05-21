@@ -57,6 +57,9 @@ osStaticThreadDef_t LEDS_1_2_3_TESControlBlock;
 osThreadId LEDS_4_5_6_TESTHandle;
 uint32_t LEDS_4_5_6_TESTBuffer[ 256 ];
 osStaticThreadDef_t LEDS_4_5_6_TESTControlBlock;
+osThreadId KEYS_TEST_TASKHandle;
+uint32_t KEYS_TEST_TASKBuffer[ 256 ];
+osStaticThreadDef_t KEYS_TEST_TASKControlBlock;
 /* USER CODE BEGIN PV */
 
 /* USER CODE END PV */
@@ -72,6 +75,7 @@ void StartDefaultTask(void const * argument);
 void Test_Led_Task_(void const * argument);
 void LEDS_1_2_3_TEST_(void const * argument);
 void LEDS_4_5_6_TEST_(void const * argument);
+void KEYS_TEST_TASK_(void const * argument);
 
 /* USER CODE BEGIN PFP */
 
@@ -164,6 +168,10 @@ int main(void)
   /* definition and creation of LEDS_4_5_6_TEST */
   osThreadStaticDef(LEDS_4_5_6_TEST, LEDS_4_5_6_TEST_, osPriorityIdle, 0, 256, LEDS_4_5_6_TESTBuffer, &LEDS_4_5_6_TESTControlBlock);
   LEDS_4_5_6_TESTHandle = osThreadCreate(osThread(LEDS_4_5_6_TEST), NULL);
+
+  /* definition and creation of KEYS_TEST_TASK */
+  osThreadStaticDef(KEYS_TEST_TASK, KEYS_TEST_TASK_, osPriorityIdle, 0, 256, KEYS_TEST_TASKBuffer, &KEYS_TEST_TASKControlBlock);
+  KEYS_TEST_TASKHandle = osThreadCreate(osThread(KEYS_TEST_TASK), NULL);
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
@@ -504,7 +512,7 @@ void Test_Led_Task_(void const * argument)
   uint8_t reset = 1;
   uint32_t tickstart = HAL_GetTick();
   uint32_t timeSet = 1;
-  uint32_t timeReset = 4000;
+  uint32_t timeReset = 3000;
 
   /* Infinite loop */
   for(;;)
@@ -558,7 +566,7 @@ void LEDS_1_2_3_TEST_(void const * argument)
   uint8_t reset = 1;
   uint32_t tickstart = HAL_GetTick();
   uint32_t timeSet = 1;
-  uint32_t timeReset = 3000;
+  uint32_t timeReset = 4000;
 
   /* Infinite loop */
       for(;;)
@@ -610,7 +618,7 @@ void LEDS_4_5_6_TEST_(void const * argument)
     uint8_t reset = 1;
     uint32_t tickstart = HAL_GetTick();
     uint32_t timeSet = 1;
-    uint32_t timeReset = 2000;
+    uint32_t timeReset = 6000;
 
     /* Infinite loop */
     for(;;)
@@ -641,6 +649,24 @@ void LEDS_4_5_6_TEST_(void const * argument)
     vTaskDelete(NULL);
 
   /* USER CODE END LEDS_4_5_6_TEST_ */
+}
+
+/* USER CODE BEGIN Header_KEYS_TEST_TASK_ */
+/**
+* @brief Function implementing the KEYS_TEST_TASK thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_KEYS_TEST_TASK_ */
+void KEYS_TEST_TASK_(void const * argument)
+{
+  /* USER CODE BEGIN KEYS_TEST_TASK_ */
+  /* Infinite loop */
+  for(;;)
+  {
+    osDelay(1);
+  }
+  /* USER CODE END KEYS_TEST_TASK_ */
 }
 
 /* MPU Configuration */
