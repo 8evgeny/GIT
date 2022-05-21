@@ -67,6 +67,10 @@ void Error_Handler(void);
 #define RELE1_UPR_GPIO_Port GPIOA
 #define AMP_UPR_Pin GPIO_PIN_12
 #define AMP_UPR_GPIO_Port GPIOA
+#define TEST_BUT_Pin GPIO_PIN_5
+#define TEST_BUT_GPIO_Port GPIOB
+#define TEST_LED_Pin GPIO_PIN_9
+#define TEST_LED_GPIO_Port GPIOB
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */
