@@ -58,7 +58,7 @@ osThreadId LEDS_4_5_6_TESTHandle;
 uint32_t LEDS_4_5_6_TESTBuffer[ 256 ];
 osStaticThreadDef_t LEDS_4_5_6_TESTControlBlock;
 /* USER CODE BEGIN PV */
-char msgUart7[128];
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -125,7 +125,7 @@ int main(void)
   MX_UART7_Init();
   MX_SAI1_Init();
   /* USER CODE BEGIN 2 */
-
+    char msgUart7[30];
     sprintf(msgUart7,"%s ","------- testUart7 ------\r\n");
     HAL_UART_Transmit (&huart7,(uint8_t*)msgUart7, sizeof(msgUart7),1000);
 
@@ -469,6 +469,7 @@ void StartDefaultTask(void const * argument)
   /* init code for LWIP */
   MX_LWIP_Init();
   /* USER CODE BEGIN 5 */
+  char msgUart7[30];
   sprintf(msgUart7,"%s","\r------- StartDefaultTask ------\r\n");
   HAL_UART_Transmit (&huart7,(uint8_t*)msgUart7, sizeof(msgUart7),1000);
 
@@ -491,21 +492,10 @@ void Test_Led_Task_(void const * argument)
 {
   /* USER CODE BEGIN Test_Led_Task_ */
 
-//    sprintf(msgUart7,"%s","\r------- Start LED Test Task ------\r\n");
-//    HAL_UART_Transmit (&huart7,(uint8_t*)msgUart7, sizeof(msgUart7),1000);
-//    sprintf(msgUart7,"%s","\r                                                           \r\n");
-//  /* Infinite loop */
-//  for(;;)
-//  {
-//      HAL_GPIO_WritePin (GPIOB, TEST_LED_Pin, GPIO_PIN_SET);
-//      sprintf(msgUart7,"%s %d %s", "\r------- LED Blink ------", osKernelSysTick(),"\n");
-//      HAL_UART_Transmit (&huart7,(uint8_t*)msgUart7, 40, 1000);
-//      osDelay(5);
-//      HAL_GPIO_WritePin (GPIOB, TEST_LED_Pin, GPIO_PIN_RESET);
-//      osDelay(3000);
+    char msgUart7[30];
+    sprintf(msgUart7,"%s","\r------- Start LED Test Task ------\r\n");
+    HAL_UART_Transmit (&huart7,(uint8_t*)msgUart7, sizeof(msgUart7),1000);
 
-//      osDelay(1);
-//  }
   (void)argument;
   uint8_t reset = 1;
   uint32_t tickstart = HAL_GetTick();
@@ -522,6 +512,9 @@ void Test_Led_Task_(void const * argument)
               HAL_GPIO_WritePin(GPIOB, TEST_LED_Pin, GPIO_PIN_SET);
               reset = 0;
               tickstart = HAL_GetTick();
+              sprintf(msgUart7,"%s %d", "------- LED Blink ------", (int)osKernelSysTick());
+              HAL_UART_Transmit (&huart7,(uint8_t*)msgUart7, sizeof(msgUart7), 1000);
+              HAL_UART_Transmit (&huart7,(uint8_t*)"\r\n", sizeof("\n"), 1000);
           }
       }
       if(reset == 0)
@@ -553,6 +546,10 @@ void LEDS_1_2_3_TEST_(void const * argument)
   /* USER CODE BEGIN LEDS_1_2_3_TEST_ */
 
   (void)argument;
+  char msgUart7[30];
+  sprintf(msgUart7,"%s","\r------- Start LEDS_1_2_3_TEST ------\r\n");
+  HAL_UART_Transmit (&huart7,(uint8_t*)msgUart7, sizeof(msgUart7),1000);
+
   uint8_t reset = 1;
   uint32_t tickstart = HAL_GetTick();
   uint32_t timeSet = 1;
@@ -598,6 +595,9 @@ void LEDS_4_5_6_TEST_(void const * argument)
   /* USER CODE BEGIN LEDS_4_5_6_TEST_ */
 
     (void)argument;
+    char msgUart7[30];
+    sprintf(msgUart7,"%s","\r------- Start LEDS_4_5_6_TEST ------\r\n");
+    HAL_UART_Transmit (&huart7,(uint8_t*)msgUart7, sizeof(msgUart7),1000);
     uint8_t reset = 1;
     uint32_t tickstart = HAL_GetTick();
     uint32_t timeSet = 1;
