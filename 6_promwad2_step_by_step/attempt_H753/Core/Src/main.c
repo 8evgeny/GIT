@@ -510,11 +510,38 @@ void Test_Led_Task_(void const * argument)
 void LEDS_TEST_(void const * argument)
 {
   /* USER CODE BEGIN LEDS_TEST_ */
-  /* Infinite loop */
-  for(;;)
-  {
-    osDelay(1);
-  }
+    (void)argument;
+    uint8_t reset = 1;
+    uint32_t tickstart = HAL_GetTick();
+    uint32_t timeSet = 1;
+    uint32_t timeReset = 3000;
+
+//    term("startingSimpleLedTest2_RTOS")
+
+      /* Infinite loop */
+        for(;;)
+    {
+        if(reset == 1)
+        {
+            if (HAL_GetTick() > tickstart + timeReset)
+            {
+                HAL_GPIO_WritePin(GPIOC, L1_Pin|L2_Pin|L3_Pin, GPIO_PIN_SET);
+                reset = 0;
+                tickstart = HAL_GetTick();
+            }
+        }
+        if(reset == 0)
+        {
+            if (HAL_GetTick() > tickstart + timeSet)
+            {
+                HAL_GPIO_WritePin(GPIOC, L1_Pin|L2_Pin|L3_Pin, GPIO_PIN_RESET);
+                reset = 1;
+                tickstart = HAL_GetTick();
+            }
+        }
+        osDelay(1);
+    }
+
   /* USER CODE END LEDS_TEST_ */
 }
 
