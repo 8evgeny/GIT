@@ -48,6 +48,7 @@ SAI_HandleTypeDef hsai_BlockB1;
 UART_HandleTypeDef huart7;
 
 osThreadId defaultTaskHandle;
+osThreadId Test_Led_TaskHandle;
 /* USER CODE BEGIN PV */
 char msgUart7[128];
 /* USER CODE END PV */
@@ -60,6 +61,7 @@ static void MX_GPIO_Init(void);
 static void MX_UART7_Init(void);
 static void MX_SAI1_Init(void);
 void StartDefaultTask(void const * argument);
+void Test_Led_Task_(void const * argument);
 
 /* USER CODE BEGIN PFP */
 
@@ -139,6 +141,10 @@ int main(void)
   /* definition and creation of defaultTask */
   osThreadDef(defaultTask, StartDefaultTask, osPriorityNormal, 0, 256);
   defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
+
+  /* definition and creation of Test_Led_Task */
+  osThreadDef(Test_Led_Task, Test_Led_Task_, osPriorityIdle, 0, 256);
+  Test_Led_TaskHandle = osThreadCreate(osThread(Test_Led_Task), NULL);
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
@@ -425,6 +431,29 @@ void StartDefaultTask(void const * argument)
     osDelay(1);
   }
   /* USER CODE END 5 */
+}
+
+/* USER CODE BEGIN Header_Test_Led_Task_ */
+/**
+* @brief Function implementing the Test_Led_Task thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_Test_Led_Task_ */
+void Test_Led_Task_(void const * argument)
+{
+  /* USER CODE BEGIN Test_Led_Task_ */
+  /* Infinite loop */
+  for(;;)
+  {
+      HAL_GPIO_WritePin (GPIOB, TEST_LED_Pin, GPIO_PIN_SET);
+      osDelay(5);
+      HAL_GPIO_WritePin (GPIOB, TEST_LED_Pin, GPIO_PIN_RESET);
+      osDelay(3000);
+
+      osDelay(1);
+  }
+  /* USER CODE END Test_Led_Task_ */
 }
 
 /* MPU Configuration */
