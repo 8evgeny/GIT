@@ -70,7 +70,10 @@ include_directories(
     ${patchDRV}/STM32H7xx_HAL_Driver/Inc
     ${patchDRV}/STM32H7xx_HAL_Driver/Inc/Legacy
     )
-file (GLOB HAL_SRC ${patchHAL_SRC}/*)
+file (GLOB HAL_SRC
+    ${patchHAL_SRC}/*
+    Drivers/STM32H7xx_HAL_Driver/Src/*.c
+    )
 add_library(STM32H7xx_HAL_Driver ${HAL_SRC})
 
 include_directories(
@@ -115,7 +118,6 @@ file (GLOB Third_Party_SRC
     Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/*.c
     Middlewares/Third_Party/LwIP/system/OS/sys_arch.c
     Middlewares/Third_Party/FreeRTOS/Source/portable/MemMang/heap_4.c
-    Drivers/STM32H7xx_HAL_Driver/Src/*.c
     Drivers/BSP/Components/lan8742/lan8742.c
     )
 
