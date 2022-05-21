@@ -59,6 +59,12 @@ void Error_Handler(void);
 /* Private defines -----------------------------------------------------------*/
 #define POW_DOWN_Pin GPIO_PIN_2
 #define POW_DOWN_GPIO_Port GPIOB
+#define L4_Pin GPIO_PIN_6
+#define L4_GPIO_Port GPIOG
+#define L5_Pin GPIO_PIN_7
+#define L5_GPIO_Port GPIOG
+#define L6_Pin GPIO_PIN_8
+#define L6_GPIO_Port GPIOG
 #define TANG_UPR_Pin GPIO_PIN_9
 #define TANG_UPR_GPIO_Port GPIOA
 #define PEDAL_UPR_Pin GPIO_PIN_10
@@ -67,6 +73,24 @@ void Error_Handler(void);
 #define RELE1_UPR_GPIO_Port GPIOA
 #define AMP_UPR_Pin GPIO_PIN_12
 #define AMP_UPR_GPIO_Port GPIOA
+#define L1_Pin GPIO_PIN_10
+#define L1_GPIO_Port GPIOC
+#define L2_Pin GPIO_PIN_11
+#define L2_GPIO_Port GPIOC
+#define L3_Pin GPIO_PIN_12
+#define L3_GPIO_Port GPIOC
+#define K1_Pin GPIO_PIN_9
+#define K1_GPIO_Port GPIOG
+#define K2_Pin GPIO_PIN_10
+#define K2_GPIO_Port GPIOG
+#define K3_Pin GPIO_PIN_11
+#define K3_GPIO_Port GPIOG
+#define K4_Pin GPIO_PIN_12
+#define K4_GPIO_Port GPIOG
+#define K5_Pin GPIO_PIN_13
+#define K5_GPIO_Port GPIOG
+#define K6_Pin GPIO_PIN_14
+#define K6_GPIO_Port GPIOG
 #define TEST_BUT_Pin GPIO_PIN_5
 #define TEST_BUT_GPIO_Port GPIOB
 #define TEST_LED_Pin GPIO_PIN_9
