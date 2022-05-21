@@ -55,16 +55,18 @@ file (GLOB CORE_SOURCES
     Drivers/BSP/Components/dp83848/dp83848.c
     LWIP/Target/ethernetif.c
     )
-message (${CORE_SOURCES})
-
 add_library(CORE ${CORE_SOURCES} )
 
 set (STARTUP_SOURCES ${patchSRC}/../Startup/startup_stm32h753iitx.s )
 add_library(STARTUP ${STARTUP_SOURCES} )
 
-include_directories( ${patchDRV}/BSP/Components/lan8742 )
-#set (BSP_SOURCES ${patchDRV}/BSP/Components/lan8742/lan8742.c )
-#add_library(BSP ${BSP_SOURCES} )
+include_directories(
+    ${patchDRV}/BSP/Components/lan8742
+    Drivers/BSP/Components/dp83848)
+file (GLOB BSP_SOURCES
+    ${patchDRV}/BSP/Components/lan8742/lan8742.c
+    Drivers/BSP/Components/dp83848/dp83848.c)
+add_library(BSP ${BSP_SOURCES} )
 
 include_directories(
     ${patchDRV}/STM32H7xx_HAL_Driver/Inc
@@ -159,7 +161,7 @@ target_link_options(${PROJECT_NAME}.elf PRIVATE ${LINKER_FLAGS})
 target_link_libraries(${PROJECT_NAME}.elf PUBLIC
     CORE
     STARTUP
-#    BSP
+    BSP
     STM32H7xx_HAL_Driver
     LWIP
     Middlewares
