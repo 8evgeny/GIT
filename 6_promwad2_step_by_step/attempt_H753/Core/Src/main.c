@@ -51,6 +51,9 @@ osThreadId defaultTaskHandle;
 osThreadId Test_Led_TaskHandle;
 uint32_t Test_Led_TaskBuffer[ 512 ];
 osStaticThreadDef_t Test_Led_TaskControlBlock;
+osThreadId LEDS_TESTHandle;
+uint32_t LEDS_TESTBuffer[ 512 ];
+osStaticThreadDef_t LEDS_TESTControlBlock;
 /* USER CODE BEGIN PV */
 char msgUart7[128];
 /* USER CODE END PV */
@@ -64,6 +67,7 @@ static void MX_UART7_Init(void);
 static void MX_SAI1_Init(void);
 void StartDefaultTask(void const * argument);
 void Test_Led_Task_(void const * argument);
+void LEDS_TEST_(void const * argument);
 
 /* USER CODE BEGIN PFP */
 
@@ -147,6 +151,10 @@ int main(void)
   /* definition and creation of Test_Led_Task */
   osThreadStaticDef(Test_Led_Task, Test_Led_Task_, osPriorityNormal, 0, 512, Test_Led_TaskBuffer, &Test_Led_TaskControlBlock);
   Test_Led_TaskHandle = osThreadCreate(osThread(Test_Led_Task), NULL);
+
+  /* definition and creation of LEDS_TEST */
+  osThreadStaticDef(LEDS_TEST, LEDS_TEST_, osPriorityNormal, 0, 512, LEDS_TESTBuffer, &LEDS_TESTControlBlock);
+  LEDS_TESTHandle = osThreadCreate(osThread(LEDS_TEST), NULL);
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
@@ -490,6 +498,24 @@ void Test_Led_Task_(void const * argument)
       osDelay(1);
   }
   /* USER CODE END Test_Led_Task_ */
+}
+
+/* USER CODE BEGIN Header_LEDS_TEST_ */
+/**
+* @brief Function implementing the LEDS_TEST thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_LEDS_TEST_ */
+void LEDS_TEST_(void const * argument)
+{
+  /* USER CODE BEGIN LEDS_TEST_ */
+  /* Infinite loop */
+  for(;;)
+  {
+    osDelay(1);
+  }
+  /* USER CODE END LEDS_TEST_ */
 }
 
 /* MPU Configuration */
