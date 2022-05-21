@@ -49,11 +49,14 @@ UART_HandleTypeDef huart7;
 
 osThreadId defaultTaskHandle;
 osThreadId Test_Led_TaskHandle;
-uint32_t Test_Led_TaskBuffer[ 512 ];
+uint32_t Test_Led_TaskBuffer[ 256 ];
 osStaticThreadDef_t Test_Led_TaskControlBlock;
-osThreadId LEDS_TESTHandle;
-uint32_t LEDS_TESTBuffer[ 512 ];
-osStaticThreadDef_t LEDS_TESTControlBlock;
+osThreadId LEDS_1_2_3_TESTHandle;
+uint32_t LEDS_1_2_3_TESBuffer[ 256 ];
+osStaticThreadDef_t LEDS_1_2_3_TESControlBlock;
+osThreadId LEDS_4_5_6_TESTHandle;
+uint32_t LEDS_4_5_6_TESTBuffer[ 256 ];
+osStaticThreadDef_t LEDS_4_5_6_TESTControlBlock;
 /* USER CODE BEGIN PV */
 char msgUart7[128];
 /* USER CODE END PV */
@@ -67,7 +70,8 @@ static void MX_UART7_Init(void);
 static void MX_SAI1_Init(void);
 void StartDefaultTask(void const * argument);
 void Test_Led_Task_(void const * argument);
-void LEDS_TEST_(void const * argument);
+void LEDS_1_2_3_TEST_(void const * argument);
+void LEDS_4_5_6_TEST_(void const * argument);
 
 /* USER CODE BEGIN PFP */
 
@@ -149,12 +153,16 @@ int main(void)
   defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
 
   /* definition and creation of Test_Led_Task */
-  osThreadStaticDef(Test_Led_Task, Test_Led_Task_, osPriorityNormal, 0, 512, Test_Led_TaskBuffer, &Test_Led_TaskControlBlock);
+  osThreadStaticDef(Test_Led_Task, Test_Led_Task_, osPriorityNormal, 0, 256, Test_Led_TaskBuffer, &Test_Led_TaskControlBlock);
   Test_Led_TaskHandle = osThreadCreate(osThread(Test_Led_Task), NULL);
 
-  /* definition and creation of LEDS_TEST */
-  osThreadStaticDef(LEDS_TEST, LEDS_TEST_, osPriorityNormal, 0, 512, LEDS_TESTBuffer, &LEDS_TESTControlBlock);
-  LEDS_TESTHandle = osThreadCreate(osThread(LEDS_TEST), NULL);
+  /* definition and creation of LEDS_1_2_3_TEST */
+  osThreadStaticDef(LEDS_1_2_3_TEST, LEDS_1_2_3_TEST_, osPriorityNormal, 0, 256, LEDS_1_2_3_TESBuffer, &LEDS_1_2_3_TESControlBlock);
+  LEDS_1_2_3_TESTHandle = osThreadCreate(osThread(LEDS_1_2_3_TEST), NULL);
+
+  /* definition and creation of LEDS_4_5_6_TEST */
+  osThreadStaticDef(LEDS_4_5_6_TEST, LEDS_4_5_6_TEST_, osPriorityNormal, 0, 256, LEDS_4_5_6_TESTBuffer, &LEDS_4_5_6_TESTControlBlock);
+  LEDS_4_5_6_TESTHandle = osThreadCreate(osThread(LEDS_4_5_6_TEST), NULL);
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
@@ -482,50 +490,127 @@ void StartDefaultTask(void const * argument)
 void Test_Led_Task_(void const * argument)
 {
   /* USER CODE BEGIN Test_Led_Task_ */
-    sprintf(msgUart7,"%s","\r------- Start LED Test Task ------\r\n");
-    HAL_UART_Transmit (&huart7,(uint8_t*)msgUart7, sizeof(msgUart7),1000);
-    sprintf(msgUart7,"%s","\r                                                           \r\n");
+
+//    sprintf(msgUart7,"%s","\r------- Start LED Test Task ------\r\n");
+//    HAL_UART_Transmit (&huart7,(uint8_t*)msgUart7, sizeof(msgUart7),1000);
+//    sprintf(msgUart7,"%s","\r                                                           \r\n");
+//  /* Infinite loop */
+//  for(;;)
+//  {
+//      HAL_GPIO_WritePin (GPIOB, TEST_LED_Pin, GPIO_PIN_SET);
+//      sprintf(msgUart7,"%s %d %s", "\r------- LED Blink ------", osKernelSysTick(),"\n");
+//      HAL_UART_Transmit (&huart7,(uint8_t*)msgUart7, 40, 1000);
+//      osDelay(5);
+//      HAL_GPIO_WritePin (GPIOB, TEST_LED_Pin, GPIO_PIN_RESET);
+//      osDelay(3000);
+
+//      osDelay(1);
+//  }
+  (void)argument;
+  uint8_t reset = 1;
+  uint32_t tickstart = HAL_GetTick();
+  uint32_t timeSet = 1;
+  uint32_t timeReset = 4000;
+
   /* Infinite loop */
   for(;;)
   {
-      HAL_GPIO_WritePin (GPIOB, TEST_LED_Pin, GPIO_PIN_SET);
-      sprintf(msgUart7,"%s %d %s", "\r------- LED Blink ------", osKernelSysTick(),"\n");
-      HAL_UART_Transmit (&huart7,(uint8_t*)msgUart7, 40, 1000);
-      osDelay(5);
-      HAL_GPIO_WritePin (GPIOB, TEST_LED_Pin, GPIO_PIN_RESET);
-      osDelay(3000);
-
-      osDelay(1);
+      if(reset == 1)
+      {
+          if (HAL_GetTick() > tickstart + timeReset)
+          {
+              HAL_GPIO_WritePin(GPIOB, TEST_LED_Pin, GPIO_PIN_SET);
+              reset = 0;
+              tickstart = HAL_GetTick();
+          }
+      }
+      if(reset == 0)
+      {
+          if (HAL_GetTick() > tickstart + timeSet)
+          {
+              HAL_GPIO_WritePin(GPIOB, TEST_LED_Pin, GPIO_PIN_RESET);
+              reset = 1;
+              tickstart = HAL_GetTick();
+          }
+      }
+      osDelay (1);
   }
+  vTaskDelete(NULL);
+
+
   /* USER CODE END Test_Led_Task_ */
 }
 
-/* USER CODE BEGIN Header_LEDS_TEST_ */
+/* USER CODE BEGIN Header_LEDS_1_2_3_TEST_ */
 /**
-* @brief Function implementing the LEDS_TEST thread.
+* @brief Function implementing the LEDS_1_2_3_TEST thread.
 * @param argument: Not used
 * @retval None
 */
-/* USER CODE END Header_LEDS_TEST_ */
-void LEDS_TEST_(void const * argument)
+/* USER CODE END Header_LEDS_1_2_3_TEST_ */
+void LEDS_1_2_3_TEST_(void const * argument)
 {
-  /* USER CODE BEGIN LEDS_TEST_ */
+  /* USER CODE BEGIN LEDS_1_2_3_TEST_ */
+
+  (void)argument;
+  uint8_t reset = 1;
+  uint32_t tickstart = HAL_GetTick();
+  uint32_t timeSet = 1;
+  uint32_t timeReset = 3000;
+
+  /* Infinite loop */
+      for(;;)
+  {
+      if(reset == 1)
+      {
+          if (HAL_GetTick() > tickstart + timeReset)
+          {
+              HAL_GPIO_WritePin(GPIOC, L1_Pin|L2_Pin|L3_Pin, GPIO_PIN_SET);
+              reset = 0;
+              tickstart = HAL_GetTick();
+          }
+      }
+      if(reset == 0)
+      {
+          if (HAL_GetTick() > tickstart + timeSet)
+          {
+              HAL_GPIO_WritePin(GPIOC, L1_Pin|L2_Pin|L3_Pin, GPIO_PIN_RESET);
+              reset = 1;
+              tickstart = HAL_GetTick();
+          }
+      }
+      osDelay (1);
+  }
+  vTaskDelete(NULL);
+
+  /* USER CODE END LEDS_1_2_3_TEST_ */
+}
+
+/* USER CODE BEGIN Header_LEDS_4_5_6_TEST_ */
+/**
+* @brief Function implementing the LEDS_4_5_6_TEST thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_LEDS_4_5_6_TEST_ */
+void LEDS_4_5_6_TEST_(void const * argument)
+{
+  /* USER CODE BEGIN LEDS_4_5_6_TEST_ */
+
     (void)argument;
     uint8_t reset = 1;
     uint32_t tickstart = HAL_GetTick();
     uint32_t timeSet = 1;
-    uint32_t timeReset = 3000;
+    uint32_t timeReset = 2000;
 
-//    term("startingSimpleLedTest2_RTOS")
-
-      /* Infinite loop */
-        for(;;)
+    /* Infinite loop */
+    for(;;)
     {
         if(reset == 1)
         {
             if (HAL_GetTick() > tickstart + timeReset)
             {
-                HAL_GPIO_WritePin(GPIOC, L1_Pin|L2_Pin|L3_Pin, GPIO_PIN_SET);
+                HAL_GPIO_WritePin(GPIOG, L4_Pin|L4_Pin|L6_Pin, GPIO_PIN_SET);
                 reset = 0;
                 tickstart = HAL_GetTick();
             }
@@ -534,15 +619,16 @@ void LEDS_TEST_(void const * argument)
         {
             if (HAL_GetTick() > tickstart + timeSet)
             {
-                HAL_GPIO_WritePin(GPIOC, L1_Pin|L2_Pin|L3_Pin, GPIO_PIN_RESET);
+                HAL_GPIO_WritePin(GPIOG, L4_Pin|L5_Pin|L6_Pin, GPIO_PIN_RESET);
                 reset = 1;
                 tickstart = HAL_GetTick();
             }
         }
-        osDelay(1);
+        osDelay (1);
     }
+    vTaskDelete(NULL);
 
-  /* USER CODE END LEDS_TEST_ */
+  /* USER CODE END LEDS_4_5_6_TEST_ */
 }
 
 /* MPU Configuration */
