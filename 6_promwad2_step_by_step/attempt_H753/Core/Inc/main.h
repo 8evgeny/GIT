@@ -57,6 +57,16 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
+#define POW_DOWN_Pin GPIO_PIN_2
+#define POW_DOWN_GPIO_Port GPIOB
+#define TANG_UPR_Pin GPIO_PIN_9
+#define TANG_UPR_GPIO_Port GPIOA
+#define PEDAL_UPR_Pin GPIO_PIN_10
+#define PEDAL_UPR_GPIO_Port GPIOA
+#define RELE1_UPR_Pin GPIO_PIN_11
+#define RELE1_UPR_GPIO_Port GPIOA
+#define AMP_UPR_Pin GPIO_PIN_12
+#define AMP_UPR_GPIO_Port GPIOA
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */
