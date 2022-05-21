@@ -445,11 +445,13 @@ void Test_Led_Task_(void const * argument)
   /* USER CODE BEGIN Test_Led_Task_ */
     sprintf(msgUart7,"%s","\r------- Start LED Test Task ------\r\n");
     HAL_UART_Transmit (&huart7,(uint8_t*)msgUart7, sizeof(msgUart7),1000);
-
+    sprintf(msgUart7,"%s","\r                                                           \r\n");
   /* Infinite loop */
   for(;;)
   {
       HAL_GPIO_WritePin (GPIOB, TEST_LED_Pin, GPIO_PIN_SET);
+      sprintf(msgUart7,"%s %d %s", "\r------- LED Blink ------", osKernelSysTick(),"\n");
+      HAL_UART_Transmit (&huart7,(uint8_t*)msgUart7, 40, 1000);
       osDelay(5);
       HAL_GPIO_WritePin (GPIOB, TEST_LED_Pin, GPIO_PIN_RESET);
       osDelay(3000);
