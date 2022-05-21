@@ -54,7 +54,6 @@ void UsageFault_Handler(void);
 void DebugMon_Handler(void);
 void TIM1_UP_IRQHandler(void);
 void ETH_IRQHandler(void);
-void ETH_WKUP_IRQHandler(void);
 /* USER CODE BEGIN EFP */
 
 /* USER CODE END EFP */
