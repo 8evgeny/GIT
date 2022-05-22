@@ -1,20 +1,12 @@
-/*!
- \file fsforeeprom.cpp
-
- \authors Shulenkov R.A.
-*/
 #include "fsforeeprom.h"
 #include "eeprom.h"
 
-#include <cstring>
-
-#ifdef __cplusplus
-extern "C" {
-#endif
+#include <string.h>
 
 // variables used by the filesystem
 lfs_t lfs;
 lfs_file_t file;
+FsForEeprom_t fseeprom;
 
 //Изменил параметры EEPROM
 //uint8_t littlefs_mem[8192];
@@ -32,9 +24,6 @@ int user_provided_block_device_read(const struct lfs_config *c,
                                     lfs_block_t block, lfs_off_t off,
                                     void *buffer, lfs_size_t size)
 {
-
-//term("*****  user_provided_block_device_read  ******")
-
     uint32_t addr = (uint32_t)(block * c->block_size + off);
     //Изменил 4 * и вернул
     uint16_t NumByteToRead = (uint16_t)size;
@@ -46,8 +35,6 @@ int user_provided_block_device_prog(const struct lfs_config *c,
                                     lfs_block_t block, lfs_off_t off,
                                     const void *buffer, lfs_size_t size)
 {
-//term("*****  user_provided_block_device_prog  ******")
-
     uint32_t addr = (uint32_t)(block * c->block_size + off);
     uint8_t *buffer_data = (uint8_t *)buffer;
     //Изменил 4 * и вернул
@@ -57,8 +44,6 @@ int user_provided_block_device_prog(const struct lfs_config *c,
 int user_provided_block_device_erase(const struct lfs_config *c,
                                      lfs_block_t block)
 {
-//term("*****  user_provided_block_device_erase  ******")
-
     //Изменил 4 * и вернул
     uint32_t addr = (uint32_t)( block * c->block_size);
 //    std::memset((void *)littlefs_mem[addr], c->block_size, 0);
@@ -96,60 +81,20 @@ void littleFsInit()
 
 // mount the filesystem
 
-//term("lfs_mount___begin")
-
     int err = lfs_mount(&lfs, &cfg);
-
-//term("##########   lfs_mount   ###########")
 
 // reformat if we can't mount the filesystem
 // this should only happen on the first boot
     if (err) {
-
-//term("error - FORMAT lfs")
 
         lfs_format(&lfs, &cfg);
         lfs_mount(&lfs, &cfg);
     }
 
 }
-#ifdef __cplusplus
-}
-#endif
 
 
-FsForEeprom *FsForEeprom::pInstance = nullptr;
-FsForEepromDestroyer FsForEeprom::destroyer;
-
-FsForEeprom::FsForEeprom()
-{
-    lfsPtr = &lfs;
-    filePtr = &file;
-
-}
-
-FsForEepromDestroyer::~FsForEepromDestroyer()
-{
-    delete pInstance;
-}
-void FsForEepromDestroyer::initialize(FsForEeprom *p)
-{
-    pInstance = p;
-}
-
-FsForEeprom &FsForEeprom::getInstance()
-{
-    if (!pInstance)     {
-        pInstance = new FsForEeprom();
-        destroyer.initialize(pInstance);
-
-
-
-    }
-    return *pInstance;
-}
-
-void FsForEeprom::test()
+void FS_test()
 {
     char rhymeToEEPROM[] = "Red on top, Green below. Red says “Stop”, Green says “Go”. Yellow says “Wait” Even if you’re late.";
     char rhymeFromEEPROM[sizeof (rhymeToEEPROM)];
@@ -173,17 +118,17 @@ void FsForEeprom::test()
     lfs_file_close(&lfs, &file);
 }
 
-uint32_t FsForEeprom::init(void)
+uint32_t Fs_init(void)
 {
     return BSP_EEPROM_Init();
 }
 
-uint32_t FsForEeprom::read(uint8_t *pBuffer, uint16_t readAddr, uint16_t *numByteToRead)
+uint32_t FS_read(uint8_t *pBuffer, uint16_t readAddr, uint16_t *numByteToRead)
 {
     return BSP_EEPROM_ReadBuffer(pBuffer, readAddr, numByteToRead);
 }
 
-uint32_t FsForEeprom::write(uint8_t *pBuffer, uint16_t writeAddr, uint16_t numByteToWrite)
+uint32_t FS_write(uint8_t *pBuffer, uint16_t writeAddr, uint16_t numByteToWrite)
 {
     return BSP_EEPROM_WriteBuffer(pBuffer, writeAddr, numByteToWrite);
 }

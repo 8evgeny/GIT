@@ -4,10 +4,6 @@
 
 /* Includes ------------------------------------------------------------------*/
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 /* Includes ------------------------------------------------------------------*/
 //#include "stm32746g_discovery.h"
 #include "stm32h7xx_hal.h"
@@ -15,22 +11,7 @@ extern "C" {
 
 #define EEPROM_I2C_ADDRESS                    0xA0
 
-/** @addtogroup BSP
-  * @{
-  */
 
-/** @addtogroup STM32746G_DISCOVERY
-  * @{
-  */
-
-/** @addtogroup STM32746G_DISCOVERY_EEPROM
-  * @brief This file includes the I2C EEPROM driver of STM32746G-Discovery board.
-  * @{
-  */
-
-/** @defgroup STM32746G_DISCOVERY_EEPROM_Exported_Constants STM32746G-Discovery board Exported Constants
-  * @{
-  */
 /* EEPROM hardware address and page size */
 #define EEPROM_PAGESIZE             128
 #define EEPROM_MAX_SIZE             0x20000 /* 1Mbit*/
@@ -71,24 +52,5 @@ extern HAL_StatusTypeDef   EEPROM_IO_WriteData(uint16_t DevAddress, uint16_t Mem
 extern HAL_StatusTypeDef   EEPROM_IO_ReadData(uint16_t DevAddress, uint16_t MemAddress, uint8_t *pBuffer, uint32_t BufferSize);
 extern HAL_StatusTypeDef   EEPROM_IO_IsDeviceReady(uint16_t DevAddress, uint32_t Trials);
 
-/**
-  * @}
-  */
-
-/**
-  * @}
-  */
-
-/**
-  * @}
-  */
-
-/**
-  * @}
-  */
-
-#ifdef __cplusplus
-}
-#endif
 
 #endif /* __EEPROM_H */

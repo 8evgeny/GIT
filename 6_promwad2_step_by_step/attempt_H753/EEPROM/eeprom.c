@@ -1,59 +1,21 @@
 /* Includes ------------------------------------------------------------------*/
 #include "eeprom.h"
 
-/** @addtogroup BSP
-  * @{
-  */
-
-/** @addtogroup STM32746G_DISCOVERY
-  * @{
-  */
-
-/** @defgroup STM32746G_DISCOVERY_EEPROM STM32746G-Discovery EEPROM
-  * @brief This file includes the I2C EEPROM driver of STM32746G-Discovery board.
-  * @{
-  */
-
-/** @defgroup STM32746G_DISCOVERY_EEPROM_Private_Variables STM32746G-Discovery EEPROM Private Variables
-  * @{
-  */
 __IO uint32_t  EEPROMTimeout = EEPROM_READ_TIMEOUT;
 __IO uint16_t  EEPROMDataRead;
 __IO uint8_t   EEPROMDataWrite;
-/**
-  * @}
-  */
 
-/** @defgroup STM32746G_DISCOVERY_EEPROM_Private_Function_Prototypes STM32746G-Discovery EEPROM Private Function Prototypes
-  * @{
-  */
 static uint32_t EEPROM_WritePage(uint8_t *pBuffer, uint16_t WriteAddr, uint8_t *NumByteToWrite);
 static uint32_t EEPROM_WaitEepromStandbyState(void);
-/**
-  * @}
-  */
 
-/** @defgroup STM32746G_DISCOVERY_EEPROM_Private_Functions STM32746G-Discovery EEPROM Private Functions
-  * @{
-  */
 
-/**
-  * @brief  Initializes peripherals used by the I2C EEPROM driver.
-  * @retval EEPROM_OK (0) if operation is correctly performed, else return value
-  *         different from EEPROM_OK (0)
-  */
 uint32_t BSP_EEPROM_Init(void)
 {
-//RS232Puts("******  BSP_EEPROM_Init  ******\n") ;
-
     /* I2C Initialization */
     EEPROM_IO_Init();
 
-
     /* Select the EEPROM address and check if OK */
     if (EEPROM_IO_IsDeviceReady(EEPROM_I2C_ADDRESS, EEPROM_MAX_TRIALS) != HAL_OK) {
-
-//RS232Puts("BSP_EEPROM_Init__error\n") ;
 
         return EEPROM_FAIL;
     }
@@ -77,8 +39,6 @@ uint32_t BSP_EEPROM_Init(void)
   */
 uint32_t BSP_EEPROM_ReadBuffer(uint8_t *pBuffer, uint16_t ReadAddr, uint16_t *NumByteToRead)
 {
-//RS232Puts("******  BSP_EEPROM_ReadBuffer  ******\n") ;
-
     uint32_t buffersize = *NumByteToRead;
 
     /* Set the pointer to the Number of data to be read */
@@ -86,7 +46,6 @@ uint32_t BSP_EEPROM_ReadBuffer(uint8_t *pBuffer, uint16_t ReadAddr, uint16_t *Nu
 
     if (EEPROM_IO_ReadData(EEPROM_I2C_ADDRESS, ReadAddr, pBuffer, buffersize) != HAL_OK)
     {
-
         BSP_EEPROM_TIMEOUT_UserCallback();
         return EEPROM_FAIL;
     }
@@ -306,21 +265,5 @@ static uint32_t EEPROM_WaitEepromStandbyState(void)
 __weak void BSP_EEPROM_TIMEOUT_UserCallback(void)
 {
 }
-
-/**
-  * @}
-  */
-
-/**
-  * @}
-  */
-
-/**
-  * @}
-  */
-
-/**
-  * @}
-  */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

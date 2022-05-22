@@ -139,7 +139,7 @@ add_library(Middlewares
     )
 
 include_directories(EEPROM Middlewares/Third_Party/littlefs)
-file (GLOB EEPROM_SOURCES EEPROM/*.c  EEPROM/*.cpp Middlewares/Third_Party/littlefs/*.c)
+file (GLOB EEPROM_SOURCES EEPROM/*.c  Middlewares/Third_Party/littlefs/*.c)
 add_library(EEPROM ${EEPROM_SOURCES} )
 
 include_directories(RS232)
