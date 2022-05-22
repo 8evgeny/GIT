@@ -121,7 +121,7 @@ void HAL_UART_MspInit(UART_HandleTypeDef* huart)
 
     /* UART7 DMA Init */
     /* UART7_TX Init */
-    hdma_uart7_tx.Instance = DMA1_Stream2;
+    hdma_uart7_tx.Instance = DMA1_Stream1;
     hdma_uart7_tx.Init.Request = DMA_REQUEST_UART7_TX;
     hdma_uart7_tx.Init.Direction = DMA_MEMORY_TO_PERIPH;
     hdma_uart7_tx.Init.PeriphInc = DMA_PINC_DISABLE;
