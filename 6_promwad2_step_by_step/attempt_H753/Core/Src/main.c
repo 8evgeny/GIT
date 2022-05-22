@@ -395,12 +395,12 @@ static void MX_DMA_Init(void)
   /* DMA1_Stream1_IRQn interrupt configuration */
   HAL_NVIC_SetPriority(DMA1_Stream1_IRQn, 5, 0);
   HAL_NVIC_EnableIRQ(DMA1_Stream1_IRQn);
-  /* DMA1_Stream2_IRQn interrupt configuration */
-  HAL_NVIC_SetPriority(DMA1_Stream2_IRQn, 5, 0);
-  HAL_NVIC_EnableIRQ(DMA1_Stream2_IRQn);
   /* DMA1_Stream3_IRQn interrupt configuration */
   HAL_NVIC_SetPriority(DMA1_Stream3_IRQn, 5, 0);
   HAL_NVIC_EnableIRQ(DMA1_Stream3_IRQn);
+  /* DMA1_Stream4_IRQn interrupt configuration */
+  HAL_NVIC_SetPriority(DMA1_Stream4_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(DMA1_Stream4_IRQn);
 
 }
 
@@ -511,7 +511,7 @@ void StartDefaultTask(void const * argument)
   char msgUart7[50];
   memset(msgUart7,' ',50);
   sprintf(msgUart7,"\r%s \n", "------- StartDefaultTask ------");
-  HAL_UART_Transmit_IT (&huart7,(uint8_t*)msgUart7, 50);
+  HAL_UART_Transmit_IT (&huart7,(uint8_t*)msgUart7, sizeof (msgUart7)-1);
   /* Infinite loop */
   for(;;)
   {
@@ -536,7 +536,7 @@ void Test_Led_Task_(void const * argument)
     char msgUart7[50];
     memset(msgUart7,' ',50);
     sprintf(msgUart7,"\r%s", "------- StartTest_Led_Task ------\n");
-    HAL_UART_Transmit_IT (&huart7,(uint8_t*)msgUart7, 50);
+    HAL_UART_Transmit_IT (&huart7,(uint8_t*)msgUart7, sizeof (msgUart7)-1);
     uint8_t reset = 1;
     uint32_t tickstart = HAL_GetTick();
     uint32_t timeSet = 1;
@@ -589,7 +589,7 @@ void LEDS_1_2_3_TEST_(void const * argument)
   char msgUart7[50];
   memset(msgUart7,' ',50);
   sprintf(msgUart7,"\r%s", "------- StartLEDS_1_2_3_TEST ------\n");
-  HAL_UART_Transmit_IT (&huart7,(uint8_t*)msgUart7, 50);
+  HAL_UART_Transmit_IT (&huart7,(uint8_t*)msgUart7, sizeof (msgUart7)-1);
   uint8_t reset = 1;
   uint32_t tickstart = HAL_GetTick();
   uint32_t timeSet = 1;
@@ -606,7 +606,7 @@ void LEDS_1_2_3_TEST_(void const * argument)
               reset = 0;
               tickstart = HAL_GetTick();
               sprintf(msgUart7,"\r%s %d\n\r", "------- LEDS_1_2_3_Blink ------", (int)osKernelSysTick());
-              HAL_UART_Transmit_IT (&huart7,(uint8_t*)msgUart7, sizeof(msgUart7));
+              HAL_UART_Transmit_IT (&huart7,(uint8_t*)msgUart7, sizeof(msgUart7)-1);
           }
       }
       if(reset == 0)
@@ -641,7 +641,7 @@ void LEDS_4_5_6_TEST_(void const * argument)
     char msgUart7[50];
     memset(msgUart7,' ',50);
     sprintf(msgUart7,"\r%s", "------- StartLEDS_4_5_6_TEST ------\n");
-    HAL_UART_Transmit_IT (&huart7,(uint8_t*)msgUart7, 50);
+    HAL_UART_Transmit_IT (&huart7,(uint8_t*)msgUart7, sizeof (msgUart7)-1);
     uint8_t reset = 1;
     uint32_t tickstart = HAL_GetTick();
     uint32_t timeSet = 1;
@@ -658,7 +658,7 @@ void LEDS_4_5_6_TEST_(void const * argument)
                 reset = 0;
                 tickstart = HAL_GetTick();
                 sprintf(msgUart7,"\r%s %d\n\r", "------- LEDS 4 5 6 Blink ------", (int)osKernelSysTick());
-                HAL_UART_Transmit_IT (&huart7,(uint8_t*)msgUart7, sizeof(msgUart7));
+                HAL_UART_Transmit_IT (&huart7,(uint8_t*)msgUart7, sizeof(msgUart7)-1);
             }
         }
         if(reset == 0)
