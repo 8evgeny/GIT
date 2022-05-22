@@ -135,7 +135,7 @@ int main(void)
   MX_SAI1_Init();
   /* USER CODE BEGIN 2 */
     char msgUart7[35];
-    sprintf(msgUart7,"%s %d\r\n", "\r------- StartDefaultTask ------", (int)osKernelSysTick());
+    sprintf(msgUart7,"\r%s %d\n\r", "------- StartDefaultTask ------", (int)osKernelSysTick());
     HAL_UART_Transmit_IT (&huart7,(uint8_t*)msgUart7, sizeof(msgUart7));
 
   /* USER CODE END 2 */
@@ -505,10 +505,10 @@ void StartDefaultTask(void const * argument)
   /* init code for LWIP */
   MX_LWIP_Init();
   /* USER CODE BEGIN 5 */
-  char msgUart7[40];
-  memset(msgUart7,' ',40);
-  sprintf(msgUart7,"%s %d\r\n", "\r------- StartDefaultTask ------", (int)osKernelSysTick());
-  HAL_UART_Transmit_IT (&huart7,(uint8_t*)msgUart7, sizeof(msgUart7));
+  char msgUart7[50];
+  memset(msgUart7,' ',50);
+  sprintf(msgUart7,"\r%s \n", "------- StartDefaultTask ------");
+  HAL_UART_Transmit_IT (&huart7,(uint8_t*)msgUart7, 50);
   /* Infinite loop */
   for(;;)
   {
@@ -528,17 +528,16 @@ void Test_Led_Task_(void const * argument)
 {
   /* USER CODE BEGIN Test_Led_Task_ */
 
-    char msgUart7[40];
-    memset(msgUart7,' ',40);
-    sprintf(msgUart7,"%s %d\r\n", "\r------- Test_Led_Task ------", (int)osKernelSysTick());
-    HAL_UART_Transmit_IT (&huart7,(uint8_t*)msgUart7, sizeof(msgUart7));
-
-
-  (void)argument;
-  uint8_t reset = 1;
-  uint32_t tickstart = HAL_GetTick();
-  uint32_t timeSet = 1;
-  uint32_t timeReset = 3000;
+    (void)argument;
+    osDelay (10);
+    char msgUart7[50];
+    memset(msgUart7,' ',50);
+    sprintf(msgUart7,"\r%s", "------- StartTest_Led_Task ------\n");
+    HAL_UART_Transmit_IT (&huart7,(uint8_t*)msgUart7, 50);
+    uint8_t reset = 1;
+    uint32_t tickstart = HAL_GetTick();
+    uint32_t timeSet = 1;
+    uint32_t timeReset = 2000;
 
   /* Infinite loop */
   for(;;)
@@ -550,7 +549,7 @@ void Test_Led_Task_(void const * argument)
               HAL_GPIO_WritePin(GPIOB, TEST_LED_Pin, GPIO_PIN_SET);
               reset = 0;
               tickstart = HAL_GetTick();
-              sprintf(msgUart7,"%s %d\r\n", "\r------- LED Blink ------", (int)osKernelSysTick());
+              sprintf(msgUart7,"\r%s %d\n\r", "------- LED_Blink -------------", (int)osKernelSysTick());
               HAL_UART_Transmit_IT (&huart7,(uint8_t*)msgUart7, sizeof(msgUart7));
           }
       }
@@ -583,14 +582,15 @@ void LEDS_1_2_3_TEST_(void const * argument)
   /* USER CODE BEGIN LEDS_1_2_3_TEST_ */
 
   (void)argument;
-  char msgUart7[40];
-  memset(msgUart7,' ',40);
-  sprintf(msgUart7,"%s %d\n\r", "\r------- LEDS_1_2_3_TEST ------", (int)osKernelSysTick());
-  HAL_UART_Transmit_IT (&huart7,(uint8_t*)msgUart7, sizeof(msgUart7));
+  osDelay (20);
+  char msgUart7[50];
+  memset(msgUart7,' ',50);
+  sprintf(msgUart7,"\r%s", "------- StartLEDS_1_2_3_TEST ------\n");
+  HAL_UART_Transmit_IT (&huart7,(uint8_t*)msgUart7, 50);
   uint8_t reset = 1;
   uint32_t tickstart = HAL_GetTick();
   uint32_t timeSet = 1;
-  uint32_t timeReset = 4000;
+  uint32_t timeReset = 3000;
 
   /* Infinite loop */
       for(;;)
@@ -602,7 +602,7 @@ void LEDS_1_2_3_TEST_(void const * argument)
               HAL_GPIO_WritePin(GPIOC, L1_Pin|L2_Pin|L3_Pin, GPIO_PIN_SET);
               reset = 0;
               tickstart = HAL_GetTick();
-              sprintf(msgUart7,"%s %d\r\n", "\r------- LEDS_1_2_3_Blink ------", (int)osKernelSysTick());
+              sprintf(msgUart7,"\r%s %d\n\r", "------- LEDS_1_2_3_Blink ------", (int)osKernelSysTick());
               HAL_UART_Transmit_IT (&huart7,(uint8_t*)msgUart7, sizeof(msgUart7));
           }
       }
@@ -634,13 +634,15 @@ void LEDS_4_5_6_TEST_(void const * argument)
   /* USER CODE BEGIN LEDS_4_5_6_TEST_ */
 
     (void)argument;
+    osDelay (30);
     char msgUart7[50];
-    sprintf(msgUart7,"%s %d\r\n", "\r------- LEDS_4_5_6_TEST ------", (int)osKernelSysTick());
-    HAL_UART_Transmit_IT (&huart7,(uint8_t*)msgUart7, sizeof(msgUart7));
+    memset(msgUart7,' ',50);
+    sprintf(msgUart7,"\r%s", "------- StartLEDS_4_5_6_TEST ------\n");
+    HAL_UART_Transmit_IT (&huart7,(uint8_t*)msgUart7, 50);
     uint8_t reset = 1;
     uint32_t tickstart = HAL_GetTick();
     uint32_t timeSet = 1;
-    uint32_t timeReset = 2000;
+    uint32_t timeReset = 4000;
 
     /* Infinite loop */
     for(;;)
@@ -652,7 +654,7 @@ void LEDS_4_5_6_TEST_(void const * argument)
                 HAL_GPIO_WritePin(GPIOG, L4_Pin|L4_Pin|L6_Pin, GPIO_PIN_SET);
                 reset = 0;
                 tickstart = HAL_GetTick();
-                sprintf(msgUart7,"%s %d\r\n", "\r------- LED 4 5 6 Blink ------", (int)osKernelSysTick());
+                sprintf(msgUart7,"\r%s %d\n\r", "------- LEDS 4 5 6 Blink ------", (int)osKernelSysTick());
                 HAL_UART_Transmit_IT (&huart7,(uint8_t*)msgUart7, sizeof(msgUart7));
             }
         }
@@ -775,7 +777,7 @@ void assert_failed(uint8_t *file, uint32_t line)
 {
   /* USER CODE BEGIN 6 */
   /* User can add his own implementation to report the file name and line number,
-     ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
+     ex: printf("Wrong parameters value: file \r%s on line %d\n\r", file, line) */
   /* USER CODE END 6 */
 }
 #endif /* USE_FULL_ASSERT */
