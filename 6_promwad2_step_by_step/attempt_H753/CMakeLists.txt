@@ -142,6 +142,9 @@ include_directories(EEPROM Middlewares/Third_Party/littlefs)
 file (GLOB EEPROM_SOURCES EEPROM/*.c  EEPROM/*.cpp Middlewares/Third_Party/littlefs/*.c)
 add_library(EEPROM ${EEPROM_SOURCES} )
 
+include_directories(RS232)
+file (GLOB RS232_SOURCES RS232/*.c)
+add_library(RS232 ${RS232_SOURCES} )
 
 add_executable(${PROJECT_NAME}.elf
 #    Drivers/BSP/Components/dp83848/dp83848.c
@@ -182,6 +185,7 @@ target_link_libraries(${PROJECT_NAME}.elf PUBLIC
     LWIP
     Middlewares
     EEPROM
+    RS232
     )
 
 set(HEX_FILE ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.hex)
