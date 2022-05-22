@@ -575,7 +575,6 @@ void Test_Led_Task_(void const * argument)
 void LEDS_1_2_3_TEST_(void const * argument)
 {
   /* USER CODE BEGIN LEDS_1_2_3_TEST_ */
-    RS232Init();
   (void)argument;
   osDelay (20);
   char msgUart7[50];
