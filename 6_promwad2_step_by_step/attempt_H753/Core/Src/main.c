@@ -594,7 +594,7 @@ void LEDS_1_2_3_TEST_(void const * argument)
               reset = 0;
               tickstart = HAL_GetTick();
               sprintf(msgUart7,"\r%s %d\n\r", "------- LEDS_1_2_3_Blink ------", (int)osKernelSysTick());
-              HAL_UART_Transmit_DMA (&huart7,(uint8_t*)msgUart7, sizeof(msgUart7));
+              HAL_UART_Transmit_IT (&huart7,(uint8_t*)msgUart7, sizeof(msgUart7));
           }
       }
       if(reset == 0)
