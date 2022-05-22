@@ -16,17 +16,6 @@ static DMA_HandleTypeDef hdma_uart7_tx;
 
 struct RS232 rs232;
 
-void RS232Init(void)
-{
-//    RS232DevOut(writeByte);
-//    RS232DevIn(readByte);
-
-    /* UART7 DMA Init */
-    huart7.hdmarx = &hdma_uart7_rx;
-    huart7.hdmatx = &hdma_uart7_tx;
-
-}
-
 HAL_StatusTypeDef RS232_write_u(uint8_t *buf, uint16_t size)
 {
     while (HAL_UART_GetState(&huart7) != HAL_UART_STATE_READY);
