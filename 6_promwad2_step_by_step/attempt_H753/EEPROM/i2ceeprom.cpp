@@ -10,42 +10,6 @@ DMA_HandleTypeDef hdma_i2c1_rx,
                   hdma_i2c1_tx;
 
 
-static void I2C1Init(void)
-{
-
-    hi2c1.Instance = I2C1;
-    hi2c1.Init.Timing = 0x307075B1; //Код формирует CUBE
-//    hi2c1.Init.Timing = FAST_MODE_PLUS;
-    hi2c1.Init.OwnAddress1 = 0;
-    hi2c1.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
-    hi2c1.Init.DualAddressMode = I2C_DUALADDRESS_DISABLE;
-    hi2c1.Init.OwnAddress2 = 0;
-    hi2c1.Init.OwnAddress2Masks = I2C_OA2_NOMASK;
-    hi2c1.Init.GeneralCallMode = I2C_GENERALCALL_DISABLE;
-    hi2c1.Init.NoStretchMode = I2C_NOSTRETCH_DISABLE;
-    if (HAL_I2C_Init(&hi2c1) != HAL_OK)
-    {
-        while(1) {
-//            RS232::getInstance().term << "I2C1 Init Error!" << "\n";
-        }
-    }
-    /** Configure Analogue filter
-    */
-    if (HAL_I2CEx_ConfigAnalogFilter(&hi2c1, I2C_ANALOGFILTER_ENABLE) != HAL_OK) {
-        while(1) {
-//            RS232::getInstance().term << "I2C1 Configure Analogue filter Error!" << "\n";
-        }
-    }
-    /** Configure Digital filter
-    */
-    if (HAL_I2CEx_ConfigDigitalFilter(&hi2c1, 0) != HAL_OK) {
-        while(1) {
-//            RS232::getInstance().term << "I2C1 Configure Digital filter Error!" << "\n";
-        }
-    }
-
-}
-
 void simpleEEPROM_test()
 {
     const char wmsg[] = "Some data";
@@ -76,12 +40,10 @@ void simpleEEPROM_test()
         if(memcmp(rmsg, wmsg, sizeof(rmsg)) == 0)
         {
             const char result[] = "Test EEPROM passed!\r";
-//            term(result)
 
         } else
         {
             const char result[] = "Test EEPROM failed :(\r";
-//            term(result)
         }
 }
 
@@ -95,8 +57,7 @@ void simpleEEPROM_test2()
 
         HAL_I2C_Mem_Read(&hi2c1, devAddr, memAddr, I2C_MEMADD_SIZE_16BIT, (uint8_t*)rmsg, sizeof(rmsg), HAL_MAX_DELAY);
 //        HAL_I2C_Mem_Read(&hi2c1, devAddr, memAddr, I2C_MEMADD_SIZE_16BIT, (uint8_t*)rmsg, sizeof(rmsg), 10);
-//        term ("Read Data:")
-//        term (rmsg)
+
 
         HAL_I2C_Mem_Write(&hi2c1, devAddr, memAddr, I2C_MEMADD_SIZE_16BIT, (uint8_t*)wmsg, sizeof(wmsg), HAL_MAX_DELAY);
 //        HAL_I2C_Mem_Write(&hi2c1, devAddr, memAddr, I2C_MEMADD_SIZE_16BIT, (uint8_t*)wmsg, sizeof(wmsg), 10);
@@ -108,24 +69,19 @@ void simpleEEPROM_test2()
         }
 
         HAL_I2C_Mem_Read(&hi2c1, devAddr, memAddr, I2C_MEMADD_SIZE_16BIT, (uint8_t*)rmsg, sizeof(rmsg), HAL_MAX_DELAY);
-//        term ("Read Data2:")
-//        term (rmsg)
 
 }
 
 
 void EEPROM_IO_Init(void)
 {
-//term("EEPROM_IO_Init__begin")
-    I2C1Init();
-//term("EEPROM_IO_Init__sucsess")
+
 
 }
 
 HAL_StatusTypeDef EEPROM_IO_WriteData(uint16_t DevAddress, uint16_t MemAddress, uint8_t *pBuffer, uint32_t BufferSize)
 {
 
-//term("EEPROM_IO_WriteData")
 
     HAL_StatusTypeDef status = I2c1::getInstance()->writeData(DevAddress, MemAddress, pBuffer, BufferSize);
     return status;
