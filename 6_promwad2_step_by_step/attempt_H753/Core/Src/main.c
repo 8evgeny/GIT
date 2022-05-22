@@ -23,7 +23,11 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+
 #include <string.h>
+#include "rs232.h"
+#include "rs232_printf.h"
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -387,7 +391,7 @@ static void MX_DMA_Init(void)
 
   /* DMA interrupt init */
   /* DMA1_Stream1_IRQn interrupt configuration */
-  HAL_NVIC_SetPriority(DMA1_Stream1_IRQn, 0, 0);
+  HAL_NVIC_SetPriority(DMA1_Stream1_IRQn, 5, 0);
   HAL_NVIC_EnableIRQ(DMA1_Stream1_IRQn);
 
 }
@@ -571,7 +575,7 @@ void Test_Led_Task_(void const * argument)
 void LEDS_1_2_3_TEST_(void const * argument)
 {
   /* USER CODE BEGIN LEDS_1_2_3_TEST_ */
-
+    RS232Init();
   (void)argument;
   osDelay (20);
   char msgUart7[50];
@@ -646,7 +650,8 @@ void LEDS_4_5_6_TEST_(void const * argument)
                 reset = 0;
                 tickstart = HAL_GetTick();
                 sprintf(msgUart7,"\r%s %d\n\r", "------- LEDS 4 5 6 Blink ------", (int)osKernelSysTick());
-                HAL_UART_Transmit_IT (&huart7,(uint8_t*)msgUart7, sizeof(msgUart7)-1);
+
+                HAL_UART_Transmit_IT (&huart7,(uint8_t*)msgUart7, sizeof(msgUart7));
             }
         }
         if(reset == 0)

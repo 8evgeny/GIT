@@ -6,7 +6,7 @@
 #ifndef FSFOREEPROM_H
 #define FSFOREEPROM_H
 
-#include <cstdint>
+#include <stdint.h>
 #include "lfs.h"
 class FsForEeprom;
 

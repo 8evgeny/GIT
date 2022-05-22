@@ -21,13 +21,13 @@ struct RS232;
 
 struct RS232
 {
-    enum {
-        OK,
-        DeInitFail,
-        InitFail
-    };
+//    enum {
+//        OK,
+//        DeInitFail,
+//        InitFail
+//    };
 
-    UART_HandleTypeDef *uartHandle;
+//    UART_HandleTypeDef *uartHandle;
 
 //    static constexpr uint32_t sizeCircularBuffer = 512;
 //    CircularBuffer <char, sizeCircularBuffer> ringBuffer;
@@ -42,7 +42,10 @@ struct RS232
 
 };
 
-HAL_StatusTypeDef RS232_write(uint8_t *buf, uint16_t size);
+HAL_StatusTypeDef RS232_write_u(uint8_t *buf, uint16_t size);
+HAL_StatusTypeDef RS232_write_c(char *buf, uint16_t size);
+HAL_StatusTypeDef RS232_read_u(uint8_t *buf, uint16_t size);
+HAL_StatusTypeDef RS232_read_c(char *buf, uint16_t size);
 
 
 void readFromUartThread(void const *arg);

@@ -138,9 +138,9 @@ add_library(Middlewares
     ${Third_Party_SRC}
     )
 
-include_directories(EEPROM Middlewares/Third_Party/littlefs)
-file (GLOB EEPROM_SOURCES EEPROM/*.c  EEPROM/*.cpp Middlewares/Third_Party/littlefs/*.c)
-add_library(EEPROM ${EEPROM_SOURCES} )
+#include_directories(EEPROM Middlewares/Third_Party/littlefs)
+#file (GLOB EEPROM_SOURCES EEPROM/*.c  EEPROM/*.cpp Middlewares/Third_Party/littlefs/*.c)
+#add_library(EEPROM ${EEPROM_SOURCES} )
 
 include_directories(RS232)
 file (GLOB RS232_SOURCES RS232/*.c)
@@ -184,7 +184,7 @@ target_link_libraries(${PROJECT_NAME}.elf PUBLIC
     STM32H7xx_HAL_Driver
     LWIP
     Middlewares
-    EEPROM
+#    EEPROM
     RS232
     )
 
