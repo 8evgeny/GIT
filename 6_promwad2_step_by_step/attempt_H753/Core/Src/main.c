@@ -44,8 +44,6 @@
 
 SAI_HandleTypeDef hsai_BlockA1;
 SAI_HandleTypeDef hsai_BlockB1;
-DMA_HandleTypeDef hdma_sai1_a;
-DMA_HandleTypeDef hdma_sai1_b;
 
 UART_HandleTypeDef huart7;
 DMA_HandleTypeDef hdma_uart7_tx;
@@ -388,12 +386,6 @@ static void MX_DMA_Init(void)
   __HAL_RCC_DMA1_CLK_ENABLE();
 
   /* DMA interrupt init */
-  /* DMA1_Stream0_IRQn interrupt configuration */
-  HAL_NVIC_SetPriority(DMA1_Stream0_IRQn, 5, 0);
-  HAL_NVIC_EnableIRQ(DMA1_Stream0_IRQn);
-  /* DMA1_Stream1_IRQn interrupt configuration */
-  HAL_NVIC_SetPriority(DMA1_Stream1_IRQn, 5, 0);
-  HAL_NVIC_EnableIRQ(DMA1_Stream1_IRQn);
   /* DMA1_Stream2_IRQn interrupt configuration */
   HAL_NVIC_SetPriority(DMA1_Stream2_IRQn, 5, 0);
   HAL_NVIC_EnableIRQ(DMA1_Stream2_IRQn);
@@ -602,7 +594,7 @@ void LEDS_1_2_3_TEST_(void const * argument)
               reset = 0;
               tickstart = HAL_GetTick();
               sprintf(msgUart7,"\r%s %d\n\r", "------- LEDS_1_2_3_Blink ------", (int)osKernelSysTick());
-              HAL_UART_Transmit_IT (&huart7,(uint8_t*)msgUart7, sizeof(msgUart7)-1);
+              HAL_UART_Transmit_DMA (&huart7,(uint8_t*)msgUart7, sizeof(msgUart7)-1);
           }
       }
       if(reset == 0)
