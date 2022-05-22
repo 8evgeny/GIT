@@ -10,6 +10,17 @@ set(CMAKE_OBJCOPY ${TOOLS_PATH}/bin/arm-none-eabi-objcopy)
 
 project(PW_new_iteration C CXX ASM)
 
+add_definitions(-DSTM32H753xx)
+#add_definitions(-DUSE_HAL_DRIVER)
+#add_definitions(-D__weak=__attribute__\(\(weak\)\))
+#add_definitions(-D__packed=__attribute__\(\(__packed__\)\))
+#add_definitions(-D__FPU_PRESENT=1)
+#add_definitions(-DARM_MATH_CM7)
+#add_definitions(-DHAVE_CONFIG_H)
+#add_definitions(-D__DCACHE_PRESENT)
+#add_definitions(-D__ICACHE_PRESENT)
+#add_definitions(-DSC2BOARD)
+
 #set(CMAKE_BUILD_TYPE debug)
 #set(CMAKE_BUILD_TYPE release)
 
@@ -127,6 +138,11 @@ add_library(Middlewares
     ${Third_Party_SRC}
     )
 
+include_directories(EEPROM Middlewares/Third_Party/littlefs)
+file (GLOB EEPROM_SOURCES EEPROM/*.c  EEPROM/*.cpp Middlewares/Third_Party/littlefs/*.c)
+add_library(EEPROM ${EEPROM_SOURCES} )
+
+
 add_executable(${PROJECT_NAME}.elf
 #    Drivers/BSP/Components/dp83848/dp83848.c
 #    Drivers/BSP/Components/lan8742/lan8742.c
@@ -134,7 +150,7 @@ Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.c
     ${SOURCES_C}
     )
 
-set_target_properties(${PROJECT_NAME}.elf PROPERTIES LINKER_LANGUAGE C)
+set_target_properties(${PROJECT_NAME}.elf PROPERTIES LINKER_LANGUAGE CXX)
 
 set(LINKER_SCRIPT_FLASH "${CMAKE_SOURCE_DIR}/STM32H753IITX_FLASH.ld")
 set(LINKER_SCRIPT_RAM "${CMAKE_SOURCE_DIR}/STM32H753IITX_RAM.ld")
@@ -165,6 +181,7 @@ target_link_libraries(${PROJECT_NAME}.elf PUBLIC
     STM32H7xx_HAL_Driver
     LWIP
     Middlewares
+    EEPROM
     )
 
 set(HEX_FILE ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.hex)
