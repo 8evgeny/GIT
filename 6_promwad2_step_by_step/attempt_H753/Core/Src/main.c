@@ -499,7 +499,7 @@ void StartDefaultTask(void const * argument)
   char msgUart7[50];
   memset(msgUart7,' ',50);
   sprintf(msgUart7,"\r%s \n", "------- StartDefaultTask ------");
-  HAL_UART_Transmit_IT (&huart7,(uint8_t*)msgUart7, sizeof (msgUart7)-1);
+  HAL_UART_Transmit_IT (&huart7,(uint8_t*)msgUart7, sizeof (msgUart7));
   /* Infinite loop */
   for(;;)
   {
@@ -524,7 +524,7 @@ void Test_Led_Task_(void const * argument)
     char msgUart7[50];
     memset(msgUart7,' ',50);
     sprintf(msgUart7,"\r%s", "------- StartTest_Led_Task ------\n");
-    HAL_UART_Transmit_IT (&huart7,(uint8_t*)msgUart7, sizeof (msgUart7)-1);
+    HAL_UART_Transmit_IT (&huart7,(uint8_t*)msgUart7, sizeof (msgUart7));
     uint8_t reset = 1;
     uint32_t tickstart = HAL_GetTick();
     uint32_t timeSet = 1;
@@ -577,7 +577,7 @@ void LEDS_1_2_3_TEST_(void const * argument)
   char msgUart7[50];
   memset(msgUart7,' ',50);
   sprintf(msgUart7,"\r%s", "------- StartLEDS_1_2_3_TEST ------\n");
-  HAL_UART_Transmit_IT (&huart7,(uint8_t*)msgUart7, sizeof (msgUart7)-1);
+  HAL_UART_Transmit_IT (&huart7,(uint8_t*)msgUart7, sizeof (msgUart7));
   uint8_t reset = 1;
   uint32_t tickstart = HAL_GetTick();
   uint32_t timeSet = 1;
@@ -594,7 +594,7 @@ void LEDS_1_2_3_TEST_(void const * argument)
               reset = 0;
               tickstart = HAL_GetTick();
               sprintf(msgUart7,"\r%s %d\n\r", "------- LEDS_1_2_3_Blink ------", (int)osKernelSysTick());
-              HAL_UART_Transmit_DMA (&huart7,(uint8_t*)msgUart7, sizeof(msgUart7)-1);
+              HAL_UART_Transmit_DMA (&huart7,(uint8_t*)msgUart7, sizeof(msgUart7));
           }
       }
       if(reset == 0)
@@ -629,7 +629,7 @@ void LEDS_4_5_6_TEST_(void const * argument)
     char msgUart7[50];
     memset(msgUart7,' ',50);
     sprintf(msgUart7,"\r%s", "------- StartLEDS_4_5_6_TEST ------\n");
-    HAL_UART_Transmit_IT (&huart7,(uint8_t*)msgUart7, sizeof (msgUart7)-1);
+    HAL_UART_Transmit_IT (&huart7,(uint8_t*)msgUart7, sizeof (msgUart7));
     uint8_t reset = 1;
     uint32_t tickstart = HAL_GetTick();
     uint32_t timeSet = 1;
