@@ -149,12 +149,13 @@ add_library(RS232 ${RS232_SOURCES} )
 add_executable(${PROJECT_NAME}.elf
 #    Drivers/BSP/Components/dp83848/dp83848.c
 #    Drivers/BSP/Components/lan8742/lan8742.c
-EEPROM/i2ceeprom.c
+#EEPROM/i2ceeprom.c
+#EEPROM/fsforeeprom.c
 Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.c
     ${SOURCES_C}
     )
 
-set_target_properties(${PROJECT_NAME}.elf PROPERTIES LINKER_LANGUAGE CXX)
+set_target_properties(${PROJECT_NAME}.elf PROPERTIES LINKER_LANGUAGE C)
 
 set(LINKER_SCRIPT_FLASH "${CMAKE_SOURCE_DIR}/STM32H753IITX_FLASH.ld")
 set(LINKER_SCRIPT_RAM "${CMAKE_SOURCE_DIR}/STM32H753IITX_RAM.ld")
@@ -185,7 +186,7 @@ target_link_libraries(${PROJECT_NAME}.elf PUBLIC
     STM32H7xx_HAL_Driver
     LWIP
     Middlewares
-#    EEPROM
+    EEPROM
     RS232
     )
 

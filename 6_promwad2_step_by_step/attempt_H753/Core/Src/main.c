@@ -28,6 +28,7 @@
 #include "rs232.h"
 #include "rs232_printf.h"
 #include "i2ceeprom.h"
+#include "fsforeeprom.h"
 
 /* USER CODE END Includes */
 
@@ -761,7 +762,8 @@ void EEPROM_Tests_(void const * argument)
     simpleEEPROM_test();
     osDelay(100);
     simpleEEPROM_test2();
-
+//    littleFsInit();
+//    FS_test();
   /* Infinite loop */
   for(;;)
   {

@@ -16,7 +16,7 @@ void littleFsInit(void);
 uint32_t Fs_init(void);
 uint32_t Fs_read(uint8_t *pBuffer, uint16_t readAddr, uint16_t *numByteToRead);
 uint32_t Fs_write(uint8_t *pBuffer, uint16_t writeAddr, uint16_t numByteToWrite);
-void Fs_test();
+void FS_test();
 
 
 #endif // FSFOREEPROM_H

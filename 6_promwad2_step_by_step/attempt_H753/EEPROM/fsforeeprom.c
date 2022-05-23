@@ -2,7 +2,7 @@
 #include "eeprom.h"
 
 #include <string.h>
-
+extern UART_HandleTypeDef huart7;
 // variables used by the filesystem
 lfs_t lfs;
 lfs_file_t file;
@@ -24,8 +24,9 @@ int user_provided_block_device_read(const struct lfs_config *c,
                                     lfs_block_t block, lfs_off_t off,
                                     void *buffer, lfs_size_t size)
 {
+    char msgUart7[] = "user_provided_block_device_read\r\n";
+    HAL_UART_Transmit_IT (&huart7,(uint8_t*)msgUart7, sizeof (msgUart7));
     uint32_t addr = (uint32_t)(block * c->block_size + off);
-    //Изменил 4 * и вернул
     uint16_t NumByteToRead = (uint16_t)size;
     uint8_t *buffer_data = (uint8_t *)buffer;
     return BSP_EEPROM_ReadBuffer(buffer_data, addr, &NumByteToRead);
@@ -35,6 +36,8 @@ int user_provided_block_device_prog(const struct lfs_config *c,
                                     lfs_block_t block, lfs_off_t off,
                                     const void *buffer, lfs_size_t size)
 {
+    char msgUart7[] = "user_provided_block_device_prog\r\n";
+    HAL_UART_Transmit_IT (&huart7,(uint8_t*)msgUart7, sizeof (msgUart7));
     uint32_t addr = (uint32_t)(block * c->block_size + off);
     uint8_t *buffer_data = (uint8_t *)buffer;
     //Изменил 4 * и вернул
@@ -44,10 +47,11 @@ int user_provided_block_device_prog(const struct lfs_config *c,
 int user_provided_block_device_erase(const struct lfs_config *c,
                                      lfs_block_t block)
 {
-    //Изменил 4 * и вернул
+    char msgUart7[] = "user_provided_block_device_erase\r\n";
+    HAL_UART_Transmit_IT (&huart7,(uint8_t*)msgUart7, sizeof (msgUart7));
     uint32_t addr = (uint32_t)( block * c->block_size);
-//    std::memset((void *)littlefs_mem[addr], c->block_size, 0);
-//    for (int i = 0; i < c->block_size; i++) littlefs_mem[addr + i] = 0;
+    memset((void *)littlefs_mem[addr], c->block_size, 0);
+    for (int i = 0; i < c->block_size; i++) littlefs_mem[addr + i] = 0;
     return 0;
 }
 
@@ -60,6 +64,8 @@ void littleFsInit()
 {
 // release any resources we were using
     lfs_unmount(&lfs);
+    const char str[] = "---- lfs_unmount ---- \n\r";
+    HAL_UART_Transmit (&huart7,(uint8_t*)str, sizeof (str), 1000);
 
 // example littlefs
     cfg.read = user_provided_block_device_read;
@@ -82,13 +88,18 @@ void littleFsInit()
 // mount the filesystem
 
     int err = lfs_mount(&lfs, &cfg);
-
+    const char str2[] = "---- lfs_mount ---- \n\r";
+    HAL_UART_Transmit (&huart7,(uint8_t*)str2, sizeof (str2), 1000);
 // reformat if we can't mount the filesystem
 // this should only happen on the first boot
     if (err) {
 
         lfs_format(&lfs, &cfg);
+        const char str[] = "---- lfs_format ---- \n\r";
+        HAL_UART_Transmit (&huart7,(uint8_t*)str, sizeof (str), 1000);
         lfs_mount(&lfs, &cfg);
+        const char str2[] = "---- lfs_mount ---- \n\r";
+        HAL_UART_Transmit (&huart7,(uint8_t*)str2, sizeof (str2), 1000);
     }
 
 }
