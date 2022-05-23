@@ -1,12 +1,11 @@
 #pragma once
 #include "main.h"
-#include "inputSig.h"
 #include <memory>
 
 class Milandr
 {
 public:
-    Milandr(std::shared_ptr<InputSig>);
+    Milandr();
     ~Milandr();
 
     void initGPIO();
@@ -15,6 +14,5 @@ public:
 
 private:
 
-    std::shared_ptr<InputSig> _inp;
 
 };

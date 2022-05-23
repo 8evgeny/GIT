@@ -2,9 +2,8 @@
 #include "milandr.h"
 
 
-Milandr::Milandr(std::shared_ptr<InputSig> inp)
+Milandr::Milandr()
 {
-    _inp = inp;
     initGPIO();
     initUART();
 

@@ -1,46 +1,40 @@
 #include "main.h"
 #include "milandr.h"
-#include "inputSig.h"
 #include "outputSig.h"
 #include <memory>
+#include <vector>
 
 int main (void)
 {
-    auto inp = std::shared_ptr<InputSig>(new InputSig());
-    auto mil = std::shared_ptr<Milandr>(new Milandr(inp));
+    auto mil = std::shared_ptr<Milandr>(new Milandr());
     auto out = std::shared_ptr<OutputSig>(new OutputSig(mil));
 
-    static uint8_t ReciveByte=0x00; //данные для приема
-    char temp;
-    char ReplayToCmdFromStm = 0x00;
-    bool sendReplayToCmdFromStm = false;
+    std::vector<uint8_t> receiveData(7);
 
     while (1)
     {
-        while (UART_GetFlagStatus (MDR_UART1, UART_FLAG_RXFE) == SET);  //ждем пока не не установиться флаг по приему байта
-        ReciveByte = UART_ReceiveData(MDR_UART1);                       //считываем принятый байт
-        temp = inp->checkReceivedByte(ReciveByte);
-
-        if (temp != 0x00)// от STM поступила команда
+        for (int i = 0; i <7; ++i)
         {
-            ReplayToCmdFromStm = temp;  //Ответ на команду
-            sendReplayToCmdFromStm = false;
+            while (UART_GetFlagStatus (MDR_UART1, UART_FLAG_RXFE) == SET) //Если буфер FIFO запрещен, бит устанавливается в 1, когда буферный регистр приемника пуст
+            {
+                //Тут сделать проверку времени ожидания
+            }
+            receiveData.push_back (UART_ReceiveData(MDR_UART1));
+            if((i == 0) && (receiveData.at(0) != 0xFF))
+        {
+            receiveData.clear ();
+            break;
+        }
+        }
+
+        if (receiveData.size () == 7) //Принята команда
+        {
+
 
         }
 
-        if (temp == 0x00)// от STM поступила пустая команда
-        {
 
 
-        }//end if
-
-
-        if (!sendReplayToCmdFromStm)//Отправка ответа на команду Stm
-        {
-            UART_SendData(MDR_UART1, ReplayToCmdFromStm);
-            while (UART_GetFlagStatus (MDR_UART1, UART_FLAG_TXFE) != SET);
-            sendReplayToCmdFromStm = true;
-        }
 
 
     }//end while (1)
