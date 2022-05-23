@@ -149,6 +149,7 @@ add_library(RS232 ${RS232_SOURCES} )
 add_executable(${PROJECT_NAME}.elf
 #    Drivers/BSP/Components/dp83848/dp83848.c
 #    Drivers/BSP/Components/lan8742/lan8742.c
+EEPROM/i2ceeprom.c
 Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.c
     ${SOURCES_C}
     )

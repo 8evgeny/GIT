@@ -27,6 +27,7 @@
 #include <string.h>
 #include "rs232.h"
 #include "rs232_printf.h"
+#include "i2ceeprom.h"
 
 /* USER CODE END Includes */
 
@@ -143,6 +144,8 @@ int main(void)
     char msgUart7[35];
     sprintf(msgUart7,"\r%s %d\n\r", "------- StartDefaultTask ------", (int)osKernelSysTick());
     HAL_UART_Transmit_IT (&huart7,(uint8_t*)msgUart7, sizeof(msgUart7));
+
+    simpleEEPROM_test();
 
   /* USER CODE END 2 */
 

@@ -17,10 +17,6 @@
  \class Eeprom_i2c i2c.h "i2c.h"
 */
 
-    uint32_t timeOutMax = 300;
-    FlagStatus i2cReadReady = RESET ;
-    FlagStatus i2cWriteReady = RESET ;
-
 HAL_StatusTypeDef i2c1_readData(uint16_t DevAddress, uint16_t MemAddress, uint8_t *pData, uint16_t Size);
 
 HAL_StatusTypeDef i2c1_writeData(uint16_t DevAddress, uint16_t MemAddress, uint8_t *pData, uint16_t Size);

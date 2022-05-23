@@ -1,9 +1,15 @@
 #include "i2ceeprom.h"
 #include <string.h>
 
+extern UART_HandleTypeDef huart7;
 extern I2C_HandleTypeDef hi2c1;
 DMA_HandleTypeDef hdma_i2c1_rx,
                   hdma_i2c1_tx;
+
+uint32_t timeOutMax = 300;
+FlagStatus i2cReadReady = RESET ;
+FlagStatus i2cWriteReady = RESET ;
+
 
 void simpleEEPROM_test()
 {
@@ -34,12 +40,15 @@ void simpleEEPROM_test()
 
         if(memcmp(rmsg, wmsg, sizeof(rmsg)) == 0)
         {
-            const char result[] = "Test EEPROM passed!\r";
+            const char result[] = "\n\r##### Test EEPROM passed! #####\r\n";
+            HAL_UART_Transmit_IT (&huart7,(uint8_t*)result, sizeof (result));
 
         } else
         {
-            const char result[] = "Test EEPROM failed :(\r";
+            const char result[] = "\n\r##### Test EEPROM failed :( #####\r\n";
+            HAL_UART_Transmit_IT (&huart7,(uint8_t*)result, sizeof (result));
         }
+        HAL_Delay(10);
 }
 
 void simpleEEPROM_test2()
