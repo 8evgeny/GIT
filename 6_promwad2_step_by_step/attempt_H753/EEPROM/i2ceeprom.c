@@ -40,7 +40,7 @@ void simpleEEPROM_test()
 
         if(memcmp(rmsg, wmsg, sizeof(rmsg)) == 0)
         {
-            const char result[] = "\n\r##### Test EEPROM passed! #####\r\n";
+            const char result[] = "\n\r##### Test EEPROM passed! #####\r\n\n";
             HAL_UART_Transmit_IT (&huart7,(uint8_t*)result, sizeof (result));
 
         } else
@@ -73,7 +73,10 @@ void simpleEEPROM_test2()
         }
 
         HAL_I2C_Mem_Read(&hi2c1, devAddr, memAddr, I2C_MEMADD_SIZE_16BIT, (uint8_t*)rmsg, sizeof(rmsg), HAL_MAX_DELAY);
-
+        const char result[] = "\n\r---Read Data: --- ";
+        HAL_UART_Transmit (&huart7,(uint8_t*)result, sizeof (result), 1000);
+        HAL_UART_Transmit (&huart7,(uint8_t*)rmsg, 10, 1000);
+        HAL_UART_Transmit (&huart7,(uint8_t*)" --- \n\r", sizeof (rmsg), 1000);
 }
 
 void EEPROM_IO_Init(void)
@@ -107,8 +110,8 @@ HAL_StatusTypeDef I2c1_writeData(uint16_t DevAddress, uint16_t MemAddress, uint8
 {
     while (HAL_I2C_GetState(&hi2c1) != HAL_I2C_STATE_READY);
 
-//    HAL_StatusTypeDef status = HAL_I2C_Mem_Write_IT(i2c1Handle, DevAddress, MemAddress, I2C_MEMADD_SIZE_16BIT, pData, Size); //Выпилил
-    HAL_StatusTypeDef status = HAL_I2C_Mem_Write(&hi2c1, DevAddress, MemAddress, I2C_MEMADD_SIZE_16BIT, pData, Size, HAL_MAX_DELAY);
+    HAL_StatusTypeDef status = HAL_I2C_Mem_Write_IT(&hi2c1, DevAddress, MemAddress, I2C_MEMADD_SIZE_16BIT, pData, Size); //Выпилил
+//    HAL_StatusTypeDef status = HAL_I2C_Mem_Write(&hi2c1, DevAddress, MemAddress, I2C_MEMADD_SIZE_16BIT, pData, Size, HAL_MAX_DELAY);
     for(;;)
     { // wait...
         status = HAL_I2C_IsDeviceReady(&hi2c1, DevAddress, 1, HAL_MAX_DELAY);
@@ -127,8 +130,8 @@ HAL_StatusTypeDef I2c1_readData(uint16_t DevAddress, uint16_t MemAddress, uint8_
     while (HAL_I2C_GetState(&hi2c1) != HAL_I2C_STATE_READY)
         HAL_Delay(10);
 
-//    HAL_StatusTypeDef status = HAL_I2C_Mem_Read_IT(i2c1Handle, DevAddress, MemAddress, I2C_MEMADD_SIZE_16BIT, pData, Size); //Выпилил
-    HAL_StatusTypeDef status = HAL_I2C_Mem_Read(&hi2c1, DevAddress, MemAddress, I2C_MEMADD_SIZE_16BIT, pData, Size, HAL_MAX_DELAY);
+    HAL_StatusTypeDef status = HAL_I2C_Mem_Read_IT(&hi2c1, DevAddress, MemAddress, I2C_MEMADD_SIZE_16BIT, pData, Size); //Выпилил
+//    HAL_StatusTypeDef status = HAL_I2C_Mem_Read(&hi2c1, DevAddress, MemAddress, I2C_MEMADD_SIZE_16BIT, pData, Size, HAL_MAX_DELAY);
 
 //    while(i2cReadReady != SET); //Выпилил
 //    i2cReadReady = RESET;

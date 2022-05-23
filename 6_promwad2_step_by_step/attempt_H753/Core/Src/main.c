@@ -68,6 +68,9 @@ osStaticThreadDef_t LEDS_4_5_6_TESTControlBlock;
 osThreadId KEYS_TEST_TASKHandle;
 uint32_t KEYS_TEST_TASKBuffer[ 256 ];
 osStaticThreadDef_t KEYS_TEST_TASKControlBlock;
+osThreadId EEPROM_TestsHandle;
+uint32_t EEPROM_TestsBuffer[ 512 ];
+osStaticThreadDef_t EEPROM_TestsControlBlock;
 /* USER CODE BEGIN PV */
 
 /* USER CODE END PV */
@@ -86,6 +89,7 @@ void Test_Led_Task_(void const * argument);
 void LEDS_1_2_3_TEST_(void const * argument);
 void LEDS_4_5_6_TEST_(void const * argument);
 void KEYS_TEST_TASK_(void const * argument);
+void EEPROM_Tests_(void const * argument);
 
 /* USER CODE BEGIN PFP */
 
@@ -141,11 +145,7 @@ int main(void)
   MX_SAI1_Init();
   MX_I2C1_Init();
   /* USER CODE BEGIN 2 */
-    char msgUart7[35];
-    sprintf(msgUart7,"\r%s %d\n\r", "------- StartDefaultTask ------", (int)osKernelSysTick());
-    HAL_UART_Transmit_IT (&huart7,(uint8_t*)msgUart7, sizeof(msgUart7));
 
-    simpleEEPROM_test();
 
   /* USER CODE END 2 */
 
@@ -185,6 +185,10 @@ int main(void)
   /* definition and creation of KEYS_TEST_TASK */
   osThreadStaticDef(KEYS_TEST_TASK, KEYS_TEST_TASK_, osPriorityIdle, 0, 256, KEYS_TEST_TASKBuffer, &KEYS_TEST_TASKControlBlock);
   KEYS_TEST_TASKHandle = osThreadCreate(osThread(KEYS_TEST_TASK), NULL);
+
+  /* definition and creation of EEPROM_Tests */
+  osThreadStaticDef(EEPROM_Tests, EEPROM_Tests_, osPriorityIdle, 0, 512, EEPROM_TestsBuffer, &EEPROM_TestsControlBlock);
+  EEPROM_TestsHandle = osThreadCreate(osThread(EEPROM_Tests), NULL);
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
@@ -553,9 +557,7 @@ void StartDefaultTask(void const * argument)
   /* init code for LWIP */
   MX_LWIP_Init();
   /* USER CODE BEGIN 5 */
-  char msgUart7[50];
-  memset(msgUart7,' ',50);
-  sprintf(msgUart7,"\r%s \n", "------- StartDefaultTask ------");
+  char msgUart7[] = "\r------- StartDefaultTask ----------\n\r";
   HAL_UART_Transmit_IT (&huart7,(uint8_t*)msgUart7, sizeof (msgUart7));
   /* Infinite loop */
   for(;;)
@@ -578,9 +580,7 @@ void Test_Led_Task_(void const * argument)
 
     (void)argument;
     osDelay (10);
-    char msgUart7[50];
-    memset(msgUart7,' ',50);
-    sprintf(msgUart7,"\r%s", "------- StartTest_Led_Task ------\n");
+    char msgUart7[] = "\r------- StartTest_Led_Task --------\n\r";
     HAL_UART_Transmit_IT (&huart7,(uint8_t*)msgUart7, sizeof (msgUart7));
     uint8_t reset = 1;
     uint32_t tickstart = HAL_GetTick();
@@ -598,7 +598,7 @@ void Test_Led_Task_(void const * argument)
               reset = 0;
               tickstart = HAL_GetTick();
               sprintf(msgUart7,"\r%s %d\n\r", "------- LED_Blink -------------", (int)osKernelSysTick());
-              HAL_UART_Transmit_IT (&huart7,(uint8_t*)msgUart7, sizeof(msgUart7));
+//              HAL_UART_Transmit_IT (&huart7,(uint8_t*)msgUart7, sizeof(msgUart7));
           }
       }
       if(reset == 0)
@@ -632,7 +632,7 @@ void LEDS_1_2_3_TEST_(void const * argument)
   osDelay (20);
   char msgUart7[50];
   memset(msgUart7,' ',50);
-  sprintf(msgUart7,"\r%s", "------- StartLEDS_1_2_3_TEST ------\n");
+  sprintf(msgUart7,"\r%s", "------- StartLEDS_1_2_3_TEST ------\n\r");
   HAL_UART_Transmit_IT (&huart7,(uint8_t*)msgUart7, sizeof (msgUart7));
   uint8_t reset = 1;
   uint32_t tickstart = HAL_GetTick();
@@ -650,7 +650,7 @@ void LEDS_1_2_3_TEST_(void const * argument)
               reset = 0;
               tickstart = HAL_GetTick();
               sprintf(msgUart7,"\r%s %d\n\r", "------- LEDS_1_2_3_Blink ------", (int)osKernelSysTick());
-              HAL_UART_Transmit_IT (&huart7,(uint8_t*)msgUart7, sizeof(msgUart7));
+//              HAL_UART_Transmit_IT (&huart7,(uint8_t*)msgUart7, sizeof(msgUart7));
           }
       }
       if(reset == 0)
@@ -684,7 +684,7 @@ void LEDS_4_5_6_TEST_(void const * argument)
     osDelay (30);
     char msgUart7[50];
     memset(msgUart7,' ',50);
-    sprintf(msgUart7,"\r%s", "------- StartLEDS_4_5_6_TEST ------\n");
+    sprintf(msgUart7,"\r%s", "------- StartLEDS_4_5_6_TEST ------\n\r");
     HAL_UART_Transmit_IT (&huart7,(uint8_t*)msgUart7, sizeof (msgUart7));
     uint8_t reset = 1;
     uint32_t tickstart = HAL_GetTick();
@@ -702,8 +702,7 @@ void LEDS_4_5_6_TEST_(void const * argument)
                 reset = 0;
                 tickstart = HAL_GetTick();
                 sprintf(msgUart7,"\r%s %d\n\r", "------- LEDS 4 5 6 Blink ------", (int)osKernelSysTick());
-
-                HAL_UART_Transmit_IT (&huart7,(uint8_t*)msgUart7, sizeof(msgUart7));
+//                HAL_UART_Transmit_IT (&huart7,(uint8_t*)msgUart7, sizeof(msgUart7));
             }
         }
         if(reset == 0)
@@ -738,6 +737,29 @@ void KEYS_TEST_TASK_(void const * argument)
     osDelay(1);
   }
   /* USER CODE END KEYS_TEST_TASK_ */
+}
+
+/* USER CODE BEGIN Header_EEPROM_Tests_ */
+/**
+* @brief Function implementing the EEPROM_Tests thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_EEPROM_Tests_ */
+void EEPROM_Tests_(void const * argument)
+{
+  /* USER CODE BEGIN EEPROM_Tests_ */
+
+    simpleEEPROM_test();
+//    osDelay(100);
+//    simpleEEPROM_test2();
+
+  /* Infinite loop */
+  for(;;)
+  {
+    osDelay(1);
+  }
+  /* USER CODE END EEPROM_Tests_ */
 }
 
 /* MPU Configuration */
