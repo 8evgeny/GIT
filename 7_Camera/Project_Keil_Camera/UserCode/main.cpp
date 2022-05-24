@@ -11,24 +11,15 @@ int main (void)
 
     std::vector<uint8_t> receiveData(7);
 
-    RST_CLK_PCLKcmd(RST_CLK_PCLK_PORTB, ENABLE);
-
-    PORTB_Init.PORT_Pin = PORT_Pin_10 ;
-    PORTB_Init.PORT_OE = PORT_OE_OUT;           // Конфигурация группы выводов как выход
-    PORTB_Init.PORT_FUNC = PORT_FUNC_PORT;      // Работа а режиме порта ввода-вывода
-    PORTB_Init.PORT_MODE = PORT_MODE_DIGITAL;   // Цифровой режим
-    PORTB_Init.PORT_SPEED = PORT_SPEED_SLOW;    // Низкая частота тактования порта
-    PORT_Init(MDR_PORTB, &PORTB_Init);          // Инициализация порта C объявленной структурой
-
 
     while (1)
     {
 
-        PORT_SetBits(MDR_PORTB, PORT_Pin_10);
-        delay(0xFFFF);                         // Задержка
-
         PORT_ResetBits(MDR_PORTB, PORT_Pin_10);
-        delay(0xFFFF);
+        delay(0xFFFFF);                         // Задержка
+
+        PORT_SetBits(MDR_PORTB, PORT_Pin_10);
+        delay(0xFFFFF);
 
 
 

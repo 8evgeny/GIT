@@ -8,8 +8,7 @@ public:
     Milandr();
     ~Milandr();
 
-    void initGPIO();
-    void initUART();
+    void init();
 
 
 private:

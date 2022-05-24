@@ -18,9 +18,9 @@ bool OutputSig::getMoveOn() const
 
 void OutputSig::setMoveOn(bool newMoveOn)
 {
-    _moveOn = newMoveOn;
-    if(newMoveOn) PORT_SetBits(MDR_PORTB, PORT_Pin_10);
-    if(!newMoveOn) PORT_ResetBits(MDR_PORTB, PORT_Pin_10);
+//    _moveOn = newMoveOn;
+//    if(newMoveOn) PORT_SetBits(MDR_PORTB, PORT_Pin_10);
+//    if(!newMoveOn) PORT_ResetBits(MDR_PORTB, PORT_Pin_10);
 }
 
 
