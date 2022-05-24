@@ -11,7 +11,10 @@ public:
 
     bool getOVERHEAT_MC() const;
 
-private:
+    bool getMoveOn() const;
+    void setMoveOn(bool newMoveOn);
 
+private:
+    bool _moveOn;
     std::shared_ptr<Milandr> milandr;
 };

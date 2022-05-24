@@ -29,8 +29,7 @@ int main (void)
 
         if (receiveData.size () == 7) //Принята команда
         {
-
-
+            out->setMoveOn(true);
         }
 
 
