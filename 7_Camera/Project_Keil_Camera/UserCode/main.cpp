@@ -18,10 +18,7 @@ int main (void)
     PORTB_Init.PORT_FUNC = PORT_FUNC_PORT;      // Работа а режиме порта ввода-вывода
     PORTB_Init.PORT_MODE = PORT_MODE_DIGITAL;   // Цифровой режим
     PORTB_Init.PORT_SPEED = PORT_SPEED_SLOW;    // Низкая частота тактования порта
-    PORT_Init(MDR_PORTC, &PORTB_Init);          // Инициализация порта C объявленной структурой
-
-
-
+    PORT_Init(MDR_PORTB, &PORTB_Init);          // Инициализация порта C объявленной структурой
 
 
     while (1)
