@@ -13,7 +13,7 @@ int main (void)
 
     std::vector<uint8_t> receiveData(7);
 
-    PORT_SetBits(MDR_PORTB, PORT_Pin_9);
+    PORT_ResetBits(MDR_PORTB, PORT_Pin_9);
     while (1)
     {
 //        PORT_SetBits(MDR_PORTB, PORT_Pin_9);
@@ -43,7 +43,7 @@ int main (void)
 
         if (receiveData.size () != 0) //Принята команда
         {
-            PORT_ResetBits(MDR_PORTB, PORT_Pin_9);
+            PORT_SetBits(MDR_PORTB, PORT_Pin_9);
 //            out->setMoveOn(false);
         }
 
