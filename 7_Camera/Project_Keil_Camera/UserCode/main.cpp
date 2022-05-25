@@ -19,14 +19,13 @@ int main (void)
     {
         PORT_SetBits(MDR_PORTB, PORT_Pin_8); //53 pin
         delay(0x3FFFF);
-
         PORT_ResetBits(MDR_PORTB, PORT_Pin_8);
         delay(0x3FFFF);
 
 //        while (UART_GetFlagStatus (MDR_UART1, UART_FLAG_RXFE) == SET);
 //        PORT_SetBits(MDR_PORTB, PORT_Pin_9); //54 pin
 
-        for (int i = 0; i <7; ++i)
+        for (int i = 0; i < 7; ++i)
         {
             while (UART_GetFlagStatus (MDR_UART1, UART_FLAG_RXFE) == SET) //Если буфер FIFO запрещен, бит устанавливается в 1, когда буферный регистр приемника пуст
             {
@@ -42,7 +41,7 @@ int main (void)
 //        }
         }
 
-        if (receiveData.size () != 0) //Принята команда
+        if (receiveData.size () == 7) //Принята команда
         {
             PORT_SetBits(MDR_PORTB, PORT_Pin_9);
             delay(0x3FFFF);
@@ -50,7 +49,7 @@ int main (void)
             delay(0x3FFFF);
 //            out->setMoveOn(false);
         }
-
+        receiveData.clear();
 
     }
 }
