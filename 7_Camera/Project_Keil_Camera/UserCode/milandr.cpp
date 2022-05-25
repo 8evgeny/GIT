@@ -60,7 +60,7 @@ void Milandr::init()
     PORT_Init(MDR_PORTB, &PORTB_Init);
 
     //выход
-    PORTB_Init.PORT_Pin = PORT_Pin_10 | PORT_Pin_9 | PORT_Pin_8 ;
+    PORTB_Init.PORT_Pin = PORT_Pin_10 | PORT_Pin_9 | PORT_Pin_8 | PORT_Pin_7;
     PORTB_Init.PORT_OE = PORT_OE_OUT;
     PORTB_Init.PORT_FUNC = PORT_FUNC_PORT;
     PORTB_Init.PORT_SPEED = PORT_SPEED_SLOW;

@@ -14,6 +14,7 @@ int main (void)
     std::vector<uint8_t> receiveData(7);
 
     PORT_ResetBits(MDR_PORTB, PORT_Pin_9);
+    PORT_ResetBits(MDR_PORTB, PORT_Pin_7);
     while (1)
     {
         PORT_SetBits(MDR_PORTB, PORT_Pin_8);
