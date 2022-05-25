@@ -16,6 +16,7 @@ int i; // Глобальная переменная счетчика, котор
 
 int main (int argc, char** argv)
 {
+    delay(0x3FFFF);
     RST_CLK_PCLKcmd(RST_CLK_PCLK_PORTC, ENABLE);
     RST_CLK_PCLKcmd(RST_CLK_PCLK_PORTB, ENABLE);
 
