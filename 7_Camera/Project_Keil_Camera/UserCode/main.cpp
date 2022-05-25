@@ -6,6 +6,8 @@
 PORT_InitTypeDef PORTB_Init;
 int main (void)
 {
+    delay(0x3FFFF);
+
     auto mil = std::shared_ptr<Milandr>(new Milandr());
     auto out = std::shared_ptr<OutputSig>(new OutputSig(mil));
 
@@ -14,14 +16,13 @@ int main (void)
 
     while (1)
     {
-
-        PORT_ResetBits(MDR_PORTB, PORT_Pin_10);
-        delay(0xFFFFF);                         // Задержка
-
+        PORT_SetBits(MDR_PORTB, PORT_Pin_9);
         PORT_SetBits(MDR_PORTB, PORT_Pin_10);
-        delay(0xFFFFF);
+        delay(0x3FFFF);
 
-
+        PORT_ResetBits(MDR_PORTB, PORT_Pin_9);
+        PORT_ResetBits(MDR_PORTB, PORT_Pin_10);
+        delay(0x3FFFF);
 
 
 //        for (int i = 0; i <7; ++i)

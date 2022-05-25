@@ -29,12 +29,6 @@ void Milandr::init()
         while (1);
     }
 
-    /* Enables the RST_CLK_PCLK_EEPROM */
-    //   RST_CLK_PCLKcmd(RST_CLK_PCLK_EEPROM, ENABLE);
-    /* Sets the code latency value */
-
-    //   EEPROM_SetLatency(EEPROM_Latency_3);
-
     /* Select the CPU_PLL output as input for CPU_C3_SEL */
     RST_CLK_CPU_PLLuse(ENABLE);
     /* Set CPUClk Prescaler */
@@ -45,10 +39,6 @@ void Milandr::init()
 
     /* Enables the HSE clock on PORTB */
     RST_CLK_PCLKcmd(RST_CLK_PCLK_PORTB,ENABLE);
-
-    /* Enables the HSE clock on PORTF */
-    RST_CLK_PCLKcmd(RST_CLK_PCLK_PORTF,ENABLE);
-
 
     /* Fill PortInit UART1 structure*/
     PORTB_Init.PORT_PULL_UP = PORT_PULL_UP_OFF;
@@ -75,12 +65,10 @@ void Milandr::init()
     PORTB_Init.PORT_Pin = PORT_Pin_10;
     PORT_Init(MDR_PORTB, &PORTB_Init);
 
-
     /* Enables the CPU_CLK clock on UART1 */
     RST_CLK_PCLKcmd(RST_CLK_PCLK_UART1, ENABLE);
     /* Set the HCLK division factor = 1 for UART1*/
     UART_BRGInit(MDR_UART1, UART_HCLKdiv1);
-
 
     /* Initialize UART_InitStructure1 */
     UART_DeInit(MDR_UART1);
@@ -105,21 +93,12 @@ void Milandr::init()
     UART_ITConfig (MDR_UART1, UART_IT_OE, ENABLE);
     UART_Cmd(MDR_UART1,ENABLE);
 
-
-    RST_CLK_PCLKcmd(RST_CLK_PCLK_PORTB, ENABLE);
-    PORTB_Init.PORT_PULL_UP = PORT_PULL_UP_OFF;
-    PORTB_Init.PORT_PULL_DOWN = PORT_PULL_DOWN_OFF;
-    PORTB_Init.PORT_PD_SHM = PORT_PD_SHM_OFF;
-    PORTB_Init.PORT_PD = PORT_PD_DRIVER;
-    PORTB_Init.PORT_GFEN = PORT_GFEN_OFF;
-    PORTB_Init.PORT_FUNC =  PORT_FUNC_PORT;
-    PORTB_Init.PORT_SPEED = PORT_SPEED_MAXFAST;
+    PORTB_Init.PORT_Pin = PORT_Pin_10 | PORT_Pin_9 ;
+    PORTB_Init.PORT_OE = PORT_OE_OUT;
+    PORTB_Init.PORT_FUNC = PORT_FUNC_PORT;
     PORTB_Init.PORT_MODE = PORT_MODE_DIGITAL;
-    //Выходы
-    PORTB_Init.PORT_OE =    PORT_OE_OUT;
-    PORTB_Init.PORT_Pin =   PORT_Pin_10 ;
+    PORTB_Init.PORT_SPEED = PORT_SPEED_SLOW;
     PORT_Init(MDR_PORTB, &PORTB_Init);
-
 
 }
 
