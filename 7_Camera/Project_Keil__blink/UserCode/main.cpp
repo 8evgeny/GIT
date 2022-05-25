@@ -39,9 +39,10 @@ int main (int argc, char** argv)
             PORT_SetBits(MDR_PORTC, PORT_Pin_1);
             PORT_SetBits(MDR_PORTB, PORT_Pin_9);
             PORT_SetBits(MDR_PORTB, PORT_Pin_10);
+            delay(0xFFFFF);
 
-            delay(0xFFFFF);                         // Задержка
-
+            PORT_ResetBits(MDR_PORTC, PORT_Pin_0);
+            PORT_ResetBits(MDR_PORTC, PORT_Pin_1);
             PORT_ResetBits(MDR_PORTB, PORT_Pin_9);
             PORT_ResetBits(MDR_PORTC, PORT_Pin_10);
             delay(0xFFFFF);
