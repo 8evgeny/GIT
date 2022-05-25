@@ -49,7 +49,7 @@ int main (void)
 //        }
 
 
-    }//end while (1)
+    }
 }
 
 
