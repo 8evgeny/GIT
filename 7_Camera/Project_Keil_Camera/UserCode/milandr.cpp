@@ -79,8 +79,10 @@ void Milandr::init()
     UART_InitStructure1.UART_WordLength              = UART_WordLength8b;
     UART_InitStructure1.UART_StopBits                = UART_StopBits1;
     UART_InitStructure1.UART_Parity                  = UART_Parity_No;
-    UART_InitStructure1.UART_FIFOMode                = UART_FIFO_OFF;
-    UART_InitStructure1.UART_HardwareFlowControl     = UART_HardwareFlowControl_RXE | UART_HardwareFlowControl_TXE;
+//    UART_InitStructure1.UART_FIFOMode                = UART_FIFO_OFF;
+    UART_InitStructure1.UART_FIFOMode                = UART_FIFO_ON;
+//    UART_InitStructure1.UART_HardwareFlowControl     = UART_HardwareFlowControl_RXE | UART_HardwareFlowControl_TXE;
+    UART_InitStructure1.UART_HardwareFlowControl     = UART_HardwareFlowControl_None ;
 
     /* Configure UART1 parameters*/
     UART_Init (MDR_UART1,&UART_InitStructure1);
