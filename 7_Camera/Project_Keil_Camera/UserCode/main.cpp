@@ -31,15 +31,17 @@ int main (void)
             {
                 //Тут сделать проверку времени ожидания
             }
+
+
             receiveData.push_back (UART_ReceiveData(MDR_UART1));
-            if((i == 0) && (receiveData.at(0) != 0xFF))
-        {
-            receiveData.clear ();
-            break;
-        }
+//            if((i == 0) && (receiveData.at(0) != 0xFF))
+//        {
+//            receiveData.clear ();
+//            break;
+//        }
         }
 
-        if (receiveData.size () == 7) //Принята команда
+        if (receiveData.size () != 0) //Принята команда
         {
             PORT_ResetBits(MDR_PORTB, PORT_Pin_9);
 //            out->setMoveOn(false);
