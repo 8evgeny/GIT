@@ -16,13 +16,11 @@ int main (void)
     PORT_ResetBits(MDR_PORTB, PORT_Pin_9);
     while (1)
     {
-//        PORT_SetBits(MDR_PORTB, PORT_Pin_9);
-//        PORT_SetBits(MDR_PORTB, PORT_Pin_10);
-//        delay(0x3FFFF);
+        PORT_SetBits(MDR_PORTB, PORT_Pin_8);
+        delay(0x3FFFF);
 
-//        PORT_ResetBits(MDR_PORTB, PORT_Pin_9);
-//        PORT_ResetBits(MDR_PORTB, PORT_Pin_10);
-//        delay(0x3FFFF);
+        PORT_ResetBits(MDR_PORTB, PORT_Pin_8);
+        delay(0x3FFFF);
 
 
         for (int i = 0; i <7; ++i)
