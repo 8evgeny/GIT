@@ -59,11 +59,13 @@ void Milandr::init()
     PORTB_Init.PORT_Pin = PORT_Pin_6;
     PORT_Init(MDR_PORTB, &PORTB_Init);
 
-    //Один пин на выход
-    PORTB_Init.PORT_FUNC = PORT_FUNC_PORT;
+    //выход
+    PORTB_Init.PORT_Pin = PORT_Pin_10 | PORT_Pin_9 ;
     PORTB_Init.PORT_OE = PORT_OE_OUT;
-    PORTB_Init.PORT_Pin = PORT_Pin_10;
+    PORTB_Init.PORT_FUNC = PORT_FUNC_PORT;
+    PORTB_Init.PORT_SPEED = PORT_SPEED_SLOW;
     PORT_Init(MDR_PORTB, &PORTB_Init);
+
 
     /* Enables the CPU_CLK clock on UART1 */
     RST_CLK_PCLKcmd(RST_CLK_PCLK_UART1, ENABLE);
@@ -93,12 +95,6 @@ void Milandr::init()
     UART_ITConfig (MDR_UART1, UART_IT_OE, ENABLE);
     UART_Cmd(MDR_UART1,ENABLE);
 
-    PORTB_Init.PORT_Pin = PORT_Pin_10 | PORT_Pin_9 ;
-    PORTB_Init.PORT_OE = PORT_OE_OUT;
-    PORTB_Init.PORT_FUNC = PORT_FUNC_PORT;
-    PORTB_Init.PORT_MODE = PORT_MODE_DIGITAL;
-    PORTB_Init.PORT_SPEED = PORT_SPEED_SLOW;
-    PORT_Init(MDR_PORTB, &PORTB_Init);
 
 }
 
