@@ -13,17 +13,18 @@ int main (void)
 
     std::vector<uint8_t> receiveData(7);
 
-    PORT_ResetBits(MDR_PORTB, PORT_Pin_9);
+    PORT_ResetBits(MDR_PORTB, PORT_Pin_9); //54 pin
     PORT_ResetBits(MDR_PORTB, PORT_Pin_7);
     while (1)
     {
-        PORT_SetBits(MDR_PORTB, PORT_Pin_8);
+        PORT_SetBits(MDR_PORTB, PORT_Pin_8); //53 pin
         delay(0x3FFFF);
 
         PORT_ResetBits(MDR_PORTB, PORT_Pin_8);
         delay(0x3FFFF);
+
         while (UART_GetFlagStatus (MDR_UART1, UART_FLAG_RXFE) == SET);
-        PORT_SetBits(MDR_PORTB, PORT_Pin_9);
+        PORT_SetBits(MDR_PORTB, PORT_Pin_9); //54 pin
 
 //        for (int i = 0; i <7; ++i)
 //        {

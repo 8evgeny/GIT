@@ -60,10 +60,9 @@ void Milandr::init()
     PORT_Init(MDR_PORTB, &PORTB_Init);
 
     //выход
-    PORTB_Init.PORT_Pin = PORT_Pin_10 | PORT_Pin_9 | PORT_Pin_8 | PORT_Pin_7;
-    PORTB_Init.PORT_OE = PORT_OE_OUT;
     PORTB_Init.PORT_FUNC = PORT_FUNC_PORT;
-    PORTB_Init.PORT_SPEED = PORT_SPEED_SLOW;
+    PORTB_Init.PORT_OE = PORT_OE_OUT;
+    PORTB_Init.PORT_Pin = PORT_Pin_10 | PORT_Pin_9 | PORT_Pin_8 | PORT_Pin_7;
     PORT_Init(MDR_PORTB, &PORTB_Init);
 
 
@@ -79,10 +78,8 @@ void Milandr::init()
     UART_InitStructure1.UART_WordLength              = UART_WordLength8b;
     UART_InitStructure1.UART_StopBits                = UART_StopBits1;
     UART_InitStructure1.UART_Parity                  = UART_Parity_No;
-//    UART_InitStructure1.UART_FIFOMode                = UART_FIFO_OFF;
     UART_InitStructure1.UART_FIFOMode                = UART_FIFO_ON;
-//    UART_InitStructure1.UART_HardwareFlowControl     = UART_HardwareFlowControl_RXE | UART_HardwareFlowControl_TXE;
-    UART_InitStructure1.UART_HardwareFlowControl     = UART_HardwareFlowControl_None ;
+    UART_InitStructure1.UART_HardwareFlowControl     = UART_HardwareFlowControl_RXE | UART_HardwareFlowControl_TXE;
 
     /* Configure UART1 parameters*/
     UART_Init (MDR_UART1,&UART_InitStructure1);
