@@ -39,6 +39,7 @@ void Milandr::init()
 
     /* Enables the HSE clock on PORTB */
     RST_CLK_PCLKcmd(RST_CLK_PCLK_PORTB,ENABLE);
+    RST_CLK_PCLKcmd(RST_CLK_PCLK_PORTD,ENABLE);
 
     /* Fill PortInit UART1 structure*/
     PORTB_Init.PORT_PULL_UP = PORT_PULL_UP_OFF;
@@ -59,11 +60,16 @@ void Milandr::init()
     PORTB_Init.PORT_Pin = PORT_Pin_6;
     PORT_Init(MDR_PORTB, &PORTB_Init);
 
-    //выход
+    //выходы
     PORTB_Init.PORT_FUNC = PORT_FUNC_PORT;
     PORTB_Init.PORT_OE = PORT_OE_OUT;
     PORTB_Init.PORT_Pin = PORT_Pin_10 | PORT_Pin_9 | PORT_Pin_8 | PORT_Pin_7;
     PORT_Init(MDR_PORTB, &PORTB_Init);
+
+    PORTB_Init.PORT_FUNC = PORT_FUNC_PORT;
+    PORTB_Init.PORT_OE = PORT_OE_OUT;
+    PORTB_Init.PORT_Pin = PORT_Pin_2 ;
+    PORT_Init(MDR_PORTD, &PORTB_Init);
 
 
     /* Enables the CPU_CLK clock on UART1 */

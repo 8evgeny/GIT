@@ -14,16 +14,14 @@ int main (void)
     std::vector<uint8_t> receiveData(7);
 
     PORT_ResetBits(MDR_PORTB, PORT_Pin_9); //54 pin
-    PORT_ResetBits(MDR_PORTB, PORT_Pin_7);
+    PORT_ResetBits(MDR_PORTD, PORT_Pin_2); //33 pin
+    PORT_ResetBits(MDR_PORTB, PORT_Pin_7); //Разрешение приема через МСХ
     while (1)
     {
         PORT_SetBits(MDR_PORTB, PORT_Pin_8); //53 pin
         delay(0x3FFFF);
         PORT_ResetBits(MDR_PORTB, PORT_Pin_8);
         delay(0x3FFFF);
-
-//        while (UART_GetFlagStatus (MDR_UART1, UART_FLAG_RXFE) == SET);
-//        PORT_SetBits(MDR_PORTB, PORT_Pin_9); //54 pin
 
         for (int i = 0; i < 7; ++i)
         {
@@ -51,6 +49,7 @@ int main (void)
             )
         {
             PORT_SetBits(MDR_PORTB, PORT_Pin_9);
+            PORT_SetBits(MDR_PORTD, PORT_Pin_2);
 //            out->setMoveOn(true);
         }
         if (    receiveData[0] == 0xff &&  //выключение дворника
@@ -63,6 +62,7 @@ int main (void)
             )
         {
             PORT_ResetBits(MDR_PORTB, PORT_Pin_9);
+            PORT_ResetBits(MDR_PORTD, PORT_Pin_2);
 //            out->setMoveOn(false);
         }
 
