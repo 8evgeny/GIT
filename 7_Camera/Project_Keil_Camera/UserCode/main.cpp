@@ -21,7 +21,8 @@ int main (void)
 
         PORT_ResetBits(MDR_PORTB, PORT_Pin_8);
         delay(0x3FFFF);
-
+        while (UART_GetFlagStatus (MDR_UART1, UART_FLAG_RXFE) == SET);
+        PORT_SetBits(MDR_PORTB, PORT_Pin_9);
 
 //        for (int i = 0; i <7; ++i)
 //        {
