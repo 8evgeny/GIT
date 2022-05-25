@@ -12,6 +12,22 @@ Milandr::~Milandr()
 {
 }
 
+void PORT_StructInit(PORT_InitTypeDef* PORT_InitStruct)
+{
+ /* Reset PORT initialization structure parameters values */
+    PORT_InitStruct->PORT_Pin = PORT_Pin_2;
+    PORT_InitStruct->PORT_OE = PORT_OE_OUT;
+//    PORT_InitStruct->PORT_PULL_UP = PORT_PULL_UP_OFF;
+//    PORT_InitStruct->PORT_PULL_DOWN = PORT_PULL_DOWN_OFF;
+//    PORT_InitStruct->PORT_PD_SHM = PORT_PD_SHM_OFF;
+    PORT_InitStruct->PORT_PD = PORT_PD_DRIVER;
+    PORT_InitStruct->PORT_GFEN = PORT_GFEN_OFF;
+    PORT_InitStruct->PORT_FUNC = PORT_FUNC_PORT;
+    PORT_InitStruct->PORT_SPEED = PORT_SPEED_FAST;
+    PORT_InitStruct->PORT_MODE = PORT_MODE_DIGITAL;
+ }
+
+
 void Milandr::init()
 {
     static PORT_InitTypeDef PORTB_Init;
@@ -40,7 +56,6 @@ void Milandr::init()
 
     /* Enables the HSE clock on PORTB PORTD*/
     RST_CLK_PCLKcmd(RST_CLK_PCLK_PORTB,ENABLE);
-    RST_CLK_PCLKcmd(RST_CLK_PCLK_PORTD,ENABLE);
 
     /* Fill PortInit UART1 structure*/
     PORTB_Init.PORT_PULL_UP = PORT_PULL_UP_OFF;
@@ -96,11 +111,8 @@ void Milandr::init()
     UART_ITConfig (MDR_UART1, UART_IT_OE, ENABLE);
     UART_Cmd(MDR_UART1,ENABLE);
 
-    PORTD_Init.PORT_Pin = PORT_Pin_2 ;
-    PORTD_Init.PORT_OE = PORT_OE_OUT;
-    PORTD_Init.PORT_FUNC = PORT_FUNC_PORT;
-    PORTD_Init.PORT_MODE = PORT_MODE_DIGITAL;
-    PORTD_Init.PORT_SPEED = PORT_SPEED_SLOW;
+    RST_CLK_PCLKcmd(RST_CLK_PCLK_PORTD,ENABLE);
+    PORT_StructInit(&PORTD_Init);
     PORT_Init(MDR_PORTD, &PORTD_Init);
 }
 

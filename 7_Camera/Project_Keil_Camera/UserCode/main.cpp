@@ -6,7 +6,7 @@
 PORT_InitTypeDef PORTB_Init;
 int main (void)
 {
-    delay(0x3FFFF);
+    delay(0xFFFFF);
 
     auto mil = std::shared_ptr<Milandr>(new Milandr());
     auto out = std::shared_ptr<OutputSig>(new OutputSig(mil));
