@@ -15,6 +15,7 @@ Milandr::~Milandr()
 void Milandr::init()
 {
     static PORT_InitTypeDef PORTB_Init;
+    static PORT_InitTypeDef PORTD_Init;
     static UART_InitTypeDef UART_InitStructure1;
 
     RST_CLK_HSEconfig(RST_CLK_HSE_ON);
@@ -37,7 +38,7 @@ void Milandr::init()
     /* Select the CPU clock source */
     RST_CLK_CPUclkSelection(RST_CLK_CPUclkCPU_C3);
 
-    /* Enables the HSE clock on PORTB */
+    /* Enables the HSE clock on PORTB PORTD*/
     RST_CLK_PCLKcmd(RST_CLK_PCLK_PORTB,ENABLE);
     RST_CLK_PCLKcmd(RST_CLK_PCLK_PORTD,ENABLE);
 
@@ -65,11 +66,6 @@ void Milandr::init()
     PORTB_Init.PORT_OE = PORT_OE_OUT;
     PORTB_Init.PORT_Pin = PORT_Pin_10 | PORT_Pin_9 | PORT_Pin_8 | PORT_Pin_7;
     PORT_Init(MDR_PORTB, &PORTB_Init);
-
-    PORTB_Init.PORT_FUNC = PORT_FUNC_PORT;
-    PORTB_Init.PORT_OE = PORT_OE_OUT;
-    PORTB_Init.PORT_Pin = PORT_Pin_2 ;
-    PORT_Init(MDR_PORTD, &PORTB_Init);
 
 
     /* Enables the CPU_CLK clock on UART1 */
@@ -100,7 +96,17 @@ void Milandr::init()
     UART_ITConfig (MDR_UART1, UART_IT_OE, ENABLE);
     UART_Cmd(MDR_UART1,ENABLE);
 
-
+    PORTD_Init.PORT_PULL_UP = PORT_PULL_UP_OFF;
+    PORTD_Init.PORT_PULL_DOWN = PORT_PULL_DOWN_OFF;
+    PORTD_Init.PORT_PD_SHM = PORT_PD_SHM_OFF;
+    PORTD_Init.PORT_PD = PORT_PD_DRIVER;
+    PORTD_Init.PORT_GFEN = PORT_GFEN_OFF;
+    PORTD_Init.PORT_SPEED = PORT_SPEED_MAXFAST;
+    PORTD_Init.PORT_MODE = PORT_MODE_DIGITAL;
+    PORTD_Init.PORT_FUNC = PORT_FUNC_PORT;
+    PORTD_Init.PORT_OE = PORT_OE_OUT;
+    PORTD_Init.PORT_Pin = PORT_Pin_2 ;
+    PORT_Init(MDR_PORTD, &PORTD_Init);
 }
 
 
