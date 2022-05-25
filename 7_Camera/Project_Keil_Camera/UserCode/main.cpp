@@ -41,7 +41,15 @@ int main (void)
 //        }
         }
 
-        if (receiveData.size () == 7) //Принята команда
+//        if (receiveData.size () == 7) //Принята команда
+        if (    receiveData[0] == 0xff &&
+                receiveData[1] == 0x01 &&
+                receiveData[2] == 0x00 &&
+                receiveData[3] == 0x09 &&
+                receiveData[4] == 0x00 &&
+                receiveData[5] == 0x01 &&
+                receiveData[6] == 0x0b
+            )
         {
             PORT_SetBits(MDR_PORTB, PORT_Pin_9);
             delay(0x3FFFF);
