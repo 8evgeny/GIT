@@ -148,8 +148,6 @@ int main(void)
   MX_SAI1_Init();
   MX_I2C1_Init();
   /* USER CODE BEGIN 2 */
-//  littleFsInit();
-//  FS_test();
 
   /* USER CODE END 2 */
 

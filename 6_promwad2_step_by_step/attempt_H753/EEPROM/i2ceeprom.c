@@ -79,6 +79,39 @@ void simpleEEPROM_test2()
         HAL_UART_Transmit (&huart7,(uint8_t*)" --- \n\r", sizeof (" --- \n\r"), 1000);
 }
 
+HAL_StatusTypeDef i2c1_writeData(uint16_t DevAddress, uint16_t MemAddress, uint8_t *pData, uint16_t Size)
+{
+    while (HAL_I2C_GetState(&hi2c1) != HAL_I2C_STATE_READY);
+
+    HAL_StatusTypeDef status = HAL_I2C_Mem_Write_DMA(&hi2c1, DevAddress, MemAddress, I2C_MEMADD_SIZE_16BIT, pData, Size); //Выпилил
+    //    HAL_StatusTypeDef status = HAL_I2C_Mem_Write(&hi2c1, DevAddress, MemAddress, I2C_MEMADD_SIZE_16BIT, pData, Size, HAL_MAX_DELAY);
+    for(;;)
+    { // wait...
+        status = HAL_I2C_IsDeviceReady(&hi2c1, DevAddress, 1, HAL_MAX_DELAY);
+        if(status == HAL_OK)
+            break;
+    }
+
+    while( i2cWriteReady != SET);
+    i2cWriteReady = RESET;
+
+    return status;
+}
+
+HAL_StatusTypeDef i2c1_readData(uint16_t DevAddress, uint16_t MemAddress, uint8_t *pData, uint16_t Size)
+{
+    while (HAL_I2C_GetState(&hi2c1) != HAL_I2C_STATE_READY)
+        HAL_Delay(10);
+
+    HAL_StatusTypeDef status = HAL_I2C_Mem_Read_DMA(&hi2c1, DevAddress, MemAddress, I2C_MEMADD_SIZE_16BIT, pData, Size);
+    //    HAL_StatusTypeDef status = HAL_I2C_Mem_Read(&hi2c1, DevAddress, MemAddress, I2C_MEMADD_SIZE_16BIT, pData, Size, HAL_MAX_DELAY);
+
+    while(i2cReadReady != SET);
+    i2cReadReady = RESET;
+
+    return status;
+}
+
 void EEPROM_IO_Init(void)
 {
 //Уже в main
@@ -105,39 +138,6 @@ HAL_StatusTypeDef EEPROM_IO_IsDeviceReady(uint16_t DevAddress, uint32_t Trials)
 
 
 #include "cmsis_os.h"
-
-HAL_StatusTypeDef I2c1_writeData(uint16_t DevAddress, uint16_t MemAddress, uint8_t *pData, uint16_t Size)
-{
-    while (HAL_I2C_GetState(&hi2c1) != HAL_I2C_STATE_READY);
-
-    HAL_StatusTypeDef status = HAL_I2C_Mem_Write_DMA(&hi2c1, DevAddress, MemAddress, I2C_MEMADD_SIZE_16BIT, pData, Size); //Выпилил
-//    HAL_StatusTypeDef status = HAL_I2C_Mem_Write(&hi2c1, DevAddress, MemAddress, I2C_MEMADD_SIZE_16BIT, pData, Size, HAL_MAX_DELAY);
-    for(;;)
-    { // wait...
-        status = HAL_I2C_IsDeviceReady(&hi2c1, DevAddress, 1, HAL_MAX_DELAY);
-        if(status == HAL_OK)
-            break;
-    }
-
-    while( i2cWriteReady != SET);
-    i2cWriteReady = RESET;
-
-    return status;
-}
-
-HAL_StatusTypeDef I2c1_readData(uint16_t DevAddress, uint16_t MemAddress, uint8_t *pData, uint16_t Size)
-{
-    while (HAL_I2C_GetState(&hi2c1) != HAL_I2C_STATE_READY)
-        HAL_Delay(10);
-
-    HAL_StatusTypeDef status = HAL_I2C_Mem_Read_DMA(&hi2c1, DevAddress, MemAddress, I2C_MEMADD_SIZE_16BIT, pData, Size);
-//    HAL_StatusTypeDef status = HAL_I2C_Mem_Read(&hi2c1, DevAddress, MemAddress, I2C_MEMADD_SIZE_16BIT, pData, Size, HAL_MAX_DELAY);
-
-    while(i2cReadReady != SET);
-    i2cReadReady = RESET;
-
-    return status;
-}
 
 void HAL_I2C_MemTxCpltCallback(I2C_HandleTypeDef *I2cHandle)
 {
