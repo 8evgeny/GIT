@@ -1,0 +1,17 @@
+MDR32F9Qx_uart.c:100:6:UART_DeInit	4	static
+MDR32F9Qx_uart.c:134:16:UART_Init	40	static
+MDR32F9Qx_uart.c:242:6:UART_StructInit	0	static
+MDR32F9Qx_uart.c:263:6:UART_Cmd	0	static
+MDR32F9Qx_uart.c:293:6:UART_ITConfig	0	static
+MDR32F9Qx_uart.c:320:10:UART_GetITStatus	0	static
+MDR32F9Qx_uart.c:350:10:UART_GetITStatusMasked	0	static
+MDR32F9Qx_uart.c:381:6:UART_ClearITPendingBit	0	static
+MDR32F9Qx_uart.c:401:6:UART_DMAConfig	0	static
+MDR32F9Qx_uart.c:423:6:UART_DMACmd	0	static
+MDR32F9Qx_uart.c:454:6:UART_SendData	0	static
+MDR32F9Qx_uart.c:470:10:UART_ReceiveData	0	static
+MDR32F9Qx_uart.c:489:6:UART_BreakLine	0	static
+MDR32F9Qx_uart.c:517:6:UART_IrDAConfig	40	static
+MDR32F9Qx_uart.c:547:6:UART_IrDACmd	0	static
+MDR32F9Qx_uart.c:575:12:UART_GetFlagStatus	0	static
+MDR32F9Qx_uart.c:606:6:UART_BRGInit	0	static

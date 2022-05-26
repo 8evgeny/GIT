@@ -1,0 +1,69 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"jsonFile" : "directory-.-Release-f5ebdc15457944623624.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.15"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1
+					]
+				}
+			],
+			"name" : "Release",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "milandr_Camera",
+					"targetIndexes" : 
+					[
+						0,
+						1
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "CMSIS::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-CMSIS-Release-d0188fe11b05540c6663.json",
+					"name" : "CMSIS",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "milandr_Camera.elf::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-milandr_Camera.elf-Release-6f566e8e402a6076dfbb.json",
+					"name" : "milandr_Camera.elf",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/home/evg/SOFT/Github/GIT/7_Camera/Project_Keil_Camera/build_linux_release",
+		"source" : "/home/evg/SOFT/Github/GIT/7_Camera/Project_Keil_Camera"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 3
+	}
+}

@@ -1,0 +1,1578 @@
+Archive member included to satisfy reference by file (symbol)
+
+libCMSIS.a(MDR32F9Qx_uart.c.o)
+                              CMakeFiles/milandr_Camera.elf.dir/UserCode/main.cpp.o (UART_DeInit)
+/usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libstdc++_nano.a(del_op.o)
+                              CMakeFiles/milandr_Camera.elf.dir/UserCode/main.cpp.o (operator delete(void*))
+/usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libstdc++_nano.a(new_op.o)
+                              CMakeFiles/milandr_Camera.elf.dir/UserCode/main.cpp.o (operator new(unsigned int))
+/usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libstdc++_nano.a(functexcept.o)
+                              CMakeFiles/milandr_Camera.elf.dir/UserCode/main.cpp.o (std::__throw_length_error(char const*))
+/usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libstdc++_nano.a(snprintf_lite.o)
+                              /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libstdc++_nano.a(functexcept.o) (__gnu_cxx::__snprintf_lite(char*, unsigned int, char const*, std::__va_list))
+/usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libstdc++_nano.a(new_handler.o)
+                              /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libstdc++_nano.a(new_op.o) (std::get_new_handler())
+/usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-abort.o)
+                              /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libstdc++_nano.a(new_op.o) (abort)
+/usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-atexit.o)
+                              /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/crt0.o (atexit)
+/usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-exit.o)
+                              /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/crt0.o (exit)
+/usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-fini.o)
+                              /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/crt0.o (__libc_fini_array)
+/usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-impure.o)
+                              /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-exit.o) (_global_impure_ptr)
+/usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-init.o)
+                              /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/crt0.o (__libc_init_array)
+/usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-malloc.o)
+                              /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libstdc++_nano.a(new_op.o) (malloc)
+/usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-memcpy.o)
+                              /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libstdc++_nano.a(snprintf_lite.o) (memcpy)
+/usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-memmove.o)
+                              CMakeFiles/milandr_Camera.elf.dir/UserCode/main.cpp.o (memmove)
+/usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-memset.o)
+                              /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/crt0.o (memset)
+/usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-nano-freer.o)
+                              /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-malloc.o) (_free_r)
+/usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-nano-mallocr.o)
+                              /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-malloc.o) (_malloc_r)
+/usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-sbrkr.o)
+                              /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-nano-mallocr.o) (_sbrk_r)
+/usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-signal.o)
+                              /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-abort.o) (raise)
+/usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-signalr.o)
+                              /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-signal.o) (_kill_r)
+/usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-strlen-stub.o)
+                              /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libstdc++_nano.a(functexcept.o) (strlen)
+/usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-__atexit.o)
+                              /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-atexit.o) (__register_exitproc)
+/usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-__call_atexit.o)
+                              /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-__atexit.o) (__call_exitprocs)
+/usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-mlock.o)
+                              /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-nano-freer.o) (__malloc_lock)
+/usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-reent.o)
+                              /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-sbrkr.o) (errno)
+/usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libnosys.a(getpid.o)
+                              /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-signalr.o) (_getpid)
+/usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libnosys.a(kill.o)
+                              /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-signalr.o) (_kill)
+/usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libnosys.a(sbrk.o)
+                              /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-sbrkr.o) (_sbrk)
+/usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libnosys.a(_exit.o)
+                              /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-abort.o) (_exit)
+
+Allocating common symbols
+Common symbol       size              file
+
+errno               0x4               /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-reent.o)
+
+Discarded input sections
+
+ .text          0x0000000000000000        0x0 /usr/lib/gcc/arm-none-eabi/9.2.1/thumb/v7-m/nofp/crti.o
+ .data          0x0000000000000000        0x0 /usr/lib/gcc/arm-none-eabi/9.2.1/thumb/v7-m/nofp/crti.o
+ .bss           0x0000000000000000        0x0 /usr/lib/gcc/arm-none-eabi/9.2.1/thumb/v7-m/nofp/crti.o
+ .data          0x0000000000000000        0x4 /usr/lib/gcc/arm-none-eabi/9.2.1/thumb/v7-m/nofp/crtbegin.o
+ .data          0x0000000000000000        0x0 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/crt0.o
+ .bss           0x0000000000000000        0x0 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/crt0.o
+ .ARM.extab     0x0000000000000000        0x0 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/crt0.o
+ .text          0x0000000000000000        0x0 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_iwdg.c.o
+ .data          0x0000000000000000        0x0 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_iwdg.c.o
+ .bss           0x0000000000000000        0x0 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_iwdg.c.o
+ .text.IWDG_WriteAccessEnable
+                0x0000000000000000       0x10 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_iwdg.c.o
+ .text.IWDG_WriteAccessDisable
+                0x0000000000000000        0xc CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_iwdg.c.o
+ .text.IWDG_SetPrescaler
+                0x0000000000000000        0xc CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_iwdg.c.o
+ .text.IWDG_GetPrescaler
+                0x0000000000000000        0xc CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_iwdg.c.o
+ .text.IWDG_SetReload
+                0x0000000000000000        0xc CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_iwdg.c.o
+ .text.IWDG_GetReload
+                0x0000000000000000       0x10 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_iwdg.c.o
+ .text.IWDG_ReloadCounter
+                0x0000000000000000       0x10 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_iwdg.c.o
+ .text.IWDG_Enable
+                0x0000000000000000       0x10 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_iwdg.c.o
+ .text.IWDG_GetFlagStatus
+                0x0000000000000000       0x14 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_iwdg.c.o
+ .comment       0x0000000000000000       0x5a CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_iwdg.c.o
+ .text          0x0000000000000000        0x0 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_port.c.o
+ .data          0x0000000000000000        0x0 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_port.c.o
+ .bss           0x0000000000000000        0x0 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_port.c.o
+ .text.PORT_DeInit
+                0x0000000000000000       0x14 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_port.c.o
+ .text.PORT_StructInit
+                0x0000000000000000       0x14 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_port.c.o
+ .text.PORT_ReadInputDataBit
+                0x0000000000000000        0xc CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_port.c.o
+ .text.PORT_ReadInputData
+                0x0000000000000000        0x4 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_port.c.o
+ .text.PORT_WriteBit
+                0x0000000000000000       0x34 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_port.c.o
+ .text.PORT_Write
+                0x0000000000000000       0x14 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_port.c.o
+ .text          0x0000000000000000        0x0 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_rst_clk.c.o
+ .data          0x0000000000000000        0x0 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_rst_clk.c.o
+ .bss           0x0000000000000000        0x0 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_rst_clk.c.o
+ .text.RST_CLK_LSEconfig
+                0x0000000000000000       0x2c CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_rst_clk.c.o
+ .text.RST_CLK_LSEstatus
+                0x0000000000000000       0x30 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_rst_clk.c.o
+ .text.RST_CLK_HSIadjust
+                0x0000000000000000       0x14 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_rst_clk.c.o
+ .text.RST_CLK_HSIstatus
+                0x0000000000000000       0x30 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_rst_clk.c.o
+ .text.RST_CLK_LSIcmd
+                0x0000000000000000        0xc CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_rst_clk.c.o
+ .text.RST_CLK_LSIadjust
+                0x0000000000000000       0x14 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_rst_clk.c.o
+ .text.RST_CLK_LSIstatus
+                0x0000000000000000       0x30 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_rst_clk.c.o
+ .text.RST_CLK_USB_PLLconfig
+                0x0000000000000000       0x3c CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_rst_clk.c.o
+ .text.RST_CLK_USB_PLLuse
+                0x0000000000000000        0xc CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_rst_clk.c.o
+ .text.RST_CLK_USB_PLLcmd
+                0x0000000000000000        0xc CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_rst_clk.c.o
+ .text.RST_CLK_USB_PLLstatus
+                0x0000000000000000       0x30 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_rst_clk.c.o
+ .text.RST_CLK_USBclkPrescaler
+                0x0000000000000000        0xc CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_rst_clk.c.o
+ .text.RST_CLK_USBclkEnable
+                0x0000000000000000        0xc CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_rst_clk.c.o
+ .text.RST_CLK_ADCclkSelection
+                0x0000000000000000       0x14 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_rst_clk.c.o
+ .text.RST_CLK_ADCclkPrescaler
+                0x0000000000000000       0x14 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_rst_clk.c.o
+ .text.RST_CLK_ADCclkEnable
+                0x0000000000000000        0xc CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_rst_clk.c.o
+ .text.RST_CLK_HSIclkPrescaler
+                0x0000000000000000       0x14 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_rst_clk.c.o
+ .text.RST_CLK_RTC_HSIclkEnable
+                0x0000000000000000        0xc CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_rst_clk.c.o
+ .text.RST_CLK_HSEclkPrescaler
+                0x0000000000000000       0x14 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_rst_clk.c.o
+ .text.RST_CLK_RTC_HSEclkEnable
+                0x0000000000000000        0xc CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_rst_clk.c.o
+ .text.RST_CLK_GetFlagStatus
+                0x0000000000000000       0x28 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_rst_clk.c.o
+ .text          0x0000000000000000        0x0 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_timer.c.o
+ .data          0x0000000000000000        0x0 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_timer.c.o
+ .bss           0x0000000000000000        0x0 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_timer.c.o
+ .text.TIMER_DeInit
+                0x0000000000000000       0x44 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_timer.c.o
+ .text.TIMER_CntInit
+                0x0000000000000000       0x38 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_timer.c.o
+ .text.TIMER_CntStructInit
+                0x0000000000000000       0x1c CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_timer.c.o
+ .text.TIMER_Cmd
+                0x0000000000000000       0x14 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_timer.c.o
+ .text.TIMER_SetCounter
+                0x0000000000000000        0x4 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_timer.c.o
+ .text.TIMER_GetCounter
+                0x0000000000000000        0x8 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_timer.c.o
+ .text.TIMER_SetCntPrescaler
+                0x0000000000000000        0x4 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_timer.c.o
+ .text.TIMER_GetCntPrescaler
+                0x0000000000000000        0x8 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_timer.c.o
+ .text.TIMER_SetCntAutoreload
+                0x0000000000000000        0x4 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_timer.c.o
+ .text.TIMER_CntAutoreloadConfig
+                0x0000000000000000       0x10 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_timer.c.o
+ .text.TIMER_GetCntAutoreload
+                0x0000000000000000        0x8 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_timer.c.o
+ .text.TIMER_CntEventSourceConfig
+                0x0000000000000000        0xc CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_timer.c.o
+ .text.TIMER_FilterSamplingConfig
+                0x0000000000000000        0xc CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_timer.c.o
+ .text.TIMER_CounterModeConfig
+                0x0000000000000000        0xc CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_timer.c.o
+ .text.TIMER_SetCounterDirection
+                0x0000000000000000        0xc CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_timer.c.o
+ .text.TIMER_ETRInputConfig
+                0x0000000000000000       0x18 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_timer.c.o
+ .text.TIMER_ETRFilterConfig
+                0x0000000000000000       0x10 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_timer.c.o
+ .text.TIMER_ETRPrescalerConfig
+                0x0000000000000000        0xc CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_timer.c.o
+ .text.TIMER_ETRPolarityConfig
+                0x0000000000000000        0xc CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_timer.c.o
+ .text.TIMER_BRKPolarityConfig
+                0x0000000000000000        0xc CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_timer.c.o
+ .text.TIMER_GetCounterDirection
+                0x0000000000000000        0x8 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_timer.c.o
+ .text.TIMER_GetCntWriteComplete
+                0x0000000000000000        0x8 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_timer.c.o
+ .text.TIMER_ChnInit
+                0x0000000000000000       0x48 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_timer.c.o
+ .text.TIMER_ChnStructInit
+                0x0000000000000000       0x1c CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_timer.c.o
+ .text.TIMER_SetChnCompare
+                0x0000000000000000        0x8 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_timer.c.o
+ .text.TIMER_ChnCompareConfig
+                0x0000000000000000       0x20 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_timer.c.o
+ .text.TIMER_GetChnCapture
+                0x0000000000000000        0xc CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_timer.c.o
+ .text.TIMER_SetChnCompare1
+                0x0000000000000000        0x8 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_timer.c.o
+ .text.TIMER_ChnCompare1Config
+                0x0000000000000000       0x20 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_timer.c.o
+ .text.TIMER_GetChnCapture1
+                0x0000000000000000        0xc CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_timer.c.o
+ .text.TIMER_ChnETR_Cmd
+                0x0000000000000000       0x1c CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_timer.c.o
+ .text.TIMER_ChnETRResetConfig
+                0x0000000000000000       0x14 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_timer.c.o
+ .text.TIMER_ChnBRKResetConfig
+                0x0000000000000000       0x14 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_timer.c.o
+ .text.TIMER_ChnREFFormatConfig
+                0x0000000000000000       0x14 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_timer.c.o
+ .text.TIMER_ChnCapturePrescalerConfig
+                0x0000000000000000       0x14 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_timer.c.o
+ .text.TIMER_ChnEventSourceConfig
+                0x0000000000000000       0x14 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_timer.c.o
+ .text.TIMER_ChnFilterConfig
+                0x0000000000000000       0x14 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_timer.c.o
+ .text.TIMER_GetChnWriteComplete
+                0x0000000000000000        0xc CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_timer.c.o
+ .text.TIMER_ChnCCR1_EventSourceConfig
+                0x0000000000000000       0x14 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_timer.c.o
+ .text.TIMER_ChnCCR1_Cmd
+                0x0000000000000000       0x1c CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_timer.c.o
+ .text.TIMER_ChnOutInit
+                0x0000000000000000       0x44 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_timer.c.o
+ .text.TIMER_ChnOutStructInit
+                0x0000000000000000       0x18 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_timer.c.o
+ .text.TIMER_ChnOutConfig
+                0x0000000000000000       0x24 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_timer.c.o
+ .text.TIMER_ChnOutSourceConfig
+                0x0000000000000000       0x14 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_timer.c.o
+ .text.TIMER_ChnOutModeConfig
+                0x0000000000000000       0x14 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_timer.c.o
+ .text.TIMER_ChnOutPolarityConfig
+                0x0000000000000000       0x14 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_timer.c.o
+ .text.TIMER_ChnNOutConfig
+                0x0000000000000000       0x24 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_timer.c.o
+ .text.TIMER_ChnNOutSourceConfig
+                0x0000000000000000       0x14 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_timer.c.o
+ .text.TIMER_ChnNOutModeConfig
+                0x0000000000000000       0x14 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_timer.c.o
+ .text.TIMER_ChnNOutPolarityConfig
+                0x0000000000000000       0x14 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_timer.c.o
+ .text.TIMER_ChnOutDTGConfig
+                0x0000000000000000       0x18 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_timer.c.o
+ .text.TIMER_GetStatus
+                0x0000000000000000        0x4 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_timer.c.o
+ .text.TIMER_GetFlagStatus
+                0x0000000000000000        0xc CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_timer.c.o
+ .text.TIMER_ClearFlag
+                0x0000000000000000        0x8 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_timer.c.o
+ .text.TIMER_DMACmd
+                0x0000000000000000       0x14 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_timer.c.o
+ .text.TIMER_ITConfig
+                0x0000000000000000       0x14 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_timer.c.o
+ .text.TIMER_GetITStatus
+                0x0000000000000000       0x10 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_timer.c.o
+ .text.TIMER_BRGInit
+                0x0000000000000000       0x60 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_timer.c.o
+ .comment       0x0000000000000000       0x5a CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_timer.c.o
+ .text          0x0000000000000000        0x0 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_usb.c.o
+ .data          0x0000000000000000        0x0 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_usb.c.o
+ .bss           0x0000000000000000        0x0 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_usb.c.o
+ .text.USB_BRGInit
+                0x0000000000000000       0x30 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_usb.c.o
+ .text.USB_Reset
+                0x0000000000000000       0x20 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_usb.c.o
+ .text.USB_GetHSCR
+                0x0000000000000000        0xc CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_usb.c.o
+ .text.USB_SetHSCR
+                0x0000000000000000       0x18 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_usb.c.o
+ .text.USB_GetHSVR
+                0x0000000000000000       0x24 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_usb.c.o
+ .text.USB_GetHTXC
+                0x0000000000000000        0xc CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_usb.c.o
+ .text.USB_SetHTXC
+                0x0000000000000000       0x14 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_usb.c.o
+ .text.USB_GetHTXT
+                0x0000000000000000        0xc CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_usb.c.o
+ .text.USB_SetHTXT
+                0x0000000000000000        0xc CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_usb.c.o
+ .text.USB_GetHTXLC
+                0x0000000000000000        0xc CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_usb.c.o
+ .text.USB_SetHTXLC
+                0x0000000000000000       0x14 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_usb.c.o
+ .text.USB_GetHTXSE
+                0x0000000000000000        0xc CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_usb.c.o
+ .text.USB_SetHTXSE
+                0x0000000000000000       0x14 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_usb.c.o
+ .text.USB_GetHTXA
+                0x0000000000000000        0xc CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_usb.c.o
+ .text.USB_SetHTXA
+                0x0000000000000000        0xc CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_usb.c.o
+ .text.USB_GetHTXE
+                0x0000000000000000        0xc CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_usb.c.o
+ .text.USB_SetHTXE
+                0x0000000000000000        0xc CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_usb.c.o
+ .text.USB_GetHFN
+                0x0000000000000000        0xc CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_usb.c.o
+ .text.USB_GetHIS
+                0x0000000000000000        0xc CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_usb.c.o
+ .text.USB_SetHIS
+                0x0000000000000000       0x14 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_usb.c.o
+ .text.USB_GetHIM
+                0x0000000000000000        0xc CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_usb.c.o
+ .text.USB_SetHIM
+                0x0000000000000000       0x14 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_usb.c.o
+ .text.USB_GetHRXS
+                0x0000000000000000        0xc CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_usb.c.o
+ .text.USB_GetHRXP
+                0x0000000000000000        0xc CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_usb.c.o
+ .text.USB_GetHRXA
+                0x0000000000000000        0xc CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_usb.c.o
+ .text.USB_GetHRXE
+                0x0000000000000000        0xc CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_usb.c.o
+ .text.USB_GetHRXCS
+                0x0000000000000000        0xc CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_usb.c.o
+ .text.USB_GetHSTM
+                0x0000000000000000        0xc CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_usb.c.o
+ .text.USB_GetHRXFD
+                0x0000000000000000        0xc CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_usb.c.o
+ .text.USB_GetHRXFDC
+                0x0000000000000000        0xc CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_usb.c.o
+ .text.USB_GetHRXFC
+                0x0000000000000000        0xc CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_usb.c.o
+ .text.USB_SetHRXFC
+                0x0000000000000000        0xc CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_usb.c.o
+ .text.USB_GetHTXFD
+                0x0000000000000000        0xc CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_usb.c.o
+ .text.USB_SetHTXFD
+                0x0000000000000000        0xc CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_usb.c.o
+ .text.USB_GetHTXFC
+                0x0000000000000000        0xc CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_usb.c.o
+ .text.USB_SetHTXFC
+                0x0000000000000000        0xc CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_usb.c.o
+ .text.USB_GetSEPxCTRL
+                0x0000000000000000       0x10 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_usb.c.o
+ .text.USB_SetSEPxCTRL
+                0x0000000000000000       0x1c CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_usb.c.o
+ .text.USB_GetSEPxSTS
+                0x0000000000000000       0x10 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_usb.c.o
+ .text.USB_GetSEPxTS
+                0x0000000000000000       0x10 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_usb.c.o
+ .text.USB_GetSEPxNTS
+                0x0000000000000000       0x10 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_usb.c.o
+ .text.USB_GetSC
+                0x0000000000000000        0xc CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_usb.c.o
+ .text.USB_SetSC
+                0x0000000000000000       0x18 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_usb.c.o
+ .text.USB_GetSLS
+                0x0000000000000000        0xc CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_usb.c.o
+ .text.USB_GetSIS
+                0x0000000000000000        0xc CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_usb.c.o
+ .text.USB_SetSIS
+                0x0000000000000000        0xc CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_usb.c.o
+ .text.USB_GetSIM
+                0x0000000000000000        0xc CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_usb.c.o
+ .text.USB_SetSIM
+                0x0000000000000000       0x18 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_usb.c.o
+ .text.USB_GetSA
+                0x0000000000000000        0xc CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_usb.c.o
+ .text.USB_SetSA
+                0x0000000000000000        0xc CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_usb.c.o
+ .text.USB_GetSFN
+                0x0000000000000000        0xc CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_usb.c.o
+ .text.USB_GetSEPxRXFD
+                0x0000000000000000       0x10 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_usb.c.o
+ .text.USB_GetSEPxRXFDC
+                0x0000000000000000       0x10 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_usb.c.o
+ .text.USB_GetSEPxRXFC
+                0x0000000000000000       0x10 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_usb.c.o
+ .text.USB_SetSEPxRXFC
+                0x0000000000000000       0x10 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_usb.c.o
+ .text.USB_GetSEPxTXFD
+                0x0000000000000000       0x10 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_usb.c.o
+ .text.USB_SetSEPxTXFD
+                0x0000000000000000       0x10 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_usb.c.o
+ .text.USB_GetSEPxTXFDC
+                0x0000000000000000       0x10 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_usb.c.o
+ .text.USB_SetSEPxTXFDC
+                0x0000000000000000       0x10 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_usb.c.o
+ .text.USB_SEPxToggleEPDATASEQ
+                0x0000000000000000       0x18 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_usb.c.o
+ .comment       0x0000000000000000       0x5a CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_usb.c.o
+ .text          0x0000000000000000        0x0 CMakeFiles/milandr_Camera.elf.dir/UserCode/logic.cpp.o
+ .data          0x0000000000000000        0x0 CMakeFiles/milandr_Camera.elf.dir/UserCode/logic.cpp.o
+ .bss           0x0000000000000000        0x0 CMakeFiles/milandr_Camera.elf.dir/UserCode/logic.cpp.o
+ .comment       0x0000000000000000       0x5a CMakeFiles/milandr_Camera.elf.dir/UserCode/logic.cpp.o
+ .group         0x0000000000000000       0x10 CMakeFiles/milandr_Camera.elf.dir/UserCode/main.cpp.o
+ .group         0x0000000000000000       0x10 CMakeFiles/milandr_Camera.elf.dir/UserCode/main.cpp.o
+ .group         0x0000000000000000        0x8 CMakeFiles/milandr_Camera.elf.dir/UserCode/main.cpp.o
+ .group         0x0000000000000000        0x8 CMakeFiles/milandr_Camera.elf.dir/UserCode/main.cpp.o
+ .group         0x0000000000000000        0xc CMakeFiles/milandr_Camera.elf.dir/UserCode/main.cpp.o
+ .group         0x0000000000000000        0xc CMakeFiles/milandr_Camera.elf.dir/UserCode/main.cpp.o
+ .group         0x0000000000000000        0xc CMakeFiles/milandr_Camera.elf.dir/UserCode/main.cpp.o
+ .group         0x0000000000000000        0xc CMakeFiles/milandr_Camera.elf.dir/UserCode/main.cpp.o
+ .group         0x0000000000000000        0xc CMakeFiles/milandr_Camera.elf.dir/UserCode/main.cpp.o
+ .group         0x0000000000000000        0xc CMakeFiles/milandr_Camera.elf.dir/UserCode/main.cpp.o
+ .data          0x0000000000000000        0x0 CMakeFiles/milandr_Camera.elf.dir/UserCode/main.cpp.o
+ .data          0x0000000000000000        0x0 CMakeFiles/milandr_Camera.elf.dir/UserCode/milandr.cpp.o
+ .group         0x0000000000000000        0x8 CMakeFiles/milandr_Camera.elf.dir/UserCode/outputSig.cpp.o
+ .group         0x0000000000000000        0x8 CMakeFiles/milandr_Camera.elf.dir/UserCode/outputSig.cpp.o
+ .data          0x0000000000000000        0x0 CMakeFiles/milandr_Camera.elf.dir/UserCode/outputSig.cpp.o
+ .bss           0x0000000000000000        0x0 CMakeFiles/milandr_Camera.elf.dir/UserCode/outputSig.cpp.o
+ .text          0x0000000000000000        0x0 libCMSIS.a(MDR32F9Qx_uart.c.o)
+ .data          0x0000000000000000        0x0 libCMSIS.a(MDR32F9Qx_uart.c.o)
+ .bss           0x0000000000000000        0x0 libCMSIS.a(MDR32F9Qx_uart.c.o)
+ .text.UART_StructInit
+                0x0000000000000000       0x14 libCMSIS.a(MDR32F9Qx_uart.c.o)
+ .text.UART_GetITStatus
+                0x0000000000000000       0x10 libCMSIS.a(MDR32F9Qx_uart.c.o)
+ .text.UART_GetITStatusMasked
+                0x0000000000000000        0xc libCMSIS.a(MDR32F9Qx_uart.c.o)
+ .text.UART_ClearITPendingBit
+                0x0000000000000000        0x8 libCMSIS.a(MDR32F9Qx_uart.c.o)
+ .text.UART_DMAConfig
+                0x0000000000000000        0x8 libCMSIS.a(MDR32F9Qx_uart.c.o)
+ .text.UART_DMACmd
+                0x0000000000000000       0x18 libCMSIS.a(MDR32F9Qx_uart.c.o)
+ .text.UART_SendData
+                0x0000000000000000        0x4 libCMSIS.a(MDR32F9Qx_uart.c.o)
+ .text.UART_BreakLine
+                0x0000000000000000       0x18 libCMSIS.a(MDR32F9Qx_uart.c.o)
+ .text.UART_IrDAConfig
+                0x0000000000000000       0x30 libCMSIS.a(MDR32F9Qx_uart.c.o)
+ .text.UART_IrDACmd
+                0x0000000000000000       0x18 libCMSIS.a(MDR32F9Qx_uart.c.o)
+ .text          0x0000000000000000        0x0 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libstdc++_nano.a(del_op.o)
+ .data          0x0000000000000000        0x0 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libstdc++_nano.a(del_op.o)
+ .bss           0x0000000000000000        0x0 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libstdc++_nano.a(del_op.o)
+ .text          0x0000000000000000        0x0 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libstdc++_nano.a(new_op.o)
+ .data          0x0000000000000000        0x0 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libstdc++_nano.a(new_op.o)
+ .bss           0x0000000000000000        0x0 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libstdc++_nano.a(new_op.o)
+ .text          0x0000000000000000        0x0 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libstdc++_nano.a(functexcept.o)
+ .data          0x0000000000000000        0x0 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libstdc++_nano.a(functexcept.o)
+ .bss           0x0000000000000000        0x0 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libstdc++_nano.a(functexcept.o)
+ .text.unlikely._ZSt21__throw_bad_exceptionv
+                0x0000000000000000        0x6 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libstdc++_nano.a(functexcept.o)
+ .text.unlikely._ZSt17__throw_bad_allocv
+                0x0000000000000000        0x6 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libstdc++_nano.a(functexcept.o)
+ .text.unlikely._ZSt16__throw_bad_castv
+                0x0000000000000000        0x6 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libstdc++_nano.a(functexcept.o)
+ .text.unlikely._ZSt18__throw_bad_typeidv
+                0x0000000000000000        0x6 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libstdc++_nano.a(functexcept.o)
+ .text.unlikely._ZSt19__throw_logic_errorPKc
+                0x0000000000000000        0x6 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libstdc++_nano.a(functexcept.o)
+ .text.unlikely._ZSt20__throw_domain_errorPKc
+                0x0000000000000000        0x6 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libstdc++_nano.a(functexcept.o)
+ .text.unlikely._ZSt24__throw_invalid_argumentPKc
+                0x0000000000000000        0x6 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libstdc++_nano.a(functexcept.o)
+ .text.unlikely._ZSt20__throw_out_of_rangePKc
+                0x0000000000000000        0x6 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libstdc++_nano.a(functexcept.o)
+ .text._ZSt24__throw_out_of_range_fmtPKcz
+                0x0000000000000000       0x36 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libstdc++_nano.a(functexcept.o)
+ .text.unlikely._ZSt21__throw_runtime_errorPKc
+                0x0000000000000000        0x6 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libstdc++_nano.a(functexcept.o)
+ .text.unlikely._ZSt19__throw_range_errorPKc
+                0x0000000000000000        0x6 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libstdc++_nano.a(functexcept.o)
+ .text.unlikely._ZSt22__throw_overflow_errorPKc
+                0x0000000000000000        0x6 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libstdc++_nano.a(functexcept.o)
+ .text.unlikely._ZSt23__throw_underflow_errorPKc
+                0x0000000000000000        0x6 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libstdc++_nano.a(functexcept.o)
+ .text          0x0000000000000000        0x0 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libstdc++_nano.a(snprintf_lite.o)
+ .data          0x0000000000000000        0x0 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libstdc++_nano.a(snprintf_lite.o)
+ .bss           0x0000000000000000        0x0 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libstdc++_nano.a(snprintf_lite.o)
+ .rodata._ZN9__gnu_cxx26__throw_insufficient_spaceEPKcS1_.str1.1
+                0x0000000000000000       0x69 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libstdc++_nano.a(snprintf_lite.o)
+ .text._ZN9__gnu_cxx26__throw_insufficient_spaceEPKcS1_
+                0x0000000000000000       0x4c /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libstdc++_nano.a(snprintf_lite.o)
+ .rodata._ZN9__gnu_cxx15__concat_size_tEPcjj.str1.1
+                0x0000000000000000        0xb /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libstdc++_nano.a(snprintf_lite.o)
+ .text._ZN9__gnu_cxx15__concat_size_tEPcjj
+                0x0000000000000000       0x58 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libstdc++_nano.a(snprintf_lite.o)
+ .text._ZN9__gnu_cxx15__snprintf_liteEPcjPKcSt9__va_list
+                0x0000000000000000       0x82 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libstdc++_nano.a(snprintf_lite.o)
+ .debug_info    0x0000000000000000     0x2699 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libstdc++_nano.a(snprintf_lite.o)
+ .debug_abbrev  0x0000000000000000      0x552 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libstdc++_nano.a(snprintf_lite.o)
+ .debug_loc     0x0000000000000000      0x3a2 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libstdc++_nano.a(snprintf_lite.o)
+ .debug_aranges
+                0x0000000000000000       0x30 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libstdc++_nano.a(snprintf_lite.o)
+ .debug_ranges  0x0000000000000000       0x38 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libstdc++_nano.a(snprintf_lite.o)
+ .debug_line    0x0000000000000000      0x6ac /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libstdc++_nano.a(snprintf_lite.o)
+ .debug_str     0x0000000000000000     0x1320 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libstdc++_nano.a(snprintf_lite.o)
+ .comment       0x0000000000000000       0x5a /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libstdc++_nano.a(snprintf_lite.o)
+ .debug_frame   0x0000000000000000       0x78 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libstdc++_nano.a(snprintf_lite.o)
+ .text          0x0000000000000000        0x0 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libstdc++_nano.a(new_handler.o)
+ .data          0x0000000000000000        0x0 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libstdc++_nano.a(new_handler.o)
+ .bss           0x0000000000000000        0x0 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libstdc++_nano.a(new_handler.o)
+ .text._ZSt15set_new_handlerPFvvE
+                0x0000000000000000       0x20 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libstdc++_nano.a(new_handler.o)
+ .rodata._ZSt7nothrow
+                0x0000000000000000        0x1 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libstdc++_nano.a(new_handler.o)
+ .data          0x0000000000000000        0x0 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-abort.o)
+ .bss           0x0000000000000000        0x0 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-abort.o)
+ .data          0x0000000000000000        0x0 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-atexit.o)
+ .bss           0x0000000000000000        0x0 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-atexit.o)
+ .data          0x0000000000000000        0x0 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-exit.o)
+ .bss           0x0000000000000000        0x0 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-exit.o)
+ .data          0x0000000000000000        0x0 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-fini.o)
+ .bss           0x0000000000000000        0x0 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-fini.o)
+ .text          0x0000000000000000        0x0 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-impure.o)
+ .bss           0x0000000000000000        0x0 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-impure.o)
+ .data          0x0000000000000000        0x0 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-init.o)
+ .bss           0x0000000000000000        0x0 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-init.o)
+ .data          0x0000000000000000        0x0 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-malloc.o)
+ .bss           0x0000000000000000        0x0 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-malloc.o)
+ .text          0x0000000000000000       0xec /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-memcpy.o)
+ .data          0x0000000000000000        0x0 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-memcpy.o)
+ .bss           0x0000000000000000        0x0 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-memcpy.o)
+ .debug_line    0x0000000000000000       0xc1 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-memcpy.o)
+ .debug_info    0x0000000000000000       0x26 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-memcpy.o)
+ .debug_abbrev  0x0000000000000000       0x14 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-memcpy.o)
+ .debug_aranges
+                0x0000000000000000       0x20 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-memcpy.o)
+ .debug_str     0x0000000000000000       0xb2 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-memcpy.o)
+ .data          0x0000000000000000        0x0 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-memmove.o)
+ .bss           0x0000000000000000        0x0 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-memmove.o)
+ .data          0x0000000000000000        0x0 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-memset.o)
+ .bss           0x0000000000000000        0x0 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-memset.o)
+ .data          0x0000000000000000        0x0 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-nano-freer.o)
+ .bss           0x0000000000000000        0x0 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-nano-freer.o)
+ .data          0x0000000000000000        0x0 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-nano-mallocr.o)
+ .data          0x0000000000000000        0x0 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-sbrkr.o)
+ .bss           0x0000000000000000        0x0 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-sbrkr.o)
+ .data          0x0000000000000000        0x0 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-signal.o)
+ .bss           0x0000000000000000        0x0 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-signal.o)
+ .data          0x0000000000000000        0x0 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-signalr.o)
+ .bss           0x0000000000000000        0x0 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-signalr.o)
+ .text          0x0000000000000000       0x5c /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-strlen-stub.o)
+ .data          0x0000000000000000        0x0 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-strlen-stub.o)
+ .bss           0x0000000000000000        0x0 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-strlen-stub.o)
+ .debug_info    0x0000000000000000      0x941 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-strlen-stub.o)
+ .debug_abbrev  0x0000000000000000      0x194 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-strlen-stub.o)
+ .debug_loc     0x0000000000000000       0x25 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-strlen-stub.o)
+ .debug_aranges
+                0x0000000000000000       0x20 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-strlen-stub.o)
+ .debug_ranges  0x0000000000000000       0x10 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-strlen-stub.o)
+ .debug_line    0x0000000000000000      0x14e /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-strlen-stub.o)
+ .debug_str     0x0000000000000000      0x5f0 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-strlen-stub.o)
+ .comment       0x0000000000000000       0x4f /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-strlen-stub.o)
+ .debug_frame   0x0000000000000000       0x20 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-strlen-stub.o)
+ .data          0x0000000000000000        0x4 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-__atexit.o)
+ .data          0x0000000000000000        0x0 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-__call_atexit.o)
+ .data          0x0000000000000000        0x0 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-mlock.o)
+ .bss           0x0000000000000000        0x0 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-mlock.o)
+ .text          0x0000000000000000       0xe8 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-reent.o)
+ .data          0x0000000000000000        0x0 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-reent.o)
+ .bss           0x0000000000000000        0x0 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-reent.o)
+ .data          0x0000000000000000        0x0 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libnosys.a(getpid.o)
+ .bss           0x0000000000000000        0x0 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libnosys.a(getpid.o)
+ .data          0x0000000000000000        0x0 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libnosys.a(kill.o)
+ .bss           0x0000000000000000        0x0 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libnosys.a(kill.o)
+ .data          0x0000000000000000        0x0 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libnosys.a(sbrk.o)
+ .data          0x0000000000000000        0x0 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libnosys.a(_exit.o)
+ .bss           0x0000000000000000        0x0 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libnosys.a(_exit.o)
+ .text          0x0000000000000000        0x0 /usr/lib/gcc/arm-none-eabi/9.2.1/thumb/v7-m/nofp/crtend.o
+ .data          0x0000000000000000        0x0 /usr/lib/gcc/arm-none-eabi/9.2.1/thumb/v7-m/nofp/crtend.o
+ .bss           0x0000000000000000        0x0 /usr/lib/gcc/arm-none-eabi/9.2.1/thumb/v7-m/nofp/crtend.o
+ .text          0x0000000000000000        0x0 /usr/lib/gcc/arm-none-eabi/9.2.1/thumb/v7-m/nofp/crtn.o
+ .data          0x0000000000000000        0x0 /usr/lib/gcc/arm-none-eabi/9.2.1/thumb/v7-m/nofp/crtn.o
+ .bss           0x0000000000000000        0x0 /usr/lib/gcc/arm-none-eabi/9.2.1/thumb/v7-m/nofp/crtn.o
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+*default*        0x0000000000000000 0xffffffffffffffff
+
+Linker script and memory map
+
+LOAD /usr/lib/gcc/arm-none-eabi/9.2.1/thumb/v7-m/nofp/crti.o
+LOAD /usr/lib/gcc/arm-none-eabi/9.2.1/thumb/v7-m/nofp/crtbegin.o
+LOAD /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/crt0.o
+                0x0000000000000100                __STACK_SIZE = 0x100
+                0x0000000000000000                __HEAP_SIZE = 0x0
+LOAD CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_iwdg.c.o
+LOAD CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_port.c.o
+LOAD CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_rst_clk.c.o
+LOAD CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_timer.c.o
+LOAD CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_usb.c.o
+LOAD CMakeFiles/milandr_Camera.elf.dir/UserCode/logic.cpp.o
+LOAD CMakeFiles/milandr_Camera.elf.dir/UserCode/main.cpp.o
+LOAD CMakeFiles/milandr_Camera.elf.dir/UserCode/milandr.cpp.o
+LOAD CMakeFiles/milandr_Camera.elf.dir/UserCode/outputSig.cpp.o
+LOAD libCMSIS.a
+LOAD /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libstdc++_nano.a
+LOAD /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libm.a
+START GROUP
+LOAD /usr/lib/gcc/arm-none-eabi/9.2.1/thumb/v7-m/nofp/libgcc.a
+LOAD /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a
+END GROUP
+START GROUP
+LOAD /usr/lib/gcc/arm-none-eabi/9.2.1/thumb/v7-m/nofp/libgcc.a
+LOAD /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a
+LOAD /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libnosys.a
+END GROUP
+START GROUP
+LOAD /usr/lib/gcc/arm-none-eabi/9.2.1/thumb/v7-m/nofp/libgcc.a
+LOAD /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a
+LOAD /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libnosys.a
+END GROUP
+LOAD /usr/lib/gcc/arm-none-eabi/9.2.1/thumb/v7-m/nofp/crtend.o
+LOAD /usr/lib/gcc/arm-none-eabi/9.2.1/thumb/v7-m/nofp/crtn.o
+                [!provide]                        PROVIDE (__executable_start = SEGMENT_START ("text-segment", 0x8000))
+                0x0000000000008000                . = SEGMENT_START ("text-segment", 0x8000)
+
+.interp
+ *(.interp)
+
+.note.gnu.build-id
+ *(.note.gnu.build-id)
+
+.hash
+ *(.hash)
+
+.gnu.hash
+ *(.gnu.hash)
+
+.dynsym
+ *(.dynsym)
+
+.dynstr
+ *(.dynstr)
+
+.gnu.version
+ *(.gnu.version)
+
+.gnu.version_d
+ *(.gnu.version_d)
+
+.gnu.version_r
+ *(.gnu.version_r)
+
+.rel.dyn        0x0000000000008000        0x0
+ *(.rel.init)
+ *(.rel.text .rel.text.* .rel.gnu.linkonce.t.*)
+ *(.rel.fini)
+ *(.rel.rodata .rel.rodata.* .rel.gnu.linkonce.r.*)
+ *(.rel.data.rel.ro .rel.data.rel.ro.* .rel.gnu.linkonce.d.rel.ro.*)
+ *(.rel.data .rel.data.* .rel.gnu.linkonce.d.*)
+ *(.rel.tdata .rel.tdata.* .rel.gnu.linkonce.td.*)
+ *(.rel.tbss .rel.tbss.* .rel.gnu.linkonce.tb.*)
+ *(.rel.ctors)
+ *(.rel.dtors)
+ *(.rel.got)
+ *(.rel.bss .rel.bss.* .rel.gnu.linkonce.b.*)
+                [!provide]                        PROVIDE (__rel_iplt_start = .)
+ *(.rel.iplt)
+ .rel.iplt      0x0000000000008000        0x0 /usr/lib/gcc/arm-none-eabi/9.2.1/thumb/v7-m/nofp/crtbegin.o
+                [!provide]                        PROVIDE (__rel_iplt_end = .)
+
+.rela.dyn       0x0000000000008000        0x0
+ *(.rela.init)
+ *(.rela.text .rela.text.* .rela.gnu.linkonce.t.*)
+ *(.rela.fini)
+ *(.rela.rodata .rela.rodata.* .rela.gnu.linkonce.r.*)
+ *(.rela.data .rela.data.* .rela.gnu.linkonce.d.*)
+ *(.rela.tdata .rela.tdata.* .rela.gnu.linkonce.td.*)
+ *(.rela.tbss .rela.tbss.* .rela.gnu.linkonce.tb.*)
+ *(.rela.ctors)
+ *(.rela.dtors)
+ *(.rela.got)
+ *(.rela.bss .rela.bss.* .rela.gnu.linkonce.b.*)
+                [!provide]                        PROVIDE (__rela_iplt_start = .)
+ *(.rela.iplt)
+                [!provide]                        PROVIDE (__rela_iplt_end = .)
+
+.rel.plt
+ *(.rel.plt)
+
+.rela.plt
+ *(.rela.plt)
+
+.init           0x0000000000008000        0xc
+ *(SORT_NONE(.init))
+ .init          0x0000000000008000        0x4 /usr/lib/gcc/arm-none-eabi/9.2.1/thumb/v7-m/nofp/crti.o
+                0x0000000000008000                _init
+ .init          0x0000000000008004        0x8 /usr/lib/gcc/arm-none-eabi/9.2.1/thumb/v7-m/nofp/crtn.o
+
+.plt
+ *(.plt)
+
+.iplt           0x000000000000800c        0x0
+ *(.iplt)
+ .iplt          0x000000000000800c        0x0 /usr/lib/gcc/arm-none-eabi/9.2.1/thumb/v7-m/nofp/crtbegin.o
+
+.text           0x000000000000800c     0x1388
+ *(.text.unlikely .text.*_unlikely .text.unlikely.*)
+ .text.unlikely._ZSt20__throw_length_errorPKc
+                0x000000000000800c        0x6 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libstdc++_nano.a(functexcept.o)
+                0x000000000000800c                std::__throw_length_error(char const*)
+ *(.text.exit .text.exit.*)
+ *(.text.startup .text.startup.*)
+ *fill*         0x0000000000008012        0x2 
+ .text.startup  0x0000000000008014      0x204 CMakeFiles/milandr_Camera.elf.dir/UserCode/main.cpp.o
+                0x0000000000008014                main
+ *(.text.hot .text.hot.*)
+ *(SORT_BY_NAME(.text.sorted.*))
+ *(.text .stub .text.* .gnu.linkonce.t.*)
+ .text          0x0000000000008218       0x88 /usr/lib/gcc/arm-none-eabi/9.2.1/thumb/v7-m/nofp/crtbegin.o
+ .text          0x00000000000082a0       0x70 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/crt0.o
+                0x00000000000082a0                _stack_init
+                0x00000000000082a8                _mainCRTStartup
+                0x00000000000082a8                _start
+ .text.PORT_Init
+                0x0000000000008310      0x138 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_port.c.o
+                0x0000000000008310                PORT_Init
+ .text.PORT_SetBits
+                0x0000000000008448       0x18 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_port.c.o
+                0x0000000000008448                PORT_SetBits
+ .text.PORT_ResetBits
+                0x0000000000008460       0x18 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_port.c.o
+                0x0000000000008460                PORT_ResetBits
+ .text.RST_CLK_WarmDeInit
+                0x0000000000008478       0x78 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_rst_clk.c.o
+                0x0000000000008478                RST_CLK_WarmDeInit
+ .text.RST_CLK_DeInit
+                0x00000000000084f0       0x2c CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_rst_clk.c.o
+                0x00000000000084f0                RST_CLK_DeInit
+ .text.RST_CLK_HSEconfig
+                0x000000000000851c       0x2c CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_rst_clk.c.o
+                0x000000000000851c                RST_CLK_HSEconfig
+ .text.RST_CLK_HSEstatus
+                0x0000000000008548       0x30 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_rst_clk.c.o
+                0x0000000000008548                RST_CLK_HSEstatus
+ .text.RST_CLK_HSIcmd
+                0x0000000000008578        0xc CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_rst_clk.c.o
+                0x0000000000008578                RST_CLK_HSIcmd
+ .text.RST_CLK_CPU_PLLconfig
+                0x0000000000008584       0x3c CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_rst_clk.c.o
+                0x0000000000008584                RST_CLK_CPU_PLLconfig
+ .text.RST_CLK_CPU_PLLuse
+                0x00000000000085c0        0xc CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_rst_clk.c.o
+                0x00000000000085c0                RST_CLK_CPU_PLLuse
+ .text.RST_CLK_CPU_PLLcmd
+                0x00000000000085cc        0xc CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_rst_clk.c.o
+                0x00000000000085cc                RST_CLK_CPU_PLLcmd
+ .text.RST_CLK_CPU_PLLstatus
+                0x00000000000085d8       0x30 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_rst_clk.c.o
+                0x00000000000085d8                RST_CLK_CPU_PLLstatus
+ .text.RST_CLK_CPUclkPrescaler
+                0x0000000000008608       0x14 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_rst_clk.c.o
+                0x0000000000008608                RST_CLK_CPUclkPrescaler
+ .text.RST_CLK_CPUclkSelection
+                0x000000000000861c       0x14 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_rst_clk.c.o
+                0x000000000000861c                RST_CLK_CPUclkSelection
+ .text.RST_CLK_CPUclkSelectionC1
+                0x0000000000008630       0x14 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_rst_clk.c.o
+                0x0000000000008630                RST_CLK_CPUclkSelectionC1
+ .text.RST_CLK_PCLKcmd
+                0x0000000000008644       0x18 CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_rst_clk.c.o
+                0x0000000000008644                RST_CLK_PCLKcmd
+ .text.RST_CLK_GetClocksFreq
+                0x000000000000865c      0x15c CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_rst_clk.c.o
+                0x000000000000865c                RST_CLK_GetClocksFreq
+ .text          0x00000000000087b8      0x15c CMakeFiles/milandr_Camera.elf.dir/UserCode/main.cpp.o
+                0x00000000000087b8                RCC_init()
+                0x0000000000008820                PORT_StructInit_OUT(PORT_InitTypeDef*)
+                0x0000000000008838                GPIO_init()
+ .text._ZNSt15_Sp_counted_ptrIP9OutputSigLN9__gnu_cxx12_Lock_policyE0EED2Ev
+                0x0000000000008914        0x4 CMakeFiles/milandr_Camera.elf.dir/UserCode/main.cpp.o
+                0x0000000000008914                std::_Sp_counted_ptr<OutputSig*, (__gnu_cxx::_Lock_policy)0>::~_Sp_counted_ptr()
+                0x0000000000008914                std::_Sp_counted_ptr<OutputSig*, (__gnu_cxx::_Lock_policy)0>::~_Sp_counted_ptr()
+ .text._ZNSt15_Sp_counted_ptrIP7MilandrLN9__gnu_cxx12_Lock_policyE0EED2Ev
+                0x0000000000008918        0x4 CMakeFiles/milandr_Camera.elf.dir/UserCode/main.cpp.o
+                0x0000000000008918                std::_Sp_counted_ptr<Milandr*, (__gnu_cxx::_Lock_policy)0>::~_Sp_counted_ptr()
+                0x0000000000008918                std::_Sp_counted_ptr<Milandr*, (__gnu_cxx::_Lock_policy)0>::~_Sp_counted_ptr()
+ .text._ZNSt15_Sp_counted_ptrIP9OutputSigLN9__gnu_cxx12_Lock_policyE0EE14_M_get_deleterERKSt9type_info
+                0x000000000000891c        0x4 CMakeFiles/milandr_Camera.elf.dir/UserCode/main.cpp.o
+                0x000000000000891c                std::_Sp_counted_ptr<OutputSig*, (__gnu_cxx::_Lock_policy)0>::_M_get_deleter(std::type_info const&)
+ .text._ZNSt15_Sp_counted_ptrIP7MilandrLN9__gnu_cxx12_Lock_policyE0EE14_M_get_deleterERKSt9type_info
+                0x0000000000008920        0x4 CMakeFiles/milandr_Camera.elf.dir/UserCode/main.cpp.o
+                0x0000000000008920                std::_Sp_counted_ptr<Milandr*, (__gnu_cxx::_Lock_policy)0>::_M_get_deleter(std::type_info const&)
+ .text._ZNSt15_Sp_counted_ptrIP7MilandrLN9__gnu_cxx12_Lock_policyE0EE10_M_disposeEv
+                0x0000000000008924       0x18 CMakeFiles/milandr_Camera.elf.dir/UserCode/main.cpp.o
+                0x0000000000008924                std::_Sp_counted_ptr<Milandr*, (__gnu_cxx::_Lock_policy)0>::_M_dispose()
+ .text._ZNSt15_Sp_counted_ptrIP7MilandrLN9__gnu_cxx12_Lock_policyE0EED0Ev
+                0x000000000000893c        0xc CMakeFiles/milandr_Camera.elf.dir/UserCode/main.cpp.o
+                0x000000000000893c                std::_Sp_counted_ptr<Milandr*, (__gnu_cxx::_Lock_policy)0>::~_Sp_counted_ptr()
+ .text._ZNSt15_Sp_counted_ptrIP7MilandrLN9__gnu_cxx12_Lock_policyE0EE10_M_destroyEv
+                0x0000000000008948        0x4 CMakeFiles/milandr_Camera.elf.dir/UserCode/main.cpp.o
+                0x0000000000008948                std::_Sp_counted_ptr<Milandr*, (__gnu_cxx::_Lock_policy)0>::_M_destroy()
+ .text._ZNSt15_Sp_counted_ptrIP9OutputSigLN9__gnu_cxx12_Lock_policyE0EED0Ev
+                0x000000000000894c        0xc CMakeFiles/milandr_Camera.elf.dir/UserCode/main.cpp.o
+                0x000000000000894c                std::_Sp_counted_ptr<OutputSig*, (__gnu_cxx::_Lock_policy)0>::~_Sp_counted_ptr()
+ .text._ZNSt15_Sp_counted_ptrIP9OutputSigLN9__gnu_cxx12_Lock_policyE0EE10_M_destroyEv
+                0x0000000000008958        0x4 CMakeFiles/milandr_Camera.elf.dir/UserCode/main.cpp.o
+                0x0000000000008958                std::_Sp_counted_ptr<OutputSig*, (__gnu_cxx::_Lock_policy)0>::_M_destroy()
+ .text._ZNSt15_Sp_counted_ptrIP9OutputSigLN9__gnu_cxx12_Lock_policyE0EE10_M_disposeEv
+                0x000000000000895c       0x18 CMakeFiles/milandr_Camera.elf.dir/UserCode/main.cpp.o
+                0x000000000000895c                std::_Sp_counted_ptr<OutputSig*, (__gnu_cxx::_Lock_policy)0>::_M_dispose()
+ .text          0x0000000000008974      0x138 CMakeFiles/milandr_Camera.elf.dir/UserCode/milandr.cpp.o
+                0x0000000000008974                Milandr::Milandr()
+                0x0000000000008974                Milandr::Milandr()
+                0x0000000000008978                Milandr::~Milandr()
+                0x0000000000008978                Milandr::~Milandr()
+                0x000000000000897c                Milandr::init()
+ .text          0x0000000000008aac       0x74 CMakeFiles/milandr_Camera.elf.dir/UserCode/outputSig.cpp.o
+                0x0000000000008aac                OutputSig::OutputSig(std::shared_ptr<Milandr>)
+                0x0000000000008aac                OutputSig::OutputSig(std::shared_ptr<Milandr>)
+                0x0000000000008acc                OutputSig::~OutputSig()
+                0x0000000000008acc                OutputSig::~OutputSig()
+                0x0000000000008b18                OutputSig::getMoveOn() const
+                0x0000000000008b1c                OutputSig::setMoveOn(bool)
+ .text._ZNSt15_Sp_counted_ptrIDnLN9__gnu_cxx12_Lock_policyE0EE10_M_disposeEv
+                0x0000000000008b20        0x4 CMakeFiles/milandr_Camera.elf.dir/UserCode/outputSig.cpp.o
+                0x0000000000008b20                std::_Sp_counted_ptr<decltype(nullptr), (__gnu_cxx::_Lock_policy)0>::_M_dispose()
+ .text._ZNSt16_Sp_counted_baseILN9__gnu_cxx12_Lock_policyE0EE10_M_destroyEv
+                0x0000000000008b24        0x8 CMakeFiles/milandr_Camera.elf.dir/UserCode/outputSig.cpp.o
+                0x0000000000008b24                std::_Sp_counted_base<(__gnu_cxx::_Lock_policy)0>::_M_destroy()
+ .text.UART_DeInit
+                0x0000000000008b2c       0x28 libCMSIS.a(MDR32F9Qx_uart.c.o)
+                0x0000000000008b2c                UART_DeInit
+ .text.UART_Init
+                0x0000000000008b54       0x94 libCMSIS.a(MDR32F9Qx_uart.c.o)
+                0x0000000000008b54                UART_Init
+ .text.UART_Cmd
+                0x0000000000008be8       0x18 libCMSIS.a(MDR32F9Qx_uart.c.o)
+                0x0000000000008be8                UART_Cmd
+ .text.UART_ITConfig
+                0x0000000000008c00       0x14 libCMSIS.a(MDR32F9Qx_uart.c.o)
+                0x0000000000008c00                UART_ITConfig
+ .text.UART_ReceiveData
+                0x0000000000008c14        0x8 libCMSIS.a(MDR32F9Qx_uart.c.o)
+                0x0000000000008c14                UART_ReceiveData
+ .text.UART_GetFlagStatus
+                0x0000000000008c1c        0xc libCMSIS.a(MDR32F9Qx_uart.c.o)
+                0x0000000000008c1c                UART_GetFlagStatus
+ .text.UART_BRGInit
+                0x0000000000008c28       0x44 libCMSIS.a(MDR32F9Qx_uart.c.o)
+                0x0000000000008c28                UART_BRGInit
+ .text._ZdlPv   0x0000000000008c6c        0x4 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libstdc++_nano.a(del_op.o)
+                0x0000000000008c6c                operator delete(void*)
+ .text._Znwj    0x0000000000008c70       0x22 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libstdc++_nano.a(new_op.o)
+                0x0000000000008c70                operator new(unsigned int)
+ *fill*         0x0000000000008c92        0x2 
+ .text._ZSt15get_new_handlerv
+                0x0000000000008c94       0x10 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libstdc++_nano.a(new_handler.o)
+                0x0000000000008c94                std::get_new_handler()
+ .text          0x0000000000008ca4       0x10 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-abort.o)
+                0x0000000000008ca4                abort
+ .text          0x0000000000008cb4        0xc /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-atexit.o)
+                0x0000000000008cb4                atexit
+ .text          0x0000000000008cc0       0x28 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-exit.o)
+                0x0000000000008cc0                exit
+ .text          0x0000000000008ce8       0x34 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-fini.o)
+                0x0000000000008ce8                __libc_fini_array
+ .text          0x0000000000008d1c       0x48 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-init.o)
+                0x0000000000008d1c                __libc_init_array
+ .text          0x0000000000008d64       0x20 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-malloc.o)
+                0x0000000000008d64                malloc
+                0x0000000000008d74                free
+ .text          0x0000000000008d84       0xcc /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-memmove.o)
+                0x0000000000008d84                memmove
+ .text          0x0000000000008e50       0xa0 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-memset.o)
+                0x0000000000008e50                memset
+ .text          0x0000000000008ef0       0xa8 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-nano-freer.o)
+                0x0000000000008ef0                _free_r
+ .text          0x0000000000008f98       0xc8 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-nano-mallocr.o)
+                0x0000000000008f98                _malloc_r
+ .text          0x0000000000009060       0x24 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-sbrkr.o)
+                0x0000000000009060                _sbrk_r
+ .text          0x0000000000009084      0x150 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-signal.o)
+                0x00000000000090ac                _init_signal_r
+                0x00000000000090b8                _signal_r
+                0x00000000000090ec                _raise_r
+                0x0000000000009140                __sigtramp_r
+                0x0000000000009190                raise
+                0x00000000000091a0                signal
+                0x00000000000091b0                _init_signal
+                0x00000000000091c4                __sigtramp
+ .text          0x00000000000091d4       0x2c /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-signalr.o)
+                0x00000000000091d4                _kill_r
+                0x00000000000091fc                _getpid_r
+ .text          0x0000000000009200       0xb0 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-__atexit.o)
+                0x0000000000009200                __register_exitproc
+ .text          0x00000000000092b0       0x9c /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-__call_atexit.o)
+                0x00000000000092b0                __call_exitprocs
+ .text          0x000000000000934c        0x8 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-mlock.o)
+                0x000000000000934c                __malloc_lock
+                0x0000000000009350                __malloc_unlock
+ .text          0x0000000000009354       0x10 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libnosys.a(getpid.o)
+                0x0000000000009354                _getpid
+ .text          0x0000000000009364       0x10 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libnosys.a(kill.o)
+                0x0000000000009364                _kill
+ .text          0x0000000000009374       0x1c /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libnosys.a(sbrk.o)
+                0x0000000000009374                _sbrk
+ .text          0x0000000000009390        0x4 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libnosys.a(_exit.o)
+                0x0000000000009390                _exit
+ *(.gnu.warning)
+ *(.glue_7t)
+ .glue_7t       0x0000000000009394        0x0 linker stubs
+ *(.glue_7)
+ .glue_7        0x0000000000009394        0x0 linker stubs
+ *(.vfp11_veneer)
+ .vfp11_veneer  0x0000000000009394        0x0 linker stubs
+ *(.v4_bx)
+ .v4_bx         0x0000000000009394        0x0 linker stubs
+
+.fini           0x0000000000009394        0xc
+ *(SORT_NONE(.fini))
+ .fini          0x0000000000009394        0x4 /usr/lib/gcc/arm-none-eabi/9.2.1/thumb/v7-m/nofp/crti.o
+                0x0000000000009394                _fini
+ .fini          0x0000000000009398        0x8 /usr/lib/gcc/arm-none-eabi/9.2.1/thumb/v7-m/nofp/crtn.o
+                [!provide]                        PROVIDE (__etext = .)
+                [!provide]                        PROVIDE (_etext = .)
+                [!provide]                        PROVIDE (etext = .)
+
+.rodata         0x00000000000093a0       0x58
+ *(.rodata .rodata.* .gnu.linkonce.r.*)
+ .rodata.str1.4
+                0x00000000000093a0       0x1a CMakeFiles/milandr_Camera.elf.dir/UserCode/main.cpp.o
+ *fill*         0x00000000000093ba        0x2 
+ .rodata._ZTVSt15_Sp_counted_ptrIP7MilandrLN9__gnu_cxx12_Lock_policyE0EE
+                0x00000000000093bc       0x1c CMakeFiles/milandr_Camera.elf.dir/UserCode/main.cpp.o
+                0x00000000000093bc                vtable for std::_Sp_counted_ptr<Milandr*, (__gnu_cxx::_Lock_policy)0>
+ .rodata._ZTVSt15_Sp_counted_ptrIP9OutputSigLN9__gnu_cxx12_Lock_policyE0EE
+                0x00000000000093d8       0x1c CMakeFiles/milandr_Camera.elf.dir/UserCode/main.cpp.o
+                0x00000000000093d8                vtable for std::_Sp_counted_ptr<OutputSig*, (__gnu_cxx::_Lock_policy)0>
+ .rodata        0x00000000000093f4        0x4 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-impure.o)
+                0x00000000000093f4                _global_impure_ptr
+
+.rodata1
+ *(.rodata1)
+
+.ARM.extab
+ *(.ARM.extab* .gnu.linkonce.armextab.*)
+
+.ARM.exidx      0x00000000000093f8        0x8
+                [!provide]                        PROVIDE (__exidx_start = .)
+ *(.ARM.exidx* .gnu.linkonce.armexidx.*)
+ .ARM.exidx     0x00000000000093f8        0x8 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/crt0.o
+                                         0x10 (size before relaxing)
+                [!provide]                        PROVIDE (__exidx_end = .)
+
+.eh_frame_hdr
+ *(.eh_frame_hdr)
+ *(.eh_frame_entry .eh_frame_entry.*)
+
+.eh_frame       0x0000000000009400        0x4
+ *(.eh_frame)
+ .eh_frame      0x0000000000009400        0x0 /usr/lib/gcc/arm-none-eabi/9.2.1/thumb/v7-m/nofp/crtbegin.o
+ .eh_frame      0x0000000000009400        0x4 /usr/lib/gcc/arm-none-eabi/9.2.1/thumb/v7-m/nofp/crtend.o
+ *(.eh_frame.*)
+
+.gcc_except_table
+ *(.gcc_except_table .gcc_except_table.*)
+
+.gnu_extab
+ *(.gnu_extab*)
+
+.exception_ranges
+ *(.exception_ranges*)
+                0x0000000000019404                . = (ALIGN (CONSTANT (MAXPAGESIZE)) + (. & (CONSTANT (MAXPAGESIZE) - 0x1)))
+
+.eh_frame
+ *(.eh_frame)
+ *(.eh_frame.*)
+
+.gnu_extab
+ *(.gnu_extab)
+
+.gcc_except_table
+ *(.gcc_except_table .gcc_except_table.*)
+
+.exception_ranges
+ *(.exception_ranges*)
+
+.tdata          0x0000000000019404        0x0
+                [!provide]                        PROVIDE (__tdata_start = .)
+ *(.tdata .tdata.* .gnu.linkonce.td.*)
+
+.tbss
+ *(.tbss .tbss.* .gnu.linkonce.tb.*)
+ *(.tcommon)
+
+.preinit_array  0x0000000000019404        0x0
+                0x0000000000019404                PROVIDE (__preinit_array_start = .)
+ *(.preinit_array)
+                0x0000000000019404                PROVIDE (__preinit_array_end = .)
+
+.init_array     0x0000000000019404        0x4
+                0x0000000000019404                PROVIDE (__init_array_start = .)
+ *(SORT_BY_INIT_PRIORITY(.init_array.*) SORT_BY_INIT_PRIORITY(.ctors.*))
+ *(.init_array EXCLUDE_FILE(*crtend?.o *crtend.o *crtbegin?.o *crtbegin.o) .ctors)
+ .init_array    0x0000000000019404        0x4 /usr/lib/gcc/arm-none-eabi/9.2.1/thumb/v7-m/nofp/crtbegin.o
+                0x0000000000019408                PROVIDE (__init_array_end = .)
+
+.fini_array     0x0000000000019408        0x4
+                0x0000000000019408                PROVIDE (__fini_array_start = .)
+ *(SORT_BY_INIT_PRIORITY(.fini_array.*) SORT_BY_INIT_PRIORITY(.dtors.*))
+ *(.fini_array EXCLUDE_FILE(*crtend?.o *crtend.o *crtbegin?.o *crtbegin.o) .dtors)
+ .fini_array    0x0000000000019408        0x4 /usr/lib/gcc/arm-none-eabi/9.2.1/thumb/v7-m/nofp/crtbegin.o
+                0x000000000001940c                PROVIDE (__fini_array_end = .)
+
+.ctors
+ *crtbegin.o(.ctors)
+ *crtbegin?.o(.ctors)
+ *(EXCLUDE_FILE(*crtend?.o *crtend.o) .ctors)
+ *(SORT_BY_NAME(.ctors.*))
+ *(.ctors)
+
+.dtors
+ *crtbegin.o(.dtors)
+ *crtbegin?.o(.dtors)
+ *(EXCLUDE_FILE(*crtend?.o *crtend.o) .dtors)
+ *(SORT_BY_NAME(.dtors.*))
+ *(.dtors)
+
+.jcr
+ *(.jcr)
+
+.data.rel.ro
+ *(.data.rel.ro.local* .gnu.linkonce.d.rel.ro.local.*)
+ *(.data.rel.ro .data.rel.ro.* .gnu.linkonce.d.rel.ro.*)
+
+.dynamic
+ *(.dynamic)
+
+.got            0x000000000001940c        0x0
+ *(.got.plt)
+ *(.igot.plt)
+ .igot.plt      0x000000000001940c        0x0 /usr/lib/gcc/arm-none-eabi/9.2.1/thumb/v7-m/nofp/crtbegin.o
+ *(.got)
+ *(.igot)
+
+.data           0x000000000001940c       0x64
+                0x000000000001940c                __data_start = .
+ *(.data .data.* .gnu.linkonce.d.*)
+ .data          0x000000000001940c       0x64 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-impure.o)
+                0x000000000001940c                _impure_ptr
+
+.tm_clone_table
+                0x0000000000019470        0x0
+ .tm_clone_table
+                0x0000000000019470        0x0 /usr/lib/gcc/arm-none-eabi/9.2.1/thumb/v7-m/nofp/crtbegin.o
+ .tm_clone_table
+                0x0000000000019470        0x0 /usr/lib/gcc/arm-none-eabi/9.2.1/thumb/v7-m/nofp/crtend.o
+
+.data1
+ *(.data1)
+                0x0000000000019470                _edata = .
+                [!provide]                        PROVIDE (edata = .)
+                0x0000000000019470                . = .
+                0x0000000000019470                __bss_start = .
+                0x0000000000019470                __bss_start__ = .
+
+.bss            0x0000000000019470      0x114
+ *(.dynbss)
+ *(.bss .bss.* .gnu.linkonce.b.*)
+ .bss           0x0000000000019470       0x1c /usr/lib/gcc/arm-none-eabi/9.2.1/thumb/v7-m/nofp/crtbegin.o
+ .bss           0x000000000001948c       0x2c CMakeFiles/milandr_Camera.elf.dir/UserCode/main.cpp.o
+                0x00000000000194ac                PORTB_Init
+ .bss           0x00000000000194b8       0x28 CMakeFiles/milandr_Camera.elf.dir/UserCode/milandr.cpp.o
+ .bss._ZN12_GLOBAL__N_113__new_handlerE
+                0x00000000000194e0        0x4 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libstdc++_nano.a(new_handler.o)
+ .bss           0x00000000000194e4        0x8 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-nano-mallocr.o)
+                0x00000000000194e4                __malloc_free_list
+                0x00000000000194e8                __malloc_sbrk_start
+ .bss           0x00000000000194ec       0x8c /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-__atexit.o)
+ .bss           0x0000000000019578        0x4 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-__call_atexit.o)
+                0x0000000000019578                _global_atexit
+ .bss           0x000000000001957c        0x4 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libnosys.a(sbrk.o)
+ *(COMMON)
+ COMMON         0x0000000000019580        0x4 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-reent.o)
+                0x0000000000019580                errno
+                0x0000000000019584                . = ALIGN ((. != 0x0)?0x4:0x1)
+                0x0000000000019584                _bss_end__ = .
+                0x0000000000019584                __bss_end__ = .
+                0x0000000000019584                . = ALIGN (0x4)
+                0x0000000000019584                . = SEGMENT_START ("ldata-segment", .)
+                0x0000000000019584                . = ALIGN (0x4)
+                0x0000000000019584                __end__ = .
+                0x0000000000019584                _end = .
+                0x0000000000019584                PROVIDE (end = .)
+
+.stack          0x0000000000080000        0x0
+                0x0000000000080000                _stack = .
+ *(.stack)
+
+.stab           0x0000000000000000       0x3c
+ *(.stab)
+ .stab          0x0000000000000000       0x24 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libnosys.a(getpid.o)
+ .stab          0x0000000000000024       0x18 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libnosys.a(kill.o)
+                                         0x24 (size before relaxing)
+
+.stabstr        0x0000000000000000       0x76
+ *(.stabstr)
+ .stabstr       0x0000000000000000       0x76 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libnosys.a(getpid.o)
+
+.stab.excl
+ *(.stab.excl)
+
+.stab.exclstr
+ *(.stab.exclstr)
+
+.stab.index
+ *(.stab.index)
+
+.stab.indexstr
+ *(.stab.indexstr)
+
+.comment        0x0000000000000000       0xa7
+ *(.comment)
+ .comment       0x0000000000000000       0x59 /usr/lib/gcc/arm-none-eabi/9.2.1/thumb/v7-m/nofp/crtbegin.o
+                                         0x5a (size before relaxing)
+ .comment       0x0000000000000059       0x5a CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_port.c.o
+ .comment       0x0000000000000059       0x5a CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_rst_clk.c.o
+ .comment       0x0000000000000059       0x5a CMakeFiles/milandr_Camera.elf.dir/UserCode/main.cpp.o
+ .comment       0x0000000000000059       0x5a CMakeFiles/milandr_Camera.elf.dir/UserCode/milandr.cpp.o
+ .comment       0x0000000000000059       0x5a CMakeFiles/milandr_Camera.elf.dir/UserCode/outputSig.cpp.o
+ .comment       0x0000000000000059       0x5a libCMSIS.a(MDR32F9Qx_uart.c.o)
+ .comment       0x0000000000000059       0x5a /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libstdc++_nano.a(del_op.o)
+ .comment       0x0000000000000059       0x5a /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libstdc++_nano.a(new_op.o)
+ .comment       0x0000000000000059       0x5a /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libstdc++_nano.a(functexcept.o)
+ .comment       0x0000000000000059       0x5a /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libstdc++_nano.a(new_handler.o)
+ .comment       0x0000000000000059       0x4e /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-abort.o)
+                                         0x4f (size before relaxing)
+ .comment       0x00000000000000a7       0x4f /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-atexit.o)
+ .comment       0x00000000000000a7       0x4f /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-exit.o)
+ .comment       0x00000000000000a7       0x4f /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-fini.o)
+ .comment       0x00000000000000a7       0x4f /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-impure.o)
+ .comment       0x00000000000000a7       0x4f /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-init.o)
+ .comment       0x00000000000000a7       0x4f /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-malloc.o)
+ .comment       0x00000000000000a7       0x4f /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-memmove.o)
+ .comment       0x00000000000000a7       0x4f /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-memset.o)
+ .comment       0x00000000000000a7       0x4f /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-nano-freer.o)
+ .comment       0x00000000000000a7       0x4f /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-nano-mallocr.o)
+ .comment       0x00000000000000a7       0x4f /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-sbrkr.o)
+ .comment       0x00000000000000a7       0x4f /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-signal.o)
+ .comment       0x00000000000000a7       0x4f /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-signalr.o)
+ .comment       0x00000000000000a7       0x4f /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-__atexit.o)
+ .comment       0x00000000000000a7       0x4f /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-__call_atexit.o)
+ .comment       0x00000000000000a7       0x4f /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-mlock.o)
+ .comment       0x00000000000000a7       0x4f /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-reent.o)
+ .comment       0x00000000000000a7       0x4f /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libnosys.a(getpid.o)
+ .comment       0x00000000000000a7       0x4f /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libnosys.a(kill.o)
+ .comment       0x00000000000000a7       0x4f /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libnosys.a(sbrk.o)
+ .comment       0x00000000000000a7       0x4f /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libnosys.a(_exit.o)
+ .comment       0x00000000000000a7       0x5a /usr/lib/gcc/arm-none-eabi/9.2.1/thumb/v7-m/nofp/crtend.o
+
+.gnu.build.attributes
+ *(.gnu.build.attributes .gnu.build.attributes.*)
+
+.debug
+ *(.debug)
+
+.line
+ *(.line)
+
+.debug_srcinfo
+ *(.debug_srcinfo)
+
+.debug_sfnames
+ *(.debug_sfnames)
+
+.debug_aranges  0x0000000000000000      0x370
+ *(.debug_aranges)
+ .debug_aranges
+                0x0000000000000000       0x20 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/crt0.o
+ .debug_aranges
+                0x0000000000000020       0x20 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libstdc++_nano.a(del_op.o)
+ .debug_aranges
+                0x0000000000000040       0x20 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libstdc++_nano.a(new_op.o)
+ .debug_aranges
+                0x0000000000000060       0x30 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libstdc++_nano.a(functexcept.o)
+ .debug_aranges
+                0x0000000000000090       0x28 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libstdc++_nano.a(new_handler.o)
+ .debug_aranges
+                0x00000000000000b8       0x20 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-abort.o)
+ .debug_aranges
+                0x00000000000000d8       0x20 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-atexit.o)
+ .debug_aranges
+                0x00000000000000f8       0x20 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-exit.o)
+ .debug_aranges
+                0x0000000000000118       0x20 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-fini.o)
+ .debug_aranges
+                0x0000000000000138       0x18 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-impure.o)
+ .debug_aranges
+                0x0000000000000150       0x20 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-init.o)
+ .debug_aranges
+                0x0000000000000170       0x20 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-malloc.o)
+ .debug_aranges
+                0x0000000000000190       0x20 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-memmove.o)
+ .debug_aranges
+                0x00000000000001b0       0x20 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-memset.o)
+ .debug_aranges
+                0x00000000000001d0       0x20 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-nano-freer.o)
+ .debug_aranges
+                0x00000000000001f0       0x20 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-nano-mallocr.o)
+ .debug_aranges
+                0x0000000000000210       0x20 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-sbrkr.o)
+ .debug_aranges
+                0x0000000000000230       0x20 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-signal.o)
+ .debug_aranges
+                0x0000000000000250       0x20 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-signalr.o)
+ .debug_aranges
+                0x0000000000000270       0x20 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-__atexit.o)
+ .debug_aranges
+                0x0000000000000290       0x20 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-__call_atexit.o)
+ .debug_aranges
+                0x00000000000002b0       0x20 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-mlock.o)
+ .debug_aranges
+                0x00000000000002d0       0x20 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-reent.o)
+ .debug_aranges
+                0x00000000000002f0       0x20 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libnosys.a(getpid.o)
+ .debug_aranges
+                0x0000000000000310       0x20 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libnosys.a(kill.o)
+ .debug_aranges
+                0x0000000000000330       0x20 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libnosys.a(sbrk.o)
+ .debug_aranges
+                0x0000000000000350       0x20 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libnosys.a(_exit.o)
+
+.debug_pubnames
+ *(.debug_pubnames)
+
+.debug_info     0x0000000000000000    0x1143b
+ *(.debug_info .gnu.linkonce.wi.*)
+ .debug_info    0x0000000000000000       0x26 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/crt0.o
+ .debug_info    0x0000000000000026     0x116c /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libstdc++_nano.a(del_op.o)
+ .debug_info    0x0000000000001192     0x11f6 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libstdc++_nano.a(new_op.o)
+ .debug_info    0x0000000000002388     0x259f /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libstdc++_nano.a(functexcept.o)
+ .debug_info    0x0000000000004927      0x455 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libstdc++_nano.a(new_handler.o)
+ .debug_info    0x0000000000004d7c      0x9b5 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-abort.o)
+ .debug_info    0x0000000000005731      0x995 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-atexit.o)
+ .debug_info    0x00000000000060c6      0x9e7 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-exit.o)
+ .debug_info    0x0000000000006aad      0x102 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-fini.o)
+ .debug_info    0x0000000000006baf      0x92a /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-impure.o)
+ .debug_info    0x00000000000074d9      0x11a /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-init.o)
+ .debug_info    0x00000000000075f3      0x9b6 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-malloc.o)
+ .debug_info    0x0000000000007fa9      0xf2b /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-memmove.o)
+ .debug_info    0x0000000000008ed4      0xf21 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-memset.o)
+ .debug_info    0x0000000000009df5      0xb85 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-nano-freer.o)
+ .debug_info    0x000000000000a97a      0xc5a /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-nano-mallocr.o)
+ .debug_info    0x000000000000b5d4      0x9fb /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-sbrkr.o)
+ .debug_info    0x000000000000bfcf      0xd5c /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-signal.o)
+ .debug_info    0x000000000000cd2b      0xa43 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-signalr.o)
+ .debug_info    0x000000000000d76e      0xa38 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-__atexit.o)
+ .debug_info    0x000000000000e1a6      0xa10 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-__call_atexit.o)
+ .debug_info    0x000000000000ebb6      0x961 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-mlock.o)
+ .debug_info    0x000000000000f517      0xb0f /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-reent.o)
+ .debug_info    0x0000000000010026      0x959 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libnosys.a(getpid.o)
+ .debug_info    0x000000000001097f      0x97c /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libnosys.a(kill.o)
+ .debug_info    0x00000000000112fb       0x9d /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libnosys.a(sbrk.o)
+ .debug_info    0x0000000000011398       0xa3 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libnosys.a(_exit.o)
+
+.debug_abbrev   0x0000000000000000     0x3997
+ *(.debug_abbrev)
+ .debug_abbrev  0x0000000000000000       0x14 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/crt0.o
+ .debug_abbrev  0x0000000000000014      0x429 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libstdc++_nano.a(del_op.o)
+ .debug_abbrev  0x000000000000043d      0x473 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libstdc++_nano.a(new_op.o)
+ .debug_abbrev  0x00000000000008b0      0x54c /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libstdc++_nano.a(functexcept.o)
+ .debug_abbrev  0x0000000000000dfc      0x2d9 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libstdc++_nano.a(new_handler.o)
+ .debug_abbrev  0x00000000000010d5      0x1cd /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-abort.o)
+ .debug_abbrev  0x00000000000012a2      0x1f4 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-atexit.o)
+ .debug_abbrev  0x0000000000001496      0x1f6 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-exit.o)
+ .debug_abbrev  0x000000000000168c       0xcf /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-fini.o)
+ .debug_abbrev  0x000000000000175b      0x17a /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-impure.o)
+ .debug_abbrev  0x00000000000018d5       0xcc /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-init.o)
+ .debug_abbrev  0x00000000000019a1      0x1f2 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-malloc.o)
+ .debug_abbrev  0x0000000000001b93      0x1de /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-memmove.o)
+ .debug_abbrev  0x0000000000001d71      0x1d9 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-memset.o)
+ .debug_abbrev  0x0000000000001f4a      0x286 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-nano-freer.o)
+ .debug_abbrev  0x00000000000021d0      0x2d1 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-nano-mallocr.o)
+ .debug_abbrev  0x00000000000024a1      0x212 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-sbrkr.o)
+ .debug_abbrev  0x00000000000026b3      0x32d /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-signal.o)
+ .debug_abbrev  0x00000000000029e0      0x217 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-signalr.o)
+ .debug_abbrev  0x0000000000002bf7      0x25f /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-__atexit.o)
+ .debug_abbrev  0x0000000000002e56      0x237 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-__call_atexit.o)
+ .debug_abbrev  0x000000000000308d      0x1c5 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-mlock.o)
+ .debug_abbrev  0x0000000000003252      0x268 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-reent.o)
+ .debug_abbrev  0x00000000000034ba      0x1d6 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libnosys.a(getpid.o)
+ .debug_abbrev  0x0000000000003690      0x1fb /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libnosys.a(kill.o)
+ .debug_abbrev  0x000000000000388b       0xa2 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libnosys.a(sbrk.o)
+ .debug_abbrev  0x000000000000392d       0x6a /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libnosys.a(_exit.o)
+
+.debug_line     0x0000000000000000     0x32bb
+ *(.debug_line .debug_line.* .debug_line_end)
+ .debug_line    0x0000000000000000       0x87 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/crt0.o
+ .debug_line    0x0000000000000087      0x2c1 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libstdc++_nano.a(del_op.o)
+ .debug_line    0x0000000000000348      0x2ef /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libstdc++_nano.a(new_op.o)
+ .debug_line    0x0000000000000637      0x534 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libstdc++_nano.a(functexcept.o)
+ .debug_line    0x0000000000000b6b      0x25d /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libstdc++_nano.a(new_handler.o)
+ .debug_line    0x0000000000000dc8      0x15f /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-abort.o)
+ .debug_line    0x0000000000000f27      0x14a /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-atexit.o)
+ .debug_line    0x0000000000001071      0x16c /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-exit.o)
+ .debug_line    0x00000000000011dd       0xd7 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-fini.o)
+ .debug_line    0x00000000000012b4       0xe3 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-impure.o)
+ .debug_line    0x0000000000001397      0x114 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-init.o)
+ .debug_line    0x00000000000014ab      0x15e /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-malloc.o)
+ .debug_line    0x0000000000001609      0x28c /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-memmove.o)
+ .debug_line    0x0000000000001895      0x26b /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-memset.o)
+ .debug_line    0x0000000000001b00      0x29d /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-nano-freer.o)
+ .debug_line    0x0000000000001d9d      0x2f0 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-nano-mallocr.o)
+ .debug_line    0x000000000000208d      0x182 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-sbrkr.o)
+ .debug_line    0x000000000000220f      0x3dc /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-signal.o)
+ .debug_line    0x00000000000025eb      0x1a3 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-signalr.o)
+ .debug_line    0x000000000000278e      0x248 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-__atexit.o)
+ .debug_line    0x00000000000029d6      0x22c /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-__call_atexit.o)
+ .debug_line    0x0000000000002c02      0x13d /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-mlock.o)
+ .debug_line    0x0000000000002d3f      0x275 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-reent.o)
+ .debug_line    0x0000000000002fb4      0x111 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libnosys.a(getpid.o)
+ .debug_line    0x00000000000030c5      0x10f /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libnosys.a(kill.o)
+ .debug_line    0x00000000000031d4       0x79 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libnosys.a(sbrk.o)
+ .debug_line    0x000000000000324d       0x6e /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libnosys.a(_exit.o)
+
+.debug_frame    0x0000000000000000      0x6c4
+ *(.debug_frame)
+ .debug_frame   0x0000000000000000       0x20 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libstdc++_nano.a(del_op.o)
+ .debug_frame   0x0000000000000020       0x28 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libstdc++_nano.a(new_op.o)
+ .debug_frame   0x0000000000000048      0x170 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libstdc++_nano.a(functexcept.o)
+ .debug_frame   0x00000000000001b8       0x30 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libstdc++_nano.a(new_handler.o)
+ .debug_frame   0x00000000000001e8       0x28 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-abort.o)
+ .debug_frame   0x0000000000000210       0x20 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-atexit.o)
+ .debug_frame   0x0000000000000230       0x28 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-exit.o)
+ .debug_frame   0x0000000000000258       0x34 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-fini.o)
+ .debug_frame   0x000000000000028c       0x2c /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-init.o)
+ .debug_frame   0x00000000000002b8       0x30 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-malloc.o)
+ .debug_frame   0x00000000000002e8       0x40 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-memmove.o)
+ .debug_frame   0x0000000000000328       0x38 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-memset.o)
+ .debug_frame   0x0000000000000360       0x58 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-nano-freer.o)
+ .debug_frame   0x00000000000003b8       0x30 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-nano-mallocr.o)
+ .debug_frame   0x00000000000003e8       0x2c /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-sbrkr.o)
+ .debug_frame   0x0000000000000414       0xe0 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-signal.o)
+ .debug_frame   0x00000000000004f4       0x3c /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-signalr.o)
+ .debug_frame   0x0000000000000530       0x38 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-__atexit.o)
+ .debug_frame   0x0000000000000568       0x40 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-__call_atexit.o)
+ .debug_frame   0x00000000000005a8       0x30 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-mlock.o)
+ .debug_frame   0x00000000000005d8       0x6c /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-reent.o)
+ .debug_frame   0x0000000000000644       0x20 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libnosys.a(getpid.o)
+ .debug_frame   0x0000000000000664       0x20 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libnosys.a(kill.o)
+ .debug_frame   0x0000000000000684       0x20 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libnosys.a(sbrk.o)
+ .debug_frame   0x00000000000006a4       0x20 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libnosys.a(_exit.o)
+
+.debug_str      0x0000000000000000     0x2459
+ *(.debug_str)
+ .debug_str     0x0000000000000000       0x94 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/crt0.o
+ .debug_str     0x0000000000000094      0xa62 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libstdc++_nano.a(del_op.o)
+                                        0xb76 (size before relaxing)
+ .debug_str     0x0000000000000af6      0x16b /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libstdc++_nano.a(new_op.o)
+                                        0xbcf (size before relaxing)
+ .debug_str     0x0000000000000c61      0x96a /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libstdc++_nano.a(functexcept.o)
+                                       0x14dd (size before relaxing)
+ .debug_str     0x00000000000015cb      0x171 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libstdc++_nano.a(new_handler.o)
+                                        0x6dc (size before relaxing)
+ .debug_str     0x000000000000173c      0x1c9 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-abort.o)
+                                        0x618 (size before relaxing)
+ .debug_str     0x0000000000001905       0x78 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-atexit.o)
+                                        0x625 (size before relaxing)
+ .debug_str     0x000000000000197d       0x48 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-exit.o)
+                                        0x626 (size before relaxing)
+ .debug_str     0x00000000000019c5       0xc8 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-fini.o)
+                                        0x1f7 (size before relaxing)
+ .debug_str     0x0000000000001a8d       0x9c /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-impure.o)
+                                        0x5da (size before relaxing)
+ .debug_str     0x0000000000001b29       0x96 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-init.o)
+                                        0x221 (size before relaxing)
+ .debug_str     0x0000000000001bbf       0x52 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-malloc.o)
+                                        0x60b (size before relaxing)
+ .debug_str     0x0000000000001c11      0x22c /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-memmove.o)
+                                        0x926 (size before relaxing)
+ .debug_str     0x0000000000001e3d       0x48 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-memset.o)
+                                        0x907 (size before relaxing)
+ .debug_str     0x0000000000001e85      0x120 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-nano-freer.o)
+                                        0x70a (size before relaxing)
+ .debug_str     0x0000000000001fa5       0x32 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-nano-mallocr.o)
+                                        0x721 (size before relaxing)
+ .debug_str     0x0000000000001fd7       0x3d /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-sbrkr.o)
+                                        0x61d (size before relaxing)
+ .debug_str     0x0000000000002014       0xf8 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-signal.o)
+                                        0x67d (size before relaxing)
+ .debug_str     0x000000000000210c       0x42 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-signalr.o)
+                                        0x622 (size before relaxing)
+ .debug_str     0x000000000000214e       0x7d /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-__atexit.o)
+                                        0x678 (size before relaxing)
+ .debug_str     0x00000000000021cb       0x49 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-__call_atexit.o)
+                                        0x623 (size before relaxing)
+ .debug_str     0x0000000000002214       0x4c /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-mlock.o)
+                                        0x606 (size before relaxing)
+ .debug_str     0x0000000000002260       0x5e /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-reent.o)
+                                        0x616 (size before relaxing)
+ .debug_str     0x00000000000022be      0x102 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libnosys.a(getpid.o)
+                                        0x59b (size before relaxing)
+ .debug_str     0x00000000000023c0       0x2e /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libnosys.a(kill.o)
+                                        0x597 (size before relaxing)
+ .debug_str     0x00000000000023ee       0x3c /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libnosys.a(sbrk.o)
+                                        0x127 (size before relaxing)
+ .debug_str     0x000000000000242a       0x2f /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libnosys.a(_exit.o)
+                                        0x197 (size before relaxing)
+
+.debug_loc      0x0000000000000000     0x1a7b
+ *(.debug_loc)
+ .debug_loc     0x0000000000000000       0x25 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libstdc++_nano.a(del_op.o)
+ .debug_loc     0x0000000000000025       0x76 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libstdc++_nano.a(new_op.o)
+ .debug_loc     0x000000000000009b       0xb6 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libstdc++_nano.a(functexcept.o)
+ .debug_loc     0x0000000000000151       0x37 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libstdc++_nano.a(new_handler.o)
+ .debug_loc     0x0000000000000188       0x32 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-atexit.o)
+ .debug_loc     0x00000000000001ba       0x22 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-exit.o)
+ .debug_loc     0x00000000000001dc       0x68 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-fini.o)
+ .debug_loc     0x0000000000000244       0xba /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-init.o)
+ .debug_loc     0x00000000000002fe       0x64 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-malloc.o)
+ .debug_loc     0x0000000000000362      0x2e4 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-memmove.o)
+ .debug_loc     0x0000000000000646      0x231 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-memset.o)
+ .debug_loc     0x0000000000000877      0x1f7 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-nano-freer.o)
+ .debug_loc     0x0000000000000a6e      0x424 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-nano-mallocr.o)
+ .debug_loc     0x0000000000000e92       0x6c /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-sbrkr.o)
+ .debug_loc     0x0000000000000efe      0x55d /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-signal.o)
+ .debug_loc     0x000000000000145b       0xc3 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-signalr.o)
+ .debug_loc     0x000000000000151e      0x271 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-__atexit.o)
+ .debug_loc     0x000000000000178f      0x13f /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-__call_atexit.o)
+ .debug_loc     0x00000000000018ce      0x135 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-reent.o)
+ .debug_loc     0x0000000000001a03       0x25 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libnosys.a(kill.o)
+ .debug_loc     0x0000000000001a28       0x3e /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libnosys.a(sbrk.o)
+ .debug_loc     0x0000000000001a66       0x15 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libnosys.a(_exit.o)
+
+.debug_macinfo
+ *(.debug_macinfo)
+
+.debug_weaknames
+ *(.debug_weaknames)
+
+.debug_funcnames
+ *(.debug_funcnames)
+
+.debug_typenames
+ *(.debug_typenames)
+
+.debug_varnames
+ *(.debug_varnames)
+
+.debug_pubtypes
+ *(.debug_pubtypes)
+
+.debug_ranges   0x0000000000000000      0x118
+ *(.debug_ranges)
+ .debug_ranges  0x0000000000000000       0x10 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libstdc++_nano.a(del_op.o)
+ .debug_ranges  0x0000000000000010       0x10 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libstdc++_nano.a(new_op.o)
+ .debug_ranges  0x0000000000000020       0x20 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libstdc++_nano.a(functexcept.o)
+ .debug_ranges  0x0000000000000040       0x18 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libstdc++_nano.a(new_handler.o)
+ .debug_ranges  0x0000000000000058       0x18 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-nano-freer.o)
+ .debug_ranges  0x0000000000000070       0x38 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-nano-mallocr.o)
+ .debug_ranges  0x00000000000000a8       0x30 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-signal.o)
+ .debug_ranges  0x00000000000000d8       0x18 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-__atexit.o)
+ .debug_ranges  0x00000000000000f0       0x28 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-__call_atexit.o)
+
+.debug_macro
+ *(.debug_macro)
+
+.debug_addr
+ *(.debug_addr)
+
+.ARM.attributes
+                0x0000000000000000       0x29
+ *(.ARM.attributes)
+ .ARM.attributes
+                0x0000000000000000       0x1d /usr/lib/gcc/arm-none-eabi/9.2.1/thumb/v7-m/nofp/crti.o
+ .ARM.attributes
+                0x000000000000001d       0x2d /usr/lib/gcc/arm-none-eabi/9.2.1/thumb/v7-m/nofp/crtbegin.o
+ .ARM.attributes
+                0x000000000000004a       0x1b /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/crt0.o
+ .ARM.attributes
+                0x0000000000000065       0x2b CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_iwdg.c.o
+ .ARM.attributes
+                0x0000000000000090       0x2b CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_port.c.o
+ .ARM.attributes
+                0x00000000000000bb       0x2b CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_rst_clk.c.o
+ .ARM.attributes
+                0x00000000000000e6       0x2b CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_timer.c.o
+ .ARM.attributes
+                0x0000000000000111       0x2b CMakeFiles/milandr_Camera.elf.dir/UserCode/SPL_src/MDR32F9Qx_usb.c.o
+ .ARM.attributes
+                0x000000000000013c       0x33 CMakeFiles/milandr_Camera.elf.dir/UserCode/logic.cpp.o
+ .ARM.attributes
+                0x000000000000016f       0x2d CMakeFiles/milandr_Camera.elf.dir/UserCode/main.cpp.o
+ .ARM.attributes
+                0x000000000000019c       0x2d CMakeFiles/milandr_Camera.elf.dir/UserCode/milandr.cpp.o
+ .ARM.attributes
+                0x00000000000001c9       0x2d CMakeFiles/milandr_Camera.elf.dir/UserCode/outputSig.cpp.o
+ .ARM.attributes
+                0x00000000000001f6       0x2b libCMSIS.a(MDR32F9Qx_uart.c.o)
+ .ARM.attributes
+                0x0000000000000221       0x2d /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libstdc++_nano.a(del_op.o)
+ .ARM.attributes
+                0x000000000000024e       0x2d /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libstdc++_nano.a(new_op.o)
+ .ARM.attributes
+                0x000000000000027b       0x2d /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libstdc++_nano.a(functexcept.o)
+ .ARM.attributes
+                0x00000000000002a8       0x2d /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libstdc++_nano.a(snprintf_lite.o)
+ .ARM.attributes
+                0x00000000000002d5       0x2d /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libstdc++_nano.a(new_handler.o)
+ .ARM.attributes
+                0x0000000000000302       0x2d /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-abort.o)
+ .ARM.attributes
+                0x000000000000032f       0x2d /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-atexit.o)
+ .ARM.attributes
+                0x000000000000035c       0x2d /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-exit.o)
+ .ARM.attributes
+                0x0000000000000389       0x2d /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-fini.o)
+ .ARM.attributes
+                0x00000000000003b6       0x2d /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-impure.o)
+ .ARM.attributes
+                0x00000000000003e3       0x2d /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-init.o)
+ .ARM.attributes
+                0x0000000000000410       0x2d /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-malloc.o)
+ .ARM.attributes
+                0x000000000000043d       0x1b /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-memcpy.o)
+ .ARM.attributes
+                0x0000000000000458       0x2d /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-memmove.o)
+ .ARM.attributes
+                0x0000000000000485       0x2d /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-memset.o)
+ .ARM.attributes
+                0x00000000000004b2       0x2d /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-nano-freer.o)
+ .ARM.attributes
+                0x00000000000004df       0x2d /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-nano-mallocr.o)
+ .ARM.attributes
+                0x000000000000050c       0x2d /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-sbrkr.o)
+ .ARM.attributes
+                0x0000000000000539       0x2d /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-signal.o)
+ .ARM.attributes
+                0x0000000000000566       0x2d /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-signalr.o)
+ .ARM.attributes
+                0x0000000000000593       0x2d /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-strlen-stub.o)
+ .ARM.attributes
+                0x00000000000005c0       0x2d /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-__atexit.o)
+ .ARM.attributes
+                0x00000000000005ed       0x2d /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-__call_atexit.o)
+ .ARM.attributes
+                0x000000000000061a       0x2d /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-mlock.o)
+ .ARM.attributes
+                0x0000000000000647       0x2d /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-reent.o)
+ .ARM.attributes
+                0x0000000000000674       0x2d /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libnosys.a(getpid.o)
+ .ARM.attributes
+                0x00000000000006a1       0x2d /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libnosys.a(kill.o)
+ .ARM.attributes
+                0x00000000000006ce       0x2d /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libnosys.a(sbrk.o)
+ .ARM.attributes
+                0x00000000000006fb       0x2d /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v7-m/nofp/libnosys.a(_exit.o)
+ .ARM.attributes
+                0x0000000000000728       0x2d /usr/lib/gcc/arm-none-eabi/9.2.1/thumb/v7-m/nofp/crtend.o
+ .ARM.attributes
+                0x0000000000000755       0x1d /usr/lib/gcc/arm-none-eabi/9.2.1/thumb/v7-m/nofp/crtn.o
+ *(.gnu.attributes)
+
+.note.gnu.arm.ident
+ *(.note.gnu.arm.ident)
+
+.noinit         0x0000000000019584        0x0
+                0x0000000000019584                . = ALIGN (0x2)
+                [!provide]                        PROVIDE (__noinit_start = .)
+ *(.noinit)
+                0x0000000000019584                . = ALIGN (0x2)
+                [!provide]                        PROVIDE (__noinit_end = .)
+
+/DISCARD/
+ *(.note.GNU-stack)
+ *(.gnu_debuglink)
+ *(.gnu.lto_*)
+OUTPUT(milandr_Camera.elf elf32-littlearm)
+LOAD linker stubs
