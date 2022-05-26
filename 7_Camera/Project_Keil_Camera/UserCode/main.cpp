@@ -3,6 +3,14 @@
 #include "outputSig.h"
 #include <memory>
 #include <vector>
+
+#if 0
+ff 01 00 09 00 01 0b   -  включение дворника
+ff 01 00 0b 00 01 0d   -  выключение дворника
+ff 01 00 09 00 02 0c   -  включение подсветки
+ff 01 00 0b 00 02 0e   -  выключение подсветки
+#endif
+
 PORT_InitTypeDef PORTB_Init;
 
 void RCC_init() {
