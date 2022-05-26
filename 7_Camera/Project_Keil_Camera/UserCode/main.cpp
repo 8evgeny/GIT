@@ -41,31 +41,8 @@ void PORT_StructInit_OUT(PORT_InitTypeDef* PORT_InitStruct)
 void GPIO_init()
 {
     static PORT_InitTypeDef PORTB_Init;
-    static PORT_InitTypeDef PORTD_Init;
+//    static PORT_InitTypeDef PORTD_Init;
     static UART_InitTypeDef UART_InitStructure1;
-
-//    RST_CLK_HSEconfig(RST_CLK_HSE_ON);
-//    while(RST_CLK_HSEstatus() != SUCCESS);
-
-//    /* Configures the CPU_PLL clock source */
-//    RST_CLK_CPU_PLLconfig(RST_CLK_CPU_PLLsrcHSEdiv1, RST_CLK_CPU_PLLmul10);
-
-//    /* Enables the CPU_PLL */
-//    RST_CLK_CPU_PLLcmd(ENABLE);
-//    if (RST_CLK_CPU_PLLstatus() == ERROR) {
-//        while (1);
-//    }
-
-//    /* Select the CPU_PLL output as input for CPU_C3_SEL */
-//    RST_CLK_CPU_PLLuse(ENABLE);
-//    /* Set CPUClk Prescaler */
-//    RST_CLK_CPUclkPrescaler(RST_CLK_CPUclkDIV1);
-
-//    /* Select the CPU clock source */
-//    RST_CLK_CPUclkSelection(RST_CLK_CPUclkCPU_C3);
-
-//    /* Enables the HSE clock on PORTB PORTD*/
-//    RST_CLK_PCLKcmd(RST_CLK_PCLK_PORTB,ENABLE);
 
     /* Fill PortInit UART1 structure*/
     PORTB_Init.PORT_PULL_UP = PORT_PULL_UP_OFF;
@@ -121,9 +98,11 @@ void GPIO_init()
     UART_ITConfig (MDR_UART1, UART_IT_OE, ENABLE);
     UART_Cmd(MDR_UART1,ENABLE);
 
+//    Порт D отключаю
+
 //    RST_CLK_PCLKcmd(RST_CLK_PCLK_PORTD,ENABLE);
-    PORT_StructInit_OUT(&PORTD_Init);
-    PORT_Init(MDR_PORTD, &PORTD_Init);
+//    PORT_StructInit_OUT(&PORTD_Init);
+//    PORT_Init(MDR_PORTD, &PORTD_Init);
 }
 
 
@@ -142,7 +121,6 @@ int main (void)
     std::vector<uint8_t> receiveData(7);
 
     PORT_ResetBits(MDR_PORTB, PORT_Pin_9); //54 pin
-    PORT_ResetBits(MDR_PORTD, PORT_Pin_2); //33 pin
     PORT_ResetBits(MDR_PORTB, PORT_Pin_7); //Разрешение приема через МСХ
     while (1)
     {
@@ -173,9 +151,6 @@ int main (void)
             )
         {
             PORT_SetBits(MDR_PORTB, PORT_Pin_9);
-            PORT_SetBits(MDR_PORTD, PORT_Pin_2);
-            PORT_SetBits(MDR_PORTD, PORT_Pin_3);
-            PORT_SetBits(MDR_PORTD, PORT_Pin_5);
 //            out->setMoveOn(true);
         }
         if (    receiveData[0] == 0xff &&  //выключение дворника
@@ -188,9 +163,6 @@ int main (void)
             )
         {
             PORT_ResetBits(MDR_PORTB, PORT_Pin_9);
-            PORT_ResetBits(MDR_PORTD, PORT_Pin_2);
-            PORT_ResetBits(MDR_PORTD, PORT_Pin_3);
-            PORT_ResetBits(MDR_PORTD, PORT_Pin_5);
 //            out->setMoveOn(false);
         }
 
