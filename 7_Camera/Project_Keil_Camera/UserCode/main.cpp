@@ -12,11 +12,15 @@ void RCC_init() {
     RST_CLK_CPUclkSelectionC1(RST_CLK_CPU_C1srcHSEdiv1);	//мультиплексор CPU_C1: источник тактирования CPU
     RST_CLK_CPU_PLLconfig(RST_CLK_CPU_PLLsrcHSEdiv1, RST_CLK_CPU_PLLmul9); 	//CPU_PLL = 8MHz * 9 = 72 MHz
     RST_CLK_CPU_PLLuse(ENABLE);	//мультиплексор CPU_C2_SEL: используем CPU_PLL для входа CPU_C3_SEL
-  RST_CLK_CPU_PLLcmd(ENABLE);	//включаем CPU_PLL
+    RST_CLK_CPU_PLLcmd(ENABLE);	//включаем CPU_PLL
     while (RST_CLK_CPU_PLLstatus() != SUCCESS);	//ждем включения CPU_PLL
     RST_CLK_CPUclkPrescaler(RST_CLK_CPUclkDIV1);	//предделитель CPU_C3_SEL = 1
     RST_CLK_CPUclkSelection(RST_CLK_CPUclkCPU_C3);	//источник тактирования - выход предделителя
     RST_CLK_HSIcmd(DISABLE);// Выключаем HSI
+
+    /* Enables the HSE clock on PORTB PORTD*/
+    RST_CLK_PCLKcmd(RST_CLK_PCLK_PORTB,ENABLE);
+    RST_CLK_PCLKcmd(RST_CLK_PCLK_PORTD,ENABLE);
 }
 
 void PORT_StructInit_OUT(PORT_InitTypeDef* PORT_InitStruct)
@@ -24,9 +28,9 @@ void PORT_StructInit_OUT(PORT_InitTypeDef* PORT_InitStruct)
  /* Reset PORT initialization structure parameters values */
     PORT_InitStruct->PORT_Pin = PORT_Pin_2;
     PORT_InitStruct->PORT_OE = PORT_OE_OUT;
-//    PORT_InitStruct->PORT_PULL_UP = PORT_PULL_UP_OFF;
-//    PORT_InitStruct->PORT_PULL_DOWN = PORT_PULL_DOWN_OFF;
-//    PORT_InitStruct->PORT_PD_SHM = PORT_PD_SHM_OFF;
+    PORT_InitStruct->PORT_PULL_UP = PORT_PULL_UP_OFF;
+    PORT_InitStruct->PORT_PULL_DOWN = PORT_PULL_DOWN_OFF;
+    PORT_InitStruct->PORT_PD_SHM = PORT_PD_SHM_OFF;
     PORT_InitStruct->PORT_PD = PORT_PD_DRIVER;
     PORT_InitStruct->PORT_GFEN = PORT_GFEN_OFF;
     PORT_InitStruct->PORT_FUNC = PORT_FUNC_PORT;
@@ -40,28 +44,28 @@ void GPIO_init()
     static PORT_InitTypeDef PORTD_Init;
     static UART_InitTypeDef UART_InitStructure1;
 
-    RST_CLK_HSEconfig(RST_CLK_HSE_ON);
-    while(RST_CLK_HSEstatus() != SUCCESS);
+//    RST_CLK_HSEconfig(RST_CLK_HSE_ON);
+//    while(RST_CLK_HSEstatus() != SUCCESS);
 
-    /* Configures the CPU_PLL clock source */
-    RST_CLK_CPU_PLLconfig(RST_CLK_CPU_PLLsrcHSEdiv1, RST_CLK_CPU_PLLmul10);
+//    /* Configures the CPU_PLL clock source */
+//    RST_CLK_CPU_PLLconfig(RST_CLK_CPU_PLLsrcHSEdiv1, RST_CLK_CPU_PLLmul10);
 
-    /* Enables the CPU_PLL */
-    RST_CLK_CPU_PLLcmd(ENABLE);
-    if (RST_CLK_CPU_PLLstatus() == ERROR) {
-        while (1);
-    }
+//    /* Enables the CPU_PLL */
+//    RST_CLK_CPU_PLLcmd(ENABLE);
+//    if (RST_CLK_CPU_PLLstatus() == ERROR) {
+//        while (1);
+//    }
 
-    /* Select the CPU_PLL output as input for CPU_C3_SEL */
-    RST_CLK_CPU_PLLuse(ENABLE);
-    /* Set CPUClk Prescaler */
-    RST_CLK_CPUclkPrescaler(RST_CLK_CPUclkDIV1);
+//    /* Select the CPU_PLL output as input for CPU_C3_SEL */
+//    RST_CLK_CPU_PLLuse(ENABLE);
+//    /* Set CPUClk Prescaler */
+//    RST_CLK_CPUclkPrescaler(RST_CLK_CPUclkDIV1);
 
-    /* Select the CPU clock source */
-    RST_CLK_CPUclkSelection(RST_CLK_CPUclkCPU_C3);
+//    /* Select the CPU clock source */
+//    RST_CLK_CPUclkSelection(RST_CLK_CPUclkCPU_C3);
 
-    /* Enables the HSE clock on PORTB PORTD*/
-    RST_CLK_PCLKcmd(RST_CLK_PCLK_PORTB,ENABLE);
+//    /* Enables the HSE clock on PORTB PORTD*/
+//    RST_CLK_PCLKcmd(RST_CLK_PCLK_PORTB,ENABLE);
 
     /* Fill PortInit UART1 structure*/
     PORTB_Init.PORT_PULL_UP = PORT_PULL_UP_OFF;
@@ -117,7 +121,7 @@ void GPIO_init()
     UART_ITConfig (MDR_UART1, UART_IT_OE, ENABLE);
     UART_Cmd(MDR_UART1,ENABLE);
 
-    RST_CLK_PCLKcmd(RST_CLK_PCLK_PORTD,ENABLE);
+//    RST_CLK_PCLKcmd(RST_CLK_PCLK_PORTD,ENABLE);
     PORT_StructInit_OUT(&PORTD_Init);
     PORT_Init(MDR_PORTD, &PORTD_Init);
 }
