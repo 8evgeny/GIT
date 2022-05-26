@@ -149,7 +149,7 @@ int main(void)
   MX_I2C1_Init();
   /* USER CODE BEGIN 2 */
 //  littleFsInit();
-  FS_test();
+//  FS_test();
 
   /* USER CODE END 2 */
 
