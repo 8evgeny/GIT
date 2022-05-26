@@ -120,7 +120,7 @@ int main (void)
 
     std::vector<uint8_t> receiveData(7);
 
-    PORT_ResetBits(MDR_PORTB, PORT_Pin_9); //54 pin
+    PORT_SetBits(MDR_PORTB, PORT_Pin_9); //54 pin  Дворник выключен
     PORT_ResetBits(MDR_PORTB, PORT_Pin_7); //Разрешение приема через МСХ
     while (1)
     {
@@ -150,7 +150,7 @@ int main (void)
                 receiveData[6] == 0x0b
             )
         {
-            PORT_SetBits(MDR_PORTB, PORT_Pin_9);
+            PORT_ResetBits(MDR_PORTB, PORT_Pin_9);
 //            out->setMoveOn(true);
         }
         if (    receiveData[0] == 0xff &&  //выключение дворника
@@ -162,7 +162,7 @@ int main (void)
                 receiveData[6] == 0x0d
             )
         {
-            PORT_ResetBits(MDR_PORTB, PORT_Pin_9);
+            PORT_SetBits(MDR_PORTB, PORT_Pin_9);
 //            out->setMoveOn(false);
         }
 
