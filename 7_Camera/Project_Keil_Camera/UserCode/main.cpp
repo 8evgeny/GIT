@@ -26,7 +26,7 @@ void RCC_init() {
 void PORT_StructInit_OUT(PORT_InitTypeDef* PORT_InitStruct)
 {
  /* Reset PORT initialization structure parameters values */
-    PORT_InitStruct->PORT_Pin = PORT_Pin_2;
+    PORT_InitStruct->PORT_Pin = PORT_Pin_2 | PORT_Pin_3 | PORT_Pin_5;
     PORT_InitStruct->PORT_OE = PORT_OE_OUT;
     PORT_InitStruct->PORT_PULL_UP = PORT_PULL_UP_OFF;
     PORT_InitStruct->PORT_PULL_DOWN = PORT_PULL_DOWN_OFF;
@@ -34,7 +34,7 @@ void PORT_StructInit_OUT(PORT_InitTypeDef* PORT_InitStruct)
     PORT_InitStruct->PORT_PD = PORT_PD_DRIVER;
     PORT_InitStruct->PORT_GFEN = PORT_GFEN_OFF;
     PORT_InitStruct->PORT_FUNC = PORT_FUNC_PORT;
-    PORT_InitStruct->PORT_SPEED = PORT_SPEED_FAST;
+    PORT_InitStruct->PORT_SPEED = PORT_SPEED_MAXFAST;
     PORT_InitStruct->PORT_MODE = PORT_MODE_DIGITAL;
  }
 
@@ -174,6 +174,8 @@ int main (void)
         {
             PORT_SetBits(MDR_PORTB, PORT_Pin_9);
             PORT_SetBits(MDR_PORTD, PORT_Pin_2);
+            PORT_SetBits(MDR_PORTD, PORT_Pin_3);
+            PORT_SetBits(MDR_PORTD, PORT_Pin_5);
 //            out->setMoveOn(true);
         }
         if (    receiveData[0] == 0xff &&  //выключение дворника
@@ -187,6 +189,8 @@ int main (void)
         {
             PORT_ResetBits(MDR_PORTB, PORT_Pin_9);
             PORT_ResetBits(MDR_PORTD, PORT_Pin_2);
+            PORT_ResetBits(MDR_PORTD, PORT_Pin_3);
+            PORT_ResetBits(MDR_PORTD, PORT_Pin_5);
 //            out->setMoveOn(false);
         }
 
