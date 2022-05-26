@@ -12,7 +12,7 @@ Milandr::~Milandr()
 {
 }
 
-void PORT_StructInit(PORT_InitTypeDef* PORT_InitStruct)
+void PORT_StructInit_OUT(PORT_InitTypeDef* PORT_InitStruct)
 {
  /* Reset PORT initialization structure parameters values */
     PORT_InitStruct->PORT_Pin = PORT_Pin_2;
@@ -112,7 +112,7 @@ void Milandr::init()
     UART_Cmd(MDR_UART1,ENABLE);
 
     RST_CLK_PCLKcmd(RST_CLK_PCLK_PORTD,ENABLE);
-    PORT_StructInit(&PORTD_Init);
+    PORT_StructInit_OUT(&PORTD_Init);
     PORT_Init(MDR_PORTD, &PORTD_Init);
 }
 
