@@ -1,6 +1,6 @@
 /* Includes ------------------------------------------------------------------*/
 #include "eeprom.h"
-
+extern UART_HandleTypeDef huart7;
 __IO uint32_t  EEPROMTimeout = EEPROM_READ_TIMEOUT;
 __IO uint16_t  EEPROMDataRead;
 __IO uint8_t   EEPROMDataWrite;
@@ -43,12 +43,16 @@ uint32_t BSP_EEPROM_ReadBuffer(uint8_t *pBuffer, uint16_t ReadAddr, uint16_t *Nu
 
     /* Set the pointer to the Number of data to be read */
     EEPROMDataRead = *NumByteToRead;
-
-    if (EEPROM_IO_ReadData(EEPROM_I2C_ADDRESS, ReadAddr, pBuffer, buffersize) != HAL_OK)
-    {
-        BSP_EEPROM_TIMEOUT_UserCallback();
-        return EEPROM_FAIL;
+    while(1){
+        if (EEPROM_IO_ReadData(EEPROM_I2C_ADDRESS, ReadAddr, pBuffer, buffersize) == HAL_OK)
+        {
+            break;
+    //        BSP_EEPROM_TIMEOUT_UserCallback();
+    //        return EEPROM_FAIL;
+        }
+        HAL_Delay(10);
     }
+
 
     /* If all operations OK, return EEPROM_OK (0) */
     return EEPROM_OK;

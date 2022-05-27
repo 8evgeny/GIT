@@ -41,12 +41,12 @@ void simpleEEPROM_test()
         if(memcmp(rmsg, wmsg, sizeof(rmsg)) == 0)
         {
             const char result[] = "\n\r##### Test EEPROM passed! #####\r\n\n";
-            HAL_UART_Transmit_IT (&huart7,(uint8_t*)result, sizeof (result));
+            HAL_UART_Transmit (&huart7,(uint8_t*)result, sizeof (result),1000);
 
         } else
         {
             const char result[] = "\n\r##### Test EEPROM failed :( #####\r\n";
-            HAL_UART_Transmit_IT (&huart7,(uint8_t*)result, sizeof (result));
+            HAL_UART_Transmit (&huart7,(uint8_t*)result, sizeof (result),1000);
         }
         HAL_Delay(10);
 }
@@ -81,10 +81,13 @@ void simpleEEPROM_test2()
 
 HAL_StatusTypeDef i2c1_writeData(uint16_t DevAddress, uint16_t MemAddress, uint8_t *pData, uint16_t Size)
 {
-    while (HAL_I2C_GetState(&hi2c1) != HAL_I2C_STATE_READY);
+    while (HAL_I2C_GetState(&hi2c1) != HAL_I2C_STATE_READY)
+    {
+       HAL_Delay(10);
+    }
 
-    HAL_StatusTypeDef status = HAL_I2C_Mem_Write_DMA(&hi2c1, DevAddress, MemAddress, I2C_MEMADD_SIZE_16BIT, pData, Size); //Выпилил
-    //    HAL_StatusTypeDef status = HAL_I2C_Mem_Write(&hi2c1, DevAddress, MemAddress, I2C_MEMADD_SIZE_16BIT, pData, Size, HAL_MAX_DELAY);
+//    HAL_StatusTypeDef status = HAL_I2C_Mem_Write_DMA(&hi2c1, DevAddress, MemAddress, I2C_MEMADD_SIZE_16BIT, pData, Size); //Выпилил
+    HAL_StatusTypeDef status = HAL_I2C_Mem_Write(&hi2c1, DevAddress, MemAddress, I2C_MEMADD_SIZE_16BIT, pData, Size, HAL_MAX_DELAY);
     for(;;)
     { // wait...
         status = HAL_I2C_IsDeviceReady(&hi2c1, DevAddress, 1, HAL_MAX_DELAY);
@@ -92,8 +95,8 @@ HAL_StatusTypeDef i2c1_writeData(uint16_t DevAddress, uint16_t MemAddress, uint8
             break;
     }
 
-    while( i2cWriteReady != SET);
-    i2cWriteReady = RESET;
+//    while( i2cWriteReady != SET);
+//    i2cWriteReady = RESET;
 
     return status;
 }
@@ -101,15 +104,17 @@ HAL_StatusTypeDef i2c1_writeData(uint16_t DevAddress, uint16_t MemAddress, uint8
 HAL_StatusTypeDef i2c1_readData(uint16_t DevAddress, uint16_t MemAddress, uint8_t *pData, uint16_t Size)
 {
     while (HAL_I2C_GetState(&hi2c1) != HAL_I2C_STATE_READY)
+    {
         HAL_Delay(10);
+    }
 
-    HAL_StatusTypeDef status = HAL_I2C_Mem_Read_DMA(&hi2c1, DevAddress, MemAddress, I2C_MEMADD_SIZE_16BIT, pData, Size);
-    //    HAL_StatusTypeDef status = HAL_I2C_Mem_Read(&hi2c1, DevAddress, MemAddress, I2C_MEMADD_SIZE_16BIT, pData, Size, HAL_MAX_DELAY);
+//    HAL_StatusTypeDef status = HAL_I2C_Mem_Read_DMA(&hi2c1, DevAddress, MemAddress, I2C_MEMADD_SIZE_16BIT, pData, Size);
+//    while(i2cReadReady != SET);
+//    i2cReadReady = RESET;
 
-    while(i2cReadReady != SET);
-    i2cReadReady = RESET;
+HAL_StatusTypeDef status = HAL_I2C_Mem_Read(&hi2c1, DevAddress, MemAddress, I2C_MEMADD_SIZE_16BIT, pData, Size, HAL_MAX_DELAY);
 
-    return status;
+return status;
 }
 
 void EEPROM_IO_Init(void)

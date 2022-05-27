@@ -25,7 +25,8 @@ int user_provided_block_device_read(const struct lfs_config *c,
                                     void *buffer, lfs_size_t size)
 {
     char msgUart7[] = "user_provided_block_device_read\r\n";
-    HAL_UART_Transmit_IT (&huart7,(uint8_t*)msgUart7, sizeof (msgUart7));
+    HAL_UART_Transmit (&huart7,(uint8_t*)msgUart7, sizeof (msgUart7), 1000);
+
     uint32_t addr = (uint32_t)(block * c->block_size + off);
     uint16_t NumByteToRead = (uint16_t)size;
     uint8_t *buffer_data = (uint8_t *)buffer;
@@ -37,7 +38,7 @@ int user_provided_block_device_prog(const struct lfs_config *c,
                                     const void *buffer, lfs_size_t size)
 {
     char msgUart7[] = "user_provided_block_device_prog\r\n";
-    HAL_UART_Transmit_IT (&huart7,(uint8_t*)msgUart7, sizeof (msgUart7));
+    HAL_UART_Transmit (&huart7,(uint8_t*)msgUart7, sizeof (msgUart7),1000);
     uint32_t addr = (uint32_t)(block * c->block_size + off);
     uint8_t *buffer_data = (uint8_t *)buffer;
     //Изменил 4 * и вернул
@@ -48,7 +49,7 @@ int user_provided_block_device_erase(const struct lfs_config *c,
                                      lfs_block_t block)
 {
     char msgUart7[] = "user_provided_block_device_erase\r\n";
-    HAL_UART_Transmit_IT (&huart7,(uint8_t*)msgUart7, sizeof (msgUart7));
+    HAL_UART_Transmit (&huart7,(uint8_t*)msgUart7, sizeof (msgUart7),1000);
     uint32_t addr = (uint32_t)( block * c->block_size);
     memset((void *)littlefs_mem[addr], c->block_size, 0);
     for (int i = 0; i < c->block_size; i++) littlefs_mem[addr + i] = 0;
@@ -107,7 +108,7 @@ void littleFsInit()
 
 void FS_test()
 {
-    char rhymeToEEPROM[] = "Red on top, Green below. Red says “Stop”, Green says “Go”. Yellow says “Wait” Even if you’re late.";
+    char rhymeToEEPROM[] = "--Red on top, Green below. Red says Stop, Green says Go. Yellow says Wait Even if you re late.--";
     char rhymeFromEEPROM[sizeof (rhymeToEEPROM)];
     lfs_file_open(&lfs, &file, "boot_count", LFS_O_RDWR | LFS_O_CREAT);
     lfs_file_rewind(&lfs, &file);
@@ -117,7 +118,16 @@ void FS_test()
     // read current count
     uint32_t boot_count = 0;
     lfs_file_open(&lfs, &file, "boot_count", LFS_O_RDWR | LFS_O_CREAT);
+
+    memset(rhymeFromEEPROM,'*',sizeof(rhymeToEEPROM));
+    HAL_UART_Transmit (&huart7,(uint8_t*)rhymeFromEEPROM, sizeof (rhymeFromEEPROM),1000);
+    HAL_UART_Transmit (&huart7,(uint8_t*)"\r\n", sizeof ("\r\n"),1000);
+
     lfs_file_read(&lfs, &file, &rhymeFromEEPROM, sizeof(rhymeFromEEPROM));
+
+    HAL_UART_Transmit (&huart7,(uint8_t*)rhymeFromEEPROM, sizeof (rhymeFromEEPROM),1000);
+    HAL_UART_Transmit (&huart7,(uint8_t*)"\r\n", sizeof ("\r\n"),1000);
+
     lfs_file_close(&lfs, &file);
 
     // update boot count
