@@ -72,7 +72,7 @@ osThreadId KEYS_TEST_TASKHandle;
 uint32_t KEYS_TEST_TASKBuffer[ 256 ];
 osStaticThreadDef_t KEYS_TEST_TASKControlBlock;
 osThreadId EEPROM_TestsHandle;
-uint32_t EEPROM_TestsBuffer[ 512 ];
+uint32_t EEPROM_TestsBuffer[ 256 ];
 osStaticThreadDef_t EEPROM_TestsControlBlock;
 /* USER CODE BEGIN PV */
 
@@ -189,7 +189,7 @@ int main(void)
   KEYS_TEST_TASKHandle = osThreadCreate(osThread(KEYS_TEST_TASK), NULL);
 
   /* definition and creation of EEPROM_Tests */
-  osThreadStaticDef(EEPROM_Tests, EEPROM_Tests_, osPriorityIdle, 0, 512, EEPROM_TestsBuffer, &EEPROM_TestsControlBlock);
+  osThreadStaticDef(EEPROM_Tests, EEPROM_Tests_, osPriorityIdle, 0, 256, EEPROM_TestsBuffer, &EEPROM_TestsControlBlock);
   EEPROM_TestsHandle = osThreadCreate(osThread(EEPROM_Tests), NULL);
 
   /* USER CODE BEGIN RTOS_THREADS */
