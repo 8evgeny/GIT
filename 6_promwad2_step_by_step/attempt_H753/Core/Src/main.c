@@ -761,8 +761,8 @@ void EEPROM_Tests_(void const * argument)
     simpleEEPROM_test();
     osDelay(100);
     simpleEEPROM_test2();
-//    littleFsInit();
-//    FS_test();
+    littleFsInit();
+    FS_test();
   /* Infinite loop */
   for(;;)
   {
