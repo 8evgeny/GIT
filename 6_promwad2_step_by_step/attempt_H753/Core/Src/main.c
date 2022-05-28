@@ -569,7 +569,9 @@ void StartDefaultTask(void const * argument)
   MX_LWIP_Init();
   /* USER CODE BEGIN 5 */
   char msgUart7[] = "\r------- StartDefaultTask ----------\n\r";
-  HAL_UART_Transmit_IT (&huart7,(uint8_t*)msgUart7, sizeof (msgUart7));
+//  HAL_UART_Transmit_IT (&huart7,(uint8_t*)msgUart7, sizeof (msgUart7));
+  RS232_write_c(msgUart7, sizeof (msgUart7));
+
   /* Infinite loop */
   for(;;)
   {
@@ -592,7 +594,8 @@ void Test_Led_Task_(void const * argument)
     (void)argument;
     osDelay (10);
     char msgUart7[] = "\r------- StartTest_Led_Task --------\n\r";
-    HAL_UART_Transmit_IT (&huart7,(uint8_t*)msgUart7, sizeof (msgUart7));
+//    HAL_UART_Transmit_IT (&huart7,(uint8_t*)msgUart7, sizeof (msgUart7));
+    RS232_write_c(msgUart7, sizeof (msgUart7));
     uint8_t reset = 1;
     uint32_t tickstart = HAL_GetTick();
     uint32_t timeSet = 1;
@@ -644,7 +647,8 @@ void LEDS_1_2_3_TEST_(void const * argument)
   char msgUart7[50];
   memset(msgUart7,' ',50);
   sprintf(msgUart7,"\r%s", "------- StartLEDS_1_2_3_TEST ------\n\r");
-  HAL_UART_Transmit_IT (&huart7,(uint8_t*)msgUart7, sizeof (msgUart7));
+//  HAL_UART_Transmit_IT (&huart7,(uint8_t*)msgUart7, sizeof (msgUart7));
+  RS232_write_c(msgUart7, sizeof (msgUart7));
   uint8_t reset = 1;
   uint32_t tickstart = HAL_GetTick();
   uint32_t timeSet = 1;
@@ -696,7 +700,8 @@ void LEDS_4_5_6_TEST_(void const * argument)
     char msgUart7[50];
     memset(msgUart7,' ',50);
     sprintf(msgUart7,"\r%s", "------- StartLEDS_4_5_6_TEST ------\n\r");
-    HAL_UART_Transmit_IT (&huart7,(uint8_t*)msgUart7, sizeof (msgUart7));
+//    HAL_UART_Transmit_IT (&huart7,(uint8_t*)msgUart7, sizeof (msgUart7));
+    RS232_write_c(msgUart7, sizeof (msgUart7));
     uint8_t reset = 1;
     uint32_t tickstart = HAL_GetTick();
     uint32_t timeSet = 1;
@@ -745,8 +750,8 @@ void KEYS_TEST_TASK_(void const * argument)
     (void)argument;
     osDelay (40);
     char msgUart7[] = "\r------- StartKEYS_TEST_TASK -------\n\r";
-    HAL_UART_Transmit_IT (&huart7,(uint8_t*)msgUart7, sizeof (msgUart7));
-
+//    HAL_UART_Transmit_IT (&huart7,(uint8_t*)msgUart7, sizeof (msgUart7));
+    RS232_write_c(msgUart7, sizeof (msgUart7));
   /* Infinite loop */
   for(;;)
   {
@@ -767,8 +772,13 @@ void EEPROM_Tests_(void const * argument)
   /* USER CODE BEGIN EEPROM_Tests_ */
     (void)argument;
     osDelay (50);
+
+
+
     char msgUart7[] = "\r------- StartEEPROM_Tests_TASK ----\n\r";
-    HAL_UART_Transmit_IT (&huart7,(uint8_t*)msgUart7, sizeof (msgUart7));
+//    HAL_UART_Transmit_IT (&huart7,(uint8_t*)msgUart7, sizeof (msgUart7));
+    RS232_write_c(msgUart7, sizeof (msgUart7));
+
     simpleEEPROM_test();
     osDelay(100);
     simpleEEPROM_test2();
