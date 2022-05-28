@@ -40,7 +40,7 @@ void simpleEEPROM_test()
 
         if(memcmp(rmsg, wmsg, sizeof(rmsg)) == 0)
         {
-            const char result[] = "\n\r##### Test EEPROM passed! #####\r\n\n";
+            const char result[] = "\r------- Test EEPROM passed  -------\r\n";
             HAL_UART_Transmit (&huart7,(uint8_t*)result, sizeof (result),1000);
 
         } else
