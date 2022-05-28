@@ -9,8 +9,8 @@
 //#include "json.h"
 
 extern UART_HandleTypeDef huart7;
-static DMA_HandleTypeDef hdma_uart7_rx;
-static DMA_HandleTypeDef hdma_uart7_tx;
+//static DMA_HandleTypeDef hdma_uart7_rx;
+//static DMA_HandleTypeDef hdma_uart7_tx;
 //static unsigned char readByte();
 //static void writeByte(unsigned char byte);
 
