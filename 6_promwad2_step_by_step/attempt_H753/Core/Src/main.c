@@ -758,9 +758,9 @@ void KEYS_TEST_TASK_(void const * argument)
 void EEPROM_Tests_(void const * argument)
 {
   /* USER CODE BEGIN EEPROM_Tests_ */
-    osDelay(1000);
-    char msgUart7[] = "\r------- StartEEPROM_Tests --------\n\r";
-    HAL_UART_Transmit_IT (&huart7,(uint8_t*)msgUart7, sizeof (msgUart7));
+//    osDelay(1000);
+//    char msgUart7[] = "\r------- StartEEPROM_Tests --------\n\r";
+//    HAL_UART_Transmit_IT (&huart7,(uint8_t*)msgUart7, sizeof (msgUart7));
     simpleEEPROM_test();
     osDelay(100);
     simpleEEPROM_test2();
