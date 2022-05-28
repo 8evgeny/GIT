@@ -3,8 +3,8 @@
 
 extern UART_HandleTypeDef huart7;
 extern I2C_HandleTypeDef hi2c1;
-DMA_HandleTypeDef hdma_i2c1_rx,
-                  hdma_i2c1_tx;
+//DMA_HandleTypeDef hdma_i2c1_rx,
+//                  hdma_i2c1_tx;
 
 uint32_t timeOutMax = 300;
 FlagStatus i2cReadReady = RESET ;
