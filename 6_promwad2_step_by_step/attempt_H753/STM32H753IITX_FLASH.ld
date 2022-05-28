@@ -17,7 +17,7 @@ MEMORY
   AXI_SRAM (xrw)  : ORIGIN = 0x24000000, LENGTH = 512K    /* bss   */
 
   AHB_SRAM1 (xrw) : ORIGIN = 0x30000000, LENGTH = 128K    /* Свободна */
-  AHB_SRAM2 (xrw) : ORIGIN = 0x30020000, LENGTH = 256K    /* DMA */
+  AHB_SRAM2 (xrw) : ORIGIN = 0x30020000, LENGTH = 128K    /* DMA */
   AHB_SRAM3 (xrw) : ORIGIN = 0x30040000, LENGTH = 32K     /* LWIP */
   AHB_SRAM4 (xrw) : ORIGIN = 0x38000000, LENGTH = 64K     /* Свободна */
 /*  RAM_D2 (xrw)   : ORIGIN = 0x30000000, LENGTH = 288K*/
