@@ -149,6 +149,8 @@ int main(void)
   MX_I2C1_Init();
   /* USER CODE BEGIN 2 */
 
+    littleFsInit();
+
   /* USER CODE END 2 */
 
   /* USER CODE BEGIN RTOS_MUTEX */
@@ -740,6 +742,11 @@ void LEDS_4_5_6_TEST_(void const * argument)
 void KEYS_TEST_TASK_(void const * argument)
 {
   /* USER CODE BEGIN KEYS_TEST_TASK_ */
+    (void)argument;
+    osDelay (40);
+    char msgUart7[] = "\r------- StartKEYS_TEST_TASK -------\n\r";
+    HAL_UART_Transmit_IT (&huart7,(uint8_t*)msgUart7, sizeof (msgUart7));
+
   /* Infinite loop */
   for(;;)
   {
@@ -758,13 +765,13 @@ void KEYS_TEST_TASK_(void const * argument)
 void EEPROM_Tests_(void const * argument)
 {
   /* USER CODE BEGIN EEPROM_Tests_ */
-//    osDelay(1000);
-//    char msgUart7[] = "\r------- StartEEPROM_Tests --------\n\r";
-//    HAL_UART_Transmit_IT (&huart7,(uint8_t*)msgUart7, sizeof (msgUart7));
+    (void)argument;
+    osDelay (50);
+    char msgUart7[] = "\r------- StartEEPROM_Tests_TASK ----\n\r";
+    HAL_UART_Transmit_IT (&huart7,(uint8_t*)msgUart7, sizeof (msgUart7));
     simpleEEPROM_test();
     osDelay(100);
     simpleEEPROM_test2();
-    littleFsInit();
     FS_test();
   /* Infinite loop */
   for(;;)

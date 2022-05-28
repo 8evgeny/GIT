@@ -24,8 +24,8 @@ int user_provided_block_device_read(const struct lfs_config *c,
                                     lfs_block_t block, lfs_off_t off,
                                     void *buffer, lfs_size_t size)
 {
-    char msgUart7[] = "user_provided_block_device_read\r\n";
-    HAL_UART_Transmit (&huart7,(uint8_t*)msgUart7, sizeof (msgUart7), 1000);
+//    char msgUart7[] = "user_provided_block_device_read\r\n";
+//    HAL_UART_Transmit (&huart7,(uint8_t*)msgUart7, sizeof (msgUart7), 1000);
 
     uint32_t addr = (uint32_t)(block * c->block_size + off);
     uint16_t NumByteToRead = (uint16_t)size;
