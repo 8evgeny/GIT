@@ -10,13 +10,19 @@ _Min_Stack_Size = 0x400 ; /* required amount of stack */
 /* Specify the memory areas */
 MEMORY
 {
-  FLASH (rx)     : ORIGIN = 0x08000000, LENGTH = 2048K
-  ITCMRAM (xrw)  : ORIGIN = 0x00000000, LENGTH = 64K
-  RAM (xrw)      : ORIGIN = 0x20000000, LENGTH = 128K
-  RAM_D1 (xrw)   : ORIGIN = 0x24000000, LENGTH = 512K
-  RAM_D2 (xrw)   : ORIGIN = 0x30000000, LENGTH = 288K
-  RAM_D3 (xrw)   : ORIGIN = 0x38000000, LENGTH = 64K
-  RAM_EXT (xrw)  : ORIGIN = 0x60000000, LENGTH = 1024K
+  FLASH (rx)      : ORIGIN = 0x08000000, LENGTH = 2048K
+  ITCMRAM (xrw)   : ORIGIN = 0x00000000, LENGTH = 64K
+/*  RAM (xrw)      : ORIGIN = 0x20000000, LENGTH = 128K*/
+  RAM_DTCM (xrw)  : ORIGIN = 0x20000000, LENGTH = 32K     /* stack heap */
+  AXI_SRAM (xrw)  : ORIGIN = 0x24000000, LENGTH = 512K    /* bss   */
+
+  AHB_SRAM1 (xrw) : ORIGIN = 0x30000000, LENGTH = 128K    /* Свободна */
+  AHB_SRAM2 (xrw) : ORIGIN = 0x30020000, LENGTH = 256K    /* DMA */
+  AHB_SRAM3 (xrw) : ORIGIN = 0x30040000, LENGTH = 32K     /* LWIP */
+  AHB_SRAM4 (xrw) : ORIGIN = 0x38000000, LENGTH = 64K     /* Свободна */
+/*  RAM_D2 (xrw)   : ORIGIN = 0x30000000, LENGTH = 288K*/
+/*  RAM_D3 (xrw)   : ORIGIN = 0x38000000, LENGTH = 64K*/
+  RAM_EXT (xrw)   : ORIGIN = 0x60000000, LENGTH = 1024K
 }
 
 /* Define output sections */
@@ -99,7 +105,7 @@ SECTIONS
 
     . = ALIGN(4);
     _edata = .;        /* define a global symbol at data end */
-  } >RAM AT> FLASH
+  } >RAM_DTCM AT> FLASH
 
   /* Uninitialized data section */
   . = ALIGN(4);
@@ -115,7 +121,7 @@ SECTIONS
     . = ALIGN(4);
     _ebss = .;         /* define a global symbol at bss end */
     __bss_end__ = _ebss;
-  } >RAM_D1
+  } >AXI_SRAM
 
   /* User_heap_stack section, used to check that there is enough RAM left */
   ._user_heap_stack :
@@ -126,7 +132,7 @@ SECTIONS
     . = . + _Min_Heap_Size;
     . = . + _Min_Stack_Size;
     . = ALIGN(8);
-  } >RAM
+  } >RAM_DTCM
 
   /* Modification start */
   .lwip_sec (NOLOAD) : {
@@ -138,7 +144,7 @@ SECTIONS
 
     . = ABSOLUTE(0x30040200);
     *(.RxArraySection)
-  } >RAM_D2
+  } >AHB_SRAM3
   /* Modification end */
 
   /* Remove information from the standard libraries */
@@ -150,18 +156,18 @@ SECTIONS
   }
 
   .ARM.attributes 0 : { *(.ARM.attributes) }
-  
-  .RAM_D1_data (NOLOAD): { 
-    *(.DMATransferSection) 
-    *(.RAM_D1_data) 
-   } >RAM_D1  
+
+  .RAM_DMA_data (NOLOAD): {
+    *(.DMATransferSection)
+    *(.RAM_DMA_data)
+   } >AHB_SRAM2
 
   .ext_ram (NOLOAD) : {
     *(.ExtRamData)
     . = ALIGN(4);
-    _ext_ram_ld_end = .;        
+    _ext_ram_ld_end = .;
   } >RAM_EXT
-    
+
 }
 
 
