@@ -56,6 +56,8 @@ void DMA1_Stream1_IRQHandler(void);
 void TIM1_UP_IRQHandler(void);
 void DMA2_Stream0_IRQHandler(void);
 void DMA2_Stream1_IRQHandler(void);
+void DMA2_Stream3_IRQHandler(void);
+void DMA2_Stream4_IRQHandler(void);
 void ETH_IRQHandler(void);
 void UART7_IRQHandler(void);
 void SAI1_IRQHandler(void);
