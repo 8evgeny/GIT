@@ -131,7 +131,7 @@ file (GLOB Third_Party_SRC
     Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/*.c
     Middlewares/Third_Party/LwIP/system/OS/sys_arch.c
     Middlewares/Third_Party/FreeRTOS/Source/portable/MemMang/heap_4.c
-    Drivers/BSP/Components/lan8742/lan8742.c
+#    Drivers/BSP/Components/lan8742/lan8742.c
     )
 
 add_library(Middlewares

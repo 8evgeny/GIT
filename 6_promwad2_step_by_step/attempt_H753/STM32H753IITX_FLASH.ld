@@ -139,11 +139,14 @@ SECTIONS
     . = ABSOLUTE(0x30040000);
     *(.RxDecripSection)
 
-    . = ABSOLUTE(0x30040060);
+    . = ABSOLUTE(0x30040100);
     *(.TxDecripSection)
 
-    . = ABSOLUTE(0x30040200);
+    . = ABSOLUTE(0x30041000);
     *(.RxArraySection)
+
+    . = ABSOLUTE(0x30043000);
+    *(.TxArraySection)
   } >AHB_SRAM3
   /* Modification end */
 
