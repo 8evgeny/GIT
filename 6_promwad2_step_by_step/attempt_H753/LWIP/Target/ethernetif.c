@@ -26,7 +26,7 @@
 #include "netif/etharp.h"
 #include "lwip/ethip6.h"
 #include "ethernetif.h"
-#include "lan8742.h"
+//#include "lan8742.h"
 #include <string.h>
 #include "cmsis_os.h"
 #include "lwip/tcpip.h"

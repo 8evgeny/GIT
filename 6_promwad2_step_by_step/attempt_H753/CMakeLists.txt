@@ -71,9 +71,9 @@ add_library(CORE ${CORE_SOURCES} )
 set (STARTUP_SOURCES ${patchSRC}/../Startup/startup_stm32h753iitx.s )
 add_library(STARTUP ${STARTUP_SOURCES} )
 
-include_directories(Drivers/BSP/Components/lan8742)
-file (GLOB 8742_SOURCES Drivers/BSP/Components/lan8742/lan8742.c )
-add_library(LIB_8742 ${8742_SOURCES} )
+#include_directories(Drivers/BSP/Components/lan8742)
+#file (GLOB 8742_SOURCES Drivers/BSP/Components/lan8742/lan8742.c )
+#add_library(LIB_8742 ${8742_SOURCES} )
 
 include_directories(Drivers/BSP/Components/dp83848)
 file (GLOB 83848_SOURCES  Drivers/BSP/Components/dp83848/dp83848.c)
