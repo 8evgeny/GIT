@@ -84,27 +84,27 @@
 
 #pragma location=0x30040000
 ETH_DMADescTypeDef  DMARxDscrTab[ETH_RX_DESC_CNT]; /* Ethernet Rx DMA Descriptors */
-#pragma location=0x30040060
+#pragma location=0x30040100
 ETH_DMADescTypeDef  DMATxDscrTab[ETH_TX_DESC_CNT]; /* Ethernet Tx DMA Descriptors */
-#pragma location=0x30040200
+#pragma location=0x30041000
 uint8_t Rx_Buff[ETH_RX_DESC_CNT][ETH_RX_BUFFER_SIZE]; /* Ethernet Receive Buffers */
 
 #elif defined ( __CC_ARM )  /* MDK ARM Compiler */
 
 __attribute__((at(0x30040000))) ETH_DMADescTypeDef  DMARxDscrTab[ETH_RX_DESC_CNT]; /* Ethernet Rx DMA Descriptors */
-__attribute__((at(0x30040060))) ETH_DMADescTypeDef  DMATxDscrTab[ETH_TX_DESC_CNT]; /* Ethernet Tx DMA Descriptors */
-__attribute__((at(0x30040200))) uint8_t Rx_Buff[ETH_RX_DESC_CNT][ETH_RX_BUFFER_SIZE]; /* Ethernet Receive Buffer */
+__attribute__((at(0x30040100))) ETH_DMADescTypeDef  DMATxDscrTab[ETH_TX_DESC_CNT]; /* Ethernet Tx DMA Descriptors */
+__attribute__((at(0x30041000))) uint8_t Rx_Buff[ETH_RX_DESC_CNT][ETH_RX_BUFFER_SIZE]; /* Ethernet Receive Buffer */
 
 #elif defined ( __GNUC__ ) /* GNU Compiler */
 
 ETH_DMADescTypeDef DMARxDscrTab[ETH_RX_DESC_CNT] __attribute__((section(".RxDecripSection"))); /* Ethernet Rx DMA Descriptors */
 ETH_DMADescTypeDef DMATxDscrTab[ETH_TX_DESC_CNT] __attribute__((section(".TxDecripSection")));   /* Ethernet Tx DMA Descriptors */
 uint8_t Rx_Buff[ETH_RX_DESC_CNT][ETH_RX_BUFFER_SIZE] __attribute__((section(".RxArraySection"))); /* Ethernet Receive Buffers */
-uint8_t Tx_Buff[ETH_TX_DESC_CNT][ETH_TX_BUFFER_SIZE] __attribute__((section(".TxArraySection"))); /* 4 Tx buffers of size ETH_TX_BUF_SIZE  */
+
 #endif
 
 /* USER CODE BEGIN 2 */
-
+uint8_t Tx_Buff[ETH_TX_DESC_CNT][ETH_RX_BUFFER_SIZE] __attribute__((section(".TxArraySection"))); /* 4 Tx buffers of size ETH_TX_BUF_SIZE  */
 /* USER CODE END 2 */
 
 osSemaphoreId RxPktSemaphore = NULL; /* Semaphore to signal incoming packets */
@@ -432,8 +432,7 @@ static void low_level_init(struct netif *netif)
 
 
 /* USER CODE END PHY_PRE_CONFIG */
-
-//  /* Set PHY IO functions */
+  /* Set PHY IO functions */
 //  LAN8742_RegisterBusIO(&LAN8742, &LAN8742_IOCtx);
 
 //  /* Initialize the LAN8742 ETH PHY */
@@ -485,8 +484,6 @@ static void low_level_init(struct netif *netif)
 //    netif_set_up(netif);
 //    netif_set_link_up(netif);
 
-
-
 /* USER CODE BEGIN PHY_POST_CONFIG */
 
 /* USER CODE END PHY_POST_CONFIG */
@@ -497,7 +494,6 @@ static void low_level_init(struct netif *netif)
 //  {
 //    Error_Handler();
 //  }
-
 #endif /* LWIP_ARP || LWIP_ETHERNET */
 
 /* USER CODE BEGIN LOW_LEVEL_INIT */
