@@ -326,6 +326,20 @@ void ETH_IRQHandler(void)
 }
 
 /**
+  * @brief This function handles Ethernet wake-up interrupt through EXTI line 86.
+  */
+void ETH_WKUP_IRQHandler(void)
+{
+  /* USER CODE BEGIN ETH_WKUP_IRQn 0 */
+
+  /* USER CODE END ETH_WKUP_IRQn 0 */
+  HAL_ETH_IRQHandler(&heth);
+  /* USER CODE BEGIN ETH_WKUP_IRQn 1 */
+
+  /* USER CODE END ETH_WKUP_IRQn 1 */
+}
+
+/**
   * @brief This function handles UART7 global interrupt.
   */
 void UART7_IRQHandler(void)
