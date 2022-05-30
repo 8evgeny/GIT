@@ -178,7 +178,8 @@ target_link_options(${PROJECT_NAME}.elf PRIVATE ${LINKER_FLAGS})
 target_link_libraries(${PROJECT_NAME}.elf PUBLIC
     CORE
     STARTUP
-    LIB_8742
+#    LIB_8742
+    LIB_83848
     STM32H7xx_HAL_Driver
     LWIP
     Middlewares
