@@ -71,13 +71,13 @@ add_library(CORE ${CORE_SOURCES} )
 set (STARTUP_SOURCES ${patchSRC}/../Startup/startup_stm32h753iitx.s )
 add_library(STARTUP ${STARTUP_SOURCES} )
 
-include_directories(
-    ${patchDRV}/BSP/Components/lan8742
-    Drivers/BSP/Components/dp83848)
-file (GLOB BSP_SOURCES
-    ${patchDRV}/BSP/Components/lan8742/lan8742.c
-    Drivers/BSP/Components/dp83848/dp83848.c)
-add_library(BSP ${BSP_SOURCES} )
+include_directories(Drivers/BSP/Components/lan8742)
+file (GLOB 8742_SOURCES Drivers/BSP/Components/lan8742/lan8742.c )
+add_library(LIB_8742 ${8742_SOURCES} )
+
+include_directories(Drivers/BSP/Components/dp83848)
+file (GLOB 83848_SOURCES  Drivers/BSP/Components/dp83848/dp83848.c)
+add_library(LIB_83848 ${83848_SOURCES} )
 
 include_directories(
     ${patchDRV}/STM32H7xx_HAL_Driver/Inc
@@ -147,10 +147,6 @@ file (GLOB RS232_SOURCES RS232/*.c)
 add_library(RS232 ${RS232_SOURCES} )
 
 add_executable(${PROJECT_NAME}.elf
-#    Drivers/BSP/Components/dp83848/dp83848.c
-#    Drivers/BSP/Components/lan8742/lan8742.c
-#EEPROM/i2ceeprom.c
-#EEPROM/fsforeeprom.c
 Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.c
     ${SOURCES_C}
     )
@@ -182,7 +178,7 @@ target_link_options(${PROJECT_NAME}.elf PRIVATE ${LINKER_FLAGS})
 target_link_libraries(${PROJECT_NAME}.elf PUBLIC
     CORE
     STARTUP
-    BSP
+    LIB_8742
     STM32H7xx_HAL_Driver
     LWIP
     Middlewares
