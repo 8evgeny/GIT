@@ -29,6 +29,7 @@
 #include "rs232_printf.h"
 #include "i2ceeprom.h"
 #include "fsforeeprom.h"
+#include "dp83848.h"
 
 /* USER CODE END Includes */
 
@@ -214,6 +215,18 @@ int main(void)
   EEPROM_TestsHandle = osThreadCreate(osThread(EEPROM_Tests), NULL);
 
   /* USER CODE BEGIN RTOS_THREADS */
+
+//  extern DP83848_Object_t DP83848;
+//  MX_LWIP_Init();
+//  if (DP83848.Is_Initialized) {
+//      char msgUart7[] = "\r------- DP83848.Is_Initialized ----\n\r";
+//      RS232_write_c(msgUart7, sizeof (msgUart7));
+//  } else {
+//      char msgUart7[] = "\r------- DP83848.NO_Initialized ----\n\r";
+//      RS232_write_c(msgUart7, sizeof (msgUart7));
+//  }
+
+
   /* add threads, ... */
   /* USER CODE END RTOS_THREADS */
 
@@ -792,7 +805,7 @@ static void MX_GPIO_Init(void)
 void StartDefaultTask(void const * argument)
 {
   /* init code for LWIP */
-//  MX_LWIP_Init();
+  MX_LWIP_Init();
   /* USER CODE BEGIN 5 */
   char msgUart7[] = "\r------- StartDefaultTask ----------\n\r";
 //  HAL_UART_Transmit_IT (&huart7,(uint8_t*)msgUart7, sizeof (msgUart7));

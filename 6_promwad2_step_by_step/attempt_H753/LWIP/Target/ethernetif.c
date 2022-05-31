@@ -16,6 +16,8 @@
   *
   ******************************************************************************
   */
+#include "rs232.h"
+
 /* USER CODE END Header */
 
 /* Includes ------------------------------------------------------------------*/
@@ -835,64 +837,72 @@ void ethernet_link_thread(void const * argument)
 
   struct netif *netif = (struct netif *) argument;
 /* USER CODE BEGIN ETH link init */
+  char msgUart7[] = "\r------- Start_ethernet_link_thread \n\r";
+  RS232_write_c(msgUart7, sizeof (msgUart7));
 
 /* USER CODE END ETH link init */
 
   for(;;)
   {
-  PHYLinkState = LAN8742_GetLinkState(&LAN8742);
+//  PHYLinkState = LAN8742_GetLinkState(&LAN8742);
 
-  if(netif_is_link_up(netif) && (PHYLinkState <= LAN8742_STATUS_LINK_DOWN))
-  {
-    HAL_ETH_Stop_IT(&heth);
-    netif_set_down(netif);
-    netif_set_link_down(netif);
-  }
-  else if(!netif_is_link_up(netif) && (PHYLinkState > LAN8742_STATUS_LINK_DOWN))
-  {
-    switch (PHYLinkState)
-    {
-    case LAN8742_STATUS_100MBITS_FULLDUPLEX:
-      duplex = ETH_FULLDUPLEX_MODE;
-      speed = ETH_SPEED_100M;
-      linkchanged = 1;
-      break;
-    case LAN8742_STATUS_100MBITS_HALFDUPLEX:
-      duplex = ETH_HALFDUPLEX_MODE;
-      speed = ETH_SPEED_100M;
-      linkchanged = 1;
-      break;
-    case LAN8742_STATUS_10MBITS_FULLDUPLEX:
-      duplex = ETH_FULLDUPLEX_MODE;
-      speed = ETH_SPEED_10M;
-      linkchanged = 1;
-      break;
-    case LAN8742_STATUS_10MBITS_HALFDUPLEX:
-      duplex = ETH_HALFDUPLEX_MODE;
-      speed = ETH_SPEED_10M;
-      linkchanged = 1;
-      break;
-    default:
-      break;
-    }
+//  if(netif_is_link_up(netif) && (PHYLinkState <= LAN8742_STATUS_LINK_DOWN))
+//  {
+//    HAL_ETH_Stop_IT(&heth);
+//    netif_set_down(netif);
+//    netif_set_link_down(netif);
+//  }
+//  else if(!netif_is_link_up(netif) && (PHYLinkState > LAN8742_STATUS_LINK_DOWN))
+//  {
+//    switch (PHYLinkState)
+//    {
+//    case LAN8742_STATUS_100MBITS_FULLDUPLEX:
+//      duplex = ETH_FULLDUPLEX_MODE;
+//      speed = ETH_SPEED_100M;
+//      linkchanged = 1;
+//      break;
+//    case LAN8742_STATUS_100MBITS_HALFDUPLEX:
+//      duplex = ETH_HALFDUPLEX_MODE;
+//      speed = ETH_SPEED_100M;
+//      linkchanged = 1;
+//      break;
+//    case LAN8742_STATUS_10MBITS_FULLDUPLEX:
+//      duplex = ETH_FULLDUPLEX_MODE;
+//      speed = ETH_SPEED_10M;
+//      linkchanged = 1;
+//      break;
+//    case LAN8742_STATUS_10MBITS_HALFDUPLEX:
+//      duplex = ETH_HALFDUPLEX_MODE;
+//      speed = ETH_SPEED_10M;
+//      linkchanged = 1;
+//      break;
+//    default:
+//      break;
+//    }
 
-    if(linkchanged)
-    {
-      /* Get MAC Config MAC */
-      HAL_ETH_GetMACConfig(&heth, &MACConf);
-      MACConf.DuplexMode = duplex;
-      MACConf.Speed = speed;
-      HAL_ETH_SetMACConfig(&heth, &MACConf);
+//    if(linkchanged)
+//    {
+//      /* Get MAC Config MAC */
+//      HAL_ETH_GetMACConfig(&heth, &MACConf);
+//      MACConf.DuplexMode = duplex;
+//      MACConf.Speed = speed;
+//      HAL_ETH_SetMACConfig(&heth, &MACConf);
 
-      HAL_ETH_Start_IT(&heth);
-      netif_set_up(netif);
-      netif_set_link_up(netif);
-    }
-  }
+//      HAL_ETH_Start_IT(&heth);
+//      netif_set_up(netif);
+//      netif_set_link_up(netif);
+//    }
+//  }
 
 /* USER CODE BEGIN ETH link Thread core code for User BSP */
 
       PHYLinkState = DP83848_GetLinkState(&DP83848);
+
+      char msgUart7[50];
+      memset(msgUart7,' ',50);
+      sprintf(msgUart7,"%s %d %s", "\rPHYLinkState = ",PHYLinkState,"\r\n");
+      RS232_write_c(msgUart7, sizeof (msgUart7));
+      osDelay(1000);
 
       if(netif_is_link_up(netif) && (PHYLinkState <= DP83848_STATUS_LINK_DOWN))
       {
