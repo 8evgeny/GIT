@@ -13,13 +13,13 @@ MEMORY
   FLASH (rx)      : ORIGIN = 0x08000000, LENGTH = 2048K
   ITCMRAM (xrw)   : ORIGIN = 0x00000000, LENGTH = 64K
   RAM (xrw)      : ORIGIN = 0x20000000, LENGTH = 128K
-/*  RAM_DTCM (xrw)  : ORIGIN = 0x20000000, LENGTH = 128K     /* stack heap */*/
-/*  AXI_SRAM (xrw)  : ORIGIN = 0x24000000, LENGTH = 512K    /* bss   */*/
+/*  RAM_DTCM (xrw)  : ORIGIN = 0x20000000, LENGTH = 128K     /* stack heap */
+/*  AXI_SRAM (xrw)  : ORIGIN = 0x24000000, LENGTH = 512K    /* bss   */
   RAM_D1 (xrw)   : ORIGIN = 0x24000000, LENGTH = 512K
-/*  AHB_SRAM1 (xrw) : ORIGIN = 0x30000000, LENGTH = 128K    /* Свободна */*/
-/*  AHB_SRAM2 (xrw) : ORIGIN = 0x30020000, LENGTH = 128K    /* DMA */*/
-/*  AHB_SRAM3 (xrw) : ORIGIN = 0x30040000, LENGTH = 32K     /* LWIP */*/
-/*  AHB_SRAM4 (xrw) : ORIGIN = 0x38000000, LENGTH = 64K     /* Свободна */*/
+/*  AHB_SRAM1 (xrw) : ORIGIN = 0x30000000, LENGTH = 128K    /* Свободна */
+/*  AHB_SRAM2 (xrw) : ORIGIN = 0x30020000, LENGTH = 128K    /* DMA */
+/*  AHB_SRAM3 (xrw) : ORIGIN = 0x30040000, LENGTH = 32K     /* LWIP */
+/*  AHB_SRAM4 (xrw) : ORIGIN = 0x38000000, LENGTH = 64K     /* Свободна */
   RAM_D2 (xrw)   : ORIGIN = 0x30000000, LENGTH = 288K
   RAM_D3 (xrw)   : ORIGIN = 0x38000000, LENGTH = 64K
   RAM_EXT (xrw)   : ORIGIN = 0x60000000, LENGTH = 1024K
@@ -105,7 +105,7 @@ SECTIONS
 
     . = ALIGN(4);
     _edata = .;        /* define a global symbol at data end */
-  } >RAM_DTCM AT> FLASH
+  } >RAM AT> FLASH
 
   /* Uninitialized data section */
   . = ALIGN(4);
