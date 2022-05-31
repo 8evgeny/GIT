@@ -30,6 +30,9 @@
 #include "i2ceeprom.h"
 #include "fsforeeprom.h"
 #include "dp83848.h"
+#include "lwip/udp.h"
+#define UDP_SERVER_PORT    7
+#define UDP_CLIENT_PORT    7
 
 /* USER CODE END Includes */
 
@@ -44,6 +47,130 @@
 
 /* Private macro -------------------------------------------------------------*/
 /* USER CODE BEGIN PM */
+
+extern DP83848_Object_t DP83848;
+void ethernet_link_check_state(struct netif *netif)
+{
+  ETH_MACConfigTypeDef MACConf;
+  int32_t PHYLinkState;
+  uint32_t linkchanged = 0, speed = 0, duplex =0;
+
+  PHYLinkState = DP83848_GetLinkState(&DP83848);
+
+  if(netif_is_link_up(netif) && (PHYLinkState <= DP83848_STATUS_LINK_DOWN))
+  {
+    HAL_ETH_Stop(&heth);
+    netif_set_down(netif);
+    netif_set_link_down(netif);
+  }
+  else if(!netif_is_link_up(netif) && (PHYLinkState > DP83848_STATUS_LINK_DOWN))
+  {
+    switch (PHYLinkState)
+    {
+    case DP83848_STATUS_100MBITS_FULLDUPLEX:
+      duplex = ETH_FULLDUPLEX_MODE;
+      speed = ETH_SPEED_100M;
+      linkchanged = 1;
+      break;
+    case DP83848_STATUS_100MBITS_HALFDUPLEX:
+      duplex = ETH_HALFDUPLEX_MODE;
+      speed = ETH_SPEED_100M;
+      linkchanged = 1;
+      break;
+    case DP83848_STATUS_10MBITS_FULLDUPLEX:
+      duplex = ETH_FULLDUPLEX_MODE;
+      speed = ETH_SPEED_10M;
+      linkchanged = 1;
+      break;
+    case DP83848_STATUS_10MBITS_HALFDUPLEX:
+      duplex = ETH_HALFDUPLEX_MODE;
+      speed = ETH_SPEED_10M;
+      linkchanged = 1;
+      break;
+    default:
+      break;
+    }
+
+    if(linkchanged)
+    {
+      /* Get MAC Config MAC */
+      HAL_ETH_GetMACConfig(&heth, &MACConf);
+      MACConf.DuplexMode = duplex;
+      MACConf.Speed = speed;
+      HAL_ETH_SetMACConfig(&heth, &MACConf);
+
+      HAL_ETH_Start(&heth);
+      netif_set_up(netif);
+      netif_set_link_up(netif);
+    }
+  }
+
+}
+
+
+void udp_echoserver_receive_callback(void *arg, struct udp_pcb *upcb, struct pbuf *p, const ip_addr_t *addr, u16_t port)
+{
+  struct pbuf *p_tx;
+
+  /* allocate pbuf from RAM*/
+  p_tx = pbuf_alloc(PBUF_TRANSPORT,p->len, PBUF_RAM);
+
+  if(p_tx != NULL)
+  {
+    pbuf_take(p_tx, (char*)p->payload, p->len);
+    /* Connect to the remote client */
+    udp_connect(upcb, addr, UDP_CLIENT_PORT);
+
+    /* Tell the client that we have accepted it */
+    udp_send(upcb, p_tx);
+
+    /* free the UDP connection, so we can accept new clients */
+    udp_disconnect(upcb);
+
+    /* Free the p_tx buffer */
+    pbuf_free(p_tx);
+
+    /* Free the p buffer */
+    pbuf_free(p);
+  }
+}
+
+void udp_echoserver_init(void)
+{
+   struct udp_pcb *upcb;
+   err_t err;
+
+   /* Create a new UDP control block  */
+   upcb = udp_new();
+
+   if (upcb)
+   {
+     /* Bind the upcb to the UDP_PORT port */
+     /* Using IP_ADDR_ANY allow the upcb to be used by any local interface */
+      err = udp_bind(upcb, IP_ADDR_ANY, UDP_SERVER_PORT);
+
+      if(err == ERR_OK)
+      {
+        /* Set a receive callback for the upcb */
+        udp_recv(upcb, udp_echoserver_receive_callback, NULL);
+      }
+      else
+      {
+        udp_remove(upcb);
+      }
+   }
+}
+uint32_t EthernetLinkTimer;
+void Ethernet_Link_Periodic_Handle(struct netif *netif)
+{
+  /* Ethernet Link every 100ms */
+  if (HAL_GetTick() - EthernetLinkTimer >= 100)
+  {
+    EthernetLinkTimer = HAL_GetTick();
+    ethernet_link_check_state(netif);
+  }
+}
+
 
 /* USER CODE END PM */
 
@@ -817,11 +944,22 @@ void StartDefaultTask(void const * argument)
   } else {
     RS232_write_c("\rDP83848.No_Initialized\r\n", sizeof ("\rDP83848.No_Initialized\r\n"));
   }
-
+extern struct netif gnetif;
+   udp_echoserver_init();
 
   /* Infinite loop */
   for(;;)
   {
+      ethernetif_input(&gnetif);
+      sys_check_timeouts();
+
+//#if LWIP_NETIF_LINK_CALLBACK
+//    Ethernet_Link_Periodic_Handle(&gnetif);
+//#endif
+//#if LWIP_DHCP
+//    DHCP_Periodic_Handle(&gnetif);
+//#endif
+
     osDelay(1);
   }
   /* USER CODE END 5 */
