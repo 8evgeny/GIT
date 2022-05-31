@@ -131,6 +131,11 @@ static void ethernet_link_status_updated(struct netif *netif)
   if (netif_is_up(netif))
   {
 /* USER CODE BEGIN 5 */
+
+      char msgUart7[] = "\r------- ethernet_link_status_updated \n\r";
+      RS232_write_c(msgUart7, sizeof (msgUart7));
+
+
 /* USER CODE END 5 */
   }
   else /* netif is down */
