@@ -379,72 +379,6 @@ static void low_level_init(struct netif *netif)
 /* USER CODE END OS_THREAD_DEF_CREATE_CMSIS_RTOS_V1 */
 /* USER CODE BEGIN PHY_PRE_CONFIG */
 
-  DP83848_RegisterBusIO(&DP83848, &DP83848_IOCtx);
-  DP83848_Init(&DP83848);
-
-  if (hal_eth_init_status == HAL_OK)
-  {
-    PHYLinkState = DP83848_GetLinkState(&DP83848);
-
-    char msgUart7[50];
-    memset(msgUart7,' ',50);
-    sprintf(msgUart7,"%s %d %s", "\rPHYLinkState* = ",PHYLinkState,"\r\n");
-    RS232_write_c(msgUart7, sizeof (msgUart7));
-
-
-    /* Get link state */
-    if(PHYLinkState <= DP83848_STATUS_LINK_DOWN)
-    {
-RS232_write_c("\n\r--a--\n\r", sizeof ("\n\r--a--\n\r"));
-      netif_set_link_down(netif);
-      netif_set_down(netif);
-    }
-    else
-    {
-RS232_write_c("\n\r--b--\n\r", sizeof ("\n\r--b--\n\r"));
-      switch (PHYLinkState)
-      {
-      case DP83848_STATUS_100MBITS_FULLDUPLEX:
-        duplex = ETH_FULLDUPLEX_MODE;
-        speed = ETH_SPEED_100M;
-        break;
-      case DP83848_STATUS_100MBITS_HALFDUPLEX:
-        duplex = ETH_HALFDUPLEX_MODE;
-        speed = ETH_SPEED_100M;
-        break;
-      case DP83848_STATUS_10MBITS_FULLDUPLEX:
-        duplex = ETH_FULLDUPLEX_MODE;
-        speed = ETH_SPEED_10M;
-        break;
-      case DP83848_STATUS_10MBITS_HALFDUPLEX:
-        duplex = ETH_HALFDUPLEX_MODE;
-        speed = ETH_SPEED_10M;
-        break;
-      default:
-        duplex = ETH_FULLDUPLEX_MODE;
-        speed = ETH_SPEED_100M;
-        break;
-      }
-
-    /* Get MAC Config MAC */
-    HAL_ETH_GetMACConfig(&heth, &MACConf);
-    MACConf.DuplexMode = duplex;
-    MACConf.Speed = speed;
-    HAL_ETH_SetMACConfig(&heth, &MACConf);
-
-    HAL_ETH_Start_IT(&heth);
-    netif_set_up(netif);
-    netif_set_link_up(netif);
-
-    }
-
-  }
-  else
-  {
-    Error_Handler();
-  }
-
-
 /* USER CODE END PHY_PRE_CONFIG */
   /* Set PHY IO functions */
   LAN8742_RegisterBusIO(&LAN8742, &LAN8742_IOCtx);
@@ -499,7 +433,70 @@ RS232_write_c("\n\r--b--\n\r", sizeof ("\n\r--b--\n\r"));
     netif_set_link_up(netif);
 
 /* USER CODE BEGIN PHY_POST_CONFIG */
+    DP83848_RegisterBusIO(&DP83848, &DP83848_IOCtx);
+    DP83848_Init(&DP83848);
 
+    if (hal_eth_init_status == HAL_OK)
+    {
+      PHYLinkState = DP83848_GetLinkState(&DP83848);
+
+      char msgUart7[50];
+      memset(msgUart7,' ',50);
+      sprintf(msgUart7,"%s %d %s", "\rPHYLinkState* = ",PHYLinkState,"\r\n");
+      RS232_write_c(msgUart7, sizeof (msgUart7));
+
+
+      /* Get link state */
+      if(PHYLinkState <= DP83848_STATUS_LINK_DOWN)
+      {
+  RS232_write_c("\n\r--a--\n\r", sizeof ("\n\r--a--\n\r"));
+        netif_set_link_down(netif);
+        netif_set_down(netif);
+      }
+      else
+      {
+  RS232_write_c("\n\r--b--\n\r", sizeof ("\n\r--b--\n\r"));
+        switch (PHYLinkState)
+        {
+        case DP83848_STATUS_100MBITS_FULLDUPLEX:
+          duplex = ETH_FULLDUPLEX_MODE;
+          speed = ETH_SPEED_100M;
+          break;
+        case DP83848_STATUS_100MBITS_HALFDUPLEX:
+          duplex = ETH_HALFDUPLEX_MODE;
+          speed = ETH_SPEED_100M;
+          break;
+        case DP83848_STATUS_10MBITS_FULLDUPLEX:
+          duplex = ETH_FULLDUPLEX_MODE;
+          speed = ETH_SPEED_10M;
+          break;
+        case DP83848_STATUS_10MBITS_HALFDUPLEX:
+          duplex = ETH_HALFDUPLEX_MODE;
+          speed = ETH_SPEED_10M;
+          break;
+        default:
+          duplex = ETH_FULLDUPLEX_MODE;
+          speed = ETH_SPEED_100M;
+          break;
+        }
+
+      /* Get MAC Config MAC */
+      HAL_ETH_GetMACConfig(&heth, &MACConf);
+      MACConf.DuplexMode = duplex;
+      MACConf.Speed = speed;
+      HAL_ETH_SetMACConfig(&heth, &MACConf);
+
+      HAL_ETH_Start_IT(&heth);
+      netif_set_up(netif);
+      netif_set_link_up(netif);
+
+      }
+
+    }
+    else
+    {
+      Error_Handler();
+    }
 /* USER CODE END PHY_POST_CONFIG */
     }
 
@@ -976,11 +973,7 @@ void ethernet_link_thread(void const * argument)
 
           netif_set_up(netif);
           netif_set_link_up(netif);
-
-
-
         }
-
 
       }
 
