@@ -48,7 +48,9 @@
 /* Private macro -------------------------------------------------------------*/
 /* USER CODE BEGIN PM */
 
+extern struct netif gnetif;
 extern DP83848_Object_t DP83848;
+
 void ethernet_link_check_state(struct netif *netif)
 {
   ETH_MACConfigTypeDef MACConf;
@@ -106,7 +108,6 @@ void ethernet_link_check_state(struct netif *netif)
   }
 
 }
-
 
 void udp_echoserver_receive_callback(void *arg, struct udp_pcb *upcb, struct pbuf *p, const ip_addr_t *addr, u16_t port)
 {
@@ -944,21 +945,17 @@ void StartDefaultTask(void const * argument)
   } else {
     RS232_write_c("\rDP83848.No_Initialized\r\n", sizeof ("\rDP83848.No_Initialized\r\n"));
   }
-extern struct netif gnetif;
-   udp_echoserver_init();
+
+//   udp_echoserver_init();
 
   /* Infinite loop */
   for(;;)
   {
+
       ethernetif_input(&gnetif);
       sys_check_timeouts();
+      Ethernet_Link_Periodic_Handle(&gnetif);
 
-//#if LWIP_NETIF_LINK_CALLBACK
-//    Ethernet_Link_Periodic_Handle(&gnetif);
-//#endif
-//#if LWIP_DHCP
-//    DHCP_Periodic_Handle(&gnetif);
-//#endif
 
     osDelay(1);
   }
