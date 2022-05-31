@@ -807,9 +807,17 @@ void StartDefaultTask(void const * argument)
   /* init code for LWIP */
   MX_LWIP_Init();
   /* USER CODE BEGIN 5 */
+
   char msgUart7[] = "\r------- StartDefaultTask ----------\n\r";
 //  HAL_UART_Transmit_IT (&huart7,(uint8_t*)msgUart7, sizeof (msgUart7));
   RS232_write_c(msgUart7, sizeof (msgUart7));
+  extern DP83848_Object_t DP83848;
+  if (DP83848.Is_Initialized) {
+    RS232_write_c("\rDP83848.Is_Initialized\r\n", sizeof ("\rDP83848.Is_Initialized\r\n"));
+  } else {
+    RS232_write_c("\rDP83848.No_Initialized\r\n", sizeof ("\rDP83848.No_Initialized\r\n"));
+  }
+
 
   /* Infinite loop */
   for(;;)
