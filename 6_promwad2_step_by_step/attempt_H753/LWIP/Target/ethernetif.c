@@ -902,16 +902,18 @@ void ethernet_link_thread(void const * argument)
       memset(msgUart7,' ',50);
       sprintf(msgUart7,"%s %d %s", "\rPHYLinkState = ",PHYLinkState,"\r\n");
       RS232_write_c(msgUart7, sizeof (msgUart7));
-      osDelay(1000);
+      osDelay(5000);
 
       if(netif_is_link_up(netif) && (PHYLinkState <= DP83848_STATUS_LINK_DOWN))
       {
+          RS232_write_c("\n\r--1--\n\r", sizeof ("\n\r--1--\n\r"));
         HAL_ETH_Stop_IT(&heth);
         netif_set_down(netif);
         netif_set_link_down(netif);
       }
       else if(!netif_is_link_up(netif) && (PHYLinkState > DP83848_STATUS_LINK_DOWN))
       {
+         RS232_write_c("\n\r--2--\n\r", sizeof ("\n\r--2--\n\r"));
         switch (PHYLinkState)
         {
         case DP83848_STATUS_100MBITS_FULLDUPLEX:
@@ -950,6 +952,8 @@ void ethernet_link_thread(void const * argument)
           netif_set_up(netif);
           netif_set_link_up(netif);
         }
+
+
       }
 
 /* USER CODE END ETH link Thread core code for User BSP */
