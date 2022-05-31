@@ -792,7 +792,7 @@ static void MX_GPIO_Init(void)
 void StartDefaultTask(void const * argument)
 {
   /* init code for LWIP */
-  MX_LWIP_Init();
+//  MX_LWIP_Init();
   /* USER CODE BEGIN 5 */
   char msgUart7[] = "\r------- StartDefaultTask ----------\n\r";
 //  HAL_UART_Transmit_IT (&huart7,(uint8_t*)msgUart7, sizeof (msgUart7));
