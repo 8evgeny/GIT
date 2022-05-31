@@ -12,16 +12,16 @@ MEMORY
 {
   FLASH (rx)      : ORIGIN = 0x08000000, LENGTH = 2048K
   ITCMRAM (xrw)   : ORIGIN = 0x00000000, LENGTH = 64K
-/*  RAM (xrw)      : ORIGIN = 0x20000000, LENGTH = 128K*/
-  RAM_DTCM (xrw)  : ORIGIN = 0x20000000, LENGTH = 128K     /* stack heap */
-  AXI_SRAM (xrw)  : ORIGIN = 0x24000000, LENGTH = 512K    /* bss   */
-
-  AHB_SRAM1 (xrw) : ORIGIN = 0x30000000, LENGTH = 128K    /* Свободна */
-  AHB_SRAM2 (xrw) : ORIGIN = 0x30020000, LENGTH = 128K    /* DMA */
-  AHB_SRAM3 (xrw) : ORIGIN = 0x30040000, LENGTH = 32K     /* LWIP */
-  AHB_SRAM4 (xrw) : ORIGIN = 0x38000000, LENGTH = 64K     /* Свободна */
-/*  RAM_D2 (xrw)   : ORIGIN = 0x30000000, LENGTH = 288K*/
-/*  RAM_D3 (xrw)   : ORIGIN = 0x38000000, LENGTH = 64K*/
+  RAM (xrw)      : ORIGIN = 0x20000000, LENGTH = 128K
+/*  RAM_DTCM (xrw)  : ORIGIN = 0x20000000, LENGTH = 128K     /* stack heap */*/
+/*  AXI_SRAM (xrw)  : ORIGIN = 0x24000000, LENGTH = 512K    /* bss   */*/
+  RAM_D1 (xrw)   : ORIGIN = 0x24000000, LENGTH = 512K
+/*  AHB_SRAM1 (xrw) : ORIGIN = 0x30000000, LENGTH = 128K    /* Свободна */*/
+/*  AHB_SRAM2 (xrw) : ORIGIN = 0x30020000, LENGTH = 128K    /* DMA */*/
+/*  AHB_SRAM3 (xrw) : ORIGIN = 0x30040000, LENGTH = 32K     /* LWIP */*/
+/*  AHB_SRAM4 (xrw) : ORIGIN = 0x38000000, LENGTH = 64K     /* Свободна */*/
+  RAM_D2 (xrw)   : ORIGIN = 0x30000000, LENGTH = 288K
+  RAM_D3 (xrw)   : ORIGIN = 0x38000000, LENGTH = 64K
   RAM_EXT (xrw)   : ORIGIN = 0x60000000, LENGTH = 1024K
 }
 
@@ -121,7 +121,7 @@ SECTIONS
     . = ALIGN(4);
     _ebss = .;         /* define a global symbol at bss end */
     __bss_end__ = _ebss;
-  } >AXI_SRAM
+  } >RAM_D1
 
   /* User_heap_stack section, used to check that there is enough RAM left */
   ._user_heap_stack :
@@ -132,10 +132,10 @@ SECTIONS
     . = . + _Min_Heap_Size;
     . = . + _Min_Stack_Size;
     . = ALIGN(8);
-  } >RAM_DTCM
+  } >RAM
 
   /* Modification start */
-  .lwip_sec (NOLOAD) : {
+/*  .lwip_sec (NOLOAD) : {
     . = ABSOLUTE(0x30040000);
     *(.RxDecripSection)
 
@@ -147,7 +147,7 @@ SECTIONS
 
     . = ABSOLUTE(0x30043000);
     *(.TxArraySection)
-  } >AHB_SRAM3
+  } >AHB_SRAM3*/
   /* Modification end */
 
   /* Remove information from the standard libraries */
@@ -163,7 +163,33 @@ SECTIONS
   .RAM_DMA_data (NOLOAD): {
     *(.DMATransferSection)
     *(.RAM_DMA_data)
-   } >AHB_SRAM2
+   } >RAM_D1
+
+  .eth_dma (NOLOAD) : {
+    . = ABSOLUTE(0x30000000);
+    *(.RxDecripSection)
+
+    . = ABSOLUTE(0x30000060);
+    *(.TxDecripSection)
+
+    . = ABSOLUTE(0x30000200);
+    *(.RxArraySection)
+  } >RAM_D2
+
+  .RAM_D2_data (NOLOAD) : {
+    . = ABSOLUTE(0x30002000);
+    *(.RAM_D2_data)
+    . = ABSOLUTE(0x30040000);
+  } >RAM_D2
+
+  .lwip_pool_space (NOLOAD) : {
+    . = ABSOLUTE(0x30040000);
+    *(.lwip_pool)
+    . = ABSOLUTE(0x30047FFF);
+  } >RAM_D2
+
+
+
 
   .ext_ram (NOLOAD) : {
     *(.ExtRamData)
