@@ -188,9 +188,6 @@ SECTIONS
     . = ABSOLUTE(0x30047FFF);
   } >RAM_D2
 
-
-
-
   .ext_ram (NOLOAD) : {
     *(.ExtRamData)
     . = ALIGN(4);
