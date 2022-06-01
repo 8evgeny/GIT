@@ -199,12 +199,14 @@ DMA_HandleTypeDef hdma_uart7_tx;
 SRAM_HandleTypeDef hsram1;
 
 osThreadId defaultTaskHandle;
+uint32_t defaultTaskBuffer[ 256 ];
+osStaticThreadDef_t defaultTaskControlBlock;
 osThreadId Test_Led_TaskHandle;
 uint32_t Test_Led_TaskBuffer[ 256 ];
 osStaticThreadDef_t Test_Led_TaskControlBlock;
 osThreadId LEDS_1_2_3_TESTHandle;
-uint32_t LEDS_1_2_3_TESBuffer[ 256 ];
-osStaticThreadDef_t LEDS_1_2_3_TESControlBlock;
+uint32_t LEDS_1_2_3_TESTBuffer[ 256 ];
+osStaticThreadDef_t LEDS_1_2_3_TESTControlBlock;
 osThreadId LEDS_4_5_6_TESTHandle;
 uint32_t LEDS_4_5_6_TESTBuffer[ 256 ];
 osStaticThreadDef_t LEDS_4_5_6_TESTControlBlock;
@@ -319,7 +321,7 @@ int main(void)
 
   /* Create the thread(s) */
   /* definition and creation of defaultTask */
-  osThreadDef(defaultTask, StartDefaultTask, osPriorityNormal, 0, 256);
+  osThreadStaticDef(defaultTask, StartDefaultTask, osPriorityNormal, 0, 256, defaultTaskBuffer, &defaultTaskControlBlock);
   defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
 
   /* definition and creation of Test_Led_Task */
@@ -327,7 +329,7 @@ int main(void)
   Test_Led_TaskHandle = osThreadCreate(osThread(Test_Led_Task), NULL);
 
   /* definition and creation of LEDS_1_2_3_TEST */
-  osThreadStaticDef(LEDS_1_2_3_TEST, LEDS_1_2_3_TEST_, osPriorityIdle, 0, 256, LEDS_1_2_3_TESBuffer, &LEDS_1_2_3_TESControlBlock);
+  osThreadStaticDef(LEDS_1_2_3_TEST, LEDS_1_2_3_TEST_, osPriorityIdle, 0, 256, LEDS_1_2_3_TESTBuffer, &LEDS_1_2_3_TESTControlBlock);
   LEDS_1_2_3_TESTHandle = osThreadCreate(osThread(LEDS_1_2_3_TEST), NULL);
 
   /* definition and creation of LEDS_4_5_6_TEST */
@@ -1185,13 +1187,13 @@ void MPU_Config(void)
   */
   MPU_InitStruct.Enable = MPU_REGION_ENABLE;
   MPU_InitStruct.Number = MPU_REGION_NUMBER0;
-  MPU_InitStruct.BaseAddress = 30000000;
-  MPU_InitStruct.Size = MPU_REGION_SIZE_512B;
+  MPU_InitStruct.BaseAddress = 30040000;
+  MPU_InitStruct.Size = MPU_REGION_SIZE_32KB;
   MPU_InitStruct.SubRegionDisable = 0x0;
-  MPU_InitStruct.TypeExtField = MPU_TEX_LEVEL0;
+  MPU_InitStruct.TypeExtField = MPU_TEX_LEVEL1;
   MPU_InitStruct.AccessPermission = MPU_REGION_FULL_ACCESS;
-  MPU_InitStruct.DisableExec = MPU_INSTRUCTION_ACCESS_ENABLE;
-  MPU_InitStruct.IsShareable = MPU_ACCESS_SHAREABLE;
+  MPU_InitStruct.DisableExec = MPU_INSTRUCTION_ACCESS_DISABLE;
+  MPU_InitStruct.IsShareable = MPU_ACCESS_NOT_SHAREABLE;
   MPU_InitStruct.IsCacheable = MPU_ACCESS_NOT_CACHEABLE;
   MPU_InitStruct.IsBufferable = MPU_ACCESS_NOT_BUFFERABLE;
 
@@ -1200,7 +1202,10 @@ void MPU_Config(void)
   */
   MPU_InitStruct.Number = MPU_REGION_NUMBER1;
   MPU_InitStruct.BaseAddress = 0x30040000;
-  MPU_InitStruct.Size = MPU_REGION_SIZE_32KB;
+  MPU_InitStruct.Size = MPU_REGION_SIZE_256B;
+  MPU_InitStruct.TypeExtField = MPU_TEX_LEVEL0;
+  MPU_InitStruct.IsShareable = MPU_ACCESS_SHAREABLE;
+  MPU_InitStruct.IsBufferable = MPU_ACCESS_BUFFERABLE;
 
   HAL_MPU_ConfigRegion(&MPU_InitStruct);
   /* Enables the MPU */
