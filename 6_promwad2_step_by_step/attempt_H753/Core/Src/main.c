@@ -256,7 +256,7 @@ void EEPROM_Tests_(void const * argument);
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-
+#define LWIP_RAM_HEAP_POINTER (0x30044000)
   /* USER CODE END 1 */
 
   /* MPU Configuration--------------------------------------------------------*/
