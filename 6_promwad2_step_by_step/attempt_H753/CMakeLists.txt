@@ -103,6 +103,7 @@ set (LWIP_SOURCES
 add_library(LWIP ${LWIP_SOURCES} )
 
 include_directories(
+    Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2
     Middlewares/Third_Party/LwIP/system/arch
     Middlewares/Third_Party/LwIP/system
     Middlewares/Third_Party/LwIP/src/include/netif
@@ -132,6 +133,7 @@ file (GLOB Third_Party_SRC
     Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/*.c
     Middlewares/Third_Party/LwIP/system/OS/sys_arch.c
     Middlewares/Third_Party/FreeRTOS/Source/portable/MemMang/heap_4.c
+    Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.c
 #    Drivers/BSP/Components/lan8742/lan8742.c
     )
 
@@ -148,7 +150,6 @@ file (GLOB RS232_SOURCES RS232/*.c)
 add_library(RS232 ${RS232_SOURCES} )
 
 add_executable(${PROJECT_NAME}.elf
-Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.c
     ${SOURCES_C}
     )
 
