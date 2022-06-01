@@ -1,0 +1,4 @@
+/home/evg/SOFT/Github/GIT/7_Camera/Project_Keil__blink/build_release/CMakeFiles/edit_cache.dir
+/home/evg/SOFT/Github/GIT/7_Camera/Project_Keil__blink/build_release/CMakeFiles/milandr_cmake_blink.elf.dir
+/home/evg/SOFT/Github/GIT/7_Camera/Project_Keil__blink/build_release/CMakeFiles/rebuild_cache.dir
+/home/evg/SOFT/Github/GIT/7_Camera/Project_Keil__blink/build_release/CMakeFiles/CMSIS.dir

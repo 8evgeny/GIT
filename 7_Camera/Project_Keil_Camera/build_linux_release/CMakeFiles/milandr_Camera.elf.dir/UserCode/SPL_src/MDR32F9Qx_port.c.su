@@ -1,0 +1,9 @@
+MDR32F9Qx_port.c:69:6:PORT_DeInit	0	static
+MDR32F9Qx_port.c:95:6:PORT_Init	72	static
+MDR32F9Qx_port.c:181:6:PORT_StructInit	0	static
+MDR32F9Qx_port.c:205:9:PORT_ReadInputDataBit	0	static
+MDR32F9Qx_port.c:232:10:PORT_ReadInputData	0	static
+MDR32F9Qx_port.c:249:6:PORT_SetBits	0	static
+MDR32F9Qx_port.c:274:6:PORT_ResetBits	0	static
+MDR32F9Qx_port.c:304:6:PORT_WriteBit	0	static
+MDR32F9Qx_port.c:350:6:PORT_Write	0	static

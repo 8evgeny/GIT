@@ -123,10 +123,10 @@ include_directories( ${RS232} )
 file (GLOB RS232_src ${RS232}/*.cpp ${RS232}/*.c ${RS232}/*.h )
 add_library(RS232_LIB ${RS232_src} )
 
-set (Debug  Src/Debug)
-include_directories( ${Debug} )
-file (GLOB Debug_src ${Debug}/*.cpp ${Debug}/*.c ${Debug}/*.h )
-add_library(Debug_LIB ${Debug_src} )
+#set (Debug  Src/Debug)
+#include_directories( ${Debug} )
+#file (GLOB Debug_src ${Debug}/*.cpp ${Debug}/*.c ${Debug}/*.h )
+#add_library(Debug_LIB ${Debug_src} )
 
 set (EEPROM  Src/EEPROM)
 include_directories(${EEPROM})
@@ -335,7 +335,7 @@ target_link_libraries(${PROJECT_NAME}.elf PUBLIC
     Middlewares
     CMSIS_RTOS
     RS232_LIB
-    Debug_LIB
+#    Debug_LIB
     EEPROM_LIB
     littlefs_LIB
     CircularBuffer_LIB

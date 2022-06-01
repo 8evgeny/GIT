@@ -24,9 +24,20 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
+#include <string.h>
+#include "rs232.h"
+#include "rs232_printf.h"
+#include "i2ceeprom.h"
+#include "fsforeeprom.h"
+#include "dp83848.h"
+#include "lwip/udp.h"
+#define UDP_SERVER_PORT    7
+#define UDP_CLIENT_PORT    7
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
+typedef StaticTask_t osStaticThreadDef_t;
 /* USER CODE BEGIN PTD */
 
 /* USER CODE END PTD */
@@ -38,20 +49,251 @@
 /* Private macro -------------------------------------------------------------*/
 /* USER CODE BEGIN PM */
 
+extern struct netif gnetif;
+extern DP83848_Object_t DP83848;
+
+void ethernet_link_check_state(struct netif *netif)
+{
+  ETH_MACConfigTypeDef MACConf;
+  int32_t PHYLinkState;
+  uint32_t linkchanged = 0, speed = 0, duplex =0;
+
+  PHYLinkState = DP83848_GetLinkState(&DP83848);
+
+  if(netif_is_link_up(netif) && (PHYLinkState <= DP83848_STATUS_LINK_DOWN))
+  {
+    HAL_ETH_Stop(&heth);
+    netif_set_down(netif);
+    netif_set_link_down(netif);
+  }
+  else if(!netif_is_link_up(netif) && (PHYLinkState > DP83848_STATUS_LINK_DOWN))
+  {
+    switch (PHYLinkState)
+    {
+    case DP83848_STATUS_100MBITS_FULLDUPLEX:
+      duplex = ETH_FULLDUPLEX_MODE;
+      speed = ETH_SPEED_100M;
+      linkchanged = 1;
+      break;
+    case DP83848_STATUS_100MBITS_HALFDUPLEX:
+      duplex = ETH_HALFDUPLEX_MODE;
+      speed = ETH_SPEED_100M;
+      linkchanged = 1;
+      break;
+    case DP83848_STATUS_10MBITS_FULLDUPLEX:
+      duplex = ETH_FULLDUPLEX_MODE;
+      speed = ETH_SPEED_10M;
+      linkchanged = 1;
+      break;
+    case DP83848_STATUS_10MBITS_HALFDUPLEX:
+      duplex = ETH_HALFDUPLEX_MODE;
+      speed = ETH_SPEED_10M;
+      linkchanged = 1;
+      break;
+    default:
+      break;
+    }
+
+    if(linkchanged)
+    {
+      /* Get MAC Config MAC */
+      HAL_ETH_GetMACConfig(&heth, &MACConf);
+      MACConf.DuplexMode = duplex;
+      MACConf.Speed = speed;
+      HAL_ETH_SetMACConfig(&heth, &MACConf);
+
+      HAL_ETH_Start(&heth);
+      netif_set_up(netif);
+      netif_set_link_up(netif);
+    }
+  }
+
+}
+
+void udp_echoserver_receive_callback(void *arg, struct udp_pcb *upcb, struct pbuf *p, const ip_addr_t *addr, u16_t port)
+{
+  struct pbuf *p_tx;
+
+  /* allocate pbuf from RAM*/
+  p_tx = pbuf_alloc(PBUF_TRANSPORT,p->len, PBUF_RAM);
+
+  if(p_tx != NULL)
+  {
+    pbuf_take(p_tx, (char*)p->payload, p->len);
+    /* Connect to the remote client */
+    udp_connect(upcb, addr, UDP_CLIENT_PORT);
+
+    /* Tell the client that we have accepted it */
+    udp_send(upcb, p_tx);
+
+    /* free the UDP connection, so we can accept new clients */
+    udp_disconnect(upcb);
+
+    /* Free the p_tx buffer */
+    pbuf_free(p_tx);
+
+    /* Free the p buffer */
+    pbuf_free(p);
+  }
+}
+
+void udp_echoserver_init(void)
+{
+   struct udp_pcb *upcb;
+   err_t err;
+
+   /* Create a new UDP control block  */
+   upcb = udp_new();
+
+   if (upcb)
+   {
+     /* Bind the upcb to the UDP_PORT port */
+     /* Using IP_ADDR_ANY allow the upcb to be used by any local interface */
+      err = udp_bind(upcb, IP_ADDR_ANY, UDP_SERVER_PORT);
+
+      if(err == ERR_OK)
+      {
+        /* Set a receive callback for the upcb */
+        udp_recv(upcb, udp_echoserver_receive_callback, NULL);
+      }
+      else
+      {
+        udp_remove(upcb);
+      }
+   }
+}
+uint32_t EthernetLinkTimer;
+void Ethernet_Link_Periodic_Handle(struct netif *netif)
+{
+  /* Ethernet Link every 100ms */
+  if (HAL_GetTick() - EthernetLinkTimer >= 100)
+  {
+    EthernetLinkTimer = HAL_GetTick();
+    ethernet_link_check_state(netif);
+  }
+}
+
+
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
 
-osThreadId defaultTaskHandle;
+I2C_HandleTypeDef hi2c1;
+I2C_HandleTypeDef hi2c2;
+DMA_HandleTypeDef hdma_i2c1_rx;
+DMA_HandleTypeDef hdma_i2c1_tx;
+DMA_HandleTypeDef hdma_i2c2_rx;
+DMA_HandleTypeDef hdma_i2c2_tx;
+
+RNG_HandleTypeDef hrng;
+
+RTC_HandleTypeDef hrtc;
+
+SAI_HandleTypeDef hsai_BlockA1;
+SAI_HandleTypeDef hsai_BlockB1;
+DMA_HandleTypeDef hdma_sai1_a;
+DMA_HandleTypeDef hdma_sai1_b;
+
+UART_HandleTypeDef huart7;
+DMA_HandleTypeDef hdma_uart7_tx;
+
+SRAM_HandleTypeDef hsram1;
+
+/* Definitions for defaultTask */
+osThreadId_t defaultTaskHandle;
+uint32_t defaultTaskBuffer[ 256 ];
+osStaticThreadDef_t defaultTaskControlBlock;
+const osThreadAttr_t defaultTask_attributes = {
+  .name = "defaultTask",
+  .cb_mem = &defaultTaskControlBlock,
+  .cb_size = sizeof(defaultTaskControlBlock),
+  .stack_mem = &defaultTaskBuffer[0],
+  .stack_size = sizeof(defaultTaskBuffer),
+  .priority = (osPriority_t) osPriorityNormal,
+};
+/* Definitions for Test_Led_Task */
+osThreadId_t Test_Led_TaskHandle;
+uint32_t Test_Led_TaskBuffer[ 256 ];
+osStaticThreadDef_t Test_Led_TaskControlBlock;
+const osThreadAttr_t Test_Led_Task_attributes = {
+  .name = "Test_Led_Task",
+  .cb_mem = &Test_Led_TaskControlBlock,
+  .cb_size = sizeof(Test_Led_TaskControlBlock),
+  .stack_mem = &Test_Led_TaskBuffer[0],
+  .stack_size = sizeof(Test_Led_TaskBuffer),
+  .priority = (osPriority_t) osPriorityLow,
+};
+/* Definitions for LEDS_1_2_3_TEST */
+osThreadId_t LEDS_1_2_3_TESTHandle;
+uint32_t LEDS_1_2_3_TESTBuffer[ 256 ];
+osStaticThreadDef_t LEDS_1_2_3_TESTControlBlock;
+const osThreadAttr_t LEDS_1_2_3_TEST_attributes = {
+  .name = "LEDS_1_2_3_TEST",
+  .cb_mem = &LEDS_1_2_3_TESTControlBlock,
+  .cb_size = sizeof(LEDS_1_2_3_TESTControlBlock),
+  .stack_mem = &LEDS_1_2_3_TESTBuffer[0],
+  .stack_size = sizeof(LEDS_1_2_3_TESTBuffer),
+  .priority = (osPriority_t) osPriorityLow,
+};
+/* Definitions for LEDS_4_5_6_TEST */
+osThreadId_t LEDS_4_5_6_TESTHandle;
+uint32_t LEDS_4_5_6_TESTBuffer[ 256 ];
+osStaticThreadDef_t LEDS_4_5_6_TESTControlBlock;
+const osThreadAttr_t LEDS_4_5_6_TEST_attributes = {
+  .name = "LEDS_4_5_6_TEST",
+  .cb_mem = &LEDS_4_5_6_TESTControlBlock,
+  .cb_size = sizeof(LEDS_4_5_6_TESTControlBlock),
+  .stack_mem = &LEDS_4_5_6_TESTBuffer[0],
+  .stack_size = sizeof(LEDS_4_5_6_TESTBuffer),
+  .priority = (osPriority_t) osPriorityLow,
+};
+/* Definitions for KEYS_TEST_TASK */
+osThreadId_t KEYS_TEST_TASKHandle;
+uint32_t KEYS_TEST_TASKBuffer[ 256 ];
+osStaticThreadDef_t KEYS_TEST_TASKControlBlock;
+const osThreadAttr_t KEYS_TEST_TASK_attributes = {
+  .name = "KEYS_TEST_TASK",
+  .cb_mem = &KEYS_TEST_TASKControlBlock,
+  .cb_size = sizeof(KEYS_TEST_TASKControlBlock),
+  .stack_mem = &KEYS_TEST_TASKBuffer[0],
+  .stack_size = sizeof(KEYS_TEST_TASKBuffer),
+  .priority = (osPriority_t) osPriorityLow,
+};
+/* Definitions for EEPROM_Tests */
+osThreadId_t EEPROM_TestsHandle;
+uint32_t EEPROM_TestsBuffer[ 256 ];
+osStaticThreadDef_t EEPROM_TestsControlBlock;
+const osThreadAttr_t EEPROM_Tests_attributes = {
+  .name = "EEPROM_Tests",
+  .cb_mem = &EEPROM_TestsControlBlock,
+  .cb_size = sizeof(EEPROM_TestsControlBlock),
+  .stack_mem = &EEPROM_TestsBuffer[0],
+  .stack_size = sizeof(EEPROM_TestsBuffer),
+  .priority = (osPriority_t) osPriorityLow,
+};
 /* USER CODE BEGIN PV */
 
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
+void PeriphCommonClock_Config(void);
 static void MPU_Config(void);
 static void MX_GPIO_Init(void);
-void StartDefaultTask(void const * argument);
+static void MX_UART7_Init(void);
+static void MX_DMA_Init(void);
+static void MX_SAI1_Init(void);
+static void MX_I2C1_Init(void);
+static void MX_RTC_Init(void);
+static void MX_RNG_Init(void);
+static void MX_FMC_Init(void);
+static void MX_I2C2_Init(void);
+void StartDefaultTask(void *argument);
+void Test_Led_Task_(void *argument);
+void LEDS_1_2_3_TEST_(void *argument);
+void LEDS_4_5_6_TEST_(void *argument);
+void KEYS_TEST_TASK_(void *argument);
+void EEPROM_Tests_(void *argument);
 
 /* USER CODE BEGIN PFP */
 
@@ -69,7 +311,7 @@ void StartDefaultTask(void const * argument);
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-
+//#define LWIP_RAM_HEAP_POINTER (0x30044000)
   /* USER CODE END 1 */
 
   /* MPU Configuration--------------------------------------------------------*/
@@ -93,15 +335,31 @@ int main(void)
   /* Configure the system clock */
   SystemClock_Config();
 
+/* Configure the peripherals common clocks */
+  PeriphCommonClock_Config();
+
   /* USER CODE BEGIN SysInit */
 
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
+  MX_UART7_Init();
+  MX_DMA_Init();
+  MX_SAI1_Init();
+  MX_I2C1_Init();
+  MX_RTC_Init();
+  MX_RNG_Init();
+  MX_FMC_Init();
+  MX_I2C2_Init();
   /* USER CODE BEGIN 2 */
 
+    littleFsInit();
+
   /* USER CODE END 2 */
+
+  /* Init scheduler */
+  osKernelInitialize();
 
   /* USER CODE BEGIN RTOS_MUTEX */
   /* add mutexes, ... */
@@ -120,13 +378,43 @@ int main(void)
   /* USER CODE END RTOS_QUEUES */
 
   /* Create the thread(s) */
-  /* definition and creation of defaultTask */
-  osThreadDef(defaultTask, StartDefaultTask, osPriorityNormal, 0, 256);
-  defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
+  /* creation of defaultTask */
+  defaultTaskHandle = osThreadNew(StartDefaultTask, NULL, &defaultTask_attributes);
+
+  /* creation of Test_Led_Task */
+  Test_Led_TaskHandle = osThreadNew(Test_Led_Task_, NULL, &Test_Led_Task_attributes);
+
+  /* creation of LEDS_1_2_3_TEST */
+  LEDS_1_2_3_TESTHandle = osThreadNew(LEDS_1_2_3_TEST_, NULL, &LEDS_1_2_3_TEST_attributes);
+
+  /* creation of LEDS_4_5_6_TEST */
+  LEDS_4_5_6_TESTHandle = osThreadNew(LEDS_4_5_6_TEST_, NULL, &LEDS_4_5_6_TEST_attributes);
+
+  /* creation of KEYS_TEST_TASK */
+  KEYS_TEST_TASKHandle = osThreadNew(KEYS_TEST_TASK_, NULL, &KEYS_TEST_TASK_attributes);
+
+  /* creation of EEPROM_Tests */
+  EEPROM_TestsHandle = osThreadNew(EEPROM_Tests_, NULL, &EEPROM_Tests_attributes);
 
   /* USER CODE BEGIN RTOS_THREADS */
+
+//  extern DP83848_Object_t DP83848;
+//  MX_LWIP_Init();
+//  if (DP83848.Is_Initialized) {
+//      char msgUart7[] = "\r------- DP83848.Is_Initialized ----\n\r";
+//      RS232_write_c(msgUart7, sizeof (msgUart7));
+//  } else {
+//      char msgUart7[] = "\r------- DP83848.NO_Initialized ----\n\r";
+//      RS232_write_c(msgUart7, sizeof (msgUart7));
+//  }
+
+
   /* add threads, ... */
   /* USER CODE END RTOS_THREADS */
+
+  /* USER CODE BEGIN RTOS_EVENTS */
+  /* add events, ... */
+  /* USER CODE END RTOS_EVENTS */
 
   /* Start scheduler */
   osKernelStart();
@@ -157,22 +445,28 @@ void SystemClock_Config(void)
   HAL_PWREx_ConfigSupply(PWR_LDO_SUPPLY);
   /** Configure the main internal regulator output voltage
   */
-  __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE0);
+  __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE1);
 
   while(!__HAL_PWR_GET_FLAG(PWR_FLAG_VOSRDY)) {}
+  /** Macro to configure the PLL clock source
+  */
+  __HAL_RCC_PLL_PLLSOURCE_CONFIG(RCC_PLLSOURCE_HSE);
   /** Initializes the RCC Oscillators according to the specified parameters
   * in the RCC_OscInitTypeDef structure.
   */
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
+  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI48|RCC_OSCILLATORTYPE_LSI
+                              |RCC_OSCILLATORTYPE_HSE;
   RCC_OscInitStruct.HSEState = RCC_HSE_ON;
+  RCC_OscInitStruct.LSIState = RCC_LSI_ON;
+  RCC_OscInitStruct.HSI48State = RCC_HSI48_ON;
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
-  RCC_OscInitStruct.PLL.PLLM = 10;
-  RCC_OscInitStruct.PLL.PLLN = 380;
+  RCC_OscInitStruct.PLL.PLLM = 2;
+  RCC_OscInitStruct.PLL.PLLN = 64;
   RCC_OscInitStruct.PLL.PLLP = 2;
-  RCC_OscInitStruct.PLL.PLLQ = 2;
-  RCC_OscInitStruct.PLL.PLLR = 6;
-  RCC_OscInitStruct.PLL.PLLRGE = RCC_PLL1VCIRANGE_1;
+  RCC_OscInitStruct.PLL.PLLQ = 10;
+  RCC_OscInitStruct.PLL.PLLR = 4;
+  RCC_OscInitStruct.PLL.PLLRGE = RCC_PLL1VCIRANGE_3;
   RCC_OscInitStruct.PLL.PLLVCOSEL = RCC_PLL1VCOWIDE;
   RCC_OscInitStruct.PLL.PLLFRACN = 0;
   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
@@ -192,10 +486,405 @@ void SystemClock_Config(void)
   RCC_ClkInitStruct.APB2CLKDivider = RCC_APB2_DIV2;
   RCC_ClkInitStruct.APB4CLKDivider = RCC_APB4_DIV2;
 
-  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_4) != HAL_OK)
+  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2) != HAL_OK)
   {
     Error_Handler();
   }
+  HAL_RCC_MCOConfig(RCC_MCO1, RCC_MCO1SOURCE_HSE, RCC_MCODIV_1);
+}
+
+/**
+  * @brief Peripherals Common Clock Configuration
+  * @retval None
+  */
+void PeriphCommonClock_Config(void)
+{
+  RCC_PeriphCLKInitTypeDef PeriphClkInitStruct = {0};
+
+  /** Initializes the peripherals clock
+  */
+  PeriphClkInitStruct.PeriphClockSelection = RCC_PERIPHCLK_SAI1;
+  PeriphClkInitStruct.PLL2.PLL2M = 25;
+  PeriphClkInitStruct.PLL2.PLL2N = 512;
+  PeriphClkInitStruct.PLL2.PLL2P = 125;
+  PeriphClkInitStruct.PLL2.PLL2Q = 125;
+  PeriphClkInitStruct.PLL2.PLL2R = 2;
+  PeriphClkInitStruct.PLL2.PLL2RGE = RCC_PLL2VCIRANGE_0;
+  PeriphClkInitStruct.PLL2.PLL2VCOSEL = RCC_PLL2VCOWIDE;
+  PeriphClkInitStruct.PLL2.PLL2FRACN = 0;
+  PeriphClkInitStruct.Sai1ClockSelection = RCC_SAI1CLKSOURCE_PLL2;
+  if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInitStruct) != HAL_OK)
+  {
+    Error_Handler();
+  }
+}
+
+/**
+  * @brief I2C1 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_I2C1_Init(void)
+{
+
+  /* USER CODE BEGIN I2C1_Init 0 */
+
+  /* USER CODE END I2C1_Init 0 */
+
+  /* USER CODE BEGIN I2C1_Init 1 */
+
+  /* USER CODE END I2C1_Init 1 */
+  hi2c1.Instance = I2C1;
+  hi2c1.Init.Timing = 0x10C0ECFF;
+  hi2c1.Init.OwnAddress1 = 0;
+  hi2c1.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
+  hi2c1.Init.DualAddressMode = I2C_DUALADDRESS_DISABLE;
+  hi2c1.Init.OwnAddress2 = 0;
+  hi2c1.Init.OwnAddress2Masks = I2C_OA2_NOMASK;
+  hi2c1.Init.GeneralCallMode = I2C_GENERALCALL_DISABLE;
+  hi2c1.Init.NoStretchMode = I2C_NOSTRETCH_DISABLE;
+  if (HAL_I2C_Init(&hi2c1) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /** Configure Analogue filter
+  */
+  if (HAL_I2CEx_ConfigAnalogFilter(&hi2c1, I2C_ANALOGFILTER_ENABLE) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /** Configure Digital filter
+  */
+  if (HAL_I2CEx_ConfigDigitalFilter(&hi2c1, 0) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN I2C1_Init 2 */
+
+  /* USER CODE END I2C1_Init 2 */
+
+}
+
+/**
+  * @brief I2C2 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_I2C2_Init(void)
+{
+
+  /* USER CODE BEGIN I2C2_Init 0 */
+
+  /* USER CODE END I2C2_Init 0 */
+
+  /* USER CODE BEGIN I2C2_Init 1 */
+
+  /* USER CODE END I2C2_Init 1 */
+  hi2c2.Instance = I2C2;
+  hi2c2.Init.Timing = 0x10C0ECFF;
+  hi2c2.Init.OwnAddress1 = 0;
+  hi2c2.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
+  hi2c2.Init.DualAddressMode = I2C_DUALADDRESS_DISABLE;
+  hi2c2.Init.OwnAddress2 = 0;
+  hi2c2.Init.OwnAddress2Masks = I2C_OA2_NOMASK;
+  hi2c2.Init.GeneralCallMode = I2C_GENERALCALL_DISABLE;
+  hi2c2.Init.NoStretchMode = I2C_NOSTRETCH_DISABLE;
+  if (HAL_I2C_Init(&hi2c2) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /** Configure Analogue filter
+  */
+  if (HAL_I2CEx_ConfigAnalogFilter(&hi2c2, I2C_ANALOGFILTER_ENABLE) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /** Configure Digital filter
+  */
+  if (HAL_I2CEx_ConfigDigitalFilter(&hi2c2, 0) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN I2C2_Init 2 */
+
+  /* USER CODE END I2C2_Init 2 */
+
+}
+
+/**
+  * @brief RNG Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_RNG_Init(void)
+{
+
+  /* USER CODE BEGIN RNG_Init 0 */
+
+  /* USER CODE END RNG_Init 0 */
+
+  /* USER CODE BEGIN RNG_Init 1 */
+
+  /* USER CODE END RNG_Init 1 */
+  hrng.Instance = RNG;
+  hrng.Init.ClockErrorDetection = RNG_CED_ENABLE;
+  if (HAL_RNG_Init(&hrng) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN RNG_Init 2 */
+
+  /* USER CODE END RNG_Init 2 */
+
+}
+
+/**
+  * @brief RTC Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_RTC_Init(void)
+{
+
+  /* USER CODE BEGIN RTC_Init 0 */
+
+  /* USER CODE END RTC_Init 0 */
+
+  RTC_TimeTypeDef sTime = {0};
+  RTC_DateTypeDef sDate = {0};
+
+  /* USER CODE BEGIN RTC_Init 1 */
+
+  /* USER CODE END RTC_Init 1 */
+  /** Initialize RTC Only
+  */
+  hrtc.Instance = RTC;
+  hrtc.Init.HourFormat = RTC_HOURFORMAT_24;
+  hrtc.Init.AsynchPrediv = 127;
+  hrtc.Init.SynchPrediv = 255;
+  hrtc.Init.OutPut = RTC_OUTPUT_DISABLE;
+  hrtc.Init.OutPutPolarity = RTC_OUTPUT_POLARITY_HIGH;
+  hrtc.Init.OutPutType = RTC_OUTPUT_TYPE_OPENDRAIN;
+  hrtc.Init.OutPutRemap = RTC_OUTPUT_REMAP_NONE;
+  if (HAL_RTC_Init(&hrtc) != HAL_OK)
+  {
+    Error_Handler();
+  }
+
+  /* USER CODE BEGIN Check_RTC_BKUP */
+
+  /* USER CODE END Check_RTC_BKUP */
+
+  /** Initialize RTC and set the Time and Date
+  */
+  sTime.Hours = 0x0;
+  sTime.Minutes = 0x0;
+  sTime.Seconds = 0x0;
+  sTime.DayLightSaving = RTC_DAYLIGHTSAVING_NONE;
+  sTime.StoreOperation = RTC_STOREOPERATION_RESET;
+  if (HAL_RTC_SetTime(&hrtc, &sTime, RTC_FORMAT_BCD) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sDate.WeekDay = RTC_WEEKDAY_MONDAY;
+  sDate.Month = RTC_MONTH_JANUARY;
+  sDate.Date = 0x1;
+  sDate.Year = 0x0;
+
+  if (HAL_RTC_SetDate(&hrtc, &sDate, RTC_FORMAT_BCD) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN RTC_Init 2 */
+
+  /* USER CODE END RTC_Init 2 */
+
+}
+
+/**
+  * @brief SAI1 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_SAI1_Init(void)
+{
+
+  /* USER CODE BEGIN SAI1_Init 0 */
+
+  /* USER CODE END SAI1_Init 0 */
+
+  /* USER CODE BEGIN SAI1_Init 1 */
+
+  /* USER CODE END SAI1_Init 1 */
+  hsai_BlockA1.Instance = SAI1_Block_A;
+  hsai_BlockA1.Init.AudioMode = SAI_MODEMASTER_TX;
+  hsai_BlockA1.Init.Synchro = SAI_ASYNCHRONOUS;
+  hsai_BlockA1.Init.OutputDrive = SAI_OUTPUTDRIVE_DISABLE;
+  hsai_BlockA1.Init.NoDivider = SAI_MASTERDIVIDER_ENABLE;
+  hsai_BlockA1.Init.FIFOThreshold = SAI_FIFOTHRESHOLD_EMPTY;
+  hsai_BlockA1.Init.AudioFrequency = SAI_AUDIO_FREQUENCY_192K;
+  hsai_BlockA1.Init.SynchroExt = SAI_SYNCEXT_DISABLE;
+  hsai_BlockA1.Init.MonoStereoMode = SAI_STEREOMODE;
+  hsai_BlockA1.Init.CompandingMode = SAI_NOCOMPANDING;
+  hsai_BlockA1.Init.TriState = SAI_OUTPUT_NOTRELEASED;
+  if (HAL_SAI_InitProtocol(&hsai_BlockA1, SAI_I2S_STANDARD, SAI_PROTOCOL_DATASIZE_16BIT, 2) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  hsai_BlockB1.Instance = SAI1_Block_B;
+  hsai_BlockB1.Init.AudioMode = SAI_MODESLAVE_RX;
+  hsai_BlockB1.Init.Synchro = SAI_SYNCHRONOUS;
+  hsai_BlockB1.Init.OutputDrive = SAI_OUTPUTDRIVE_DISABLE;
+  hsai_BlockB1.Init.FIFOThreshold = SAI_FIFOTHRESHOLD_EMPTY;
+  hsai_BlockB1.Init.SynchroExt = SAI_SYNCEXT_DISABLE;
+  hsai_BlockB1.Init.MonoStereoMode = SAI_STEREOMODE;
+  hsai_BlockB1.Init.CompandingMode = SAI_NOCOMPANDING;
+  hsai_BlockB1.Init.TriState = SAI_OUTPUT_NOTRELEASED;
+  if (HAL_SAI_InitProtocol(&hsai_BlockB1, SAI_I2S_STANDARD, SAI_PROTOCOL_DATASIZE_16BIT, 2) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN SAI1_Init 2 */
+
+  /* USER CODE END SAI1_Init 2 */
+
+}
+
+/**
+  * @brief UART7 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_UART7_Init(void)
+{
+
+  /* USER CODE BEGIN UART7_Init 0 */
+
+  /* USER CODE END UART7_Init 0 */
+
+  /* USER CODE BEGIN UART7_Init 1 */
+
+  /* USER CODE END UART7_Init 1 */
+  huart7.Instance = UART7;
+  huart7.Init.BaudRate = 115200;
+  huart7.Init.WordLength = UART_WORDLENGTH_8B;
+  huart7.Init.StopBits = UART_STOPBITS_1;
+  huart7.Init.Parity = UART_PARITY_NONE;
+  huart7.Init.Mode = UART_MODE_TX_RX;
+  huart7.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+  huart7.Init.OverSampling = UART_OVERSAMPLING_16;
+  huart7.Init.OneBitSampling = UART_ONE_BIT_SAMPLE_DISABLE;
+  huart7.Init.ClockPrescaler = UART_PRESCALER_DIV1;
+  huart7.AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_NO_INIT;
+  if (HAL_UART_Init(&huart7) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  if (HAL_UARTEx_SetTxFifoThreshold(&huart7, UART_TXFIFO_THRESHOLD_1_2) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  if (HAL_UARTEx_SetRxFifoThreshold(&huart7, UART_RXFIFO_THRESHOLD_1_2) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  if (HAL_UARTEx_EnableFifoMode(&huart7) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN UART7_Init 2 */
+
+  /* USER CODE END UART7_Init 2 */
+
+}
+
+/**
+  * Enable DMA controller clock
+  */
+static void MX_DMA_Init(void)
+{
+
+  /* DMA controller clock enable */
+  __HAL_RCC_DMA1_CLK_ENABLE();
+  __HAL_RCC_DMA2_CLK_ENABLE();
+
+  /* DMA interrupt init */
+  /* DMA1_Stream1_IRQn interrupt configuration */
+  HAL_NVIC_SetPriority(DMA1_Stream1_IRQn, 5, 0);
+  HAL_NVIC_EnableIRQ(DMA1_Stream1_IRQn);
+  /* DMA1_Stream2_IRQn interrupt configuration */
+  HAL_NVIC_SetPriority(DMA1_Stream2_IRQn, 5, 0);
+  HAL_NVIC_EnableIRQ(DMA1_Stream2_IRQn);
+  /* DMA1_Stream4_IRQn interrupt configuration */
+  HAL_NVIC_SetPriority(DMA1_Stream4_IRQn, 5, 0);
+  HAL_NVIC_EnableIRQ(DMA1_Stream4_IRQn);
+  /* DMA2_Stream0_IRQn interrupt configuration */
+  HAL_NVIC_SetPriority(DMA2_Stream0_IRQn, 5, 0);
+  HAL_NVIC_EnableIRQ(DMA2_Stream0_IRQn);
+  /* DMA2_Stream1_IRQn interrupt configuration */
+  HAL_NVIC_SetPriority(DMA2_Stream1_IRQn, 5, 0);
+  HAL_NVIC_EnableIRQ(DMA2_Stream1_IRQn);
+  /* DMA2_Stream3_IRQn interrupt configuration */
+  HAL_NVIC_SetPriority(DMA2_Stream3_IRQn, 5, 0);
+  HAL_NVIC_EnableIRQ(DMA2_Stream3_IRQn);
+  /* DMA2_Stream4_IRQn interrupt configuration */
+  HAL_NVIC_SetPriority(DMA2_Stream4_IRQn, 5, 0);
+  HAL_NVIC_EnableIRQ(DMA2_Stream4_IRQn);
+
+}
+
+/* FMC initialization function */
+static void MX_FMC_Init(void)
+{
+
+  /* USER CODE BEGIN FMC_Init 0 */
+
+  /* USER CODE END FMC_Init 0 */
+
+  FMC_NORSRAM_TimingTypeDef Timing = {0};
+
+  /* USER CODE BEGIN FMC_Init 1 */
+
+  /* USER CODE END FMC_Init 1 */
+
+  /** Perform the SRAM1 memory initialization sequence
+  */
+  hsram1.Instance = FMC_NORSRAM_DEVICE;
+  hsram1.Extended = FMC_NORSRAM_EXTENDED_DEVICE;
+  /* hsram1.Init */
+  hsram1.Init.NSBank = FMC_NORSRAM_BANK1;
+  hsram1.Init.DataAddressMux = FMC_DATA_ADDRESS_MUX_DISABLE;
+  hsram1.Init.MemoryType = FMC_MEMORY_TYPE_SRAM;
+  hsram1.Init.MemoryDataWidth = FMC_NORSRAM_MEM_BUS_WIDTH_32;
+  hsram1.Init.BurstAccessMode = FMC_BURST_ACCESS_MODE_DISABLE;
+  hsram1.Init.WaitSignalPolarity = FMC_WAIT_SIGNAL_POLARITY_LOW;
+  hsram1.Init.WaitSignalActive = FMC_WAIT_TIMING_BEFORE_WS;
+  hsram1.Init.WriteOperation = FMC_WRITE_OPERATION_DISABLE;
+  hsram1.Init.WaitSignal = FMC_WAIT_SIGNAL_DISABLE;
+  hsram1.Init.ExtendedMode = FMC_EXTENDED_MODE_DISABLE;
+  hsram1.Init.AsynchronousWait = FMC_ASYNCHRONOUS_WAIT_DISABLE;
+  hsram1.Init.WriteBurst = FMC_WRITE_BURST_DISABLE;
+  hsram1.Init.ContinuousClock = FMC_CONTINUOUS_CLOCK_SYNC_ONLY;
+  hsram1.Init.WriteFifo = FMC_WRITE_FIFO_ENABLE;
+  hsram1.Init.PageSize = FMC_PAGE_SIZE_NONE;
+  /* Timing */
+  Timing.AddressSetupTime = 15;
+  Timing.AddressHoldTime = 15;
+  Timing.DataSetupTime = 255;
+  Timing.BusTurnAroundDuration = 15;
+  Timing.CLKDivision = 16;
+  Timing.DataLatency = 17;
+  Timing.AccessMode = FMC_ACCESS_MODE_A;
+  /* ExtTiming */
+
+  if (HAL_SRAM_Init(&hsram1, &Timing, NULL) != HAL_OK)
+  {
+    Error_Handler( );
+  }
+
+  /* USER CODE BEGIN FMC_Init 2 */
+
+  /* USER CODE END FMC_Init 2 */
 }
 
 /**
@@ -205,13 +894,86 @@ void SystemClock_Config(void)
   */
 static void MX_GPIO_Init(void)
 {
+  GPIO_InitTypeDef GPIO_InitStruct = {0};
 
   /* GPIO Ports Clock Enable */
   __HAL_RCC_GPIOE_CLK_ENABLE();
+  __HAL_RCC_GPIOI_CLK_ENABLE();
+  __HAL_RCC_GPIOF_CLK_ENABLE();
   __HAL_RCC_GPIOH_CLK_ENABLE();
   __HAL_RCC_GPIOC_CLK_ENABLE();
   __HAL_RCC_GPIOA_CLK_ENABLE();
   __HAL_RCC_GPIOB_CLK_ENABLE();
+  __HAL_RCC_GPIOG_CLK_ENABLE();
+  __HAL_RCC_GPIOD_CLK_ENABLE();
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOB, POW_DOWN_Pin|TEST_LED_Pin, GPIO_PIN_SET);
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOG, L4_Pin|L5_Pin|L6_Pin, GPIO_PIN_RESET);
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOA, RELE1_UPR_Pin|AMP_UPR_Pin, GPIO_PIN_RESET);
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOC, L1_Pin|L2_Pin|L3_Pin, GPIO_PIN_RESET);
+
+  /*Configure GPIO pins : POW_DOWN_Pin TEST_LED_Pin */
+  GPIO_InitStruct.Pin = POW_DOWN_Pin|TEST_LED_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : L4_Pin L5_Pin L6_Pin */
+  GPIO_InitStruct.Pin = L4_Pin|L5_Pin|L6_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : PA8 */
+  GPIO_InitStruct.Pin = GPIO_PIN_8;
+  GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  GPIO_InitStruct.Alternate = GPIO_AF0_MCO;
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : TANG_UPR_Pin PEDAL_UPR_Pin */
+  GPIO_InitStruct.Pin = TANG_UPR_Pin|PEDAL_UPR_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : RELE1_UPR_Pin AMP_UPR_Pin */
+  GPIO_InitStruct.Pin = RELE1_UPR_Pin|AMP_UPR_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : L1_Pin L2_Pin L3_Pin */
+  GPIO_InitStruct.Pin = L1_Pin|L2_Pin|L3_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : K1_Pin K2_Pin K3_Pin K4_Pin
+                           K5_Pin K6_Pin */
+  GPIO_InitStruct.Pin = K1_Pin|K2_Pin|K3_Pin|K4_Pin
+                          |K5_Pin|K6_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : TEST_BUT_Pin */
+  GPIO_InitStruct.Pin = TEST_BUT_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(TEST_BUT_GPIO_Port, &GPIO_InitStruct);
 
 }
 
@@ -226,17 +988,266 @@ static void MX_GPIO_Init(void)
   * @retval None
   */
 /* USER CODE END Header_StartDefaultTask */
-void StartDefaultTask(void const * argument)
+void StartDefaultTask(void *argument)
 {
   /* init code for LWIP */
   MX_LWIP_Init();
   /* USER CODE BEGIN 5 */
+
+  char msgUart7[] = "\r------- StartDefaultTask ----------\n\r";
+//  HAL_UART_Transmit_IT (&huart7,(uint8_t*)msgUart7, sizeof (msgUart7));
+  RS232_write_c(msgUart7, sizeof (msgUart7));
+
+  if (DP83848.Is_Initialized) {
+    RS232_write_c("\rDP83848.Is_Initialized\r\n", sizeof ("\rDP83848.Is_Initialized\r\n"));
+  } else {
+    RS232_write_c("\rDP83848.No_Initialized\r\n", sizeof ("\rDP83848.No_Initialized\r\n"));
+  }
+
+  const char* message = "Hello UDP message!\n\r";
+
+  osDelay(1000);
+
+  ip_addr_t PC_IPADDR;
+  IP_ADDR4(&PC_IPADDR, 192, 168, 0, 101);
+
+  struct udp_pcb* my_udp = udp_new();
+  udp_connect(my_udp, &PC_IPADDR, 55151);
+  struct pbuf* udp_buffer = NULL;
+//   udp_echoserver_init();
+
+  /* Infinite loop */
+  for(;;)
+  {
+
+      osDelay(1000);
+        /* !! PBUF_RAM is critical for correct operation !! */
+        udp_buffer = pbuf_alloc(PBUF_TRANSPORT, strlen(message), PBUF_RAM);
+
+        if (udp_buffer != NULL) {
+          memcpy(udp_buffer->payload, message, strlen(message));
+          udp_send(my_udp, udp_buffer);
+          pbuf_free(udp_buffer);
+        }
+      ethernetif_input(&gnetif);
+      sys_check_timeouts();
+      Ethernet_Link_Periodic_Handle(&gnetif);
+
+
+    osDelay(1);
+  }
+  /* USER CODE END 5 */
+}
+
+/* USER CODE BEGIN Header_Test_Led_Task_ */
+/**
+* @brief Function implementing the Test_Led_Task thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_Test_Led_Task_ */
+void Test_Led_Task_(void *argument)
+{
+  /* USER CODE BEGIN Test_Led_Task_ */
+
+    (void)argument;
+    osDelay (10);
+    char msgUart7[] = "\r------- StartTest_Led_Task --------\n\r";
+//    HAL_UART_Transmit_IT (&huart7,(uint8_t*)msgUart7, sizeof (msgUart7));
+    RS232_write_c(msgUart7, sizeof (msgUart7));
+    uint8_t reset = 1;
+    uint32_t tickstart = HAL_GetTick();
+    uint32_t timeSet = 1;
+    uint32_t timeReset = 2000;
+
+  /* Infinite loop */
+  for(;;)
+  {
+      if(reset == 1)
+      {
+          if (HAL_GetTick() > tickstart + timeReset)
+          {
+              HAL_GPIO_WritePin(GPIOB, TEST_LED_Pin, GPIO_PIN_SET);
+              reset = 0;
+              tickstart = HAL_GetTick();
+              sprintf(msgUart7,"\r%s %d\n\r", "------- LED_Blink -------------", (int)osKernelSysTick());
+//              HAL_UART_Transmit_IT (&huart7,(uint8_t*)msgUart7, sizeof(msgUart7));
+          }
+      }
+      if(reset == 0)
+      {
+          if (HAL_GetTick() > tickstart + timeSet)
+          {
+              HAL_GPIO_WritePin(GPIOB, TEST_LED_Pin, GPIO_PIN_RESET);
+              reset = 1;
+              tickstart = HAL_GetTick();
+          }
+      }
+      osDelay (1);
+  }
+  vTaskDelete(NULL);
+
+
+  /* USER CODE END Test_Led_Task_ */
+}
+
+/* USER CODE BEGIN Header_LEDS_1_2_3_TEST_ */
+/**
+* @brief Function implementing the LEDS_1_2_3_TEST thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_LEDS_1_2_3_TEST_ */
+void LEDS_1_2_3_TEST_(void *argument)
+{
+  /* USER CODE BEGIN LEDS_1_2_3_TEST_ */
+  (void)argument;
+  osDelay (20);
+  char msgUart7[50];
+  memset(msgUart7,' ',50);
+  sprintf(msgUart7,"\r%s", "------- StartLEDS_1_2_3_TEST ------\n\r");
+//  HAL_UART_Transmit_IT (&huart7,(uint8_t*)msgUart7, sizeof (msgUart7));
+  RS232_write_c(msgUart7, sizeof (msgUart7));
+  uint8_t reset = 1;
+  uint32_t tickstart = HAL_GetTick();
+  uint32_t timeSet = 1;
+  uint32_t timeReset = 3000;
+
+  /* Infinite loop */
+      for(;;)
+  {
+      if(reset == 1)
+      {
+          if (HAL_GetTick() > tickstart + timeReset)
+          {
+              HAL_GPIO_WritePin(GPIOC, L1_Pin|L2_Pin|L3_Pin, GPIO_PIN_SET);
+              reset = 0;
+              tickstart = HAL_GetTick();
+              sprintf(msgUart7,"\r%s %d\n\r", "------- LEDS_1_2_3_Blink ------", (int)osKernelSysTick());
+//              HAL_UART_Transmit_IT (&huart7,(uint8_t*)msgUart7, sizeof(msgUart7));
+          }
+      }
+      if(reset == 0)
+      {
+          if (HAL_GetTick() > tickstart + timeSet)
+          {
+              HAL_GPIO_WritePin(GPIOC, L1_Pin|L2_Pin|L3_Pin, GPIO_PIN_RESET);
+              reset = 1;
+              tickstart = HAL_GetTick();
+          }
+      }
+      osDelay (1);
+  }
+  vTaskDelete(NULL);
+
+  /* USER CODE END LEDS_1_2_3_TEST_ */
+}
+
+/* USER CODE BEGIN Header_LEDS_4_5_6_TEST_ */
+/**
+* @brief Function implementing the LEDS_4_5_6_TEST thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_LEDS_4_5_6_TEST_ */
+void LEDS_4_5_6_TEST_(void *argument)
+{
+  /* USER CODE BEGIN LEDS_4_5_6_TEST_ */
+
+    (void)argument;
+    osDelay (30);
+    char msgUart7[50];
+    memset(msgUart7,' ',50);
+    sprintf(msgUart7,"\r%s", "------- StartLEDS_4_5_6_TEST ------\n\r");
+//    HAL_UART_Transmit_IT (&huart7,(uint8_t*)msgUart7, sizeof (msgUart7));
+    RS232_write_c(msgUart7, sizeof (msgUart7));
+    uint8_t reset = 1;
+    uint32_t tickstart = HAL_GetTick();
+    uint32_t timeSet = 1;
+    uint32_t timeReset = 4000;
+
+    /* Infinite loop */
+    for(;;)
+    {
+        if(reset == 1)
+        {
+            if (HAL_GetTick() > tickstart + timeReset)
+            {
+                HAL_GPIO_WritePin(GPIOG, L4_Pin|L4_Pin|L6_Pin, GPIO_PIN_SET);
+                reset = 0;
+                tickstart = HAL_GetTick();
+                sprintf(msgUart7,"\r%s %d\n\r", "------- LEDS 4 5 6 Blink ------", (int)osKernelSysTick());
+//                HAL_UART_Transmit_IT (&huart7,(uint8_t*)msgUart7, sizeof(msgUart7));
+            }
+        }
+        if(reset == 0)
+        {
+            if (HAL_GetTick() > tickstart + timeSet)
+            {
+                HAL_GPIO_WritePin(GPIOG, L4_Pin|L5_Pin|L6_Pin, GPIO_PIN_RESET);
+                reset = 1;
+                tickstart = HAL_GetTick();
+            }
+        }
+        osDelay (1);
+    }
+    vTaskDelete(NULL);
+
+  /* USER CODE END LEDS_4_5_6_TEST_ */
+}
+
+/* USER CODE BEGIN Header_KEYS_TEST_TASK_ */
+/**
+* @brief Function implementing the KEYS_TEST_TASK thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_KEYS_TEST_TASK_ */
+void KEYS_TEST_TASK_(void *argument)
+{
+  /* USER CODE BEGIN KEYS_TEST_TASK_ */
+    (void)argument;
+    osDelay (40);
+    char msgUart7[] = "\r------- StartKEYS_TEST_TASK -------\n\r";
+//    HAL_UART_Transmit_IT (&huart7,(uint8_t*)msgUart7, sizeof (msgUart7));
+    RS232_write_c(msgUart7, sizeof (msgUart7));
   /* Infinite loop */
   for(;;)
   {
     osDelay(1);
   }
-  /* USER CODE END 5 */
+  /* USER CODE END KEYS_TEST_TASK_ */
+}
+
+/* USER CODE BEGIN Header_EEPROM_Tests_ */
+/**
+* @brief Function implementing the EEPROM_Tests thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_EEPROM_Tests_ */
+void EEPROM_Tests_(void *argument)
+{
+  /* USER CODE BEGIN EEPROM_Tests_ */
+    (void)argument;
+    osDelay (50);
+
+
+
+    char msgUart7[] = "\r------- StartEEPROM_Tests_TASK ----\n\r";
+//    HAL_UART_Transmit_IT (&huart7,(uint8_t*)msgUart7, sizeof (msgUart7));
+    RS232_write_c(msgUart7, sizeof (msgUart7));
+
+    simpleEEPROM_test();
+    osDelay(100);
+    simpleEEPROM_test2();
+    FS_test();
+  /* Infinite loop */
+  for(;;)
+  {
+    osDelay(1);
+  }
+  /* USER CODE END EEPROM_Tests_ */
 }
 
 /* MPU Configuration */
@@ -251,13 +1262,13 @@ void MPU_Config(void)
   */
   MPU_InitStruct.Enable = MPU_REGION_ENABLE;
   MPU_InitStruct.Number = MPU_REGION_NUMBER0;
-  MPU_InitStruct.BaseAddress = 30040000;
-  MPU_InitStruct.Size = MPU_REGION_SIZE_32KB;
+  MPU_InitStruct.BaseAddress = 30000000;
+  MPU_InitStruct.Size = MPU_REGION_SIZE_512B;
   MPU_InitStruct.SubRegionDisable = 0x0;
-  MPU_InitStruct.TypeExtField = MPU_TEX_LEVEL1;
+  MPU_InitStruct.TypeExtField = MPU_TEX_LEVEL0;
   MPU_InitStruct.AccessPermission = MPU_REGION_FULL_ACCESS;
-  MPU_InitStruct.DisableExec = MPU_INSTRUCTION_ACCESS_DISABLE;
-  MPU_InitStruct.IsShareable = MPU_ACCESS_NOT_SHAREABLE;
+  MPU_InitStruct.DisableExec = MPU_INSTRUCTION_ACCESS_ENABLE;
+  MPU_InitStruct.IsShareable = MPU_ACCESS_SHAREABLE;
   MPU_InitStruct.IsCacheable = MPU_ACCESS_NOT_CACHEABLE;
   MPU_InitStruct.IsBufferable = MPU_ACCESS_NOT_BUFFERABLE;
 
@@ -266,9 +1277,7 @@ void MPU_Config(void)
   */
   MPU_InitStruct.Number = MPU_REGION_NUMBER1;
   MPU_InitStruct.BaseAddress = 0x30040000;
-  MPU_InitStruct.Size = MPU_REGION_SIZE_256B;
-  MPU_InitStruct.TypeExtField = MPU_TEX_LEVEL0;
-  MPU_InitStruct.IsShareable = MPU_ACCESS_SHAREABLE;
+  MPU_InitStruct.Size = MPU_REGION_SIZE_32KB;
   MPU_InitStruct.IsBufferable = MPU_ACCESS_BUFFERABLE;
 
   HAL_MPU_ConfigRegion(&MPU_InitStruct);
@@ -325,7 +1334,7 @@ void assert_failed(uint8_t *file, uint32_t line)
 {
   /* USER CODE BEGIN 6 */
   /* User can add his own implementation to report the file name and line number,
-     ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
+     ex: printf("Wrong parameters value: file \r%s on line %d\n\r", file, line) */
   /* USER CODE END 6 */
 }
 #endif /* USE_FULL_ASSERT */

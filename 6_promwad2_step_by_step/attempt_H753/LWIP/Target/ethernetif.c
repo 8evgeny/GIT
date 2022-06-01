@@ -16,6 +16,8 @@
   *
   ******************************************************************************
   */
+#include "rs232.h"
+
 /* USER CODE END Header */
 
 /* Includes ------------------------------------------------------------------*/
@@ -33,6 +35,8 @@
 
 /* Within 'USER CODE' section, code will be kept by default at each generation */
 /* USER CODE BEGIN 0 */
+
+#include "dp83848.h"
 
 /* USER CODE END 0 */
 
@@ -80,18 +84,18 @@
 
 #if defined ( __ICCARM__ ) /*!< IAR Compiler */
 
-#pragma location=0x30040000
+#pragma location=0x30000000
 ETH_DMADescTypeDef  DMARxDscrTab[ETH_RX_DESC_CNT]; /* Ethernet Rx DMA Descriptors */
-#pragma location=0x30040060
+#pragma location=0x30000060
 ETH_DMADescTypeDef  DMATxDscrTab[ETH_TX_DESC_CNT]; /* Ethernet Tx DMA Descriptors */
-#pragma location=0x300400c0
+#pragma location=0x30000200
 uint8_t Rx_Buff[ETH_RX_DESC_CNT][ETH_RX_BUFFER_SIZE]; /* Ethernet Receive Buffers */
 
 #elif defined ( __CC_ARM )  /* MDK ARM Compiler */
 
-__attribute__((at(0x30040000))) ETH_DMADescTypeDef  DMARxDscrTab[ETH_RX_DESC_CNT]; /* Ethernet Rx DMA Descriptors */
-__attribute__((at(0x30040060))) ETH_DMADescTypeDef  DMATxDscrTab[ETH_TX_DESC_CNT]; /* Ethernet Tx DMA Descriptors */
-__attribute__((at(0x300400c0))) uint8_t Rx_Buff[ETH_RX_DESC_CNT][ETH_RX_BUFFER_SIZE]; /* Ethernet Receive Buffer */
+__attribute__((at(0x30000000))) ETH_DMADescTypeDef  DMARxDscrTab[ETH_RX_DESC_CNT]; /* Ethernet Rx DMA Descriptors */
+__attribute__((at(0x30000060))) ETH_DMADescTypeDef  DMATxDscrTab[ETH_TX_DESC_CNT]; /* Ethernet Tx DMA Descriptors */
+__attribute__((at(0x30000200))) uint8_t Rx_Buff[ETH_RX_DESC_CNT][ETH_RX_BUFFER_SIZE]; /* Ethernet Receive Buffer */
 
 #elif defined ( __GNUC__ ) /* GNU Compiler */
 
@@ -102,7 +106,7 @@ uint8_t Rx_Buff[ETH_RX_DESC_CNT][ETH_RX_BUFFER_SIZE] __attribute__((section(".Rx
 #endif
 
 /* USER CODE BEGIN 2 */
-
+uint8_t Tx_Buff[ETH_TX_DESC_CNT][ETH_RX_BUFFER_SIZE] __attribute__((section(".TxArraySection"))); /* 4 Tx buffers of size ETH_TX_BUF_SIZE  */
 /* USER CODE END 2 */
 
 osSemaphoreId RxPktSemaphore = NULL; /* Semaphore to signal incoming packets */
@@ -121,15 +125,20 @@ int32_t ETH_PHY_IO_ReadReg(uint32_t DevAddr, uint32_t RegAddr, uint32_t *pRegVal
 int32_t ETH_PHY_IO_WriteReg(uint32_t DevAddr, uint32_t RegAddr, uint32_t RegVal);
 int32_t ETH_PHY_IO_GetTick(void);
 
-lan8742_Object_t LAN8742;
-lan8742_IOCtx_t  LAN8742_IOCtx = {ETH_PHY_IO_Init,
+//lan8742_Object_t LAN8742;
+//lan8742_IOCtx_t  LAN8742_IOCtx = {ETH_PHY_IO_Init,
+//                                  ETH_PHY_IO_DeInit,
+//                                  ETH_PHY_IO_WriteReg,
+//                                  ETH_PHY_IO_ReadReg,
+//                                  ETH_PHY_IO_GetTick};
+
+/* USER CODE BEGIN 3 */
+DP83848_Object_t DP83848;
+DP83848_IOCtx_t  DP83848_IOCtx = {ETH_PHY_IO_Init,
                                   ETH_PHY_IO_DeInit,
                                   ETH_PHY_IO_WriteReg,
                                   ETH_PHY_IO_ReadReg,
                                   ETH_PHY_IO_GetTick};
-
-/* USER CODE BEGIN 3 */
-
 /* USER CODE END 3 */
 
 /* Private functions ---------------------------------------------------------*/
@@ -149,13 +158,11 @@ void HAL_ETH_MspInit(ETH_HandleTypeDef* ethHandle)
     __HAL_RCC_ETH1TX_CLK_ENABLE();
     __HAL_RCC_ETH1RX_CLK_ENABLE();
 
-    __HAL_RCC_GPIOE_CLK_ENABLE();
     __HAL_RCC_GPIOC_CLK_ENABLE();
     __HAL_RCC_GPIOA_CLK_ENABLE();
     __HAL_RCC_GPIOH_CLK_ENABLE();
     __HAL_RCC_GPIOB_CLK_ENABLE();
     /**ETH GPIO Configuration
-    PE2     ------> ETH_TXD3
     PC1     ------> ETH_MDC
     PC2_C     ------> ETH_TXD2
     PC3_C     ------> ETH_TX_CLK
@@ -168,41 +175,42 @@ void HAL_ETH_MspInit(ETH_HandleTypeDef* ethHandle)
     PC5     ------> ETH_RXD1
     PB0     ------> ETH_RXD2
     PB1     ------> ETH_RXD3
+    PB10     ------> ETH_RX_ER
     PB11     ------> ETH_TX_EN
     PB12     ------> ETH_TXD0
     PB13     ------> ETH_TXD1
+    PB8     ------> ETH_TXD3
     */
-    GPIO_InitStruct.Pin = GPIO_PIN_2;
+    GPIO_InitStruct.Pin = MII_MOC_Pin;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
-    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
     GPIO_InitStruct.Alternate = GPIO_AF11_ETH;
-    HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
+    HAL_GPIO_Init(MII_MOC_GPIO_Port, &GPIO_InitStruct);
 
-    GPIO_InitStruct.Pin = GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3|GPIO_PIN_4
-                          |GPIO_PIN_5;
+    GPIO_InitStruct.Pin = MII_TXD2_Pin|MII_TX_CLK_Pin|MII_RXD0_Pin|MII_RXD1_Pin;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
     GPIO_InitStruct.Alternate = GPIO_AF11_ETH;
     HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
-    GPIO_InitStruct.Pin = GPIO_PIN_0|GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_7;
+    GPIO_InitStruct.Pin = MII_CRS_Pin|MII_RX_CLK_Pin|MII_MDIO_Pin|MII_RX_DV_Pin;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
     GPIO_InitStruct.Alternate = GPIO_AF11_ETH;
     HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-    GPIO_InitStruct.Pin = GPIO_PIN_3;
+    GPIO_InitStruct.Pin = MII_COL_Pin;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
     GPIO_InitStruct.Alternate = GPIO_AF11_ETH;
-    HAL_GPIO_Init(GPIOH, &GPIO_InitStruct);
+    HAL_GPIO_Init(MII_COL_GPIO_Port, &GPIO_InitStruct);
 
-    GPIO_InitStruct.Pin = GPIO_PIN_0|GPIO_PIN_1|GPIO_PIN_11|GPIO_PIN_12
-                          |GPIO_PIN_13;
+    GPIO_InitStruct.Pin = MII_RXD2_Pin|MII_RXD3_Pin|MII_RX_ER_Pin|MII_TX_EN_Pin
+                          |MII_TXD0_Pin|MII_TXD1_Pin|MII_TXD3_Pin;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
@@ -210,8 +218,10 @@ void HAL_ETH_MspInit(ETH_HandleTypeDef* ethHandle)
     HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
     /* Peripheral interrupt init */
-    HAL_NVIC_SetPriority(ETH_IRQn, 5, 0);
+    HAL_NVIC_SetPriority(ETH_IRQn, 8, 0);
     HAL_NVIC_EnableIRQ(ETH_IRQn);
+    HAL_NVIC_SetPriority(ETH_WKUP_IRQn, 5, 0);
+    HAL_NVIC_EnableIRQ(ETH_WKUP_IRQn);
   /* USER CODE BEGIN ETH_MspInit 1 */
 
   /* USER CODE END ETH_MspInit 1 */
@@ -231,7 +241,6 @@ void HAL_ETH_MspDeInit(ETH_HandleTypeDef* ethHandle)
     __HAL_RCC_ETH1RX_CLK_DISABLE();
 
     /**ETH GPIO Configuration
-    PE2     ------> ETH_TXD3
     PC1     ------> ETH_MDC
     PC2_C     ------> ETH_TXD2
     PC3_C     ------> ETH_TX_CLK
@@ -244,24 +253,26 @@ void HAL_ETH_MspDeInit(ETH_HandleTypeDef* ethHandle)
     PC5     ------> ETH_RXD1
     PB0     ------> ETH_RXD2
     PB1     ------> ETH_RXD3
+    PB10     ------> ETH_RX_ER
     PB11     ------> ETH_TX_EN
     PB12     ------> ETH_TXD0
     PB13     ------> ETH_TXD1
+    PB8     ------> ETH_TXD3
     */
-    HAL_GPIO_DeInit(GPIOE, GPIO_PIN_2);
+    HAL_GPIO_DeInit(GPIOC, MII_MOC_Pin|MII_TXD2_Pin|MII_TX_CLK_Pin|MII_RXD0_Pin
+                          |MII_RXD1_Pin);
 
-    HAL_GPIO_DeInit(GPIOC, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3|GPIO_PIN_4
-                          |GPIO_PIN_5);
+    HAL_GPIO_DeInit(GPIOA, MII_CRS_Pin|MII_RX_CLK_Pin|MII_MDIO_Pin|MII_RX_DV_Pin);
 
-    HAL_GPIO_DeInit(GPIOA, GPIO_PIN_0|GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_7);
+    HAL_GPIO_DeInit(MII_COL_GPIO_Port, MII_COL_Pin);
 
-    HAL_GPIO_DeInit(GPIOH, GPIO_PIN_3);
-
-    HAL_GPIO_DeInit(GPIOB, GPIO_PIN_0|GPIO_PIN_1|GPIO_PIN_11|GPIO_PIN_12
-                          |GPIO_PIN_13);
+    HAL_GPIO_DeInit(GPIOB, MII_RXD2_Pin|MII_RXD3_Pin|MII_RX_ER_Pin|MII_TX_EN_Pin
+                          |MII_TXD0_Pin|MII_TXD1_Pin|MII_TXD3_Pin);
 
     /* Peripheral interrupt Deinit*/
     HAL_NVIC_DisableIRQ(ETH_IRQn);
+
+    HAL_NVIC_DisableIRQ(ETH_WKUP_IRQn);
 
   /* USER CODE BEGIN ETH_MspDeInit 1 */
 
@@ -296,6 +307,9 @@ void HAL_ETH_RxCpltCallback(ETH_HandleTypeDef *heth)
 static void low_level_init(struct netif *netif)
 {
   HAL_StatusTypeDef hal_eth_init_status = HAL_OK;
+/* USER CODE BEGIN OS_THREAD_ATTR_CMSIS_RTOS_V2 */
+  osThreadAttr_t attributes;
+/* USER CODE END OS_THREAD_ATTR_CMSIS_RTOS_V2 */
   uint32_t idx = 0;
   ETH_MACConfigTypeDef MACConf;
   int32_t PHYLinkState;
@@ -304,17 +318,17 @@ static void low_level_init(struct netif *netif)
 
    uint8_t MACAddr[6] ;
   heth.Instance = ETH;
-  MACAddr[0] = 0x00;
-  MACAddr[1] = 0x80;
-  MACAddr[2] = 0xE1;
-  MACAddr[3] = 0x00;
+  MACAddr[0] = 0x30;
+  MACAddr[1] = 0x31;
+  MACAddr[2] = 0x32;
+  MACAddr[3] = 0xA8;
   MACAddr[4] = 0x00;
-  MACAddr[5] = 0x00;
+  MACAddr[5] = 0x65;
   heth.Init.MACAddr = &MACAddr[0];
   heth.Init.MediaInterface = HAL_ETH_MII_MODE;
   heth.Init.TxDesc = DMATxDscrTab;
   heth.Init.RxDesc = DMARxDscrTab;
-  heth.Init.RxBuffLen = 1536;
+  heth.Init.RxBuffLen = 1524;
 
   /* USER CODE BEGIN MACADDRESS */
 
@@ -362,50 +376,122 @@ static void low_level_init(struct netif *netif)
   }
 
   /* create a binary semaphore used for informing ethernetif of frame reception */
-  osSemaphoreDef(SEM);
-  RxPktSemaphore = osSemaphoreCreate(osSemaphore(SEM) , 1 );
+  RxPktSemaphore = osSemaphoreNew(1, 1, NULL);
 
   /* create the task that handles the ETH_MAC */
-/* USER CODE BEGIN OS_THREAD_DEF_CREATE_CMSIS_RTOS_V1 */
-  osThreadDef(EthIf, ethernetif_input, osPriorityRealtime, 0, INTERFACE_THREAD_STACK_SIZE);
-  osThreadCreate (osThread(EthIf), netif);
-/* USER CODE END OS_THREAD_DEF_CREATE_CMSIS_RTOS_V1 */
+/* USER CODE BEGIN OS_THREAD_NEW_CMSIS_RTOS_V2 */
+  memset(&attributes, 0x0, sizeof(osThreadAttr_t));
+  attributes.name = "EthIf";
+  attributes.stack_size = INTERFACE_THREAD_STACK_SIZE;
+  attributes.priority = osPriorityRealtime;
+  osThreadNew(ethernetif_input, netif, &attributes);
+/* USER CODE END OS_THREAD_NEW_CMSIS_RTOS_V2 */
 /* USER CODE BEGIN PHY_PRE_CONFIG */
 
 /* USER CODE END PHY_PRE_CONFIG */
   /* Set PHY IO functions */
-  LAN8742_RegisterBusIO(&LAN8742, &LAN8742_IOCtx);
+//  LAN8742_RegisterBusIO(&LAN8742, &LAN8742_IOCtx);
 
-  /* Initialize the LAN8742 ETH PHY */
-  LAN8742_Init(&LAN8742);
+//  /* Initialize the LAN8742 ETH PHY */
+//  LAN8742_Init(&LAN8742);
+
+//  if (hal_eth_init_status == HAL_OK)
+//  {
+//    PHYLinkState = LAN8742_GetLinkState(&LAN8742);
+
+//    /* Get link state */
+//    if(PHYLinkState <= LAN8742_STATUS_LINK_DOWN)
+//    {
+//      netif_set_link_down(netif);
+//      netif_set_down(netif);
+//    }
+//    else
+//    {
+//      switch (PHYLinkState)
+//      {
+//      case LAN8742_STATUS_100MBITS_FULLDUPLEX:
+//        duplex = ETH_FULLDUPLEX_MODE;
+//        speed = ETH_SPEED_100M;
+//        break;
+//      case LAN8742_STATUS_100MBITS_HALFDUPLEX:
+//        duplex = ETH_HALFDUPLEX_MODE;
+//        speed = ETH_SPEED_100M;
+//        break;
+//      case LAN8742_STATUS_10MBITS_FULLDUPLEX:
+//        duplex = ETH_FULLDUPLEX_MODE;
+//        speed = ETH_SPEED_10M;
+//        break;
+//      case LAN8742_STATUS_10MBITS_HALFDUPLEX:
+//        duplex = ETH_HALFDUPLEX_MODE;
+//        speed = ETH_SPEED_10M;
+//        break;
+//      default:
+//        duplex = ETH_FULLDUPLEX_MODE;
+//        speed = ETH_SPEED_100M;
+//        break;
+//      }
+
+//    /* Get MAC Config MAC */
+//    HAL_ETH_GetMACConfig(&heth, &MACConf);
+//    MACConf.DuplexMode = duplex;
+//    MACConf.Speed = speed;
+//    HAL_ETH_SetMACConfig(&heth, &MACConf);
+
+//    HAL_ETH_Start_IT(&heth);
+//    netif_set_up(netif);
+//    netif_set_link_up(netif);
+
+///* USER CODE BEGIN PHY_POST_CONFIG */
+
+///* USER CODE END PHY_POST_CONFIG */
+//    }
+
+//  }
+//  else
+//  {
+//    Error_Handler();
+//  }
+#endif /* LWIP_ARP || LWIP_ETHERNET */
+
+/* USER CODE BEGIN LOW_LEVEL_INIT */
+  DP83848_RegisterBusIO(&DP83848, &DP83848_IOCtx);
+  DP83848_Init(&DP83848);
 
   if (hal_eth_init_status == HAL_OK)
   {
-    PHYLinkState = LAN8742_GetLinkState(&LAN8742);
+    PHYLinkState = DP83848_GetLinkState(&DP83848);
+
+    char msgUart7[50];
+    memset(msgUart7,' ',50);
+    sprintf(msgUart7,"%s %d %s", "\rPHYLinkState* = ",PHYLinkState,"\r\n");
+    RS232_write_c(msgUart7, sizeof (msgUart7));
+
 
     /* Get link state */
-    if(PHYLinkState <= LAN8742_STATUS_LINK_DOWN)
+    if(PHYLinkState <= DP83848_STATUS_LINK_DOWN)
     {
+RS232_write_c("\n\r--a--\n\r", sizeof ("\n\r--a--\n\r"));
       netif_set_link_down(netif);
       netif_set_down(netif);
     }
     else
     {
+RS232_write_c("\n\r--b--\n\r", sizeof ("\n\r--b--\n\r"));
       switch (PHYLinkState)
       {
-      case LAN8742_STATUS_100MBITS_FULLDUPLEX:
+      case DP83848_STATUS_100MBITS_FULLDUPLEX:
         duplex = ETH_FULLDUPLEX_MODE;
         speed = ETH_SPEED_100M;
         break;
-      case LAN8742_STATUS_100MBITS_HALFDUPLEX:
+      case DP83848_STATUS_100MBITS_HALFDUPLEX:
         duplex = ETH_HALFDUPLEX_MODE;
         speed = ETH_SPEED_100M;
         break;
-      case LAN8742_STATUS_10MBITS_FULLDUPLEX:
+      case DP83848_STATUS_10MBITS_FULLDUPLEX:
         duplex = ETH_FULLDUPLEX_MODE;
         speed = ETH_SPEED_10M;
         break;
-      case LAN8742_STATUS_10MBITS_HALFDUPLEX:
+      case DP83848_STATUS_10MBITS_HALFDUPLEX:
         duplex = ETH_HALFDUPLEX_MODE;
         speed = ETH_SPEED_10M;
         break;
@@ -425,9 +511,6 @@ static void low_level_init(struct netif *netif)
     netif_set_up(netif);
     netif_set_link_up(netif);
 
-/* USER CODE BEGIN PHY_POST_CONFIG */
-
-/* USER CODE END PHY_POST_CONFIG */
     }
 
   }
@@ -435,10 +518,6 @@ static void low_level_init(struct netif *netif)
   {
     Error_Handler();
   }
-#endif /* LWIP_ARP || LWIP_ETHERNET */
-
-/* USER CODE BEGIN LOW_LEVEL_INIT */
-
 /* USER CODE END LOW_LEVEL_INIT */
 }
 
@@ -550,14 +629,14 @@ static struct pbuf * low_level_input(struct netif *netif)
  *
  * @param netif the lwip network interface structure for this ethernetif
  */
-void ethernetif_input(void const * argument)
+void ethernetif_input(void* argument)
 {
   struct pbuf *p;
   struct netif *netif = (struct netif *) argument;
 
   for( ;; )
   {
-    if (osSemaphoreWait(RxPktSemaphore, TIME_WAITING_FOR_INPUT) == osOK)
+    if (osSemaphoreAcquire(RxPktSemaphore, TIME_WAITING_FOR_INPUT) == osOK)
     {
       do
       {
@@ -763,8 +842,7 @@ int32_t ETH_PHY_IO_GetTick(void)
   * @param  argument: netif
   * @retval None
   */
-
-void ethernet_link_thread(void const * argument)
+void ethernet_link_thread(void* argument)
 {
   ETH_MACConfigTypeDef MACConf;
   int32_t PHYLinkState;
@@ -772,62 +850,140 @@ void ethernet_link_thread(void const * argument)
 
   struct netif *netif = (struct netif *) argument;
 /* USER CODE BEGIN ETH link init */
+  char msgUart7[] = "\r------- Start_ethernet_link_thread \n\r";
+  RS232_write_c(msgUart7, sizeof (msgUart7));
 
 /* USER CODE END ETH link init */
 
   for(;;)
   {
-  PHYLinkState = LAN8742_GetLinkState(&LAN8742);
+//  PHYLinkState = LAN8742_GetLinkState(&LAN8742);
 
-  if(netif_is_link_up(netif) && (PHYLinkState <= LAN8742_STATUS_LINK_DOWN))
-  {
-    HAL_ETH_Stop_IT(&heth);
-    netif_set_down(netif);
-    netif_set_link_down(netif);
-  }
-  else if(!netif_is_link_up(netif) && (PHYLinkState > LAN8742_STATUS_LINK_DOWN))
-  {
-    switch (PHYLinkState)
-    {
-    case LAN8742_STATUS_100MBITS_FULLDUPLEX:
-      duplex = ETH_FULLDUPLEX_MODE;
-      speed = ETH_SPEED_100M;
-      linkchanged = 1;
-      break;
-    case LAN8742_STATUS_100MBITS_HALFDUPLEX:
-      duplex = ETH_HALFDUPLEX_MODE;
-      speed = ETH_SPEED_100M;
-      linkchanged = 1;
-      break;
-    case LAN8742_STATUS_10MBITS_FULLDUPLEX:
-      duplex = ETH_FULLDUPLEX_MODE;
-      speed = ETH_SPEED_10M;
-      linkchanged = 1;
-      break;
-    case LAN8742_STATUS_10MBITS_HALFDUPLEX:
-      duplex = ETH_HALFDUPLEX_MODE;
-      speed = ETH_SPEED_10M;
-      linkchanged = 1;
-      break;
-    default:
-      break;
-    }
+//  if(netif_is_link_up(netif) && (PHYLinkState <= LAN8742_STATUS_LINK_DOWN))
+//  {
+//    HAL_ETH_Stop_IT(&heth);
+//    netif_set_down(netif);
+//    netif_set_link_down(netif);
+//  }
+//  else if(!netif_is_link_up(netif) && (PHYLinkState > LAN8742_STATUS_LINK_DOWN))
+//  {
+//    switch (PHYLinkState)
+//    {
+//    case LAN8742_STATUS_100MBITS_FULLDUPLEX:
+//      duplex = ETH_FULLDUPLEX_MODE;
+//      speed = ETH_SPEED_100M;
+//      linkchanged = 1;
+//      break;
+//    case LAN8742_STATUS_100MBITS_HALFDUPLEX:
+//      duplex = ETH_HALFDUPLEX_MODE;
+//      speed = ETH_SPEED_100M;
+//      linkchanged = 1;
+//      break;
+//    case LAN8742_STATUS_10MBITS_FULLDUPLEX:
+//      duplex = ETH_FULLDUPLEX_MODE;
+//      speed = ETH_SPEED_10M;
+//      linkchanged = 1;
+//      break;
+//    case LAN8742_STATUS_10MBITS_HALFDUPLEX:
+//      duplex = ETH_HALFDUPLEX_MODE;
+//      speed = ETH_SPEED_10M;
+//      linkchanged = 1;
+//      break;
+//    default:
+//      break;
+//    }
 
-    if(linkchanged)
-    {
-      /* Get MAC Config MAC */
-      HAL_ETH_GetMACConfig(&heth, &MACConf);
-      MACConf.DuplexMode = duplex;
-      MACConf.Speed = speed;
-      HAL_ETH_SetMACConfig(&heth, &MACConf);
+//    if(linkchanged)
+//    {
+//      /* Get MAC Config MAC */
+//      HAL_ETH_GetMACConfig(&heth, &MACConf);
+//      MACConf.DuplexMode = duplex;
+//      MACConf.Speed = speed;
+//      HAL_ETH_SetMACConfig(&heth, &MACConf);
 
-      HAL_ETH_Start_IT(&heth);
-      netif_set_up(netif);
-      netif_set_link_up(netif);
-    }
-  }
+//      HAL_ETH_Start_IT(&heth);
+//      netif_set_up(netif);
+//      netif_set_link_up(netif);
+//    }
+//  }
 
 /* USER CODE BEGIN ETH link Thread core code for User BSP */
+
+      PHYLinkState = DP83848_GetLinkState(&DP83848);
+
+      char msgUart7[50];
+      memset(msgUart7,' ',50);
+      sprintf(msgUart7,"%s %d %s", "\rPHYLinkState = ",PHYLinkState,"\r\n");
+      RS232_write_c(msgUart7, sizeof (msgUart7));
+      osDelay(5000);
+
+      if(netif_is_link_up(netif) && (PHYLinkState <= DP83848_STATUS_LINK_DOWN))
+      {
+          RS232_write_c("\n\r--1--\n\r", sizeof ("\n\r--1--\n\r"));
+        HAL_ETH_Stop_IT(&heth);
+        netif_set_down(netif);
+        netif_set_link_down(netif);
+      }
+      else if(!netif_is_link_up(netif) && (PHYLinkState > DP83848_STATUS_LINK_DOWN))
+      {
+         RS232_write_c("\n\r--2--\n\r", sizeof ("\n\r--2--\n\r"));
+        switch (PHYLinkState)
+        {
+        case DP83848_STATUS_100MBITS_FULLDUPLEX:
+          duplex = ETH_FULLDUPLEX_MODE;
+          speed = ETH_SPEED_100M;
+          linkchanged = 1;
+          break;
+        case DP83848_STATUS_100MBITS_HALFDUPLEX:
+          duplex = ETH_HALFDUPLEX_MODE;
+          speed = ETH_SPEED_100M;
+          linkchanged = 1;
+          break;
+        case DP83848_STATUS_10MBITS_FULLDUPLEX:
+          duplex = ETH_FULLDUPLEX_MODE;
+          speed = ETH_SPEED_10M;
+          linkchanged = 1;
+          break;
+        case DP83848_STATUS_10MBITS_HALFDUPLEX:
+          duplex = ETH_HALFDUPLEX_MODE;
+          speed = ETH_SPEED_10M;
+          linkchanged = 1;
+          break;
+        default:
+          break;
+        }
+
+        if(linkchanged)
+        {
+          /* Get MAC Config MAC */
+          HAL_ETH_GetMACConfig(&heth, &MACConf);
+          MACConf.DuplexMode = duplex;
+          MACConf.Speed = speed;
+
+          char msgUart7[50];
+          memset(msgUart7,' ',50);
+          sprintf(msgUart7,"%s %d %s %d %s", "\rduplex=",MACConf.DuplexMode,
+                  "speed=",MACConf.Speed,"\r\n");
+          RS232_write_c(msgUart7, sizeof (msgUart7));
+
+          HAL_ETH_SetMACConfig(&heth, &MACConf);
+
+          memset(msgUart7,' ',50);
+          sprintf(msgUart7,"%s %s", "\rHAL_ETH_SetMACConfig ","\r\n");
+          RS232_write_c(msgUart7, sizeof (msgUart7));
+
+          HAL_ETH_Start_IT(&heth);
+//          HAL_ETH_Start(&heth);
+
+          memset(msgUart7,' ',50);
+          sprintf(msgUart7,"%s %s", "\rHAL_ETH_Start_IT ","\r\n");
+          RS232_write_c(msgUart7, sizeof (msgUart7));
+
+          netif_set_up(netif);
+          netif_set_link_up(netif);
+        }
+
+      }
 
 /* USER CODE END ETH link Thread core code for User BSP */
 

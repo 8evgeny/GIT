@@ -2,13 +2,25 @@ cmake_minimum_required(VERSION 3.15)
 set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
 
 # Set ARM compiler
-set(TOOLS_PATH /home/evg/toolchain/gcc-arm-none-eabi-new)
-set(CMAKE_C_COMPILER ${TOOLS_PATH}/bin/arm-none-eabi-gcc)
-set(CMAKE_CXX_COMPILER ${TOOLS_PATH}/bin/arm-none-eabi-g++)
-set(CMAKE_CXX_LINKER_LAUNCHER ${TOOLS_PATH}/bin/arm-none-eabi-g++)
-set(CMAKE_OBJCOPY ${TOOLS_PATH}/bin/arm-none-eabi-objcopy)
+#set(TOOLS_PATH /home/evg/toolchain/gcc-arm-none-eabi-new)
+#set(CMAKE_C_COMPILER ${TOOLS_PATH}/bin/arm-none-eabi-gcc)
+#set(CMAKE_CXX_COMPILER ${TOOLS_PATH}/bin/arm-none-eabi-g++)
+#set(CMAKE_CXX_LINKER_LAUNCHER ${TOOLS_PATH}/bin/arm-none-eabi-g++)
+#set(CMAKE_OBJCOPY ${TOOLS_PATH}/bin/arm-none-eabi-objcopy)
 
-project(PW_min C CXX ASM)
+project(PW_new_iteration C CXX ASM)
+
+add_definitions(-DSTM32H753xx)
+add_definitions(-DDATA_IN_D2_SRAM)
+add_definitions(-DUSE_HAL_DRIVER)
+#add_definitions(-D__weak=__attribute__\(\(weak\)\))
+#add_definitions(-D__packed=__attribute__\(\(__packed__\)\))
+#add_definitions(-D__FPU_PRESENT=1)
+#add_definitions(-DARM_MATH_CM7)
+#add_definitions(-DHAVE_CONFIG_H)
+#add_definitions(-D__DCACHE_PRESENT)
+#add_definitions(-D__ICACHE_PRESENT)
+#add_definitions(-DSC2BOARD)
 
 #set(CMAKE_BUILD_TYPE debug)
 #set(CMAKE_BUILD_TYPE release)
@@ -55,22 +67,27 @@ file (GLOB CORE_SOURCES
     Drivers/BSP/Components/dp83848/dp83848.c
     LWIP/Target/ethernetif.c
     )
-message (${CORE_SOURCES})
-
 add_library(CORE ${CORE_SOURCES} )
 
 set (STARTUP_SOURCES ${patchSRC}/../Startup/startup_stm32h753iitx.s )
 add_library(STARTUP ${STARTUP_SOURCES} )
 
-include_directories( ${patchDRV}/BSP/Components/lan8742 )
-#set (BSP_SOURCES ${patchDRV}/BSP/Components/lan8742/lan8742.c )
-#add_library(BSP ${BSP_SOURCES} )
+include_directories(Drivers/BSP/Components/lan8742)
+file (GLOB 8742_SOURCES Drivers/BSP/Components/lan8742/lan8742.c )
+add_library(LIB_8742 ${8742_SOURCES} )
+
+include_directories(Drivers/BSP/Components/dp83848)
+file (GLOB 83848_SOURCES  Drivers/BSP/Components/dp83848/dp83848.c)
+add_library(LIB_83848 ${83848_SOURCES} )
 
 include_directories(
     ${patchDRV}/STM32H7xx_HAL_Driver/Inc
     ${patchDRV}/STM32H7xx_HAL_Driver/Inc/Legacy
     )
-file (GLOB HAL_SRC ${patchHAL_SRC}/*)
+file (GLOB HAL_SRC
+    ${patchHAL_SRC}/*
+    Drivers/STM32H7xx_HAL_Driver/Src/*.c
+    )
 add_library(STM32H7xx_HAL_Driver ${HAL_SRC})
 
 include_directories(
@@ -86,6 +103,7 @@ set (LWIP_SOURCES
 add_library(LWIP ${LWIP_SOURCES} )
 
 include_directories(
+    Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2
     Middlewares/Third_Party/LwIP/system/arch
     Middlewares/Third_Party/LwIP/system
     Middlewares/Third_Party/LwIP/src/include/netif
@@ -115,18 +133,23 @@ file (GLOB Third_Party_SRC
     Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/*.c
     Middlewares/Third_Party/LwIP/system/OS/sys_arch.c
     Middlewares/Third_Party/FreeRTOS/Source/portable/MemMang/heap_4.c
-    Drivers/STM32H7xx_HAL_Driver/Src/*.c
-    Drivers/BSP/Components/lan8742/lan8742.c
+    Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.c
+#    Drivers/BSP/Components/lan8742/lan8742.c
     )
 
 add_library(Middlewares
     ${Third_Party_SRC}
     )
 
+include_directories(EEPROM Middlewares/Third_Party/littlefs)
+file (GLOB EEPROM_SOURCES EEPROM/*.c  Middlewares/Third_Party/littlefs/*.c)
+add_library(EEPROM ${EEPROM_SOURCES} )
+
+include_directories(RS232)
+file (GLOB RS232_SOURCES RS232/*.c)
+add_library(RS232 ${RS232_SOURCES} )
+
 add_executable(${PROJECT_NAME}.elf
-#    Drivers/BSP/Components/dp83848/dp83848.c
-#    Drivers/BSP/Components/lan8742/lan8742.c
-Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.c
     ${SOURCES_C}
     )
 
@@ -157,10 +180,13 @@ target_link_options(${PROJECT_NAME}.elf PRIVATE ${LINKER_FLAGS})
 target_link_libraries(${PROJECT_NAME}.elf PUBLIC
     CORE
     STARTUP
-#    BSP
+    LIB_8742
+    LIB_83848
     STM32H7xx_HAL_Driver
     LWIP
     Middlewares
+    EEPROM
+    RS232
     )
 
 set(HEX_FILE ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.hex)
