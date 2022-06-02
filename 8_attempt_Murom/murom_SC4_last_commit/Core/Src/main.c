@@ -686,9 +686,6 @@ static void MX_SAI1_Init(void)
   /* USER CODE END SAI1_Init 0 */
 
   /* USER CODE BEGIN SAI1_Init 1 */
-  hsai_BlockA1.Init.AudioFrequency = SAI_AUDIO_FREQUENCY_MCKDIV;
-  hsai_BlockA1.Init.Mckdiv = 1;
-  hsai_BlockA1.Init.MonoStereoMode = SAI_MONOMODE;
 
   /* USER CODE END SAI1_Init 1 */
   hsai_BlockA1.Instance = SAI1_Block_A;
