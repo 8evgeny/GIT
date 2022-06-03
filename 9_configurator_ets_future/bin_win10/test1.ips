@@ -1,0 +1,361 @@
+{
+    "Global parameters": {
+        "alarm": 70,
+        "callerid": 1000,
+        "conference": 40,
+        "dgrCall": 55,
+        "duplex": 50,
+        "gateway": "",
+        "grPa": 65,
+        "ip": "192.168.10.1",
+        "ip doc": "192.168.10.1",
+        "key AES": "84415F7F8AEA3B4FBB93AAEF87AAE471",
+        "netmask": "255.255.255.0",
+        "pa": 60,
+        "port configuration": 12341,
+        "port log doc": 2020,
+        "port rtp doc": 10000
+    },
+    "Project information": {
+        "comments": [
+        ],
+        "customer": "",
+        "desc": "",
+        "id": "",
+        "location": "",
+        "number": ""
+    },
+    "Stations": [
+        {
+            "SN": "123456123456",
+            "cid": 1004,
+            "gateway": "",
+            "hash": "x]Q+ä1mWfPa;Eé4",
+            "ip": "172.100.0.143",
+            "items": {
+                "activestation": [
+                    {
+                        "activate_lines": "",
+                        "destination": "CID1005",
+                        "function": 2,
+                        "id": 1,
+                        "name": "KN1",
+                        "pretone_checked": "0",
+                        "pretone_duration": 2,
+                        "pretone_id": 0,
+                        "pretone_times": 0,
+                        "priority": 60
+                    },
+                    {
+                        "activate_lines": "",
+                        "destination": "CID1005",
+                        "function": 3,
+                        "id": 2,
+                        "name": "KN2",
+                        "pretone_checked": "0",
+                        "pretone_duration": 2,
+                        "pretone_id": 0,
+                        "pretone_times": 0,
+                        "priority": 50
+                    },
+                    {
+                        "activate_lines": "",
+                        "destination": "CID1005",
+                        "function": 4,
+                        "id": 3,
+                        "name": "KN3",
+                        "pretone_checked": "0",
+                        "pretone_duration": 2,
+                        "pretone_id": 0,
+                        "pretone_times": 0,
+                        "priority": 50
+                    },
+                    {
+                        "activate_lines": "",
+                        "destination": "CID1006",
+                        "function": 2,
+                        "id": 4,
+                        "name": "KN4",
+                        "pretone_checked": "0",
+                        "pretone_duration": 2,
+                        "pretone_id": 0,
+                        "pretone_times": 0,
+                        "priority": 60
+                    },
+                    {
+                        "activate_lines": "",
+                        "destination": "CID1006",
+                        "function": 3,
+                        "id": 5,
+                        "name": "KN5",
+                        "pretone_checked": "0",
+                        "pretone_duration": 2,
+                        "pretone_id": 0,
+                        "pretone_times": 0,
+                        "priority": 50
+                    },
+                    {
+                        "activate_lines": "",
+                        "destination": "CID1006",
+                        "function": 4,
+                        "id": 6,
+                        "name": "KN6",
+                        "pretone_checked": "0",
+                        "pretone_duration": 2,
+                        "pretone_id": 0,
+                        "pretone_times": 0,
+                        "priority": 50
+                    },
+                    {
+                        "activate_lines": "",
+                        "destination": "CID1007",
+                        "function": 2,
+                        "id": 7,
+                        "name": "KN7",
+                        "pretone_checked": "0",
+                        "pretone_duration": 2,
+                        "pretone_id": 0,
+                        "pretone_times": 0,
+                        "priority": 60
+                    },
+                    {
+                        "activate_lines": "",
+                        "destination": "CID1007",
+                        "function": 3,
+                        "id": 8,
+                        "name": "KN8",
+                        "pretone_checked": "0",
+                        "pretone_duration": 2,
+                        "pretone_id": 0,
+                        "pretone_times": 0,
+                        "priority": 50
+                    },
+                    {
+                        "activate_lines": "",
+                        "destination": "CID1007",
+                        "function": 4,
+                        "id": 9,
+                        "name": "KN9",
+                        "pretone_checked": "0",
+                        "pretone_duration": 2,
+                        "pretone_id": 0,
+                        "pretone_times": 0,
+                        "priority": 50
+                    },
+                    {
+                        "activate_lines": "",
+                        "destination": "CID1008",
+                        "function": 2,
+                        "id": 10,
+                        "name": "KN10",
+                        "pretone_checked": "0",
+                        "pretone_duration": 2,
+                        "pretone_id": 0,
+                        "pretone_times": 0,
+                        "priority": 60
+                    },
+                    {
+                        "activate_lines": "",
+                        "destination": "CID1008",
+                        "function": 3,
+                        "id": 11,
+                        "name": "KN11",
+                        "pretone_checked": "0",
+                        "pretone_duration": 2,
+                        "pretone_id": 0,
+                        "pretone_times": 0,
+                        "priority": 50
+                    },
+                    {
+                        "activate_lines": "",
+                        "destination": "CID1008",
+                        "function": 4,
+                        "id": 12,
+                        "name": "KN12",
+                        "pretone_checked": "0",
+                        "pretone_duration": 2,
+                        "pretone_id": 0,
+                        "pretone_times": 0,
+                        "priority": 50
+                    }
+                ]
+            },
+            "mask": "255.255.255.0",
+            "name": "PPO01",
+            "type": 1
+        },
+        {
+            "SN": "",
+            "cid": 1005,
+            "gateway": "",
+            "hash": "x]Q+ä1mWfPa;Eé4",
+            "ip": "172.100.0.142",
+            "items": {
+                "activestation": [
+                    {
+                        "activate_lines": "",
+                        "destination": "CID1004",
+                        "function": 3,
+                        "id": 1,
+                        "name": "KN1",
+                        "pretone_checked": "0",
+                        "pretone_duration": 2,
+                        "pretone_id": 0,
+                        "pretone_times": 0,
+                        "priority": 60
+                    },
+                    {
+                        "activate_lines": "",
+                        "destination": "CID1004",
+                        "function": 4,
+                        "id": 2,
+                        "name": "KN2",
+                        "pretone_checked": "0",
+                        "pretone_duration": 2,
+                        "pretone_id": 0,
+                        "pretone_times": 0,
+                        "priority": 50
+                    },
+                    {
+                        "activate_lines": "",
+                        "destination": "CID1004",
+                        "function": 2,
+                        "id": 3,
+                        "name": "KN3",
+                        "pretone_checked": "0",
+                        "pretone_duration": 2,
+                        "pretone_id": 0,
+                        "pretone_times": 0,
+                        "priority": 60
+                    },
+                    {
+                        "activate_lines": "",
+                        "destination": "CID1006",
+                        "function": 3,
+                        "id": 4,
+                        "name": "KN4",
+                        "pretone_checked": "0",
+                        "pretone_duration": 2,
+                        "pretone_id": 0,
+                        "pretone_times": 0,
+                        "priority": 60
+                    },
+                    {
+                        "activate_lines": "",
+                        "destination": "CID1006",
+                        "function": 4,
+                        "id": 5,
+                        "name": "KN5",
+                        "pretone_checked": "0",
+                        "pretone_duration": 2,
+                        "pretone_id": 0,
+                        "pretone_times": 0,
+                        "priority": 50
+                    },
+                    {
+                        "activate_lines": "",
+                        "destination": "CID1006",
+                        "function": 2,
+                        "id": 6,
+                        "name": "KN6",
+                        "pretone_checked": "0",
+                        "pretone_duration": 2,
+                        "pretone_id": 0,
+                        "pretone_times": 0,
+                        "priority": 60
+                    },
+                    {
+                        "activate_lines": "",
+                        "destination": "CID1007",
+                        "function": 3,
+                        "id": 7,
+                        "name": "KN7",
+                        "pretone_checked": "0",
+                        "pretone_duration": 2,
+                        "pretone_id": 0,
+                        "pretone_times": 0,
+                        "priority": 60
+                    },
+                    {
+                        "activate_lines": "",
+                        "destination": "CID1007",
+                        "function": 4,
+                        "id": 8,
+                        "name": "KN8",
+                        "pretone_checked": "0",
+                        "pretone_duration": 2,
+                        "pretone_id": 0,
+                        "pretone_times": 0,
+                        "priority": 50
+                    },
+                    {
+                        "activate_lines": "",
+                        "destination": "CID1007",
+                        "function": 2,
+                        "id": 9,
+                        "name": "KN9",
+                        "pretone_checked": "0",
+                        "pretone_duration": 2,
+                        "pretone_id": 0,
+                        "pretone_times": 0,
+                        "priority": 60
+                    },
+                    {
+                        "activate_lines": "",
+                        "destination": "CID1008",
+                        "function": 3,
+                        "id": 10,
+                        "name": "KN10",
+                        "pretone_checked": "0",
+                        "pretone_duration": 2,
+                        "pretone_id": 0,
+                        "pretone_times": 0,
+                        "priority": 60
+                    },
+                    {
+                        "activate_lines": "",
+                        "destination": "CID1008",
+                        "function": 4,
+                        "id": 11,
+                        "name": "KN11",
+                        "pretone_checked": "0",
+                        "pretone_duration": 2,
+                        "pretone_id": 0,
+                        "pretone_times": 0,
+                        "priority": 50
+                    },
+                    {
+                        "activate_lines": "",
+                        "destination": "CID1008",
+                        "function": 2,
+                        "id": 12,
+                        "name": "KN12",
+                        "pretone_checked": "0",
+                        "pretone_duration": 2,
+                        "pretone_id": 0,
+                        "pretone_times": 0,
+                        "priority": 60
+                    }
+                ]
+            },
+            "mask": "255.255.255.0",
+            "name": "PPO02",
+            "type": 1
+        },
+        {
+            "SN": "",
+            "cid": 1006,
+            "gateway": "",
+            "hash": "ü\u0012btd$@\"xèl\u001f\u0002õ",
+            "ip": "172.100.0.138",
+            "items": {
+                "activestation": [
+                ]
+            },
+            "mask": "255.255.255.0",
+            "name": "PPO03",
+            "type": 2
+        }
+    ],
+    "version": 1
+}

@@ -1,0 +1,3 @@
+"C:\Program Files\CMake\bin\cmake.exe" -E rm -f CMakeFiles\firmwaredlg.dir/objects.a
+C:\QT5.15MinGW810\mingw64\bin\ar.exe qc CMakeFiles\firmwaredlg.dir/objects.a @CMakeFiles\firmwaredlg.dir\objects1.rsp
+C:\QT5.15MinGW810\mingw64\bin\g++.exe -shared -o ..\..\..\bin_win10\libfirmwaredlg.dll -Wl,--out-implib,libfirmwaredlg.dll.a -Wl,--major-image-version,0,--minor-image-version,0 -Wl,--whole-archive CMakeFiles\firmwaredlg.dir/objects.a -Wl,--no-whole-archive @CMakeFiles\firmwaredlg.dir\linklibs.rsp

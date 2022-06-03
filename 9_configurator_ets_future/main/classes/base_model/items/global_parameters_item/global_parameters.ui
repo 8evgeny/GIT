@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>GlobalParameters</class>
+ <widget class="QWidget" name="GlobalParameters">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>806</width>
+    <height>582</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Global Parametes</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout_2">
+   <item row="0" column="0">
+    <widget class="QWidget" name="ContainerForm" native="true">
+     <layout class="QGridLayout" name="gridLayout">
+      <item row="0" column="0">
+       <widget class="QLabel" name="l_base_settings">
+        <property name="text">
+         <string>Base settings</string>
+        </property>
+        <property name="buddy">
+         <cstring>m_pa</cstring>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="l_caller_id">
+        <property name="text">
+         <string>&amp;CID:</string>
+        </property>
+        <property name="buddy">
+         <cstring>m_caller_id</cstring>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QLineEdit" name="m_caller_id"/>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="l_default_settings">
+        <property name="text">
+         <string>Default priorities</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="l_pa">
+        <property name="text">
+         <string>P&amp;ublic address:</string>
+        </property>
+        <property name="buddy">
+         <cstring>m_pa</cstring>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QLineEdit" name="m_pa"/>
+      </item>
+      <item row="4" column="0">
+       <widget class="QLabel" name="l_duplex">
+        <property name="text">
+         <string>&amp;Duplex:</string>
+        </property>
+        <property name="buddy">
+         <cstring>m_duplex</cstring>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="1">
+       <widget class="QLineEdit" name="m_duplex"/>
+      </item>
+      <item row="5" column="0">
+       <widget class="QLabel" name="l_circular_call">
+        <property name="text">
+         <string>&amp;Group PA:</string>
+        </property>
+        <property name="buddy">
+         <cstring>m_group_pa</cstring>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="1">
+       <widget class="QLineEdit" name="m_group_pa"/>
+      </item>
+      <item row="6" column="0">
+       <widget class="QLabel" name="l_phone_call">
+        <property name="text">
+         <string>C&amp;onference:</string>
+        </property>
+        <property name="buddy">
+         <cstring>m_conference</cstring>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="1">
+       <widget class="QLineEdit" name="m_conference"/>
+      </item>
+      <item row="7" column="0">
+       <widget class="QLabel" name="l_conference">
+        <property name="text">
+         <string>D&amp;ynamic group call:</string>
+        </property>
+        <property name="buddy">
+         <cstring>m_dynamic_group_call</cstring>
+        </property>
+       </widget>
+      </item>
+      <item row="7" column="1">
+       <widget class="QLineEdit" name="m_dynamic_group_call"/>
+      </item>
+      <item row="8" column="0">
+       <widget class="QLabel" name="l_message">
+        <property name="text">
+         <string>&amp;Alarm:</string>
+        </property>
+        <property name="buddy">
+         <cstring>m_alarm</cstring>
+        </property>
+       </widget>
+      </item>
+      <item row="8" column="1">
+       <widget class="QLineEdit" name="m_alarm"/>
+      </item>
+      <item row="9" column="0">
+       <widget class="QLabel" name="l_network_settings">
+        <property name="text">
+         <string>Network settings</string>
+        </property>
+       </widget>
+      </item>
+      <item row="10" column="0">
+       <widget class="QLabel" name="l_ip">
+        <property name="text">
+         <string>&amp;IP:</string>
+        </property>
+        <property name="buddy">
+         <cstring>m_ip</cstring>
+        </property>
+       </widget>
+      </item>
+      <item row="10" column="1">
+       <widget class="QLineEdit" name="m_ip"/>
+      </item>
+      <item row="11" column="0">
+       <widget class="QLabel" name="l_netmask">
+        <property name="text">
+         <string>&amp;Netmask:</string>
+        </property>
+        <property name="buddy">
+         <cstring>m_netmask</cstring>
+        </property>
+       </widget>
+      </item>
+      <item row="11" column="1">
+       <widget class="QLineEdit" name="m_netmask"/>
+      </item>
+      <item row="12" column="0">
+       <widget class="QLabel" name="l_gateway">
+        <property name="text">
+         <string>Gate&amp;way:</string>
+        </property>
+        <property name="buddy">
+         <cstring>m_gateway</cstring>
+        </property>
+       </widget>
+      </item>
+      <item row="12" column="1">
+       <widget class="QLineEdit" name="m_gateway"/>
+      </item>
+      <item row="13" column="0">
+       <widget class="QLabel" name="l_keyAES">
+        <property name="text">
+         <string>&amp;Key AES:</string>
+        </property>
+        <property name="buddy">
+         <cstring>m_alarm</cstring>
+        </property>
+       </widget>
+      </item>
+      <item row="13" column="1">
+       <widget class="QLineEdit" name="m_key_aes">
+        <property name="maxLength">
+         <number>32</number>
+        </property>
+       </widget>
+      </item>
+      <item row="13" column="2">
+       <widget class="QPushButton" name="b_genaes">
+        <property name="text">
+         <string>Generate</string>
+        </property>
+       </widget>
+      </item>
+      <item row="14" column="0">
+       <widget class="QLabel" name="l_ip_doc">
+        <property name="text">
+         <string>&amp;IP doc:</string>
+        </property>
+        <property name="buddy">
+         <cstring>m_ip</cstring>
+        </property>
+       </widget>
+      </item>
+      <item row="14" column="1">
+       <widget class="QLineEdit" name="m_ip_doc"/>
+      </item>
+      <item row="15" column="0">
+       <widget class="QLabel" name="l_port_log_doc">
+        <property name="text">
+         <string>Port log doc:</string>
+        </property>
+        <property name="buddy">
+         <cstring>m_ip</cstring>
+        </property>
+       </widget>
+      </item>
+      <item row="15" column="1">
+       <widget class="QLineEdit" name="m_port_log_doc"/>
+      </item>
+      <item row="16" column="0">
+       <widget class="QLabel" name="l_port_rtp_doc">
+        <property name="text">
+         <string>Port rtp doc:</string>
+        </property>
+        <property name="buddy">
+         <cstring>m_ip</cstring>
+        </property>
+       </widget>
+      </item>
+      <item row="16" column="1">
+       <widget class="QLineEdit" name="m_port_rtp_doc"/>
+      </item>
+      <item row="17" column="0">
+       <widget class="QLabel" name="l_port_cnf">
+        <property name="text">
+         <string>Port configuration:</string>
+        </property>
+        <property name="buddy">
+         <cstring>m_ip</cstring>
+        </property>
+       </widget>
+      </item>
+      <item row="17" column="1">
+       <widget class="QLineEdit" name="m_port_cnf">
+        <property name="text">
+         <string>12341</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="1" column="0">
+    <spacer name="vspace">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
