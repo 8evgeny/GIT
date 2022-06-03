@@ -1,2 +1,0 @@
-TX: DEVICE GET CFGUI
-RX: fJ�	���{�.�q�Tż=O0�T!X?�&Հ�vRX: Timeout answer detected!!!

@@ -1,1 +1,0 @@
-{"Global parameters":{"SN":"","cid":1006,"gateway":"","hash":"ü\u0012btd$@\"xèl\u001f\u0002õ","ip":"172.17.10.250","ip doc":"192.168.10.1","key AES":"84415F7F8AEA3B4FBB93AAEF87AAE471","mask":"255.255.255.0","name":"PPO03","port log doc":2020,"port rtp doc":10000,"type":2,"version":1},"activebuttons":[]}
