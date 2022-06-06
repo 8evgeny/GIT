@@ -65,7 +65,7 @@ void littleFsInit()
 {
 // release any resources we were using
     lfs_unmount(&lfs);
-    const char str[] = "---- lfs_unmount ---- \n\r";
+    const char str[] = "\r---- lfs_unmount ---- \n\r";
     HAL_UART_Transmit (&huart7,(uint8_t*)str, sizeof (str), 1000);
 
 // example littlefs
