@@ -956,7 +956,7 @@ void ethernet_link_thread(void* argument)
 
           char msgUart7[50];
           memset(msgUart7,' ',50);
-          sprintf(msgUart7,"%s %d %s %d %s", "\rduplex=",MACConf.DuplexMode,
+          sprintf(msgUart7,"%s %x %s %x %s", "\rduplex=",MACConf.DuplexMode,
                   "speed=",MACConf.Speed,"\r\n");
           RS232_write_c(msgUart7, sizeof (msgUart7));
 
