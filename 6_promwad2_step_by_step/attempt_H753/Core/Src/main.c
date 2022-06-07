@@ -1006,7 +1006,7 @@ void StartDefaultTask(void *argument)
   struct udp_pcb* my_udp = udp_new();
   udp_connect(my_udp, &PC_IPADDR, 55151);
   struct pbuf* udp_buffer = NULL;
-//   udp_echoserver_init();
+   udp_echoserver_init();
 
   /* Infinite loop */
   for(;;)
