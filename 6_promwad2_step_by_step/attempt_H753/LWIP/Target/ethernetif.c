@@ -957,12 +957,12 @@ RS232_write_c("\n\r--DP83848_STATUS_10MBITS_HALFDUPLEX--\n\r", sizeof ("\n\r--DP
 
         if(linkchanged)
         {
+          char msgUart7[50];
           /* Get MAC Config MAC */
           HAL_ETH_GetMACConfig(&heth, &MACConf);
           MACConf.DuplexMode = duplex;
           MACConf.Speed = speed;
 
-//          char msgUart7[50];
 //          memset(msgUart7,' ',50);
 //          sprintf(msgUart7,"%s %x %s %x %s", "\rduplex=",MACConf.DuplexMode,
 //                  "speed=",MACConf.Speed,"\r\n");
@@ -983,6 +983,13 @@ RS232_write_c("\n\r--DP83848_STATUS_10MBITS_HALFDUPLEX--\n\r", sizeof ("\n\r--DP
 
           netif_set_up(netif);
           netif_set_link_up(netif);
+
+          uint32_t regvalue;
+          DP83848.IO.ReadReg(DP83848.DevAddr, DP83848_PHYCR, &regvalue);
+          memset(msgUart7,' ',50);
+          sprintf(msgUart7,"%s %x %s", "\r** DP83848_PHYCR = ", regvalue, " **\r\n");
+          RS232_write_c(msgUart7, sizeof (msgUart7));
+
         }
 
       }
