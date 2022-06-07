@@ -911,11 +911,11 @@ void ethernet_link_thread(void* argument)
 
       PHYLinkState = DP83848_GetLinkState(&DP83848);
 
-      char msgUart7[50];
-      memset(msgUart7,' ',50);
-      sprintf(msgUart7,"%s %d %s", "\rPHYLinkState = ",PHYLinkState,"\r\n");
-      RS232_write_c(msgUart7, sizeof (msgUart7));
-      osDelay(5000);
+//      char msgUart7[50];
+//      memset(msgUart7,' ',50);
+//      sprintf(msgUart7,"%s %d %s", "\rPHYLinkState = ",PHYLinkState,"\r\n");
+//      RS232_write_c(msgUart7, sizeof (msgUart7));
+//      osDelay(500);
 
       if(netif_is_link_up(netif) && (PHYLinkState <= DP83848_STATUS_LINK_DOWN))
       {

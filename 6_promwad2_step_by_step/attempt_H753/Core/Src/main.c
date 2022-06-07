@@ -398,17 +398,6 @@ int main(void)
 
   /* USER CODE BEGIN RTOS_THREADS */
 
-//  extern DP83848_Object_t DP83848;
-//  MX_LWIP_Init();
-//  if (DP83848.Is_Initialized) {
-//      char msgUart7[] = "\r------- DP83848.Is_Initialized ----\n\r";
-//      RS232_write_c(msgUart7, sizeof (msgUart7));
-//  } else {
-//      char msgUart7[] = "\r------- DP83848.NO_Initialized ----\n\r";
-//      RS232_write_c(msgUart7, sizeof (msgUart7));
-//  }
-
-
   /* add threads, ... */
   /* USER CODE END RTOS_THREADS */
 
