@@ -497,6 +497,8 @@ static void low_level_init(struct netif *netif)
     sprintf(msgUart7,"%s %d %s", "\rPHYLinkState = ",PHYLinkState,"\r\n");
     RS232_write_c(msgUart7, sizeof (msgUart7));
 
+    printAll_Regs_DP83848();
+
     /* Get link state */
     if(PHYLinkState <= DP83848_STATUS_LINK_DOWN)
     {
