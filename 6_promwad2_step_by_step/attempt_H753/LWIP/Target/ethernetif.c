@@ -150,6 +150,29 @@ void printReg_DP83848(uint16_t reg, const char* name)
     RS232_write_c(msgUart7, sizeof (msgUart7));
 }
 
+void printAll_Regs_DP83848(){
+    printReg_DP83848(DP83848_BMCR, "DP83848_BMCR");
+    printReg_DP83848(DP83848_BMSR, "DP83848_BMSR");
+    printReg_DP83848(DP83848_PHYIDR1, "DP83848_PHYIDR1");
+    printReg_DP83848(DP83848_PHYIDR2, "DP83848_PHYIDR2");
+    printReg_DP83848(DP83848_ANAR, "DP83848_ANAR");
+    printReg_DP83848(DP83848_ANLPAR, "DP83848_ANLPAR");
+    printReg_DP83848(DP83848_ANER, "DP83848_ANER");
+    printReg_DP83848(DP83848_ANNPTR, "DP83848_ANNPTR");
+    printReg_DP83848(DP83848_PHYSTS, "DP83848_PHYSTS");
+    printReg_DP83848(DP83848_MICR, "DP83848_MICR");
+    printReg_DP83848(DP83848_MISR, "DP83848_MISR");
+    printReg_DP83848(DP83848_FCSCR, "DP83848_FCSCR");
+    printReg_DP83848(DP83848_RECR, "DP83848_RECR");
+    printReg_DP83848(DP83848_PCSR, "DP83848_PCSR");
+    printReg_DP83848(DP83848_RBR, "DP83848_RBR");
+    printReg_DP83848(DP83848_LEDCR, "DP83848_LEDCR");
+    printReg_DP83848(DP83848_PHYCR, "DP83848_PHYCR");
+    printReg_DP83848(DP83848_10BTSCR, "DP83848_10BTSCR");
+    printReg_DP83848(DP83848_CDCTRL1, "DP83848_CDCTRL1");
+    printReg_DP83848(DP83848_EDCR, "DP83848_EDCR");
+}
+
 /* USER CODE END 3 */
 
 /* Private functions ---------------------------------------------------------*/
@@ -994,19 +1017,7 @@ RS232_write_c("\n\r--DP83848_STATUS_10MBITS_HALFDUPLEX--\n\r", sizeof ("\n\r--DP
           netif_set_up(netif);
           netif_set_link_up(netif);
 
-          printReg_DP83848(DP83848_PHYSTS, "DP83848_PHYSTS");
-          printReg_DP83848(DP83848_MICR, "DP83848_MICR");
-          printReg_DP83848(DP83848_MISR, "DP83848_MISR");
-          printReg_DP83848(DP83848_FCSCR, "DP83848_FCSCR");
-          printReg_DP83848(DP83848_RECR, "DP83848_RECR");
-          printReg_DP83848(DP83848_PCSR, "DP83848_PCSR");
-          printReg_DP83848(DP83848_RBR, "DP83848_RBR");
-          printReg_DP83848(DP83848_LEDCR, "DP83848_LEDCR");
-          printReg_DP83848(DP83848_PHYCR, "DP83848_PHYCR");
-          printReg_DP83848(DP83848_10BTSCR, "DP83848_10BTSCR");
-          printReg_DP83848(DP83848_CDCTRL1, "DP83848_CDCTRL1");
-          printReg_DP83848(DP83848_EDCR, "DP83848_EDCR");
-
+          printAll_Regs_DP83848();
 
         }
 
