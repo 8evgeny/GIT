@@ -152,6 +152,10 @@ ip4_route_src(const ip4_addr_t *src, const ip4_addr_t *dest)
 struct netif *
 ip4_route(const ip4_addr_t *dest)
 {
+
+RS232_write_c("\rip4_route invoked\r\n", sizeof ("\rip4_route invoked\r\n"));
+
+
 #if !LWIP_SINGLE_NETIF
   struct netif *netif;
 
@@ -374,6 +378,9 @@ return_noroute:
 static int
 ip4_input_accept(struct netif *netif)
 {
+
+RS232_write_c("\rip4_input_accept invoked\r\n", sizeof ("\rip4_input_accept invoked\r\n"));
+
   LWIP_DEBUGF(IP_DEBUG, ("ip_input: iphdr->dest 0x%"X32_F" netif->ip_addr 0x%"X32_F" (0x%"X32_F", 0x%"X32_F", 0x%"X32_F")\n",
                          ip4_addr_get_u32(ip4_current_dest_addr()), ip4_addr_get_u32(netif_ip4_addr(netif)),
                          ip4_addr_get_u32(ip4_current_dest_addr()) & ip4_addr_get_u32(netif_ip4_netmask(netif)),
@@ -793,7 +800,7 @@ ip4_output_if(struct pbuf *p, const ip4_addr_t *src, const ip4_addr_t *dest,
               u8_t proto, struct netif *netif)
 {
 
-RS232_write_c("\riip4_output_if invoked\r\n", sizeof ("\riip4_output_if invoked\r\n"));
+RS232_write_c("\rip4_output_if invoked\r\n", sizeof ("\rip4_output_if invoked\r\n"));
 
 #if IP_OPTIONS_SEND
   return ip4_output_if_opt(p, src, dest, ttl, tos, proto, netif, NULL, 0);
