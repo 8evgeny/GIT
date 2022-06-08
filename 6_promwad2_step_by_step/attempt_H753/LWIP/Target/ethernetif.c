@@ -139,6 +139,17 @@ DP83848_IOCtx_t  DP83848_IOCtx = {ETH_PHY_IO_Init,
                                   ETH_PHY_IO_WriteReg,
                                   ETH_PHY_IO_ReadReg,
                                   ETH_PHY_IO_GetTick};
+
+void readReg_DP83848(uint16_t reg)
+{
+    char msgUart7[50];
+    uint32_t regvalue;
+    DP83848.IO.ReadReg(DP83848.DevAddr, reg, &regvalue);
+    memset(msgUart7,' ',50);
+    sprintf(msgUart7,"%s %x %s", " regvalue = ", regvalue, "\r\n");
+    RS232_write_c(msgUart7, sizeof (msgUart7));
+}
+
 /* USER CODE END 3 */
 
 /* Private functions ---------------------------------------------------------*/
@@ -957,7 +968,6 @@ RS232_write_c("\n\r--DP83848_STATUS_10MBITS_HALFDUPLEX--\n\r", sizeof ("\n\r--DP
 
         if(linkchanged)
         {
-          char msgUart7[50];
           /* Get MAC Config MAC */
           HAL_ETH_GetMACConfig(&heth, &MACConf);
           MACConf.DuplexMode = duplex;
@@ -984,11 +994,11 @@ RS232_write_c("\n\r--DP83848_STATUS_10MBITS_HALFDUPLEX--\n\r", sizeof ("\n\r--DP
           netif_set_up(netif);
           netif_set_link_up(netif);
 
-          uint32_t regvalue;
-          DP83848.IO.ReadReg(DP83848.DevAddr, DP83848_PHYCR, &regvalue);
-          memset(msgUart7,' ',50);
-          sprintf(msgUart7,"%s %x %s", "\r** DP83848_PHYCR = ", regvalue, " **\r\n");
-          RS232_write_c(msgUart7, sizeof (msgUart7));
+          RS232_write_c("DP83848_PHYCR", sizeof ("DP83848_PHYCR"));
+          readReg_DP83848(DP83848_PHYCR);
+
+
+
 
         }
 
