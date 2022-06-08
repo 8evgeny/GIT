@@ -140,13 +140,13 @@ DP83848_IOCtx_t  DP83848_IOCtx = {ETH_PHY_IO_Init,
                                   ETH_PHY_IO_ReadReg,
                                   ETH_PHY_IO_GetTick};
 
-void readReg_DP83848(uint16_t reg)
+void printReg_DP83848(uint16_t reg, const char* name)
 {
     char msgUart7[50];
     uint32_t regvalue;
     DP83848.IO.ReadReg(DP83848.DevAddr, reg, &regvalue);
     memset(msgUart7,' ',50);
-    sprintf(msgUart7,"%s %x %s", " regvalue = ", regvalue, "\r\n");
+    sprintf(msgUart7,"%s %20s %s %X %s","\r", name, "regvalue = ", regvalue, "\r\n");
     RS232_write_c(msgUart7, sizeof (msgUart7));
 }
 
@@ -994,10 +994,18 @@ RS232_write_c("\n\r--DP83848_STATUS_10MBITS_HALFDUPLEX--\n\r", sizeof ("\n\r--DP
           netif_set_up(netif);
           netif_set_link_up(netif);
 
-          RS232_write_c("DP83848_PHYCR", sizeof ("DP83848_PHYCR"));
-          readReg_DP83848(DP83848_PHYCR);
-
-
+          printReg_DP83848(DP83848_PHYSTS, "DP83848_PHYSTS");
+          printReg_DP83848(DP83848_MICR, "DP83848_MICR");
+          printReg_DP83848(DP83848_MISR, "DP83848_MISR");
+          printReg_DP83848(DP83848_FCSCR, "DP83848_FCSCR");
+          printReg_DP83848(DP83848_RECR, "DP83848_RECR");
+          printReg_DP83848(DP83848_PCSR, "DP83848_PCSR");
+          printReg_DP83848(DP83848_RBR, "DP83848_RBR");
+          printReg_DP83848(DP83848_LEDCR, "DP83848_LEDCR");
+          printReg_DP83848(DP83848_PHYCR, "DP83848_PHYCR");
+          printReg_DP83848(DP83848_10BTSCR, "DP83848_10BTSCR");
+          printReg_DP83848(DP83848_CDCTRL1, "DP83848_CDCTRL1");
+          printReg_DP83848(DP83848_EDCR, "DP83848_EDCR");
 
 
         }
