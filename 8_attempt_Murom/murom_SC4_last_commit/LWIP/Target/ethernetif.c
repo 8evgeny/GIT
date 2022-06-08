@@ -122,7 +122,39 @@ DP83848_IOCtx_t  DP83848_IOCtx = {ETH_PHY_IO_Init,
                                   ETH_PHY_IO_GetTick};
 
 /* USER CODE BEGIN 3 */
+#include "CLI_io.h"
+void printReg_DP83848(uint16_t reg, const char* name)
+{
+    char msgUart7[128];
+    uint32_t regvalue;
+    DP83848.IO.ReadReg(DP83848.DevAddr, reg, &regvalue);
+    memset(msgUart7,' ',128);
+    sprintf(msgUart7,"%s %-17s %s%X %s","\r", name, "regvalue = ", regvalue, "\r\n");
+    CLI_print(msgUart7);
+}
 
+void printAll_Regs_DP83848(){
+    printReg_DP83848(DP83848_BMCR, "DP83848_BMCR");
+    printReg_DP83848(DP83848_BMSR, "DP83848_BMSR");
+    printReg_DP83848(DP83848_PHYIDR1, "DP83848_PHYIDR1");
+    printReg_DP83848(DP83848_PHYIDR2, "DP83848_PHYIDR2");
+    printReg_DP83848(DP83848_ANAR, "DP83848_ANAR");
+    printReg_DP83848(DP83848_ANLPAR, "DP83848_ANLPAR");
+    printReg_DP83848(DP83848_ANER, "DP83848_ANER");
+    printReg_DP83848(DP83848_ANNPTR, "DP83848_ANNPTR");
+    printReg_DP83848(DP83848_PHYSTS, "DP83848_PHYSTS");
+    printReg_DP83848(DP83848_MICR, "DP83848_MICR");
+    printReg_DP83848(DP83848_MISR, "DP83848_MISR");
+    printReg_DP83848(DP83848_FCSCR, "DP83848_FCSCR");
+    printReg_DP83848(DP83848_RECR, "DP83848_RECR");
+    printReg_DP83848(DP83848_PCSR, "DP83848_PCSR");
+    printReg_DP83848(DP83848_RBR, "DP83848_RBR");
+    printReg_DP83848(DP83848_LEDCR, "DP83848_LEDCR");
+    printReg_DP83848(DP83848_PHYCR, "DP83848_PHYCR");
+    printReg_DP83848(DP83848_10BTSCR, "DP83848_10BTSCR");
+    printReg_DP83848(DP83848_CDCTRL1, "DP83848_CDCTRL1");
+    printReg_DP83848(DP83848_EDCR, "DP83848_EDCR");
+}
 /* USER CODE END 3 */
 
 /* Private functions ---------------------------------------------------------*/
@@ -740,6 +772,10 @@ void ethernet_link_check_state(struct netif *netif)
       HAL_ETH_Start(&heth);
       netif_set_up(netif);
       netif_set_link_up(netif);
+
+      printAll_Regs_DP83848();
+
+
     }
   }
 
