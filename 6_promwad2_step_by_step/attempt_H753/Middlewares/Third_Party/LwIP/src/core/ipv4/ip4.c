@@ -39,6 +39,7 @@
  */
 
 #include "lwip/opt.h"
+#include "rs232.h"
 
 #if LWIP_IPV4
 
@@ -425,6 +426,9 @@ ip4_input_accept(struct netif *netif)
 err_t
 ip4_input(struct pbuf *p, struct netif *inp)
 {
+
+RS232_write_c("\rip4_input invoked\r\n", sizeof ("\rip4_input invoked\r\n"));
+
   const struct ip_hdr *iphdr;
   struct netif *netif;
   u16_t iphdr_hlen;
@@ -788,6 +792,9 @@ ip4_output_if(struct pbuf *p, const ip4_addr_t *src, const ip4_addr_t *dest,
               u8_t ttl, u8_t tos,
               u8_t proto, struct netif *netif)
 {
+
+RS232_write_c("\riip4_output_if invoked\r\n", sizeof ("\riip4_output_if invoked\r\n"));
+
 #if IP_OPTIONS_SEND
   return ip4_output_if_opt(p, src, dest, ttl, tos, proto, netif, NULL, 0);
 }
@@ -1028,6 +1035,9 @@ err_t
 ip4_output(struct pbuf *p, const ip4_addr_t *src, const ip4_addr_t *dest,
            u8_t ttl, u8_t tos, u8_t proto)
 {
+
+RS232_write_c("\rip4_output invoked\r\n", sizeof ("\rip4_output invoked\r\n"));
+
   struct netif *netif;
 
   LWIP_IP_CHECK_PBUF_REF_COUNT_FOR_TX(p);
