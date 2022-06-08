@@ -142,11 +142,11 @@ DP83848_IOCtx_t  DP83848_IOCtx = {ETH_PHY_IO_Init,
 
 void printReg_DP83848(uint16_t reg, const char* name)
 {
-    char msgUart7[50];
+    char msgUart7[128];
     uint32_t regvalue;
     DP83848.IO.ReadReg(DP83848.DevAddr, reg, &regvalue);
-    memset(msgUart7,' ',50);
-    sprintf(msgUart7,"%s %20s %s %X %s","\r", name, "regvalue = ", regvalue, "\r\n");
+    memset(msgUart7,' ',128);
+    sprintf(msgUart7,"%s %-17s %s%X %s","\r", name, "regvalue = ", regvalue, "\r\n");
     RS232_write_c(msgUart7, sizeof (msgUart7));
 }
 
