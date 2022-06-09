@@ -1007,12 +1007,6 @@ RS232_write_c("\n\r--DP83848_STATUS_10MBITS_HALFDUPLEX--\n\r", sizeof ("\n\r--DP
           HAL_ETH_GetMACConfig(&heth, &MACConf);
           MACConf.DuplexMode = duplex;
           MACConf.Speed = speed;
-
-//          memset(msgUart7,' ',50);
-//          sprintf(msgUart7,"%s %x %s %x %s", "\rduplex=",MACConf.DuplexMode,
-//                  "speed=",MACConf.Speed,"\r\n");
-//          RS232_write_c(msgUart7, sizeof (msgUart7));
-
           HAL_ETH_SetMACConfig(&heth, &MACConf);
 
           HAL_StatusTypeDef stat = HAL_ETH_Start_IT(&heth);

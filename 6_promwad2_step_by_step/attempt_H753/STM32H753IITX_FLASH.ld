@@ -134,21 +134,16 @@ SECTIONS
     . = ALIGN(8);
   } >RAM
 
-  /* Modification start */
-/*  .lwip_sec (NOLOAD) : {
-    . = ABSOLUTE(0x30040000);
-    *(.RxDecripSection)
+.lwip_sec (NOLOAD) : {
+  . = ABSOLUTE(0x30000000);
+  *(.RxDecripSection)
 
-    . = ABSOLUTE(0x30040100);
-    *(.TxDecripSection)
+  . = ABSOLUTE(0x30000060);
+  *(.TxDecripSection)
 
-    . = ABSOLUTE(0x30041000);
-    *(.RxArraySection)
-
-    . = ABSOLUTE(0x30043000);
-    *(.TxArraySection)
-  } >AHB_SRAM3*/
-  /* Modification end */
+  . = ABSOLUTE(0x30000200);
+  *(.RxArraySection)
+} >RAM_D2
 
   /* Remove information from the standard libraries */
   /DISCARD/ :
@@ -160,40 +155,11 @@ SECTIONS
 
   .ARM.attributes 0 : { *(.ARM.attributes) }
 
-/*  .RAM_DMA_data (NOLOAD): {
-    *(.DMATransferSection)
-    *(.RAM_DMA_data)
-   } >RAM_D1*/
-
-  .eth_dma (NOLOAD) : {
-    . = ABSOLUTE(0x30000000);
-    *(.RxDecripSection)
-
-    . = ABSOLUTE(0x30000060);
-    *(.TxDecripSection)
-
-    . = ABSOLUTE(0x30000200);
-    *(.RxArraySection)
-  } >RAM_D2
-
-/*  .RAM_D2_data (NOLOAD) : {
-    . = ABSOLUTE(0x30002000);
-    *(.RAM_D2_data)
-    . = ABSOLUTE(0x30040000);
-  } >RAM_D2*/
-
-/*  .lwip_pool_space (NOLOAD) : {
-    . = ABSOLUTE(0x30040000);
-    *(.lwip_pool)
-    . = ABSOLUTE(0x30047FFF);
-  } >RAM_D2*/
-
   .ext_ram (NOLOAD) : {
     *(.ExtRamData)
     . = ALIGN(4);
     _ext_ram_ld_end = .;
   } >RAM_EXT
-
 }
 
 
