@@ -181,8 +181,6 @@ void Error_Handler(void);
 
 void HAL_ETH_MspInit(ETH_HandleTypeDef* ethHandle)
 {
-//    RS232_write_c("HAL_ETH_MspInit invoked\n\r", sizeof ("HAL_ETH_MspInit invoked\n\r"));
-
   GPIO_InitTypeDef GPIO_InitStruct = {0};
   if(ethHandle->Instance==ETH)
   {
@@ -250,8 +248,6 @@ void HAL_ETH_MspInit(ETH_HandleTypeDef* ethHandle)
     /* Peripheral interrupt init */
     HAL_NVIC_SetPriority(ETH_IRQn, 8, 0);
     HAL_NVIC_EnableIRQ(ETH_IRQn);
-    HAL_NVIC_SetPriority(ETH_WKUP_IRQn, 5, 0);
-    HAL_NVIC_EnableIRQ(ETH_WKUP_IRQn);
   /* USER CODE BEGIN ETH_MspInit 1 */
 
   /* USER CODE END ETH_MspInit 1 */
@@ -302,8 +298,6 @@ void HAL_ETH_MspDeInit(ETH_HandleTypeDef* ethHandle)
     /* Peripheral interrupt Deinit*/
     HAL_NVIC_DisableIRQ(ETH_IRQn);
 
-    HAL_NVIC_DisableIRQ(ETH_WKUP_IRQn);
-
   /* USER CODE BEGIN ETH_MspDeInit 1 */
 
   /* USER CODE END ETH_MspDeInit 1 */
@@ -317,9 +311,7 @@ void HAL_ETH_MspDeInit(ETH_HandleTypeDef* ethHandle)
   */
 void HAL_ETH_RxCpltCallback(ETH_HandleTypeDef *heth)
 {
-//    RS232_write_c("HAL_ETH_RxCpltCallback invoked\r\n", sizeof ("HAL_ETH_RxCpltCallback invoked\r\n"));
   osSemaphoreRelease(RxPktSemaphore);
-
 }
 
 /* USER CODE BEGIN 4 */
@@ -338,7 +330,6 @@ void HAL_ETH_RxCpltCallback(ETH_HandleTypeDef *heth)
  */
 static void low_level_init(struct netif *netif)
 {
-RS232_write_c("\rlow_level_init invoked\r\n", sizeof ("\rlow_level_init invoked\r\n"));
   HAL_StatusTypeDef hal_eth_init_status = HAL_OK;
 /* USER CODE BEGIN OS_THREAD_ATTR_CMSIS_RTOS_V2 */
   osThreadAttr_t attributes;
