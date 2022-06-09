@@ -181,6 +181,8 @@ void Error_Handler(void);
 
 void HAL_ETH_MspInit(ETH_HandleTypeDef* ethHandle)
 {
+    RS232_write_c("HAL_ETH_MspInit invoked\n\r", sizeof ("HAL_ETH_MspInit invoked\n\r"));
+
   GPIO_InitTypeDef GPIO_InitStruct = {0};
   if(ethHandle->Instance==ETH)
   {
@@ -503,7 +505,7 @@ RS232_write_c("\rlow_level_init invoked\r\n", sizeof ("\rlow_level_init invoked\
     sprintf(msgUart7,"%s %d %s", "\rPHYLinkState = ",PHYLinkState,"\r\n");
     RS232_write_c(msgUart7, sizeof (msgUart7));
 
-    printAll_Regs_DP83848();
+//    printAll_Regs_DP83848();
 
     /* Get link state */
     if(PHYLinkState <= DP83848_STATUS_LINK_DOWN)
@@ -548,7 +550,14 @@ RS232_write_c("\n\r--ETH_FULLDUPLEX_MODE--\n\r", sizeof ("\n\r--ETH_FULLDUPLEX_M
     MACConf.Speed = speed;
     HAL_ETH_SetMACConfig(&heth, &MACConf);
 
-    HAL_ETH_Start_IT(&heth);
+    HAL_StatusTypeDef stat = HAL_ETH_Start_IT(&heth);
+
+    char msgUart7[50];
+    memset(msgUart7,' ',50);
+    sprintf(msgUart7,"%X%s", (uint8_t)stat,"\r\n");
+    RS232_write_c("\rHAL_ETH_Start_IT_status = ", sizeof ("\rHAL_ETH_Start_IT_status = "));
+    RS232_write_c(msgUart7, sizeof (msgUart7));
+
     netif_set_up(netif);
     netif_set_link_up(netif);
 
@@ -1011,21 +1020,18 @@ RS232_write_c("\n\r--DP83848_STATUS_10MBITS_HALFDUPLEX--\n\r", sizeof ("\n\r--DP
 
           HAL_ETH_SetMACConfig(&heth, &MACConf);
 
-//          memset(msgUart7,' ',50);
-//          sprintf(msgUart7,"%s %s", "\rHAL_ETH_SetMACConfig ","\r\n");
-//          RS232_write_c(msgUart7, sizeof (msgUart7));
+          HAL_StatusTypeDef stat = HAL_ETH_Start_IT(&heth);
 
-          HAL_ETH_Start_IT(&heth);
-//          HAL_ETH_Start(&heth);
-
-//          memset(msgUart7,' ',50);
-//          sprintf(msgUart7,"%s %s", "\rHAL_ETH_Start_IT ","\r\n");
-//          RS232_write_c(msgUart7, sizeof (msgUart7));
+          char msgUart7[50];
+          memset(msgUart7,' ',50);
+          sprintf(msgUart7,"%X%s", (uint8_t)stat,"\r\n");
+          RS232_write_c("\rHAL_ETH_Start_IT_status = ", sizeof ("\rHAL_ETH_Start_IT_status = "));
+          RS232_write_c(msgUart7, sizeof (msgUart7));
 
           netif_set_up(netif);
           netif_set_link_up(netif);
 
-          printAll_Regs_DP83848();
+//          printAll_Regs_DP83848();
 
         }
 
