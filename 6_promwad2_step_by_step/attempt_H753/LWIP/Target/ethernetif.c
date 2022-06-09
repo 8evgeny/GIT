@@ -351,9 +351,9 @@ RS232_write_c("\rlow_level_init invoked\r\n", sizeof ("\rlow_level_init invoked\
 
    uint8_t MACAddr[6] ;
   heth.Instance = ETH;
-  MACAddr[0] = 0x30;
-  MACAddr[1] = 0x31;
-  MACAddr[2] = 0x32;
+  MACAddr[0] = 0x00;
+  MACAddr[1] = 0x80;
+  MACAddr[2] = 0xE1;
   MACAddr[3] = 0x00;
   MACAddr[4] = 0x00;
   MACAddr[5] = 0x00;

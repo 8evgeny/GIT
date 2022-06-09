@@ -160,10 +160,10 @@ SECTIONS
 
   .ARM.attributes 0 : { *(.ARM.attributes) }
 
-  .RAM_DMA_data (NOLOAD): {
+/*  .RAM_DMA_data (NOLOAD): {
     *(.DMATransferSection)
     *(.RAM_DMA_data)
-   } >RAM_D1
+   } >RAM_D1*/
 
   .eth_dma (NOLOAD) : {
     . = ABSOLUTE(0x30000000);
@@ -176,17 +176,17 @@ SECTIONS
     *(.RxArraySection)
   } >RAM_D2
 
-  .RAM_D2_data (NOLOAD) : {
+/*  .RAM_D2_data (NOLOAD) : {
     . = ABSOLUTE(0x30002000);
     *(.RAM_D2_data)
     . = ABSOLUTE(0x30040000);
-  } >RAM_D2
+  } >RAM_D2*/
 
-  .lwip_pool_space (NOLOAD) : {
+/*  .lwip_pool_space (NOLOAD) : {
     . = ABSOLUTE(0x30040000);
     *(.lwip_pool)
     . = ABSOLUTE(0x30047FFF);
-  } >RAM_D2
+  } >RAM_D2*/
 
   .ext_ram (NOLOAD) : {
     *(.ExtRamData)
