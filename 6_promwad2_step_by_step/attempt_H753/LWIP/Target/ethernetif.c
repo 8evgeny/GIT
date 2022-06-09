@@ -317,7 +317,9 @@ void HAL_ETH_MspDeInit(ETH_HandleTypeDef* ethHandle)
   */
 void HAL_ETH_RxCpltCallback(ETH_HandleTypeDef *heth)
 {
+    RS232_write_c("HAL_ETH_RxCpltCallback invoked\r\n", sizeof ("HAL_ETH_RxCpltCallback invoked\r\n"));
   osSemaphoreRelease(RxPktSemaphore);
+
 }
 
 /* USER CODE BEGIN 4 */
@@ -693,6 +695,7 @@ void ethernetif_input(void* argument)
         p = low_level_input( netif );
         if (p != NULL)
         {
+RS232_write_c("---Received packet---\r\n", sizeof ("---Received packet---\r\n"));
           if (netif->input( p, netif) != ERR_OK )
           {
             pbuf_free(p);
