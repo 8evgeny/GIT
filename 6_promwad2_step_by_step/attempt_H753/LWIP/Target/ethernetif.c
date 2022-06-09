@@ -334,6 +334,7 @@ void HAL_ETH_RxCpltCallback(ETH_HandleTypeDef *heth)
  */
 static void low_level_init(struct netif *netif)
 {
+RS232_write_c("\rlow_level_init invoked\r\n", sizeof ("\rlow_level_init invoked\r\n"));
   HAL_StatusTypeDef hal_eth_init_status = HAL_OK;
 /* USER CODE BEGIN OS_THREAD_ATTR_CMSIS_RTOS_V2 */
   osThreadAttr_t attributes;
@@ -363,6 +364,12 @@ static void low_level_init(struct netif *netif)
   /* USER CODE END MACADDRESS */
 
   hal_eth_init_status = HAL_ETH_Init(&heth);
+
+  char msgUart7[50];
+  memset(msgUart7,' ',50);
+  sprintf(msgUart7,"%X%s", (uint8_t)hal_eth_init_status,"\r\n");
+  RS232_write_c("\rhal_eth_init_status = ", sizeof ("\rhal_eth_init_status = "));
+  RS232_write_c(msgUart7, sizeof (msgUart7));
 
   memset(&TxConfig, 0 , sizeof(ETH_TxPacketConfig));
   TxConfig.Attributes = ETH_TX_PACKETS_FEATURES_CSUM | ETH_TX_PACKETS_FEATURES_CRCPAD;
@@ -482,7 +489,6 @@ static void low_level_init(struct netif *netif)
 #endif /* LWIP_ARP || LWIP_ETHERNET */
 
 /* USER CODE BEGIN LOW_LEVEL_INIT */
-  char msgUart7[50];
 
   memset(msgUart7,' ',50);
   DP83848_RegisterBusIO(&DP83848, &DP83848_IOCtx);
