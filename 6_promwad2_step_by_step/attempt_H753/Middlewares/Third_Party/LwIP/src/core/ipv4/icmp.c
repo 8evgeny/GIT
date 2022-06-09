@@ -82,7 +82,7 @@ void
 icmp_input(struct pbuf *p, struct netif *inp)
 {
 
-RS232_write_c("\ricmp_input invoked\r\n", sizeof ("icmp_input invoked\r\n"));
+//RS232_write_c("\ricmp_input invoked\r\n", sizeof ("icmp_input invoked\r\n"));
 
   u8_t type;
 #ifdef LWIP_DEBUG
@@ -313,7 +313,7 @@ void
 icmp_dest_unreach(struct pbuf *p, enum icmp_dur_type t)
 {
 
-RS232_write_c("\ricmp_dest_unreach invoked\r\n", sizeof ("\ricmp_dest_unreach invoked\r\n"));
+//RS232_write_c("\ricmp_dest_unreach invoked\r\n", sizeof ("\ricmp_dest_unreach invoked\r\n"));
 
   MIB2_STATS_INC(mib2.icmpoutdestunreachs);
   icmp_send_response(p, ICMP_DUR, t);
@@ -330,7 +330,7 @@ RS232_write_c("\ricmp_dest_unreach invoked\r\n", sizeof ("\ricmp_dest_unreach in
 void
 icmp_time_exceeded(struct pbuf *p, enum icmp_te_type t)
 {
-RS232_write_c("\ricmp_time_exceeded invoked\r\n", sizeof ("\ricmp_time_exceeded invoked\r\n"));
+//RS232_write_c("\ricmp_time_exceeded invoked\r\n", sizeof ("\ricmp_time_exceeded invoked\r\n"));
 
   MIB2_STATS_INC(mib2.icmpouttimeexcds);
   icmp_send_response(p, ICMP_TE, t);
@@ -349,7 +349,7 @@ RS232_write_c("\ricmp_time_exceeded invoked\r\n", sizeof ("\ricmp_time_exceeded 
 static void
 icmp_send_response(struct pbuf *p, u8_t type, u8_t code)
 {
-RS232_write_c("\ricmp_send_response invoked\r\n", sizeof ("\ricmp_send_response invoked\r\n"));
+//RS232_write_c("\ricmp_send_response invoked\r\n", sizeof ("\ricmp_send_response invoked\r\n"));
 
   struct pbuf *q;
   struct ip_hdr *iphdr;

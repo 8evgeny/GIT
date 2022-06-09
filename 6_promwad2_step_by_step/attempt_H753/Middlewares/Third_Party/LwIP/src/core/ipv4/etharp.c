@@ -170,7 +170,7 @@ static void
 etharp_free_entry(int i)
 {
 
-RS232_write_c("\retharp_free_entry invoke\n\r", sizeof ("\retharp_free_entry invoke\n\r"));
+//RS232_write_c("\retharp_free_entry invoke\n\r", sizeof ("\retharp_free_entry invoke\n\r"));
 
   /* remove from SNMP ARP index tree */
   mib2_remove_arp_entry(arp_table[i].netif, &arp_table[i].ipaddr);
@@ -264,7 +264,7 @@ static s16_t
 etharp_find_entry(const ip4_addr_t *ipaddr, u8_t flags, struct netif *netif)
 {
 
-RS232_write_c("\retharp_find_entry invoke\n\r", sizeof ("\retharp_find_entry invoke\n\r"));
+//RS232_write_c("\retharp_find_entry invoke\n\r", sizeof ("\retharp_find_entry invoke\n\r"));
 
   s16_t old_pending = ARP_TABLE_SIZE, old_stable = ARP_TABLE_SIZE;
   s16_t empty = ARP_TABLE_SIZE;
@@ -433,7 +433,7 @@ static err_t
 etharp_update_arp_entry(struct netif *netif, const ip4_addr_t *ipaddr, struct eth_addr *ethaddr, u8_t flags)
 {
 
-RS232_write_c("\retharp_update_arp_entry invoke\n\r", sizeof ("\retharp_update_arp_entry invoke\n\r"));
+//RS232_write_c("\retharp_update_arp_entry invoke\n\r", sizeof ("\retharp_update_arp_entry invoke\n\r"));
 
   s16_t i;
   LWIP_ASSERT("netif->hwaddr_len == ETH_HWADDR_LEN", netif->hwaddr_len == ETH_HWADDR_LEN);
@@ -573,7 +573,7 @@ void
 etharp_cleanup_netif(struct netif *netif)
 {
 
-RS232_write_c("\retharp_cleanup_netif invoke\n\r", sizeof ("\retharp_cleanup_netif invoke\n\r"));
+//RS232_write_c("\retharp_cleanup_netif invoke\n\r", sizeof ("\retharp_cleanup_netif invoke\n\r"));
 
   int i;
 
@@ -601,7 +601,7 @@ etharp_find_addr(struct netif *netif, const ip4_addr_t *ipaddr,
                  struct eth_addr **eth_ret, const ip4_addr_t **ip_ret)
 {
 
-RS232_write_c("\retharp_find_addr invoke\n\r", sizeof ("\retharp_find_addr invoke\n\r"));
+//RS232_write_c("\retharp_find_addr invoke\n\r", sizeof ("\retharp_find_addr invoke\n\r"));
 
   s16_t i;
 
@@ -632,7 +632,7 @@ int
 etharp_get_entry(size_t i, ip4_addr_t **ipaddr, struct netif **netif, struct eth_addr **eth_ret)
 {
 
-RS232_write_c("\retharp_get_entry invoke\n\r", sizeof ("\retharp_get_entry invoke\n\r"));
+//RS232_write_c("\retharp_get_entry invoke\n\r", sizeof ("\retharp_get_entry invoke\n\r"));
 
   LWIP_ASSERT("ipaddr != NULL", ipaddr != NULL);
   LWIP_ASSERT("netif != NULL", netif != NULL);
@@ -664,7 +664,7 @@ void
 etharp_input(struct pbuf *p, struct netif *netif)
 {
 
-RS232_write_c("\retharp_input invoke\n\r", sizeof ("\retharp_input invoke\n\r"));
+//RS232_write_c("\retharp_input invoke\n\r", sizeof ("\retharp_input invoke\n\r"));
 
   struct etharp_hdr *hdr;
   /* these are aligned properly, whereas the ARP header fields might not be */
@@ -774,7 +774,7 @@ static err_t
 etharp_output_to_arp_index(struct netif *netif, struct pbuf *q, netif_addr_idx_t arp_idx)
 {
 
-RS232_write_c("\retharp_output_to_arp_index invoke\n\r", sizeof ("\retharp_output_to_arp_index invoke\n\r"));
+//RS232_write_c("\retharp_output_to_arp_index invoke\n\r", sizeof ("\retharp_output_to_arp_index invoke\n\r"));
 
   LWIP_ASSERT("arp_table[arp_idx].state >= ETHARP_STATE_STABLE",
               arp_table[arp_idx].state >= ETHARP_STATE_STABLE);
@@ -820,7 +820,7 @@ err_t
 etharp_output(struct netif *netif, struct pbuf *q, const ip4_addr_t *ipaddr)
 {
 
-RS232_write_c("\retharp_output invoke\n\r", sizeof ("\retharp_output invoke\n\r"));
+//RS232_write_c("\retharp_output invoke\n\r", sizeof ("\retharp_output invoke\n\r"));
 
   const struct eth_addr *dest;
   struct eth_addr mcastaddr;
@@ -965,7 +965,7 @@ err_t
 etharp_query(struct netif *netif, const ip4_addr_t *ipaddr, struct pbuf *q)
 {
 
-RS232_write_c("\retharp_query invoke\n\r", sizeof ("\retharp_query invoke\n\r"));
+//RS232_write_c("\retharp_query invoke\n\r", sizeof ("\retharp_query invoke\n\r"));
 
   struct eth_addr *srcaddr = (struct eth_addr *)netif->hwaddr;
   err_t result = ERR_MEM;
@@ -1140,7 +1140,7 @@ etharp_raw(struct netif *netif, const struct eth_addr *ethsrc_addr,
            const u16_t opcode)
 {
 
-RS232_write_c("\retharp_raw invoke\n\r", sizeof ("\retharp_raw invoke\n\r"));
+//RS232_write_c("\retharp_raw invoke\n\r", sizeof ("\retharp_raw invoke\n\r"));
 
   struct pbuf *p;
   err_t result = ERR_OK;
@@ -1219,7 +1219,7 @@ static err_t
 etharp_request_dst(struct netif *netif, const ip4_addr_t *ipaddr, const struct eth_addr *hw_dst_addr)
 {
 
-RS232_write_c("\retharp_request_dst invoke\n\r", sizeof ("\retharp_request_dst invoke\n\r"));
+//RS232_write_c("\retharp_request_dst invoke\n\r", sizeof ("\retharp_request_dst invoke\n\r"));
 
   return etharp_raw(netif, (struct eth_addr *)netif->hwaddr, hw_dst_addr,
                     (struct eth_addr *)netif->hwaddr, netif_ip4_addr(netif), &ethzero,
@@ -1239,7 +1239,7 @@ err_t
 etharp_request(struct netif *netif, const ip4_addr_t *ipaddr)
 {
 
-RS232_write_c("\retharp_request invoke\n\r", sizeof ("\retharp_request invoke\n\r"));
+//RS232_write_c("\retharp_request invoke\n\r", sizeof ("\retharp_request invoke\n\r"));
 
   LWIP_DEBUGF(ETHARP_DEBUG | LWIP_DBG_TRACE, ("etharp_request: sending ARP request.\n"));
   return etharp_request_dst(netif, ipaddr, &ethbroadcast);

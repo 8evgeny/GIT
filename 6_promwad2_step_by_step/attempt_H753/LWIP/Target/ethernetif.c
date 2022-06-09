@@ -181,7 +181,7 @@ void Error_Handler(void);
 
 void HAL_ETH_MspInit(ETH_HandleTypeDef* ethHandle)
 {
-    RS232_write_c("HAL_ETH_MspInit invoked\n\r", sizeof ("HAL_ETH_MspInit invoked\n\r"));
+//    RS232_write_c("HAL_ETH_MspInit invoked\n\r", sizeof ("HAL_ETH_MspInit invoked\n\r"));
 
   GPIO_InitTypeDef GPIO_InitStruct = {0};
   if(ethHandle->Instance==ETH)
@@ -317,7 +317,7 @@ void HAL_ETH_MspDeInit(ETH_HandleTypeDef* ethHandle)
   */
 void HAL_ETH_RxCpltCallback(ETH_HandleTypeDef *heth)
 {
-    RS232_write_c("HAL_ETH_RxCpltCallback invoked\r\n", sizeof ("HAL_ETH_RxCpltCallback invoked\r\n"));
+//    RS232_write_c("HAL_ETH_RxCpltCallback invoked\r\n", sizeof ("HAL_ETH_RxCpltCallback invoked\r\n"));
   osSemaphoreRelease(RxPktSemaphore);
 
 }
