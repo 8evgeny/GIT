@@ -698,6 +698,7 @@ void ethernetif_input(void* argument)
 RS232_write_c("---Received packet---\r\n", sizeof ("---Received packet---\r\n"));
           if (netif->input( p, netif) != ERR_OK )
           {
+RS232_write_c("---Input packet---\r\n", sizeof ("---Input packet---\r\n"));
             pbuf_free(p);
           }
         }
