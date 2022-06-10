@@ -37,7 +37,6 @@
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
-typedef StaticTask_t osStaticThreadDef_t;
 /* USER CODE BEGIN PTD */
 
 /* USER CODE END PTD */
@@ -201,78 +200,24 @@ DMA_HandleTypeDef hdma_uart7_tx;
 
 SRAM_HandleTypeDef hsram1;
 
-/* Definitions for defaultTask */
-osThreadId_t defaultTaskHandle;
+osThreadId defaultTaskHandle;
 uint32_t defaultTaskBuffer[ 256 ];
 osStaticThreadDef_t defaultTaskControlBlock;
-const osThreadAttr_t defaultTask_attributes = {
-  .name = "defaultTask",
-  .cb_mem = &defaultTaskControlBlock,
-  .cb_size = sizeof(defaultTaskControlBlock),
-  .stack_mem = &defaultTaskBuffer[0],
-  .stack_size = sizeof(defaultTaskBuffer),
-  .priority = (osPriority_t) osPriorityNormal,
-};
-/* Definitions for Test_Led_Task */
-osThreadId_t Test_Led_TaskHandle;
+osThreadId Test_Led_TaskHandle;
 uint32_t Test_Led_TaskBuffer[ 256 ];
 osStaticThreadDef_t Test_Led_TaskControlBlock;
-const osThreadAttr_t Test_Led_Task_attributes = {
-  .name = "Test_Led_Task",
-  .cb_mem = &Test_Led_TaskControlBlock,
-  .cb_size = sizeof(Test_Led_TaskControlBlock),
-  .stack_mem = &Test_Led_TaskBuffer[0],
-  .stack_size = sizeof(Test_Led_TaskBuffer),
-  .priority = (osPriority_t) osPriorityLow,
-};
-/* Definitions for LEDS_1_2_3_TEST */
-osThreadId_t LEDS_1_2_3_TESTHandle;
+osThreadId LEDS_1_2_3_TESTHandle;
 uint32_t LEDS_1_2_3_TESTBuffer[ 256 ];
 osStaticThreadDef_t LEDS_1_2_3_TESTControlBlock;
-const osThreadAttr_t LEDS_1_2_3_TEST_attributes = {
-  .name = "LEDS_1_2_3_TEST",
-  .cb_mem = &LEDS_1_2_3_TESTControlBlock,
-  .cb_size = sizeof(LEDS_1_2_3_TESTControlBlock),
-  .stack_mem = &LEDS_1_2_3_TESTBuffer[0],
-  .stack_size = sizeof(LEDS_1_2_3_TESTBuffer),
-  .priority = (osPriority_t) osPriorityLow,
-};
-/* Definitions for LEDS_4_5_6_TEST */
-osThreadId_t LEDS_4_5_6_TESTHandle;
+osThreadId LEDS_4_5_6_TESTHandle;
 uint32_t LEDS_4_5_6_TESTBuffer[ 256 ];
 osStaticThreadDef_t LEDS_4_5_6_TESTControlBlock;
-const osThreadAttr_t LEDS_4_5_6_TEST_attributes = {
-  .name = "LEDS_4_5_6_TEST",
-  .cb_mem = &LEDS_4_5_6_TESTControlBlock,
-  .cb_size = sizeof(LEDS_4_5_6_TESTControlBlock),
-  .stack_mem = &LEDS_4_5_6_TESTBuffer[0],
-  .stack_size = sizeof(LEDS_4_5_6_TESTBuffer),
-  .priority = (osPriority_t) osPriorityLow,
-};
-/* Definitions for KEYS_TEST_TASK */
-osThreadId_t KEYS_TEST_TASKHandle;
+osThreadId KEYS_TEST_TASKHandle;
 uint32_t KEYS_TEST_TASKBuffer[ 256 ];
 osStaticThreadDef_t KEYS_TEST_TASKControlBlock;
-const osThreadAttr_t KEYS_TEST_TASK_attributes = {
-  .name = "KEYS_TEST_TASK",
-  .cb_mem = &KEYS_TEST_TASKControlBlock,
-  .cb_size = sizeof(KEYS_TEST_TASKControlBlock),
-  .stack_mem = &KEYS_TEST_TASKBuffer[0],
-  .stack_size = sizeof(KEYS_TEST_TASKBuffer),
-  .priority = (osPriority_t) osPriorityLow,
-};
-/* Definitions for EEPROM_Tests */
-osThreadId_t EEPROM_TestsHandle;
+osThreadId EEPROM_TestsHandle;
 uint32_t EEPROM_TestsBuffer[ 256 ];
 osStaticThreadDef_t EEPROM_TestsControlBlock;
-const osThreadAttr_t EEPROM_Tests_attributes = {
-  .name = "EEPROM_Tests",
-  .cb_mem = &EEPROM_TestsControlBlock,
-  .cb_size = sizeof(EEPROM_TestsControlBlock),
-  .stack_mem = &EEPROM_TestsBuffer[0],
-  .stack_size = sizeof(EEPROM_TestsBuffer),
-  .priority = (osPriority_t) osPriorityLow,
-};
 /* USER CODE BEGIN PV */
 
 /* USER CODE END PV */
@@ -291,12 +236,12 @@ static void MX_RNG_Init(void);
 static void MX_FMC_Init(void);
 static void MX_I2C2_Init(void);
 static void MX_TIM3_Init(void);
-void StartDefaultTask(void *argument);
-void Test_Led_Task_(void *argument);
-void LEDS_1_2_3_TEST_(void *argument);
-void LEDS_4_5_6_TEST_(void *argument);
-void KEYS_TEST_TASK_(void *argument);
-void EEPROM_Tests_(void *argument);
+void StartDefaultTask(void const * argument);
+void Test_Led_Task_(void const * argument);
+void LEDS_1_2_3_TEST_(void const * argument);
+void LEDS_4_5_6_TEST_(void const * argument);
+void KEYS_TEST_TASK_(void const * argument);
+void EEPROM_Tests_(void const * argument);
 
 /* USER CODE BEGIN PFP */
 
@@ -362,9 +307,6 @@ int main(void)
 
   /* USER CODE END 2 */
 
-  /* Init scheduler */
-  osKernelInitialize();
-
   /* USER CODE BEGIN RTOS_MUTEX */
   /* add mutexes, ... */
   /* USER CODE END RTOS_MUTEX */
@@ -382,32 +324,34 @@ int main(void)
   /* USER CODE END RTOS_QUEUES */
 
   /* Create the thread(s) */
-  /* creation of defaultTask */
-  defaultTaskHandle = osThreadNew(StartDefaultTask, NULL, &defaultTask_attributes);
+  /* definition and creation of defaultTask */
+  osThreadStaticDef(defaultTask, StartDefaultTask, osPriorityNormal, 0, 256, defaultTaskBuffer, &defaultTaskControlBlock);
+  defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
 
-  /* creation of Test_Led_Task */
-  Test_Led_TaskHandle = osThreadNew(Test_Led_Task_, NULL, &Test_Led_Task_attributes);
+  /* definition and creation of Test_Led_Task */
+  osThreadStaticDef(Test_Led_Task, Test_Led_Task_, osPriorityLow, 0, 256, Test_Led_TaskBuffer, &Test_Led_TaskControlBlock);
+  Test_Led_TaskHandle = osThreadCreate(osThread(Test_Led_Task), NULL);
 
-  /* creation of LEDS_1_2_3_TEST */
-  LEDS_1_2_3_TESTHandle = osThreadNew(LEDS_1_2_3_TEST_, NULL, &LEDS_1_2_3_TEST_attributes);
+  /* definition and creation of LEDS_1_2_3_TEST */
+  osThreadStaticDef(LEDS_1_2_3_TEST, LEDS_1_2_3_TEST_, osPriorityLow, 0, 256, LEDS_1_2_3_TESTBuffer, &LEDS_1_2_3_TESTControlBlock);
+  LEDS_1_2_3_TESTHandle = osThreadCreate(osThread(LEDS_1_2_3_TEST), NULL);
 
-  /* creation of LEDS_4_5_6_TEST */
-  LEDS_4_5_6_TESTHandle = osThreadNew(LEDS_4_5_6_TEST_, NULL, &LEDS_4_5_6_TEST_attributes);
+  /* definition and creation of LEDS_4_5_6_TEST */
+  osThreadStaticDef(LEDS_4_5_6_TEST, LEDS_4_5_6_TEST_, osPriorityLow, 0, 256, LEDS_4_5_6_TESTBuffer, &LEDS_4_5_6_TESTControlBlock);
+  LEDS_4_5_6_TESTHandle = osThreadCreate(osThread(LEDS_4_5_6_TEST), NULL);
 
-  /* creation of KEYS_TEST_TASK */
-  KEYS_TEST_TASKHandle = osThreadNew(KEYS_TEST_TASK_, NULL, &KEYS_TEST_TASK_attributes);
+  /* definition and creation of KEYS_TEST_TASK */
+  osThreadStaticDef(KEYS_TEST_TASK, KEYS_TEST_TASK_, osPriorityLow, 0, 256, KEYS_TEST_TASKBuffer, &KEYS_TEST_TASKControlBlock);
+  KEYS_TEST_TASKHandle = osThreadCreate(osThread(KEYS_TEST_TASK), NULL);
 
-  /* creation of EEPROM_Tests */
-  EEPROM_TestsHandle = osThreadNew(EEPROM_Tests_, NULL, &EEPROM_Tests_attributes);
+  /* definition and creation of EEPROM_Tests */
+  osThreadStaticDef(EEPROM_Tests, EEPROM_Tests_, osPriorityLow, 0, 256, EEPROM_TestsBuffer, &EEPROM_TestsControlBlock);
+  EEPROM_TestsHandle = osThreadCreate(osThread(EEPROM_Tests), NULL);
 
   /* USER CODE BEGIN RTOS_THREADS */
 
   /* add threads, ... */
   /* USER CODE END RTOS_THREADS */
-
-  /* USER CODE BEGIN RTOS_EVENTS */
-  /* add events, ... */
-  /* USER CODE END RTOS_EVENTS */
 
   /* Start scheduler */
   osKernelStart();
@@ -1029,7 +973,7 @@ static void MX_GPIO_Init(void)
   * @retval None
   */
 /* USER CODE END Header_StartDefaultTask */
-void StartDefaultTask(void *argument)
+void StartDefaultTask(void const * argument)
 {
   /* init code for LWIP */
   MX_LWIP_Init();
@@ -1087,7 +1031,7 @@ void StartDefaultTask(void *argument)
 * @retval None
 */
 /* USER CODE END Header_Test_Led_Task_ */
-void Test_Led_Task_(void *argument)
+void Test_Led_Task_(void const * argument)
 {
   /* USER CODE BEGIN Test_Led_Task_ */
 
@@ -1139,7 +1083,7 @@ void Test_Led_Task_(void *argument)
 * @retval None
 */
 /* USER CODE END Header_LEDS_1_2_3_TEST_ */
-void LEDS_1_2_3_TEST_(void *argument)
+void LEDS_1_2_3_TEST_(void const * argument)
 {
   /* USER CODE BEGIN LEDS_1_2_3_TEST_ */
   (void)argument;
@@ -1191,7 +1135,7 @@ void LEDS_1_2_3_TEST_(void *argument)
 * @retval None
 */
 /* USER CODE END Header_LEDS_4_5_6_TEST_ */
-void LEDS_4_5_6_TEST_(void *argument)
+void LEDS_4_5_6_TEST_(void const * argument)
 {
   /* USER CODE BEGIN LEDS_4_5_6_TEST_ */
 
@@ -1244,7 +1188,7 @@ void LEDS_4_5_6_TEST_(void *argument)
 * @retval None
 */
 /* USER CODE END Header_KEYS_TEST_TASK_ */
-void KEYS_TEST_TASK_(void *argument)
+void KEYS_TEST_TASK_(void const * argument)
 {
   /* USER CODE BEGIN KEYS_TEST_TASK_ */
     (void)argument;
@@ -1267,7 +1211,7 @@ void KEYS_TEST_TASK_(void *argument)
 * @retval None
 */
 /* USER CODE END Header_EEPROM_Tests_ */
-void EEPROM_Tests_(void *argument)
+void EEPROM_Tests_(void const * argument)
 {
   /* USER CODE BEGIN EEPROM_Tests_ */
     (void)argument;
