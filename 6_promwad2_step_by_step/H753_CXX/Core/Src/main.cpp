@@ -1128,8 +1128,6 @@ void EEPROM_Tests_(void const * argument)
     (void)argument;
     osDelay (50);
 
-
-
     char msgUart7[] = "\r------- StartEEPROM_Tests_TASK ----\n\r";
 //    HAL_UART_Transmit_IT (&huart7,(uint8_t*)msgUart7, sizeof (msgUart7));
     RS232_write_c(msgUart7, sizeof (msgUart7));
