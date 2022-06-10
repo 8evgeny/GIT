@@ -8,6 +8,9 @@
 //#include "stm32746g_discovery.h"
 #include "stm32h7xx_hal.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define EEPROM_I2C_ADDRESS                    0xA0
 
@@ -52,5 +55,8 @@ extern HAL_StatusTypeDef   EEPROM_IO_WriteData(uint16_t DevAddress, uint16_t Mem
 extern HAL_StatusTypeDef   EEPROM_IO_ReadData(uint16_t DevAddress, uint16_t MemAddress, uint8_t *pBuffer, uint32_t BufferSize);
 extern HAL_StatusTypeDef   EEPROM_IO_IsDeviceReady(uint16_t DevAddress, uint32_t Trials);
 
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __EEPROM_H */

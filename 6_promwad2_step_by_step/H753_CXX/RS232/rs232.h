@@ -2,6 +2,7 @@
 #define RS232_H
 
 #include <stdint.h>
+#include <stdbool.h>
 #include "stm32h7xx_hal.h"
 #include "stm32h7xx_hal_uart.h"
 #include "stm32h7xx_hal_dma.h"
@@ -14,7 +15,9 @@
 //#include "sram.h"
 //#include "json.h"
 
-
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 
 struct RS232;
@@ -35,7 +38,7 @@ struct RS232
 
     volatile FlagStatus uartReadReady ; /*! Status flag about reading data from UART */
     volatile FlagStatus uartWriteReady ; /*! Status flag about writing data to UART */
-    volatile _Bool uartErrorCallback ; /*! Status flag about error UART */
+    volatile bool uartErrorCallback ; /*! Status flag about error UART */
     osThreadId readFromUartThreadId, terminateThreadsId;
 
 //    void test();
@@ -53,6 +56,8 @@ void readFromUartThread(void const *arg);
 
 void RS232Init(void);
 
-
+#ifdef __cplusplus
+}
+#endif
 
 #endif // RS232_H

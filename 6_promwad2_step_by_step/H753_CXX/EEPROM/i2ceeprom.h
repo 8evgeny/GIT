@@ -9,6 +9,9 @@
 #include <stdint.h>
 #include "stm32h7xx_hal.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /*!
  \brief Implementation: ensures that only one instance of the singleton class ever exists
@@ -41,5 +44,8 @@ HAL_StatusTypeDef EEPROM_IO_ReadData(uint16_t DevAddress, uint16_t MemAddress, u
 
 HAL_StatusTypeDef EEPROM_IO_IsDeviceReady(uint16_t DevAddress, uint32_t Trials);
 
+#ifdef __cplusplus
+}
+#endif
 
 #endif // I2CEEPROM_H

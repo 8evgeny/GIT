@@ -4,6 +4,10 @@
 #include <stdint.h>
 #include "lfs.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 typedef struct FsForEeprom
 {
 
@@ -18,5 +22,8 @@ uint32_t Fs_read(uint8_t *pBuffer, uint16_t readAddr, uint16_t *numByteToRead);
 uint32_t Fs_write(uint8_t *pBuffer, uint16_t writeAddr, uint16_t numByteToWrite);
 void FS_test();
 
+#ifdef __cplusplus
+}
+#endif
 
 #endif // FSFOREEPROM_H

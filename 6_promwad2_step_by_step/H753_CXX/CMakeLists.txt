@@ -2,11 +2,11 @@ cmake_minimum_required(VERSION 3.15)
 set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
 
 # Set ARM compiler
-#set(TOOLS_PATH /home/evg/toolchain/gcc-arm-none-eabi-new)
+set(TOOLS_PATH /home/evg/toolchain/gcc-arm-none-eabi-new)
 #set(CMAKE_C_COMPILER ${TOOLS_PATH}/bin/arm-none-eabi-gcc)
 #set(CMAKE_CXX_COMPILER ${TOOLS_PATH}/bin/arm-none-eabi-g++)
-#set(CMAKE_CXX_LINKER_LAUNCHER ${TOOLS_PATH}/bin/arm-none-eabi-g++)
-#set(CMAKE_OBJCOPY ${TOOLS_PATH}/bin/arm-none-eabi-objcopy)
+set(CMAKE_CXX_LINKER_LAUNCHER ${TOOLS_PATH}/bin/arm-none-eabi-g++)
+set(CMAKE_OBJCOPY ${TOOLS_PATH}/bin/arm-none-eabi-objcopy)
 
 project(PW_new_CPP C CXX ASM)
 
@@ -60,6 +60,7 @@ include_directories(
     RS232
     )
 file (GLOB SOURCES_C Core/Src/*.c STM32H753IITX_FLASH.ld Core/Startup/startup_stm32h753iitx.s)
+file (GLOB SOURCES_CPP Core/Src/*.cpp )
 
 file (GLOB 83848_SOURCES  Drivers/BSP/Components/dp83848/dp83848.c )
 add_library(LIB_83848 ${83848_SOURCES} )
@@ -89,13 +90,13 @@ file (GLOB FreeRTOS_SRC
     )
 add_library(FreeRTOS ${FreeRTOS_SRC})
 
-file (GLOB EEPROM_SOURCES EEPROM/*.c  Middlewares/Third_Party/littlefs/*.c)
+file (GLOB EEPROM_SOURCES EEPROM/*.c  EEPROM/*.cpp Middlewares/Third_Party/littlefs/*.c)
 add_library(EEPROM ${EEPROM_SOURCES} )
 
-file (GLOB RS232_SOURCES RS232/*.c)
+file (GLOB RS232_SOURCES RS232/*.c RS232/*.cpp)
 add_library(RS232 ${RS232_SOURCES} )
 
-add_executable(${PROJECT_NAME}.elf ${SOURCES_C} )
+add_executable(${PROJECT_NAME}.elf ${SOURCES_C} ${SOURCES_CPP})
 
 target_link_libraries(${PROJECT_NAME}.elf PUBLIC
     LIB_83848
@@ -124,6 +125,32 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}\
     -mthumb \
     -Xlinker -Map=${PROJECT_NAME}.map \
     ")
+
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}\
+    -Wl,--start-group \
+    -Wl,--gc-sections \
+    -mcpu=cortex-m7 \
+    -DUSE_HAL_DRIVER \
+    -DSTM32H753xx \
+    -Os \
+    -std=c++17 \
+    -ffunction-sections \
+    -fdata-sections \
+    -Wall \
+    -mno-unaligned-access \
+    -fstack-usage \
+    -MMD \
+    -MP \
+    -mfpu=fpv5-d16 \
+    -mfloat-abi=hard \
+    -mthumb \
+    -Xlinker \
+    -Map=${PROJECT_NAME}.map \
+    -u_printf_float \
+    -fno-exceptions \
+    -Wl,--end-group \
+    ")
+
 
 set(LINKER_SCRIPT_FLASH "${CMAKE_SOURCE_DIR}/STM32H753IITX_FLASH.ld")
 set(LINKER_FLAGS "SHELL: \
