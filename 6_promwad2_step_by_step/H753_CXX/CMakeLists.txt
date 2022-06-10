@@ -98,7 +98,7 @@ add_library(EEPROM ${EEPROM_SOURCES} )
 file (GLOB RS232_SOURCES RS232/*.c RS232/*.cpp)
 add_library(RS232 ${RS232_SOURCES} )
 
-file (GLOB CircularBuffer_src Middlewares/Third_Party/CircularBuffer/CircularBuffer.tpp )
+file (GLOB CircularBuffer_src Middlewares/Third_Party/CircularBuffer/CircularBuffer.tpp Middlewares/Third_Party/CircularBuffer/CircularBuffer.h)
 add_library(CircularBuffer ${CircularBuffer_src} )
 set_target_properties(CircularBuffer PROPERTIES LINKER_LANGUAGE CXX)
 

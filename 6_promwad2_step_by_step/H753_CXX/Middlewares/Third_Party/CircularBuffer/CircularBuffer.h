@@ -107,7 +107,7 @@ public:
 	/**
 	 * Returns how many elements can be safely pushed into the buffer.
 	 */
-	IT inline available() const;
+    IT inline available() const;
 
 	/**
 	 * Returns `true` if no elements can be removed from the buffer.
