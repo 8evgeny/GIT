@@ -473,7 +473,7 @@ static void low_level_init(struct netif *netif)
 #endif /* LWIP_ARP || LWIP_ETHERNET */
 
 /* USER CODE BEGIN LOW_LEVEL_INIT */
-
+  char msgUart7[50];
   memset(msgUart7,' ',50);
   DP83848_RegisterBusIO(&DP83848, &DP83848_IOCtx);
   int32_t sss = DP83848_Init(&DP83848);
