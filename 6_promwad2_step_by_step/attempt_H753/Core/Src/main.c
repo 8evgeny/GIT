@@ -201,23 +201,11 @@ DMA_HandleTypeDef hdma_uart7_tx;
 SRAM_HandleTypeDef hsram1;
 
 osThreadId defaultTaskHandle;
-uint32_t defaultTaskBuffer[ 256 ];
-osStaticThreadDef_t defaultTaskControlBlock;
 osThreadId Test_Led_TaskHandle;
-uint32_t Test_Led_TaskBuffer[ 256 ];
-osStaticThreadDef_t Test_Led_TaskControlBlock;
 osThreadId LEDS_1_2_3_TESTHandle;
-uint32_t LEDS_1_2_3_TESTBuffer[ 256 ];
-osStaticThreadDef_t LEDS_1_2_3_TESTControlBlock;
 osThreadId LEDS_4_5_6_TESTHandle;
-uint32_t LEDS_4_5_6_TESTBuffer[ 256 ];
-osStaticThreadDef_t LEDS_4_5_6_TESTControlBlock;
 osThreadId KEYS_TEST_TASKHandle;
-uint32_t KEYS_TEST_TASKBuffer[ 256 ];
-osStaticThreadDef_t KEYS_TEST_TASKControlBlock;
 osThreadId EEPROM_TestsHandle;
-uint32_t EEPROM_TestsBuffer[ 256 ];
-osStaticThreadDef_t EEPROM_TestsControlBlock;
 /* USER CODE BEGIN PV */
 
 /* USER CODE END PV */
@@ -325,27 +313,27 @@ int main(void)
 
   /* Create the thread(s) */
   /* definition and creation of defaultTask */
-  osThreadStaticDef(defaultTask, StartDefaultTask, osPriorityNormal, 0, 256, defaultTaskBuffer, &defaultTaskControlBlock);
+  osThreadDef(defaultTask, StartDefaultTask, osPriorityNormal, 0, 256);
   defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
 
   /* definition and creation of Test_Led_Task */
-  osThreadStaticDef(Test_Led_Task, Test_Led_Task_, osPriorityLow, 0, 256, Test_Led_TaskBuffer, &Test_Led_TaskControlBlock);
+  osThreadDef(Test_Led_Task, Test_Led_Task_, osPriorityLow, 0, 256);
   Test_Led_TaskHandle = osThreadCreate(osThread(Test_Led_Task), NULL);
 
   /* definition and creation of LEDS_1_2_3_TEST */
-  osThreadStaticDef(LEDS_1_2_3_TEST, LEDS_1_2_3_TEST_, osPriorityLow, 0, 256, LEDS_1_2_3_TESTBuffer, &LEDS_1_2_3_TESTControlBlock);
+  osThreadDef(LEDS_1_2_3_TEST, LEDS_1_2_3_TEST_, osPriorityLow, 0, 256);
   LEDS_1_2_3_TESTHandle = osThreadCreate(osThread(LEDS_1_2_3_TEST), NULL);
 
   /* definition and creation of LEDS_4_5_6_TEST */
-  osThreadStaticDef(LEDS_4_5_6_TEST, LEDS_4_5_6_TEST_, osPriorityLow, 0, 256, LEDS_4_5_6_TESTBuffer, &LEDS_4_5_6_TESTControlBlock);
+  osThreadDef(LEDS_4_5_6_TEST, LEDS_4_5_6_TEST_, osPriorityLow, 0, 256);
   LEDS_4_5_6_TESTHandle = osThreadCreate(osThread(LEDS_4_5_6_TEST), NULL);
 
   /* definition and creation of KEYS_TEST_TASK */
-  osThreadStaticDef(KEYS_TEST_TASK, KEYS_TEST_TASK_, osPriorityLow, 0, 256, KEYS_TEST_TASKBuffer, &KEYS_TEST_TASKControlBlock);
+  osThreadDef(KEYS_TEST_TASK, KEYS_TEST_TASK_, osPriorityLow, 0, 256);
   KEYS_TEST_TASKHandle = osThreadCreate(osThread(KEYS_TEST_TASK), NULL);
 
   /* definition and creation of EEPROM_Tests */
-  osThreadStaticDef(EEPROM_Tests, EEPROM_Tests_, osPriorityLow, 0, 256, EEPROM_TestsBuffer, &EEPROM_TestsControlBlock);
+  osThreadDef(EEPROM_Tests, EEPROM_Tests_, osPriorityLow, 0, 256);
   EEPROM_TestsHandle = osThreadCreate(osThread(EEPROM_Tests), NULL);
 
   /* USER CODE BEGIN RTOS_THREADS */
