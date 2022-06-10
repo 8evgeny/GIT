@@ -2,14 +2,14 @@ cmake_minimum_required(VERSION 3.15)
 set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
 
 # Set ARM compiler
-#set(TOOLS_PATH /home/evg/toolchain/gcc-arm-none-eabi-new)
+set(TOOLS_PATH /home/evg/toolchain/gcc-arm-none-eabi-new)
 #set(TOOLS_PATH /home/evg/toolchain/gcc-arm-none-eabi-4_9-2014q4)
-#set(CMAKE_C_COMPILER ${TOOLS_PATH}/bin/arm-none-eabi-gcc)
-#set(CMAKE_CXX_COMPILER ${TOOLS_PATH}/bin/arm-none-eabi-g++)
-#set(CMAKE_CXX_LINKER_LAUNCHER ${TOOLS_PATH}/bin/arm-none-eabi-g++)
+set(CMAKE_C_COMPILER ${TOOLS_PATH}/bin/arm-none-eabi-gcc)
+set(CMAKE_CXX_COMPILER ${TOOLS_PATH}/bin/arm-none-eabi-g++)
+set(CMAKE_CXX_LINKER_LAUNCHER ${TOOLS_PATH}/bin/arm-none-eabi-g++)
 #set(CMAKE_OBJCOPY ${TOOLS_PATH}/bin/arm-none-eabi-objcopy)
 
-project(4_promwad2 C CXX ASM)
+project(6_H753_CPP C CXX ASM)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -447,6 +447,7 @@ include_directories(
     Drivers/CMSIS_STM32F7xx/Device/ST/STM32F7xx/Include
     Src/CAN_STM32F7xx
     Drivers/STM32H7xx_HAL_Driver/Inc
+    /usr/include/newlib/c++/9.2.1
 )
 
 
@@ -532,7 +533,7 @@ add_executable(${PROJECT_NAME}.elf
     Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM7/r0p1/port.c
 #    Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_i2c.c
     ${HAL_SRC}
-#    LWIP/Target/ethernetif.c
+    Src/LWIP/Target/ethernetif.c
     )
 
 #add_definitions(-DSTM32F753xx)
