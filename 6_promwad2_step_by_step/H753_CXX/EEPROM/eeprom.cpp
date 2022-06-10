@@ -5,10 +5,6 @@ __IO uint32_t  EEPROMTimeout = EEPROM_READ_TIMEOUT;
 __IO uint16_t  EEPROMDataRead;
 __IO uint8_t   EEPROMDataWrite;
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 static uint32_t EEPROM_WritePage(uint8_t *pBuffer, uint16_t WriteAddr, uint8_t *NumByteToWrite);
 static uint32_t EEPROM_WaitEepromStandbyState(void);
 
@@ -268,10 +264,6 @@ static uint32_t EEPROM_WaitEepromStandbyState(void)
     }
     return EEPROM_OK;
 }
-
-#ifdef __cplusplus
-}
-#endif
 
 /**
   * @brief  Basic management of the timeout situation.

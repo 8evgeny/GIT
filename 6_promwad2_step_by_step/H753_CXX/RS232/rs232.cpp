@@ -14,10 +14,6 @@ extern UART_HandleTypeDef huart7;
 //static unsigned char readByte();
 //static void writeByte(unsigned char byte);
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 struct RS232 rs232;
 
 HAL_StatusTypeDef RS232_write_u(uint8_t *buf, uint16_t size)
@@ -270,6 +266,3 @@ static int32_t counterFrames = 0;
 //    }
 //}
 
-#ifdef __cplusplus
-}
-#endif

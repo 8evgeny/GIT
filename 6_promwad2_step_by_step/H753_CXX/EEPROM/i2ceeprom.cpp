@@ -10,11 +10,6 @@ uint32_t timeOutMax = 300;
 FlagStatus i2cReadReady = RESET ;
 FlagStatus i2cWriteReady = RESET ;
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-
 void simpleEEPROM_test()
 {
     const char wmsg[] = "Some data";
@@ -168,6 +163,3 @@ void I2C1_ER_IRQHandler(void)
     HAL_I2C_ER_IRQHandler(&hi2c1);
 }
 
-#ifdef __cplusplus
-}
-#endif

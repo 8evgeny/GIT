@@ -20,10 +20,6 @@ uint8_t lfs_file_buf[256];
 // configuration of the filesystem is provided by this struct
 struct lfs_config cfg;
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 int user_provided_block_device_read(const struct lfs_config *c,
                                     lfs_block_t block, lfs_off_t off,
                                     void *buffer, lfs_size_t size)
@@ -158,6 +154,3 @@ uint32_t FS_write(uint8_t *pBuffer, uint16_t writeAddr, uint16_t numByteToWrite)
     return BSP_EEPROM_WriteBuffer(pBuffer, writeAddr, numByteToWrite);
 }
 
-#ifdef __cplusplus
-}
-#endif
