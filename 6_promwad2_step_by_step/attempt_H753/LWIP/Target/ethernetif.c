@@ -331,9 +331,6 @@ void HAL_ETH_RxCpltCallback(ETH_HandleTypeDef *heth)
 static void low_level_init(struct netif *netif)
 {
   HAL_StatusTypeDef hal_eth_init_status = HAL_OK;
-/* USER CODE BEGIN OS_THREAD_ATTR_CMSIS_RTOS_V2 */
-
-/* USER CODE END OS_THREAD_ATTR_CMSIS_RTOS_V2 */
   uint32_t idx = 0;
   ETH_MACConfigTypeDef MACConf;
   int32_t PHYLinkState;
@@ -359,12 +356,6 @@ static void low_level_init(struct netif *netif)
   /* USER CODE END MACADDRESS */
 
   hal_eth_init_status = HAL_ETH_Init(&heth);
-
-  char msgUart7[50];
-  memset(msgUart7,' ',50);
-  sprintf(msgUart7,"%X%s", (uint8_t)hal_eth_init_status,"\r\n");
-  RS232_write_c("\rhal_eth_init_status = ", sizeof ("\rhal_eth_init_status = "));
-  RS232_write_c(msgUart7, sizeof (msgUart7));
 
   memset(&TxConfig, 0 , sizeof(ETH_TxPacketConfig));
   TxConfig.Attributes = ETH_TX_PACKETS_FEATURES_CSUM | ETH_TX_PACKETS_FEATURES_CRCPAD;
@@ -684,10 +675,8 @@ void ethernetif_input(void const * argument)
         p = low_level_input( netif );
         if (p != NULL)
         {
-//RS232_write_c("---Received packet---\r\n", sizeof ("---Received packet---\r\n"));
           if (netif->input( p, netif) != ERR_OK )
           {
-//RS232_write_c("---Input packet---\r\n", sizeof ("---Input packet---\r\n"));
             pbuf_free(p);
           }
         }
