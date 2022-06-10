@@ -10,6 +10,10 @@ set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
 
 project(PW_new_CPP C CXX ASM)
 
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+
 add_definitions(-DSTM32H753xx)
 add_definitions(-DDATA_IN_D2_SRAM)
 add_definitions(-DUSE_HAL_DRIVER)
@@ -93,7 +97,14 @@ add_library(RS232 ${RS232_SOURCES} )
 
 add_executable(${PROJECT_NAME}.elf ${SOURCES_C} )
 
-set_target_properties(${PROJECT_NAME}.elf PROPERTIES LINKER_LANGUAGE C)
+target_link_libraries(${PROJECT_NAME}.elf PUBLIC
+    LIB_83848
+    STM32H7xx_HAL_Driver
+    LWIP
+    FreeRTOS
+    EEPROM
+    RS232
+    )
 
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}\
     -mcpu=cortex-m7 \
@@ -132,15 +143,7 @@ set(LINKER_FLAGS "SHELL: \
     ")
 
 target_link_options(${PROJECT_NAME}.elf PRIVATE ${LINKER_FLAGS})
-
-target_link_libraries(${PROJECT_NAME}.elf PUBLIC
-    LIB_83848
-    STM32H7xx_HAL_Driver
-    LWIP
-    FreeRTOS
-    EEPROM
-    RS232
-    )
+set_target_properties(${PROJECT_NAME}.elf PROPERTIES LINKER_LANGUAGE CXX)
 
 set(HEX_FILE ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.hex)
 set(BIN_FILE ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.bin)
