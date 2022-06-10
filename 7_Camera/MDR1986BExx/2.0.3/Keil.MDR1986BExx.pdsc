@@ -1,0 +1,1350 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package schemaVersion="1.2" xmlns:xs="http://www.w3.org/2001/XMLSchema-instance" xs:noNamespaceSchemaLocation="PACK.xsd">
+    <vendor>Keil</vendor>
+    <url>https://ic.milandr.ru/soft/</url>
+    <supportContact>https://support.milandr.ru/</supportContact>
+    <name>MDR1986BExx</name>
+    <description>Milandr MDR1986BExx Series Device Support, Drivers and Examples</description>
+    <license>License.txt</license>
+
+
+    <releases>
+        <release version="1.0.0" date="2018-05-01">
+Initial version
+        </release>
+        <release version="1.5.3" date="2019-08-07">
+1986BE4 support enhanced, 1901VC1 support added.
+        </release>
+        <release version="2.0" date="2021-08-06">
+Pack reorganization, library files update, v6 compiler support, MCU 1986VE94 support.
+        </release>
+        <release version="2.0.1" date="2021-08-25">
+SPL libraries update.
+Access to the DATAI register of the CRC block in the SVD file for MCU 1986BE4 is replaced with write-only
+        </release>
+        <release version="2.0.2" date="2021-09-06">
+Fix of critical error that does not allow using libraries for MCU 1901VC1.
+        </release>
+        <release version="2.0.3" date="2021-09-24">
+Removed the need for CMSIS-Pack version 1.4.0 and higher - now pack can be installed for Keil MDK 4.11.
+Fix 1986BE4 header file error when using CPP. Note: officialy there is no support for CPP, only for C.
+Improved USE_ASSERT_INFO support.
+        </release>
+    </releases>
+
+
+    <keywords>
+        <!-- keywords for indexing -->
+        <keyword>Milandr</keyword>
+        <keyword>MDR</keyword>
+        <keyword>MDR1986</keyword>
+        <keyword>MDR1901</keyword>
+    </keywords>
+
+
+    <taxonomy>
+        <description Cclass="Device">Startup, System Setup</description>
+        <description Cclass="Drivers">Drivers for work with microcontroller peripherals</description>
+    </taxonomy>
+
+
+    <devices>
+        <family Dfamily="Milandr" Dvendor="Milandr:99">
+        <!-- MDR1986BE9x -->
+            <subFamily DsubFamily="Cortex-M3">
+                <!-- MDR1986BE91 -->
+                <device Dname="MDR1986BE91">
+                    <processor  Dcore="Cortex-M3" DcoreVersion="r2p0" Dfpu="NO_FPU" Dmpu="MPU" Dendian="Little-endian" Dclock="80000000"/>
+                    <debug      svd="IDE\Keil\SVD\MDR32Fx\MDR1986VE91.svd"/>
+                    <memory     id="IROM1"                            start="0x08000000" size="0x20000" startup="1" default="1"/>
+                    <memory     id="IRAM1"                            start="0x20000000" size="0x8000"  init   ="0" default="1"/>
+                    <algorithm  name="Flash\MDR1986VE9x\1986BE9x.FLM" start="0x08000000" size="0x20000" RAMstart="0x20000000" RAMsize="0x8000" default="1"/>
+                    <description>
+(1986BE91 RUS)
+Core:
+- 32-bit ARM Cortex-M3 processor, running at frequencies of up to 80 MHz
+- 1.25 DMIPS/MHz (Dhrystone 2.1) performance at 0 wait state memory access
+- memory Protection Unit (MPU)
+- 24-bit SysTick Timer
+
+Memory:
+- 128 KBytes of Flash memory (ISP and IAP)
+- 32 KBytes of SRAM
+- external system bus controller (support of SRAM, ROM and NAND Flash)
+
+Supply and Clock rate:
+- internal regulator for core voltage supply
+- built-in power control system
+- internal battery domain
+- internal 8 MHz RC clock generator with calibration
+- internal 40 kHz RC clockgenerator with calibration
+- external oscillator 2 .. 16 MHz
+- external oscillator 32 KHz
+- on-board PLL for clock frequency
+- dedicated PLL for USB clock frequency
+
+Low power consumption modes:
+- Sleep, Stop and Standby
+- battery domain with RTC and backup registers
+
+Analog features:
+- 2 * 12-bit ADC (16 channels)
+- conversion range: 0 to 3.6 V
+- temperature sensor
+- 2 * 12-bit DAC
+- internal comparator
+
+Peripheral features:
+- DMA controller (32 channel)
+- USB 2.0 full-speed OTG controller (Device and Host)
+- 3 Synch. 16-bit Timers (Input Capture, Output Compare, PWM)
+- 2 * CAN interface (2.0B)
+- 2 * UART
+- 2 * SPI
+- 1 * I2C
+- 96 GPIO pins
+
+Debug mode:
+- 2 * JTAG and SWD
+                    </description>
+                </device>
+                
+                <!-- MDR1986BE92 -->
+                <device Dname="MDR1986BE92">
+                    <processor  Dcore="Cortex-M3" DcoreVersion="r2p0" Dfpu="NO_FPU" Dmpu="MPU" Dendian="Little-endian" Dclock="80000000"/>
+                    <debug      svd="IDE\Keil\SVD\MDR32Fx\MDR1986VE92.svd"/>
+                    <memory     id="IROM1"                            start="0x08000000" size="0x20000" startup="1" default="1"/>
+                    <memory     id="IRAM1"                            start="0x20000000" size="0x8000"  init   ="0" default="1"/>
+                    <algorithm  name="Flash\MDR1986VE9x\1986BE9x.FLM" start="0x08000000" size="0x20000" RAMstart="0x20000000" RAMsize="0x8000" default="1"/>
+                    <description>
+(1986BE92 RUS)
+Core:
+ - 32-bit ARM Cortex-M3 processor, running at frequencies of up to 80 MHz
+ - 1.25 DMIPS/MHz (Dhrystone 2.1) performance at 0 wait state memory access
+ - memory Protection Unit (MPU)
+ - 24-bit SysTick Timer
+
+Memory:
+ - 128 KBytes of Flash memory (ISP and IAP)
+ - 32 KBytes of SRAM
+ - external system bus controller (support of SRAM, ROM and NAND Flash)
+
+Supply and Clock rate:
+ - internal regulator for core voltage supply
+ - built-in power control system
+ - internal battery domain
+ - internal 8 MHz RC clock generator with calibration
+ - internal 40 kHz RC clockgenerator with calibration
+ - external oscillator 2 .. 16 MHz
+ - external oscillator 32 KHz
+ - on-board PLL for clock frequency
+ - dedicated PLL for USB clock frequency
+
+Low power consumption modes:
+ - Sleep, Stop and Standby
+ - battery domain with RTC and backup registers
+
+Analog features:
+ - 2 * 12-bit ADC (8 channels)
+ - conversion range: 0 to 3.6 V
+ - temperature sensor
+ - 12-bit DAC
+ - internal comparator
+
+Peripheral features:
+ - DMA controller (32 channel)
+ - USB 2.0 full-speed OTG controller (Device and Host)
+ - 3 Synch. 16-bit Timers (Input Capture, Output Compare, PWM)
+ - 2 * CAN interface (2.0B)
+ - 2 * UART
+ - 2 * SPI
+ - 1 * I2C
+ - 43 GPIO pins
+
+Debug mode:
+ - 2 * JTAG and SWD
+                    </description>
+                </device>
+                
+                <!-- MDR1986BE93 -->
+                <device Dname="MDR1986BE93">
+                    <processor Dcore="Cortex-M3" DcoreVersion="r2p0" Dfpu="NO_FPU" Dmpu="MPU" Dendian="Little-endian" Dclock="80000000"/>
+                    <debug      svd="IDE\Keil\SVD\MDR32Fx\MDR1986VE93.svd"/>
+                    <memory     id="IROM1"                            start="0x08000000" size="0x20000" startup="1" default="1"/>
+                    <memory     id="IRAM1"                            start="0x20000000" size="0x8000"  init   ="0" default="1"/>
+                    <algorithm  name="Flash\MDR1986VE9x\1986BE9x.FLM" start="0x08000000" size="0x20000" RAMstart="0x20000000" RAMsize="0x8000" default="1"/>
+                    <description>
+(1986BE93 RUS)
+Core:
+ - 32-bit ARM Cortex-M3 processor, running at frequencies of up to 80 MHz
+ - 1.25 DMIPS/MHz (Dhrystone 2.1) performance at 0 wait state memory access
+ - memory Protection Unit (MPU)
+ - 24-bit SysTick Timer
+
+Memory:
+ - 128 KBytes of Flash memory (ISP and IAP)
+ - 32 KBytes of SRAM
+
+Supply and Clock rate:
+ - internal regulator for core voltage supply
+ - built-in power control system
+ - internal battery domain
+ - internal 8 MHz RC clock generator with calibration
+ - internal 40 kHz RC clockgenerator with calibration
+ - external oscillator 2 .. 16 MHz
+ - external oscillator 32 KHz
+ - on-board PLL for clock frequency
+ - dedicated PLL for USB clock frequency
+
+Low power consumption modes:
+ - Sleep, Stop and Standby
+ - battery domain with RTC and backup registers
+
+Analog features:
+ - 2 * 12-bit ADC (4 channels)
+ - conversion range: 0 to 3.6 V
+ - temperature sensor
+ - 12-bit DAC
+ - internal comparator
+
+Peripheral features:
+ - DMA controller (32 channel)
+ - USB 2.0 full-speed OTG controller (Device and Host)
+ - 3 Synch. 16-bit Timers (Input Capture, Output Compare, PWM)
+ - 2 * CAN interface (2.0B)
+ - 2 * UART
+ - SPI
+ - 30 GPIO pins
+
+Debug mode:
+ - JTAG and SWD
+                    </description>
+                </device>
+                
+                <!-- MDR1986BE94 -->
+                <device Dname="MDR1986BE94">
+                    <processor  Dcore="Cortex-M3" DcoreVersion="r2p0" Dfpu="NO_FPU" Dmpu="MPU" Dendian="Little-endian" Dclock="80000000"/>
+                    <debug      svd="IDE\Keil\SVD\MDR32Fx\MDR1986VE94.svd"/>
+                    <memory     id="IROM1"                            start="0x08000000" size="0x20000" startup="1" default="1"/>
+                    <memory     id="IRAM1"                            start="0x20000000" size="0x8000"  init   ="0" default="1"/>
+                    <algorithm  name="Flash\MDR1986VE9x\1986BE9x.FLM" start="0x08000000" size="0x20000" RAMstart="0x20000000" RAMsize="0x8000" default="1"/>
+                    <description>
+(1986BE94 RUS)
+Core:
+ - 32-bit ARM Cortex-M3 processor, running at frequencies of up to 80 MHz
+ - 1.25 DMIPS/MHz (Dhrystone 2.1) performance at 0 wait state memory access
+ - memory Protection Unit (MPU)
+ - 24-bit SysTick Timer
+
+Memory:
+ - 128 KBytes of Flash memory (ISP and IAP)
+ - 32 KBytes of SRAM
+ - external system bus controller (support of SRAM, ROM and NAND Flash)
+
+Supply and Clock rate:
+ - internal regulator for core voltage supply
+ - built-in power control system
+ - internal battery domain
+ - internal 8 MHz RC clock generator with calibration
+ - internal 40 kHz RC clockgenerator with calibration
+ - external oscillator 2 .. 16 MHz
+ - external oscillator 32 KHz
+ - on-board PLL for clock frequency
+ - dedicated PLL for USB clock frequency
+
+Low power consumption modes:
+ - Sleep, Stop and Standby
+ - battery domain with RTC and backup registers
+
+Analog features:
+ - 2 * 12-bit ADC (16 channels)
+ - conversion range: 0 to 3.6 V
+ - temperature sensor
+ - 2 * 12-bit DAC
+ - internal comparator
+
+Peripheral features:
+ - DMA controller (32 channel)
+ - USB 2.0 full-speed OTG controller (Device and Host)
+ - 3 Synch. 16-bit Timers (Input Capture, Output Compare, PWM)
+ - 2 * CAN interface (2.0B)
+ - 2 * UART
+ - 2 * SPI
+ - 1 * I2C
+ - 96 GPIO pins
+
+Debug mode:
+ - 2 * JTAG and SWD
+                    </description>
+                </device>
+            </subFamily>
+
+            <!-- MDR1986BE1T, MDR1986BE3T -->
+            <subFamily DsubFamily="Cortex-M1">
+                <environment name="uv">
+                    <AMisc>--cpreproc</AMisc>
+                </environment>
+                <!-- MDR1986BE1T -->
+                <device Dname="MDR1986BE1T">
+                    <processor Dcore="Cortex-M1" DcoreVersion="r1p0" Dfpu="NO_FPU" Dmpu="MPU" Dendian="Little-endian" Dclock="144000000"/>
+                    <debug      svd="IDE\Keil\SVD\MDR32Fx\MDR1986VE1.svd"/>
+                    <memory     id="IROM1"                           start="0x00000000" size="0x20000" startup="1" default="1"/>
+                    <memory     id="IRAM1"                           start="0x20000000" size="0x8000"  init   ="0" default="1"/>
+                    <memory     id="IRAM2"                           start="0x20100000" size="0x4000"  init   ="0" default="1"/>
+                    <algorithm  name="Flash\MDR1986VE1\1986BE1T.FLM" start="0x00000000" size="0x20000" RAMstart="0x20100000" RAMsize="0x4000" default="1"/>
+                    <description>
+(1986BE1T RUS)
+Core:
+ - 32-bit RISC core, running at frequencies of up to 140 MHz
+ - 0.8 DMIPS/MHz (Dhrystone 2.1) performance at 0 wait state memory access
+ - memory Protection Unit (MPU)
+ - 24-bit SysTick Timer
+
+Memory:
+ - 128 KBytes of Flash memory (ISP and IAP)
+ - 48 KBytes of SRAM
+ - external system bus controller (support of SRAM, ROM and NAND Flash)
+
+Supply and Clock rate:
+ - internal regulator for core voltage supply
+ - built-in power control system
+ - internal battery domain
+ - internal 8 MHz RC clock generator with calibration
+ - internal 40 kHz RC clockgenerator with calibration
+ - external oscillator 2 .. 16 MHz
+ - external oscillator 20 ... 30 MHz
+ - external oscillator 32 KHz
+ - on-board PLL for clock frequency
+ - dedicated PLL for USB clock frequency
+
+Low power consumption modes:
+ - Sleep, Standby and StandAlone
+ - battery domain with RTC and backup registers
+
+Analog features:
+ - 2 * 12-bit ADC (16 channels)
+ - conversion range: 0 to 3.6 V
+ - temperature sensor
+ - 12-bit DAC
+
+Peripheral features:
+ - DMA controller (32 channel)
+ - USB 2.0 full-speed OTG controller (Device and Host)
+ - 3 Synch. 16-bit Timers (Input Capture, Output Compare, PWM)
+ - 2 * CAN interface (2.0B)
+ - 2 * UART
+ - 2 * SPI
+ - Digital interface controller according to GOST 18977-79
+ - Two digital interface controller according to GOST R 52070-2003
+ - Digital Controller Ethernet 10/100 PHY Transceiver
+ - 96 GPIO pins
+
+Debug mode:
+ - JTAG and SWD
+                    </description>
+                </device>
+                
+                <!-- MDR1986BE3T -->
+                <device Dname="MDR1986BE3T">
+                    <processor Dcore="Cortex-M1" DcoreVersion="r1p0" Dfpu="NO_FPU" Dmpu="NO_MPU" Dendian="Little-endian" Dclock="80000000"/>
+                    <debug      svd="IDE\Keil\SVD\MDR32Fx\MDR1986VE3.svd"/>
+                    <memory     id="IROM1"                           start="0x00000000" size="0x20000" startup="1" default="1"/>
+                    <memory     id="IRAM1"                           start="0x20000000" size="0x8000"  init   ="0" default="1"/>
+                    <memory     id="IRAM2"                           start="0x20100000" size="0x4000"  init   ="0" default="1"/>
+                    <algorithm  name="Flash\MDR1986VE3\1986BE3T.FLM" start="0x00000000" size="0x20000" RAMstart="0x20100000" RAMsize="0x4000" default="1"/>
+                    <description>
+(1986BE3T RUS)
+Core:
+ - 32-bit RISC core, running at frequencies of up to 140 MHz
+ - 0.8 DMIPS/MHz (Dhrystone 2.1) performance at 0 wait state memory access
+ - memory Protection Unit (MPU)
+ - 24-bit SysTick Timer
+
+Memory:
+ - 128 KBytes of Flash memory (ISP and IAP)
+ - 48 KBytes of SRAM
+ - external system bus controller (support of SRAM, ROM and NAND Flash)
+
+Supply and Clock rate:
+ - internal regulator for core voltage supply
+ - built-in power control system
+ - internal battery domain
+ - internal 8 MHz RC clock generator with calibration
+ - internal 40 kHz RC clockgenerator with calibration
+ - external oscillator 2 .. 16 MHz
+ - external oscillator 20 ... 30 MHz
+ - external oscillator 32 KHz
+ - on-board PLL for clock frequency
+ - dedicated PLL for USB clock frequency
+
+Low power consumption modes:
+ - Sleep, Standby and StandAlone
+ - battery domain with RTC and backup registers
+
+Analog features:
+- 12-bit ADC (up to 8 channels) with the amplitude of the measured signals from 0 to 3.6 V 
+- Dual-channel 12-bit DAC 
+- 32-bit PWM (up to 8 channels) 
+- Single channel bit delta/sigma  ADC bit 16-bit output reports
+- Single channel bit elta/sigma DAC with 16-bit input reports
+- Temperature sensor
+
+Peripheral features:
+- Controller direct memory access functions for communicating Peripherals-Memory, Memory, Memory
+- Two CAN controller interface 
+- Digital interface controller according to GOST 18977-79 
+- Two digital interface controller according to GOST R52070-2003 
+- Two digital controller Ethernet 10/100 PHY Transceiver 
+- USB interface controller with functions of Device and Host 
+- Interface controllers 4hUART, 4hSPI 
+- Controller AudioCodec - Up to 144 user I / O lines
+
+Debug mode:
+ - JTAG and SWD
+                    </description>
+                </device>
+            </subFamily>
+            
+            <!-- MDR1986BE4 -->
+            <subFamily DsubFamily="Cortex-M0">
+                <!-- MDR1986BE4 -->
+                <device Dname="MDR1986BE4">
+                    <processor  Dcore="Cortex-M0" DcoreVersion="r0p0" Dfpu="NO_FPU" Dmpu="NO_MPU" Dendian="Little-endian" Dclock="36000000"/>
+                    <debug      svd="IDE\Keil\SVD\MDR1986BE4\MDR1986BE4.svd"/>
+                    <memory     id="IROM1"                          start="0x00000000" size="0x20000" startup="1" default="1"/>
+                    <memory     id="IRAM1"                          start="0x20000000" size="0x4000"  init   ="0" default="1"/>
+                    <algorithm  name="Flash\MDR1986BE4\1986BE4.FLM" start="0x00000000" size="0x20000" RAMstart="0x20000000" RAMsize="0x4000" default="1"/>
+                    <description>
+(MDR1986BE4 RUS)
+  Core:
+  - 32-bit RISC core, running at frequencies of up to 36 MHz
+  - 1.25 DMIPS/MHz (Dhrystone 2.1) performance at 0 wait state memory access
+  - memory Protection Unit (MPU)
+  - 24-bit SysTick Timer
+  Memory:
+  - 128 KBytes of Flash memory (ISP and IAP)
+  - 16 KBytes of SRAM
+
+  Supply and Clock rate:
+  - internal regulator for core voltage supply
+  - built-in power control system
+  - internal battery domain
+  - internal 8 MHz RC clock generator with calibration
+  - internal 40 kHz RC clockgenerator with calibration
+  - external oscillator 2 .. 16 MHz
+  - external oscillator 32 KHz
+  - on-board PLL for clock frequency
+  - dedicated PLL for USB clock frequency
+
+  Low power consumption modes:
+  - Sleep, Stop and Standby
+  - battery domain with RTC and backup registers
+
+  Analog features:
+  - 12-bit ADC (8 channels)
+  - 24-bit Sigma-Delta ADC (8 channels)
+  - conversion range: 0 to 3.6 V
+  - temperature sensor
+  - 12-bit DAC
+  - internal comparator
+
+  Peripheral features:
+  - DMA controller (32 channel)
+  - 2 Synch. 16-bit Timers (Input Capture, Output Compare, PWM)
+  - 2 * UART
+  - 1 * SPI
+  - 40 GPIO pins
+
+  Debug mode:
+   - 1 SWD
+                    </description>
+                </device>
+            </subFamily>
+            
+            <!-- RISC and DSP CORE -->
+            <subFamily DsubFamily="Cortex-M3 with DSP">
+                <!-- MDR1901VC1 -->
+                <device Dname="MDR1901VC1">
+                    <processor Dcore="Cortex-M3" DcoreVersion="r2p0" Dfpu="NO_FPU" Dmpu="MPU" Dendian="Little-endian" Dclock="100000000"/>
+                    <debug      svd="IDE\Keil\SVD\MDR32Fx\MDR1901VC1.svd"/>
+                    <memory     id="IROM1"                            start="0x08000000" size="0x20000" startup="1" default="1"/>
+                    <memory     id="IRAM1"                            start="0x20000000" size="0x8000"  init   ="0" default="1"/>
+                    <algorithm  name="Flash\MDR1986VE9x\1986BE9x.FLM" start="0x08000000" size="0x20000" RAMstart="0x20000000" RAMsize="0x8000" default="1"/>
+                    <description>
+(1901VC1 RUS)
+Core:
+ - 32-bit RSIC processor, running at frequencies of up to 100 MHz
+ - 1.25 DMIPS/MHz (Dhrystone 2.1) performance at 0 wait state memory access
+ - memory Protection Unit (MPU)
+ - 24-bit SysTick Timer
+DSP Core:
+ - TMS320C54 16-bit DSP Core analog, 100MHz
+ - 128 KBytes Data RAM
+ - 128 KBytes Program RAM
+
+Memory:
+ - 128 KBytes of Flash memory (ISP and IAP)
+ - 32 KBytes of SRAM
+ - external system bus controller (support of SRAM, ROM and NAND Flash)
+
+Supply and Clock rate:
+ - internal regulator for core voltage supply
+ - built-in power control system
+ - internal battery domain
+ - internal 8 MHz RC clock generator with calibration
+ - internal 40 kHz RC clockgenerator with calibration
+ - external oscillator 2 .. 16 MHz
+ - external oscillator 32 KHz
+ - on-board PLL for clock frequency
+ - dedicated PLL for USB clock frequency
+
+Low power consumption modes:
+ - Sleep, Stop and Standby
+ - battery domain with RTC and backup registers
+
+Analog features:
+ - 2 * 12-bit ADC (16 channels)
+ - conversion range: 0 to 3.6 V
+ - temperature sensor
+ - 1 * 12-bit DAC
+ - internal comparator
+
+Peripheral features:
+ - DMA controller (32 channel)
+ - USB 2.0 full-speed OTG controller (Device and Host)
+ - 3 Synch. 16-bit Timers (Input Capture, Output Compare, PWM)
+ - 2 * CAN interface (2.0B)
+ - 3 * UART
+ - 2 * SPI
+ - 1 * I2C
+ - 96 GPIO pins
+
+Debug mode:
+ - 2 * JTAG and SWD
+                    </description>
+                </device>
+            </subFamily>
+        </family>
+    </devices>
+
+
+
+    <conditions>
+        <condition id="CON_MDR1986VE91">
+            <description>MDR1986VE91 device</description>
+            <accept Dname="MDR1986BE91"/>
+            <require Cclass="Device" Cgroup="Startup"/>
+        </condition>
+        <condition id="CON_MDR1986VE92">
+            <description>MDR1986VE92 device</description>
+            <accept Dname="MDR1986BE92"/>
+            <require Cclass="Device" Cgroup="Startup"/>
+        </condition>
+        <condition id="CON_MDR1986VE93">
+            <description>MDR1986VE93 device</description>
+            <accept Dname="MDR1986BE93"/>
+            <require Cclass="Device" Cgroup="Startup"/>
+        </condition>
+        <condition id="CON_MDR1986BE94">
+            <description>MDR1986VE94 device</description>
+            <accept Dname="MDR1986BE94"/>
+            <require Cclass="Device" Cgroup="Startup"/>
+        </condition>
+        <condition id="CON_MDR1986VE9_123">
+            <description>MDR1986VE9x device</description>
+            <accept Dname="MDR1986BE91"/>
+            <accept Dname="MDR1986BE92"/>
+            <accept Dname="MDR1986BE93"/>
+            <require Cclass="Device" Cgroup="Startup"/>
+        </condition>
+        <condition id="CON_MDR1986VE9x">
+            <description>MDR1986VE9x device</description>
+            <accept condition="CON_MDR1986VE9_123"/>
+            <accept condition="CON_MDR1986BE94"/>
+            <require Cclass="Device" Cgroup="Startup"/>
+        </condition>
+        <condition id="CON_MDR1986VE9_124"> <!-- VE93 doesnt support EXTBUS and I2C -->
+            <description>MDR1986VE9x device</description>
+            <accept Dname="MDR1986BE91"/>
+            <accept Dname="MDR1986BE92"/>
+            <accept condition="CON_MDR1986BE94"/>
+            <require Cclass="Device" Cgroup="Startup"/>
+        </condition>
+        <condition id="CON_MDR1901VC1">
+            <description>MDR1901VC1</description>
+            <require Dname="MDR1901VC1"/>
+            <require Cclass="Device" Cgroup="Startup"/>
+        </condition>
+        <condition id="CON_MDR1986VE9x_VC1">
+            <description>MDR1986VE9x or MDR1901VC1 device</description>
+            <accept condition="CON_MDR1986VE9x"/>
+            <accept condition="CON_MDR1901VC1"/>
+        </condition>
+        <condition id="CON_MDR1986VE9_124_VC1"> <!-- VE93 doesnt support EXTBUS and I2C -->
+            <description>MDR1986VE9x or MDR1901VC1 device</description>
+            <accept condition="CON_MDR1986VE9_124"/>
+            <accept condition="CON_MDR1901VC1"/>
+        </condition>
+        <condition id="CON_MDR1986VE1T">
+            <description>MDR1986VE1T device</description>
+            <require Dname="MDR1986BE1T"/>
+            <require Cclass="Device" Cgroup="Startup"/>
+        </condition>
+        <condition id="CON_MDR1986VE3T">
+            <description>MDR1986BE3T device</description>
+            <require Dname="MDR1986BE3T"/>
+            <require Cclass="Device" Cgroup="Startup"/>
+        </condition>
+        <condition id="CON_MDR1986VE3T_MDR1901VC1">
+            <description>MDR1986BE3T or MDR1901VC1 device</description>
+            <accept condition="CON_MDR1986VE3T"/>
+            <accept condition="CON_MDR1901VC1"/>
+        </condition>
+        <condition id="CON_MDR1986VExT">
+            <description>MDR1986VEXT device</description>
+            <accept condition="CON_MDR1986VE1T"/>
+            <accept condition="CON_MDR1986VE3T"/>
+        </condition>
+        <condition id="CON_MDR1986VExT_ETH_DEPENDENCIES_DMA_RST_CLK">
+            <description>MDR1986VEXT device with ETH dependencies (DMA and RST_CLK)</description>
+            <require condition="CON_MDR1986VExT"/>
+            <require Cclass="Drivers" Cgroup="DMA"/>
+            <require Cclass="Drivers" Cgroup="RST_CLK"/>
+        </condition>
+        <condition id="CON_MDR32F9">
+            <description>MDR32F9 series device</description>
+            <accept condition="CON_MDR1986VE9x_VC1"/>
+            <accept condition="CON_MDR1986VExT"/>
+        </condition>
+        <condition id="CON_MDR32F9_UART_DENPENDENCIES_RST_CLK">
+            <description>MDR32F9 series device with UART dependencies (RST_CLK)</description>
+            <require condition="CON_MDR32F9"/>
+            <require Cclass="Drivers" Cgroup="RST_CLK"/>
+        </condition>
+        <condition id="CON_MDR32F9_USBLIB_DENPENDENCIES_USB">
+            <description>MDR32F9 series device with USB_LIB dependencies (USB)</description>
+            <require condition="CON_MDR32F9"/>
+            <require Cclass="Drivers" Cgroup="USB"/>
+        </condition>
+        <condition id="CON_MDR32F9_NO_VE93">
+            <description>MDR32F9 series device</description>
+            <accept condition="CON_MDR1986VE9_124_VC1"/>
+            <accept condition="CON_MDR1986VExT"/>
+        </condition>
+        <condition id="CON_MDR32F9_NO_VC1">
+            <description>MDR32F9 series device</description>
+            <accept condition="CON_MDR1986VE9x"/>
+            <accept condition="CON_MDR1986VExT"/>
+        </condition>
+        <condition id="CON_MDR1986BE4">
+            <description>MDR1986BE4 device</description>
+            <require Dname="MDR1986BE4"/>
+            <require Cclass="Device" Cgroup="Startup"/>
+        </condition>
+        <condition id="CON_MDR1986BE4_UART_DENPENDENCIES_RST_CLK">
+            <description>MDR1986BE4 device with UART dependencies (RST_CLK)</description>
+            <require condition="CON_MDR1986BE4"/>
+            <require Cclass="Drivers" Cgroup="RST_CLK"/>
+        </condition>
+    </conditions>
+
+
+
+    <components>
+        <!-- 1986VE91 Startup -->
+        <component Cclass="Device" Cgroup="Startup" Cversion="2.0.3" condition="CON_MDR1986VE91">
+            <description>System Startup for MDR1986BE9x device series</description>
+            <RTE_Components_h>
+/* Target microcontroller definition */
+#define USE_MDR1986VE9x
+#define USE_MDR1986VE91
+            </RTE_Components_h>
+            <files>
+                <!-- startup files -->
+                <file category="source" name="Libraries\CMSIS\MDR32Fx\DeviceSupport\MDR1986VE9x\startup\arm\startup_MDR32F9Qx.S" attr="config"/>
+                <!-- system file -->
+                <file category="source" name="Libraries\CMSIS\MDR32Fx\DeviceSupport\MDR1986VE9x\startup\arm\system_MDR32F9Qx.c" attr="config"/>
+                <!-- header file-->
+                <file category="header" name="Libraries\CMSIS\MDR32Fx\DeviceSupport\MDR1986VE9x\startup\arm\system_MDR32F9Qx.h" attr="config"/>
+                <!-- header file-->
+                <file category="header" name="Libraries\CMSIS\MDR32Fx\DeviceSupport\MDR1986VE9x\inc\MDR32Fx.h"/>
+                <!-- header file-->
+                <file category="header" name="Libraries\CMSIS\MDR32Fx\CoreSupport\CM3\core_cm3.h"/>
+                <!-- header file-->
+                <file category="header" name="Libraries\SPL\MDR32Fx\MDR32F9Qx_config.h" attr="config"/>
+                <!-- linker file-->
+                <file category="linkerScript" name="IDE\Keil\scatter\MDR32Fx\MDR1986VE9x.sct" attr="config"/>
+                <!-- header file-->
+                <file category="header" name="Libraries\SPL\MDR32Fx\inc\IRQ_Handler_Template\MDR32F9Qx_IT.h" attr="template" select="IT Handlers Template"/>
+                <!-- source file-->
+                <file category="source" name="Libraries\SPL\MDR32Fx\src\IRQ_Handler_Template\MDR32F9Qx_IT.c" attr="template" select="IT Handlers Template"/>
+            </files>
+        </component>
+        
+        <!-- 1986VE92 Startup -->
+        <component Cclass="Device" Cgroup="Startup" Cversion="2.0.3" condition="CON_MDR1986VE92">
+            <description>System Startup for MDR1986BE9x device series</description>
+            <RTE_Components_h>
+/* Target microcontroller definition */
+#define USE_MDR1986VE9x
+#define USE_MDR1986VE92
+            </RTE_Components_h>
+            <files>
+                <!-- startup files -->
+                <file category="source" name="Libraries\CMSIS\MDR32Fx\DeviceSupport\MDR1986VE9x\startup\arm\startup_MDR32F9Qx.S" attr="config"/>
+                <!-- system file -->
+                <file category="source" name="Libraries\CMSIS\MDR32Fx\DeviceSupport\MDR1986VE9x\startup\arm\system_MDR32F9Qx.c" attr="config"/>
+                <!-- header file-->
+                <file category="header" name="Libraries\CMSIS\MDR32Fx\DeviceSupport\MDR1986VE9x\startup\arm\system_MDR32F9Qx.h" attr="config"/>
+                <!-- header file-->
+                <file category="header" name="Libraries\CMSIS\MDR32Fx\DeviceSupport\MDR1986VE9x\inc\MDR32Fx.h"/>
+                <!-- header file-->
+                <file category="header" name="Libraries\CMSIS\MDR32Fx\CoreSupport\CM3\core_cm3.h"/>
+                <!-- header file-->
+                <file category="header" name="Libraries\SPL\MDR32Fx\MDR32F9Qx_config.h" attr="config"/>
+                <!-- linker file-->
+                <file category="linkerScript" name="IDE\Keil\scatter\MDR32Fx\MDR1986VE9x.sct" attr="config"/>
+                <!-- header file-->
+                <file category="header" name="Libraries\SPL\MDR32Fx\inc\IRQ_Handler_Template\MDR32F9Qx_IT.h" attr="template" select="IT Handlers Template"/>
+                <!-- source file-->
+                <file category="source" name="Libraries\SPL\MDR32Fx\src\IRQ_Handler_Template\MDR32F9Qx_IT.c" attr="template" select="IT Handlers Template"/>
+            </files>
+        </component>
+        
+        <!-- 1986VE93 Startup -->
+        <component Cclass="Device" Cgroup="Startup" Cversion="2.0.3" condition="CON_MDR1986VE93">
+            <description>System Startup for MDR1986BE9x device series</description>
+            <RTE_Components_h>
+/* Target microcontroller definition */
+#define USE_MDR1986VE9x
+#define USE_MDR1986VE93
+            </RTE_Components_h>
+            <files>
+                <!-- startup files -->
+                <file category="source" name="Libraries\CMSIS\MDR32Fx\DeviceSupport\MDR1986VE9x\startup\arm\startup_MDR32F9Qx.S" attr="config"/>
+                <!-- system file -->
+                <file category="source" name="Libraries\CMSIS\MDR32Fx\DeviceSupport\MDR1986VE9x\startup\arm\system_MDR32F9Qx.c" attr="config"/>
+                <!-- header file-->
+                <file category="header" name="Libraries\CMSIS\MDR32Fx\DeviceSupport\MDR1986VE9x\startup\arm\system_MDR32F9Qx.h" attr="config"/>
+                <!-- header file-->
+                <file category="header" name="Libraries\CMSIS\MDR32Fx\DeviceSupport\MDR1986VE9x\inc\MDR32Fx.h"/>
+                <!-- header file-->
+                <file category="header" name="Libraries\CMSIS\MDR32Fx\CoreSupport\CM3\core_cm3.h"/>
+                <!-- header file-->
+                <file category="header" name="Libraries\SPL\MDR32Fx\MDR32F9Qx_config.h" attr="config"/>
+                <!-- linker file-->
+                <file category="linkerScript" name="IDE\Keil\scatter\MDR32Fx\MDR1986VE9x.sct" attr="config"/>
+                <!-- header file-->
+                <file category="header" name="Libraries\SPL\MDR32Fx\inc\IRQ_Handler_Template\MDR32F9Qx_IT.h" attr="template" select="IT Handlers Template"/>
+                <!-- source file-->
+                <file category="source" name="Libraries\SPL\MDR32Fx\src\IRQ_Handler_Template\MDR32F9Qx_IT.c" attr="template" select="IT Handlers Template"/>
+            </files>
+        </component>
+        
+        <!-- 1986VE94 Startup -->
+        <component Cclass="Device" Cgroup="Startup" Cversion="2.0.3" condition="CON_MDR1986BE94">
+            <description>System Startup for MDR1986BE9x device series</description>
+            <RTE_Components_h>
+/* Target microcontroller definition */
+#define USE_MDR1986VE9x
+#define USE_MDR1986VE94
+            </RTE_Components_h>
+            <files>
+                <!-- startup files -->
+                <file category="source" name="Libraries\CMSIS\MDR32Fx\DeviceSupport\MDR1986VE9x\startup\arm\startup_MDR32F9Qx.S" attr="config"/>
+                <!-- system file -->
+                <file category="source" name="Libraries\CMSIS\MDR32Fx\DeviceSupport\MDR1986VE9x\startup\arm\system_MDR32F9Qx.c" attr="config"/>
+                <!-- header file-->
+                <file category="header" name="Libraries\CMSIS\MDR32Fx\DeviceSupport\MDR1986VE9x\startup\arm\system_MDR32F9Qx.h" attr="config"/>
+                <!-- header file-->
+                <file category="header" name="Libraries\CMSIS\MDR32Fx\DeviceSupport\MDR1986VE9x\inc\MDR32Fx.h"/>
+                <!-- header file-->
+                <file category="header" name="Libraries\CMSIS\MDR32Fx\CoreSupport\CM3\core_cm3.h"/>
+                <!-- header file-->
+                <file category="header" name="Libraries\SPL\MDR32Fx\MDR32F9Qx_config.h" attr="config"/>
+                <!-- linker file-->
+                <file category="linkerScript" name="IDE\Keil\scatter\MDR32Fx\MDR1986VE9x.sct" attr="config"/>
+                <!-- header file-->
+                <file category="header" name="Libraries\SPL\MDR32Fx\inc\IRQ_Handler_Template\MDR32F9Qx_IT.h" attr="template" select="IT Handlers Template"/>
+                <!-- source file-->
+                <file category="source" name="Libraries\SPL\MDR32Fx\src\IRQ_Handler_Template\MDR32F9Qx_IT.c" attr="template" select="IT Handlers Template"/>
+            </files>
+        </component>
+        
+        <!-- 1901VC1 Startup -->
+        <component Cclass="Device" Cgroup="Startup" Cversion="2.0.3" condition="CON_MDR1901VC1">
+            <description>System Startup for MDR1901VC1 device series</description>
+            <RTE_Components_h>
+/* Target microcontroller definition */
+#define USE_MDR1901VC1T
+            </RTE_Components_h>
+            <files>
+                <!-- startup files -->
+                <file category="source" name="Libraries\CMSIS\MDR32Fx\DeviceSupport\MDR1901VC1T\startup\arm\startup_MDR1901VC1T.S" attr="config"/>
+                <!-- system file -->
+                <file category="source" name="Libraries\CMSIS\MDR32Fx\DeviceSupport\MDR1901VC1T\startup\arm\system_MDR1901VC1T.c" attr="config"/>
+                <!-- header file-->
+                <file category="header" name="Libraries\CMSIS\MDR32Fx\DeviceSupport\MDR1901VC1T\startup\arm\system_MDR1901VC1T.h" attr="config"/>
+                <!-- header file-->
+                <file category="header" name="Libraries\CMSIS\MDR32Fx\DeviceSupport\MDR1901VC1T\inc\MDR1901VC1T.h"/>
+                <!-- header file-->
+                <file category="header" name="Libraries\CMSIS\MDR32Fx\CoreSupport\CM3\core_cm3.h"/>
+                <!-- header file-->
+                <file category="header" name="Libraries\SPL\MDR32Fx\MDR32F9Qx_config.h" attr="config"/>
+                <!-- linker file-->
+                <file category="linkerScript" name="IDE\Keil\scatter\MDR32Fx\MDR1901VC1.sct" attr="config"/>
+                <!-- header file-->
+                <file category="header" name="Libraries\SPL\MDR32Fx\inc\IRQ_Handler_Template\MDR1901VC1_IT.h" attr="template" select="IT Handlers Template"/>
+                <!-- source file-->
+                <file category="source" name="Libraries\SPL\MDR32Fx\src\IRQ_Handler_Template\MDR1901VC1_IT.c" attr="template" select="IT Handlers Template"/>
+            </files>
+        </component>
+        
+        <!-- 1986VE1 REV6 Startup -->
+        <component Cclass="Device" Cgroup="Startup" Cvariant="1. Rev.6+" Cversion="2.0.3" condition="CON_MDR1986VE1T">
+            <description>System Startup for MDR1986BE1T device series revisions 6 and higher. Defines USE_MDR1986VE1T_REV6</description>
+            <RTE_Components_h>
+/* Target microcontroller definition */
+#define USE_MDR1986VE1T_REV6
+            </RTE_Components_h>
+            <files>
+                <!-- startup files -->
+                <file category="source" name="Libraries\CMSIS\MDR32Fx\DeviceSupport\MDR1986VE1T\startup\arm\startup_MDR1986VE1T.S" attr="config"/>
+                <!-- system file -->
+                <file category="source" name="Libraries\CMSIS\MDR32Fx\DeviceSupport\MDR1986VE1T\startup\arm\system_MDR1986VE1T.c" attr="config"/>
+                <!-- header file-->
+                <file category="header" name="Libraries\CMSIS\MDR32Fx\DeviceSupport\MDR1986VE1T\startup\arm\system_MDR1986VE1T.h" attr="config"/>
+                <!-- header file-->
+                <file category="header" name="Libraries\CMSIS\MDR32Fx\DeviceSupport\MDR1986VE1T\inc\MDR1986VE1T.h"/>
+                <!-- header file-->
+                <file category="header" name="Libraries\CMSIS\MDR32Fx\CoreSupport\CM1\core_cm1.h"/>
+                <!-- header file-->
+                <file category="header" name="Libraries\SPL\MDR32Fx\MDR32F9Qx_config.h" attr="config"/>
+                <!-- linker file-->
+                <file category="linkerScript" name="IDE\Keil\scatter\MDR32Fx\MDR1986VE1T.sct" attr="config"/>
+                <!-- header file-->
+                <file category="header" name="Libraries\SPL\MDR32Fx\inc\IRQ_Handler_Template\MDR1986VE1T_IT.h" attr="template" select="IT Handlers Template"/>
+                <!-- source file-->
+                <file category="source" name="Libraries\SPL\MDR32Fx\src\IRQ_Handler_Template\MDR1986VE1T_IT.c" attr="template" select="IT Handlers Template"/>
+            </files>
+        </component>
+        <!-- 1986VE1 REV3_4 Startup -->
+        <component Cclass="Device" Cgroup="Startup" Cvariant="2. Rev.3 or Rev.4" Cversion="2.0.3" condition="CON_MDR1986VE1T">
+            <description>System Startup for MDR1986BE1T device series revisions 3 and 4. Defines USE_MDR1986VE1T_REV3_4</description>
+            <RTE_Components_h>
+/* Target microcontroller definition */
+#define USE_MDR1986VE1T_REV3_4
+            </RTE_Components_h>
+            <files>
+                <!-- startup files -->
+                <file category="source" name="Libraries\CMSIS\MDR32Fx\DeviceSupport\MDR1986VE1T\startup\arm\startup_MDR1986VE1T.S" attr="config"/>
+                <!-- system file -->
+                <file category="source" name="Libraries\CMSIS\MDR32Fx\DeviceSupport\MDR1986VE1T\startup\arm\system_MDR1986VE1T.c" attr="config"/>
+                <!-- header file-->
+                <file category="header" name="Libraries\CMSIS\MDR32Fx\DeviceSupport\MDR1986VE1T\startup\arm\system_MDR1986VE1T.h" attr="config"/>
+                <!-- header file-->
+                <file category="header" name="Libraries\CMSIS\MDR32Fx\DeviceSupport\MDR1986VE1T\inc\MDR1986VE1T.h"/>
+                <!-- header file-->
+                <file category="header" name="Libraries\CMSIS\MDR32Fx\CoreSupport\CM1\core_cm1.h"/>
+                <!-- header file-->
+                <file category="header" name="Libraries\SPL\MDR32Fx\MDR32F9Qx_config.h" attr="config"/>
+                <!-- linker file-->
+                <file category="linkerScript" name="IDE\Keil\scatter\MDR32Fx\MDR1986VE1T.sct" attr="config"/>
+                <!-- header file-->
+                <file category="header" name="Libraries\SPL\MDR32Fx\inc\IRQ_Handler_Template\MDR1986VE1T_IT.h" attr="template" select="IT Handlers Template"/>
+                <!-- source file-->
+                <file category="source" name="Libraries\SPL\MDR32Fx\src\IRQ_Handler_Template\MDR1986VE1T_IT.c" attr="template" select="IT Handlers Template"/>
+            </files>
+        </component>
+        <!-- 1986VE3 REV3 Startup -->
+        <component Cclass="Device" Cgroup="Startup" Cvariant="1. Rev.3+" Cversion="2.0.3" condition="CON_MDR1986VE3T">
+            <description>System Startup for MDR1986BE3T device series revision 3 and higher. Defines USE_MDR1986VE3T_REV3</description>
+            <RTE_Components_h>
+/* target microcontroller definition */
+#define USE_MDR1986VE3T_REV3
+            </RTE_Components_h>
+            <files>
+                <!-- startup files -->
+                <file category="source" name="Libraries\CMSIS\MDR32Fx\DeviceSupport\MDR1986VE3\startup\arm\startup_MDR1986VE3.S" attr="config"/>
+                <!-- system file -->
+                <file category="source" name="Libraries\CMSIS\MDR32Fx\DeviceSupport\MDR1986VE3\startup\arm\system_MDR1986VE3.c" attr="config"/>
+                <!-- header file-->
+                <file category="header" name="Libraries\CMSIS\MDR32Fx\DeviceSupport\MDR1986VE3\startup\arm\system_MDR1986VE3.h" attr="config"/>
+                <!-- header file-->
+                <file category="header" name="Libraries\CMSIS\MDR32Fx\DeviceSupport\MDR1986VE3\inc\MDR1986VE3.h"/>
+                <!-- header file-->
+                <file category="header" name="Libraries\CMSIS\MDR32Fx\CoreSupport\CM1\core_cm1.h"/>
+                <!-- header file-->
+                <file category="header" name="Libraries\SPL\MDR32Fx\MDR32F9Qx_config.h" attr="config"/>
+                <!-- linker file-->
+                <file category="linkerScript" name="IDE\Keil\scatter\MDR32Fx\MDR1986VE3T.sct" attr="config"/>
+                <!-- header file-->
+                <file category="header" name="Libraries\SPL\MDR32Fx\inc\IRQ_Handler_Template\MDR1986VE3_IT.h" attr="template" select="IT Handlers Template"/>
+                <!-- source file-->
+                <file category="source" name="Libraries\SPL\MDR32Fx\src\IRQ_Handler_Template\MDR1986VE3_IT.c" attr="template" select="IT Handlers Template"/>
+            </files>
+        </component>
+        
+        <!-- 1986VE3 REV2 Startup -->
+        <component Cclass="Device" Cgroup="Startup" Cvariant="2. Rev.2" Cversion="2.0.3" condition="CON_MDR1986VE3T">
+            <description>System Startup for MDR1986BE3T device series revision 2. Defines USE_MDR1986VE3T_REV2</description>
+            <RTE_Components_h>
+/* target microcontroller definition */
+#define USE_MDR1986VE3T_REV2
+            </RTE_Components_h>
+            <files>
+                <!-- startup files -->
+                <file category="source" name="Libraries\CMSIS\MDR32Fx\DeviceSupport\MDR1986VE3\startup\arm\startup_MDR1986VE3.S" attr="config"/>
+                <!-- system file -->
+                <file category="source" name="Libraries\CMSIS\MDR32Fx\DeviceSupport\MDR1986VE3\startup\arm\system_MDR1986VE3.c" attr="config"/>
+                <!-- header file-->
+                <file category="header" name="Libraries\CMSIS\MDR32Fx\DeviceSupport\MDR1986VE3\startup\arm\system_MDR1986VE3.h" attr="config"/>
+                <!-- header file-->
+                <file category="header" name="Libraries\CMSIS\MDR32Fx\DeviceSupport\MDR1986VE3\inc\MDR1986VE3.h"/>
+                <!-- header file-->
+                <file category="header" name="Libraries\CMSIS\MDR32Fx\CoreSupport\CM1\core_cm1.h"/>
+                <!-- header file-->
+                <file category="header" name="Libraries\SPL\MDR32Fx\MDR32F9Qx_config.h" attr="config"/>
+                <!-- linker file-->
+                <file category="linkerScript" name="IDE\Keil\scatter\MDR32Fx\MDR1986VE3T.sct" attr="config"/>
+                <!-- header file-->
+                <file category="header" name="Libraries\SPL\MDR32Fx\inc\IRQ_Handler_Template\MDR1986VE3_IT.h" attr="template" select="IT Handlers Template"/>
+                <!-- source file-->
+                <file category="source" name="Libraries\SPL\MDR32Fx\src\IRQ_Handler_Template\MDR1986VE3_IT.c" attr="template" select="IT Handlers Template"/>
+            </files>
+        </component>
+        
+        <!-- 1986BE4 Startup -->
+        <component Cclass="Device" Cgroup="Startup" Cversion="2.0.3" condition="CON_MDR1986BE4">
+            <description>System Startup for MDR1986BE4 device series</description>
+            <files>
+                <!-- startup files -->
+                <file category="source" name="Libraries\CMSIS\MDR1986BE4\DeviceSupport\startup\arm\startup_MDR1986BE4.S" attr="config"/>
+                <!-- system file -->
+                <file category="source" name="Libraries\CMSIS\MDR1986BE4\DeviceSupport\startup\arm\system_MDR1986BE4.c" attr="config"/>
+                <!-- header file-->
+                <file category="header" name="Libraries\CMSIS\MDR1986BE4\DeviceSupport\startup\arm\system_MDR1986BE4.h" attr="config"/>
+                <!-- header file-->
+                <file category="header" name="Libraries\CMSIS\MDR1986BE4\DeviceSupport\inc\MDR1986BE4.h"/>
+                <!-- header file-->
+                <file category="header" name="Libraries\CMSIS\MDR1986BE4\CoreSupport\core_cm0.h"/>
+                <!-- header file-->
+                <file category="header" name="Libraries\SPL\MDR1986BE4\MDR32F9Qx_config.h" attr="config"/>
+                <!-- linker file-->
+                <file category="linkerScript" name="IDE\Keil\scatter\MDR1986BE4\MDR1986BE4.sct" attr="config"/>
+                <!-- header file-->
+                <file category="header" name="Libraries\SPL\MDR1986BE4\inc\IRQ_Handler_Template\MDR1986BE4_IT.h" attr="template" select="IT Handlers Template"/>
+                <!-- source file-->
+                <file category="source" name="Libraries\SPL\MDR1986BE4\src\IRQ_Handler_Template\MDR1986BE4_IT.c" attr="template" select="IT Handlers Template"/>
+            </files>
+        </component>
+
+
+        <!-- ____________________ Peripheral Drivers _______________________ -->
+        <!-- __________________________ MDR32F9 ____________________________ -->
+        <!-- ADC Driver -->
+        <component Cclass="Drivers" Cgroup="ADC" Cversion="2.0.3" condition="CON_MDR32F9">
+            <description>ADC driver for MDR1986BExx Series</description>
+            <files>
+                <file category="header" name="Libraries\SPL\MDR32Fx\inc\MDR32F9Qx_adc.h"/>
+                <file category="source" name="Libraries\SPL\MDR32Fx\src\MDR32F9Qx_adc.c"/>
+            </files>
+        </component>
+        
+        <!-- BKP Driver -->
+        <component Cclass="Drivers" Cgroup="BKP" Cversion="2.0.3" condition="CON_MDR32F9">
+            <description>BKP driver for MDR1986BExx Series</description>
+            <files>
+                <file category="header" name="Libraries\SPL\MDR32Fx\inc\MDR32F9Qx_bkp.h"/>
+                <file category="source" name="Libraries\SPL\MDR32Fx\src\MDR32F9Qx_bkp.c"/>
+            </files>
+        </component>
+        
+        <!-- CAN Driver -->
+        <component Cclass="Drivers" Cgroup="CAN" Cversion="2.0.3" condition="CON_MDR32F9_NO_VC1">
+            <description>CAN driver for MDR1986BExx Series</description>
+            <files>
+                <file category="header" name="Libraries\SPL\MDR32Fx\inc\MDR32F9Qx_can.h"/>
+                <file category="source" name="Libraries\SPL\MDR32Fx\src\MDR32F9Qx_can.c"/>
+            </files>
+        </component>
+        
+        <!-- COMP Driver -->
+        <component Cclass="Drivers" Cgroup="COMP" Cversion="2.0.3" condition="CON_MDR1986VE9x_VC1">
+            <description>COMP driver for MDR1986BE9x Series</description>
+            <files>
+                <file category="header" name="Libraries\SPL\MDR32Fx\inc\MDR32F9Qx_comp.h"/>
+                <file category="source" name="Libraries\SPL\MDR32Fx\src\MDR32F9Qx_comp.c"/>
+            </files>
+        </component>
+        
+        <!-- DAC Driver -->
+        <component Cclass="Drivers" Cgroup="DAC" Cversion="2.0.3" condition="CON_MDR32F9">
+            <description>DAC driver for MDR1986BExx Series</description>
+            <files>
+                <file category="header" name="Libraries\SPL\MDR32Fx\inc\MDR32F9Qx_dac.h"/>
+                <file category="source" name="Libraries\SPL\MDR32Fx\src\MDR32F9Qx_dac.c"/>
+            </files>
+        </component>
+        
+        <!-- DMA Driver -->
+        <component Cclass="Drivers" Cgroup="DMA" Cversion="2.0.3" condition="CON_MDR32F9">
+            <description>DMA driver for MDR1986BExx Series</description>
+            <files>
+                <file category="header" name="Libraries\SPL\MDR32Fx\inc\MDR32F9Qx_dma.h"/>
+                <file category="source" name="Libraries\SPL\MDR32Fx\src\MDR32F9Qx_dma.c"/>
+            </files>
+        </component>
+        
+        <!-- EBC Driver -->
+        <component Cclass="Drivers" Cgroup="EBC" Cversion="2.0.3" condition="CON_MDR32F9_NO_VE93">
+            <description>EBC driver for MDR1986BExx Series</description>
+            <files>
+                <file category="header" name="Libraries\SPL\MDR32Fx\inc\MDR32F9Qx_ebc.h"/>
+                <file category="source" name="Libraries\SPL\MDR32Fx\src\MDR32F9Qx_ebc.c"/>
+            </files>
+        </component>
+        
+        <!-- EEPROM Driver -->
+        <component Cclass="Drivers" Cgroup="EEPROM" Cversion="2.0.3" condition="CON_MDR32F9">
+            <description>EEPROM driver for MDR1986BExx Series</description>
+            <files>
+                <file category="header" name="Libraries\SPL\MDR32Fx\inc\MDR32F9Qx_eeprom.h"/>
+                <file category="source" name="Libraries\SPL\MDR32Fx\src\MDR32F9Qx_eeprom.c"/>
+                <file category="sourceAsm" name="Libraries\SPL\MDR32Fx\src\MDR32F9Qx_eeprom_cache.S" condition="CON_MDR1986VExT"/>
+            </files>
+        </component>
+        
+        <!-- I2C Driver -->
+        <component Cclass="Drivers" Cgroup="I2C" Cversion="2.0.3" condition="CON_MDR1986VE9_124_VC1">
+            <description>I2C driver for MDR1986BE9x Series</description>
+            <files>
+                <file category="header" name="Libraries\SPL\MDR32Fx\inc\MDR32F9Qx_i2c.h"/>
+                <file category="source" name="Libraries\SPL\MDR32Fx\src\MDR32F9Qx_i2c.c"/>
+            </files>
+        </component>
+        
+        <!-- IWDG Driver -->
+        <component Cclass="Drivers" Cgroup="IWDG" Cversion="2.0.3" condition="CON_MDR32F9">
+            <description>IWDG driver for MDR1986BExx Series</description>
+            <files>
+                <file category="header" name="Libraries\SPL\MDR32Fx\inc\MDR32F9Qx_iwdg.h"/>
+                <file category="source" name="Libraries\SPL\MDR32Fx\src\MDR32F9Qx_iwdg.c"/>
+            </files>
+        </component>
+        
+        <!-- PORT Driver -->
+        <component Cclass="Drivers" Cgroup="PORT" Cversion="2.0.3" condition="CON_MDR32F9">
+            <description>PORT driver for MDR1986BExx Series</description>
+            <files>
+                <file category="header" name="Libraries\SPL\MDR32Fx\inc\MDR32F9Qx_port.h"/>
+                <file category="source" name="Libraries\SPL\MDR32Fx\src\MDR32F9Qx_port.c"/>
+            </files>
+        </component>
+        
+        <!-- POWER Driver -->
+        <component Cclass="Drivers" Cgroup="POWER" Cversion="2.0.3" condition="CON_MDR32F9">
+            <description>POWER driver for MDR1986BExx Series</description>
+            <files>
+                <file category="header" name="Libraries\SPL\MDR32Fx\inc\MDR32F9Qx_power.h"/>
+                <file category="source" name="Libraries\SPL\MDR32Fx\src\MDR32F9Qx_power.c"/>
+            </files>
+        </component>
+        
+        <!-- RST_CLK Driver -->
+        <component Cclass="Drivers" Cgroup="RST_CLK" Cversion="2.0.3" condition="CON_MDR32F9">
+            <description>RST_CLK driver for MDR1986BExx Series</description>
+            <files>
+                <file category="header" name="Libraries\SPL\MDR32Fx\inc\MDR32F9Qx_rst_clk.h"/>
+                <file category="source" name="Libraries\SPL\MDR32Fx\src\MDR32F9Qx_rst_clk.c"/>
+            </files>
+        </component>
+        
+        <!-- SSP Driver -->
+        <component Cclass="Drivers" Cgroup="SSP" Cversion="2.0.3" condition="CON_MDR32F9">
+            <description>SSP driver for MDR1986BExx Series</description>
+            <files>
+                <file category="header" name="Libraries\SPL\MDR32Fx\inc\MDR32F9Qx_ssp.h"/>
+                <file category="source" name="Libraries\SPL\MDR32Fx\src\MDR32F9Qx_ssp.c"/>
+            </files>
+        </component>
+        
+        <!-- TIMER Driver -->
+        <component Cclass="Drivers" Cgroup="TIMER" Cversion="2.0.3" condition="CON_MDR32F9">
+            <description>TIMER driver for MDR1986BExx Series</description>
+            <files>
+                <file category="header" name="Libraries\SPL\MDR32Fx\inc\MDR32F9Qx_timer.h"/>
+                <file category="source" name="Libraries\SPL\MDR32Fx\src\MDR32F9Qx_timer.c"/>
+            </files>
+        </component>
+        
+        <!-- UART Driver -->
+        <component Cclass="Drivers" Cgroup="UART" Cversion="2.0.3" condition="CON_MDR32F9_UART_DENPENDENCIES_RST_CLK">
+            <description>UART driver for MDR1986BExx Series</description>
+            <files>
+                <file category="header" name="Libraries\SPL\MDR32Fx\inc\MDR32F9Qx_uart.h"/>
+                <file category="source" name="Libraries\SPL\MDR32Fx\src\MDR32F9Qx_uart.c"/>
+            </files>
+        </component>
+        
+        <!-- WWDG Driver -->
+        <component Cclass="Drivers" Cgroup="WWDG" Cversion="2.0.3" condition="CON_MDR32F9">
+            <description>WWDG driver for MDR1986BExx Series</description>
+            <files>
+                <file category="header" name="Libraries\SPL\MDR32Fx\inc\MDR32F9Qx_wwdg.h"/>
+                <file category="source" name="Libraries\SPL\MDR32Fx\src\MDR32F9Qx_wwdg.c"/>
+            </files>
+        </component>
+        
+        <!-- MIL_STD_1553 Driver -->
+        <component Cclass="Drivers" Cgroup="MIL_STD_1553" Cversion="2.0.3" condition="CON_MDR1986VExT">
+            <description>MIL_STD_1553 driver for MDR1986BE1T and MDR1986BE3T</description>
+            <files>
+                <file category="header" name="Libraries\SPL\MDR32Fx\inc\MDR32F9Qx_mil_std_1553.h"/>
+                <file category="source" name="Libraries\SPL\MDR32Fx\src\MDR32F9Qx_mil_std_1553.c"/>
+            </files>
+        </component>
+        
+        <!-- ARINC429R Driver -->
+        <component Cclass="Drivers" Cgroup="ARINC429R" Cversion="2.0.3" condition="CON_MDR1986VExT">
+            <description>ARINC429R driver for MDR1986BE1T and MDR1986BE3T</description>
+            <files>
+                <file category="header" name="Libraries\SPL\MDR32Fx\inc\MDR32F9Qx_arinc429r.h"/>
+                <file category="source" name="Libraries\SPL\MDR32Fx\src\MDR32F9Qx_arinc429r.c"/>
+            </files>
+        </component>
+        
+        <!-- ARINC429T Driver -->
+        <component Cclass="Drivers" Cgroup="ARINC429T" Cversion="2.0.3" condition="CON_MDR1986VExT">
+            <description>ARINC429T driver for MDR1986BE1T and MDR1986BE3T</description>
+            <files>
+                <file category="header" name="Libraries\SPL\MDR32Fx\inc\MDR32F9Qx_arinc429t.h"/>
+                <file category="source" name="Libraries\SPL\MDR32Fx\src\MDR32F9Qx_arinc429t.c"/>
+            </files>
+        </component>
+        
+        <!-- Audio Driver -->
+        <component Cclass="Drivers" Cgroup="Audio" Cversion="2.0.3" condition="CON_MDR1986VE3T_MDR1901VC1">
+            <description>Audio driver for MDR1986BE3T</description>
+            <files>
+                <file category="header" name="Libraries\SPL\MDR32Fx\inc\MDR32F9Qx_audio.h"/>
+                <file category="source" name="Libraries\SPL\MDR32Fx\src\MDR32F9Qx_audio.c"/>
+            </files>
+        </component>
+        
+        <!-- Ethernet Driver -->
+        <component Cclass="Drivers" Cgroup="Ethernet" Cversion="2.0.3" condition="CON_MDR1986VExT_ETH_DEPENDENCIES_DMA_RST_CLK">
+            <description>Ethernet driver for MDR1986BE1T and MDR1986BE3T</description>
+            <files>
+                <file category="header" name="Libraries\SPL\MDR32Fx\inc\MDR32F9Qx_eth.h"/>
+                <file category="source" name="Libraries\SPL\MDR32Fx\src\MDR32F9Qx_eth.c"/>
+            </files>
+        </component>
+        
+        <!-- LED Driver -->
+        <component Cclass="Drivers" Cgroup="LED" Cversion="2.0.3" condition="CON_MDR1986VE3T">
+            <description>LED driver for MDR1986BE3T</description>
+            <files>
+                <file category="header" name="Libraries\SPL\MDR32Fx\inc\MDR32F9Qx_led.h"/>
+                <file category="source" name="Libraries\SPL\MDR32Fx\src\MDR32F9Qx_led.c"/>
+            </files>
+        </component>
+        
+        <!-- Keypad Driver -->
+        <component Cclass="Drivers" Cgroup="Keypad" Cversion="2.0.3" condition="CON_MDR1986VE3T">
+            <description>Keypad driver for MDR1986BE3T</description>
+            <files>
+                <file category="header" name="Libraries\SPL\MDR32Fx\inc\MDR32F9Qx_keypad.h"/>
+                <file category="source" name="Libraries\SPL\MDR32Fx\src\MDR32F9Qx_keypad.c"/>
+            </files>
+        </component>
+        
+        <!-- USB Driver -->
+        <component Cclass="Drivers" Cgroup="USB" Cversion="2.0.3" condition="CON_MDR32F9">
+            <description>USB driver for MDR1986BExx Series</description>
+            <files>
+                <file category="header" name="Libraries\SPL\MDR32Fx\inc\MDR32F9Qx_usb.h"/>
+                <file category="source" name="Libraries\SPL\MDR32Fx\src\MDR32F9Qx_usb.c"/>
+            </files>
+        </component>
+        
+        <!-- USB Library Driver -->
+        <component Cclass="Drivers" Cgroup="USB Library" Cversion="2.0.3" condition="CON_MDR32F9_USBLIB_DENPENDENCIES_USB">
+            <description>USB Library for MDR1986BE9x Series</description>
+            <files>
+                <file category="doc"    name="Libraries\SPL\MDR32Fx\inc\USB_Library\MDR32F9Qx_USB_Library.pdf"/>
+                <file category="header" name="Libraries\SPL\MDR32Fx\inc\USB_Library\MDR32F9Qx_usb_CDC.h"/>
+                <file category="header" name="Libraries\SPL\MDR32Fx\inc\USB_Library\MDR32F9Qx_usb_device.h"/>
+                <file category="source" name="Libraries\SPL\MDR32Fx\src\USB_Library\MDR32F9Qx_usb_CDC.c"/>
+                <file category="source" name="Libraries\SPL\MDR32Fx\src\USB_Library\MDR32F9Qx_usb_device.c"/>
+            </files>
+        </component>
+
+        <!-- _________________________ MDR1901VC1 __________________________ -->
+        <!-- SDIO Driver -->
+        <component Cclass="Drivers" Cgroup="SDIO" Cversion="2.0.3" condition="CON_MDR1901VC1">
+            <description>SDIO driver for MDR1901VC1</description>
+            <files>
+                <file category="header" name="Libraries\SPL\MDR32Fx\inc\MDR32F9Qx_sdio.h"/>
+                <file category="source" name="Libraries\SPL\MDR32Fx\src\MDR32F9Qx_sdio.c"/>
+            </files>
+        </component>
+        
+        <!-- DSP Driver -->
+        <component Cclass="Drivers" Cgroup="DSP" Cversion="2.0.3" condition="CON_MDR1901VC1">
+            <description>DSP driver for MDR1901VC1</description>
+            <files>
+                <file category="header" name="Libraries\SPL\MDR32Fx\inc\MDR32F9Qx_dsp.h"/>
+                <file category="source" name="Libraries\SPL\MDR32Fx\src\MDR32F9Qx_dsp.c"/>
+            </files>
+        </component>
+
+        <!-- _________________________ MDR1986BE4 __________________________ -->
+        <!-- ADC Driver -->
+        <component Cclass="Drivers" Cgroup="ADC" Cversion="2.0.3" condition="CON_MDR1986BE4">
+            <description>ADC driver for MDR1986BE4</description>
+            <files>
+                <file category="header" name="Libraries\SPL\MDR1986BE4\inc\MDR32F9Qx_adc.h"/>
+                <file category="source" name="Libraries\SPL\MDR1986BE4\src\MDR32F9Qx_adc.c"/>
+            </files>
+        </component>
+        
+        <!-- ADCIU Driver -->
+        <component Cclass="Drivers" Cgroup="ADCIU" Cversion="2.0.3" condition="CON_MDR1986BE4">
+            <description>ADCIU driver for MDR1986BE4</description>
+            <files>
+                <file category="header" name="Libraries\SPL\MDR1986BE4\inc\MDR32F9Qx_adciu.h"/>
+                <file category="source" name="Libraries\SPL\MDR1986BE4\src\MDR32F9Qx_adciu.c"/>
+            </files>
+        </component>
+        
+        <!-- BKP Driver -->
+        <component Cclass="Drivers" Cgroup="BKP" Cversion="2.0.3" condition="CON_MDR1986BE4">
+            <description>BKP driver for MDR1986BE4</description>
+            <files>
+                <file category="header" name="Libraries\SPL\MDR1986BE4\inc\MDR32F9Qx_bkp.h"/>
+                <file category="source" name="Libraries\SPL\MDR1986BE4\src\MDR32F9Qx_bkp.c"/>
+            </files>
+        </component>
+        
+        <!-- COMP Driver -->
+        <component Cclass="Drivers" Cgroup="COMP" Cversion="2.0.3" condition="CON_MDR1986BE4">
+            <description>COMP driver for MDR1986BE4</description>
+            <files>
+                <file category="header" name="Libraries\SPL\MDR1986BE4\inc\MDR32F9Qx_comp.h"/>
+                <file category="source" name="Libraries\SPL\MDR1986BE4\src\MDR32F9Qx_comp.c"/>
+            </files>
+        </component>
+        
+        <!-- CRC Driver -->
+        <component Cclass="Drivers" Cgroup="CRC" Cversion="2.0.3" condition="CON_MDR1986BE4">
+            <description>CRC driver for MDR1986BE4</description>
+            <files>
+                <file category="header" name="Libraries\SPL\MDR1986BE4\inc\MDR32F9Qx_crc.h"/>
+                <file category="source" name="Libraries\SPL\MDR1986BE4\src\MDR32F9Qx_crc.c"/>
+            </files>
+        </component>
+        
+        <!-- DAC Driver -->
+        <component Cclass="Drivers" Cgroup="DAC" Cversion="2.0.3" condition="CON_MDR1986BE4">
+            <description>DAC driver for MDR1986BE4</description>
+            <files>
+                <file category="header" name="Libraries\SPL\MDR1986BE4\inc\MDR32F9Qx_dac.h"/>
+                <file category="source" name="Libraries\SPL\MDR1986BE4\src\MDR32F9Qx_dac.c"/>
+            </files>
+        </component>
+        
+        <!-- DMA Driver -->
+        <component Cclass="Drivers" Cgroup="DMA" Cversion="2.0.3" condition="CON_MDR1986BE4">
+            <description>DMA driver for MDR1986BE4</description>
+            <files>
+                <file category="header" name="Libraries\SPL\MDR1986BE4\inc\MDR32F9Qx_dma.h"/>
+                <file category="source" name="Libraries\SPL\MDR1986BE4\src\MDR32F9Qx_dma.c"/>
+            </files>
+        </component>
+        
+        <!-- EEPROM Driver -->
+        <component Cclass="Drivers" Cgroup="EEPROM" Cversion="2.0.3" condition="CON_MDR1986BE4">
+            <description>EEPROM driver for MDR1986BE4</description>
+            <files>
+                <file category="header" name="Libraries\SPL\MDR1986BE4\inc\MDR32F9Qx_eeprom.h"/>
+                <file category="source" name="Libraries\SPL\MDR1986BE4\src\MDR32F9Qx_eeprom.c"/>
+            </files>
+        </component>
+        
+        <!-- IWDG Driver -->
+        <component Cclass="Drivers" Cgroup="IWDG" Cversion="2.0.3" condition="CON_MDR1986BE4">
+            <description>IWDG driver for MDR1986BE4</description>
+            <files>
+                <file category="header" name="Libraries\SPL\MDR1986BE4\inc\MDR32F9Qx_iwdg.h"/>
+                <file category="source" name="Libraries\SPL\MDR1986BE4\src\MDR32F9Qx_iwdg.c"/>
+            </files>
+        </component>
+        
+        <!-- PORT Driver -->
+        <component Cclass="Drivers" Cgroup="PORT" Cversion="2.0.3" condition="CON_MDR1986BE4">
+            <description>PORT driver for MDR1986BE4</description>
+            <files>
+                <file category="header" name="Libraries\SPL\MDR1986BE4\inc\MDR32F9Qx_port.h"/>
+                <file category="source" name="Libraries\SPL\MDR1986BE4\src\MDR32F9Qx_port.c"/>
+            </files>
+        </component>
+        
+        <!-- POWER Driver -->
+        <component Cclass="Drivers" Cgroup="POWER" Cversion="2.0.3" condition="CON_MDR1986BE4">
+            <description>POWER driver for MDR1986BE4</description>
+            <files>
+                <file category="header" name="Libraries\SPL\MDR1986BE4\inc\MDR32F9Qx_power.h"/>
+                <file category="source" name="Libraries\SPL\MDR1986BE4\src\MDR32F9Qx_power.c"/>
+            </files>
+        </component>
+        
+        <!-- RST_CLK Driver -->
+        <component Cclass="Drivers" Cgroup="RST_CLK" Cversion="2.0.3" condition="CON_MDR1986BE4">
+            <description>RST_CLK driver for MDR1986BE4</description>
+            <files>
+                <file category="header" name="Libraries\SPL\MDR1986BE4\inc\MDR32F9Qx_rst_clk.h"/>
+                <file category="source" name="Libraries\SPL\MDR1986BE4\src\MDR32F9Qx_rst_clk.c"/>
+            </files>
+        </component>
+        
+        <!-- SSP Driver -->
+        <component Cclass="Drivers" Cgroup="SSP" Cversion="2.0.3" condition="CON_MDR1986BE4">
+            <description>SSP driver for MDR1986BE4</description>
+            <files>
+                <file category="header" name="Libraries\SPL\MDR1986BE4\inc\MDR32F9Qx_ssp.h"/>
+                <file category="source" name="Libraries\SPL\MDR1986BE4\src\MDR32F9Qx_ssp.c"/>
+            </files>
+        </component>
+        
+        <!-- TIMER Driver -->
+        <component Cclass="Drivers" Cgroup="TIMER" Cversion="2.0.3" condition="CON_MDR1986BE4">
+            <description>TIMER driver for MDR1986BE4</description>
+            <files>
+                <file category="header" name="Libraries\SPL\MDR1986BE4\inc\MDR32F9Qx_timer.h"/>
+                <file category="source" name="Libraries\SPL\MDR1986BE4\src\MDR32F9Qx_timer.c"/>
+            </files>
+        </component>
+        
+        <!-- UART Driver -->
+        <component Cclass="Drivers" Cgroup="UART" Cversion="2.0.3" condition="CON_MDR1986BE4_UART_DENPENDENCIES_RST_CLK">
+            <description>UART driver for MDR1986BE4</description>
+            <files>
+                <file category="header" name="Libraries\SPL\MDR1986BE4\inc\MDR32F9Qx_uart.h"/>
+                <file category="source" name="Libraries\SPL\MDR1986BE4\src\MDR32F9Qx_uart.c"/>
+            </files>
+        </component>
+        
+        <!-- WWDG Driver -->
+        <component Cclass="Drivers" Cgroup="WWDG" Cversion="2.0.3" condition="CON_MDR1986BE4">
+            <description>WWDG driver for MDR1986BE4</description>
+            <files>
+                <file category="header" name="Libraries\SPL\MDR1986BE4\inc\MDR32F9Qx_wwdg.h"/>
+                <file category="source" name="Libraries\SPL\MDR1986BE4\src\MDR32F9Qx_wwdg.c"/>
+            </files>
+        </component>
+
+    </components>
+
+
+</package>

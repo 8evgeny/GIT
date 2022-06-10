@@ -1,0 +1,56 @@
+T1230 000:009.145   SEGGER J-Link V7.22b Log File
+T1230 000:009.349   DLL Compiled: Jun 17 2021 17:22:49
+T1230 000:009.359   Logging started @ 2022-03-14 14:43
+T1230 000:009.367 - 9.371ms
+T1230 000:009.383 JLINK_SetWarnOutHandler(...)
+T1230 000:009.393 - 0.014ms
+T1230 000:009.402 JLINK_OpenEx(...)
+T1230 000:050.094   Looking for J-Link GUI Server exe at: C:\Keil_v5\ARM\Segger\JLinkGUIServer.exe
+T1230 000:050.312   Looking for J-Link GUI Server exe at: \JLinkGUIServer.exe
+T1230 000:351.975   Failed to connect to J-Link GUI Server.
+T1230 014:732.831   TELNET listener socket opened on port 19021
+T1230 014:733.049   WEBSRV Starting webserver
+T1230 014:733.333   WEBSRV Webserver running on local port 19080
+T1230 014:733.360 - 14723.964ms returns "O.K."
+T1230 014:733.393 JLINK_GetEmuCaps()
+T1230 014:733.407 - 0.020ms returns 0x98E61B83
+T1230 014:733.427 JLINK_TIF_GetAvailable(...)
+T1230 014:733.440 - 0.018ms
+T1230 014:733.454 JLINK_SetErrorOutHandler(...)
+T1230 014:733.465 - 0.017ms
+T1230 014:733.494 JLINK_ExecCommand("ProjectFile = "C:\Users\Professional\Documents\Keil_Projects\6_blink\JLinkSettings.ini"", ...). 
+T1230 014:747.065 - 13.590ms returns 0x00
+T1230 014:751.970 JLINK_ExecCommand("Device = MDR1986BE92", ...). 
+T1230 049:943.375 - 0.701ms returns 0xFFFFFFFF
+T1230 049:947.864 JLINK_GetHardwareVersion()
+T1230 049:949.822 - 1.990ms returns 11000
+T1230 049:949.869 JLINK_GetDLLVersion()
+T1230 049:949.879 - 0.014ms returns 72202
+T1230 049:949.889 JLINK_GetOEMString(...)
+T1230 049:949.905 JLINK_GetFirmwareString(...)
+T1230 049:949.919 - 0.018ms
+T1230 049:979.672 JLINK_GetDLLVersion()
+T1230 049:979.706 - 0.038ms returns 72202
+T1230 049:979.718 JLINK_GetCompileDateTime()
+T1230 049:979.726 - 0.012ms
+T1230 049:984.239 JLINK_GetFirmwareString(...)
+T1230 049:984.275 - 0.040ms
+T1230 049:995.848 JLINK_GetHardwareVersion()
+T1230 049:995.889 - 0.047ms returns 11000
+T1230 049:999.688 JLINK_GetSN()
+T1230 049:999.721 - 0.039ms returns 1043824117
+T1230 050:013.456 JLINK_GetOEMString(...)
+T1230 050:018.500 JLINK_TIF_Select(JLINKARM_TIF_SWD)
+T1230 050:024.810 - 6.326ms returns 0x00
+T1230 050:024.841 JLINK_HasError()
+T1230 050:026.676 JLINK_SetSpeed(1000)
+T1230 050:028.809 - 2.143ms
+T1230 050:028.829 JLINK_GetId()
+T1230 050:030.845   
+  ***** Error: 
+T1230 050:030.864   No CPU core or target device has been selected. Please make sure at least the core J-Link shall connect to, is selected.
+T1230 050:030.875 - 2.049ms returns 0x00000000
+T1230 051:561.770 JLINK_Close()
+T1230 051:574.745 - 13.008ms
+T1230 051:574.789   
+T1230 051:574.803   Closed

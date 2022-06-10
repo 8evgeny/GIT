@@ -1,0 +1,8 @@
+#pragma once
+
+#if defined(NETWORK_DIALOG_LIBRARY)
+    #define NETWORK_DIALOG_SHARED_EXPORT Q_DECL_EXPORT
+#else
+    #define NETWORK_DIALOG_SHARED_EXPORT Q_DECL_IMPORT
+#endif
+

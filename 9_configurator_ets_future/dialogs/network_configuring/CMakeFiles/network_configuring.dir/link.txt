@@ -1,0 +1,3 @@
+"C:\Program Files\CMake\bin\cmake.exe" -E rm -f CMakeFiles\network_configuring.dir/objects.a
+C:\QT5.15MinGW810\mingw64\bin\ar.exe qc CMakeFiles\network_configuring.dir/objects.a @CMakeFiles\network_configuring.dir\objects1.rsp
+C:\QT5.15MinGW810\mingw64\bin\g++.exe -shared -o ..\..\bin_win10\libnetwork_configuring.dll -Wl,--out-implib,libnetwork_configuring.dll.a -Wl,--major-image-version,0,--minor-image-version,0 -Wl,--whole-archive CMakeFiles\network_configuring.dir/objects.a -Wl,--no-whole-archive @CMakeFiles\network_configuring.dir\linklibs.rsp

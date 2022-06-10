@@ -1,0 +1,3 @@
+"C:\Program Files\CMake\bin\cmake.exe" -E rm -f CMakeFiles\ipstestdlg.dir/objects.a
+C:\QT5.15MinGW810\mingw64\bin\ar.exe qc CMakeFiles\ipstestdlg.dir/objects.a @CMakeFiles\ipstestdlg.dir\objects1.rsp
+C:\QT5.15MinGW810\mingw64\bin\g++.exe -shared -o ..\..\..\bin_win10\libipstestdlg.dll -Wl,--out-implib,libipstestdlg.dll.a -Wl,--major-image-version,0,--minor-image-version,0 -Wl,--whole-archive CMakeFiles\ipstestdlg.dir/objects.a -Wl,--no-whole-archive @CMakeFiles\ipstestdlg.dir\linklibs.rsp

@@ -1,0 +1,7 @@
+#pragma once
+
+#if defined(MESSAGEBOX_LIBRARY)
+    #define MESSAGEBOX_SHARED_EXPORT Q_DECL_EXPORT
+#else
+    #define MESSAGEBOX_SHARED_EXPORT Q_DECL_IMPORT
+#endif

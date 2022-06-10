@@ -37,7 +37,6 @@
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
-typedef StaticTask_t osStaticThreadDef_t;
 /* USER CODE BEGIN PTD */
 
 /* USER CODE END PTD */
@@ -110,58 +109,6 @@ void ethernet_link_check_state(struct netif *netif)
 
 }
 
-void udp_echoserver_receive_callback(void *arg, struct udp_pcb *upcb, struct pbuf *p, const ip_addr_t *addr, u16_t port)
-{
-  struct pbuf *p_tx;
-
-  /* allocate pbuf from RAM*/
-  p_tx = pbuf_alloc(PBUF_TRANSPORT,p->len, PBUF_RAM);
-
-  if(p_tx != NULL)
-  {
-    pbuf_take(p_tx, (char*)p->payload, p->len);
-    /* Connect to the remote client */
-    udp_connect(upcb, addr, UDP_CLIENT_PORT);
-
-    /* Tell the client that we have accepted it */
-    udp_send(upcb, p_tx);
-
-    /* free the UDP connection, so we can accept new clients */
-    udp_disconnect(upcb);
-
-    /* Free the p_tx buffer */
-    pbuf_free(p_tx);
-
-    /* Free the p buffer */
-    pbuf_free(p);
-  }
-}
-
-void udp_echoserver_init(void)
-{
-   struct udp_pcb *upcb;
-   err_t err;
-
-   /* Create a new UDP control block  */
-   upcb = udp_new();
-
-   if (upcb)
-   {
-     /* Bind the upcb to the UDP_PORT port */
-     /* Using IP_ADDR_ANY allow the upcb to be used by any local interface */
-      err = udp_bind(upcb, IP_ADDR_ANY, UDP_SERVER_PORT);
-
-      if(err == ERR_OK)
-      {
-        /* Set a receive callback for the upcb */
-        udp_recv(upcb, udp_echoserver_receive_callback, NULL);
-      }
-      else
-      {
-        udp_remove(upcb);
-      }
-   }
-}
 uint32_t EthernetLinkTimer;
 void Ethernet_Link_Periodic_Handle(struct netif *netif)
 {
@@ -194,83 +141,19 @@ SAI_HandleTypeDef hsai_BlockB1;
 DMA_HandleTypeDef hdma_sai1_a;
 DMA_HandleTypeDef hdma_sai1_b;
 
+TIM_HandleTypeDef htim3;
+
 UART_HandleTypeDef huart7;
 DMA_HandleTypeDef hdma_uart7_tx;
 
 SRAM_HandleTypeDef hsram1;
 
-/* Definitions for defaultTask */
-osThreadId_t defaultTaskHandle;
-uint32_t defaultTaskBuffer[ 256 ];
-osStaticThreadDef_t defaultTaskControlBlock;
-const osThreadAttr_t defaultTask_attributes = {
-  .name = "defaultTask",
-  .cb_mem = &defaultTaskControlBlock,
-  .cb_size = sizeof(defaultTaskControlBlock),
-  .stack_mem = &defaultTaskBuffer[0],
-  .stack_size = sizeof(defaultTaskBuffer),
-  .priority = (osPriority_t) osPriorityNormal,
-};
-/* Definitions for Test_Led_Task */
-osThreadId_t Test_Led_TaskHandle;
-uint32_t Test_Led_TaskBuffer[ 256 ];
-osStaticThreadDef_t Test_Led_TaskControlBlock;
-const osThreadAttr_t Test_Led_Task_attributes = {
-  .name = "Test_Led_Task",
-  .cb_mem = &Test_Led_TaskControlBlock,
-  .cb_size = sizeof(Test_Led_TaskControlBlock),
-  .stack_mem = &Test_Led_TaskBuffer[0],
-  .stack_size = sizeof(Test_Led_TaskBuffer),
-  .priority = (osPriority_t) osPriorityLow,
-};
-/* Definitions for LEDS_1_2_3_TEST */
-osThreadId_t LEDS_1_2_3_TESTHandle;
-uint32_t LEDS_1_2_3_TESTBuffer[ 256 ];
-osStaticThreadDef_t LEDS_1_2_3_TESTControlBlock;
-const osThreadAttr_t LEDS_1_2_3_TEST_attributes = {
-  .name = "LEDS_1_2_3_TEST",
-  .cb_mem = &LEDS_1_2_3_TESTControlBlock,
-  .cb_size = sizeof(LEDS_1_2_3_TESTControlBlock),
-  .stack_mem = &LEDS_1_2_3_TESTBuffer[0],
-  .stack_size = sizeof(LEDS_1_2_3_TESTBuffer),
-  .priority = (osPriority_t) osPriorityLow,
-};
-/* Definitions for LEDS_4_5_6_TEST */
-osThreadId_t LEDS_4_5_6_TESTHandle;
-uint32_t LEDS_4_5_6_TESTBuffer[ 256 ];
-osStaticThreadDef_t LEDS_4_5_6_TESTControlBlock;
-const osThreadAttr_t LEDS_4_5_6_TEST_attributes = {
-  .name = "LEDS_4_5_6_TEST",
-  .cb_mem = &LEDS_4_5_6_TESTControlBlock,
-  .cb_size = sizeof(LEDS_4_5_6_TESTControlBlock),
-  .stack_mem = &LEDS_4_5_6_TESTBuffer[0],
-  .stack_size = sizeof(LEDS_4_5_6_TESTBuffer),
-  .priority = (osPriority_t) osPriorityLow,
-};
-/* Definitions for KEYS_TEST_TASK */
-osThreadId_t KEYS_TEST_TASKHandle;
-uint32_t KEYS_TEST_TASKBuffer[ 256 ];
-osStaticThreadDef_t KEYS_TEST_TASKControlBlock;
-const osThreadAttr_t KEYS_TEST_TASK_attributes = {
-  .name = "KEYS_TEST_TASK",
-  .cb_mem = &KEYS_TEST_TASKControlBlock,
-  .cb_size = sizeof(KEYS_TEST_TASKControlBlock),
-  .stack_mem = &KEYS_TEST_TASKBuffer[0],
-  .stack_size = sizeof(KEYS_TEST_TASKBuffer),
-  .priority = (osPriority_t) osPriorityLow,
-};
-/* Definitions for EEPROM_Tests */
-osThreadId_t EEPROM_TestsHandle;
-uint32_t EEPROM_TestsBuffer[ 256 ];
-osStaticThreadDef_t EEPROM_TestsControlBlock;
-const osThreadAttr_t EEPROM_Tests_attributes = {
-  .name = "EEPROM_Tests",
-  .cb_mem = &EEPROM_TestsControlBlock,
-  .cb_size = sizeof(EEPROM_TestsControlBlock),
-  .stack_mem = &EEPROM_TestsBuffer[0],
-  .stack_size = sizeof(EEPROM_TestsBuffer),
-  .priority = (osPriority_t) osPriorityLow,
-};
+osThreadId defaultTaskHandle;
+osThreadId Test_Led_TaskHandle;
+osThreadId LEDS_1_2_3_TESTHandle;
+osThreadId LEDS_4_5_6_TESTHandle;
+osThreadId KEYS_TEST_TASKHandle;
+osThreadId EEPROM_TestsHandle;
 /* USER CODE BEGIN PV */
 
 /* USER CODE END PV */
@@ -288,12 +171,13 @@ static void MX_RTC_Init(void);
 static void MX_RNG_Init(void);
 static void MX_FMC_Init(void);
 static void MX_I2C2_Init(void);
-void StartDefaultTask(void *argument);
-void Test_Led_Task_(void *argument);
-void LEDS_1_2_3_TEST_(void *argument);
-void LEDS_4_5_6_TEST_(void *argument);
-void KEYS_TEST_TASK_(void *argument);
-void EEPROM_Tests_(void *argument);
+static void MX_TIM3_Init(void);
+void StartDefaultTask(void const * argument);
+void Test_Led_Task_(void const * argument);
+void LEDS_1_2_3_TEST_(void const * argument);
+void LEDS_4_5_6_TEST_(void const * argument);
+void KEYS_TEST_TASK_(void const * argument);
+void EEPROM_Tests_(void const * argument);
 
 /* USER CODE BEGIN PFP */
 
@@ -352,14 +236,12 @@ int main(void)
   MX_RNG_Init();
   MX_FMC_Init();
   MX_I2C2_Init();
+  MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
 
     littleFsInit();
 
   /* USER CODE END 2 */
-
-  /* Init scheduler */
-  osKernelInitialize();
 
   /* USER CODE BEGIN RTOS_MUTEX */
   /* add mutexes, ... */
@@ -378,43 +260,34 @@ int main(void)
   /* USER CODE END RTOS_QUEUES */
 
   /* Create the thread(s) */
-  /* creation of defaultTask */
-  defaultTaskHandle = osThreadNew(StartDefaultTask, NULL, &defaultTask_attributes);
+  /* definition and creation of defaultTask */
+  osThreadDef(defaultTask, StartDefaultTask, osPriorityNormal, 0, 256);
+  defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
 
-  /* creation of Test_Led_Task */
-  Test_Led_TaskHandle = osThreadNew(Test_Led_Task_, NULL, &Test_Led_Task_attributes);
+  /* definition and creation of Test_Led_Task */
+  osThreadDef(Test_Led_Task, Test_Led_Task_, osPriorityLow, 0, 256);
+  Test_Led_TaskHandle = osThreadCreate(osThread(Test_Led_Task), NULL);
 
-  /* creation of LEDS_1_2_3_TEST */
-  LEDS_1_2_3_TESTHandle = osThreadNew(LEDS_1_2_3_TEST_, NULL, &LEDS_1_2_3_TEST_attributes);
+  /* definition and creation of LEDS_1_2_3_TEST */
+  osThreadDef(LEDS_1_2_3_TEST, LEDS_1_2_3_TEST_, osPriorityLow, 0, 256);
+  LEDS_1_2_3_TESTHandle = osThreadCreate(osThread(LEDS_1_2_3_TEST), NULL);
 
-  /* creation of LEDS_4_5_6_TEST */
-  LEDS_4_5_6_TESTHandle = osThreadNew(LEDS_4_5_6_TEST_, NULL, &LEDS_4_5_6_TEST_attributes);
+  /* definition and creation of LEDS_4_5_6_TEST */
+  osThreadDef(LEDS_4_5_6_TEST, LEDS_4_5_6_TEST_, osPriorityLow, 0, 256);
+  LEDS_4_5_6_TESTHandle = osThreadCreate(osThread(LEDS_4_5_6_TEST), NULL);
 
-  /* creation of KEYS_TEST_TASK */
-  KEYS_TEST_TASKHandle = osThreadNew(KEYS_TEST_TASK_, NULL, &KEYS_TEST_TASK_attributes);
+  /* definition and creation of KEYS_TEST_TASK */
+  osThreadDef(KEYS_TEST_TASK, KEYS_TEST_TASK_, osPriorityLow, 0, 256);
+  KEYS_TEST_TASKHandle = osThreadCreate(osThread(KEYS_TEST_TASK), NULL);
 
-  /* creation of EEPROM_Tests */
-  EEPROM_TestsHandle = osThreadNew(EEPROM_Tests_, NULL, &EEPROM_Tests_attributes);
+  /* definition and creation of EEPROM_Tests */
+  osThreadDef(EEPROM_Tests, EEPROM_Tests_, osPriorityLow, 0, 256);
+  EEPROM_TestsHandle = osThreadCreate(osThread(EEPROM_Tests), NULL);
 
   /* USER CODE BEGIN RTOS_THREADS */
 
-//  extern DP83848_Object_t DP83848;
-//  MX_LWIP_Init();
-//  if (DP83848.Is_Initialized) {
-//      char msgUart7[] = "\r------- DP83848.Is_Initialized ----\n\r";
-//      RS232_write_c(msgUart7, sizeof (msgUart7));
-//  } else {
-//      char msgUart7[] = "\r------- DP83848.NO_Initialized ----\n\r";
-//      RS232_write_c(msgUart7, sizeof (msgUart7));
-//  }
-
-
   /* add threads, ... */
   /* USER CODE END RTOS_THREADS */
-
-  /* USER CODE BEGIN RTOS_EVENTS */
-  /* add events, ... */
-  /* USER CODE END RTOS_EVENTS */
 
   /* Start scheduler */
   osKernelStart();
@@ -445,7 +318,7 @@ void SystemClock_Config(void)
   HAL_PWREx_ConfigSupply(PWR_LDO_SUPPLY);
   /** Configure the main internal regulator output voltage
   */
-  __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE1);
+  __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE0);
 
   while(!__HAL_PWR_GET_FLAG(PWR_FLAG_VOSRDY)) {}
   /** Macro to configure the PLL clock source
@@ -461,12 +334,12 @@ void SystemClock_Config(void)
   RCC_OscInitStruct.HSI48State = RCC_HSI48_ON;
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
-  RCC_OscInitStruct.PLL.PLLM = 2;
-  RCC_OscInitStruct.PLL.PLLN = 64;
+  RCC_OscInitStruct.PLL.PLLM = 10;
+  RCC_OscInitStruct.PLL.PLLN = 384;
   RCC_OscInitStruct.PLL.PLLP = 2;
   RCC_OscInitStruct.PLL.PLLQ = 10;
   RCC_OscInitStruct.PLL.PLLR = 4;
-  RCC_OscInitStruct.PLL.PLLRGE = RCC_PLL1VCIRANGE_3;
+  RCC_OscInitStruct.PLL.PLLRGE = RCC_PLL1VCIRANGE_1;
   RCC_OscInitStruct.PLL.PLLVCOSEL = RCC_PLL1VCOWIDE;
   RCC_OscInitStruct.PLL.PLLFRACN = 0;
   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
@@ -486,11 +359,14 @@ void SystemClock_Config(void)
   RCC_ClkInitStruct.APB2CLKDivider = RCC_APB2_DIV2;
   RCC_ClkInitStruct.APB4CLKDivider = RCC_APB4_DIV2;
 
-  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2) != HAL_OK)
+  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_4) != HAL_OK)
   {
     Error_Handler();
   }
   HAL_RCC_MCOConfig(RCC_MCO1, RCC_MCO1SOURCE_HSE, RCC_MCODIV_1);
+  /** Enables the Clock Security System
+  */
+  HAL_RCC_EnableCSS();
 }
 
 /**
@@ -508,7 +384,7 @@ void PeriphCommonClock_Config(void)
   PeriphClkInitStruct.PLL2.PLL2N = 512;
   PeriphClkInitStruct.PLL2.PLL2P = 125;
   PeriphClkInitStruct.PLL2.PLL2Q = 125;
-  PeriphClkInitStruct.PLL2.PLL2R = 2;
+  PeriphClkInitStruct.PLL2.PLL2R = 125;
   PeriphClkInitStruct.PLL2.PLL2RGE = RCC_PLL2VCIRANGE_0;
   PeriphClkInitStruct.PLL2.PLL2VCOSEL = RCC_PLL2VCOWIDE;
   PeriphClkInitStruct.PLL2.PLL2FRACN = 0;
@@ -535,7 +411,7 @@ static void MX_I2C1_Init(void)
 
   /* USER CODE END I2C1_Init 1 */
   hi2c1.Instance = I2C1;
-  hi2c1.Init.Timing = 0x10C0ECFF;
+  hi2c1.Init.Timing = 0x307075B1;
   hi2c1.Init.OwnAddress1 = 0;
   hi2c1.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
   hi2c1.Init.DualAddressMode = I2C_DUALADDRESS_DISABLE;
@@ -581,7 +457,7 @@ static void MX_I2C2_Init(void)
 
   /* USER CODE END I2C2_Init 1 */
   hi2c2.Instance = I2C2;
-  hi2c2.Init.Timing = 0x10C0ECFF;
+  hi2c2.Init.Timing = 0x307075B1;
   hi2c2.Init.OwnAddress1 = 0;
   hi2c2.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
   hi2c2.Init.DualAddressMode = I2C_DUALADDRESS_DISABLE;
@@ -722,7 +598,7 @@ static void MX_SAI1_Init(void)
   hsai_BlockA1.Init.OutputDrive = SAI_OUTPUTDRIVE_DISABLE;
   hsai_BlockA1.Init.NoDivider = SAI_MASTERDIVIDER_ENABLE;
   hsai_BlockA1.Init.FIFOThreshold = SAI_FIFOTHRESHOLD_EMPTY;
-  hsai_BlockA1.Init.AudioFrequency = SAI_AUDIO_FREQUENCY_192K;
+  hsai_BlockA1.Init.AudioFrequency = SAI_AUDIO_FREQUENCY_16K;
   hsai_BlockA1.Init.SynchroExt = SAI_SYNCEXT_DISABLE;
   hsai_BlockA1.Init.MonoStereoMode = SAI_STEREOMODE;
   hsai_BlockA1.Init.CompandingMode = SAI_NOCOMPANDING;
@@ -747,6 +623,51 @@ static void MX_SAI1_Init(void)
   /* USER CODE BEGIN SAI1_Init 2 */
 
   /* USER CODE END SAI1_Init 2 */
+
+}
+
+/**
+  * @brief TIM3 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_TIM3_Init(void)
+{
+
+  /* USER CODE BEGIN TIM3_Init 0 */
+
+  /* USER CODE END TIM3_Init 0 */
+
+  TIM_ClockConfigTypeDef sClockSourceConfig = {0};
+  TIM_MasterConfigTypeDef sMasterConfig = {0};
+
+  /* USER CODE BEGIN TIM3_Init 1 */
+
+  /* USER CODE END TIM3_Init 1 */
+  htim3.Instance = TIM3;
+  htim3.Init.Prescaler = 0;
+  htim3.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim3.Init.Period = 15000;
+  htim3.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  htim3.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+  if (HAL_TIM_Base_Init(&htim3) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
+  if (HAL_TIM_ConfigClockSource(&htim3, &sClockSourceConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
+  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+  if (HAL_TIMEx_MasterConfigSynchronization(&htim3, &sMasterConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN TIM3_Init 2 */
+
+  /* USER CODE END TIM3_Init 2 */
 
 }
 
@@ -936,7 +857,7 @@ static void MX_GPIO_Init(void)
   /*Configure GPIO pin : PA8 */
   GPIO_InitStruct.Pin = GPIO_PIN_8;
   GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   GPIO_InitStruct.Alternate = GPIO_AF0_MCO;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
@@ -988,14 +909,13 @@ static void MX_GPIO_Init(void)
   * @retval None
   */
 /* USER CODE END Header_StartDefaultTask */
-void StartDefaultTask(void *argument)
+void StartDefaultTask(void const * argument)
 {
   /* init code for LWIP */
   MX_LWIP_Init();
   /* USER CODE BEGIN 5 */
 
   char msgUart7[] = "\r------- StartDefaultTask ----------\n\r";
-//  HAL_UART_Transmit_IT (&huart7,(uint8_t*)msgUart7, sizeof (msgUart7));
   RS232_write_c(msgUart7, sizeof (msgUart7));
 
   if (DP83848.Is_Initialized) {
@@ -1004,35 +924,11 @@ void StartDefaultTask(void *argument)
     RS232_write_c("\rDP83848.No_Initialized\r\n", sizeof ("\rDP83848.No_Initialized\r\n"));
   }
 
-  const char* message = "Hello UDP message!\n\r";
-
-  osDelay(1000);
-
-  ip_addr_t PC_IPADDR;
-  IP_ADDR4(&PC_IPADDR, 192, 168, 0, 101);
-
-  struct udp_pcb* my_udp = udp_new();
-  udp_connect(my_udp, &PC_IPADDR, 55151);
-  struct pbuf* udp_buffer = NULL;
-//   udp_echoserver_init();
-
-  /* Infinite loop */
   for(;;)
   {
-
-      osDelay(1000);
-        /* !! PBUF_RAM is critical for correct operation !! */
-        udp_buffer = pbuf_alloc(PBUF_TRANSPORT, strlen(message), PBUF_RAM);
-
-        if (udp_buffer != NULL) {
-          memcpy(udp_buffer->payload, message, strlen(message));
-          udp_send(my_udp, udp_buffer);
-          pbuf_free(udp_buffer);
-        }
       ethernetif_input(&gnetif);
       sys_check_timeouts();
       Ethernet_Link_Periodic_Handle(&gnetif);
-
 
     osDelay(1);
   }
@@ -1046,7 +942,7 @@ void StartDefaultTask(void *argument)
 * @retval None
 */
 /* USER CODE END Header_Test_Led_Task_ */
-void Test_Led_Task_(void *argument)
+void Test_Led_Task_(void const * argument)
 {
   /* USER CODE BEGIN Test_Led_Task_ */
 
@@ -1098,7 +994,7 @@ void Test_Led_Task_(void *argument)
 * @retval None
 */
 /* USER CODE END Header_LEDS_1_2_3_TEST_ */
-void LEDS_1_2_3_TEST_(void *argument)
+void LEDS_1_2_3_TEST_(void const * argument)
 {
   /* USER CODE BEGIN LEDS_1_2_3_TEST_ */
   (void)argument;
@@ -1150,7 +1046,7 @@ void LEDS_1_2_3_TEST_(void *argument)
 * @retval None
 */
 /* USER CODE END Header_LEDS_4_5_6_TEST_ */
-void LEDS_4_5_6_TEST_(void *argument)
+void LEDS_4_5_6_TEST_(void const * argument)
 {
   /* USER CODE BEGIN LEDS_4_5_6_TEST_ */
 
@@ -1173,7 +1069,7 @@ void LEDS_4_5_6_TEST_(void *argument)
         {
             if (HAL_GetTick() > tickstart + timeReset)
             {
-                HAL_GPIO_WritePin(GPIOG, L4_Pin|L4_Pin|L6_Pin, GPIO_PIN_SET);
+                HAL_GPIO_WritePin(GPIOG, L4_Pin|L5_Pin|L6_Pin, GPIO_PIN_SET);
                 reset = 0;
                 tickstart = HAL_GetTick();
                 sprintf(msgUart7,"\r%s %d\n\r", "------- LEDS 4 5 6 Blink ------", (int)osKernelSysTick());
@@ -1203,7 +1099,7 @@ void LEDS_4_5_6_TEST_(void *argument)
 * @retval None
 */
 /* USER CODE END Header_KEYS_TEST_TASK_ */
-void KEYS_TEST_TASK_(void *argument)
+void KEYS_TEST_TASK_(void const * argument)
 {
   /* USER CODE BEGIN KEYS_TEST_TASK_ */
     (void)argument;
@@ -1226,7 +1122,7 @@ void KEYS_TEST_TASK_(void *argument)
 * @retval None
 */
 /* USER CODE END Header_EEPROM_Tests_ */
-void EEPROM_Tests_(void *argument)
+void EEPROM_Tests_(void const * argument)
 {
   /* USER CODE BEGIN EEPROM_Tests_ */
     (void)argument;
@@ -1263,12 +1159,12 @@ void MPU_Config(void)
   MPU_InitStruct.Enable = MPU_REGION_ENABLE;
   MPU_InitStruct.Number = MPU_REGION_NUMBER0;
   MPU_InitStruct.BaseAddress = 30000000;
-  MPU_InitStruct.Size = MPU_REGION_SIZE_512B;
+  MPU_InitStruct.Size = MPU_REGION_SIZE_256KB;
   MPU_InitStruct.SubRegionDisable = 0x0;
-  MPU_InitStruct.TypeExtField = MPU_TEX_LEVEL0;
+  MPU_InitStruct.TypeExtField = MPU_TEX_LEVEL1;
   MPU_InitStruct.AccessPermission = MPU_REGION_FULL_ACCESS;
-  MPU_InitStruct.DisableExec = MPU_INSTRUCTION_ACCESS_ENABLE;
-  MPU_InitStruct.IsShareable = MPU_ACCESS_SHAREABLE;
+  MPU_InitStruct.DisableExec = MPU_INSTRUCTION_ACCESS_DISABLE;
+  MPU_InitStruct.IsShareable = MPU_ACCESS_NOT_SHAREABLE;
   MPU_InitStruct.IsCacheable = MPU_ACCESS_NOT_CACHEABLE;
   MPU_InitStruct.IsBufferable = MPU_ACCESS_NOT_BUFFERABLE;
 
@@ -1276,9 +1172,21 @@ void MPU_Config(void)
   /** Initializes and configures the Region and the memory to be protected
   */
   MPU_InitStruct.Number = MPU_REGION_NUMBER1;
+  MPU_InitStruct.BaseAddress = 0x30000000;
+  MPU_InitStruct.Size = MPU_REGION_SIZE_256B;
+  MPU_InitStruct.TypeExtField = MPU_TEX_LEVEL0;
+  MPU_InitStruct.IsShareable = MPU_ACCESS_SHAREABLE;
+  MPU_InitStruct.IsBufferable = MPU_ACCESS_BUFFERABLE;
+
+  HAL_MPU_ConfigRegion(&MPU_InitStruct);
+  /** Initializes and configures the Region and the memory to be protected
+  */
+  MPU_InitStruct.Number = MPU_REGION_NUMBER2;
   MPU_InitStruct.BaseAddress = 0x30040000;
   MPU_InitStruct.Size = MPU_REGION_SIZE_32KB;
-  MPU_InitStruct.IsBufferable = MPU_ACCESS_BUFFERABLE;
+  MPU_InitStruct.TypeExtField = MPU_TEX_LEVEL1;
+  MPU_InitStruct.IsShareable = MPU_ACCESS_NOT_SHAREABLE;
+  MPU_InitStruct.IsBufferable = MPU_ACCESS_NOT_BUFFERABLE;
 
   HAL_MPU_ConfigRegion(&MPU_InitStruct);
   /* Enables the MPU */

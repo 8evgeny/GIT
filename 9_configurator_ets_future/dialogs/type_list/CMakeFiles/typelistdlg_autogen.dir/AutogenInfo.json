@@ -1,0 +1,189 @@
+{
+	"BUILD_DIR" : "D:/IPS/configurator_ets_dop/dialogs/type_list/typelistdlg_autogen",
+	"CMAKE_BINARY_DIR" : "D:/IPS/configurator_ets_dop",
+	"CMAKE_CURRENT_BINARY_DIR" : "D:/IPS/configurator_ets_dop/dialogs/type_list",
+	"CMAKE_CURRENT_SOURCE_DIR" : "D:/IPS/configurator_ets_dop/dialogs/type_list",
+	"CMAKE_EXECUTABLE" : "C:/Program Files/CMake/bin/cmake.exe",
+	"CMAKE_LIST_FILES" : 
+	[
+		"D:/IPS/configurator_ets_dop/dialogs/type_list/CMakeLists.txt",
+		"D:/IPS/configurator_ets_dop/cmake/project.cmake",
+		"C:/QT5.15MinGW810/Qt515/lib/cmake/Qt5/Qt5ConfigVersion.cmake",
+		"C:/QT5.15MinGW810/Qt515/lib/cmake/Qt5/Qt5Config.cmake",
+		"C:/QT5.15MinGW810/Qt515/lib/cmake/Qt5/Qt5ConfigVersion.cmake",
+		"C:/QT5.15MinGW810/Qt515/lib/cmake/Qt5/Qt5Config.cmake",
+		"C:/QT5.15MinGW810/Qt515/lib/cmake/Qt5/Qt5ModuleLocation.cmake",
+		"C:/QT5.15MinGW810/Qt515/lib/cmake/Qt5Widgets/Qt5WidgetsConfigVersion.cmake",
+		"C:/QT5.15MinGW810/Qt515/lib/cmake/Qt5Widgets/Qt5WidgetsConfig.cmake",
+		"C:/QT5.15MinGW810/Qt515/lib/cmake/Qt5Gui/Qt5GuiConfigVersion.cmake",
+		"C:/QT5.15MinGW810/Qt515/lib/cmake/Qt5Gui/Qt5GuiConfig.cmake",
+		"C:/QT5.15MinGW810/Qt515/lib/cmake/Qt5Core/Qt5CoreConfigVersion.cmake",
+		"C:/QT5.15MinGW810/Qt515/lib/cmake/Qt5Core/Qt5CoreConfig.cmake",
+		"C:/QT5.15MinGW810/Qt515/lib/cmake/Qt5Core/Qt5CoreConfigExtras.cmake",
+		"C:/QT5.15MinGW810/Qt515/lib/cmake/Qt5Core/Qt5CoreConfigExtrasMkspecDir.cmake",
+		"C:/QT5.15MinGW810/Qt515/lib/cmake/Qt5Core/Qt5CoreMacros.cmake",
+		"C:/Program Files/CMake/share/cmake-3.21/Modules/CMakeParseArguments.cmake",
+		"C:/QT5.15MinGW810/Qt515/lib/cmake/Qt5Gui/Qt5Gui_QGifPlugin.cmake",
+		"C:/QT5.15MinGW810/Qt515/lib/cmake/Qt5Gui/Qt5Gui_QICNSPlugin.cmake",
+		"C:/QT5.15MinGW810/Qt515/lib/cmake/Qt5Gui/Qt5Gui_QICOPlugin.cmake",
+		"C:/QT5.15MinGW810/Qt515/lib/cmake/Qt5Gui/Qt5Gui_QJpegPlugin.cmake",
+		"C:/QT5.15MinGW810/Qt515/lib/cmake/Qt5Gui/Qt5Gui_QMinimalIntegrationPlugin.cmake",
+		"C:/QT5.15MinGW810/Qt515/lib/cmake/Qt5Gui/Qt5Gui_QOffscreenIntegrationPlugin.cmake",
+		"C:/QT5.15MinGW810/Qt515/lib/cmake/Qt5Gui/Qt5Gui_QSvgIconPlugin.cmake",
+		"C:/QT5.15MinGW810/Qt515/lib/cmake/Qt5Gui/Qt5Gui_QSvgPlugin.cmake",
+		"C:/QT5.15MinGW810/Qt515/lib/cmake/Qt5Gui/Qt5Gui_QTgaPlugin.cmake",
+		"C:/QT5.15MinGW810/Qt515/lib/cmake/Qt5Gui/Qt5Gui_QTiffPlugin.cmake",
+		"C:/QT5.15MinGW810/Qt515/lib/cmake/Qt5Gui/Qt5Gui_QTuioTouchPlugin.cmake",
+		"C:/QT5.15MinGW810/Qt515/lib/cmake/Qt5Gui/Qt5Gui_QVirtualKeyboardPlugin.cmake",
+		"C:/QT5.15MinGW810/Qt515/lib/cmake/Qt5Gui/Qt5Gui_QWbmpPlugin.cmake",
+		"C:/QT5.15MinGW810/Qt515/lib/cmake/Qt5Gui/Qt5Gui_QWebGLIntegrationPlugin.cmake",
+		"C:/QT5.15MinGW810/Qt515/lib/cmake/Qt5Gui/Qt5Gui_QWebpPlugin.cmake",
+		"C:/QT5.15MinGW810/Qt515/lib/cmake/Qt5Gui/Qt5Gui_QWindowsDirect2DIntegrationPlugin.cmake",
+		"C:/QT5.15MinGW810/Qt515/lib/cmake/Qt5Gui/Qt5Gui_QWindowsIntegrationPlugin.cmake",
+		"C:/QT5.15MinGW810/Qt515/lib/cmake/Qt5Gui/Qt5Gui_QXdgDesktopPortalThemePlugin.cmake",
+		"C:/QT5.15MinGW810/Qt515/lib/cmake/Qt5Gui/Qt5GuiConfigExtras.cmake",
+		"C:/QT5.15MinGW810/Qt515/lib/cmake/Qt5Widgets/Qt5Widgets_QWindowsVistaStylePlugin.cmake",
+		"C:/QT5.15MinGW810/Qt515/lib/cmake/Qt5Widgets/Qt5WidgetsConfigExtras.cmake",
+		"C:/QT5.15MinGW810/Qt515/lib/cmake/Qt5Widgets/Qt5WidgetsMacros.cmake",
+		"C:/Program Files/CMake/share/cmake-3.21/Modules/CMakeParseArguments.cmake",
+		"C:/QT5.15MinGW810/Qt515/lib/cmake/Qt5Gui/Qt5GuiConfigVersion.cmake",
+		"C:/QT5.15MinGW810/Qt515/lib/cmake/Qt5Gui/Qt5GuiConfig.cmake"
+	],
+	"CMAKE_SOURCE_DIR" : "D:/IPS/configurator_ets_dop",
+	"DEP_FILE" : "",
+	"DEP_FILE_RULE_NAME" : "",
+	"HEADERS" : 
+	[
+		[
+			"D:/IPS/configurator_ets_dop/dialogs/type_list/type_list.h",
+			"MU",
+			"EWIEGA46WW/moc_type_list.cpp",
+			null
+		],
+		[
+			"D:/IPS/configurator_ets_dop/dialogs/type_list/type_list_global.h",
+			"MU",
+			"EWIEGA46WW/moc_type_list_global.cpp",
+			null
+		],
+		[
+			"D:/IPS/configurator_ets_dop/dialogs/type_list/type_list_pch.h",
+			"MU",
+			"EWIEGA46WW/moc_type_list_pch.cpp",
+			null
+		],
+		[
+			"D:/IPS/configurator_ets_dop/include/log.h",
+			"MU",
+			"DGKZTCOIDE/moc_log.cpp",
+			null
+		],
+		[
+			"D:/IPS/configurator_ets_dop/include/main_pch.h",
+			"MU",
+			"DGKZTCOIDE/moc_main_pch.cpp",
+			null
+		],
+		[
+			"D:/IPS/configurator_ets_dop/include/model.h",
+			"MU",
+			"DGKZTCOIDE/moc_model.cpp",
+			null
+		],
+		[
+			"D:/IPS/configurator_ets_dop/include/view.h",
+			"MU",
+			"DGKZTCOIDE/moc_view.cpp",
+			null
+		]
+	],
+	"HEADER_EXTENSIONS" : [ "h", "hh", "h++", "hm", "hpp", "hxx", "in", "txx" ],
+	"INCLUDE_DIR" : "D:/IPS/configurator_ets_dop/dialogs/type_list/typelistdlg_autogen/include",
+	"MOC_COMPILATION_FILE" : "D:/IPS/configurator_ets_dop/dialogs/type_list/typelistdlg_autogen/mocs_compilation.cpp",
+	"MOC_DEFINITIONS" : 
+	[
+		"QT",
+		"QT_CORE_LIB",
+		"QT_GUI_LIB",
+		"QT_NO_CAST_FROM_ASCII",
+		"QT_NO_CAST_FROM_BYTEARRAY",
+		"QT_NO_CAST_TO_ASCII",
+		"QT_NO_DEBUG",
+		"QT_NO_URL_CAST_FROM_STRING",
+		"QT_USE_QSTRINGBUILDER",
+		"QT_WIDGETS_LIB",
+		"SURV_DEBUG",
+		"SURV_TESTDATA",
+		"TYPELIST_DIALOG_LIBRARY",
+		"VERSION_MAJOR=2",
+		"VERSION_MINOR=0",
+		"VERSION_PATCH=11",
+		"_SCL_SECURE_NO_WARNINGS",
+		"_WINSOCK_DEPRECATED_NO_WARNINGS",
+		"__WIN32__",
+		"typelistdlg_EXPORTS"
+	],
+	"MOC_DEPEND_FILTERS" : 
+	[
+		[
+			"Q_PLUGIN_METADATA",
+			"[\n][ \t]*Q_PLUGIN_METADATA[ \t]*\\([^\\)]*FILE[ \t]*\"([^\"]+)\""
+		]
+	],
+	"MOC_INCLUDES" : 
+	[
+		"D:/IPS/configurator_ets_dop/dialogs/type_list",
+		"D:/IPS/configurator_ets_dop",
+		"C:/QT5.15MinGW810/Qt515/include",
+		"C:/QT5.15MinGW810/Qt515/include/QtWidgets",
+		"C:/QT5.15MinGW810/Qt515/include/QtGui",
+		"C:/QT5.15MinGW810/Qt515/include/QtANGLE",
+		"C:/QT5.15MinGW810/Qt515/include/QtCore",
+		"C:/QT5.15MinGW810/Qt515/mkspecs/win32-g++",
+		"C:/QT5.15MinGW810/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++",
+		"C:/QT5.15MinGW810/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/x86_64-w64-mingw32",
+		"C:/QT5.15MinGW810/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/backward",
+		"C:/QT5.15MinGW810/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include",
+		"C:/QT5.15MinGW810/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include-fixed",
+		"C:/QT5.15MinGW810/mingw64/x86_64-w64-mingw32/include"
+	],
+	"MOC_MACRO_NAMES" : [ "Q_OBJECT", "Q_GADGET", "Q_NAMESPACE", "Q_NAMESPACE_EXPORT" ],
+	"MOC_OPTIONS" : [],
+	"MOC_PATH_PREFIX" : false,
+	"MOC_PREDEFS_CMD" : 
+	[
+		"C:/QT5.15MinGW810/mingw64/bin/g++.exe",
+		"-dM",
+		"-E",
+		"-c",
+		"C:/Program Files/CMake/share/cmake-3.21/Modules/CMakeCXXCompilerABI.cpp"
+	],
+	"MOC_PREDEFS_FILE" : "D:/IPS/configurator_ets_dop/dialogs/type_list/typelistdlg_autogen/moc_predefs.h",
+	"MOC_RELAXED_MODE" : false,
+	"MOC_SKIP" : [ "D:/IPS/configurator_ets_dop/dialogs/type_list/ui_type_list.h" ],
+	"MULTI_CONFIG" : false,
+	"PARALLEL" : 2,
+	"PARSE_CACHE_FILE" : "D:/IPS/configurator_ets_dop/dialogs/type_list/CMakeFiles/typelistdlg_autogen.dir/ParseCache.txt",
+	"QT_MOC_EXECUTABLE" : "C:/QT5.15MinGW810/Qt515/bin/moc.exe",
+	"QT_UIC_EXECUTABLE" : "C:/QT5.15MinGW810/Qt515/bin/uic.exe",
+	"QT_VERSION_MAJOR" : 5,
+	"QT_VERSION_MINOR" : 15,
+	"SETTINGS_FILE" : "D:/IPS/configurator_ets_dop/dialogs/type_list/CMakeFiles/typelistdlg_autogen.dir/AutogenUsed.txt",
+	"SOURCES" : 
+	[
+		[
+			"D:/IPS/configurator_ets_dop/dialogs/type_list/type_list.cpp",
+			"MU",
+			null
+		]
+	],
+	"UIC_OPTIONS" : [],
+	"UIC_SEARCH_PATHS" : [],
+	"UIC_SKIP" : 
+	[
+		"D:/IPS/configurator_ets_dop/dialogs/type_list/type_list.ui",
+		"D:/IPS/configurator_ets_dop/dialogs/type_list/ui_type_list.h"
+	],
+	"UIC_UI_FILES" : [],
+	"VERBOSITY" : 0
+}

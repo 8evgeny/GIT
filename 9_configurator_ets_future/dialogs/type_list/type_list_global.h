@@ -1,0 +1,7 @@
+#pragma once
+
+#if defined(TYPELIST_DIALOG_LIBRARY)
+    #define TYPELIST_DIALOG_SHARED_EXPORT Q_DECL_EXPORT
+#else
+    #define TYPELIST_DIALOG_SHARED_EXPORT Q_DECL_IMPORT
+#endif

@@ -1,0 +1,188 @@
+{
+    "Global parameters": {
+        "alarm": 70,
+        "callerid": 1000,
+        "conference": 40,
+        "dgrCall": 55,
+        "duplex": 50,
+        "gateway": "172.17.10.250",
+        "grPa": 65,
+        "ip": "192.17.10.1",
+        "ip doc": "192.168.10.1",
+        "key AES": "AC7E620A3E71A0C5614A8F63CF214250",
+        "netmask": "255.255.255.0",
+        "pa": 60,
+        "port configuration": 12341,
+        "port log doc": 2020,
+        "port rtp doc": 10000
+    },
+    "Project information": {
+        "comments": [
+            {
+                "author": "Дунаев",
+                "comment": "Тест Альфа версии",
+                "date": "Пт ноя 12 09:38:01 2021"
+            }
+        ],
+        "customer": "ГИТ",
+        "desc": "Тестовый проект для 4 приборов:\nПДО-16 - 1 шт.\nПДО-16Н - 1 шт.\nПДО-32 - 2 шт.",
+        "id": "100",
+        "location": "Москва",
+        "number": "100"
+    },
+    "Stations": [
+        {
+            "SN": "",
+            "cid": 1000,
+            "gateway": "172.17.10.250",
+            "hash": "x]Q+ä1mWfPa;Eé4",
+            "ip": "172.17.10.240",
+            "items": {
+                "activestation": [
+                    {
+                        "activate_lines": "",
+                        "destination": "CID1001",
+                        "function": 3,
+                        "id": 1,
+                        "name": "ПДО-32_1_Симплекс",
+                        "pretone_checked": "0",
+                        "pretone_duration": 2,
+                        "pretone_id": 0,
+                        "pretone_times": 0,
+                        "priority": 60
+                    },
+                    {
+                        "activate_lines": "",
+                        "destination": "CID1002",
+                        "function": 2,
+                        "id": 2,
+                        "name": "ПДО-32_1_ДуплексАвто",
+                        "pretone_checked": "0",
+                        "pretone_duration": 2,
+                        "pretone_id": 0,
+                        "pretone_times": 0,
+                        "priority": 60
+                    }
+                ]
+            },
+            "mask": "255.255.255.0",
+            "name": "ПДО-16_1",
+            "type": 1
+        },
+        {
+            "SN": "",
+            "cid": 1001,
+            "gateway": "",
+            "hash": "x]Q+ä1mWfPa;Eé4",
+            "ip": "172.17.10.241",
+            "items": {
+                "activestation": [
+                    {
+                        "activate_lines": "",
+                        "destination": "CID1000",
+                        "function": 4,
+                        "id": 1,
+                        "name": "ПДО-16_1_Дуплекс",
+                        "pretone_checked": "0",
+                        "pretone_duration": 2,
+                        "pretone_id": 0,
+                        "pretone_times": 0,
+                        "priority": 50
+                    },
+                    {
+                        "activate_lines": "",
+                        "destination": "CID1002",
+                        "function": 4,
+                        "id": 2,
+                        "name": "ПДО-32_1_Дуплекс",
+                        "pretone_checked": "0",
+                        "pretone_duration": 2,
+                        "pretone_id": 0,
+                        "pretone_times": 0,
+                        "priority": 50
+                    }
+                ]
+            },
+            "mask": "255.255.255.0",
+            "name": "ПДО-16Н_1",
+            "type": 2
+        },
+        {
+            "SN": "",
+            "cid": 1002,
+            "gateway": "",
+            "hash": "x]Q+ä1mWfPa;Eé4",
+            "ip": "172.17.10.242",
+            "items": {
+                "activestation": [
+                    {
+                        "activate_lines": "",
+                        "destination": "CID1000",
+                        "function": 4,
+                        "id": 1,
+                        "name": "ПДО-16_1_Дуплекс",
+                        "pretone_checked": "0",
+                        "pretone_duration": 2,
+                        "pretone_id": 0,
+                        "pretone_times": 0,
+                        "priority": 50
+                    },
+                    {
+                        "activate_lines": "",
+                        "destination": "CID1001",
+                        "function": 4,
+                        "id": 2,
+                        "name": "ПДО-16Н_1_Дуплекс",
+                        "pretone_checked": "0",
+                        "pretone_duration": 2,
+                        "pretone_id": 0,
+                        "pretone_times": 0,
+                        "priority": 50
+                    }
+                ]
+            },
+            "mask": "255.255.255.0",
+            "name": "ПДО-32_1",
+            "type": 3
+        },
+        {
+            "SN": "",
+            "cid": 1003,
+            "gateway": "172.17.10.250",
+            "hash": "x]Q+ä1mWfPa;Eé4",
+            "ip": "172.17.10.243",
+            "items": {
+                "activestation": [
+                    {
+                        "activate_lines": "",
+                        "destination": "CID1001",
+                        "function": 3,
+                        "id": 1,
+                        "name": "Саша1",
+                        "pretone_checked": "0",
+                        "pretone_duration": 2,
+                        "pretone_id": 0,
+                        "pretone_times": 0,
+                        "priority": 60
+                    },
+                    {
+                        "activate_lines": "",
+                        "destination": "CID1002",
+                        "function": 3,
+                        "id": 2,
+                        "name": "NewKey",
+                        "pretone_checked": "0",
+                        "pretone_duration": 2,
+                        "pretone_id": 0,
+                        "pretone_times": 0,
+                        "priority": 60
+                    }
+                ]
+            },
+            "mask": "255.255.255.0",
+            "name": "ПДО-32_2",
+            "type": 3
+        }
+    ],
+    "version": 1
+}
