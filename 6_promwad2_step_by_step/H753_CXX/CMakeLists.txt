@@ -58,6 +58,8 @@ include_directories(
     Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F
     EEPROM Middlewares/Third_Party/littlefs
     RS232
+    Middlewares/Third_Party/CircularBuffer
+    Debug
     )
 file (GLOB SOURCES_C Core/Src/*.c STM32H753IITX_FLASH.ld Core/Startup/startup_stm32h753iitx.s)
 file (GLOB SOURCES_CPP Core/Src/*.cpp )
@@ -96,6 +98,13 @@ add_library(EEPROM ${EEPROM_SOURCES} )
 file (GLOB RS232_SOURCES RS232/*.c RS232/*.cpp)
 add_library(RS232 ${RS232_SOURCES} )
 
+file (GLOB CircularBuffer_src Middlewares/Third_Party/CircularBuffer/CircularBuffer.tpp )
+add_library(CircularBuffer ${CircularBuffer_src} )
+set_target_properties(CircularBuffer PROPERTIES LINKER_LANGUAGE CXX)
+
+file (GLOB DEBUG_SOURCES Debug/*.c Debug/*.cpp)
+add_library(DEBUG ${DEBUG_SOURCES} )
+
 add_executable(${PROJECT_NAME}.elf ${SOURCES_C} ${SOURCES_CPP})
 
 target_link_libraries(${PROJECT_NAME}.elf PUBLIC
@@ -105,6 +114,8 @@ target_link_libraries(${PROJECT_NAME}.elf PUBLIC
     FreeRTOS
     EEPROM
     RS232
+    CircularBuffer
+    DEBUG
     )
 
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}\
