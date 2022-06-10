@@ -1,10 +1,10 @@
 #include "rs232.h"
 #include "rs232_printf.h"
-//#include <algorithm>
+#include <algorithm>
 #include <string.h>
-//#include "../Debug/debug.h"
-//#include "eeprom.h"
-//#include "fsforeeprom.h"
+#include "../Debug/debug.h"
+#include "eeprom.h"
+#include "fsforeeprom.h"
 
 //#include "json.h"
 
