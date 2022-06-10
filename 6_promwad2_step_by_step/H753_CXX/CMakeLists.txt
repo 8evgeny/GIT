@@ -22,8 +22,78 @@ add_definitions(-DUSE_HAL_DRIVER)
 #add_definitions(-D__ICACHE_PRESENT)
 #add_definitions(-DSC2BOARD)
 
-#set(CMAKE_BUILD_TYPE debug)
-#set(CMAKE_BUILD_TYPE release)
+include_directories(
+    Core/Src
+    Core/Inc
+    Core/Startup
+    Drivers/CMSIS/Include
+    Drivers/CMSIS/Device/ST/STM32H7xx/Include
+    Drivers/BSP/Components/dp83848
+    Drivers/BSP/Components/dp83848
+    Drivers/STM32H7xx_HAL_Driver/Inc
+    Drivers/STM32H7xx_HAL_Driver/Inc/Legacy
+    LWIP/App
+    LWIP/Target
+    LWIP
+    Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2
+    Middlewares/Third_Party/LwIP/system/arch
+    Middlewares/Third_Party/LwIP/system
+    Middlewares/Third_Party/LwIP/src/include/netif
+    Middlewares/Third_Party/LwIP/src/include/netif/ppp
+    Middlewares/Third_Party/LwIP/src/include
+    Middlewares/Third_Party/LwIP/src/include/lwip
+    Middlewares/Third_Party/LwIP/src/include/lwip/apps
+    Middlewares/Third_Party/LwIP/src/include/lwip/priv
+    Middlewares/Third_Party/LwIP/src/include/lwip/prot
+    Middlewares/Third_Party/LwIP/src/include/compat/posix
+    Middlewares/Third_Party/LwIP/src/include/compat/arpa
+    Middlewares/Third_Party/LwIP/src/include/compat/net
+    Middlewares/Third_Party/LwIP/src/include/compat/sys
+    Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS
+    Middlewares/Third_Party/FreeRTOS/Source/include
+    Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F
+    EEPROM Middlewares/Third_Party/littlefs
+    RS232
+    )
+file (GLOB SOURCES_C Core/Src/*.c STM32H753IITX_FLASH.ld Core/Startup/startup_stm32h753iitx.s)
+
+file (GLOB 83848_SOURCES  Drivers/BSP/Components/dp83848/dp83848.c )
+add_library(LIB_83848 ${83848_SOURCES} )
+
+file (GLOB HAL_SRC Drivers/STM32H7xx_HAL_Driver/Src/*.c)
+add_library(STM32H7xx_HAL_Driver ${HAL_SRC})
+
+file (GLOB LWIP_SOURCES
+    LWIP/App/lwip.c
+    LWIP/Target/ethernetif.c
+    Middlewares/Third_Party/LwIP/src/api/*
+    Middlewares/Third_Party/LwIP/src/apps/mqtt/mqtt.c
+    Middlewares/Third_Party/LwIP/src/core/*
+    Middlewares/Third_Party/LwIP/src/core/ipv4/*
+    Middlewares/Third_Party/LwIP/src/netif/*
+    Middlewares/Third_Party/LwIP/src/netif/ppp/*
+    Middlewares/Third_Party/LwIP/system/OS/sys_arch.c
+    )
+add_library(LWIP ${LWIP_SOURCES} )
+
+file (GLOB FreeRTOS_SRC
+    Middlewares/Third_Party/FreeRTOS/Source/*.c
+    Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/*.c
+    Middlewares/Third_Party/FreeRTOS/Source/portable/MemMang/heap_4.c
+    Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.c
+    Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.c
+    )
+add_library(FreeRTOS ${FreeRTOS_SRC})
+
+file (GLOB EEPROM_SOURCES EEPROM/*.c  Middlewares/Third_Party/littlefs/*.c)
+add_library(EEPROM ${EEPROM_SOURCES} )
+
+file (GLOB RS232_SOURCES RS232/*.c)
+add_library(RS232 ${RS232_SOURCES} )
+
+add_executable(${PROJECT_NAME}.elf ${SOURCES_C} )
+
+set_target_properties(${PROJECT_NAME}.elf PROPERTIES LINKER_LANGUAGE C)
 
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}\
     -mcpu=cortex-m7 \
@@ -44,107 +114,7 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}\
     -Xlinker -Map=${PROJECT_NAME}.map \
     ")
 
-include_directories(Core/Src Core/Inc Core/Startup)
-file (GLOB SOURCES_C Core/Src/*.c STM32H753IITX_FLASH.ld)
-
-include_directories(
-    Core/Src
-    Drivers/CMSIS/Include
-    Drivers/CMSIS/Device/ST/STM32H7xx/Include
-    Drivers/BSP/Components/dp83848
-    )
-file (GLOB CORE_SOURCES
-    Core/Src/*.c
-    Drivers/BSP/Components/dp83848/dp83848.c
-    LWIP/Target/ethernetif.c
-    )
-add_library(CORE ${CORE_SOURCES} )
-
-set (STARTUP_SOURCES Core/Src/../Startup/startup_stm32h753iitx.s )
-add_library(STARTUP ${STARTUP_SOURCES} )
-
-include_directories(Drivers/BSP/Components/dp83848)
-file (GLOB 83848_SOURCES  Drivers/BSP/Components/dp83848/dp83848.c)
-add_library(LIB_83848 ${83848_SOURCES} )
-
-include_directories(
-    Drivers/STM32H7xx_HAL_Driver/Inc
-    Drivers/STM32H7xx_HAL_Driver/Inc/Legacy
-    )
-file (GLOB HAL_SRC
-    Drivers/STM32H7xx_HAL_Driver/Src/*
-    Drivers/STM32H7xx_HAL_Driver/Src/*.c
-    )
-add_library(STM32H7xx_HAL_Driver ${HAL_SRC})
-
-include_directories(
-    LWIP/App
-    LWIP/Target
-    LWIP
-    )
-set (LWIP_SOURCES
-    LWIP/App/lwip.c
-    LWIP/Target/ethernetif.c
-#    LWIP/ping.c
-    )
-add_library(LWIP ${LWIP_SOURCES} )
-
-include_directories(
-    Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2
-    Middlewares/Third_Party/LwIP/system/arch
-    Middlewares/Third_Party/LwIP/system
-    Middlewares/Third_Party/LwIP/src/include/netif
-    Middlewares/Third_Party/LwIP/src/include/netif/ppp
-    Middlewares/Third_Party/LwIP/src/include
-    Middlewares/Third_Party/LwIP/src/include/lwip
-    Middlewares/Third_Party/LwIP/src/include/lwip/apps
-    Middlewares/Third_Party/LwIP/src/include/lwip/priv
-    Middlewares/Third_Party/LwIP/src/include/lwip/prot
-    Middlewares/Third_Party/LwIP/src/include/compat/posix
-    Middlewares/Third_Party/LwIP/src/include/compat/arpa
-    Middlewares/Third_Party/LwIP/src/include/compat/net
-    Middlewares/Third_Party/LwIP/src/include/compat/sys
-    Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS
-    Middlewares/Third_Party/FreeRTOS/Source/include
-    Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F
-    )
-
-file (GLOB Third_Party_SRC
-    Middlewares/Third_Party/LwIP/src/api/*
-    Middlewares/Third_Party/LwIP/src/apps/mqtt/mqtt.c
-    Middlewares/Third_Party/LwIP/src/core/*
-    Middlewares/Third_Party/LwIP/src/core/ipv4/*
-    Middlewares/Third_Party/LwIP/src/netif/*
-    Middlewares/Third_Party/LwIP/src/netif/ppp/*
-    Middlewares/Third_Party/FreeRTOS/Source/*.c
-    Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/*.c
-    Middlewares/Third_Party/LwIP/system/OS/sys_arch.c
-    Middlewares/Third_Party/FreeRTOS/Source/portable/MemMang/heap_4.c
-    Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.c
-    Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.c
-#    Drivers/BSP/Components/lan8742/lan8742.c
-    )
-
-add_library(Middlewares
-    ${Third_Party_SRC}
-    )
-
-include_directories(EEPROM Middlewares/Third_Party/littlefs)
-file (GLOB EEPROM_SOURCES EEPROM/*.c  Middlewares/Third_Party/littlefs/*.c)
-add_library(EEPROM ${EEPROM_SOURCES} )
-
-include_directories(RS232)
-file (GLOB RS232_SOURCES RS232/*.c)
-add_library(RS232 ${RS232_SOURCES} )
-
-add_executable(${PROJECT_NAME}.elf
-    ${SOURCES_C}
-    )
-
-set_target_properties(${PROJECT_NAME}.elf PROPERTIES LINKER_LANGUAGE C)
-
 set(LINKER_SCRIPT_FLASH "${CMAKE_SOURCE_DIR}/STM32H753IITX_FLASH.ld")
-set(LINKER_SCRIPT_RAM "${CMAKE_SOURCE_DIR}/STM32H753IITX_RAM.ld")
 set(LINKER_FLAGS "SHELL: \
     -T${LINKER_SCRIPT_FLASH} \
     -mcpu=cortex-m7 \
@@ -160,18 +130,14 @@ set(LINKER_FLAGS "SHELL: \
     -lm \
     -Wl,--end-group \
     ")
-#    -T${LINKER_SCRIPT_RAM} \
 
 target_link_options(${PROJECT_NAME}.elf PRIVATE ${LINKER_FLAGS})
 
-
 target_link_libraries(${PROJECT_NAME}.elf PUBLIC
-    CORE
-    STARTUP
     LIB_83848
     STM32H7xx_HAL_Driver
     LWIP
-    Middlewares
+    FreeRTOS
     EEPROM
     RS232
     )
