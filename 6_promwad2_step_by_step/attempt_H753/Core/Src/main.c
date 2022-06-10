@@ -109,58 +109,6 @@ void ethernet_link_check_state(struct netif *netif)
 
 }
 
-void udp_echoserver_receive_callback(void *arg, struct udp_pcb *upcb, struct pbuf *p, const ip_addr_t *addr, u16_t port)
-{
-  struct pbuf *p_tx;
-
-  /* allocate pbuf from RAM*/
-  p_tx = pbuf_alloc(PBUF_TRANSPORT,p->len, PBUF_RAM);
-
-  if(p_tx != NULL)
-  {
-    pbuf_take(p_tx, (char*)p->payload, p->len);
-    /* Connect to the remote client */
-    udp_connect(upcb, addr, UDP_CLIENT_PORT);
-
-    /* Tell the client that we have accepted it */
-    udp_send(upcb, p_tx);
-
-    /* free the UDP connection, so we can accept new clients */
-    udp_disconnect(upcb);
-
-    /* Free the p_tx buffer */
-    pbuf_free(p_tx);
-
-    /* Free the p buffer */
-    pbuf_free(p);
-  }
-}
-
-void udp_echoserver_init(void)
-{
-   struct udp_pcb *upcb;
-   err_t err;
-
-   /* Create a new UDP control block  */
-   upcb = udp_new();
-
-   if (upcb)
-   {
-     /* Bind the upcb to the UDP_PORT port */
-     /* Using IP_ADDR_ANY allow the upcb to be used by any local interface */
-      err = udp_bind(upcb, IP_ADDR_ANY, UDP_SERVER_PORT);
-
-      if(err == ERR_OK)
-      {
-        /* Set a receive callback for the upcb */
-        udp_recv(upcb, udp_echoserver_receive_callback, NULL);
-      }
-      else
-      {
-        udp_remove(upcb);
-      }
-   }
-}
 uint32_t EthernetLinkTimer;
 void Ethernet_Link_Periodic_Handle(struct netif *netif)
 {
@@ -968,7 +916,6 @@ void StartDefaultTask(void const * argument)
   /* USER CODE BEGIN 5 */
 
   char msgUart7[] = "\r------- StartDefaultTask ----------\n\r";
-//  HAL_UART_Transmit_IT (&huart7,(uint8_t*)msgUart7, sizeof (msgUart7));
   RS232_write_c(msgUart7, sizeof (msgUart7));
 
   if (DP83848.Is_Initialized) {
@@ -977,35 +924,11 @@ void StartDefaultTask(void const * argument)
     RS232_write_c("\rDP83848.No_Initialized\r\n", sizeof ("\rDP83848.No_Initialized\r\n"));
   }
 
-  const char* message = "Hello UDP message!\n\r";
-
-  osDelay(1000);
-
-  ip_addr_t PC_IPADDR;
-  IP_ADDR4(&PC_IPADDR, 192, 168, 0, 101);
-
-  struct udp_pcb* my_udp = udp_new();
-  udp_connect(my_udp, &PC_IPADDR, 55151);
-  struct pbuf* udp_buffer = NULL;
-   udp_echoserver_init();
-
-  /* Infinite loop */
   for(;;)
   {
-
-      osDelay(1000);
-        /* !! PBUF_RAM is critical for correct operation !! */
-        udp_buffer = pbuf_alloc(PBUF_TRANSPORT, strlen(message), PBUF_RAM);
-
-        if (udp_buffer != NULL) {
-          memcpy(udp_buffer->payload, message, strlen(message));
-          udp_send(my_udp, udp_buffer);
-          pbuf_free(udp_buffer);
-        }
       ethernetif_input(&gnetif);
       sys_check_timeouts();
       Ethernet_Link_Periodic_Handle(&gnetif);
-
 
     osDelay(1);
   }
