@@ -1,0 +1,29 @@
+закомментировал
+void WDTInit(void)                                     
+void HAL_WWDG_MspInit(WWDG_HandleTypeDef* hwwdg)       
+void HAL_WWDG_MspDeInit(WWDG_HandleTypeDef* hwwdg)
+void HAL_WWDG_EarlyWakeupCallback(WWDG_HandleTypeDef *hwwdg)
+void HAL_RTC_MspDeInit(RTC_HandleTypeDef *hrtc)
+void HAL_CRYP_MspInit(CRYP_HandleTypeDef *hcryp)
+void HAL_SAI_MspInit(SAI_HandleTypeDef *hsai)
+void HAL_UART_MspInit(UART_HandleTypeDef *huart)
+void SRAMInit(void)
+static void DMAInit(void)   (sram.cpp)
+void DMA2_Stream0_IRQHandler(void)
+void SystemClock_Config()
+
+
+
+void GPIOInit(void)  закомментировал 5 строк в начале
+
+while (FLASH_WaitForLastOperation(10, 0) != HAL_OK);  добавил нулевой банк
+
+#define FLASH_TYPEPROGRAM_WORD        ((uint32_t)0x02U)  добавил дефайны
+#define FLASH_SECTOR_8     ((uint32_t)8U)
+
+
+    __HAL_FLASH_ART_DISABLE();    закомментировал 6 раз
+    __HAL_FLASH_ART_RESET();
+    __HAL_FLASH_ART_ENABLE();
+
+ethernetif.c    удалил
