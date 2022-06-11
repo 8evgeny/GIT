@@ -6,6 +6,10 @@
 #include "eeprom.h"
 #include "fsforeeprom.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 //#include "json.h"
 
 extern UART_HandleTypeDef huart7;
@@ -266,3 +270,6 @@ static int32_t counterFrames = 0;
 //    }
 //}
 
+#ifdef __cplusplus
+}
+#endif

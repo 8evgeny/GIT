@@ -21,6 +21,12 @@
 #include "cmsis_os.h"
 #include "lwip.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+
+
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
@@ -1245,3 +1251,6 @@ void assert_failed(uint8_t *file, uint32_t line)
 }
 #endif /* USE_FULL_ASSERT */
 
+#ifdef __cplusplus
+}
+#endif
