@@ -214,7 +214,7 @@ CppApplication  {
 
     Group {
         name: "LwIP1"
-        prefix: home
+        prefix: Home
         files: ["LWIP/App/*.c", "LWIP/App/*.h", "LWIP/Target/*.c", "LWIP/Target/*.h"]
     }
 
@@ -307,9 +307,8 @@ CppApplication  {
     Group {
         name: "Src (source files)"
         prefix: Src
-        files:
+        files: ["/*.c", "/main.cpp", "/flash_diskio.cpp", "/../syscalls.c"]
 //            ["/Src_Bootloader/*.c", "/Src_Bootloader/*.cpp", "/../syscalls.c"]
-            ["/*.c", "/main.cpp", "/flash_diskio.cpp", "/../syscalls.c"]
          }
 
     Group {
