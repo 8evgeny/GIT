@@ -20,10 +20,7 @@ CppApplication  {
 
     property int HeapVersion: 4 //version of heap for FreeRTOS
     property bool IsBootloader: false //falsetrue
-
     property bool SC2board: true
-
-    property string nameOfBoard: "ST"
 
     property string Home: path
     property string FreeRTOS: Home + "/Middlewares/Third_Party/FreeRTOS"
@@ -37,22 +34,21 @@ CppApplication  {
     property string TraceRecorder: Home + "/Tracealyzer-4.2.12-linux64/FreeRTOS/TraceRecorder"
     property string LwIP: Home + "/Middlewares/Third_Party/LwIP"
     property string LwIP1: Home + "/LWIP/Target"
-//    property string ArduinoJson: Home + "/Middlewares/Third_Party/ArduinoJson"
     property string CircularBuffer: Home + "/Middlewares/Third_Party/CircularBuffer"
     property string littlefs: Home + "/Middlewares/Third_Party/littlefs"
-//    property string UID: Src + "/UID"
     property string RS232: Src + "/RS232"
+    property string Debug: Src + "/Debug"
+    property string EEPROM: Src + "/EEPROM"
+//    property string ArduinoJson: Home + "/Middlewares/Third_Party/ArduinoJson"
+//    property string UID: Src + "/UID"
 //    property string RTP: Src + "/RTP"
 //    property string WDT: Src + "/WDT"
 //    property string Audio: Src + "/Audio"
-    property string Debug: Src + "/Debug"
 //    property string TRNG: Src + "/TRNG"
 //    property string FatFs: Home + "/Middlewares/Third_Party/FatFs"
 //    property string Flash: Src + "/Flash"
 //    property string RTT: Home + "/RTT"
-
 //    property string ringBuffer: Src + "/c-ringbuf"
-
 //    property string CAN_STM32H7xx: Src + "/CAN_STM32H7xx"
 //    property string GPIO_STM32H7xx: Src + "/GPIO_STM32H7xx"
 //    property string GPIO_SC2_BOARD: Src + "/GPIO_SC2_BOARD"
@@ -64,8 +60,6 @@ CppApplication  {
 //    property string UDP_JSON: Src + "/UDP_JSON"
 //    property string Call_Control: Src + "/Call_Control"
 //    property string Call_Control_for_SC2_board: Src + "/Call_Control_for_SC2_board"
-
-    property string EEPROM: Src + "/EEPROM"
 //    property string AES128: Src + "/Bootloader/AES128"
 //    property string MD5: Src + "/Bootloader/MD5"
 //    property string Version: Src + "/Bootloader/version"
@@ -88,12 +82,6 @@ CppApplication  {
 //        name: "Update mechanism for objects"
 //        files: ["Src/UpdateMechanism/updatemechanism.cpp", "Src/UpdateMechanism/updatemechanism.h"]
 //    }
-
-    Group {
-        name: "EEPROM (M24xx64 - 64KBit) for littlefs"
-        prefix: EEPROM
-        files: ["/*.c", "/*.h", "/*.cpp"]
-    }
 
 //    Group {
 //        name: "TraceRecorder (Percepio Tracealyzer)"
@@ -148,18 +136,6 @@ CppApplication  {
 //        files: ["/*.h", "/*.cpp"]
 //    }
 
-    Group {
-        name: "Debug (Instrumentation Trace Macrocell - ITM)"
-        prefix: Debug
-        files: ["/*.h", "/*.cpp", "/*.c"]
-    }
-
-    Group {
-        name: "RS232"
-        prefix: RS232
-        files: ["/*.h", "/*.cpp", "/*.c"]
-    }
-
 //    Group {
 //        name: "CAN STM32H7xx"
 //        prefix: CAN_STM32H7xx
@@ -207,6 +183,40 @@ CppApplication  {
 //        files: ["/*.h", "/*.cpp"]
 //    }
 
+//    Group {
+//        name: "ArduinoJson (C++ JSON library for IoT)"
+//        prefix: ArduinoJson
+//        files: ["/*.h"]
+//    }
+
+//    Group {
+//        name: "CMSIS STM32H7xx"
+//        prefix: CMSIS_STM32H7xx
+//        condition: IsBootloader == true
+//        files: ["/Include/*.h", "/Device/ST/STM32H7xx/Source/Templates/*", "/Device/ST/STM32H7xx/Include/*.h",
+//            "/DSP/Include/*.h",
+//            "/DSP/Source/SupportFunctions/*.c",
+//            "/DSP/Source/StatisticsFunctions/*.c",
+//            "/DSP/Source/BasicMathFunctions/*.c"]
+
+//        excludeFiles: ["/Device/ST/STM32H7xx/Include/stm32h7xx_hal_wwdg.h",
+//            "/Device/ST/STM32H7xx/Source/Templates/system_stm32h7xx.c",
+//            "/Device/ST/STM32H7xx/Include/stm32h7xx_hal_conf_template.h",]
+//    }
+
+//    Group {
+//        name: "Call control"
+//        prefix: Call_Control
+//        files: ["/*.h", "/*.cpp"]
+//        excludeFiles: ["/call_control.h", "/call_control.cpp"]
+//    }
+
+//    Group {
+//        name: "SNTP"
+//        prefix: SNTP
+//        files: ["/*.h", "/*.cpp"]
+//    }
+
     Group {
         name: "LwIP"
         prefix: LwIP
@@ -225,18 +235,29 @@ CppApplication  {
         files: ["/Drivers/BSP/Components/dp83848/*.c", "/Drivers/BSP/Components/dp83848/*.h"]
     }
 
-
     Group {
         name: "littlefs (a little fail-safe filesystem designed for microcontrollers)"
         prefix: littlefs
         files: ["/*.c", "/*.h"]
     }
 
-//    Group {
-//        name: "ArduinoJson (C++ JSON library for IoT)"
-//        prefix: ArduinoJson
-//        files: ["/*.h"]
-//    }
+    Group {
+        name: "EEPROM (M24xx64 - 64KBit) for littlefs"
+        prefix: EEPROM
+        files: ["/*.c", "/*.h", "/*.cpp"]
+    }
+
+    Group {
+        name: "Debug (Instrumentation Trace Macrocell - ITM)"
+        prefix: Debug
+        files: ["/*.h", "/*.cpp", "/*.c"]
+    }
+
+    Group {
+        name: "RS232"
+        prefix: RS232
+        files: ["/*.h", "/*.cpp", "/*.c"]
+    }
 
     Group {
         name: "CircularBuffer"
@@ -282,34 +303,6 @@ CppApplication  {
         excludeFiles: ["/Src/stm32h7xx_hal_timebase_rtc_alarm_template.c", "/Src/stm32h7xx_hal_timebase_rtc_wakeup_template.c", "/Src/stm32h7xx_hal_timebase_tim_template.c", "/Src/stm32h7xx_hal_msp_template.c"]
     }
 
-//    Group {
-//        name: "CMSIS STM32H7xx"
-//        prefix: CMSIS_STM32H7xx
-//        condition: IsBootloader == true
-//        files: ["/Include/*.h", "/Device/ST/STM32H7xx/Source/Templates/*", "/Device/ST/STM32H7xx/Include/*.h",
-//            "/DSP/Include/*.h",
-//            "/DSP/Source/SupportFunctions/*.c",
-//            "/DSP/Source/StatisticsFunctions/*.c",
-//            "/DSP/Source/BasicMathFunctions/*.c"]
-
-//        excludeFiles: ["/Device/ST/STM32H7xx/Include/stm32h7xx_hal_wwdg.h",
-//            "/Device/ST/STM32H7xx/Source/Templates/system_stm32h7xx.c",
-//            "/Device/ST/STM32H7xx/Include/stm32h7xx_hal_conf_template.h",]
-//    }
-
-//    Group {
-//        name: "Call control"
-//        prefix: Call_Control
-//        files: ["/*.h", "/*.cpp"]
-//        excludeFiles: ["/call_control.h", "/call_control.cpp"]
-//    }
-
-//    Group {
-//        name: "SNTP"
-//        prefix: SNTP
-//        files: ["/*.h", "/*.cpp"]
-//    }
-
     Group {
         name: "Inc (include files)"
         prefix: Inc
@@ -337,134 +330,73 @@ CppApplication  {
         files: ["/STM32H753IITX_FLASH.ld"]
     }
 
-    cpp.includePaths: if (!SC2board) {
+    cpp.includePaths: if (SC2board) {
                           [
                           Home,
                           CMSIS_STM32H7xx,
                           CMSIS_STM32H7xx + "/Include",
-                          CMSIS_STM32H7xx + "/DSP/Include/",
                           CMSIS_STM32H7xx + "/Device/ST/STM32H7xx/Include",
+                          CMSIS_STM32H7xx + "/DSP/Include/",
                           Inc,
                           FreeRTOS + "/Source/include",
                           FreeRTOS + "/Source/portable/GCC/ARM_CM7/r0p1",
                           CMSIS_RTOS,
                           STM32H7xx_HAL + "/Inc",
                           STM32H7xx_HAL + "/Inc/Legacy",
-//                          TraceRecorder + "/streamports/TCPIP/include",
-//                          TraceRecorder + "/include",
-//                          TraceRecorder + "/config",
                           LwIP + "/src/include",
                           LwIP + "/system",
                           LwIP + "/system/OS",
                           LwIP + "/src",
                           LwIP1,
+                          CircularBuffer,
+                          littlefs,
+                          EEPROM,
+                          RS232,
+                          Home + "/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F",
+                          Home + "/LWIP/App",
+                          Home + "/Drivers/BSP/Components/dp83848"
 //                          ArduinoJson,
 //                          ArduinoJson + "/src",
 //                          ArduinoJson + "/src/ArduinoJson",
-                          CircularBuffer,
-                          littlefs,
+//                          TraceRecorder + "/streamports/TCPIP/include",
+//                          TraceRecorder + "/include",
+//                          TraceRecorder + "/config",
 //                          FatFs + "/src",
 //                          RTP,
 //                          Audio,
 //                          UID,
 //                          Flash,
-                          EEPROM,
-//                          CAN_STM32H7xx,
-//                          GPIO_STM32H7xx,
+//                          GPIO_SC2_BOARD,
 //                          RTT,
 //                          RTC,
-//                          CAN_Command,
-//                          CRC16_CCITT,
 //                          SRAM,
-                          RS232
 //                          JSON,
 //                          WDT,
 //                          UDP_JSON,
 //                          Call_Control
                           ]
-                      } else if (SC2board) {
-                          [
-                          Home,
-                          CMSIS_STM32H7xx,
-                          CMSIS_STM32H7xx + "/Include",
-                          CMSIS_STM32H7xx + "/Device/ST/STM32H7xx/Include",
-                          CMSIS_STM32H7xx + "/DSP/Include/",
-                          Inc,
-                          FreeRTOS + "/Source/include",
-                          FreeRTOS + "/Source/portable/GCC/ARM_CM7/r0p1",
-                          CMSIS_RTOS,
-                          STM32H7xx_HAL + "/Inc",
-                          STM32H7xx_HAL + "/Inc/Legacy",
-//                          TraceRecorder + "/streamports/TCPIP/include",
-//                          TraceRecorder + "/include",
-//                          TraceRecorder + "/config",
-                          LwIP + "/src/include",
-                          LwIP + "/system",
-                          LwIP + "/system/OS",
-                          LwIP + "/src",
-                          LwIP1,
-//                          ArduinoJson,
-//                          ArduinoJson + "/src",
-//                          ArduinoJson + "/src/ArduinoJson",
-                          CircularBuffer,
-                          littlefs,
-//                          FatFs + "/src",
-//                          RTP,
-//                          Audio,
-//                          UID,
-//                          Flash,
-                          EEPROM,
-//                          GPIO_SC2_BOARD,
-//                          RTT,
-//                          RTC,
-//                          SRAM,
-                          RS232,
-//                          JSON,
-//                          WDT,
-//                          UDP_JSON,
-//                          Call_Control,
-                          Home + "/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F",
-                          Home + "/LWIP/App",
-                          Home + "/Drivers/BSP/Components/dp83848"
-                          ]
                       }
                       else if (IsBootloader) {
                           [
-                          Home,
-                          CMSIS_STM32H7xx,
-                          CMSIS_STM32H7xx + "/Include",
-                          CMSIS_STM32H7xx + "/Device/ST/STM32H7xx/Include",
-                          Inc,
-                          FreeRTOS + "/Source/include",
-                          FreeRTOS + "/Source/portable/GCC/ARM_CM7/r0p1",
-                          CMSIS_RTOS,
-                          STM32H7xx_HAL + "/Inc",
-                          STM32H7xx_HAL + "/Inc/Legacy",
-                          FatFs + "/src",
-                          Flash,
-                          WDT,
-                          CircularBuffer,
-                          AES128
+//                          Home,
+//                          CMSIS_STM32H7xx,
+//                          CMSIS_STM32H7xx + "/Include",
+//                          CMSIS_STM32H7xx + "/Device/ST/STM32H7xx/Include",
+//                          Inc,
+//                          FreeRTOS + "/Source/include",
+//                          FreeRTOS + "/Source/portable/GCC/ARM_CM7/r0p1",
+//                          CMSIS_RTOS,
+//                          STM32H7xx_HAL + "/Inc",
+//                          STM32H7xx_HAL + "/Inc/Legacy",
+//                          FatFs + "/src",
+//                          Flash,
+//                          WDT,
+//                          CircularBuffer,
+//                          AES128
                           ]
                       }
 
-
-    cpp.defines: if (!SC2board) {
-                     [
-//                     "LWIP_DEBUG",
-                         "STM32H753xx",
-                         "USE_HAL_DRIVER",
-                         //"USE_STM32746G_DISCOVERY",
-                 //        "MBEDTLS_CONFIG_FILE=<mbedtls_config.h>",
-                         "__weak=__attribute__((weak))",
-                         "__packed=__attribute__((__packed__))",
-                         "__FPU_PRESENT=1",
-                         "ARM_MATH_CM7",
-                         "HAVE_CONFIG_H",
-                         "__DCACHE_PRESENT",
-                         "__ICACHE_PRESENT"
-                     ]
-                 } else if (SC2board) {
+    cpp.defines: if  (SC2board) {
                      [
                      //"LWIP_DEBUG",
                          "STM32H753xx",
@@ -485,23 +417,21 @@ CppApplication  {
                 else if (IsBootloader) {
                          [
 //                     "LWIP_DEBUG",
-                             "STM32H753xx",
-                             "USE_HAL_DRIVER",
-                             "__weak=__attribute__((weak))",
-                             "__packed=__attribute__((__packed__))",
-                             "__FPU_PRESENT=1",
-                             "ARM_MATH_CM7",
-                             "HAVE_CONFIG_H",
-                             "__DCACHE_PRESENT",
-                             "__ICACHE_PRESENT",
-                              "BOOTLOADER_FEZ",
+//                             "STM32H753xx",
+//                             "USE_HAL_DRIVER",
+//                             "__weak=__attribute__((weak))",
+//                             "__packed=__attribute__((__packed__))",
+//                             "__FPU_PRESENT=1",
+//                             "ARM_MATH_CM7",
+//                             "HAVE_CONFIG_H",
+//                             "__DCACHE_PRESENT",
+//                             "__ICACHE_PRESENT",
+//                              "BOOTLOADER_FEZ",
                             ]
                      }
 
+    cpp.commonCompilerFlags:  ["-mcpu=cortex-m7", "-mfloat-abi=hard", "-mfpu=fpv5-sp-d16", "-mthumb"]
 
-    cpp.commonCompilerFlags: if (IsBootloader) {
-                                 ["-mcpu=cortex-m7", "-mfloat-abi=hard", "-mfpu=fpv5-sp-d16", "-mthumb"]
-                             }
 
     cpp.driverFlags:     ["-mcpu=cortex-m7",
                          "-mfloat-abi=hard",
@@ -514,7 +444,7 @@ CppApplication  {
 //                         "-fno-rtti",
 //                         "-u_printf_float",
 //                         "-Wl,-section-start=.rtt=0x20000000",
-                         "-Wl,-Map=" + path + "/QT-STM32746G-Discovery.map"]
+                         "-Wl,-Map=" + path + "/QT-STM32H753.map"]
 
     cpp.linkerFlags: ["--start-group",
                          "--gc-sections",
