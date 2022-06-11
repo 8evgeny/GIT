@@ -36,6 +36,7 @@ CppApplication  {
     property string LD: Home
     property string TraceRecorder: Home + "/Tracealyzer-4.2.12-linux64/FreeRTOS/TraceRecorder"
     property string LwIP: Home + "/Middlewares/Third_Party/LwIP"
+    property string LwIP1: Home + "/LWIP/Target"
 //    property string ArduinoJson: Home + "/Middlewares/Third_Party/ArduinoJson"
     property string CircularBuffer: Home + "/Middlewares/Third_Party/CircularBuffer"
     property string littlefs: Home + "/Middlewares/Third_Party/littlefs"
@@ -52,8 +53,8 @@ CppApplication  {
 
 //    property string ringBuffer: Src + "/c-ringbuf"
 
-//    property string CAN_STM32F7xx: Src + "/CAN_STM32F7xx"
-//    property string GPIO_STM32F7xx: Src + "/GPIO_STM32F7xx"
+//    property string CAN_STM32H7xx: Src + "/CAN_STM32H7xx"
+//    property string GPIO_STM32H7xx: Src + "/GPIO_STM32H7xx"
 //    property string GPIO_SC2_BOARD: Src + "/GPIO_SC2_BOARD"
 //    property string CRC16_CCITT: Src + "/CRC16_CCITT"
 //    property string SNTP: Src + "/SNTP"
@@ -160,16 +161,16 @@ CppApplication  {
     }
 
 //    Group {
-//        name: "CAN STM32F7xx"
-//        prefix: CAN_STM32F7xx
+//        name: "CAN STM32H7xx"
+//        prefix: CAN_STM32H7xx
 //        condition: SC2board == false
 //        files: ["/*.h", "/*.cpp"]
 //    }
 
 
 //    Group {
-//        name: "GPIO STM32F7xx"
-//        prefix: GPIO_STM32F7xx
+//        name: "GPIO STM32H7xx"
+//        prefix: GPIO_STM32H7xx
 //        condition: SC2board == false
 //        files: ["/*.h", "/*.cpp"]
 //    }
@@ -215,8 +216,15 @@ CppApplication  {
     Group {
         name: "LwIP1"
         prefix: Home
-        files: ["LWIP/App/*.c", "LWIP/App/*.h", "LWIP/Target/*.c", "LWIP/Target/*.h"]
+        files: ["/LWIP/App/*.c", "/LWIP/App/*.h", "/LWIP/Target/*.c", "/LWIP/Target/*.h"]
     }
+
+    Group {
+        name: "DP83848"
+        prefix: Home
+        files: ["/Drivers/BSP/Components/dp83848/*.c", "/Drivers/BSP/Components/dp83848/*.h"]
+    }
+
 
     Group {
         name: "littlefs (a little fail-safe filesystem designed for microcontrollers)"
@@ -239,7 +247,12 @@ CppApplication  {
     Group {
         name: "FreRTOS v10.0.1 (source files without heap_4/5)"
         prefix: FreeRTOS
-        files: ["/Source/*.c", "/Source/include/*.h", "/Source/portable/GCC/ARM_CM7/r0p1/*.h", "/Source/portable/GCC/ARM_CM7/r0p1/*.c"]
+        files: ["/Source/*.c", "/Source/include/*.h",
+            "/Source/portable/GCC/ARM_CM7/r0p1/*.h",
+            "/Source/portable/GCC/ARM_CM7/r0p1/*.c",
+            "/Source/portable/GCC/ARM_CM4F/*.h",
+            "/Source/portable/GCC/ARM_CM4F/*.c"
+        ]
     }
 
     Group {
@@ -265,7 +278,6 @@ CppApplication  {
     Group {
         name: "STM32H7xx HAL Driver (Hardware abstraction layer)"
         prefix: STM32H7xx_HAL
-        condition: IsBootloader == true
         files: ["/Src/*.c", "/Inc/*.h", "/Inc/Legacy/*.h"]
         excludeFiles: ["/Src/stm32h7xx_hal_timebase_rtc_alarm_template.c", "/Src/stm32h7xx_hal_timebase_rtc_wakeup_template.c", "/Src/stm32h7xx_hal_timebase_tim_template.c", "/Src/stm32h7xx_hal_msp_template.c"]
     }
@@ -274,15 +286,15 @@ CppApplication  {
 //        name: "CMSIS STM32H7xx"
 //        prefix: CMSIS_STM32H7xx
 //        condition: IsBootloader == true
-//        files: ["/Include/*.h", "/Device/ST/STM32F7xx/Source/Templates/*", "/Device/ST/STM32F7xx/Include/*.h",
+//        files: ["/Include/*.h", "/Device/ST/STM32H7xx/Source/Templates/*", "/Device/ST/STM32H7xx/Include/*.h",
 //            "/DSP/Include/*.h",
 //            "/DSP/Source/SupportFunctions/*.c",
 //            "/DSP/Source/StatisticsFunctions/*.c",
 //            "/DSP/Source/BasicMathFunctions/*.c"]
 
-//        excludeFiles: ["/Device/ST/STM32F7xx/Include/stm32h7xx_hal_wwdg.h",
-//            "/Device/ST/STM32F7xx/Source/Templates/system_stm32f7xx.c",
-//            "/Device/ST/STM32F7xx/Include/stm32h7xx_hal_conf_template.h",]
+//        excludeFiles: ["/Device/ST/STM32H7xx/Include/stm32h7xx_hal_wwdg.h",
+//            "/Device/ST/STM32H7xx/Source/Templates/system_stm32h7xx.c",
+//            "/Device/ST/STM32H7xx/Include/stm32h7xx_hal_conf_template.h",]
 //    }
 
 //    Group {
@@ -307,7 +319,9 @@ CppApplication  {
     Group {
         name: "Src (source files)"
         prefix: Src
-        files: ["/*.c", "/main.cpp", "/flash_diskio.cpp", "/../syscalls.c"]
+        files: ["/*.c", "/main.cpp",
+//            "/flash_diskio.cpp"
+        ]
 //            ["/Src_Bootloader/*.c", "/Src_Bootloader/*.cpp", "/../syscalls.c"]
          }
 
@@ -343,6 +357,7 @@ CppApplication  {
                           LwIP + "/system",
                           LwIP + "/system/OS",
                           LwIP + "/src",
+                          LwIP1,
 //                          ArduinoJson,
 //                          ArduinoJson + "/src",
 //                          ArduinoJson + "/src/ArduinoJson",
@@ -354,8 +369,8 @@ CppApplication  {
 //                          UID,
 //                          Flash,
                           EEPROM,
-//                          CAN_STM32F7xx,
-//                          GPIO_STM32F7xx,
+//                          CAN_STM32H7xx,
+//                          GPIO_STM32H7xx,
 //                          RTT,
 //                          RTC,
 //                          CAN_Command,
@@ -372,7 +387,7 @@ CppApplication  {
                           Home,
                           CMSIS_STM32H7xx,
                           CMSIS_STM32H7xx + "/Include",
-                          CMSIS_STM32H7xx + "/Device/ST/STM32F7xx/Include",
+                          CMSIS_STM32H7xx + "/Device/ST/STM32H7xx/Include",
                           CMSIS_STM32H7xx + "/DSP/Include/",
                           Inc,
                           FreeRTOS + "/Source/include",
@@ -387,6 +402,7 @@ CppApplication  {
                           LwIP + "/system",
                           LwIP + "/system/OS",
                           LwIP + "/src",
+                          LwIP1,
 //                          ArduinoJson,
 //                          ArduinoJson + "/src",
 //                          ArduinoJson + "/src/ArduinoJson",
@@ -402,11 +418,14 @@ CppApplication  {
 //                          RTT,
 //                          RTC,
 //                          SRAM,
-                          RS232
+                          RS232,
 //                          JSON,
 //                          WDT,
 //                          UDP_JSON,
-//                          Call_Control
+//                          Call_Control,
+                          Home + "/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F",
+                          Home + "/LWIP/App",
+                          Home + "/Drivers/BSP/Components/dp83848"
                           ]
                       }
                       else if (IsBootloader) {
@@ -414,7 +433,7 @@ CppApplication  {
                           Home,
                           CMSIS_STM32H7xx,
                           CMSIS_STM32H7xx + "/Include",
-                          CMSIS_STM32H7xx + "/Device/ST/STM32F7xx/Include",
+                          CMSIS_STM32H7xx + "/Device/ST/STM32H7xx/Include",
                           Inc,
                           FreeRTOS + "/Source/include",
                           FreeRTOS + "/Source/portable/GCC/ARM_CM7/r0p1",
@@ -433,7 +452,7 @@ CppApplication  {
     cpp.defines: if (!SC2board) {
                      [
 //                     "LWIP_DEBUG",
-                         "STM32F777xx",
+                         "STM32H753xx",
                          "USE_HAL_DRIVER",
                          //"USE_STM32746G_DISCOVERY",
                  //        "MBEDTLS_CONFIG_FILE=<mbedtls_config.h>",
@@ -448,7 +467,7 @@ CppApplication  {
                  } else if (SC2board) {
                      [
                      //"LWIP_DEBUG",
-                         "STM32F777xx",
+                         "STM32H753xx",
                          "USE_HAL_DRIVER",
                          //"USE_STM32746G_DISCOVERY",
                  //        "MBEDTLS_CONFIG_FILE=<mbedtls_config.h>",
@@ -466,7 +485,7 @@ CppApplication  {
                 else if (IsBootloader) {
                          [
 //                     "LWIP_DEBUG",
-                             "STM32F777xx",
+                             "STM32H753xx",
                              "USE_HAL_DRIVER",
                              "__weak=__attribute__((weak))",
                              "__packed=__attribute__((__packed__))",
@@ -500,7 +519,7 @@ CppApplication  {
     cpp.linkerFlags: ["--start-group",
                          "--gc-sections",
                          "-T" + path
-                        + "/STM32F777IITx_FLASH.ld",
+                        + "/STM32H753IITX_FLASH.ld",
                          "-lm",
                          "-lnosys",
                          "-lgcc",
