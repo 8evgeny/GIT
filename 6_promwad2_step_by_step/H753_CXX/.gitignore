@@ -6,3 +6,5 @@ build_cmake_release
 build_cmake_rellease
 build_qbs_release
 build_qbs_debug
+.idea
+cmake-build-debug
