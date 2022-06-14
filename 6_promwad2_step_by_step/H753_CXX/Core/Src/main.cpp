@@ -25,10 +25,10 @@
 /* USER CODE BEGIN Includes */
 
 #include <string.h>
-#include "rs232.h"
-#include "rs232_printf.h"
-#include "i2ceeprom.h"
-#include "fsforeeprom.h"
+//#include "rs232.h"
+//#include "rs232_printf.h"
+//#include "i2ceeprom.h"
+//#include "fsforeeprom.h"
 #include "dp83848.h"
 #include "lwip/udp.h"
 #define UDP_SERVER_PORT    7
@@ -239,7 +239,7 @@ int main(void)
   MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
 
-    littleFsInit();
+//    littleFsInit();
 
   /* USER CODE END 2 */
 
@@ -916,12 +916,12 @@ void StartDefaultTask(void const * argument)
   /* USER CODE BEGIN 5 */
 
   char msgUart7[] = "\r------- StartDefaultTask ----------\n\r";
-  RS232_write_c(msgUart7, sizeof (msgUart7));
+//  RS232_write_c(msgUart7, sizeof (msgUart7));
 
   if (DP83848.Is_Initialized) {
-    RS232_write_c("\rDP83848.Is_Initialized\r\n", sizeof ("\rDP83848.Is_Initialized\r\n"));
+//    RS232_write_c("\rDP83848.Is_Initialized\r\n", sizeof ("\rDP83848.Is_Initialized\r\n"));
   } else {
-    RS232_write_c("\rDP83848.No_Initialized\r\n", sizeof ("\rDP83848.No_Initialized\r\n"));
+//    RS232_write_c("\rDP83848.No_Initialized\r\n", sizeof ("\rDP83848.No_Initialized\r\n"));
   }
 
   for(;;)
@@ -950,7 +950,7 @@ void Test_Led_Task_(void const * argument)
     osDelay (10);
     char msgUart7[] = "\r------- StartTest_Led_Task --------\n\r";
 //    HAL_UART_Transmit_IT (&huart7,(uint8_t*)msgUart7, sizeof (msgUart7));
-    RS232_write_c(msgUart7, sizeof (msgUart7));
+//    RS232_write_c(msgUart7, sizeof (msgUart7));
     uint8_t reset = 1;
     uint32_t tickstart = HAL_GetTick();
     uint32_t timeSet = 1;
@@ -1003,7 +1003,7 @@ void LEDS_1_2_3_TEST_(void const * argument)
   memset(msgUart7,' ',50);
   sprintf(msgUart7,"\r%s", "------- StartLEDS_1_2_3_TEST ------\n\r");
 //  HAL_UART_Transmit_IT (&huart7,(uint8_t*)msgUart7, sizeof (msgUart7));
-  RS232_write_c(msgUart7, sizeof (msgUart7));
+//  RS232_write_c(msgUart7, sizeof (msgUart7));
   uint8_t reset = 1;
   uint32_t tickstart = HAL_GetTick();
   uint32_t timeSet = 1;
@@ -1056,7 +1056,7 @@ void LEDS_4_5_6_TEST_(void const * argument)
     memset(msgUart7,' ',50);
     sprintf(msgUart7,"\r%s", "------- StartLEDS_4_5_6_TEST ------\n\r");
 //    HAL_UART_Transmit_IT (&huart7,(uint8_t*)msgUart7, sizeof (msgUart7));
-    RS232_write_c(msgUart7, sizeof (msgUart7));
+//    RS232_write_c(msgUart7, sizeof (msgUart7));
     uint8_t reset = 1;
     uint32_t tickstart = HAL_GetTick();
     uint32_t timeSet = 1;
@@ -1106,7 +1106,7 @@ void KEYS_TEST_TASK_(void const * argument)
     osDelay (40);
     char msgUart7[] = "\r------- StartKEYS_TEST_TASK -------\n\r";
 //    HAL_UART_Transmit_IT (&huart7,(uint8_t*)msgUart7, sizeof (msgUart7));
-    RS232_write_c(msgUart7, sizeof (msgUart7));
+//    RS232_write_c(msgUart7, sizeof (msgUart7));
   /* Infinite loop */
   for(;;)
   {
@@ -1132,12 +1132,12 @@ void EEPROM_Tests_(void const * argument)
 
     char msgUart7[] = "\r------- StartEEPROM_Tests_TASK ----\n\r";
 //    HAL_UART_Transmit_IT (&huart7,(uint8_t*)msgUart7, sizeof (msgUart7));
-    RS232_write_c(msgUart7, sizeof (msgUart7));
+//    RS232_write_c(msgUart7, sizeof (msgUart7));
 
-    simpleEEPROM_test();
-    osDelay(100);
-    simpleEEPROM_test2();
-    FS_test();
+//    simpleEEPROM_test();
+//    osDelay(100);
+//    simpleEEPROM_test2();
+//    FS_test();
   /* Infinite loop */
   for(;;)
   {
