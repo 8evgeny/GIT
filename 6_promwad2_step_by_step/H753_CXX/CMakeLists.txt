@@ -2,11 +2,11 @@ cmake_minimum_required(VERSION 3.15)
 set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
 
 # Set ARM compiler
-set(TOOLS_PATH /home/evg/toolchain/gcc-arm-none-eabi-new)
+#set(TOOLS_PATH /home/evg/toolchain/gcc-arm-none-eabi-new)
 #set(CMAKE_C_COMPILER ${TOOLS_PATH}/bin/arm-none-eabi-gcc)
 #set(CMAKE_CXX_COMPILER ${TOOLS_PATH}/bin/arm-none-eabi-g++)
-set(CMAKE_CXX_LINKER_LAUNCHER ${TOOLS_PATH}/bin/arm-none-eabi-g++)
-set(CMAKE_OBJCOPY ${TOOLS_PATH}/bin/arm-none-eabi-objcopy)
+#set(CMAKE_CXX_LINKER_LAUNCHER ${TOOLS_PATH}/bin/arm-none-eabi-g++)
+#set(CMAKE_OBJCOPY ${TOOLS_PATH}/bin/arm-none-eabi-objcopy)
 
 project(PW_new_CPP C CXX ASM)
 
@@ -62,62 +62,31 @@ include_directories(
     Middlewares/Third_Party/CircularBuffer
     Core/Src/Debug
     )
-file (GLOB SOURCES_C Core/Src/*.c STM32H753IITX_FLASH.ld Core/Startup/startup_stm32h753iitx.s)
-file (GLOB SOURCES_CPP Core/Src/*.cpp )
 
+file (GLOB SOURCES_C      Core/Src/*.c STM32H753IITX_FLASH.ld Core/Startup/startup_stm32h753iitx.s)
+file (GLOB SOURCES_CPP    Core/Src/*.cpp )
 file (GLOB 83848_SOURCES  Drivers/BSP/Components/dp83848/dp83848.c )
-add_library(LIB_83848 ${83848_SOURCES} )
-
-file (GLOB HAL_SRC Drivers/STM32H7xx_HAL_Driver/Src/*.c)
-add_library(STM32H7xx_HAL_Driver ${HAL_SRC})
-
-file (GLOB LWIP_SOURCES
-    LWIP/App/lwip.c
-    LWIP/Target/ethernetif.c
-    Middlewares/Third_Party/LwIP/src/api/*
-    Middlewares/Third_Party/LwIP/src/apps/mqtt/mqtt.c
-    Middlewares/Third_Party/LwIP/src/core/*
-    Middlewares/Third_Party/LwIP/src/core/ipv4/*
-    Middlewares/Third_Party/LwIP/src/netif/*
-    Middlewares/Third_Party/LwIP/src/netif/ppp/*
-    Middlewares/Third_Party/LwIP/system/OS/sys_arch.c
-    )
-add_library(LWIP ${LWIP_SOURCES} )
-
-file (GLOB FreeRTOS_SRC
-    Middlewares/Third_Party/FreeRTOS/Source/*.c
-    Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/*.c
-    Middlewares/Third_Party/FreeRTOS/Source/portable/MemMang/heap_4.c
-    Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.c
-    Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.c
-    )
-add_library(FreeRTOS ${FreeRTOS_SRC})
-
+file (GLOB HAL_SRC        Drivers/STM32H7xx_HAL_Driver/Src/*.c)
+file (GLOB LWIP_SOURCES   LWIP/App/lwip.c LWIP/Target/ethernetif.c Middlewares/Third_Party/LwIP/src/api/* Middlewares/Third_Party/LwIP/src/apps/mqtt/mqtt.c Middlewares/Third_Party/LwIP/src/core/*     Middlewares/Third_Party/LwIP/src/core/ipv4/*  Middlewares/Third_Party/LwIP/src/netif/* Middlewares/Third_Party/LwIP/src/netif/ppp/* Middlewares/Third_Party/LwIP/system/OS/sys_arch.c)
+file (GLOB FreeRTOS_SRC   Middlewares/Third_Party/FreeRTOS/Source/*.c Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/*.c Middlewares/Third_Party/FreeRTOS/Source/portable/MemMang/heap_4.c Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.c Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.c )
 file (GLOB EEPROM_SOURCES Core/Src/EEPROM/*.c  Core/Src/EEPROM/*.cpp Middlewares/Third_Party/littlefs/*.c)
-add_library(EEPROM ${EEPROM_SOURCES} )
-
-file (GLOB RS232_SOURCES Core/Src/RS232/*.c Core/Src/RS232/*.cpp)
-add_library(RS232 ${RS232_SOURCES} )
-
-file (GLOB CircularBuffer_src Middlewares/Third_Party/CircularBuffer/CircularBuffer.tpp Middlewares/Third_Party/CircularBuffer/CircularBuffer.h)
-add_library(CircularBuffer ${CircularBuffer_src} )
-set_target_properties(CircularBuffer PROPERTIES LINKER_LANGUAGE CXX)
-
+file (GLOB RS232_SOURCES  Core/Src/RS232/*.c Core/Src/RS232/*.cpp)
+file (GLOB CIRC_BUF_SRC   Middlewares/Third_Party/CircularBuffer/CircularBuffer.tpp Middlewares/Third_Party/CircularBuffer/CircularBuffer.h)
 file (GLOB DEBUG_SOURCES Core/Src/Debug/*.c Core/Src/Debug/*.cpp)
-add_library(DEBUG ${DEBUG_SOURCES} )
 
-add_executable(${PROJECT_NAME}.elf ${SOURCES_C} ${SOURCES_CPP})
-
-target_link_libraries(${PROJECT_NAME}.elf PUBLIC
-    LIB_83848
-    STM32H7xx_HAL_Driver
-    LWIP
-    FreeRTOS
-    EEPROM
-    RS232
-    CircularBuffer
-    DEBUG
+add_executable(${PROJECT_NAME}.elf
+    ${SOURCES_C}
+    ${SOURCES_CPP}
+    ${83848_SOURCES}
+    ${HAL_SRC}
+    ${LWIP_SOURCES}
+    ${FreeRTOS_SRC}
+    ${EEPROM_SOURCES}
+    ${RS232_SOURCES}
+    ${CIRC_BUF_SRC}
+    ${DEBUG_SOURCES}
     )
+
 
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}\
     -mcpu=cortex-m7 \
@@ -162,7 +131,6 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}\
     -fno-exceptions \
     -Wl,--end-group \
     ")
-
 
 set(LINKER_SCRIPT_FLASH "${CMAKE_SOURCE_DIR}/STM32H753IITX_FLASH.ld")
 set(LINKER_FLAGS "SHELL: \
