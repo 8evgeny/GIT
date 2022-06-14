@@ -72,7 +72,7 @@ file (GLOB FreeRTOS_SRC   Middlewares/Third_Party/FreeRTOS/Source/*.c Middleware
 file (GLOB EEPROM_SOURCES Core/Src/EEPROM/*.c  Core/Src/EEPROM/*.cpp Middlewares/Third_Party/littlefs/*.c)
 file (GLOB RS232_SOURCES  Core/Src/RS232/*.c Core/Src/RS232/*.cpp)
 file (GLOB CIRC_BUF_SRC   Middlewares/Third_Party/CircularBuffer/CircularBuffer.tpp Middlewares/Third_Party/CircularBuffer/CircularBuffer.h)
-file (GLOB DEBUG_SOURCES Core/Src/Debug/*.c Core/Src/Debug/*.cpp)
+file (GLOB DEBUG_SOURCES  Core/Src/Debug/*.c Core/Src/Debug/*.cpp)
 
 add_executable(${PROJECT_NAME}.elf
     ${SOURCES_C}
@@ -84,7 +84,7 @@ add_executable(${PROJECT_NAME}.elf
 #    ${EEPROM_SOURCES}
 #    ${RS232_SOURCES}
 #    ${CIRC_BUF_SRC}
-#    ${DEBUG_SOURCES}
+    ${DEBUG_SOURCES}
     )
 
 
