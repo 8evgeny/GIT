@@ -43,7 +43,7 @@ static void MX_SAI1_Init(void);
 static void MX_TIM3_Init(void);
 //static void MX_DMA_Init(void);
 static void MX_RNG_Init(void);
-//void StartDefaultTask(void const * argument);
+void StartDefaultTask(void const * argument);
 
 I2C_HandleTypeDef hi2c1;
 I2C_HandleTypeDef hi2c2;
@@ -175,9 +175,9 @@ int main(void)
 //        RS232::getInstance().term << __FUNCTION__ << " " << __LINE__ << " " << "\n";
 //    }
 
-//    osThreadDef(defaultTask, StartDefaultTask, osPriorityHigh, 0, 128);
-//    defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL); //При включении система виснет
 
+    osThreadDef(defaultTask, empty, osPriorityHigh, 0, configMINIMAL_STACK_SIZE);
+    osThreadCreate(osThread(defaultTask), nullptr);
 
 //    Json::getInstance()->configStation();
 //    if (Json::getInstance()->deserializeJsonFlag == Json::JsonFlags::OK)
@@ -192,7 +192,7 @@ term("gateway:") term(Json::getInstance()->thisStation.gateway)
                 Json::getInstance()->thisStation.mask,
                 Json::getInstance()->thisStation.gateway);
 
-        osThreadDef(emptyThread, empty, osPriorityHigh, 0, configMINIMAL_STACK_SIZE);
+        osThreadDef(emptyThread, StartDefaultTask, osPriorityHigh, 0, configMINIMAL_STACK_SIZE);
         osThreadCreate(osThread(emptyThread), nullptr);
 
 //        SAI::getInstance()->threadAudioInitId = osThreadCreate(osThread(audioInitThread), nullptr);
@@ -818,24 +818,30 @@ static void MX_GPIO_Init(void)
 
 }
 
-//void StartDefaultTask(void const * argument)
-//{
-//term("StartDefaultTask_1")
-
+void StartDefaultTask(void const * argument)
+{
 //  /* init code for LWIP */
 //  MX_LWIP_Init();
 //  /* USER CODE BEGIN 5 */
-//  /* Infinite loop */
+osDelay(3000);
+  term("------- StartDefaultTask ----------");
 
-//HAL_Delay(350);
-//term("****  TaskLWIP  start  ****")
-
-//  for(;;)
-//  {
-//    osDelay(1);
+//  if (DP83848.Is_Initialized) {
+//    RS232_write_c("\rDP83848.Is_Initialized\r\n", sizeof ("\rDP83848.Is_Initialized\r\n"));
+//  } else {
+//    RS232_write_c("\rDP83848.No_Initialized\r\n", sizeof ("\rDP83848.No_Initialized\r\n"));
 //  }
+
+  for(;;)
+  {
+//      ethernetif_input(&gnetif);
+//      sys_check_timeouts();
+//      Ethernet_Link_Periodic_Handle(&gnetif);
+
+    osDelay(1);
+  }
 //  /* USER CODE END 5 */
-//}
+}
 
 
 //Добавил_CUBE_03_05_2022
