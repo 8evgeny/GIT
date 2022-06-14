@@ -81,7 +81,7 @@ add_executable(${PROJECT_NAME}.elf
     ${HAL_SRC}
     ${LWIP_SOURCES}
     ${FreeRTOS_SRC}
-#    ${EEPROM_SOURCES}
+    ${EEPROM_SOURCES}
 #    ${RS232_SOURCES}
     ${CIRC_BUF_SRC}
     ${DEBUG_SOURCES}
