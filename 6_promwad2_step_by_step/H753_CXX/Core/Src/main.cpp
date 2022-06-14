@@ -24,10 +24,10 @@
 /* USER CODE BEGIN Includes */
 
 #include <string.h>
-//#include "rs232.h"
-//#include "rs232_printf.h"
-//#include "i2ceeprom.h"
-//#include "fsforeeprom.h"
+#include "rs232.h"
+#include "rs232_printf.h"
+#include "i2ceeprom.h"
+#include "fsforeeprom.h"
 #include "dp83848.h"
 #include "lwip/udp.h"
 #define UDP_SERVER_PORT    7
