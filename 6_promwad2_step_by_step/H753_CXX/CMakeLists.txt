@@ -83,7 +83,7 @@ add_executable(${PROJECT_NAME}.elf
     ${FreeRTOS_SRC}
 #    ${EEPROM_SOURCES}
 #    ${RS232_SOURCES}
-#    ${CIRC_BUF_SRC}
+    ${CIRC_BUF_SRC}
     ${DEBUG_SOURCES}
     )
 
