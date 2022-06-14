@@ -9,3 +9,5 @@ build_qbs_debug
 .idea
 cmake-build-debug
 cmake-build-debug-arm-m3
+Debug
+Release
