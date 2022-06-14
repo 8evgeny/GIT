@@ -20,7 +20,6 @@
 #include "main.h"
 #include "cmsis_os.h"
 #include "lwip.h"
-
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
@@ -33,6 +32,9 @@
 #include "lwip/udp.h"
 #define UDP_SERVER_PORT    7
 #define UDP_CLIENT_PORT    7
+
+#include "fsforeeprom.h"
+#include "../Debug/debug.h"
 
 /* USER CODE END Includes */
 
@@ -240,6 +242,7 @@ int main(void)
   /* USER CODE BEGIN 2 */
 
 //    littleFsInit();
+  Debug::getInstance().dbg <<"Test\n";
 
   /* USER CODE END 2 */
 
