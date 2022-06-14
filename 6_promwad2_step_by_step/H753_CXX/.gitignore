@@ -1,0 +1,8 @@
+Release/
+!Release/*.bin
+Debug/
+!Debug/*.bin
+built_cmake_debug/
+built_cmake_release/
+/CMakeLists.txt.user
+
