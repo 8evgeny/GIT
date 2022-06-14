@@ -1,36 +1,3 @@
-/*
-******************************************************************************
-**
-**  File        : LinkerScript.ld
-**
-**  Author      : STM32CubeIDE
-**
-**  Abstract    : Linker script for STM32H7 series
-**                2048Kbytes FLASH and 1056Kbytes RAM
-**
-**                Set heap size, stack size and stack location according
-**                to application requirements.
-**
-**                Set memory bank area and size if external memory is used.
-**
-**  Target      : STMicroelectronics STM32
-**
-**  Distribution: The file is distributed as is, without any warranty
-**                of any kind.
-**
-*****************************************************************************
-** @attention
-**
-** Copyright (c) 2021 STMicroelectronics.
-** All rights reserved.
-**
-** This software is licensed under terms that can be found in the LICENSE file
-** in the root directory of this software component.
-** If no LICENSE file comes with this software, it is provided AS-IS.
-**
-****************************************************************************
-*/
-
 /* Entry Point */
 ENTRY(Reset_Handler)
 
@@ -142,7 +109,7 @@ SECTIONS
 
     . = ALIGN(4);
     _edata = .;        /* define a global symbol at data end */
-  } >RAM_D1_main AT> FLASH
+  } >DTCMRAM AT> FLASH
 
   /* Uninitialized data section */
   . = ALIGN(4);
@@ -169,7 +136,19 @@ SECTIONS
     . = . + _Min_Heap_Size;
     . = . + _Min_Stack_Size;
     . = ALIGN(8);
-  } >RAM_D1_main
+  } >DTCMRAM
+
+.lwip_sec (NOLOAD) : {
+  . = ABSOLUTE(0x30000000);
+  *(.RxDecripSection)
+
+  . = ABSOLUTE(0x30000060);
+  *(.TxDecripSection)
+
+  . = ABSOLUTE(0x30000200);
+  *(.RxArraySection)
+} >RAM_D2
+
 
   /* Remove information from the standard libraries */
   /DISCARD/ :
@@ -179,11 +158,13 @@ SECTIONS
     libgcc.a ( * )
   }
 
-  .ARM.attributes 0 : { *(.ARM.attributes) }
-  .RxDecripSection : { *(.RxDescripSection) } >Memory_B1
-  .TxDescripSection : { *(.TxDescripSection) } >Memory_B2
-  .RxarraySection : { *(.RxBUF) } >Memory_B3
-  .TxarraySection : { *(.TxBUF) } >Memory_B4
+.ARM.attributes 0 : { *(.ARM.attributes) }
+
+.ext_ram (NOLOAD) : {
+  *(.ExtRamData)
+  . = ALIGN(4);
+  _ext_ram_ld_end = .;
+} >RAM_EXT
 }
 
 
