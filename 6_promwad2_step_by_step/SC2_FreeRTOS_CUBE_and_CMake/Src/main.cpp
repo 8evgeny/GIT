@@ -130,7 +130,9 @@ int main(void)
     MPU_Config();
 
   /* Enable the CPU Cache */
+
 //    SCB_EnableICache();
+
 //    SCB_EnableDCache();
 
     HAL_Init();
