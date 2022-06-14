@@ -242,10 +242,15 @@ int main(void)
   MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
 
+//  debugInit();
+//  RS232Init();
+
 //    littleFsInit();
-  Debug::getInstance().dbg <<"Test\n";
-  char buf[20] = "Test\n";
-  RS232::getInstance().write((uint8_t*)buf,10);
+//  Debug::getInstance().dbg <<"Test\n";
+//  char buf[20] = "Test\n";
+//  RS232::getInstance().write((uint8_t*)buf,10);
+  RS232Puts("Test\n");
+
   /* USER CODE END 2 */
 
   /* USER CODE BEGIN RTOS_MUTEX */
