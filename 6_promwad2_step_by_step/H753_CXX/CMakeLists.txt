@@ -61,6 +61,10 @@ include_directories(
     Core/Src/RS232
     Middlewares/Third_Party/CircularBuffer
     Core/Src/Debug
+    Core/Src/SRAM
+    Core/Src/JSON
+    Middlewares/Third_Party/ArduinoJson
+    Middlewares/Third_Party/ArduinoJson/src
     )
 
 file (GLOB SOURCES_C      Core/Src/*.c STM32H753IITX_FLASH.ld Core/Startup/startup_stm32h753iitx.s)
@@ -73,6 +77,8 @@ file (GLOB EEPROM_SOURCES Core/Src/EEPROM/*.c  Core/Src/EEPROM/*.cpp Middlewares
 file (GLOB RS232_SOURCES  Core/Src/RS232/*.c Core/Src/RS232/*.cpp)
 file (GLOB CIRC_BUF_SRC   Middlewares/Third_Party/CircularBuffer/CircularBuffer.tpp Middlewares/Third_Party/CircularBuffer/CircularBuffer.h)
 file (GLOB DEBUG_SOURCES  Core/Src/Debug/*.c Core/Src/Debug/*.cpp)
+file (GLOB SRAM_SOURCES   Core/Src/SRAM/*.cpp)
+file (GLOB JSON_SOURCES   Core/Src/JSON/*.cpp)
 
 add_executable(${PROJECT_NAME}.elf
     ${SOURCES_C}
@@ -82,9 +88,11 @@ add_executable(${PROJECT_NAME}.elf
     ${LWIP_SOURCES}
     ${FreeRTOS_SRC}
     ${EEPROM_SOURCES}
-#    ${RS232_SOURCES}
+    ${RS232_SOURCES}
     ${CIRC_BUF_SRC}
     ${DEBUG_SOURCES}
+    ${SRAM_SOURCES}
+    ${JSON_SOURCES}
     )
 
 

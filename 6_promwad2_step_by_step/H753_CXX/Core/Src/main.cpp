@@ -35,6 +35,7 @@
 
 #include "fsforeeprom.h"
 #include "../Debug/debug.h"
+#include "rs232.h"
 
 /* USER CODE END Includes */
 
@@ -243,7 +244,8 @@ int main(void)
 
 //    littleFsInit();
   Debug::getInstance().dbg <<"Test\n";
-
+  char buf[20] = "Test\n";
+  RS232::getInstance().write((uint8_t*)buf,10);
   /* USER CODE END 2 */
 
   /* USER CODE BEGIN RTOS_MUTEX */

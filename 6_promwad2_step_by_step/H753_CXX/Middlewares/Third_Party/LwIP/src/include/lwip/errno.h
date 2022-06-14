@@ -173,6 +173,11 @@ extern "C" {
 #define  ENOMEDIUM      123  /* No medium found */
 #define  EMEDIUMTYPE    124  /* Wrong medium type */
 
+#define  ENOTSUP        125
+#define  ECANCELED      126
+#define  EOWNERDEAD     127
+#define  ENOTRECOVERABLE 128
+
 #ifndef errno
 extern int errno;
 #endif
