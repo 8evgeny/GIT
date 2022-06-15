@@ -16,7 +16,7 @@
   *
   ******************************************************************************
   */
-#include "rs232.h"
+//#include "rs232.h"
 
 /* USER CODE END Header */
 
@@ -147,7 +147,7 @@ void printReg_DP83848(uint16_t reg, const char* name)
     DP83848.IO.ReadReg(DP83848.DevAddr, reg, &regvalue);
     memset(msgUart7,' ',128);
     sprintf(msgUart7,"%s %-17s %s%X %s","\r", name, "regvalue = ", regvalue, "\r\n");
-    RS232_write_c(msgUart7, sizeof (msgUart7));
+//    RS232_write_c(msgUart7, sizeof (msgUart7));
 }
 
 void printAll_Regs_DP83848(){
@@ -478,14 +478,14 @@ static void low_level_init(struct netif *netif)
   DP83848_RegisterBusIO(&DP83848, &DP83848_IOCtx);
   int32_t sss = DP83848_Init(&DP83848);
   sprintf(msgUart7,"%s %d %s", "\rDP83848_Init status = ",sss,"\r\n");
-  RS232_write_c(msgUart7, sizeof (msgUart7));
+//  RS232_write_c(msgUart7, sizeof (msgUart7));
 
   if (hal_eth_init_status == HAL_OK)
   {
     PHYLinkState = DP83848_GetLinkState(&DP83848);
     memset(msgUart7,' ',50);
     sprintf(msgUart7,"%s %d %s", "\rPHYLinkState = ",PHYLinkState,"\r\n");
-    RS232_write_c(msgUart7, sizeof (msgUart7));
+//    RS232_write_c(msgUart7, sizeof (msgUart7));
 
 //    printAll_Regs_DP83848();
 
@@ -500,27 +500,27 @@ static void low_level_init(struct netif *netif)
       switch (PHYLinkState)
       {
       case DP83848_STATUS_100MBITS_FULLDUPLEX:
-RS232_write_c("\n\r--DP83848_STATUS_100MBITS_FULLDUPLEX--\n\r", sizeof ("\n\r--DP83848_STATUS_100MBITS_FULLDUPLEX--\n\r"));
+//RS232_write_c("\n\r--DP83848_STATUS_100MBITS_FULLDUPLEX--\n\r", sizeof ("\n\r--DP83848_STATUS_100MBITS_FULLDUPLEX--\n\r"));
         duplex = ETH_FULLDUPLEX_MODE;
         speed = ETH_SPEED_100M;
         break;
       case DP83848_STATUS_100MBITS_HALFDUPLEX:
-RS232_write_c("\n\r--DP83848_STATUS_100MBITS_HALFDUPLEX--\n\r", sizeof ("\n\r--DP83848_STATUS_100MBITS_HALFDUPLEX--\n\r"));
+//RS232_write_c("\n\r--DP83848_STATUS_100MBITS_HALFDUPLEX--\n\r", sizeof ("\n\r--DP83848_STATUS_100MBITS_HALFDUPLEX--\n\r"));
         duplex = ETH_HALFDUPLEX_MODE;
         speed = ETH_SPEED_100M;
         break;
       case DP83848_STATUS_10MBITS_FULLDUPLEX:
-RS232_write_c("\n\r--DP83848_STATUS_10MBITS_FULLDUPLEX--\n\r", sizeof ("\n\r--DP83848_STATUS_10MBITS_FULLDUPLEX--\n\r"));
+//RS232_write_c("\n\r--DP83848_STATUS_10MBITS_FULLDUPLEX--\n\r", sizeof ("\n\r--DP83848_STATUS_10MBITS_FULLDUPLEX--\n\r"));
         duplex = ETH_FULLDUPLEX_MODE;
         speed = ETH_SPEED_10M;
         break;
       case DP83848_STATUS_10MBITS_HALFDUPLEX:
-RS232_write_c("\n\r--DP83848_STATUS_10MBITS_HALFDUPLEX--\n\r", sizeof ("\n\r--DP83848_STATUS_10MBITS_HALFDUPLEX--\n\r"));
+//RS232_write_c("\n\r--DP83848_STATUS_10MBITS_HALFDUPLEX--\n\r", sizeof ("\n\r--DP83848_STATUS_10MBITS_HALFDUPLEX--\n\r"));
         duplex = ETH_HALFDUPLEX_MODE;
         speed = ETH_SPEED_10M;
         break;
       default:
-RS232_write_c("\n\r--ETH_FULLDUPLEX_MODE--\n\r", sizeof ("\n\r--ETH_FULLDUPLEX_MODE--\n\r"));
+//RS232_write_c("\n\r--ETH_FULLDUPLEX_MODE--\n\r", sizeof ("\n\r--ETH_FULLDUPLEX_MODE--\n\r"));
         duplex = ETH_FULLDUPLEX_MODE;
         speed = ETH_SPEED_100M;
         break;
@@ -537,8 +537,8 @@ RS232_write_c("\n\r--ETH_FULLDUPLEX_MODE--\n\r", sizeof ("\n\r--ETH_FULLDUPLEX_M
     char msgUart7[50];
     memset(msgUart7,' ',50);
     sprintf(msgUart7,"%X%s", (uint8_t)stat,"\r\n");
-    RS232_write_c("\rHAL_ETH_Start_IT_status = ", sizeof ("\rHAL_ETH_Start_IT_status = "));
-    RS232_write_c(msgUart7, sizeof (msgUart7));
+//    RS232_write_c("\rHAL_ETH_Start_IT_status = ", sizeof ("\rHAL_ETH_Start_IT_status = "));
+//    RS232_write_c(msgUart7, sizeof (msgUart7));
 
     netif_set_up(netif);
     netif_set_link_up(netif);
@@ -884,7 +884,7 @@ void ethernet_link_thread(void const * argument)
   struct netif *netif = (struct netif *) argument;
 /* USER CODE BEGIN ETH link init */
   char msgUart7[] = "\r------- Start_ethernet_link_thread \n\r";
-  RS232_write_c(msgUart7, sizeof (msgUart7));
+//  RS232_write_c(msgUart7, sizeof (msgUart7));
 
 /* USER CODE END ETH link init */
 
@@ -952,7 +952,7 @@ void ethernet_link_thread(void const * argument)
 
       if(netif_is_link_up(netif) && (PHYLinkState <= DP83848_STATUS_LINK_DOWN))
       {
-RS232_write_c("\n\r--DP83848_STATUS_LINK_DOWN--\n\r", sizeof ("\n\r--DP83848_STATUS_LINK_DOWN--\n\r"));
+//RS232_write_c("\n\r--DP83848_STATUS_LINK_DOWN--\n\r", sizeof ("\n\r--DP83848_STATUS_LINK_DOWN--\n\r"));
         HAL_ETH_Stop_IT(&heth);
         netif_set_down(netif);
         netif_set_link_down(netif);
@@ -962,25 +962,25 @@ RS232_write_c("\n\r--DP83848_STATUS_LINK_DOWN--\n\r", sizeof ("\n\r--DP83848_STA
         switch (PHYLinkState)
         {
         case DP83848_STATUS_100MBITS_FULLDUPLEX:
-RS232_write_c("\n\r--DP83848_STATUS_100MBITS_FULLDUPLEX--\n\r", sizeof ("\n\r--DP83848_STATUS_100MBITS_FULLDUPLEX--\n\r"));
+//RS232_write_c("\n\r--DP83848_STATUS_100MBITS_FULLDUPLEX--\n\r", sizeof ("\n\r--DP83848_STATUS_100MBITS_FULLDUPLEX--\n\r"));
           duplex = ETH_FULLDUPLEX_MODE;
           speed = ETH_SPEED_100M;
           linkchanged = 1;
           break;
         case DP83848_STATUS_100MBITS_HALFDUPLEX:
-RS232_write_c("\n\r--DP83848_STATUS_100MBITS_HALFDUPLEX--\n\r", sizeof ("\n\r--DP83848_STATUS_100MBITS_HALFDUPLEX--\n\r"));
+//RS232_write_c("\n\r--DP83848_STATUS_100MBITS_HALFDUPLEX--\n\r", sizeof ("\n\r--DP83848_STATUS_100MBITS_HALFDUPLEX--\n\r"));
           duplex = ETH_HALFDUPLEX_MODE;
           speed = ETH_SPEED_100M;
           linkchanged = 1;
           break;
         case DP83848_STATUS_10MBITS_FULLDUPLEX:
-RS232_write_c("\n\r--DP83848_STATUS_10MBITS_FULLDUPLEX--\n\r", sizeof ("\n\r--DP83848_STATUS_10MBITS_FULLDUPLEX--\n\r"));
+//RS232_write_c("\n\r--DP83848_STATUS_10MBITS_FULLDUPLEX--\n\r", sizeof ("\n\r--DP83848_STATUS_10MBITS_FULLDUPLEX--\n\r"));
           duplex = ETH_FULLDUPLEX_MODE;
           speed = ETH_SPEED_10M;
           linkchanged = 1;
           break;
         case DP83848_STATUS_10MBITS_HALFDUPLEX:
-RS232_write_c("\n\r--DP83848_STATUS_10MBITS_HALFDUPLEX--\n\r", sizeof ("\n\r--DP83848_STATUS_10MBITS_HALFDUPLEX--\n\r"));
+//RS232_write_c("\n\r--DP83848_STATUS_10MBITS_HALFDUPLEX--\n\r", sizeof ("\n\r--DP83848_STATUS_10MBITS_HALFDUPLEX--\n\r"));
           duplex = ETH_HALFDUPLEX_MODE;
           speed = ETH_SPEED_10M;
           linkchanged = 1;
@@ -1002,8 +1002,8 @@ RS232_write_c("\n\r--DP83848_STATUS_10MBITS_HALFDUPLEX--\n\r", sizeof ("\n\r--DP
           char msgUart7[50];
           memset(msgUart7,' ',50);
           sprintf(msgUart7,"%X%s", (uint8_t)stat,"\r\n");
-          RS232_write_c("\rHAL_ETH_Start_IT_status = ", sizeof ("\rHAL_ETH_Start_IT_status = "));
-          RS232_write_c(msgUart7, sizeof (msgUart7));
+//          RS232_write_c("\rHAL_ETH_Start_IT_status = ", sizeof ("\rHAL_ETH_Start_IT_status = "));
+//          RS232_write_c(msgUart7, sizeof (msgUart7));
 
           netif_set_up(netif);
           netif_set_link_up(netif);

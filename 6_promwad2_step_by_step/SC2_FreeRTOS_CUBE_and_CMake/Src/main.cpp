@@ -2,17 +2,18 @@
 #include "rs232.h"
 #include "debug.h"
 #include "wdt.h"
-#include "sai.h"
+//#include "sai.h"
 #include "gpio_sc2_board.h"
 #include "testTasks.h"
 #include "fsforeeprom.h"
 #include "json.h"
-#include "udp_multicast.h"
+//#include "udp_multicast.h"
 #include "flash/flash.h"
 #include "net_sockets.h"
 #include "i2ceeprom.h"
 #include "lwip.h"
 #include "ethernetif.h"
+#include "dp83848.h"
 
 extern void flashErraseBank2();
 
@@ -65,12 +66,12 @@ MDMA_HandleTypeDef hmdma_memtomem_dma2_stream0;
 //static void MX_MDMA_Init(void); //Вынес с SRAM
 
 
-//osThreadId defaultTaskHandle;
-osThreadDef(trackRingBufferThread, trackRingBufferThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 20);
-osThreadDef(readFromUartThread, readFromUartThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 10);
-osThreadDef(StartWdtThread, StartWdtThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 1);
-osThreadDef(recvUdpThread, recvUdpThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 20);
-osThreadDef(audioInitThread, threadAudioInit, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 10);
+osThreadId defaultTaskHandle;
+//osThreadDef(trackRingBufferThread, trackRingBufferThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 20);
+//osThreadDef(readFromUartThread, readFromUartThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 10);
+//osThreadDef(StartWdtThread, StartWdtThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 1);
+//osThreadDef(recvUdpThread, recvUdpThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 20);
+//osThreadDef(audioInitThread, threadAudioInit, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 10);
 
 osThreadDef(switchLEDsThread, switchLEDsThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 2);
 osThreadDef(replaceTimerCallback, replaceTimerCallback, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 2);
@@ -250,25 +251,25 @@ term("gateway:") term(Json::getInstance()->thisStation.gateway)
 [[ noreturn ]]
 static void trackRingBufferThread(void const *arg)
 {
-    (void)arg;
-    while(true) {
-        osMutexWait(GPIO::getInstance()->mutexRingBufferRx_id, osWaitForever);
-        if (GPIO::getInstance()->ringBufferRx.size() != 0) {
+//    (void)arg;
+//    while(true) {
+//        osMutexWait(GPIO::getInstance()->mutexRingBufferRx_id, osWaitForever);
+//        if (GPIO::getInstance()->ringBufferRx.size() != 0) {
 
-            GPIO::getInstance()->packageRx = GPIO::getInstance()->ringBufferRx.shift();
-            osMutexRelease(GPIO::getInstance()->mutexRingBufferRx_id);
-            if (!GPIO::getInstance()->testFlag) {
-                osMutexWait(UdpJsonExch::getInstance()->mutexCallControlId, osWaitForever);
-                UdpJsonExch::getInstance()->callControl->button(GPIO::getInstance()->packageRx);
-                osMutexRelease(UdpJsonExch::getInstance()->mutexCallControlId);
-            } else {
-                RS232::getInstance().term << "Button [" << GPIO::getInstance()->packageRx.payloadData << "] was pressed" << "\n";
-                GPIO::getInstance()->configLed(GPIO::getInstance()->packageRx.payloadData, true, 250, 250);
-            }
-        } else osMutexRelease(GPIO::getInstance()->mutexRingBufferRx_id);
+//            GPIO::getInstance()->packageRx = GPIO::getInstance()->ringBufferRx.shift();
+//            osMutexRelease(GPIO::getInstance()->mutexRingBufferRx_id);
+//            if (!GPIO::getInstance()->testFlag) {
+//                osMutexWait(UdpJsonExch::getInstance()->mutexCallControlId, osWaitForever);
+//                UdpJsonExch::getInstance()->callControl->button(GPIO::getInstance()->packageRx);
+//                osMutexRelease(UdpJsonExch::getInstance()->mutexCallControlId);
+//            } else {
+//                RS232::getInstance().term << "Button [" << GPIO::getInstance()->packageRx.payloadData << "] was pressed" << "\n";
+//                GPIO::getInstance()->configLed(GPIO::getInstance()->packageRx.payloadData, true, 250, 250);
+//            }
+//        } else osMutexRelease(GPIO::getInstance()->mutexRingBufferRx_id);
 
-        osDelay(50);
-    }
+//        osDelay(50);
+//    }
 }
 
 
@@ -729,7 +730,7 @@ static void MX_GPIO_Init(void)
     __HAL_RCC_GPIOD_CLK_ENABLE();
 
     /*Configure GPIO pin Output Level */
-    HAL_GPIO_WritePin(GPIOB, POW_DOWN_Pin|TEST_LED_Pin, GPIO_PIN_RESET);
+    HAL_GPIO_WritePin(GPIOB, POW_DOWN_Pin|TEST_LED_Pin, GPIO_PIN_SET);
 
     /*Configure GPIO pin Output Level */
     HAL_GPIO_WritePin(GPIOG, L4_Pin|L5_Pin|L6_Pin, GPIO_PIN_RESET);
@@ -818,13 +819,83 @@ static void MX_GPIO_Init(void)
     }
 
 }
+extern struct netif gnetif;
+extern DP83848_Object_t DP83848;
+void ethernet_link_check_state(struct netif *netif)
+{
+  ETH_MACConfigTypeDef MACConf;
+  int32_t PHYLinkState;
+  uint32_t linkchanged = 0, speed = 0, duplex =0;
+
+  PHYLinkState = DP83848_GetLinkState(&DP83848);
+
+  if(netif_is_link_up(netif) && (PHYLinkState <= DP83848_STATUS_LINK_DOWN))
+  {
+    HAL_ETH_Stop(&heth);
+    netif_set_down(netif);
+    netif_set_link_down(netif);
+  }
+  else if(!netif_is_link_up(netif) && (PHYLinkState > DP83848_STATUS_LINK_DOWN))
+  {
+    switch (PHYLinkState)
+    {
+    case DP83848_STATUS_100MBITS_FULLDUPLEX:
+      duplex = ETH_FULLDUPLEX_MODE;
+      speed = ETH_SPEED_100M;
+      linkchanged = 1;
+      break;
+    case DP83848_STATUS_100MBITS_HALFDUPLEX:
+      duplex = ETH_HALFDUPLEX_MODE;
+      speed = ETH_SPEED_100M;
+      linkchanged = 1;
+      break;
+    case DP83848_STATUS_10MBITS_FULLDUPLEX:
+      duplex = ETH_FULLDUPLEX_MODE;
+      speed = ETH_SPEED_10M;
+      linkchanged = 1;
+      break;
+    case DP83848_STATUS_10MBITS_HALFDUPLEX:
+      duplex = ETH_HALFDUPLEX_MODE;
+      speed = ETH_SPEED_10M;
+      linkchanged = 1;
+      break;
+    default:
+      break;
+    }
+
+    if(linkchanged)
+    {
+      /* Get MAC Config MAC */
+      HAL_ETH_GetMACConfig(&heth, &MACConf);
+      MACConf.DuplexMode = duplex;
+      MACConf.Speed = speed;
+      HAL_ETH_SetMACConfig(&heth, &MACConf);
+
+      HAL_ETH_Start(&heth);
+      netif_set_up(netif);
+      netif_set_link_up(netif);
+    }
+  }
+
+}
+uint32_t EthernetLinkTimer;
+void Ethernet_Link_Periodic_Handle(struct netif *netif)
+{
+  /* Ethernet Link every 100ms */
+  if (HAL_GetTick() - EthernetLinkTimer >= 100)
+  {
+    EthernetLinkTimer = HAL_GetTick();
+    ethernet_link_check_state(netif);
+  }
+}
+
 
 void StartDefaultTask(void const * argument)
 {
     osDelay(3000);
       term("------- StartDefaultTask ----------");
 //  /* init code for LWIP */
-//  MX_LWIP_Init();
+  MX_LWIP_Init();
 //  /* USER CODE BEGIN 5 */
 
 
@@ -836,9 +907,9 @@ void StartDefaultTask(void const * argument)
 
   for(;;)
   {
-//      ethernetif_input(&gnetif);
-//      sys_check_timeouts();
-//      Ethernet_Link_Periodic_Handle(&gnetif);
+      ethernetif_input(&gnetif);
+      sys_check_timeouts();
+      Ethernet_Link_Periodic_Handle(&gnetif);
 
     osDelay(1);
   }
