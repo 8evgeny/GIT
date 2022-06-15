@@ -17,8 +17,8 @@
 
 extern void flashErraseBank2();
 
-static osThreadId readPackageTypeThreadId;
-static osSemaphoreId canSemId;
+//static osThreadId readPackageTypeThreadId;
+//static osSemaphoreId canSemId;
 
 #ifdef __cplusplus
 extern "C" {
@@ -64,6 +64,77 @@ SRAM_HandleTypeDef hsram1;
 //Добавил_CUBE_03_05_2022
 MDMA_HandleTypeDef hmdma_memtomem_dma2_stream0;
 //static void MX_MDMA_Init(void); //Вынес с SRAM
+
+
+extern struct netif gnetif;
+extern DP83848_Object_t DP83848;
+void ethernet_link_check_state(struct netif *netif)
+{
+  ETH_MACConfigTypeDef MACConf;
+  int32_t PHYLinkState;
+  uint32_t linkchanged = 0, speed = 0, duplex =0;
+
+  PHYLinkState = DP83848_GetLinkState(&DP83848);
+
+  if(netif_is_link_up(netif) && (PHYLinkState <= DP83848_STATUS_LINK_DOWN))
+  {
+    HAL_ETH_Stop(&heth);
+    netif_set_down(netif);
+    netif_set_link_down(netif);
+  }
+  else if(!netif_is_link_up(netif) && (PHYLinkState > DP83848_STATUS_LINK_DOWN))
+  {
+    switch (PHYLinkState)
+    {
+    case DP83848_STATUS_100MBITS_FULLDUPLEX:
+      duplex = ETH_FULLDUPLEX_MODE;
+      speed = ETH_SPEED_100M;
+      linkchanged = 1;
+      break;
+    case DP83848_STATUS_100MBITS_HALFDUPLEX:
+      duplex = ETH_HALFDUPLEX_MODE;
+      speed = ETH_SPEED_100M;
+      linkchanged = 1;
+      break;
+    case DP83848_STATUS_10MBITS_FULLDUPLEX:
+      duplex = ETH_FULLDUPLEX_MODE;
+      speed = ETH_SPEED_10M;
+      linkchanged = 1;
+      break;
+    case DP83848_STATUS_10MBITS_HALFDUPLEX:
+      duplex = ETH_HALFDUPLEX_MODE;
+      speed = ETH_SPEED_10M;
+      linkchanged = 1;
+      break;
+    default:
+      break;
+    }
+
+    if(linkchanged)
+    {
+      /* Get MAC Config MAC */
+      HAL_ETH_GetMACConfig(&heth, &MACConf);
+      MACConf.DuplexMode = duplex;
+      MACConf.Speed = speed;
+      HAL_ETH_SetMACConfig(&heth, &MACConf);
+
+      HAL_ETH_Start(&heth);
+      netif_set_up(netif);
+      netif_set_link_up(netif);
+    }
+  }
+
+}
+uint32_t EthernetLinkTimer;
+void Ethernet_Link_Periodic_Handle(struct netif *netif)
+{
+  /* Ethernet Link every 100ms */
+  if (HAL_GetTick() - EthernetLinkTimer >= 100)
+  {
+    EthernetLinkTimer = HAL_GetTick();
+    ethernet_link_check_state(netif);
+  }
+}
 
 
 osThreadId defaultTaskHandle;
@@ -819,76 +890,6 @@ static void MX_GPIO_Init(void)
     }
 
 }
-extern struct netif gnetif;
-extern DP83848_Object_t DP83848;
-void ethernet_link_check_state(struct netif *netif)
-{
-  ETH_MACConfigTypeDef MACConf;
-  int32_t PHYLinkState;
-  uint32_t linkchanged = 0, speed = 0, duplex =0;
-
-  PHYLinkState = DP83848_GetLinkState(&DP83848);
-
-  if(netif_is_link_up(netif) && (PHYLinkState <= DP83848_STATUS_LINK_DOWN))
-  {
-    HAL_ETH_Stop(&heth);
-    netif_set_down(netif);
-    netif_set_link_down(netif);
-  }
-  else if(!netif_is_link_up(netif) && (PHYLinkState > DP83848_STATUS_LINK_DOWN))
-  {
-    switch (PHYLinkState)
-    {
-    case DP83848_STATUS_100MBITS_FULLDUPLEX:
-      duplex = ETH_FULLDUPLEX_MODE;
-      speed = ETH_SPEED_100M;
-      linkchanged = 1;
-      break;
-    case DP83848_STATUS_100MBITS_HALFDUPLEX:
-      duplex = ETH_HALFDUPLEX_MODE;
-      speed = ETH_SPEED_100M;
-      linkchanged = 1;
-      break;
-    case DP83848_STATUS_10MBITS_FULLDUPLEX:
-      duplex = ETH_FULLDUPLEX_MODE;
-      speed = ETH_SPEED_10M;
-      linkchanged = 1;
-      break;
-    case DP83848_STATUS_10MBITS_HALFDUPLEX:
-      duplex = ETH_HALFDUPLEX_MODE;
-      speed = ETH_SPEED_10M;
-      linkchanged = 1;
-      break;
-    default:
-      break;
-    }
-
-    if(linkchanged)
-    {
-      /* Get MAC Config MAC */
-      HAL_ETH_GetMACConfig(&heth, &MACConf);
-      MACConf.DuplexMode = duplex;
-      MACConf.Speed = speed;
-      HAL_ETH_SetMACConfig(&heth, &MACConf);
-
-      HAL_ETH_Start(&heth);
-      netif_set_up(netif);
-      netif_set_link_up(netif);
-    }
-  }
-
-}
-uint32_t EthernetLinkTimer;
-void Ethernet_Link_Periodic_Handle(struct netif *netif)
-{
-  /* Ethernet Link every 100ms */
-  if (HAL_GetTick() - EthernetLinkTimer >= 100)
-  {
-    EthernetLinkTimer = HAL_GetTick();
-    ethernet_link_check_state(netif);
-  }
-}
-
 
 void StartDefaultTask(void const * argument)
 {
