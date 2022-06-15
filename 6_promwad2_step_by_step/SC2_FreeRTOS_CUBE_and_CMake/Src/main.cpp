@@ -65,15 +65,15 @@ MDMA_HandleTypeDef hmdma_memtomem_dma2_stream0;
 
 
 //osThreadId defaultTaskHandle;
-osThreadDef(trackRingBufferThread, trackRingBufferThread, osPriorityHigh, 0, configMINIMAL_STACK_SIZE * 20);
-osThreadDef(readFromUartThread, readFromUartThread, osPriorityHigh, 0, configMINIMAL_STACK_SIZE * 10);
-osThreadDef(StartWdtThread, StartWdtThread, osPriorityRealtime, 0, configMINIMAL_STACK_SIZE * 1);
-osThreadDef(recvUdpThread, recvUdpThread, osPriorityHigh, 0, configMINIMAL_STACK_SIZE * 20);
-osThreadDef(audioInitThread, threadAudioInit, osPriorityHigh, 0, configMINIMAL_STACK_SIZE * 10);
+osThreadDef(trackRingBufferThread, trackRingBufferThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 20);
+osThreadDef(readFromUartThread, readFromUartThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 10);
+osThreadDef(StartWdtThread, StartWdtThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 1);
+osThreadDef(recvUdpThread, recvUdpThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 20);
+osThreadDef(audioInitThread, threadAudioInit, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 10);
 
-osThreadDef(switchLEDsThread, switchLEDsThread, osPriorityHigh, 0, configMINIMAL_STACK_SIZE * 2);
-osThreadDef(replaceTimerCallback, replaceTimerCallback, osPriorityHigh, 0, configMINIMAL_STACK_SIZE * 2);
-osThreadDef(readButtonThread, readButtonThread, osPriorityHigh, 0, configMINIMAL_STACK_SIZE * 5);
+osThreadDef(switchLEDsThread, switchLEDsThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 2);
+osThreadDef(replaceTimerCallback, replaceTimerCallback, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 2);
+osThreadDef(readButtonThread, readButtonThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 5);
 
 void vApplicationStackOverflowHook(TaskHandle_t xTask, char *pcTaskName)
 {
@@ -176,7 +176,7 @@ int main(void)
 //    }
 
 
-    osThreadDef(defaultTask, empty, osPriorityHigh, 0, configMINIMAL_STACK_SIZE);
+    osThreadDef(defaultTask, empty, osPriorityNormal, 0, configMINIMAL_STACK_SIZE);
     osThreadCreate(osThread(defaultTask), nullptr);
 
 //    Json::getInstance()->configStation();
@@ -188,11 +188,11 @@ term("mask:")    term(Json::getInstance()->thisStation.mask)
 term("gateway:") term(Json::getInstance()->thisStation.gateway)
 
 
-        netInit(Json::getInstance()->thisStation.ip,
-                Json::getInstance()->thisStation.mask,
-                Json::getInstance()->thisStation.gateway);
+//        netInit(Json::getInstance()->thisStation.ip,
+//                Json::getInstance()->thisStation.mask,
+//                Json::getInstance()->thisStation.gateway);
 
-        osThreadDef(emptyThread, StartDefaultTask, osPriorityHigh, 0, configMINIMAL_STACK_SIZE);
+        osThreadDef(emptyThread, StartDefaultTask, osPriorityNormal, 0, configMINIMAL_STACK_SIZE);
         osThreadCreate(osThread(emptyThread), nullptr);
 
 //        SAI::getInstance()->threadAudioInitId = osThreadCreate(osThread(audioInitThread), nullptr);
@@ -820,11 +820,12 @@ static void MX_GPIO_Init(void)
 
 void StartDefaultTask(void const * argument)
 {
+    osDelay(3000);
+      term("------- StartDefaultTask ----------");
 //  /* init code for LWIP */
 //  MX_LWIP_Init();
 //  /* USER CODE BEGIN 5 */
-osDelay(3000);
-  term("------- StartDefaultTask ----------");
+
 
 //  if (DP83848.Is_Initialized) {
 //    RS232_write_c("\rDP83848.Is_Initialized\r\n", sizeof ("\rDP83848.Is_Initialized\r\n"));

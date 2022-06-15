@@ -387,14 +387,14 @@ void HAL_SAI_MspDeInit(SAI_HandleTypeDef *hsai)
     }
 }
 
-osThreadDef(recvThread, rtpRecvThread, osPriorityHigh, 0, configMINIMAL_STACK_SIZE * 40);
+osThreadDef(recvThread, rtpRecvThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 40);
 osThreadDef(audioTxHalfThread, threadAudioTxHalf, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 10);
 osThreadDef(audioTxFullThread, threadAudioTxFull, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 10);
 osThreadDef(handelMixAudio, timerForMixAudio, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 40);
 osThreadDef(audioRxFullThread, threadAudioRxFull, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 20);
 osThreadDef(audioRxHalfThread, threadAudioRxHalf, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 20);
-osThreadDef(sendHalfRtp, sendHalfThread, osPriorityHigh, 0, configMINIMAL_STACK_SIZE * 5);
-osThreadDef(sendFullRtp, sendFullThread, osPriorityHigh, 0, configMINIMAL_STACK_SIZE * 5);
+osThreadDef(sendHalfRtp, sendHalfThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 5);
+osThreadDef(sendFullRtp, sendFullThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 5);
 osThreadDef(lostPackThread, lostPackThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 5);
 
 void threadAudioInit(void const *arg)

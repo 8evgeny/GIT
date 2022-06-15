@@ -11,7 +11,7 @@ extern "C" {
 
 void testLed1()
 {
-    osThreadDef(simpleLedTest1_RTOS, simpleLedTest1_RTOS, osPriorityHigh, 0, configMINIMAL_STACK_SIZE );
+    osThreadDef(simpleLedTest1_RTOS, simpleLedTest1_RTOS, osPriorityNormal, 0, configMINIMAL_STACK_SIZE );
     if ((osThreadCreate(osThread(simpleLedTest1_RTOS), nullptr)) == nullptr)
     {
         term("Failed to create simpleLedTest1_RTOS");
@@ -19,7 +19,7 @@ void testLed1()
 }
 void testLed2()
 {
-    osThreadDef(simpleLedTest2_RTOS, simpleLedTest2_RTOS, osPriorityHigh, 0, configMINIMAL_STACK_SIZE );
+    osThreadDef(simpleLedTest2_RTOS, simpleLedTest2_RTOS, osPriorityNormal, 0, configMINIMAL_STACK_SIZE );
     if ((osThreadCreate(osThread(simpleLedTest2_RTOS), nullptr)) == nullptr)
     {
         term("Failed to create simpleLedTest2_RTOS");
@@ -27,7 +27,7 @@ void testLed2()
 }
 void testLed3()
 {
-    osThreadDef(simpleLedTest3_RTOS, simpleLedTest3_RTOS, osPriorityHigh, 0, configMINIMAL_STACK_SIZE );
+    osThreadDef(simpleLedTest3_RTOS, simpleLedTest3_RTOS, osPriorityNormal, 0, configMINIMAL_STACK_SIZE );
     if ((osThreadCreate(osThread(simpleLedTest3_RTOS), nullptr)) == nullptr)
     {
         term("Failed to create simpleLedTest3_RTOS");
@@ -35,7 +35,7 @@ void testLed3()
 }
 void testUART()
 {
-    osThreadDef(simpletestUART_RTOS, simpletestUART_RTOS, osPriorityHigh, 0, configMINIMAL_STACK_SIZE );
+    osThreadDef(simpletestUART_RTOS, simpletestUART_RTOS, osPriorityNormal, 0, configMINIMAL_STACK_SIZE );
     if ((osThreadCreate(osThread(simpletestUART_RTOS), nullptr)) == nullptr)
     {
         term("Failed to create simpletestUART_RTOS");
@@ -50,7 +50,7 @@ void simpleLedTest1_RTOS(void const *argument)
     (void)argument;
     bool reset = true;
     uint32_t tickstart = HAL_GetTick();
-    uint32_t timeSet = 1;
+    uint32_t timeSet = 10;
     uint32_t timeReset = 3000;
 
 term("startingSimpleLedTest1_RTOS")
@@ -66,6 +66,7 @@ term("startingSimpleLedTest1_RTOS")
                  tickstart = HAL_GetTick();
             }
         }
+
         if(!reset)
         {
             if (HAL_GetTick() > tickstart + timeSet)
@@ -75,7 +76,7 @@ term("startingSimpleLedTest1_RTOS")
                  tickstart = HAL_GetTick();
             }
         }
-    HAL_Delay(1);
+    HAL_Delay(10);
     } //end for(;;)
 
     vTaskDelete(nullptr);
@@ -85,10 +86,10 @@ void simpleLedTest2_RTOS(void const *argument)
     (void)argument;
     bool reset = true;
     uint32_t tickstart = HAL_GetTick();
-    uint32_t timeSet = 1;
-    uint32_t timeReset = 3000;
+    uint32_t timeSet = 10;
+    uint32_t timeReset = 2000;
 
-HAL_Delay(50);
+osDelay(50);
 term("startingSimpleLedTest2_RTOS")
 
     for(;;)
@@ -111,7 +112,7 @@ term("startingSimpleLedTest2_RTOS")
                  tickstart = HAL_GetTick();
             }
         }
-    HAL_Delay(1);
+    HAL_Delay(10);
     } //end for(;;)
 
     vTaskDelete(nullptr);
@@ -121,10 +122,10 @@ void simpleLedTest3_RTOS(void const *argument)
     (void)argument;
     bool reset = true;
     uint32_t tickstart = HAL_GetTick();
-    uint32_t timeSet = 1;
+    uint32_t timeSet = 10;
     uint32_t timeReset = 3000;
 
-HAL_Delay(100);
+osDelay(100);
 term("startingSimpleLedTest3_RTOS")
 
     for(;;)
@@ -147,11 +148,12 @@ term("startingSimpleLedTest3_RTOS")
                  tickstart = HAL_GetTick();
             }
         }
-    HAL_Delay(1);
+    osDelay(1);
     } //end for(;;)
 
     vTaskDelete(nullptr);
 }
+
 void simpletestUART_RTOS(void const *argument)
 {
     (void)argument;
@@ -160,7 +162,7 @@ void simpletestUART_RTOS(void const *argument)
     uint32_t timeSet = 3000;
     uint32_t timeReset = 3000;
 
-HAL_Delay(150);
+osDelay(150);
 term("startingSimpleTestUART_RTOS")
 
     for(;;)
@@ -184,7 +186,7 @@ term("startingSimpleTestUART_RTOS")
                 tickstart = HAL_GetTick();
             }
         }
-    HAL_Delay(1);
+    osDelay(1);
     } //end for(;;)
 
     vTaskDelete(nullptr);
