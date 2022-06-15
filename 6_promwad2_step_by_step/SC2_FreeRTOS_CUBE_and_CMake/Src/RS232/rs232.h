@@ -11,8 +11,8 @@
 #include "cmsis_os.h"
 #include "main.h"
 
-//#include "sram.h"
-//#include "json.h"
+#include "sram.h"
+#include "json.h"
 
 
 
