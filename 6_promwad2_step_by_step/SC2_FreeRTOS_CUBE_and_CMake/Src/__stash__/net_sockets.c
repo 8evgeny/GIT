@@ -132,7 +132,7 @@ RS232Puts("*** tcpip_init Ok ***\n") ;
     link_arg.semaphore = Netif_LinkSemaphore;
     /* Create the Ethernet link handler thread */
 #if defined(__GNUC__)
-    osThreadDef(LinkThr, ethernetif_set_link, osPriorityHigh, 0, configMINIMAL_STACK_SIZE * 2);
+    osThreadDef(LinkThr, ethernetif_set_link, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 2);
 #else
     osThreadDef(LinkThr, ethernetif_set_link, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 2);
 #endif

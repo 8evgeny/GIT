@@ -108,16 +108,6 @@ include_directories(
     Drivers/BSP/Components/dp83848
     )
 
-#Это файл от другого проекта
-#file (GLOB ETH_SOURCES
-#    LWIP/Target/ethernetif.c
-#    )
-#add_library(ETH_LIB ${ETH_SOURCES} )
-
-#set (LWIP_SOURCES LWIP/App/lwip.c  LWIP/Target/ethernetif.c LWIP/ping.c )
-#include_directories(LWIP/App LWIP/Target LWIP )
-#add_library(LWIP ${LWIP_SOURCES} )
-
 set (RS232  Src/RS232)
 include_directories( ${RS232} )
 file (GLOB RS232_src ${RS232}/*.cpp ${RS232}/*.c ${RS232}/*.h )
@@ -189,29 +179,29 @@ include_directories(${TraceRecorder}/streamports/TCPIP/include ${TraceRecorder}/
 file (GLOB TraceRecorder_src ${TraceRecorder}/*.c ${TraceRecorder}/streamports/TCPIP/*.c ${TraceRecorder}/streamports/TCPIP/include/*.h ${TraceRecorder}/include/*.h ${TraceRecorder}/config/*.h )
 add_library(TraceRecorder_LIB ${TraceRecorder_src} )
 
-set (RTP  Src/RTP)
-include_directories( ${RTP} Drivers/CMSIS/DSP/Include)
-file (GLOB RTP_src ${RTP}/*.cpp ${RTP}/*.h )
-add_library(RTP_LIB ${RTP_src} )
+#set (RTP  Src/RTP)
+#include_directories( ${RTP} Drivers/CMSIS/DSP/Include)
+#file (GLOB RTP_src ${RTP}/*.cpp ${RTP}/*.h )
+#add_library(RTP_LIB ${RTP_src} )
 
-set (AUDIO  Src/AUDIO)
-include_directories(
-    ${AUDIO}
-    Drivers/CMSIS/DSP/Include
-    )
-file (GLOB AUDIO_src ${AUDIO}/*.cpp ${AUDIO}/*.h )
-add_library(AUDIO_LIB ${AUDIO_src} )
+#set (AUDIO  Src/AUDIO)
+#include_directories(
+#    ${AUDIO}
+#    Drivers/CMSIS/DSP/Include
+#    )
+#file (GLOB AUDIO_src ${AUDIO}/*.cpp ${AUDIO}/*.h )
+#add_library(AUDIO_LIB ${AUDIO_src} )
 
-set (UDP_JSON  Src/UDP_JSON)
-include_directories( ${UDP_JSON} )
-file (GLOB UDP_JSON_src ${UDP_JSON}/*.cpp ${UDP_JSON}/*.h )
-add_library(UDP_JSON_LIB ${UDP_JSON_src} )
+#set (UDP_JSON  Src/UDP_JSON)
+#include_directories( ${UDP_JSON} )
+#file (GLOB UDP_JSON_src ${UDP_JSON}/*.cpp ${UDP_JSON}/*.h )
+#add_library(UDP_JSON_LIB ${UDP_JSON_src} )
 
-set (Call_Control  Src/Call_Control)
-include_directories( ${Call_Control} )
-file (GLOB Call_Control_src ${Call_Control}/*.cpp ${Call_Control}/*.h )
-list(REMOVE_ITEM Call_Control_src ${Call_Control}/call_control.h ${Call_Control}/call_control.cpp )
-add_library(Call_Control_LIB ${Call_Control_src} )
+#set (Call_Control  Src/Call_Control)
+#include_directories( ${Call_Control} )
+#file (GLOB Call_Control_src ${Call_Control}/*.cpp ${Call_Control}/*.h )
+#list(REMOVE_ITEM Call_Control_src ${Call_Control}/call_control.h ${Call_Control}/call_control.cpp )
+#add_library(Call_Control_LIB ${Call_Control_src} )
 
 set (flash  Src/flash)
 include_directories( ${flash} )
@@ -294,10 +284,12 @@ include_directories(
     )
 add_library(Middlewares ${Third_Party_SRC} )
 
-
+include_directories(Src/LWIP/App Src/LWIP/Target)
 add_executable(${PROJECT_NAME}.elf
     ${SOURCES_C}
     ${SOURCES_CPP}
+    Src/LWIP/App/lwip.c
+#    Src/LWIP/Target/ethernetif.c
     )
 
 
@@ -327,8 +319,6 @@ target_link_options(${PROJECT_NAME}.elf PRIVATE ${LINKER_FLAGS})
 target_link_libraries(${PROJECT_NAME}.elf PUBLIC
     STARTUP
     BSP
-#    ETH_LIB
-#    LWIP
     SRAM_LIB
     flash_LIB
     STM32H7xx_HAL_Driver
@@ -340,20 +330,20 @@ target_link_libraries(${PROJECT_NAME}.elf PUBLIC
     littlefs_LIB
     CircularBuffer_LIB
     JSON_LIB
-    RTC_LIB
-    SNTP_LIB
-    TRNG_LIB
+#    RTC_LIB
+#    SNTP_LIB
+#    TRNG_LIB
     GPIO_SC2_LIB
-    UpdateMechanism_LIB
-    TraceRecorder_LIB
-    RTP_LIB
-    AUDIO_LIB
-    UDP_JSON_LIB
-    Call_Control_LIB
+#    UpdateMechanism_LIB
+#    TraceRecorder_LIB
+#    RTP_LIB
+#    AUDIO_LIB
+#    UDP_JSON_LIB
+#    Call_Control_LIB
     FatFs_LIB
-    Tests_LIB
-    uid_LIB
-    WDT_LIB
+#    Tests_LIB
+#    uid_LIB
+#    WDT_LIB
     )
 
 set(HEX_FILE ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.hex)
