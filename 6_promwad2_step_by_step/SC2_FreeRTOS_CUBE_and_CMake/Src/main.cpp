@@ -249,8 +249,8 @@ int main(void)
 //    }
 
 
-    osThreadDef(defaultTask, empty, osPriorityNormal, 0, configMINIMAL_STACK_SIZE);
-    osThreadCreate(osThread(defaultTask), nullptr);
+//    osThreadDef(defaultTask, empty, osPriorityNormal, 0, configMINIMAL_STACK_SIZE*2);
+//    defaultTaskHandle = osThreadCreate(osThread(defaultTask), nullptr);
 
 //    Json::getInstance()->configStation();
 //    if (Json::getInstance()->deserializeJsonFlag == Json::JsonFlags::OK)
@@ -265,8 +265,8 @@ term("gateway:") term(Json::getInstance()->thisStation.gateway)
 //                Json::getInstance()->thisStation.mask,
 //                Json::getInstance()->thisStation.gateway);
 
-        osThreadDef(emptyThread, StartDefaultTask, osPriorityNormal, 0, configMINIMAL_STACK_SIZE);
-        osThreadCreate(osThread(emptyThread), nullptr);
+        osThreadDef(emptyThread, StartDefaultTask, osPriorityNormal, 0, configMINIMAL_STACK_SIZE*2);
+        defaultTaskHandle = osThreadCreate(osThread(emptyThread), nullptr);
 
 //        SAI::getInstance()->threadAudioInitId = osThreadCreate(osThread(audioInitThread), nullptr);
 
@@ -903,11 +903,11 @@ void StartDefaultTask(void const * argument)
 //  /* USER CODE BEGIN 5 */
 
 
-//  if (DP83848.Is_Initialized) {
-//    RS232_write_c("\rDP83848.Is_Initialized\r\n", sizeof ("\rDP83848.Is_Initialized\r\n"));
-//  } else {
-//    RS232_write_c("\rDP83848.No_Initialized\r\n", sizeof ("\rDP83848.No_Initialized\r\n"));
-//  }
+  if (DP83848.Is_Initialized) {
+    term("DP83848.Is_Initialized");
+  } else {
+    term("DP83848.no_Initialized");
+  }
 
   for(;;)
   {
