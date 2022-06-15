@@ -319,8 +319,6 @@ target_link_options(${PROJECT_NAME}.elf PRIVATE ${LINKER_FLAGS})
 target_link_libraries(${PROJECT_NAME}.elf PUBLIC
     STARTUP
     BSP
-#    ETH_LIB
-#    LWIP_LIB
     SRAM_LIB
     flash_LIB
     STM32H7xx_HAL_Driver
@@ -332,20 +330,20 @@ target_link_libraries(${PROJECT_NAME}.elf PUBLIC
     littlefs_LIB
     CircularBuffer_LIB
     JSON_LIB
-    RTC_LIB
-    SNTP_LIB
-    TRNG_LIB
+#    RTC_LIB
+#    SNTP_LIB
+#    TRNG_LIB
     GPIO_SC2_LIB
-    UpdateMechanism_LIB
-    TraceRecorder_LIB
-    RTP_LIB
-    AUDIO_LIB
-    UDP_JSON_LIB
-    Call_Control_LIB
+#    UpdateMechanism_LIB
+#    TraceRecorder_LIB
+#    RTP_LIB
+#    AUDIO_LIB
+#    UDP_JSON_LIB
+#    Call_Control_LIB
     FatFs_LIB
-    Tests_LIB
-    uid_LIB
-    WDT_LIB
+#    Tests_LIB
+#    uid_LIB
+#    WDT_LIB
     )
 
 set(HEX_FILE ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.hex)
