@@ -2,9 +2,9 @@
 ENTRY(Reset_Handler)
 
 /* Highest address of the user mode stack */
-/*_estack = ORIGIN(RAM_D1_main) + LENGTH(RAM_D1_main);    /* end of RAM */
+/*_estack = ORIGIN(RAM_D1) + LENGTH(RAM_D1);    /* end of RAM */
 
-/*_estack = 0x20020000; /* DTCMRAM */
+/*_estack = 0x20020000; /* RAM */
 _estack = 0x24080000; /* AXI-SRAM */
 
 
@@ -15,16 +15,13 @@ _Min_Stack_Size = 0x800 ; /* required amount of stack */
 /* Specify the memory areas */
 MEMORY
 {
-  RAM_D1_main (xrw)   : ORIGIN = 0x24000000, LENGTH = 512K
   FLASH (rx)     : ORIGIN = 0x08000000, LENGTH = 2048K
-  Memory_B1(xrw)   : ORIGIN = 0x38000000, LENGTH = 0x80
-  Memory_B2(xrw)   : ORIGIN = 0x38000080, LENGTH = 0x80
-  Memory_B3(xrw)   : ORIGIN = 0x38000100, LENGTH = 0x17d0
-  Memory_B4(xrw)   : ORIGIN = 0x380018D0, LENGTH = 0x17d0
-  DTCMRAM (xrw)  : ORIGIN = 0x20000000, LENGTH = 128K
+  ITCMRAM (xrw)  : ORIGIN = 0x00000000, LENGTH = 64K
+  RAM (xrw)  : ORIGIN = 0x20000000, LENGTH = 128K
+  RAM_D1 (xrw)   : ORIGIN = 0x24000000, LENGTH = 512K
   RAM_D2 (xrw)   : ORIGIN = 0x30000000, LENGTH = 288K
   RAM_D3 (xrw)   : ORIGIN = 0x38000000, LENGTH = 64K
-  ITCMRAM (xrw)  : ORIGIN = 0x00000000, LENGTH = 64K
+  RAM_EXT (xrw)   : ORIGIN = 0x60000000, LENGTH = 1024K
 }
 
 /* Define output sections */
@@ -109,7 +106,7 @@ SECTIONS
 
     . = ALIGN(4);
     _edata = .;        /* define a global symbol at data end */
-  } >DTCMRAM AT> FLASH
+  } >RAM AT> FLASH
 
   /* Uninitialized data section */
   . = ALIGN(4);
@@ -125,7 +122,7 @@ SECTIONS
     . = ALIGN(4);
     _ebss = .;         /* define a global symbol at bss end */
     __bss_end__ = _ebss;
-  } >RAM_D1_main
+  } >RAM_D1
 
   /* User_heap_stack section, used to check that there is enough RAM left */
   ._user_heap_stack :
@@ -136,7 +133,7 @@ SECTIONS
     . = . + _Min_Heap_Size;
     . = . + _Min_Stack_Size;
     . = ALIGN(8);
-  } >DTCMRAM
+  } >RAM
 
 .lwip_sec (NOLOAD) : {
   . = ABSOLUTE(0x30000000);
