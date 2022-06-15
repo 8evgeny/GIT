@@ -108,16 +108,6 @@ include_directories(
     Drivers/BSP/Components/dp83848
     )
 
-#Это файл от другого проекта
-#file (GLOB ETH_SOURCES
-#    LWIP/Target/ethernetif.c
-#    )
-#add_library(ETH_LIB ${ETH_SOURCES} )
-
-#set (LWIP_SOURCES LWIP/App/lwip.c  LWIP/Target/ethernetif.c LWIP/ping.c )
-#include_directories(LWIP/App LWIP/Target LWIP )
-#add_library(LWIP ${LWIP_SOURCES} )
-
 set (RS232  Src/RS232)
 include_directories( ${RS232} )
 file (GLOB RS232_src ${RS232}/*.cpp ${RS232}/*.c ${RS232}/*.h )
@@ -294,10 +284,12 @@ include_directories(
     )
 add_library(Middlewares ${Third_Party_SRC} )
 
-
+include_directories(Src/LWIP/App Src/LWIP/Target)
 add_executable(${PROJECT_NAME}.elf
     ${SOURCES_C}
     ${SOURCES_CPP}
+#    Src/LWIP/App/lwip.c
+#    Src/LWIP/Target/ethernetif.c
     )
 
 
@@ -328,7 +320,7 @@ target_link_libraries(${PROJECT_NAME}.elf PUBLIC
     STARTUP
     BSP
 #    ETH_LIB
-#    LWIP
+#    LWIP_LIB
     SRAM_LIB
     flash_LIB
     STM32H7xx_HAL_Driver

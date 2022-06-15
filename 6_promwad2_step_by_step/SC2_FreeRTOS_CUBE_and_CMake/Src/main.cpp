@@ -1,5 +1,4 @@
 #include "main.h"
-//#include "lwip.h"
 #include "rs232.h"
 #include "debug.h"
 #include "wdt.h"
@@ -12,6 +11,8 @@
 #include "flash/flash.h"
 #include "net_sockets.h"
 #include "i2ceeprom.h"
+#include "lwip.h"
+#include "ethernetif.h"
 
 extern void flashErraseBank2();
 
