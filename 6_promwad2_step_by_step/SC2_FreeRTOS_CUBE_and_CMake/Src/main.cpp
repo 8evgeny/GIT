@@ -43,7 +43,7 @@ static void MX_I2C3_Init(void);
 static void MX_SAI1_Init(void);
 //static void MX_UART7_Init(void);
 static void MX_TIM3_Init(void);
-//static void MX_DMA_Init(void);
+static void MX_DMA_Init(void);
 static void MX_RNG_Init(void);
 void StartDefaultTask(void const * argument);
 
@@ -144,9 +144,9 @@ osThreadId defaultTaskHandle;
 //osThreadDef(recvUdpThread, recvUdpThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 20);
 //osThreadDef(audioInitThread, threadAudioInit, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 10);
 
-osThreadDef(switchLEDsThread, switchLEDsThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 2);
-osThreadDef(replaceTimerCallback, replaceTimerCallback, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 2);
-osThreadDef(readButtonThread, readButtonThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 5);
+//osThreadDef(switchLEDsThread, switchLEDsThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 2);
+//osThreadDef(replaceTimerCallback, replaceTimerCallback, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 2);
+//osThreadDef(readButtonThread, readButtonThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 5);
 
 void vApplicationStackOverflowHook(TaskHandle_t xTask, char *pcTaskName)
 {
@@ -707,34 +707,37 @@ static void MX_UART7_Init(void)
 
 }
 
-//static void MX_DMA_Init(void)
-//{
+static void MX_DMA_Init(void)
+{
 
-//    /* DMA controller clock enable */
-//    __HAL_RCC_DMA1_CLK_ENABLE();
-//    __HAL_RCC_DMA2_CLK_ENABLE();
+    /* DMA controller clock enable */
+    __HAL_RCC_DMA1_CLK_ENABLE();
+    __HAL_RCC_DMA2_CLK_ENABLE();
 
-//    /* DMA interrupt init */
-//    /* DMA1_Stream1_IRQn interrupt configuration */
-//    HAL_NVIC_SetPriority(DMA1_Stream1_IRQn, 5, 0);
-//    HAL_NVIC_EnableIRQ(DMA1_Stream1_IRQn);
-//    /* DMA1_Stream2_IRQn interrupt configuration */
-//    HAL_NVIC_SetPriority(DMA1_Stream2_IRQn, 5, 0);
-//    HAL_NVIC_EnableIRQ(DMA1_Stream2_IRQn);
-//    /* DMA1_Stream3_IRQn interrupt configuration */
-//    HAL_NVIC_SetPriority(DMA1_Stream3_IRQn, 5, 0);
-//    HAL_NVIC_EnableIRQ(DMA1_Stream3_IRQn);
-//    /* DMA1_Stream4_IRQn interrupt configuration */
-//    HAL_NVIC_SetPriority(DMA1_Stream4_IRQn, 5, 0);
-//    HAL_NVIC_EnableIRQ(DMA1_Stream4_IRQn);
-//    /* DMA2_Stream3_IRQn interrupt configuration */
-//    HAL_NVIC_SetPriority(DMA2_Stream3_IRQn, 5, 0);
-//    HAL_NVIC_EnableIRQ(DMA2_Stream3_IRQn);
-//    /* DMA2_Stream4_IRQn interrupt configuration */
-//    HAL_NVIC_SetPriority(DMA2_Stream4_IRQn, 5, 0);
-//    HAL_NVIC_EnableIRQ(DMA2_Stream4_IRQn);
+    /* DMA interrupt init */
+    /* DMA1_Stream1_IRQn interrupt configuration */
+    HAL_NVIC_SetPriority(DMA1_Stream1_IRQn, 5, 0);
+    HAL_NVIC_EnableIRQ(DMA1_Stream1_IRQn);
+    /* DMA1_Stream2_IRQn interrupt configuration */
+    HAL_NVIC_SetPriority(DMA1_Stream2_IRQn, 5, 0);
+    HAL_NVIC_EnableIRQ(DMA1_Stream2_IRQn);
+    /* DMA1_Stream4_IRQn interrupt configuration */
+    HAL_NVIC_SetPriority(DMA1_Stream4_IRQn, 5, 0);
+    HAL_NVIC_EnableIRQ(DMA1_Stream4_IRQn);
+    /* DMA2_Stream0_IRQn interrupt configuration */
+    HAL_NVIC_SetPriority(DMA2_Stream0_IRQn, 5, 0);
+    HAL_NVIC_EnableIRQ(DMA2_Stream0_IRQn);
+    /* DMA2_Stream1_IRQn interrupt configuration */
+    HAL_NVIC_SetPriority(DMA2_Stream1_IRQn, 5, 0);
+    HAL_NVIC_EnableIRQ(DMA2_Stream1_IRQn);
+    /* DMA2_Stream3_IRQn interrupt configuration */
+    HAL_NVIC_SetPriority(DMA2_Stream3_IRQn, 5, 0);
+    HAL_NVIC_EnableIRQ(DMA2_Stream3_IRQn);
+    /* DMA2_Stream4_IRQn interrupt configuration */
+    HAL_NVIC_SetPriority(DMA2_Stream4_IRQn, 5, 0);
+    HAL_NVIC_EnableIRQ(DMA2_Stream4_IRQn);
 
-//}
+}
 
 //static void MX_FMC_Init(void)
 //{
@@ -874,20 +877,20 @@ static void MX_GPIO_Init(void)
     HAL_NVIC_SetPriority(EXTI15_10_IRQn, 5, 0);
     HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
 
-    if ((osThreadCreate(osThread(switchLEDsThread), nullptr)) == nullptr)
-    {
-        RS232::getInstance().term << "Failed to create [switchLEDsThread]" << "\n";
-    }
+//    if ((osThreadCreate(osThread(switchLEDsThread), nullptr)) == nullptr)
+//    {
+//        RS232::getInstance().term << "Failed to create [switchLEDsThread]" << "\n";
+//    }
 
-    if ((osThreadCreate(osThread(readButtonThread), nullptr)) == nullptr)
-    {
-        RS232::getInstance().term << "Failed to create [readButtonThread]" << "\n";
-    }
+//    if ((osThreadCreate(osThread(readButtonThread), nullptr)) == nullptr)
+//    {
+//        RS232::getInstance().term << "Failed to create [readButtonThread]" << "\n";
+//    }
 
-    if ((osThreadCreate(osThread(replaceTimerCallback), nullptr)) == nullptr)
-    {
-        RS232::getInstance().term << "Failed to create [switchLEDsThread]" << "\n";
-    }
+//    if ((osThreadCreate(osThread(replaceTimerCallback), nullptr)) == nullptr)
+//    {
+//        RS232::getInstance().term << "Failed to create [switchLEDsThread]" << "\n";
+//    }
 
 }
 
