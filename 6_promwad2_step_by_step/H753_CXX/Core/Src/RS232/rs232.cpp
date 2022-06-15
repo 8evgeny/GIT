@@ -47,29 +47,49 @@
 //#else
 ////#include "../Call_control_for_SC2_board/call_control_sc2.h"
 //#endif
+
+
 #include "json.h"
+
+
+
 
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-static UART_HandleTypeDef huart7;
+extern UART_HandleTypeDef huart7;
+//static UART_HandleTypeDef huart7;
 static DMA_HandleTypeDef hdma_uart7_rx;
 static DMA_HandleTypeDef hdma_uart7_tx;
 static unsigned char readByte();
 static void writeByte(unsigned char byte);
 
-/*!
-  \brief USART6 Initialization Function
-  \param None
-  \retval None
-  */
 void RS232Init(void)
 {
+
 
     RS232DevOut(writeByte);
     RS232DevIn(readByte);
 
+
+    GPIO_InitTypeDef GPIO_InitStruct = {0};
+    __HAL_RCC_UART7_CLK_ENABLE();
+
+    __HAL_RCC_DMA1_CLK_ENABLE();
+    __HAL_RCC_GPIOF_CLK_ENABLE();
+    /**UART7 GPIO Configuration
+    PF6     ------> UART7_RX
+    PF7     ------> UART7_TX
+    */
+    GPIO_InitStruct.Pin = GPIO_PIN_6 | GPIO_PIN_7;
+    GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+    GPIO_InitStruct.Pull = GPIO_PULLUP;
+    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+    GPIO_InitStruct.Alternate = GPIO_AF7_UART7;
+    HAL_GPIO_Init(GPIOF, &GPIO_InitStruct);
+
+    /* UART7 DMA Init */
+    /* UART7_TX Init */
     huart7.Instance = UART7;
     huart7.Init.BaudRate = 115200;
     huart7.Init.WordLength = UART_WORDLENGTH_8B;
@@ -79,18 +99,18 @@ void RS232Init(void)
     huart7.Init.HwFlowCtl = UART_HWCONTROL_NONE;
     huart7.Init.OverSampling = UART_OVERSAMPLING_16;
     huart7.Init.OneBitSampling = UART_ONE_BIT_SAMPLE_DISABLE;
+    huart7.Init.ClockPrescaler = UART_PRESCALER_DIV1;
     huart7.AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_NO_INIT;
+
     huart7.hdmarx = &hdma_uart7_rx;
     huart7.hdmatx = &hdma_uart7_tx;
-//    huart7.
-    if (HAL_UART_Init(&huart7) != HAL_OK) {
-        while (1) {
-            Debug::getInstance().dbg << "UART Init Error!" << "\n";
-        }
-    }
-    /* USER CODE BEGIN UART7_Init 2 */
 
-    /* USER CODE END UART7_Init 2 */
+    if (HAL_UART_Init(&huart7) != HAL_OK) {
+      while (1) {
+          Debug::getInstance().dbg << "UART Init Error!" << "\n";
+      }
+    }
+
 }
 
 #ifdef __cplusplus
@@ -126,6 +146,10 @@ RS232 &RS232::getInstance()
     return *pInstance;
 }
 
+extern "C" RS232& RS232::C_getInstance(RS232* p)
+{
+   return p->RS232::getInstance();
+}
 
 
 HAL_StatusTypeDef RS232::write(uint8_t *buf, uint16_t size)
@@ -183,7 +207,7 @@ HAL_StatusTypeDef RS232::read(uint8_t *buf, uint16_t size, uint32_t timeout, boo
 
 HAL_StatusTypeDef RS232::read(char *buf, uint16_t size, uint32_t timeout, bool saveDataToRingBuffer)
 {
-//    std::fill(buf, buf + size, 0);
+    std::fill(buf, buf + size, 0);
     HAL_StatusTypeDef status;
     uint8_t tmp = 0;
     do {
@@ -267,86 +291,95 @@ static void writeByte(unsigned char byte)
   \param huart: UART handle pointer
   \retval None
   */
-//void HAL_UART_MspInit(UART_HandleTypeDef *huart)
-//{
+void HAL_UART_MspInit(UART_HandleTypeDef *huart)
+{
+    GPIO_InitTypeDef GPIO_InitStruct = {0};
+    if (huart->Instance == UART7) {
 
-//    GPIO_InitTypeDef GPIO_InitStruct = {0};
-//    if (huart->Instance == UART7) {
+        /* Peripheral clock enable */
+        __HAL_RCC_UART7_CLK_ENABLE();
 
+        __HAL_RCC_DMA1_CLK_ENABLE();
+        __HAL_RCC_GPIOF_CLK_ENABLE();
+        /**UART7 GPIO Configuration
+        PF6     ------> UART7_RX
+        PF7     ------> UART7_TX
+        */
+        GPIO_InitStruct.Pin = GPIO_PIN_6 | GPIO_PIN_7;
+        GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+        GPIO_InitStruct.Pull = GPIO_PULLUP;
+        GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+        GPIO_InitStruct.Alternate = GPIO_AF7_UART7;
+        HAL_GPIO_Init(GPIOF, &GPIO_InitStruct);
 
+        /* UART7 DMA Init */
+        /* UART7_TX Init */
+        hdma_uart7_tx.Instance = DMA1_Stream1;
+        hdma_uart7_tx.Init.Request = DMA_REQUEST_UART7_TX;
+        hdma_uart7_tx.Init.Direction = DMA_MEMORY_TO_PERIPH;
+        hdma_uart7_tx.Init.PeriphInc = DMA_PINC_DISABLE;
+        hdma_uart7_tx.Init.MemInc = DMA_MINC_ENABLE;
+        hdma_uart7_tx.Init.PeriphDataAlignment = DMA_PDATAALIGN_BYTE;
+        hdma_uart7_tx.Init.MemDataAlignment = DMA_MDATAALIGN_BYTE;
+        hdma_uart7_tx.Init.Mode = DMA_NORMAL;
+        hdma_uart7_tx.Init.Priority = DMA_PRIORITY_LOW;
+        hdma_uart7_tx.Init.FIFOMode = DMA_FIFOMODE_DISABLE;
+        HAL_DMA_Init(&hdma_uart7_tx);
 
-//        /* USER CODE BEGIN UART7_MspInit 0 */
+        __HAL_LINKDMA(huart, hdmatx, hdma_uart7_tx);
 
-//        /* USER CODE END UART7_MspInit 0 */
-//        /* Peripheral clock enable */
-//        __HAL_RCC_UART7_CLK_ENABLE();
+        /* UART7_RX Init */
+        hdma_uart7_rx.Instance = DMA1_Stream3;
+        hdma_uart7_rx.Init.Request = DMA_REQUEST_UART7_RX;
+        hdma_uart7_rx.Init.Direction = DMA_PERIPH_TO_MEMORY;
+        hdma_uart7_rx.Init.PeriphInc = DMA_PINC_DISABLE;
+        hdma_uart7_rx.Init.MemInc = DMA_MINC_ENABLE;
+        hdma_uart7_rx.Init.PeriphDataAlignment = DMA_PDATAALIGN_BYTE;
+        hdma_uart7_rx.Init.MemDataAlignment = DMA_MDATAALIGN_BYTE;
+        hdma_uart7_rx.Init.Mode = DMA_NORMAL;
+        hdma_uart7_rx.Init.Priority = DMA_PRIORITY_HIGH;
+        hdma_uart7_rx.Init.FIFOMode = DMA_FIFOMODE_DISABLE;
+        HAL_DMA_Init(&hdma_uart7_rx);
 
-//        __HAL_RCC_DMA1_CLK_ENABLE();
-//        __HAL_RCC_GPIOF_CLK_ENABLE();
-//        /**UART7 GPIO Configuration
-//        PF6     ------> UART7_RX
-//        PF7     ------> UART7_TX
-//        */
-//        GPIO_InitStruct.Pin = GPIO_PIN_6 | GPIO_PIN_7;
-//        GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
-//        GPIO_InitStruct.Pull = GPIO_PULLUP;
-//        GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
-//        GPIO_InitStruct.Alternate = GPIO_AF8_UART7;
-//        HAL_GPIO_Init(GPIOF, &GPIO_InitStruct);
+        __HAL_LINKDMA(huart, hdmarx, hdma_uart7_rx);
 
-//        /* UART7 DMA Init */
-//        /* UART7_TX Init */
-//        hdma_uart7_tx.Instance = DMA1_Stream1;
-//        hdma_uart7_tx.Init.Channel = DMA_CHANNEL_5;
-//        hdma_uart7_tx.Init.Direction = DMA_MEMORY_TO_PERIPH;
-//        hdma_uart7_tx.Init.PeriphInc = DMA_PINC_DISABLE;
-//        hdma_uart7_tx.Init.MemInc = DMA_MINC_ENABLE;
-//        hdma_uart7_tx.Init.PeriphDataAlignment = DMA_PDATAALIGN_BYTE;
-//        hdma_uart7_tx.Init.MemDataAlignment = DMA_MDATAALIGN_BYTE;
-//        hdma_uart7_tx.Init.Mode = DMA_NORMAL;
-//        hdma_uart7_tx.Init.Priority = DMA_PRIORITY_LOW;
-//        hdma_uart7_tx.Init.FIFOMode = DMA_FIFOMODE_DISABLE;
-//        HAL_DMA_Init(&hdma_uart7_tx);
+            /* DMA interrupt init */
+            /* DMA1_Stream1_IRQn interrupt configuration */
+            HAL_NVIC_SetPriority(DMA1_Stream1_IRQn, 5, 0);
+            HAL_NVIC_EnableIRQ(DMA1_Stream1_IRQn);
+            /* DMA1_Stream2_IRQn interrupt configuration */
+            HAL_NVIC_SetPriority(DMA1_Stream2_IRQn, 5, 0);
+            HAL_NVIC_EnableIRQ(DMA1_Stream2_IRQn);
+            /* DMA1_Stream3_IRQn interrupt configuration */
+            HAL_NVIC_SetPriority(DMA1_Stream3_IRQn, 5, 0);
+            HAL_NVIC_EnableIRQ(DMA1_Stream3_IRQn);
+            /* DMA1_Stream4_IRQn interrupt configuration */
+            HAL_NVIC_SetPriority(DMA1_Stream4_IRQn, 5, 0);
+            HAL_NVIC_EnableIRQ(DMA1_Stream4_IRQn);
+            /* DMA2_Stream3_IRQn interrupt configuration */
+            HAL_NVIC_SetPriority(DMA2_Stream3_IRQn, 5, 0);
+            HAL_NVIC_EnableIRQ(DMA2_Stream3_IRQn);
+            /* DMA2_Stream4_IRQn interrupt configuration */
+            HAL_NVIC_SetPriority(DMA2_Stream4_IRQn, 5, 0);
+            HAL_NVIC_EnableIRQ(DMA2_Stream4_IRQn);
 
+            /* UART7 interrupt Init */
+            HAL_NVIC_SetPriority(UART7_IRQn, 0, 1);
+            HAL_NVIC_EnableIRQ(UART7_IRQn);
 
-//        __HAL_LINKDMA(huart, hdmatx, hdma_uart7_tx);
+            /* DMA1_Stream1_IRQn interrupt configuration */
+            HAL_NVIC_SetPriority(DMA1_Stream1_IRQn, 0, 1);
+            HAL_NVIC_EnableIRQ(DMA1_Stream1_IRQn);
 
-//        /* UART7_RX Init */
-//        hdma_uart7_rx.Instance = DMA1_Stream3;
-//        hdma_uart7_rx.Init.Channel = DMA_CHANNEL_5;
-//        hdma_uart7_rx.Init.Direction = DMA_PERIPH_TO_MEMORY;
-//        hdma_uart7_rx.Init.PeriphInc = DMA_PINC_DISABLE;
-//        hdma_uart7_rx.Init.MemInc = DMA_MINC_ENABLE;
-//        hdma_uart7_rx.Init.PeriphDataAlignment = DMA_PDATAALIGN_BYTE;
-//        hdma_uart7_rx.Init.MemDataAlignment = DMA_MDATAALIGN_BYTE;
-//        hdma_uart7_rx.Init.Mode = DMA_NORMAL;
-//        hdma_uart7_rx.Init.Priority = DMA_PRIORITY_HIGH;
-//        hdma_uart7_rx.Init.FIFOMode = DMA_FIFOMODE_DISABLE;
-//        HAL_DMA_Init(&hdma_uart7_rx);
+            /* DMA1_Stream3_IRQn interrupt configuration */
+            HAL_NVIC_SetPriority(DMA1_Stream3_IRQn, 0, 0);
+            HAL_NVIC_EnableIRQ(DMA1_Stream3_IRQn);
 
+            __HAL_RCC_DMA1_CLK_ENABLE();
+            __HAL_RCC_DMA2_CLK_ENABLE();
+    }
 
-//        __HAL_LINKDMA(huart, hdmarx, hdma_uart7_rx);
-
-//        /* UART7 interrupt Init */
-//        HAL_NVIC_SetPriority(UART7_IRQn, 0, 1);
-//        HAL_NVIC_EnableIRQ(UART7_IRQn);
-//        /* USER CODE BEGIN UART7_MspInit 1 */
-
-
-
-//        /* DMA1_Stream1_IRQn interrupt configuration */
-//        HAL_NVIC_SetPriority(DMA1_Stream1_IRQn, 0, 1);
-//        HAL_NVIC_EnableIRQ(DMA1_Stream1_IRQn);
-
-//        /* DMA1_Stream3_IRQn interrupt configuration */
-//        HAL_NVIC_SetPriority(DMA1_Stream3_IRQn, 0, 0);
-//        HAL_NVIC_EnableIRQ(DMA1_Stream3_IRQn);
-
-
-//        /* USER CODE END UART7_MspInit 1 */
-//    }
-
-//}
+}
 
 /**
 * @brief UART MSP De-Initialization
@@ -354,32 +387,32 @@ static void writeByte(unsigned char byte)
 * @param huart: UART handle pointer
 * @retval None
 */
-//void HAL_UART_MspDeInit(UART_HandleTypeDef *huart)
-//{
-//    if (huart->Instance == UART7) {
-//        /* USER CODE BEGIN UART7_MspDeInit 0 */
+void HAL_UART_MspDeInit(UART_HandleTypeDef *huart)
+{
+    if (huart->Instance == UART7) {
+        /* USER CODE BEGIN UART7_MspDeInit 0 */
 
-//        /* USER CODE END UART7_MspDeInit 0 */
-//        /* Peripheral clock disable */
-//        __HAL_RCC_UART7_CLK_DISABLE();
+        /* USER CODE END UART7_MspDeInit 0 */
+        /* Peripheral clock disable */
+        __HAL_RCC_UART7_CLK_DISABLE();
 
-//        /**UART7 GPIO Configuration
-//        PF6     ------> UART7_RX
-//        PF7     ------> UART7_TX
-//        */
-//        HAL_GPIO_DeInit(GPIOF, GPIO_PIN_6 | GPIO_PIN_7);
+        /**UART7 GPIO Configuration
+        PF6     ------> UART7_RX
+        PF7     ------> UART7_TX
+        */
+        HAL_GPIO_DeInit(GPIOF, GPIO_PIN_6 | GPIO_PIN_7);
 
-//        /* UART7 DMA DeInit */
-//        HAL_DMA_DeInit(huart->hdmatx);
-//        HAL_DMA_DeInit(huart->hdmarx);
+        /* UART7 DMA DeInit */
+        HAL_DMA_DeInit(huart->hdmatx);
+        HAL_DMA_DeInit(huart->hdmarx);
 
-//        /* UART7 interrupt DeInit */
-//        HAL_NVIC_DisableIRQ(UART7_IRQn);
-//        /* USER CODE BEGIN UART7_MspDeInit 1 */
+        /* UART7 interrupt DeInit */
+        HAL_NVIC_DisableIRQ(UART7_IRQn);
+        /* USER CODE BEGIN UART7_MspDeInit 1 */
 
-//        /* USER CODE END UART7_MspDeInit 1 */
-//    }
-//}
+        /* USER CODE END UART7_MspDeInit 1 */
+    }
+}
 
 /*!
   \brief  Tx Transfer completed callback
@@ -443,19 +476,20 @@ void DMA1_Stream3_IRQHandler(void)
 /**
   * @brief This function handles DMA1 stream1 global interrupt.
   */
-//void DMA1_Stream1_IRQHandler(void)
-//{
-//    /* USER CODE BEGIN DMA1_Stream1_IRQn 0 */
+void DMA1_Stream1_IRQHandler(void)
+{
+    /* USER CODE BEGIN DMA1_Stream1_IRQn 0 */
 
-//    /* USER CODE END DMA1_Stream1_IRQn 0 */
-//    HAL_DMA_IRQHandler(RS232::getInstance().uartHandle->hdmatx);
-//    /* USER CODE BEGIN DMA1_Stream1_IRQn 1 */
+    /* USER CODE END DMA1_Stream1_IRQn 0 */
+    HAL_DMA_IRQHandler(RS232::getInstance().uartHandle->hdmatx);
+    /* USER CODE BEGIN DMA1_Stream1_IRQn 1 */
 
-//    /* USER CODE END DMA1_Stream1_IRQn 1 */
-//}
+    /* USER CODE END DMA1_Stream1_IRQn 1 */
+}
 /**
   * @brief This function handles UART7 global interrupt.
   */
+
 //void UART7_IRQHandler(void)
 //{
 //    HAL_UART_IRQHandler(RS232::getInstance().uartHandle);
@@ -580,6 +614,12 @@ void RS232::test()
     RS232::getInstance().term << buf.begin();
 }
 
+extern "C" void  RS232::C_test(RS232* p)
+{
+   return p->RS232::test();
+}
+
+
 
 Console &operator>>(Console &console, std::string &data)
 {
@@ -607,9 +647,8 @@ void readFromUartThread(void const *arg)
     char buf[SIZE_DEF_BLOCK_UDP] {0};
     uint32_t tmp[SIZE_DEF_BLOCK_UDP / 4];
 
-
-
-
+HAL_Delay(350);
+term("****  readFromUartThread  start  ****")
 
     while (true) {
 
