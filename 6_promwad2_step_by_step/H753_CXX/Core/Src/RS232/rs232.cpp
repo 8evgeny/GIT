@@ -490,10 +490,10 @@ void DMA1_Stream1_IRQHandler(void)
   * @brief This function handles UART7 global interrupt.
   */
 
-//void UART7_IRQHandler(void)
-//{
-//    HAL_UART_IRQHandler(RS232::getInstance().uartHandle);
-//}
+void UART7_IRQHandler(void)
+{
+    HAL_UART_IRQHandler(RS232::getInstance().uartHandle);
+}
 
 #ifdef __cplusplus
 }
