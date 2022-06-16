@@ -102,8 +102,8 @@ void RS232Init(void)
     huart7.Init.ClockPrescaler = UART_PRESCALER_DIV1;
     huart7.AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_NO_INIT;
 
-    huart7.hdmarx = &hdma_uart7_rx;
-    huart7.hdmatx = &hdma_uart7_tx;
+//    huart7.hdmarx = &hdma_uart7_rx;
+//    huart7.hdmatx = &hdma_uart7_tx;
 
     if (HAL_UART_Init(&huart7) != HAL_OK) {
       while (1) {

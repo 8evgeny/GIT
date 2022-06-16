@@ -147,7 +147,7 @@ DMA_HandleTypeDef hdma_sai1_b;
 TIM_HandleTypeDef htim3;
 
 UART_HandleTypeDef huart7;
-DMA_HandleTypeDef hdma_uart7_tx;
+//DMA_HandleTypeDef hdma_uart7_tx;
 
 SRAM_HandleTypeDef hsram1;
 

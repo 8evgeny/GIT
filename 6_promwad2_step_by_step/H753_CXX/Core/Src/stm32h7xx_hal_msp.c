@@ -31,7 +31,7 @@ extern DMA_HandleTypeDef hdma_i2c2_rx;
 
 extern DMA_HandleTypeDef hdma_i2c2_tx;
 
-extern DMA_HandleTypeDef hdma_uart7_tx;
+//extern DMA_HandleTypeDef hdma_uart7_tx;
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN TD */

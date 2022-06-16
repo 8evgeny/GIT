@@ -66,7 +66,7 @@ extern DMA_HandleTypeDef hdma_sai1_b;
 extern SAI_HandleTypeDef hsai_BlockA1;
 extern SAI_HandleTypeDef hsai_BlockB1;
 extern TIM_HandleTypeDef htim3;
-extern DMA_HandleTypeDef hdma_uart7_tx;
+//extern DMA_HandleTypeDef hdma_uart7_tx;
 extern UART_HandleTypeDef huart7;
 extern TIM_HandleTypeDef htim1;
 
