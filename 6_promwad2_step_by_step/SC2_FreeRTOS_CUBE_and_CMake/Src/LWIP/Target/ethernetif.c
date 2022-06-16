@@ -616,7 +616,7 @@ void ethernetif_input(void const * argument)
 
   for( ;; )
   {
-    if (HAL_ETH_IsRxDataAvailable(&heth)) osSemaphoreRelease(RxPktSemaphore);
+//    if (HAL_ETH_IsRxDataAvailable(&heth)) osSemaphoreRelease(RxPktSemaphore);
     if (osSemaphoreWait(RxPktSemaphore, TIME_WAITING_FOR_INPUT) == osOK)
     {
       do
