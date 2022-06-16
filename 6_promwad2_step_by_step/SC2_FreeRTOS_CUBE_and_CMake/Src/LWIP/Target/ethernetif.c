@@ -331,6 +331,7 @@ void HAL_ETH_RxCpltCallback(ETH_HandleTypeDef *heth)
  */
 static void low_level_init(struct netif *netif)
 {
+    RS232Puts("--low_level_init--\r\n");
   HAL_StatusTypeDef hal_eth_init_status = HAL_OK;
   uint32_t idx = 0;
   ETH_MACConfigTypeDef MACConf;
@@ -664,6 +665,7 @@ static struct pbuf * low_level_input(struct netif *netif)
  */
 void ethernetif_input(void const * argument)
 {
+    RS232Puts("--ethernetif_input--\r\n");
   struct pbuf *p;
   struct netif *netif = (struct netif *) argument;
 
@@ -676,6 +678,7 @@ void ethernetif_input(void const * argument)
         p = low_level_input( netif );
         if (p != NULL)
         {
+            RS232Puts("--packet--\r\n");
           if (netif->input( p, netif) != ERR_OK )
           {
             pbuf_free(p);
@@ -884,79 +887,26 @@ void ethernet_link_thread(void const * argument)
 
   struct netif *netif = (struct netif *) argument;
 /* USER CODE BEGIN ETH link init */
-  char msgUart7[] = "\r------- Start_ethernet_link_thread \n\r";
-
-  RS232Puts("------- Start_ethernet_link_thread---------");
-
-//  RS232_write_c(msgUart7, sizeof (msgUart7));
+osDelay(500);
+  RS232Puts("------- Start_ethernet_link_thread---------\r\n");
 
 /* USER CODE END ETH link init */
 
   for(;;)
   {
-//  PHYLinkState = LAN8742_GetLinkState(&LAN8742);
-
-//  if(netif_is_link_up(netif) && (PHYLinkState <= LAN8742_STATUS_LINK_DOWN))
-//  {
-//    HAL_ETH_Stop_IT(&heth);
-//    netif_set_down(netif);
-//    netif_set_link_down(netif);
-//  }
-//  else if(!netif_is_link_up(netif) && (PHYLinkState > LAN8742_STATUS_LINK_DOWN))
-//  {
-//    switch (PHYLinkState)
-//    {
-//    case LAN8742_STATUS_100MBITS_FULLDUPLEX:
-//      duplex = ETH_FULLDUPLEX_MODE;
-//      speed = ETH_SPEED_100M;
-//      linkchanged = 1;
-//      break;
-//    case LAN8742_STATUS_100MBITS_HALFDUPLEX:
-//      duplex = ETH_HALFDUPLEX_MODE;
-//      speed = ETH_SPEED_100M;
-//      linkchanged = 1;
-//      break;
-//    case LAN8742_STATUS_10MBITS_FULLDUPLEX:
-//      duplex = ETH_FULLDUPLEX_MODE;
-//      speed = ETH_SPEED_10M;
-//      linkchanged = 1;
-//      break;
-//    case LAN8742_STATUS_10MBITS_HALFDUPLEX:
-//      duplex = ETH_HALFDUPLEX_MODE;
-//      speed = ETH_SPEED_10M;
-//      linkchanged = 1;
-//      break;
-//    default:
-//      break;
-//    }
-
-//    if(linkchanged)
-//    {
-//      /* Get MAC Config MAC */
-//      HAL_ETH_GetMACConfig(&heth, &MACConf);
-//      MACConf.DuplexMode = duplex;
-//      MACConf.Speed = speed;
-//      HAL_ETH_SetMACConfig(&heth, &MACConf);
-
-//      HAL_ETH_Start_IT(&heth);
-//      netif_set_up(netif);
-//      netif_set_link_up(netif);
-//    }
-//  }
 
 /* USER CODE BEGIN ETH link Thread core code for User BSP */
 
       PHYLinkState = DP83848_GetLinkState(&DP83848);
 
-//      char msgUart7[50];
-//      memset(msgUart7,' ',50);
-//      sprintf(msgUart7,"%s %d %s", "\rPHYLinkState = ",PHYLinkState,"\r\n");
-//      RS232_write_c(msgUart7, sizeof (msgUart7));
-//      osDelay(500);
+      char msgUart7[50];
+      memset(msgUart7,' ',50);
+      sprintf(msgUart7,"%s %d %s", "\rPHYLinkState = ",PHYLinkState,"\r\n");
+      RS232Puts(msgUart7);
 
       if(netif_is_link_up(netif) && (PHYLinkState <= DP83848_STATUS_LINK_DOWN))
       {
-//RS232_write_c("\n\r--DP83848_STATUS_LINK_DOWN--\n\r", sizeof ("\n\r--DP83848_STATUS_LINK_DOWN--\n\r"));
+RS232Puts("--DP83848_STATUS_LINK_DOWN--\n\r");
         HAL_ETH_Stop_IT(&heth);
         netif_set_down(netif);
         netif_set_link_down(netif);
@@ -966,25 +916,25 @@ void ethernet_link_thread(void const * argument)
         switch (PHYLinkState)
         {
         case DP83848_STATUS_100MBITS_FULLDUPLEX:
-//RS232_write_c("\n\r--DP83848_STATUS_100MBITS_FULLDUPLEX--\n\r", sizeof ("\n\r--DP83848_STATUS_100MBITS_FULLDUPLEX--\n\r"));
+RS232Puts("--DP83848_STATUS_100MBITS_FULLDUPLEX--\n\r");
           duplex = ETH_FULLDUPLEX_MODE;
           speed = ETH_SPEED_100M;
           linkchanged = 1;
           break;
         case DP83848_STATUS_100MBITS_HALFDUPLEX:
-//RS232_write_c("\n\r--DP83848_STATUS_100MBITS_HALFDUPLEX--\n\r", sizeof ("\n\r--DP83848_STATUS_100MBITS_HALFDUPLEX--\n\r"));
+RS232Puts("--DP83848_STATUS_100MBITS_HALFDUPLEX--\n\r");
           duplex = ETH_HALFDUPLEX_MODE;
           speed = ETH_SPEED_100M;
           linkchanged = 1;
           break;
         case DP83848_STATUS_10MBITS_FULLDUPLEX:
-//RS232_write_c("\n\r--DP83848_STATUS_10MBITS_FULLDUPLEX--\n\r", sizeof ("\n\r--DP83848_STATUS_10MBITS_FULLDUPLEX--\n\r"));
+RS232Puts("--DP83848_STATUS_10MBITS_FULLDUPLEX--\n\r");
           duplex = ETH_FULLDUPLEX_MODE;
           speed = ETH_SPEED_10M;
           linkchanged = 1;
           break;
         case DP83848_STATUS_10MBITS_HALFDUPLEX:
-//RS232_write_c("\n\r--DP83848_STATUS_10MBITS_HALFDUPLEX--\n\r", sizeof ("\n\r--DP83848_STATUS_10MBITS_HALFDUPLEX--\n\r"));
+RS232Puts("--DP83848_STATUS_10MBITS_HALFDUPLEX--\n\r");
           duplex = ETH_HALFDUPLEX_MODE;
           speed = ETH_SPEED_10M;
           linkchanged = 1;
@@ -1001,13 +951,13 @@ void ethernet_link_thread(void const * argument)
           MACConf.Speed = speed;
           HAL_ETH_SetMACConfig(&heth, &MACConf);
 
-          HAL_StatusTypeDef stat = HAL_ETH_Start_IT(&heth);
+//          HAL_StatusTypeDef stat = HAL_ETH_Start_IT(&heth);
+HAL_StatusTypeDef stat = HAL_ETH_Start(&heth);
 
           char msgUart7[50];
           memset(msgUart7,' ',50);
-          sprintf(msgUart7,"%X%s", (uint8_t)stat,"\r\n");
-//          RS232_write_c("\rHAL_ETH_Start_IT_status = ", sizeof ("\rHAL_ETH_Start_IT_status = "));
-//          RS232_write_c(msgUart7, sizeof (msgUart7));
+          sprintf(msgUart7,"%s%X%s", "Link change. ETH_Start_IT_status = ",(uint8_t)stat,"\r\n");
+RS232Puts(msgUart7);
 
           netif_set_up(netif);
           netif_set_link_up(netif);
@@ -1020,7 +970,7 @@ void ethernet_link_thread(void const * argument)
 
 /* USER CODE END ETH link Thread core code for User BSP */
 
-    osDelay(100);
+    osDelay(1000);
   }
 }
 /* USER CODE BEGIN 8 */
