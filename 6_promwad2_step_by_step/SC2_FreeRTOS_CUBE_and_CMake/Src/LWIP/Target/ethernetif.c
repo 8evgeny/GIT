@@ -331,7 +331,9 @@ void HAL_ETH_RxCpltCallback(ETH_HandleTypeDef *heth)
  */
 static void low_level_init(struct netif *netif)
 {
-    RS232Puts("--low_level_init--\r\n");
+
+RS232Puts("--low_level_init--\r\n");
+
   HAL_StatusTypeDef hal_eth_init_status = HAL_OK;
   uint32_t idx = 0;
   ETH_MACConfigTypeDef MACConf;
