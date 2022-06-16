@@ -154,6 +154,9 @@ extern "C" RS232& RS232::C_getInstance(RS232* p)
 
 HAL_StatusTypeDef RS232::write(uint8_t *buf, uint16_t size)
 {
+    char msg[128] = "-- RS232::write --\r\n";
+    HAL_UART_Transmit(&huart7,(uint8_t*)msg, sizeof (msg), 1000);
+
 
     while (HAL_UART_GetState(uartHandle) != HAL_UART_STATE_READY);
     HAL_StatusTypeDef status = HAL_UART_Transmit_DMA(uartHandle, buf, size);

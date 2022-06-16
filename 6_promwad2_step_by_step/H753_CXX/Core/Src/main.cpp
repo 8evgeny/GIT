@@ -247,9 +247,9 @@ int main(void)
 
 //    littleFsInit();
 //  Debug::getInstance().dbg <<"Test\n";
-  char buf[20] = "Test\n";
+  char buf[20] = "Test RS232\n";
 
-//  RS232::getInstance().write((uint8_t*)buf,10);
+  RS232::getInstance().write((uint8_t*)buf,10);
 
   char msg[128] = "-- Test in main --\r\n";
   HAL_UART_Transmit(&huart7,(uint8_t*)msg, sizeof (msg), 1000);
