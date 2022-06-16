@@ -251,71 +251,56 @@ void HAL_I2C_MspInit(I2C_HandleTypeDef* hi2c)
 */
 void HAL_I2C_MspDeInit(I2C_HandleTypeDef* hi2c)
 {
-  if(hi2c->Instance==I2C1)
-  {
-  /* USER CODE BEGIN I2C1_MspDeInit 0 */
+    if(hi2c->Instance==I2C1)
+    {
+    /* USER CODE BEGIN I2C1_MspDeInit 0 */
 
-  /* USER CODE END I2C1_MspDeInit 0 */
-    /* Peripheral clock disable */
-    __HAL_RCC_I2C1_CLK_DISABLE();
+    /* USER CODE END I2C1_MspDeInit 0 */
+      /* Peripheral clock disable */
+      __HAL_RCC_I2C1_CLK_DISABLE();
 
-    /**I2C1 GPIO Configuration
-    PB6     ------> I2C1_SCL
-    PB7     ------> I2C1_SDA
-    */
-    HAL_GPIO_DeInit(GPIOB, GPIO_PIN_6);
+      /**I2C1 GPIO Configuration
+      PB6     ------> I2C1_SCL
+      PB7     ------> I2C1_SDA
+      */
+      HAL_GPIO_DeInit(GPIOB, GPIO_PIN_6);
 
-    HAL_GPIO_DeInit(GPIOB, GPIO_PIN_7);
+      HAL_GPIO_DeInit(GPIOB, GPIO_PIN_7);
 
-  /* USER CODE BEGIN I2C1_MspDeInit 1 */
+      /* I2C1 DMA DeInit */
+      HAL_DMA_DeInit(hi2c->hdmarx);
+      HAL_DMA_DeInit(hi2c->hdmatx);
+    /* USER CODE BEGIN I2C1_MspDeInit 1 */
 
-  /* USER CODE END I2C1_MspDeInit 1 */
-  }
-  else if(hi2c->Instance==I2C2)
-  {
-  /* USER CODE BEGIN I2C2_MspDeInit 0 */
+    /* USER CODE END I2C1_MspDeInit 1 */
+    }
+    else if(hi2c->Instance==I2C2)
+    {
+    /* USER CODE BEGIN I2C2_MspDeInit 0 */
 
-  /* USER CODE END I2C2_MspDeInit 0 */
-    /* Peripheral clock disable */
-    __HAL_RCC_I2C2_CLK_DISABLE();
+    /* USER CODE END I2C2_MspDeInit 0 */
+      /* Peripheral clock disable */
+      __HAL_RCC_I2C2_CLK_DISABLE();
 
-    /**I2C2 GPIO Configuration
-    PH4     ------> I2C2_SCL
-    PH5     ------> I2C2_SDA
-    */
-    HAL_GPIO_DeInit(GPIOH, GPIO_PIN_4);
+      /**I2C2 GPIO Configuration
+      PH4     ------> I2C2_SCL
+      PH5     ------> I2C2_SDA
+      */
+      HAL_GPIO_DeInit(GPIOH, GPIO_PIN_4);
 
-    HAL_GPIO_DeInit(GPIOH, GPIO_PIN_5);
+      HAL_GPIO_DeInit(GPIOH, GPIO_PIN_5);
 
-    /* I2C2 DMA DeInit */
-    HAL_DMA_DeInit(hi2c->hdmarx);
-    HAL_DMA_DeInit(hi2c->hdmatx);
-  /* USER CODE BEGIN I2C2_MspDeInit 1 */
+      /* I2C2 DMA DeInit */
+      HAL_DMA_DeInit(hi2c->hdmarx);
+      HAL_DMA_DeInit(hi2c->hdmatx);
 
-  /* USER CODE END I2C2_MspDeInit 1 */
-  }
-  else if(hi2c->Instance==I2C3)
-  {
-  /* USER CODE BEGIN I2C3_MspDeInit 0 */
+      /* I2C2 interrupt DeInit */
+      HAL_NVIC_DisableIRQ(I2C2_EV_IRQn);
+      HAL_NVIC_DisableIRQ(I2C2_ER_IRQn);
+    /* USER CODE BEGIN I2C2_MspDeInit 1 */
 
-  /* USER CODE END I2C3_MspDeInit 0 */
-    /* Peripheral clock disable */
-    __HAL_RCC_I2C3_CLK_DISABLE();
-
-    /**I2C3 GPIO Configuration
-    PH7     ------> I2C3_SCL
-    PC9     ------> I2C3_SDA
-    */
-    HAL_GPIO_DeInit(GPIOH, GPIO_PIN_7);
-
-    HAL_GPIO_DeInit(GPIOC, GPIO_PIN_9);
-
-    /* I2C3 interrupt DeInit */
-    HAL_NVIC_DisableIRQ(I2C3_EV_IRQn);
-  /* USER CODE BEGIN I2C3_MspDeInit 1 */
-
-  /* USER CODE END I2C3_MspDeInit 1 */
-  }
+    /* USER CODE END I2C2_MspDeInit 1 */
+    }
 
 }
 
