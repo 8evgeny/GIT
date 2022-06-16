@@ -409,74 +409,13 @@ RS232Puts("--low_level_init--\r\n");
 
   /* create the task that handles the ETH_MAC */
 /* USER CODE BEGIN OS_THREAD_DEF_CREATE_CMSIS_RTOS_V1 */
-  osThreadDef(EthIf, ethernetif_input, osPriorityRealtime, 0, INTERFACE_THREAD_STACK_SIZE);
+  osThreadDef(EthIf, ethernetif_input, osPriorityHigh, 0, INTERFACE_THREAD_STACK_SIZE * 2 );
   osThreadCreate (osThread(EthIf), netif);
 /* USER CODE END OS_THREAD_DEF_CREATE_CMSIS_RTOS_V1 */
 /* USER CODE BEGIN PHY_PRE_CONFIG */
 
 /* USER CODE END PHY_PRE_CONFIG */
-  /* Set PHY IO functions */
-//  LAN8742_RegisterBusIO(&LAN8742, &LAN8742_IOCtx);
 
-//  /* Initialize the LAN8742 ETH PHY */
-//  LAN8742_Init(&LAN8742);
-
-//  if (hal_eth_init_status == HAL_OK)
-//  {
-//    PHYLinkState = LAN8742_GetLinkState(&LAN8742);
-
-//    /* Get link state */
-//    if(PHYLinkState <= LAN8742_STATUS_LINK_DOWN)
-//    {
-//      netif_set_link_down(netif);
-//      netif_set_down(netif);
-//    }
-//    else
-//    {
-//      switch (PHYLinkState)
-//      {
-//      case LAN8742_STATUS_100MBITS_FULLDUPLEX:
-//        duplex = ETH_FULLDUPLEX_MODE;
-//        speed = ETH_SPEED_100M;
-//        break;
-//      case LAN8742_STATUS_100MBITS_HALFDUPLEX:
-//        duplex = ETH_HALFDUPLEX_MODE;
-//        speed = ETH_SPEED_100M;
-//        break;
-//      case LAN8742_STATUS_10MBITS_FULLDUPLEX:
-//        duplex = ETH_FULLDUPLEX_MODE;
-//        speed = ETH_SPEED_10M;
-//        break;
-//      case LAN8742_STATUS_10MBITS_HALFDUPLEX:
-//        duplex = ETH_HALFDUPLEX_MODE;
-//        speed = ETH_SPEED_10M;
-//        break;
-//      default:
-//        duplex = ETH_FULLDUPLEX_MODE;
-//        speed = ETH_SPEED_100M;
-//        break;
-//      }
-
-//    /* Get MAC Config MAC */
-//    HAL_ETH_GetMACConfig(&heth, &MACConf);
-//    MACConf.DuplexMode = duplex;
-//    MACConf.Speed = speed;
-//    HAL_ETH_SetMACConfig(&heth, &MACConf);
-
-//    HAL_ETH_Start_IT(&heth);
-//    netif_set_up(netif);
-//    netif_set_link_up(netif);
-
-///* USER CODE BEGIN PHY_POST_CONFIG */
-
-///* USER CODE END PHY_POST_CONFIG */
-//    }
-
-//  }
-//  else
-//  {
-//    Error_Handler();
-//  }
 #endif /* LWIP_ARP || LWIP_ETHERNET */
 
 /* USER CODE BEGIN LOW_LEVEL_INIT */
@@ -624,6 +563,7 @@ static err_t low_level_output(struct netif *netif, struct pbuf *p)
    */
 static struct pbuf * low_level_input(struct netif *netif)
 {
+RS232Puts ("** low_level_input **\r\n");
   struct pbuf *p = NULL;
   ETH_BufferTypeDef RxBuff[ETH_RX_DESC_CNT];
   uint32_t framelength = 0, i = 0;
@@ -670,12 +610,13 @@ static struct pbuf * low_level_input(struct netif *netif)
  */
 void ethernetif_input(void const * argument)
 {
-    RS232Puts("--ethernetif_input--\r\n");
+    RS232Puts("** ethernetif_input start **\r\n");
   struct pbuf *p;
   struct netif *netif = (struct netif *) argument;
 
   for( ;; )
   {
+    if (HAL_ETH_IsRxDataAvailable(&heth)) osSemaphoreRelease(RxPktSemaphore);
     if (osSemaphoreWait(RxPktSemaphore, TIME_WAITING_FOR_INPUT) == osOK)
     {
       do
@@ -956,8 +897,8 @@ RS232Puts("--DP83848_STATUS_10MBITS_HALFDUPLEX--\n\r");
           MACConf.Speed = speed;
           HAL_ETH_SetMACConfig(&heth, &MACConf);
 
-//HAL_StatusTypeDef stat = HAL_ETH_Start_IT(&heth);
-HAL_StatusTypeDef stat = HAL_ETH_Start(&heth);
+HAL_StatusTypeDef stat = HAL_ETH_Start_IT(&heth);
+//HAL_StatusTypeDef stat = HAL_ETH_Start(&heth);
 
           char msgUart7[50];
           memset(msgUart7,' ',50);
