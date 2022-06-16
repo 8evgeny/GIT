@@ -312,6 +312,9 @@ void HAL_ETH_MspDeInit(ETH_HandleTypeDef* ethHandle)
   */
 void HAL_ETH_RxCpltCallback(ETH_HandleTypeDef *heth)
 {
+
+RS232Puts("-- HAL_ETH_RxCpltCallback --\r\n");
+
   osSemaphoreRelease(RxPktSemaphore);
 }
 
@@ -953,7 +956,7 @@ RS232Puts("--DP83848_STATUS_10MBITS_HALFDUPLEX--\n\r");
           MACConf.Speed = speed;
           HAL_ETH_SetMACConfig(&heth, &MACConf);
 
-//          HAL_StatusTypeDef stat = HAL_ETH_Start_IT(&heth);
+//HAL_StatusTypeDef stat = HAL_ETH_Start_IT(&heth);
 HAL_StatusTypeDef stat = HAL_ETH_Start(&heth);
 
           char msgUart7[50];
