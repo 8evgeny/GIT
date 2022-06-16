@@ -289,7 +289,7 @@ add_executable(${PROJECT_NAME}.elf
     ${SOURCES_C}
     ${SOURCES_CPP}
     Src/LWIP/App/lwip.c
-#    Src/LWIP/Target/ethernetif.c
+    Src/LWIP/Target/ethernetif.c
     )
 
 

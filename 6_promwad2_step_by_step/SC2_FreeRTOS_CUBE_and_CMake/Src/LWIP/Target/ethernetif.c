@@ -28,10 +28,11 @@
 #include "netif/etharp.h"
 #include "lwip/ethip6.h"
 #include "ethernetif.h"
-#include "lan8742.h"
+//#include "lan8742.h"
 #include <string.h>
 #include "cmsis_os.h"
 #include "lwip/tcpip.h"
+#include "rs232_printf.h"
 
 /* Within 'USER CODE' section, code will be kept by default at each generation */
 /* USER CODE BEGIN 0 */
@@ -884,6 +885,9 @@ void ethernet_link_thread(void const * argument)
   struct netif *netif = (struct netif *) argument;
 /* USER CODE BEGIN ETH link init */
   char msgUart7[] = "\r------- Start_ethernet_link_thread \n\r";
+
+  RS232Puts("------- Start_ethernet_link_thread---------");
+
 //  RS232_write_c(msgUart7, sizeof (msgUart7));
 
 /* USER CODE END ETH link init */
