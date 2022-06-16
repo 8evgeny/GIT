@@ -926,7 +926,7 @@ void StartDefaultTask(void const * argument)
   /* USER CODE BEGIN 5 */
 
   char msgUart7[] = "\r------- StartDefaultTask ----------\n\r";
-//  RS232_write_c(msgUart7, sizeof (msgUart7));
+//RS232Puts(msgUart7);//Зависает
 
   if (DP83848.Is_Initialized) {
 //    RS232_write_c("\rDP83848.Is_Initialized\r\n", sizeof ("\rDP83848.Is_Initialized\r\n"));
