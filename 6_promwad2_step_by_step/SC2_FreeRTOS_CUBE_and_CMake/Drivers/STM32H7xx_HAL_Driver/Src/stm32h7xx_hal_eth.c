@@ -144,6 +144,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32h7xx_hal.h"
+#include "rs232_printf.h"
 
 /** @addtogroup STM32H7xx_HAL_Driver
   * @{
@@ -796,6 +797,8 @@ HAL_StatusTypeDef HAL_ETH_Start_IT(ETH_HandleTypeDef *heth)
 
   if(heth->gState == HAL_ETH_STATE_READY)
   {
+RS232Puts("--- HAL_ETH_STATE_READY ---\r\n");
+
     heth->gState = HAL_ETH_STATE_BUSY;
 
     /* Set IOC bit to all Rx descriptors */
