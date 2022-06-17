@@ -797,7 +797,7 @@ HAL_StatusTypeDef HAL_ETH_Start_IT(ETH_HandleTypeDef *heth)
 
   if(heth->gState == HAL_ETH_STATE_READY)
   {
-RS232Puts("--- HAL_ETH_STATE_READY ---\r\n");
+RS232Puts("--- HAL_ETH_Start_IT begin ---\r\n");
 
     heth->gState = HAL_ETH_STATE_BUSY;
 
@@ -839,7 +839,7 @@ RS232Puts("--- HAL_ETH_STATE_READY ---\r\n");
 
     heth->gState = HAL_ETH_STATE_READY;
     heth->RxState = HAL_ETH_STATE_BUSY_RX;
-
+RS232Puts("--- HAL_ETH_Start_IT end ---\r\n");
     return HAL_OK;
   }
   else
@@ -1476,6 +1476,9 @@ HAL_StatusTypeDef HAL_ETH_BuildRxDescriptors(ETH_HandleTypeDef *heth)
   */
 void HAL_ETH_IRQHandler(ETH_HandleTypeDef *heth)
 {
+
+RS232Puts("--- HAL_ETH_IRQHandler ---\r\n");
+
   /* Packet received */
   if (__HAL_ETH_DMA_GET_IT(heth, ETH_DMACSR_RI))
   {

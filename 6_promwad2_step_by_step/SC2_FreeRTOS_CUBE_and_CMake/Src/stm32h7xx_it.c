@@ -22,6 +22,9 @@
 #include "stm32h7xx_it.h"
 #include "FreeRTOS.h"
 #include "task.h"
+
+#include "rs232_printf.h"
+
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 /* USER CODE END Includes */
@@ -89,7 +92,7 @@ extern MDMA_HandleTypeDef hmdma_memtomem_dma2_stream0;
 void NMI_Handler(void)
 {
   /* USER CODE BEGIN NonMaskableInt_IRQn 0 */
-
+RS232Puts("--- NMI_Handler ---\r\n");
   /* USER CODE END NonMaskableInt_IRQn 0 */
   HAL_RCC_NMI_IRQHandler();
   /* USER CODE BEGIN NonMaskableInt_IRQn 1 */
@@ -105,7 +108,7 @@ void NMI_Handler(void)
 void HardFault_Handler(void)
 {
   /* USER CODE BEGIN HardFault_IRQn 0 */
-
+RS232Puts("--- HardFault_Handler ---\r\n");
   /* USER CODE END HardFault_IRQn 0 */
   while (1)
   {
@@ -120,7 +123,7 @@ void HardFault_Handler(void)
 void MemManage_Handler(void)
 {
   /* USER CODE BEGIN MemoryManagement_IRQn 0 */
-
+RS232Puts("--- MemManage_Handler ---\r\n");
   /* USER CODE END MemoryManagement_IRQn 0 */
   while (1)
   {
@@ -135,7 +138,7 @@ void MemManage_Handler(void)
 void BusFault_Handler(void)
 {
   /* USER CODE BEGIN BusFault_IRQn 0 */
-
+RS232Puts("--- BusFault_Handler ---\r\n");
   /* USER CODE END BusFault_IRQn 0 */
   while (1)
   {
@@ -152,7 +155,7 @@ void BusFault_Handler(void)
 void MDMA_IRQHandler(void)
 {
   /* USER CODE BEGIN MDMA_IRQn 0 */
-
+RS232Puts("--- MDMA_IRQHandler ---\r\n");
   /* USER CODE END MDMA_IRQn 0 */
   HAL_MDMA_IRQHandler(&hmdma_memtomem_dma2_stream0);
   /* USER CODE BEGIN MDMA_IRQn 1 */
@@ -169,7 +172,7 @@ void MDMA_IRQHandler(void)
 void UsageFault_Handler(void)
 {
   /* USER CODE BEGIN UsageFault_IRQn 0 */
-
+RS232Puts("--- UsageFault_Handler ---\r\n");
   /* USER CODE END UsageFault_IRQn 0 */
   while (1)
   {
@@ -184,7 +187,7 @@ void UsageFault_Handler(void)
 void DebugMon_Handler(void)
 {
   /* USER CODE BEGIN DebugMonitor_IRQn 0 */
-
+RS232Puts("--- DebugMon_Handler ---\r\n");
   /* USER CODE END DebugMonitor_IRQn 0 */
   /* USER CODE BEGIN DebugMonitor_IRQn 1 */
 
@@ -310,16 +313,16 @@ void DMA2_Stream4_IRQHandler(void)
 /**
   * @brief This function handles Ethernet global interrupt.
   */
-//void ETH_IRQHandler(void)
-//{
-//  /* USER CODE BEGIN ETH_IRQn 0 */
+void ETH_IRQHandler(void)
+{
+  /* USER CODE BEGIN ETH_IRQn 0 */
 
-//  /* USER CODE END ETH_IRQn 0 */
-//  HAL_ETH_IRQHandler(&heth);
-//  /* USER CODE BEGIN ETH_IRQn 1 */
+  /* USER CODE END ETH_IRQn 0 */
+  HAL_ETH_IRQHandler(&heth);
+  /* USER CODE BEGIN ETH_IRQn 1 */
 
-//  /* USER CODE END ETH_IRQn 1 */
-//}
+  /* USER CODE END ETH_IRQn 1 */
+}
 
 /**
   * @brief This function handles Ethernet wake-up interrupt through EXTI line 86.
