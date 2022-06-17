@@ -139,15 +139,15 @@ void Ethernet_Link_Periodic_Handle(struct netif *netif)
 
 osThreadId defaultTaskHandle;
 
-//osThreadDef(trackRingBufferThread, trackRingBufferThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 20);
-//osThreadDef(readFromUartThread, readFromUartThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 10);
-//osThreadDef(StartWdtThread, StartWdtThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 1);
+osThreadDef(trackRingBufferThread, trackRingBufferThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 20);
+osThreadDef(readFromUartThread, readFromUartThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 10);
+osThreadDef(StartWdtThread, StartWdtThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 1);
 //osThreadDef(recvUdpThread, recvUdpThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 20);
 //osThreadDef(audioInitThread, threadAudioInit, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 10);
 
-//osThreadDef(switchLEDsThread, switchLEDsThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 2);
-//osThreadDef(replaceTimerCallback, replaceTimerCallback, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 2);
-//osThreadDef(readButtonThread, readButtonThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 5);
+osThreadDef(switchLEDsThread, switchLEDsThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 2);
+osThreadDef(replaceTimerCallback, replaceTimerCallback, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 2);
+osThreadDef(readButtonThread, readButtonThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 5);
 
 void vApplicationStackOverflowHook(TaskHandle_t xTask, char *pcTaskName)
 {
@@ -894,15 +894,15 @@ static void MX_GPIO_Init(void)
 //        RS232::getInstance().term << "Failed to create [switchLEDsThread]" << "\n";
 //    }
 
-//    if ((osThreadCreate(osThread(readButtonThread), nullptr)) == nullptr)
-//    {
-//        RS232::getInstance().term << "Failed to create [readButtonThread]" << "\n";
-//    }
+    if ((osThreadCreate(osThread(readButtonThread), nullptr)) == nullptr)
+    {
+        RS232::getInstance().term << "Failed to create [readButtonThread]" << "\n";
+    }
 
-//    if ((osThreadCreate(osThread(replaceTimerCallback), nullptr)) == nullptr)
-//    {
-//        RS232::getInstance().term << "Failed to create [switchLEDsThread]" << "\n";
-//    }
+    if ((osThreadCreate(osThread(replaceTimerCallback), nullptr)) == nullptr)
+    {
+        RS232::getInstance().term << "Failed to create [switchLEDsThread]" << "\n";
+    }
 
 }
 
