@@ -900,10 +900,10 @@ static void MX_GPIO_Init(void)
         RS232::getInstance().term << "Failed to create [readButtonThread]" << "\n";
     }
 
-    if ((osThreadCreate(osThread(replaceTimerCallback), nullptr)) == nullptr)
-    {
-        RS232::getInstance().term << "Failed to create [switchLEDsThread]" << "\n";
-    }
+//    if ((osThreadCreate(osThread(replaceTimerCallback), nullptr)) == nullptr)
+//    {
+//        RS232::getInstance().term << "Failed to create [switchLEDsThread]" << "\n";
+//    }
 
 }
 
