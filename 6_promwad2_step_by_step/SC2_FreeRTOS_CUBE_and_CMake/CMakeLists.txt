@@ -8,7 +8,7 @@ set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
 #set(CMAKE_CXX_LINKER_LAUNCHER ${TOOLS_PATH}/bin/arm-none-eabi-g++)
 #set(CMAKE_OBJCOPY ${TOOLS_PATH}/bin/arm-none-eabi-objcopy)
 
-project(FreeRTOS_STMH753 C CXX ASM)
+project(H753_new C CXX ASM)
 
 add_definitions(-DSTM32H753xx)
 add_definitions(-DUSE_HAL_DRIVER)
