@@ -19,105 +19,34 @@ add_definitions(-DDATA_IN_D2_SRAM)
 add_definitions(-DUSE_HAL_DRIVER)
 add_definitions(-DSC2BOARD)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}\
-    -Wl,--start-group \
-    -Wl,--gc-sections \
-    -mcpu=cortex-m7 \
-    -DUSE_HAL_DRIVER \
-    -DSTM32H753xx \
-    -Os \
-    -ffunction-sections \
-    -fdata-sections \
-    -Wall \
-    -mno-unaligned-access \
-    -fstack-usage \
-    -MMD \
-    -MP \
-    -mfpu=fpv5-d16 \
-    -mfloat-abi=hard \
-    -mthumb \
-    -Xlinker \
-    -Map=${PROJECT_NAME}.map \
-    -Wl,-section-start=.rtt=0x20000000 \
-    -u_printf_float \
-    -fno-exceptions \
-    -Wl,--end-group \
-    ")
-
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}\
-    -Wl,--start-group \
-    -Wl,--gc-sections \
-    -mcpu=cortex-m7 \
-    -DUSE_HAL_DRIVER \
-    -DSTM32H753xx \
-    -Os \
-    -ffunction-sections \
-    -fdata-sections \
-    -Wall \
-    -mno-unaligned-access \
-    -fstack-usage \
-    -MMD \
-    -MP \
-    -mfpu=fpv5-d16 \
-    -mfloat-abi=hard \
-    -mthumb \
-    -Xlinker \
-    -Map=${PROJECT_NAME}.map \
-    -Wl,-section-start=.rtt=0x20000000 \
-    -u_printf_float \
-    -fno-exceptions \
-    -Wl,--end-group \
-    ")
-
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}\
-    -mcpu=cortex-m7 \
-    -std=gnu11 \
-    -DUSE_HAL_DRIVER \
-    -DSTM32H753xx \
-    -Os \
-    -ffunction-sections \
-    -fdata-sections \
-    -Wall \
-    -mno-unaligned-access \
-    -fstack-usage \
-    -MMD \
-    -MP \
-    -mfpu=fpv5-d16 \
-    -mfloat-abi=hard \
-    -mthumb \
-    -Xlinker -Map=${PROJECT_NAME}.map \
-    ")
-
-include_directories(Core/Inc)
-file (GLOB SOURCES_C
-    Core/Src/*.c
-    STM32H753IITX_FLASH.ld
-    Drivers/BSP/Components/dp83848/dp83848.c
-    )
-file (GLOB SOURCES_CPP Core/Src/*.cpp)
+set (RS232  Core/Src/RS232)
+set (Debug  Core/Src/Debug)
+set (EEPROM  Core/Src/EEPROM)
 
 include_directories(
+    Core/Inc
     Drivers/CMSIS/Include
     Drivers/CMSIS/Device/ST/STM32H7xx/Include
     Drivers/BSP/Components/dp83848
     Drivers/BSP/Components/dp83848
+    ${RS232}
+    ${Debug}
+    ${EEPROM}
+
     )
 
-set (RS232  Core/Src/RS232)
-include_directories( ${RS232} )
+
+
+
+file (GLOB SOURCES_C Core/Src/*.c STM32H753IITX_FLASH.ld Drivers/BSP/Components/dp83848/dp83848.c )
+file (GLOB SOURCES_CPP Core/Src/*.cpp)
 file (GLOB RS232_src ${RS232}/*.cpp ${RS232}/*.c ${RS232}/*.h )
 add_library(RS232_LIB ${RS232_src} )
 
-set (Debug  Core/Src/Debug)
-include_directories( ${Debug} )
 file (GLOB Debug_src ${Debug}/*.cpp ${Debug}/*.c ${Debug}/*.h )
 add_library(Debug_LIB ${Debug_src} )
 
-set (EEPROM  Core/Src/EEPROM)
-include_directories(${EEPROM})
-file (GLOB EEPROM_src ${EEPROM}/*.cpp ${EEPROM}/*.c ${EEPROM}/*.h
-    /home/evg/SOFT/Github/GIT/6_promwad2_step_by_step/SC2_FreeRTOS_CUBE_and_CMake/Src/EEPROM/MUROM_EEPROM.c
-    )
+file (GLOB EEPROM_src ${EEPROM}/*.cpp ${EEPROM}/*.c ${EEPROM}/*.h )
 add_library(EEPROM_LIB ${EEPROM_src} )
 
 set (littlefs Middlewares/Third_Party/littlefs)
@@ -283,6 +212,75 @@ add_executable(${PROJECT_NAME}.elf
     Core/Src/LWIP/App/lwip.c
     Core/Src/LWIP/Target/ethernetif.c
     )
+
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}\
+    -Wl,--start-group \
+    -Wl,--gc-sections \
+    -mcpu=cortex-m7 \
+    -DUSE_HAL_DRIVER \
+    -DSTM32H753xx \
+    -Os \
+    -ffunction-sections \
+    -fdata-sections \
+    -Wall \
+    -mno-unaligned-access \
+    -fstack-usage \
+    -MMD \
+    -MP \
+    -mfpu=fpv5-d16 \
+    -mfloat-abi=hard \
+    -mthumb \
+    -Xlinker \
+    -Map=${PROJECT_NAME}.map \
+    -Wl,-section-start=.rtt=0x20000000 \
+    -u_printf_float \
+    -fno-exceptions \
+    -Wl,--end-group \
+    ")
+
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}\
+    -Wl,--start-group \
+    -Wl,--gc-sections \
+    -mcpu=cortex-m7 \
+    -DUSE_HAL_DRIVER \
+    -DSTM32H753xx \
+    -Os \
+    -ffunction-sections \
+    -fdata-sections \
+    -Wall \
+    -mno-unaligned-access \
+    -fstack-usage \
+    -MMD \
+    -MP \
+    -mfpu=fpv5-d16 \
+    -mfloat-abi=hard \
+    -mthumb \
+    -Xlinker \
+    -Map=${PROJECT_NAME}.map \
+    -Wl,-section-start=.rtt=0x20000000 \
+    -u_printf_float \
+    -fno-exceptions \
+    -Wl,--end-group \
+    ")
+
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}\
+    -mcpu=cortex-m7 \
+    -std=gnu11 \
+    -DUSE_HAL_DRIVER \
+    -DSTM32H753xx \
+    -Os \
+    -ffunction-sections \
+    -fdata-sections \
+    -Wall \
+    -mno-unaligned-access \
+    -fstack-usage \
+    -MMD \
+    -MP \
+    -mfpu=fpv5-d16 \
+    -mfloat-abi=hard \
+    -mthumb \
+    -Xlinker -Map=${PROJECT_NAME}.map \
+    ")
 
 
 set_target_properties(${PROJECT_NAME}.elf PROPERTIES LINKER_LANGUAGE CXX)
