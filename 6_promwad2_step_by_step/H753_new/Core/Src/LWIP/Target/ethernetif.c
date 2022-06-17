@@ -143,12 +143,8 @@ DP83848_IOCtx_t  DP83848_IOCtx = {ETH_PHY_IO_Init,
 
 void printReg_DP83848(uint16_t reg, const char* name)
 {
-    char msgUart7[128];
     uint32_t regvalue;
     DP83848.IO.ReadReg(DP83848.DevAddr, reg, &regvalue);
-    memset(msgUart7,' ',128);
-    sprintf(msgUart7,"%s %-17s %s%X %s","\r", name, "regvalue = ", regvalue, "\r\n");
-//    RS232_write_c(msgUart7, sizeof (msgUart7));
 }
 
 void printAll_Regs_DP83848(){
@@ -419,21 +415,13 @@ static void low_level_init(struct netif *netif)
 #endif /* LWIP_ARP || LWIP_ETHERNET */
 
 /* USER CODE BEGIN LOW_LEVEL_INIT */
-  char msgUart7[50];
-  memset(msgUart7,' ',50);
+
   DP83848_RegisterBusIO(&DP83848, &DP83848_IOCtx);
-  int32_t sss = DP83848_Init(&DP83848);
-  sprintf(msgUart7,"%s %d %s", "\rDP83848_Init status = ",sss,"\r\n");
-//  RS232_write_c(msgUart7, sizeof (msgUart7));
+  DP83848_Init(&DP83848);
 
   if (hal_eth_init_status == HAL_OK)
   {
     PHYLinkState = DP83848_GetLinkState(&DP83848);
-    memset(msgUart7,' ',50);
-    sprintf(msgUart7,"%s %d %s", "\rPHYLinkState = ",PHYLinkState,"\r\n");
-//    RS232_write_c(msgUart7, sizeof (msgUart7));
-
-//    printAll_Regs_DP83848();
 
     /* Get link state */
     if(PHYLinkState <= DP83848_STATUS_LINK_DOWN)
@@ -897,13 +885,7 @@ RS232Puts("--DP83848_STATUS_10MBITS_HALFDUPLEX--\n\r");
           MACConf.Speed = speed;
           HAL_ETH_SetMACConfig(&heth, &MACConf);
 
-HAL_StatusTypeDef stat = HAL_ETH_Start_IT(&heth);
-//HAL_StatusTypeDef stat = HAL_ETH_Start(&heth);
-
-//          char msgUart7[50];
-//          memset(msgUart7,' ',50);
-//          sprintf(msgUart7,"%s%X%s", "Link change. ETH_Start_IT_status = ",(uint8_t)stat,"\r\n");
-//RS232Puts(msgUart7);
+          HAL_ETH_Start_IT(&heth);
 
           netif_set_up(netif);
           netif_set_link_up(netif);
