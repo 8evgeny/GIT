@@ -846,7 +846,6 @@ netif_set_default(struct netif *netif)
 void
 netif_set_up(struct netif *netif)
 {
-RS232Puts("-- netif_set_up --\r\n");
   LWIP_ASSERT_CORE_LOCKED();
 
   LWIP_ERROR("netif_set_up: invalid netif", netif != NULL, return);
@@ -991,8 +990,6 @@ netif_set_remove_callback(struct netif *netif, netif_status_callback_fn remove_c
 void
 netif_set_link_up(struct netif *netif)
 {
-
-RS232Puts("-- netif_set_link_up --\r\n");
 
   LWIP_ASSERT_CORE_LOCKED();
 

@@ -313,7 +313,7 @@ void HAL_ETH_MspDeInit(ETH_HandleTypeDef* ethHandle)
 void HAL_ETH_RxCpltCallback(ETH_HandleTypeDef *heth)
 {
 
-RS232Puts("!!!! HAL_ETH_RxCpltCallback !!!!\r\n");
+//RS232Puts("!!!! HAL_ETH_RxCpltCallback !!!!\r\n");
 
   osSemaphoreRelease(RxPktSemaphore);
 }
@@ -335,7 +335,7 @@ RS232Puts("!!!! HAL_ETH_RxCpltCallback !!!!\r\n");
 static void low_level_init(struct netif *netif)
 {
 
-RS232Puts("--low_level_init--\r\n");
+//RS232Puts("--low_level_init--\r\n");
 
   HAL_StatusTypeDef hal_eth_init_status = HAL_OK;
   uint32_t idx = 0;
@@ -563,7 +563,7 @@ static err_t low_level_output(struct netif *netif, struct pbuf *p)
    */
 static struct pbuf * low_level_input(struct netif *netif)
 {
-RS232Puts ("** low_level_input **\r\n");
+//RS232Puts ("** low_level_input **\r\n");
   struct pbuf *p = NULL;
   ETH_BufferTypeDef RxBuff[ETH_RX_DESC_CNT];
   uint32_t framelength = 0, i = 0;
@@ -610,7 +610,7 @@ RS232Puts ("** low_level_input **\r\n");
  */
 void ethernetif_input(void const * argument)
 {
-    RS232Puts("** ethernetif_input start **\r\n");
+    RS232Puts("----- Start task ethernetif_input -----\r\n");
   struct pbuf *p;
   struct netif *netif = (struct netif *) argument;
 
@@ -624,7 +624,7 @@ void ethernetif_input(void const * argument)
         p = low_level_input( netif );
         if (p != NULL)
         {
-            RS232Puts("--packet--\r\n");
+//            RS232Puts("--packet--\r\n");
           if (netif->input( p, netif) != ERR_OK )
           {
             pbuf_free(p);
@@ -845,10 +845,10 @@ osDelay(500);
 
       PHYLinkState = DP83848_GetLinkState(&DP83848);
 
-      char msgUart7[50];
-      memset(msgUart7,' ',50);
-      sprintf(msgUart7,"%s %d %s", "\rPHYLinkState = ",PHYLinkState,"\r\n");
-      RS232Puts(msgUart7);
+//      char msgUart7[50];
+//      memset(msgUart7,' ',50);
+//      sprintf(msgUart7,"%s %d %s", "\rPHYLinkState = ",PHYLinkState,"\r\n");
+//      RS232Puts(msgUart7);
 
       if(netif_is_link_up(netif) && (PHYLinkState <= DP83848_STATUS_LINK_DOWN))
       {
@@ -900,10 +900,10 @@ RS232Puts("--DP83848_STATUS_10MBITS_HALFDUPLEX--\n\r");
 HAL_StatusTypeDef stat = HAL_ETH_Start_IT(&heth);
 //HAL_StatusTypeDef stat = HAL_ETH_Start(&heth);
 
-          char msgUart7[50];
-          memset(msgUart7,' ',50);
-          sprintf(msgUart7,"%s%X%s", "Link change. ETH_Start_IT_status = ",(uint8_t)stat,"\r\n");
-RS232Puts(msgUart7);
+//          char msgUart7[50];
+//          memset(msgUart7,' ',50);
+//          sprintf(msgUart7,"%s%X%s", "Link change. ETH_Start_IT_status = ",(uint8_t)stat,"\r\n");
+//RS232Puts(msgUart7);
 
           netif_set_up(netif);
           netif_set_link_up(netif);

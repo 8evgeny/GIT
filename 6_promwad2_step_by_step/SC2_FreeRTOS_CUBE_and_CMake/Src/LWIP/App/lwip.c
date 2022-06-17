@@ -87,7 +87,7 @@ void MX_LWIP_Init(void)
   /* add the network interface (IPv4/IPv6) with RTOS */
   netif_add(&gnetif, &ipaddr, &netmask, &gw, NULL, &ethernetif_init, &tcpip_input);
 
-RS232Puts("--netif_add--\r\n");
+//RS232Puts("--netif_add--\r\n");
 
   /* Registers the default network interface */
   netif_set_default(&gnetif);
@@ -103,7 +103,7 @@ RS232Puts("--netif_link_up--\r\n");
   else
   {
 
-RS232Puts("--netif_link_down--\r\n");
+//RS232Puts("--netif_link_down--\r\n");
 
     /* When the netif link is down this function must be called */
     netif_set_down(&gnetif);
