@@ -147,7 +147,7 @@ DMA_HandleTypeDef hdma_sai1_b;
 TIM_HandleTypeDef htim3;
 
 UART_HandleTypeDef huart7;
-DMA_HandleTypeDef hdma_uart7_tx;
+//DMA_HandleTypeDef hdma_uart7_tx;
 
 SRAM_HandleTypeDef hsram1;
 
@@ -205,10 +205,10 @@ int main(void)
   MPU_Config();
 
   /* Enable I-Cache---------------------------------------------------------*/
-  SCB_EnableICache();
+//  SCB_EnableICache();
 
   /* Enable D-Cache---------------------------------------------------------*/
-  SCB_EnableDCache();
+//  SCB_EnableDCache();
 
   /* MCU Configuration--------------------------------------------------------*/
 
@@ -247,8 +247,13 @@ int main(void)
 
 //    littleFsInit();
 //  Debug::getInstance().dbg <<"Test\n";
-//  char buf[20] = "Test\n";
-//  RS232::getInstance().write((uint8_t*)buf,10);
+  char buf[20] = "Test RS232\n";
+
+  RS232::getInstance().write((uint8_t*)buf,10);
+
+  char msg[128] = "-- Test in main --\r\n";
+  HAL_UART_Transmit(&huart7,(uint8_t*)msg, sizeof (msg), 1000);
+
   RS232Puts("Test\n");
 
   /* USER CODE END 2 */
@@ -926,7 +931,7 @@ void StartDefaultTask(void const * argument)
   /* USER CODE BEGIN 5 */
 
   char msgUart7[] = "\r------- StartDefaultTask ----------\n\r";
-//  RS232_write_c(msgUart7, sizeof (msgUart7));
+//RS232Puts(msgUart7);//Зависает
 
   if (DP83848.Is_Initialized) {
 //    RS232_write_c("\rDP83848.Is_Initialized\r\n", sizeof ("\rDP83848.Is_Initialized\r\n"));

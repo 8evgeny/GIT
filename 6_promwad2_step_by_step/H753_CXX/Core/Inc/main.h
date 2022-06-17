@@ -22,6 +22,16 @@
 #ifndef __MAIN_H
 #define __MAIN_H
 
+//Возникают ошибки на этих константах - баг компилятора
+#define ECANCELED 66
+#define EOWNERDEAD 66
+#define ENOTRECOVERABLE 66
+#define ENOTSUP 66
+
+//Макрос для отладки
+#define term(x) (RS232::getInstance().term << x << "\r\n");
+#define FsForEepromTEST FsForEeprom::getInstance().test()
+
 #ifdef __cplusplus
 extern "C" {
 #endif

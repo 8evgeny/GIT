@@ -8,9 +8,13 @@
 #include "stm32h7xx_it.h"
 #include <array>
 #include "CircularBuffer.h"
-#include "sram.h"
 #include "cmsis_os.h"
+#include "main.h"
+
+#include "sram.h"
 #include "json.h"
+
+
 
 /*!
  * \brief The Console class for streaming debug information
@@ -46,39 +50,21 @@ public:
 
 class RS232;
 
-/*!
- \brief It is designed to automatically destroy RS232
 
- \class RS232Destroyer rs232.h "rs232.h"
-*/
+
 class RS232Destroyer
 {
 private:
     RS232 *pInstance; /*! Pointer to instance */
 public:
-    /*!
-     \brief Base destructor.
 
-     \fn ~RS232Destroyer
-    */
     ~RS232Destroyer();
 
-    /*!
-     \brief Initialization for RS232.
 
-     \fn initialize
-     \param p A pointer to instance
-    */
     void initialize(RS232 *p);
 };
 
-/*!
- \brief
-        Implementation: ensure that only one instance of the singleton class ever exists
-        and provide global access to that instance.
 
- \class RS232 rs232.h "rs232.h"
-*/
 class RS232
 {
 private:
@@ -92,38 +78,16 @@ private:
     };
 
 protected:
-
-    /*!
-     \brief Base constructor. A default constructor.
-
-     \fn RS232
-    */
     RS232();
 
-    /*!
-     \brief Copy constructor.
-
-     \fn RS232
-     \param
-    */
     RS232(const RS232 &);
 
-    /*!
-     \brief Copy assignment operator
-
-     \fn operator =
-     \param
-     \return RS232 &operator
-    */
     RS232 &operator=(RS232 &);
 
-    /*!
-     \brief Base destructor.
 
-     \fn ~RS232
-    */
     ~RS232() { }
     friend class RS232Destroyer;
+
 public:
     Console term;
     UART_HandleTypeDef *uartHandle;
@@ -131,13 +95,11 @@ public:
     static constexpr uint32_t sizeCircularBuffer = 512;
     CircularBuffer <char, sizeCircularBuffer> ringBuffer;
 
-    /*!
-     \brief It returns the sole instance of the class.
-
-     \fn getInstance
-     \return RS232. The public static operation can be accessed easily by using the class name and operation name.
-    */
     static RS232 &getInstance();
+
+    void  C_test(RS232* p);
+    static RS232 & C_getInstance(RS232* p);
+
 
     /*!
      * \brief read data from UART
@@ -199,11 +161,6 @@ public:
     osThreadId readFromUartThreadId,
                terminateThreadsId;
 
-    /*!
-     * \brief Simple test for RS232
-     *
-     * \fn test
-     */
     void test();
 
 };
@@ -221,9 +178,6 @@ void readFromUartThread(void const *arg);
 extern "C" {
 #endif
 
-/*!
- * \brief RS232Init Initialization for UART (RS232)
- */
 void RS232Init(void);
 
 

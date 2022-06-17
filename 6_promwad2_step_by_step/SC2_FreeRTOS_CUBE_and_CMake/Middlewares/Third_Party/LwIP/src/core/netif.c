@@ -66,6 +66,9 @@
 #include "lwip/stats.h"
 #include "lwip/sys.h"
 #include "lwip/ip.h"
+
+#include "rs232_printf.h"
+
 #if ENABLE_LOOPBACK
 #if LWIP_NETIF_LOOPBACK_MULTITHREADING
 #include "lwip/tcpip.h"
@@ -987,6 +990,7 @@ netif_set_remove_callback(struct netif *netif, netif_status_callback_fn remove_c
 void
 netif_set_link_up(struct netif *netif)
 {
+
   LWIP_ASSERT_CORE_LOCKED();
 
   LWIP_ERROR("netif_set_link_up: invalid netif", netif != NULL, return);

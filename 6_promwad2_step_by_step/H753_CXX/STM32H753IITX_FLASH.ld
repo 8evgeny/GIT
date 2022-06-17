@@ -2,10 +2,13 @@
 ENTRY(Reset_Handler)
 
 /* Highest address of the user mode stack */
-_estack = 0x20020000;    /* end of RAM */
+/*_estack = 0x20020000;    /* end of RAM */
+
+_estack = 0x24080000; /* AXI-SRAM
+
 /* Generate a link error if heap and stack don't fit into RAM */
-_Min_Heap_Size = 0x200 ;      /* required amount of heap  */
-_Min_Stack_Size = 0x400 ; /* required amount of stack */
+_Min_Heap_Size = 0x8000 ;      /* required amount of heap  */
+_Min_Stack_Size = 0x1000 ; /* required amount of stack */
 
 /* Specify the memory areas */
 MEMORY
@@ -132,7 +135,7 @@ SECTIONS
     . = . + _Min_Heap_Size;
     . = . + _Min_Stack_Size;
     . = ALIGN(8);
-  } >RAM
+  } >RAM_D1
 
 .lwip_sec (NOLOAD) : {
   . = ABSOLUTE(0x30000000);

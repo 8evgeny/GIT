@@ -27,6 +27,7 @@
 #include "lwip/sio.h"
 #endif /* MDK ARM Compiler */
 #include "ethernetif.h"
+#include "rs232_printf.h"
 
 /* USER CODE BEGIN 0 */
 
@@ -59,10 +60,10 @@ uint8_t GATEWAY_ADDRESS[4];
 void MX_LWIP_Init(void)
 {
   /* IP addresses initialization */
-  IP_ADDRESS[0] = 192;
-  IP_ADDRESS[1] = 168;
-  IP_ADDRESS[2] = 0;
-  IP_ADDRESS[3] = 101;
+  IP_ADDRESS[0] = 172;
+  IP_ADDRESS[1] = 17;
+  IP_ADDRESS[2] = 10;
+  IP_ADDRESS[3] = 108;
   NETMASK_ADDRESS[0] = 255;
   NETMASK_ADDRESS[1] = 255;
   NETMASK_ADDRESS[2] = 255;
@@ -86,16 +87,24 @@ void MX_LWIP_Init(void)
   /* add the network interface (IPv4/IPv6) with RTOS */
   netif_add(&gnetif, &ipaddr, &netmask, &gw, NULL, &ethernetif_init, &tcpip_input);
 
+//RS232Puts("--netif_add--\r\n");
+
   /* Registers the default network interface */
   netif_set_default(&gnetif);
 
   if (netif_is_link_up(&gnetif))
   {
+
+RS232Puts("--netif_link_up--\r\n");
+
     /* When the netif is fully configured this function must be called */
     netif_set_up(&gnetif);
   }
   else
   {
+
+//RS232Puts("--netif_link_down--\r\n");
+
     /* When the netif link is down this function must be called */
     netif_set_down(&gnetif);
   }
@@ -105,7 +114,7 @@ void MX_LWIP_Init(void)
 
   /* Create the Ethernet link handler thread */
 /* USER CODE BEGIN H7_OS_THREAD_DEF_CREATE_CMSIS_RTOS_V1 */
-  osThreadDef(EthLink, ethernet_link_thread, osPriorityBelowNormal, 0, configMINIMAL_STACK_SIZE *2);
+  osThreadDef(EthLink, ethernet_link_thread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 5);
   osThreadCreate (osThread(EthLink), &gnetif);
 /* USER CODE END H7_OS_THREAD_DEF_CREATE_CMSIS_RTOS_V1 */
 
@@ -132,12 +141,16 @@ static void ethernet_link_status_updated(struct netif *netif)
   {
 /* USER CODE BEGIN 5 */
 
+RS232Puts("--netif_link_status_up--\r\n");
 
 /* USER CODE END 5 */
   }
   else /* netif is down */
   {
 /* USER CODE BEGIN 6 */
+
+RS232Puts("--netif_link_status_down--\r\n");
+
 /* USER CODE END 6 */
   }
 }

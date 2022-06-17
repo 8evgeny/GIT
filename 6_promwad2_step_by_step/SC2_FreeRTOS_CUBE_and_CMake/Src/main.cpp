@@ -14,11 +14,11 @@
 #include "lwip.h"
 #include "ethernetif.h"
 #include "dp83848.h"
-
+char msgOCD[] = "Hello STM32 lovers!\n";
 extern void flashErraseBank2();
 
-static osThreadId readPackageTypeThreadId;
-static osSemaphoreId canSemId;
+//static osThreadId readPackageTypeThreadId;
+//static osSemaphoreId canSemId;
 
 #ifdef __cplusplus
 extern "C" {
@@ -43,7 +43,7 @@ static void MX_I2C3_Init(void);
 static void MX_SAI1_Init(void);
 //static void MX_UART7_Init(void);
 static void MX_TIM3_Init(void);
-//static void MX_DMA_Init(void);
+static void MX_DMA_Init(void);
 static void MX_RNG_Init(void);
 void StartDefaultTask(void const * argument);
 
@@ -66,16 +66,88 @@ MDMA_HandleTypeDef hmdma_memtomem_dma2_stream0;
 //static void MX_MDMA_Init(void); //Вынес с SRAM
 
 
+extern struct netif gnetif;
+extern DP83848_Object_t DP83848;
+void ethernet_link_check_state(struct netif *netif)
+{
+  ETH_MACConfigTypeDef MACConf;
+  int32_t PHYLinkState;
+  uint32_t linkchanged = 0, speed = 0, duplex =0;
+
+  PHYLinkState = DP83848_GetLinkState(&DP83848);
+
+  if(netif_is_link_up(netif) && (PHYLinkState <= DP83848_STATUS_LINK_DOWN))
+  {
+    HAL_ETH_Stop(&heth);
+    netif_set_down(netif);
+    netif_set_link_down(netif);
+  }
+  else if(!netif_is_link_up(netif) && (PHYLinkState > DP83848_STATUS_LINK_DOWN))
+  {
+    switch (PHYLinkState)
+    {
+    case DP83848_STATUS_100MBITS_FULLDUPLEX:
+      duplex = ETH_FULLDUPLEX_MODE;
+      speed = ETH_SPEED_100M;
+      linkchanged = 1;
+      break;
+    case DP83848_STATUS_100MBITS_HALFDUPLEX:
+      duplex = ETH_HALFDUPLEX_MODE;
+      speed = ETH_SPEED_100M;
+      linkchanged = 1;
+      break;
+    case DP83848_STATUS_10MBITS_FULLDUPLEX:
+      duplex = ETH_FULLDUPLEX_MODE;
+      speed = ETH_SPEED_10M;
+      linkchanged = 1;
+      break;
+    case DP83848_STATUS_10MBITS_HALFDUPLEX:
+      duplex = ETH_HALFDUPLEX_MODE;
+      speed = ETH_SPEED_10M;
+      linkchanged = 1;
+      break;
+    default:
+      break;
+    }
+
+    if(linkchanged)
+    {
+      /* Get MAC Config MAC */
+      HAL_ETH_GetMACConfig(&heth, &MACConf);
+      MACConf.DuplexMode = duplex;
+      MACConf.Speed = speed;
+      HAL_ETH_SetMACConfig(&heth, &MACConf);
+
+      HAL_ETH_Start(&heth);
+      netif_set_up(netif);
+      netif_set_link_up(netif);
+    }
+  }
+
+}
+uint32_t EthernetLinkTimer;
+void Ethernet_Link_Periodic_Handle(struct netif *netif)
+{
+  /* Ethernet Link every 100ms */
+  if (HAL_GetTick() - EthernetLinkTimer >= 100)
+  {
+    EthernetLinkTimer = HAL_GetTick();
+    ethernet_link_check_state(netif);
+  }
+}
+
+
 osThreadId defaultTaskHandle;
+
 //osThreadDef(trackRingBufferThread, trackRingBufferThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 20);
 //osThreadDef(readFromUartThread, readFromUartThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 10);
 //osThreadDef(StartWdtThread, StartWdtThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 1);
 //osThreadDef(recvUdpThread, recvUdpThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 20);
 //osThreadDef(audioInitThread, threadAudioInit, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 10);
 
-osThreadDef(switchLEDsThread, switchLEDsThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 2);
-osThreadDef(replaceTimerCallback, replaceTimerCallback, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 2);
-osThreadDef(readButtonThread, readButtonThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 5);
+//osThreadDef(switchLEDsThread, switchLEDsThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 2);
+//osThreadDef(replaceTimerCallback, replaceTimerCallback, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 2);
+//osThreadDef(readButtonThread, readButtonThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 5);
 
 void vApplicationStackOverflowHook(TaskHandle_t xTask, char *pcTaskName)
 {
@@ -178,24 +250,35 @@ int main(void)
 //    }
 
 
-    osThreadDef(defaultTask, empty, osPriorityNormal, 0, configMINIMAL_STACK_SIZE);
-    osThreadCreate(osThread(defaultTask), nullptr);
+//    osThreadDef(defaultTask, empty, osPriorityNormal, 0, configMINIMAL_STACK_SIZE*2);
+//    defaultTaskHandle = osThreadCreate(osThread(defaultTask), nullptr);
 
 //    Json::getInstance()->configStation();
 //    if (Json::getInstance()->deserializeJsonFlag == Json::JsonFlags::OK)
 //    {
 
-term("ip:")      term(Json::getInstance()->thisStation.ip)
-term("mask:")    term(Json::getInstance()->thisStation.mask)
-term("gateway:") term(Json::getInstance()->thisStation.gateway)
+//term("ip:")      term(Json::getInstance()->thisStation.ip)
+//term("mask:")    term(Json::getInstance()->thisStation.mask)
+//term("gateway:") term(Json::getInstance()->thisStation.gateway)
 
 
 //        netInit(Json::getInstance()->thisStation.ip,
 //                Json::getInstance()->thisStation.mask,
 //                Json::getInstance()->thisStation.gateway);
 
-        osThreadDef(emptyThread, StartDefaultTask, osPriorityNormal, 0, configMINIMAL_STACK_SIZE);
-        osThreadCreate(osThread(emptyThread), nullptr);
+
+//    asm volatile (
+//                " mov r0, 0x4 \n"
+//                " mov r1, %[msg] \n"
+//                " bkpt #0xAB"
+//                :
+//                : [msg] "r" (msgOCD)
+//                : "r0", "r1"
+//    );
+
+
+        osThreadDef(emptyThread, StartDefaultTask, osPriorityNormal, 0, configMINIMAL_STACK_SIZE*2);
+        defaultTaskHandle = osThreadCreate(osThread(emptyThread), nullptr);
 
 //        SAI::getInstance()->threadAudioInitId = osThreadCreate(osThread(audioInitThread), nullptr);
 
@@ -636,34 +719,37 @@ static void MX_UART7_Init(void)
 
 }
 
-//static void MX_DMA_Init(void)
-//{
+static void MX_DMA_Init(void)
+{
 
-//    /* DMA controller clock enable */
-//    __HAL_RCC_DMA1_CLK_ENABLE();
-//    __HAL_RCC_DMA2_CLK_ENABLE();
+    /* DMA controller clock enable */
+    __HAL_RCC_DMA1_CLK_ENABLE();
+    __HAL_RCC_DMA2_CLK_ENABLE();
 
-//    /* DMA interrupt init */
-//    /* DMA1_Stream1_IRQn interrupt configuration */
-//    HAL_NVIC_SetPriority(DMA1_Stream1_IRQn, 5, 0);
-//    HAL_NVIC_EnableIRQ(DMA1_Stream1_IRQn);
-//    /* DMA1_Stream2_IRQn interrupt configuration */
-//    HAL_NVIC_SetPriority(DMA1_Stream2_IRQn, 5, 0);
-//    HAL_NVIC_EnableIRQ(DMA1_Stream2_IRQn);
-//    /* DMA1_Stream3_IRQn interrupt configuration */
-//    HAL_NVIC_SetPriority(DMA1_Stream3_IRQn, 5, 0);
-//    HAL_NVIC_EnableIRQ(DMA1_Stream3_IRQn);
-//    /* DMA1_Stream4_IRQn interrupt configuration */
-//    HAL_NVIC_SetPriority(DMA1_Stream4_IRQn, 5, 0);
-//    HAL_NVIC_EnableIRQ(DMA1_Stream4_IRQn);
-//    /* DMA2_Stream3_IRQn interrupt configuration */
-//    HAL_NVIC_SetPriority(DMA2_Stream3_IRQn, 5, 0);
-//    HAL_NVIC_EnableIRQ(DMA2_Stream3_IRQn);
-//    /* DMA2_Stream4_IRQn interrupt configuration */
-//    HAL_NVIC_SetPriority(DMA2_Stream4_IRQn, 5, 0);
-//    HAL_NVIC_EnableIRQ(DMA2_Stream4_IRQn);
+    /* DMA interrupt init */
+    /* DMA1_Stream1_IRQn interrupt configuration */
+    HAL_NVIC_SetPriority(DMA1_Stream1_IRQn, 5, 0);
+    HAL_NVIC_EnableIRQ(DMA1_Stream1_IRQn);
+    /* DMA1_Stream2_IRQn interrupt configuration */
+    HAL_NVIC_SetPriority(DMA1_Stream2_IRQn, 5, 0);
+    HAL_NVIC_EnableIRQ(DMA1_Stream2_IRQn);
+    /* DMA1_Stream4_IRQn interrupt configuration */
+    HAL_NVIC_SetPriority(DMA1_Stream4_IRQn, 5, 0);
+    HAL_NVIC_EnableIRQ(DMA1_Stream4_IRQn);
+    /* DMA2_Stream0_IRQn interrupt configuration */
+    HAL_NVIC_SetPriority(DMA2_Stream0_IRQn, 5, 0);
+    HAL_NVIC_EnableIRQ(DMA2_Stream0_IRQn);
+    /* DMA2_Stream1_IRQn interrupt configuration */
+    HAL_NVIC_SetPriority(DMA2_Stream1_IRQn, 5, 0);
+    HAL_NVIC_EnableIRQ(DMA2_Stream1_IRQn);
+    /* DMA2_Stream3_IRQn interrupt configuration */
+    HAL_NVIC_SetPriority(DMA2_Stream3_IRQn, 5, 0);
+    HAL_NVIC_EnableIRQ(DMA2_Stream3_IRQn);
+    /* DMA2_Stream4_IRQn interrupt configuration */
+    HAL_NVIC_SetPriority(DMA2_Stream4_IRQn, 5, 0);
+    HAL_NVIC_EnableIRQ(DMA2_Stream4_IRQn);
 
-//}
+}
 
 //static void MX_FMC_Init(void)
 //{
@@ -803,92 +889,22 @@ static void MX_GPIO_Init(void)
     HAL_NVIC_SetPriority(EXTI15_10_IRQn, 5, 0);
     HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
 
-    if ((osThreadCreate(osThread(switchLEDsThread), nullptr)) == nullptr)
-    {
-        RS232::getInstance().term << "Failed to create [switchLEDsThread]" << "\n";
-    }
+//    if ((osThreadCreate(osThread(switchLEDsThread), nullptr)) == nullptr)
+//    {
+//        RS232::getInstance().term << "Failed to create [switchLEDsThread]" << "\n";
+//    }
 
-    if ((osThreadCreate(osThread(readButtonThread), nullptr)) == nullptr)
-    {
-        RS232::getInstance().term << "Failed to create [readButtonThread]" << "\n";
-    }
+//    if ((osThreadCreate(osThread(readButtonThread), nullptr)) == nullptr)
+//    {
+//        RS232::getInstance().term << "Failed to create [readButtonThread]" << "\n";
+//    }
 
-    if ((osThreadCreate(osThread(replaceTimerCallback), nullptr)) == nullptr)
-    {
-        RS232::getInstance().term << "Failed to create [switchLEDsThread]" << "\n";
-    }
-
-}
-extern struct netif gnetif;
-extern DP83848_Object_t DP83848;
-void ethernet_link_check_state(struct netif *netif)
-{
-  ETH_MACConfigTypeDef MACConf;
-  int32_t PHYLinkState;
-  uint32_t linkchanged = 0, speed = 0, duplex =0;
-
-  PHYLinkState = DP83848_GetLinkState(&DP83848);
-
-  if(netif_is_link_up(netif) && (PHYLinkState <= DP83848_STATUS_LINK_DOWN))
-  {
-    HAL_ETH_Stop(&heth);
-    netif_set_down(netif);
-    netif_set_link_down(netif);
-  }
-  else if(!netif_is_link_up(netif) && (PHYLinkState > DP83848_STATUS_LINK_DOWN))
-  {
-    switch (PHYLinkState)
-    {
-    case DP83848_STATUS_100MBITS_FULLDUPLEX:
-      duplex = ETH_FULLDUPLEX_MODE;
-      speed = ETH_SPEED_100M;
-      linkchanged = 1;
-      break;
-    case DP83848_STATUS_100MBITS_HALFDUPLEX:
-      duplex = ETH_HALFDUPLEX_MODE;
-      speed = ETH_SPEED_100M;
-      linkchanged = 1;
-      break;
-    case DP83848_STATUS_10MBITS_FULLDUPLEX:
-      duplex = ETH_FULLDUPLEX_MODE;
-      speed = ETH_SPEED_10M;
-      linkchanged = 1;
-      break;
-    case DP83848_STATUS_10MBITS_HALFDUPLEX:
-      duplex = ETH_HALFDUPLEX_MODE;
-      speed = ETH_SPEED_10M;
-      linkchanged = 1;
-      break;
-    default:
-      break;
-    }
-
-    if(linkchanged)
-    {
-      /* Get MAC Config MAC */
-      HAL_ETH_GetMACConfig(&heth, &MACConf);
-      MACConf.DuplexMode = duplex;
-      MACConf.Speed = speed;
-      HAL_ETH_SetMACConfig(&heth, &MACConf);
-
-      HAL_ETH_Start(&heth);
-      netif_set_up(netif);
-      netif_set_link_up(netif);
-    }
-  }
+//    if ((osThreadCreate(osThread(replaceTimerCallback), nullptr)) == nullptr)
+//    {
+//        RS232::getInstance().term << "Failed to create [switchLEDsThread]" << "\n";
+//    }
 
 }
-uint32_t EthernetLinkTimer;
-void Ethernet_Link_Periodic_Handle(struct netif *netif)
-{
-  /* Ethernet Link every 100ms */
-  if (HAL_GetTick() - EthernetLinkTimer >= 100)
-  {
-    EthernetLinkTimer = HAL_GetTick();
-    ethernet_link_check_state(netif);
-  }
-}
-
 
 void StartDefaultTask(void const * argument)
 {
@@ -899,11 +915,11 @@ void StartDefaultTask(void const * argument)
 //  /* USER CODE BEGIN 5 */
 
 
-//  if (DP83848.Is_Initialized) {
-//    RS232_write_c("\rDP83848.Is_Initialized\r\n", sizeof ("\rDP83848.Is_Initialized\r\n"));
-//  } else {
-//    RS232_write_c("\rDP83848.No_Initialized\r\n", sizeof ("\rDP83848.No_Initialized\r\n"));
-//  }
+  if (DP83848.Is_Initialized) {
+    term("DP83848.Is_Initialized");
+  } else {
+    term("DP83848.no_Initialized");
+  }
 
   for(;;)
   {

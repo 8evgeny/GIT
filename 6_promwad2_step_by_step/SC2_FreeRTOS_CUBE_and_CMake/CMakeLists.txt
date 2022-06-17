@@ -14,11 +14,11 @@ add_definitions(-DSTM32H753xx)
 add_definitions(-DUSE_HAL_DRIVER)
 add_definitions(-D__weak=__attribute__\(\(weak\)\))
 add_definitions(-D__packed=__attribute__\(\(__packed__\)\))
-add_definitions(-D__FPU_PRESENT=1)
+#add_definitions(-D__FPU_PRESENT=1)
 add_definitions(-DARM_MATH_CM7)
 add_definitions(-DHAVE_CONFIG_H)
-add_definitions(-D__DCACHE_PRESENT)
-add_definitions(-D__ICACHE_PRESENT)
+#add_definitions(-D__DCACHE_PRESENT)
+#add_definitions(-D__ICACHE_PRESENT)
 add_definitions(-DSC2BOARD)
 
 #include "stm32h753xx.h"  // все регистры
@@ -289,7 +289,7 @@ add_executable(${PROJECT_NAME}.elf
     ${SOURCES_C}
     ${SOURCES_CPP}
     Src/LWIP/App/lwip.c
-#    Src/LWIP/Target/ethernetif.c
+    Src/LWIP/Target/ethernetif.c
     )
 
 
