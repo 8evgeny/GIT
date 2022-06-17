@@ -51,6 +51,26 @@ include_directories(
     Drivers/CMSIS/Device/ST/STM32H7xx/Include
     Drivers/BSP/Components/dp83848
     Drivers/BSP/Components/dp83848
+    Drivers/STM32H7xx_HAL_Driver/Inc
+    Drivers/STM32H7xx_HAL_Driver/Inc/Legacy
+    Middlewares/Third_Party/FreeRTOS/Source/include
+    Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS
+    Middlewares/Third_Party/FreeRTOS/Source/portable/MemMang
+    Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F
+    Middlewares/Third_Party/ArduinoJson/src
+    Middlewares/Third_Party/LwIP/system/arch
+    Middlewares/Third_Party/LwIP/system
+    Middlewares/Third_Party/LwIP/src/include/netif
+    Middlewares/Third_Party/LwIP/src/include/netif/ppp
+    Middlewares/Third_Party/LwIP/src/include
+    Middlewares/Third_Party/LwIP/src/include/lwip
+    Middlewares/Third_Party/LwIP/src/include/lwip/apps
+    Middlewares/Third_Party/LwIP/src/include/lwip/priv
+    Middlewares/Third_Party/LwIP/src/include/lwip/prot
+    Middlewares/Third_Party/LwIP/src/include/compat/posix
+    Middlewares/Third_Party/LwIP/src/include/compat/arpa
+    Middlewares/Third_Party/LwIP/src/include/compat/net
+    Middlewares/Third_Party/LwIP/src/include/compat/sys
     ${RS232}
     ${Debug}
     ${littlefs}
@@ -59,7 +79,6 @@ include_directories(
     ${SRAM}
     ${JSON}
     ${ArduinoJson}
-    Middlewares/Third_Party/ArduinoJson/src
     ${RTC}
     ${SNTP}
     ${TRNG}
@@ -77,133 +96,68 @@ include_directories(
     ${Tests}
     ${uid}
     ${WDT}
-
-
+    Core/Src/LWIP/App
+    Core/Src/LWIP/Target
     )
 
 file (GLOB SOURCES_C Core/Src/*.c STM32H753IITX_FLASH.ld Drivers/BSP/Components/dp83848/dp83848.c )
 file (GLOB SOURCES_CPP Core/Src/*.cpp)
 file (GLOB RS232_src ${RS232}/*.cpp ${RS232}/*.c ${RS232}/*.h )
-add_library(RS232_LIB ${RS232_src} )
-
 file (GLOB Debug_src ${Debug}/*.cpp ${Debug}/*.c ${Debug}/*.h )
-add_library(Debug_LIB ${Debug_src} )
-
 file (GLOB EEPROM_src ${EEPROM}/*.cpp ${EEPROM}/*.c ${EEPROM}/*.h )
-add_library(EEPROM_LIB ${EEPROM_src} )
-
 file (GLOB littlefs_src ${littlefs}/*.c ${littlefs}/*.h  )
-add_library(littlefs_LIB ${littlefs_src} )
-
 file (GLOB CircularBuffer_src ${CircularBuffer}/*.tpp ${CircularBuffer}/*.hpp ${CircularBuffer}/*.h )
-add_library(CircularBuffer_LIB ${CircularBuffer_src} )
-set_target_properties(CircularBuffer_LIB PROPERTIES LINKER_LANGUAGE CXX)
-
 file (GLOB SRAM_src ${SRAM}/*.cpp ${SRAM}/*.h  Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_sram.c)
-add_library(SRAM_LIB ${SRAM_src} )
-
 file (GLOB JSON_src ${JSON}/*.cpp ${JSON}/*.h )
-add_library(JSON_LIB ${JSON_src} )
-
 file (GLOB RTC_src ${RTC}/*.cpp ${RTC}/*.h )
-add_library(RTC_LIB ${RTC_src} )
-
 file (GLOB SNTP_src ${SNTP}/*.cpp ${SNTP}/*.h )
-add_library(SNTP_LIB ${SNTP_src} )
-
 file (GLOB TRNG_src ${TRNG}/*.cpp ${TRNG}/*.h )
-add_library(TRNG_LIB ${TRNG_src} )
-
 file (GLOB GPIO_SC2_SOURCES ${GPIO_SC2}/*.cpp ${GPIO_SC2}/*.h)
-add_library(GPIO_SC2_LIB ${GPIO_SC2_SOURCES} )
-
 file (GLOB UpdateMechanism_src ${UpdateMechanism}/*.cpp ${UpdateMechanism}/*.h )
-add_library(UpdateMechanism_LIB ${UpdateMechanism_src} )
-
 file (GLOB TraceRecorder_src ${TraceRecorder}/*.c ${TraceRecorder}/streamports/TCPIP/*.c ${TraceRecorder}/streamports/TCPIP/include/*.h ${TraceRecorder}/include/*.h ${TraceRecorder}/config/*.h )
-add_library(TraceRecorder_LIB ${TraceRecorder_src} )
-
 #file (GLOB RTP_src ${RTP}/*.cpp ${RTP}/*.h )
-#add_library(RTP_LIB ${RTP_src} )
-
 #file (GLOB AUDIO_src ${AUDIO}/*.cpp ${AUDIO}/*.h )
-#add_library(AUDIO_LIB ${AUDIO_src} )
-
 #file (GLOB UDP_JSON_src ${UDP_JSON}/*.cpp ${UDP_JSON}/*.h )
-#add_library(UDP_JSON_LIB ${UDP_JSON_src} )
-
 #file (GLOB Call_Control_src ${Call_Control}/*.cpp ${Call_Control}/*.h )
 #list(REMOVE_ITEM Call_Control_src ${Call_Control}/call_control.h ${Call_Control}/call_control.cpp )
-#add_library(Call_Control_LIB ${Call_Control_src} )
 
 file (GLOB flash_src ${flash}/*.cpp ${flash}/*.h )
-add_library(flash_LIB ${flash_src} )
-
 file (GLOB FatFs_src ${FatFs}/*.c ${FatFs}/option/syscall.c ${FatFs}/option/unicode.c ${FatFs}/*.h )
-add_library(FatFs_LIB ${FatFs_src} )
-
 file (GLOB Tests_src ${Tests}/*.cpp ${Tests}/*.h )
-add_library(Tests_LIB ${Tests_src} )
-
 file (GLOB uid_src ${uid}/*.cpp ${uid}/*.h )
-add_library(uid_LIB ${uid_src} )
-
 file (GLOB WDT_src ${WDT}/*.cpp ${WDT}/*.h )
-add_library(WDT_LIB ${WDT_src} )
-
-add_library(STARTUP ${STARTUP_SOURCES} )
-
-#set (BSP_SOURCES Drivers/BSP/Components/lan8742/lan8742.c )
-#include_directories( Drivers/BSP/Components/lan8742 )
-#add_library(BSP ${BSP_SOURCES} )
-
 file (GLOB HAL_SRC Drivers/STM32H7xx_HAL_Driver/Src/*)
-include_directories(Drivers/STM32H7xx_HAL_Driver/Inc  Drivers/STM32H7xx_HAL_Driver/Inc/Legacy )
+file (GLOB CMSIS_RTOS_SOURCES Middlewares/Third_Party/FreeRTOS/Source/*.c Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.c Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.c Middlewares/Third_Party/LwIP/src/core/*.c Middlewares/Third_Party/LwIP/system/OS/*.c  Middlewares/Third_Party/FreeRTOS/Source/portable/MemMang/*.c )
+file (GLOB LWIP_SRC Middlewares/Third_Party/LwIP/src/api/* Middlewares/Third_Party/LwIP/src/apps/mqtt/mqtt.c Middlewares/Third_Party/LwIP/src/core/* Middlewares/Third_Party/LwIP/src/core/ipv4/* Middlewares/Third_Party/LwIP/src/netif/* Middlewares/Third_Party/LwIP/src/netif/ppp/* )
+
+add_library(RS232_LIB ${RS232_src} )
+add_library(Debug_LIB ${Debug_src} )
+add_library(EEPROM_LIB ${EEPROM_src} )
+add_library(littlefs_LIB ${littlefs_src} )
+add_library(CircularBuffer_LIB ${CircularBuffer_src} )
+set_target_properties(CircularBuffer_LIB PROPERTIES LINKER_LANGUAGE CXX)
+add_library(SRAM_LIB ${SRAM_src} )
+add_library(JSON_LIB ${JSON_src} )
+add_library(RTC_LIB ${RTC_src} )
+add_library(SNTP_LIB ${SNTP_src} )
+add_library(TRNG_LIB ${TRNG_src} )
+add_library(GPIO_SC2_LIB ${GPIO_SC2_SOURCES} )
+add_library(UpdateMechanism_LIB ${UpdateMechanism_src} )
+add_library(TraceRecorder_LIB ${TraceRecorder_src} )
+#add_library(RTP_LIB ${RTP_src} )
+#add_library(AUDIO_LIB ${AUDIO_src} )
+#add_library(UDP_JSON_LIB ${UDP_JSON_src} )
+#add_library(Call_Control_LIB ${Call_Control_src} )
+add_library(flash_LIB ${flash_src} )
+add_library(FatFs_LIB ${FatFs_src} )
+add_library(Tests_LIB ${Tests_src} )
+add_library(uid_LIB ${uid_src} )
+add_library(WDT_LIB ${WDT_src} )
+add_library(STARTUP ${STARTUP_SOURCES} )
 add_library(STM32H7xx_HAL_Driver ${HAL_SRC})
-
-file (GLOB CMSIS_RTOS_SOURCES
-    Middlewares/Third_Party/FreeRTOS/Source/*.c
-    Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.c
-    Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.c
-    Middlewares/Third_Party/LwIP/src/core/*.c
-    Middlewares/Third_Party/LwIP/system/OS/*.c
-    Middlewares/Third_Party/FreeRTOS/Source/portable/MemMang/*.c
-    )
-include_directories(
-    Middlewares/Third_Party/FreeRTOS/Source/include
-    Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS
-    Middlewares/Third_Party/FreeRTOS/Source/portable/MemMang
-    Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F
-    )
 add_library(CMSIS_RTOS ${CMSIS_RTOS_SOURCES} )
+add_library(LWIP ${LWIP_SRC} )
 
-
-file (GLOB Third_Party_SRC
-    Middlewares/Third_Party/LwIP/src/api/*
-    Middlewares/Third_Party/LwIP/src/apps/mqtt/mqtt.c
-    Middlewares/Third_Party/LwIP/src/core/*
-    Middlewares/Third_Party/LwIP/src/core/ipv4/*
-    Middlewares/Third_Party/LwIP/src/netif/*
-    Middlewares/Third_Party/LwIP/src/netif/ppp/*
-    )
-include_directories(
-    Middlewares/Third_Party/LwIP/system/arch
-    Middlewares/Third_Party/LwIP/system
-    Middlewares/Third_Party/LwIP/src/include/netif
-    Middlewares/Third_Party/LwIP/src/include/netif/ppp
-    Middlewares/Third_Party/LwIP/src/include
-    Middlewares/Third_Party/LwIP/src/include/lwip
-    Middlewares/Third_Party/LwIP/src/include/lwip/apps
-    Middlewares/Third_Party/LwIP/src/include/lwip/priv
-    Middlewares/Third_Party/LwIP/src/include/lwip/prot
-    Middlewares/Third_Party/LwIP/src/include/compat/posix
-    Middlewares/Third_Party/LwIP/src/include/compat/arpa
-    Middlewares/Third_Party/LwIP/src/include/compat/net
-    Middlewares/Third_Party/LwIP/src/include/compat/sys
-    )
-add_library(Middlewares ${Third_Party_SRC} )
-
-include_directories(Core/Src/LWIP/App Core/Src/LWIP/Target)
 add_executable(${PROJECT_NAME}.elf
     ${SOURCES_C}
     ${SOURCES_CPP}
@@ -306,11 +260,10 @@ target_link_options(${PROJECT_NAME}.elf PRIVATE ${LINKER_FLAGS})
 
 target_link_libraries(${PROJECT_NAME}.elf PUBLIC
     STARTUP
-#    BSP
     SRAM_LIB
     flash_LIB
     STM32H7xx_HAL_Driver
-    Middlewares
+    LWIP
     CMSIS_RTOS
     RS232_LIB
     Debug_LIB
