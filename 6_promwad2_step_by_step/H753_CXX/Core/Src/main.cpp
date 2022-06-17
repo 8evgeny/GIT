@@ -205,10 +205,10 @@ int main(void)
   MPU_Config();
 
   /* Enable I-Cache---------------------------------------------------------*/
-  SCB_EnableICache();
+//  SCB_EnableICache();
 
   /* Enable D-Cache---------------------------------------------------------*/
-  SCB_EnableDCache();
+//  SCB_EnableDCache();
 
   /* MCU Configuration--------------------------------------------------------*/
 

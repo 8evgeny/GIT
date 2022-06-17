@@ -14,7 +14,7 @@
 #include "lwip.h"
 #include "ethernetif.h"
 #include "dp83848.h"
-
+char msgOCD[] = "Hello STM32 lovers!\n";
 extern void flashErraseBank2();
 
 //static osThreadId readPackageTypeThreadId;
@@ -265,6 +265,17 @@ int main(void)
 //        netInit(Json::getInstance()->thisStation.ip,
 //                Json::getInstance()->thisStation.mask,
 //                Json::getInstance()->thisStation.gateway);
+
+
+//    asm volatile (
+//                " mov r0, 0x4 \n"
+//                " mov r1, %[msg] \n"
+//                " bkpt #0xAB"
+//                :
+//                : [msg] "r" (msgOCD)
+//                : "r0", "r1"
+//    );
+
 
         osThreadDef(emptyThread, StartDefaultTask, osPriorityNormal, 0, configMINIMAL_STACK_SIZE*2);
         defaultTaskHandle = osThreadCreate(osThread(emptyThread), nullptr);
