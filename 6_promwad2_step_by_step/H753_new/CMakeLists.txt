@@ -10,18 +10,14 @@ set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
 
 project(H753_new C CXX ASM)
 
-add_definitions(-DSTM32H753xx)
-add_definitions(-DUSE_HAL_DRIVER)
-add_definitions(-D__weak=__attribute__\(\(weak\)\))
-add_definitions(-D__packed=__attribute__\(\(__packed__\)\))
-#add_definitions(-D__FPU_PRESENT=1)
-add_definitions(-DARM_MATH_CM7)
-add_definitions(-DHAVE_CONFIG_H)
-#add_definitions(-D__DCACHE_PRESENT)
-#add_definitions(-D__ICACHE_PRESENT)
-add_definitions(-DSC2BOARD)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
-#include "stm32h753xx.h"  // все регистры
+add_definitions(-DSTM32H753xx)
+add_definitions(-DDATA_IN_D2_SRAM)
+add_definitions(-DUSE_HAL_DRIVER)
+add_definitions(-DSC2BOARD)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}\
     -Wl,--start-group \
@@ -92,33 +88,32 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}\
     -Xlinker -Map=${PROJECT_NAME}.map \
     ")
 
-include_directories(Inc)
+include_directories(Core/Inc)
 file (GLOB SOURCES_C
-    Src/*.c
+    Core/Src/*.c
     STM32H753IITX_FLASH.ld
     Drivers/BSP/Components/dp83848/dp83848.c
     )
-file (GLOB SOURCES_CPP Src/*.cpp)
+file (GLOB SOURCES_CPP Core/Src/*.cpp)
 
 include_directories(
     Drivers/CMSIS/Include
     Drivers/CMSIS/Device/ST/STM32H7xx/Include
     Drivers/BSP/Components/dp83848
-    LWIP/Target
     Drivers/BSP/Components/dp83848
     )
 
-set (RS232  Src/RS232)
+set (RS232  Core/Src/RS232)
 include_directories( ${RS232} )
 file (GLOB RS232_src ${RS232}/*.cpp ${RS232}/*.c ${RS232}/*.h )
 add_library(RS232_LIB ${RS232_src} )
 
-set (Debug  Src/Debug)
+set (Debug  Core/Src/Debug)
 include_directories( ${Debug} )
 file (GLOB Debug_src ${Debug}/*.cpp ${Debug}/*.c ${Debug}/*.h )
 add_library(Debug_LIB ${Debug_src} )
 
-set (EEPROM  Src/EEPROM)
+set (EEPROM  Core/Src/EEPROM)
 include_directories(${EEPROM})
 file (GLOB EEPROM_src ${EEPROM}/*.cpp ${EEPROM}/*.c ${EEPROM}/*.h
     /home/evg/SOFT/Github/GIT/6_promwad2_step_by_step/SC2_FreeRTOS_CUBE_and_CMake/Src/EEPROM/MUROM_EEPROM.c
@@ -136,12 +131,12 @@ file (GLOB CircularBuffer_src ${CircularBuffer}/*.tpp ${CircularBuffer}/*.hpp ${
 add_library(CircularBuffer_LIB ${CircularBuffer_src} )
 set_target_properties(CircularBuffer_LIB PROPERTIES LINKER_LANGUAGE CXX)
 
-set (SRAM Src/SRAM)
+set (SRAM Core/Src/SRAM)
 include_directories( ${SRAM} )
 file (GLOB SRAM_src ${SRAM}/*.cpp ${SRAM}/*.h  ${CMAKE_SOURCE_DIR}/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_sram.c)
 add_library(SRAM_LIB ${SRAM_src} )
 
-set (JSON  Src/JSON)
+set (JSON  Core/Src/JSON)
 include_directories( ${JSON} )
 file (GLOB JSON_src ${JSON}/*.cpp ${JSON}/*.h )
 add_library(JSON_LIB ${JSON_src} )
@@ -149,27 +144,27 @@ add_library(JSON_LIB ${JSON_src} )
 set (ArduinoJson Middlewares/Third_Party/ArduinoJson)
 include_directories( ${ArduinoJson} Middlewares/Third_Party/ArduinoJson/src )
 
-set (RTC  Src/RTC)
+set (RTC  Core/Src/RTC)
 include_directories( ${RTC} )
 file (GLOB RTC_src ${RTC}/*.cpp ${RTC}/*.h )
 add_library(RTC_LIB ${RTC_src} )
 
-set (SNTP  Src/SNTP)
+set (SNTP  Core/Src/SNTP)
 include_directories( ${SNTP} )
 file (GLOB SNTP_src ${SNTP}/*.cpp ${SNTP}/*.h )
 add_library(SNTP_LIB ${SNTP_src} )
 
-set (TRNG  Src/TRNG)
+set (TRNG  Core/Src/TRNG)
 include_directories( ${TRNG} )
 file (GLOB TRNG_src ${TRNG}/*.cpp ${TRNG}/*.h )
 add_library(TRNG_LIB ${TRNG_src} )
 
-set (GPIO_SC2  Src/GPIO_SC2_BOARD)
+set (GPIO_SC2  Core/Src/GPIO_SC2_BOARD)
 include_directories( ${GPIO_SC2} )
 file (GLOB GPIO_SC2_SOURCES ${GPIO_SC2}/*.cpp ${GPIO_SC2}/*.h)
 add_library(GPIO_SC2_LIB ${GPIO_SC2_SOURCES} )
 
-set (UpdateMechanism  Src/UpdateMechanism)
+set (UpdateMechanism  Core/Src/UpdateMechanism)
 include_directories( ${UpdateMechanism} )
 file (GLOB UpdateMechanism_src ${UpdateMechanism}/*.cpp ${UpdateMechanism}/*.h )
 add_library(UpdateMechanism_LIB ${UpdateMechanism_src} )
@@ -179,12 +174,12 @@ include_directories(${TraceRecorder}/streamports/TCPIP/include ${TraceRecorder}/
 file (GLOB TraceRecorder_src ${TraceRecorder}/*.c ${TraceRecorder}/streamports/TCPIP/*.c ${TraceRecorder}/streamports/TCPIP/include/*.h ${TraceRecorder}/include/*.h ${TraceRecorder}/config/*.h )
 add_library(TraceRecorder_LIB ${TraceRecorder_src} )
 
-#set (RTP  Src/RTP)
+#set (RTP  Core/Src/RTP)
 #include_directories( ${RTP} Drivers/CMSIS/DSP/Include)
 #file (GLOB RTP_src ${RTP}/*.cpp ${RTP}/*.h )
 #add_library(RTP_LIB ${RTP_src} )
 
-#set (AUDIO  Src/AUDIO)
+#set (AUDIO  Core/Src/AUDIO)
 #include_directories(
 #    ${AUDIO}
 #    Drivers/CMSIS/DSP/Include
@@ -192,46 +187,43 @@ add_library(TraceRecorder_LIB ${TraceRecorder_src} )
 #file (GLOB AUDIO_src ${AUDIO}/*.cpp ${AUDIO}/*.h )
 #add_library(AUDIO_LIB ${AUDIO_src} )
 
-#set (UDP_JSON  Src/UDP_JSON)
+#set (UDP_JSON  Core/Src/UDP_JSON)
 #include_directories( ${UDP_JSON} )
 #file (GLOB UDP_JSON_src ${UDP_JSON}/*.cpp ${UDP_JSON}/*.h )
 #add_library(UDP_JSON_LIB ${UDP_JSON_src} )
 
-#set (Call_Control  Src/Call_Control)
+#set (Call_Control  Core/Src/Call_Control)
 #include_directories( ${Call_Control} )
 #file (GLOB Call_Control_src ${Call_Control}/*.cpp ${Call_Control}/*.h )
 #list(REMOVE_ITEM Call_Control_src ${Call_Control}/call_control.h ${Call_Control}/call_control.cpp )
 #add_library(Call_Control_LIB ${Call_Control_src} )
 
-set (flash  Src/flash)
+set (flash  Core/Src/flash)
 include_directories( ${flash} )
 file (GLOB flash_src ${flash}/*.cpp ${flash}/*.h )
 add_library(flash_LIB ${flash_src} )
-
-message("flash_LIB")
-message("${flash_src}")
 
 set (FatFs Middlewares/Third_Party/FatFs)
 include_directories(${FatFs}/src )
 file (GLOB FatFs_src ${FatFs}/src/*.c ${FatFs}/src/option/syscall.c ${FatFs}/src/option/unicode.c ${FatFs}/src/*.h )
 add_library(FatFs_LIB ${FatFs_src} )
 
-set (Tests  Src/Tests)
+set (Tests  Core/Src/Tests)
 include_directories( ${Tests} )
 file (GLOB Tests_src ${Tests}/*.cpp ${Tests}/*.h )
 add_library(Tests_LIB ${Tests_src} )
 
-set (uid  Src/uid)
+set (uid  Core/Src/uid)
 include_directories( ${uid} )
 file (GLOB uid_src ${uid}/*.cpp ${uid}/*.h )
 add_library(uid_LIB ${uid_src} )
 
-set (WDT  Src/WDT)
+set (WDT  Core/Src/WDT)
 include_directories( ${WDT} )
 file (GLOB WDT_src ${WDT}/*.cpp ${WDT}/*.h )
 add_library(WDT_LIB ${WDT_src} )
 
-set (STARTUP_SOURCES startup/startup_stm32h753iitx.s )
+set (STARTUP_SOURCES Core/startup/startup_stm32h753iitx.s )
 add_library(STARTUP ${STARTUP_SOURCES} )
 
 set (BSP_SOURCES Drivers/BSP/Components/lan8742/lan8742.c )
@@ -284,12 +276,12 @@ include_directories(
     )
 add_library(Middlewares ${Third_Party_SRC} )
 
-include_directories(Src/LWIP/App Src/LWIP/Target)
+include_directories(Core/Src/LWIP/App Core/Src/LWIP/Target)
 add_executable(${PROJECT_NAME}.elf
     ${SOURCES_C}
     ${SOURCES_CPP}
-    Src/LWIP/App/lwip.c
-    Src/LWIP/Target/ethernetif.c
+    Core/Src/LWIP/App/lwip.c
+    Core/Src/LWIP/Target/ethernetif.c
     )
 
 
