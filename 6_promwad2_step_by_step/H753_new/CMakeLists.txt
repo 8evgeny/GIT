@@ -18,6 +18,10 @@ add_definitions(-DSTM32H753xx)
 add_definitions(-DDATA_IN_D2_SRAM)
 add_definitions(-DUSE_HAL_DRIVER)
 add_definitions(-DSC2BOARD)
+add_definitions(-DUSE_HAL_DRIVER)
+add_definitions(-DARM_MATH_CM7)
+add_definitions(-DHAVE_CONFIG_H)
+
 
 set (RS232  Core/Src/RS232)
 set (Debug  Core/Src/Debug)
