@@ -22,7 +22,6 @@ add_definitions(-DUSE_HAL_DRIVER)
 add_definitions(-DARM_MATH_CM7)
 add_definitions(-DHAVE_CONFIG_H)
 
-
 set (RS232  ${CMAKE_HOME_DIRECTORY}/Core/Src/RS232)
 set (Debug  ${CMAKE_HOME_DIRECTORY}/Core/Src/Debug)
 set (littlefs ${CMAKE_HOME_DIRECTORY}/Middlewares/Third_Party/littlefs)
