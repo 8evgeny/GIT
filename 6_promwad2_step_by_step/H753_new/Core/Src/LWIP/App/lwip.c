@@ -31,6 +31,50 @@
 
 /* USER CODE BEGIN 0 */
 
+extern ETH_HandleTypeDef heth;
+/* Semaphore to signal Ethernet Link state update */
+osSemaphoreId Netif_LinkSemaphore = NULL;
+/* Ethernet link thread Argument */
+struct link_str link_arg;
+
+/**
+ * Convert human readable IPv4 address to UINT32
+ * @param pDottedQuad   Input C string e.g. "192.168.0.1"
+ * @param pIpAddr       Output IP address
+ * return 1 on success, else 0
+ */
+static int ipStringToNumber(const char *pDottedQuad, uint8_t  *pIpAddr)
+{
+    unsigned int            byte3;
+    unsigned int            byte2;
+    unsigned int            byte1;
+    unsigned int            byte0;
+    char              dummyString[2];
+
+    /* The dummy string with specifier %1s searches for a non-whitespace char
+    * after the last number. If it is found, the result of sscanf will be 5
+    * instead of 4, indicating an erroneous format of the ip-address.
+    */
+    if (sscanf(pDottedQuad, "%u.%u.%u.%u%1s",
+               &byte3, &byte2, &byte1, &byte0, dummyString) == 4) {
+        if ((byte3 < 256)
+            && (byte2 < 256)
+            && (byte1 < 256)
+            && (byte0 < 256)
+            ) {
+            pIpAddr[0]  = (uint8_t)byte3;
+            pIpAddr[1]  = (uint8_t)byte2;
+            pIpAddr[2]  = (uint8_t)byte1;
+            pIpAddr[3]  = (uint8_t)byte0;
+
+            return 1;
+        }
+    }
+
+    return 0;
+}
+
+
 /* USER CODE END 0 */
 /* Private function prototypes -----------------------------------------------*/
 static void ethernet_link_status_updated(struct netif *netif);
@@ -59,6 +103,7 @@ uint8_t GATEWAY_ADDRESS[4];
   */
 void MX_LWIP_Init(void)
 {
+
   /* IP addresses initialization */
   IP_ADDRESS[0] = 192;
   IP_ADDRESS[1] = 168;
@@ -87,8 +132,6 @@ void MX_LWIP_Init(void)
   /* add the network interface (IPv4/IPv6) with RTOS */
   netif_add(&gnetif, &ipaddr, &netmask, &gw, NULL, &ethernetif_init, &tcpip_input);
 
-//RS232Puts("--netif_add--\r\n");
-
   /* Registers the default network interface */
   netif_set_default(&gnetif);
 
@@ -103,7 +146,7 @@ RS232Puts("--netif_link_up--\r\n");
   else
   {
 
-//RS232Puts("--netif_link_down--\r\n");
+RS232Puts("--netif_link_down--\r\n");
 
     /* When the netif link is down this function must be called */
     netif_set_down(&gnetif);
@@ -122,13 +165,6 @@ RS232Puts("--netif_link_up--\r\n");
 
 /* USER CODE END 3 */
 }
-
-#ifdef USE_OBSOLETE_USER_CODE_SECTION_4
-/* Kept to help code migration. (See new 4_1, 4_2... sections) */
-/* Avoid to use this user section which will become obsolete. */
-/* USER CODE BEGIN 4 */
-/* USER CODE END 4 */
-#endif
 
 /**
   * @brief  Notify the User about the network interface config status
@@ -155,76 +191,5 @@ RS232Puts("--netif_link_status_down--\r\n");
   }
 }
 
-#if defined ( __CC_ARM )  /* MDK ARM Compiler */
-/**
- * Opens a serial device for communication.
- *
- * @param devnum device number
- * @return handle to serial device if successful, NULL otherwise
- */
-sio_fd_t sio_open(u8_t devnum)
-{
-  sio_fd_t sd;
 
-/* USER CODE BEGIN 7 */
-  sd = 0; // dummy code
-/* USER CODE END 7 */
-
-  return sd;
-}
-
-/**
- * Sends a single character to the serial device.
- *
- * @param c character to send
- * @param fd serial device handle
- *
- * @note This function will block until the character can be sent.
- */
-void sio_send(u8_t c, sio_fd_t fd)
-{
-/* USER CODE BEGIN 8 */
-/* USER CODE END 8 */
-}
-
-/**
- * Reads from the serial device.
- *
- * @param fd serial device handle
- * @param data pointer to data buffer for receiving
- * @param len maximum length (in bytes) of data to receive
- * @return number of bytes actually received - may be 0 if aborted by sio_read_abort
- *
- * @note This function will block until data can be received. The blocking
- * can be cancelled by calling sio_read_abort().
- */
-u32_t sio_read(sio_fd_t fd, u8_t *data, u32_t len)
-{
-  u32_t recved_bytes;
-
-/* USER CODE BEGIN 9 */
-  recved_bytes = 0; // dummy code
-/* USER CODE END 9 */
-  return recved_bytes;
-}
-
-/**
- * Tries to read from the serial device. Same as sio_read but returns
- * immediately if no data is available and never blocks.
- *
- * @param fd serial device handle
- * @param data pointer to data buffer for receiving
- * @param len maximum length (in bytes) of data to receive
- * @return number of bytes actually received
- */
-u32_t sio_tryread(sio_fd_t fd, u8_t *data, u32_t len)
-{
-  u32_t recved_bytes;
-
-/* USER CODE BEGIN 10 */
-  recved_bytes = 0; // dummy code
-/* USER CODE END 10 */
-  return recved_bytes;
-}
-#endif /* MDK ARM Compiler */
 

@@ -105,6 +105,8 @@ include_directories(
     )
 
 file (GLOB SOURCES_C Core/Src/*.c STM32H753IITX_FLASH.ld Drivers/BSP/Components/dp83848/dp83848.c )
+list(REMOVE_ITEM SOURCES_C ${CMAKE_HOME_DIRECTORY}/Core/Src/net_sockets.c )
+message ("SOURCES_C: "  ${SOURCES_C})
 file (GLOB SOURCES_CPP Core/Src/*.cpp)
 file (GLOB RS232_src ${RS232}/*.cpp ${RS232}/*.c ${RS232}/*.h )
 file (GLOB Debug_src ${Debug}/*.cpp ${Debug}/*.c ${Debug}/*.h )
