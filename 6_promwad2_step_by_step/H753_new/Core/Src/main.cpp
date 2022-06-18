@@ -14,6 +14,8 @@
 #include "lwip.h"
 #include "ethernetif.h"
 #include "dp83848.h"
+#include "rtc.h"
+
 char msgOCD[] = "Hello STM32 lovers!\n";
 extern void flashErraseBank2();
 
@@ -243,6 +245,7 @@ int main(void)
 
 //    Flash::getInstance().test(); // Не работает
 
+    sRTC::getInstance()->test();
 
 //При включении рычаги перестают работать
 //    if ((RS232::getInstance().readFromUartThreadId = osThreadCreate(osThread(readFromUartThread), nullptr)) == nullptr)
