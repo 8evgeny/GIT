@@ -1,6 +1,6 @@
 #include "main.h"
 #include "rs232.h"
-#include "debug.h"
+#include "../Debug/debug.h"
 #include "wdt.h"
 #include "sai.h"
 #include "gpio_sc2_board.h"

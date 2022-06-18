@@ -39,38 +39,38 @@ CppApplication  {
     property string RS232: Src + "/RS232"
     property string Debug: Src + "/Debug"
     property string EEPROM: Src + "/EEPROM"
-//    property string ArduinoJson: Home + "/Middlewares/Third_Party/ArduinoJson"
-//    property string UID: Src + "/UID"
-//    property string RTP: Src + "/RTP"
-//    property string WDT: Src + "/WDT"
-//    property string Audio: Src + "/Audio"
-//    property string TRNG: Src + "/TRNG"
-//    property string FatFs: Home + "/Middlewares/Third_Party/FatFs"
-//    property string Flash: Src + "/Flash"
-//    property string RTT: Home + "/RTT"
-//    property string ringBuffer: Src + "/c-ringbuf"
-//    property string CAN_STM32H7xx: Src + "/CAN_STM32H7xx"
-//    property string GPIO_STM32H7xx: Src + "/GPIO_STM32H7xx"
-//    property string GPIO_SC2_BOARD: Src + "/GPIO_SC2_BOARD"
-//    property string CRC16_CCITT: Src + "/CRC16_CCITT"
-//    property string SNTP: Src + "/SNTP"
-//    property string RTC: Src + "/RTC"
-//    property string SRAM: Src + "/SRAM"
-//    property string JSON: Src + "/JSON"
-//    property string UDP_JSON: Src + "/UDP_JSON"
-//    property string Call_Control: Src + "/Call_Control"
-//    property string Call_Control_for_SC2_board: Src + "/Call_Control_for_SC2_board"
-//    property string AES128: Src + "/Bootloader/AES128"
-//    property string MD5: Src + "/Bootloader/MD5"
-//    property string Version: Src + "/Bootloader/version"
-//    property string UpdateMechanism: Src + "/UpdateMechanism"
+    property string ArduinoJson: Home + "/Middlewares/Third_Party/ArduinoJson"
+    property string UID: Src + "/UID"
+    property string RTP: Src + "/RTP"
+    property string WDT: Src + "/WDT"
+    property string Audio: Src + "/Audio"
+    property string TRNG: Src + "/TRNG"
+    property string FatFs: Home + "/Middlewares/Third_Party/FatFs"
+    property string Flash: Src + "/Flash"
+    property string RTT: Home + "/RTT"
+    property string ringBuffer: Src + "/c-ringbuf"
+    property string CAN_STM32H7xx: Src + "/CAN_STM32H7xx"
+    property string GPIO_STM32H7xx: Src + "/GPIO_STM32H7xx"
+    property string GPIO_SC2_BOARD: Src + "/GPIO_SC2_BOARD"
+    property string CRC16_CCITT: Src + "/CRC16_CCITT"
+    property string SNTP: Src + "/SNTP"
+    property string RTC: Src + "/RTC"
+    property string SRAM: Src + "/SRAM"
+    property string JSON: Src + "/JSON"
+    property string UDP_JSON: Src + "/UDP_JSON"
+    property string Call_Control: Src + "/Call_Control"
+    property string Call_Control_for_SC2_board: Src + "/Call_Control_for_SC2_board"
+    property string AES128: Src + "/Bootloader/AES128"
+    property string MD5: Src + "/Bootloader/MD5"
+    property string Version: Src + "/Bootloader/version"
+    property string UpdateMechanism: Src + "/UpdateMechanism"
 
-//    Group {
-//        name: "FatFs"
-//        condition: IsBootloader == true
-//        prefix: FatFs
-//        files: ["/src/*.c", "/src/*.h", "/src/option/syscall.c", "/src/option/unicode.c"]
-//    }
+    Group {
+        name: "FatFs"
+        condition: IsBootloader == true
+        prefix: FatFs
+        files: ["/src/*.c", "/src/*.h", "/src/option/syscall.c", "/src/option/unicode.c"]
+    }
 
 //    Group {
 //        name: "Bootloader"
@@ -151,12 +151,12 @@ CppApplication  {
 //        files: ["/*.h", "/*.cpp"]
 //    }
 
-//    Group {
-//        name: "GPIO CS2 BOARD"
-//        prefix: GPIO_SC2_BOARD
-//        condition: SC2board == true
-//        files: ["/*.h", "/*.cpp"]
-//    }
+    Group {
+        name: "GPIO CS2 BOARD"
+        prefix: GPIO_SC2_BOARD
+        condition: SC2board == true
+        files: ["/*.h", "/*.cpp"]
+    }
 
 
 //    Group {
@@ -165,29 +165,29 @@ CppApplication  {
 //        files: ["/*.h", "/*.cpp"]
 //    }
 
-//    Group {
-//        name: "SRAM"
-//        prefix: SRAM
-//        files: ["/*.h", "/*.cpp"]
-//    }
+    Group {
+        name: "SRAM"
+        prefix: SRAM
+        files: ["/*.h", "/*.cpp"]
+    }
 
-//    Group {
-//        name: "JSON"
-//        prefix: JSON
-//        files: ["/*.h", "/*.cpp"]
-//    }
+    Group {
+        name: "JSON"
+        prefix: JSON
+        files: ["/*.h", "/*.cpp"]
+    }
 
-//    Group {
-//        name: "UDP JSON (Multicast)"
-//        prefix: UDP_JSON
-//        files: ["/*.h", "/*.cpp"]
-//    }
+    Group {
+        name: "UDP JSON (Multicast)"
+        prefix: UDP_JSON
+        files: ["/*.h", "/*.cpp"]
+    }
 
-//    Group {
-//        name: "ArduinoJson (C++ JSON library for IoT)"
-//        prefix: ArduinoJson
-//        files: ["/*.h"]
-//    }
+    Group {
+        name: "ArduinoJson (C++ JSON library for IoT)"
+        prefix: ArduinoJson
+        files: ["/*.h"]
+    }
 
 //    Group {
 //        name: "CMSIS STM32H7xx"
@@ -204,12 +204,12 @@ CppApplication  {
 //            "/Device/ST/STM32H7xx/Include/stm32h7xx_hal_conf_template.h",]
 //    }
 
-//    Group {
-//        name: "Call control"
-//        prefix: Call_Control
-//        files: ["/*.h", "/*.cpp"]
-//        excludeFiles: ["/call_control.h", "/call_control.cpp"]
-//    }
+    Group {
+        name: "Call control"
+        prefix: Call_Control
+        files: ["/*.h", "/*.cpp"]
+        excludeFiles: ["/call_control.h", "/call_control.cpp"]
+    }
 
 //    Group {
 //        name: "SNTP"
@@ -354,26 +354,26 @@ CppApplication  {
                           RS232,
                           Home + "/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F",
                           Home + "/LWIP/App",
-                          Home + "/Drivers/BSP/Components/dp83848"
-//                          ArduinoJson,
-//                          ArduinoJson + "/src",
-//                          ArduinoJson + "/src/ArduinoJson",
+                          Home + "/Drivers/BSP/Components/dp83848",
+                          ArduinoJson,
+                          ArduinoJson + "/src",
+                          ArduinoJson + "/src/ArduinoJson",
 //                          TraceRecorder + "/streamports/TCPIP/include",
 //                          TraceRecorder + "/include",
 //                          TraceRecorder + "/config",
-//                          FatFs + "/src",
+                          FatFs + "/src",
 //                          RTP,
 //                          Audio,
 //                          UID,
 //                          Flash,
-//                          GPIO_SC2_BOARD,
+                          GPIO_SC2_BOARD,
 //                          RTT,
 //                          RTC,
-//                          SRAM,
-//                          JSON,
+                          SRAM,
+                          JSON,
 //                          WDT,
-//                          UDP_JSON,
-//                          Call_Control
+                          UDP_JSON,
+                          Call_Control
                           ]
                       }
                       else if (IsBootloader) {
