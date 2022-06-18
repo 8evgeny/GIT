@@ -101,7 +101,7 @@ uint8_t GATEWAY_ADDRESS[4];
 /**
   * LwIP initialization function
   */
-void MX_LWIP_Init(void)
+int32_t MX_LWIP_Init(const char *ipSet, const char *netmaskSet, const char *gatwaySet)
 {
 
   /* IP addresses initialization */

@@ -918,7 +918,7 @@ void StartDefaultTask(void const * argument)
 
 
 //  /* init code for LWIP */
-  MX_LWIP_Init();
+  MX_LWIP_Init(Json::getInstance()->thisStation.ip, Json::getInstance()->thisStation.mask,Json::getInstance()->thisStation.gateway);
 //  /* USER CODE BEGIN 5 */
 
 
