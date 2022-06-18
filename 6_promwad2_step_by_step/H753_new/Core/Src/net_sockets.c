@@ -1,3 +1,4 @@
+//Этот файл исключен из проекта - перенесено в lwip.c
 #include <string.h>
 #include "net_sockets.h"
 #include <stdint.h>
