@@ -1,31 +1,6 @@
-/* USER CODE BEGIN Header */
-/**
- ******************************************************************************
-  * File Name          : LWIP.c
-  * Description        : This file provides initialization code for LWIP
-  *                      middleWare.
-  ******************************************************************************
-  * @attention
-  *
-  * Copyright (c) 2022 STMicroelectronics.
-  * All rights reserved.
-  *
-  * This software is licensed under terms that can be found in the LICENSE file
-  * in the root directory of this software component.
-  * If no LICENSE file comes with this software, it is provided AS-IS.
-  *
-  ******************************************************************************
-  */
-
-/* USER CODE END Header */
-
-/* Includes ------------------------------------------------------------------*/
 #include "lwip.h"
 #include "lwip/init.h"
 #include "lwip/netif.h"
-#if defined ( __CC_ARM )  /* MDK ARM Compiler */
-#include "lwip/sio.h"
-#endif /* MDK ARM Compiler */
 #include "ethernetif.h"
 #include "rs232_printf.h"
 
@@ -104,19 +79,33 @@ uint8_t GATEWAY_ADDRESS[4];
 int32_t MX_LWIP_Init(const char *ipSet, const char *netmaskSet, const char *gatwaySet)
 {
 
-  /* IP addresses initialization */
-  IP_ADDRESS[0] = 192;
-  IP_ADDRESS[1] = 168;
-  IP_ADDRESS[2] = 100;
-  IP_ADDRESS[3] = 108;
-  NETMASK_ADDRESS[0] = 255;
-  NETMASK_ADDRESS[1] = 255;
-  NETMASK_ADDRESS[2] = 255;
-  NETMASK_ADDRESS[3] = 0;
-  GATEWAY_ADDRESS[0] = 0;
-  GATEWAY_ADDRESS[1] = 0;
-  GATEWAY_ADDRESS[2] = 0;
-  GATEWAY_ADDRESS[3] = 0;
+    if (ipSet == NULL)
+        return -1;
+
+    if (netmaskSet == NULL)
+        return -1;
+
+    if (gatwaySet == NULL)
+        return -1;
+
+    /* IP addresses initialization */
+    ipStringToNumber(ipSet, IP_ADDRESS);
+    ipStringToNumber(netmaskSet, NETMASK_ADDRESS);
+    ipStringToNumber(gatwaySet, GATEWAY_ADDRESS);
+
+//  /* IP addresses initialization */
+//  IP_ADDRESS[0] = 192;
+//  IP_ADDRESS[1] = 168;
+//  IP_ADDRESS[2] = 100;
+//  IP_ADDRESS[3] = 108;
+//  NETMASK_ADDRESS[0] = 255;
+//  NETMASK_ADDRESS[1] = 255;
+//  NETMASK_ADDRESS[2] = 255;
+//  NETMASK_ADDRESS[3] = 0;
+//  GATEWAY_ADDRESS[0] = 0;
+//  GATEWAY_ADDRESS[1] = 0;
+//  GATEWAY_ADDRESS[2] = 0;
+//  GATEWAY_ADDRESS[3] = 0;
 
 /* USER CODE BEGIN IP_ADDRESSES */
 /* USER CODE END IP_ADDRESSES */

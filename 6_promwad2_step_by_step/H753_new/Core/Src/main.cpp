@@ -912,9 +912,9 @@ void StartDefaultTask(void const * argument)
     osDelay(3000);
     term("------- StartDefaultTask ----------")
 
-//    term("ip:")      term(Json::getInstance()->thisStation.ip)
-//    term("mask:")    term(Json::getInstance()->thisStation.mask)
-//    term("gateway:") term(Json::getInstance()->thisStation.gateway)
+    term("ip:")      term(Json::getInstance()->thisStation.ip)
+    term("mask:")    term(Json::getInstance()->thisStation.mask)
+    term("gateway:") term(Json::getInstance()->thisStation.gateway)
 
 
 //  /* init code for LWIP */
