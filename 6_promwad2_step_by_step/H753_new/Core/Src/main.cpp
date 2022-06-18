@@ -2,18 +2,19 @@
 #include "rs232.h"
 #include "debug.h"
 #include "wdt.h"
-//#include "sai.h"
+#include "sai.h"
 #include "gpio_sc2_board.h"
 #include "testTasks.h"
 #include "fsforeeprom.h"
 #include "json.h"
-//#include "udp_multicast.h"
+#include "udp_multicast.h"
 #include "flash/flash.h"
 #include "net_sockets.h"
 #include "i2ceeprom.h"
 #include "lwip.h"
 #include "ethernetif.h"
 #include "dp83848.h"
+
 char msgOCD[] = "Hello STM32 lovers!\n";
 extern void flashErraseBank2();
 
