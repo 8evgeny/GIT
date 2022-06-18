@@ -258,9 +258,9 @@ int main(void)
 //    if (Json::getInstance()->deserializeJsonFlag == Json::JsonFlags::OK)
 //    {
 
-term("ip:")      term(Json::getInstance()->thisStation.ip)
-term("mask:")    term(Json::getInstance()->thisStation.mask)
-term("gateway:") term(Json::getInstance()->thisStation.gateway)
+//term("ip:")      term(Json::getInstance()->thisStation.ip)
+//term("mask:")    term(Json::getInstance()->thisStation.mask)
+//term("gateway:") term(Json::getInstance()->thisStation.gateway)
 
 
 //        netInit(Json::getInstance()->thisStation.ip,
@@ -910,7 +910,13 @@ static void MX_GPIO_Init(void)
 void StartDefaultTask(void const * argument)
 {
     osDelay(3000);
-      term("------- StartDefaultTask ----------");
+    term("------- StartDefaultTask ----------")
+
+//    term("ip:")      term(Json::getInstance()->thisStation.ip)
+//    term("mask:")    term(Json::getInstance()->thisStation.mask)
+//    term("gateway:") term(Json::getInstance()->thisStation.gateway)
+
+
 //  /* init code for LWIP */
   MX_LWIP_Init();
 //  /* USER CODE BEGIN 5 */
