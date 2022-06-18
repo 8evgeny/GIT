@@ -22,7 +22,6 @@ add_definitions(-DUSE_HAL_DRIVER)
 add_definitions(-DARM_MATH_CM7)
 add_definitions(-DHAVE_CONFIG_H)
 
-
 set (RS232  ${CMAKE_HOME_DIRECTORY}/Core/Src/RS232)
 set (Debug  ${CMAKE_HOME_DIRECTORY}/Core/Src/Debug)
 set (littlefs ${CMAKE_HOME_DIRECTORY}/Middlewares/Third_Party/littlefs)
@@ -120,11 +119,11 @@ file (GLOB TRNG_src ${TRNG}/*.cpp ${TRNG}/*.h )
 file (GLOB GPIO_SC2_SOURCES ${GPIO_SC2}/*.cpp ${GPIO_SC2}/*.h)
 file (GLOB UpdateMechanism_src ${UpdateMechanism}/*.cpp ${UpdateMechanism}/*.h )
 file (GLOB TraceRecorder_src ${TraceRecorder}/*.c ${TraceRecorder}/streamports/TCPIP/*.c ${TraceRecorder}/streamports/TCPIP/include/*.h ${TraceRecorder}/include/*.h ${TraceRecorder}/config/*.h )
-#file (GLOB RTP_src ${RTP}/*.cpp ${RTP}/*.h )
-#file (GLOB AUDIO_src ${AUDIO}/*.cpp ${AUDIO}/*.h )
-#file (GLOB UDP_JSON_src ${UDP_JSON}/*.cpp ${UDP_JSON}/*.h )
-#file (GLOB Call_Control_src ${Call_Control}/*.cpp ${Call_Control}/*.h )
-#list(REMOVE_ITEM Call_Control_src ${Call_Control}/call_control.h ${Call_Control}/call_control.cpp )
+file (GLOB RTP_src ${RTP}/*.cpp ${RTP}/*.h )
+file (GLOB AUDIO_src ${AUDIO}/*.cpp ${AUDIO}/*.h )
+file (GLOB UDP_JSON_src ${UDP_JSON}/*.cpp ${UDP_JSON}/*.h )
+file (GLOB Call_Control_src ${Call_Control}/*.cpp ${Call_Control}/*.h )
+list(REMOVE_ITEM Call_Control_src ${Call_Control}/call_control.h ${Call_Control}/call_control.cpp )
 
 file (GLOB flash_src ${flash}/*.cpp ${flash}/*.h )
 file (GLOB FatFs_src ${FatFs}/*.c ${FatFs}/option/syscall.c ${FatFs}/option/unicode.c ${FatFs}/*.h )
@@ -149,10 +148,10 @@ add_library(TRNG_LIB ${TRNG_src} )
 add_library(GPIO_SC2_LIB ${GPIO_SC2_SOURCES} )
 add_library(UpdateMechanism_LIB ${UpdateMechanism_src} )
 add_library(TraceRecorder_LIB ${TraceRecorder_src} )
-#add_library(RTP_LIB ${RTP_src} )
-#add_library(AUDIO_LIB ${AUDIO_src} )
-#add_library(UDP_JSON_LIB ${UDP_JSON_src} )
-#add_library(Call_Control_LIB ${Call_Control_src} )
+add_library(RTP_LIB ${RTP_src} )
+add_library(AUDIO_LIB ${AUDIO_src} )
+add_library(UDP_JSON_LIB ${UDP_JSON_src} )
+add_library(Call_Control_LIB ${Call_Control_src} )
 add_library(flash_LIB ${flash_src} )
 add_library(FatFs_LIB ${FatFs_src} )
 add_library(Tests_LIB ${Tests_src} )
@@ -276,20 +275,20 @@ target_link_libraries(${PROJECT_NAME}.elf PUBLIC
     littlefs_LIB
     CircularBuffer_LIB
     JSON_LIB
-#    RTC_LIB
-#    SNTP_LIB
-#    TRNG_LIB
+    RTC_LIB
+    SNTP_LIB
+    TRNG_LIB
     GPIO_SC2_LIB
-#    UpdateMechanism_LIB
-#    TraceRecorder_LIB
-#    RTP_LIB
-#    AUDIO_LIB
-#    UDP_JSON_LIB
-#    Call_Control_LIB
+    UpdateMechanism_LIB
+    TraceRecorder_LIB
+    RTP_LIB
+    AUDIO_LIB
+    UDP_JSON_LIB
+    Call_Control_LIB
     FatFs_LIB
-#    Tests_LIB
-#    uid_LIB
-#    WDT_LIB
+    Tests_LIB
+    uid_LIB
+    WDT_LIB
     )
 
 set(HEX_FILE ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.hex)

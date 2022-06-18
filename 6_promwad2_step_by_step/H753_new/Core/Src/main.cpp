@@ -246,8 +246,10 @@ int main(void)
 
 //При включении рычаги перестают работать
 //    if ((RS232::getInstance().readFromUartThreadId = osThreadCreate(osThread(readFromUartThread), nullptr)) == nullptr)
+//   if ((osThreadCreate(osThread(readFromUartThread), nullptr)) == nullptr)
 //    {
-//        RS232::getInstance().term << __FUNCTION__ << " " << __LINE__ << " " << "\n";
+//        term("readFromUartThread Error")
+////        RS232::getInstance().term << __FUNCTION__ << " " << __LINE__ << " " << "\n";
 //    }
 
 

@@ -60,7 +60,7 @@
 /*----- Default Value for H7 devices: 0x30044000 -----*/
 #define LWIP_RAM_HEAP_POINTER 0x30040000
 /*----- Default Value for MEMP_NUM_PBUF: 16 ---*/
-#define MEMP_NUM_PBUF 20
+#define MEMP_NUM_PBUF 64
 /*----- Value supported for H7 devices: 1 -----*/
 #define LWIP_SUPPORT_CUSTOM_PBUF 1
 /*----- Value in opt.h for LWIP_ETHERNET: LWIP_ARP || PPPOE_SUPPORT -*/
@@ -123,6 +123,31 @@
 #define CHECKSUM_CHECK_ICMP6 0
 /*-----------------------------------------------------------------------------*/
 /* USER CODE BEGIN 1 */
+ /* ---------- UDP options ---------- */
+#define LWIP_UDP 1
+#define UDP_TTL 255
+#define LWIP_SOCKET 1
+#define LWIP_IGMP 1 //allowed IGMP
+
+#define MEMP_NUM_UDP_PCB        64
+
+#define MEMP_NUM_TCP_PCB        10
+
+#define MEMP_NUM_TCP_PCB_LISTEN 5
+
+#define MEMP_NUM_TCP_SEG        12
+
+#define MEMP_NUM_SYS_TIMEOUT    10
+
+#define LWIP_NETIF_LINK_CALLBACK 1
+#define MEMP_NUM_NETBUF         64
+#define MEMP_NUM_NETCONN        64
+
+#define PBUF_POOL_SIZE          8
+
+#define PBUF_POOL_BUFSIZE       1524
+
+#define LWIP_IPV4                1
 
 /* USER CODE END 1 */
 
