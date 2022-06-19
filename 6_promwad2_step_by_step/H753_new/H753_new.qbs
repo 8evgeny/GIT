@@ -33,7 +33,7 @@ CppApplication  {
     property string LD: Home
     property string TraceRecorder: Home + "/Tracealyzer-4.2.12-linux64/FreeRTOS/TraceRecorder"
     property string LwIP: Home + "/Middlewares/Third_Party/LwIP"
-    property string LwIP1: Home + "/LWIP/Target"
+    property string LwIP1: Src + "/LWIP"
     property string CircularBuffer: Home + "/Middlewares/Third_Party/CircularBuffer"
     property string littlefs: Home + "/Middlewares/Third_Party/littlefs"
     property string RS232: Src + "/RS232"
@@ -43,7 +43,7 @@ CppApplication  {
     property string UID: Src + "/UID"
     property string RTP: Src + "/RTP"
     property string WDT: Src + "/WDT"
-    property string Audio: Src + "/Audio"
+    property string Audio: Src + "/AUDIO"
     property string TRNG: Src + "/TRNG"
     property string FatFs: Home + "/Middlewares/Third_Party/FatFs"
     property string Flash: Src + "/Flash"
@@ -111,17 +111,17 @@ CppApplication  {
 //        files: ["/*.h", "/*.cpp"]
 //    }
 
-//    Group {
-//        name: "WDT"
-//        prefix: WDT
-//        files: ["/*.h", "/*.cpp"]
-//    }
+    Group {
+        name: "WDT"
+        prefix: WDT
+        files: ["/*.h", "/*.cpp"]
+    }
 
-//    Group {
-//        name: "Audio"
-//        prefix: Audio
-//        files: ["/*.h", "/*.cpp", "/*.c"]
-//    }
+    Group {
+        name: "Audio"
+        prefix: Audio
+        files: ["/*.h", "/*.cpp", "/*.c"]
+    }
 
 //    Group {
 //        condition: IsBootloader == true
@@ -225,8 +225,8 @@ CppApplication  {
 
     Group {
         name: "LwIP1"
-        prefix: Home
-        files: ["/LWIP/App/*.c", "/LWIP/App/*.h", "/LWIP/Target/*.c", "/LWIP/Target/*.h"]
+        prefix: LwIP1
+        files: ["/App/*.c", "/App/*.h", "/Target/*.c", "/Target/*.h"]
     }
 
     Group {
@@ -315,7 +315,9 @@ CppApplication  {
         files: ["/*.c", "/main.cpp",
 //            "/flash_diskio.cpp"
         ]
-//            ["/Src_Bootloader/*.c", "/Src_Bootloader/*.cpp", "/../syscalls.c"]
+//            ["/Src_Bootloader/*.c", "/Src_Bootloader/*.cpp", "/../syscalsyscalls.cls.c"]
+
+        excludeFiles: ["/net_sockets.c", "/syscalls.c" ]
          }
 
     Group {
@@ -347,7 +349,8 @@ CppApplication  {
                           LwIP + "/system",
                           LwIP + "/system/OS",
                           LwIP + "/src",
-                          LwIP1,
+                          LwIP1 + "/App",
+                          LwIP1 + "/Target",
                           CircularBuffer,
                           littlefs,
                           EEPROM,
@@ -358,20 +361,20 @@ CppApplication  {
                           ArduinoJson,
                           ArduinoJson + "/src",
                           ArduinoJson + "/src/ArduinoJson",
-//                          TraceRecorder + "/streamports/TCPIP/include",
-//                          TraceRecorder + "/include",
-//                          TraceRecorder + "/config",
+                          TraceRecorder + "/streamports/TCPIP/include",
+                          TraceRecorder + "/include",
+                          TraceRecorder + "/config",
                           FatFs + "/src",
-//                          RTP,
-//                          Audio,
-//                          UID,
-//                          Flash,
+                          RTP,
+                          Audio,
+                          UID,
+                          Flash,
                           GPIO_SC2_BOARD,
-//                          RTT,
-//                          RTC,
+                          RTT,
+                          RTC,
                           SRAM,
                           JSON,
-//                          WDT,
+                          WDT,
                           UDP_JSON,
                           Call_Control
                           ]
