@@ -270,7 +270,6 @@ void HAL_UART_TxCpltCallback(UART_HandleTypeDef *UartHandle)
     if (UartHandle->Instance == UART7) {
         /* Set transmission flag: trasfer complete*/
         RS232::getInstance().uartWriteReady = SET;
-
     }
 }
 

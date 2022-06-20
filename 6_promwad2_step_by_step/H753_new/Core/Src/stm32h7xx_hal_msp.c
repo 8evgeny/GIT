@@ -440,7 +440,7 @@ void HAL_UART_MspInit(UART_HandleTypeDef *huart)
         hdma_uart7_rx.Init.PeriphDataAlignment = DMA_PDATAALIGN_BYTE;
         hdma_uart7_rx.Init.MemDataAlignment = DMA_MDATAALIGN_BYTE;
         hdma_uart7_rx.Init.Mode = DMA_NORMAL;
-        hdma_uart7_rx.Init.Priority = DMA_PRIORITY_HIGH;
+        hdma_uart7_rx.Init.Priority = DMA_PRIORITY_LOW;
         hdma_uart7_rx.Init.FIFOMode = DMA_FIFOMODE_DISABLE;
         HAL_DMA_Init(&hdma_uart7_rx);
 
@@ -475,7 +475,7 @@ void HAL_UART_MspInit(UART_HandleTypeDef *huart)
             HAL_NVIC_EnableIRQ(DMA1_Stream1_IRQn);
 
             /* DMA1_Stream3_IRQn interrupt configuration */
-            HAL_NVIC_SetPriority(DMA1_Stream3_IRQn, 0, 0);
+            HAL_NVIC_SetPriority(DMA1_Stream3_IRQn, 0, 1);
             HAL_NVIC_EnableIRQ(DMA1_Stream3_IRQn);
 
             __HAL_RCC_DMA1_CLK_ENABLE();
