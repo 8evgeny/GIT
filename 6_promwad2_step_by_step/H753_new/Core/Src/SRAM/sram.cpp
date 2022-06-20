@@ -41,8 +41,8 @@ void SRAMInit(void)
     hsram1.Init.ExtendedMode = FMC_EXTENDED_MODE_DISABLE;
     hsram1.Init.AsynchronousWait = FMC_ASYNCHRONOUS_WAIT_DISABLE;
     hsram1.Init.WriteBurst = FMC_WRITE_BURST_DISABLE;
-//    hsram1.Init.ContinuousClock = FMC_CONTINUOUS_CLOCK_SYNC_ONLY;
-    hsram1.Init.ContinuousClock = FMC_CONTINUOUS_CLOCK_SYNC_ASYNC;
+    hsram1.Init.ContinuousClock = FMC_CONTINUOUS_CLOCK_SYNC_ONLY;
+//    hsram1.Init.ContinuousClock = FMC_CONTINUOUS_CLOCK_SYNC_ASYNC;
     hsram1.Init.WriteFifo = FMC_WRITE_FIFO_ENABLE;
     hsram1.Init.PageSize = FMC_PAGE_SIZE_NONE;
 
@@ -173,6 +173,19 @@ static void HAL_FMC_MspInit(void)
         return;
     }
     FMC_Initialized = 1;
+
+    RCC_PeriphCLKInitTypeDef PeriphClkInitStruct = {0};
+
+    /** Initializes the peripherals clock
+    */
+      PeriphClkInitStruct.PeriphClockSelection = RCC_PERIPHCLK_FMC;
+      PeriphClkInitStruct.FmcClockSelection = RCC_FMCCLKSOURCE_PLL;
+      if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInitStruct) != HAL_OK)
+      {
+        Error_Handler();
+      }
+
+
     /* Peripheral clock enable */
     __HAL_RCC_FMC_CLK_ENABLE();
 
