@@ -246,8 +246,8 @@ int main(void)
 
 
 //При включении рычаги перестают работать
-//    if ((RS232::getInstance().readFromUartThreadId = osThreadCreate(osThread(readFromUartThread), nullptr)) == nullptr)
-   if ((osThreadCreate(osThread(readFromUartThread), nullptr)) == nullptr)
+    if ((RS232::getInstance().readFromUartThreadId = osThreadCreate(osThread(readFromUartThread), nullptr)) == nullptr)
+//   if ((osThreadCreate(osThread(readFromUartThread), nullptr)) == nullptr)
     {
         term("readFromUartThread Error")
 //        RS232::getInstance().term << __FUNCTION__ << " " << __LINE__ << " " << "\n";
@@ -281,7 +281,7 @@ int main(void)
 //    );
 
 
-        osThreadDef(emptyThread, StartDefaultTask, osPriorityNormal, 0, configMINIMAL_STACK_SIZE*2);
+        osThreadDef(emptyThread, StartDefaultTask, osPriorityNormal, 0, configMINIMAL_STACK_SIZE);
         defaultTaskHandle = osThreadCreate(osThread(emptyThread), nullptr);
 
 //        SAI::getInstance()->threadAudioInitId = osThreadCreate(osThread(audioInitThread), nullptr);

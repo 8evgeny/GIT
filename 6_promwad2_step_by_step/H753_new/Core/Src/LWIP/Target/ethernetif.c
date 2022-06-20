@@ -482,6 +482,7 @@ static void low_level_init(struct netif *netif)
   }
   else
   {
+      RS232Puts("Error_Handler");
     Error_Handler();
   }
 /* USER CODE END LOW_LEVEL_INIT */
