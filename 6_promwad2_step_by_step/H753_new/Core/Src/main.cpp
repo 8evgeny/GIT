@@ -58,6 +58,8 @@ SAI_HandleTypeDef hsai_BlockA1;
 SAI_HandleTypeDef hsai_BlockB1;
 DMA_HandleTypeDef hdma_sai1_a;
 DMA_HandleTypeDef hdma_sai1_b;
+DMA_HandleTypeDef hdma_uart7_rx;
+DMA_HandleTypeDef hdma_uart7_tx;
 TIM_HandleTypeDef htim3;
 UART_HandleTypeDef huart7;
 SRAM_HandleTypeDef hsram1;
@@ -701,12 +703,16 @@ static void MX_UART7_Init(void)
   huart7.Init.ClockPrescaler = UART_PRESCALER_DIV1;
   huart7.AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_NO_INIT;
 
-//  if (HAL_UART_Init(&huart7) != HAL_OK)
-//  {
-//      while (1) {
-//          RS232::getInstance().term << "UART Init Error!" << "\n";
-//      }
-//  }
+  huart7.hdmarx = &hdma_uart7_rx;
+  huart7.hdmatx = &hdma_uart7_tx;
+
+  if (HAL_UART_Init(&huart7) != HAL_OK)
+  {
+      while (1) {
+          RS232::getInstance().term << "UART Init Error!" << "\n";
+      }
+  }
+
 ////  if (HAL_UARTEx_SetTxFifoThreshold(&huart7, UART_TXFIFO_THRESHOLD_1_2) != HAL_OK)
 ////  {
 ////    Error_Handler();

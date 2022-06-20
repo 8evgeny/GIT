@@ -58,9 +58,8 @@
 extern "C" {
 #endif
 extern UART_HandleTypeDef huart7;
-//static UART_HandleTypeDef huart7;
-static DMA_HandleTypeDef hdma_uart7_rx;
-static DMA_HandleTypeDef hdma_uart7_tx;
+extern DMA_HandleTypeDef hdma_uart7_rx;
+extern DMA_HandleTypeDef hdma_uart7_tx;
 static unsigned char readByte();
 static void writeByte(unsigned char byte);
 
@@ -85,14 +84,14 @@ void RS232Init(void)
 //    huart7.Init.ClockPrescaler = UART_PRESCALER_DIV1;
 //    huart7.AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_NO_INIT;
 
-    huart7.hdmarx = &hdma_uart7_rx;
-    huart7.hdmatx = &hdma_uart7_tx;
+//    huart7.hdmarx = &hdma_uart7_rx;
+//    huart7.hdmatx = &hdma_uart7_tx;
 
-    if (HAL_UART_Init(&huart7) != HAL_OK) {
-      while (1) {
-          Debug::getInstance().dbg << "UART Init Error!" << "\n";
-      }
-    }
+//    if (HAL_UART_Init(&huart7) != HAL_OK) {
+//      while (1) {
+//          Debug::getInstance().dbg << "UART Init Error!" << "\n";
+//      }
+//    }
 
 }
 
@@ -260,40 +259,9 @@ static void writeByte(unsigned char byte)
     RS232::getInstance().write(&byte, sizeof(byte));
 }
 
-/*!
-  \brief UART MSP Initialization
-
-
-          This function configures the hardware resources used in this example:
-             - Peripheral's clock enable
-             - Peripheral's GPIO Configuration
-             - DMA configuration for transmission request by peripheral
-             - NVIC configuration for DMA interrupt request enable
-
-
-  \param huart: UART handle pointer
-  \retval None
-  */
 void HAL_UART_MspInit(UART_HandleTypeDef *huart)
 {
-    GPIO_InitTypeDef GPIO_InitStruct = {0};
     if (huart->Instance == UART7) {
-
-        /* Peripheral clock enable */
-        __HAL_RCC_UART7_CLK_ENABLE();
-
-        __HAL_RCC_DMA1_CLK_ENABLE();
-        __HAL_RCC_GPIOF_CLK_ENABLE();
-        /**UART7 GPIO Configuration
-        PF6     ------> UART7_RX
-        PF7     ------> UART7_TX
-        */
-        GPIO_InitStruct.Pin = GPIO_PIN_6 | GPIO_PIN_7;
-        GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
-        GPIO_InitStruct.Pull = GPIO_PULLUP;
-        GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
-        GPIO_InitStruct.Alternate = GPIO_AF7_UART7;
-        HAL_GPIO_Init(GPIOF, &GPIO_InitStruct);
 
         /* UART7 DMA Init */
         /* UART7_TX Init */
@@ -364,12 +332,6 @@ void HAL_UART_MspInit(UART_HandleTypeDef *huart)
 
 }
 
-/**
-* @brief UART MSP De-Initialization
-* This function freeze the hardware resources used in this example
-* @param huart: UART handle pointer
-* @retval None
-*/
 void HAL_UART_MspDeInit(UART_HandleTypeDef *huart)
 {
     if (huart->Instance == UART7) {
