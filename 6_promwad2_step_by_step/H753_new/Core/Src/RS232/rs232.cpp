@@ -524,9 +524,17 @@ term(buf)
 term("Deserialization no Error")
                 //int writeConfigId = doc["writeConfigId"];
                 int number =  doc["number"];
+term1("number")
+term(number)
                 int all = doc["all"];
+term1("all")
+term(all)
                 int size = doc["size"];
+term1("size")
+term(size)
                 const char *config  = doc["config"];
+term1("config")
+term(config)
                 if (number == 0)
                 {
                     commonSizeAllFrames = 0;
@@ -538,7 +546,9 @@ term("Deserialization no Error")
                     commonSizeAllFrames += size;
                     std::fill(tmp, tmp + SIZE_DEF_BLOCK_UDP / 4, 0);
                     std::memcpy(tmp, config, SIZE_WRITE_BLOCK);
+term("1")
                     SRAM::getInstance()->writeData(reinterpret_cast<uint32_t *>(tmp), sizeof(tmp) / sizeof(uint8_t), reinterpret_cast<uint32_t *>(0x60000000  + number * SIZE_WRITE_BLOCK));
+term("2")
                     if (number == all)
                     {
                         break;

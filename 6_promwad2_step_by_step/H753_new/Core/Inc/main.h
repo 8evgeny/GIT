@@ -24,6 +24,7 @@
 
 //Макрос для отладки
 #define term(x) (RS232::getInstance().term << x << "\r\n");
+#define term1(x) (RS232::getInstance().term << x << " = ");
 
 #ifdef __cplusplus
 extern "C" {
