@@ -155,8 +155,8 @@ HAL_StatusTypeDef RS232::read(uint8_t *buf, uint16_t size)
 {
     HAL_StatusTypeDef status;
     while (HAL_UART_GetState(uartHandle) != HAL_UART_STATE_READY);
-    status = HAL_UART_Receive_DMA(uartHandle, buf, size);
 
+    status = HAL_UART_Receive_DMA(uartHandle, buf, size);
 
     while (uartReadReady != SET);
     uartReadReady = RESET;
@@ -504,50 +504,60 @@ term("****  readFromUartThread  working  ****")
         const int capacity = JSON_OBJECT_SIZE(3);
         StaticJsonDocument<capacity> configDoc;
 
-        while (1) {
+        while (1)
+        {
 term("****  read ****")
             RS232::getInstance().read(buffUart, sizeof(buffUart));
-            if (buffUart[0] == 0) {
+term("****  receive block ****")
+            if (buffUart[0] == 0)
+            {
                 memcpy(buf, buffUart + 1, SIZE_DEF_BLOCK_UDP - 1);
-            } else {
+            }
+            else
+            {
                 memcpy(buf, buffUart, SIZE_DEF_BLOCK_UDP);
             }
-
+term(buf)
             DeserializationError err = deserializeJson(doc, buf);
-            if (DeserializationError::Ok == err) {
-
+            if (DeserializationError::Ok == err)
+            {
+term("Deserialization no Error")
                 //int writeConfigId = doc["writeConfigId"];
                 int number =  doc["number"];
                 int all = doc["all"];
                 int size = doc["size"];
                 const char *config  = doc["config"];
-
-                if (number == 0) {
+                if (number == 0)
+                {
                     commonSizeAllFrames = 0;
                     counterFrames = 0;
                 }
-
-                if (number == counterFrames) {
+                if (number == counterFrames)
+                {
                     counterFrames++;
                     commonSizeAllFrames += size;
                     std::fill(tmp, tmp + SIZE_DEF_BLOCK_UDP / 4, 0);
                     std::memcpy(tmp, config, SIZE_WRITE_BLOCK);
                     SRAM::getInstance()->writeData(reinterpret_cast<uint32_t *>(tmp), sizeof(tmp) / sizeof(uint8_t), reinterpret_cast<uint32_t *>(0x60000000  + number * SIZE_WRITE_BLOCK));
-                    if (number == all) {
+                    if (number == all)
+                    {
                         break;
                     }
                 }
             }
-        }
+        }//while
 
         uint8_t readSramBuff[SIZE_WRITE_BLOCK] {0};
 
         lfs_remove(FsForEeprom::getInstance().lfsPtr, "boot_config");
         lfs_file_open(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, "boot_config", LFS_O_RDWR | LFS_O_CREAT);
 
-        for (int32_t i = 0; i < commonSizeAllFrames; i += SIZE_WRITE_BLOCK) {
-            SRAM::getInstance()->readData(reinterpret_cast<uint32_t *>(readSramBuff), SIZE_WRITE_BLOCK, reinterpret_cast<uint32_t *>(0x60000000 + i));
-            lfs_file_write(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, readSramBuff,  commonSizeAllFrames - i < SIZE_WRITE_BLOCK ? static_cast<uint32_t>(commonSizeAllFrames - i) : SIZE_WRITE_BLOCK);
+        for (int32_t i = 0; i < commonSizeAllFrames; i += SIZE_WRITE_BLOCK)
+        {
+            SRAM::getInstance()->readData(reinterpret_cast<uint32_t *>(readSramBuff), SIZE_WRITE_BLOCK,
+                                          reinterpret_cast<uint32_t *>(0x60000000 + i));
+            lfs_file_write(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, readSramBuff,
+                           commonSizeAllFrames - i < SIZE_WRITE_BLOCK ? static_cast<uint32_t>(commonSizeAllFrames - i) : SIZE_WRITE_BLOCK);
         }
         lfs_file_close(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr);
 
@@ -566,6 +576,6 @@ term("****  read ****")
         RS232::getInstance().write(reinterpret_cast<uint8_t *>(tmpWriteBuf), static_cast<uint16_t>(std::strlen(tmpWriteBuf)));
 
     osDelay(1000);
-    }//end while (true)
+    } //end while (true)
 
 }
