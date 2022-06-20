@@ -42,7 +42,7 @@ static void MX_GPIO_Init(void);
 static void MX_I2C2_Init(void);
 static void MX_I2C3_Init(void);
 static void MX_SAI1_Init(void);
-//static void MX_UART7_Init(void);
+static void MX_UART7_Init(void);
 static void MX_TIM3_Init(void);
 static void MX_DMA_Init(void);
 static void MX_RNG_Init(void);
@@ -226,7 +226,7 @@ int main(void)
     MX_I2C2_Init();
     MX_I2C3_Init();
     MX_SAI1_Init();
-//    MX_UART7_Init(); //Вынесен в RS232
+    MX_UART7_Init(); //Вынесен в RS232
     debugInit();
     RS232Init();
     MX_TIM3_Init();
@@ -671,21 +671,21 @@ static void MX_TIM3_Init(void)
 
 static void MX_UART7_Init(void)
 {
-//        GPIO_InitTypeDef GPIO_InitStruct = {0};
-//    __HAL_RCC_UART7_CLK_ENABLE();
+        GPIO_InitTypeDef GPIO_InitStruct = {0};
+    __HAL_RCC_UART7_CLK_ENABLE();
 
-//    __HAL_RCC_DMA1_CLK_ENABLE();
-//    __HAL_RCC_GPIOF_CLK_ENABLE();
-//    /**UART7 GPIO Configuration
-//    PF6     ------> UART7_RX
-//    PF7     ------> UART7_TX
-//    */
-//    GPIO_InitStruct.Pin = GPIO_PIN_6 | GPIO_PIN_7;
-//    GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
-//    GPIO_InitStruct.Pull = GPIO_PULLUP;
-//    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
-//    GPIO_InitStruct.Alternate = GPIO_AF7_UART7;
-//    HAL_GPIO_Init(GPIOF, &GPIO_InitStruct);
+    __HAL_RCC_DMA1_CLK_ENABLE();
+    __HAL_RCC_GPIOF_CLK_ENABLE();
+    /**UART7 GPIO Configuration
+    PF6     ------> UART7_RX
+    PF7     ------> UART7_TX
+    */
+    GPIO_InitStruct.Pin = GPIO_PIN_6 | GPIO_PIN_7;
+    GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+    GPIO_InitStruct.Pull = GPIO_PULLUP;
+    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+    GPIO_InitStruct.Alternate = GPIO_AF7_UART7;
+    HAL_GPIO_Init(GPIOF, &GPIO_InitStruct);
 
 //    /* UART7 DMA Init */
 //    /* UART7_TX Init */
