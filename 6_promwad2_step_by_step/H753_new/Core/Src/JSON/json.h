@@ -48,9 +48,9 @@ struct Groups {
  * \class ThisStation json.h "json.h"
  */
 struct ThisStation {
-    char ip[17]      = "192.168.100.108", /**< The field stores IP address of this station */
+    char ip[17]      = "172.17.10.108", /**< The field stores IP address of this station */
          mask[17]    = "255.255.255.0", /**< The field stores IP mask of this station */
-         gateway[17] = "192.168.100.1";   /**< The field stores IP gateway of this station */
+         gateway[17] = "172.17.10.1";   /**< The field stores IP gateway of this station */
 
     uint8_t keysNumber = 0; /**< The field stores number of the configured keys of this station */
     uint8_t groupsNumber = 0;
