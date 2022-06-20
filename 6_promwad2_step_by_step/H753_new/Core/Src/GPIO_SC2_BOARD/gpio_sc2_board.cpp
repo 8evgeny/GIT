@@ -26,7 +26,7 @@ extern "C" {
 #endif
 
 //osThreadDef(switchLEDsThread, switchLEDsThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 2);
-osThreadDef(readButtonThread, readButtonThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 5);
+osThreadDef(readButtonThread, readButtonThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE );
 osTimerDef(timer7, timerCallback); /*!< Define the attributes of the timer */
 
 //osMessageQDef(message_q, 1, uint16_t); // Declare a message queue
@@ -436,7 +436,7 @@ void readButtonThread(void const *arg)
     PackageRx tempPack;
     tempPack.packetType = GPIO::getInstance()->button;
 
-HAL_Delay(250);
+HAL_Delay(2000);
 term("****  readButtonThread  start  ****")
 
     while(true)
