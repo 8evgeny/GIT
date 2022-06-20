@@ -29,6 +29,9 @@ extern DMA_HandleTypeDef hdma_i2c1_tx;
 extern DMA_HandleTypeDef hdma_i2c2_rx;
 extern DMA_HandleTypeDef hdma_i2c2_tx;
 
+extern DMA_HandleTypeDef hdma_uart7_rx;
+extern DMA_HandleTypeDef hdma_uart7_tx;
+
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN TD */
 
@@ -408,85 +411,106 @@ void HAL_TIM_Base_MspDeInit(TIM_HandleTypeDef* htim_base)
 
 }
 
-/**
-* @brief UART MSP Initialization
-* This function configures the hardware resources used in this example
-* @param huart: UART handle pointer
-* @retval None
-*/
-//void HAL_UART_MspInit(UART_HandleTypeDef* huart)
-//{
-//  GPIO_InitTypeDef GPIO_InitStruct = {0};
-//  RCC_PeriphCLKInitTypeDef PeriphClkInitStruct = {0};
-//  if(huart->Instance==UART7)
-//  {
-//  /* USER CODE BEGIN UART7_MspInit 0 */
+void HAL_UART_MspInit(UART_HandleTypeDef *huart)
+{
+    if (huart->Instance == UART7) {
 
-//  /* USER CODE END UART7_MspInit 0 */
-//  /** Initializes the peripherals clock
-//  */
-//    PeriphClkInitStruct.PeriphClockSelection = RCC_PERIPHCLK_UART7;
-//    PeriphClkInitStruct.Usart234578ClockSelection = RCC_USART234578CLKSOURCE_D2PCLK1;
-//    if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInitStruct) != HAL_OK)
-//    {
-//      Error_Handler();
-//    }
+        /* UART7 DMA Init */
+        /* UART7_TX Init */
+        hdma_uart7_tx.Instance = DMA1_Stream1;
+        hdma_uart7_tx.Init.Request = DMA_REQUEST_UART7_TX;
+        hdma_uart7_tx.Init.Direction = DMA_MEMORY_TO_PERIPH;
+        hdma_uart7_tx.Init.PeriphInc = DMA_PINC_DISABLE;
+        hdma_uart7_tx.Init.MemInc = DMA_MINC_ENABLE;
+        hdma_uart7_tx.Init.PeriphDataAlignment = DMA_PDATAALIGN_BYTE;
+        hdma_uart7_tx.Init.MemDataAlignment = DMA_MDATAALIGN_BYTE;
+        hdma_uart7_tx.Init.Mode = DMA_NORMAL;
+        hdma_uart7_tx.Init.Priority = DMA_PRIORITY_LOW;
+        hdma_uart7_tx.Init.FIFOMode = DMA_FIFOMODE_DISABLE;
+        HAL_DMA_Init(&hdma_uart7_tx);
 
-//    /* Peripheral clock enable */
-//    __HAL_RCC_UART7_CLK_ENABLE();
+        __HAL_LINKDMA(huart, hdmatx, hdma_uart7_tx);
 
-//    __HAL_RCC_GPIOF_CLK_ENABLE();
-//    /**UART7 GPIO Configuration
-//    PF6     ------> UART7_RX
-//    PF7     ------> UART7_TX
-//    */
-//    GPIO_InitStruct.Pin = GPIO_PIN_6|GPIO_PIN_7;
-//    GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
-//    GPIO_InitStruct.Pull = GPIO_PULLUP;
-//    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-//    GPIO_InitStruct.Alternate = GPIO_AF7_UART7;
-//    HAL_GPIO_Init(GPIOF, &GPIO_InitStruct);
+        /* UART7_RX Init */
+        hdma_uart7_rx.Instance = DMA1_Stream3;
+        hdma_uart7_rx.Init.Request = DMA_REQUEST_UART7_RX;
+        hdma_uart7_rx.Init.Direction = DMA_PERIPH_TO_MEMORY;
+        hdma_uart7_rx.Init.PeriphInc = DMA_PINC_DISABLE;
+        hdma_uart7_rx.Init.MemInc = DMA_MINC_ENABLE;
+        hdma_uart7_rx.Init.PeriphDataAlignment = DMA_PDATAALIGN_BYTE;
+        hdma_uart7_rx.Init.MemDataAlignment = DMA_MDATAALIGN_BYTE;
+        hdma_uart7_rx.Init.Mode = DMA_NORMAL;
+        hdma_uart7_rx.Init.Priority = DMA_PRIORITY_HIGH;
+        hdma_uart7_rx.Init.FIFOMode = DMA_FIFOMODE_DISABLE;
+        HAL_DMA_Init(&hdma_uart7_rx);
 
-//    /* UART7 interrupt Init */
-//    HAL_NVIC_SetPriority(UART7_IRQn, 5, 0);
-//    HAL_NVIC_EnableIRQ(UART7_IRQn);
-//  /* USER CODE BEGIN UART7_MspInit 1 */
+        __HAL_LINKDMA(huart, hdmarx, hdma_uart7_rx);
 
-//  /* USER CODE END UART7_MspInit 1 */
-//  }
+            /* DMA interrupt init */
+            /* DMA1_Stream1_IRQn interrupt configuration */
+            HAL_NVIC_SetPriority(DMA1_Stream1_IRQn, 5, 0);
+            HAL_NVIC_EnableIRQ(DMA1_Stream1_IRQn);
+            /* DMA1_Stream2_IRQn interrupt configuration */
+            HAL_NVIC_SetPriority(DMA1_Stream2_IRQn, 5, 0);
+            HAL_NVIC_EnableIRQ(DMA1_Stream2_IRQn);
+            /* DMA1_Stream3_IRQn interrupt configuration */
+            HAL_NVIC_SetPriority(DMA1_Stream3_IRQn, 5, 0);
+            HAL_NVIC_EnableIRQ(DMA1_Stream3_IRQn);
+            /* DMA1_Stream4_IRQn interrupt configuration */
+            HAL_NVIC_SetPriority(DMA1_Stream4_IRQn, 5, 0);
+            HAL_NVIC_EnableIRQ(DMA1_Stream4_IRQn);
+            /* DMA2_Stream3_IRQn interrupt configuration */
+            HAL_NVIC_SetPriority(DMA2_Stream3_IRQn, 5, 0);
+            HAL_NVIC_EnableIRQ(DMA2_Stream3_IRQn);
+            /* DMA2_Stream4_IRQn interrupt configuration */
+            HAL_NVIC_SetPriority(DMA2_Stream4_IRQn, 5, 0);
+            HAL_NVIC_EnableIRQ(DMA2_Stream4_IRQn);
 
-//}
+            /* UART7 interrupt Init */
+            HAL_NVIC_SetPriority(UART7_IRQn, 0, 1);
+            HAL_NVIC_EnableIRQ(UART7_IRQn);
 
-/**
-* @brief UART MSP De-Initialization
-* This function freeze the hardware resources used in this example
-* @param huart: UART handle pointer
-* @retval None
-*/
-//void HAL_UART_MspDeInit(UART_HandleTypeDef* huart)
-//{
-//  if(huart->Instance==UART7)
-//  {
-//  /* USER CODE BEGIN UART7_MspDeInit 0 */
+            /* DMA1_Stream1_IRQn interrupt configuration */
+            HAL_NVIC_SetPriority(DMA1_Stream1_IRQn, 0, 1);
+            HAL_NVIC_EnableIRQ(DMA1_Stream1_IRQn);
 
-//  /* USER CODE END UART7_MspDeInit 0 */
-//    /* Peripheral clock disable */
-//    __HAL_RCC_UART7_CLK_DISABLE();
+            /* DMA1_Stream3_IRQn interrupt configuration */
+            HAL_NVIC_SetPriority(DMA1_Stream3_IRQn, 0, 0);
+            HAL_NVIC_EnableIRQ(DMA1_Stream3_IRQn);
 
-//    /**UART7 GPIO Configuration
-//    PF6     ------> UART7_RX
-//    PF7     ------> UART7_TX
-//    */
-//    HAL_GPIO_DeInit(GPIOF, GPIO_PIN_6|GPIO_PIN_7);
+            __HAL_RCC_DMA1_CLK_ENABLE();
+            __HAL_RCC_DMA2_CLK_ENABLE();
+    }
 
-//    /* UART7 interrupt DeInit */
-//    HAL_NVIC_DisableIRQ(UART7_IRQn);
-//  /* USER CODE BEGIN UART7_MspDeInit 1 */
+}
 
-//  /* USER CODE END UART7_MspDeInit 1 */
-//  }
+void HAL_UART_MspDeInit(UART_HandleTypeDef *huart)
+{
+    if (huart->Instance == UART7) {
+        /* USER CODE BEGIN UART7_MspDeInit 0 */
 
-//}
+        /* USER CODE END UART7_MspDeInit 0 */
+        /* Peripheral clock disable */
+        __HAL_RCC_UART7_CLK_DISABLE();
+
+        /**UART7 GPIO Configuration
+        PF6     ------> UART7_RX
+        PF7     ------> UART7_TX
+        */
+        HAL_GPIO_DeInit(GPIOF, GPIO_PIN_6 | GPIO_PIN_7);
+
+        /* UART7 DMA DeInit */
+        HAL_DMA_DeInit(huart->hdmatx);
+        HAL_DMA_DeInit(huart->hdmarx);
+
+        /* UART7 interrupt DeInit */
+        HAL_NVIC_DisableIRQ(UART7_IRQn);
+        /* USER CODE BEGIN UART7_MspDeInit 1 */
+
+        /* USER CODE END UART7_MspDeInit 1 */
+    }
+}
+
 
 static uint32_t FMC_Initialized = 0;
 
