@@ -26,7 +26,7 @@ extern "C" {
 #endif
 
 //osThreadDef(switchLEDsThread, switchLEDsThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 2);
-osThreadDef(readButtonThread, readButtonThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE );
+//osThreadDef(readButtonThread, readButtonThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE );
 osTimerDef(timer7, timerCallback); /*!< Define the attributes of the timer */
 
 //osMessageQDef(message_q, 1, uint16_t); // Declare a message queue
@@ -191,9 +191,9 @@ void GPIOInit(void)
 //        RS232::getInstance().term << "Failed to create [switchLEDsThread]" << "\n";
 //    }
 
-    if ((osThreadCreate(osThread(readButtonThread), nullptr)) == nullptr) {
-        RS232::getInstance().term << "Failed to create [readButtonThread]" << "\n";
-    }
+//    if ((osThreadCreate(osThread(readButtonThread), nullptr)) == nullptr) {
+//        RS232::getInstance().term << "Failed to create [readButtonThread]" << "\n";
+//    }
 
 //    timerId7 = osTimerCreate( osTimer(timer7), osTimerPeriodic, nullptr); // create timer thread
 
@@ -399,6 +399,7 @@ term("****  replaceTimerCallbackThread  start  ****")
 
         for (uint8_t i = 0; i < 6; i++)
         {
+term("---  replaceTimerCallbackThread  work  ---")
             if (GPIO::getInstance()->aLeds[i].timeStart) {
                 GPIO::getInstance()->aLeds[i].count += 1;
                 if(GPIO::getInstance()->aLeds[i].ledState == false && GPIO::getInstance()->aLeds[i].count >= GPIO::getInstance()->aLeds[i].timeOff/timerDelay) {
