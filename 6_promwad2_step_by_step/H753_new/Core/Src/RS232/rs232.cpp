@@ -73,17 +73,17 @@ void RS232Init(void)
 
     /* UART7 DMA Init */
     /* UART7_TX Init */
-    huart7.Instance = UART7;
-    huart7.Init.BaudRate = 115200;
-    huart7.Init.WordLength = UART_WORDLENGTH_8B;
-    huart7.Init.StopBits = UART_STOPBITS_1;
-    huart7.Init.Parity = UART_PARITY_NONE;
-    huart7.Init.Mode = UART_MODE_TX_RX;
-    huart7.Init.HwFlowCtl = UART_HWCONTROL_NONE;
-    huart7.Init.OverSampling = UART_OVERSAMPLING_16;
-    huart7.Init.OneBitSampling = UART_ONE_BIT_SAMPLE_DISABLE;
-    huart7.Init.ClockPrescaler = UART_PRESCALER_DIV1;
-    huart7.AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_NO_INIT;
+//    huart7.Instance = UART7;
+//    huart7.Init.BaudRate = 115200;
+//    huart7.Init.WordLength = UART_WORDLENGTH_8B;
+//    huart7.Init.StopBits = UART_STOPBITS_1;
+//    huart7.Init.Parity = UART_PARITY_NONE;
+//    huart7.Init.Mode = UART_MODE_TX_RX;
+//    huart7.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+//    huart7.Init.OverSampling = UART_OVERSAMPLING_16;
+//    huart7.Init.OneBitSampling = UART_ONE_BIT_SAMPLE_DISABLE;
+//    huart7.Init.ClockPrescaler = UART_PRESCALER_DIV1;
+//    huart7.AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_NO_INIT;
 
     huart7.hdmarx = &hdma_uart7_rx;
     huart7.hdmatx = &hdma_uart7_tx;
