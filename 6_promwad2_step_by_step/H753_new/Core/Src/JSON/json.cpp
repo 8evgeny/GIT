@@ -35,9 +35,10 @@ inline void Json::read()
     /*boot_config file opening*/
     lfs_file_open(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, "boot_config", LFS_O_RDONLY);
     lfs_file_rewind(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr);
-
+term("read1")
     /*size getting of boot_config file*/
     fileSize = lfs_file_size(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr);
+term1("fileSize") term((uint8_t)fileSize)
 
     if (fileSize) {
 
@@ -49,10 +50,12 @@ inline void Json::read()
 
         /*filling of tempBuff*/
         std::fill(tempBuff, (tempBuff + fileSize), 0);
-
         /*boot_config file reading*/
         lfs_file_rewind(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr);
         lfs_file_read(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, (char *)tempBuff, fileSize);
+
+term(tempBuff)
+
         SRAM::getInstance()->writeData((uint32_t *)tempBuff, fileSize, (uint32_t *)0x60000000);
     }
 }
@@ -62,7 +65,7 @@ void Json::configStation()
 
 //    ThisStation thisStation;                //thisStation object creating
     thisStation.keysBuffer.clear();     //clearing of keysBuffer
-
+term("Json1")
     read();         //boot_config file reading
 
 //    if (fileSize < 8000) modifiedfileSize = fileSize + (8000 - fileSize +512); //The filesize must be more than 1KB

@@ -241,17 +241,17 @@ int main(void)
 
 //    simpleEEPROM_test();
 //    simpleEEPROM_test2();
-//    littleFsInit();
+    littleFsInit();
 //    FsForEeprom::getInstance().test();
 
 //    Flash::getInstance().test(); // Не работает
 
 
-//При включении рычаги перестают работать
     if ((RS232::getInstance().readFromUartThreadId = osThreadCreate(osThread(readFromUartThread), nullptr)) == nullptr)
+
 //   if ((osThreadCreate(osThread(readFromUartThread), nullptr)) == nullptr)
     {
-        term("readFromUartThread Error")
+//        term("readFromUartThread Error")
 //        RS232::getInstance().term << __FUNCTION__ << " " << __LINE__ << " " << "\n";
     }
 
@@ -263,9 +263,9 @@ int main(void)
 //    if (Json::getInstance()->deserializeJsonFlag == Json::JsonFlags::OK)
 //    {
 
-//term("ip:")      term(Json::getInstance()->thisStation.ip)
-//term("mask:")    term(Json::getInstance()->thisStation.mask)
-//term("gateway:") term(Json::getInstance()->thisStation.gateway)
+term("IP:")      term(Json::getInstance()->thisStation.ip)
+term("Mask:")    term(Json::getInstance()->thisStation.mask)
+term("Gateway:") term(Json::getInstance()->thisStation.gateway)
 
 
 //        netInit(Json::getInstance()->thisStation.ip,
