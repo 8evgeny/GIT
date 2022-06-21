@@ -568,6 +568,7 @@ term(allConfig) //Тут все части конфига
             }
         }//while
 
+ HAL_GPIO_WritePin(TEST_LED_GPIO_Port, TEST_LED_Pin, GPIO_PIN_SET); //Показываем чтополучен конфиг
 
         uint8_t readSramBuff[SIZE_WRITE_BLOCK] {0};
 
