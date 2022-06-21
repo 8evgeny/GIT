@@ -499,7 +499,7 @@ term("****  readFromUartThread  start  ****")
 
     while (true)
     {
-term("****  readFromUartThread  working  ****")
+term("\r\n****  readFromUartThread  working  ****")
         const int capacityJson = 2000;
         StaticJsonDocument <capacityJson> doc;
 

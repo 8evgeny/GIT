@@ -212,6 +212,8 @@ void GPIOInit(void)
         }
     }
 
+    HAL_GPIO_WritePin(TEST_LED_GPIO_Port, TEST_LED_Pin, GPIO_PIN_RESET);
+
 }
 
 #ifdef __cplusplus
