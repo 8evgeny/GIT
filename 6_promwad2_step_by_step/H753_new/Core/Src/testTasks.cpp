@@ -9,6 +9,16 @@
 extern "C" {
 #endif
 
+char *logTasks = new char[1024];
+
+void testTasksLog()
+{
+    osThreadDef(simpletestTasksLog, simpletestTasksLog, osPriorityNormal, 0, configMINIMAL_STACK_SIZE );
+    if ((osThreadCreate(osThread(simpletestTasksLog), nullptr)) == nullptr)
+    {
+        term("Failed to create simpletestTasksLog");
+    }
+}
 void testLed1()
 {
     osThreadDef(simpleLedTest1_RTOS, simpleLedTest1_RTOS, osPriorityNormal, 0, configMINIMAL_STACK_SIZE );
@@ -42,9 +52,23 @@ void testUART()
     }
 }
 
+void simpletestTasksLog(void const *argument)
+{
+    (void)argument;
 
+    osDelay(5000);
+    term("--- startingSimpleTestTasksLog ---")
 
+        for(;;)
+    {
+        osDelay(10000);
+        vTaskList(logTasks);
+        term(logTasks)
 
+    } //end for(;;)
+
+    vTaskDelete(nullptr);
+}
 void simpleLedTest1_RTOS(void const *argument)
 {
     (void)argument;
@@ -153,7 +177,6 @@ term("startingSimpleLedTest3_RTOS")
 
     vTaskDelete(nullptr);
 }
-
 void simpletestUART_RTOS(void const *argument)
 {
     (void)argument;

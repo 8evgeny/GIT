@@ -318,6 +318,8 @@ term("Gateway:") term(Json::getInstance()->thisStation.gateway)
     testLed2();
 //    testLed3();
 //    testUART();
+    testTasksLog(); //Логи задач
+
 
 
     //Debug пока не работает - выпилил везде из кода
