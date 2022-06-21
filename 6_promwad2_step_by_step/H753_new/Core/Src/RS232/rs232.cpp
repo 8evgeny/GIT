@@ -566,6 +566,8 @@ term("\r\n****  readFromUartThread  working  ****")
             }
         }//while
 
+taskENTER_CRITICAL();
+
 HAL_GPIO_WritePin(TEST_LED_GPIO_Port, TEST_LED_Pin, GPIO_PIN_SET); //Показываем чтополучен конфиг
 term("1")
         uint8_t readSramBuff[SIZE_WRITE_BLOCK] {0};
@@ -615,6 +617,7 @@ term("8")
 
         lfs_file_close(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr);
 
+taskEXIT_CRITICAL();
 
 
         commonSizeAllFrames = 0;
