@@ -42,6 +42,7 @@
 #include "../Debug/debug.h"
 #include "eeprom.h"
 #include "fsforeeprom.h"
+
 //#ifndef SC2BOARD
 ////#include "call_control.h"
 //#else
@@ -490,7 +491,8 @@ void readFromUartThread(void const *arg)
 
     uint8_t buffUart[SIZE_DEF_BLOCK_UDP] = {0};
     char buf[SIZE_DEF_BLOCK_UDP] {0};
-    uint32_t tmp[SIZE_DEF_BLOCK_UDP / 4];
+    uint32_t tmp[64];
+    char allConfig[1024];
 
 HAL_Delay(10000);
 term("****  readFromUartThread  start  ****")
@@ -546,9 +548,18 @@ term(config)
                     commonSizeAllFrames += size;
                     std::fill(tmp, tmp + SIZE_DEF_BLOCK_UDP / 4, 0);
                     std::memcpy(tmp, config, SIZE_WRITE_BLOCK);
+
 term("1")
-                    SRAM::getInstance()->writeData(reinterpret_cast<uint32_t *>(tmp), sizeof(tmp) / sizeof(uint8_t), reinterpret_cast<uint32_t *>(0x60000000  + number * SIZE_WRITE_BLOCK));
-term("2")
+
+//                    SRAM::getInstance()->writeData(
+//            reinterpret_cast<uint32_t *>(tmp),
+//            sizeof(tmp) / sizeof(uint8_t),
+//            reinterpret_cast<uint32_t *>(0x60000000  + number * SIZE_WRITE_BLOCK));
+
+              std::memcpy(allConfig + number * 128, config, SIZE_WRITE_BLOCK);
+
+
+term(allConfig) //Тут все части конфига
                     if (number == all)
                     {
                         break;
@@ -557,6 +568,7 @@ term("2")
             }
         }//while
 
+
         uint8_t readSramBuff[SIZE_WRITE_BLOCK] {0};
 
         lfs_remove(FsForEeprom::getInstance().lfsPtr, "boot_config");
@@ -564,8 +576,16 @@ term("2")
 
         for (int32_t i = 0; i < commonSizeAllFrames; i += SIZE_WRITE_BLOCK)
         {
-            SRAM::getInstance()->readData(reinterpret_cast<uint32_t *>(readSramBuff), SIZE_WRITE_BLOCK,
-                                          reinterpret_cast<uint32_t *>(0x60000000 + i));
+term1("i")
+term(i)
+//            SRAM::getInstance()->readData(
+//                        reinterpret_cast<uint32_t *>(readSramBuff),
+//                        SIZE_WRITE_BLOCK,
+//                        reinterpret_cast<uint32_t *>(0x60000000 + i));
+
+            std::memcpy(readSramBuff, allConfig + i*128,
+                        commonSizeAllFrames - i < SIZE_WRITE_BLOCK ? static_cast<uint32_t>(commonSizeAllFrames - i) : SIZE_WRITE_BLOCK);
+
             lfs_file_write(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, readSramBuff,
                            commonSizeAllFrames - i < SIZE_WRITE_BLOCK ? static_cast<uint32_t>(commonSizeAllFrames - i) : SIZE_WRITE_BLOCK);
         }
