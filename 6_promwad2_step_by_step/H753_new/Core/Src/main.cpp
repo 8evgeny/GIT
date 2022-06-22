@@ -143,7 +143,7 @@ void Ethernet_Link_Periodic_Handle(struct netif *netif)
 osThreadId defaultTaskHandle;
 
 osThreadDef(trackRingBufferThread, trackRingBufferThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 20);
-osThreadDef(readFromUartThread, readFromUartThread, osPriorityRealtime, 0, configMINIMAL_STACK_SIZE );
+osThreadDef(readFromUartThread, readFromUartThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE );
 osThreadDef(StartWdtThread, StartWdtThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 1);
 //osThreadDef(recvUdpThread, recvUdpThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 20);
 //osThreadDef(audioInitThread, threadAudioInit, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 10);

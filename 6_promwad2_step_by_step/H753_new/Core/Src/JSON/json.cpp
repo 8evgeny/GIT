@@ -32,12 +32,15 @@ bool Json::deserialize(JsonDocument &doc, void *jsonBuff, size_t size)
 
 inline void Json::read()
 {
+taskENTER_CRITICAL();
+
     /*boot_config file opening*/
     lfs_file_open(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, "boot_config", LFS_O_RDONLY);
     lfs_file_rewind(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr);
-term("read1")
+term("Json::read")
     /*size getting of boot_config file*/
     fileSize = lfs_file_size(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr);
+
 term1("fileSize") term((uint8_t)fileSize)
 
     if (fileSize) {
@@ -55,6 +58,8 @@ term1("fileSize") term((uint8_t)fileSize)
         lfs_file_read(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, (char *)tempBuff, fileSize);
 
 term(tempBuff)
+
+taskEXIT_CRITICAL();
 
         SRAM::getInstance()->writeData((uint32_t *)tempBuff, fileSize, (uint32_t *)0x60000000);
     }

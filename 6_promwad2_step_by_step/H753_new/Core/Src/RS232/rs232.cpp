@@ -482,6 +482,7 @@ Console &operator<<(Console &console, const std::string &data)
 
 static int32_t commonSizeAllFrames = 0;
 static int32_t counterFrames = 0;
+char *allConfig = new char[1024 * 4];
 
 void readFromUartThread(void const *arg)
 {
@@ -492,7 +493,9 @@ void readFromUartThread(void const *arg)
     uint8_t buffUart[SIZE_DEF_BLOCK_UDP] = {0};
     char buf[SIZE_DEF_BLOCK_UDP] {0};
     uint32_t tmp[64];
-    char allConfig[1024];
+
+
+
     uint32_t  fileSize = 0;
 HAL_Delay(10000);
 term("****  readFromUartThread  start  ****")
@@ -554,10 +557,10 @@ term("\r\n****  readFromUartThread  working  ****")
 //            sizeof(tmp) / sizeof(uint8_t),
 //            reinterpret_cast<uint32_t *>(0x60000000  + number * SIZE_WRITE_BLOCK));
 
-              std::memcpy(allConfig + number * 128, config, SIZE_WRITE_BLOCK);
+              std::memcpy(allConfig + number * SIZE_WRITE_BLOCK, config, SIZE_WRITE_BLOCK);
 
 
-//term(allConfig) //Тут все части конфига
+term(allConfig) //Тут все части конфига
                     if (number == all)
                     {
                         break;
@@ -569,31 +572,29 @@ term("\r\n****  readFromUartThread  working  ****")
 taskENTER_CRITICAL();
 
 HAL_GPIO_WritePin(TEST_LED_GPIO_Port, TEST_LED_Pin, GPIO_PIN_SET); //Показываем чтополучен конфиг
-term("1")
-        uint8_t readSramBuff[SIZE_WRITE_BLOCK] {0};
-term("2")
 
+        uint8_t readSramBuff[SIZE_WRITE_BLOCK] {0};
 
         lfs_remove(FsForEeprom::getInstance().lfsPtr, "boot_config");
-term("3")
         lfs_file_open(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, "boot_config", LFS_O_RDWR | LFS_O_CREAT);
-term("4")
+
 
         for (int32_t i = 0; i < commonSizeAllFrames; i += SIZE_WRITE_BLOCK)
         {
 term1("i")
-term(i)
+term((uint8_t)i)
 //            SRAM::getInstance()->readData(
 //                        reinterpret_cast<uint32_t *>(readSramBuff),
 //                        SIZE_WRITE_BLOCK,
 //                        reinterpret_cast<uint32_t *>(0x60000000 + i));
 
             std::memcpy(readSramBuff,
-                        allConfig + i * 128,
-                        commonSizeAllFrames - i < SIZE_WRITE_BLOCK ? static_cast<uint32_t>(commonSizeAllFrames - i) : SIZE_WRITE_BLOCK);
+                        allConfig + i ,
+                        commonSizeAllFrames - i  < SIZE_WRITE_BLOCK ? static_cast<uint32_t>(commonSizeAllFrames - i) : SIZE_WRITE_BLOCK);
 
             lfs_file_write(FsForEeprom::getInstance().lfsPtr,
-                           FsForEeprom::getInstance().filePtr, readSramBuff,
+                           FsForEeprom::getInstance().filePtr,
+                           readSramBuff,
                            commonSizeAllFrames - i < SIZE_WRITE_BLOCK ? static_cast<uint32_t>(commonSizeAllFrames - i) : SIZE_WRITE_BLOCK);
 //            fileSize = lfs_file_size(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr);
 //term1("fileSize") term((uint8_t)fileSize)
@@ -616,10 +617,7 @@ term(i)
 //term("8")
 
 
-
         lfs_file_close(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr);
-
-taskEXIT_CRITICAL();
 
 
         commonSizeAllFrames = 0;
@@ -635,6 +633,8 @@ taskEXIT_CRITICAL();
         configDoc["status"].set("ok");
         serializeJson(configDoc, tmpWriteBuf, capacity);
         RS232::getInstance().write(reinterpret_cast<uint8_t *>(tmpWriteBuf), static_cast<uint16_t>(std::strlen(tmpWriteBuf)));
+
+taskEXIT_CRITICAL();
 
     osDelay(1000);
     } //end while (true)
