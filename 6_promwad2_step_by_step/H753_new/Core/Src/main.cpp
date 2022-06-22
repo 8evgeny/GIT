@@ -247,13 +247,11 @@ int main(void)
 //    Flash::getInstance().test(); // Не работает
 
 
-    if ((RS232::getInstance().readFromUartThreadId = osThreadCreate(osThread(readFromUartThread), nullptr)) == nullptr)
-
-//   if ((osThreadCreate(osThread(readFromUartThread), nullptr)) == nullptr)
-    {
+//    if ((RS232::getInstance().readFromUartThreadId = osThreadCreate(osThread(readFromUartThread), nullptr)) == nullptr)
+//    {
 //        term("readFromUartThread Error")
 //        RS232::getInstance().term << __FUNCTION__ << " " << __LINE__ << " " << "\n";
-    }
+//    }
 
 
 //    osThreadDef(defaultTask, empty, osPriorityNormal, 0, configMINIMAL_STACK_SIZE*2);
@@ -898,11 +896,6 @@ void StartDefaultTask(void const * argument)
 {
     osDelay(3000);
     term("------- StartDefaultTask ----------")
-
-    term("ip:")      term(Json::getInstance()->thisStation.ip)
-    term("mask:")    term(Json::getInstance()->thisStation.mask)
-    term("gateway:") term(Json::getInstance()->thisStation.gateway)
-
 
 //  /* init code for LWIP */
   MX_LWIP_Init(Json::getInstance()->thisStation.ip, Json::getInstance()->thisStation.mask,Json::getInstance()->thisStation.gateway);
