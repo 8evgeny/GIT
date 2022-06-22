@@ -155,7 +155,9 @@ HAL_StatusTypeDef SRAM::readData(uint32_t *dataBuf, size_t bufSize, uint32_t *ad
 HAL_StatusTypeDef SRAM::writeData(uint32_t *data, size_t dataSize, uint32_t *addr)
 {
     HAL_StatusTypeDef status = HAL_SRAM_Write_DMA(sram1Handle, addr, data, dataSize);
+term("1")
     while (sramDataReady != SET);
+term("2")
     sramDataReady = RESET;
     return status;
 }
