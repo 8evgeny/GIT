@@ -41,7 +41,10 @@ term("Json::read")
     /*size getting of boot_config file*/
     fileSize = lfs_file_size(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr);
 
-term1("fileSize") term((uint8_t)fileSize)
+char  tmp[128];
+sprintf(tmp,"fileSize = %d ",fileSize);
+term(tmp)
+//term1("fileSize") term((uint8_t)fileSize)
 
     if (fileSize) {
 
