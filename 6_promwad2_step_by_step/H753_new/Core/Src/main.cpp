@@ -247,11 +247,11 @@ int main(void)
 //    Flash::getInstance().test(); // Не работает
 
 
-//    if ((RS232::getInstance().readFromUartThreadId = osThreadCreate(osThread(readFromUartThread), nullptr)) == nullptr)
-//    {
-//        term("readFromUartThread Error")
-//        RS232::getInstance().term << __FUNCTION__ << " " << __LINE__ << " " << "\n";
-//    }
+    if ((RS232::getInstance().readFromUartThreadId = osThreadCreate(osThread(readFromUartThread), nullptr)) == nullptr)
+    {
+        term("readFromUartThread Error")
+        RS232::getInstance().term << __FUNCTION__ << " " << __LINE__ << " " << "\n";
+    }
 
 
 //    osThreadDef(defaultTask, empty, osPriorityNormal, 0, configMINIMAL_STACK_SIZE*2);
