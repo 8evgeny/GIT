@@ -61,7 +61,7 @@ term(tempBuff)
 
 taskEXIT_CRITICAL();
 term("SRAM_begin")
-//        SRAM::getInstance()->writeData((uint32_t *)tempBuff, fileSize, (uint32_t *)0x60000000);
+        SRAM::getInstance()->writeData((uint32_t *)tempBuff, fileSize, (uint32_t *)0x60000000);
 term("SRAM_end")
     }
 }
