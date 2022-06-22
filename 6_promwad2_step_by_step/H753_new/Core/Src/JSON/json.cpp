@@ -44,7 +44,6 @@ term("Json::read")
 char  tmp[128];
 sprintf(tmp,"fileSize = %d ",fileSize);
 term(tmp)
-//term1("fileSize") term((uint8_t)fileSize)
 
     if (fileSize) {
 
