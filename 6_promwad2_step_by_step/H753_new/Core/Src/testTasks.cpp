@@ -13,7 +13,7 @@ char *logTasks = new char[1024];
 
 void testTasksLog()
 {
-    osThreadDef(simpletestTasksLog, simpletestTasksLog, osPriorityNormal, 0, configMINIMAL_STACK_SIZE );
+    osThreadDef(simpletestTasksLog, simpletestTasksLog, osPriorityNormal, 0, 256 );
     if ((osThreadCreate(osThread(simpletestTasksLog), nullptr)) == nullptr)
     {
         term("Failed to create simpletestTasksLog");
@@ -21,7 +21,7 @@ void testTasksLog()
 }
 void testLed1()
 {
-    osThreadDef(simpleLedTest1_RTOS, simpleLedTest1_RTOS, osPriorityNormal, 0, configMINIMAL_STACK_SIZE );
+    osThreadDef(simpleLedTest1_RTOS, simpleLedTest1_RTOS, osPriorityNormal, 0, 128 );
     if ((osThreadCreate(osThread(simpleLedTest1_RTOS), nullptr)) == nullptr)
     {
         term("Failed to create simpleLedTest1_RTOS");
@@ -29,7 +29,7 @@ void testLed1()
 }
 void testLed2()
 {
-    osThreadDef(simpleLedTest2_RTOS, simpleLedTest2_RTOS, osPriorityNormal, 0, configMINIMAL_STACK_SIZE );
+    osThreadDef(simpleLedTest2_RTOS, simpleLedTest2_RTOS, osPriorityNormal, 0, 128 );
     if ((osThreadCreate(osThread(simpleLedTest2_RTOS), nullptr)) == nullptr)
     {
         term("Failed to create simpleLedTest2_RTOS");
@@ -37,7 +37,7 @@ void testLed2()
 }
 void testLed3()
 {
-    osThreadDef(simpleLedTest3_RTOS, simpleLedTest3_RTOS, osPriorityNormal, 0, configMINIMAL_STACK_SIZE );
+    osThreadDef(simpleLedTest3_RTOS, simpleLedTest3_RTOS, osPriorityNormal, 0, 128 );
     if ((osThreadCreate(osThread(simpleLedTest3_RTOS), nullptr)) == nullptr)
     {
         term("Failed to create simpleLedTest3_RTOS");

@@ -579,39 +579,41 @@ term("3")
         lfs_file_open(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, "boot_config", LFS_O_RDWR | LFS_O_CREAT);
 term("4")
 
-//        for (int32_t i = 0; i < commonSizeAllFrames; i += SIZE_WRITE_BLOCK)
-//        {
-//term1("i")
-//term(i)
-////            SRAM::getInstance()->readData(
-////                        reinterpret_cast<uint32_t *>(readSramBuff),
-////                        SIZE_WRITE_BLOCK,
-////                        reinterpret_cast<uint32_t *>(0x60000000 + i));
+        for (int32_t i = 0; i < commonSizeAllFrames; i += SIZE_WRITE_BLOCK)
+        {
+term1("i")
+term(i)
+//            SRAM::getInstance()->readData(
+//                        reinterpret_cast<uint32_t *>(readSramBuff),
+//                        SIZE_WRITE_BLOCK,
+//                        reinterpret_cast<uint32_t *>(0x60000000 + i));
 
-//            std::memcpy(readSramBuff, allConfig + i*128,
-//                        commonSizeAllFrames - i < SIZE_WRITE_BLOCK ? static_cast<uint32_t>(commonSizeAllFrames - i) : SIZE_WRITE_BLOCK);
+            std::memcpy(readSramBuff,
+                        allConfig + i * 128,
+                        commonSizeAllFrames - i < SIZE_WRITE_BLOCK ? static_cast<uint32_t>(commonSizeAllFrames - i) : SIZE_WRITE_BLOCK);
 
-//            lfs_file_write(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, readSramBuff,
-//                           commonSizeAllFrames - i < SIZE_WRITE_BLOCK ? static_cast<uint32_t>(commonSizeAllFrames - i) : SIZE_WRITE_BLOCK);
-////            fileSize = lfs_file_size(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr);
-////term1("fileSize") term((uint8_t)fileSize)
+            lfs_file_write(FsForEeprom::getInstance().lfsPtr,
+                           FsForEeprom::getInstance().filePtr, readSramBuff,
+                           commonSizeAllFrames - i < SIZE_WRITE_BLOCK ? static_cast<uint32_t>(commonSizeAllFrames - i) : SIZE_WRITE_BLOCK);
+//            fileSize = lfs_file_size(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr);
+//term1("fileSize") term((uint8_t)fileSize)
 
-//        }
+        }
 
 
 //ТЕСТОВАЯ ОДНОКРАТНАЯ ЗАПИСЬ
-            std::memcpy(readSramBuff, allConfig , SIZE_WRITE_BLOCK);
-term("5")
-            lfs_file_write(FsForEeprom::getInstance().lfsPtr,
-                           FsForEeprom::getInstance().filePtr, readSramBuff,
-                           SIZE_WRITE_BLOCK);
-term("6")
-            fileSize = lfs_file_size(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr);
-term("7")
+//            std::memcpy(readSramBuff, allConfig , SIZE_WRITE_BLOCK);
+//term("5")
+//            lfs_file_write(FsForEeprom::getInstance().lfsPtr,
+//                           FsForEeprom::getInstance().filePtr, readSramBuff,
+//                           SIZE_WRITE_BLOCK);
+//term("6")
+//            fileSize = lfs_file_size(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr);
+//term("7")
 
-term1("fileSize") term((uint8_t)fileSize)
+//term1("fileSize") term((uint8_t)fileSize)
 
-term("8")
+//term("8")
 
 
 

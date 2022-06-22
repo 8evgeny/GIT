@@ -108,7 +108,7 @@ uint32_t BSP_EEPROM_ReadBuffer(uint8_t *pBuffer, uint16_t ReadAddr, uint16_t *Nu
 uint32_t BSP_EEPROM_WriteBuffer(uint8_t *pBuffer, uint16_t WriteAddr, uint16_t NumByteToWrite)
 {
 
-RS232Puts("******  BSP_EEPROM_WriteBuffer  ******\n") ;
+//RS232Puts("******  BSP_EEPROM_WriteBuffer  ******\n") ;
 
     uint8_t  numofpage = 0, numofsingle = 0, count = 0;
     uint16_t addr = 0;
