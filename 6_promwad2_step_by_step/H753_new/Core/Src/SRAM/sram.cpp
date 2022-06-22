@@ -79,7 +79,6 @@ void SRAMInit(void)
 static void MDMAInit(void)
 {
 
-
     /* MDMA controller clock enable */
     __HAL_RCC_MDMA_CLK_ENABLE();
     /* Local variables */
@@ -428,6 +427,21 @@ void DMA2_Stream0_IRQHandler(void)
     HAL_MDMA_IRQHandler(hsram1.hmdma);
     SRAM::getInstance()->sramDataReady = SET;
 }
+
+void MDMA_IRQHandler(void)
+{
+  /* USER CODE BEGIN MDMA_IRQn 0 */
+term("--- MDMA_IRQHandler ---\r\n");
+  /* USER CODE END MDMA_IRQn 0 */
+  HAL_MDMA_IRQHandler(&hmdma_memtomem_dma2_stream0);
+
+  /* USER CODE BEGIN MDMA_IRQn 1 */
+
+  /* USER CODE END MDMA_IRQn 1 */
+}
+
+
+
 
 #ifdef __cplusplus
 }

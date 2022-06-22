@@ -152,16 +152,16 @@ RS232Puts("--- BusFault_Handler ---\r\n");
 /**
   * @brief This function handles MDMA global interrupt.
   */
-void MDMA_IRQHandler(void)
-{
-  /* USER CODE BEGIN MDMA_IRQn 0 */
-RS232Puts("--- MDMA_IRQHandler ---\r\n");
-  /* USER CODE END MDMA_IRQn 0 */
-  HAL_MDMA_IRQHandler(&hmdma_memtomem_dma2_stream0);
-  /* USER CODE BEGIN MDMA_IRQn 1 */
+//void MDMA_IRQHandler(void)
+//{
+//  /* USER CODE BEGIN MDMA_IRQn 0 */
+//RS232Puts("--- MDMA_IRQHandler ---\r\n");
+//  /* USER CODE END MDMA_IRQn 0 */
+//  HAL_MDMA_IRQHandler(&hmdma_memtomem_dma2_stream0);
+//  /* USER CODE BEGIN MDMA_IRQn 1 */
 
-  /* USER CODE END MDMA_IRQn 1 */
-}
+//  /* USER CODE END MDMA_IRQn 1 */
+//}
 
 
 
