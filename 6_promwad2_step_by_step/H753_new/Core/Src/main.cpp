@@ -64,6 +64,10 @@ TIM_HandleTypeDef htim3;
 UART_HandleTypeDef huart7;
 SRAM_HandleTypeDef hsram1;
 uint8_t macAdr5;
+
+//Массив во внешней памяти для конфига (readelf -S H753_new.elf)
+char buff_config [200*1024] __attribute__((section(".ExtRamData")));
+
 //Добавил_CUBE_03_05_2022
 MDMA_HandleTypeDef hmdma_memtomem_dma2_stream0;
 //static void MX_MDMA_Init(void); //Вынес с SRAM
@@ -73,70 +77,70 @@ extern struct netif gnetif;
 extern DP83848_Object_t DP83848;
 void ethernet_link_check_state(struct netif *netif)
 {
-  ETH_MACConfigTypeDef MACConf;
-  int32_t PHYLinkState;
-  uint32_t linkchanged = 0, speed = 0, duplex =0;
+    ETH_MACConfigTypeDef MACConf;
+    int32_t PHYLinkState;
+    uint32_t linkchanged = 0, speed = 0, duplex =0;
 
-  PHYLinkState = DP83848_GetLinkState(&DP83848);
+    PHYLinkState = DP83848_GetLinkState(&DP83848);
 
-  if(netif_is_link_up(netif) && (PHYLinkState <= DP83848_STATUS_LINK_DOWN))
-  {
-    HAL_ETH_Stop(&heth);
-    netif_set_down(netif);
-    netif_set_link_down(netif);
-  }
-  else if(!netif_is_link_up(netif) && (PHYLinkState > DP83848_STATUS_LINK_DOWN))
-  {
-    switch (PHYLinkState)
+    if(netif_is_link_up(netif) && (PHYLinkState <= DP83848_STATUS_LINK_DOWN))
     {
-    case DP83848_STATUS_100MBITS_FULLDUPLEX:
-      duplex = ETH_FULLDUPLEX_MODE;
-      speed = ETH_SPEED_100M;
-      linkchanged = 1;
-      break;
-    case DP83848_STATUS_100MBITS_HALFDUPLEX:
-      duplex = ETH_HALFDUPLEX_MODE;
-      speed = ETH_SPEED_100M;
-      linkchanged = 1;
-      break;
-    case DP83848_STATUS_10MBITS_FULLDUPLEX:
-      duplex = ETH_FULLDUPLEX_MODE;
-      speed = ETH_SPEED_10M;
-      linkchanged = 1;
-      break;
-    case DP83848_STATUS_10MBITS_HALFDUPLEX:
-      duplex = ETH_HALFDUPLEX_MODE;
-      speed = ETH_SPEED_10M;
-      linkchanged = 1;
-      break;
-    default:
-      break;
+        HAL_ETH_Stop(&heth);
+        netif_set_down(netif);
+        netif_set_link_down(netif);
     }
-
-    if(linkchanged)
+    else if(!netif_is_link_up(netif) && (PHYLinkState > DP83848_STATUS_LINK_DOWN))
     {
-      /* Get MAC Config MAC */
-      HAL_ETH_GetMACConfig(&heth, &MACConf);
-      MACConf.DuplexMode = duplex;
-      MACConf.Speed = speed;
-      HAL_ETH_SetMACConfig(&heth, &MACConf);
+        switch (PHYLinkState)
+        {
+        case DP83848_STATUS_100MBITS_FULLDUPLEX:
+            duplex = ETH_FULLDUPLEX_MODE;
+            speed = ETH_SPEED_100M;
+            linkchanged = 1;
+            break;
+        case DP83848_STATUS_100MBITS_HALFDUPLEX:
+            duplex = ETH_HALFDUPLEX_MODE;
+            speed = ETH_SPEED_100M;
+            linkchanged = 1;
+            break;
+        case DP83848_STATUS_10MBITS_FULLDUPLEX:
+            duplex = ETH_FULLDUPLEX_MODE;
+            speed = ETH_SPEED_10M;
+            linkchanged = 1;
+            break;
+        case DP83848_STATUS_10MBITS_HALFDUPLEX:
+            duplex = ETH_HALFDUPLEX_MODE;
+            speed = ETH_SPEED_10M;
+            linkchanged = 1;
+            break;
+        default:
+            break;
+        }
 
-      HAL_ETH_Start(&heth);
-      netif_set_up(netif);
-      netif_set_link_up(netif);
+        if(linkchanged)
+        {
+            /* Get MAC Config MAC */
+            HAL_ETH_GetMACConfig(&heth, &MACConf);
+            MACConf.DuplexMode = duplex;
+            MACConf.Speed = speed;
+            HAL_ETH_SetMACConfig(&heth, &MACConf);
+
+            HAL_ETH_Start(&heth);
+            netif_set_up(netif);
+            netif_set_link_up(netif);
+        }
     }
-  }
 
 }
 uint32_t EthernetLinkTimer;
 void Ethernet_Link_Periodic_Handle(struct netif *netif)
 {
-  /* Ethernet Link every 100ms */
-  if (HAL_GetTick() - EthernetLinkTimer >= 100)
-  {
-    EthernetLinkTimer = HAL_GetTick();
-    ethernet_link_check_state(netif);
-  }
+    /* Ethernet Link every 100ms */
+    if (HAL_GetTick() - EthernetLinkTimer >= 100)
+    {
+        EthernetLinkTimer = HAL_GetTick();
+        ethernet_link_check_state(netif);
+    }
 }
 
 
@@ -152,11 +156,11 @@ void vApplicationStackOverflowHook(TaskHandle_t xTask, char *pcTaskName)
     /* Run time stack overflow checking is performed if
     configCHECK_FOR_STACK_OVERFLOW is defined to 1 or 2.  This hook
     function is called if a stack overflow is detected. */
-taskENTER_CRITICAL();
+    taskENTER_CRITICAL();
     while (1) {
         RS232::getInstance().term << "StackOverflowHook " <<__FUNCTION__ << " " << __LINE__ << " " << "\n";
     }
-taskEXIT_CRITICAL();
+    taskEXIT_CRITICAL();
 }
 
 /* This default malloc failed hook does nothing and is declared as a weak symbol
@@ -175,11 +179,11 @@ void vApplicationMallocFailedHook(void)
     FreeRTOSConfig.h, and the xPortGetFreeHeapSize() API function can be used
     to query the size of free heap space that remains (although it does not
     provide information on how the remaining heap might be fragmented). */
-taskENTER_CRITICAL();
+    taskENTER_CRITICAL();
     while (1) {
         RS232::getInstance().term <<"MallocFailedHook "<< __FUNCTION__ << " " << __LINE__ << " " << "\n";
     }
-taskEXIT_CRITICAL();
+    taskEXIT_CRITICAL();
 }
 
 #ifdef __cplusplus
@@ -190,10 +194,10 @@ taskEXIT_CRITICAL();
 static void empty(void const *arg)
 {
 
-HAL_Delay(400);
-term("****  empty  start  ****")
+    HAL_Delay(400);
+    term("****  empty  start  ****")
 
-    (void)arg;
+        (void)arg;
     while (1) {
         osDelay(10);
     }
@@ -205,25 +209,25 @@ int main(void)
     /* Configure the MPU attributes as Device memory for ETH DMA descriptors */
     MPU_Config();
 
-  /* Enable the CPU Cache */
+    /* Enable the CPU Cache */
 
-//    SCB_EnableICache();
+    //    SCB_EnableICache();
 
-//    SCB_EnableDCache();
+    //    SCB_EnableDCache();
 
     HAL_Init();
     SystemClock_Config();
 
-/* Configure the peripherals common clocks */
+    /* Configure the peripherals common clocks */
     PeriphCommonClock_Config();
 
     /* Initialize all configured peripherals */
 
     MX_GPIO_Init();
-//    MX_FMC_Init();  //Вынес в SRAMInit
+    //    MX_FMC_Init();  //Вынес в SRAMInit
 
-//    MX_MDMA_Init(); //Вынес в SRAM
-//    MX_I2C1_Init(); //Вынесен в EEPROM
+    //    MX_MDMA_Init(); //Вынес в SRAM
+    //    MX_I2C1_Init(); //Вынесен в EEPROM
     MX_I2C2_Init();
     MX_I2C3_Init();
     MX_SAI1_Init();
@@ -231,29 +235,30 @@ int main(void)
     debugInit();
     RS232Init();
     MX_TIM3_Init();
-//    MX_DMA_Init(); //Вынесен в RS232
+    //    MX_DMA_Init(); //Вынесен в RS232
     MX_RNG_Init();
     GPIOInit();  //Тут остался только таймер - не стартует ??
 
     SRAMInit();
     BSP_EEPROM_Init();
 
-//    simpleEEPROM_test();
-//    simpleEEPROM_test2();
+    //    simpleEEPROM_test();
+    //    simpleEEPROM_test2();
     littleFsInit();
-//    FsForEeprom::getInstance().test();
+    //    FsForEeprom::getInstance().test();
 
-//    Flash::getInstance().test(); // Не работает
+    //    Flash::getInstance().test(); // Не работает
 
 
-//ЗАПИСЬ КОНФИГА ЧЕРЕЗ UART реализована без SRAM в другой ветке
-//    if ((RS232::getInstance().readFromUartThreadId = osThreadCreate(osThread(readFromUartThread), nullptr)) == nullptr)
-//   if ((osThreadCreate(osThread(readFromUartThread), nullptr)) == nullptr)
-//    {
-//        term("readFromUartThread Error")
-//        RS232::getInstance().term << __FUNCTION__ << " " << __LINE__ << " " << "\n";
-//    }
+    //ЗАПИСЬ КОНФИГА ЧЕРЕЗ UART реализована без SRAM в другой ветке
+    //    if ((RS232::getInstance().readFromUartThreadId = osThreadCreate(osThread(readFromUartThread), nullptr)) == nullptr)
+    //   if ((osThreadCreate(osThread(readFromUartThread), nullptr)) == nullptr)
+    //    {
+    //        term("readFromUartThread Error")
+    //        RS232::getInstance().term << __FUNCTION__ << " " << __LINE__ << " " << "\n";
+    //    }
 
+    memset(buff_config,' ',sizeof(buff_config));
 
     Json::getInstance()->configStation();
     if (Json::getInstance()->deserializeJsonFlag == Json::JsonFlags::OK)
@@ -263,21 +268,21 @@ int main(void)
         defaultTaskHandle = osThreadCreate(osThread(emptyThread), nullptr);
 
         osThreadDef(audioInitThread, threadAudioInit, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 10);
-//        SAI::getInstance()->threadAudioInitId = osThreadCreate(osThread(audioInitThread), nullptr);
+        //        SAI::getInstance()->threadAudioInitId = osThreadCreate(osThread(audioInitThread), nullptr);
 
         osThreadDef(trackRingBufferThread, trackRingBufferThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 20);
-//        if ((GPIO::getInstance()->trackRingBufferThreadId = osThreadCreate(osThread(trackRingBufferThread), nullptr)) == nullptr)
-//        {
-//            Debug::getInstance().dbg << __FUNCTION__ << " " << __LINE__ << " " << "\n";
-//        }
+        //        if ((GPIO::getInstance()->trackRingBufferThreadId = osThreadCreate(osThread(trackRingBufferThread), nullptr)) == nullptr)
+        //        {
+        //            Debug::getInstance().dbg << __FUNCTION__ << " " << __LINE__ << " " << "\n";
+        //        }
 
-//        osThreadDef(recvUdpThread, recvUdpThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 20);
-//        if ((UdpJsonExch::getInstance()->recvUdpThreadId = osThreadCreate(osThread(recvUdpThread), nullptr)) == nullptr)
-//        {
-//            Debug::getInstance().dbg << __FUNCTION__ << " " << __LINE__ << " " << "\n";
-//        }
+        osThreadDef(recvUdpThread, recvUdpThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 20);
+        //        if ((UdpJsonExch::getInstance()->recvUdpThreadId = osThreadCreate(osThread(recvUdpThread), nullptr)) == nullptr)
+        //        {
+        //            Debug::getInstance().dbg << __FUNCTION__ << " " << __LINE__ << " " << "\n";
+        //        }
 
-//        firmwareInitThread();
+        //        firmwareInitThread();
 
     }
     else
@@ -285,12 +290,12 @@ int main(void)
         term("deserializeJsonFlag  -  error")
     }
 
-//     WDTInit();  // не собирается
-       osThreadDef(StartWdtThread, StartWdtThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 1);
-//    if ((osThreadCreate(osThread(StartWdtThread), nullptr)) == nullptr)
-//    {
-//        RS232::getInstance().term << __FUNCTION__ << " " << __LINE__ << " " << "\n";
-//    }
+    //     WDTInit();  // не собирается
+    osThreadDef(StartWdtThread, StartWdtThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 1);
+    //    if ((osThreadCreate(osThread(StartWdtThread), nullptr)) == nullptr)
+    //    {
+    //        RS232::getInstance().term << __FUNCTION__ << " " << __LINE__ << " " << "\n";
+    //    }
 
 
     //Тестовые потоки
@@ -304,7 +309,7 @@ int main(void)
     Debug::getInstance().dbg << "ee";
 
 
-//    vTraceEnable(TRC_INIT);  //Разобраться что позволяет
+    //    vTraceEnable(TRC_INIT);  //Разобраться что позволяет
 
     osKernelStart();
 
@@ -320,25 +325,25 @@ int main(void)
 [[ noreturn ]]
 static void trackRingBufferThread(void const *arg)
 {
-//    (void)arg;
-//    while(true) {
-//        osMutexWait(GPIO::getInstance()->mutexRingBufferRx_id, osWaitForever);
-//        if (GPIO::getInstance()->ringBufferRx.size() != 0) {
+    //    (void)arg;
+    //    while(true) {
+    //        osMutexWait(GPIO::getInstance()->mutexRingBufferRx_id, osWaitForever);
+    //        if (GPIO::getInstance()->ringBufferRx.size() != 0) {
 
-//            GPIO::getInstance()->packageRx = GPIO::getInstance()->ringBufferRx.shift();
-//            osMutexRelease(GPIO::getInstance()->mutexRingBufferRx_id);
-//            if (!GPIO::getInstance()->testFlag) {
-//                osMutexWait(UdpJsonExch::getInstance()->mutexCallControlId, osWaitForever);
-//                UdpJsonExch::getInstance()->callControl->button(GPIO::getInstance()->packageRx);
-//                osMutexRelease(UdpJsonExch::getInstance()->mutexCallControlId);
-//            } else {
-//                RS232::getInstance().term << "Button [" << GPIO::getInstance()->packageRx.payloadData << "] was pressed" << "\n";
-//                GPIO::getInstance()->configLed(GPIO::getInstance()->packageRx.payloadData, true, 250, 250);
-//            }
-//        } else osMutexRelease(GPIO::getInstance()->mutexRingBufferRx_id);
+    //            GPIO::getInstance()->packageRx = GPIO::getInstance()->ringBufferRx.shift();
+    //            osMutexRelease(GPIO::getInstance()->mutexRingBufferRx_id);
+    //            if (!GPIO::getInstance()->testFlag) {
+    //                osMutexWait(UdpJsonExch::getInstance()->mutexCallControlId, osWaitForever);
+    //                UdpJsonExch::getInstance()->callControl->button(GPIO::getInstance()->packageRx);
+    //                osMutexRelease(UdpJsonExch::getInstance()->mutexCallControlId);
+    //            } else {
+    //                RS232::getInstance().term << "Button [" << GPIO::getInstance()->packageRx.payloadData << "] was pressed" << "\n";
+    //                GPIO::getInstance()->configLed(GPIO::getInstance()->packageRx.payloadData, true, 250, 250);
+    //            }
+    //        } else osMutexRelease(GPIO::getInstance()->mutexRingBufferRx_id);
 
-//        osDelay(50);
-//    }
+    //        osDelay(50);
+    //    }
 }
 
 
@@ -368,7 +373,7 @@ void SystemClock_Config(void)
     * in the RCC_OscInitTypeDef structure.
     */
     RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI48|RCC_OSCILLATORTYPE_LSI
-                                |RCC_OSCILLATORTYPE_HSE;
+                                       |RCC_OSCILLATORTYPE_HSE;
     RCC_OscInitStruct.HSEState = RCC_HSE_ON;
     RCC_OscInitStruct.LSIState = RCC_LSI_ON;
     RCC_OscInitStruct.HSI48State = RCC_HSI48_ON;
@@ -384,13 +389,13 @@ void SystemClock_Config(void)
     RCC_OscInitStruct.PLL.PLLFRACN = 0;
     if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
     {
-      Error_Handler();
+        Error_Handler();
     }
     /** Initializes the CPU, AHB and APB buses clocks
     */
     RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
-                                |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2
-                                |RCC_CLOCKTYPE_D3PCLK1|RCC_CLOCKTYPE_D1PCLK1;
+                                  |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2
+                                  |RCC_CLOCKTYPE_D3PCLK1|RCC_CLOCKTYPE_D1PCLK1;
     RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
     RCC_ClkInitStruct.SYSCLKDivider = RCC_SYSCLK_DIV1;
     RCC_ClkInitStruct.AHBCLKDivider = RCC_HCLK_DIV2;
@@ -401,7 +406,7 @@ void SystemClock_Config(void)
 
     if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_4) != HAL_OK)
     {
-      Error_Handler();
+        Error_Handler();
     }
     HAL_RCC_MCOConfig(RCC_MCO1, RCC_MCO1SOURCE_HSE, RCC_MCODIV_1);
     /** Enables the Clock Security System
@@ -411,24 +416,24 @@ void SystemClock_Config(void)
 
 void PeriphCommonClock_Config(void)
 {
-  RCC_PeriphCLKInitTypeDef PeriphClkInitStruct = {0};
+    RCC_PeriphCLKInitTypeDef PeriphClkInitStruct = {0};
 
-  /** Initializes the peripherals clock
+    /** Initializes the peripherals clock
   */
-  PeriphClkInitStruct.PeriphClockSelection = RCC_PERIPHCLK_SAI1;
-  PeriphClkInitStruct.PLL2.PLL2M = 25;
-  PeriphClkInitStruct.PLL2.PLL2N = 512;
-  PeriphClkInitStruct.PLL2.PLL2P = 125;
-  PeriphClkInitStruct.PLL2.PLL2Q = 125;
-  PeriphClkInitStruct.PLL2.PLL2R = 125;
-  PeriphClkInitStruct.PLL2.PLL2RGE = RCC_PLL2VCIRANGE_0;
-  PeriphClkInitStruct.PLL2.PLL2VCOSEL = RCC_PLL2VCOWIDE;
-  PeriphClkInitStruct.PLL2.PLL2FRACN = 0;
-  PeriphClkInitStruct.Sai1ClockSelection = RCC_SAI1CLKSOURCE_PLL2;
-  if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInitStruct) != HAL_OK)
-  {
-    Error_Handler();
-  }
+    PeriphClkInitStruct.PeriphClockSelection = RCC_PERIPHCLK_SAI1;
+    PeriphClkInitStruct.PLL2.PLL2M = 25;
+    PeriphClkInitStruct.PLL2.PLL2N = 512;
+    PeriphClkInitStruct.PLL2.PLL2P = 125;
+    PeriphClkInitStruct.PLL2.PLL2Q = 125;
+    PeriphClkInitStruct.PLL2.PLL2R = 125;
+    PeriphClkInitStruct.PLL2.PLL2RGE = RCC_PLL2VCIRANGE_0;
+    PeriphClkInitStruct.PLL2.PLL2VCOSEL = RCC_PLL2VCOWIDE;
+    PeriphClkInitStruct.PLL2.PLL2FRACN = 0;
+    PeriphClkInitStruct.Sai1ClockSelection = RCC_SAI1CLKSOURCE_PLL2;
+    if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInitStruct) != HAL_OK)
+    {
+        Error_Handler();
+    }
 }
 
 //static void MX_I2C1_Init(void)
@@ -466,194 +471,194 @@ void PeriphCommonClock_Config(void)
 static void MX_I2C2_Init(void)
 {
 
-  /* USER CODE BEGIN I2C2_Init 0 */
+    /* USER CODE BEGIN I2C2_Init 0 */
 
-  /* USER CODE END I2C2_Init 0 */
+    /* USER CODE END I2C2_Init 0 */
 
-  /* USER CODE BEGIN I2C2_Init 1 */
+    /* USER CODE BEGIN I2C2_Init 1 */
 
-  /* USER CODE END I2C2_Init 1 */
-  hi2c2.Instance = I2C2;
-  hi2c2.Init.Timing = 0x307075B1;
-  hi2c2.Init.OwnAddress1 = 0;
-  hi2c2.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
-  hi2c2.Init.DualAddressMode = I2C_DUALADDRESS_DISABLE;
-  hi2c2.Init.OwnAddress2 = 0;
-  hi2c2.Init.OwnAddress2Masks = I2C_OA2_NOMASK;
-  hi2c2.Init.GeneralCallMode = I2C_GENERALCALL_DISABLE;
-  hi2c2.Init.NoStretchMode = I2C_NOSTRETCH_DISABLE;
-  if (HAL_I2C_Init(&hi2c2) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /** Configure Analogue filter
+    /* USER CODE END I2C2_Init 1 */
+    hi2c2.Instance = I2C2;
+    hi2c2.Init.Timing = 0x307075B1;
+    hi2c2.Init.OwnAddress1 = 0;
+    hi2c2.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
+    hi2c2.Init.DualAddressMode = I2C_DUALADDRESS_DISABLE;
+    hi2c2.Init.OwnAddress2 = 0;
+    hi2c2.Init.OwnAddress2Masks = I2C_OA2_NOMASK;
+    hi2c2.Init.GeneralCallMode = I2C_GENERALCALL_DISABLE;
+    hi2c2.Init.NoStretchMode = I2C_NOSTRETCH_DISABLE;
+    if (HAL_I2C_Init(&hi2c2) != HAL_OK)
+    {
+        Error_Handler();
+    }
+    /** Configure Analogue filter
   */
-  if (HAL_I2CEx_ConfigAnalogFilter(&hi2c2, I2C_ANALOGFILTER_ENABLE) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /** Configure Digital filter
+    if (HAL_I2CEx_ConfigAnalogFilter(&hi2c2, I2C_ANALOGFILTER_ENABLE) != HAL_OK)
+    {
+        Error_Handler();
+    }
+    /** Configure Digital filter
   */
-  if (HAL_I2CEx_ConfigDigitalFilter(&hi2c2, 0) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /* USER CODE BEGIN I2C2_Init 2 */
+    if (HAL_I2CEx_ConfigDigitalFilter(&hi2c2, 0) != HAL_OK)
+    {
+        Error_Handler();
+    }
+    /* USER CODE BEGIN I2C2_Init 2 */
 
-  /* USER CODE END I2C2_Init 2 */
+    /* USER CODE END I2C2_Init 2 */
 
 }
 
 static void MX_I2C3_Init(void)
 {
 
-  /* USER CODE BEGIN I2C3_Init 0 */
+    /* USER CODE BEGIN I2C3_Init 0 */
 
-  /* USER CODE END I2C3_Init 0 */
+    /* USER CODE END I2C3_Init 0 */
 
-  /* USER CODE BEGIN I2C3_Init 1 */
+    /* USER CODE BEGIN I2C3_Init 1 */
 
-  /* USER CODE END I2C3_Init 1 */
-  hi2c3.Instance = I2C3;
-  hi2c3.Init.Timing = 0x307075B1;
-  hi2c3.Init.OwnAddress1 = 0;
-  hi2c3.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
-  hi2c3.Init.DualAddressMode = I2C_DUALADDRESS_DISABLE;
-  hi2c3.Init.OwnAddress2 = 0;
-  hi2c3.Init.OwnAddress2Masks = I2C_OA2_NOMASK;
-  hi2c3.Init.GeneralCallMode = I2C_GENERALCALL_DISABLE;
-  hi2c3.Init.NoStretchMode = I2C_NOSTRETCH_DISABLE;
-  if (HAL_I2C_Init(&hi2c3) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /** Configure Analogue filter
+    /* USER CODE END I2C3_Init 1 */
+    hi2c3.Instance = I2C3;
+    hi2c3.Init.Timing = 0x307075B1;
+    hi2c3.Init.OwnAddress1 = 0;
+    hi2c3.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
+    hi2c3.Init.DualAddressMode = I2C_DUALADDRESS_DISABLE;
+    hi2c3.Init.OwnAddress2 = 0;
+    hi2c3.Init.OwnAddress2Masks = I2C_OA2_NOMASK;
+    hi2c3.Init.GeneralCallMode = I2C_GENERALCALL_DISABLE;
+    hi2c3.Init.NoStretchMode = I2C_NOSTRETCH_DISABLE;
+    if (HAL_I2C_Init(&hi2c3) != HAL_OK)
+    {
+        Error_Handler();
+    }
+    /** Configure Analogue filter
   */
-  if (HAL_I2CEx_ConfigAnalogFilter(&hi2c3, I2C_ANALOGFILTER_ENABLE) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /** Configure Digital filter
+    if (HAL_I2CEx_ConfigAnalogFilter(&hi2c3, I2C_ANALOGFILTER_ENABLE) != HAL_OK)
+    {
+        Error_Handler();
+    }
+    /** Configure Digital filter
   */
-  if (HAL_I2CEx_ConfigDigitalFilter(&hi2c3, 0) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /* USER CODE BEGIN I2C3_Init 2 */
+    if (HAL_I2CEx_ConfigDigitalFilter(&hi2c3, 0) != HAL_OK)
+    {
+        Error_Handler();
+    }
+    /* USER CODE BEGIN I2C3_Init 2 */
 
-  /* USER CODE END I2C3_Init 2 */
+    /* USER CODE END I2C3_Init 2 */
 
 }
 
 static void MX_RNG_Init(void)
 {
 
-  /* USER CODE BEGIN RNG_Init 0 */
+    /* USER CODE BEGIN RNG_Init 0 */
 
-  /* USER CODE END RNG_Init 0 */
+    /* USER CODE END RNG_Init 0 */
 
-  /* USER CODE BEGIN RNG_Init 1 */
+    /* USER CODE BEGIN RNG_Init 1 */
 
-  /* USER CODE END RNG_Init 1 */
-  hrng.Instance = RNG;
-  hrng.Init.ClockErrorDetection = RNG_CED_ENABLE;
-  if (HAL_RNG_Init(&hrng) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /* USER CODE BEGIN RNG_Init 2 */
+    /* USER CODE END RNG_Init 1 */
+    hrng.Instance = RNG;
+    hrng.Init.ClockErrorDetection = RNG_CED_ENABLE;
+    if (HAL_RNG_Init(&hrng) != HAL_OK)
+    {
+        Error_Handler();
+    }
+    /* USER CODE BEGIN RNG_Init 2 */
 
-  /* USER CODE END RNG_Init 2 */
+    /* USER CODE END RNG_Init 2 */
 
 }
 
 static void MX_SAI1_Init(void)
 {
 
-  /* USER CODE BEGIN SAI1_Init 0 */
+    /* USER CODE BEGIN SAI1_Init 0 */
 
-  /* USER CODE END SAI1_Init 0 */
+    /* USER CODE END SAI1_Init 0 */
 
-  /* USER CODE BEGIN SAI1_Init 1 */
+    /* USER CODE BEGIN SAI1_Init 1 */
 
-  /* USER CODE END SAI1_Init 1 */
-  hsai_BlockA1.Instance = SAI1_Block_A;
-  hsai_BlockA1.Init.AudioMode = SAI_MODEMASTER_TX;
-  hsai_BlockA1.Init.Synchro = SAI_ASYNCHRONOUS;
-  hsai_BlockA1.Init.OutputDrive = SAI_OUTPUTDRIVE_DISABLE;
-  hsai_BlockA1.Init.NoDivider = SAI_MASTERDIVIDER_ENABLE;
-  hsai_BlockA1.Init.FIFOThreshold = SAI_FIFOTHRESHOLD_EMPTY;
-  hsai_BlockA1.Init.AudioFrequency = SAI_AUDIO_FREQUENCY_8K;
-  hsai_BlockA1.Init.SynchroExt = SAI_SYNCEXT_DISABLE;
-  hsai_BlockA1.Init.MonoStereoMode = SAI_STEREOMODE;
-  hsai_BlockA1.Init.CompandingMode = SAI_NOCOMPANDING;
-  hsai_BlockA1.Init.TriState = SAI_OUTPUT_NOTRELEASED;
-  if (HAL_SAI_InitProtocol(&hsai_BlockA1, SAI_I2S_STANDARD, SAI_PROTOCOL_DATASIZE_16BIT, 2) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  hsai_BlockB1.Instance = SAI1_Block_B;
-  hsai_BlockB1.Init.AudioMode = SAI_MODESLAVE_RX;
-  hsai_BlockB1.Init.Synchro = SAI_SYNCHRONOUS;
-  hsai_BlockB1.Init.OutputDrive = SAI_OUTPUTDRIVE_DISABLE;
-  hsai_BlockB1.Init.FIFOThreshold = SAI_FIFOTHRESHOLD_EMPTY;
-  hsai_BlockB1.Init.SynchroExt = SAI_SYNCEXT_DISABLE;
-  hsai_BlockB1.Init.MonoStereoMode = SAI_STEREOMODE;
-  hsai_BlockB1.Init.CompandingMode = SAI_NOCOMPANDING;
-  hsai_BlockB1.Init.TriState = SAI_OUTPUT_NOTRELEASED;
-  if (HAL_SAI_InitProtocol(&hsai_BlockB1, SAI_I2S_STANDARD, SAI_PROTOCOL_DATASIZE_16BIT, 2) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /* USER CODE BEGIN SAI1_Init 2 */
+    /* USER CODE END SAI1_Init 1 */
+    hsai_BlockA1.Instance = SAI1_Block_A;
+    hsai_BlockA1.Init.AudioMode = SAI_MODEMASTER_TX;
+    hsai_BlockA1.Init.Synchro = SAI_ASYNCHRONOUS;
+    hsai_BlockA1.Init.OutputDrive = SAI_OUTPUTDRIVE_DISABLE;
+    hsai_BlockA1.Init.NoDivider = SAI_MASTERDIVIDER_ENABLE;
+    hsai_BlockA1.Init.FIFOThreshold = SAI_FIFOTHRESHOLD_EMPTY;
+    hsai_BlockA1.Init.AudioFrequency = SAI_AUDIO_FREQUENCY_8K;
+    hsai_BlockA1.Init.SynchroExt = SAI_SYNCEXT_DISABLE;
+    hsai_BlockA1.Init.MonoStereoMode = SAI_STEREOMODE;
+    hsai_BlockA1.Init.CompandingMode = SAI_NOCOMPANDING;
+    hsai_BlockA1.Init.TriState = SAI_OUTPUT_NOTRELEASED;
+    if (HAL_SAI_InitProtocol(&hsai_BlockA1, SAI_I2S_STANDARD, SAI_PROTOCOL_DATASIZE_16BIT, 2) != HAL_OK)
+    {
+        Error_Handler();
+    }
+    hsai_BlockB1.Instance = SAI1_Block_B;
+    hsai_BlockB1.Init.AudioMode = SAI_MODESLAVE_RX;
+    hsai_BlockB1.Init.Synchro = SAI_SYNCHRONOUS;
+    hsai_BlockB1.Init.OutputDrive = SAI_OUTPUTDRIVE_DISABLE;
+    hsai_BlockB1.Init.FIFOThreshold = SAI_FIFOTHRESHOLD_EMPTY;
+    hsai_BlockB1.Init.SynchroExt = SAI_SYNCEXT_DISABLE;
+    hsai_BlockB1.Init.MonoStereoMode = SAI_STEREOMODE;
+    hsai_BlockB1.Init.CompandingMode = SAI_NOCOMPANDING;
+    hsai_BlockB1.Init.TriState = SAI_OUTPUT_NOTRELEASED;
+    if (HAL_SAI_InitProtocol(&hsai_BlockB1, SAI_I2S_STANDARD, SAI_PROTOCOL_DATASIZE_16BIT, 2) != HAL_OK)
+    {
+        Error_Handler();
+    }
+    /* USER CODE BEGIN SAI1_Init 2 */
 
-  /* USER CODE END SAI1_Init 2 */
+    /* USER CODE END SAI1_Init 2 */
 
 }
 
 static void MX_TIM3_Init(void)
 {
 
-  /* USER CODE BEGIN TIM3_Init 0 */
+    /* USER CODE BEGIN TIM3_Init 0 */
 
-  /* USER CODE END TIM3_Init 0 */
+    /* USER CODE END TIM3_Init 0 */
 
-  TIM_ClockConfigTypeDef sClockSourceConfig = {0};
-  TIM_MasterConfigTypeDef sMasterConfig = {0};
+    TIM_ClockConfigTypeDef sClockSourceConfig = {0};
+    TIM_MasterConfigTypeDef sMasterConfig = {0};
 
-  /* USER CODE BEGIN TIM3_Init 1 */
+    /* USER CODE BEGIN TIM3_Init 1 */
 
-  /* USER CODE END TIM3_Init 1 */
-  htim3.Instance = TIM3;
-  htim3.Init.Prescaler = 0;
-  htim3.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim3.Init.Period = 15000;
-  htim3.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
-  htim3.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
-  if (HAL_TIM_Base_Init(&htim3) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
-  if (HAL_TIM_ConfigClockSource(&htim3, &sClockSourceConfig) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
-  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
-  if (HAL_TIMEx_MasterConfigSynchronization(&htim3, &sMasterConfig) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /* USER CODE BEGIN TIM3_Init 2 */
+    /* USER CODE END TIM3_Init 1 */
+    htim3.Instance = TIM3;
+    htim3.Init.Prescaler = 0;
+    htim3.Init.CounterMode = TIM_COUNTERMODE_UP;
+    htim3.Init.Period = 15000;
+    htim3.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+    htim3.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+    if (HAL_TIM_Base_Init(&htim3) != HAL_OK)
+    {
+        Error_Handler();
+    }
+    sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
+    if (HAL_TIM_ConfigClockSource(&htim3, &sClockSourceConfig) != HAL_OK)
+    {
+        Error_Handler();
+    }
+    sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
+    sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+    if (HAL_TIMEx_MasterConfigSynchronization(&htim3, &sMasterConfig) != HAL_OK)
+    {
+        Error_Handler();
+    }
+    /* USER CODE BEGIN TIM3_Init 2 */
 
-  /* USER CODE END TIM3_Init 2 */
+    /* USER CODE END TIM3_Init 2 */
 
 }
 
 static void MX_UART7_Init(void)
 {
-        GPIO_InitTypeDef GPIO_InitStruct = {0};
+    GPIO_InitTypeDef GPIO_InitStruct = {0};
     __HAL_RCC_UART7_CLK_ENABLE();
 
     __HAL_RCC_DMA1_CLK_ENABLE();
@@ -669,45 +674,45 @@ static void MX_UART7_Init(void)
     GPIO_InitStruct.Alternate = GPIO_AF7_UART7;
     HAL_GPIO_Init(GPIOF, &GPIO_InitStruct);
 
-//    /* UART7 DMA Init */
-//    /* UART7_TX Init */
-  huart7.Instance = UART7;
-  huart7.Init.BaudRate = 115200;
-  huart7.Init.WordLength = UART_WORDLENGTH_8B;
-  huart7.Init.StopBits = UART_STOPBITS_1;
-  huart7.Init.Parity = UART_PARITY_NONE;
-  huart7.Init.Mode = UART_MODE_TX_RX;
-  huart7.Init.HwFlowCtl = UART_HWCONTROL_NONE;
-  huart7.Init.OverSampling = UART_OVERSAMPLING_16;
-  huart7.Init.OneBitSampling = UART_ONE_BIT_SAMPLE_DISABLE;
-  huart7.Init.ClockPrescaler = UART_PRESCALER_DIV1;
-  huart7.AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_NO_INIT;
+    //    /* UART7 DMA Init */
+    //    /* UART7_TX Init */
+    huart7.Instance = UART7;
+    huart7.Init.BaudRate = 115200;
+    huart7.Init.WordLength = UART_WORDLENGTH_8B;
+    huart7.Init.StopBits = UART_STOPBITS_1;
+    huart7.Init.Parity = UART_PARITY_NONE;
+    huart7.Init.Mode = UART_MODE_TX_RX;
+    huart7.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+    huart7.Init.OverSampling = UART_OVERSAMPLING_16;
+    huart7.Init.OneBitSampling = UART_ONE_BIT_SAMPLE_DISABLE;
+    huart7.Init.ClockPrescaler = UART_PRESCALER_DIV1;
+    huart7.AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_NO_INIT;
 
-  huart7.hdmarx = &hdma_uart7_rx;
-  huart7.hdmatx = &hdma_uart7_tx;
+    huart7.hdmarx = &hdma_uart7_rx;
+    huart7.hdmatx = &hdma_uart7_tx;
 
-  if (HAL_UART_Init(&huart7) != HAL_OK)
-  {
-      while (1) {
-          RS232::getInstance().term << "UART Init Error!" << "\n";
-      }
-  }
+    if (HAL_UART_Init(&huart7) != HAL_OK)
+    {
+        while (1) {
+            RS232::getInstance().term << "UART Init Error!" << "\n";
+        }
+    }
 
-////  if (HAL_UARTEx_SetTxFifoThreshold(&huart7, UART_TXFIFO_THRESHOLD_1_2) != HAL_OK)
-////  {
-////    Error_Handler();
-////  }
-////  if (HAL_UARTEx_SetRxFifoThreshold(&huart7, UART_RXFIFO_THRESHOLD_1_2) != HAL_OK)
-////  {
-////    Error_Handler();
-////  }
-////  if (HAL_UARTEx_EnableFifoMode(&huart7) != HAL_OK)
-////  {
-////    Error_Handler();
-////  }
-//  /* USER CODE BEGIN UART7_Init 2 */
+    ////  if (HAL_UARTEx_SetTxFifoThreshold(&huart7, UART_TXFIFO_THRESHOLD_1_2) != HAL_OK)
+    ////  {
+    ////    Error_Handler();
+    ////  }
+    ////  if (HAL_UARTEx_SetRxFifoThreshold(&huart7, UART_RXFIFO_THRESHOLD_1_2) != HAL_OK)
+    ////  {
+    ////    Error_Handler();
+    ////  }
+    ////  if (HAL_UARTEx_EnableFifoMode(&huart7) != HAL_OK)
+    ////  {
+    ////    Error_Handler();
+    ////  }
+    //  /* USER CODE BEGIN UART7_Init 2 */
 
-//  /* USER CODE END UART7_Init 2 */
+    //  /* USER CODE END UART7_Init 2 */
 
 }
 
@@ -850,12 +855,12 @@ static void MX_GPIO_Init(void)
     GPIO_InitStruct.Alternate = GPIO_AF0_MCO;
     HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : L1_Pin L2_Pin L3_Pin */
-  GPIO_InitStruct.Pin = L1_Pin|L2_Pin|L3_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+    /*Configure GPIO pins : L1_Pin L2_Pin L3_Pin */
+    GPIO_InitStruct.Pin = L1_Pin|L2_Pin|L3_Pin;
+    GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+    GPIO_InitStruct.Pull = GPIO_NOPULL;
+    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+    HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
     /*Configure GPIO pins : K1_Pin K2_Pin K3_Pin K4_Pin
                            K5_Pin K6_Pin */
@@ -881,10 +886,10 @@ static void MX_GPIO_Init(void)
     HAL_NVIC_SetPriority(EXTI15_10_IRQn, 5, 0);
     HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
 
-//    if ((osThreadCreate(osThread(switchLEDsThread), nullptr)) == nullptr)
-//    {
-//        RS232::getInstance().term << "Failed to create [switchLEDsThread]" << "\n";
-//    }
+    //    if ((osThreadCreate(osThread(switchLEDsThread), nullptr)) == nullptr)
+    //    {
+    //        RS232::getInstance().term << "Failed to create [switchLEDsThread]" << "\n";
+    //    }
 
     if ((osThreadCreate(osThread(readButtonThread), nullptr)) == nullptr)
     {
@@ -903,31 +908,31 @@ void StartDefaultTask(void const * argument)
     osDelay(3000);
     term("------- StartDefaultTask ----------")
 
-    term("ip:")      term(Json::getInstance()->thisStation.ip)
-    term("mask:")    term(Json::getInstance()->thisStation.mask)
-    term("gateway:") term(Json::getInstance()->thisStation.gateway)
+        term("ip:")      term(Json::getInstance()->thisStation.ip)
+        term("mask:")    term(Json::getInstance()->thisStation.mask)
+        term("gateway:") term(Json::getInstance()->thisStation.gateway)
 
 
-//  /* init code for LWIP */
-  MX_LWIP_Init(Json::getInstance()->thisStation.ip, Json::getInstance()->thisStation.mask,Json::getInstance()->thisStation.gateway);
-//  /* USER CODE BEGIN 5 */
+        //  /* init code for LWIP */
+        MX_LWIP_Init(Json::getInstance()->thisStation.ip, Json::getInstance()->thisStation.mask,Json::getInstance()->thisStation.gateway);
+    //  /* USER CODE BEGIN 5 */
 
 
-  if (DP83848.Is_Initialized) {
-    term("DP83848.Is_Initialized");
-  } else {
-    term("DP83848.no_Initialized");
-  }
+    if (DP83848.Is_Initialized) {
+        term("DP83848.Is_Initialized");
+    } else {
+        term("DP83848.no_Initialized");
+    }
 
-  for(;;)
-  {
-      ethernetif_input(&gnetif);
-      sys_check_timeouts();
-      Ethernet_Link_Periodic_Handle(&gnetif);
+    for(;;)
+    {
+        ethernetif_input(&gnetif);
+        sys_check_timeouts();
+        Ethernet_Link_Periodic_Handle(&gnetif);
 
-    osDelay(1);
-  }
-//  /* USER CODE END 5 */
+        osDelay(1);
+    }
+    //  /* USER CODE END 5 */
 }
 
 
@@ -1029,13 +1034,13 @@ void MPU_Config(void)
 
 void Error_Handler(void)
 {
-  /* USER CODE BEGIN Error_Handler_Debug */
-  /* User can add his own implementation to report the HAL error return state */
-  __disable_irq();
-  while (1)
-  {
-  }
-  /* USER CODE END Error_Handler_Debug */
+    /* USER CODE BEGIN Error_Handler_Debug */
+    /* User can add his own implementation to report the HAL error return state */
+    __disable_irq();
+    while (1)
+    {
+    }
+    /* USER CODE END Error_Handler_Debug */
 }
 
 #ifdef  USE_FULL_ASSERT
@@ -1048,10 +1053,10 @@ void Error_Handler(void)
   */
 void assert_failed(uint8_t *file, uint32_t line)
 {
-  /* USER CODE BEGIN 6 */
-  /* User can add his own implementation to report the file name and line number,
+    /* USER CODE BEGIN 6 */
+    /* User can add his own implementation to report the file name and line number,
      ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
-  /* USER CODE END 6 */
+    /* USER CODE END 6 */
 }
 #endif /* USE_FULL_ASSERT */
 
