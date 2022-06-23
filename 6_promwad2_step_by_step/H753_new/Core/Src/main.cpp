@@ -142,11 +142,7 @@ void Ethernet_Link_Periodic_Handle(struct netif *netif)
 
 osThreadId defaultTaskHandle;
 
-osThreadDef(trackRingBufferThread, trackRingBufferThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 20);
 osThreadDef(readFromUartThread, readFromUartThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE );
-osThreadDef(StartWdtThread, StartWdtThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 1);
-osThreadDef(recvUdpThread, recvUdpThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 20);
-
 osThreadDef(switchLEDsThread, switchLEDsThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 2);
 osThreadDef(replaceTimerCallback, replaceTimerCallback, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 4);
 osThreadDef(readButtonThread, readButtonThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 4 );
@@ -265,11 +261,13 @@ int main(void)
         osThreadDef(audioInitThread, threadAudioInit, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 10);
 //        SAI::getInstance()->threadAudioInitId = osThreadCreate(osThread(audioInitThread), nullptr);
 
+        osThreadDef(trackRingBufferThread, trackRingBufferThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 20);
 //        if ((GPIO::getInstance()->trackRingBufferThreadId = osThreadCreate(osThread(trackRingBufferThread), nullptr)) == nullptr)
 //        {
 //            Debug::getInstance().dbg << __FUNCTION__ << " " << __LINE__ << " " << "\n";
 //        }
 
+        osThreadDef(recvUdpThread, recvUdpThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 20);
 //        if ((UdpJsonExch::getInstance()->recvUdpThreadId = osThreadCreate(osThread(recvUdpThread), nullptr)) == nullptr)
 //        {
 //            Debug::getInstance().dbg << __FUNCTION__ << " " << __LINE__ << " " << "\n";
@@ -284,6 +282,7 @@ int main(void)
     }
 
 //     WDTInit();  // не собирается
+       osThreadDef(StartWdtThread, StartWdtThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 1);
 //    if ((osThreadCreate(osThread(StartWdtThread), nullptr)) == nullptr)
 //    {
 //        RS232::getInstance().term << __FUNCTION__ << " " << __LINE__ << " " << "\n";
