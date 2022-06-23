@@ -1,7 +1,7 @@
 
 #include "json.h"
 #include "rs232.h"
-
+extern uint8_t macAdr5;
 Json::Json()
 {
     thisStation.keysBuffer.reserve(32);
@@ -53,7 +53,7 @@ inline void Json::read()
         /*boot_config file reading*/
         lfs_file_rewind(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr);
         lfs_file_read(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, (char *)tempBuff, fileSize);
-        SRAM::getInstance()->writeData((uint32_t *)tempBuff, fileSize, (uint32_t *)0x60000000);
+//        SRAM::getInstance()->writeData((uint32_t *)tempBuff, fileSize, (uint32_t *)0x60000000);
     }
 }
 
@@ -80,7 +80,7 @@ void Json::configStation()
 
         uint16_t stationsId;
         thisStation.id = obj["ownId"];  //getting of own ID
-
+        macAdr5 = thisStation.id;
         thisStation.groupsNumber = doc["groupsAll"].size();
         Groups groups[thisStation.groupsNumber];
 

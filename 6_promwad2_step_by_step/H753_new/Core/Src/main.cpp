@@ -63,7 +63,7 @@ DMA_HandleTypeDef hdma_uart7_tx;
 TIM_HandleTypeDef htim3;
 UART_HandleTypeDef huart7;
 SRAM_HandleTypeDef hsram1;
-
+uint8_t macAdr5;
 //Добавил_CUBE_03_05_2022
 MDMA_HandleTypeDef hmdma_memtomem_dma2_stream0;
 //static void MX_MDMA_Init(void); //Вынес с SRAM
@@ -241,25 +241,25 @@ int main(void)
 
 //    simpleEEPROM_test();
 //    simpleEEPROM_test2();
-//    littleFsInit();
+    littleFsInit();
 //    FsForEeprom::getInstance().test();
 
 //    Flash::getInstance().test(); // Не работает
 
 
 //При включении рычаги перестают работать
-    if ((RS232::getInstance().readFromUartThreadId = osThreadCreate(osThread(readFromUartThread), nullptr)) == nullptr)
+//    if ((RS232::getInstance().readFromUartThreadId = osThreadCreate(osThread(readFromUartThread), nullptr)) == nullptr)
 //   if ((osThreadCreate(osThread(readFromUartThread), nullptr)) == nullptr)
-    {
-        term("readFromUartThread Error")
+//    {
+//        term("readFromUartThread Error")
 //        RS232::getInstance().term << __FUNCTION__ << " " << __LINE__ << " " << "\n";
-    }
+//    }
 
 
 //    osThreadDef(defaultTask, empty, osPriorityNormal, 0, configMINIMAL_STACK_SIZE*2);
 //    defaultTaskHandle = osThreadCreate(osThread(defaultTask), nullptr);
 
-//    Json::getInstance()->configStation();
+    Json::getInstance()->configStation();
 //    if (Json::getInstance()->deserializeJsonFlag == Json::JsonFlags::OK)
 //    {
 
