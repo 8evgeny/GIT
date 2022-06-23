@@ -257,7 +257,7 @@ int main(void)
 //    osThreadDef(defaultTask, empty, osPriorityNormal, 0, configMINIMAL_STACK_SIZE*2);
 //    defaultTaskHandle = osThreadCreate(osThread(defaultTask), nullptr);
 
-    Json::getInstance()->configStation();
+//    Json::getInstance()->configStation();
 //    if (Json::getInstance()->deserializeJsonFlag == Json::JsonFlags::OK)
 //    {
 
