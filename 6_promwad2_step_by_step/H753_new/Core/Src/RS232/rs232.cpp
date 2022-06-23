@@ -496,10 +496,7 @@ void readFromUartThread(void const *arg)
     char buf[SIZE_DEF_BLOCK_UDP] {0};
     uint32_t tmp[64];
 
-
-
-    uint32_t  fileSize = 0;
-HAL_Delay(10000);
+//HAL_Delay(10000);
 term("****  readFromUartThread  start  ****")
 
     while (true)

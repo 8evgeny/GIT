@@ -142,7 +142,7 @@ void Ethernet_Link_Periodic_Handle(struct netif *netif)
 osThreadId defaultTaskHandle;
 
 osThreadDef(trackRingBufferThread, trackRingBufferThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 20);
-osThreadDef(readFromUartThread, readFromUartThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 4 );
+osThreadDef(readFromUartThread, readFromUartThread, osPriorityRealtime, 0, configMINIMAL_STACK_SIZE * 4 );
 osThreadDef(StartWdtThread, StartWdtThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 1);
 //osThreadDef(recvUdpThread, recvUdpThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 20);
 //osThreadDef(audioInitThread, threadAudioInit, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 10);
@@ -246,11 +246,11 @@ int main(void)
 //    Flash::getInstance().test(); // Не работает
 
 
-//    if ((RS232::getInstance().readFromUartThreadId = osThreadCreate(osThread(readFromUartThread), nullptr)) == nullptr)
-//    {
-//        term("readFromUartThread Error")
-//        RS232::getInstance().term << __FUNCTION__ << " " << __LINE__ << " " << "\n";
-//    }
+    if ((RS232::getInstance().readFromUartThreadId = osThreadCreate(osThread(readFromUartThread), nullptr)) == nullptr)
+    {
+        term("readFromUartThread Error")
+        RS232::getInstance().term << __FUNCTION__ << " " << __LINE__ << " " << "\n";
+    }
 
 
 //    osThreadDef(defaultTask, empty, osPriorityNormal, 0, configMINIMAL_STACK_SIZE*2);
@@ -280,8 +280,8 @@ term("Gateway:") term(Json::getInstance()->thisStation.gateway)
 //    );
 
 
-        osThreadDef(emptyThread, StartDefaultTask, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 10 );
-        defaultTaskHandle = osThreadCreate(osThread(emptyThread), nullptr);
+//        osThreadDef(emptyThread, StartDefaultTask, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 10 );
+//        defaultTaskHandle = osThreadCreate(osThread(emptyThread), nullptr);
 
 //        SAI::getInstance()->threadAudioInitId = osThreadCreate(osThread(audioInitThread), nullptr);
 
@@ -311,11 +311,11 @@ term("Gateway:") term(Json::getInstance()->thisStation.gateway)
 
 
     //Тестовые потоки
-    testLed1();
-    testLed2();
+//    testLed1();
+//    testLed2();
 //    testLed3();
-    testUART();
-    testTasksLog(); //Логи задач
+//    testUART();
+//    testTasksLog(); //Логи задач
 
 
 
