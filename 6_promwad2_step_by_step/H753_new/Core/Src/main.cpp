@@ -315,7 +315,7 @@ term("Gateway:") term(Json::getInstance()->thisStation.gateway)
     testLed1();
     testLed2();
 //    testLed3();
-//    testUART();
+    testUART();
 
     testTasksLog(); //Логи задач
 
