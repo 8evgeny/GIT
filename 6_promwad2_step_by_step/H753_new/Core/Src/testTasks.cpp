@@ -182,8 +182,8 @@ void simpletestUART_RTOS(void const *argument)
     (void)argument;
     bool reset = true;
     uint32_t tickstart = HAL_GetTick();
-    uint32_t timeSet = 10000;
-    uint32_t timeReset = 10000;
+    uint32_t timeSet = 15000;
+    uint32_t timeReset = 15000;
 
 osDelay(150);
 term("startingSimpleTestUART_RTOS")
@@ -204,7 +204,7 @@ term("startingSimpleTestUART_RTOS")
         {
             if (HAL_GetTick() > tickstart + timeSet)
             {
-                term("#############  SimpleTestUART_RTOS  #############")
+                term("*************  SimpleTestUART_RTOS  *************")
                 reset = true;
                 tickstart = HAL_GetTick();
             }
