@@ -15,7 +15,6 @@
 #include "ethernetif.h"
 #include "dp83848.h"
 
-char msgOCD[] = "Hello STM32 lovers!\n";
 extern void flashErraseBank2();
 
 //static osThreadId readPackageTypeThreadId;
@@ -63,7 +62,7 @@ DMA_HandleTypeDef hdma_uart7_tx;
 TIM_HandleTypeDef htim3;
 UART_HandleTypeDef huart7;
 SRAM_HandleTypeDef hsram1;
-uint8_t macAdr0;
+uint8_t macAdr5;
 //Добавил_CUBE_03_05_2022
 MDMA_HandleTypeDef hmdma_memtomem_dma2_stream0;
 //static void MX_MDMA_Init(void); //Вынес с SRAM
