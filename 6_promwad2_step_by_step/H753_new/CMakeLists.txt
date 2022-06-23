@@ -299,5 +299,5 @@ add_custom_command(TARGET ${PROJECT_NAME}.elf POST_BUILD
 add_custom_command(TARGET ${PROJECT_NAME}.elf POST_BUILD
     COMMAND ${CMAKE_OBJCOPY} -O binary $<TARGET_FILE:${PROJECT_NAME}.elf> ${BIN_FILE}
     COMMENT "Building ${BIN_FILE} ")
-
+add_custom_command(TARGET ${PROJECT_NAME}.elf POST_BUILD  COMMAND arm-none-eabi-size ${PROJECT_NAME}.elf )
 
