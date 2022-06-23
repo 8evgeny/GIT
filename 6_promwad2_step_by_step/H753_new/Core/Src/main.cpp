@@ -153,7 +153,7 @@ void vApplicationStackOverflowHook(TaskHandle_t xTask, char *pcTaskName)
     configCHECK_FOR_STACK_OVERFLOW is defined to 1 or 2.  This hook
     function is called if a stack overflow is detected. */
     while (1) {
-        RS232::getInstance().term << __FUNCTION__ << " " << __LINE__ << " " << "\n";
+        RS232::getInstance().term << "StackOverflowHook " <<__FUNCTION__ << " " << __LINE__ << " " << "\n";
     }
 }
 
@@ -174,7 +174,7 @@ void vApplicationMallocFailedHook(void)
     to query the size of free heap space that remains (although it does not
     provide information on how the remaining heap might be fragmented). */
     while (1) {
-        RS232::getInstance().term << __FUNCTION__ << " " << __LINE__ << " " << "\n";
+        RS232::getInstance().term <<"MallocFailedHook "<< __FUNCTION__ << " " << __LINE__ << " " << "\n";
     }
 }
 
