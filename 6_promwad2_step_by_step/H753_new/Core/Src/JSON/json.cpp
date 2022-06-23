@@ -1,7 +1,7 @@
 
 #include "json.h"
 #include "rs232.h"
-
+extern uint8_t macAdr0;
 Json::Json()
 {
     thisStation.keysBuffer.reserve(32);
@@ -91,6 +91,8 @@ term("Json1")
 
         uint16_t stationsId;
         thisStation.id = obj["ownId"];  //getting of own ID
+
+        macAdr0 = thisStation.id;
 
         thisStation.groupsNumber = doc["groupsAll"].size();
         Groups groups[thisStation.groupsNumber];
