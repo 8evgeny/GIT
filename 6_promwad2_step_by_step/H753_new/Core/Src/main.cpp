@@ -247,7 +247,7 @@ int main(void)
 //    Flash::getInstance().test(); // Не работает
 
 
-//При включении рычаги перестают работать
+//ЗАПИСЬ КОНФИГА ЧЕРЕЗ UART реализована без SRAM в другой ветке
 //    if ((RS232::getInstance().readFromUartThreadId = osThreadCreate(osThread(readFromUartThread), nullptr)) == nullptr)
 //   if ((osThreadCreate(osThread(readFromUartThread), nullptr)) == nullptr)
 //    {
@@ -256,32 +256,9 @@ int main(void)
 //    }
 
 
-//    osThreadDef(defaultTask, empty, osPriorityNormal, 0, configMINIMAL_STACK_SIZE*2);
-//    defaultTaskHandle = osThreadCreate(osThread(defaultTask), nullptr);
-
     Json::getInstance()->configStation();
-//    if (Json::getInstance()->deserializeJsonFlag == Json::JsonFlags::OK)
-//    {
-
-//term("ip:")      term(Json::getInstance()->thisStation.ip)
-//term("mask:")    term(Json::getInstance()->thisStation.mask)
-//term("gateway:") term(Json::getInstance()->thisStation.gateway)
-
-
-//        netInit(Json::getInstance()->thisStation.ip,
-//                Json::getInstance()->thisStation.mask,
-//                Json::getInstance()->thisStation.gateway);
-
-
-//    asm volatile (
-//                " mov r0, 0x4 \n"
-//                " mov r1, %[msg] \n"
-//                " bkpt #0xAB"
-//                :
-//                : [msg] "r" (msgOCD)
-//                : "r0", "r1"
-//    );
-
+    if (Json::getInstance()->deserializeJsonFlag == Json::JsonFlags::OK)
+    {
 
         osThreadDef(emptyThread, StartDefaultTask, osPriorityNormal, 0, configMINIMAL_STACK_SIZE);
         defaultTaskHandle = osThreadCreate(osThread(emptyThread), nullptr);
@@ -300,11 +277,11 @@ int main(void)
 
 //        firmwareInitThread();
 
-//    }
-//    else
-//    {
-//        term("deserializeJsonFlag  -  error")
-//    }
+    }
+    else
+    {
+        term("deserializeJsonFlag  -  error")
+    }
 
 //     WDTInit();  // не собирается
 //    if ((osThreadCreate(osThread(StartWdtThread), nullptr)) == nullptr)
@@ -317,7 +294,7 @@ int main(void)
     testLed1();
     testLed2();
     testLed3();
-//    testUART();
+    testUART();
 
 
     //Debug пока не работает - выпилил везде из кода
