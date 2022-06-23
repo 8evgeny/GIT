@@ -281,7 +281,7 @@ term("Gateway:") term(Json::getInstance()->thisStation.gateway)
 //    );
 
 
-        osThreadDef(emptyThread, StartDefaultTask, osPriorityNormal, 0, configMINIMAL_STACK_SIZE);
+        osThreadDef(emptyThread, StartDefaultTask, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 2 );
         defaultTaskHandle = osThreadCreate(osThread(emptyThread), nullptr);
 
 //        SAI::getInstance()->threadAudioInitId = osThreadCreate(osThread(audioInitThread), nullptr);
@@ -317,7 +317,7 @@ term("Gateway:") term(Json::getInstance()->thisStation.gateway)
 //    testLed3();
 //    testUART();
 
-//    testTasksLog(); //Логи задач
+    testTasksLog(); //Логи задач
 
 
 
