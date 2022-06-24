@@ -204,50 +204,51 @@ TLV320AIC3254::TLV320AIC3254()
 
 void TLV320AIC3254::codecInit()
 {
+osDelay(5000);
     uint32_t i = 0;
     /* Initialize the Control interface of the Audio Codec */
 
     for (i = 0;
             i < sizeof(SoftReset) / sizeof(struct Aic3254Configs);
-            i++) {
-        I2C::getInstance()->writeRegister(I2C_ADDRESS, SoftReset[i].regOffset,
-                                          SoftReset[i].regVal);
+            i++)
+    {
+        I2C::getInstance()->writeRegister(I2C_ADDRESS, SoftReset[i].regOffset, SoftReset[i].regVal);
     }
-
+term("codec SoftReset ")
     for (i = 0;
             i < sizeof(ConfigurePll) / sizeof(struct Aic3254Configs);
-            i++) {
-        I2C::getInstance()->writeRegister(I2C_ADDRESS, ConfigurePll[i].regOffset,
-                                          ConfigurePll[i].regVal);
+            i++)
+    {
+        I2C::getInstance()->writeRegister(I2C_ADDRESS, ConfigurePll[i].regOffset, ConfigurePll[i].regVal);
     }
-
+term("codec ConfigurePll ")
     for (i = 0;
             i < sizeof(ConfigurePower) / sizeof(struct Aic3254Configs);
-            i++) {
-        I2C::getInstance()->writeRegister(I2C_ADDRESS, ConfigurePower[i].regOffset,
-                                          ConfigurePower[i].regVal);
+            i++)
+    {
+        I2C::getInstance()->writeRegister(I2C_ADDRESS, ConfigurePower[i].regOffset, ConfigurePower[i].regVal);
     }
-
+term("codec ConfigurePower ")
     for (i = 0;
             i < sizeof(ConfigureDAC) / sizeof(struct Aic3254Configs);
-            i++) {
-        I2C::getInstance()->writeRegister(I2C_ADDRESS, ConfigureDAC[i].regOffset,
-                                          ConfigureDAC[i].regVal);
+            i++)
+    {
+        I2C::getInstance()->writeRegister(I2C_ADDRESS, ConfigureDAC[i].regOffset, ConfigureDAC[i].regVal);
     }
-
+term("codec ConfigureDAC ")
     for (i = 0;
             i < sizeof(ConfigureADC) / sizeof(struct Aic3254Configs);
-            i++) {
-        I2C::getInstance()->writeRegister(I2C_ADDRESS, ConfigureADC[i].regOffset,
-                                          ConfigureADC[i].regVal);
+            i++)
+    {
+        I2C::getInstance()->writeRegister(I2C_ADDRESS, ConfigureADC[i].regOffset, ConfigureADC[i].regVal);
     }
-
+term("codec ConfigureADC ")
     for (i = 0;
             i < sizeof(ConfigureFilter) / sizeof(struct Aic3254Configs);
-            i++) {
-        I2C::getInstance()->writeRegister(I2C_ADDRESS, ConfigureADC[i].regOffset,
-                                          ConfigureFilter[i].regVal);
+            i++)
+    {
+        I2C::getInstance()->writeRegister(I2C_ADDRESS, ConfigureADC[i].regOffset, ConfigureFilter[i].regVal);
     }
+term("codec ConfigureADC ")
 
-term("TLV320AIC3254::codecInit()")
 }
