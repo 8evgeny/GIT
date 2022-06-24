@@ -2,7 +2,7 @@
 #include "../Debug/debug.h"
 #include <cstring>
 #include <algorithm>
-
+#include "rs232.h"
 #include "../UDP_JSON/udp_multicast.h"
 
 #include "stm32h7xx_hal_cryp.h"
@@ -448,6 +448,7 @@ void rtpRecvThread(void const *arg)
   */
 _Noreturn void sendHalfThread(void const *arg)
 {
+term("--- sendHalfThread ---")
     UNUSED(arg);
     while (1) {
         /* Try to obtain the semaphore. */
@@ -473,6 +474,7 @@ _Noreturn void sendHalfThread(void const *arg)
   */
 _Noreturn void sendFullThread(void const *arg)
 {
+term("--- sendFullThread ---")
     UNUSED(arg);
     while (1) {
         /* Try to obtain the semaphore. */
