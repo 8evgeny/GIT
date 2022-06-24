@@ -204,8 +204,6 @@ TLV320AIC3254::TLV320AIC3254()
 
 void TLV320AIC3254::codecInit()
 {
-term("TLV320AIC3254::codecInit()")
-
     uint32_t i = 0;
     /* Initialize the Control interface of the Audio Codec */
 
@@ -250,4 +248,6 @@ term("TLV320AIC3254::codecInit()")
         I2C::getInstance()->writeRegister(I2C_ADDRESS, ConfigureADC[i].regOffset,
                                           ConfigureFilter[i].regVal);
     }
+
+term("TLV320AIC3254::codecInit()")
 }

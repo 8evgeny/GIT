@@ -1,6 +1,7 @@
 #include "i2c.h"
 #include "stm32h7xx_hal.h"
 #include "stm32h7xx_hal_i2c.h"
+#include "rs232.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -103,7 +104,6 @@ void I2C::writeRegister(uint8_t addr, uint8_t reg, uint8_t val)
         I2C::getInstance()->i2c2WriteReady = RESET;
         errorI2CAudio(status);
     } while (status != HAL_OK);
-
 }
 
 void I2C::errorI2CAudio(HAL_StatusTypeDef status)
@@ -127,18 +127,18 @@ extern "C" {
 /**
   * @brief This function handles DMA1 stream2 global interrupt.
   */
-void DMA1_Stream2_IRQHandler(void)
-{
-    HAL_DMA_IRQHandler(hI2cAudioHandler.hdmarx);
-}
+//void DMA1_Stream2_IRQHandler(void)
+//{
+//    HAL_DMA_IRQHandler(hI2cAudioHandler.hdmarx);
+//}
 
 /**
   * @brief This function handles DMA1 stream4 global interrupt.
   */
-void DMA1_Stream4_IRQHandler(void)
-{
-    HAL_DMA_IRQHandler(hI2cAudioHandler.hdmatx);
-}
+//void DMA1_Stream4_IRQHandler(void)
+//{
+//    HAL_DMA_IRQHandler(hI2cAudioHandler.hdmatx);
+//}
 
 /**
   * @brief This function handles I2C2 event interrupt.
