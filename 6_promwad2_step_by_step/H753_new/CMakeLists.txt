@@ -276,7 +276,6 @@ target_link_options(${PROJECT_NAME}.elf PRIVATE ${LINKER_FLAGS})
 target_link_libraries(${PROJECT_NAME}.elf PUBLIC
     STARTUP
     SRAM_LIB
-    flash_LIB
     STM32H7xx_HAL_Driver
     LWIP
     CMSIS_RTOS
@@ -300,6 +299,7 @@ target_link_libraries(${PROJECT_NAME}.elf PUBLIC
     uid_LIB
     WDT_LIB
     AUDIO_LIB
+    flash_LIB
     )
 
 set(HEX_FILE ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.hex)
