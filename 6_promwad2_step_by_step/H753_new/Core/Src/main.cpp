@@ -282,7 +282,7 @@ int main(void)
 //            Debug::getInstance().dbg << __FUNCTION__ << " " << __LINE__ << " " << "\n";
 //        }
 
-        //        firmwareInitThread();
+//          firmwareInitThread();
 
     }
     else
@@ -290,12 +290,12 @@ int main(void)
         term("deserializeJsonFlag  -  error")
     }
 
-    //     WDTInit();  // не собирается
+    WDTInit();
     osThreadDef(StartWdtThread, StartWdtThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 1);
-    //    if ((osThreadCreate(osThread(StartWdtThread), nullptr)) == nullptr)
-    //    {
-    //        RS232::getInstance().term << __FUNCTION__ << " " << __LINE__ << " " << "\n";
-    //    }
+    if ((osThreadCreate(osThread(StartWdtThread), nullptr)) == nullptr)
+    {
+        RS232::getInstance().term << __FUNCTION__ << " " << __LINE__ << " " << "\n";
+    }
 
 
     //Тестовые потоки

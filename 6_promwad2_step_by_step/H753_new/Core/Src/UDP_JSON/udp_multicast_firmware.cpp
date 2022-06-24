@@ -101,7 +101,7 @@ void firmwareInitThread()
     osMutexDef(mutexFirmware);
     mutexFirmwareRingBufferId = osMutexCreate(osMutex(mutexFirmware));
 
-    osThreadDef(handelFirmwareThread, updateFirmwareThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 5);
+    osThreadDef(handelFirmwareThread, updateFirmwareThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 3);
     firmwareThreadId = osThreadCreate(osThread(handelFirmwareThread), NULL);
 }
 

@@ -174,6 +174,7 @@ add_executable(${PROJECT_NAME}.elf
     Core/Src/RTP/rtp.cpp
     Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_q7.c
     Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_sai.c
+    Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_wwdg.c
     )
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}\
