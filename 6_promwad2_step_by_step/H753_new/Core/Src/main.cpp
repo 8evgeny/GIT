@@ -271,10 +271,10 @@ int main(void)
 //        SAI::getInstance()->threadAudioInitId = osThreadCreate(osThread(audioInitThread), nullptr);
 
         osThreadDef(trackRingBufferThread, trackRingBufferThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 10);
-//        if ((GPIO::getInstance()->trackRingBufferThreadId = osThreadCreate(osThread(trackRingBufferThread), nullptr)) == nullptr)
-//        {
-//            Debug::getInstance().dbg << __FUNCTION__ << " " << __LINE__ << " " << "\n";
-//        }
+        if ((GPIO::getInstance()->trackRingBufferThreadId = osThreadCreate(osThread(trackRingBufferThread), nullptr)) == nullptr)
+        {
+            Debug::getInstance().dbg << __FUNCTION__ << " " << __LINE__ << " " << "\n";
+        }
 
         osThreadDef(recvUdpThread, recvUdpThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 20);
         //        if ((UdpJsonExch::getInstance()->recvUdpThreadId = osThreadCreate(osThread(recvUdpThread), nullptr)) == nullptr)
@@ -325,25 +325,25 @@ int main(void)
 [[ noreturn ]]
 static void trackRingBufferThread(void const *arg)
 {
-    //    (void)arg;
-    //    while(true) {
-    //        osMutexWait(GPIO::getInstance()->mutexRingBufferRx_id, osWaitForever);
-    //        if (GPIO::getInstance()->ringBufferRx.size() != 0) {
+        (void)arg;
+        while(true) {
+            osMutexWait(GPIO::getInstance()->mutexRingBufferRx_id, osWaitForever);
+            if (GPIO::getInstance()->ringBufferRx.size() != 0) {
 
-    //            GPIO::getInstance()->packageRx = GPIO::getInstance()->ringBufferRx.shift();
-    //            osMutexRelease(GPIO::getInstance()->mutexRingBufferRx_id);
-    //            if (!GPIO::getInstance()->testFlag) {
-    //                osMutexWait(UdpJsonExch::getInstance()->mutexCallControlId, osWaitForever);
-    //                UdpJsonExch::getInstance()->callControl->button(GPIO::getInstance()->packageRx);
-    //                osMutexRelease(UdpJsonExch::getInstance()->mutexCallControlId);
-    //            } else {
-    //                RS232::getInstance().term << "Button [" << GPIO::getInstance()->packageRx.payloadData << "] was pressed" << "\n";
-    //                GPIO::getInstance()->configLed(GPIO::getInstance()->packageRx.payloadData, true, 250, 250);
-    //            }
-    //        } else osMutexRelease(GPIO::getInstance()->mutexRingBufferRx_id);
+                GPIO::getInstance()->packageRx = GPIO::getInstance()->ringBufferRx.shift();
+                osMutexRelease(GPIO::getInstance()->mutexRingBufferRx_id);
+                if (!GPIO::getInstance()->testFlag) {
+                    osMutexWait(UdpJsonExch::getInstance()->mutexCallControlId, osWaitForever);
+                    UdpJsonExch::getInstance()->callControl->button(GPIO::getInstance()->packageRx);
+                    osMutexRelease(UdpJsonExch::getInstance()->mutexCallControlId);
+                } else {
+                    RS232::getInstance().term << "Button [" << GPIO::getInstance()->packageRx.payloadData << "] was pressed" << "\n";
+                    GPIO::getInstance()->configLed(GPIO::getInstance()->packageRx.payloadData, true, 250, 250);
+                }
+            } else osMutexRelease(GPIO::getInstance()->mutexRingBufferRx_id);
 
-    //        osDelay(50);
-    //    }
+            osDelay(50);
+        }
 }
 
 
