@@ -2,6 +2,7 @@
 #include "cmsis_os.h"
 #include "main.h"
 #include "../Debug/debug.h"
+#include "rs232.h"
 
 struct Aic3254Configs {
     uint8_t regOffset;
@@ -203,6 +204,8 @@ TLV320AIC3254::TLV320AIC3254()
 
 void TLV320AIC3254::codecInit()
 {
+term("TLV320AIC3254::codecInit()")
+
     uint32_t i = 0;
     /* Initialize the Control interface of the Audio Codec */
 
