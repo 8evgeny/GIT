@@ -41,7 +41,7 @@ static void MX_GPIO_Init(void);
 //static void MX_I2C1_Init(void);
 static void MX_I2C2_Init(void);
 static void MX_I2C3_Init(void);
-static void MX_SAI1_Init(void);
+//static void MX_SAI1_Init(void);
 static void MX_UART7_Init(void);
 static void MX_TIM3_Init(void);
 static void MX_DMA_Init(void);
@@ -51,13 +51,13 @@ void StartDefaultTask(void const * argument);
 I2C_HandleTypeDef hi2c1;
 I2C_HandleTypeDef hi2c2;
 I2C_HandleTypeDef hi2c3;
-DMA_HandleTypeDef hdma_i2c2_rx;
-DMA_HandleTypeDef hdma_i2c2_tx;
+//DMA_HandleTypeDef hdma_i2c2_rx;
+//DMA_HandleTypeDef hdma_i2c2_tx;
 RNG_HandleTypeDef hrng;
-SAI_HandleTypeDef hsai_BlockA1;
-SAI_HandleTypeDef hsai_BlockB1;
-DMA_HandleTypeDef hdma_sai1_a;
-DMA_HandleTypeDef hdma_sai1_b;
+//SAI_HandleTypeDef hsai_BlockA1;
+//SAI_HandleTypeDef hsai_BlockB1;
+//DMA_HandleTypeDef hdma_sai1_a;
+//DMA_HandleTypeDef hdma_sai1_b;
 DMA_HandleTypeDef hdma_uart7_rx;
 DMA_HandleTypeDef hdma_uart7_tx;
 TIM_HandleTypeDef htim3;
@@ -230,7 +230,7 @@ int main(void)
     //    MX_I2C1_Init(); //Вынесен в EEPROM
     MX_I2C2_Init();
     MX_I2C3_Init();
-    MX_SAI1_Init();
+//    MX_SAI1_Init();
     MX_UART7_Init(); //Вынесен в RS232
     debugInit();
     RS232Init();
@@ -268,13 +268,13 @@ int main(void)
         defaultTaskHandle = osThreadCreate(osThread(emptyThread), nullptr);
 
         osThreadDef(audioInitThread, threadAudioInit, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 10);
-        //        SAI::getInstance()->threadAudioInitId = osThreadCreate(osThread(audioInitThread), nullptr);
+//        SAI::getInstance()->threadAudioInitId = osThreadCreate(osThread(audioInitThread), nullptr);
 
-        osThreadDef(trackRingBufferThread, trackRingBufferThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 20);
-        //        if ((GPIO::getInstance()->trackRingBufferThreadId = osThreadCreate(osThread(trackRingBufferThread), nullptr)) == nullptr)
-        //        {
-        //            Debug::getInstance().dbg << __FUNCTION__ << " " << __LINE__ << " " << "\n";
-        //        }
+        osThreadDef(trackRingBufferThread, trackRingBufferThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 10);
+//        if ((GPIO::getInstance()->trackRingBufferThreadId = osThreadCreate(osThread(trackRingBufferThread), nullptr)) == nullptr)
+//        {
+//            Debug::getInstance().dbg << __FUNCTION__ << " " << __LINE__ << " " << "\n";
+//        }
 
         osThreadDef(recvUdpThread, recvUdpThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 20);
         //        if ((UdpJsonExch::getInstance()->recvUdpThreadId = osThreadCreate(osThread(recvUdpThread), nullptr)) == nullptr)
@@ -572,49 +572,49 @@ static void MX_RNG_Init(void)
 
 }
 
-static void MX_SAI1_Init(void)
-{
+//static void MX_SAI1_Init(void)
+//{
 
-    /* USER CODE BEGIN SAI1_Init 0 */
+//    /* USER CODE BEGIN SAI1_Init 0 */
 
-    /* USER CODE END SAI1_Init 0 */
+//    /* USER CODE END SAI1_Init 0 */
 
-    /* USER CODE BEGIN SAI1_Init 1 */
+//    /* USER CODE BEGIN SAI1_Init 1 */
 
-    /* USER CODE END SAI1_Init 1 */
-    hsai_BlockA1.Instance = SAI1_Block_A;
-    hsai_BlockA1.Init.AudioMode = SAI_MODEMASTER_TX;
-    hsai_BlockA1.Init.Synchro = SAI_ASYNCHRONOUS;
-    hsai_BlockA1.Init.OutputDrive = SAI_OUTPUTDRIVE_DISABLE;
-    hsai_BlockA1.Init.NoDivider = SAI_MASTERDIVIDER_ENABLE;
-    hsai_BlockA1.Init.FIFOThreshold = SAI_FIFOTHRESHOLD_EMPTY;
-    hsai_BlockA1.Init.AudioFrequency = SAI_AUDIO_FREQUENCY_8K;
-    hsai_BlockA1.Init.SynchroExt = SAI_SYNCEXT_DISABLE;
-    hsai_BlockA1.Init.MonoStereoMode = SAI_STEREOMODE;
-    hsai_BlockA1.Init.CompandingMode = SAI_NOCOMPANDING;
-    hsai_BlockA1.Init.TriState = SAI_OUTPUT_NOTRELEASED;
-    if (HAL_SAI_InitProtocol(&hsai_BlockA1, SAI_I2S_STANDARD, SAI_PROTOCOL_DATASIZE_16BIT, 2) != HAL_OK)
-    {
-        Error_Handler();
-    }
-    hsai_BlockB1.Instance = SAI1_Block_B;
-    hsai_BlockB1.Init.AudioMode = SAI_MODESLAVE_RX;
-    hsai_BlockB1.Init.Synchro = SAI_SYNCHRONOUS;
-    hsai_BlockB1.Init.OutputDrive = SAI_OUTPUTDRIVE_DISABLE;
-    hsai_BlockB1.Init.FIFOThreshold = SAI_FIFOTHRESHOLD_EMPTY;
-    hsai_BlockB1.Init.SynchroExt = SAI_SYNCEXT_DISABLE;
-    hsai_BlockB1.Init.MonoStereoMode = SAI_STEREOMODE;
-    hsai_BlockB1.Init.CompandingMode = SAI_NOCOMPANDING;
-    hsai_BlockB1.Init.TriState = SAI_OUTPUT_NOTRELEASED;
-    if (HAL_SAI_InitProtocol(&hsai_BlockB1, SAI_I2S_STANDARD, SAI_PROTOCOL_DATASIZE_16BIT, 2) != HAL_OK)
-    {
-        Error_Handler();
-    }
-    /* USER CODE BEGIN SAI1_Init 2 */
+//    /* USER CODE END SAI1_Init 1 */
+//    hsai_BlockA1.Instance = SAI1_Block_A;
+//    hsai_BlockA1.Init.AudioMode = SAI_MODEMASTER_TX;
+//    hsai_BlockA1.Init.Synchro = SAI_ASYNCHRONOUS;
+//    hsai_BlockA1.Init.OutputDrive = SAI_OUTPUTDRIVE_DISABLE;
+//    hsai_BlockA1.Init.NoDivider = SAI_MASTERDIVIDER_ENABLE;
+//    hsai_BlockA1.Init.FIFOThreshold = SAI_FIFOTHRESHOLD_EMPTY;
+//    hsai_BlockA1.Init.AudioFrequency = SAI_AUDIO_FREQUENCY_8K;
+//    hsai_BlockA1.Init.SynchroExt = SAI_SYNCEXT_DISABLE;
+//    hsai_BlockA1.Init.MonoStereoMode = SAI_STEREOMODE;
+//    hsai_BlockA1.Init.CompandingMode = SAI_NOCOMPANDING;
+//    hsai_BlockA1.Init.TriState = SAI_OUTPUT_NOTRELEASED;
+//    if (HAL_SAI_InitProtocol(&hsai_BlockA1, SAI_I2S_STANDARD, SAI_PROTOCOL_DATASIZE_16BIT, 2) != HAL_OK)
+//    {
+//        Error_Handler();
+//    }
+//    hsai_BlockB1.Instance = SAI1_Block_B;
+//    hsai_BlockB1.Init.AudioMode = SAI_MODESLAVE_RX;
+//    hsai_BlockB1.Init.Synchro = SAI_SYNCHRONOUS;
+//    hsai_BlockB1.Init.OutputDrive = SAI_OUTPUTDRIVE_DISABLE;
+//    hsai_BlockB1.Init.FIFOThreshold = SAI_FIFOTHRESHOLD_EMPTY;
+//    hsai_BlockB1.Init.SynchroExt = SAI_SYNCEXT_DISABLE;
+//    hsai_BlockB1.Init.MonoStereoMode = SAI_STEREOMODE;
+//    hsai_BlockB1.Init.CompandingMode = SAI_NOCOMPANDING;
+//    hsai_BlockB1.Init.TriState = SAI_OUTPUT_NOTRELEASED;
+//    if (HAL_SAI_InitProtocol(&hsai_BlockB1, SAI_I2S_STANDARD, SAI_PROTOCOL_DATASIZE_16BIT, 2) != HAL_OK)
+//    {
+//        Error_Handler();
+//    }
+//    /* USER CODE BEGIN SAI1_Init 2 */
 
-    /* USER CODE END SAI1_Init 2 */
+//    /* USER CODE END SAI1_Init 2 */
 
-}
+//}
 
 static void MX_TIM3_Init(void)
 {
