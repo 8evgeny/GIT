@@ -73,8 +73,7 @@ CppApplication  {
         Home + "/Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_q15.c",
         Home + "/Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_add_q15.c",
         Home + "/Middlewares/Third_Party/FatFs/src/ff_gen_drv.c",
-        Home + "/Core/Src/flash/flash.cpp",
-        Home + "/Middlewares/Third_Party/ArduinoJson/src/ArduinoJson/Serialization/Writers/ArduinoStringWriter.hpp"
+        Home + "/Core/Src/flash/flash.cpp"
     ]
     }
 
