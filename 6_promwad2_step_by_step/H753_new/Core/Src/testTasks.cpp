@@ -2,7 +2,7 @@
 #include <stdbool.h>
 #include <stdint.h>
 #include "cmsis_os.h"
-#include "debug.h"
+#include "../Debug/debug.h"
 #include "rs232_printf.h"
 
 #ifdef __cplusplus
