@@ -1,5 +1,5 @@
 #include "flash/flash.h"
-#include "stm32f7xx_hal.h"
+#include "stm32h7xx_hal.h"
 #include "RS232/rs232.h"
 #include <algorithm>
 #include <cstring>
@@ -145,9 +145,9 @@ DRESULT FLASH_write(BYTE lun, const BYTE *buff, DWORD sector, UINT count)
 
     Flash::getInstance().unlock();
 
-    __HAL_FLASH_ART_DISABLE();
-    __HAL_FLASH_ART_RESET();
-    __HAL_FLASH_ART_ENABLE();
+//    __HAL_FLASH_ART_DISABLE();
+//    __HAL_FLASH_ART_RESET();
+//    __HAL_FLASH_ART_ENABLE();
 
     Flash::getInstance().write(flashAddress, (const char *)buff, bufferSize);
 
@@ -216,9 +216,9 @@ void Flash::flush()
     //1 block
     unlock();
 
-    __HAL_FLASH_ART_DISABLE();
-    __HAL_FLASH_ART_RESET();
-    __HAL_FLASH_ART_ENABLE();
+//    __HAL_FLASH_ART_DISABLE();
+//    __HAL_FLASH_ART_RESET();
+//    __HAL_FLASH_ART_ENABLE();
 
     uint32_t flashBaseAddress = Flash::getInstance().ADDR_FLASH_BANK_2;
 
@@ -233,9 +233,9 @@ void Flash::flush()
     for (uint32_t i = 0; i < COUNT_BLOCKS; i++) {
         unlock();
 
-        __HAL_FLASH_ART_DISABLE();
-        __HAL_FLASH_ART_RESET();
-        __HAL_FLASH_ART_ENABLE();
+//        __HAL_FLASH_ART_DISABLE();
+//        __HAL_FLASH_ART_RESET();
+//        __HAL_FLASH_ART_ENABLE();
 
         write(flashBaseAddress + 0x7e00 + i * BLOCK_SIZE, (const char *)(bufCacheSector1 + i * BLOCK_SIZE), BLOCK_SIZE);
 

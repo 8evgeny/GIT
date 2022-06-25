@@ -178,7 +178,6 @@ add_executable(${PROJECT_NAME}.elf
     Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_q15.c
     Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_q15.c
     Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_add_q15.c
-    Middlewares/Third_Party/ArduinoJson/src/ArduinoJson/Serialization/Writers/ArduinoStringWriter.hpp
     )
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}\
