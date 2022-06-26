@@ -528,35 +528,35 @@ CppApplication  {
         prepare: {
 
             var objCopyPath = "arm-none-eabi-objcopy"
-
             var argsConv = ["-O", "binary", input.filePath, output.filePath]
             var cmd = new Command(objCopyPath, argsConv)
-            cmd.description = "converting to BIN: " + FileInfo.fileName(
-                        input.filePath) + " -> " + input.baseName + ".bin"
+            cmd.description = "converting to BIN: " + FileInfo.fileName(input.filePath) + " -> " + input.baseName + ".bin"
 
             //Запись в nor память по qspi
-            var argsFlashingQspi = ["-f", "interface/stlink-v2-1.cfg",  "-f",  "target/stm32f7x.cfg", "-c", "init", "-c", "reset init", "-c", "flash write_bank 1 "
-                                    + output.filePath + " 0", "-c", "reset", "-c", "shutdown"]
-
+            var argsFlashingQspi =
+                    [
+                        "-f", "interface/stlink-v2-1.cfg",  "-f",  "target/stm32h7x.cfg", "-c", "init", "-c", "reset init",
+                        "-c", "flash write_bank 1 " + output.filePath + " 0", "-c", "reset", "-c", "shutdown"
+                    ]
             var cmdFlashQspi = new Command("openocd", argsFlashingQspi)
             cmdFlashQspi.description = "Wrtie to the NOR QSPI"
 
             //Запись во внутреннюю память
-            var argsFlashingInternalFlash = ["-f", "interface/stlink-v2-1.cfg",  "-f",  "target/stm32f7x.cfg", "-c", "init", "-c", "reset init", "-c", "flash write_image erase "
-                                             + input.filePath, "-c", "reset", "-c", "shutdown"]
-
-            var cmdFlashInternalFlash = new Command("openocd",
-                                                    argsFlashingInternalFlash)
+            var argsFlashingInternalFlash =
+                    [
+                        "-f", "interface/stlink-v2-1.cfg",  "-f",  "target/stm32h7x.cfg", "-c", "init", "-c", "reset init",
+                        "-c", "flash write_image erase " + input.filePath, "-c", "reset", "-c", "shutdown"
+                    ]
+            var cmdFlashInternalFlash = new Command("openocd", argsFlashingInternalFlash)
             cmdFlashInternalFlash.description = "Wrtie to the internal flash"
 
             //Открытие openocd
             var cmdOpenOcd = new Command("terminator",
-                                         "-me terminator -me \'openocd -f target/stm32f7x.cfg -c \"init\" -c \"reset init\"\' &")
+                                         "-me terminator -me \'openocd -f target/stm32h7x.cfg -c \"init\" -c \"reset init\"\' &")
 
             //Открытие openocd
             var cmdOpenocdVersion = new Command("nohup openocd --version &")
             cmdOpenocdVersion.description = "get openocd version"
-
             cmdOpenOcd.description = "Opening openocd"
 
             //Открытие Tracealyzer
@@ -564,18 +564,19 @@ CppApplication  {
                                                  "-me /home/user/jedi_way_mcu/Tracealyzer-4.2.11-linux64/launch-tz.sh &")
             cmdOpenTracealyzer.description = "Opening Tracealyzer"
 
-            //			return [cmd, cmdFlashQspi, cmdFlashInternalFlash, cmdOpenOcd, cmdOpenTracealyzer]
+//            return [cmd, cmdFlashQspi, cmdFlashInternalFlash, cmdOpenOcd, cmdOpenTracealyzer]
+
             var cmdAbout = new JavaScriptCommand()
             cmdAbout.version = "0.1.0"
-            cmdAbout.date = "28/05/2019"
-            cmdAbout.authors = "Shulenkov R.A."
+            cmdAbout.date = "27/06/2022"
+            cmdAbout.authors = "Parubets E.V."
             cmdAbout.sourceCode = function () {
                 console.info("version : " + version)
                 console.info("date : " + date)
                 console.info("authors : " + authors)
             }
 
-            //return [cmdAbout, cmdOpenocdVersion]
+            return [cmdAbout, cmdOpenocdVersion]
             return cmd
         }
     }
@@ -622,18 +623,18 @@ CppApplication  {
                         input.filePath) + " -> " + input.baseName + ".bin"
 
             //Запись в nor память по qspi
-            var argsFlashingQspi = ["-f", "board/stm32f746g-disco.cfg", "-c", "init", "-c", "reset init", "-c", "flash write_bank 1 "
-                                    + output.filePath + " 0", "-c", "reset", "-c", "shutdown"]
+            var argsFlashingQspi = [
+                        "-f", "board/stm32h746g-disco.cfg", "-c", "init", "-c", "reset init", "-c", "flash write_bank 1 "
+                        + output.filePath + " 0", "-c", "reset", "-c", "shutdown"
+                    ]
 
             var cmdFlashQspi = new Command("openocd", argsFlashingQspi)
             cmdFlashQspi.description = "Wrtie to the NOR QSPI"
 
             //Запись во внутреннюю память
-            var argsFlashingInternalFlash = ["-f", "board/stm32f746g-disco.cfg", "-c", "init", "-c", "reset init", "-c", "flash write_image erase "
+            var argsFlashingInternalFlash = ["-f", "board/stm32h7x3i_eval.cfg", "-c", "init", "-c", "reset init", "-c", "flash write_image erase "
                                              + input.filePath, "-c", "reset", "-c", "shutdown"]
-
-            var cmdFlashInternalFlash = new Command("openocd",
-                                                    argsFlashingInternalFlash)
+            var cmdFlashInternalFlash = new Command("openocd", argsFlashingInternalFlash)
             cmdFlashInternalFlash.description = "Wrtie to the internal flash"
 
 //			return [cmd, cmdFlashQspi, cmdFlashInternalFlash]
