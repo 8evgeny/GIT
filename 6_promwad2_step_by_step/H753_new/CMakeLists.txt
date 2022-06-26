@@ -21,6 +21,7 @@ add_definitions(-DSC2BOARD)
 add_definitions(-DUSE_HAL_DRIVER)
 add_definitions(-DARM_MATH_CM7)
 add_definitions(-DHAVE_CONFIG_H)
+add_definitions(-D__FPU_PRESENT)
 
 set (RS232  ${CMAKE_HOME_DIRECTORY}/Core/Src/RS232)
 set (Debug  ${CMAKE_HOME_DIRECTORY}/Core/Src/Debug)
@@ -149,7 +150,7 @@ add_library(GPIO_SC2_LIB ${GPIO_SC2_SOURCES} )
 add_library(UpdateMechanism_LIB ${UpdateMechanism_src} )
 add_library(TraceRecorder_LIB ${TraceRecorder_src} )
 add_library(RTP_LIB ${RTP_src} )
-add_library(AUDIO_LIB ${AUDIO_src} )
+add_library(AUDIO_LIB ${AUDIO_src})
 add_library(UDP_JSON_LIB ${UDP_JSON_src} )
 add_library(Call_Control_LIB ${Call_Control_src} )
 add_library(flash_LIB ${flash_src} )
@@ -167,6 +168,16 @@ add_executable(${PROJECT_NAME}.elf
     ${SOURCES_CPP}
     Core/Src/LWIP/App/lwip.c
     Core/Src/LWIP/Target/ethernetif.c
+#    Core/Src/AUDIO/microphone.cpp
+#    Core/Src/AUDIO/sai.cpp
+    Middlewares/Third_Party/LwIP/src/api/sockets.c
+    Core/Src/RTP/rtp.cpp
+    Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_q7.c
+    Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_sai.c
+    Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_wwdg.c
+    Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_q15.c
+    Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_q15.c
+    Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_add_q15.c
     )
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}\
@@ -265,7 +276,6 @@ target_link_options(${PROJECT_NAME}.elf PRIVATE ${LINKER_FLAGS})
 target_link_libraries(${PROJECT_NAME}.elf PUBLIC
     STARTUP
     SRAM_LIB
-    flash_LIB
     STM32H7xx_HAL_Driver
     LWIP
     CMSIS_RTOS
@@ -282,13 +292,14 @@ target_link_libraries(${PROJECT_NAME}.elf PUBLIC
     UpdateMechanism_LIB
     TraceRecorder_LIB
     RTP_LIB
-    AUDIO_LIB
     UDP_JSON_LIB
     Call_Control_LIB
     FatFs_LIB
     Tests_LIB
     uid_LIB
     WDT_LIB
+    AUDIO_LIB
+    flash_LIB
     )
 
 set(HEX_FILE ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.hex)
@@ -299,5 +310,5 @@ add_custom_command(TARGET ${PROJECT_NAME}.elf POST_BUILD
 add_custom_command(TARGET ${PROJECT_NAME}.elf POST_BUILD
     COMMAND ${CMAKE_OBJCOPY} -O binary $<TARGET_FILE:${PROJECT_NAME}.elf> ${BIN_FILE}
     COMMENT "Building ${BIN_FILE} ")
-
+add_custom_command(TARGET ${PROJECT_NAME}.elf POST_BUILD  COMMAND arm-none-eabi-size ${PROJECT_NAME}.elf )
 

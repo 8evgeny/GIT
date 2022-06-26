@@ -66,50 +66,62 @@ CppApplication  {
     property string UpdateMechanism: Src + "/UpdateMechanism"
 
     Group {
+        name:"lostFiles"
+        files:  [
+        Home + "/Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_q15.c",
+        Home + "/Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_q7.c",
+        Home + "/Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_q15.c",
+        Home + "/Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_add_q15.c",
+        Home + "/Middlewares/Third_Party/FatFs/src/ff_gen_drv.c",
+        Home + "/Core/Src/flash/flash.cpp"
+    ]
+    }
+
+    Group {
         name: "FatFs"
-        condition: IsBootloader == true
+//        condition: IsBootloader == true
         prefix: FatFs
         files: ["/src/*.c", "/src/*.h", "/src/option/syscall.c", "/src/option/unicode.c"]
     }
 
-//    Group {
-//        name: "Bootloader"
-//        condition: IsBootloader == true
-//        files: [Src + "/Bootloader/*.h", Src + "/Bootloader/*.cpp", AES128 + "/*.h",  AES128 + "/*.c", MD5 + "/*.h", MD5 + "/*.cpp"]
-//    }
+    Group {
+        name: "Bootloader"
+        condition: IsBootloader == true
+        files: [Src + "/Bootloader/*.h", Src + "/Bootloader/*.cpp", AES128 + "/*.h",  AES128 + "/*.c", MD5 + "/*.h", MD5 + "/*.cpp"]
+    }
 
-//    Group {
-//        name: "Update mechanism for objects"
-//        files: ["Src/UpdateMechanism/updatemechanism.cpp", "Src/UpdateMechanism/updatemechanism.h"]
-//    }
+    Group {
+        name: "Update mechanism for objects"
+        files: ["Src/UpdateMechanism/updatemechanism.cpp", "Src/UpdateMechanism/updatemechanism.h"]
+    }
 
-//    Group {
-//        name: "TraceRecorder (Percepio Tracealyzer)"
-//        prefix: TraceRecorder
-//        files: ["/*.c", "/streamports/TCPIP/*.c", "/streamports/TCPIP/include/*.h", "/include/*.h", "/config/*.h"]
-//    }
+    Group {
+        name: "TraceRecorder (Percepio Tracealyzer)"
+        prefix: TraceRecorder
+        files: ["/*.c", "/streamports/TCPIP/*.c", "/streamports/TCPIP/include/*.h", "/include/*.h", "/config/*.h"]
+    }
 
-//    Group {
-//        name: "docs"
-//        files: [Home + "/README.md", Home + "/doc/*"]
-//    }
+    Group {
+        name: "docs"
+        files: [Home + "/README.md", Home + "/doc/*"]
+    }
 
-//    Group {
-//        name: "Testing system"
-//        files: ["Src/Tests/tests.cpp", "Src/Tests/tests.h"]
-//    }
+    Group {
+        name: "Testing system"
+        files: ["Src/Tests/tests.cpp", "Src/Tests/tests.h"]
+    }
 
-//    Group {
-//        name: "UID (unique identifier of mcu)"
-//        prefix: UID
-//        files: ["/*.h", "/*.cpp"]
-//    }
+    Group {
+        name: "UID (unique identifier of mcu)"
+        prefix: UID
+        files: ["/*.h", "/*.cpp"]
+    }
 
-//    Group {
-//        name: "RTP"
-//        prefix: RTP
-//        files: ["/*.h", "/*.cpp"]
-//    }
+    Group {
+        name: "RTP"
+        prefix: RTP
+        files: ["/*.h", "/*.cpp"]
+    }
 
     Group {
         name: "WDT"
@@ -123,18 +135,18 @@ CppApplication  {
         files: ["/*.h", "/*.cpp", "/*.c"]
     }
 
-//    Group {
-//        condition: IsBootloader == true
-//        name: "Flash (internal flash of mcu)"
-//        prefix: Flash
-//        files: ["/*.h", "/*.cpp"]
-//    }
+    Group {
+        condition: IsBootloader == true
+        name: "Flash (internal flash of mcu)"
+        prefix: Flash
+        files: ["/*.h", "/*.cpp"]
+    }
 
-//    Group {
-//        name: "TRNG (true random number generator)"
-//        prefix: TRNG
-//        files: ["/*.h", "/*.cpp"]
-//    }
+    Group {
+        name: "TRNG (true random number generator)"
+        prefix: TRNG
+        files: ["/*.h", "/*.cpp"]
+    }
 
 //    Group {
 //        name: "CAN STM32H7xx"
@@ -144,12 +156,12 @@ CppApplication  {
 //    }
 
 
-//    Group {
-//        name: "GPIO STM32H7xx"
-//        prefix: GPIO_STM32H7xx
-//        condition: SC2board == false
-//        files: ["/*.h", "/*.cpp"]
-//    }
+    Group {
+        name: "GPIO STM32H7xx"
+        prefix: GPIO_STM32H7xx
+        condition: SC2board == false
+        files: ["/*.h", "/*.cpp"]
+    }
 
     Group {
         name: "GPIO CS2 BOARD"
@@ -159,11 +171,11 @@ CppApplication  {
     }
 
 
-//    Group {
-//        name: "RTC"
-//        prefix: RTC
-//        files: ["/*.h", "/*.cpp"]
-//    }
+    Group {
+        name: "RTC"
+        prefix: RTC
+        files: ["/*.h", "/*.cpp"]
+    }
 
     Group {
         name: "SRAM"
@@ -189,20 +201,20 @@ CppApplication  {
         files: ["/*.h"]
     }
 
-//    Group {
-//        name: "CMSIS STM32H7xx"
-//        prefix: CMSIS_STM32H7xx
-//        condition: IsBootloader == true
-//        files: ["/Include/*.h", "/Device/ST/STM32H7xx/Source/Templates/*", "/Device/ST/STM32H7xx/Include/*.h",
-//            "/DSP/Include/*.h",
-//            "/DSP/Source/SupportFunctions/*.c",
-//            "/DSP/Source/StatisticsFunctions/*.c",
-//            "/DSP/Source/BasicMathFunctions/*.c"]
+    Group {
+        name: "CMSIS STM32H7xx"
+        prefix: CMSIS_STM32H7xx
+        condition: IsBootloader == true
+        files: ["/Include/*.h", "/Device/ST/STM32H7xx/Source/Templates/*", "/Device/ST/STM32H7xx/Include/*.h",
+            "/DSP/Include/*.h",
+            "/DSP/Source/SupportFunctions/*.c",
+            "/DSP/Source/StatisticsFunctions/*.c",
+            "/DSP/Source/BasicMathFunctions/*.c"]
 
-//        excludeFiles: ["/Device/ST/STM32H7xx/Include/stm32h7xx_hal_wwdg.h",
-//            "/Device/ST/STM32H7xx/Source/Templates/system_stm32h7xx.c",
-//            "/Device/ST/STM32H7xx/Include/stm32h7xx_hal_conf_template.h",]
-//    }
+        excludeFiles: ["/Device/ST/STM32H7xx/Include/stm32h7xx_hal_wwdg.h",
+            "/Device/ST/STM32H7xx/Source/Templates/system_stm32h7xx.c",
+            "/Device/ST/STM32H7xx/Include/stm32h7xx_hal_conf_template.h",]
+    }
 
     Group {
         name: "Call control"
@@ -211,11 +223,11 @@ CppApplication  {
         excludeFiles: ["/call_control.h", "/call_control.cpp"]
     }
 
-//    Group {
-//        name: "SNTP"
-//        prefix: SNTP
-//        files: ["/*.h", "/*.cpp"]
-//    }
+    Group {
+        name: "SNTP"
+        prefix: SNTP
+        files: ["/*.h", "/*.cpp"]
+    }
 
     Group {
         name: "LwIP"
@@ -312,7 +324,7 @@ CppApplication  {
     Group {
         name: "Src (source files)"
         prefix: Src
-        files: ["/*.c", "/main.cpp",
+        files: ["/*.c", "/*.cpp"
 //            "/flash_diskio.cpp"
         ]
 //            ["/Src_Bootloader/*.c", "/Src_Bootloader/*.cpp", "/../syscalsyscalls.cls.c"]
@@ -441,6 +453,9 @@ CppApplication  {
                          "-mfpu=fpv5-sp-d16",
                          "-mthumb", "-Xlinker",
                          "--gc-sections",
+        "-Os",
+        "-ffunction-sections",
+        "-fdata-sections",
                          "-specs=nosys.specs",
                          "-specs=nano.specs",
 //                         "-fno-exceptions",
