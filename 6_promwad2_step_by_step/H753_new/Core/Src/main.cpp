@@ -148,7 +148,7 @@ osThreadId defaultTaskHandle;
 
 osThreadDef(readFromUartThread, readFromUartThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE );
 osThreadDef(switchLEDsThread, switchLEDsThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 2);
-osThreadDef(replaceTimerCallback, replaceTimerCallback, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 4);
+//osThreadDef(replaceTimerCallback, replaceTimerCallback, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 4);
 osThreadDef(readButtonThread, readButtonThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 4 );
 
 void vApplicationStackOverflowHook(TaskHandle_t xTask, char *pcTaskName)
@@ -896,10 +896,10 @@ static void MX_GPIO_Init(void)
         RS232::getInstance().term << "Failed to create [readButtonThread]" << "\n";
     }
 
-    if ((osThreadCreate(osThread(replaceTimerCallback), nullptr)) == nullptr)
-    {
-        RS232::getInstance().term << "Failed to create [switchLEDsThread]" << "\n";
-    }
+//    if ((osThreadCreate(osThread(replaceTimerCallback), nullptr)) == nullptr)
+//    {
+//        RS232::getInstance().term << "Failed to create [switchLEDsThread]" << "\n";
+//    }
 
 }
 
