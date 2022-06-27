@@ -187,8 +187,11 @@ term("recvUdpThread_3")
 term("recvUdpThread_4")
 
             /* join multicast group */
-//            if (setsockopt(sockUdpRecv, IPPROTO_IP, IP_ADD_MEMBERSHIP, &ipmreqUdpRecv, sizeof(ipmreqUdpRecv)) == 0)
-//            {
+
+        auto err = setsockopt(sockUdpRecv, IPPROTO_IP, IP_ADD_MEMBERSHIP, &ipmreqUdpRecv, sizeof(ipmreqUdpRecv));
+term1("err = ") term(err)
+            if (err == 0)
+            {
                 /* receive RTP packets */
 
                 while (1)
@@ -215,9 +218,8 @@ term("recvUdpThread_4")
                     }
                     osDelay(1);
                 }
-//            }
+            }
             /* leave multicast group */
-term("recvUdpThread_5")
             setsockopt(sockUdpRecv, IPPROTO_IP, IP_DROP_MEMBERSHIP, &ipmreqUdpRecv, sizeof(ipmreqUdpRecv));
         }
     }

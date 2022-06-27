@@ -277,10 +277,10 @@ int main(void)
         }
 
         osThreadDef(recvUdpThread, recvUdpThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 10);
-        if ((UdpJsonExch::getInstance()->recvUdpThreadId = osThreadCreate(osThread(recvUdpThread), nullptr)) == nullptr)
-        {
-            Debug::getInstance().dbg << __FUNCTION__ << " " << __LINE__ << " " << "\n";
-        }
+//        if ((UdpJsonExch::getInstance()->recvUdpThreadId = osThreadCreate(osThread(recvUdpThread), nullptr)) == nullptr)
+//        {
+//            Debug::getInstance().dbg << __FUNCTION__ << " " << __LINE__ << " " << "\n";
+//        }
 
 //          firmwareInitThread();
 
@@ -325,6 +325,7 @@ int main(void)
 [[ noreturn ]]
 static void trackRingBufferThread(void const *arg)
 {
+term("--- trackRingBufferThread ---")
         (void)arg;
         while(true) {
             osMutexWait(GPIO::getInstance()->mutexRingBufferRx_id, osWaitForever);

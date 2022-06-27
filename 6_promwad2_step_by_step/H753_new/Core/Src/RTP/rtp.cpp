@@ -253,7 +253,7 @@ term("--- timerForMixAudio ---")
   */
 void rtpSendInit(void const *arg)
 {
-
+term("--- rtpSendInit ---")
     /* Reset the RTP structure */
     memset(&rtpStructSend, 0x00, sizeof(rtpStructSend));
 
@@ -298,6 +298,7 @@ void rtpSendInit(void const *arg)
  */
 static void rtpSendPacketsHalf(int sock_id, struct sockaddr_in *net_dest)
 {
+term("--- rtpSendPacketsHalf ---")
     struct rtp_hdr *rtphdr;            /* RTP header */
     uint8_t *rtp_payload;              /* RTP payload */
     int rtp_payload_size = 0;          /* RTP payload size in the current packet */
@@ -333,6 +334,7 @@ static void rtpSendPacketsHalf(int sock_id, struct sockaddr_in *net_dest)
  */
 static void rtpSendPacketsFull(int sock_id, struct sockaddr_in *net_dest)
 {
+term("--- rtpSendPacketsFull ---")
     struct rtp_hdr *rtphdr;            /* RTP header */
     uint8_t *rtp_payload;              /* RTP payload */
     int rtp_payload_size = 0;          /* RTP payload size in the current packet */
