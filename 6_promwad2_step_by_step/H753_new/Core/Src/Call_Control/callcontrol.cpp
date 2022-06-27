@@ -11,6 +11,7 @@
 #include "circularcall.h"
 #include "conferencecall.h"
 #include "telephonecall.h"
+#include "rs232.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -867,6 +868,7 @@ void switchLed(uint8_t ledNumber, bool ledOn, uint16_t timeOn, uint16_t timeOff,
 #ifndef SC2BOARD
     CAN::getInstance()->configLed(ledNumber, ledOn, timeOn, timeOff, repeatNum);
 #else
+term("-switchLed-")
     GPIO::getInstance()->configLed(ledNumber, ledOn, timeOn, timeOff, repeatNum);
 #endif
 }
