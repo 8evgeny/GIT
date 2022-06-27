@@ -25,8 +25,8 @@
 extern "C" {
 #endif
 
-osThreadDef(switchLEDsThread, switchLEDsThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 2);
-osThreadDef(readButtonThread, readButtonThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE );
+//osThreadDef(switchLEDsThread, switchLEDsThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 2);
+//osThreadDef(readButtonThread, readButtonThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE );
 osTimerDef(timer7, timerCallback); /*!< Define the attributes of the timer */
 
 //osMessageQDef(message_q, 1, uint16_t); // Declare a message queue
@@ -187,25 +187,18 @@ void GPIOInit(void)
 //    HAL_NVIC_SetPriority(EXTI15_10_IRQn, 5, 0);
 //    HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
 
-    if ((osThreadCreate(osThread(switchLEDsThread), nullptr)) == nullptr) {
-        RS232::getInstance().term << "Failed to create [switchLEDsThread]" << "\n";
-    }
+//    if ((osThreadCreate(osThread(switchLEDsThread), nullptr)) == nullptr) {
+//        RS232::getInstance().term << "Failed to create [switchLEDsThread]" << "\n";
+//    }
 
-    if ((osThreadCreate(osThread(readButtonThread), nullptr)) == nullptr) {
-        RS232::getInstance().term << "Failed to create [readButtonThread]" << "\n";
-    }
+//    if ((osThreadCreate(osThread(readButtonThread), nullptr)) == nullptr) {
+//        RS232::getInstance().term << "Failed to create [readButtonThread]" << "\n";
+//    }
 
-//    timerId7 = osTimerCreate( osTimer(timer7), osTimerPeriodic, nullptr); // create timer thread
-
-    term("timerId7atempt\n")
-
+    timerId7 = osTimerCreate( osTimer(timer7), osTimerPeriodic, nullptr); // create timer thread
     if (timerId7)
     {
         osStatus status = osTimerStart (timerId7, timerDelay);   // start timer
-
-        term("status=")
-        term(status)
-
         if (status != osOK)  {
             RS232::getInstance().term << "Failed to start [timer]" << "\n";
             while(1);
@@ -439,15 +432,15 @@ void readButtonThread(void const *arg)
     PackageRx tempPack;
     tempPack.packetType = GPIO::getInstance()->button;
 
-HAL_Delay(2000);
-term("****  readButtonThread  start  ****")
+osDelay(4000);
+term("---- readButtonThread ----")
 
     while(true)
     {
         for (uint8_t i = 0; i < GPIO::getInstance()->sPinArray.size() ; ++i)
         {
-            uint16_t n = GPIO::getInstance()->sPinArray[i].n,
-            k = GPIO::getInstance()->sPinArray[i].i;
+            uint16_t n = GPIO::getInstance()->sPinArray[i].n;
+//            k = GPIO::getInstance()->sPinArray[i].i;
 
             if (HAL_GPIO_ReadPin(GPIOG, GPIO::getInstance()->sPinArray[i].n) == GPIO_PIN_SET)
             {
@@ -456,8 +449,7 @@ term("****  readButtonThread  start  ****")
                 if (HAL_GPIO_ReadPin(GPIOG, GPIO::getInstance()->sPinArray[i].n)  == GPIO_PIN_SET)
                 {
 
-//                RS232::getInstance().term << "Pressed button: ";
-//                term(std::to_string(i + 1))
+//term1("Pressed button: ") term(std::to_string(i + 1))
 
                 //Включаю Led
 //                if (i < 3 )  HAL_GPIO_WritePin(GPIOG, GPIO::getInstance()->aLeds[i].ledPin, GPIO_PIN_SET);
