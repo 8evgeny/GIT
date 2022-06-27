@@ -886,10 +886,10 @@ static void MX_GPIO_Init(void)
     HAL_NVIC_SetPriority(EXTI15_10_IRQn, 5, 0);
     HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
 
-    //    if ((osThreadCreate(osThread(switchLEDsThread), nullptr)) == nullptr)
-    //    {
-    //        RS232::getInstance().term << "Failed to create [switchLEDsThread]" << "\n";
-    //    }
+        if ((osThreadCreate(osThread(switchLEDsThread), nullptr)) == nullptr)
+        {
+            RS232::getInstance().term << "Failed to create [switchLEDsThread]" << "\n";
+        }
 
     if ((osThreadCreate(osThread(readButtonThread), nullptr)) == nullptr)
     {
