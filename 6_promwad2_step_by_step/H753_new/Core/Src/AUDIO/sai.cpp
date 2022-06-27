@@ -395,7 +395,7 @@ osThreadDef(handelMixAudio, timerForMixAudio, osPriorityNormal, 0, configMINIMAL
 osThreadDef(audioRxFullThread, threadAudioRxFull, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 20);
 osThreadDef(audioRxHalfThread, threadAudioRxHalf, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 20);
 osThreadDef(lostPackThread, lostPackThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 5);
-osThreadDef(recvThread, rtpRecvThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 40);
+osThreadDef(recvThread, rtpRecvThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 20);
 
 
 void threadAudioInit(void const *arg)
@@ -529,6 +529,7 @@ void threadAudioInit(void const *arg)
 
 void threadAudioTxHalf(void const *arg)
 {
+osDelay(200);
 term("--- threadAudioTxHalf ---")
     UNUSED(arg);
     RtpPackages in;
@@ -558,6 +559,8 @@ term("--- threadAudioTxHalf ---")
 
 void threadAudioTxFull(void const *arg)
 {
+osDelay(300);
+term("--- threadAudioTxFull ---")
     UNUSED(arg);
     RtpPackages in;
     while (1) {
@@ -586,6 +589,8 @@ void threadAudioTxFull(void const *arg)
 
 void threadAudioRxFull(void const *arg)
 {
+osDelay(500);
+term("--- threadAudioRxFull ---")
     UNUSED(arg);
     while (1) {
         if (osSemaphoreWait(semaphoreRxFullId, 0) == osOK) {
@@ -609,6 +614,8 @@ void threadAudioRxFull(void const *arg)
 
 void threadAudioRxHalf(void const *arg)
 {
+osDelay(600);
+term("--- threadAudioRxHalf ---")
     UNUSED(arg);
     while (1) {
         if (osSemaphoreWait(semaphoreRxHalfId, 0) == osOK) {

@@ -62,6 +62,8 @@ static RtpPackages inMix;
 
 _Noreturn void timerForMixAudio(void const *arg)
 {
+osDelay(400);
+term("--- timerForMixAudio ---")
     UNUSED(arg);
     while (1) {
         using SsrcIndex = struct alignas (4) {
@@ -366,6 +368,8 @@ static void rtpSendPacketsFull(int sock_id, struct sockaddr_in *net_dest)
  */
 void rtpRecvThread(void const *arg)
 {
+osDelay(800);
+term("--- rtpRecvThread ---")
     struct sockaddr_in local;
     struct sockaddr_in from;
     int                fromlen;
@@ -474,6 +478,7 @@ term("--- sendHalfThread ---")
   */
 _Noreturn void sendFullThread(void const *arg)
 {
+    osDelay(100);
 term("--- sendFullThread ---")
     UNUSED(arg);
     while (1) {
@@ -500,6 +505,8 @@ term("--- sendFullThread ---")
   */
 _Noreturn void lostPackThread(void const *arg)
 {
+osDelay(700);
+term("--- lostPackThread ---")
     UNUSED(arg);
 
     while (1) {

@@ -150,6 +150,8 @@ void udpSendInit(void)
 
 void recvUdpThread(const void *arg)
 {
+osDelay(10000);
+term("---- recvUdpThread ----")
     (void)arg;
     udpSendInit();
 
