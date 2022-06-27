@@ -277,10 +277,10 @@ int main(void)
         }
 
         osThreadDef(recvUdpThread, recvUdpThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 10);
-//        if ((UdpJsonExch::getInstance()->recvUdpThreadId = osThreadCreate(osThread(recvUdpThread), nullptr)) == nullptr)
-//        {
-//            Debug::getInstance().dbg << __FUNCTION__ << " " << __LINE__ << " " << "\n";
-//        }
+        if ((UdpJsonExch::getInstance()->recvUdpThreadId = osThreadCreate(osThread(recvUdpThread), nullptr)) == nullptr)
+        {
+            Debug::getInstance().dbg << __FUNCTION__ << " " << __LINE__ << " " << "\n";
+        }
 
 //          firmwareInitThread();
 

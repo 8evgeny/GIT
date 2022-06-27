@@ -154,7 +154,7 @@ osDelay(10000);
 term("---- recvUdpThread ----")
     (void)arg;
     udpSendInit();
-
+term("recvUdpThread_2")
     const int capacity = JSON_OBJECT_SIZE(6)  + JSON_ARRAY_SIZE(100);
     DynamicJsonDocument recvDoc (capacity);
 
@@ -172,7 +172,7 @@ term("---- recvUdpThread ----")
         local.sin_family      = AF_INET;
         local.sin_port        = PP_HTONS(PORTNUM);
         local.sin_addr.s_addr = PP_HTONL(INADDR_ANY);
-
+term("recvUdpThread_3")
         /* bind to local address */
         if (bind(sockUdpRecv, reinterpret_cast<struct sockaddr *>(&local), sizeof(local)) == 0) {
 
@@ -184,10 +184,15 @@ term("---- recvUdpThread ----")
             ipmreqUdpRecv.imr_multiaddr.s_addr = inet_addr("232.0.0.0");
             ipmreqUdpRecv.imr_interface.s_addr = PP_HTONL(INADDR_ANY);
 
+term("recvUdpThread_4")
+
             /* join multicast group */
-            if (setsockopt(sockUdpRecv, IPPROTO_IP, IP_ADD_MEMBERSHIP, &ipmreqUdpRecv, sizeof(ipmreqUdpRecv)) == 0) {
+//            if (setsockopt(sockUdpRecv, IPPROTO_IP, IP_ADD_MEMBERSHIP, &ipmreqUdpRecv, sizeof(ipmreqUdpRecv)) == 0)
+//            {
                 /* receive RTP packets */
-                while (1) {
+
+                while (1)
+                {
                     fromlen = sizeof(from);
                     osMutexWait(UdpJsonExch::getInstance()->mutexSock_id, osWaitForever);
                     result = recvfrom(sockUdpRecv, &UdpJsonExch::getInstance()->recvBuff, sizeof(UdpJsonExch::getInstance()->recvBuff), 0, (struct sockaddr *)&from, (socklen_t *)&fromlen);
@@ -210,8 +215,9 @@ term("---- recvUdpThread ----")
                     }
                     osDelay(1);
                 }
-            }
+//            }
             /* leave multicast group */
+term("recvUdpThread_5")
             setsockopt(sockUdpRecv, IPPROTO_IP, IP_DROP_MEMBERSHIP, &ipmreqUdpRecv, sizeof(ipmreqUdpRecv));
         }
     }
