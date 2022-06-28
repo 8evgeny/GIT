@@ -224,18 +224,24 @@ GPIO::GPIO()
         while(1)
             RS232::getInstance().term << "Failed to create [mutexRingBufferRx]" << "\n";
     }
-
+//ИНИЦИАЛИЗАЦИЯ РЫЧАГОВ
 //    message_q_id = osMessageCreate(osMessageQ(message_q), NULL);
 
-    for (uint8_t var = 9, j = 0; var < 15; ++var, ++j)
-    {
-        sPinArray[j].i = j + 1;
-        sPinArray[j].n = aPin[var];
-    }
+//    for (uint8_t var = 9, j = 0; var < 15; ++var, ++j)
+//    {
+//        buttonArray[j].i = j + 1;
+//        buttonArray[j].n = aPin[var];
+//    }
+//    uint16_t temp = buttonArray.at(0).n;
+//    buttonArray.at(0).n = buttonArray.at(2).n;
+//    buttonArray.at(2).n = temp;
+    buttonArray[0].i = 1;     buttonArray[0].n = GPIO_PIN_9;
+    buttonArray[1].i = 2;     buttonArray[1].n = GPIO_PIN_10;
+    buttonArray[2].i = 3;     buttonArray[2].n = GPIO_PIN_11;
+    buttonArray[3].i = 4;     buttonArray[3].n = GPIO_PIN_12;
+    buttonArray[4].i = 5;     buttonArray[4].n = GPIO_PIN_13;
+    buttonArray[5].i = 6;     buttonArray[5].n = GPIO_PIN_14;
 
-    uint16_t temp = sPinArray.at(0).n;
-    sPinArray.at(0).n = sPinArray.at(2).n;
-    sPinArray.at(2).n = temp;
 }
 
 
@@ -389,53 +395,6 @@ term("---- switchLEDsThread ----")
     }
 }
 
-[[ noreturn ]]
-void replaceTimerCallback(void const *arg)
-{
-    (void)arg;
-
-
-HAL_Delay(300);
-term("****  replaceTimerCallbackThread  start  ****")
-
-
-    for (;;)
-    HAL_Delay(50);
-
-    {
-
-        for (uint8_t i = 0; i < 6; i++)
-        {
-term("---  replaceTimerCallbackThread  work  ---")
-            if (GPIO::getInstance()->aLeds[i].timeStart) {
-                GPIO::getInstance()->aLeds[i].count += 1;
-                if(GPIO::getInstance()->aLeds[i].ledState == false && GPIO::getInstance()->aLeds[i].count >= GPIO::getInstance()->aLeds[i].timeOff/timerDelay) {
-                    GPIO::getInstance()->aLeds[i].ledState = true;
-                    GPIO::getInstance()->aLeds[i].count = 0;
-                    if (GPIO::getInstance()->aLeds[i].reiterationNum > 0)
-                        GPIO::getInstance()->aLeds[i].reiterationNum -= 1;
-                    if (GPIO::getInstance()->aLeds[i].reiterationNum == 0) {
-                        GPIO::getInstance()->aLeds[i].timeStart = false;
-                        GPIO::getInstance()->aLeds[i].reiterationNum -= 1;
-                    }
-                } else if (GPIO::getInstance()->aLeds[i].ledState == true && GPIO::getInstance()->aLeds[i].count >= GPIO::getInstance()->aLeds[i].timeOn/timerDelay) {
-                    GPIO::getInstance()->aLeds[i].ledState = false;
-                    GPIO::getInstance()->aLeds[i].count = 0;
-                    if (GPIO::getInstance()->aLeds[i].reiterationNum > 0)
-                        GPIO::getInstance()->aLeds[i].reiterationNum -= 1;
-                    if (GPIO::getInstance()->aLeds[i].reiterationNum == 0) {
-                        GPIO::getInstance()->aLeds[i].timeStart = false;
-                        GPIO::getInstance()->aLeds[i].reiterationNum -= 1;
-                    }
-                }
-            }
-        }
-    }
-}
-
-
-
-
 
 [[ noreturn ]]
 void readButtonThread(void const *arg)
@@ -449,16 +408,16 @@ term("---- readButtonThread ----")
 
     while(true)
     {
-        for (uint8_t i = 0; i < GPIO::getInstance()->sPinArray.size() ; ++i)
+        for (uint8_t i = 0; i < GPIO::getInstance()->buttonArray.size() ; ++i)
         {
-            uint16_t n = GPIO::getInstance()->sPinArray[i].n;
-//            k = GPIO::getInstance()->sPinArray[i].i;
+            uint16_t n = GPIO::getInstance()->buttonArray[i].n;
+//            k = GPIO::getInstance()->buttonArray[i].i;
 
-            if (HAL_GPIO_ReadPin(GPIOG, GPIO::getInstance()->sPinArray[i].n) == GPIO_PIN_SET)
+            if (HAL_GPIO_ReadPin(GPIOG, GPIO::getInstance()->buttonArray[i].n) == GPIO_PIN_SET)
             {
 
                 osDelay(50);
-                if (HAL_GPIO_ReadPin(GPIOG, GPIO::getInstance()->sPinArray[i].n)  == GPIO_PIN_SET)
+                if (HAL_GPIO_ReadPin(GPIOG, GPIO::getInstance()->buttonArray[i].n)  == GPIO_PIN_SET)
                 {
 
 //term1("Pressed button: ") term(std::to_string(i + 1))
@@ -467,7 +426,7 @@ term("---- readButtonThread ----")
 //                if (i < 3 )  HAL_GPIO_WritePin(GPIOG, GPIO::getInstance()->aLeds[i].ledPin, GPIO_PIN_SET);
 //                if (i >= 3 ) HAL_GPIO_WritePin(GPIOC, GPIO::getInstance()->aLeds[i ].ledPin, GPIO_PIN_SET);
 
-                    n = GPIO::getInstance()->sPinArray[i].i;
+                    n = GPIO::getInstance()->buttonArray[i].i;
                     tempPack.payloadData = n;
 
                     osMutexWait(GPIO::getInstance()->mutexRingBufferRx_id, osWaitForever);
@@ -501,12 +460,12 @@ void GPIO::initLEDs()
 //        if (i == 3) j = 10;
 //        aLeds[i].ledPin = aPin[j];
 //    }
-    aLeds[0].ledPin = aPin[10]; //PC10
-    aLeds[1].ledPin = aPin[11]; //PC11
-    aLeds[2].ledPin = aPin[12]; //PC12
-    aLeds[3].ledPin = aPin[6];  //PG6
-    aLeds[4].ledPin = aPin[7];  //PG7
-    aLeds[5].ledPin = aPin[8];  //PG8
+    aLeds[0].ledPin = aPin[6];
+    aLeds[1].ledPin = aPin[7];
+    aLeds[2].ledPin = aPin[8];
+    aLeds[3].ledPin = aPin[10];
+    aLeds[4].ledPin = aPin[11];
+    aLeds[5].ledPin = aPin[12];
 }
 
 #ifdef __cplusplus

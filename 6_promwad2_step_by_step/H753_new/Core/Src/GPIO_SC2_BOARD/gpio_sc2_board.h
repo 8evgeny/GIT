@@ -158,7 +158,7 @@ public:
 
     constexpr static uint8_t keysNum = 6; /*!< Number of the keys on the keyboard */
     osMessageQId message_q_id;  /*!< ID for the message queue */
-    alignas(4) std::array <sPin, keysNum>sPinArray; /*!< The array stores sPin struct elements */
+    alignas(4) std::array <sPin, keysNum>buttonArray; /*!< The array stores sPin struct elements */
     alignas(4) Keyboard aLeds[keysNum]; /*!< The array stores Keyboard struct elements */
 
     GPIO_InitTypeDef *gpioInit; /**< The variable is pointer to GPIO Handle Type */
