@@ -42,7 +42,15 @@ void testUART()
     }
 }
 
-
+char *logTasks = new char[2048];
+void testTasksLog()
+{
+    osThreadDef(simpletestTasksLog, simpletestTasksLog, osPriorityNormal, 0, configMINIMAL_STACK_SIZE );
+    if ((osThreadCreate(osThread(simpletestTasksLog), nullptr)) == nullptr)
+    {
+        term("Failed to create simpletestTasksLog");
+    }
+}
 
 
 void simpleLedTest1_RTOS(void const *argument)
@@ -194,6 +202,27 @@ term("startingSimpleTestUART_RTOS")
 
     vTaskDelete(nullptr);
 }
+
+void simpletestTasksLog(void const *argument)
+{
+    (void)argument;
+
+    osDelay(5000);
+    term("--- startingSimpleTestTasksLog ---")
+
+        for(;;)
+    {
+        osDelay(10000);
+        vTaskList(logTasks);
+        term(logTasks)
+        term("\r\n\n\n")
+
+    } //end for(;;)
+
+    vTaskDelete(nullptr);
+}
+
+
 
 
 #ifdef __cplusplus
