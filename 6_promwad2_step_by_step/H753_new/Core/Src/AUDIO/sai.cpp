@@ -48,7 +48,6 @@ static DMA_HandleTypeDef hdmaSaiTx;
 
 static osSemaphoreId semaphoreRxFullId;
 static osSemaphoreId semaphoreRxHalfId;
-
 static osSemaphoreId semaphoreTxFullId;
 static osSemaphoreId semaphoreTxHalfId;
 
@@ -395,7 +394,7 @@ osThreadDef(handelMixAudio, timerForMixAudio, osPriorityNormal, 0, configMINIMAL
 osThreadDef(audioRxFullThread, threadAudioRxFull, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 20);
 osThreadDef(audioRxHalfThread, threadAudioRxHalf, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 20);
 osThreadDef(lostPackThread, lostPackThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 5);
-osThreadDef(recvThread, rtpRecvThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 20);
+osThreadDef(recvThread, rtpRecvThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 5);
 
 
 void threadAudioInit(void const *arg)
