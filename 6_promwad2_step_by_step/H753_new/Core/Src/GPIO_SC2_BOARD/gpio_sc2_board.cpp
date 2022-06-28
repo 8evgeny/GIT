@@ -218,11 +218,11 @@ GPIO::GPIO()
 //ИНИЦИАЛИЗАЦИЯ РЫЧАГОВ
 //    message_q_id = osMessageCreate(osMessageQ(message_q), NULL);
 
-    buttonArray[0].i = 1;     buttonArray[0].n = GPIO_PIN_9;
+    buttonArray[0].i = 1;     buttonArray[0].n = GPIO_PIN_11;
     buttonArray[1].i = 2;     buttonArray[1].n = GPIO_PIN_12;
     buttonArray[2].i = 3;     buttonArray[2].n = GPIO_PIN_10;
     buttonArray[3].i = 4;     buttonArray[3].n = GPIO_PIN_13;
-    buttonArray[4].i = 5;     buttonArray[4].n = GPIO_PIN_11;
+    buttonArray[4].i = 5;     buttonArray[4].n = GPIO_PIN_9;
     buttonArray[5].i = 6;     buttonArray[5].n = GPIO_PIN_14;
 
 }
@@ -354,20 +354,20 @@ term("---- switchLEDsThread ----")
             if (GPIO::getInstance()->aLeds[i].ledState) // Включаем пин
             {
                 if(i == 0) HAL_GPIO_WritePin(GPIOG, GPIO_PIN_6, GPIO_PIN_SET);
-                if(i == 1) HAL_GPIO_WritePin(GPIOG, GPIO_PIN_7, GPIO_PIN_SET);
-                if(i == 2) HAL_GPIO_WritePin(GPIOG, GPIO_PIN_8, GPIO_PIN_SET);
-                if(i == 3) HAL_GPIO_WritePin(GPIOC, GPIO_PIN_10, GPIO_PIN_SET);
-                if(i == 4) HAL_GPIO_WritePin(GPIOC, GPIO_PIN_11, GPIO_PIN_SET);
+                if(i == 1) HAL_GPIO_WritePin(GPIOC, GPIO_PIN_10, GPIO_PIN_SET);
+                if(i == 2) HAL_GPIO_WritePin(GPIOG, GPIO_PIN_7, GPIO_PIN_SET);
+                if(i == 3) HAL_GPIO_WritePin(GPIOC, GPIO_PIN_11, GPIO_PIN_SET);
+                if(i == 4) HAL_GPIO_WritePin(GPIOG, GPIO_PIN_8, GPIO_PIN_SET);
                 if(i == 5) HAL_GPIO_WritePin(GPIOC, GPIO_PIN_12, GPIO_PIN_SET);
 //                if (i > 2) HAL_GPIO_WritePin(GPIOG, GPIO::getInstance()->aLeds[i].ledPin, GPIO_PIN_SET);
 //                else HAL_GPIO_WritePin(GPIOC, GPIO::getInstance()->aLeds[i].ledPin, GPIO_PIN_SET);
             } else
             {
                 if(i == 0) HAL_GPIO_WritePin(GPIOG, GPIO_PIN_6, GPIO_PIN_RESET);
-                if(i == 1) HAL_GPIO_WritePin(GPIOG, GPIO_PIN_7, GPIO_PIN_RESET);
-                if(i == 2) HAL_GPIO_WritePin(GPIOG, GPIO_PIN_8, GPIO_PIN_RESET);
-                if(i == 3) HAL_GPIO_WritePin(GPIOC, GPIO_PIN_10, GPIO_PIN_RESET);
-                if(i == 4) HAL_GPIO_WritePin(GPIOC, GPIO_PIN_11, GPIO_PIN_RESET);
+                if(i == 1) HAL_GPIO_WritePin(GPIOC, GPIO_PIN_10, GPIO_PIN_RESET);
+                if(i == 2) HAL_GPIO_WritePin(GPIOG, GPIO_PIN_7, GPIO_PIN_RESET);
+                if(i == 3) HAL_GPIO_WritePin(GPIOC, GPIO_PIN_11, GPIO_PIN_RESET);
+                if(i == 4) HAL_GPIO_WritePin(GPIOG, GPIO_PIN_8, GPIO_PIN_RESET);
                 if(i == 5) HAL_GPIO_WritePin(GPIOC, GPIO_PIN_12, GPIO_PIN_RESET);
 //                if (i > 2) HAL_GPIO_WritePin(GPIOG, GPIO::getInstance()->aLeds[i].ledPin, GPIO_PIN_RESET);
 //                else HAL_GPIO_WritePin(GPIOC, GPIO::getInstance()->aLeds[i].ledPin, GPIO_PIN_RESET);
@@ -444,10 +444,10 @@ void GPIO::initLEDs()
 //        aLeds[i].ledPin = aPin[j];
 //    }
     aLeds[0].ledPin = GPIO_PIN_6;
-    aLeds[1].ledPin = GPIO_PIN_7;
-    aLeds[2].ledPin = GPIO_PIN_8;
-    aLeds[3].ledPin = GPIO_PIN_10;
-    aLeds[4].ledPin = GPIO_PIN_11;
+    aLeds[1].ledPin = GPIO_PIN_10;
+    aLeds[2].ledPin = GPIO_PIN_7;
+    aLeds[3].ledPin = GPIO_PIN_11;
+    aLeds[4].ledPin = GPIO_PIN_8;
     aLeds[5].ledPin = GPIO_PIN_12;
 }
 
