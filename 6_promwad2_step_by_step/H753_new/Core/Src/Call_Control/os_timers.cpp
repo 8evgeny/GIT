@@ -40,7 +40,7 @@ osStatus OSTimer::start(osTimerId id, osStatus& status, const uint16_t timerDela
 {
     status = osTimerStart (id, timerDelay);     // timer starting
     if (status != osOK)  {
-        RS232::getInstance().term << __FUNCTION__ << " " << __LINE__ << " " << "\n";
+        RS232::getInstance().term << "Error OSTimer::start" << __FUNCTION__ << " " << __LINE__ << " " << "\n";
     }
     return status;
 }
