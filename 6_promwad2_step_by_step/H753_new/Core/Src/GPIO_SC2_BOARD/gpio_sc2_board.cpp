@@ -20,6 +20,7 @@
 #include <algorithm>
 #include <cstring>
 #include "rs232.h"
+#include "rs232_printf.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -321,7 +322,7 @@ extern "C" {
 
 void timerCallback(void const *arg)
 {
-term("timerCallback")
+RS232Puts("-- timerCallback --");
     (void)arg;
     for (uint8_t i = 0; i < 6; i++) {
         if (GPIO::getInstance()->aLeds[i].timeStart) {
