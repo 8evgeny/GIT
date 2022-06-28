@@ -1,5 +1,6 @@
 #pragma once
 #include "main.h"
+#include "gpio_sc2_board.h"
 
 #ifdef __cplusplus
 extern "C" {

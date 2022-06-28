@@ -318,7 +318,7 @@ int main(void)
 //    testLed1();
 //    testLed2();
     testLed3();
-//    testUART();
+    testUART();
 
 
     //Debug пока не работает - выпилил везде из кода

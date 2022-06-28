@@ -174,6 +174,7 @@ term("startingSimpleTestUART_RTOS")
             {
 //                 term("*************  SimpleTestUART_RTOS  *************")
                 term(" ")
+GPIO::getInstance()->aLeds[0].ledState = 1;
                  reset = false;
                  tickstart = HAL_GetTick();
             }

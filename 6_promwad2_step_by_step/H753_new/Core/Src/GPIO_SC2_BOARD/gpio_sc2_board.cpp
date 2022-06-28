@@ -362,15 +362,26 @@ term("---- switchLEDsThread ----")
     {
         for(uint8_t i = 0; i < 6; ++i)
         {
-
             if (GPIO::getInstance()->aLeds[i].ledState) // Включаем пин
             {
-                if (i > 2) HAL_GPIO_WritePin(GPIOG, GPIO::getInstance()->aLeds[i].ledPin, GPIO_PIN_SET);
-                else HAL_GPIO_WritePin(GPIOC, GPIO::getInstance()->aLeds[i].ledPin, GPIO_PIN_SET);
+                if(i == 0) HAL_GPIO_WritePin(GPIOG, GPIO_PIN_6, GPIO_PIN_SET);
+                if(i == 1) HAL_GPIO_WritePin(GPIOG, GPIO_PIN_7, GPIO_PIN_SET);
+                if(i == 2) HAL_GPIO_WritePin(GPIOG, GPIO_PIN_8, GPIO_PIN_SET);
+                if(i == 3) HAL_GPIO_WritePin(GPIOC, GPIO_PIN_10, GPIO_PIN_SET);
+                if(i == 4) HAL_GPIO_WritePin(GPIOC, GPIO_PIN_11, GPIO_PIN_SET);
+                if(i == 5) HAL_GPIO_WritePin(GPIOC, GPIO_PIN_12, GPIO_PIN_SET);
+//                if (i > 2) HAL_GPIO_WritePin(GPIOG, GPIO::getInstance()->aLeds[i].ledPin, GPIO_PIN_SET);
+//                else HAL_GPIO_WritePin(GPIOC, GPIO::getInstance()->aLeds[i].ledPin, GPIO_PIN_SET);
             } else
             {
-                if (i > 2) HAL_GPIO_WritePin(GPIOG, GPIO::getInstance()->aLeds[i].ledPin, GPIO_PIN_RESET);
-                else HAL_GPIO_WritePin(GPIOC, GPIO::getInstance()->aLeds[i].ledPin, GPIO_PIN_RESET);
+                if(i == 0) HAL_GPIO_WritePin(GPIOG, GPIO_PIN_6, GPIO_PIN_RESET);
+                if(i == 1) HAL_GPIO_WritePin(GPIOG, GPIO_PIN_7, GPIO_PIN_RESET);
+                if(i == 2) HAL_GPIO_WritePin(GPIOG, GPIO_PIN_8, GPIO_PIN_RESET);
+                if(i == 3) HAL_GPIO_WritePin(GPIOC, GPIO_PIN_10, GPIO_PIN_RESET);
+                if(i == 4) HAL_GPIO_WritePin(GPIOC, GPIO_PIN_11, GPIO_PIN_RESET);
+                if(i == 5) HAL_GPIO_WritePin(GPIOC, GPIO_PIN_12, GPIO_PIN_RESET);
+//                if (i > 2) HAL_GPIO_WritePin(GPIOG, GPIO::getInstance()->aLeds[i].ledPin, GPIO_PIN_RESET);
+//                else HAL_GPIO_WritePin(GPIOC, GPIO::getInstance()->aLeds[i].ledPin, GPIO_PIN_RESET);
             }
 
         }
