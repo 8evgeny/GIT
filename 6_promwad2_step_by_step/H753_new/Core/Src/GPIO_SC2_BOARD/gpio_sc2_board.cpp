@@ -39,15 +39,6 @@ constexpr static uint8_t timerDelay = 50;
 
 
 static GPIO_InitTypeDef GPIO_InitStruct;
-static uint16_t aPin[16] = { GPIO_PIN_0, GPIO_PIN_1,
-                             GPIO_PIN_2, GPIO_PIN_3,
-                             GPIO_PIN_4, GPIO_PIN_5,
-                             GPIO_PIN_6, GPIO_PIN_7,
-                             GPIO_PIN_8, GPIO_PIN_9,
-                             GPIO_PIN_10, GPIO_PIN_11,
-                             GPIO_PIN_12, GPIO_PIN_13,
-                             GPIO_PIN_14, GPIO_PIN_15
-                           };
 
 /*!
   \brief GPIO Initialization Function
@@ -227,19 +218,11 @@ GPIO::GPIO()
 //ИНИЦИАЛИЗАЦИЯ РЫЧАГОВ
 //    message_q_id = osMessageCreate(osMessageQ(message_q), NULL);
 
-//    for (uint8_t var = 9, j = 0; var < 15; ++var, ++j)
-//    {
-//        buttonArray[j].i = j + 1;
-//        buttonArray[j].n = aPin[var];
-//    }
-//    uint16_t temp = buttonArray.at(0).n;
-//    buttonArray.at(0).n = buttonArray.at(2).n;
-//    buttonArray.at(2).n = temp;
     buttonArray[0].i = 1;     buttonArray[0].n = GPIO_PIN_9;
-    buttonArray[1].i = 2;     buttonArray[1].n = GPIO_PIN_10;
-    buttonArray[2].i = 3;     buttonArray[2].n = GPIO_PIN_11;
-    buttonArray[3].i = 4;     buttonArray[3].n = GPIO_PIN_12;
-    buttonArray[4].i = 5;     buttonArray[4].n = GPIO_PIN_13;
+    buttonArray[1].i = 2;     buttonArray[1].n = GPIO_PIN_12;
+    buttonArray[2].i = 3;     buttonArray[2].n = GPIO_PIN_10;
+    buttonArray[3].i = 4;     buttonArray[3].n = GPIO_PIN_13;
+    buttonArray[4].i = 5;     buttonArray[4].n = GPIO_PIN_11;
     buttonArray[5].i = 6;     buttonArray[5].n = GPIO_PIN_14;
 
 }
@@ -460,12 +443,12 @@ void GPIO::initLEDs()
 //        if (i == 3) j = 10;
 //        aLeds[i].ledPin = aPin[j];
 //    }
-    aLeds[0].ledPin = aPin[6];
-    aLeds[1].ledPin = aPin[7];
-    aLeds[2].ledPin = aPin[8];
-    aLeds[3].ledPin = aPin[10];
-    aLeds[4].ledPin = aPin[11];
-    aLeds[5].ledPin = aPin[12];
+    aLeds[0].ledPin = GPIO_PIN_6;
+    aLeds[1].ledPin = GPIO_PIN_7;
+    aLeds[2].ledPin = GPIO_PIN_8;
+    aLeds[3].ledPin = GPIO_PIN_10;
+    aLeds[4].ledPin = GPIO_PIN_11;
+    aLeds[5].ledPin = GPIO_PIN_12;
 }
 
 #ifdef __cplusplus
