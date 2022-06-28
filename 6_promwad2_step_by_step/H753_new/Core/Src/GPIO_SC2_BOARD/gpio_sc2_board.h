@@ -29,9 +29,9 @@ struct alignas(4) Keyboard {
 /*!
  \brief The struct stores numbers of key on the keypad and values those ones
 
- \class sPin gpio_stm32f7xx.h "gpio_stm32f7xx.h"
+ \class sButton gpio_stm32f7xx.h "gpio_stm32f7xx.h"
 */
-struct sPin {
+struct sButton {
     uint16_t i = 0, /*!< The number of key on the keypad */
              n = 0; /*!< The value of the keypad key */
 };
@@ -158,7 +158,7 @@ public:
 
     constexpr static uint8_t keysNum = 6; /*!< Number of the keys on the keyboard */
     osMessageQId message_q_id;  /*!< ID for the message queue */
-    alignas(4) std::array <sPin, keysNum>buttonArray; /*!< The array stores sPin struct elements */
+    alignas(4) std::array <sButton, keysNum> buttonArray; /*!< The array stores sButton struct elements */
     alignas(4) Keyboard aLeds[keysNum]; /*!< The array stores Keyboard struct elements */
 
     GPIO_InitTypeDef *gpioInit; /**< The variable is pointer to GPIO Handle Type */
