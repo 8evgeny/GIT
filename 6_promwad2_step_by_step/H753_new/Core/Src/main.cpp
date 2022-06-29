@@ -149,7 +149,6 @@ osThreadId defaultTaskHandle;
 
 osThreadDef(readFromUartThread, readFromUartThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE );
 osThreadDef(switchLEDsThread, switchLEDsThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 2);
-//osThreadDef(replaceTimerCallback, replaceTimerCallback, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 4);
 osThreadDef(readButtonThread, readButtonThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 4 );
 
 void vApplicationStackOverflowHook(TaskHandle_t xTask, char *pcTaskName)
