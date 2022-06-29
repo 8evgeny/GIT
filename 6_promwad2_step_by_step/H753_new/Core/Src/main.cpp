@@ -46,7 +46,7 @@ static void MX_UART7_Init(void);
 static void MX_TIM3_Init(void);
 static void MX_DMA_Init(void);
 static void MX_RNG_Init(void);
-void StartDefaultTask(void const * argument);
+void TaskEthernet_(void const * argument);
 
 I2C_HandleTypeDef hi2c1;
 I2C_HandleTypeDef hi2c2;
@@ -145,7 +145,7 @@ void Ethernet_Link_Periodic_Handle(struct netif *netif)
 }
 
 
-osThreadId defaultTaskHandle;
+osThreadId TaskEthernetHandle;
 
 osThreadDef(readFromUartThread, readFromUartThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE );
 osThreadDef(switchLEDsThread, switchLEDsThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 2);
@@ -264,23 +264,23 @@ int main(void)
     if (Json::getInstance()->deserializeJsonFlag == Json::JsonFlags::OK)
     {
 
-        osThreadDef(emptyThread, StartDefaultTask, osPriorityNormal, 0, configMINIMAL_STACK_SIZE);
-        defaultTaskHandle = osThreadCreate(osThread(emptyThread), nullptr);
+        osThreadDef(TaskEthernet, TaskEthernet_, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 4);
+        TaskEthernetHandle = osThreadCreate(osThread(TaskEthernet), nullptr);
 
         osThreadDef(audioInitThread, threadAudioInit, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 10);
         SAI::getInstance()->threadAudioInitId = osThreadCreate(osThread(audioInitThread), nullptr);
 
-        osThreadDef(trackRingBufferThread, trackRingBufferThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 10);
+        osThreadDef(trackRingBufferThread, trackRingBufferThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 5);
         if ((GPIO::getInstance()->trackRingBufferThreadId = osThreadCreate(osThread(trackRingBufferThread), nullptr)) == nullptr)
         {
             Debug::getInstance().dbg << __FUNCTION__ << " " << __LINE__ << " " << "\n";
         }
 
-        osThreadDef(recvUdpThread, recvUdpThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 20);
-//        if ((UdpJsonExch::getInstance()->recvUdpThreadId = osThreadCreate(osThread(recvUdpThread), nullptr)) == nullptr)
-//        {
-//            Debug::getInstance().dbg << __FUNCTION__ << " " << __LINE__ << " " << "\n";
-//        }
+        osThreadDef(recvUdpThread, recvUdpThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 10);
+        if ((UdpJsonExch::getInstance()->recvUdpThreadId = osThreadCreate(osThread(recvUdpThread), nullptr)) == nullptr)
+        {
+            Debug::getInstance().dbg << __FUNCTION__ << " " << __LINE__ << " " << "\n";
+        }
 
 //          firmwareInitThread();
 
@@ -904,10 +904,10 @@ static void MX_GPIO_Init(void)
 
 }
 
-void StartDefaultTask(void const * argument)
+void TaskEthernet_(void const * argument)
 {
-    osDelay(3000);
-    term("--- StartDefaultTask ---")
+    osDelay(2000);
+    term("--- TaskEthernet_ ---")
 
         term1("ip")      term(Json::getInstance()->thisStation.ip)
         term1("mask")    term(Json::getInstance()->thisStation.mask)

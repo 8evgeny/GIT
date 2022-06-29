@@ -215,6 +215,14 @@ term1("err = ") term(err)
                     osDelay(1);
                 }
             }
+            else
+            {//err != 0
+                for(;;)
+                {
+                    term("recvUdpThread error")
+                    osDelay(10000);
+                }
+            }
             /* leave multicast group */
             setsockopt(sockUdpRecv, IPPROTO_IP, IP_DROP_MEMBERSHIP, &ipmreqUdpRecv, sizeof(ipmreqUdpRecv));
         }
