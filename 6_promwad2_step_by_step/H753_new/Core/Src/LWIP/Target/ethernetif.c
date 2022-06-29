@@ -599,7 +599,7 @@ static struct pbuf * low_level_input(struct netif *netif)
  */
 void ethernetif_input(void const * argument)
 {
-    RS232Puts("----- Start task ethernetif_input -----\r\n");
+    RS232Puts("--- ethernetif_input ---\r\n");
   struct pbuf *p;
   struct netif *netif = (struct netif *) argument;
 
@@ -823,7 +823,7 @@ void ethernet_link_thread(void const * argument)
   struct netif *netif = (struct netif *) argument;
 /* USER CODE BEGIN ETH link init */
 osDelay(500);
-  RS232Puts("------- Start_ethernet_link_thread---------\r\n");
+  RS232Puts("--- ethernet_link_thread ---\r\n");
 
 /* USER CODE END ETH link init */
 
@@ -851,7 +851,7 @@ RS232Puts("--DP83848_STATUS_LINK_DOWN--\n\r");
         switch (PHYLinkState)
         {
         case DP83848_STATUS_100MBITS_FULLDUPLEX:
-RS232Puts("--DP83848_STATUS_100MBITS_FULLDUPLEX--\n\r");
+RS232Puts("DP83848_STATUS_100MBITS_FULLDUPLEX\n\r");
           duplex = ETH_FULLDUPLEX_MODE;
           speed = ETH_SPEED_100M;
           linkchanged = 1;

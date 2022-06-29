@@ -908,11 +908,11 @@ static void MX_GPIO_Init(void)
 void StartDefaultTask(void const * argument)
 {
     osDelay(3000);
-    term("------- StartDefaultTask ----------")
+    term("--- StartDefaultTask ---")
 
-        term("ip:")      term(Json::getInstance()->thisStation.ip)
-        term("mask:")    term(Json::getInstance()->thisStation.mask)
-        term("gateway:") term(Json::getInstance()->thisStation.gateway)
+        term1("ip")      term(Json::getInstance()->thisStation.ip)
+        term1("mask")    term(Json::getInstance()->thisStation.mask)
+        term1("gateway") term(Json::getInstance()->thisStation.gateway)
 
 
         //  /* init code for LWIP */
@@ -921,7 +921,7 @@ void StartDefaultTask(void const * argument)
 
 
     if (DP83848.Is_Initialized) {
-        term("DP83848.Is_Initialized");
+//        term("DP83848.Is_Initialized");
     } else {
         term("DP83848.no_Initialized");
     }

@@ -45,8 +45,6 @@ static uint32_t EEPROM_WaitEepromStandbyState(void);
   */
 uint32_t BSP_EEPROM_Init(void)
 {
-RS232Puts("******  BSP_EEPROM_Init  ******\n") ;
-
     /* I2C Initialization */
     EEPROM_IO_Init();
 
@@ -78,8 +76,6 @@ RS232Puts("BSP_EEPROM_Init__error\n") ;
   */
 uint32_t BSP_EEPROM_ReadBuffer(uint8_t *pBuffer, uint16_t ReadAddr, uint16_t *NumByteToRead)
 {
-RS232Puts("******  BSP_EEPROM_ReadBuffer  ******\n") ;
-
     uint32_t buffersize = *NumByteToRead;
 
     /* Set the pointer to the Number of data to be read */

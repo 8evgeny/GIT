@@ -344,7 +344,7 @@ void switchLEDsThread(void const *arg)
     (void)arg;
 
 osDelay(200);
-term("---- switchLEDsThread ----")
+term("--- switchLEDsThread ---")
 
     while(true)
     {
@@ -386,7 +386,7 @@ void readButtonThread(void const *arg)
     tempPack.packetType = GPIO::getInstance()->button;
 
 osDelay(4000);
-term("---- readButtonThread ----")
+term("--- readButtonThread ---")
 
     while(true)
     {

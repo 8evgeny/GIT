@@ -134,7 +134,7 @@ void simpleLedTest3_RTOS(void const *argument)
     uint32_t timeReset = 3000;
 
 osDelay(100);
-term("startingSimpleLedTest3_RTOS")
+term("--- simpleLedTest3_RTOS ---")
 
     for(;;)
     {

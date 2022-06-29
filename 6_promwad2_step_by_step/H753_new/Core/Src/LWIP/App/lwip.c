@@ -135,7 +135,7 @@ RS232Puts("--netif_link_up--\r\n");
   else
   {
 
-RS232Puts("--netif_link_down--\r\n");
+RS232Puts("netif_link_down\r\n");
 
     /* When the netif link is down this function must be called */
     netif_set_down(&gnetif);
@@ -166,7 +166,7 @@ static void ethernet_link_status_updated(struct netif *netif)
   {
 /* USER CODE BEGIN 5 */
 
-RS232Puts("--netif_link_status_up--\r\n");
+RS232Puts("netif_link_status_up\r\n");
 
 /* USER CODE END 5 */
   }
