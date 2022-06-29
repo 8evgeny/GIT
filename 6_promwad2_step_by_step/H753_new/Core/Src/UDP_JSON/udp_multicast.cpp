@@ -151,10 +151,9 @@ void udpSendInit(void)
 void recvUdpThread(const void *arg)
 {
 osDelay(10000);
-term("---- recvUdpThread ----")
+term("--- recvUdpThread ---")
     (void)arg;
     udpSendInit();
-term("recvUdpThread_2")
     const int capacity = JSON_OBJECT_SIZE(6)  + JSON_ARRAY_SIZE(100);
     DynamicJsonDocument recvDoc (capacity);
 
@@ -172,7 +171,6 @@ term("recvUdpThread_2")
         local.sin_family      = AF_INET;
         local.sin_port        = PP_HTONS(PORTNUM);
         local.sin_addr.s_addr = PP_HTONL(INADDR_ANY);
-term("recvUdpThread_3")
         /* bind to local address */
         if (bind(sockUdpRecv, reinterpret_cast<struct sockaddr *>(&local), sizeof(local)) == 0) {
 
@@ -183,8 +181,6 @@ term("recvUdpThread_3")
             /* prepare multicast "ip_mreq" struct */
             ipmreqUdpRecv.imr_multiaddr.s_addr = inet_addr("232.0.0.0");
             ipmreqUdpRecv.imr_interface.s_addr = PP_HTONL(INADDR_ANY);
-
-term("recvUdpThread_4")
 
             /* join multicast group */
 

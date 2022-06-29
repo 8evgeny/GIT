@@ -215,7 +215,8 @@ void simpletestTasksLog(void const *argument)
         osDelay(10000);
         vTaskList(logTasks);
         term(logTasks)
-        term("\r\n\n\n")
+        term1("heap size") term(xPortGetFreeHeapSize())
+        term("\r\n\n")
 
     } //end for(;;)
 

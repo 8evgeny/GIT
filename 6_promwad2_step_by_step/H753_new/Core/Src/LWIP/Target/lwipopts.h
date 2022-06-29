@@ -42,7 +42,7 @@
 /*----- WITH_RTOS enabled (Since FREERTOS is set) -----*/
 #define WITH_RTOS 1
 /*----- CHECKSUM_BY_HARDWARE enabled -----*/
-#define CHECKSUM_BY_HARDWARE 1
+#define CHECKSUM_BY_HARDWARE 0 //Изменил
 /*-----------------------------------------------------------------------------*/
 
 /* LwIP Stack Parameters (modified compared to initialization value in opt.h) -*/
@@ -100,7 +100,7 @@
 /*----- Value in opt.h for RECV_BUFSIZE_DEFAULT: INT_MAX -----*/
 #define RECV_BUFSIZE_DEFAULT 2000000000
 /*----- Default Value for LWIP_STATS: 0 ---*/
-#define LWIP_STATS 1
+#define LWIP_STATS 0 //Изменил
 /*----- Default Value for LWIP_STATS_DISPLAY: 0 ---*/
 #define LWIP_STATS_DISPLAY 1
 /*----- Value in opt.h for MIB2_STATS: 0 or SNMP_LWIP_MIB2 -----*/
