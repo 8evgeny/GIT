@@ -65,10 +65,6 @@ UART_HandleTypeDef huart7;
 SRAM_HandleTypeDef hsram1;
 uint8_t macAdr5;
 
-osTimerDef(timer7, timerCallback); /*!< Define the attributes of the timer */
-static osTimerId timerId7; /*!< The thread ID of the timer */
-constexpr static uint8_t timerDelay = 50;
-
 
 //Массив во внешней памяти для конфига (readelf -S H753_new.elf)
 char buff_config [200*1024] __attribute__((section(".ExtRamData")));
@@ -264,17 +260,6 @@ int main(void)
     //    }
 
     memset(buff_config,' ',sizeof(buff_config));
-
-    timerId7 = osTimerCreate( osTimer(timer7), osTimerPeriodic, nullptr); // create timer thread
-    if (timerId7)
-    {
-        osStatus status = osTimerStart (timerId7, timerDelay);   // start timer
-        if (status != osOK)  {
-            RS232::getInstance().term << "Failed to start [timer]" << "\n";
-            while(1);
-        }
-    }
-
 
     Json::getInstance()->configStation();
     if (Json::getInstance()->deserializeJsonFlag == Json::JsonFlags::OK)
