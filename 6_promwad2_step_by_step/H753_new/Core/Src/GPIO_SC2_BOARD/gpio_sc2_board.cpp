@@ -311,7 +311,6 @@ extern "C" {
 
 void timerCallback(void const *arg)
 {
-RS232Puts("-- timerCallback --");
     (void)arg;
     for (uint8_t i = 0; i < 6; i++) {
         if (GPIO::getInstance()->aLeds[i].timeStart) {
