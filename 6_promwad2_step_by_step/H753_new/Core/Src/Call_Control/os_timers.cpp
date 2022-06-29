@@ -52,7 +52,7 @@ osStatus OSTimer::stop(osTimerId id, osStatus& status)
     if (status == osOK) {
         status = osTimerStop (id);            // timer stopping
         if (status != osOK)  {
-            RS232::getInstance().term << __FUNCTION__ << " " << __LINE__ << " " << "\n";
+            RS232::getInstance().term << "osTimerStop Error " <<__FUNCTION__ << " " << __LINE__ << " " << "\n";
         }
         status = osErrorOS;
     }
