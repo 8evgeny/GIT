@@ -107,7 +107,7 @@ SAI::SAI()
     hInSai = &audioRxSai;
 
     if ((ringToneTimer_id = osTimerCreate (osTimer(ringToneTimer), osTimerPeriodic, nullptr)) == nullptr) {
-        RS232::getInstance().term << "Error (osTimer(ringToneTimer)" <<__FUNCTION__ << " " << __LINE__ << " " << "\n";
+        RS232::getInstance().term << "Error (osTimer(ringToneTimer)  " <<__FUNCTION__ << " " << __LINE__ << " " << "\n";
     }
 }
 

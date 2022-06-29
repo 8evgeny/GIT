@@ -34,13 +34,15 @@ OSTimer::OSTimer()
     if ((request_timerId = osTimerCreate (osTimer(requestTimer), osTimerPeriodic, nullptr)) == nullptr) {
         RS232::getInstance().term << __FUNCTION__ << " " << __LINE__ << " " << "\n";
     }
+
+term("OSTimer::OSTimer()")
 }
 
 osStatus OSTimer::start(osTimerId id, osStatus& status, const uint16_t timerDelay)
 {
     status = osTimerStart (id, timerDelay);     // timer starting
     if (status != osOK)  {
-        RS232::getInstance().term << "Error OSTimer::start" << __FUNCTION__ << " " << __LINE__ << " " << "\n";
+        RS232::getInstance().term << "Error OSTimer::start  " << __FUNCTION__ << " " << __LINE__ << " " << "\n";
     }
     return status;
 }

@@ -236,6 +236,7 @@ void CallControl::setCallType()
                     retransmitMessage(UdpJsonExch::getInstance()->recvBuff, strlen(UdpJsonExch::getInstance()->recvBuff), Request::ACK);
 
                     startRingTone(RingToneType::RING_UNKNOWN_TONE);
+                    term("1")
                     osTimer.start(osTimer.autoAnsw_timerId, osTimer.autoAnsw_timerStatus, AUTO_ANSW_TIMEOUT);
                     this->TransitionTo(new DuplexDirectCall);
 
@@ -244,6 +245,7 @@ void CallControl::setCallType()
                     retransmitMessage(UdpJsonExch::getInstance()->recvBuff, strlen(UdpJsonExch::getInstance()->recvBuff), Request::ACK_ANSW);
 
                     startRingTone(RingToneType::RING_UNKNOWN_TONE);
+                    term("2")
                     osTimer.start(osTimer.autoAnsw_timerId, osTimer.autoAnsw_timerStatus, AUTO_ANSW_TIMEOUT);
                     this->TransitionTo(new SimplexDirectCall);
                 }
@@ -277,6 +279,7 @@ void CallControl::setCallType()
                 isIncomingCall = true;
                 copyRecvBuff(messageData.recvMessageBuff, UdpJsonExch::getInstance()->recvBuff);
                 startRingTone(RingToneType::RING_UNKNOWN_TONE);
+                term("3")
                 osTimer.start(osTimer.autoAnsw_timerId, osTimer.autoAnsw_timerStatus, AUTO_ANSW_TIMEOUT);
 //                createRtp(messageData.field.prevOwnId, Simplex_recv_type);
                 this->TransitionTo(new GroupCall);
@@ -309,6 +312,7 @@ void CallControl::setCallType()
                 copyRecvBuff(messageData.recvMessageBuff, UdpJsonExch::getInstance()->recvBuff);
                 retransmitMessage(UdpJsonExch::getInstance()->recvBuff, strlen(UdpJsonExch::getInstance()->recvBuff), Request::ACK_ANSW);
                 startRingTone(RingToneType::RING_UNKNOWN_TONE);
+                term("4")
                 osTimer.start(osTimer.autoAnsw_timerId, osTimer.autoAnsw_timerStatus, AUTO_ANSW_TIMEOUT);
 //                createRtp(messageData.field.prevOwnId, Simplex_recv_type);
                 this->TransitionTo(new CircularCall);
@@ -387,7 +391,7 @@ bool CallControl::handleClick(PackageRx pack)
                 handleClick_count++;
 
                 if (handleClick_count > 2 && foundKeyFlag_) {
-
+             term("5")
                     osTimer.start(osTimer.button_timerId, osTimer.button_timerStatus, 200);
 
                     if (missedCall.isMissedKey) {
@@ -399,6 +403,7 @@ bool CallControl::handleClick(PackageRx pack)
                 }
 
             } else {
+                term("6")
                 osTimer.start(osTimer.button_timerId, osTimer.button_timerStatus, 200);
             }
 
@@ -750,6 +755,7 @@ void CallControl::sendRequest(uint8_t callType, Request reqType, uint16_t timeou
     default:
         break;
     }
+    term("7")
     osTimer.start(osTimer.request_timerId, osTimer.request_timerStatus, timeout);
 }
 
@@ -762,6 +768,7 @@ void CallControl::sendRequest(Request reqType)
     case Request::HANG_UP:
         requestCount = 0;
         retransmitMessage(messageData.recvMessageBuff, strlen(messageData.recvMessageBuff), Request::HANG_UP);
+        term("8")
         osTimer.start(osTimer.request_timerId, osTimer.request_timerStatus, HANG_UP_TIMEOUT);
         requestCount++;
         break;
@@ -772,6 +779,7 @@ void CallControl::sendRequest(Request reqType)
         requestCount = 0;
         control = Control::ANSWER;
         retransmitMessage(messageData.recvMessageBuff, strlen(messageData.recvMessageBuff), Request::ACK_ANSW);
+        term("9")
         osTimer.start(osTimer.request_timerId, osTimer.request_timerStatus, TIMEOUT);
         requestCount++;
         break;
@@ -780,6 +788,7 @@ void CallControl::sendRequest(Request reqType)
             requestCount = 0;
             control = Control::BUSY;
             retransmitMessage(UdpJsonExch::getInstance()->recvBuff, strlen(UdpJsonExch::getInstance()->recvBuff), messageData.field.distId, CallControl::Request::BUSY);
+            term("10")
             osTimer.start(osTimer.request_timerId, osTimer.request_timerStatus, TIMEOUT);
             requestCount++;
         }
@@ -803,6 +812,7 @@ void CallControl::sendRequest(Request reqType)
         default:
             break;
         }
+        term("11")
         osTimer.start(osTimer.request_timerId, osTimer.request_timerStatus, TIMEOUT);
         requestCount++;
         break;
