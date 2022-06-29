@@ -220,7 +220,7 @@ term1("err = ") term(err)
                 for(;;)
                 {
                     term("recvUdpThread error")
-                    osDelay(10000);
+                    osDelay(100000);
                 }
             }
             /* leave multicast group */
@@ -234,6 +234,7 @@ term1("err = ") term(err)
 
 void sendUdpMulticast(char *sendBuff, size_t size)
 {
+term("sendUdpMulticast")
     if (udpStructSend.State == UDP_STATE_START) {
 //        memcpy(udpStructSend.udp_send_packet, sendBuff, size);
 //        osMutexWait(UdpJsonExch::getInstance()->mutexSend_sock_id, osWaitForever);
