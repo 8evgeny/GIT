@@ -276,7 +276,7 @@ int main(void)
             Debug::getInstance().dbg << __FUNCTION__ << " " << __LINE__ << " " << "\n";
         }
 
-        osThreadDef(recvUdpThread, recvUdpThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 10);
+        osThreadDef(recvUdpThread, recvUdpThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 20);
 //        if ((UdpJsonExch::getInstance()->recvUdpThreadId = osThreadCreate(osThread(recvUdpThread), nullptr)) == nullptr)
 //        {
 //            Debug::getInstance().dbg << __FUNCTION__ << " " << __LINE__ << " " << "\n";
@@ -303,7 +303,7 @@ int main(void)
 //    testLed2();
     testLed3();
 //    testUART();
-//    testTasksLog(); //Логи задач
+    testTasksLog(); //Логи задач
 
     //Debug пока не работает - выпилил везде из кода
     Debug::getInstance().dbg << "ee";
