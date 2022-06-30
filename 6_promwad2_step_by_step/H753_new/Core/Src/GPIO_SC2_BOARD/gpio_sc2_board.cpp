@@ -148,7 +148,7 @@ void GPIO::configLed(uint8_t ledNumber,
                      uint32_t timeOff,
                      uint8_t repeatNum)
 {
-term("-- GPIO::configLed --")
+term("GPIO::configLed")
     --ledNumber;
     if (timeOn < 50 && timeOff < 50) {
         aLeds[ledNumber].ledState = ledOn;
