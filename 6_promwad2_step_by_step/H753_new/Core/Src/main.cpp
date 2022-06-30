@@ -327,13 +327,15 @@ static void trackRingBufferThread(void const *arg)
 {
 term("--- trackRingBufferThread ---")
         (void)arg;
-        while(true) {
+        while(true)
+        {
             osMutexWait(GPIO::getInstance()->mutexRingBufferRx_id, osWaitForever);
             if (GPIO::getInstance()->ringBufferRx.size() != 0) {
 
                 GPIO::getInstance()->packageRx = GPIO::getInstance()->ringBufferRx.shift();
                 osMutexRelease(GPIO::getInstance()->mutexRingBufferRx_id);
-                if (!GPIO::getInstance()->testFlag) {
+                if (!GPIO::getInstance()->testFlag)
+                {
                     osMutexWait(UdpJsonExch::getInstance()->mutexCallControlId, osWaitForever);
                     UdpJsonExch::getInstance()->callControl->button(GPIO::getInstance()->packageRx);
                     osMutexRelease(UdpJsonExch::getInstance()->mutexCallControlId);

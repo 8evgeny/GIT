@@ -2,9 +2,11 @@
 #include "callwaiting.h"
 #include "../UDP_JSON/udp_multicast.h"
 #include "conferencecall.h"
+#include "rs232.h"
 
 void SimplexDirectCall::handleButton()
 {
+term(" ")
     if (context_->subjectKey.key == context_->assignedData.key) {
 
         stopRingTone();
@@ -28,6 +30,7 @@ void SimplexDirectCall::handleButton()
 
 void SimplexDirectCall::handleJsonMessage()
 {
+term(" ")
     switch (static_cast<CallControl::Request>(context_->messageData.field.linkData)) {
     case CallControl::Request::HANG_UP:
         if (Json::getInstance()->thisStation.id == context_->messageData.field.distId) {
@@ -137,6 +140,7 @@ void SimplexDirectCall::handleJsonMessage()
 
 void SimplexDirectCall::handleLostLink()
 {
+term(" ")
     if (context_->isIncomingCall) {
         context_->osTimer.stop(context_->osTimer.request_timerId, context_->osTimer.request_timerStatus);
         context_->microphone.stop();
@@ -150,6 +154,7 @@ void SimplexDirectCall::handleLostLink()
 
 void SimplexDirectCall::handleRepeatedRequestCallBack()
 {
+term(" ")
     if (context_->osTimer.request_timerStatus == osOK) {
 
         if (context_->requestCount < 3) {
@@ -206,6 +211,7 @@ void SimplexDirectCall::handleRepeatedRequestCallBack()
 
 void SimplexDirectCall::handleUnknownIncomingCallBack()
 {
+term(" ")
     if (context_->osTimer.autoAnsw_timerStatus == osOK) {
         stopRingTone();
         context_->createRtp(context_->messageData.field.prevOwnId, CallControl::Simplex_recv_type);
@@ -214,6 +220,7 @@ void SimplexDirectCall::handleUnknownIncomingCallBack()
 
 void SimplexDirectCall::handleAck()
 {
+term(" ")
     switch (context_->control) {
 
     case CallControl::Control::HANG_UP: {

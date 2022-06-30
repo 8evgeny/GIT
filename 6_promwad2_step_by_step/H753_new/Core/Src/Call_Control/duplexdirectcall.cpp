@@ -2,9 +2,11 @@
 #include "callwaiting.h"
 #include "../UDP_JSON/udp_multicast.h"
 #include "conferencecall.h"
+#include "rs232.h"
 
 void DuplexDirectCall::handleButton()
 {
+term(" ")
     if (context_->subjectKey.key == context_->assignedData.key) {
 
         if (!context_->isAnsweredCall && context_->isIncomingCall) {
@@ -32,6 +34,7 @@ void DuplexDirectCall::handleButton()
 
 void DuplexDirectCall::handleJsonMessage()
 {
+term(" ")
     switch (static_cast<CallControl::Request>(context_->messageData.field.linkData)) {
     case CallControl::Request::HANG_UP:
         if (Json::getInstance()->thisStation.id == context_->messageData.field.distId) {
@@ -152,6 +155,7 @@ void DuplexDirectCall::handleJsonMessage()
 
 void DuplexDirectCall::handleLostLink()
 {
+term(" ")
     context_->osTimer.stop(context_->osTimer.request_timerId, context_->osTimer.request_timerStatus);
     context_->microphone.stop();
     context_->removeRtp();
@@ -163,6 +167,7 @@ void DuplexDirectCall::handleLostLink()
 
 void DuplexDirectCall::handleRepeatedRequestCallBack()
 {
+term(" ")
     if (context_->osTimer.request_timerStatus == osOK) {
 
         if (context_->requestCount < REQUEST_NUM) {
@@ -222,6 +227,7 @@ void DuplexDirectCall::handleRepeatedRequestCallBack()
 
 void DuplexDirectCall::handleUnknownIncomingCallBack()
 {
+term(" ")
     if (context_->osTimer.autoAnsw_timerStatus == osOK) {
         stopRingTone();
         context_->sendRequest(CallControl::Request::ACK_ANSW);
@@ -230,6 +236,7 @@ void DuplexDirectCall::handleUnknownIncomingCallBack()
 
 void DuplexDirectCall::handleAck()
 {
+term(" ")
     switch (context_->control) {
     case CallControl::Control::READY: {
         if (Json::getInstance()->thisStation.id == context_->messageData.field.ownId) {

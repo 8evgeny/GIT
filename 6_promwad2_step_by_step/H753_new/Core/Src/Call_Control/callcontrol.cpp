@@ -160,9 +160,11 @@ term("CallControl::detectSubjCallType")
 
 uint16_t CallControl::getSubjectData(CallControl::SubjectData control, uint8_t i)
 {
-term("CallControl::getSubjectData")
     uint16_t retVal = 0;
 //    osMutexWait(mutexKeyBufferId_, osWaitForever);
+
+term1("CallControl::getSubjectData") term(control)
+
     switch (control) {
     case Key:
         retVal = Json::getInstance()->thisStation.keysBuffer[i].key;
@@ -390,8 +392,7 @@ bool CallControl::handleClick(uPackageRx pack)
 #else
 bool CallControl::handleClick(PackageRx pack)
 {
-term("CallControl::handleClick")
-term1("PackageRx") term (pack.payloadData)
+term1("CallControl::handleClick") term (pack.payloadData)
 
     if (pack.packetType == GPIO::getInstance()->button) {
 
@@ -605,7 +606,7 @@ term("CallControl::pushDynamicStorage")
 
 void CallControl::sendMessage(const uint16_t distId, const uint8_t func, const Request linkData)
 {
-term("CallControl::sendMessage1")
+term("CallControl::sendMessage")
     const int capacity = JSON_OBJECT_SIZE(6) + JSON_ARRAY_SIZE(100);
     DynamicJsonDocument doc (capacity);
 
@@ -628,7 +629,7 @@ term("CallControl::sendMessage1")
 
 void CallControl::sendMessage(const Request linkData)
 {
-term("CallControl::sendMessage2")
+term("CallControl")
     const int capacity = JSON_OBJECT_SIZE(6) + JSON_ARRAY_SIZE(100);
     DynamicJsonDocument doc (capacity);
 
@@ -650,7 +651,7 @@ term(messageData.txBuff)
 
 void CallControl::sendMessage(const uint16_t arr[], const uint16_t size, const Request linkData)
 {
-term("CallControl::sendMessage3")
+term("CallControl::sendMessage")
     const int capacity = JSON_OBJECT_SIZE(6) + JSON_ARRAY_SIZE(100);
     DynamicJsonDocument doc (capacity);
 
@@ -761,7 +762,7 @@ term("CallControl::copyRecvBuff")
 
 void CallControl::sendRequest(uint8_t callType, Request reqType, uint16_t timeout)
 {
-term("CallControl::sendRequest")
+term("CallControl")
     requestCount = 0;
 
     switch (callType) {

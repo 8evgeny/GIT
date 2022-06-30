@@ -1,8 +1,10 @@
 #include "messagedata.h"
 #include "../UDP_JSON/udp_multicast.h"
+#include "rs232.h"
 
 void MessageData::parse(JsonDocument &doc)
 {
+term(" ")
     field.ownId = doc["Own_Id"];
     field.linkData = doc["Link_Data"];
     field.priority = doc["Priority"];
@@ -25,6 +27,7 @@ void MessageData::parse(JsonDocument &doc)
 
 void MessageDataBuff::clear()
 {
+term(" ")
     if (recvMessageBuff != nullptr) {
         delete [] recvMessageBuff;
         recvMessageBuff = nullptr;
