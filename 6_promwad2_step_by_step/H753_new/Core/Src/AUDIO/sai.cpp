@@ -394,7 +394,7 @@ osThreadDef(handelMixAudio, timerForMixAudio, osPriorityNormal, 0, configMINIMAL
 osThreadDef(audioRxFullThread, threadAudioRxFull, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 8);
 osThreadDef(audioRxHalfThread, threadAudioRxHalf, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 8);
 osThreadDef(lostPackThread, lostPackThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 5);
-osThreadDef(recvThread, rtpRecvThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 5);
+osThreadDef(recvThread, rtpRecvThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 10);
 
 
 void threadAudioInit(void const *arg)
@@ -520,6 +520,19 @@ void threadAudioInit(void const *arg)
     } while (lostPackThreadId == nullptr);
 
 //    rtpCreate(100, 2);
+
+//Добавил (нет в исходном коде)
+    do {
+        recvThreadId = osThreadCreate(osThread(recvThread), nullptr);
+        if (recvThreadId == nullptr) {
+            RS232::getInstance().term << __FUNCTION__ << " " << __LINE__ << " " << "\n";
+            RS232::getInstance().term << "heap size: " << xPortGetFreeHeapSize()  << "\n";
+            osDelay(TIME_OUT);
+        }
+    } while (recvThreadId == nullptr);
+//конец добавления
+
+
 
     while (1) {
         osThreadTerminate(SAI::getInstance()->threadAudioInitId);

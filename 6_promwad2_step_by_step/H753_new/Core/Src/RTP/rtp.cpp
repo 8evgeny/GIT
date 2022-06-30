@@ -438,8 +438,19 @@ term("--- rtpRecvThread ---")
                             osDelay(1);
                         }
                     }
+
+
+
                     /* leave multicast group */
                     setsockopt(sockRtpRecv, IPPROTO_IP, IP_DROP_MEMBERSHIP, &ipmreqRtpRecv, sizeof(ipmreqRtpRecv));
+                }
+                else
+                {
+                    for(;;)
+                    {
+                        osDelay(10000);
+                        term("Error")
+                    }
                 }
             }
             /* close the socket */

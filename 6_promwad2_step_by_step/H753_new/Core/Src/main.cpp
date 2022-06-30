@@ -283,7 +283,6 @@ int main(void)
         }
 
 
-
 //          firmwareInitThread();
 
     }
@@ -305,7 +304,8 @@ int main(void)
 //    testLed2();
     testLed3();
 //    testUART();
-//    testTasksLog(); //Логи задач
+
+    testTasksLog(); //Логи задач
 
     //Debug пока не работает - выпилил везде из кода
     Debug::getInstance().dbg << "ee";
