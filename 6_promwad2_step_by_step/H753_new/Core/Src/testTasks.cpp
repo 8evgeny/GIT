@@ -214,7 +214,6 @@ void TasksLog(void const *argument)
         vTaskList(logTasks);
         term(logTasks)
         term1("heap size") term(xPortGetFreeHeapSize())
-        term("\r\n\n")
 
     } //end for(;;)
 

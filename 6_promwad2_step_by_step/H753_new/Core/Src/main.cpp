@@ -305,7 +305,7 @@ int main(void)
     testLed3();
 //    testUART();
 
-    testTasksLog(); //Логи задач
+//    testTasksLog(); //Логи задач
 
     //Debug пока не работает - выпилил везде из кода
     Debug::getInstance().dbg << "ee";
