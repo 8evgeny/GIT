@@ -448,7 +448,7 @@ term("--- rtpRecvThread ---")
                 {
                     for(;;)
                     {
-                        osDelay(10000);
+                        osDelay(100000);
                         term("Error")
                     }
                 }
