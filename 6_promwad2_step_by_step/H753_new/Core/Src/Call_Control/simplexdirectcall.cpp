@@ -6,7 +6,7 @@
 
 void SimplexDirectCall::handleButton()
 {
-term(" ")
+term("SimplexDirectCall ")
     if (context_->subjectKey.key == context_->assignedData.key) {
 
         stopRingTone();
@@ -30,7 +30,7 @@ term(" ")
 
 void SimplexDirectCall::handleJsonMessage()
 {
-term(" ")
+term("SimplexDirectCall ")
     switch (static_cast<CallControl::Request>(context_->messageData.field.linkData)) {
     case CallControl::Request::HANG_UP:
         if (Json::getInstance()->thisStation.id == context_->messageData.field.distId) {
@@ -140,7 +140,7 @@ term(" ")
 
 void SimplexDirectCall::handleLostLink()
 {
-term(" ")
+term("SimplexDirectCall ")
     if (context_->isIncomingCall) {
         context_->osTimer.stop(context_->osTimer.request_timerId, context_->osTimer.request_timerStatus);
         context_->microphone.stop();
@@ -154,7 +154,7 @@ term(" ")
 
 void SimplexDirectCall::handleRepeatedRequestCallBack()
 {
-term(" ")
+term("SimplexDirectCall ")
     if (context_->osTimer.request_timerStatus == osOK) {
 
         if (context_->requestCount < 3) {
@@ -211,7 +211,7 @@ term(" ")
 
 void SimplexDirectCall::handleUnknownIncomingCallBack()
 {
-term(" ")
+term("SimplexDirectCall ")
     if (context_->osTimer.autoAnsw_timerStatus == osOK) {
         stopRingTone();
         context_->createRtp(context_->messageData.field.prevOwnId, CallControl::Simplex_recv_type);
@@ -220,7 +220,7 @@ term(" ")
 
 void SimplexDirectCall::handleAck()
 {
-term(" ")
+term("SimplexDirectCall ")
     switch (context_->control) {
 
     case CallControl::Control::HANG_UP: {

@@ -181,7 +181,6 @@ term("startingSimpleTestUART_RTOS")
             if (HAL_GetTick() > tickstart + timeReset)
             {
 //                 term("*************  SimpleTestUART_RTOS  *************")
-                term(" ")
 //GPIO::getInstance()->aLeds[3].ledState = 1;
                  reset = false;
                  tickstart = HAL_GetTick();
@@ -192,7 +191,6 @@ term("startingSimpleTestUART_RTOS")
             if (HAL_GetTick() > tickstart + timeSet)
             {
 //                term("#############  SimpleTestUART_RTOS  #############")
-                term(" ")
                 reset = true;
                 tickstart = HAL_GetTick();
             }

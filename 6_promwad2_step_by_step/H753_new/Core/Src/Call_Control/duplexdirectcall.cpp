@@ -6,7 +6,7 @@
 
 void DuplexDirectCall::handleButton()
 {
-term(" ")
+term("DuplexDirectCall ")
     if (context_->subjectKey.key == context_->assignedData.key) {
 
         if (!context_->isAnsweredCall && context_->isIncomingCall) {
@@ -34,7 +34,7 @@ term(" ")
 
 void DuplexDirectCall::handleJsonMessage()
 {
-term(" ")
+term("DuplexDirectCall ")
     switch (static_cast<CallControl::Request>(context_->messageData.field.linkData)) {
     case CallControl::Request::HANG_UP:
         if (Json::getInstance()->thisStation.id == context_->messageData.field.distId) {
@@ -155,7 +155,7 @@ term(" ")
 
 void DuplexDirectCall::handleLostLink()
 {
-term(" ")
+term("DuplexDirectCall ")
     context_->osTimer.stop(context_->osTimer.request_timerId, context_->osTimer.request_timerStatus);
     context_->microphone.stop();
     context_->removeRtp();
@@ -167,7 +167,7 @@ term(" ")
 
 void DuplexDirectCall::handleRepeatedRequestCallBack()
 {
-term(" ")
+term("DuplexDirectCall ")
     if (context_->osTimer.request_timerStatus == osOK) {
 
         if (context_->requestCount < REQUEST_NUM) {
@@ -227,7 +227,7 @@ term(" ")
 
 void DuplexDirectCall::handleUnknownIncomingCallBack()
 {
-term(" ")
+term("DuplexDirectCall ")
     if (context_->osTimer.autoAnsw_timerStatus == osOK) {
         stopRingTone();
         context_->sendRequest(CallControl::Request::ACK_ANSW);
@@ -236,7 +236,7 @@ term(" ")
 
 void DuplexDirectCall::handleAck()
 {
-term(" ")
+term("DuplexDirectCall ")
     switch (context_->control) {
     case CallControl::Control::READY: {
         if (Json::getInstance()->thisStation.id == context_->messageData.field.ownId) {

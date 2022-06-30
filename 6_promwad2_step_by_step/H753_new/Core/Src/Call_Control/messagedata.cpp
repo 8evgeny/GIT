@@ -4,7 +4,7 @@
 
 void MessageData::parse(JsonDocument &doc)
 {
-term(" ")
+term("MessageData ")
     field.ownId = doc["Own_Id"];
     field.linkData = doc["Link_Data"];
     field.priority = doc["Priority"];
@@ -27,7 +27,7 @@ term(" ")
 
 void MessageDataBuff::clear()
 {
-term(" ")
+term("MessageData ")
     if (recvMessageBuff != nullptr) {
         delete [] recvMessageBuff;
         recvMessageBuff = nullptr;
