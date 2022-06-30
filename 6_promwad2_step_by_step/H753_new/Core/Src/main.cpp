@@ -282,6 +282,8 @@ int main(void)
             Debug::getInstance().dbg << __FUNCTION__ << " " << __LINE__ << " " << "\n";
         }
 
+
+
 //          firmwareInitThread();
 
     }

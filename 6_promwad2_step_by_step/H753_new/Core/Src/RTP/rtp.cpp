@@ -253,7 +253,7 @@ term("--- timerForMixAudio ---")
   */
 void rtpSendInit(void const *arg)
 {
-term("--- rtpSendInit ---")
+term("rtpSendInit")
     /* Reset the RTP structure */
     memset(&rtpStructSend, 0x00, sizeof(rtpStructSend));
 
@@ -283,10 +283,11 @@ term("--- rtpSendInit ---")
 
             /* Reset rtp packet */
             memset(rtpStructSend.rtp_send_packet, 0x00, sizeof(rtpStructSend.rtp_send_packet));
-
+term("Reset rtp packet")
             /* Next state is RTP_STATE_START */
             rtpStructSend.State = RTP_STATE_START;
         } else {
+term("Binding local adress failed")
             /* Binding local adress failed */
             rtpStructSend.State = RTP_STATE_ERROR;
         }
