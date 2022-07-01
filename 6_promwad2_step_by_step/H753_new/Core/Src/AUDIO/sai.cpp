@@ -823,6 +823,7 @@ void startRingTone(const RingToneType type)
 
 void stopRingTone(void)
 {
+term("sai.cpp")
     if (toneType == RingToneType::RING_UNKNOWN_TONE) {
         stopDtmfTone();
     } else if (SAI::getInstance()->ringToneStatus == osOK) {

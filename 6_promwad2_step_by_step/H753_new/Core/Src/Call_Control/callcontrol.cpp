@@ -79,6 +79,8 @@ void CallControl::button(PackageRx pack)
 #endif
 
     if (handleClick(pack)) {
+
+term("*** handleClick end ***")
         this->state_->handleButton();
     }
 }
@@ -162,8 +164,6 @@ uint16_t CallControl::getSubjectData(CallControl::SubjectData control, uint8_t i
 {
     uint16_t retVal = 0;
 //    osMutexWait(mutexKeyBufferId_, osWaitForever);
-
-term1("CallControl::getSubjectData") term(control)
 
     switch (control) {
     case Key:
@@ -440,7 +440,6 @@ term("button_timerId")
                     if ((getSubjectData(Key, i)) == pressedKey) {
                         subjectKey = Json::getInstance()->thisStation.keysBuffer[i];
                         foundKeyFlag_ = true;
-
                         keyMode = subjectKey.mode;
                         func = subjectKey.function;
 
