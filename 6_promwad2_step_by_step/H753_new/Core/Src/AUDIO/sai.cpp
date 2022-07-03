@@ -522,14 +522,14 @@ void threadAudioInit(void const *arg)
 //    rtpCreate(100, 2);
 
 //Добавил (нет в исходном коде)
-    do {
-        recvThreadId = osThreadCreate(osThread(recvThread), nullptr);
-        if (recvThreadId == nullptr) {
-            RS232::getInstance().term << __FUNCTION__ << " " << __LINE__ << " " << "\n";
-            RS232::getInstance().term << "heap size: " << xPortGetFreeHeapSize()  << "\n";
-            osDelay(TIME_OUT);
-        }
-    } while (recvThreadId == nullptr);
+//    do {
+//        recvThreadId = osThreadCreate(osThread(recvThread), nullptr);
+//        if (recvThreadId == nullptr) {
+//            RS232::getInstance().term << __FUNCTION__ << " " << __LINE__ << " " << "\n";
+//            RS232::getInstance().term << "heap size: " << xPortGetFreeHeapSize()  << "\n";
+//            osDelay(TIME_OUT);
+//        }
+//    } while (recvThreadId == nullptr);
 //конец добавления
 
 
