@@ -220,7 +220,7 @@ term1("err = ") term(err)
                 for(;;)
                 {
                     term("recvUdpThread error")
-                    osDelay(100000);
+                    osDelay(10000);
                 }
             }
             /* leave multicast group */

@@ -213,6 +213,11 @@
 #define SYS_LIGHTWEIGHT_PROT            1
 #endif
 
+#define LWIP_IGMP                       1
+
+
+
+
 /**
  * Macro/function to check whether lwIP's threading/locking
  * requirements are satisfied during current function call.
