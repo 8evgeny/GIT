@@ -113,7 +113,7 @@ void CallControl::answerUnknownCall()
 
 bool CallControl::detectSubject(uint16_t subject)
 {
-term("CallControl::detectSubject")
+term("CallControl")
     uint16_t size = getSubjectData(Size);
     for(uint8_t i = 0; i < size; ++i ) {
 
@@ -194,7 +194,7 @@ uint16_t CallControl::getSubjectData(CallControl::SubjectData control, uint8_t i
 
 void CallControl::setCallType()
 {
-term("CallControl::setCallType")
+term("CallControl")
     switch (messageData.field.callType) {
     case Direct:
 term("case Direct")
