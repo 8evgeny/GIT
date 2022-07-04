@@ -391,7 +391,7 @@ static void low_level_init(struct netif *netif)
   #if LWIP_ARP
     netif->flags |= NETIF_FLAG_BROADCAST | NETIF_FLAG_ETHARP
 //            | NETIF_FLAG_LINK_UP
-            | NETIF_FLAG_IGMP
+            | NETIF_FLAG_IGMP  //Без этого флага не присоединяется к мультикаст группе
             ;
   #else
     netif->flags |= NETIF_FLAG_BROADCAST;
