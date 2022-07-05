@@ -238,7 +238,7 @@ void TasksLog(void const *argument)
 void SendMcast(void const *argument)
 {
     (void)argument;
-    osDelay(12000);
+    osDelay(11000);
     term("--- SendMcast ---")
 
         for(;;)
