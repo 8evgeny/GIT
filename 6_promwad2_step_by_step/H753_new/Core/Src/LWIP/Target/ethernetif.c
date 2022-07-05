@@ -413,6 +413,13 @@ static void low_level_init(struct netif *netif)
 /* USER CODE END OS_THREAD_DEF_CREATE_CMSIS_RTOS_V1 */
 /* USER CODE BEGIN PHY_PRE_CONFIG */
 
+  ETH_MACFilterConfigTypeDef FilterConfig;
+
+  FilterConfig.PromiscuousMode = 1;
+  FilterConfig.PassAllMulticast = 1;
+
+  HAL_ETH_SetMACFilterConfig(&heth, &FilterConfig);
+
 /* USER CODE END PHY_PRE_CONFIG */
 
 #endif /* LWIP_ARP || LWIP_ETHERNET */
