@@ -304,6 +304,8 @@ int main(void)
 //    testLed2();
     testLed3();
 //    testUART();
+    testSendMcast();
+    testReceiveMcast();
 
 //    testTasksLog(); //Логи задач
 
