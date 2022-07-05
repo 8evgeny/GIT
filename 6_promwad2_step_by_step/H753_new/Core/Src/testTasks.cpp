@@ -5,6 +5,11 @@
 #include "debug.h"
 #include "rs232_printf.h"
 
+#include "lwip.h"
+#include "lwip/init.h"
+#include "lwip/netif.h"
+#include "ethernetif.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -240,6 +245,11 @@ void SendMcast(void const *argument)
     (void)argument;
     osDelay(11000);
     term("--- SendMcast ---")
+//    struct ip_addr Multicast_Addr;
+//    IP4_ADDR(&Multicast_Addr, 224, 0, 0, 7 );
+//    igmp_joingroup(IP_ADDR_ANY,&Multicast_Addr);
+
+
 
         for(;;)
     {

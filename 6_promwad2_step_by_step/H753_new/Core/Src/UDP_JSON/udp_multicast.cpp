@@ -185,7 +185,7 @@ term("--- recvUdpThread ---")
             /* join multicast group */
 
         auto err = setsockopt(sockUdpRecv, IPPROTO_IP, IP_ADD_MEMBERSHIP, &ipmreqUdpRecv, sizeof(ipmreqUdpRecv));
-term1("err = ") term(err)
+term1("err") term(err)
             if (err == 0)
             {
                 /* receive RTP packets */
