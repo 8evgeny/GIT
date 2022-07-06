@@ -912,7 +912,7 @@ static void MX_GPIO_Init(void)
 
 void TaskEthernet_(void const * argument)
 {
-    osDelay(2000);
+//    osDelay(2000); //Если ставить задержку - зависания и непонятное поведение
     term("--- TaskEthernet_ ---")
 
         term1("ip")      term(Json::getInstance()->thisStation.ip)
