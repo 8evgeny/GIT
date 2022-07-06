@@ -1088,7 +1088,7 @@ lwip_recv_tcp_from(struct lwip_sock *sock, struct sockaddr *from, socklen_t *fro
 static err_t
 lwip_recvfrom_udp_raw(struct lwip_sock *sock, int flags, struct msghdr *msg, u16_t *datagram_len, int dbg_s)
 {
-RS232Puts("lwip_recvfrom_udp_raw\r\n");
+//RS232Puts("lwip_recvfrom_udp_raw\r\n");
   struct netbuf *buf;
   u8_t apiflags;
   err_t err;
@@ -1201,7 +1201,7 @@ ssize_t
 lwip_recvfrom(int s, void *mem, size_t len, int flags,
               struct sockaddr *from, socklen_t *fromlen)
 {
-RS232Puts("lwip_recvfrom\r\n");
+//RS232Puts("lwip_recvfrom\r\n");
   struct lwip_sock *sock;
   ssize_t ret;
 

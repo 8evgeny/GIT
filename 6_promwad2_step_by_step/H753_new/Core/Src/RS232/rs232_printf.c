@@ -1,4 +1,5 @@
 #include "rs232_printf.h"
+#include "main.h"
 
 #if _USE_RS232_FUNC_OUT
 
@@ -31,9 +32,11 @@ void RS232Puts(      /* Put a string to the default device */
     const char *str				/* Pointer to the string */
 )
 {
+#ifdef  TERMINAL_DEBUG2
 	while (*str) {
         RS232Putc(*str++);
 	}
+#endif
 }
 
 
@@ -43,8 +46,6 @@ void RS232Fputs(      /* Put a string to the specified device */
 )
 {
 	void (*pf)(unsigned char);
-
-
     pf = RS232FuncOut;		/* Save current output device */
     RS232FuncOut = func;	/* Switch output to specified device */
 	while (*str) {		/* Put the string */
