@@ -245,11 +245,6 @@ void SendMcast(void const *argument)
     (void)argument;
     osDelay(11000);
     term("--- SendMcast ---")
-//    struct ip_addr Multicast_Addr;
-//    IP4_ADDR(&Multicast_Addr, 224, 0, 0, 7 );
-//    igmp_joingroup(IP_ADDR_ANY,&Multicast_Addr);
-
-
 
         for(;;)
     {
