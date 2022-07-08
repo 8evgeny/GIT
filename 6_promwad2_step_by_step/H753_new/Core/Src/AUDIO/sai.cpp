@@ -163,7 +163,7 @@ term("sai.cpp")
     audioTxSai.Init.OutputDrive = SAI_OUTPUTDRIVE_DISABLE;
     audioTxSai.Init.NoDivider = SAI_MASTERDIVIDER_ENABLE;
     audioTxSai.Init.FIFOThreshold = SAI_FIFOTHRESHOLD_EMPTY;
-    audioTxSai.Init.AudioFrequency = SAI_AUDIO_FREQUENCY_16K;
+    audioTxSai.Init.AudioFrequency = SAI_AUDIO_FREQUENCY_8K;
     audioTxSai.Init.SynchroExt = SAI_SYNCEXT_DISABLE;
     audioTxSai.Init.MonoStereoMode = SAI_STEREOMODE;
     audioTxSai.Init.CompandingMode = SAI_NOCOMPANDING;
