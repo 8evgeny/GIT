@@ -253,7 +253,7 @@ term("--- timerForMixAudio ---")
   */
 void rtpSendInit(void const *arg)
 {
-term("rtpSendInit")
+term("rtp.cpp")
     /* Reset the RTP structure */
     memset(&rtpStructSend, 0x00, sizeof(rtpStructSend));
 
@@ -283,7 +283,7 @@ term("rtpSendInit")
 
             /* Reset rtp packet */
             memset(rtpStructSend.rtp_send_packet, 0x00, sizeof(rtpStructSend.rtp_send_packet));
-term("Reset rtp packet")
+
             /* Next state is RTP_STATE_START */
             rtpStructSend.State = RTP_STATE_START;
         } else {
@@ -373,6 +373,7 @@ void rtpRecvThread(void const *arg)
 {
 osDelay(800);
 term("--- rtpRecvThread ---")
+    char msg[20];
     struct sockaddr_in local;
     struct sockaddr_in from;
     int                fromlen;
@@ -414,6 +415,9 @@ term("--- rtpRecvThread ---")
                     while (1) {
                         fromlen = sizeof(from);
                         result  = recvfrom(sockRtpRecv, rtpRecvPacket, sizeof(rtpRecvPacket), 0, reinterpret_cast<struct sockaddr *>(&from), reinterpret_cast<socklen_t *>(&fromlen));
+//sprintf(msg,"%d",result);
+//term1("result") term(msg)
+//std::fill(msg, msg + 19 ,'0');
                         if (result >= static_cast<int>(sizeof(struct rtp_hdr))) {
                             lostPackCounter = 0;
                             //copy header
@@ -431,6 +435,10 @@ term("--- rtpRecvThread ---")
                             osMutexRelease(mutexMixRtpRxId);
                         } else {
                             lostPackCounter++;
+
+                        sprintf(msg,"%d",lostPackCounter);
+
+term1("lostPackCounter") term(msg)
                             if (lostPackCounter > MAX_NUMBER_LOST_PACK) {
                                 lostPackCounter = 0;
                                 osSignalSet(lostPackThreadId, 0xFB);
