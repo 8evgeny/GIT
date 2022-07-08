@@ -142,6 +142,7 @@ uint8_t rtpDataRxFullCrypt[BUFFER_AUDIO_SIZE_RTP];
   */
 void saiInitAudio(void)
 {
+term("sai.cpp")
     /* Enable DMA controller clock for SAI */
 
     /* DMA controller clock enable */
@@ -212,6 +213,7 @@ void DMA2_Stream4_IRQHandler(void)
 
 void HAL_SAI_TxCpltCallback(SAI_HandleTypeDef *hOutSai)
 {
+term("sai.cpp")
     if (hOutSai->Instance == SAI1_Block_A) {
         osSemaphoreRelease(semaphoreTxFullId);
     }
@@ -219,6 +221,7 @@ void HAL_SAI_TxCpltCallback(SAI_HandleTypeDef *hOutSai)
 
 void HAL_SAI_TxHalfCpltCallback(SAI_HandleTypeDef *hOutSai)
 {
+term("sai.cpp")
     if (hOutSai->Instance == SAI1_Block_A) {
         osSemaphoreRelease(semaphoreTxHalfId);
     }
@@ -226,6 +229,7 @@ void HAL_SAI_TxHalfCpltCallback(SAI_HandleTypeDef *hOutSai)
 
 void HAL_SAI_RxCpltCallback(SAI_HandleTypeDef *hInSai)
 {
+term("sai.cpp")
     if (hInSai->Instance == SAI1_Block_B) {
         osSemaphoreRelease(semaphoreRxFullId);
     }
@@ -233,6 +237,7 @@ void HAL_SAI_RxCpltCallback(SAI_HandleTypeDef *hInSai)
 
 void HAL_SAI_RxHalfCpltCallback(SAI_HandleTypeDef *hInSai)
 {
+term("sai.cpp")
     if (hInSai->Instance == SAI1_Block_B) {
         osSemaphoreRelease(semaphoreRxHalfId);
     }
@@ -242,6 +247,7 @@ static uint32_t SAI1_client = 0;
 
 void HAL_SAI_MspInit(SAI_HandleTypeDef *hsai)
 {
+term("sai.cpp")
     GPIO_InitTypeDef GPIO_InitStruct;
     /* SAI1 */
     if (hsai->Instance == SAI1_Block_A) {
@@ -345,7 +351,7 @@ void HAL_SAI_MspInit(SAI_HandleTypeDef *hsai)
 
 void HAL_SAI_MspDeInit(SAI_HandleTypeDef *hsai)
 {
-
+term("sai.cpp")
     RS232::getInstance().term << __FUNCTION__ <<  " " << __LINE__ << "\n";
     /* SAI1 */
     if (hsai->Instance == SAI1_Block_A) {
@@ -399,6 +405,7 @@ osThreadDef(recvThread, rtpRecvThread, osPriorityNormal, 0, configMINIMAL_STACK_
 
 void threadAudioInit(void const *arg)
 {
+term("sai.cpp")
     UNUSED(arg);
 
     constexpr uint32_t TIME_OUT = 10;
