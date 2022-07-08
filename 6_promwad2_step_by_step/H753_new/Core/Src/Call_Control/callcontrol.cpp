@@ -525,7 +525,7 @@ term("CallControl::sendInfoAboutStation")
 
 void CallControl::createRtp(uint32_t port, uint8_t rtpType)
 {
-term("CallControl::createRtp")
+term("callcontrol.cpp")
     if (rtpStatus != OK_RTP) {
         rtpStatus = rtpCreate(port, rtpType);
     }
@@ -533,7 +533,7 @@ term("CallControl::createRtp")
 
 ErrorCode CallControl::removeRtp()
 {
-term("CallControl::removeRtp")
+term("callcontrol.cpp")
     if (rtpStatus == OK_RTP) {
         rtpRemove();
         rtpStatus = FAIL_RTP;
@@ -545,7 +545,7 @@ term("CallControl::removeRtp")
 
 bool CallControl::seekDynamicStorage(std::vector <uint16_t>& v, uint16_t subject)
 {
-term("CallControl::seekDynamicStorage")
+term("callcontrol.cpp")
     if (!v.empty()) {
         for (uint8_t i = 0; i < v.size(); ++i) {
             if (*(v.begin() + i) == subject) {

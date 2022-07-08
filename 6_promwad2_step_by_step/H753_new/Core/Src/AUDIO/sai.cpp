@@ -386,10 +386,10 @@ void HAL_SAI_MspDeInit(SAI_HandleTypeDef *hsai)
     }
 }
 
-osThreadDef(sendHalfRtp, sendHalfThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 5);
-osThreadDef(sendFullRtp, sendFullThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 5);
-osThreadDef(audioTxHalfThread, threadAudioTxHalf, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 8);
-osThreadDef(audioTxFullThread, threadAudioTxFull, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 8);
+osThreadDef(sendHalfRtp, sendHalfThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 10);
+osThreadDef(sendFullRtp, sendFullThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 10);
+osThreadDef(audioTxHalfThread, threadAudioTxHalf, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 10);
+osThreadDef(audioTxFullThread, threadAudioTxFull, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 10);
 osThreadDef(handelMixAudio, timerForMixAudio, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 10);
 osThreadDef(audioRxFullThread, threadAudioRxFull, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 8);
 osThreadDef(audioRxHalfThread, threadAudioRxHalf, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 8);
@@ -521,18 +521,6 @@ void threadAudioInit(void const *arg)
 
 //    rtpCreate(100, 2);
 
-//Добавил (нет в исходном коде)
-//    do {
-//        recvThreadId = osThreadCreate(osThread(recvThread), nullptr);
-//        if (recvThreadId == nullptr) {
-//            RS232::getInstance().term << __FUNCTION__ << " " << __LINE__ << " " << "\n";
-//            RS232::getInstance().term << "heap size: " << xPortGetFreeHeapSize()  << "\n";
-//            osDelay(TIME_OUT);
-//        }
-//    } while (recvThreadId == nullptr);
-//конец добавления
-
-
 
     while (1) {
         osThreadTerminate(SAI::getInstance()->threadAudioInitId);
@@ -546,9 +534,11 @@ term("--- threadAudioTxHalf ---")
     UNUSED(arg);
     RtpPackages in;
     while (1) {
-        if (osSemaphoreWait(semaphoreTxHalfId, 0) == osOK) {
+        if (osSemaphoreWait(semaphoreTxHalfId, 0) == osOK)
+        {
             osMutexWait(mutexRtpRxId, osWaitForever);
-            if (!SAI::getInstance()->outRingBuffer.isEmpty()) {
+            if (!SAI::getInstance()->outRingBuffer.isEmpty())
+            {
 
                 in = SAI::getInstance()->outRingBuffer.first();
                 SAI::getInstance()->outRingBuffer.shift();
@@ -556,10 +546,12 @@ term("--- threadAudioTxHalf ---")
 
 //                memcpy(reinterpret_cast<uint8_t *>(txBuf), reinterpret_cast<uint8_t *>(in.payload), BUFFER_AUDIO_SIZE_RTP);
                 arm_copy_q15(reinterpret_cast<q15_t *>(in.payload), reinterpret_cast<q15_t *>(txBuf), BUFFER_AUDIO_SIZE_RTP / 2);
-            } else if (SAI::getInstance()->tone.status == DTMF::Status::START) {
+            } else if (SAI::getInstance()->tone.status == DTMF::Status::START)
+            {
                 SAI::getInstance()->tone.getData(DTMF::Control::FIRST_HALF);
                 osMutexRelease(mutexRtpRxId);
-            } else {
+            } else
+            {
                 osMutexRelease(mutexRtpRxId);
                 osDelay(1);
             }
