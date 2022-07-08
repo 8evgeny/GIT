@@ -80,7 +80,7 @@ void CallControl::button(PackageRx pack)
 
     if (handleClick(pack)) {
 
-term("*** handleClick end ***")
+//term("*** handleClick end ***")
         this->state_->handleButton();
     }
 }
@@ -393,7 +393,7 @@ bool CallControl::handleClick(uPackageRx pack)
 #else
 bool CallControl::handleClick(PackageRx pack)
 {
-term1("CallControl::handleClick") term (pack.payloadData)
+//term1("CallControl::handleClick") term (pack.payloadData)
 
     if (pack.packetType == GPIO::getInstance()->button) {
 
@@ -404,7 +404,7 @@ term1("CallControl::handleClick") term (pack.payloadData)
                 handleClick_count++;
 
                 if (handleClick_count > 2 && foundKeyFlag_) {
-term("button_timerId")
+term("osTimer.start")
                     osTimer.start(osTimer.button_timerId, osTimer.button_timerStatus, 200);
 
                     if (missedCall.isMissedKey) {
@@ -416,7 +416,7 @@ term("button_timerId")
                 }
 
             } else {
-term("button_timerId")
+term("osTimer.start")
                 osTimer.start(osTimer.button_timerId, osTimer.button_timerStatus, 200);
             }
 
@@ -631,7 +631,6 @@ term("CallControl::sendMessage")
 
 void CallControl::sendMessage(const Request linkData)
 {
-term("CallControl")
     const int capacity = JSON_OBJECT_SIZE(6) + JSON_ARRAY_SIZE(100);
     DynamicJsonDocument doc (capacity);
 
@@ -687,6 +686,7 @@ term("CallControl::retransmitMessage")
 
         std::fill(messageData.txBuff, messageData.txBuff + messageData.txBuffSize, 0);
         if (serializeJson(doc, messageData.txBuff, capacity) > 0) {
+term(messageData.txBuff)
             sendUdpMulticast(messageData.txBuff, strlen(messageData.txBuff));
         }
     }
@@ -765,12 +765,10 @@ term("CallControl::copyRecvBuff")
 
 void CallControl::sendRequest(uint8_t callType, Request reqType, uint16_t timeout)
 {
-term("CallControl")
     requestCount = 0;
 
     switch (callType) {
     case Direct: {
-term("CallControl::Direct")
 term1("Request") term((uint8_t)reqType)
         sendMessage(reqType);
         requestCount++;
@@ -786,7 +784,6 @@ term("CallControl::Group")
     default:
         break;
     }
-term("request_timerId")
     osTimer.start(osTimer.request_timerId, osTimer.request_timerStatus, timeout);
 }
 
@@ -795,11 +792,10 @@ constexpr static uint16_t TIMEOUT {300};
 
 void CallControl::sendRequest(Request reqType)
 {
-term("CallControl::sendRequest")
 term1("Request") term((uint8_t)reqType)
     switch (reqType) {
     case Request::HANG_UP:
-term("CallControl::sendRequest HANG_UP")
+term("HANG_UP")
         requestCount = 0;
         retransmitMessage(messageData.recvMessageBuff, strlen(messageData.recvMessageBuff), Request::HANG_UP);
 term("request_timerId")
@@ -807,11 +803,11 @@ term("request_timerId")
         requestCount++;
         break;
     case Request::ACK:
-term("CallControl::sendRequest ACK")
+term("ACK")
         retransmitMessage(UdpJsonExch::getInstance()->recvBuff, strlen(UdpJsonExch::getInstance()->recvBuff), CallControl::Request::ACK);
         break;
     case Request::ACK_ANSW:
-term("CallControl::sendRequest ACK_ANSW")
+term("ACK_ANSW")
         requestCount = 0;
         control = Control::ANSWER;
         retransmitMessage(messageData.recvMessageBuff, strlen(messageData.recvMessageBuff), Request::ACK_ANSW);
@@ -820,7 +816,7 @@ term("request_timerId")
         requestCount++;
         break;
     case Request::BUSY:
-term("CallControl::sendRequest BUSY")
+term("BUSY")
         if (messageData.distIdArrSize == 1) {
             requestCount = 0;
             control = Control::BUSY;
@@ -831,7 +827,7 @@ term("request_timerId")
         }
         break;
     case Request::CHANGE_CONF:
-term("CallControl::sendRequest CHANGE_CONF")
+term("CHANGE_CONF")
         requestCount = 0;
         retransmitMessage(messageData.recvMessageBuff, strlen(messageData.recvMessageBuff), Request::CHANGE_CONF);
 term("request_timerId")
@@ -839,7 +835,7 @@ term("request_timerId")
         requestCount++;
         break;
     case Request::RETURN_CONF:
-term("CallControl::sendRequest RETURN_CONF")
+term("RETURN_CONF")
         requestCount = 0;
         switch (isInterruptConf) {
         case InterruptConf::CALLED_PARTY:

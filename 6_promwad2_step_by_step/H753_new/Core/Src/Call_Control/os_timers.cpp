@@ -40,7 +40,7 @@ term("OSTimer::OSTimer()")
 
 osStatus OSTimer::start(osTimerId id, osStatus& status, const uint16_t timerDelay)
 {
-term1("OSTimer::start Delay") term((uint8_t)timerDelay)
+//term1("OSTimer::start Delay") term((uint8_t)timerDelay)
     status = osTimerStart (id, timerDelay);     // timer starting
     if (status != osOK)  {
         RS232::getInstance().term << "Error OSTimer::start  " << __FUNCTION__ << " " << __LINE__ << " " << "\n";

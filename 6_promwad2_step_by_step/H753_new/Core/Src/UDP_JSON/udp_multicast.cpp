@@ -234,7 +234,7 @@ term("received Packet UDP")
 
 void sendUdpMulticast(char *sendBuff, size_t size)
 {
-term("sendUdpMulticast")
+//term("sendUdpMulticast")
     if (udpStructSend.State == UDP_STATE_START) {
 //        memcpy(udpStructSend.udp_send_packet, sendBuff, size);
 //        osMutexWait(UdpJsonExch::getInstance()->mutexSend_sock_id, osWaitForever);
