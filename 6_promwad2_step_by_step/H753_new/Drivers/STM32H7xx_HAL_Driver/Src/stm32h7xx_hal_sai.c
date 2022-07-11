@@ -495,6 +495,7 @@ HAL_StatusTypeDef HAL_SAI_Init(SAI_HandleTypeDef *hsai)
     hsai->MspInitCallback(hsai);
 #else
     /* Init the low level hardware : GPIO, CLOCK, NVIC and DMA */
+RS232Puts("INIT__SAI\r\n");
     HAL_SAI_MspInit(hsai);
 #endif
   }
@@ -1644,7 +1645,7 @@ HAL_StatusTypeDef HAL_SAI_Abort(SAI_HandleTypeDef *hsai)
   */
 HAL_StatusTypeDef HAL_SAI_Transmit_DMA(SAI_HandleTypeDef *hsai, uint8_t *pData, uint16_t Size)
 {
-RS232Puts("HAL_SAI_Transmit_DMA\r\n");
+RS232Puts("___HAL_SAI_Transmit_DMA_begin___\r\n");
   uint32_t tickstart = HAL_GetTick();
 
   if ((pData == NULL) || (Size == 0U))
@@ -1732,7 +1733,7 @@ RS232Puts("HAL_SAI_Transmit_DMA\r\n");
   */
 HAL_StatusTypeDef HAL_SAI_Receive_DMA(SAI_HandleTypeDef *hsai, uint8_t *pData, uint16_t Size)
 {
-RS232Puts("HAL_SAI_Receive_DMA\r\n");
+RS232Puts("___HAL_SAI_Receive_DMA_begin___\r\n");
   if ((pData == NULL) || (Size == 0U))
   {
     return  HAL_ERROR;

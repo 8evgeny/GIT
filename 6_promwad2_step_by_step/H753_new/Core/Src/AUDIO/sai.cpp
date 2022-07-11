@@ -213,7 +213,7 @@ void DMA2_Stream4_IRQHandler(void)
 
 void HAL_SAI_TxCpltCallback(SAI_HandleTypeDef *hOutSai)
 {
-term("sai.cpp")
+term("___sai.cpp")
     if (hOutSai->Instance == SAI1_Block_A) {
         osSemaphoreRelease(semaphoreTxFullId);
     }
@@ -221,7 +221,7 @@ term("sai.cpp")
 
 void HAL_SAI_TxHalfCpltCallback(SAI_HandleTypeDef *hOutSai)
 {
-term("sai.cpp")
+term("___sai.cpp")
     if (hOutSai->Instance == SAI1_Block_A) {
         osSemaphoreRelease(semaphoreTxHalfId);
     }
@@ -229,7 +229,7 @@ term("sai.cpp")
 
 void HAL_SAI_RxCpltCallback(SAI_HandleTypeDef *hInSai)
 {
-term("sai.cpp")
+term("___sai.cpp")
     if (hInSai->Instance == SAI1_Block_B) {
         osSemaphoreRelease(semaphoreRxFullId);
     }
@@ -237,7 +237,7 @@ term("sai.cpp")
 
 void HAL_SAI_RxHalfCpltCallback(SAI_HandleTypeDef *hInSai)
 {
-term("sai.cpp")
+term("___sai.cpp")
     if (hInSai->Instance == SAI1_Block_B) {
         osSemaphoreRelease(semaphoreRxHalfId);
     }
@@ -247,7 +247,7 @@ static uint32_t SAI1_client = 0;
 
 void HAL_SAI_MspInit(SAI_HandleTypeDef *hsai)
 {
-term("sai.cpp")
+term("___sai.cpp")
     GPIO_InitTypeDef GPIO_InitStruct;
     /* SAI1 */
     if (hsai->Instance == SAI1_Block_A) {
