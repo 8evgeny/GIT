@@ -478,10 +478,12 @@ term("--- sendHalfThread ---")
     UNUSED(arg);
     while (1) {
         /* Try to obtain the semaphore. */
-        if (rtpStructSend.State == RTP_STATE_START) {
+        if (rtpStructSend.State == RTP_STATE_START)
+        {
             osEvent evt = osSignalWait(0x01, osWaitForever);
 
-            if (evt.status == osEventSignal)  {
+            if (evt.status == osEventSignal)
+            {
                 osMutexWait(mutexRtpTxId, osWaitForever);
                 rtpSendPacketsHalf(rtpStructSend.sock_id, &rtpStructSend.net_dest);
                 osMutexRelease(mutexRtpTxId);
