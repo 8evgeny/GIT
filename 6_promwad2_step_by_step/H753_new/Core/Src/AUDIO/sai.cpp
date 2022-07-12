@@ -278,7 +278,7 @@ term("___sai.cpp")
         /* Peripheral DMA init*/
 
         hdmaSaiTx.Instance = DMA2_Stream3;
-        hdmaSaiTx.Init.Request = HAL_DMAMUX2_SYNC_DMAMUX2_CH0_EVT;
+        hdmaSaiTx.Init.Request = DMA_REQUEST_SAI1_A;
         hdmaSaiTx.Init.Direction = DMA_MEMORY_TO_PERIPH;
         hdmaSaiTx.Init.PeriphInc = DMA_PINC_DISABLE;
         hdmaSaiTx.Init.MemInc = DMA_MINC_ENABLE;
@@ -325,7 +325,7 @@ term("___sai.cpp")
 
         /* Peripheral DMA init*/
         hdmaSaiRx.Instance = DMA2_Stream4;
-        hdmaSaiRx.Init.Request = HAL_DMAMUX2_SYNC_DMAMUX2_CH1_EVT;
+        hdmaSaiRx.Init.Request = DMA_REQUEST_SAI1_B;
         hdmaSaiRx.Init.Direction = DMA_PERIPH_TO_MEMORY;
         hdmaSaiRx.Init.PeriphInc = DMA_PINC_DISABLE;
         hdmaSaiRx.Init.MemInc = DMA_MINC_ENABLE;
