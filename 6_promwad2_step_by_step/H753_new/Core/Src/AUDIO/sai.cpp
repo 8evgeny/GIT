@@ -165,11 +165,11 @@ term("sai.cpp")
     audioTxSai.Init.OutputDrive = SAI_OUTPUTDRIVE_DISABLE;
     audioTxSai.Init.NoDivider = SAI_MASTERDIVIDER_ENABLE;
     audioTxSai.Init.FIFOThreshold = SAI_FIFOTHRESHOLD_EMPTY;
-//    audioTxSai.Init.AudioFrequency = SAI_AUDIO_FREQUENCY_8K;
-    audioTxSai.Init.AudioFrequency = SAI_AUDIO_FREQUENCY_MCKDIV;  //Так у Мурома
-    audioTxSai.Init.Mckdiv = 1;                                   //Так у Мурома
+    audioTxSai.Init.AudioFrequency = SAI_AUDIO_FREQUENCY_16K;
+/*    audioTxSai.Init.AudioFrequency = SAI_AUDIO_FREQUENCY_MCKDIV;  //Так у Мурома
+    audioTxSai.Init.Mckdiv = 1;  */                                 //Так у Мурома
     audioTxSai.Init.SynchroExt = SAI_SYNCEXT_DISABLE;
-    audioTxSai.Init.MonoStereoMode = SAI_MONOMODE;                //Так у Мурома
+    audioTxSai.Init.MonoStereoMode = SAI_STEREOMODE;
     audioTxSai.Init.CompandingMode = SAI_NOCOMPANDING;
     audioTxSai.Init.TriState = SAI_OUTPUT_NOTRELEASED;
     if (HAL_SAI_InitProtocol(&audioTxSai, SAI_I2S_STANDARD, SAI_PROTOCOL_DATASIZE_16BIT, 2) != HAL_OK) {
@@ -182,7 +182,7 @@ term("sai.cpp")
     audioRxSai.Init.OutputDrive = SAI_OUTPUTDRIVE_DISABLE;
     audioRxSai.Init.FIFOThreshold = SAI_FIFOTHRESHOLD_EMPTY;
     audioRxSai.Init.SynchroExt = SAI_SYNCEXT_DISABLE;
-    audioRxSai.Init.MonoStereoMode = SAI_MONOMODE;                 //Так у Мурома
+    audioRxSai.Init.MonoStereoMode = SAI_STEREOMODE;
     audioRxSai.Init.CompandingMode = SAI_NOCOMPANDING;
     audioRxSai.Init.TriState = SAI_OUTPUT_NOTRELEASED;
     if (HAL_SAI_InitProtocol(&audioRxSai, SAI_I2S_STANDARD, SAI_PROTOCOL_DATASIZE_16BIT, 2) != HAL_OK) {
@@ -555,8 +555,8 @@ term("--- threadAudioTxHalf ---")
                 SAI::getInstance()->outRingBuffer.shift();
                 osMutexRelease(mutexRtpRxId);
 
-//                memcpy(reinterpret_cast<uint8_t *>(txBuf), reinterpret_cast<uint8_t *>(in.payload), BUFFER_AUDIO_SIZE_RTP);
-                arm_copy_q15(reinterpret_cast<q15_t *>(in.payload), reinterpret_cast<q15_t *>(txBuf), BUFFER_AUDIO_SIZE_RTP / 2);
+                memcpy(reinterpret_cast<uint8_t *>(txBuf), reinterpret_cast<uint8_t *>(in.payload), BUFFER_AUDIO_SIZE_RTP);
+//                arm_copy_q15(reinterpret_cast<q15_t *>(in.payload), reinterpret_cast<q15_t *>(txBuf), BUFFER_AUDIO_SIZE_RTP / 2);
             } else if (SAI::getInstance()->tone.status == DTMF::Status::START)
             {
                 SAI::getInstance()->tone.getData(DTMF::Control::FIRST_HALF);
@@ -609,9 +609,9 @@ term("--- threadAudioRxFull ---")
     UNUSED(arg);
     while (1) {
         if (osSemaphoreWait(semaphoreRxFullId, 0) == osOK) {
-//            memcpy(reinterpret_cast<uint8_t *>(rtpDataTxFullCrypt), reinterpret_cast<uint8_t *>(rxBuf) +  BUFFER_AUDIO_SIZE_RTP, BUFFER_AUDIO_SIZE_RTP);
-//            memcpy(reinterpret_cast<uint8_t *>(rtpDataTxFull), reinterpret_cast<uint8_t *>(rxBuf) +  BUFFER_AUDIO_SIZE_RTP, BUFFER_AUDIO_SIZE_RTP);
-            arm_copy_q15(reinterpret_cast<q15_t *>(rxBuf)  + BUFFER_AUDIO_SIZE_RTP / 2, reinterpret_cast<q15_t *>(rtpDataTxFullCrypt), BUFFER_AUDIO_SIZE_RTP / 2);
+            memcpy(reinterpret_cast<uint8_t *>(rtpDataTxFullCrypt), reinterpret_cast<uint8_t *>(rxBuf) +  BUFFER_AUDIO_SIZE_RTP, BUFFER_AUDIO_SIZE_RTP);
+            memcpy(reinterpret_cast<uint8_t *>(rtpDataTxFull), reinterpret_cast<uint8_t *>(rxBuf) +  BUFFER_AUDIO_SIZE_RTP, BUFFER_AUDIO_SIZE_RTP);
+//            arm_copy_q15(reinterpret_cast<q15_t *>(rxBuf)  + BUFFER_AUDIO_SIZE_RTP / 2, reinterpret_cast<q15_t *>(rtpDataTxFullCrypt), BUFFER_AUDIO_SIZE_RTP / 2);
 
 
             osMutexWait(mutexCryptTxId, osWaitForever);
@@ -636,9 +636,9 @@ term("--- threadAudioRxHalf ---")
     {
         if (osSemaphoreWait(semaphoreRxHalfId, 0) == osOK)
         {
-//            memcpy(reinterpret_cast<uint8_t *>(rtpDataTxHalfCrypt), reinterpret_cast<uint8_t *>(rxBuf), BUFFER_AUDIO_SIZE_RTP);
-//            memcpy(reinterpret_cast<uint8_t *>(rtpDataTxHalf), reinterpret_cast<uint8_t *>(rxBuf), BUFFER_AUDIO_SIZE_RTP);
-            arm_copy_q15(reinterpret_cast<q15_t *>(rxBuf), reinterpret_cast<q15_t *>(rtpDataTxHalfCrypt), BUFFER_AUDIO_SIZE_RTP / 2);
+            memcpy(reinterpret_cast<uint8_t *>(rtpDataTxHalfCrypt), reinterpret_cast<uint8_t *>(rxBuf), BUFFER_AUDIO_SIZE_RTP);
+            memcpy(reinterpret_cast<uint8_t *>(rtpDataTxHalf), reinterpret_cast<uint8_t *>(rxBuf), BUFFER_AUDIO_SIZE_RTP);
+//            arm_copy_q15(reinterpret_cast<q15_t *>(rxBuf), reinterpret_cast<q15_t *>(rtpDataTxHalfCrypt), BUFFER_AUDIO_SIZE_RTP / 2);
 
             osMutexWait(mutexCryptTxId, osWaitForever);
             HAL_CRYP_Encrypt_DMA(&hcryp, reinterpret_cast<uint32_t *>(rtpDataTxHalfCrypt), BUFFER_AUDIO_SIZE_RTP / 4, reinterpret_cast<uint32_t *>(rtpDataTxHalf));

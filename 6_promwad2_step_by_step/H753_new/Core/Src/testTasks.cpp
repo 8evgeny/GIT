@@ -179,7 +179,7 @@ term("--- simpleLedTest3_RTOS ---")
                  reset = true;
                  tickstart = HAL_GetTick();
 
-                 HAL_SAI_Transmit_DMA(&audioTxSai, zvon3_raw, zvon3_raw_len/2);
+//                 HAL_SAI_Transmit_DMA(&audioTxSai, zvon3_raw, zvon3_raw_len/2);
             }
         }
     osDelay(1);
