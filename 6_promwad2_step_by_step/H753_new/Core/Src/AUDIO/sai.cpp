@@ -550,13 +550,14 @@ term("--- threadAudioTxHalf ---")
             osMutexWait(mutexRtpRxId, osWaitForever);
             if (!SAI::getInstance()->outRingBuffer.isEmpty())
             {
-
+term2("-111-");
                 in = SAI::getInstance()->outRingBuffer.first();
                 SAI::getInstance()->outRingBuffer.shift();
                 osMutexRelease(mutexRtpRxId);
 
-                memcpy(reinterpret_cast<uint8_t *>(txBuf), reinterpret_cast<uint8_t *>(in.payload), BUFFER_AUDIO_SIZE_RTP);
-//                arm_copy_q15(reinterpret_cast<q15_t *>(in.payload), reinterpret_cast<q15_t *>(txBuf), BUFFER_AUDIO_SIZE_RTP / 2);
+//                memcpy(reinterpret_cast<uint8_t *>(txBuf), reinterpret_cast<uint8_t *>(in.payload), BUFFER_AUDIO_SIZE_RTP);
+                arm_copy_q15(reinterpret_cast<q15_t *>(in.payload), reinterpret_cast<q15_t *>(txBuf), BUFFER_AUDIO_SIZE_RTP / 2);
+term2("txBuf1 ready");
             } else if (SAI::getInstance()->tone.status == DTMF::Status::START)
             {
                 SAI::getInstance()->tone.getData(DTMF::Control::FIRST_HALF);
@@ -582,13 +583,15 @@ term("--- threadAudioTxFull ---")
         if (osSemaphoreWait(semaphoreTxFullId, 0) == osOK) {
             osMutexWait(mutexRtpRxId, osWaitForever);
             if (!SAI::getInstance()->outRingBuffer.isEmpty()) {
-
+term2("-222-");
                 in = SAI::getInstance()->outRingBuffer.first();
                 SAI::getInstance()->outRingBuffer.shift();
                 osMutexRelease(mutexRtpRxId);
 
 //                memcpy(reinterpret_cast<uint8_t *>(txBuf) + BUFFER_AUDIO_SIZE_RTP, reinterpret_cast<uint8_t *>(in.payload), BUFFER_AUDIO_SIZE_RTP);
                 arm_copy_q15(reinterpret_cast<q15_t *>(in.payload), reinterpret_cast<q15_t *>(txBuf) + BUFFER_AUDIO_SIZE_RTP / 2, BUFFER_AUDIO_SIZE_RTP / 2);
+term2("txBuf2 ready");
+
             } else if (SAI::getInstance()->tone.status == DTMF::Status::START) {
                 SAI::getInstance()->tone.getData(DTMF::Control::SECOND_HALF);
                 osMutexRelease(mutexRtpRxId);
