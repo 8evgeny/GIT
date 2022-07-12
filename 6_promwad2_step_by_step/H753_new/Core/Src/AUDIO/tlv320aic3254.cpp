@@ -137,16 +137,16 @@ static const struct Aic3254Configs ConfigureADC[] {
     //IN2R is routed to Left MICPGA with 10k resistance
     {TLV320AIC3254_REG_LMICPGA_NMUX, 0x10}, //54(0x36) регистр --------------------- 0x40
 
+    //IN2R is routed to Right MICPGA with 10k resistance
+    //IN2L is routed to Right MICPGA with 10k resistance
+    {TLV320AIC3254_REG_RMICPGA_PMUX, 0x11}, //55(0x37) регистр
+
     //IN1 на земле IN3L IN3R реализую позднее
 
-    //    //Route IN3R to RIGHT_P with 10K input impedance
-    //    {TLV320AIC3254_REG_RMICPGA_PMUX, 0x04},
-    //    //Route IN3L to RIGHT_M with 10K input impedance
-    //    {TLV320AIC3254_REG_RMICPGA_NMUX, 0x04},
 
     //101 1111: Volume Control = 47.5dB
     //101 0000: Volume Control = 40.0dB
-    {TLV320AIC3254_REG_LMICPGA_VOL, 0x50}, //59(0x3B) регистр
+    {TLV320AIC3254_REG_LMICPGA_VOL, 0x5F}, //59(0x3B) регистр
 
 //    {TLV320AIC3254_REG_RMICPGA_VOL, 0x5f}, //60(0x3C) регистр
 
@@ -157,18 +157,16 @@ static const struct Aic3254Configs ConfigureADC[] {
     //Unmute LADC/RADC
     {TLV320AIC3254_REG_ADC_FGAIN, 0x00}, //82(0x52) регистр
 
-    //mute LADC/RADC
-//    {TLV320AIC3254_REG_ADC_FGAIN, 0x88},
 };
 
 //static const struct Aic3254Configs ConfigureADC[] {//as MUROM
 //    {TLV320AIC3254_REG_PAGE_SELECT, 0x01},
-//    {TLV320AIC3254_REG_LMICPGA_PMUX, 0x40},
-//    {TLV320AIC3254_REG_LMICPGA_NMUX, 0x40},
-//    {TLV320AIC3254_REG_LMICPGA_VOL, 0x2F},
+//    {TLV320AIC3254_REG_LMICPGA_PMUX, 0x40}, //IN1L is routed to Left MICPGA with 10k resistance ???
+//    {TLV320AIC3254_REG_LMICPGA_NMUX, 0x40}, //CM is routed to Left MICPGA via CM1L with 10k resistance
+//    {TLV320AIC3254_REG_LMICPGA_VOL, 0x2F},  // Volume
 //    {TLV320AIC3254_REG_PAGE_SELECT, 0x00},
-//    {TLV320AIC3254_REG_ADC_SETUP, 0xC0},
-//    {TLV320AIC3254_REG_ADC_FGAIN, 0x00},
+//    {TLV320AIC3254_REG_ADC_SETUP, 0xC0},    // Left Channel ADC is powered up  Right Channel ADC is powered up
+//    {TLV320AIC3254_REG_ADC_FGAIN, 0x00},    // Left ADC Channel Un-muted Left ADC Channel Fine Gain = 0dB Right ADC Channel Un-muted Right ADC Channel Fine Gain = 0dB
 //};
 
 //LOL
@@ -180,7 +178,8 @@ static const struct Aic3254Configs ConfigureDAC[] {
     //: When Page-1, Reg-10, D1 = 1, then LDOIN input range is 1.8V to 3.6V
     //Output Common Mode for LOL and LOR is 1.65V and output is powered by LDOIN
 
-    {TLV320AIC3254_REG_CM_CR, 0xb},
+//    {TLV320AIC3254_REG_CM_CR, 0xb},
+
     // Route LDAC/RDAC to LOL/LOR
     {TLV320AIC3254_REG_LOL_SEL, 0x08},
     {TLV320AIC3254_REG_LOR_SEL, 0x08},

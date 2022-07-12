@@ -10,9 +10,13 @@
 #include "lwip/netif.h"
 #include "ethernetif.h"
 
+extern unsigned char zvon3_raw[];
+extern unsigned int zvon3_raw_len;
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+extern SAI_HandleTypeDef audioTxSai;
 
 void testLed1()
 {
@@ -174,6 +178,8 @@ term("--- simpleLedTest3_RTOS ---")
                  HAL_GPIO_WritePin(TEST_LED_GPIO_Port, TEST_LED_Pin, GPIO_PIN_RESET);
                  reset = true;
                  tickstart = HAL_GetTick();
+
+                 HAL_SAI_Transmit_DMA(&audioTxSai, zvon3_raw, zvon3_raw_len/2);
             }
         }
     osDelay(1);

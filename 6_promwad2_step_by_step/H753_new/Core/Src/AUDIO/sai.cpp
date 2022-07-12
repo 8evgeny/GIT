@@ -217,7 +217,7 @@ void DMA2_Stream4_IRQHandler(void)
 
 void HAL_SAI_TxCpltCallback(SAI_HandleTypeDef *hOutSai)
 {
-term("___sai.cpp")
+//term("___sai.cpp")
     if (hOutSai->Instance == SAI1_Block_A) {
         osSemaphoreRelease(semaphoreTxFullId);
     }
@@ -225,7 +225,7 @@ term("___sai.cpp")
 
 void HAL_SAI_TxHalfCpltCallback(SAI_HandleTypeDef *hOutSai)
 {
-term("___sai.cpp")
+//term("___sai.cpp")
     if (hOutSai->Instance == SAI1_Block_A) {
         osSemaphoreRelease(semaphoreTxHalfId);
     }
@@ -233,7 +233,7 @@ term("___sai.cpp")
 
 void HAL_SAI_RxCpltCallback(SAI_HandleTypeDef *hInSai)
 {
-term("___sai.cpp")
+//term("___sai.cpp")
     if (hInSai->Instance == SAI1_Block_B) {
         osSemaphoreRelease(semaphoreRxFullId);
     }
@@ -241,7 +241,7 @@ term("___sai.cpp")
 
 void HAL_SAI_RxHalfCpltCallback(SAI_HandleTypeDef *hInSai)
 {
-term("___sai.cpp")
+//term("___sai.cpp")
     if (hInSai->Instance == SAI1_Block_B) {
         osSemaphoreRelease(semaphoreRxHalfId);
     }
@@ -632,8 +632,10 @@ void threadAudioRxHalf(void const *arg)
 osDelay(600);
 term("--- threadAudioRxHalf ---")
     UNUSED(arg);
-    while (1) {
-        if (osSemaphoreWait(semaphoreRxHalfId, 0) == osOK) {
+    while (1)
+    {
+        if (osSemaphoreWait(semaphoreRxHalfId, 0) == osOK)
+        {
 //            memcpy(reinterpret_cast<uint8_t *>(rtpDataTxHalfCrypt), reinterpret_cast<uint8_t *>(rxBuf), BUFFER_AUDIO_SIZE_RTP);
 //            memcpy(reinterpret_cast<uint8_t *>(rtpDataTxHalf), reinterpret_cast<uint8_t *>(rxBuf), BUFFER_AUDIO_SIZE_RTP);
             arm_copy_q15(reinterpret_cast<q15_t *>(rxBuf), reinterpret_cast<q15_t *>(rtpDataTxHalfCrypt), BUFFER_AUDIO_SIZE_RTP / 2);
@@ -645,7 +647,9 @@ term("--- threadAudioRxHalf ---")
             osMutexRelease(mutexCryptTxId);
 
             osSignalSet(sendThreadHalfId, 0x01);
-        } else {
+        }
+        else
+        {
             osDelay(1);
         }
     }
