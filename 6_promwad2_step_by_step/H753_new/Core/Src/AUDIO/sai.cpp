@@ -719,9 +719,11 @@ ErrorCode rtpCreate(uint32_t port, uint32_t type)
     memset(txBuf, 0x00, sizeof (txBuf));
     memset(rxBuf, 0x00, sizeof (rxBuf));
 
-    HAL_SAI_Transmit_DMA(&audioTxSai, reinterpret_cast<uint8_t *>(txBuf), BUFFER_AUDIO_SIZE_RTP);
-    HAL_SAI_Receive_DMA(&audioRxSai, reinterpret_cast<uint8_t *>(rxBuf), BUFFER_AUDIO_SIZE_RTP);
+   auto res_transm = HAL_SAI_Transmit_DMA(&audioTxSai, reinterpret_cast<uint8_t *>(txBuf), BUFFER_AUDIO_SIZE_RTP);
+   auto res_teceice = HAL_SAI_Receive_DMA(&audioRxSai, reinterpret_cast<uint8_t *>(rxBuf), BUFFER_AUDIO_SIZE_RTP);
 
+   term1("res_transm") term(res_transm)
+   term1("res_teceice") term(res_teceice)
 //    }
 
     return OK_RTP;
@@ -776,6 +778,7 @@ ErrorCode rtpRemove()
 
 void startDtmfTone(uint8_t keyNum)
 {
+term("*** ")
     if (keyNum < 10) {
         if (SAI::getInstance()->tone.getFrequency(keyNum) == DTMF::Status::READY)
             HAL_SAI_Transmit_DMA(&audioTxSai, reinterpret_cast<uint8_t *> (SAI::getInstance()->tone.getData(DTMF::Control::FULL)), SAI::getInstance()->tone.TABLESIZE*2);
@@ -827,8 +830,6 @@ term("RingToneType::RING_UNKNOWN_TONE")
         timerCount = 0;
         SAI::getInstance()->ringToneStatus = osTimerStart (ringToneTimer_id, delay); // timer starting
      auto ret =  HAL_SAI_Transmit_DMA(&audioTxSai, buff, buffSize/2);
-char msg[10];
-sprintf(msg,"%d",ret);
 term1("ret") term(ret)
         if (SAI::getInstance()->ringToneStatus != osOK)  {
             RS232::getInstance().term << __FUNCTION__ << " " << __LINE__ << " " << "\n";
