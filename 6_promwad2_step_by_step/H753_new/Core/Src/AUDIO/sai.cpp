@@ -829,7 +829,8 @@ term("RingToneType::RING_UNKNOWN_TONE")
     if (type != RingToneType::RING_UNKNOWN_TONE) {
         timerCount = 0;
         SAI::getInstance()->ringToneStatus = osTimerStart (ringToneTimer_id, delay); // timer starting
-     auto ret =  HAL_SAI_Transmit_DMA(&audioTxSai, buff, buffSize/2);
+     auto ret =  HAL_SAI_Transmit_IT(&audioTxSai, buff, buffSize/2);
+//     auto ret =  HAL_SAI_Transmit_DMA(&audioTxSai, buff, buffSize/2);
 term1("ret") term(ret)
         if (SAI::getInstance()->ringToneStatus != osOK)  {
             RS232::getInstance().term << __FUNCTION__ << " " << __LINE__ << " " << "\n";
