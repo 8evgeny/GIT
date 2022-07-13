@@ -198,7 +198,7 @@ term1("err") term(err)
                     osMutexRelease(UdpJsonExch::getInstance()->mutexSock_id);
 
                     if (result != 0) {
-term("received Packet UDP")
+term1("receivedUDP result") term(result)
                         if (Json::getInstance()->deserialize(recvDoc, (void *)UdpJsonExch::getInstance()->recvBuff, strlen(UdpJsonExch::getInstance()->recvBuff))) {
 
                             osMutexWait(UdpJsonExch::getInstance()->mutexCallControlId, osWaitForever);
@@ -234,7 +234,8 @@ term("received Packet UDP")
 
 void sendUdpMulticast(char *sendBuff, size_t size)
 {
-//term("sendUdpMulticast")
+term("sendUdpMulticast")
+
     if (udpStructSend.State == UDP_STATE_START) {
 //        memcpy(udpStructSend.udp_send_packet, sendBuff, size);
 //        osMutexWait(UdpJsonExch::getInstance()->mutexSend_sock_id, osWaitForever);
