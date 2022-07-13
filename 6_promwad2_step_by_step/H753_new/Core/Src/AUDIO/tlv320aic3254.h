@@ -26,6 +26,7 @@ public:
      \fn codecInit
     */
     void codecInit();
+    void softReset();
 
     constexpr static uint32_t I2C_ADDRESS = 49; /*! Device address on the bus */
 
