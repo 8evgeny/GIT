@@ -798,21 +798,25 @@ void startRingTone(const RingToneType type)
     uint16_t buffSize = 0;
     switch (type) {
     case RingToneType::RING_TONE:
+term("RingToneType::RING_TONE")
         delay = 1000;
         buff = zvon3_raw;
         buffSize = zvon3_raw_len;
         break;
     case RingToneType::RING_BACK_TONE:
+term("RingToneType::RING_BACK_TONE")
         delay = 1000;
         buff = ringBackToneArray_raw;
         buffSize = ringBackToneArray_raw_length;
         break;
     case RingToneType::RING_BACK_BUSY_TONE:
+term("RingToneType::RING_BACK_BUSY_TONE")
         delay = 350;
         buff = ringBackToneArray_raw;
         buffSize = ringBackToneArray_raw_length;
         break;
     case RingToneType::RING_UNKNOWN_TONE:
+term("RingToneType::RING_UNKNOWN_TONE")
         startDtmfTone(1);
         break;
     default:
@@ -822,8 +826,10 @@ void startRingTone(const RingToneType type)
     if (type != RingToneType::RING_UNKNOWN_TONE) {
         timerCount = 0;
         SAI::getInstance()->ringToneStatus = osTimerStart (ringToneTimer_id, delay); // timer starting
-        HAL_SAI_Transmit_DMA(&audioTxSai, buff, buffSize/2);
-
+     auto ret =  HAL_SAI_Transmit_DMA(&audioTxSai, buff, buffSize/2);
+char msg[10];
+sprintf(msg,"%d",ret);
+term1("ret") term(ret)
         if (SAI::getInstance()->ringToneStatus != osOK)  {
             RS232::getInstance().term << __FUNCTION__ << " " << __LINE__ << " " << "\n";
         }
