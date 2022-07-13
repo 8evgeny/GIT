@@ -16,6 +16,11 @@ static const struct Aic3254Configs SoftReset[] {
     {TLV320AIC3254_REG_RESET, 0x1},
 };
 
+static const struct Aic3254Configs Mute[] {
+    {TLV320AIC3254_REG_PAGE_SELECT, 0x0},
+    {TLV320AIC3254_REG_RDAC_DVOL_CR, 0x81},
+};
+
 //config codec clock/pll and dividers
 
 static const struct Aic3254Configs ConfigurePll[] {
@@ -109,6 +114,7 @@ static const struct Aic3254Configs ConfigurePower[] {
     //# Set the REF charging time to 40ms
     { TLV320AIC3254_REG_REF_PWRUP_CFG, 0x01 }, //==
     // У Мурома еще { TLV320AIC3254_REG_HPHONE_STARTUP_CR, 0x40 }
+//    { TLV320AIC3254_REG_HPHONE_STARTUP_CR, 0x40 }
 };
 
 //static const struct Aic3254Configs ConfigurePower[] {//as MUROM
@@ -226,55 +232,64 @@ TLV320AIC3254::TLV320AIC3254()
 
 void TLV320AIC3254::softReset()
 {
-    uint32_t i = 0;
-    for (i = 0; i < sizeof(SoftReset) / sizeof(struct Aic3254Configs); i++)
+    for (uint32_t i = 0; i < sizeof(SoftReset) / sizeof(struct Aic3254Configs); i++)
     {
         I2C::getInstance()->writeRegister(I2C_ADDRESS, SoftReset[i].regOffset, SoftReset[i].regVal);
     }
 }
-void TLV320AIC3254::codecInit()
+void TLV320AIC3254::configPll()
 {
-osDelay(5000);
-    uint32_t i = 0;
-    /* Initialize the Control interface of the Audio Codec */
-
-//    for (i = 0; i < sizeof(SoftReset) / sizeof(struct Aic3254Configs); i++)
-//    {
-//        I2C::getInstance()->writeRegister(I2C_ADDRESS, SoftReset[i].regOffset, SoftReset[i].regVal);
-//    }
-
-    softReset();
-term("codec SoftReset ")
-
-    for (i = 0; i < sizeof(ConfigurePll) / sizeof(struct Aic3254Configs); i++)
+    for (uint32_t i = 0; i < sizeof(ConfigurePll) / sizeof(struct Aic3254Configs); i++)
     {
         I2C::getInstance()->writeRegister(I2C_ADDRESS, ConfigurePll[i].regOffset, ConfigurePll[i].regVal);
     }
-term("codec ConfigurePll ")
-
-    for (i = 0; i < sizeof(ConfigurePower) / sizeof(struct Aic3254Configs); i++)
+}
+void TLV320AIC3254::configPower()
+{
+    for (uint32_t i = 0; i < sizeof(ConfigurePower) / sizeof(struct Aic3254Configs); i++)
     {
         I2C::getInstance()->writeRegister(I2C_ADDRESS, ConfigurePower[i].regOffset, ConfigurePower[i].regVal);
     }
-term("codec ConfigurePower ")
-
-    for (i = 0; i < sizeof(ConfigureDAC) / sizeof(struct Aic3254Configs); i++)
+}
+void TLV320AIC3254::configDAC()
+{
+    for (uint32_t i = 0; i < sizeof(ConfigureDAC) / sizeof(struct Aic3254Configs); i++)
     {
         I2C::getInstance()->writeRegister(I2C_ADDRESS, ConfigureDAC[i].regOffset, ConfigureDAC[i].regVal);
     }
-term("codec ConfigureDAC ")
-
-    for (i = 0; i < sizeof(ConfigureADC) / sizeof(struct Aic3254Configs); i++)
+}
+void TLV320AIC3254::configADC()
+{
+    for (uint32_t i = 0; i < sizeof(ConfigureADC) / sizeof(struct Aic3254Configs); i++)
     {
         I2C::getInstance()->writeRegister(I2C_ADDRESS, ConfigureADC[i].regOffset, ConfigureADC[i].regVal);
     }
-term("codec ConfigureADC ")
-
-    for (i = 0; i < sizeof(ConfigureFilter) / sizeof(struct Aic3254Configs); i++)
+}
+void TLV320AIC3254::configFilter()
+{
+    for (uint32_t i = 0; i < sizeof(ConfigureFilter) / sizeof(struct Aic3254Configs); i++)
     {
         I2C::getInstance()->writeRegister(I2C_ADDRESS, ConfigureFilter[i].regOffset, ConfigureFilter[i].regVal);
     }
-term("codec ConfigureFilter ")
+}
+void TLV320AIC3254::mute()
+{
+    for (uint32_t i = 0; i < sizeof(Mute) / sizeof(struct Aic3254Configs); i++)
+    {
+        I2C::getInstance()->writeRegister(I2C_ADDRESS, Mute[i].regOffset, Mute[i].regVal);
+    }
+}
+
+void TLV320AIC3254::codecInit()
+{
+osDelay(5000);
+
+    softReset();
+    configPll();
+    configPower();
+    configADC();
+    configDAC();
+    configFilter();
 
 //Вывод всех регистров codec определенной страницы
 //char buf[20];
