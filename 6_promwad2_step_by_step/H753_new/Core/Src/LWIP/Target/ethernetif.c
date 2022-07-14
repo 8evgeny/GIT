@@ -245,6 +245,8 @@ void HAL_ETH_MspInit(ETH_HandleTypeDef* ethHandle)
     /* Peripheral interrupt init */
     HAL_NVIC_SetPriority(ETH_IRQn, 5, 0);
     HAL_NVIC_EnableIRQ(ETH_IRQn);
+//    HAL_NVIC_SetPriority(ETH_WKUP_IRQn, 1, 0);
+//    HAL_NVIC_EnableIRQ(ETH_WKUP_IRQn);
   /* USER CODE BEGIN ETH_MspInit 1 */
 
   /* USER CODE END ETH_MspInit 1 */
@@ -395,8 +397,8 @@ static void low_level_init(struct netif *netif)
 
   for(idx = 0; idx < ETH_RX_DESC_CNT; idx ++)
   {
-//    HAL_ETH_DescAssignMemory(&heth, idx, Rx_Buff[idx], NULL);
-    HAL_ETH_DescAssignMemory(&heth, idx, Rx_Buff[idx], Tx_Buff[idx]);
+    HAL_ETH_DescAssignMemory(&heth, idx, Rx_Buff[idx], NULL);
+//    HAL_ETH_DescAssignMemory(&heth, idx, Rx_Buff[idx], Tx_Buff[idx]);
   }
 
   /* create a binary semaphore used for informing ethernetif of frame reception */
@@ -514,6 +516,7 @@ static void low_level_init(struct netif *netif)
 
 static err_t low_level_output(struct netif *netif, struct pbuf *p)
 {
+//RS232Puts("low_level_output\r\n");
   uint32_t i=0;
   struct pbuf *q;
   err_t errval = ERR_OK;
@@ -546,7 +549,6 @@ static err_t low_level_output(struct netif *netif, struct pbuf *p)
   TxConfig.TxBuffer = Txbuffer;
 
   HAL_ETH_Transmit(&heth, &TxConfig, ETH_DMA_TRANSMIT_TIMEOUT);
-
   return errval;
 }
 
