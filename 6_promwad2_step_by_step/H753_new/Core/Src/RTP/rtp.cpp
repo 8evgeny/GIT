@@ -480,11 +480,13 @@ term("--- sendHalfThread ---")
         /* Try to obtain the semaphore. */
         if (rtpStructSend.State == RTP_STATE_START)
         {
+term("----RTP_STATE_START H----")
             osEvent evt = osSignalWait(0x01, osWaitForever);
 
             if (evt.status == osEventSignal)
             {
                 osMutexWait(mutexRtpTxId, osWaitForever);
+term("----rtpSendPacketsHalf----")
                 rtpSendPacketsHalf(rtpStructSend.sock_id, &rtpStructSend.net_dest);
                 osMutexRelease(mutexRtpTxId);
                 osDelay(1);
@@ -508,10 +510,12 @@ term("--- sendFullThread ---")
     while (1) {
         /* Try to obtain the semaphore. */
         if (rtpStructSend.State == RTP_STATE_START) {
+term("----RTP_STATE_START F----")
             osEvent evt = osSignalWait(0x02, osWaitForever);
 
             if (evt.status == osEventSignal) {
                 osMutexWait(mutexRtpTxId, osWaitForever);
+term("----rtpSendPacketsFull----")
                 rtpSendPacketsFull(rtpStructSend.sock_id, &rtpStructSend.net_dest);
                 osMutexRelease(mutexRtpTxId);
                 osDelay(1);

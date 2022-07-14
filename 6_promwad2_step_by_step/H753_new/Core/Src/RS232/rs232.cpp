@@ -124,7 +124,9 @@ void RS232Destroyer::initialize(RS232 *p)
 
 RS232 &RS232::getInstance()
 {
-    if (!pInstance) {
+
+    if (!pInstance)
+    {
         pInstance = new RS232();
         destroyer.initialize(pInstance);
     }
@@ -139,12 +141,12 @@ extern "C" RS232& RS232::C_getInstance(RS232* p)
 
 HAL_StatusTypeDef RS232::write(uint8_t *buf, uint16_t size)
 {
-//osMutexWait(mutexRS232Id, osWaitForever); //В какие-то моменты зависает
     while (HAL_UART_GetState(uartHandle) != HAL_UART_STATE_READY);
+osMutexWait(mutexRS232Id, osWaitForever); //В какие-то моменты зависает
     HAL_StatusTypeDef status = HAL_UART_Transmit_DMA(uartHandle, buf, size);
     while (uartWriteReady != SET);
     uartWriteReady = RESET;
-//osMutexRelease(mutexRS232Id);
+osMutexRelease(mutexRS232Id);
     return status;
 }
 
