@@ -354,10 +354,6 @@ static void low_level_init(struct netif *netif)
   heth.Init.RxDesc = DMARxDscrTab;
   heth.Init.RxBuffLen = 1524;
 
-  /* USER CODE BEGIN MACADDRESS */
-
-  /* USER CODE END MACADDRESS */
-
   hal_eth_init_status = HAL_ETH_Init(&heth);
 
   memset(&TxConfig, 0 , sizeof(ETH_TxPacketConfig));
@@ -399,7 +395,8 @@ static void low_level_init(struct netif *netif)
 
   for(idx = 0; idx < ETH_RX_DESC_CNT; idx ++)
   {
-    HAL_ETH_DescAssignMemory(&heth, idx, Rx_Buff[idx], NULL);
+//    HAL_ETH_DescAssignMemory(&heth, idx, Rx_Buff[idx], NULL);
+    HAL_ETH_DescAssignMemory(&heth, idx, Rx_Buff[idx], Tx_Buff[idx]);
   }
 
   /* create a binary semaphore used for informing ethernetif of frame reception */
@@ -476,7 +473,8 @@ static void low_level_init(struct netif *netif)
     MACConf.Speed = speed;
     HAL_ETH_SetMACConfig(&heth, &MACConf);
 
-    HAL_StatusTypeDef stat = HAL_ETH_Start_IT(&heth);
+//    HAL_StatusTypeDef stat = HAL_ETH_Start_IT(&heth);
+    HAL_StatusTypeDef stat = HAL_ETH_Start(&heth);
 
     char msgUart7[50];
     memset(msgUart7,' ',50);

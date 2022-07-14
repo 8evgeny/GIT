@@ -145,6 +145,9 @@ SECTIONS
 
   . = ABSOLUTE(0x30000200);
   *(.RxArraySection)
+
+  . = ABSOLUTE(0x300019D0);
+  *(.TxArraySection)
 } >RAM_D2
 
 
