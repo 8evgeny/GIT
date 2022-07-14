@@ -219,6 +219,7 @@ void HAL_SAI_TxCpltCallback(SAI_HandleTypeDef *hOutSai)
 {
 //term("___sai.cpp")
     if (hOutSai->Instance == SAI1_Block_A) {
+//term("____semaphoreTxFullId release____")
         osSemaphoreRelease(semaphoreTxFullId);
     }
 }
@@ -227,6 +228,7 @@ void HAL_SAI_TxHalfCpltCallback(SAI_HandleTypeDef *hOutSai)
 {
 //term("___sai.cpp")
     if (hOutSai->Instance == SAI1_Block_A) {
+//term("____semaphoreTxHalfId release____")
         osSemaphoreRelease(semaphoreTxHalfId);
     }
 }
@@ -235,6 +237,7 @@ void HAL_SAI_RxCpltCallback(SAI_HandleTypeDef *hInSai)
 {
 //term("___sai.cpp")
     if (hInSai->Instance == SAI1_Block_B) {
+//term("____semaphoreRxFullId release____")
         osSemaphoreRelease(semaphoreRxFullId);
     }
 }
@@ -243,6 +246,7 @@ void HAL_SAI_RxHalfCpltCallback(SAI_HandleTypeDef *hInSai)
 {
 //term("___sai.cpp")
     if (hInSai->Instance == SAI1_Block_B) {
+//term("____semaphoreRxHalfId release____")
         osSemaphoreRelease(semaphoreRxHalfId);
     }
 }
@@ -547,6 +551,7 @@ term("--- threadAudioTxHalf ---")
     while (1) {
         if (osSemaphoreWait(semaphoreTxHalfId, 0) == osOK)
         {
+//term("____semaphoreTxHalfId set____")
             osMutexWait(mutexRtpRxId, osWaitForever);
             if (!SAI::getInstance()->outRingBuffer.isEmpty())
             {
@@ -581,6 +586,7 @@ term("--- threadAudioTxFull ---")
     RtpPackages in;
     while (1) {
         if (osSemaphoreWait(semaphoreTxFullId, 0) == osOK) {
+//term("____semaphoreTxFullId set____")
             osMutexWait(mutexRtpRxId, osWaitForever);
             if (!SAI::getInstance()->outRingBuffer.isEmpty()) {
 term2("-222-");
@@ -612,6 +618,7 @@ term("--- threadAudioRxFull ---")
     UNUSED(arg);
     while (1) {
         if (osSemaphoreWait(semaphoreRxFullId, 0) == osOK) {
+//term("____semaphoreRxFullId set____")
             memcpy(reinterpret_cast<uint8_t *>(rtpDataTxFullCrypt), reinterpret_cast<uint8_t *>(rxBuf) +  BUFFER_AUDIO_SIZE_RTP, BUFFER_AUDIO_SIZE_RTP);
             memcpy(reinterpret_cast<uint8_t *>(rtpDataTxFull), reinterpret_cast<uint8_t *>(rxBuf) +  BUFFER_AUDIO_SIZE_RTP, BUFFER_AUDIO_SIZE_RTP);
 //            arm_copy_q15(reinterpret_cast<q15_t *>(rxBuf)  + BUFFER_AUDIO_SIZE_RTP / 2, reinterpret_cast<q15_t *>(rtpDataTxFullCrypt), BUFFER_AUDIO_SIZE_RTP / 2);
@@ -639,6 +646,7 @@ term("--- threadAudioRxHalf ---")
     {
         if (osSemaphoreWait(semaphoreRxHalfId, 0) == osOK)
         {
+//term("____semaphoreRxHalfId set____")
             memcpy(reinterpret_cast<uint8_t *>(rtpDataTxHalfCrypt), reinterpret_cast<uint8_t *>(rxBuf), BUFFER_AUDIO_SIZE_RTP);
             memcpy(reinterpret_cast<uint8_t *>(rtpDataTxHalf), reinterpret_cast<uint8_t *>(rxBuf), BUFFER_AUDIO_SIZE_RTP);
 //            arm_copy_q15(reinterpret_cast<q15_t *>(rxBuf), reinterpret_cast<q15_t *>(rtpDataTxHalfCrypt), BUFFER_AUDIO_SIZE_RTP / 2);
