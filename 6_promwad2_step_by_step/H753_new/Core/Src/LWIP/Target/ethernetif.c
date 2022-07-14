@@ -473,8 +473,8 @@ static void low_level_init(struct netif *netif)
     MACConf.Speed = speed;
     HAL_ETH_SetMACConfig(&heth, &MACConf);
 
-//    HAL_StatusTypeDef stat = HAL_ETH_Start_IT(&heth);
-    HAL_StatusTypeDef stat = HAL_ETH_Start(&heth);
+    HAL_StatusTypeDef stat = HAL_ETH_Start_IT(&heth);
+//    HAL_StatusTypeDef stat = HAL_ETH_Start(&heth);
 
     char msgUart7[50];
     memset(msgUart7,' ',50);
