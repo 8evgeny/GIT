@@ -730,8 +730,8 @@ ErrorCode rtpCreate(uint32_t port, uint32_t type)
    auto res_transm = HAL_SAI_Transmit_DMA(&audioTxSai, reinterpret_cast<uint8_t *>(txBuf), BUFFER_AUDIO_SIZE_RTP);
    auto res_teceice = HAL_SAI_Receive_DMA(&audioRxSai, reinterpret_cast<uint8_t *>(rxBuf), BUFFER_AUDIO_SIZE_RTP);
 
-   term1("res_transm") term(res_transm)
-   term1("res_teceice") term(res_teceice)
+//   term1("res_transm") term(res_transm)
+//   term1("res_teceice") term(res_teceice)
 //    }
 
     return OK_RTP;
