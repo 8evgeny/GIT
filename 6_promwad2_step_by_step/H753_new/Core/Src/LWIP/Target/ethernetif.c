@@ -107,7 +107,7 @@ uint8_t Rx_Buff[ETH_RX_DESC_CNT][ETH_RX_BUFFER_SIZE] __attribute__((section(".Rx
 #endif
 
 /* USER CODE BEGIN 2 */
-uint8_t Tx_Buff[ETH_TX_DESC_CNT][ETH_RX_BUFFER_SIZE] __attribute__((section(".TxArraySection"))); /* 4 Tx buffers of size ETH_TX_BUF_SIZE  */
+//uint8_t Tx_Buff[ETH_TX_DESC_CNT][ETH_RX_BUFFER_SIZE] __attribute__((section(".TxArraySection"))); /* 4 Tx buffers of size ETH_TX_BUF_SIZE  */
 /* USER CODE END 2 */
 
 osSemaphoreId RxPktSemaphore = NULL; /* Semaphore to signal incoming packets */
@@ -513,7 +513,7 @@ static void low_level_init(struct netif *netif)
  *       to become available since the stack doesn't retry to send a packet
  *       dropped because of memory failure (except for the TCP timers).
  */
-
+//ETH_BufferTypeDef Txbuffer[ETH_TX_DESC_CNT]__attribute__((section(".TxArraySection")));
 static err_t low_level_output(struct netif *netif, struct pbuf *p)
 {
 //RS232Puts("low_level_output\r\n");
