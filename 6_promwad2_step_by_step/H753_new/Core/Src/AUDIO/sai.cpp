@@ -92,9 +92,9 @@ static void crypInit(uint32_t *key)
     hcryp.Init.pKey = key;
     hcryp.Init.Algorithm = CRYP_AES_ECB;
     hcryp.Init.DataWidthUnit = CRYP_DATAWIDTHUNIT_WORD;
-    if (HAL_CRYP_Init(&hcryp) != HAL_OK) {
-        RS232::getInstance().term << "crypInit -> ERROR\n";
-    }
+//    if (HAL_CRYP_Init(&hcryp) != HAL_OK) {
+//        RS232::getInstance().term << "crypInit -> ERROR\n";
+//    }
 }
 
 #ifdef __cplusplus
@@ -624,11 +624,11 @@ term("--- threadAudioRxFull ---")
 //            arm_copy_q15(reinterpret_cast<q15_t *>(rxBuf)  + BUFFER_AUDIO_SIZE_RTP / 2, reinterpret_cast<q15_t *>(rtpDataTxFullCrypt), BUFFER_AUDIO_SIZE_RTP / 2);
 
 
-            osMutexWait(mutexCryptTxId, osWaitForever);
-            HAL_CRYP_Encrypt_DMA(&hcryp, reinterpret_cast<uint32_t *>(rtpDataTxFullCrypt), BUFFER_AUDIO_SIZE_RTP / 4, reinterpret_cast<uint32_t *>(rtpDataTxFull));
-            while (!SAI::getInstance()->cryptTxComplete);
-            SAI::getInstance()->cryptTxComplete = false;
-            osMutexRelease(mutexCryptTxId);
+//            osMutexWait(mutexCryptTxId, osWaitForever);
+//            HAL_CRYP_Encrypt_DMA(&hcryp, reinterpret_cast<uint32_t *>(rtpDataTxFullCrypt), BUFFER_AUDIO_SIZE_RTP / 4, reinterpret_cast<uint32_t *>(rtpDataTxFull));
+//            while (!SAI::getInstance()->cryptTxComplete);
+//            SAI::getInstance()->cryptTxComplete = false;
+//            osMutexRelease(mutexCryptTxId);
 
             osSignalSet(sendThreadFullId, 0x02);
         } else {
@@ -651,11 +651,11 @@ term("--- threadAudioRxHalf ---")
             memcpy(reinterpret_cast<uint8_t *>(rtpDataTxHalf), reinterpret_cast<uint8_t *>(rxBuf), BUFFER_AUDIO_SIZE_RTP);
 //            arm_copy_q15(reinterpret_cast<q15_t *>(rxBuf), reinterpret_cast<q15_t *>(rtpDataTxHalfCrypt), BUFFER_AUDIO_SIZE_RTP / 2);
 
-            osMutexWait(mutexCryptTxId, osWaitForever);
-            HAL_CRYP_Encrypt_DMA(&hcryp, reinterpret_cast<uint32_t *>(rtpDataTxHalfCrypt), BUFFER_AUDIO_SIZE_RTP / 4, reinterpret_cast<uint32_t *>(rtpDataTxHalf));
-            while (!SAI::getInstance()->cryptTxComplete);
-            SAI::getInstance()->cryptTxComplete = false;
-            osMutexRelease(mutexCryptTxId);
+//            osMutexWait(mutexCryptTxId, osWaitForever);
+//            HAL_CRYP_Encrypt_DMA(&hcryp, reinterpret_cast<uint32_t *>(rtpDataTxHalfCrypt), BUFFER_AUDIO_SIZE_RTP / 4, reinterpret_cast<uint32_t *>(rtpDataTxHalf));
+//            while (!SAI::getInstance()->cryptTxComplete);
+//            SAI::getInstance()->cryptTxComplete = false;
+//            osMutexRelease(mutexCryptTxId);
 
             osSignalSet(sendThreadHalfId, 0x01);
         }

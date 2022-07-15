@@ -185,11 +185,11 @@ term("--- timerForMixAudio ---")
                     inMix = SAI::getInstance()->tmpRingBuffer.shift();
 
 
-                    osMutexWait(mutexCryptTxId, osWaitForever);
-                    HAL_CRYP_Decrypt_DMA(&hcryp, reinterpret_cast<uint32_t *>(inMix.payload), BUFFER_AUDIO_SIZE_RTP / 4, reinterpret_cast<uint32_t *>(rtpDataRxMixCrypt));
-                    while (!SAI::getInstance()->cryptTxComplete);
-                    SAI::getInstance()->cryptTxComplete = false;
-                    osMutexRelease(mutexCryptTxId);
+//                    osMutexWait(mutexCryptTxId, osWaitForever);
+//                    HAL_CRYP_Decrypt_DMA(&hcryp, reinterpret_cast<uint32_t *>(inMix.payload), BUFFER_AUDIO_SIZE_RTP / 4, reinterpret_cast<uint32_t *>(rtpDataRxMixCrypt));
+//                    while (!SAI::getInstance()->cryptTxComplete);
+//                    SAI::getInstance()->cryptTxComplete = false;
+//                    osMutexRelease(mutexCryptTxId);
 
 
                     arm_add_q15(reinterpret_cast<q15_t *>(rtpDataRxMixAudio), reinterpret_cast<q15_t *>(rtpDataRxMixCrypt), reinterpret_cast<q15_t *>(rtpDataRxMixAudioDst), BUFFER_AUDIO_SIZE_RTP / 2);
