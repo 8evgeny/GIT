@@ -114,7 +114,7 @@ static const struct Aic3254Configs ConfigurePower[] {
     //# Set the REF charging time to 40ms
     { TLV320AIC3254_REG_REF_PWRUP_CFG, 0x01 }, //==
     // У Мурома еще { TLV320AIC3254_REG_HPHONE_STARTUP_CR, 0x40 }
-//    { TLV320AIC3254_REG_HPHONE_STARTUP_CR, 0x40 }
+    { TLV320AIC3254_REG_HPHONE_STARTUP_CR, 0x40 }
 };
 
 //static const struct Aic3254Configs ConfigurePower[] {//as MUROM
@@ -151,9 +151,9 @@ static const struct Aic3254Configs ConfigureADC[] {
     //101 1111: Volume Control = 47.5dB
     //101 0000: Volume Control = 40.0dB
     //000 0000: Volume Control = 0.0dB
-    {TLV320AIC3254_REG_LMICPGA_VOL, 0x00}, //59(0x3B) регистр
+//    {TLV320AIC3254_REG_LMICPGA_VOL, 0x00}, //59(0x3B) регистр
 
-//    {TLV320AIC3254_REG_RMICPGA_VOL, 0x5f}, //60(0x3C) регистр
+    {TLV320AIC3254_REG_RMICPGA_VOL, 0x5f}, //60(0x3C) регистр
 
     //Select Page 0
     {TLV320AIC3254_REG_PAGE_SELECT, 0x00},

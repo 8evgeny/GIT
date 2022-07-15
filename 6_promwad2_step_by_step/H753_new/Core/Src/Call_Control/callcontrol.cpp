@@ -113,7 +113,7 @@ void CallControl::answerUnknownCall()
 
 bool CallControl::detectSubject(uint16_t subject)
 {
-term("CallControl")
+term1("CallControl subject ") term(subject)
     uint16_t size = getSubjectData(Size);
     for(uint8_t i = 0; i < size; ++i ) {
 
@@ -393,7 +393,7 @@ bool CallControl::handleClick(uPackageRx pack)
 #else
 bool CallControl::handleClick(PackageRx pack)
 {
-//term1("CallControl::handleClick") term (pack.payloadData)
+term1("*** pressedKey") term ((uint8_t)pressedKey)
 
     if (pack.packetType == GPIO::getInstance()->button) {
 
@@ -404,7 +404,6 @@ bool CallControl::handleClick(PackageRx pack)
                 handleClick_count++;
 
                 if (handleClick_count > 2 && foundKeyFlag_) {
-term("osTimer.start")
                     osTimer.start(osTimer.button_timerId, osTimer.button_timerStatus, 200);
 
                     if (missedCall.isMissedKey) {
@@ -769,7 +768,7 @@ void CallControl::sendRequest(uint8_t callType, Request reqType, uint16_t timeou
 
     switch (callType) {
     case Direct: {
-term1("Request") term((uint8_t)reqType)
+//term1("Request") term((uint8_t)reqType)
         sendMessage(reqType);
         requestCount++;
     }
