@@ -373,7 +373,7 @@ term("--- rtpSendPacketsFull ---")
  */
 void rtpRecvThread(void const *arg)
 {
-osDelay(800);
+//osDelay(800);
 term("--- rtpRecvThread ---")
     char msg[20];
     struct sockaddr_in local;
@@ -418,7 +418,7 @@ term("--- rtpRecvThread ---")
                         fromlen = sizeof(from);
                         result  = recvfrom(sockRtpRecv, rtpRecvPacket, sizeof(rtpRecvPacket), 0, reinterpret_cast<struct sockaddr *>(&from), reinterpret_cast<socklen_t *>(&fromlen));
 //sprintf(msg,"%d",result);
-//term1("result") term(msg)
+term1("result") term(msg)
 //std::fill(msg, msg + 19 ,'0');
                         if (result >= static_cast<int>(sizeof(struct rtp_hdr))) {
                             lostPackCounter = 0;

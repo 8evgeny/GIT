@@ -24,8 +24,8 @@
 
 //Расширенная диагнотика в консоли
 
-#define TERMINAL_DEBUG1  //Разрешает term и term1
-#define TERMINAL_DEBUG2    //Разрешает RS232Puts
+//#define TERMINAL_DEBUG1  //Разрешает term и term1
+//#define TERMINAL_DEBUG2    //Разрешает RS232Puts
 
 #ifdef TERMINAL_DEBUG1
 #define term(x) (RS232::getInstance().term << x << "..."<<__FUNCTION__ << "..." << __LINE__ <<"\r\n");
