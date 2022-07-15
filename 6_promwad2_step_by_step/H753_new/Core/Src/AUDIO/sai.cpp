@@ -629,6 +629,9 @@ term("--- threadAudioRxFull ---")
 //            while (!SAI::getInstance()->cryptTxComplete);
 //            SAI::getInstance()->cryptTxComplete = false;
 //            osMutexRelease(mutexCryptTxId);
+arm_copy_q15( reinterpret_cast<q15_t *>(rtpDataTxFullCrypt),
+              reinterpret_cast<q15_t *>(rtpDataTxFull),
+              BUFFER_AUDIO_SIZE_RTP / 2);
 
             osSignalSet(sendThreadFullId, 0x02);
         } else {
@@ -656,6 +659,10 @@ term("--- threadAudioRxHalf ---")
 //            while (!SAI::getInstance()->cryptTxComplete);
 //            SAI::getInstance()->cryptTxComplete = false;
 //            osMutexRelease(mutexCryptTxId);
+arm_copy_q15( reinterpret_cast<q15_t *>(rtpDataTxHalfCrypt),
+              reinterpret_cast<q15_t *>(rtpDataTxHalf),
+              BUFFER_AUDIO_SIZE_RTP / 2);
+
 
             osSignalSet(sendThreadHalfId, 0x01);
         }
