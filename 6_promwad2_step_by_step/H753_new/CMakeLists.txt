@@ -132,6 +132,8 @@ file (GLOB Tests_src ${Tests}/*.cpp ${Tests}/*.h )
 file (GLOB uid_src ${uid}/*.cpp ${uid}/*.h )
 file (GLOB WDT_src ${WDT}/*.cpp ${WDT}/*.h )
 file (GLOB HAL_SRC Drivers/STM32H7xx_HAL_Driver/Src/*)
+list(REMOVE_ITEM HAL_SRC ${CMAKE_HOME_DIRECTORY}/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_rtc.c)
+
 file (GLOB CMSIS_RTOS_SOURCES Middlewares/Third_Party/FreeRTOS/Source/*.c Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.c Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.c Middlewares/Third_Party/LwIP/src/core/*.c Middlewares/Third_Party/LwIP/system/OS/*.c  Middlewares/Third_Party/FreeRTOS/Source/portable/MemMang/*.c )
 file (GLOB LWIP_SRC Middlewares/Third_Party/LwIP/src/api/* Middlewares/Third_Party/LwIP/src/apps/mqtt/mqtt.c Middlewares/Third_Party/LwIP/src/core/* Middlewares/Third_Party/LwIP/src/core/ipv4/* Middlewares/Third_Party/LwIP/src/netif/* Middlewares/Third_Party/LwIP/src/netif/ppp/* )
 
