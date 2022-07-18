@@ -187,9 +187,9 @@ static const struct Aic3254Configs ConfigureDAC[] {
     {TLV320AIC3254_REG_LOR_SEL, 0x08},
     // Powerup HPL/HPR and LOL/LOR drivers
     {TLV320AIC3254_REG_OUTDRV_PWR_CR, 0x0C},
-    // Unmute LOL/LOR driver, 0dB Gain
-    {TLV320AIC3254_REG_LOL_GAIN, 0x1D},//1c
-    {TLV320AIC3254_REG_LOR_GAIN, 0x1D},
+    // Unmute LOL/LOR driver
+    {TLV320AIC3254_REG_LOL_GAIN, 0x0A}, // *******************************
+    {TLV320AIC3254_REG_LOR_GAIN, 0x0A}, // *******************************
     // Select Page 0
     {TLV320AIC3254_REG_PAGE_SELECT, 0x00},
     // DAC => 0dB
