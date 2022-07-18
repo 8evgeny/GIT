@@ -143,7 +143,7 @@ static const struct Aic3254Configs ConfigureADC[] {
 
     //IN2R is routed to Right MICPGA with 10k resistance
     //IN2L is routed to Right MICPGA with 10k resistance
-    {TLV320AIC3254_REG_RMICPGA_PMUX, 0x11}, //55(0x37) регистр
+//    {TLV320AIC3254_REG_RMICPGA_PMUX, 0x11}, //55(0x37) регистр
 
     //IN1 на земле IN3L IN3R реализую позднее
 
@@ -158,7 +158,7 @@ static const struct Aic3254Configs ConfigureADC[] {
     //Select Page 0
     {TLV320AIC3254_REG_PAGE_SELECT, 0x00},
     //Power up LADC/RADC
-    {TLV320AIC3254_REG_ADC_SETUP, 0xC0}, //88(0x58) регистр //==
+    {TLV320AIC3254_REG_ADC_SETUP, 0x80}, //88(0x58) регистр //==
     //Unmute LADC/RADC
     {TLV320AIC3254_REG_ADC_FGAIN, 0x00}, //82(0x52) регистр
 
@@ -180,7 +180,7 @@ static const struct Aic3254Configs ConfigureDAC[] {
     //: When Page-1, Reg-10, D1 = 1, then LDOIN input range is 1.8V to 3.6V
     //Output Common Mode for LOL and LOR is 1.65V and output is powered by LDOIN
 
-//    {TLV320AIC3254_REG_CM_CR, 0xb},
+    {TLV320AIC3254_REG_CM_CR, 0x0B},
 
     // Route LDAC/RDAC to LOL/LOR
     {TLV320AIC3254_REG_LOL_SEL, 0x08},
@@ -188,8 +188,8 @@ static const struct Aic3254Configs ConfigureDAC[] {
     // Powerup HPL/HPR and LOL/LOR drivers
     {TLV320AIC3254_REG_OUTDRV_PWR_CR, 0x0C},
     // Unmute LOL/LOR driver
-    {TLV320AIC3254_REG_LOL_GAIN, 0x1D}, // *******************************
-//    {TLV320AIC3254_REG_LOR_GAIN, 0x14}, // *******************************
+    {TLV320AIC3254_REG_LOL_GAIN, 0x0A}, // *******************************
+    {TLV320AIC3254_REG_LOR_GAIN, 0x0A}, // *******************************
     // Select Page 0
     {TLV320AIC3254_REG_PAGE_SELECT, 0x00},
     // DAC => 0dB

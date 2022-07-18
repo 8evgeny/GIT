@@ -157,7 +157,7 @@ term("sai.cpp")
     HAL_NVIC_SetPriority(DMA2_Stream4_IRQn, 5, 0);
     HAL_NVIC_EnableIRQ(DMA2_Stream4_IRQn);
 
-    audioTxSai.Init.MckOverSampling = SAI_MCK_OVERSAMPLING_ENABLE; //Так у Мурома
+//    audioTxSai.Init.MckOverSampling = SAI_MCK_OVERSAMPLING_ENABLE; //Так у Мурома
 
     audioTxSai.Instance = SAI1_Block_A;
     audioTxSai.Init.AudioMode = SAI_MODEMASTER_TX;
@@ -166,10 +166,12 @@ term("sai.cpp")
     audioTxSai.Init.NoDivider = SAI_MASTERDIVIDER_ENABLE;
     audioTxSai.Init.FIFOThreshold = SAI_FIFOTHRESHOLD_EMPTY;
     audioTxSai.Init.AudioFrequency = SAI_AUDIO_FREQUENCY_16K;
-/*    audioTxSai.Init.AudioFrequency = SAI_AUDIO_FREQUENCY_MCKDIV;  //Так у Мурома
-    audioTxSai.Init.Mckdiv = 1;  */                                 //Так у Мурома
+
+//    audioTxSai.Init.AudioFrequency = SAI_AUDIO_FREQUENCY_MCKDIV;  //Так у Мурома
+//    audioTxSai.Init.Mckdiv = 1;                                   //Так у Мурома
+
     audioTxSai.Init.SynchroExt = SAI_SYNCEXT_DISABLE;
-    audioTxSai.Init.MonoStereoMode = SAI_STEREOMODE;
+    audioTxSai.Init.MonoStereoMode = SAI_MONOMODE;
     audioTxSai.Init.CompandingMode = SAI_NOCOMPANDING;
     audioTxSai.Init.TriState = SAI_OUTPUT_NOTRELEASED;
     if (HAL_SAI_InitProtocol(&audioTxSai, SAI_I2S_STANDARD, SAI_PROTOCOL_DATASIZE_16BIT, 2) != HAL_OK) {
@@ -182,7 +184,7 @@ term("sai.cpp")
     audioRxSai.Init.OutputDrive = SAI_OUTPUTDRIVE_DISABLE;
     audioRxSai.Init.FIFOThreshold = SAI_FIFOTHRESHOLD_EMPTY;
     audioRxSai.Init.SynchroExt = SAI_SYNCEXT_DISABLE;
-    audioRxSai.Init.MonoStereoMode = SAI_STEREOMODE;
+    audioRxSai.Init.MonoStereoMode = SAI_MONOMODE;
     audioRxSai.Init.CompandingMode = SAI_NOCOMPANDING;
     audioRxSai.Init.TriState = SAI_OUTPUT_NOTRELEASED;
     if (HAL_SAI_InitProtocol(&audioRxSai, SAI_I2S_STANDARD, SAI_PROTOCOL_DATASIZE_16BIT, 2) != HAL_OK) {
