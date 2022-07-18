@@ -149,9 +149,9 @@ static const struct Aic3254Configs ConfigureADC[] {
 
 
     //101 1111: Volume Control = 47.5dB
-    //101 0000: Volume Control = 40.0dB
+    //010 1111: Volume Control = 23.5dB
     //000 0000: Volume Control = 0.0dB
-    {TLV320AIC3254_REG_LMICPGA_VOL, 0x2f}, //59(0x3B) регистр
+    {TLV320AIC3254_REG_LMICPGA_VOL, 0x2F}, //59(0x3B) регистр
 
 //    {TLV320AIC3254_REG_RMICPGA_VOL, 0x2f}, //60(0x3C) регистр
 
@@ -188,8 +188,8 @@ static const struct Aic3254Configs ConfigureDAC[] {
     // Powerup HPL/HPR and LOL/LOR drivers
     {TLV320AIC3254_REG_OUTDRV_PWR_CR, 0x0C},
     // Unmute LOL/LOR driver
-    {TLV320AIC3254_REG_LOL_GAIN, 0x14}, // *******************************
-    {TLV320AIC3254_REG_LOR_GAIN, 0x14}, // *******************************
+    {TLV320AIC3254_REG_LOL_GAIN, 0x1D}, // *******************************
+//    {TLV320AIC3254_REG_LOR_GAIN, 0x14}, // *******************************
     // Select Page 0
     {TLV320AIC3254_REG_PAGE_SELECT, 0x00},
     // DAC => 0dB
