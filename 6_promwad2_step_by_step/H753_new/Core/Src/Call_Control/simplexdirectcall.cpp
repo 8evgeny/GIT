@@ -3,6 +3,7 @@
 #include "../UDP_JSON/udp_multicast.h"
 #include "conferencecall.h"
 #include "rs232.h"
+#include "rs232_printf.h"
 
 void SimplexDirectCall::handleButton()
 {
@@ -11,6 +12,9 @@ term("SimplexDirectCall ")
 
         stopRingTone();
         context_->microphone.stop();
+char msg[30];
+sprintf(msg,"subjectKey.key= %d\r\n ",context_->subjectKey.key);
+RS232Puts(msg);
         switchLed(context_->assignedData.key, false);
 
         if (context_->control == CallControl::Control::NONE ||
