@@ -406,11 +406,11 @@ osThreadDef(sendHalfRtp, sendHalfThread, osPriorityHigh, 0, configMINIMAL_STACK_
 osThreadDef(sendFullRtp, sendFullThread, osPriorityHigh, 0, configMINIMAL_STACK_SIZE * 10);
 osThreadDef(audioTxHalfThread, threadAudioTxHalf, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 20);
 osThreadDef(audioTxFullThread, threadAudioTxFull, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 20);
-osThreadDef(handelMixAudio, timerForMixAudio, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 10);
-osThreadDef(audioRxFullThread, threadAudioRxFull, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 8);
-osThreadDef(audioRxHalfThread, threadAudioRxHalf, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 8);
+osThreadDef(handelMixAudio, timerForMixAudio, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 20);
+osThreadDef(audioRxFullThread, threadAudioRxFull, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 10);
+osThreadDef(audioRxHalfThread, threadAudioRxHalf, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 10);
 osThreadDef(lostPackThread, lostPackThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 5);
-osThreadDef(recvThread, rtpRecvThread, osPriorityHigh, 0, configMINIMAL_STACK_SIZE * 10);
+osThreadDef(recvThread, rtpRecvThread, osPriorityHigh, 0, configMINIMAL_STACK_SIZE * 20);
 
 
 void threadAudioInit(void const *arg)

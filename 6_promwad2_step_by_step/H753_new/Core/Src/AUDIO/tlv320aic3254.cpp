@@ -150,8 +150,8 @@ static const struct Aic3254Configs ConfigureADC[] {
 
     //101 1111: Volume Control = 47.5dB
     //010 1111: Volume Control = 23.5dB
-    //000 0000: Volume Control = 0.0dB
-    {TLV320AIC3254_REG_LMICPGA_VOL, 0x2F}, //59(0x3B) регистр
+    //001 0100: Volume Control = 10.0dB
+    {TLV320AIC3254_REG_LMICPGA_VOL, 0x14}, //59(0x3B) регистр
 
 //    {TLV320AIC3254_REG_RMICPGA_VOL, 0x2f}, //60(0x3C) регистр
 

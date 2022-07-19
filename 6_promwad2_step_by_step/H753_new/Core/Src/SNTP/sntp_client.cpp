@@ -59,7 +59,7 @@ void SNTP_Client(const void *arg)
 void SNTP_Start()
 {
     /* Start SNTP Client task : Send recuest to SNTP server */
-    osThreadDef(sntp, SNTP_Client, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 40);
+    osThreadDef(sntp, SNTP_Client, osPriorityHigh, 0, configMINIMAL_STACK_SIZE * 20);
 
     osThreadCreate(osThread(sntp), NULL);
 }
