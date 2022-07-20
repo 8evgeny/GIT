@@ -30,7 +30,7 @@ void HAL_CRYP_MspInit(CRYP_HandleTypeDef *hcryp)
         /* CRYP DMA Init */
         /* CRYP_IN Init */
         hdmaCrypIn.Instance = DMA2_Stream6;
-        hdmaCrypIn.Init.Request = HAL_DMAMUX2_SYNC_DMAMUX2_CH4_EVT;
+        hdmaCrypIn.Init.Request = DMA_REQUEST_CRYP_IN;
         hdmaCrypIn.Init.Direction = DMA_MEMORY_TO_PERIPH;
         hdmaCrypIn.Init.PeriphInc = DMA_PINC_DISABLE;
         hdmaCrypIn.Init.MemInc = DMA_MINC_ENABLE;
@@ -51,7 +51,7 @@ void HAL_CRYP_MspInit(CRYP_HandleTypeDef *hcryp)
 
         /* CRYP_OUT Init */
         hdmaCrypOut.Instance = DMA2_Stream5;
-        hdmaCrypOut.Init.Request = HAL_DMAMUX2_SYNC_DMAMUX2_CH4_EVT;
+        hdmaCrypOut.Init.Request = DMA_REQUEST_CRYP_OUT;
         hdmaCrypOut.Init.Direction = DMA_PERIPH_TO_MEMORY;
         hdmaCrypOut.Init.PeriphInc = DMA_PINC_DISABLE;
         hdmaCrypOut.Init.MemInc = DMA_MINC_ENABLE;

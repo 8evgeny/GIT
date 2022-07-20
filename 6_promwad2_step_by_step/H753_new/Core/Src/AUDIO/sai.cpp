@@ -48,7 +48,6 @@ static DMA_HandleTypeDef hdmaSaiTx;
 
 static osSemaphoreId semaphoreRxFullId;
 static osSemaphoreId semaphoreRxHalfId;
-
 static osSemaphoreId semaphoreTxFullId;
 static osSemaphoreId semaphoreTxHalfId;
 
@@ -93,9 +92,9 @@ static void crypInit(uint32_t *key)
     hcryp.Init.pKey = key;
     hcryp.Init.Algorithm = CRYP_AES_ECB;
     hcryp.Init.DataWidthUnit = CRYP_DATAWIDTHUNIT_WORD;
-    if (HAL_CRYP_Init(&hcryp) != HAL_OK) {
-        RS232::getInstance().term << "crypInit -> ERROR\n";
-    }
+//    if (HAL_CRYP_Init(&hcryp) != HAL_OK) {
+//        RS232::getInstance().term << "crypInit -> ERROR\n";
+//    }
 }
 
 #ifdef __cplusplus
@@ -108,7 +107,7 @@ SAI::SAI()
     hInSai = &audioRxSai;
 
     if ((ringToneTimer_id = osTimerCreate (osTimer(ringToneTimer), osTimerPeriodic, nullptr)) == nullptr) {
-        RS232::getInstance().term << __FUNCTION__ << " " << __LINE__ << " " << "\n";
+        RS232::getInstance().term << "Error (osTimer(ringToneTimer)  " <<__FUNCTION__ << " " << __LINE__ << " " << "\n";
     }
 }
 
@@ -143,6 +142,7 @@ uint8_t rtpDataRxFullCrypt[BUFFER_AUDIO_SIZE_RTP];
   */
 void saiInitAudio(void)
 {
+term("sai.cpp")
     /* Enable DMA controller clock for SAI */
 
     /* DMA controller clock enable */
@@ -157,6 +157,8 @@ void saiInitAudio(void)
     HAL_NVIC_SetPriority(DMA2_Stream4_IRQn, 5, 0);
     HAL_NVIC_EnableIRQ(DMA2_Stream4_IRQn);
 
+//    audioTxSai.Init.MckOverSampling = SAI_MCK_OVERSAMPLING_ENABLE; //Так у Мурома
+
     audioTxSai.Instance = SAI1_Block_A;
     audioTxSai.Init.AudioMode = SAI_MODEMASTER_TX;
     audioTxSai.Init.Synchro = SAI_ASYNCHRONOUS;
@@ -164,8 +166,12 @@ void saiInitAudio(void)
     audioTxSai.Init.NoDivider = SAI_MASTERDIVIDER_ENABLE;
     audioTxSai.Init.FIFOThreshold = SAI_FIFOTHRESHOLD_EMPTY;
     audioTxSai.Init.AudioFrequency = SAI_AUDIO_FREQUENCY_16K;
+
+//    audioTxSai.Init.AudioFrequency = SAI_AUDIO_FREQUENCY_MCKDIV;  //Так у Мурома
+//    audioTxSai.Init.Mckdiv = 1;                                   //Так у Мурома
+
     audioTxSai.Init.SynchroExt = SAI_SYNCEXT_DISABLE;
-    audioTxSai.Init.MonoStereoMode = SAI_STEREOMODE;
+    audioTxSai.Init.MonoStereoMode = SAI_MONOMODE;
     audioTxSai.Init.CompandingMode = SAI_NOCOMPANDING;
     audioTxSai.Init.TriState = SAI_OUTPUT_NOTRELEASED;
     if (HAL_SAI_InitProtocol(&audioTxSai, SAI_I2S_STANDARD, SAI_PROTOCOL_DATASIZE_16BIT, 2) != HAL_OK) {
@@ -178,7 +184,7 @@ void saiInitAudio(void)
     audioRxSai.Init.OutputDrive = SAI_OUTPUTDRIVE_DISABLE;
     audioRxSai.Init.FIFOThreshold = SAI_FIFOTHRESHOLD_EMPTY;
     audioRxSai.Init.SynchroExt = SAI_SYNCEXT_DISABLE;
-    audioRxSai.Init.MonoStereoMode = SAI_STEREOMODE;
+    audioRxSai.Init.MonoStereoMode = SAI_MONOMODE;
     audioRxSai.Init.CompandingMode = SAI_NOCOMPANDING;
     audioRxSai.Init.TriState = SAI_OUTPUT_NOTRELEASED;
     if (HAL_SAI_InitProtocol(&audioRxSai, SAI_I2S_STANDARD, SAI_PROTOCOL_DATASIZE_16BIT, 2) != HAL_OK) {
@@ -213,28 +219,36 @@ void DMA2_Stream4_IRQHandler(void)
 
 void HAL_SAI_TxCpltCallback(SAI_HandleTypeDef *hOutSai)
 {
+//term("___sai.cpp")
     if (hOutSai->Instance == SAI1_Block_A) {
+//term("____semaphoreTxFullId release____")
         osSemaphoreRelease(semaphoreTxFullId);
     }
 }
 
 void HAL_SAI_TxHalfCpltCallback(SAI_HandleTypeDef *hOutSai)
 {
+//term("___sai.cpp")
     if (hOutSai->Instance == SAI1_Block_A) {
+//term("____semaphoreTxHalfId release____")
         osSemaphoreRelease(semaphoreTxHalfId);
     }
 }
 
 void HAL_SAI_RxCpltCallback(SAI_HandleTypeDef *hInSai)
 {
+//term("___sai.cpp")
     if (hInSai->Instance == SAI1_Block_B) {
+//term("____semaphoreRxFullId release____")
         osSemaphoreRelease(semaphoreRxFullId);
     }
 }
 
 void HAL_SAI_RxHalfCpltCallback(SAI_HandleTypeDef *hInSai)
 {
+//term("___sai.cpp")
     if (hInSai->Instance == SAI1_Block_B) {
+//term("____semaphoreRxHalfId release____")
         osSemaphoreRelease(semaphoreRxHalfId);
     }
 }
@@ -243,6 +257,7 @@ static uint32_t SAI1_client = 0;
 
 void HAL_SAI_MspInit(SAI_HandleTypeDef *hsai)
 {
+term("___sai.cpp")
     GPIO_InitTypeDef GPIO_InitStruct;
     /* SAI1 */
     if (hsai->Instance == SAI1_Block_A) {
@@ -273,7 +288,7 @@ void HAL_SAI_MspInit(SAI_HandleTypeDef *hsai)
         /* Peripheral DMA init*/
 
         hdmaSaiTx.Instance = DMA2_Stream3;
-        hdmaSaiTx.Init.Request = HAL_DMAMUX2_SYNC_DMAMUX2_CH0_EVT;
+        hdmaSaiTx.Init.Request = DMA_REQUEST_SAI1_A;
         hdmaSaiTx.Init.Direction = DMA_MEMORY_TO_PERIPH;
         hdmaSaiTx.Init.PeriphInc = DMA_PINC_DISABLE;
         hdmaSaiTx.Init.MemInc = DMA_MINC_ENABLE;
@@ -320,7 +335,7 @@ void HAL_SAI_MspInit(SAI_HandleTypeDef *hsai)
 
         /* Peripheral DMA init*/
         hdmaSaiRx.Instance = DMA2_Stream4;
-        hdmaSaiRx.Init.Request = HAL_DMAMUX2_SYNC_DMAMUX2_CH1_EVT;
+        hdmaSaiRx.Init.Request = DMA_REQUEST_SAI1_B;
         hdmaSaiRx.Init.Direction = DMA_PERIPH_TO_MEMORY;
         hdmaSaiRx.Init.PeriphInc = DMA_PINC_DISABLE;
         hdmaSaiRx.Init.MemInc = DMA_MINC_ENABLE;
@@ -346,7 +361,7 @@ void HAL_SAI_MspInit(SAI_HandleTypeDef *hsai)
 
 void HAL_SAI_MspDeInit(SAI_HandleTypeDef *hsai)
 {
-
+term("sai.cpp")
     RS232::getInstance().term << __FUNCTION__ <<  " " << __LINE__ << "\n";
     /* SAI1 */
     if (hsai->Instance == SAI1_Block_A) {
@@ -387,19 +402,20 @@ void HAL_SAI_MspDeInit(SAI_HandleTypeDef *hsai)
     }
 }
 
-osThreadDef(sendHalfRtp, sendHalfThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 5);
-osThreadDef(sendFullRtp, sendFullThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 5);
-osThreadDef(audioTxHalfThread, threadAudioTxHalf, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 10);
-osThreadDef(audioTxFullThread, threadAudioTxFull, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 10);
-osThreadDef(handelMixAudio, timerForMixAudio, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 40);
-osThreadDef(audioRxFullThread, threadAudioRxFull, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 20);
-osThreadDef(audioRxHalfThread, threadAudioRxHalf, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 20);
+osThreadDef(sendHalfRtp, sendHalfThread, osPriorityHigh, 0, configMINIMAL_STACK_SIZE * 10);
+osThreadDef(sendFullRtp, sendFullThread, osPriorityHigh, 0, configMINIMAL_STACK_SIZE * 10);
+osThreadDef(audioTxHalfThread, threadAudioTxHalf, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 20);
+osThreadDef(audioTxFullThread, threadAudioTxFull, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 20);
+osThreadDef(handelMixAudio, timerForMixAudio, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 20);
+osThreadDef(audioRxFullThread, threadAudioRxFull, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 10);
+osThreadDef(audioRxHalfThread, threadAudioRxHalf, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 10);
 osThreadDef(lostPackThread, lostPackThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 5);
-osThreadDef(recvThread, rtpRecvThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 40);
+osThreadDef(recvThread, rtpRecvThread, osPriorityHigh, 0, configMINIMAL_STACK_SIZE * 20);
 
 
 void threadAudioInit(void const *arg)
 {
+term("sai.cpp")
     UNUSED(arg);
 
     constexpr uint32_t TIME_OUT = 10;
@@ -522,6 +538,7 @@ void threadAudioInit(void const *arg)
 
 //    rtpCreate(100, 2);
 
+
     while (1) {
         osThreadTerminate(SAI::getInstance()->threadAudioInitId);
     }
@@ -529,24 +546,31 @@ void threadAudioInit(void const *arg)
 
 void threadAudioTxHalf(void const *arg)
 {
+osDelay(200);
 term("--- threadAudioTxHalf ---")
     UNUSED(arg);
     RtpPackages in;
     while (1) {
-        if (osSemaphoreWait(semaphoreTxHalfId, 0) == osOK) {
+        if (osSemaphoreWait(semaphoreTxHalfId, 0) == osOK)
+        {
+//term("____semaphoreTxHalfId set____")
             osMutexWait(mutexRtpRxId, osWaitForever);
-            if (!SAI::getInstance()->outRingBuffer.isEmpty()) {
-
+            if (!SAI::getInstance()->outRingBuffer.isEmpty())
+            {
+//term2("-111-");
                 in = SAI::getInstance()->outRingBuffer.first();
                 SAI::getInstance()->outRingBuffer.shift();
                 osMutexRelease(mutexRtpRxId);
 
 //                memcpy(reinterpret_cast<uint8_t *>(txBuf), reinterpret_cast<uint8_t *>(in.payload), BUFFER_AUDIO_SIZE_RTP);
                 arm_copy_q15(reinterpret_cast<q15_t *>(in.payload), reinterpret_cast<q15_t *>(txBuf), BUFFER_AUDIO_SIZE_RTP / 2);
-            } else if (SAI::getInstance()->tone.status == DTMF::Status::START) {
+
+            } else if (SAI::getInstance()->tone.status == DTMF::Status::START)
+            {
                 SAI::getInstance()->tone.getData(DTMF::Control::FIRST_HALF);
                 osMutexRelease(mutexRtpRxId);
-            } else {
+            } else
+            {
                 osMutexRelease(mutexRtpRxId);
                 osDelay(1);
             }
@@ -558,19 +582,24 @@ term("--- threadAudioTxHalf ---")
 
 void threadAudioTxFull(void const *arg)
 {
+osDelay(300);
+term("--- threadAudioTxFull ---")
     UNUSED(arg);
     RtpPackages in;
     while (1) {
         if (osSemaphoreWait(semaphoreTxFullId, 0) == osOK) {
+//term("____semaphoreTxFullId set____")
             osMutexWait(mutexRtpRxId, osWaitForever);
             if (!SAI::getInstance()->outRingBuffer.isEmpty()) {
-
+//term2("-222-");
                 in = SAI::getInstance()->outRingBuffer.first();
                 SAI::getInstance()->outRingBuffer.shift();
                 osMutexRelease(mutexRtpRxId);
 
 //                memcpy(reinterpret_cast<uint8_t *>(txBuf) + BUFFER_AUDIO_SIZE_RTP, reinterpret_cast<uint8_t *>(in.payload), BUFFER_AUDIO_SIZE_RTP);
                 arm_copy_q15(reinterpret_cast<q15_t *>(in.payload), reinterpret_cast<q15_t *>(txBuf) + BUFFER_AUDIO_SIZE_RTP / 2, BUFFER_AUDIO_SIZE_RTP / 2);
+
+
             } else if (SAI::getInstance()->tone.status == DTMF::Status::START) {
                 SAI::getInstance()->tone.getData(DTMF::Control::SECOND_HALF);
                 osMutexRelease(mutexRtpRxId);
@@ -586,19 +615,25 @@ void threadAudioTxFull(void const *arg)
 
 void threadAudioRxFull(void const *arg)
 {
+osDelay(500);
+term("--- threadAudioRxFull ---")
     UNUSED(arg);
     while (1) {
         if (osSemaphoreWait(semaphoreRxFullId, 0) == osOK) {
-//            memcpy(reinterpret_cast<uint8_t *>(rtpDataTxFullCrypt), reinterpret_cast<uint8_t *>(rxBuf) +  BUFFER_AUDIO_SIZE_RTP, BUFFER_AUDIO_SIZE_RTP);
-//            memcpy(reinterpret_cast<uint8_t *>(rtpDataTxFull), reinterpret_cast<uint8_t *>(rxBuf) +  BUFFER_AUDIO_SIZE_RTP, BUFFER_AUDIO_SIZE_RTP);
-            arm_copy_q15(reinterpret_cast<q15_t *>(rxBuf)  + BUFFER_AUDIO_SIZE_RTP / 2, reinterpret_cast<q15_t *>(rtpDataTxFullCrypt), BUFFER_AUDIO_SIZE_RTP / 2);
+//term("____semaphoreRxFullId set____")
+            memcpy(reinterpret_cast<uint8_t *>(rtpDataTxFullCrypt), reinterpret_cast<uint8_t *>(rxBuf) +  BUFFER_AUDIO_SIZE_RTP, BUFFER_AUDIO_SIZE_RTP);
+            memcpy(reinterpret_cast<uint8_t *>(rtpDataTxFull), reinterpret_cast<uint8_t *>(rxBuf) +  BUFFER_AUDIO_SIZE_RTP, BUFFER_AUDIO_SIZE_RTP);
+//            arm_copy_q15(reinterpret_cast<q15_t *>(rxBuf)  + BUFFER_AUDIO_SIZE_RTP / 2, reinterpret_cast<q15_t *>(rtpDataTxFullCrypt), BUFFER_AUDIO_SIZE_RTP / 2);
 
 
-            osMutexWait(mutexCryptTxId, osWaitForever);
-            HAL_CRYP_Encrypt_DMA(&hcryp, reinterpret_cast<uint32_t *>(rtpDataTxFullCrypt), BUFFER_AUDIO_SIZE_RTP / 4, reinterpret_cast<uint32_t *>(rtpDataTxFull));
-            while (!SAI::getInstance()->cryptTxComplete);
-            SAI::getInstance()->cryptTxComplete = false;
-            osMutexRelease(mutexCryptTxId);
+//            osMutexWait(mutexCryptTxId, osWaitForever);
+//            HAL_CRYP_Encrypt_DMA(&hcryp, reinterpret_cast<uint32_t *>(rtpDataTxFullCrypt), BUFFER_AUDIO_SIZE_RTP / 4, reinterpret_cast<uint32_t *>(rtpDataTxFull));
+//            while (!SAI::getInstance()->cryptTxComplete);
+//            SAI::getInstance()->cryptTxComplete = false;
+//            osMutexRelease(mutexCryptTxId);
+arm_copy_q15( reinterpret_cast<q15_t *>(rtpDataTxFullCrypt),
+              reinterpret_cast<q15_t *>(rtpDataTxFull),
+              BUFFER_AUDIO_SIZE_RTP / 2);
 
             osSignalSet(sendThreadFullId, 0x02);
         } else {
@@ -609,21 +644,32 @@ void threadAudioRxFull(void const *arg)
 
 void threadAudioRxHalf(void const *arg)
 {
+osDelay(600);
+term("--- threadAudioRxHalf ---")
     UNUSED(arg);
-    while (1) {
-        if (osSemaphoreWait(semaphoreRxHalfId, 0) == osOK) {
-//            memcpy(reinterpret_cast<uint8_t *>(rtpDataTxHalfCrypt), reinterpret_cast<uint8_t *>(rxBuf), BUFFER_AUDIO_SIZE_RTP);
-//            memcpy(reinterpret_cast<uint8_t *>(rtpDataTxHalf), reinterpret_cast<uint8_t *>(rxBuf), BUFFER_AUDIO_SIZE_RTP);
-            arm_copy_q15(reinterpret_cast<q15_t *>(rxBuf), reinterpret_cast<q15_t *>(rtpDataTxHalfCrypt), BUFFER_AUDIO_SIZE_RTP / 2);
+    while (1)
+    {
+        if (osSemaphoreWait(semaphoreRxHalfId, 0) == osOK)
+        {
+//term("____semaphoreRxHalfId set____")
+            memcpy(reinterpret_cast<uint8_t *>(rtpDataTxHalfCrypt), reinterpret_cast<uint8_t *>(rxBuf), BUFFER_AUDIO_SIZE_RTP);
+            memcpy(reinterpret_cast<uint8_t *>(rtpDataTxHalf), reinterpret_cast<uint8_t *>(rxBuf), BUFFER_AUDIO_SIZE_RTP);
+//            arm_copy_q15(reinterpret_cast<q15_t *>(rxBuf), reinterpret_cast<q15_t *>(rtpDataTxHalfCrypt), BUFFER_AUDIO_SIZE_RTP / 2);
 
-            osMutexWait(mutexCryptTxId, osWaitForever);
-            HAL_CRYP_Encrypt_DMA(&hcryp, reinterpret_cast<uint32_t *>(rtpDataTxHalfCrypt), BUFFER_AUDIO_SIZE_RTP / 4, reinterpret_cast<uint32_t *>(rtpDataTxHalf));
-            while (!SAI::getInstance()->cryptTxComplete);
-            SAI::getInstance()->cryptTxComplete = false;
-            osMutexRelease(mutexCryptTxId);
+//            osMutexWait(mutexCryptTxId, osWaitForever);
+//            HAL_CRYP_Encrypt_DMA(&hcryp, reinterpret_cast<uint32_t *>(rtpDataTxHalfCrypt), BUFFER_AUDIO_SIZE_RTP / 4, reinterpret_cast<uint32_t *>(rtpDataTxHalf));
+//            while (!SAI::getInstance()->cryptTxComplete);
+//            SAI::getInstance()->cryptTxComplete = false;
+//            osMutexRelease(mutexCryptTxId);
+arm_copy_q15( reinterpret_cast<q15_t *>(rtpDataTxHalfCrypt),
+              reinterpret_cast<q15_t *>(rtpDataTxHalf),
+              BUFFER_AUDIO_SIZE_RTP / 2);
+
 
             osSignalSet(sendThreadHalfId, 0x01);
-        } else {
+        }
+        else
+        {
             osDelay(1);
         }
     }
@@ -690,9 +736,11 @@ ErrorCode rtpCreate(uint32_t port, uint32_t type)
     memset(txBuf, 0x00, sizeof (txBuf));
     memset(rxBuf, 0x00, sizeof (rxBuf));
 
-    HAL_SAI_Transmit_DMA(&audioTxSai, reinterpret_cast<uint8_t *>(txBuf), BUFFER_AUDIO_SIZE_RTP);
-    HAL_SAI_Receive_DMA(&audioRxSai, reinterpret_cast<uint8_t *>(rxBuf), BUFFER_AUDIO_SIZE_RTP);
+   auto res_transm = HAL_SAI_Transmit_DMA(&audioTxSai, reinterpret_cast<uint8_t *>(txBuf), BUFFER_AUDIO_SIZE_RTP);
+   auto res_teceice = HAL_SAI_Receive_DMA(&audioRxSai, reinterpret_cast<uint8_t *>(rxBuf), BUFFER_AUDIO_SIZE_RTP);
 
+//   term1("res_transm") term(res_transm)
+//   term1("res_teceice") term(res_teceice)
 //    }
 
     return OK_RTP;
@@ -747,6 +795,7 @@ ErrorCode rtpRemove()
 
 void startDtmfTone(uint8_t keyNum)
 {
+term("*** ")
     if (keyNum < 10) {
         if (SAI::getInstance()->tone.getFrequency(keyNum) == DTMF::Status::READY)
             HAL_SAI_Transmit_DMA(&audioTxSai, reinterpret_cast<uint8_t *> (SAI::getInstance()->tone.getData(DTMF::Control::FULL)), SAI::getInstance()->tone.TABLESIZE*2);
@@ -769,21 +818,25 @@ void startRingTone(const RingToneType type)
     uint16_t buffSize = 0;
     switch (type) {
     case RingToneType::RING_TONE:
+term("RingToneType::RING_TONE")
         delay = 1000;
         buff = zvon3_raw;
         buffSize = zvon3_raw_len;
         break;
     case RingToneType::RING_BACK_TONE:
+term("RingToneType::RING_BACK_TONE")
         delay = 1000;
         buff = ringBackToneArray_raw;
         buffSize = ringBackToneArray_raw_length;
         break;
     case RingToneType::RING_BACK_BUSY_TONE:
+term("RingToneType::RING_BACK_BUSY_TONE")
         delay = 350;
         buff = ringBackToneArray_raw;
         buffSize = ringBackToneArray_raw_length;
         break;
     case RingToneType::RING_UNKNOWN_TONE:
+term("RingToneType::RING_UNKNOWN_TONE")
         startDtmfTone(1);
         break;
     default:
@@ -793,8 +846,13 @@ void startRingTone(const RingToneType type)
     if (type != RingToneType::RING_UNKNOWN_TONE) {
         timerCount = 0;
         SAI::getInstance()->ringToneStatus = osTimerStart (ringToneTimer_id, delay); // timer starting
-        HAL_SAI_Transmit_DMA(&audioTxSai, buff, buffSize/2);
+//buff = zvon3_raw; //Проверка конкр звонка
+//buffSize = zvon3_raw_len;
 
+//     auto ret =  HAL_SAI_Transmit_IT(&audioTxSai, buff, buffSize/2);
+     auto ret =  HAL_SAI_Transmit_DMA(&audioTxSai, buff, buffSize/2);
+
+term1("ret") term(ret)
         if (SAI::getInstance()->ringToneStatus != osOK)  {
             RS232::getInstance().term << __FUNCTION__ << " " << __LINE__ << " " << "\n";
         }
@@ -804,6 +862,7 @@ void startRingTone(const RingToneType type)
 
 void stopRingTone(void)
 {
+term("sai.cpp")
     if (toneType == RingToneType::RING_UNKNOWN_TONE) {
         stopDtmfTone();
     } else if (SAI::getInstance()->ringToneStatus == osOK) {

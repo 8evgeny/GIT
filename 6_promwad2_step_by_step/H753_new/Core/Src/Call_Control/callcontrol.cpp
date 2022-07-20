@@ -11,6 +11,8 @@
 #include "circularcall.h"
 #include "conferencecall.h"
 #include "telephonecall.h"
+#include "rs232.h"
+#include"rs232_printf.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -78,6 +80,8 @@ void CallControl::button(PackageRx pack)
 #endif
 
     if (handleClick(pack)) {
+
+//term("*** handleClick end ***")
         this->state_->handleButton();
     }
 }
@@ -110,6 +114,7 @@ void CallControl::answerUnknownCall()
 
 bool CallControl::detectSubject(uint16_t subject)
 {
+term1("CallControl subject ") term(subject)
     uint16_t size = getSubjectData(Size);
     for(uint8_t i = 0; i < size; ++i ) {
 
@@ -123,6 +128,7 @@ bool CallControl::detectSubject(uint16_t subject)
 
 uint8_t CallControl::getKey(const uint16_t subject)
 {
+term("CallControl::getKey")
     uint16_t id = 0;
 
     uint16_t size = getSubjectData(Size);
@@ -138,6 +144,7 @@ uint8_t CallControl::getKey(const uint16_t subject)
 
 bool CallControl::detectSubjCallType(uint8_t func)
 {
+term("CallControl::detectSubjCallType")
     uint16_t size = getSubjectData(Size);
     uint8_t foundFunc = 0;
 
@@ -158,6 +165,7 @@ uint16_t CallControl::getSubjectData(CallControl::SubjectData control, uint8_t i
 {
     uint16_t retVal = 0;
 //    osMutexWait(mutexKeyBufferId_, osWaitForever);
+
     switch (control) {
     case Key:
         retVal = Json::getInstance()->thisStation.keysBuffer[i].key;
@@ -187,8 +195,10 @@ uint16_t CallControl::getSubjectData(CallControl::SubjectData control, uint8_t i
 
 void CallControl::setCallType()
 {
+term("CallControl")
     switch (messageData.field.callType) {
     case Direct:
+term("case Direct")
         if (messageData.field.linkData == static_cast<uint8_t>(Request::LINK)) {
 
             if(detectSubject(messageData.field.ownId)) {
@@ -235,6 +245,7 @@ void CallControl::setCallType()
                     retransmitMessage(UdpJsonExch::getInstance()->recvBuff, strlen(UdpJsonExch::getInstance()->recvBuff), Request::ACK);
 
                     startRingTone(RingToneType::RING_UNKNOWN_TONE);
+term("autoAnsw_timerId")
                     osTimer.start(osTimer.autoAnsw_timerId, osTimer.autoAnsw_timerStatus, AUTO_ANSW_TIMEOUT);
                     this->TransitionTo(new DuplexDirectCall);
 
@@ -243,6 +254,7 @@ void CallControl::setCallType()
                     retransmitMessage(UdpJsonExch::getInstance()->recvBuff, strlen(UdpJsonExch::getInstance()->recvBuff), Request::ACK_ANSW);
 
                     startRingTone(RingToneType::RING_UNKNOWN_TONE);
+term("autoAnsw_timerId")
                     osTimer.start(osTimer.autoAnsw_timerId, osTimer.autoAnsw_timerStatus, AUTO_ANSW_TIMEOUT);
                     this->TransitionTo(new SimplexDirectCall);
                 }
@@ -250,6 +262,7 @@ void CallControl::setCallType()
         }
         break;
     case Group:
+term("case Group")
         if (messageData.field.linkData == static_cast<uint8_t>(Request::LINK)) {
 
             if(detectSubject(messageData.field.ownId)) {
@@ -276,6 +289,7 @@ void CallControl::setCallType()
                 isIncomingCall = true;
                 copyRecvBuff(messageData.recvMessageBuff, UdpJsonExch::getInstance()->recvBuff);
                 startRingTone(RingToneType::RING_UNKNOWN_TONE);
+term("autoAnsw_timerId")
                 osTimer.start(osTimer.autoAnsw_timerId, osTimer.autoAnsw_timerStatus, AUTO_ANSW_TIMEOUT);
 //                createRtp(messageData.field.prevOwnId, Simplex_recv_type);
                 this->TransitionTo(new GroupCall);
@@ -283,6 +297,7 @@ void CallControl::setCallType()
         }
         break;
     case Circular:
+term("case Circular")
         if (messageData.field.linkData == 0xFF) {
 
             if(detectSubject(messageData.field.ownId)) {
@@ -308,6 +323,7 @@ void CallControl::setCallType()
                 copyRecvBuff(messageData.recvMessageBuff, UdpJsonExch::getInstance()->recvBuff);
                 retransmitMessage(UdpJsonExch::getInstance()->recvBuff, strlen(UdpJsonExch::getInstance()->recvBuff), Request::ACK_ANSW);
                 startRingTone(RingToneType::RING_UNKNOWN_TONE);
+term("autoAnsw_timerId")
                 osTimer.start(osTimer.autoAnsw_timerId, osTimer.autoAnsw_timerStatus, AUTO_ANSW_TIMEOUT);
 //                createRtp(messageData.field.prevOwnId, Simplex_recv_type);
                 this->TransitionTo(new CircularCall);
@@ -315,6 +331,7 @@ void CallControl::setCallType()
         }
         break;
     case Conference:
+term("case Conference")
         if (messageData.field.linkData == 0xFF) {
 
             if(detectSubjCallType(Conference)) {
@@ -377,6 +394,8 @@ bool CallControl::handleClick(uPackageRx pack)
 #else
 bool CallControl::handleClick(PackageRx pack)
 {
+term1("*** pressedKey") term ((uint8_t)pressedKey)
+
     if (pack.packetType == GPIO::getInstance()->button) {
 
         if (pressedKey == pack.payloadData) {
@@ -386,7 +405,6 @@ bool CallControl::handleClick(PackageRx pack)
                 handleClick_count++;
 
                 if (handleClick_count > 2 && foundKeyFlag_) {
-
                     osTimer.start(osTimer.button_timerId, osTimer.button_timerStatus, 200);
 
                     if (missedCall.isMissedKey) {
@@ -398,6 +416,7 @@ bool CallControl::handleClick(PackageRx pack)
                 }
 
             } else {
+term("osTimer.start")
                 osTimer.start(osTimer.button_timerId, osTimer.button_timerStatus, 200);
             }
 
@@ -421,7 +440,6 @@ bool CallControl::handleClick(PackageRx pack)
                     if ((getSubjectData(Key, i)) == pressedKey) {
                         subjectKey = Json::getInstance()->thisStation.keysBuffer[i];
                         foundKeyFlag_ = true;
-
                         keyMode = subjectKey.mode;
                         func = subjectKey.function;
 
@@ -467,6 +485,7 @@ bool CallControl::handleClick(PackageRx pack)
 
 bool CallControl::sendInfoAboutStation(JsonDocument &doc)
 {
+term("CallControl::sendInfoAboutStation")
     bool hasWho = doc.containsKey("who");
     if (hasWho) {
 
@@ -506,6 +525,7 @@ bool CallControl::sendInfoAboutStation(JsonDocument &doc)
 
 void CallControl::createRtp(uint32_t port, uint8_t rtpType)
 {
+term("callcontrol.cpp")
     if (rtpStatus != OK_RTP) {
         rtpStatus = rtpCreate(port, rtpType);
     }
@@ -513,6 +533,7 @@ void CallControl::createRtp(uint32_t port, uint8_t rtpType)
 
 ErrorCode CallControl::removeRtp()
 {
+term("callcontrol.cpp")
     if (rtpStatus == OK_RTP) {
         rtpRemove();
         rtpStatus = FAIL_RTP;
@@ -524,6 +545,7 @@ ErrorCode CallControl::removeRtp()
 
 bool CallControl::seekDynamicStorage(std::vector <uint16_t>& v, uint16_t subject)
 {
+term("callcontrol.cpp")
     if (!v.empty()) {
         for (uint8_t i = 0; i < v.size(); ++i) {
             if (*(v.begin() + i) == subject) {
@@ -537,6 +559,7 @@ bool CallControl::seekDynamicStorage(std::vector <uint16_t>& v, uint16_t subject
 
 bool CallControl::popDynamicStorage(std::vector <uint16_t>& v, uint16_t subject)
 {
+term("CallControl::popDynamicStorage")
     uint8_t key = 0;
     if (!v.empty()) {
         for (uint8_t i = 0; i < v.size(); ++i) {
@@ -555,6 +578,7 @@ bool CallControl::popDynamicStorage(std::vector <uint16_t>& v, uint16_t subject)
 
 bool CallControl::pushDynamicStorage(uint8_t callType, std::vector <uint16_t>& v, uint16_t subject)
 {
+term("CallControl::pushDynamicStorage")
 //    bool isRemoved = popDynamicStorage(v, subject);
     uint8_t n = 0;
     switch (callType) {
@@ -584,6 +608,7 @@ bool CallControl::pushDynamicStorage(uint8_t callType, std::vector <uint16_t>& v
 
 void CallControl::sendMessage(const uint16_t distId, const uint8_t func, const Request linkData)
 {
+term("CallControl::sendMessage")
     const int capacity = JSON_OBJECT_SIZE(6) + JSON_ARRAY_SIZE(100);
     DynamicJsonDocument doc (capacity);
 
@@ -620,12 +645,14 @@ void CallControl::sendMessage(const Request linkData)
 
     std::fill(messageData.txBuff, messageData.txBuff + messageData.txBuffSize, 0);
     if (serializeJson(doc, messageData.txBuff, capacity) > 0) {
+term(messageData.txBuff)
         sendUdpMulticast(messageData.txBuff, strlen(messageData.txBuff));
     }
 }
 
 void CallControl::sendMessage(const uint16_t arr[], const uint16_t size, const Request linkData)
 {
+term("CallControl::sendMessage")
     const int capacity = JSON_OBJECT_SIZE(6) + JSON_ARRAY_SIZE(100);
     DynamicJsonDocument doc (capacity);
 
@@ -642,12 +669,14 @@ void CallControl::sendMessage(const uint16_t arr[], const uint16_t size, const R
 
     std::fill(messageData.txBuff, messageData.txBuff + messageData.txBuffSize, 0);
     if (serializeJson(doc, messageData.txBuff, capacity) > 0) {
+term(messageData.txBuff)
         sendUdpMulticast(messageData.txBuff, strlen(messageData.txBuff));
     }
 }
 
 bool CallControl::retransmitMessage(char* arr, const size_t size, const Request linkData)
 {
+term("CallControl::retransmitMessage")
     bool ret = false;
     const int capacity = JSON_OBJECT_SIZE(6)  + JSON_ARRAY_SIZE(100);
     DynamicJsonDocument doc (capacity);
@@ -657,6 +686,7 @@ bool CallControl::retransmitMessage(char* arr, const size_t size, const Request 
 
         std::fill(messageData.txBuff, messageData.txBuff + messageData.txBuffSize, 0);
         if (serializeJson(doc, messageData.txBuff, capacity) > 0) {
+term(messageData.txBuff)
             sendUdpMulticast(messageData.txBuff, strlen(messageData.txBuff));
         }
     }
@@ -683,6 +713,7 @@ bool CallControl::retransmitMessage(char* arr, const size_t size, const Request 
 
 bool CallControl::retransmitMessage(char* arr, const size_t size, const uint16_t distId, const Request linkData)
 {
+term("CallControl::retransmitMessage")
     bool ret = false;
     const int capacity = JSON_OBJECT_SIZE(6)  + JSON_ARRAY_SIZE(100);
     DynamicJsonDocument doc (capacity);
@@ -702,6 +733,7 @@ bool CallControl::retransmitMessage(char* arr, const size_t size, const uint16_t
 
 void CallControl::resetData()
 {
+term("CallControl::resetData")
 //    messageData.field.prevOwnId = 0;                      //commented to check conf returning
 //    messageData.field.prevPriority = 0;                   //commented to check conf returning
     assignedData.key = 0;
@@ -722,6 +754,7 @@ void CallControl::resetData()
 
 void CallControl::copyRecvBuff(char* &copyBuff, const char* buff)
 {
+term("CallControl::copyRecvBuff")
     if (copyBuff != nullptr)
         delete [] copyBuff;
 
@@ -736,11 +769,13 @@ void CallControl::sendRequest(uint8_t callType, Request reqType, uint16_t timeou
 
     switch (callType) {
     case Direct: {
+//term1("Request") term((uint8_t)reqType)
         sendMessage(reqType);
         requestCount++;
     }
     break;
     case Group: {
+term("CallControl::Group")
         checkGroupIndex = 0;
         uint16_t size = Json::getInstance()->thisStation.groupsBuffer[assignedData.id].stSize;
         sendMessage(Json::getInstance()->thisStation.groupsBuffer[assignedData.id].stantions, size, reqType);
@@ -757,39 +792,50 @@ constexpr static uint16_t TIMEOUT {300};
 
 void CallControl::sendRequest(Request reqType)
 {
+term1("Request") term((uint8_t)reqType)
     switch (reqType) {
     case Request::HANG_UP:
+term("HANG_UP")
         requestCount = 0;
         retransmitMessage(messageData.recvMessageBuff, strlen(messageData.recvMessageBuff), Request::HANG_UP);
+term("request_timerId")
         osTimer.start(osTimer.request_timerId, osTimer.request_timerStatus, HANG_UP_TIMEOUT);
         requestCount++;
         break;
     case Request::ACK:
+term("ACK")
         retransmitMessage(UdpJsonExch::getInstance()->recvBuff, strlen(UdpJsonExch::getInstance()->recvBuff), CallControl::Request::ACK);
         break;
     case Request::ACK_ANSW:
+term("ACK_ANSW")
         requestCount = 0;
         control = Control::ANSWER;
         retransmitMessage(messageData.recvMessageBuff, strlen(messageData.recvMessageBuff), Request::ACK_ANSW);
+term("request_timerId")
         osTimer.start(osTimer.request_timerId, osTimer.request_timerStatus, TIMEOUT);
         requestCount++;
         break;
     case Request::BUSY:
+term("BUSY")
         if (messageData.distIdArrSize == 1) {
             requestCount = 0;
             control = Control::BUSY;
             retransmitMessage(UdpJsonExch::getInstance()->recvBuff, strlen(UdpJsonExch::getInstance()->recvBuff), messageData.field.distId, CallControl::Request::BUSY);
+term("request_timerId")
             osTimer.start(osTimer.request_timerId, osTimer.request_timerStatus, TIMEOUT);
             requestCount++;
         }
         break;
     case Request::CHANGE_CONF:
+term("CHANGE_CONF")
         requestCount = 0;
         retransmitMessage(messageData.recvMessageBuff, strlen(messageData.recvMessageBuff), Request::CHANGE_CONF);
+term("request_timerId")
         osTimer.start(osTimer.request_timerId, osTimer.request_timerStatus, TIMEOUT);
         requestCount++;
         break;
     case Request::RETURN_CONF:
+term("RETURN_CONF")
         requestCount = 0;
         switch (isInterruptConf) {
         case InterruptConf::CALLED_PARTY:
@@ -802,6 +848,7 @@ void CallControl::sendRequest(Request reqType)
         default:
             break;
         }
+term("request_timerId")
         osTimer.start(osTimer.request_timerId, osTimer.request_timerStatus, TIMEOUT);
         requestCount++;
         break;
@@ -812,6 +859,7 @@ void CallControl::sendRequest(Request reqType)
 
 bool CallControl::switchToConf()
 {
+term("CallControl::switchToConf")
     if(isInterruptConf != InterruptConf::NONE) {
 
         if (isInterruptConf == InterruptConf::CALLED_PARTY) {
@@ -867,6 +915,11 @@ void switchLed(uint8_t ledNumber, bool ledOn, uint16_t timeOn, uint16_t timeOff,
 #ifndef SC2BOARD
     CAN::getInstance()->configLed(ledNumber, ledOn, timeOn, timeOff, repeatNum);
 #else
+term("switchLed")
+char msg[20];
+sprintf(msg,"ledNumber= %d\r\n ",ledNumber);
+RS232Puts(msg);
+
     GPIO::getInstance()->configLed(ledNumber, ledOn, timeOn, timeOff, repeatNum);
 #endif
 }

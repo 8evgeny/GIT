@@ -38,6 +38,7 @@
  */
 
 #include "lwip/opt.h"
+#include "rs232_printf.h"
 
 #if LWIP_SOCKET /* don't build if not configured for use in lwipopts.h */
 
@@ -1087,6 +1088,7 @@ lwip_recv_tcp_from(struct lwip_sock *sock, struct sockaddr *from, socklen_t *fro
 static err_t
 lwip_recvfrom_udp_raw(struct lwip_sock *sock, int flags, struct msghdr *msg, u16_t *datagram_len, int dbg_s)
 {
+//RS232Puts("lwip_recvfrom_udp_raw\r\n");
   struct netbuf *buf;
   u8_t apiflags;
   err_t err;
@@ -1199,6 +1201,7 @@ ssize_t
 lwip_recvfrom(int s, void *mem, size_t len, int flags,
               struct sockaddr *from, socklen_t *fromlen)
 {
+//RS232Puts("lwip_recvfrom\r\n");
   struct lwip_sock *sock;
   ssize_t ret;
 
@@ -3988,6 +3991,7 @@ lwip_inet_pton(int af, const char *src, void *dst)
 static int
 lwip_socket_register_membership(int s, const ip4_addr_t *if_addr, const ip4_addr_t *multi_addr)
 {
+RS232Puts("lwip_socket_register_membership\r\n");
   struct lwip_sock *sock = get_socket(s);
   int i;
 
@@ -4016,6 +4020,7 @@ lwip_socket_register_membership(int s, const ip4_addr_t *if_addr, const ip4_addr
 static void
 lwip_socket_unregister_membership(int s, const ip4_addr_t *if_addr, const ip4_addr_t *multi_addr)
 {
+RS232Puts("lwip_socket_unregister_membership\r\n");
   struct lwip_sock *sock = get_socket(s);
   int i;
 

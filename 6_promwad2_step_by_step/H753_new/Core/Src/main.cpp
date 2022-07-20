@@ -46,7 +46,7 @@ static void MX_UART7_Init(void);
 static void MX_TIM3_Init(void);
 static void MX_DMA_Init(void);
 static void MX_RNG_Init(void);
-void StartDefaultTask(void const * argument);
+void TaskEthernet_(void const * argument);
 
 I2C_HandleTypeDef hi2c1;
 I2C_HandleTypeDef hi2c2;
@@ -64,6 +64,7 @@ TIM_HandleTypeDef htim3;
 UART_HandleTypeDef huart7;
 SRAM_HandleTypeDef hsram1;
 uint8_t macAdr5;
+
 
 //Массив во внешней памяти для конфига (readelf -S H753_new.elf)
 char buff_config [200*1024] __attribute__((section(".ExtRamData")));
@@ -144,11 +145,10 @@ void Ethernet_Link_Periodic_Handle(struct netif *netif)
 }
 
 
-osThreadId defaultTaskHandle;
+osThreadId TaskEthernetHandle;
 
 osThreadDef(readFromUartThread, readFromUartThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE );
 osThreadDef(switchLEDsThread, switchLEDsThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 2);
-osThreadDef(replaceTimerCallback, replaceTimerCallback, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 4);
 osThreadDef(readButtonThread, readButtonThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 4 );
 
 void vApplicationStackOverflowHook(TaskHandle_t xTask, char *pcTaskName)
@@ -264,23 +264,24 @@ int main(void)
     if (Json::getInstance()->deserializeJsonFlag == Json::JsonFlags::OK)
     {
 
-        osThreadDef(emptyThread, StartDefaultTask, osPriorityNormal, 0, configMINIMAL_STACK_SIZE);
-        defaultTaskHandle = osThreadCreate(osThread(emptyThread), nullptr);
+        osThreadDef(TaskEthernet, TaskEthernet_, osPriorityRealtime, 0, configMINIMAL_STACK_SIZE * 4);
+        TaskEthernetHandle = osThreadCreate(osThread(TaskEthernet), nullptr);
 
         osThreadDef(audioInitThread, threadAudioInit, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 10);
         SAI::getInstance()->threadAudioInitId = osThreadCreate(osThread(audioInitThread), nullptr);
 
-        osThreadDef(trackRingBufferThread, trackRingBufferThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 10);
+        osThreadDef(trackRingBufferThread, trackRingBufferThread, osPriorityHigh, 0, configMINIMAL_STACK_SIZE * 10);
         if ((GPIO::getInstance()->trackRingBufferThreadId = osThreadCreate(osThread(trackRingBufferThread), nullptr)) == nullptr)
         {
             Debug::getInstance().dbg << __FUNCTION__ << " " << __LINE__ << " " << "\n";
         }
 
-        osThreadDef(recvUdpThread, recvUdpThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 10);
-//        if ((UdpJsonExch::getInstance()->recvUdpThreadId = osThreadCreate(osThread(recvUdpThread), nullptr)) == nullptr)
-//        {
-//            Debug::getInstance().dbg << __FUNCTION__ << " " << __LINE__ << " " << "\n";
-//        }
+        osThreadDef(recvUdpThread, recvUdpThread, osPriorityHigh, 0, configMINIMAL_STACK_SIZE * 10);
+        if ((UdpJsonExch::getInstance()->recvUdpThreadId = osThreadCreate(osThread(recvUdpThread), nullptr)) == nullptr)
+        {
+            Debug::getInstance().dbg << __FUNCTION__ << " " << __LINE__ << " " << "\n";
+        }
+
 
 //          firmwareInitThread();
 
@@ -299,11 +300,15 @@ int main(void)
 
 
     //Тестовые потоки
-    testLed1();
-    testLed2();
+//    testLed1();
+//    testLed2();
     testLed3();
 //    testUART();
 
+//    testSendMcast(); //Пустые задачи
+//    testReceiveMcast();
+
+//    testTasksLog(); //Логи задач
 
     //Debug пока не работает - выпилил везде из кода
     Debug::getInstance().dbg << "ee";
@@ -325,14 +330,17 @@ int main(void)
 [[ noreturn ]]
 static void trackRingBufferThread(void const *arg)
 {
+term("--- trackRingBufferThread ---")
         (void)arg;
-        while(true) {
+        while(true)
+        {
             osMutexWait(GPIO::getInstance()->mutexRingBufferRx_id, osWaitForever);
             if (GPIO::getInstance()->ringBufferRx.size() != 0) {
 
                 GPIO::getInstance()->packageRx = GPIO::getInstance()->ringBufferRx.shift();
                 osMutexRelease(GPIO::getInstance()->mutexRingBufferRx_id);
-                if (!GPIO::getInstance()->testFlag) {
+                if (!GPIO::getInstance()->testFlag)
+                {
                     osMutexWait(UdpJsonExch::getInstance()->mutexCallControlId, osWaitForever);
                     UdpJsonExch::getInstance()->callControl->button(GPIO::getInstance()->packageRx);
                     osMutexRelease(UdpJsonExch::getInstance()->mutexCallControlId);
@@ -886,31 +894,31 @@ static void MX_GPIO_Init(void)
     HAL_NVIC_SetPriority(EXTI15_10_IRQn, 5, 0);
     HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
 
-    //    if ((osThreadCreate(osThread(switchLEDsThread), nullptr)) == nullptr)
-    //    {
-    //        RS232::getInstance().term << "Failed to create [switchLEDsThread]" << "\n";
-    //    }
+        if ((osThreadCreate(osThread(switchLEDsThread), nullptr)) == nullptr)
+        {
+            RS232::getInstance().term << "Failed to create [switchLEDsThread]" << "\n";
+        }
 
     if ((osThreadCreate(osThread(readButtonThread), nullptr)) == nullptr)
     {
         RS232::getInstance().term << "Failed to create [readButtonThread]" << "\n";
     }
 
-    if ((osThreadCreate(osThread(replaceTimerCallback), nullptr)) == nullptr)
-    {
-        RS232::getInstance().term << "Failed to create [switchLEDsThread]" << "\n";
-    }
+//    if ((osThreadCreate(osThread(replaceTimerCallback), nullptr)) == nullptr)
+//    {
+//        RS232::getInstance().term << "Failed to create [switchLEDsThread]" << "\n";
+//    }
 
 }
 
-void StartDefaultTask(void const * argument)
+void TaskEthernet_(void const * argument)
 {
-    osDelay(3000);
-    term("------- StartDefaultTask ----------")
+//    osDelay(2000); //Если ставить задержку - зависания и непонятное поведение
+    term("--- TaskEthernet_ ---")
 
-        term("ip:")      term(Json::getInstance()->thisStation.ip)
-        term("mask:")    term(Json::getInstance()->thisStation.mask)
-        term("gateway:") term(Json::getInstance()->thisStation.gateway)
+        term1("ip")      term(Json::getInstance()->thisStation.ip)
+        term1("mask")    term(Json::getInstance()->thisStation.mask)
+        term1("gateway") term(Json::getInstance()->thisStation.gateway)
 
 
         //  /* init code for LWIP */
@@ -919,7 +927,7 @@ void StartDefaultTask(void const * argument)
 
 
     if (DP83848.Is_Initialized) {
-        term("DP83848.Is_Initialized");
+//        term("DP83848.Is_Initialized");
     } else {
         term("DP83848.no_Initialized");
     }

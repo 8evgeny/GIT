@@ -265,6 +265,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32h7xx_hal.h"
+#include "rs232_printf.h"
 
 /** @addtogroup STM32H7xx_HAL_Driver
   * @{
@@ -452,7 +453,7 @@ HAL_StatusTypeDef HAL_CRYP_Init(CRYP_HandleTypeDef *hcryp)
   }
 #endif /* (USE_HAL_CRYP_REGISTER_CALLBACKS) */
 
-  /* Set the key size(This bit field is ‘don’t care’ in the DES or TDES modes) data type and Algorithm */
+  /* Set the key size(This bit field is â€˜donâ€™t careâ€™ in the DES or TDES modes) data type and Algorithm */
   MODIFY_REG(hcryp->Instance->CR, CRYP_CR_DATATYPE | CRYP_CR_KEYSIZE | CRYP_CR_ALGOMODE,
              hcryp->Init.DataType | hcryp->Init.KeySize | hcryp->Init.Algorithm);
 #if !defined (CRYP_VER_2_2)
@@ -563,7 +564,7 @@ HAL_StatusTypeDef HAL_CRYP_SetConfig(CRYP_HandleTypeDef *hcryp, CRYP_ConfigTypeD
     hcryp->Init.B0           = pConf->B0;
     hcryp->Init.DataWidthUnit = pConf->DataWidthUnit;
 
-    /* Set the key size(This bit field is ‘don’t care’ in the DES or TDES modes) data type, AlgoMode and operating mode*/
+    /* Set the key size(This bit field is â€˜donâ€™t careâ€™ in the DES or TDES modes) data type, AlgoMode and operating mode*/
     MODIFY_REG(hcryp->Instance->CR, CRYP_CR_DATATYPE | CRYP_CR_KEYSIZE | CRYP_CR_ALGOMODE,
                hcryp->Init.DataType | hcryp->Init.KeySize | hcryp->Init.Algorithm);
 
@@ -1403,6 +1404,7 @@ HAL_StatusTypeDef HAL_CRYP_Decrypt_IT(CRYP_HandleTypeDef *hcryp, uint32_t *Input
   */
 HAL_StatusTypeDef HAL_CRYP_Encrypt_DMA(CRYP_HandleTypeDef *hcryp, uint32_t *Input, uint16_t Size, uint32_t *Output)
 {
+RS232Puts("--HAL_CRYP_Encrypt_DMA\r\n");
   HAL_StatusTypeDef status = HAL_OK;
   uint32_t algo;
   uint32_t DoKeyIVConfig = 1U; /* By default, carry out peripheral Key and IV configuration */

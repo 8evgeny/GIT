@@ -22,9 +22,22 @@
 #ifndef __MAIN_H
 #define __MAIN_H
 
-//Макрос для отладки
-#define term(x) (RS232::getInstance().term << x << "\r\n");
+//Расширенная диагнотика в консоли
+
+//#define TERMINAL_DEBUG1  //Разрешает term и term1
+#define TERMINAL_DEBUG2    //Разрешает RS232Puts
+
+#ifdef TERMINAL_DEBUG1
+#define term(x) (RS232::getInstance().term << x << "..."<<__FUNCTION__ << "..." << __LINE__ <<"\r\n");
 #define term1(x) (RS232::getInstance().term << x << " = ");
+#endif
+
+#ifndef TERMINAL_DEBUG1
+#define term(x)
+#define term1(x)
+#endif
+
+#define term2(x) (RS232::getInstance().term << x << "..."<<__FUNCTION__ << "..." << __LINE__ <<"\r\n");
 
 #ifdef __cplusplus
 extern "C" {

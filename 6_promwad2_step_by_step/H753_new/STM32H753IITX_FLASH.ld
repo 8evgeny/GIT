@@ -10,8 +10,8 @@ _estack = 0x24080000; /* AXI-SRAM
 
 
 /* Generate a link error if heap and stack don't fit into RAM */
-_Min_Heap_Size = 0x9000 ;      /* required amount of heap  */
-_Min_Stack_Size = 0x2000 ; /* required amount of stack */
+_Min_Heap_Size = 0x400 ;      /* required amount of heap  */
+_Min_Stack_Size = 0x800 ; /* required amount of stack */
 
 /* Specify the memory areas */
 MEMORY
@@ -107,7 +107,7 @@ SECTIONS
 
     . = ALIGN(4);
     _edata = .;        /* define a global symbol at data end */
-  } >RAM AT> FLASH
+  } >RAM_D1 AT> FLASH
 
   /* Uninitialized data section */
   . = ALIGN(4);
@@ -145,6 +145,9 @@ SECTIONS
 
   . = ABSOLUTE(0x30000200);
   *(.RxArraySection)
+
+  . = ABSOLUTE(0x300019D0);
+  *(.TxArraySection)
 } >RAM_D2
 
 

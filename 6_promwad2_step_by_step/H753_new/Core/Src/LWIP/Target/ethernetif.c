@@ -34,8 +34,6 @@
 #include "lwip/tcpip.h"
 #include "rs232_printf.h"
 
-extern uint8_t macAdr5;
-
 /* Within 'USER CODE' section, code will be kept by default at each generation */
 /* USER CODE BEGIN 0 */
 extern uint8_t macAdr5;
@@ -109,7 +107,7 @@ uint8_t Rx_Buff[ETH_RX_DESC_CNT][ETH_RX_BUFFER_SIZE] __attribute__((section(".Rx
 #endif
 
 /* USER CODE BEGIN 2 */
-uint8_t Tx_Buff[ETH_TX_DESC_CNT][ETH_RX_BUFFER_SIZE] __attribute__((section(".TxArraySection"))); /* 4 Tx buffers of size ETH_TX_BUF_SIZE  */
+//uint8_t Tx_Buff[ETH_TX_DESC_CNT][ETH_RX_BUFFER_SIZE] __attribute__((section(".TxArraySection"))); /* 4 Tx buffers of size ETH_TX_BUF_SIZE  */
 /* USER CODE END 2 */
 
 osSemaphoreId RxPktSemaphore = NULL; /* Semaphore to signal incoming packets */
@@ -247,6 +245,8 @@ void HAL_ETH_MspInit(ETH_HandleTypeDef* ethHandle)
     /* Peripheral interrupt init */
     HAL_NVIC_SetPriority(ETH_IRQn, 5, 0);
     HAL_NVIC_EnableIRQ(ETH_IRQn);
+//    HAL_NVIC_SetPriority(ETH_WKUP_IRQn, 1, 0);
+//    HAL_NVIC_EnableIRQ(ETH_WKUP_IRQn);
   /* USER CODE BEGIN ETH_MspInit 1 */
 
   /* USER CODE END ETH_MspInit 1 */
@@ -356,10 +356,6 @@ static void low_level_init(struct netif *netif)
   heth.Init.RxDesc = DMARxDscrTab;
   heth.Init.RxBuffLen = 1524;
 
-  /* USER CODE BEGIN MACADDRESS */
-
-  /* USER CODE END MACADDRESS */
-
   hal_eth_init_status = HAL_ETH_Init(&heth);
 
   memset(&TxConfig, 0 , sizeof(ETH_TxPacketConfig));
@@ -391,7 +387,10 @@ static void low_level_init(struct netif *netif)
   /* Accept broadcast address and ARP traffic */
   /* don't set NETIF_FLAG_ETHARP if this device is not an ethernet one */
   #if LWIP_ARP
-    netif->flags |= NETIF_FLAG_BROADCAST | NETIF_FLAG_ETHARP;
+    netif->flags |= NETIF_FLAG_BROADCAST | NETIF_FLAG_ETHARP
+//            | NETIF_FLAG_LINK_UP
+            | NETIF_FLAG_IGMP  //Без этого флага не присоединяется к мультикаст группе
+            ;
   #else
     netif->flags |= NETIF_FLAG_BROADCAST;
   #endif /* LWIP_ARP */
@@ -399,6 +398,7 @@ static void low_level_init(struct netif *netif)
   for(idx = 0; idx < ETH_RX_DESC_CNT; idx ++)
   {
     HAL_ETH_DescAssignMemory(&heth, idx, Rx_Buff[idx], NULL);
+//    HAL_ETH_DescAssignMemory(&heth, idx, Rx_Buff[idx], Tx_Buff[idx]);
   }
 
   /* create a binary semaphore used for informing ethernetif of frame reception */
@@ -407,10 +407,17 @@ static void low_level_init(struct netif *netif)
 
   /* create the task that handles the ETH_MAC */
 /* USER CODE BEGIN OS_THREAD_DEF_CREATE_CMSIS_RTOS_V1 */
-  osThreadDef(EthIf, ethernetif_input, osPriorityRealtime, 0, INTERFACE_THREAD_STACK_SIZE * 5 );
-  osThreadCreate (osThread(EthIf), netif);
+  osThreadDef(EthIf_____, ethernetif_input, osPriorityRealtime, 0, INTERFACE_THREAD_STACK_SIZE );
+  osThreadCreate (osThread(EthIf_____), netif);
 /* USER CODE END OS_THREAD_DEF_CREATE_CMSIS_RTOS_V1 */
 /* USER CODE BEGIN PHY_PRE_CONFIG */
+
+  ETH_MACFilterConfigTypeDef FilterConfig;
+
+  FilterConfig.PromiscuousMode = 1;
+  FilterConfig.PassAllMulticast = 1;
+
+  HAL_ETH_SetMACFilterConfig(&heth, &FilterConfig);
 
 /* USER CODE END PHY_PRE_CONFIG */
 
@@ -469,6 +476,7 @@ static void low_level_init(struct netif *netif)
     HAL_ETH_SetMACConfig(&heth, &MACConf);
 
     HAL_StatusTypeDef stat = HAL_ETH_Start_IT(&heth);
+//    HAL_StatusTypeDef stat = HAL_ETH_Start(&heth);
 
     char msgUart7[50];
     memset(msgUart7,' ',50);
@@ -505,9 +513,10 @@ static void low_level_init(struct netif *netif)
  *       to become available since the stack doesn't retry to send a packet
  *       dropped because of memory failure (except for the TCP timers).
  */
-
+//ETH_BufferTypeDef Txbuffer[ETH_TX_DESC_CNT]__attribute__((section(".TxArraySection")));
 static err_t low_level_output(struct netif *netif, struct pbuf *p)
 {
+//RS232Puts("low_level_output\r\n");
   uint32_t i=0;
   struct pbuf *q;
   err_t errval = ERR_OK;
@@ -540,7 +549,6 @@ static err_t low_level_output(struct netif *netif, struct pbuf *p)
   TxConfig.TxBuffer = Txbuffer;
 
   HAL_ETH_Transmit(&heth, &TxConfig, ETH_DMA_TRANSMIT_TIMEOUT);
-
   return errval;
 }
 
@@ -601,7 +609,7 @@ static struct pbuf * low_level_input(struct netif *netif)
  */
 void ethernetif_input(void const * argument)
 {
-    RS232Puts("----- Start task ethernetif_input -----\r\n");
+    RS232Puts("--- ethernetif_input ---\r\n");
   struct pbuf *p;
   struct netif *netif = (struct netif *) argument;
 
@@ -825,7 +833,7 @@ void ethernet_link_thread(void const * argument)
   struct netif *netif = (struct netif *) argument;
 /* USER CODE BEGIN ETH link init */
 osDelay(500);
-  RS232Puts("------- Start_ethernet_link_thread---------\r\n");
+  RS232Puts("--- ethernet_link_thread ---\r\n");
 
 /* USER CODE END ETH link init */
 
@@ -853,7 +861,7 @@ RS232Puts("--DP83848_STATUS_LINK_DOWN--\n\r");
         switch (PHYLinkState)
         {
         case DP83848_STATUS_100MBITS_FULLDUPLEX:
-RS232Puts("--DP83848_STATUS_100MBITS_FULLDUPLEX--\n\r");
+RS232Puts("DP83848_STATUS_100MBITS_FULLDUPLEX\n\r");
           duplex = ETH_FULLDUPLEX_MODE;
           speed = ETH_SPEED_100M;
           linkchanged = 1;

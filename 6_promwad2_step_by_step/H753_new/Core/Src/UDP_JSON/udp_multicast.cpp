@@ -150,9 +150,10 @@ void udpSendInit(void)
 
 void recvUdpThread(const void *arg)
 {
+osDelay(10000);
+term("--- recvUdpThread ---")
     (void)arg;
     udpSendInit();
-
     const int capacity = JSON_OBJECT_SIZE(6)  + JSON_ARRAY_SIZE(100);
     DynamicJsonDocument recvDoc (capacity);
 
@@ -170,7 +171,6 @@ void recvUdpThread(const void *arg)
         local.sin_family      = AF_INET;
         local.sin_port        = PP_HTONS(PORTNUM);
         local.sin_addr.s_addr = PP_HTONL(INADDR_ANY);
-
         /* bind to local address */
         if (bind(sockUdpRecv, reinterpret_cast<struct sockaddr *>(&local), sizeof(local)) == 0) {
 
@@ -183,16 +183,22 @@ void recvUdpThread(const void *arg)
             ipmreqUdpRecv.imr_interface.s_addr = PP_HTONL(INADDR_ANY);
 
             /* join multicast group */
-            if (setsockopt(sockUdpRecv, IPPROTO_IP, IP_ADD_MEMBERSHIP, &ipmreqUdpRecv, sizeof(ipmreqUdpRecv)) == 0) {
+
+        auto err = setsockopt(sockUdpRecv, IPPROTO_IP, IP_ADD_MEMBERSHIP, &ipmreqUdpRecv, sizeof(ipmreqUdpRecv));
+term1("err") term(err)
+            if (err == 0)
+            {
                 /* receive RTP packets */
-                while (1) {
+
+                while (1)
+                {
                     fromlen = sizeof(from);
                     osMutexWait(UdpJsonExch::getInstance()->mutexSock_id, osWaitForever);
                     result = recvfrom(sockUdpRecv, &UdpJsonExch::getInstance()->recvBuff, sizeof(UdpJsonExch::getInstance()->recvBuff), 0, (struct sockaddr *)&from, (socklen_t *)&fromlen);
                     osMutexRelease(UdpJsonExch::getInstance()->mutexSock_id);
 
                     if (result != 0) {
-
+term1("receivedUDP result") term(result)
                         if (Json::getInstance()->deserialize(recvDoc, (void *)UdpJsonExch::getInstance()->recvBuff, strlen(UdpJsonExch::getInstance()->recvBuff))) {
 
                             osMutexWait(UdpJsonExch::getInstance()->mutexCallControlId, osWaitForever);
@@ -209,6 +215,14 @@ void recvUdpThread(const void *arg)
                     osDelay(1);
                 }
             }
+            else
+            {//err != 0
+                for(;;)
+                {
+                    term("recvUdpThread error")
+                    osDelay(10000);
+                }
+            }
             /* leave multicast group */
             setsockopt(sockUdpRecv, IPPROTO_IP, IP_DROP_MEMBERSHIP, &ipmreqUdpRecv, sizeof(ipmreqUdpRecv));
         }
@@ -220,6 +234,8 @@ void recvUdpThread(const void *arg)
 
 void sendUdpMulticast(char *sendBuff, size_t size)
 {
+//term("sendUdpMulticast")
+
     if (udpStructSend.State == UDP_STATE_START) {
 //        memcpy(udpStructSend.udp_send_packet, sendBuff, size);
 //        osMutexWait(UdpJsonExch::getInstance()->mutexSend_sock_id, osWaitForever);

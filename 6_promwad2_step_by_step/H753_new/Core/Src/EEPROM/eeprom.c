@@ -45,8 +45,6 @@ static uint32_t EEPROM_WaitEepromStandbyState(void);
   */
 uint32_t BSP_EEPROM_Init(void)
 {
-RS232Puts("******  BSP_EEPROM_Init  ******\n") ;
-
     /* I2C Initialization */
     EEPROM_IO_Init();
 
@@ -78,8 +76,6 @@ RS232Puts("BSP_EEPROM_Init__error\n") ;
   */
 uint32_t BSP_EEPROM_ReadBuffer(uint8_t *pBuffer, uint16_t ReadAddr, uint16_t *NumByteToRead)
 {
-//RS232Puts("******  BSP_EEPROM_ReadBuffer  ******\n") ;
-
     uint32_t buffersize = *NumByteToRead;
 
     /* Set the pointer to the Number of data to be read */
@@ -108,7 +104,7 @@ uint32_t BSP_EEPROM_ReadBuffer(uint8_t *pBuffer, uint16_t ReadAddr, uint16_t *Nu
 uint32_t BSP_EEPROM_WriteBuffer(uint8_t *pBuffer, uint16_t WriteAddr, uint16_t NumByteToWrite)
 {
 
-//RS232Puts("******  BSP_EEPROM_WriteBuffer  ******\n") ;
+RS232Puts("******  BSP_EEPROM_WriteBuffer  ******\n") ;
 
     uint8_t  numofpage = 0, numofsingle = 0, count = 0;
     uint16_t addr = 0;
@@ -254,7 +250,7 @@ uint32_t BSP_EEPROM_WriteBuffer(uint8_t *pBuffer, uint16_t WriteAddr, uint16_t N
   */
 static uint32_t EEPROM_WritePage(uint8_t *pBuffer, uint16_t WriteAddr, uint8_t *NumByteToWrite)
 {
-//RS232Puts("******  EEPROM_WritePage  ******\n") ;
+RS232Puts("******  EEPROM_WritePage  ******\n") ;
 
     uint32_t buffersize = *NumByteToWrite;
     uint32_t status = EEPROM_OK;

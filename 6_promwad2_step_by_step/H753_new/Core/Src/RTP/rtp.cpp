@@ -62,6 +62,8 @@ static RtpPackages inMix;
 
 _Noreturn void timerForMixAudio(void const *arg)
 {
+osDelay(400);
+term("--- timerForMixAudio ---")
     UNUSED(arg);
     while (1) {
         using SsrcIndex = struct alignas (4) {
@@ -183,12 +185,14 @@ _Noreturn void timerForMixAudio(void const *arg)
                     inMix = SAI::getInstance()->tmpRingBuffer.shift();
 
 
-                    osMutexWait(mutexCryptTxId, osWaitForever);
-                    HAL_CRYP_Decrypt_DMA(&hcryp, reinterpret_cast<uint32_t *>(inMix.payload), BUFFER_AUDIO_SIZE_RTP / 4, reinterpret_cast<uint32_t *>(rtpDataRxMixCrypt));
-                    while (!SAI::getInstance()->cryptTxComplete);
-                    SAI::getInstance()->cryptTxComplete = false;
-                    osMutexRelease(mutexCryptTxId);
-
+//                    osMutexWait(mutexCryptTxId, osWaitForever);
+//                    HAL_CRYP_Decrypt_DMA(&hcryp, reinterpret_cast<uint32_t *>(inMix.payload), BUFFER_AUDIO_SIZE_RTP / 4, reinterpret_cast<uint32_t *>(rtpDataRxMixCrypt));
+//                    while (!SAI::getInstance()->cryptTxComplete);
+//                    SAI::getInstance()->cryptTxComplete = false;
+//                    osMutexRelease(mutexCryptTxId);
+arm_copy_q15( reinterpret_cast<q15_t *>(inMix.payload),
+              reinterpret_cast<q15_t *>(rtpDataRxMixCrypt),
+              BUFFER_AUDIO_SIZE_RTP / 2);
 
                     arm_add_q15(reinterpret_cast<q15_t *>(rtpDataRxMixAudio), reinterpret_cast<q15_t *>(rtpDataRxMixCrypt), reinterpret_cast<q15_t *>(rtpDataRxMixAudioDst), BUFFER_AUDIO_SIZE_RTP / 2);
                     arm_copy_q15( reinterpret_cast<q15_t *>(rtpDataRxMixAudioDst), reinterpret_cast<q15_t *>(rtpDataRxMixAudio), BUFFER_AUDIO_SIZE_RTP / 2);
@@ -251,7 +255,7 @@ _Noreturn void timerForMixAudio(void const *arg)
   */
 void rtpSendInit(void const *arg)
 {
-
+term("rtp.cpp")
     /* Reset the RTP structure */
     memset(&rtpStructSend, 0x00, sizeof(rtpStructSend));
 
@@ -285,6 +289,7 @@ void rtpSendInit(void const *arg)
             /* Next state is RTP_STATE_START */
             rtpStructSend.State = RTP_STATE_START;
         } else {
+term("Binding local adress failed")
             /* Binding local adress failed */
             rtpStructSend.State = RTP_STATE_ERROR;
         }
@@ -296,6 +301,7 @@ void rtpSendInit(void const *arg)
  */
 static void rtpSendPacketsHalf(int sock_id, struct sockaddr_in *net_dest)
 {
+term("--- rtpSendPacketsHalf ---")
     struct rtp_hdr *rtphdr;            /* RTP header */
     uint8_t *rtp_payload;              /* RTP payload */
     int rtp_payload_size = 0;          /* RTP payload size in the current packet */
@@ -331,6 +337,7 @@ static void rtpSendPacketsHalf(int sock_id, struct sockaddr_in *net_dest)
  */
 static void rtpSendPacketsFull(int sock_id, struct sockaddr_in *net_dest)
 {
+term("--- rtpSendPacketsFull ---")
     struct rtp_hdr *rtphdr;            /* RTP header */
     uint8_t *rtp_payload;              /* RTP payload */
     int rtp_payload_size = 0;          /* RTP payload size in the current packet */
@@ -366,6 +373,9 @@ static void rtpSendPacketsFull(int sock_id, struct sockaddr_in *net_dest)
  */
 void rtpRecvThread(void const *arg)
 {
+//osDelay(800);
+term("--- rtpRecvThread ---")
+    char msg[20];
     struct sockaddr_in local;
     struct sockaddr_in from;
     int                fromlen;
@@ -407,6 +417,9 @@ void rtpRecvThread(void const *arg)
                     while (1) {
                         fromlen = sizeof(from);
                         result  = recvfrom(sockRtpRecv, rtpRecvPacket, sizeof(rtpRecvPacket), 0, reinterpret_cast<struct sockaddr *>(&from), reinterpret_cast<socklen_t *>(&fromlen));
+
+term1("Receive result") term(result)
+
                         if (result >= static_cast<int>(sizeof(struct rtp_hdr))) {
                             lostPackCounter = 0;
                             //copy header
@@ -424,6 +437,10 @@ void rtpRecvThread(void const *arg)
                             osMutexRelease(mutexMixRtpRxId);
                         } else {
                             lostPackCounter++;
+
+                        sprintf(msg,"%d",lostPackCounter);
+
+term1("lostPackCounter") term(msg)
                             if (lostPackCounter > MAX_NUMBER_LOST_PACK) {
                                 lostPackCounter = 0;
                                 osSignalSet(lostPackThreadId, 0xFB);
@@ -431,8 +448,19 @@ void rtpRecvThread(void const *arg)
                             osDelay(1);
                         }
                     }
+
+
+
                     /* leave multicast group */
                     setsockopt(sockRtpRecv, IPPROTO_IP, IP_DROP_MEMBERSHIP, &ipmreqRtpRecv, sizeof(ipmreqRtpRecv));
+                }
+                else
+                {
+                    for(;;)
+                    {
+                        osDelay(10000);
+                        term("Error")
+                    }
                 }
             }
             /* close the socket */
@@ -452,11 +480,15 @@ term("--- sendHalfThread ---")
     UNUSED(arg);
     while (1) {
         /* Try to obtain the semaphore. */
-        if (rtpStructSend.State == RTP_STATE_START) {
+        if (rtpStructSend.State == RTP_STATE_START)
+        {
+term("----RTP_STATE_START H----")
             osEvent evt = osSignalWait(0x01, osWaitForever);
 
-            if (evt.status == osEventSignal)  {
+            if (evt.status == osEventSignal)
+            {
                 osMutexWait(mutexRtpTxId, osWaitForever);
+term("----rtpSendPacketsHalf----")
                 rtpSendPacketsHalf(rtpStructSend.sock_id, &rtpStructSend.net_dest);
                 osMutexRelease(mutexRtpTxId);
                 osDelay(1);
@@ -474,15 +506,18 @@ term("--- sendHalfThread ---")
   */
 _Noreturn void sendFullThread(void const *arg)
 {
+    osDelay(100);
 term("--- sendFullThread ---")
     UNUSED(arg);
     while (1) {
         /* Try to obtain the semaphore. */
         if (rtpStructSend.State == RTP_STATE_START) {
+term("----RTP_STATE_START F----")
             osEvent evt = osSignalWait(0x02, osWaitForever);
 
             if (evt.status == osEventSignal) {
                 osMutexWait(mutexRtpTxId, osWaitForever);
+term("----rtpSendPacketsFull----")
                 rtpSendPacketsFull(rtpStructSend.sock_id, &rtpStructSend.net_dest);
                 osMutexRelease(mutexRtpTxId);
                 osDelay(1);
@@ -500,6 +535,8 @@ term("--- sendFullThread ---")
   */
 _Noreturn void lostPackThread(void const *arg)
 {
+osDelay(700);
+term("--- lostPackThread ---")
     UNUSED(arg);
 
     while (1) {

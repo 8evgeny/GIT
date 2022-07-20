@@ -20,13 +20,12 @@
 #include <algorithm>
 #include <cstring>
 #include "rs232.h"
+#include "rs232_printf.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-//osThreadDef(switchLEDsThread, switchLEDsThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 2);
-//osThreadDef(readButtonThread, readButtonThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE );
 osTimerDef(timer7, timerCallback); /*!< Define the attributes of the timer */
 
 //osMessageQDef(message_q, 1, uint16_t); // Declare a message queue
@@ -38,15 +37,6 @@ constexpr static uint8_t timerDelay = 50;
 
 
 static GPIO_InitTypeDef GPIO_InitStruct;
-static uint16_t aPin[16] = { GPIO_PIN_0, GPIO_PIN_1,
-                             GPIO_PIN_2, GPIO_PIN_3,
-                             GPIO_PIN_4, GPIO_PIN_5,
-                             GPIO_PIN_6, GPIO_PIN_7,
-                             GPIO_PIN_8, GPIO_PIN_9,
-                             GPIO_PIN_10, GPIO_PIN_11,
-                             GPIO_PIN_12, GPIO_PIN_13,
-                             GPIO_PIN_14, GPIO_PIN_15
-                           };
 
 /*!
   \brief GPIO Initialization Function
@@ -55,157 +45,12 @@ static uint16_t aPin[16] = { GPIO_PIN_0, GPIO_PIN_1,
   */
 void GPIOInit(void)
 {
-//    /*##-1- Enable GPIO Clocks #################################*/
-//    /* Enable GPIO clock */
-//    if (!READ_BIT(RCC->AHB1ENR, RCC_AHB1ENR_GPIOCEN)) __HAL_RCC_GPIOC_CLK_ENABLE();
-//    if (!READ_BIT(RCC->AHB1ENR, RCC_AHB1ENR_GPIOBEN)) __HAL_RCC_GPIOB_CLK_ENABLE();
-//    if (!READ_BIT(RCC->AHB1ENR, RCC_AHB1ENR_GPIOAEN)) __HAL_RCC_GPIOA_CLK_ENABLE();
-//    if (!READ_BIT(RCC->AHB1ENR, RCC_AHB1ENR_GPIOGEN)) __HAL_RCC_GPIOG_CLK_ENABLE();
-//    if (!READ_BIT(RCC->AHB1ENR, RCC_AHB1ENR_GPIOFEN)) __HAL_RCC_GPIOF_CLK_ENABLE();
 
-//#if 00 //Инициализация promwad
-//    /*##-2- Configure GPIO for CFG ##########################################*/
-//    /* GPIO pin configuration  */
-//    GPIO_InitStruct.Pin       = GPIO_PIN_10 | GPIO_PIN_11 | GPIO_PIN_12 | //CFG resistors
-//                                GPIO_PIN_6 | GPIO_PIN_7 | GPIO_PIN_8 | GPIO_PIN_9 ; //DETEDCTION
-//    GPIO_InitStruct.Mode      = GPIO_MODE_INPUT;
-//    GPIO_InitStruct.Pull      = GPIO_NOPULL;
-//    HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
-
-////    /*##-3- Configure GPIO for volume buttons ##########################################*/
-////    /* GPIO pin configuration  */
-////    GPIO_InitStruct.Pin       = GPIO_PIN_14 | GPIO_PIN_15;
-////    GPIO_InitStruct.Mode      = GPIO_MODE_IT_FALLING;
-////    GPIO_InitStruct.Pull      = GPIO_NOPULL;
-////    HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
-
-//    /*##-4- Configure GPIO for test button ##########################################*/
-//    /* GPIO pin configuration  */
-//    GPIO_InitStruct.Pin       = GPIO_PIN_11;
-//    GPIO_InitStruct.Mode      = GPIO_MODE_IT_FALLING;
-//    GPIO_InitStruct.Pull      = GPIO_NOPULL;
-//    HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
-
-//    /*##-5- Configure GPIO for test LED ##########################################*/
-//    /* GPIO pin configuration  */
-//    GPIO_InitStruct.Pin       = GPIO_PIN_13;
-//    GPIO_InitStruct.Mode      = GPIO_MODE_OUTPUT_PP;
-//    GPIO_InitStruct.Pull      = GPIO_NOPULL;
-//    GPIO_InitStruct.Speed     = GPIO_SPEED_LOW;
-//    HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
-
-//    HAL_GPIO_WritePin(GPIOG, GPIO_PIN_13, GPIO_PIN_RESET);
-
-//    /*##-5- Configure GPIO for test LED ##########################################*/
-//    /* GPIO pin configuration  */
-//    GPIO_InitStruct.Pin       = GPIO_PIN_6 |  GPIO_PIN_7 | GPIO_PIN_8;
-//    GPIO_InitStruct.Mode      = GPIO_MODE_INPUT;
-//    GPIO_InitStruct.Pull      = GPIO_NOPULL;
-//    GPIO_InitStruct.Speed     = GPIO_SPEED_LOW;
-//    HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
-
-//    /*##-5- Configure GPIO for test LED ##########################################*/
-//    /* GPIO pin configuration  */
-//    GPIO_InitStruct.Pin       = GPIO_PIN_10 |  GPIO_PIN_11 | GPIO_PIN_12 |   // Buttons
-//                                GPIO_PIN_9; // BASE_DET
-//    GPIO_InitStruct.Mode      = GPIO_MODE_INPUT;
-//    GPIO_InitStruct.Pull      = GPIO_NOPULL;
-//    GPIO_InitStruct.Speed     = GPIO_SPEED_LOW;
-//    HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
-
-//    /*##-5- Configure GPIO for test LED ##########################################*/
-//    /* GPIO pin configuration  */
-//    GPIO_InitStruct.Pin       = GPIO_PIN_4 |  GPIO_PIN_5 | GPIO_PIN_6;    // LEDs
-//    GPIO_InitStruct.Mode      = GPIO_MODE_OUTPUT_PP;
-//    GPIO_InitStruct.Pull      = GPIO_NOPULL;
-//    GPIO_InitStruct.Speed     = GPIO_SPEED_LOW;
-//    HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
-
-//    HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4 | GPIO_PIN_5 | GPIO_PIN_6, GPIO_PIN_SET);
-
-//    /*##-5- Configure GPIO for test LED ##########################################*/
-//    /* GPIO pin configuration  */
-//    GPIO_InitStruct.Pin       = GPIO_PIN_8 | GPIO_PIN_9 | GPIO_PIN_10; //LEDs
-//    GPIO_InitStruct.Mode      = GPIO_MODE_OUTPUT_PP;
-//    GPIO_InitStruct.Pull      = GPIO_NOPULL;
-//    GPIO_InitStruct.Speed     = GPIO_SPEED_LOW;
-//    HAL_GPIO_Init(GPIOF, &GPIO_InitStruct);
-
-//    HAL_GPIO_WritePin(GPIOF, GPIO_PIN_8 | GPIO_PIN_9 | GPIO_PIN_10, GPIO_PIN_SET);
-
-//    GPIO_InitStruct.Pin = GPIO_PIN_2;
-//    GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
-//    GPIO_InitStruct.Pull = GPIO_NOPULL;
-//    HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
-//#endif
-////новый код
-//    //Выходы L1 - L6
-//    GPIO_InitStruct.Pin       = GPIO_PIN_10 | GPIO_PIN_11 | GPIO_PIN_12 ; //L1 L2 L3
-//    GPIO_InitStruct.Mode      = GPIO_MODE_OUTPUT_PP;
-//    GPIO_InitStruct.Pull      = GPIO_NOPULL;
-//    GPIO_InitStruct.Speed     = GPIO_SPEED_LOW;
-//    HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
-//    HAL_GPIO_WritePin(GPIOC, GPIO_PIN_10 | GPIO_PIN_11 | GPIO_PIN_12, GPIO_PIN_SET);
-
-//    GPIO_InitStruct.Pin       = GPIO_PIN_6 | GPIO_PIN_7 | GPIO_PIN_8 ; //L4 L5 L6
-//    GPIO_InitStruct.Mode      = GPIO_MODE_OUTPUT_PP;
-//    GPIO_InitStruct.Pull      = GPIO_NOPULL;
-//    GPIO_InitStruct.Speed     = GPIO_SPEED_LOW;
-//    HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
-//    HAL_GPIO_WritePin(GPIOG, GPIO_PIN_6 | GPIO_PIN_7 | GPIO_PIN_8, GPIO_PIN_SET);
-
-//    // Входы - Рычаги
-//    GPIO_InitStruct.Pin       = GPIO_PIN_9 |  GPIO_PIN_10 | GPIO_PIN_11 |
-//                                GPIO_PIN_12 |  GPIO_PIN_13 | GPIO_PIN_14 ;
-//    GPIO_InitStruct.Mode      = GPIO_MODE_INPUT;
-//    GPIO_InitStruct.Pull      = GPIO_NOPULL;
-//    GPIO_InitStruct.Speed     = GPIO_SPEED_LOW;
-//    HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
-
-//    // Кнопка TEST - Режим прерывания
-//    GPIO_InitStruct.Pin       = GPIO_PIN_5;
-//    GPIO_InitStruct.Mode      = GPIO_MODE_IT_FALLING;
-//    GPIO_InitStruct.Pull      = GPIO_NOPULL;
-//    HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
-
-//    // Led TEST
-//    GPIO_InitStruct.Pin       = GPIO_PIN_9;
-//    GPIO_InitStruct.Mode      = GPIO_MODE_OUTPUT_PP;
-//    GPIO_InitStruct.Pull      = GPIO_NOPULL;
-//    GPIO_InitStruct.Speed     = GPIO_SPEED_LOW;
-//    HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
-//    HAL_GPIO_WritePin(GPIOB, GPIO_PIN_9, GPIO_PIN_RESET);
-////конец нового кода
-
-//    /* EXTI interrupt init*/
-//    HAL_NVIC_SetPriority(EXTI2_IRQn, 5, 0);
-//    HAL_NVIC_EnableIRQ(EXTI2_IRQn);
-
-//    HAL_NVIC_SetPriority(EXTI9_5_IRQn, 5, 0);
-//    HAL_NVIC_EnableIRQ(EXTI9_5_IRQn);
-
-//    HAL_NVIC_SetPriority(EXTI15_10_IRQn, 5, 0);
-//    HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
-
-//    if ((osThreadCreate(osThread(switchLEDsThread), nullptr)) == nullptr) {
-//        RS232::getInstance().term << "Failed to create [switchLEDsThread]" << "\n";
-//    }
-
-//    if ((osThreadCreate(osThread(readButtonThread), nullptr)) == nullptr) {
-//        RS232::getInstance().term << "Failed to create [readButtonThread]" << "\n";
-//    }
-
-//    timerId7 = osTimerCreate( osTimer(timer7), osTimerPeriodic, nullptr); // create timer thread
-
-    term("timerId7atempt\n")
-
+// timerCallback  каллбек
+    timerId7 = osTimerCreate( osTimer(timer7), osTimerPeriodic, nullptr); // create timer thread
     if (timerId7)
     {
         osStatus status = osTimerStart (timerId7, timerDelay);   // start timer
-
-        term("status=")
-        term(status)
-
         if (status != osOK)  {
             RS232::getInstance().term << "Failed to start [timer]" << "\n";
             while(1);
@@ -232,18 +77,16 @@ GPIO::GPIO()
         while(1)
             RS232::getInstance().term << "Failed to create [mutexRingBufferRx]" << "\n";
     }
-
+//ИНИЦИАЛИЗАЦИЯ РЫЧАГОВ
 //    message_q_id = osMessageCreate(osMessageQ(message_q), NULL);
 
-    for (uint8_t var = 9, j = 0; var < 15; ++var, ++j)
-    {
-        sPinArray[j].i = j + 1;
-        sPinArray[j].n = aPin[var];
-    }
+    buttonArray[0].i = 1;     buttonArray[0].n = GPIO_PIN_11;
+    buttonArray[1].i = 2;     buttonArray[1].n = GPIO_PIN_12;
+    buttonArray[2].i = 3;     buttonArray[2].n = GPIO_PIN_10;
+    buttonArray[3].i = 4;     buttonArray[3].n = GPIO_PIN_13;
+    buttonArray[4].i = 5;     buttonArray[4].n = GPIO_PIN_9;
+    buttonArray[5].i = 6;     buttonArray[5].n = GPIO_PIN_14;
 
-    uint16_t temp = sPinArray.at(0).n;
-    sPinArray.at(0).n = sPinArray.at(2).n;
-    sPinArray.at(2).n = temp;
 }
 
 
@@ -307,7 +150,7 @@ void GPIO::configLed(uint8_t ledNumber,
                      uint32_t timeOff,
                      uint8_t repeatNum)
 {
-term("GPIO::configLed")
+term1("**** configLed ledNumber") term(ledNumber)
     --ledNumber;
     if (timeOn < 50 && timeOff < 50) {
         aLeds[ledNumber].ledState = ledOn;
@@ -330,7 +173,6 @@ extern "C" {
 
 void timerCallback(void const *arg)
 {
-term("timerCallback\n")
     (void)arg;
     for (uint8_t i = 0; i < 6; i++) {
         if (GPIO::getInstance()->aLeds[i].timeStart) {
@@ -363,73 +205,39 @@ void switchLEDsThread(void const *arg)
 {
     (void)arg;
 
-HAL_Delay(200);
-term("****  switchLEDsThread  start  ****")
+osDelay(200);
+term("--- switchLEDsThread ---")
 
-    while(true) {
-        for(uint8_t i = 0; i < 6; ++i) {
-
-            if (GPIO::getInstance()->aLeds[i].ledState)
+    while(true)
+    {
+        for(uint8_t i = 0; i < 6; ++i)
+        {
+            if (GPIO::getInstance()->aLeds[i].ledState) // Включаем пин
             {
-                if (i > 2) HAL_GPIO_WritePin(GPIOG, GPIO::getInstance()->aLeds[i].ledPin, GPIO_PIN_RESET);
-                else HAL_GPIO_WritePin(GPIOC, GPIO::getInstance()->aLeds[i].ledPin, GPIO_PIN_RESET);
+                if(i == 0) HAL_GPIO_WritePin(GPIOG, GPIO_PIN_6, GPIO_PIN_SET);
+                if(i == 1) HAL_GPIO_WritePin(GPIOC, GPIO_PIN_10, GPIO_PIN_SET);
+                if(i == 2) HAL_GPIO_WritePin(GPIOG, GPIO_PIN_7, GPIO_PIN_SET);
+                if(i == 3) HAL_GPIO_WritePin(GPIOC, GPIO_PIN_11, GPIO_PIN_SET);
+                if(i == 4) HAL_GPIO_WritePin(GPIOG, GPIO_PIN_8, GPIO_PIN_SET);
+                if(i == 5) HAL_GPIO_WritePin(GPIOC, GPIO_PIN_12, GPIO_PIN_SET);
+//                if (i > 2) HAL_GPIO_WritePin(GPIOG, GPIO::getInstance()->aLeds[i].ledPin, GPIO_PIN_SET);
+//                else HAL_GPIO_WritePin(GPIOC, GPIO::getInstance()->aLeds[i].ledPin, GPIO_PIN_SET);
             } else
             {
-                if (i > 2) HAL_GPIO_WritePin(GPIOG, GPIO::getInstance()->aLeds[i].ledPin, GPIO_PIN_SET);
-                else HAL_GPIO_WritePin(GPIOC, GPIO::getInstance()->aLeds[i].ledPin, GPIO_PIN_SET);
+                if(i == 0) HAL_GPIO_WritePin(GPIOG, GPIO_PIN_6, GPIO_PIN_RESET);
+                if(i == 1) HAL_GPIO_WritePin(GPIOC, GPIO_PIN_10, GPIO_PIN_RESET);
+                if(i == 2) HAL_GPIO_WritePin(GPIOG, GPIO_PIN_7, GPIO_PIN_RESET);
+                if(i == 3) HAL_GPIO_WritePin(GPIOC, GPIO_PIN_11, GPIO_PIN_RESET);
+                if(i == 4) HAL_GPIO_WritePin(GPIOG, GPIO_PIN_8, GPIO_PIN_RESET);
+                if(i == 5) HAL_GPIO_WritePin(GPIOC, GPIO_PIN_12, GPIO_PIN_RESET);
+//                if (i > 2) HAL_GPIO_WritePin(GPIOG, GPIO::getInstance()->aLeds[i].ledPin, GPIO_PIN_RESET);
+//                else HAL_GPIO_WritePin(GPIOC, GPIO::getInstance()->aLeds[i].ledPin, GPIO_PIN_RESET);
             }
 
         }
         osDelay(1);
     }
 }
-
-[[ noreturn ]]
-void replaceTimerCallback(void const *arg)
-{
-    (void)arg;
-
-
-HAL_Delay(300);
-term("****  replaceTimerCallbackThread  start  ****")
-
-
-    for (;;)
-    HAL_Delay(50);
-
-    {
-
-        for (uint8_t i = 0; i < 6; i++)
-        {
-term("---  replaceTimerCallbackThread  work  ---")
-            if (GPIO::getInstance()->aLeds[i].timeStart) {
-                GPIO::getInstance()->aLeds[i].count += 1;
-                if(GPIO::getInstance()->aLeds[i].ledState == false && GPIO::getInstance()->aLeds[i].count >= GPIO::getInstance()->aLeds[i].timeOff/timerDelay) {
-                    GPIO::getInstance()->aLeds[i].ledState = true;
-                    GPIO::getInstance()->aLeds[i].count = 0;
-                    if (GPIO::getInstance()->aLeds[i].reiterationNum > 0)
-                        GPIO::getInstance()->aLeds[i].reiterationNum -= 1;
-                    if (GPIO::getInstance()->aLeds[i].reiterationNum == 0) {
-                        GPIO::getInstance()->aLeds[i].timeStart = false;
-                        GPIO::getInstance()->aLeds[i].reiterationNum -= 1;
-                    }
-                } else if (GPIO::getInstance()->aLeds[i].ledState == true && GPIO::getInstance()->aLeds[i].count >= GPIO::getInstance()->aLeds[i].timeOn/timerDelay) {
-                    GPIO::getInstance()->aLeds[i].ledState = false;
-                    GPIO::getInstance()->aLeds[i].count = 0;
-                    if (GPIO::getInstance()->aLeds[i].reiterationNum > 0)
-                        GPIO::getInstance()->aLeds[i].reiterationNum -= 1;
-                    if (GPIO::getInstance()->aLeds[i].reiterationNum == 0) {
-                        GPIO::getInstance()->aLeds[i].timeStart = false;
-                        GPIO::getInstance()->aLeds[i].reiterationNum -= 1;
-                    }
-                }
-            }
-        }
-    }
-}
-
-
-
 
 
 [[ noreturn ]]
@@ -439,31 +247,30 @@ void readButtonThread(void const *arg)
     PackageRx tempPack;
     tempPack.packetType = GPIO::getInstance()->button;
 
-HAL_Delay(2000);
-term("****  readButtonThread  start  ****")
+osDelay(4000);
+term("--- readButtonThread ---")
 
     while(true)
     {
-        for (uint8_t i = 0; i < GPIO::getInstance()->sPinArray.size() ; ++i)
+        for (uint8_t i = 0; i < GPIO::getInstance()->buttonArray.size() ; ++i)
         {
-            uint16_t n = GPIO::getInstance()->sPinArray[i].n,
-            k = GPIO::getInstance()->sPinArray[i].i;
+            uint16_t n = GPIO::getInstance()->buttonArray[i].n;
+//            k = GPIO::getInstance()->buttonArray[i].i;
 
-            if (HAL_GPIO_ReadPin(GPIOG, GPIO::getInstance()->sPinArray[i].n) == GPIO_PIN_SET)
+            if (HAL_GPIO_ReadPin(GPIOG, GPIO::getInstance()->buttonArray[i].n) == GPIO_PIN_SET)
             {
 
                 osDelay(50);
-                if (HAL_GPIO_ReadPin(GPIOG, GPIO::getInstance()->sPinArray[i].n)  == GPIO_PIN_SET)
+                if (HAL_GPIO_ReadPin(GPIOG, GPIO::getInstance()->buttonArray[i].n)  == GPIO_PIN_SET)
                 {
 
-                RS232::getInstance().term << "Pressed button: ";
-                term(std::to_string(i + 1))
+//term1("Pressed button: ") term(std::to_string(i + 1))
 
                 //Включаю Led
-                if (i < 3 )  HAL_GPIO_WritePin(GPIOG, GPIO::getInstance()->aLeds[i].ledPin, GPIO_PIN_SET);
-                if (i >= 3 ) HAL_GPIO_WritePin(GPIOC, GPIO::getInstance()->aLeds[i ].ledPin, GPIO_PIN_SET);
+//                if (i < 3 )  HAL_GPIO_WritePin(GPIOG, GPIO::getInstance()->aLeds[i].ledPin, GPIO_PIN_SET);
+//                if (i >= 3 ) HAL_GPIO_WritePin(GPIOC, GPIO::getInstance()->aLeds[i ].ledPin, GPIO_PIN_SET);
 
-                    n = GPIO::getInstance()->sPinArray[i].i;
+                    n = GPIO::getInstance()->buttonArray[i].i;
                     tempPack.payloadData = n;
 
                     osMutexWait(GPIO::getInstance()->mutexRingBufferRx_id, osWaitForever);
@@ -476,8 +283,8 @@ term("****  readButtonThread  start  ****")
             else
             {
                 //Гашу Led
-                if (i < 3 ) HAL_GPIO_WritePin(GPIOG, GPIO::getInstance()->aLeds[i].ledPin, GPIO_PIN_RESET);
-                if (i >= 3 ) HAL_GPIO_WritePin(GPIOC, GPIO::getInstance()->aLeds[i ].ledPin, GPIO_PIN_RESET);
+//                if (i < 3 ) HAL_GPIO_WritePin(GPIOG, GPIO::getInstance()->aLeds[i].ledPin, GPIO_PIN_RESET);
+//                if (i >= 3 ) HAL_GPIO_WritePin(GPIOC, GPIO::getInstance()->aLeds[i ].ledPin, GPIO_PIN_RESET);
             }
 
         }
@@ -493,10 +300,16 @@ term("****  readButtonThread  start  ****")
 
 void GPIO::initLEDs()
 {
-    for (uint8_t i = 0, j = 6; i < 6; i++, j++) {
-        if (i == 3) j = 10;
-        aLeds[i].ledPin = aPin[j];
-    }
+//    for (uint8_t i = 0, j = 6; i < 6; i++, j++) {
+//        if (i == 3) j = 10;
+//        aLeds[i].ledPin = aPin[j];
+//    }
+    aLeds[0].ledPin = GPIO_PIN_6;
+    aLeds[1].ledPin = GPIO_PIN_10;
+    aLeds[2].ledPin = GPIO_PIN_7;
+    aLeds[3].ledPin = GPIO_PIN_11;
+    aLeds[4].ledPin = GPIO_PIN_8;
+    aLeds[5].ledPin = GPIO_PIN_12;
 }
 
 #ifdef __cplusplus

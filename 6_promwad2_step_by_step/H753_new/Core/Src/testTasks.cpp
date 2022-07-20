@@ -5,23 +5,22 @@
 #include "../Debug/debug.h"
 #include "rs232_printf.h"
 
+#include "lwip.h"
+#include "lwip/init.h"
+#include "lwip/netif.h"
+#include "ethernetif.h"
+
+extern unsigned char zvon3_raw[];
+extern unsigned int zvon3_raw_len;
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-char *logTasks = new char[1024];
+extern SAI_HandleTypeDef audioTxSai;
 
-void testTasksLog()
-{
-    osThreadDef(simpletestTasksLog, simpletestTasksLog, osPriorityNormal, 0, 256 );
-    if ((osThreadCreate(osThread(simpletestTasksLog), nullptr)) == nullptr)
-    {
-        term("Failed to create simpletestTasksLog");
-    }
-}
 void testLed1()
 {
-    osThreadDef(simpleLedTest1_RTOS, simpleLedTest1_RTOS, osPriorityNormal, 0, 128 );
+    osThreadDef(simpleLedTest1_RTOS, simpleLedTest1_RTOS, osPriorityNormal, 0, configMINIMAL_STACK_SIZE );
     if ((osThreadCreate(osThread(simpleLedTest1_RTOS), nullptr)) == nullptr)
     {
         term("Failed to create simpleLedTest1_RTOS");
@@ -29,7 +28,7 @@ void testLed1()
 }
 void testLed2()
 {
-    osThreadDef(simpleLedTest2_RTOS, simpleLedTest2_RTOS, osPriorityNormal, 0, 128 );
+    osThreadDef(simpleLedTest2_RTOS, simpleLedTest2_RTOS, osPriorityNormal, 0, configMINIMAL_STACK_SIZE );
     if ((osThreadCreate(osThread(simpleLedTest2_RTOS), nullptr)) == nullptr)
     {
         term("Failed to create simpleLedTest2_RTOS");
@@ -37,7 +36,7 @@ void testLed2()
 }
 void testLed3()
 {
-    osThreadDef(simpleLedTest3_RTOS, simpleLedTest3_RTOS, osPriorityNormal, 0, 128 );
+    osThreadDef(simpleLedTest3_RTOS, simpleLedTest3_RTOS, osPriorityNormal, 0, configMINIMAL_STACK_SIZE );
     if ((osThreadCreate(osThread(simpleLedTest3_RTOS), nullptr)) == nullptr)
     {
         term("Failed to create simpleLedTest3_RTOS");
@@ -52,23 +51,32 @@ void testUART()
     }
 }
 
-void simpletestTasksLog(void const *argument)
+char *logTasks = new char[2048];
+void testTasksLog()
 {
-    (void)argument;
-
-    osDelay(5000);
-    term("--- startingSimpleTestTasksLog ---")
-
-        for(;;)
+    osThreadDef(TasksLog, TasksLog, osPriorityNormal, 0, configMINIMAL_STACK_SIZE );
+    if ((osThreadCreate(osThread(TasksLog), nullptr)) == nullptr)
     {
-        osDelay(10000);
-        vTaskList(logTasks);
-        term(logTasks)
-
-    } //end for(;;)
-
-    vTaskDelete(nullptr);
+        term("Failed to create TasksLog");
+    }
 }
+void testSendMcast()
+{
+    osThreadDef(testSendMcast, SendMcast, osPriorityNormal, 0, configMINIMAL_STACK_SIZE );
+    if ((osThreadCreate(osThread(testSendMcast), nullptr)) == nullptr)
+    {
+        term("Failed to create testSendMcast");
+    }
+}
+void testReceiveMcast()
+{
+    osThreadDef(testReceiveMcast, ReceiveMcast, osPriorityNormal, 0, configMINIMAL_STACK_SIZE );
+    if ((osThreadCreate(osThread(testReceiveMcast), nullptr)) == nullptr)
+    {
+        term("Failed to create testSendMcast");
+    }
+}
+
 void simpleLedTest1_RTOS(void const *argument)
 {
     (void)argument;
@@ -150,7 +158,7 @@ void simpleLedTest3_RTOS(void const *argument)
     uint32_t timeReset = 3000;
 
 osDelay(100);
-term("startingSimpleLedTest3_RTOS")
+term("--- simpleLedTest3_RTOS ---")
 
     for(;;)
     {
@@ -170,6 +178,8 @@ term("startingSimpleLedTest3_RTOS")
                  HAL_GPIO_WritePin(TEST_LED_GPIO_Port, TEST_LED_Pin, GPIO_PIN_RESET);
                  reset = true;
                  tickstart = HAL_GetTick();
+
+//                 HAL_SAI_Transmit_DMA(&audioTxSai, zvon3_raw, zvon3_raw_len/2);
             }
         }
     osDelay(1);
@@ -177,13 +187,14 @@ term("startingSimpleLedTest3_RTOS")
 
     vTaskDelete(nullptr);
 }
+
 void simpletestUART_RTOS(void const *argument)
 {
     (void)argument;
     bool reset = true;
     uint32_t tickstart = HAL_GetTick();
-    uint32_t timeSet = 15000;
-    uint32_t timeReset = 15000;
+    uint32_t timeSet = 3000;
+    uint32_t timeReset = 3000;
 
 osDelay(150);
 term("startingSimpleTestUART_RTOS")
@@ -195,7 +206,8 @@ term("startingSimpleTestUART_RTOS")
         {
             if (HAL_GetTick() > tickstart + timeReset)
             {
-                 term("*************  SimpleTestUART_RTOS  *************")
+//                 term("*************  SimpleTestUART_RTOS  *************")
+//GPIO::getInstance()->aLeds[3].ledState = 1;
                  reset = false;
                  tickstart = HAL_GetTick();
             }
@@ -204,7 +216,7 @@ term("startingSimpleTestUART_RTOS")
         {
             if (HAL_GetTick() > tickstart + timeSet)
             {
-                term("*************  SimpleTestUART_RTOS  *************")
+//                term("#############  SimpleTestUART_RTOS  #############")
                 reset = true;
                 tickstart = HAL_GetTick();
             }
@@ -215,6 +227,58 @@ term("startingSimpleTestUART_RTOS")
     vTaskDelete(nullptr);
 }
 
+void TasksLog(void const *argument)
+{
+    (void)argument;
+
+    osDelay(6000);
+    term("--- TasksLog ---")
+
+        for(;;)
+    {
+        osDelay(10000);
+        vTaskList(logTasks);
+        term(logTasks)
+        term1("heap size") term(xPortGetFreeHeapSize())
+
+    } //end for(;;)
+
+    vTaskDelete(nullptr);
+}
+
+void SendMcast(void const *argument)
+{
+    (void)argument;
+    osDelay(11000);
+    term("--- SendMcast ---")
+
+        for(;;)
+    {
+
+
+
+        osDelay(1);
+    } //end for(;;)
+
+    vTaskDelete(nullptr);
+}
+
+void ReceiveMcast(void const *argument)
+{
+    (void)argument;
+    osDelay(12000);
+    term("--- ReceiveMcast ---")
+
+        for(;;)
+    {
+
+
+
+        osDelay(1);
+    } //end for(;;)
+
+    vTaskDelete(nullptr);
+}
 
 #ifdef __cplusplus
 }

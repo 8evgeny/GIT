@@ -2,13 +2,18 @@
 #include "callwaiting.h"
 #include "../UDP_JSON/udp_multicast.h"
 #include "conferencecall.h"
-
+#include "rs232.h"
+#include "rs232_printf.h"
+char msg[30];
 void SimplexDirectCall::handleButton()
 {
+term("SimplexDirectCall ")
     if (context_->subjectKey.key == context_->assignedData.key) {
 
         stopRingTone();
         context_->microphone.stop();
+sprintf(msg,"assignedData.key= %d\r\n ",context_->assignedData.key);
+RS232Puts(msg);
         switchLed(context_->assignedData.key, false);
 
         if (context_->control == CallControl::Control::NONE ||
@@ -28,6 +33,7 @@ void SimplexDirectCall::handleButton()
 
 void SimplexDirectCall::handleJsonMessage()
 {
+term("SimplexDirectCall ")
     switch (static_cast<CallControl::Request>(context_->messageData.field.linkData)) {
     case CallControl::Request::HANG_UP:
         if (Json::getInstance()->thisStation.id == context_->messageData.field.distId) {
@@ -70,6 +76,8 @@ void SimplexDirectCall::handleJsonMessage()
 
                     stopRingTone();
                     context_->microphone.stop();
+sprintf(msg,"assignedData.key= %d\r\n ",context_->assignedData.key);
+RS232Puts(msg);
                     switchLed(context_->assignedData.key, false);
 
                     context_->osTimer.stop(context_->osTimer.autoAnsw_timerId, context_->osTimer.autoAnsw_timerStatus);
@@ -110,6 +118,8 @@ void SimplexDirectCall::handleJsonMessage()
             if (context_->messageData.field.distId == context_->messageData.field.prevDistId) {
                 context_->control = CallControl::Control::NONE;
                 context_->copyRecvBuff(context_->messageData.recvMessageBuff, UdpJsonExch::getInstance()->recvBuff);
+sprintf(msg,"assignedData.key= %d\r\n ",context_->assignedData.key);
+RS232Puts(msg);
                 switchLed(context_->assignedData.key, true);
 //                context_->messageData.field.prevPriority = context_->messageData.field.distPriority;
                 context_->microphone.start();
@@ -137,6 +147,7 @@ void SimplexDirectCall::handleJsonMessage()
 
 void SimplexDirectCall::handleLostLink()
 {
+term("SimplexDirectCall ")
     if (context_->isIncomingCall) {
         context_->osTimer.stop(context_->osTimer.request_timerId, context_->osTimer.request_timerStatus);
         context_->microphone.stop();
@@ -150,6 +161,7 @@ void SimplexDirectCall::handleLostLink()
 
 void SimplexDirectCall::handleRepeatedRequestCallBack()
 {
+term("SimplexDirectCall ")
     if (context_->osTimer.request_timerStatus == osOK) {
 
         if (context_->requestCount < 3) {
@@ -175,12 +187,16 @@ void SimplexDirectCall::handleRepeatedRequestCallBack()
             case CallControl::Control::READY: {
                 if (!context_->isIncomingCall) {
                     startRingTone(RingToneType::RING_BACK_BUSY_TONE);
+sprintf(msg,"assignedData.key= %d\r\n ",context_->assignedData.key);
+RS232Puts(msg);
                     switchLed(context_->assignedData.key, true, 900, 100);
                 }
             }
             break;
             case CallControl::Control::ANSWER: {
                 context_->resetData();
+sprintf(msg,"assignedData.key= %d\r\n ",context_->assignedData.key);
+RS232Puts(msg);
                 switchLed(context_->assignedData.key, false);
                 if(!context_->switchToConf())
                     context_->TransitionTo(new CallWaiting);
@@ -206,6 +222,7 @@ void SimplexDirectCall::handleRepeatedRequestCallBack()
 
 void SimplexDirectCall::handleUnknownIncomingCallBack()
 {
+term("SimplexDirectCall ")
     if (context_->osTimer.autoAnsw_timerStatus == osOK) {
         stopRingTone();
         context_->createRtp(context_->messageData.field.prevOwnId, CallControl::Simplex_recv_type);
@@ -214,6 +231,7 @@ void SimplexDirectCall::handleUnknownIncomingCallBack()
 
 void SimplexDirectCall::handleAck()
 {
+term("SimplexDirectCall ")
     switch (context_->control) {
 
     case CallControl::Control::HANG_UP: {

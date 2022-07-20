@@ -26,7 +26,13 @@ public:
      \fn codecInit
     */
     void codecInit();
-
+    void softReset();
+    void configPll();
+    void configPower();
+    void configDAC();
+    void configADC();
+    void configFilter();
+    void mute();
     constexpr static uint32_t I2C_ADDRESS = 49; /*! Device address on the bus */
 
 };

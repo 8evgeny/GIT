@@ -14,6 +14,7 @@
 
 #include <cmath>
 #include "arm_math.h"
+#include "rs232.h"
 
 #define PI 3.141592653589793
 
@@ -633,6 +634,7 @@ void threadAudioRxHalf(void const *arg)
 //Simplex to send callback signal, type = 3
 ErrorCode rtpCreate(uint32_t port, uint32_t type)
 {
+term("rtpCreate")
     constexpr uint32_t PORT_MIN = 100;
     constexpr uint32_t PORT_MAX = 65000;
     constexpr uint32_t TIME_OUT = 10;
@@ -700,6 +702,7 @@ extern RTP_HandleTypeDef rtpStructSend;         /* RTP structure */
 
 ErrorCode rtpRemove()
 {
+term("rtpRemove")
 //    if (saveCurrentTypeOfRtp != 3) {
     HAL_SAI_DMAStop(&audioTxSai);
     HAL_SAI_DMAStop(&audioRxSai);
@@ -743,6 +746,8 @@ ErrorCode rtpRemove()
 
 void startDtmfTone(uint8_t keyNum)
 {
+term("startDtmfTone")
+
     if (keyNum < 10) {
         if (SAI::getInstance()->tone.getFrequency(keyNum) == DTMF::Status::READY)
             HAL_SAI_Transmit_DMA(&audioTxSai, reinterpret_cast<uint8_t *> (SAI::getInstance()->tone.getData(DTMF::Control::FULL)), SAI::getInstance()->tone.TABLESIZE*2);
@@ -751,6 +756,7 @@ void startDtmfTone(uint8_t keyNum)
 
 void stopDtmfTone()
 {
+term("stopDtmfTone")
     if (SAI::getInstance()->tone.status == DTMF::Status::START) {
         HAL_SAI_DMAStop(&audioTxSai);
         SAI::getInstance()->tone.status = DTMF::Status::IDLE;
@@ -759,6 +765,7 @@ void stopDtmfTone()
 
 void startRingTone(const RingToneType type)
 {
+term("startRingTone")
     toneType = type;
     uint16_t delay = 0;
     uint8_t* buff = nullptr;
@@ -800,6 +807,7 @@ void startRingTone(const RingToneType type)
 
 void stopRingTone(void)
 {
+term("stopRingTone")
     if (toneType == RingToneType::RING_UNKNOWN_TONE) {
         stopDtmfTone();
     } else if (SAI::getInstance()->ringToneStatus == osOK) {
