@@ -4,7 +4,7 @@
 #include "conferencecall.h"
 #include "rs232.h"
 #include "rs232_printf.h"
-
+char msg[30];
 void SimplexDirectCall::handleButton()
 {
 term("SimplexDirectCall ")
@@ -12,8 +12,7 @@ term("SimplexDirectCall ")
 
         stopRingTone();
         context_->microphone.stop();
-char msg[30];
-sprintf(msg,"subjectKey.key= %d\r\n ",context_->subjectKey.key);
+sprintf(msg,"assignedData.key= %d\r\n ",context_->assignedData.key);
 RS232Puts(msg);
         switchLed(context_->assignedData.key, false);
 
@@ -77,6 +76,8 @@ term("SimplexDirectCall ")
 
                     stopRingTone();
                     context_->microphone.stop();
+sprintf(msg,"assignedData.key= %d\r\n ",context_->assignedData.key);
+RS232Puts(msg);
                     switchLed(context_->assignedData.key, false);
 
                     context_->osTimer.stop(context_->osTimer.autoAnsw_timerId, context_->osTimer.autoAnsw_timerStatus);
@@ -117,6 +118,8 @@ term("SimplexDirectCall ")
             if (context_->messageData.field.distId == context_->messageData.field.prevDistId) {
                 context_->control = CallControl::Control::NONE;
                 context_->copyRecvBuff(context_->messageData.recvMessageBuff, UdpJsonExch::getInstance()->recvBuff);
+sprintf(msg,"assignedData.key= %d\r\n ",context_->assignedData.key);
+RS232Puts(msg);
                 switchLed(context_->assignedData.key, true);
 //                context_->messageData.field.prevPriority = context_->messageData.field.distPriority;
                 context_->microphone.start();
@@ -184,12 +187,16 @@ term("SimplexDirectCall ")
             case CallControl::Control::READY: {
                 if (!context_->isIncomingCall) {
                     startRingTone(RingToneType::RING_BACK_BUSY_TONE);
+sprintf(msg,"assignedData.key= %d\r\n ",context_->assignedData.key);
+RS232Puts(msg);
                     switchLed(context_->assignedData.key, true, 900, 100);
                 }
             }
             break;
             case CallControl::Control::ANSWER: {
                 context_->resetData();
+sprintf(msg,"assignedData.key= %d\r\n ",context_->assignedData.key);
+RS232Puts(msg);
                 switchLed(context_->assignedData.key, false);
                 if(!context_->switchToConf())
                     context_->TransitionTo(new CallWaiting);
