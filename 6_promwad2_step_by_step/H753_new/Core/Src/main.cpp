@@ -936,9 +936,9 @@ void TaskEthernet_(void const * argument)
 
     for(;;)
     {
-        ethernetif_input(&gnetif);
-        sys_check_timeouts();
-        Ethernet_Link_Periodic_Handle(&gnetif);
+//        ethernetif_input(&gnetif);
+//        sys_check_timeouts();
+//        Ethernet_Link_Periodic_Handle(&gnetif);
 
         osDelay(1);
     }
