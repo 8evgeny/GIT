@@ -102,6 +102,7 @@ WDT *WDT::getInstance()
 void StartWdtThread(void const *argument)
 {
     (void)argument;
+    osDelay(7000);
 //    while(1) {
     WDT::getInstance()->Loop();
 //        osDelay(15);

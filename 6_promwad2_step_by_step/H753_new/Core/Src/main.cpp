@@ -3,7 +3,7 @@
 #include "../Debug/debug.h"
 #include "wdt.h"
 #include "sai.h"
-#include "gpio_sc2_board.h"
+#include "gpio.h"
 #include "testTasks.h"
 #include "fsforeeprom.h"
 #include "json.h"

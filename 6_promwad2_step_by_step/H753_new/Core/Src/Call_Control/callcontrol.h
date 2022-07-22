@@ -11,7 +11,7 @@
 #ifndef SC2BOARD
 #include "can_stm32f7xx.h"
 #else
-#include "gpio_sc2_board.h"
+#include "gpio.h"
 #endif
 #include "../AUDIO/sai.h"
 #include <memory>

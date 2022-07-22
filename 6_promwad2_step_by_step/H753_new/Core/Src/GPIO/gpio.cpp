@@ -13,9 +13,7 @@
 
 
 */
-#include "gpio_sc2_board.h"
-
-//#include "gpio_stm32f7xx.h"
+#include "gpio.h"
 
 #include <algorithm>
 #include <cstring>
