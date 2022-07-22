@@ -308,7 +308,9 @@ int main(void)
 //    testSendMcast(); //Пустые задачи
 //    testReceiveMcast();
 
-//    testTasksLog(); //Логи задач
+#ifdef PrintTaskLogs
+    testTasksLog(); //Логи задач
+#endif
 
     //Debug пока не работает - выпилил везде из кода
     Debug::getInstance().dbg << "ee";

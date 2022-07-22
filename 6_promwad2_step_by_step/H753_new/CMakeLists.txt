@@ -23,6 +23,13 @@ add_definitions(-DARM_MATH_CM7)
 add_definitions(-DHAVE_CONFIG_H)
 add_definitions(-D__FPU_PRESENT)
 
+#Логгирование
+#add_definitions(-DPrintTaskLogs)
+add_definitions(-DLogsEnableRS232Puts)
+#add_definitions(-DLogsEnableToConsole)
+
+
+
 set (RS232  ${CMAKE_HOME_DIRECTORY}/Core/Src/RS232)
 set (Debug  ${CMAKE_HOME_DIRECTORY}/Core/Src/Debug)
 set (littlefs ${CMAKE_HOME_DIRECTORY}/Middlewares/Third_Party/littlefs)
