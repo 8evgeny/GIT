@@ -154,7 +154,10 @@ public:
 
      \fn initLEDs
     */
-    void initLEDs();
+    void initLEDS_SC2();
+    void initLEDS_SC4();
+    void initBUTTONS_SC2();
+    void initBUTTONS_SC4();
 
     constexpr static uint8_t keysNum = 6; /*!< Number of the keys on the keyboard */
     osMessageQId message_q_id;  /*!< ID for the message queue */

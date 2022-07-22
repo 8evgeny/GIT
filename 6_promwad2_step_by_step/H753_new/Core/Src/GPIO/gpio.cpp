@@ -61,27 +61,34 @@ void GPIOInit(void)
 }
 #endif
 
-
 GPIO::GPIO()
 {
     gpioInit = & GPIO_InitStruct;
 
-    initLEDs();
+//ИНИЦИАЛИЗАЦИЯ светодиодов
+#ifndef SC4
+    initLEDS_SC2();
+#endif
+#ifdef SC4
+    initLEDS_SC4();
+#endif
 
     mutexRingBufferRx_id = osMutexCreate(osMutex(mutexRingBufferRx));
-    if (mutexRingBufferRx_id == nullptr) {
+    if (mutexRingBufferRx_id == nullptr)
+    {
         while(1)
             RS232::getInstance().term << "Failed to create [mutexRingBufferRx]" << "\n";
     }
-//ИНИЦИАЛИЗАЦИЯ РЫЧАГОВ
+
+//ИНИЦИАЛИЗАЦИЯ РЫЧАГОВ (кнопок)
 //    message_q_id = osMessageCreate(osMessageQ(message_q), NULL);
 
-    buttonArray[0].i = 1;     buttonArray[0].n = GPIO_PIN_11;
-    buttonArray[1].i = 2;     buttonArray[1].n = GPIO_PIN_12;
-    buttonArray[2].i = 3;     buttonArray[2].n = GPIO_PIN_10;
-    buttonArray[3].i = 4;     buttonArray[3].n = GPIO_PIN_13;
-    buttonArray[4].i = 5;     buttonArray[4].n = GPIO_PIN_9;
-    buttonArray[5].i = 6;     buttonArray[5].n = GPIO_PIN_14;
+#ifndef SC4
+    initBUTTONS_SC2();
+#endif
+#ifdef SC4
+    initBUTTONS_SC4();
+#endif
 
 }
 
@@ -294,7 +301,7 @@ term("--- readButtonThread ---")
 }
 #endif
 
-void GPIO::initLEDs()
+void GPIO::initLEDS_SC2()
 {
 //    for (uint8_t i = 0, j = 6; i < 6; i++, j++) {
 //        if (i == 3) j = 10;
@@ -306,6 +313,26 @@ void GPIO::initLEDs()
     aLeds[3].ledPin = GPIO_PIN_11;
     aLeds[4].ledPin = GPIO_PIN_8;
     aLeds[5].ledPin = GPIO_PIN_12;
+}
+
+void GPIO::initLEDS_SC4()
+{
+
+}
+
+void GPIO::initBUTTONS_SC2()
+{
+    buttonArray[0].i = 1;     buttonArray[0].n = GPIO_PIN_11;
+    buttonArray[1].i = 2;     buttonArray[1].n = GPIO_PIN_12;
+    buttonArray[2].i = 3;     buttonArray[2].n = GPIO_PIN_10;
+    buttonArray[3].i = 4;     buttonArray[3].n = GPIO_PIN_13;
+    buttonArray[4].i = 5;     buttonArray[4].n = GPIO_PIN_9;
+    buttonArray[5].i = 6;     buttonArray[5].n = GPIO_PIN_14;
+}
+
+void GPIO::initBUTTONS_SC4()
+{
+
 }
 
 #ifdef __cplusplus
