@@ -228,8 +228,10 @@ int main(void)
 
     //    MX_MDMA_Init(); //Вынес в SRAM
     //    MX_I2C1_Init(); //Вынесен в EEPROM
-    MX_I2C2_Init();
-    MX_I2C3_Init();
+    MX_I2C2_Init(); //Кодек
+#ifdef SC4
+    MX_I2C3_Init(); //Внешняя плата клавиатуры и светодиодов
+#endif
 //    MX_SAI1_Init();
     MX_UART7_Init(); //Вынесен в RS232
     debugInit();
