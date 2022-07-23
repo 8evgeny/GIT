@@ -70,6 +70,7 @@ GPIO::GPIO()
     initLEDS_SC2();
 #endif
 #ifdef SC4
+    term1("getCFG()") term(getCFG())
     initLEDS_SC4();
 #endif
 
@@ -109,10 +110,10 @@ GPIO *GPIO::p_instance = nullptr;
 uint16_t GPIO::getCFG(void)
 {
     uint16_t dataCFG = 0;
-
-    dataCFG |= HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_10) << 2;
-    dataCFG |= HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_11) << 1;
-    dataCFG |= HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_12) << 0;
+//ПРОВЕРИТЬ может изменить порядок на 8 7 6
+    dataCFG |= HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_6) << 2;
+    dataCFG |= HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_7) << 1;
+    dataCFG |= HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_8) << 0;
 
     return dataCFG;
 }
