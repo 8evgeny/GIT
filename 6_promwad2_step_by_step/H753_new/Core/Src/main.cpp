@@ -1,5 +1,6 @@
 #include "main.h"
 #include "rs232.h"
+#include "rs232_printf.h"
 #include "../Debug/debug.h"
 #include "wdt.h"
 #include "sai.h"
@@ -1047,6 +1048,7 @@ void MPU_Config(void)
 void Error_Handler(void)
 {
     /* USER CODE BEGIN Error_Handler_Debug */
+    RS232Puts("Error_Handler\r\n");
     /* User can add his own implementation to report the HAL error return state */
     __disable_irq();
     while (1)
