@@ -176,11 +176,10 @@ term1("**** configLed ledNumber") term(ledNumber)
 extern "C" {
 #endif
 
-#ifndef SC4
 void timerCallback(void const *arg)
 {
     (void)arg;
-    for (uint8_t i = 0; i < 6; i++) {
+    for (uint8_t i = 0; i < GPIO::keysNum; i++) {
         if (GPIO::getInstance()->aLeds[i].timeStart)
         {
             GPIO::getInstance()->aLeds[i].count += 1;
@@ -209,14 +208,13 @@ void timerCallback(void const *arg)
     }
 }
 
+#ifndef SC4 //Два потока для SC2 - светодиоды и рычаги
 [[ noreturn ]]
 void switchLEDsThread(void const *arg)
 {
     (void)arg;
-
 osDelay(200);
 term("--- switchLEDsThread ---")
-
     while(true)
     {
         for(uint8_t i = 0; i < 6; ++i)
@@ -242,7 +240,6 @@ term("--- switchLEDsThread ---")
 //                if (i > 2) HAL_GPIO_WritePin(GPIOG, GPIO::getInstance()->aLeds[i].ledPin, GPIO_PIN_RESET);
 //                else HAL_GPIO_WritePin(GPIOC, GPIO::getInstance()->aLeds[i].ledPin, GPIO_PIN_RESET);
             }
-
         }
         osDelay(1);
     }
@@ -257,17 +254,14 @@ void readButtonThread(void const *arg)
 
 osDelay(4000);
 term("--- readButtonThread ---")
-
     while(true)
     {
         for (uint8_t i = 0; i < GPIO::getInstance()->buttonArray.size() ; ++i)
         {
             uint16_t n = GPIO::getInstance()->buttonArray[i].n;
 //            k = GPIO::getInstance()->buttonArray[i].i;
-
             if (HAL_GPIO_ReadPin(GPIOG, GPIO::getInstance()->buttonArray[i].n) == GPIO_PIN_SET)
             {
-
                 osDelay(50);
                 if (HAL_GPIO_ReadPin(GPIOG, GPIO::getInstance()->buttonArray[i].n)  == GPIO_PIN_SET)
                 {
@@ -294,20 +288,21 @@ term("--- readButtonThread ---")
 //                if (i < 3 ) HAL_GPIO_WritePin(GPIOG, GPIO::getInstance()->aLeds[i].ledPin, GPIO_PIN_RESET);
 //                if (i >= 3 ) HAL_GPIO_WritePin(GPIOC, GPIO::getInstance()->aLeds[i ].ledPin, GPIO_PIN_RESET);
             }
-
         }
         osDelay(1);
     }
-
 }
 #endif
 
-#ifdef SC4
-void timerCallback(void const *arg)
-{
+#ifdef SC4 //Здесь структуры которые обращаются к плате по I2C3
 
-}
 
+
+
+
+#endif
+
+#ifdef SC4 //Два потока для SC4 - светодиоды и кнопки
 [[ noreturn ]]
 void switchLEDsThread(void const *arg)
 {
