@@ -155,12 +155,14 @@ void GPIO::configLed(uint8_t ledNumber,
 {
 term1("**** configLed ledNumber") term(ledNumber)
     --ledNumber;
-    if (timeOn < 50 && timeOff < 50) {
+    if (timeOn < 50 && timeOff < 50)
+    {
         aLeds[ledNumber].ledState = ledOn;
         aLeds[ledNumber].timeStart = false;
         aLeds[ledNumber].timeOn = timeOn;
         aLeds[ledNumber].timeOff = timeOff;
-    } else {
+    } else
+    {
         aLeds[ledNumber].timeOn = timeOn;
         aLeds[ledNumber].timeOff = timeOff;
         aLeds[ledNumber].timeStart = ledOn;
@@ -174,13 +176,16 @@ term1("**** configLed ledNumber") term(ledNumber)
 extern "C" {
 #endif
 
+#ifndef SC4
 void timerCallback(void const *arg)
 {
     (void)arg;
     for (uint8_t i = 0; i < 6; i++) {
-        if (GPIO::getInstance()->aLeds[i].timeStart) {
+        if (GPIO::getInstance()->aLeds[i].timeStart)
+        {
             GPIO::getInstance()->aLeds[i].count += 1;
-            if(GPIO::getInstance()->aLeds[i].ledState == false && GPIO::getInstance()->aLeds[i].count >= GPIO::getInstance()->aLeds[i].timeOff/timerDelay) {
+            if(GPIO::getInstance()->aLeds[i].ledState == false && GPIO::getInstance()->aLeds[i].count >= GPIO::getInstance()->aLeds[i].timeOff/timerDelay)
+            {
                 GPIO::getInstance()->aLeds[i].ledState = true;
                 GPIO::getInstance()->aLeds[i].count = 0;
                 if (GPIO::getInstance()->aLeds[i].reiterationNum > 0)
@@ -189,7 +194,8 @@ void timerCallback(void const *arg)
                     GPIO::getInstance()->aLeds[i].timeStart = false;
                     GPIO::getInstance()->aLeds[i].reiterationNum -= 1;
                 }
-            } else if (GPIO::getInstance()->aLeds[i].ledState == true && GPIO::getInstance()->aLeds[i].count >= GPIO::getInstance()->aLeds[i].timeOn/timerDelay) {
+            } else if (GPIO::getInstance()->aLeds[i].ledState == true && GPIO::getInstance()->aLeds[i].count >= GPIO::getInstance()->aLeds[i].timeOn/timerDelay)
+            {
                 GPIO::getInstance()->aLeds[i].ledState = false;
                 GPIO::getInstance()->aLeds[i].count = 0;
                 if (GPIO::getInstance()->aLeds[i].reiterationNum > 0)
@@ -241,7 +247,6 @@ term("--- switchLEDsThread ---")
         osDelay(1);
     }
 }
-
 
 [[ noreturn ]]
 void readButtonThread(void const *arg)
@@ -295,7 +300,26 @@ term("--- readButtonThread ---")
     }
 
 }
+#endif
 
+#ifdef SC4
+void timerCallback(void const *arg)
+{
+
+}
+
+[[ noreturn ]]
+void switchLEDsThread(void const *arg)
+{
+
+}
+
+[[ noreturn ]]
+void readButtonThread(void const *arg)
+{
+
+}
+#endif
 
 #ifdef __cplusplus
 }
@@ -303,6 +327,7 @@ term("--- readButtonThread ---")
 
 void GPIO::initLEDS_SC2()
 {
+#ifndef SC4
 //    for (uint8_t i = 0, j = 6; i < 6; i++, j++) {
 //        if (i == 3) j = 10;
 //        aLeds[i].ledPin = aPin[j];
@@ -313,26 +338,35 @@ void GPIO::initLEDS_SC2()
     aLeds[3].ledPin = GPIO_PIN_11;
     aLeds[4].ledPin = GPIO_PIN_8;
     aLeds[5].ledPin = GPIO_PIN_12;
+#endif
 }
 
 void GPIO::initLEDS_SC4()
 {
+#ifdef SC4
 
+
+#endif
 }
 
 void GPIO::initBUTTONS_SC2()
 {
+#ifndef SC4
     buttonArray[0].i = 1;     buttonArray[0].n = GPIO_PIN_11;
     buttonArray[1].i = 2;     buttonArray[1].n = GPIO_PIN_12;
     buttonArray[2].i = 3;     buttonArray[2].n = GPIO_PIN_10;
     buttonArray[3].i = 4;     buttonArray[3].n = GPIO_PIN_13;
     buttonArray[4].i = 5;     buttonArray[4].n = GPIO_PIN_9;
     buttonArray[5].i = 6;     buttonArray[5].n = GPIO_PIN_14;
+#endif
 }
 
 void GPIO::initBUTTONS_SC4()
 {
+#ifdef SC4
 
+
+#endif
 }
 
 #ifdef __cplusplus

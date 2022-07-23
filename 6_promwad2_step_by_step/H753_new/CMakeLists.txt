@@ -29,7 +29,12 @@ add_definitions(-DLogsEnableRS232Puts)
 #add_definitions(-DLogsEnableToConsole)
 
 #Выбор типа устройства
-#add_definitions(-DSC4) #(Для выбора УПВ SC2 закомментировать эту строку)
+add_definitions(-DSC4) #(Для выбора УПВ SC2 закомментировать эту строку)
+
+#Выбор числа клавиш(для SC4) - оставить одну строку
+add_definitions(-DNUMBUTTON16)
+#add_definitions(-DNUMBUTTON32)
+
 
 set (RS232  ${CMAKE_HOME_DIRECTORY}/Core/Src/RS232)
 set (Debug  ${CMAKE_HOME_DIRECTORY}/Core/Src/Debug)
