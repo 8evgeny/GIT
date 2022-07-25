@@ -110,7 +110,7 @@ public:
      * \param none
      * \return none
      */
-    uint16_t getCFG(void);
+    uint8_t getCFG(void);
 
     /*!
      * \brief The function allow to increase volume

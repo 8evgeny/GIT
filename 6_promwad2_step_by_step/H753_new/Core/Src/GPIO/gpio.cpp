@@ -107,7 +107,7 @@ GPIO *GPIO::p_instance = nullptr;
   \param None
   \retval None
   */
-uint16_t GPIO::getCFG(void)
+uint8_t GPIO::getCFG(void)
 {
     uint16_t dataCFG = 0;
 //ПРОВЕРИТЬ может изменить порядок на 8 7 6
@@ -356,6 +356,20 @@ void GPIO::initBUTTONS_SC2()
     buttonArray[5].i = 6;     buttonArray[5].n = GPIO_PIN_14;
 #endif
 }
+//Это кусок Муромского кода - удалить
+//uint8_t pinio_get_CFGUI()
+//{
+//  uint8_t res = 0;
+//  if (HAL_GPIO_ReadPin(GPIOC, CFG_UI0_Pin)==GPIO_PIN_SET)
+//      res |= 1;
+//  if (HAL_GPIO_ReadPin(GPIOC, CFG_UI1_Pin)==GPIO_PIN_SET)
+//      res |= 2;
+//  if (HAL_GPIO_ReadPin(GPIOC, CFG_UI2_Pin)==GPIO_PIN_SET)
+//      res |= 4;
+
+//  return res;
+//}
+
 
 void GPIO::initBUTTONS_SC4()
 {
