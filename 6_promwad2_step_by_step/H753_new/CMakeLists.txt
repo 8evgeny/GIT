@@ -24,12 +24,12 @@ add_definitions(-DHAVE_CONFIG_H)
 add_definitions(-D__FPU_PRESENT)
 
 #Логгирование
-#add_definitions(-DPrintTaskLogs) #Запускает поток с логами задач
+add_definitions(-DPrintTaskLogs) #Запускает поток с логами задач
 add_definitions(-DLogsEnableRS232Puts)
 add_definitions(-DLogsEnableToConsole)
 
 #Выбор типа устройства
-add_definitions(-DSC4) #(Для выбора УПВ SC2 закомментировать эту строку)
+#add_definitions(-DSC4) #(Для выбора УПВ SC2 закомментировать эту строку)
 
 #Выбор числа клавиш(для SC4) - оставить одну строку
 add_definitions(-DNUMBUTTON16)

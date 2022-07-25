@@ -240,11 +240,10 @@ void TasksLog(void const *argument)
 
         for(;;)
     {
-        osDelay(10000);
         vTaskList(logTasks);
         term(logTasks)
         term1("heap size") term(xPortGetFreeHeapSize())
-
+        osDelay(120000);
     } //end for(;;)
 
     vTaskDelete(nullptr);
