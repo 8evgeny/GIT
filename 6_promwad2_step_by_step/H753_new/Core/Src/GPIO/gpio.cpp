@@ -307,13 +307,32 @@ term("--- readButtonThread ---")
 [[ noreturn ]]
 void switchLEDsThread(void const *arg)
 {
+    (void)arg;
+osDelay(200);
+term("--- switchLEDsThread ---")
+    while(true)
+    {
 
+
+        osDelay(1);
+    }
 }
 
 [[ noreturn ]]
 void readButtonThread(void const *arg)
 {
+    (void)arg;
+    PackageRx tempPack;
+    tempPack.packetType = GPIO::getInstance()->button;
 
+osDelay(4000);
+term("--- readButtonThread ---")
+    while(true)
+    {
+
+
+        osDelay(1);
+    }
 }
 #endif
 
