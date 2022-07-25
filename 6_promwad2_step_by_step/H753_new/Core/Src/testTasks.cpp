@@ -159,7 +159,7 @@ void simpleLedTest3_RTOS(void const *argument)
     bool reset = true;
     uint32_t tickstart = HAL_GetTick();
     uint32_t timeSet = 10;
-    uint32_t timeReset = 3000;
+    uint32_t timeReset = 2000;
 
 osDelay(100);
 term("--- simpleLedTest3_RTOS ---")

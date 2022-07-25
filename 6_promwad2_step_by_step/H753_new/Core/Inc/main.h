@@ -154,10 +154,7 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
-#define DET_48V_Pin GPIO_PIN_13
-#define DET_48V_GPIO_Port GPIOC
-#define UPR_MIC2_Pin GPIO_PIN_15
-#define UPR_MIC2_GPIO_Port GPIOC
+
 #define POW_DOWN_Pin GPIO_PIN_2
 #define POW_DOWN_GPIO_Port GPIOB
 
