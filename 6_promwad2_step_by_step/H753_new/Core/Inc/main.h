@@ -74,12 +74,16 @@ extern "C" {
 #define MII_TXD0_GPIO_Port GPIOB
 #define MII_TXD1_Pin GPIO_PIN_13
 #define MII_TXD1_GPIO_Port GPIOB
+
+#ifndef SC4
 #define L4_Pin GPIO_PIN_6
 #define L4_GPIO_Port GPIOG
 #define L5_Pin GPIO_PIN_7
 #define L5_GPIO_Port GPIOG
 #define L6_Pin GPIO_PIN_8
 #define L6_GPIO_Port GPIOG
+#endif
+
 #define TANG_UPR_Pin GPIO_PIN_9
 #define TANG_UPR_GPIO_Port GPIOA
 #define PEDAL_UPR_Pin GPIO_PIN_10
@@ -88,6 +92,8 @@ extern "C" {
 #define RELE1_UPR_GPIO_Port GPIOA
 #define AMP_UPR_Pin GPIO_PIN_12
 #define AMP_UPR_GPIO_Port GPIOA
+
+#ifndef SC4
 #define L1_Pin GPIO_PIN_10
 #define L1_GPIO_Port GPIOC
 #define L2_Pin GPIO_PIN_11
@@ -106,6 +112,8 @@ extern "C" {
 #define K5_GPIO_Port GPIOG
 #define K6_Pin GPIO_PIN_14
 #define K6_GPIO_Port GPIOG
+#endif
+
 #define TEST_BUT_Pin GPIO_PIN_5
 #define TEST_BUT_GPIO_Port GPIOB
 #define MII_TXD3_Pin GPIO_PIN_8
@@ -152,22 +160,29 @@ void Error_Handler(void);
 #define UPR_MIC2_GPIO_Port GPIOC
 #define POW_DOWN_Pin GPIO_PIN_2
 #define POW_DOWN_GPIO_Port GPIOB
-#define L4_Pin GPIO_PIN_6
-#define L4_GPIO_Port GPIOG
-#define L5_Pin GPIO_PIN_7
-#define L5_GPIO_Port GPIOG
-#define L6_Pin GPIO_PIN_8
-#define L6_GPIO_Port GPIOG
+
+#ifdef SC4
 #define CFG_UI0_Pin GPIO_PIN_6
-#define CFG_UI0_GPIO_Port GPIOC
+#define CFG_UI1_Pin GPIO_PIN_7
+#define CFG_UI2_Pin GPIO_PIN_8
+#endif
+
+#ifndef SC4
 #define I2C3_INT_Pin GPIO_PIN_8
 #define I2C3_INT_GPIO_Port GPIOC
+
 #define L1_Pin GPIO_PIN_10
 #define L1_GPIO_Port GPIOC
 #define L2_Pin GPIO_PIN_11
 #define L2_GPIO_Port GPIOC
 #define L3_Pin GPIO_PIN_12
 #define L3_GPIO_Port GPIOC
+#define L4_Pin GPIO_PIN_6
+#define L4_GPIO_Port GPIOG
+#define L5_Pin GPIO_PIN_7
+#define L5_GPIO_Port GPIOG
+#define L6_Pin GPIO_PIN_8
+#define L6_GPIO_Port GPIOG
 #define K1_Pin GPIO_PIN_9
 #define K1_GPIO_Port GPIOG
 #define K2_Pin GPIO_PIN_10
@@ -180,6 +195,8 @@ void Error_Handler(void);
 #define K5_GPIO_Port GPIOG
 #define K6_Pin GPIO_PIN_14
 #define K6_GPIO_Port GPIOG
+#endif
+
 #define TEST_BUT_Pin GPIO_PIN_5
 #define TEST_BUT_GPIO_Port GPIOB
 #define TEST_LED_Pin GPIO_PIN_9

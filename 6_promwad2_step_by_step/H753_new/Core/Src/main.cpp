@@ -828,11 +828,13 @@ static void MX_GPIO_Init(void)
     /*Configure GPIO pin Output Level */
     HAL_GPIO_WritePin(GPIOB, POW_DOWN_Pin|TEST_LED_Pin, GPIO_PIN_SET);
 
+#ifndef SC4
     /*Configure GPIO pin Output Level */
     HAL_GPIO_WritePin(GPIOG, L4_Pin|L5_Pin|L6_Pin, GPIO_PIN_RESET);
 
     /*Configure GPIO pin Output Level */
     HAL_GPIO_WritePin(GPIOC, L1_Pin|L2_Pin|L3_Pin, GPIO_PIN_RESET);
+#endif
 
     /*Configure GPIO pins : DET_48V_Pin UPR_MIC2_Pin CFG_UI0_Pin */
     GPIO_InitStruct.Pin = DET_48V_Pin|UPR_MIC2_Pin|CFG_UI0_Pin;
@@ -847,19 +849,6 @@ static void MX_GPIO_Init(void)
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
     HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
-    /*Configure GPIO pins : L4_Pin L5_Pin L6_Pin */
-    GPIO_InitStruct.Pin = L4_Pin|L5_Pin|L6_Pin;
-    GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-    GPIO_InitStruct.Pull = GPIO_NOPULL;
-    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-    HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
-
-    /*Configure GPIO pin : I2C3_INT_Pin */
-    GPIO_InitStruct.Pin = I2C3_INT_Pin;
-    GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
-    GPIO_InitStruct.Pull = GPIO_NOPULL;
-    HAL_GPIO_Init(I2C3_INT_GPIO_Port, &GPIO_InitStruct);
-
     /*Configure GPIO pin : PA8 */
     GPIO_InitStruct.Pin = GPIO_PIN_8;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
@@ -868,6 +857,14 @@ static void MX_GPIO_Init(void)
     GPIO_InitStruct.Alternate = GPIO_AF0_MCO;
     HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
+#ifndef SC4
+//Прерывание от кодека для SC2
+    /*Configure GPIO pin : I2C3_INT_Pin */
+    GPIO_InitStruct.Pin = I2C3_INT_Pin;
+    GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+    GPIO_InitStruct.Pull = GPIO_NOPULL;
+    HAL_GPIO_Init(I2C3_INT_GPIO_Port, &GPIO_InitStruct);
+
     /*Configure GPIO pins : L1_Pin L2_Pin L3_Pin */
     GPIO_InitStruct.Pin = L1_Pin|L2_Pin|L3_Pin;
     GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
@@ -875,13 +872,27 @@ static void MX_GPIO_Init(void)
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
     HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
-    /*Configure GPIO pins : K1_Pin K2_Pin K3_Pin K4_Pin
-                           K5_Pin K6_Pin */
-    GPIO_InitStruct.Pin = K1_Pin|K2_Pin|K3_Pin|K4_Pin
-                          |K5_Pin|K6_Pin;
+    /*Configure GPIO pins : L4_Pin L5_Pin L6_Pin */
+    GPIO_InitStruct.Pin = L4_Pin|L5_Pin|L6_Pin;
+    GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+    GPIO_InitStruct.Pull = GPIO_NOPULL;
+    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+    HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
+
+    /*Configure GPIO pins : K1_Pin K2_Pin K3_Pin K4_Pin K5_Pin K6_Pin */
+    GPIO_InitStruct.Pin = K1_Pin|K2_Pin|K3_Pin|K4_Pin|K5_Pin|K6_Pin;
     GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
     HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
+#endif
+
+#ifdef SC4 //Пины для чтения типа платы клавиатуры
+    GPIO_InitStruct.Pin = CFG_UI0_Pin|CFG_UI1_Pin|CFG_UI2_Pin;
+    GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+    GPIO_InitStruct.Pull = GPIO_NOPULL;
+    HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+#endif
+
 
     /*Configure GPIO pin : TEST_BUT_Pin */
     GPIO_InitStruct.Pin = TEST_BUT_Pin;

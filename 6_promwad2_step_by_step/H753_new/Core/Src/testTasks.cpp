@@ -89,6 +89,7 @@ term("startingSimpleLedTest1_RTOS")
 
     for(;;)
     {
+#ifndef SC4
         if(reset)
         {
             if (HAL_GetTick() > tickstart + timeReset)
@@ -108,7 +109,8 @@ term("startingSimpleLedTest1_RTOS")
                  tickstart = HAL_GetTick();
             }
         }
-    HAL_Delay(10);
+#endif
+    osDelay(10);
     } //end for(;;)
 
     vTaskDelete(nullptr);
@@ -126,6 +128,7 @@ term("startingSimpleLedTest2_RTOS")
 
     for(;;)
     {
+#ifndef SC4
         if(reset)
         {
             if (HAL_GetTick() > tickstart + timeReset)
@@ -144,7 +147,8 @@ term("startingSimpleLedTest2_RTOS")
                  tickstart = HAL_GetTick();
             }
         }
-    HAL_Delay(10);
+#endif
+    osDelay(10);
     } //end for(;;)
 
     vTaskDelete(nullptr);
