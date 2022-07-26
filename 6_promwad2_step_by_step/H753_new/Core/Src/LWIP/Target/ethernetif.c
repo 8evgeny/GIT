@@ -344,12 +344,18 @@ static void low_level_init(struct netif *netif)
 
    uint8_t MACAddr[6] ;
   heth.Instance = ETH;
-  MACAddr[0] = 0x00;
-  MACAddr[1] = 0x80;
-  MACAddr[2] = 0xE1;
-  MACAddr[3] = 0x00;
-  MACAddr[4] = 0x00;
-  MACAddr[5] = macAdr5;
+//  MACAddr[0] = 0x00;
+//  MACAddr[1] = 0x80;
+//  MACAddr[2] = 0xE1;
+//  MACAddr[3] = 0x00;
+//  MACAddr[4] = 0x00;
+//  MACAddr[5] = macAdr5;
+  MACAddr[0] = 0x40;
+  MACAddr[1] = 0x8d;
+  MACAddr[2] = 0x5c;
+  MACAddr[3] = 0xba;
+  MACAddr[4] = 0xf6;
+  MACAddr[5] = 0x22;
   heth.Init.MACAddr = &MACAddr[0];
   heth.Init.MediaInterface = HAL_ETH_MII_MODE;
   heth.Init.TxDesc = DMATxDscrTab;
