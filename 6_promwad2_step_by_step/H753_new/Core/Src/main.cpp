@@ -264,11 +264,11 @@ int main(void)
 
 
 
-//    memset(buff_config,' ',sizeof(buff_config));
+    memset(buff_config,' ',sizeof(buff_config));
 
-//    Json::getInstance()->configStation();
-//    if (Json::getInstance()->deserializeJsonFlag == Json::JsonFlags::OK)
-//    {
+    Json::getInstance()->configStation();
+    if (Json::getInstance()->deserializeJsonFlag == Json::JsonFlags::OK)
+    {
 
 //        osThreadDef(TaskEthernet, TaskEthernet_, osPriorityRealtime, 0, configMINIMAL_STACK_SIZE * 4);
 //        TaskEthernetHandle = osThreadCreate(osThread(TaskEthernet), nullptr);
@@ -289,13 +289,13 @@ int main(void)
 //        }
 
 
-////          firmwareInitThread();
+//          firmwareInitThread();
 
-//    }
-//    else
-//    {
-//        term("deserializeJsonFlag  -  error")
-//    }
+    }
+    else
+    {
+        term("deserializeJsonFlag  -  error")
+    }
 
 
 

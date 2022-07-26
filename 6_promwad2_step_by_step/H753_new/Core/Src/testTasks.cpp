@@ -243,7 +243,7 @@ void TasksLog(void const *argument)
         vTaskList(logTasks);
         term(logTasks)
         term1("heap size") term(xPortGetFreeHeapSize())
-        osDelay(120000);
+        osDelay(30000);
     } //end for(;;)
 
     vTaskDelete(nullptr);
