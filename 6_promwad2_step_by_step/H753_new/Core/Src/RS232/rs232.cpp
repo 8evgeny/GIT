@@ -65,6 +65,7 @@ static void writeByte(unsigned char byte);
 
 osMutexDef(mutexRS232);
 osMutexId mutexRS232Id = osMutexCreate(osMutex(mutexRS232));
+
 void RS232Init(void)
 {
 
@@ -141,7 +142,7 @@ extern "C" RS232& RS232::C_getInstance(RS232* p)
 HAL_StatusTypeDef RS232::write(uint8_t *buf, uint16_t size)
 {
     while (HAL_UART_GetState(uartHandle) != HAL_UART_STATE_READY);
-osMutexWait(mutexRS232Id, osWaitForever); //В какие-то моменты зависает
+osMutexWait(mutexRS232Id, osWaitForever);
     HAL_StatusTypeDef status = HAL_UART_Transmit_DMA(uartHandle, buf, size);
     while (uartWriteReady != SET);
     uartWriteReady = RESET;
