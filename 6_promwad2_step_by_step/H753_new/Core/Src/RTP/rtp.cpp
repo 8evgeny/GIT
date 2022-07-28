@@ -419,9 +419,13 @@ term2("--- rtpRecvThread ---") blank_str
                         fromlen = sizeof(from);
                         result  = recvfrom(sockRtpRecv, rtpRecvPacket, sizeof(rtpRecvPacket), 0, reinterpret_cast<struct sockaddr *>(&from), reinterpret_cast<socklen_t *>(&fromlen));
 
+//term2("Receive result = ") term2(result) blank_str
+
+                        if (result >= static_cast<int>(sizeof(struct rtp_hdr)))
+                        {
+
 term2("Receive result = ") term2(result) blank_str
 
-                        if (result >= static_cast<int>(sizeof(struct rtp_hdr))) {
                             lostPackCounter = 0;
                             //copy header
                             arm_copy_q7(reinterpret_cast<q7_t *>(rtpRecvPacket), reinterpret_cast<q7_t *>(&in.header),  sizeof(rtp_hdr));
