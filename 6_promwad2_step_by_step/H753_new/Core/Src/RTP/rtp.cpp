@@ -465,7 +465,7 @@ term2("lostPackCounter = ") term2(msg) blank_str
                     for(;;)
                     {
                         osDelay(10000);
-                        term("Error")
+                        term2("Error")
                     }
                 }
             }
