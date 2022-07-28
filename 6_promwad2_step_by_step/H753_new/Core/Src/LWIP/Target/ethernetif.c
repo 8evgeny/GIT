@@ -413,7 +413,7 @@ static void low_level_init(struct netif *netif)
 
   /* create the task that handles the ETH_MAC */
 /* USER CODE BEGIN OS_THREAD_DEF_CREATE_CMSIS_RTOS_V1 */
-  osThreadDef(EthIf_____, ethernetif_input, osPriorityNormal, 0, INTERFACE_THREAD_STACK_SIZE * 20 );
+  osThreadDef(EthIf_____, ethernetif_input, osPriorityNormal, 0, INTERFACE_THREAD_STACK_SIZE *2 );
   osThreadCreate (osThread(EthIf_____), netif);
 /* USER CODE END OS_THREAD_DEF_CREATE_CMSIS_RTOS_V1 */
 /* USER CODE BEGIN PHY_PRE_CONFIG */
