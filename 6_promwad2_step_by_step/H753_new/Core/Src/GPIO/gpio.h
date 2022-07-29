@@ -162,12 +162,8 @@ public:
     constexpr static uint8_t keysNum = 6; /*!< Number of the keys on the keyboard */
 #endif
 #ifdef SC4
-#ifdef    NUMBUTTON16
     constexpr static uint8_t keysNum = 16;
-#endif
-#ifdef    NUMBUTTON32
-    constexpr static uint8_t keysNum = 32;
-#endif
+//    constexpr static uint8_t keysNum = 32;
 #endif
     osMessageQId message_q_id;  /*!< ID for the message queue */
     alignas(4) std::array <sButton, keysNum> buttonArray; /*!< The array stores sButton struct elements */

@@ -29,7 +29,7 @@ add_definitions(-DLogsEnableToConsole)
 add_definitions(-DPrintTaskLogs) #Запускает поток с логами задач
 
 #Выбор типа устройства
-#add_definitions(-DSC4) #(Для выбора УПВ SC2 закомментировать эту строку)
+add_definitions(-DSC4) #(Для выбора УПВ SC2 закомментировать эту строку)
 
 
 set (RS232  ${CMAKE_HOME_DIRECTORY}/Core/Src/RS232)
