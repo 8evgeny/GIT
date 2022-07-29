@@ -374,7 +374,7 @@ term("--- rtpSendPacketsFull ---")
 void rtpRecvThread(void const *arg)
 {
 //osDelay(800);
-term("--- rtpRecvThread ---")
+term2("--- rtpRecvThread ---") blank_str
     char msg[20];
     struct sockaddr_in local;
     struct sockaddr_in from;
@@ -405,7 +405,8 @@ term("--- rtpRecvThread ---")
             local.sin_addr.s_addr = PP_HTONL(INADDR_ANY);
 
             /* bind to local address */
-            if (bind(sockRtpRecv, reinterpret_cast<struct sockaddr *>(&local), sizeof(local)) == 0) {
+            if (bind(sockRtpRecv, reinterpret_cast<struct sockaddr *>(&local), sizeof(local)) == 0)
+            {
 
                 /* prepare multicast "ip_mreq" struct */
                 ipmreqRtpRecv.imr_multiaddr.s_addr = rtp_stream_address;
@@ -418,9 +419,13 @@ term("--- rtpRecvThread ---")
                         fromlen = sizeof(from);
                         result  = recvfrom(sockRtpRecv, rtpRecvPacket, sizeof(rtpRecvPacket), 0, reinterpret_cast<struct sockaddr *>(&from), reinterpret_cast<socklen_t *>(&fromlen));
 
-term1("Receive result") term(result)
+//term2("Receive result = ") term2(result) blank_str
 
-                        if (result >= static_cast<int>(sizeof(struct rtp_hdr))) {
+                        if (result >= static_cast<int>(sizeof(struct rtp_hdr)))
+                        {
+
+term2("Receive result = ") term2(result) blank_str
+
                             lostPackCounter = 0;
                             //copy header
                             arm_copy_q7(reinterpret_cast<q7_t *>(rtpRecvPacket), reinterpret_cast<q7_t *>(&in.header),  sizeof(rtp_hdr));
@@ -440,7 +445,8 @@ term1("Receive result") term(result)
 
                         sprintf(msg,"%d",lostPackCounter);
 
-term1("lostPackCounter") term(msg)
+term2("lostPackCounter = ") term2(msg) blank_str
+
                             if (lostPackCounter > MAX_NUMBER_LOST_PACK) {
                                 lostPackCounter = 0;
                                 osSignalSet(lostPackThreadId, 0xFB);
@@ -459,7 +465,7 @@ term1("lostPackCounter") term(msg)
                     for(;;)
                     {
                         osDelay(10000);
-                        term("Error")
+                        term2("Error")
                     }
                 }
             }

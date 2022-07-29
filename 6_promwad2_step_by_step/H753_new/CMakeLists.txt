@@ -23,6 +23,15 @@ add_definitions(-DARM_MATH_CM7)
 add_definitions(-DHAVE_CONFIG_H)
 add_definitions(-D__FPU_PRESENT)
 
+#Логгирование
+add_definitions(-DLogsEnableRS232Puts)
+add_definitions(-DLogsEnableToConsole)
+add_definitions(-DPrintTaskLogs) #Запускает поток с логами задач
+
+#Выбор типа устройства
+#add_definitions(-DSC4) #(Для выбора УПВ SC2 закомментировать эту строку)
+
+
 set (RS232  ${CMAKE_HOME_DIRECTORY}/Core/Src/RS232)
 set (Debug  ${CMAKE_HOME_DIRECTORY}/Core/Src/Debug)
 set (littlefs ${CMAKE_HOME_DIRECTORY}/Middlewares/Third_Party/littlefs)
@@ -34,7 +43,7 @@ set (ArduinoJson ${CMAKE_HOME_DIRECTORY}/Middlewares/Third_Party/ArduinoJson)
 set (RTC  ${CMAKE_HOME_DIRECTORY}/Core/Src/RTC)
 set (SNTP  ${CMAKE_HOME_DIRECTORY}/Core/Src/SNTP)
 set (TRNG  ${CMAKE_HOME_DIRECTORY}/Core/Src/TRNG)
-set (GPIO_SC2  ${CMAKE_HOME_DIRECTORY}/Core/Src/GPIO_SC2_BOARD)
+set (GPIO  ${CMAKE_HOME_DIRECTORY}/Core/Src/GPIO)
 set (UpdateMechanism  ${CMAKE_HOME_DIRECTORY}/Core/Src/UpdateMechanism)
 set (TraceRecorder  ${CMAKE_HOME_DIRECTORY}/Tracealyzer-4.2.12-linux64/FreeRTOS/TraceRecorder)
 set (RTP  ${CMAKE_HOME_DIRECTORY}/Core/Src/RTP)
@@ -86,7 +95,7 @@ include_directories(
     ${RTC}
     ${SNTP}
     ${TRNG}
-    ${GPIO_SC2}
+    ${GPIO}
     ${UpdateMechanism}
     ${TraceRecorder}/streamports/TCPIP/include
     ${TraceRecorder}/include
@@ -117,7 +126,7 @@ file (GLOB JSON_src ${JSON}/*.cpp ${JSON}/*.h )
 file (GLOB RTC_src ${RTC}/*.cpp ${RTC}/*.h )
 file (GLOB SNTP_src ${SNTP}/*.cpp ${SNTP}/*.h )
 file (GLOB TRNG_src ${TRNG}/*.cpp ${TRNG}/*.h )
-file (GLOB GPIO_SC2_SOURCES ${GPIO_SC2}/*.cpp ${GPIO_SC2}/*.h)
+file (GLOB GPIO_SOURCES ${GPIO}/*.cpp ${GPIO}/*.h)
 file (GLOB UpdateMechanism_src ${UpdateMechanism}/*.cpp ${UpdateMechanism}/*.h )
 file (GLOB TraceRecorder_src ${TraceRecorder}/*.c ${TraceRecorder}/streamports/TCPIP/*.c ${TraceRecorder}/streamports/TCPIP/include/*.h ${TraceRecorder}/include/*.h ${TraceRecorder}/config/*.h )
 file (GLOB RTP_src ${RTP}/*.cpp ${RTP}/*.h )
@@ -148,7 +157,7 @@ add_library(JSON_LIB ${JSON_src} )
 add_library(RTC_LIB ${RTC_src} )
 add_library(SNTP_LIB ${SNTP_src} )
 add_library(TRNG_LIB ${TRNG_src} )
-add_library(GPIO_SC2_LIB ${GPIO_SC2_SOURCES} )
+add_library(GPIO_LIB ${GPIO_SOURCES} )
 add_library(UpdateMechanism_LIB ${UpdateMechanism_src} )
 add_library(TraceRecorder_LIB ${TraceRecorder_src} )
 add_library(RTP_LIB ${RTP_src} )
@@ -290,7 +299,7 @@ target_link_libraries(${PROJECT_NAME}.elf PUBLIC
     RTC_LIB
     SNTP_LIB
     TRNG_LIB
-    GPIO_SC2_LIB
+    GPIO_LIB
     UpdateMechanism_LIB
     TraceRecorder_LIB
     RTP_LIB

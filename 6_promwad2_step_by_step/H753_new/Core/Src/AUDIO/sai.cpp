@@ -402,15 +402,15 @@ term("sai.cpp")
     }
 }
 
-osThreadDef(sendHalfRtp, sendHalfThread, osPriorityHigh, 0, configMINIMAL_STACK_SIZE * 10);
-osThreadDef(sendFullRtp, sendFullThread, osPriorityHigh, 0, configMINIMAL_STACK_SIZE * 10);
-osThreadDef(audioTxHalfThread, threadAudioTxHalf, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 20);
-osThreadDef(audioTxFullThread, threadAudioTxFull, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 20);
-osThreadDef(handelMixAudio, timerForMixAudio, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 20);
-osThreadDef(audioRxFullThread, threadAudioRxFull, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 10);
-osThreadDef(audioRxHalfThread, threadAudioRxHalf, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 10);
-osThreadDef(lostPackThread, lostPackThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 5);
-osThreadDef(recvThread, rtpRecvThread, osPriorityHigh, 0, configMINIMAL_STACK_SIZE * 20);
+osThreadDef(sendHalfRtp, sendHalfThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 2);
+osThreadDef(sendFullRtp, sendFullThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 2);
+osThreadDef(audioTxHalfThread, threadAudioTxHalf, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 5);
+osThreadDef(audioTxFullThread, threadAudioTxFull, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 5);
+osThreadDef(handelMixAudio, timerForMixAudio, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 5);
+osThreadDef(audioRxFullThread, threadAudioRxFull, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 2);
+osThreadDef(audioRxHalfThread, threadAudioRxHalf, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 2);
+osThreadDef(lostPackThread, lostPackThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE );
+osThreadDef(recvThread, rtpRecvThread, osPriorityRealtime, 0, configMINIMAL_STACK_SIZE * 2);
 
 
 void threadAudioInit(void const *arg)
@@ -736,8 +736,11 @@ ErrorCode rtpCreate(uint32_t port, uint32_t type)
     memset(txBuf, 0x00, sizeof (txBuf));
     memset(rxBuf, 0x00, sizeof (rxBuf));
 
-   auto res_transm = HAL_SAI_Transmit_DMA(&audioTxSai, reinterpret_cast<uint8_t *>(txBuf), BUFFER_AUDIO_SIZE_RTP);
-   auto res_teceice = HAL_SAI_Receive_DMA(&audioRxSai, reinterpret_cast<uint8_t *>(rxBuf), BUFFER_AUDIO_SIZE_RTP);
+//   auto res_transm =
+    HAL_SAI_Transmit_DMA(&audioTxSai, reinterpret_cast<uint8_t *>(txBuf), BUFFER_AUDIO_SIZE_RTP);
+//   auto res_teceice =
+    osDelay(10);
+    HAL_SAI_Receive_DMA(&audioRxSai, reinterpret_cast<uint8_t *>(rxBuf), BUFFER_AUDIO_SIZE_RTP);
 
 //   term1("res_transm") term(res_transm)
 //   term1("res_teceice") term(res_teceice)

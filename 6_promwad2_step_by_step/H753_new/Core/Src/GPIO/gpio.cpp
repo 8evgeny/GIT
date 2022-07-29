@@ -13,9 +13,7 @@
 
 
 */
-#include "gpio_sc2_board.h"
-
-//#include "gpio_stm32f7xx.h"
+#include "gpio.h"
 
 #include <algorithm>
 #include <cstring>
@@ -65,27 +63,35 @@ void GPIOInit(void)
 }
 #endif
 
-
 GPIO::GPIO()
 {
     gpioInit = & GPIO_InitStruct;
 
-    initLEDs();
+//ИНИЦИАЛИЗАЦИЯ светодиодов
+#ifndef SC4
+    initLEDS_SC2();
+#endif
+#ifdef SC4
+    term1("getCFG()") term(getCFG())
+    initLEDS_SC4();
+#endif
 
     mutexRingBufferRx_id = osMutexCreate(osMutex(mutexRingBufferRx));
-    if (mutexRingBufferRx_id == nullptr) {
+    if (mutexRingBufferRx_id == nullptr)
+    {
         while(1)
             RS232::getInstance().term << "Failed to create [mutexRingBufferRx]" << "\n";
     }
-//ИНИЦИАЛИЗАЦИЯ РЫЧАГОВ
+
+//ИНИЦИАЛИЗАЦИЯ РЫЧАГОВ (кнопок)
 //    message_q_id = osMessageCreate(osMessageQ(message_q), NULL);
 
-    buttonArray[0].i = 1;     buttonArray[0].n = GPIO_PIN_11;
-    buttonArray[1].i = 2;     buttonArray[1].n = GPIO_PIN_12;
-    buttonArray[2].i = 3;     buttonArray[2].n = GPIO_PIN_10;
-    buttonArray[3].i = 4;     buttonArray[3].n = GPIO_PIN_13;
-    buttonArray[4].i = 5;     buttonArray[4].n = GPIO_PIN_9;
-    buttonArray[5].i = 6;     buttonArray[5].n = GPIO_PIN_14;
+#ifndef SC4
+    initBUTTONS_SC2();
+#endif
+#ifdef SC4
+    initBUTTONS_SC4();
+#endif
 
 }
 
@@ -103,15 +109,18 @@ GPIO *GPIO::p_instance = nullptr;
   \param None
   \retval None
   */
-uint16_t GPIO::getCFG(void)
+uint8_t GPIO::getCFG(void)
 {
-    uint16_t dataCFG = 0;
-
-    dataCFG |= HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_10) << 2;
-    dataCFG |= HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_11) << 1;
-    dataCFG |= HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_12) << 0;
-
-    return dataCFG;
+      uint8_t res = 0;
+#ifdef SC4
+      if (HAL_GPIO_ReadPin(GPIOC, CFG_UI0_Pin)==GPIO_PIN_SET)
+          res |= 1;
+      if (HAL_GPIO_ReadPin(GPIOC, CFG_UI1_Pin)==GPIO_PIN_SET)
+          res |= 2;
+      if (HAL_GPIO_ReadPin(GPIOC, CFG_UI2_Pin)==GPIO_PIN_SET)
+          res |= 4;
+#endif
+    return res;
 }
 
 /*!
@@ -152,12 +161,14 @@ void GPIO::configLed(uint8_t ledNumber,
 {
 term1("**** configLed ledNumber") term(ledNumber)
     --ledNumber;
-    if (timeOn < 50 && timeOff < 50) {
+    if (timeOn < 50 && timeOff < 50)
+    {
         aLeds[ledNumber].ledState = ledOn;
         aLeds[ledNumber].timeStart = false;
         aLeds[ledNumber].timeOn = timeOn;
         aLeds[ledNumber].timeOff = timeOff;
-    } else {
+    } else
+    {
         aLeds[ledNumber].timeOn = timeOn;
         aLeds[ledNumber].timeOff = timeOff;
         aLeds[ledNumber].timeStart = ledOn;
@@ -174,10 +185,12 @@ extern "C" {
 void timerCallback(void const *arg)
 {
     (void)arg;
-    for (uint8_t i = 0; i < 6; i++) {
-        if (GPIO::getInstance()->aLeds[i].timeStart) {
+    for (uint8_t i = 0; i < GPIO::keysNum; i++) {
+        if (GPIO::getInstance()->aLeds[i].timeStart)
+        {
             GPIO::getInstance()->aLeds[i].count += 1;
-            if(GPIO::getInstance()->aLeds[i].ledState == false && GPIO::getInstance()->aLeds[i].count >= GPIO::getInstance()->aLeds[i].timeOff/timerDelay) {
+            if(GPIO::getInstance()->aLeds[i].ledState == false && GPIO::getInstance()->aLeds[i].count >= GPIO::getInstance()->aLeds[i].timeOff/timerDelay)
+            {
                 GPIO::getInstance()->aLeds[i].ledState = true;
                 GPIO::getInstance()->aLeds[i].count = 0;
                 if (GPIO::getInstance()->aLeds[i].reiterationNum > 0)
@@ -186,7 +199,8 @@ void timerCallback(void const *arg)
                     GPIO::getInstance()->aLeds[i].timeStart = false;
                     GPIO::getInstance()->aLeds[i].reiterationNum -= 1;
                 }
-            } else if (GPIO::getInstance()->aLeds[i].ledState == true && GPIO::getInstance()->aLeds[i].count >= GPIO::getInstance()->aLeds[i].timeOn/timerDelay) {
+            } else if (GPIO::getInstance()->aLeds[i].ledState == true && GPIO::getInstance()->aLeds[i].count >= GPIO::getInstance()->aLeds[i].timeOn/timerDelay)
+            {
                 GPIO::getInstance()->aLeds[i].ledState = false;
                 GPIO::getInstance()->aLeds[i].count = 0;
                 if (GPIO::getInstance()->aLeds[i].reiterationNum > 0)
@@ -200,14 +214,13 @@ void timerCallback(void const *arg)
     }
 }
 
+#ifndef SC4 //Два потока для SC2 - светодиоды и рычаги
 [[ noreturn ]]
 void switchLEDsThread(void const *arg)
 {
     (void)arg;
-
 osDelay(200);
 term("--- switchLEDsThread ---")
-
     while(true)
     {
         for(uint8_t i = 0; i < 6; ++i)
@@ -233,12 +246,10 @@ term("--- switchLEDsThread ---")
 //                if (i > 2) HAL_GPIO_WritePin(GPIOG, GPIO::getInstance()->aLeds[i].ledPin, GPIO_PIN_RESET);
 //                else HAL_GPIO_WritePin(GPIOC, GPIO::getInstance()->aLeds[i].ledPin, GPIO_PIN_RESET);
             }
-
         }
         osDelay(1);
     }
 }
-
 
 [[ noreturn ]]
 void readButtonThread(void const *arg)
@@ -249,17 +260,14 @@ void readButtonThread(void const *arg)
 
 osDelay(4000);
 term("--- readButtonThread ---")
-
     while(true)
     {
         for (uint8_t i = 0; i < GPIO::getInstance()->buttonArray.size() ; ++i)
         {
             uint16_t n = GPIO::getInstance()->buttonArray[i].n;
 //            k = GPIO::getInstance()->buttonArray[i].i;
-
             if (HAL_GPIO_ReadPin(GPIOG, GPIO::getInstance()->buttonArray[i].n) == GPIO_PIN_SET)
             {
-
                 osDelay(50);
                 if (HAL_GPIO_ReadPin(GPIOG, GPIO::getInstance()->buttonArray[i].n)  == GPIO_PIN_SET)
                 {
@@ -286,20 +294,60 @@ term("--- readButtonThread ---")
 //                if (i < 3 ) HAL_GPIO_WritePin(GPIOG, GPIO::getInstance()->aLeds[i].ledPin, GPIO_PIN_RESET);
 //                if (i >= 3 ) HAL_GPIO_WritePin(GPIOC, GPIO::getInstance()->aLeds[i ].ledPin, GPIO_PIN_RESET);
             }
-
         }
         osDelay(1);
     }
+}
+#endif
 
+#ifdef SC4 //Здесь структуры которые обращаются к плате по I2C3 (as Murom)
+
+
+
+
+
+#endif
+
+#ifdef SC4 //Два потока для SC4 - светодиоды и кнопки
+[[ noreturn ]]
+void switchLEDsThread(void const *arg)
+{
+    (void)arg;
+osDelay(200);
+term("--- switchLEDsThread ---")
+    while(true)
+    {
+
+
+        osDelay(1);
+    }
 }
 
+[[ noreturn ]]
+void readButtonThread(void const *arg)
+{
+    (void)arg;
+    PackageRx tempPack;
+    tempPack.packetType = GPIO::getInstance()->button;
+
+osDelay(4000);
+term("--- readButtonThread ---")
+    while(true)
+    {
+
+
+        osDelay(1);
+    }
+}
+#endif
 
 #ifdef __cplusplus
 }
 #endif
 
-void GPIO::initLEDs()
+void GPIO::initLEDS_SC2()
 {
+#ifndef SC4
 //    for (uint8_t i = 0, j = 6; i < 6; i++, j++) {
 //        if (i == 3) j = 10;
 //        aLeds[i].ledPin = aPin[j];
@@ -310,6 +358,35 @@ void GPIO::initLEDs()
     aLeds[3].ledPin = GPIO_PIN_11;
     aLeds[4].ledPin = GPIO_PIN_8;
     aLeds[5].ledPin = GPIO_PIN_12;
+#endif
+}
+
+void GPIO::initLEDS_SC4()
+{
+#ifdef SC4
+
+
+#endif
+}
+
+void GPIO::initBUTTONS_SC2()
+{
+#ifndef SC4
+    buttonArray[0].i = 1;     buttonArray[0].n = GPIO_PIN_11;
+    buttonArray[1].i = 2;     buttonArray[1].n = GPIO_PIN_12;
+    buttonArray[2].i = 3;     buttonArray[2].n = GPIO_PIN_10;
+    buttonArray[3].i = 4;     buttonArray[3].n = GPIO_PIN_13;
+    buttonArray[4].i = 5;     buttonArray[4].n = GPIO_PIN_9;
+    buttonArray[5].i = 6;     buttonArray[5].n = GPIO_PIN_14;
+#endif
+}
+
+void GPIO::initBUTTONS_SC4()
+{
+#ifdef SC4
+
+
+#endif
 }
 
 #ifdef __cplusplus

@@ -89,6 +89,7 @@ term("startingSimpleLedTest1_RTOS")
 
     for(;;)
     {
+#ifndef SC4
         if(reset)
         {
             if (HAL_GetTick() > tickstart + timeReset)
@@ -108,7 +109,8 @@ term("startingSimpleLedTest1_RTOS")
                  tickstart = HAL_GetTick();
             }
         }
-    HAL_Delay(10);
+#endif
+    osDelay(10);
     } //end for(;;)
 
     vTaskDelete(nullptr);
@@ -126,6 +128,7 @@ term("startingSimpleLedTest2_RTOS")
 
     for(;;)
     {
+#ifndef SC4
         if(reset)
         {
             if (HAL_GetTick() > tickstart + timeReset)
@@ -144,7 +147,8 @@ term("startingSimpleLedTest2_RTOS")
                  tickstart = HAL_GetTick();
             }
         }
-    HAL_Delay(10);
+#endif
+    osDelay(10);
     } //end for(;;)
 
     vTaskDelete(nullptr);
@@ -155,7 +159,7 @@ void simpleLedTest3_RTOS(void const *argument)
     bool reset = true;
     uint32_t tickstart = HAL_GetTick();
     uint32_t timeSet = 10;
-    uint32_t timeReset = 3000;
+    uint32_t timeReset = 2000;
 
 osDelay(100);
 term("--- simpleLedTest3_RTOS ---")
@@ -236,11 +240,10 @@ void TasksLog(void const *argument)
 
         for(;;)
     {
-        osDelay(10000);
         vTaskList(logTasks);
         term(logTasks)
         term1("heap size") term(xPortGetFreeHeapSize())
-
+        osDelay(30000);
     } //end for(;;)
 
     vTaskDelete(nullptr);

@@ -24,22 +24,23 @@
 
 //Расширенная диагнотика в консоли
 
-//#define TERMINAL_DEBUG1  //Разрешает term и term1
-#define TERMINAL_DEBUG2    //Разрешает RS232Puts
-
-#ifdef TERMINAL_DEBUG1
+#ifdef LogsEnableToConsole
 #define term(x) (RS232::getInstance().term << x << "..."<<__FUNCTION__ << "..." << __LINE__ <<"\r\n");
 #define term1(x) (RS232::getInstance().term << x << " = ");
 #endif
 
-#ifndef TERMINAL_DEBUG1
+#ifndef LogsEnableToConsole
 #define term(x)
 #define term1(x)
 #endif
 
-#define term2(x) (RS232::getInstance().term << x << "..."<<__FUNCTION__ << "..." << __LINE__ <<"\r\n");
+//#define term2(x) (RS232::getInstance().term << x << "..."<<__FUNCTION__ << "..." << __LINE__ <<"\r\n");
+
+#define term2(x) (RS232::getInstance().term << x );
+#define blank_str RS232::getInstance().term <<"\r\n";
 
 #ifdef __cplusplus
+
 extern "C" {
 #endif
 
@@ -77,12 +78,16 @@ extern "C" {
 #define MII_TXD0_GPIO_Port GPIOB
 #define MII_TXD1_Pin GPIO_PIN_13
 #define MII_TXD1_GPIO_Port GPIOB
+
+#ifndef SC4
 #define L4_Pin GPIO_PIN_6
 #define L4_GPIO_Port GPIOG
 #define L5_Pin GPIO_PIN_7
 #define L5_GPIO_Port GPIOG
 #define L6_Pin GPIO_PIN_8
 #define L6_GPIO_Port GPIOG
+#endif
+
 #define TANG_UPR_Pin GPIO_PIN_9
 #define TANG_UPR_GPIO_Port GPIOA
 #define PEDAL_UPR_Pin GPIO_PIN_10
@@ -91,6 +96,8 @@ extern "C" {
 #define RELE1_UPR_GPIO_Port GPIOA
 #define AMP_UPR_Pin GPIO_PIN_12
 #define AMP_UPR_GPIO_Port GPIOA
+
+#ifndef SC4
 #define L1_Pin GPIO_PIN_10
 #define L1_GPIO_Port GPIOC
 #define L2_Pin GPIO_PIN_11
@@ -109,6 +116,8 @@ extern "C" {
 #define K5_GPIO_Port GPIOG
 #define K6_Pin GPIO_PIN_14
 #define K6_GPIO_Port GPIOG
+#endif
+
 #define TEST_BUT_Pin GPIO_PIN_5
 #define TEST_BUT_GPIO_Port GPIOB
 #define MII_TXD3_Pin GPIO_PIN_8
@@ -149,28 +158,32 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
-#define DET_48V_Pin GPIO_PIN_13
-#define DET_48V_GPIO_Port GPIOC
-#define UPR_MIC2_Pin GPIO_PIN_15
-#define UPR_MIC2_GPIO_Port GPIOC
+
 #define POW_DOWN_Pin GPIO_PIN_2
 #define POW_DOWN_GPIO_Port GPIOB
-#define L4_Pin GPIO_PIN_6
-#define L4_GPIO_Port GPIOG
-#define L5_Pin GPIO_PIN_7
-#define L5_GPIO_Port GPIOG
-#define L6_Pin GPIO_PIN_8
-#define L6_GPIO_Port GPIOG
+
+#ifdef SC4
 #define CFG_UI0_Pin GPIO_PIN_6
-#define CFG_UI0_GPIO_Port GPIOC
+#define CFG_UI1_Pin GPIO_PIN_7
+#define CFG_UI2_Pin GPIO_PIN_8
+#endif
+
+#ifndef SC4
 #define I2C3_INT_Pin GPIO_PIN_8
 #define I2C3_INT_GPIO_Port GPIOC
+
 #define L1_Pin GPIO_PIN_10
 #define L1_GPIO_Port GPIOC
 #define L2_Pin GPIO_PIN_11
 #define L2_GPIO_Port GPIOC
 #define L3_Pin GPIO_PIN_12
 #define L3_GPIO_Port GPIOC
+#define L4_Pin GPIO_PIN_6
+#define L4_GPIO_Port GPIOG
+#define L5_Pin GPIO_PIN_7
+#define L5_GPIO_Port GPIOG
+#define L6_Pin GPIO_PIN_8
+#define L6_GPIO_Port GPIOG
 #define K1_Pin GPIO_PIN_9
 #define K1_GPIO_Port GPIOG
 #define K2_Pin GPIO_PIN_10
@@ -183,6 +196,8 @@ void Error_Handler(void);
 #define K5_GPIO_Port GPIOG
 #define K6_Pin GPIO_PIN_14
 #define K6_GPIO_Port GPIOG
+#endif
+
 #define TEST_BUT_Pin GPIO_PIN_5
 #define TEST_BUT_GPIO_Port GPIOB
 #define TEST_LED_Pin GPIO_PIN_9

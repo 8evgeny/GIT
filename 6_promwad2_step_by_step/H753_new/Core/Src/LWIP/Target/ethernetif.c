@@ -350,6 +350,12 @@ static void low_level_init(struct netif *netif)
   MACAddr[3] = 0x00;
   MACAddr[4] = 0x00;
   MACAddr[5] = macAdr5;
+//  MACAddr[0] = 0x40;
+//  MACAddr[1] = 0x8d;
+//  MACAddr[2] = 0x5c;
+//  MACAddr[3] = 0xba;
+//  MACAddr[4] = 0xf6;
+//  MACAddr[5] = 0x22;
   heth.Init.MACAddr = &MACAddr[0];
   heth.Init.MediaInterface = HAL_ETH_MII_MODE;
   heth.Init.TxDesc = DMATxDscrTab;
@@ -407,7 +413,7 @@ static void low_level_init(struct netif *netif)
 
   /* create the task that handles the ETH_MAC */
 /* USER CODE BEGIN OS_THREAD_DEF_CREATE_CMSIS_RTOS_V1 */
-  osThreadDef(EthIf_____, ethernetif_input, osPriorityRealtime, 0, INTERFACE_THREAD_STACK_SIZE );
+  osThreadDef(EthIf_____, ethernetif_input, osPriorityNormal, 0, INTERFACE_THREAD_STACK_SIZE *2 );
   osThreadCreate (osThread(EthIf_____), netif);
 /* USER CODE END OS_THREAD_DEF_CREATE_CMSIS_RTOS_V1 */
 /* USER CODE BEGIN PHY_PRE_CONFIG */

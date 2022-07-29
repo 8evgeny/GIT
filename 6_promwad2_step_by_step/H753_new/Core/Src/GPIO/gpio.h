@@ -110,7 +110,7 @@ public:
      * \param none
      * \return none
      */
-    uint16_t getCFG(void);
+    uint8_t getCFG(void);
 
     /*!
      * \brief The function allow to increase volume
@@ -154,9 +154,21 @@ public:
 
      \fn initLEDs
     */
-    void initLEDs();
-
+    void initLEDS_SC2();
+    void initLEDS_SC4();
+    void initBUTTONS_SC2();
+    void initBUTTONS_SC4();
+#ifndef SC4
     constexpr static uint8_t keysNum = 6; /*!< Number of the keys on the keyboard */
+#endif
+#ifdef SC4
+#ifdef    NUMBUTTON16
+    constexpr static uint8_t keysNum = 16;
+#endif
+#ifdef    NUMBUTTON32
+    constexpr static uint8_t keysNum = 32;
+#endif
+#endif
     osMessageQId message_q_id;  /*!< ID for the message queue */
     alignas(4) std::array <sButton, keysNum> buttonArray; /*!< The array stores sButton struct elements */
     alignas(4) Keyboard aLeds[keysNum]; /*!< The array stores Keyboard struct elements */

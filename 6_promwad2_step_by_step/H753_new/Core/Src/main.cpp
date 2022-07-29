@@ -1,9 +1,10 @@
 #include "main.h"
 #include "rs232.h"
+#include "rs232_printf.h"
 #include "../Debug/debug.h"
 #include "wdt.h"
 #include "sai.h"
-#include "gpio_sc2_board.h"
+#include "gpio.h"
 #include "testTasks.h"
 #include "fsforeeprom.h"
 #include "json.h"
@@ -228,8 +229,10 @@ int main(void)
 
     //    MX_MDMA_Init(); //Вынес в SRAM
     //    MX_I2C1_Init(); //Вынесен в EEPROM
-    MX_I2C2_Init();
-    MX_I2C3_Init();
+    MX_I2C2_Init(); //Кодек
+#ifdef SC4
+    MX_I2C3_Init(); //Внешняя плата клавиатуры и светодиодов
+#endif
 //    MX_SAI1_Init();
     MX_UART7_Init(); //Вынесен в RS232
     debugInit();
@@ -258,19 +261,22 @@ int main(void)
     //        RS232::getInstance().term << __FUNCTION__ << " " << __LINE__ << " " << "\n";
     //    }
 
+
+
+
     memset(buff_config,' ',sizeof(buff_config));
 
     Json::getInstance()->configStation();
     if (Json::getInstance()->deserializeJsonFlag == Json::JsonFlags::OK)
     {
 
-        osThreadDef(TaskEthernet, TaskEthernet_, osPriorityRealtime, 0, configMINIMAL_STACK_SIZE * 4);
+        osThreadDef(TaskEthernet, TaskEthernet_, osPriorityBelowNormal, 0, configMINIMAL_STACK_SIZE * 2);
         TaskEthernetHandle = osThreadCreate(osThread(TaskEthernet), nullptr);
 
-        osThreadDef(audioInitThread, threadAudioInit, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 10);
+        osThreadDef(audioInitThread, threadAudioInit, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 5);
         SAI::getInstance()->threadAudioInitId = osThreadCreate(osThread(audioInitThread), nullptr);
 
-        osThreadDef(trackRingBufferThread, trackRingBufferThread, osPriorityHigh, 0, configMINIMAL_STACK_SIZE * 10);
+        osThreadDef(trackRingBufferThread, trackRingBufferThread, osPriorityHigh, 0, configMINIMAL_STACK_SIZE * 2);
         if ((GPIO::getInstance()->trackRingBufferThreadId = osThreadCreate(osThread(trackRingBufferThread), nullptr)) == nullptr)
         {
             Debug::getInstance().dbg << __FUNCTION__ << " " << __LINE__ << " " << "\n";
@@ -291,12 +297,14 @@ int main(void)
         term("deserializeJsonFlag  -  error")
     }
 
-    WDTInit();
-    osThreadDef(StartWdtThread, StartWdtThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 1);
-    if ((osThreadCreate(osThread(StartWdtThread), nullptr)) == nullptr)
-    {
-        RS232::getInstance().term << __FUNCTION__ << " " << __LINE__ << " " << "\n";
-    }
+
+
+//    WDTInit();
+//    osThreadDef(StartWdtThread, StartWdtThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 1);
+//    if ((osThreadCreate(osThread(StartWdtThread), nullptr)) == nullptr)
+//    {
+//        RS232::getInstance().term << __FUNCTION__ << " " << __LINE__ << " " << "\n";
+//    }
 
 
     //Тестовые потоки
@@ -308,7 +316,9 @@ int main(void)
 //    testSendMcast(); //Пустые задачи
 //    testReceiveMcast();
 
-//    testTasksLog(); //Логи задач
+#ifdef PrintTaskLogs
+    testTasksLog(); //Логи задач
+#endif
 
     //Debug пока не работает - выпилил везде из кода
     Debug::getInstance().dbg << "ee";
@@ -823,17 +833,13 @@ static void MX_GPIO_Init(void)
     /*Configure GPIO pin Output Level */
     HAL_GPIO_WritePin(GPIOB, POW_DOWN_Pin|TEST_LED_Pin, GPIO_PIN_SET);
 
+#ifndef SC4
     /*Configure GPIO pin Output Level */
     HAL_GPIO_WritePin(GPIOG, L4_Pin|L5_Pin|L6_Pin, GPIO_PIN_RESET);
 
     /*Configure GPIO pin Output Level */
     HAL_GPIO_WritePin(GPIOC, L1_Pin|L2_Pin|L3_Pin, GPIO_PIN_RESET);
-
-    /*Configure GPIO pins : DET_48V_Pin UPR_MIC2_Pin CFG_UI0_Pin */
-    GPIO_InitStruct.Pin = DET_48V_Pin|UPR_MIC2_Pin|CFG_UI0_Pin;
-    GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
-    GPIO_InitStruct.Pull = GPIO_PULLUP;
-    HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+#endif
 
     /*Configure GPIO pins : POW_DOWN_Pin TEST_LED_Pin */
     GPIO_InitStruct.Pin = POW_DOWN_Pin|TEST_LED_Pin;
@@ -841,19 +847,6 @@ static void MX_GPIO_Init(void)
     GPIO_InitStruct.Pull = GPIO_PULLUP;
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
     HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
-
-    /*Configure GPIO pins : L4_Pin L5_Pin L6_Pin */
-    GPIO_InitStruct.Pin = L4_Pin|L5_Pin|L6_Pin;
-    GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-    GPIO_InitStruct.Pull = GPIO_NOPULL;
-    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-    HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
-
-    /*Configure GPIO pin : I2C3_INT_Pin */
-    GPIO_InitStruct.Pin = I2C3_INT_Pin;
-    GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
-    GPIO_InitStruct.Pull = GPIO_NOPULL;
-    HAL_GPIO_Init(I2C3_INT_GPIO_Port, &GPIO_InitStruct);
 
     /*Configure GPIO pin : PA8 */
     GPIO_InitStruct.Pin = GPIO_PIN_8;
@@ -863,6 +856,14 @@ static void MX_GPIO_Init(void)
     GPIO_InitStruct.Alternate = GPIO_AF0_MCO;
     HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
+#ifndef SC4
+//Прерывание от кодека для SC2
+    /*Configure GPIO pin : I2C3_INT_Pin */
+    GPIO_InitStruct.Pin = I2C3_INT_Pin;
+    GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+    GPIO_InitStruct.Pull = GPIO_NOPULL;
+    HAL_GPIO_Init(I2C3_INT_GPIO_Port, &GPIO_InitStruct);
+
     /*Configure GPIO pins : L1_Pin L2_Pin L3_Pin */
     GPIO_InitStruct.Pin = L1_Pin|L2_Pin|L3_Pin;
     GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
@@ -870,13 +871,27 @@ static void MX_GPIO_Init(void)
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
     HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
-    /*Configure GPIO pins : K1_Pin K2_Pin K3_Pin K4_Pin
-                           K5_Pin K6_Pin */
-    GPIO_InitStruct.Pin = K1_Pin|K2_Pin|K3_Pin|K4_Pin
-                          |K5_Pin|K6_Pin;
+    /*Configure GPIO pins : L4_Pin L5_Pin L6_Pin */
+    GPIO_InitStruct.Pin = L4_Pin|L5_Pin|L6_Pin;
+    GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+    GPIO_InitStruct.Pull = GPIO_NOPULL;
+    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+    HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
+
+    /*Configure GPIO pins : K1_Pin K2_Pin K3_Pin K4_Pin K5_Pin K6_Pin */
+    GPIO_InitStruct.Pin = K1_Pin|K2_Pin|K3_Pin|K4_Pin|K5_Pin|K6_Pin;
     GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
     HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
+#endif
+
+#ifdef SC4 //Пины для чтения типа платы клавиатуры
+    GPIO_InitStruct.Pin = CFG_UI0_Pin|CFG_UI1_Pin|CFG_UI2_Pin;
+    GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+    GPIO_InitStruct.Pull = GPIO_NOPULL;
+    HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+#endif
+
 
     /*Configure GPIO pin : TEST_BUT_Pin */
     GPIO_InitStruct.Pin = TEST_BUT_Pin;
@@ -894,10 +909,10 @@ static void MX_GPIO_Init(void)
     HAL_NVIC_SetPriority(EXTI15_10_IRQn, 5, 0);
     HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
 
-        if ((osThreadCreate(osThread(switchLEDsThread), nullptr)) == nullptr)
-        {
-            RS232::getInstance().term << "Failed to create [switchLEDsThread]" << "\n";
-        }
+    if ((osThreadCreate(osThread(switchLEDsThread), nullptr)) == nullptr)
+    {
+        RS232::getInstance().term << "Failed to create [switchLEDsThread]" << "\n";
+    }
 
     if ((osThreadCreate(osThread(readButtonThread), nullptr)) == nullptr)
     {
@@ -1043,6 +1058,7 @@ void MPU_Config(void)
 void Error_Handler(void)
 {
     /* USER CODE BEGIN Error_Handler_Debug */
+    RS232Puts("Error_Handler\r\n");
     /* User can add his own implementation to report the HAL error return state */
     __disable_irq();
     while (1)

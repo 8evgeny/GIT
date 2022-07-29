@@ -32,7 +32,7 @@ void RS232Puts(      /* Put a string to the default device */
     const char *str				/* Pointer to the string */
 )
 {
-#ifdef  TERMINAL_DEBUG2
+#ifdef  LogsEnableRS232Puts
 	while (*str) {
         RS232Putc(*str++);
 	}
