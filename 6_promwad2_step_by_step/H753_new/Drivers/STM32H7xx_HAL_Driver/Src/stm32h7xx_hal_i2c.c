@@ -2382,7 +2382,6 @@ HAL_StatusTypeDef HAL_I2C_Mem_Write(I2C_HandleTypeDef *hi2c, uint16_t DevAddress
 
   if (hi2c->State == HAL_I2C_STATE_READY)
   {
-RS232Puts("__1\r\n");
     if ((pData == NULL) || (Size == 0U))
     {
       hi2c->ErrorCode = HAL_I2C_ERROR_INVALID_PARAM;
@@ -5320,7 +5319,6 @@ static HAL_StatusTypeDef I2C_RequestMemoryWrite(I2C_HandleTypeDef *hi2c, uint16_
                                                 uint32_t Tickstart)
 {
   I2C_TransferConfig(hi2c, DevAddress, (uint8_t)MemAddSize, I2C_RELOAD_MODE, I2C_GENERATE_START_WRITE);
-RS232Puts("__2\r\n");
   /* Wait until TXIS flag is set */
   if (I2C_WaitOnTXISFlagUntilTimeout(hi2c, Timeout, Tickstart) != HAL_OK)
   {
@@ -6424,7 +6422,6 @@ static HAL_StatusTypeDef I2C_WaitOnFlagUntilTimeout(I2C_HandleTypeDef *hi2c, uin
 static HAL_StatusTypeDef I2C_WaitOnTXISFlagUntilTimeout(I2C_HandleTypeDef *hi2c, uint32_t Timeout,
                                                         uint32_t Tickstart)
 {
-RS232Puts("__3\r\n");
   while (__HAL_I2C_GET_FLAG(hi2c, I2C_FLAG_TXIS) == RESET)
   {
 

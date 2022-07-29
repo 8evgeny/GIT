@@ -122,7 +122,7 @@ GPIO::GPIO()
     }
 
     TLC59116F_Init();
-    MCP23017_Init();
+//    MCP23017_Init();
     initLEDS_SC4();
 #endif
 
