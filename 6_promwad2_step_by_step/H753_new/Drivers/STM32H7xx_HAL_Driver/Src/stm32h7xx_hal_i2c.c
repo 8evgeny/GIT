@@ -321,6 +321,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32h7xx_hal.h"
+#include "rs232_printf.h"
 
 /** @addtogroup STM32H7xx_HAL_Driver
   * @{
@@ -2375,11 +2376,13 @@ HAL_StatusTypeDef HAL_I2C_Mem_Write(I2C_HandleTypeDef *hi2c, uint16_t DevAddress
 {
   uint32_t tickstart;
 
+
   /* Check the parameters */
   assert_param(IS_I2C_MEMADD_SIZE(MemAddSize));
 
   if (hi2c->State == HAL_I2C_STATE_READY)
   {
+RS232Puts("__1\r\n");
     if ((pData == NULL) || (Size == 0U))
     {
       hi2c->ErrorCode = HAL_I2C_ERROR_INVALID_PARAM;
@@ -5317,7 +5320,7 @@ static HAL_StatusTypeDef I2C_RequestMemoryWrite(I2C_HandleTypeDef *hi2c, uint16_
                                                 uint32_t Tickstart)
 {
   I2C_TransferConfig(hi2c, DevAddress, (uint8_t)MemAddSize, I2C_RELOAD_MODE, I2C_GENERATE_START_WRITE);
-
+RS232Puts("__2\r\n");
   /* Wait until TXIS flag is set */
   if (I2C_WaitOnTXISFlagUntilTimeout(hi2c, Timeout, Tickstart) != HAL_OK)
   {
@@ -5327,6 +5330,7 @@ static HAL_StatusTypeDef I2C_RequestMemoryWrite(I2C_HandleTypeDef *hi2c, uint16_
   /* If Memory address size is 8Bit */
   if (MemAddSize == I2C_MEMADD_SIZE_8BIT)
   {
+
     /* Send Memory Address */
     hi2c->Instance->TXDR = I2C_MEM_ADD_LSB(MemAddress);
   }
@@ -6420,8 +6424,10 @@ static HAL_StatusTypeDef I2C_WaitOnFlagUntilTimeout(I2C_HandleTypeDef *hi2c, uin
 static HAL_StatusTypeDef I2C_WaitOnTXISFlagUntilTimeout(I2C_HandleTypeDef *hi2c, uint32_t Timeout,
                                                         uint32_t Tickstart)
 {
+RS232Puts("__3\r\n");
   while (__HAL_I2C_GET_FLAG(hi2c, I2C_FLAG_TXIS) == RESET)
   {
+
     /* Check if an error is detected */
     if (I2C_IsErrorOccurred(hi2c, Timeout, Tickstart) != HAL_OK)
     {
@@ -6725,6 +6731,7 @@ static void I2C_TransferConfig(I2C_HandleTypeDef *hi2c, uint16_t DevAddress, uin
              ((I2C_CR2_SADD | I2C_CR2_NBYTES | I2C_CR2_RELOAD | I2C_CR2_AUTOEND | \
                (I2C_CR2_RD_WRN & (uint32_t)(Request >> (31U - I2C_CR2_RD_WRN_Pos))) | \
                 I2C_CR2_START | I2C_CR2_STOP)), tmp);
+
 }
 
 /**

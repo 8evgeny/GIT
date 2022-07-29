@@ -270,8 +270,8 @@ int main(void)
     if (Json::getInstance()->deserializeJsonFlag == Json::JsonFlags::OK)
     {
 
-        osThreadDef(TaskEthernet, TaskEthernet_, osPriorityBelowNormal, 0, configMINIMAL_STACK_SIZE * 2);
-        TaskEthernetHandle = osThreadCreate(osThread(TaskEthernet), nullptr);
+//        osThreadDef(TaskEthernet, TaskEthernet_, osPriorityBelowNormal, 0, configMINIMAL_STACK_SIZE * 2);
+//        TaskEthernetHandle = osThreadCreate(osThread(TaskEthernet), nullptr);
 
         osThreadDef(audioInitThread, threadAudioInit, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 5);
         SAI::getInstance()->threadAudioInitId = osThreadCreate(osThread(audioInitThread), nullptr);
@@ -282,11 +282,11 @@ int main(void)
             Debug::getInstance().dbg << __FUNCTION__ << " " << __LINE__ << " " << "\n";
         }
 
-        osThreadDef(recvUdpThread, recvUdpThread, osPriorityHigh, 0, configMINIMAL_STACK_SIZE * 10);
-        if ((UdpJsonExch::getInstance()->recvUdpThreadId = osThreadCreate(osThread(recvUdpThread), nullptr)) == nullptr)
-        {
-            Debug::getInstance().dbg << __FUNCTION__ << " " << __LINE__ << " " << "\n";
-        }
+//        osThreadDef(recvUdpThread, recvUdpThread, osPriorityHigh, 0, configMINIMAL_STACK_SIZE * 10);
+//        if ((UdpJsonExch::getInstance()->recvUdpThreadId = osThreadCreate(osThread(recvUdpThread), nullptr)) == nullptr)
+//        {
+//            Debug::getInstance().dbg << __FUNCTION__ << " " << __LINE__ << " " << "\n";
+//        }
 
 
 //          firmwareInitThread();
