@@ -156,8 +156,14 @@ int8_t GPIO::TLC59116F_Init()
         for (j = 0; j < sizeof(TLC59116F_Init_Val); j+=2)
         {
 term("TLC59116F_Init")
-        auto ret = HAL_I2C_Mem_Write(&hi2c3, TLC59116F_address[i], TLC59116F_Init_Val[j],
-                                     I2C_MEMADD_SIZE_8BIT,(uint8_t *)&TLC59116F_Init_Val[j+1], 1, 1000);
+        auto ret = HAL_I2C_Mem_Write(&hi2c3,
+                                     TLC59116F_address[i],
+                                     TLC59116F_Init_Val[j],
+                                     I2C_MEMADD_SIZE_8BIT,
+                                     (uint8_t *)&TLC59116F_Init_Val[j+1],
+                                     1,
+                                     100
+                                     );
 term1("error") term((uint8_t)ret)
             if (ret != HAL_OK)
             {
