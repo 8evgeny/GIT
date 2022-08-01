@@ -120,11 +120,11 @@ public:
      * \param none
      * \return none
      */
-    uint8_t getCFG(void);
-    int8_t MCP23017_Init();
-    int8_t TLC59116F_Init();
-    uint8_t TLC59116F_makeledval(uint8_t led);
-    void TLC59116F_writeled(uint8_t led);
+//    uint8_t getCFG(void);
+//    int8_t MCP23017_Init();
+//    int8_t TLC59116F_Init();
+//    uint8_t TLC59116F_makeledval(uint8_t led);
+//    void TLC59116F_writeled(uint8_t led);
 
     /*!
      * \brief The function allow to increase volume

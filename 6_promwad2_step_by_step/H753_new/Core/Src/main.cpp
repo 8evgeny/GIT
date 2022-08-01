@@ -65,7 +65,7 @@ TIM_HandleTypeDef htim3;
 UART_HandleTypeDef huart7;
 SRAM_HandleTypeDef hsram1;
 uint8_t macAdr5;
-
+uint8_t LED_val[LED_NUM];
 
 //Массив во внешней памяти для конфига (readelf -S H753_new.elf)
 char buff_config [200*1024] __attribute__((section(".ExtRamData")));
@@ -204,6 +204,105 @@ static void empty(void const *arg)
     }
 }
 
+// max address number of TLC59116F chips
+uint8_t TLC59116F_max_address;
+// TLC59116F chips addresses
+const uint8_t TLC59116F_address[] 	= {0xC0,0xC2,0xC4,0xC6,0xC8,0xCA};
+// TLC59116F chip button registers
+const uint8_t TLC59116F_register[] 	= {0x14,0x15,0x16,0x17};
+
+// max address number of MCP23017 chips
+uint8_t MCP23017_max_address;
+// MCP23017 chips addresses
+const uint8_t MCP23017_address[] = {0x40,0x42,0x44,0x4E};
+// MCP23017 chip LEDs registers
+const uint8_t MCP23017_register[] = {0x12,0x13};
+
+// TLC59116F chip setup registers values
+const uint8_t TLC59116F_Init_Val[] = {
+            //  Reg    Data
+                0x00 , 0x00,	// MODE1
+                0x14 , 0x00,    // LEDOUT0
+                0x15 , 0x00,	// LEDOUT1
+                0x16 , 0x00,	// LEDOUT2
+                0x17 , 0x00		// LEDOUT3
+             };
+
+// MCP23017 chip setup registers values
+const uint8_t MCP23017_Init_Val[] = {
+            //  Reg    Data
+                0x04 , 0xFF,	// GPINTENA
+                0x05 , 0xFF,	// GPINTENB
+                0x0A , 0x42,	// IOCON
+                0x0C , 0xFF,	// GPPUA
+                0x0D , 0xFF,	// GPPUB
+             };
+
+
+int8_t TLC59116F_Init()
+{
+    uint8_t i, j;
+    for (i = 0; i < TLC59116F_max_address; i++)
+        for (j = 0; j < sizeof(TLC59116F_Init_Val); j+=2)
+        {
+term("TLC59116F_Init")
+        auto ret = HAL_I2C_Mem_Write(&hi2c3,
+                                     TLC59116F_address[i],
+                                     TLC59116F_Init_Val[j],
+                                     I2C_MEMADD_SIZE_8BIT,
+                                     (uint8_t *)&TLC59116F_Init_Val[j+1],
+                                     1,
+                                     100
+                                     );
+HAL_Delay(500);
+term1("error") term((uint8_t)ret)
+            if (ret != HAL_OK)
+            {
+//                term(i)
+                return -i;
+            }
+        }
+
+    return 1;
+}
+
+uint8_t getCFG(void)
+{
+      uint8_t res = 0;
+#ifdef SC4
+      if (HAL_GPIO_ReadPin(GPIOC, CFG_UI0_Pin)==GPIO_PIN_SET)
+          res |= 1;
+      if (HAL_GPIO_ReadPin(GPIOC, CFG_UI1_Pin)==GPIO_PIN_SET)
+          res |= 2;
+      if (HAL_GPIO_ReadPin(GPIOC, CFG_UI2_Pin)==GPIO_PIN_SET)
+          res |= 4;
+#endif
+    return res;
+}
+
+uint8_t TLC59116F_makeledval(uint8_t led)
+{
+   uint8_t i,res;
+   res = 0;
+   for (i=0; i<8; i+=2) {
+     res |= (LED_val[led++] & 0x03) << i;
+   }
+
+   return res;
+}
+
+
+void TLC59116F_writeled(uint8_t led)
+{
+term( "TLC59116F_writeled")
+  led &= 0xFC;
+  uint8_t data = TLC59116F_makeledval(led);
+  led -= LED_AB1R;
+  HAL_I2C_Mem_Write(&hi2c3, TLC59116F_address[led >> 4],
+          TLC59116F_register[(led & 0x0F) >> 2],
+          I2C_MEMADD_SIZE_8BIT,&data, 1, 100);
+}
+
 int main(void)
 {
 
@@ -260,6 +359,28 @@ int main(void)
     //        term("readFromUartThread Error")
     //        RS232::getInstance().term << __FUNCTION__ << " " << __LINE__ << " " << "\n";
     //    }
+
+#ifdef SC4
+    term1("getCFG()") term(getCFG())
+#endif
+    switch (getCFG())
+    {
+        case 0: TLC59116F_max_address = 2; MCP23017_max_address = 1; break; //УИ-16-1
+        case 1: TLC59116F_max_address = 4; MCP23017_max_address = 2; break;	//УИ-32-1
+        case 2: TLC59116F_max_address = 6; MCP23017_max_address = 3; break;	//УИ-48-1
+        case 3: TLC59116F_max_address = 2; MCP23017_max_address = 1; break;	//УИ-16Н-1
+        case 4: TLC59116F_max_address = 4; MCP23017_max_address = 2; break;	//УИ-32Н-1
+        default: TLC59116F_max_address = 6; MCP23017_max_address = 3; break;
+    }
+
+    TLC59116F_Init();
+
+    for (uint8_t i =0; i < 100; ++i)
+    {
+term("writeled")
+        TLC59116F_writeled(i);
+        osDelay(100);
+    }
 
 
     memset(buff_config,' ',sizeof(buff_config));

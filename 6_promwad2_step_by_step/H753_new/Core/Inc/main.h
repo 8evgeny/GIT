@@ -39,10 +39,13 @@
 #define term2(x) (RS232::getInstance().term << x );
 #define blank_str RS232::getInstance().term <<"\r\n";
 
-#ifdef __cplusplus
 
+#ifdef __cplusplus
 extern "C" {
 #endif
+
+
+
 
 #define MII_MOC_Pin GPIO_PIN_1
 #define MII_MOC_GPIO_Port GPIOC
