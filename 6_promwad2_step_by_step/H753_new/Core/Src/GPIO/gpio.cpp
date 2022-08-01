@@ -196,6 +196,7 @@ uint8_t GPIO::TLC59116F_makeledval(uint8_t led)
 
 void GPIO::TLC59116F_writeled(uint8_t led)
 {
+term( "TLC59116F_writeled")
   led &= 0xFC;
   uint8_t data = TLC59116F_makeledval(led);
   led -= LED_AB1R;
@@ -426,7 +427,11 @@ osDelay(200);
 term("--- switchLEDsThread ---")
     while(true)
     {
-
+        for (uint8_t i =0; i<100;++i)
+        {
+            GPIO::getInstance()->TLC59116F_writeled(i);
+            osDelay(100);
+        }
 
         osDelay(1);
     }
