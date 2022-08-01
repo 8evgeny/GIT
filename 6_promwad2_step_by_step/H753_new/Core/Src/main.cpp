@@ -262,8 +262,6 @@ int main(void)
     //    }
 
 
-
-
     memset(buff_config,' ',sizeof(buff_config));
 
     Json::getInstance()->configStation();
@@ -273,14 +271,14 @@ int main(void)
 //        osThreadDef(TaskEthernet, TaskEthernet_, osPriorityBelowNormal, 0, configMINIMAL_STACK_SIZE * 2);
 //        TaskEthernetHandle = osThreadCreate(osThread(TaskEthernet), nullptr);
 
-        osThreadDef(audioInitThread, threadAudioInit, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 5);
-        SAI::getInstance()->threadAudioInitId = osThreadCreate(osThread(audioInitThread), nullptr);
+//        osThreadDef(audioInitThread, threadAudioInit, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 5);
+//        SAI::getInstance()->threadAudioInitId = osThreadCreate(osThread(audioInitThread), nullptr);
 
-        osThreadDef(trackRingBufferThread, trackRingBufferThread, osPriorityHigh, 0, configMINIMAL_STACK_SIZE * 2);
-        if ((GPIO::getInstance()->trackRingBufferThreadId = osThreadCreate(osThread(trackRingBufferThread), nullptr)) == nullptr)
-        {
-            Debug::getInstance().dbg << __FUNCTION__ << " " << __LINE__ << " " << "\n";
-        }
+//        osThreadDef(trackRingBufferThread, trackRingBufferThread, osPriorityHigh, 0, configMINIMAL_STACK_SIZE * 2);
+//        if ((GPIO::getInstance()->trackRingBufferThreadId = osThreadCreate(osThread(trackRingBufferThread), nullptr)) == nullptr)
+//        {
+//            Debug::getInstance().dbg << __FUNCTION__ << " " << __LINE__ << " " << "\n";
+//        }
 
 //        osThreadDef(recvUdpThread, recvUdpThread, osPriorityHigh, 0, configMINIMAL_STACK_SIZE * 10);
 //        if ((UdpJsonExch::getInstance()->recvUdpThreadId = osThreadCreate(osThread(recvUdpThread), nullptr)) == nullptr)

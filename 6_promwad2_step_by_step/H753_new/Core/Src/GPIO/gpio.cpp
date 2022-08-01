@@ -124,6 +124,9 @@ GPIO::GPIO()
     TLC59116F_Init();
 //    MCP23017_Init();
     initLEDS_SC4();
+
+
+
 #endif
 
     mutexRingBufferRx_id = osMutexCreate(osMutex(mutexRingBufferRx));
@@ -153,9 +156,23 @@ int8_t GPIO::TLC59116F_Init()
         for (j = 0; j < sizeof(TLC59116F_Init_Val); j+=2)
         {
 term("TLC59116F_Init")
-            if (HAL_I2C_Mem_Write(&hi2c3, TLC59116F_address[i], TLC59116F_Init_Val[j],
-                I2C_MEMADD_SIZE_8BIT,(uint8_t *)&TLC59116F_Init_Val[j+1], 1, 10000)!=HAL_OK) return -i;
+        auto ret = HAL_I2C_Mem_Write(&hi2c3, TLC59116F_address[i], TLC59116F_Init_Val[j],
+                                     I2C_MEMADD_SIZE_8BIT,(uint8_t *)&TLC59116F_Init_Val[j+1], 1, 1000);
+term1("error") term((uint8_t)ret)
+            if (ret != HAL_OK)
+            {
+//                term(i)
+                return -i;
+            }
         }
+
+    for (uint8_t i =0; i < 100; ++i)
+    {
+term("writeled")
+        GPIO::getInstance()->TLC59116F_writeled(i);
+        osDelay(100);
+    }
+
 
     return 1;
 }
@@ -200,9 +217,9 @@ term( "TLC59116F_writeled")
   led &= 0xFC;
   uint8_t data = TLC59116F_makeledval(led);
   led -= LED_AB1R;
-  HAL_I2C_Mem_Write_IT(&hi2c3, TLC59116F_address[led >> 4],
+  HAL_I2C_Mem_Write(&hi2c3, TLC59116F_address[led >> 4],
           TLC59116F_register[(led & 0x0F) >> 2],
-          I2C_MEMADD_SIZE_8BIT,&data, 1);
+          I2C_MEMADD_SIZE_8BIT,&data, 1, 100);
 }
 
 
@@ -427,11 +444,11 @@ osDelay(200);
 term("--- switchLEDsThread ---")
     while(true)
     {
-        for (uint8_t i =0; i<100;++i)
-        {
-            GPIO::getInstance()->TLC59116F_writeled(i);
-            osDelay(100);
-        }
+//        for (uint8_t i =0; i<100;++i)
+//        {
+//            GPIO::getInstance()->TLC59116F_writeled(i);
+//            osDelay(100);
+//        }
 
         osDelay(1);
     }
