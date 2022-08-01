@@ -150,8 +150,7 @@ GPIO::GPIO()
 
 int8_t GPIO::TLC59116F_Init()
 {
-
-    uint8_t i,j;
+    uint8_t i, j;
     for (i = 0; i < TLC59116F_max_address; i++)
         for (j = 0; j < sizeof(TLC59116F_Init_Val); j+=2)
         {
@@ -164,6 +163,7 @@ term("TLC59116F_Init")
                                      1,
                                      100
                                      );
+HAL_Delay(500);
 term1("error") term((uint8_t)ret)
             if (ret != HAL_OK)
             {
