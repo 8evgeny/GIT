@@ -25,66 +25,20 @@
 
 #include "rs232_printf.h"
 
-/* Private includes ----------------------------------------------------------*/
-/* USER CODE BEGIN Includes */
-/* USER CODE END Includes */
-
-/* Private typedef -----------------------------------------------------------*/
-/* USER CODE BEGIN TD */
-
-/* USER CODE END TD */
-
-/* Private define ------------------------------------------------------------*/
-/* USER CODE BEGIN PD */
-
-/* USER CODE END PD */
-
-/* Private macro -------------------------------------------------------------*/
-/* USER CODE BEGIN PM */
-
-/* USER CODE END PM */
-
-/* Private variables ---------------------------------------------------------*/
-/* USER CODE BEGIN PV */
-
-/* USER CODE END PV */
-
-/* Private function prototypes -----------------------------------------------*/
-/* USER CODE BEGIN PFP */
-
-/* USER CODE END PFP */
-
-/* Private user code ---------------------------------------------------------*/
-/* USER CODE BEGIN 0 */
-
-/* USER CODE END 0 */
-
-/* External variables --------------------------------------------------------*/
 extern ETH_HandleTypeDef heth;
 extern DMA_HandleTypeDef hdma_i2c2_rx;
 extern DMA_HandleTypeDef hdma_i2c2_tx;
 extern DMA_HandleTypeDef hdma_i2c3_rx;
 extern DMA_HandleTypeDef hdma_i2c3_tx;
-//extern I2C_HandleTypeDef hi2c3;
 
-//extern DMA_HandleTypeDef hdma_sai1_a;
-//extern DMA_HandleTypeDef hdma_sai1_b;
-//extern SAI_HandleTypeDef hsai_BlockA1;
-//extern SAI_HandleTypeDef hsai_BlockB1;
 extern TIM_HandleTypeDef htim3;
 extern UART_HandleTypeDef huart7;
 extern TIM_HandleTypeDef htim1;
 
-//Добавил_CUBE_03_05_2022
 extern DMA_HandleTypeDef hdma_i2c1_rx;
 extern DMA_HandleTypeDef hdma_i2c1_tx;
 extern I2C_HandleTypeDef hi2c1;
 extern MDMA_HandleTypeDef hmdma_memtomem_dma2_stream0;
-
-
-/* USER CODE BEGIN EV */
-
-/* USER CODE END EV */
 
 /******************************************************************************/
 /*           Cortex Processor Interruption and Exception Handlers          */
@@ -167,8 +121,6 @@ RS232Puts("--- BusFault_Handler ---\r\n");
 //}
 
 
-
-
 /**
   * @brief This function handles Undefined instruction or illegal state.
   */
@@ -249,123 +201,36 @@ void DMA1_Stream7_IRQHandler(void)
   HAL_DMA_IRQHandler(&hdma_i2c3_tx);
 }
 
-
 /**
   * @brief This function handles TIM1 update interrupt.
   */
 void TIM1_UP_IRQHandler(void)
 {
-  /* USER CODE BEGIN TIM1_UP_IRQn 0 */
-
-  /* USER CODE END TIM1_UP_IRQn 0 */
   HAL_TIM_IRQHandler(&htim1);
-  /* USER CODE BEGIN TIM1_UP_IRQn 1 */
-
-  /* USER CODE END TIM1_UP_IRQn 1 */
 }
-
-
 
 /**
   * @brief This function handles TIM3 global interrupt.
   */
 void TIM3_IRQHandler(void)
 {
-  /* USER CODE BEGIN TIM3_IRQn 0 */
-
-  /* USER CODE END TIM3_IRQn 0 */
   HAL_TIM_IRQHandler(&htim3);
-  /* USER CODE BEGIN TIM3_IRQn 1 */
-
-  /* USER CODE END TIM3_IRQn 1 */
 }
-
-/**
-  * @brief This function handles DMA2 stream3 global interrupt.
-  */
-//void DMA2_Stream3_IRQHandler(void)
-//{
-//  /* USER CODE BEGIN DMA2_Stream3_IRQn 0 */
-
-//  /* USER CODE END DMA2_Stream3_IRQn 0 */
-//  HAL_DMA_IRQHandler(&hdma_sai1_a);
-//  /* USER CODE BEGIN DMA2_Stream3_IRQn 1 */
-
-//  /* USER CODE END DMA2_Stream3_IRQn 1 */
-//}
-
-/**
-  * @brief This function handles DMA2 stream4 global interrupt.
-  */
-//void DMA2_Stream4_IRQHandler(void)
-//{
-//  /* USER CODE BEGIN DMA2_Stream4_IRQn 0 */
-
-//  /* USER CODE END DMA2_Stream4_IRQn 0 */
-//  HAL_DMA_IRQHandler(&hdma_sai1_b);
-//  /* USER CODE BEGIN DMA2_Stream4_IRQn 1 */
-
-//  /* USER CODE END DMA2_Stream4_IRQn 1 */
-//}
 
 /**
   * @brief This function handles Ethernet global interrupt.
   */
 void ETH_IRQHandler(void)
 {
-  /* USER CODE BEGIN ETH_IRQn 0 */
-
-  /* USER CODE END ETH_IRQn 0 */
   HAL_ETH_IRQHandler(&heth);
-  /* USER CODE BEGIN ETH_IRQn 1 */
-
-  /* USER CODE END ETH_IRQn 1 */
 }
-
-/**
-  * @brief This function handles Ethernet wake-up interrupt through EXTI line 86.
-  */
-//void ETH_WKUP_IRQHandler(void)
-//{
-//  /* USER CODE BEGIN ETH_WKUP_IRQn 0 */
-
-//  /* USER CODE END ETH_WKUP_IRQn 0 */
-//  HAL_ETH_IRQHandler(&heth);
-//  /* USER CODE BEGIN ETH_WKUP_IRQn 1 */
-
-//  /* USER CODE END ETH_WKUP_IRQn 1 */
-//}
-
-/**
-  * @brief This function handles I2C3 event interrupt.
-  */
 
 /**
   * @brief This function handles UART7 global interrupt.
   */
 void UART7_IRQHandler(void)
 {
-
   HAL_UART_IRQHandler(&huart7);
-
 }
 
-/**
-  * @brief This function handles SAI1 global interrupt.
-  */
-//void SAI1_IRQHandler(void)
-//{
-//  /* USER CODE BEGIN SAI1_IRQn 0 */
-
-//  /* USER CODE END SAI1_IRQn 0 */
-//  HAL_SAI_IRQHandler(&hsai_BlockA1);
-//  HAL_SAI_IRQHandler(&hsai_BlockB1);
-//  /* USER CODE BEGIN SAI1_IRQn 1 */
-
-//  /* USER CODE END SAI1_IRQn 1 */
-//}
-
-/* USER CODE BEGIN 1 */
-
-/* USER CODE END 1 */
 
