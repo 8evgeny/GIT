@@ -292,8 +292,8 @@ osDelay(5000);
     configFilter();
 
 i2cInitBoard();
+I2C::getInstance()->writeRegister(0xC0, 0x00, 0x00, false);
 I2C::getInstance()->writeRegister(0xC0, 0x14, 0x55, false);
-
 term("__4_")
 
 //Вывод всех регистров codec определенной страницы
