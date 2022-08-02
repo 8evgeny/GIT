@@ -528,7 +528,7 @@ int main(void)
 
 //    ui_test_board(1);
 
-
+    i2cInitBoard();
 
     memset(buff_config,' ',sizeof(buff_config));
 

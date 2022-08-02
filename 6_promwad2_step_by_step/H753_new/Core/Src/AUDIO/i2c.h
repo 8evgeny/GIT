@@ -75,7 +75,7 @@ public:
      \param status Execution status
     */
     void errorI2CAudio(HAL_StatusTypeDef status);
-
+    void errorI2CBoard(HAL_StatusTypeDef status);
     /*!
      * \brief hI2cHandler
      */
@@ -98,6 +98,7 @@ extern "C" {
  * \brief I2CInit Initialization for I2C
  */
 void i2cInitAudio(void);
+void i2cInitBoard(void);
 
 #ifdef __cplusplus
 }
