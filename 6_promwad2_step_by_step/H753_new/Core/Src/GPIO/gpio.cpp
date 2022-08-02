@@ -14,7 +14,7 @@
 
 */
 #include "gpio.h"
-
+#include "i2c.h"
 #include <algorithm>
 #include <cstring>
 #include "rs232.h"
@@ -448,6 +448,33 @@ void switchLEDsThread(void const *arg)
     (void)arg;
 osDelay(200);
 term("--- switchLEDsThread ---")
+
+        i2cInitBoard();
+        I2C::getInstance()->writeRegister(0xC0, 0x00, 0x00, false);//1 - 8
+        I2C::getInstance()->writeRegister(0xC0, 0x14, 0x55, false);//1,2
+        I2C::getInstance()->writeRegister(0xC0, 0x15, 0x55, false);//3,4
+        I2C::getInstance()->writeRegister(0xC0, 0x16, 0x55, false);//5,6
+        I2C::getInstance()->writeRegister(0xC0, 0x17, 0x55, false);//7,8
+
+        I2C::getInstance()->writeRegister(0xC2, 0x00, 0x00, false);//9 - 16
+        I2C::getInstance()->writeRegister(0xC2, 0x14, 0x55, false);//1,2
+        I2C::getInstance()->writeRegister(0xC2, 0x15, 0x55, false);//3,4
+        I2C::getInstance()->writeRegister(0xC2, 0x16, 0x55, false);//5,6
+        I2C::getInstance()->writeRegister(0xC2, 0x17, 0x55, false);//7,8
+
+        I2C::getInstance()->writeRegister(0xC4, 0x00, 0x00, false);//17 - 24
+        I2C::getInstance()->writeRegister(0xC4, 0x14, 0x55, false);//1,2
+        I2C::getInstance()->writeRegister(0xC4, 0x15, 0x55, false);//3,4
+        I2C::getInstance()->writeRegister(0xC4, 0x16, 0x55, false);//5,6
+        I2C::getInstance()->writeRegister(0xC4, 0x17, 0x55, false);//7,8
+
+        I2C::getInstance()->writeRegister(0xC6, 0x00, 0x00, false);//25 - 32
+        I2C::getInstance()->writeRegister(0xC6, 0x14, 0x55, false);//1,2
+        I2C::getInstance()->writeRegister(0xC6, 0x15, 0x55, false);//3,4
+        I2C::getInstance()->writeRegister(0xC6, 0x16, 0x55, false);//5,6
+        I2C::getInstance()->writeRegister(0xC6, 0x17, 0x55, false);//7,8
+
+
     while(true)
     {
 //        for (uint8_t i =0; i<100;++i)
@@ -501,7 +528,6 @@ void GPIO::initLEDS_SC2()
 void GPIO::initLEDS_SC4()
 {
 #ifdef SC4
-
 
 #endif
 }
