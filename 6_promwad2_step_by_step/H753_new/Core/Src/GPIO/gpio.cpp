@@ -336,7 +336,7 @@ term("--- switchLEDsThread ---")
             I2C::getInstance()->writeRegister(TLC59116F_address[i], TLC59116F_register[j], 0x00, false);
             }
         }
-        osDelay(1000);
+        osDelay(5000);
 
         for (uint8_t i = 0; i < TLC59116F_max_address; i++)
         {
@@ -354,7 +354,7 @@ term("--- switchLEDsThread ---")
             I2C::getInstance()->writeRegister(TLC59116F_address[i], TLC59116F_register[j], 0x00, false);
             }
         }
-        osDelay(1000);
+        osDelay(5000);
 
         osDelay(1);
     }
