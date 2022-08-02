@@ -163,6 +163,7 @@ void I2C::writeRegister(uint8_t addr, uint8_t reg, uint8_t val, bool audio)
         while (HAL_I2C_GetState(hI2cHandlerBoard) != HAL_I2C_STATE_READY);
         do {
             status = HAL_I2C_Master_Transmit_DMA(hI2cHandlerBoard, addr, request, sizeof(request) / sizeof(uint8_t));
+HAL_Delay(5);
             while (I2C::getInstance()->i2c3WriteReady == RESET);
             I2C::getInstance()->i2c3WriteReady = RESET;
             errorI2CBoard(status);

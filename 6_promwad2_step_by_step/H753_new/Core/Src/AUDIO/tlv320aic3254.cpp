@@ -291,11 +291,17 @@ osDelay(5000);
     configDAC();
     configFilter();
 
+i2cInitBoard();
+I2C::getInstance()->writeRegister(0xC0, 0x14, 0x55, false);
+
+term("__4_")
+
 //Вывод всех регистров codec определенной страницы
+
 //char buf[20];
 //I2C::getInstance()->writeRegister(I2C_ADDRESS, 0x00, 0x01, true); //Тут установить номер страницы
 //for (uint8_t i = 0; i < 255; ++i){
-//uint8_t read = I2C::getInstance()->readRegister(I2C_ADDRESS,i);
+//uint8_t read = I2C::getInstance()->readRegister(I2C_ADDRESS,i, true);
 //sprintf(buf,"reg %d Value = %d ",i,read);
 //term(buf)
 //}

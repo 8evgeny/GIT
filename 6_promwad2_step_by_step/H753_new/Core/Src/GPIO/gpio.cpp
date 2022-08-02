@@ -29,7 +29,7 @@ osTimerDef(timer7, timerCallback); /*!< Define the attributes of the timer */
 //osMessageQDef(message_q, 1, uint16_t); // Declare a message queue
 osMutexDef (mutexRingBufferRx);
 
-extern I2C_HandleTypeDef hi2c3;
+//extern I2C_HandleTypeDef hi2c3;
 
 //// max address number of TLC59116F chips
 //uint8_t TLC59116F_max_address;
