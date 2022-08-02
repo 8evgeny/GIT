@@ -20,6 +20,8 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "rs232_printf.h"
+
 /* USER CODE BEGIN Includes */
 
 /* USER CODE END Includes */
@@ -169,6 +171,7 @@ void HAL_I2C_MspInit(I2C_HandleTypeDef* hi2c)
     }
     else if(hi2c->Instance==I2C2)
     {
+RS232Puts("hi2c->Instance==I2C2\r\n") ;
     /* USER CODE BEGIN I2C2_MspInit 0 */
 
     /* USER CODE END I2C2_MspInit 0 */
