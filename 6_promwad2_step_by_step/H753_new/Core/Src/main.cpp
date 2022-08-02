@@ -210,14 +210,12 @@ uint8_t TLC59116F_max_address;
 const uint8_t TLC59116F_address[] 	= {0xC0,0xC2,0xC4,0xC6,0xC8,0xCA};
 // TLC59116F chip button registers
 const uint8_t TLC59116F_register[] 	= {0x14,0x15,0x16,0x17};
-
 // max address number of MCP23017 chips
 uint8_t MCP23017_max_address;
 // MCP23017 chips addresses
 const uint8_t MCP23017_address[] = {0x40,0x42,0x44,0x4E};
 // MCP23017 chip LEDs registers
 const uint8_t MCP23017_register[] = {0x12,0x13};
-
 // TLC59116F chip setup registers values
 const uint8_t TLC59116F_Init_Val[] = {
             //  Reg    Data
@@ -227,7 +225,6 @@ const uint8_t TLC59116F_Init_Val[] = {
                 0x16 , 0x00,	// LEDOUT2
                 0x17 , 0x00		// LEDOUT3
              };
-
 // MCP23017 chip setup registers values
 const uint8_t MCP23017_Init_Val[] = {
             //  Reg    Data
@@ -237,7 +234,6 @@ const uint8_t MCP23017_Init_Val[] = {
                 0x0C , 0xFF,	// GPPUA
                 0x0D , 0xFF,	// GPPUB
              };
-
 
 int8_t TLC59116F_Init()
 {
@@ -266,6 +262,25 @@ term1("error") term((uint8_t)ret)
     return 1;
 }
 
+int8_t MCP23017_Init()
+{
+  uint8_t i,j;
+  for (i = 0; i < MCP23017_max_address; i++)
+   for (j = 0; j < sizeof(MCP23017_Init_Val); j+=2) {
+    if (HAL_I2C_Mem_Write(&hi2c3, MCP23017_address[i], MCP23017_Init_Val[j] ,
+                          I2C_MEMADD_SIZE_8BIT,(uint8_t *)&MCP23017_Init_Val[j+1], 1, 100)!=HAL_OK) return -i;
+   }
+// Пока без номеронабирателя
+//  if ((ui_mode == UI_mode_UI16N)||(ui_mode == UI_mode_UI32N)) { // tel number btn reg
+//   for (j = 0; j < sizeof(MCP23017_Init_Val); j+=2) {
+//    if (HAL_I2C_Mem_Write(&hi2c3, MCP23017_address[3], MCP23017_Init_Val[j] ,
+//    		              I2C_MEMADD_SIZE_8BIT,(uint8_t *)&MCP23017_Init_Val[j+1], 1, 100)!=HAL_OK) return -3;
+//   }
+//  }
+
+  return 1;
+}
+
 uint8_t getCFG(void)
 {
       uint8_t res = 0;
@@ -291,7 +306,6 @@ uint8_t TLC59116F_makeledval(uint8_t led)
    return res;
 }
 
-
 void TLC59116F_writeled(uint8_t led)
 {
 term( "TLC59116F_writeled")
@@ -302,6 +316,39 @@ term( "TLC59116F_writeled")
           TLC59116F_register[(led & 0x0F) >> 2],
           I2C_MEMADD_SIZE_8BIT,&data, 1, 100);
 }
+
+int8_t TLC59116F_Write(uint8_t idx, uint8_t reg, uint8_t data)
+{
+  if (HAL_I2C_Mem_Write(&hi2c3, TLC59116F_address[idx], reg , I2C_MEMADD_SIZE_8BIT, (uint8_t *)&data, 1, 100)!=HAL_OK)
+    return -1;
+  else
+    return 0;
+}
+
+int8_t TLC59116F_Read(uint8_t idx, uint8_t reg, uint8_t *data)
+{
+  if (HAL_I2C_Mem_Read(&hi2c3, TLC59116F_address[idx], reg , I2C_MEMADD_SIZE_8BIT, data, 1, 100)!=HAL_OK)
+    return -1;
+  else
+    return 0;
+}
+
+int8_t MCP23017_Write(uint8_t idx, uint8_t reg, uint8_t data)
+{
+  if (HAL_I2C_Mem_Write(&hi2c3, MCP23017_address[idx], reg , I2C_MEMADD_SIZE_8BIT,(uint8_t *)&data, 1, 100)!=HAL_OK)
+    return -1;
+  else
+    return 0;
+}
+
+int8_t MCP23017_Read(uint8_t idx, uint8_t reg, uint8_t *data)
+{
+  if (HAL_I2C_Mem_Read(&hi2c3, MCP23017_address[idx], reg ,I2C_MEMADD_SIZE_8BIT, data, 1, 100)!=HAL_OK)
+    return -1;
+  else
+    return 0;
+}
+
 
 int main(void)
 {
@@ -373,15 +420,16 @@ int main(void)
         default: TLC59116F_max_address = 6; MCP23017_max_address = 3; break;
     }
 
-    TLC59116F_Init();
+//    TLC59116F_Init();
 
-    for (uint8_t i =0; i < 100; ++i)
-    {
-term("writeled")
-        TLC59116F_writeled(i);
-        osDelay(100);
-    }
-
+//    for (uint8_t i =0; i < 100; ++i)
+//    {
+//term("writeled")
+//        TLC59116F_writeled(i);
+//        osDelay(100);
+//    }
+uint8_t data = 0xff;
+//    HAL_I2C_Master_Transmit(&hi2c3, 0xC0, &data, 0x01, 1000);
 
     memset(buff_config,' ',sizeof(buff_config));
 
