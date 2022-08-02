@@ -2376,7 +2376,6 @@ HAL_StatusTypeDef HAL_I2C_Mem_Write(I2C_HandleTypeDef *hi2c, uint16_t DevAddress
 {
   uint32_t tickstart;
 
-
   /* Check the parameters */
   assert_param(IS_I2C_MEMADD_SIZE(MemAddSize));
 
@@ -2415,7 +2414,6 @@ HAL_StatusTypeDef HAL_I2C_Mem_Write(I2C_HandleTypeDef *hi2c, uint16_t DevAddress
       __HAL_UNLOCK(hi2c);
       return HAL_ERROR;
     }
-
     /* Set NBYTES to write and reload if hi2c->XferCount > MAX_NBYTE_SIZE */
     if (hi2c->XferCount > MAX_NBYTE_SIZE)
     {
@@ -5324,7 +5322,6 @@ static HAL_StatusTypeDef I2C_RequestMemoryWrite(I2C_HandleTypeDef *hi2c, uint16_
   {
     return HAL_ERROR;
   }
-
   /* If Memory address size is 8Bit */
   if (MemAddSize == I2C_MEMADD_SIZE_8BIT)
   {
@@ -6430,7 +6427,6 @@ static HAL_StatusTypeDef I2C_WaitOnTXISFlagUntilTimeout(I2C_HandleTypeDef *hi2c,
     {
       return HAL_ERROR;
     }
-
     /* Check for the Timeout */
     if (Timeout != HAL_MAX_DELAY)
     {

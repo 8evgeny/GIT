@@ -349,6 +349,99 @@ int8_t MCP23017_Read(uint8_t idx, uint8_t reg, uint8_t *data)
     return 0;
 }
 
+int8_t ui_test_TLC(uint8_t idx, uint8_t printout)
+{
+    uint8_t j, reg, data;
+
+    if (TLC59116F_Write(idx, 0x00, 0x00)<0) {
+      if (printout)
+       RS232Puts("Error write TLC%i reg 00\r\n");
+      return -1;
+    }
+    HAL_Delay(10);
+
+    reg = 0x14;
+
+    for (j = 0 ; j < 4; j++)
+    {
+        if (TLC59116F_Write(idx, reg, 0x55)<0) {
+          if (printout)
+           RS232Puts("Error write TLC%i reg .2X\r\n");
+          return -1;
+        }
+        HAL_Delay(10);
+        if (TLC59116F_Read(idx, reg, &data)<0) {
+          if (printout)
+           RS232Puts("Error read TLC%i reg .2X");
+          return -2;
+
+          if (data != 0x55) {
+           if (printout)
+            RS232Puts("Error read TLC%i data .2X");
+           return -3;
+          }
+        }
+        reg++;
+    }
+
+    return 0;
+}
+
+int8_t ui_test_MCP(uint8_t idx, uint8_t printout)
+{
+    uint8_t j, reg, wdata, rdata;
+
+    for (j = 0; j < sizeof(MCP23017_Init_Val); j+=2) {
+        reg = MCP23017_Init_Val[j];
+        wdata = MCP23017_Init_Val[j+1];
+        if (MCP23017_Write(idx, reg, wdata) < 0)
+        {
+            if (printout)
+               RS232Puts("Error write MCP%i reg .2X");
+            return -1;
+        }
+        HAL_Delay(10);
+        if (MCP23017_Read(idx, reg, &rdata) < 0)
+        {
+            if (printout)
+               RS232Puts("Error read MCP%i reg .2X\r\n");
+            return -2;
+        }
+
+        if (wdata != rdata) {
+           if (printout)
+            RS232Puts("Error read TLC%i reg .2X wdata=.2X rdata=.2X\r\n");
+           return -3;
+        }
+    }
+    return 0;
+}
+
+int8_t ui_test_board(uint8_t printout)
+{
+    uint8_t i, res;
+
+    res=0;
+
+    for (i = 0 ; i < TLC59116F_max_address; i++) {
+        if (ui_test_TLC(i, printout)<0) res = -1;
+        else if (printout) RS232Puts("Test TLC%i ok\r\n");
+    }
+    TLC59116F_Init();
+
+    for (i = 0 ; i < MCP23017_max_address; i++)
+    {
+        if (ui_test_MCP(i, printout)) res = -1;
+        else if (printout) RS232Puts("Test MCP%i ok\r\n");
+    }
+//    if ((ui_mode == UI_mode_UI16N)||(ui_mode == UI_mode_UI32N)) // tel number btn reg
+//	{
+//		if (ui_test_MCP(3, printout)) res = -1;
+//		else if (printout) CLI_print("Test MCP3 ok\r\n");
+//    }
+
+    return res;
+}
 
 int main(void)
 {
@@ -428,8 +521,12 @@ int main(void)
 //        TLC59116F_writeled(i);
 //        osDelay(100);
 //    }
-uint8_t data = 0xff;
+//uint8_t data = 0xff;
 //    HAL_I2C_Master_Transmit(&hi2c3, 0xC0, &data, 0x01, 1000);
+
+//    ui_test_board(1);
+
+
 
     memset(buff_config,' ',sizeof(buff_config));
 
@@ -440,14 +537,14 @@ uint8_t data = 0xff;
 //        osThreadDef(TaskEthernet, TaskEthernet_, osPriorityBelowNormal, 0, configMINIMAL_STACK_SIZE * 2);
 //        TaskEthernetHandle = osThreadCreate(osThread(TaskEthernet), nullptr);
 
-//        osThreadDef(audioInitThread, threadAudioInit, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 5);
-//        SAI::getInstance()->threadAudioInitId = osThreadCreate(osThread(audioInitThread), nullptr);
+        osThreadDef(audioInitThread, threadAudioInit, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 5);
+        SAI::getInstance()->threadAudioInitId = osThreadCreate(osThread(audioInitThread), nullptr);
 
-//        osThreadDef(trackRingBufferThread, trackRingBufferThread, osPriorityHigh, 0, configMINIMAL_STACK_SIZE * 2);
-//        if ((GPIO::getInstance()->trackRingBufferThreadId = osThreadCreate(osThread(trackRingBufferThread), nullptr)) == nullptr)
-//        {
-//            Debug::getInstance().dbg << __FUNCTION__ << " " << __LINE__ << " " << "\n";
-//        }
+        osThreadDef(trackRingBufferThread, trackRingBufferThread, osPriorityHigh, 0, configMINIMAL_STACK_SIZE * 2);
+        if ((GPIO::getInstance()->trackRingBufferThreadId = osThreadCreate(osThread(trackRingBufferThread), nullptr)) == nullptr)
+        {
+            Debug::getInstance().dbg << __FUNCTION__ << " " << __LINE__ << " " << "\n";
+        }
 
 //        osThreadDef(recvUdpThread, recvUdpThread, osPriorityHigh, 0, configMINIMAL_STACK_SIZE * 10);
 //        if ((UdpJsonExch::getInstance()->recvUdpThreadId = osThreadCreate(osThread(recvUdpThread), nullptr)) == nullptr)
