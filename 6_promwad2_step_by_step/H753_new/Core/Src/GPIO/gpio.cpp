@@ -32,9 +32,9 @@ osMutexDef (mutexRingBufferRx);
 // max address number of TLC59116F chips
 extern uint8_t TLC59116F_max_address;
 // TLC59116F chips addresses
-extern  uint8_t TLC59116F_address[];
+const uint8_t TLC59116F_address[] 	= {0xC0,0xC2,0xC4,0xC6,0xC8,0xCA};
 // TLC59116F chip button registers
-extern  uint8_t TLC59116F_register[];
+const uint8_t TLC59116F_register[] 	= {0x14,0x15,0x16,0x17};
 // max address number of MCP23017 chips
 extern uint8_t MCP23017_max_address;
 // MCP23017 chips addresses
@@ -312,104 +312,48 @@ void switchLEDsThread(void const *arg)
 osDelay(200);
 term("--- switchLEDsThread ---")
 
-        i2cInitBoard();
-//uint8_t i,j;
-//for (i = 0; i < TLC59116F_max_address; i++)
-//{}
-        I2C::getInstance()->writeRegister(0xC0, 0x00, 0x00, false);//1 - 8
-        I2C::getInstance()->writeRegister(0xC2, 0x00, 0x00, false);//9 - 16
-        I2C::getInstance()->writeRegister(0xC4, 0x00, 0x00, false);//17 - 24
-        I2C::getInstance()->writeRegister(0xC6, 0x00, 0x00, false);//25 - 32
+    i2cInitBoard();
+    for (uint8_t i = 0; i < TLC59116F_max_address; i++)
+    {
+        I2C::getInstance()->writeRegister(TLC59116F_address[i], 0x00, 0x00, false);
+    }
 
     while(true)
     {
-        // 0x11 - зеленый  0x44 - красный
-        I2C::getInstance()->writeRegister(0xC0, 0x14, 0x11, false);//1,2
-        I2C::getInstance()->writeRegister(0xC0, 0x15, 0x11, false);//3,4
-        I2C::getInstance()->writeRegister(0xC0, 0x16, 0x11, false);//5,6
-        I2C::getInstance()->writeRegister(0xC0, 0x17, 0x11, false);//7,8
-
-        I2C::getInstance()->writeRegister(0xC2, 0x14, 0x11, false);//1,2
-        I2C::getInstance()->writeRegister(0xC2, 0x15, 0x11, false);//3,4
-        I2C::getInstance()->writeRegister(0xC2, 0x16, 0x11, false);//5,6
-        I2C::getInstance()->writeRegister(0xC2, 0x17, 0x11, false);//7,8
-
-        I2C::getInstance()->writeRegister(0xC4, 0x14, 0x11, false);//1,2
-        I2C::getInstance()->writeRegister(0xC4, 0x15, 0x11, false);//3,4
-        I2C::getInstance()->writeRegister(0xC4, 0x16, 0x11, false);//5,6
-        I2C::getInstance()->writeRegister(0xC4, 0x17, 0x11, false);//7,8
-
-        I2C::getInstance()->writeRegister(0xC6, 0x14, 0x11, false);//1,2
-        I2C::getInstance()->writeRegister(0xC6, 0x15, 0x11, false);//3,4
-        I2C::getInstance()->writeRegister(0xC6, 0x16, 0x11, false);//5,6
-        I2C::getInstance()->writeRegister(0xC6, 0x17, 0x11, false);//7,8
-
+        for (uint8_t i = 0; i < TLC59116F_max_address; i++)
+        {
+            for (uint8_t j = 0; j < 4; j++)
+            { // красный
+            I2C::getInstance()->writeRegister(TLC59116F_address[i], TLC59116F_register[j], 0x11, false);
+            }
+        }
         osDelay(500);
 
-        I2C::getInstance()->writeRegister(0xC0, 0x14, 0x00, false);
-        I2C::getInstance()->writeRegister(0xC0, 0x15, 0x00, false);
-        I2C::getInstance()->writeRegister(0xC0, 0x16, 0x00, false);
-        I2C::getInstance()->writeRegister(0xC0, 0x17, 0x00, false);
-
-        I2C::getInstance()->writeRegister(0xC2, 0x14, 0x00, false);
-        I2C::getInstance()->writeRegister(0xC2, 0x15, 0x00, false);
-        I2C::getInstance()->writeRegister(0xC2, 0x16, 0x00, false);
-        I2C::getInstance()->writeRegister(0xC2, 0x17, 0x00, false);
-
-        I2C::getInstance()->writeRegister(0xC4, 0x14, 0x00, false);
-        I2C::getInstance()->writeRegister(0xC4, 0x15, 0x00, false);
-        I2C::getInstance()->writeRegister(0xC4, 0x16, 0x00, false);
-        I2C::getInstance()->writeRegister(0xC4, 0x17, 0x00, false);
-
-        I2C::getInstance()->writeRegister(0xC6, 0x14, 0x00, false);
-        I2C::getInstance()->writeRegister(0xC6, 0x15, 0x00, false);
-        I2C::getInstance()->writeRegister(0xC6, 0x16, 0x00, false);
-        I2C::getInstance()->writeRegister(0xC6, 0x17, 0x00, false);
-
+        for (uint8_t i = 0; i < TLC59116F_max_address; i++)
+        {
+            for (uint8_t j = 0; j < 4; j++)
+            {
+            I2C::getInstance()->writeRegister(TLC59116F_address[i], TLC59116F_register[j], 0x00, false);
+            }
+        }
         osDelay(1000);
 
-        I2C::getInstance()->writeRegister(0xC0, 0x14, 0x44, false);
-        I2C::getInstance()->writeRegister(0xC0, 0x15, 0x44, false);
-        I2C::getInstance()->writeRegister(0xC0, 0x16, 0x44, false);
-        I2C::getInstance()->writeRegister(0xC0, 0x17, 0x44, false);
-
-        I2C::getInstance()->writeRegister(0xC2, 0x14, 0x44, false);
-        I2C::getInstance()->writeRegister(0xC2, 0x15, 0x44, false);
-        I2C::getInstance()->writeRegister(0xC2, 0x16, 0x44, false);
-        I2C::getInstance()->writeRegister(0xC2, 0x17, 0x44, false);
-
-        I2C::getInstance()->writeRegister(0xC4, 0x14, 0x44, false);
-        I2C::getInstance()->writeRegister(0xC4, 0x15, 0x44, false);
-        I2C::getInstance()->writeRegister(0xC4, 0x16, 0x44, false);
-        I2C::getInstance()->writeRegister(0xC4, 0x17, 0x44, false);
-
-        I2C::getInstance()->writeRegister(0xC6, 0x14, 0x44, false);
-        I2C::getInstance()->writeRegister(0xC6, 0x15, 0x44, false);
-        I2C::getInstance()->writeRegister(0xC6, 0x16, 0x44, false);
-        I2C::getInstance()->writeRegister(0xC6, 0x17, 0x44, false);
-
+        for (uint8_t i = 0; i < TLC59116F_max_address; i++)
+        {
+            for (uint8_t j = 0; j < 4; j++)
+            { // зеленый
+            I2C::getInstance()->writeRegister(TLC59116F_address[i], TLC59116F_register[j], 0x44, false);
+            }
+        }
         osDelay(500);
 
-        I2C::getInstance()->writeRegister(0xC0, 0x14, 0x00, false);
-        I2C::getInstance()->writeRegister(0xC0, 0x15, 0x00, false);
-        I2C::getInstance()->writeRegister(0xC0, 0x16, 0x00, false);
-        I2C::getInstance()->writeRegister(0xC0, 0x17, 0x00, false);
-
-        I2C::getInstance()->writeRegister(0xC2, 0x14, 0x00, false);
-        I2C::getInstance()->writeRegister(0xC2, 0x15, 0x00, false);
-        I2C::getInstance()->writeRegister(0xC2, 0x16, 0x00, false);
-        I2C::getInstance()->writeRegister(0xC2, 0x17, 0x00, false);
-
-        I2C::getInstance()->writeRegister(0xC4, 0x14, 0x00, false);
-        I2C::getInstance()->writeRegister(0xC4, 0x15, 0x00, false);
-        I2C::getInstance()->writeRegister(0xC4, 0x16, 0x00, false);
-        I2C::getInstance()->writeRegister(0xC4, 0x17, 0x00, false);
-
-        I2C::getInstance()->writeRegister(0xC6, 0x14, 0x00, false);
-        I2C::getInstance()->writeRegister(0xC6, 0x15, 0x00, false);
-        I2C::getInstance()->writeRegister(0xC6, 0x16, 0x00, false);
-        I2C::getInstance()->writeRegister(0xC6, 0x17, 0x00, false);
-
+        for (uint8_t i = 0; i < TLC59116F_max_address; i++)
+        {
+            for (uint8_t j = 0; j < 4; j++)
+            {
+            I2C::getInstance()->writeRegister(TLC59116F_address[i], TLC59116F_register[j], 0x00, false);
+            }
+        }
         osDelay(1000);
 
         osDelay(1);

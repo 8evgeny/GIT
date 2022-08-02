@@ -207,8 +207,6 @@ static void empty(void const *arg)
 
 // max address number of TLC59116F chips
 uint8_t TLC59116F_max_address;
-// TLC59116F chips addresses
-const uint8_t TLC59116F_address[] 	= {0xC0,0xC2,0xC4,0xC6,0xC8,0xCA};
 // TLC59116F chip button registers
 const uint8_t TLC59116F_register[] 	= {0x14,0x15,0x16,0x17};
 // max address number of MCP23017 chips
