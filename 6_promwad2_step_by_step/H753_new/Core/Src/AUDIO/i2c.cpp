@@ -81,8 +81,8 @@ I2C *I2C::pInstance = nullptr;
 
 I2C::I2C()
 {
-    hI2cHandler = &hI2cAudioHandler;
-//    hI2cHandlerBoard = &hI2cBoardHandler;
+    hI2cHandlerAudio = &hI2cAudioHandler;
+    hI2cHandlerBoard = &hI2cBoardHandler;
 }
 
 I2C *I2C::getInstance()
@@ -91,24 +91,34 @@ I2C *I2C::getInstance()
     return pInstance;
 }
 
-uint8_t I2C::readRegister(uint8_t addr, uint8_t reg)
+uint8_t I2C::readRegister(uint8_t addr, uint8_t reg, bool audio)
 {
+    I2C_HandleTypeDef* temp;
+    if(audio)
+    {
+        temp = hI2cHandlerAudio;
+    }
+    else
+    {
+        temp = hI2cHandlerBoard;
+    }
+
     uint8_t readData = 0;
     HAL_StatusTypeDef status = HAL_OK;
 
-    while (HAL_I2C_GetState(hI2cHandler) != HAL_I2C_STATE_READY);
+    while (HAL_I2C_GetState(temp) != HAL_I2C_STATE_READY);
 
     do {
-        status = HAL_I2C_Master_Transmit_DMA(hI2cHandler, addr, &reg, 1);
+        status = HAL_I2C_Master_Transmit_DMA(temp, addr, &reg, 1);
         while (I2C::getInstance()->i2c2WriteReady == RESET);
         I2C::getInstance()->i2c2WriteReady = RESET;
         errorI2CAudio(status);
     } while (status != HAL_OK);
 
-    while (HAL_I2C_GetState(hI2cHandler) != HAL_I2C_STATE_READY);
+    while (HAL_I2C_GetState(temp) != HAL_I2C_STATE_READY);
 
     do {
-        status = HAL_I2C_Master_Receive_DMA(hI2cHandler, addr, &readData, 1);
+        status = HAL_I2C_Master_Receive_DMA(temp, addr, &readData, 1);
         while (I2C::getInstance()->i2c2ReadReady == RESET);
         I2C::getInstance()->i2c2ReadReady = RESET;
         errorI2CAudio(status);
@@ -117,18 +127,28 @@ uint8_t I2C::readRegister(uint8_t addr, uint8_t reg)
     return readData;
 }
 
-void I2C::writeRegister(uint8_t addr, uint8_t reg, uint8_t val)
+void I2C::writeRegister(uint8_t addr, uint8_t reg, uint8_t val, bool audio)
 {
+    I2C_HandleTypeDef* temp;
+    if(audio)
+    {
+        temp = hI2cHandlerAudio;
+    }
+    else
+    {
+        temp = hI2cHandlerBoard;
+    }
+
     HAL_StatusTypeDef status = HAL_OK;
     uint8_t request[2];
 
     request[0] = reg;
     request[1] = val;
 
-    while (HAL_I2C_GetState(hI2cHandler) != HAL_I2C_STATE_READY);
+    while (HAL_I2C_GetState(temp) != HAL_I2C_STATE_READY);
 
     do {
-        status = HAL_I2C_Master_Transmit_DMA(hI2cHandler, addr, request, sizeof(request) / sizeof(uint8_t));
+        status = HAL_I2C_Master_Transmit_DMA(temp, addr, request, sizeof(request) / sizeof(uint8_t));
         while (I2C::getInstance()->i2c2WriteReady == RESET);
         I2C::getInstance()->i2c2WriteReady = RESET;
         errorI2CAudio(status);
@@ -138,12 +158,12 @@ void I2C::writeRegister(uint8_t addr, uint8_t reg, uint8_t val)
 void I2C::errorI2CAudio(HAL_StatusTypeDef status)
 {
     if (status != HAL_OK) {
-        HAL_I2C_DeInit(hI2cHandler);
+        HAL_I2C_DeInit(hI2cHandlerAudio);
         i2cInitAudio();
     }
 
     if (I2C::getInstance()->i2c2Error == SET) {
-        HAL_I2C_DeInit(hI2cHandler);
+        HAL_I2C_DeInit(hI2cHandlerAudio);
         i2cInitAudio();
         I2C::getInstance()->i2c2Error =  RESET;
     }

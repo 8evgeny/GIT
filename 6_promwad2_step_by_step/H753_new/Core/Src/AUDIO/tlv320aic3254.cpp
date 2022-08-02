@@ -234,49 +234,49 @@ void TLV320AIC3254::softReset()
 {
     for (uint32_t i = 0; i < sizeof(SoftReset) / sizeof(struct Aic3254Configs); i++)
     {
-        I2C::getInstance()->writeRegister(I2C_ADDRESS, SoftReset[i].regOffset, SoftReset[i].regVal);
+        I2C::getInstance()->writeRegister(I2C_ADDRESS, SoftReset[i].regOffset, SoftReset[i].regVal, true);
     }
 }
 void TLV320AIC3254::configPll()
 {
     for (uint32_t i = 0; i < sizeof(ConfigurePll) / sizeof(struct Aic3254Configs); i++)
     {
-        I2C::getInstance()->writeRegister(I2C_ADDRESS, ConfigurePll[i].regOffset, ConfigurePll[i].regVal);
+        I2C::getInstance()->writeRegister(I2C_ADDRESS, ConfigurePll[i].regOffset, ConfigurePll[i].regVal, true);
     }
 }
 void TLV320AIC3254::configPower()
 {
     for (uint32_t i = 0; i < sizeof(ConfigurePower) / sizeof(struct Aic3254Configs); i++)
     {
-        I2C::getInstance()->writeRegister(I2C_ADDRESS, ConfigurePower[i].regOffset, ConfigurePower[i].regVal);
+        I2C::getInstance()->writeRegister(I2C_ADDRESS, ConfigurePower[i].regOffset, ConfigurePower[i].regVal, true);
     }
 }
 void TLV320AIC3254::configDAC()
 {
     for (uint32_t i = 0; i < sizeof(ConfigureDAC) / sizeof(struct Aic3254Configs); i++)
     {
-        I2C::getInstance()->writeRegister(I2C_ADDRESS, ConfigureDAC[i].regOffset, ConfigureDAC[i].regVal);
+        I2C::getInstance()->writeRegister(I2C_ADDRESS, ConfigureDAC[i].regOffset, ConfigureDAC[i].regVal, true);
     }
 }
 void TLV320AIC3254::configADC()
 {
     for (uint32_t i = 0; i < sizeof(ConfigureADC) / sizeof(struct Aic3254Configs); i++)
     {
-        I2C::getInstance()->writeRegister(I2C_ADDRESS, ConfigureADC[i].regOffset, ConfigureADC[i].regVal);
+        I2C::getInstance()->writeRegister(I2C_ADDRESS, ConfigureADC[i].regOffset, ConfigureADC[i].regVal, true);
     }
 }
 void TLV320AIC3254::configFilter()
 {
     for (uint32_t i = 0; i < sizeof(ConfigureFilter) / sizeof(struct Aic3254Configs); i++)
     {
-        I2C::getInstance()->writeRegister(I2C_ADDRESS, ConfigureFilter[i].regOffset, ConfigureFilter[i].regVal);
+        I2C::getInstance()->writeRegister(I2C_ADDRESS, ConfigureFilter[i].regOffset, ConfigureFilter[i].regVal, true);
     }
 }
 void TLV320AIC3254::mute()
 {
     for (uint32_t i = 0; i < sizeof(Mute) / sizeof(struct Aic3254Configs); i++)
     {
-        I2C::getInstance()->writeRegister(I2C_ADDRESS, Mute[i].regOffset, Mute[i].regVal);
+        I2C::getInstance()->writeRegister(I2C_ADDRESS, Mute[i].regOffset, Mute[i].regVal, true);
     }
 }
 
@@ -293,7 +293,7 @@ osDelay(5000);
 
 //Вывод всех регистров codec определенной страницы
 //char buf[20];
-//I2C::getInstance()->writeRegister(I2C_ADDRESS, 0x00, 0x01); //Тут установить номер страницы
+//I2C::getInstance()->writeRegister(I2C_ADDRESS, 0x00, 0x01, true); //Тут установить номер страницы
 //for (uint8_t i = 0; i < 255; ++i){
 //uint8_t read = I2C::getInstance()->readRegister(I2C_ADDRESS,i);
 //sprintf(buf,"reg %d Value = %d ",i,read);

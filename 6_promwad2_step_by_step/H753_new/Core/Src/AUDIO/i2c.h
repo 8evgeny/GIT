@@ -56,7 +56,7 @@ public:
      \param reg Register number
      \return uint8_t Subtracted value
     */
-    uint8_t readRegister(uint8_t addr, uint8_t reg);
+    uint8_t readRegister(uint8_t addr, uint8_t reg, bool audio);
 
     /*!
      \brief Write register data
@@ -66,7 +66,7 @@ public:
      \param reg Register number
      \param val Value for writing
     */
-    void writeRegister(uint8_t addr, uint8_t reg, uint8_t val);
+    void writeRegister(uint8_t addr, uint8_t reg, uint8_t val, bool audio);
 
     /*!
      \brief This method checks for errors
@@ -79,7 +79,7 @@ public:
     /*!
      * \brief hI2cHandler
      */
-    I2C_HandleTypeDef *hI2cHandler;
+    I2C_HandleTypeDef *hI2cHandlerAudio;
     I2C_HandleTypeDef *hI2cHandlerBoard;
 
     volatile FlagStatus i2c2ReadReady = RESET; /*! Status flag about reading data from I2C2 */
