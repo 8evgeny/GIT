@@ -7,12 +7,40 @@
 extern "C" {
 #endif
 static I2C_HandleTypeDef hI2cAudioHandler;
+static I2C_HandleTypeDef hI2cBoardHandler;
 
-/*!
-  \brief I2C Initialization Function
-  \param None
-  \retval None
-  */
+void i2cInitBoard(void)
+{
+    /* DMA controller clock enable */
+    __HAL_RCC_DMA1_CLK_ENABLE();
+    /* DMA interrupt init */
+
+    /* DMA1_Stream2_IRQn interrupt configuration */
+    HAL_NVIC_SetPriority(DMA1_Stream0_IRQn, 5, 0);
+    HAL_NVIC_EnableIRQ(DMA1_Stream0_IRQn);
+
+    /* DMA1_Stream4_IRQn interrupt configuration */
+    HAL_NVIC_SetPriority(DMA1_Stream7_IRQn, 5, 0);
+    HAL_NVIC_EnableIRQ(DMA1_Stream7_IRQn);
+
+    hI2cBoardHandler.Instance = I2C3;
+    hI2cBoardHandler.Init.Timing = 0x20404768;
+    hI2cBoardHandler.Init.OwnAddress1 = 0x00;
+    hI2cBoardHandler.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
+    hI2cBoardHandler.Init.DualAddressMode = I2C_DUALADDRESS_DISABLE;
+    hI2cBoardHandler.Init.OwnAddress2 = 0xFF;
+    hI2cBoardHandler.Init.GeneralCallMode = I2C_GENERALCALL_DISABLE;
+    hI2cBoardHandler.Init.NoStretchMode = I2C_NOSTRETCH_DISABLE;
+    HAL_I2C_Init(&hI2cBoardHandler);
+
+    /** Configure Analogue filter
+    */
+    HAL_I2CEx_ConfigAnalogFilter(&hI2cBoardHandler, I2C_ANALOGFILTER_ENABLE);
+    /** Configure Digital filter
+    */
+    HAL_I2CEx_ConfigDigitalFilter(&hI2cBoardHandler, 0);
+}
+
 void i2cInitAudio(void)
 {
     /* DMA controller clock enable */
@@ -54,6 +82,7 @@ I2C *I2C::pInstance = nullptr;
 I2C::I2C()
 {
     hI2cHandler = &hI2cAudioHandler;
+//    hI2cHandlerBoard = &hI2cBoardHandler;
 }
 
 I2C *I2C::getInstance()
@@ -148,6 +177,11 @@ void I2C2_EV_IRQHandler(void)
     HAL_I2C_EV_IRQHandler(&hI2cAudioHandler);
 }
 
+void I2C3_EV_IRQHandler(void)
+{
+    HAL_I2C_EV_IRQHandler(&hI2cBoardHandler);
+}
+
 /**
   * @brief This function handles I2C2 error interrupt.
   */
@@ -157,11 +191,19 @@ void I2C2_ER_IRQHandler(void)
     I2C::getInstance()->i2c2Error = SET;
 }
 
+void I2C3_ER_IRQHandler(void)
+{
+    HAL_I2C_ER_IRQHandler(&hI2cBoardHandler);
+    I2C::getInstance()->i2c3Error = SET;
+}
 
 void HAL_I2C_MasterTxCpltCallback(I2C_HandleTypeDef *hi2c)
 {
     if (hi2c->Instance == I2C2) {
         I2C::getInstance()->i2c2WriteReady = SET;
+    }
+    if (hi2c->Instance == I2C3) {
+        I2C::getInstance()->i2c3WriteReady = SET;
     }
 }
 
@@ -169,6 +211,9 @@ void HAL_I2C_MasterRxCpltCallback(I2C_HandleTypeDef *hi2c)
 {
     if (hi2c->Instance == I2C2) {
         I2C::getInstance()->i2c2ReadReady = SET;
+    }
+    if (hi2c->Instance == I2C3) {
+        I2C::getInstance()->i2c3ReadReady = SET;
     }
 }
 

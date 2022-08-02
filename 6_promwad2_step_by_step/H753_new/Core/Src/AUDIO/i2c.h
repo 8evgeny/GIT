@@ -80,11 +80,14 @@ public:
      * \brief hI2cHandler
      */
     I2C_HandleTypeDef *hI2cHandler;
+    I2C_HandleTypeDef *hI2cHandlerBoard;
 
     volatile FlagStatus i2c2ReadReady = RESET; /*! Status flag about reading data from I2C2 */
     volatile FlagStatus i2c2WriteReady = RESET; /*! Status flag about writing data to I2C2 */
     volatile FlagStatus i2c2Error = RESET; /*! Status flag about error in I2C2 */
-
+    volatile FlagStatus i2c3ReadReady = RESET; /*! Status flag about reading data from I2C2 */
+    volatile FlagStatus i2c3WriteReady = RESET; /*! Status flag about writing data to I2C2 */
+    volatile FlagStatus i2c3Error = RESET; /*! Status flag about error in I2C2 */
 };
 
 #ifdef __cplusplus

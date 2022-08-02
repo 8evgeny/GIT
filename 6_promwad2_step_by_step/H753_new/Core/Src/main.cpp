@@ -54,6 +54,8 @@ I2C_HandleTypeDef hi2c2;
 I2C_HandleTypeDef hi2c3;
 DMA_HandleTypeDef hdma_i2c2_rx;
 DMA_HandleTypeDef hdma_i2c2_tx;
+DMA_HandleTypeDef hdma_i2c3_rx;
+DMA_HandleTypeDef hdma_i2c3_tx;
 RNG_HandleTypeDef hrng;
 //SAI_HandleTypeDef hsai_BlockA1;
 //SAI_HandleTypeDef hsai_BlockB1;
