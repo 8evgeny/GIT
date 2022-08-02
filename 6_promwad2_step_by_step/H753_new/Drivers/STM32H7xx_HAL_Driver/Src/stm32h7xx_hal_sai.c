@@ -495,7 +495,6 @@ HAL_StatusTypeDef HAL_SAI_Init(SAI_HandleTypeDef *hsai)
     hsai->MspInitCallback(hsai);
 #else
     /* Init the low level hardware : GPIO, CLOCK, NVIC and DMA */
-RS232Puts("INIT__SAI\r\n");
     HAL_SAI_MspInit(hsai);
 #endif
   }
