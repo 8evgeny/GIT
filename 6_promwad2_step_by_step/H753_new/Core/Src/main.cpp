@@ -67,7 +67,6 @@ TIM_HandleTypeDef htim3;
 UART_HandleTypeDef huart7;
 SRAM_HandleTypeDef hsram1;
 uint8_t macAdr5;
-uint8_t LED_val[LED_NUM];
 
 //Массив во внешней памяти для конфига (readelf -S H753_new.elf)
 char buff_config [200*1024] __attribute__((section(".ExtRamData")));

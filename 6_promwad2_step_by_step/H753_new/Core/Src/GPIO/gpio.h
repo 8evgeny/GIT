@@ -10,15 +10,6 @@
 #include "cmsis_os.h"
 //#include "../AUDIO/tlv320aic3254.h"
 
-#define LED_TEST	0
-#define LED_NORMA	1
-#define LED_MKVKL	2
-#define LED_AB1R	8
-#define LED_AB1G	9
-#define LED_AB48R	(LED_AB1R + (48*2))
-#define LED_AB48G	(LED_AB1G + (48*2))
-#define LED_NUM     (LED_AB48G + 1)
-
 
 /*!
  \brief The structure that stores variables for configuration keys of the keyboard
@@ -215,8 +206,6 @@ public:
 //              mutexRingBufferTx_id;
 
     PackageRx packageRx;
-
-    uint8_t LED_val[LED_NUM];
 
 };
 
