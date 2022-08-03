@@ -12,6 +12,7 @@
 
 extern unsigned char zvon3_raw[];
 extern unsigned int zvon3_raw_len;
+extern uint8_t TLC59116F_max_address;
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -79,6 +80,7 @@ void testReceiveMcast()
 
 void simpleLedTest1_RTOS(void const *argument)
 {
+    osDelay(3000);
     (void)argument;
     bool reset = true;
     uint32_t tickstart = HAL_GetTick();
@@ -110,7 +112,7 @@ term("startingSimpleLedTest1_RTOS")
             }
         }
 #endif
-        for (uint8_t i = 0; i < 32; ++i)
+        for (uint8_t i = 0; i < TLC59116F_max_address * 8; ++i)
         {
             GPIO::getInstance()->aLeds[i].ledState = true;
             osDelay(1500);
