@@ -32,9 +32,12 @@ osMutexDef (mutexRingBufferRx);
 // max address number of TLC59116F chips
 extern uint8_t TLC59116F_max_address;
 // TLC59116F chips addresses
-const uint8_t TLC59116F_address[] 	= {0xC0,0xC2,0xC4,0xC6,0xC8,0xCA};
+const uint8_t TLC59116F_address[] = {0xC0,0xC2,0xC4,0xC6,0xC8,0xCA};
 // TLC59116F chip button registers
-const uint8_t TLC59116F_register[] 	= {0x14,0x15,0x16,0x17};
+const uint8_t TLC59116F_registerLED[] = {0x14,0x15,0x16,0x17};
+// Индивидуальная яркость каждого светодиода
+const uint8_t TLC59116F_registerBright[] = {0x02,0x03,0x04,0x05,0x06,0x07,0x08,0x09,0x0A,0x0B,0x0C,0x0D,0x0E,0x0F,0x10,0x11};
+
 // max address number of MCP23017 chips
 extern uint8_t MCP23017_max_address;
 // MCP23017 chips addresses
@@ -318,43 +321,45 @@ term("--- switchLEDsThread ---")
         I2C::getInstance()->writeRegister(TLC59116F_address[i], 0x00, 0x00, false);
     }
 
+    //Яркость
+    for (uint8_t i = 0; i < TLC59116F_max_address; i++)
+    {
+       // зеленый  TLC59116F_registerBright
+         for (uint8_t j = 0; j < 16; j++)
+         {//Индивидуальная яркость
+             I2C::getInstance()->writeRegister(TLC59116F_address[i], TLC59116F_registerBright[j], 0x30, false);
+         }
+    }
+
     while(true)
     {
         for (uint8_t i = 0; i < TLC59116F_max_address; i++)
         {
             for (uint8_t j = 0; j < 4; j++)
             { // красный
-            I2C::getInstance()->writeRegister(TLC59116F_address[i], TLC59116F_register[j], 0x11, false);
+            I2C::getInstance()->writeRegister(TLC59116F_address[i], TLC59116F_registerLED[j], 0x11, false);
             }
         }
-        osDelay(500);
+        osDelay(1000);
+
+//        for (uint8_t i = 0; i < TLC59116F_max_address; i++)
+//        {
+//            for (uint8_t j = 0; j < 4; j++)
+//            {
+//            I2C::getInstance()->writeRegister(TLC59116F_address[i], TLC59116F_registerLED[j], 0x00, false);
+//            }
+//        }
+//        osDelay(1000);
 
         for (uint8_t i = 0; i < TLC59116F_max_address; i++)
         {
             for (uint8_t j = 0; j < 4; j++)
-            {
-            I2C::getInstance()->writeRegister(TLC59116F_address[i], TLC59116F_register[j], 0x00, false);
+            { // зеленый  TLC59116F_registerBright
+            I2C::getInstance()->writeRegister(TLC59116F_address[i], TLC59116F_registerLED[j], 0x88, false);
             }
         }
-        osDelay(5000);
+        osDelay(1000);
 
-        for (uint8_t i = 0; i < TLC59116F_max_address; i++)
-        {
-            for (uint8_t j = 0; j < 4; j++)
-            { // зеленый
-            I2C::getInstance()->writeRegister(TLC59116F_address[i], TLC59116F_register[j], 0x44, false);
-            }
-        }
-        osDelay(500);
-
-        for (uint8_t i = 0; i < TLC59116F_max_address; i++)
-        {
-            for (uint8_t j = 0; j < 4; j++)
-            {
-            I2C::getInstance()->writeRegister(TLC59116F_address[i], TLC59116F_register[j], 0x00, false);
-            }
-        }
-        osDelay(5000);
 
         osDelay(1);
     }
