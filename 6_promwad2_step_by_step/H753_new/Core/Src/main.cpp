@@ -207,32 +207,8 @@ static void empty(void const *arg)
 
 // max address number of TLC59116F chips
 uint8_t TLC59116F_max_address;
-// TLC59116F chip button registers
-const uint8_t TLC59116F_register[] 	= {0x14,0x15,0x16,0x17};
 // max address number of MCP23017 chips
 uint8_t MCP23017_max_address;
-// MCP23017 chips addresses
-const uint8_t MCP23017_address[] = {0x40,0x42,0x44,0x4E};
-// MCP23017 chip LEDs registers
-const uint8_t MCP23017_register[] = {0x12,0x13};
-// TLC59116F chip setup registers values
-const uint8_t TLC59116F_Init_Val[] = {
-            //  Reg    Data
-                0x00 , 0x00,	// MODE1
-                0x14 , 0x00,    // LEDOUT0
-                0x15 , 0x00,	// LEDOUT1
-                0x16 , 0x00,	// LEDOUT2
-                0x17 , 0x00		// LEDOUT3
-             };
-// MCP23017 chip setup registers values
-const uint8_t MCP23017_Init_Val[] = {
-            //  Reg    Data
-                0x04 , 0xFF,	// GPINTENA
-                0x05 , 0xFF,	// GPINTENB
-                0x0A , 0x42,	// IOCON
-                0x0C , 0xFF,	// GPPUA
-                0x0D , 0xFF,	// GPPUB
-             };
 
 uint8_t getCFG(void)
 {
