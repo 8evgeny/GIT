@@ -326,12 +326,13 @@ term("--- switchLEDsThread ---")
              I2C::getInstance()->writeRegister(TLC59116F_address[i], TLC59116F_registerBright[j], 0x30, false);
          }
     }
-    uint8_t test = 0;
+    uint8_t testBlink = 0;
+    uint8_t testRun = 0;
+    bool endTests = false;
     while(true)
     {
-        while(test < 3)
-        {
-            //Тестовое попеременное моргание
+        while(testBlink < 2)
+        {//Тестовое попеременное моргание
             for (uint8_t i = 0; i < TLC59116F_max_address; i++)
             {
                 for (uint8_t j = 0; j < 4; j++)
@@ -340,8 +341,7 @@ term("--- switchLEDsThread ---")
                 //                               4 столбца LED (для 32)  4 регистра по 2*2 светодиода
                 }
             }
-            osDelay(300);
-
+            osDelay(150);
             for (uint8_t i = 0; i < TLC59116F_max_address; i++)
             {
                 for (uint8_t j = 0; j < 4; j++)
@@ -349,39 +349,44 @@ term("--- switchLEDsThread ---")
                 I2C::getInstance()->writeRegister(TLC59116F_address[i], TLC59116F_registerLED[j], 0x88, false);
                 }
             }
-            osDelay(300);
-            ++test;
+            osDelay(150);
+            ++testBlink;
         }//end тестовое моргание
 
-        //Гасим все
-        for (uint8_t i = 0; i < TLC59116F_max_address; i++)
-        {
-            for (uint8_t j = 0; j < 4; j++)
-            { // зеленый  TLC59116F_registerBright
-            I2C::getInstance()->writeRegister(TLC59116F_address[i], TLC59116F_registerLED[j], 0x00, false);
+
+        while(testRun < 1)
+        { //Бегущий огонек
+            uint8_t adr,reg,num;
+            for (uint8_t i = 0; i < TLC59116F_max_address * 8; i++)
+            {
+               std::tie (adr, reg, num)  = GPIO::getInstance()->fromIndexToReg(i, GPIO::getInstance()->RED);
+               I2C::getInstance()->writeRegister(adr, reg, num, false);
+               osDelay(30);
             }
+            for (uint8_t i = 0; i < TLC59116F_max_address * 8; i++)
+            {
+               std::tie (adr, reg, num)  = GPIO::getInstance()->fromIndexToReg(i, GPIO::getInstance()->GREEN);
+               I2C::getInstance()->writeRegister(adr, reg, num, false);
+               osDelay(30);
+            }
+            ++testRun;
+        }//End Бегущий огонек
+
+        //Гасим все
+        if(!endTests)
+        {
+            for (uint8_t i = 0; i < TLC59116F_max_address; i++)
+            {
+                for (uint8_t j = 0; j < 4; j++)
+                {
+                I2C::getInstance()->writeRegister(TLC59116F_address[i], TLC59116F_registerLED[j], 0x00, false);
+                }
+            }
+            endTests = true;
         }
 
-        //Бегущий огонек
-        uint8_t adr,reg,num;
-        for (uint8_t i = 0; i < 32; i++)
-        {
-           std::tie (adr,reg,num)  = GPIO::getInstance()->fromIndexToReg(i, GPIO::getInstance()->RED);
-           I2C::getInstance()->writeRegister(adr, reg, num, false);
-           osDelay(200);
-           I2C::getInstance()->writeRegister(adr, reg, 0x00, false);
-        }
-        for (uint8_t i = 0; i < 32; i++)
-        {
-           std::tie (adr, reg, num)  = GPIO::getInstance()->fromIndexToReg(i, GPIO::getInstance()->GREEN);
-           I2C::getInstance()->writeRegister(adr, reg, num, false);
-           osDelay(200);
-           I2C::getInstance()->writeRegister(adr, reg, 0x00, false);
-        }
-        //End Бегущий огонек
-
-        //Тут основное управление LED
-        for(uint8_t i = 0; i < GPIO::keysNum; ++i)
+        //Начало основного цикла управления LED
+        for(uint8_t i = 0; i < TLC59116F_max_address * 8; ++i)
         {
             if (GPIO::getInstance()->aLeds[i].ledState)
             {// Включаем пин
@@ -512,60 +517,160 @@ void EXTI15_10_IRQHandler(void)
 
 std::tuple<u_int8_t, u_int8_t, u_int8_t> GPIO::fromIndexToReg(u_int8_t i, GPIO::Color color)
 {
-    std::tuple<u_int8_t, u_int8_t, u_int8_t> ret;
+    uint8_t reg = 0;
+    std::tuple<u_int8_t, u_int8_t, u_int8_t> ret{0,0,0};
     switch (i)
     { //Возвращаем адрес микросхемы и номер регистра
-        case 0: color == GPIO::GREEN ? ret = std::make_tuple(0xC0,0x14,0x08): ret =  std::make_tuple(0xC0,0x14,0x01); break;
-        case 1: color == GPIO::GREEN ? ret = std::make_tuple(0xC0,0x14,0x80): ret =  std::make_tuple(0xC0,0x14,0x10); break;
-        case 2: color == GPIO::GREEN ? ret = std::make_tuple(0xC0,0x15,0x08): ret =  std::make_tuple(0xC0,0x15,0x01); break;
-        case 3: color == GPIO::GREEN ? ret = std::make_tuple(0xC0,0x15,0x80): ret =  std::make_tuple(0xC0,0x15,0x10); break;
-        case 4: color == GPIO::GREEN ? ret = std::make_tuple(0xC0,0x16,0x08): ret =  std::make_tuple(0xC0,0x16,0x01); break;
-        case 5: color == GPIO::GREEN ? ret = std::make_tuple(0xC0,0x16,0x80): ret =  std::make_tuple(0xC0,0x16,0x10); break;
-        case 6: color == GPIO::GREEN ? ret = std::make_tuple(0xC0,0x17,0x08): ret =  std::make_tuple(0xC0,0x17,0x01); break;
-        case 7: color == GPIO::GREEN ? ret = std::make_tuple(0xC0,0x17,0x80): ret =  std::make_tuple(0xC0,0x17,0x10); break;
-        case 8: color == GPIO::GREEN ? ret = std::make_tuple(0xC2,0x14,0x08): ret =  std::make_tuple(0xC2,0x14,0x01); break;
-        case 9: color == GPIO::GREEN ? ret = std::make_tuple(0xC2,0x14,0x80): ret =  std::make_tuple(0xC2,0x14,0x10); break;
-        case 10: color == GPIO::GREEN ? ret = std::make_tuple(0xC2,0x15,0x08): ret =  std::make_tuple(0xC2,0x15,0x01); break;
-        case 11: color == GPIO::GREEN ? ret = std::make_tuple(0xC2,0x15,0x80): ret =  std::make_tuple(0xC2,0x15,0x10); break;
-        case 12: color == GPIO::GREEN ? ret = std::make_tuple(0xC2,0x16,0x08): ret =  std::make_tuple(0xC2,0x16,0x01); break;
-        case 13: color == GPIO::GREEN ? ret = std::make_tuple(0xC2,0x16,0x80): ret =  std::make_tuple(0xC2,0x16,0x10); break;
-        case 14: color == GPIO::GREEN ? ret = std::make_tuple(0xC2,0x17,0x08): ret =  std::make_tuple(0xC2,0x17,0x01); break;
-        case 15: color == GPIO::GREEN ? ret = std::make_tuple(0xC2,0x17,0x80): ret =  std::make_tuple(0xC2,0x17,0x10); break;
+        case 0: //Пишем в младшие 4 бита
+            reg = I2C::getInstance()->readRegister(0xC0, 0x14, false); reg &= 0xF0; color == GPIO::GREEN ? reg |=0x08 : reg |=0x01;
+            ret = std::make_tuple(0xC0, 0x14, reg ); break;
+        case 1: //Пишем в старшие 4 бита
+            reg = I2C::getInstance()->readRegister(0xC0, 0x14, false); reg &= 0x0F;  color == GPIO::GREEN ? reg |=0x80 : reg |=0x10;
+            ret = std::make_tuple(0xC0, 0x14, reg ); break;
+        case 2:
+            reg = I2C::getInstance()->readRegister(0xC0, 0x15, false); reg &= 0xF0; color == GPIO::GREEN ? reg |=0x08 : reg |=0x01;
+            ret = std::make_tuple(0xC0, 0x15, reg ); break;
+        case 3:
+            reg = I2C::getInstance()->readRegister(0xC0, 0x15, false); reg &= 0x0F;  color == GPIO::GREEN ? reg |=0x80 : reg |=0x10;
+            ret = std::make_tuple(0xC0, 0x15, reg ); break;
+        case 4:
+            reg = I2C::getInstance()->readRegister(0xC0, 0x16, false); reg &= 0xF0; color == GPIO::GREEN ? reg |=0x08 : reg |=0x01;
+            ret = std::make_tuple(0xC0, 0x16, reg ); break;
+        case 5:
+            reg = I2C::getInstance()->readRegister(0xC0, 0x16, false); reg &= 0x0F;  color == GPIO::GREEN ? reg |=0x80 : reg |=0x10;
+            ret = std::make_tuple(0xC0, 0x16, reg ); break;
+        case 6:
+            reg = I2C::getInstance()->readRegister(0xC0, 0x17, false); reg &= 0xF0; color == GPIO::GREEN ? reg |=0x08 : reg |=0x01;
+            ret = std::make_tuple(0xC0, 0x17, reg ); break;
+        case 7:
+            reg = I2C::getInstance()->readRegister(0xC0, 0x17, false); reg &= 0x0F;  color == GPIO::GREEN ? reg |=0x80 : reg |=0x10;
+            ret = std::make_tuple(0xC0, 0x17, reg ); break;
 
-        case 16: color == GPIO::GREEN ? ret = std::make_tuple(0xC4,0x14,0x08): ret =  std::make_tuple(0xC4,0x14,0x01); break;
-        case 17: color == GPIO::GREEN ? ret = std::make_tuple(0xC4,0x14,0x80): ret =  std::make_tuple(0xC4,0x14,0x10); break;
-        case 18: color == GPIO::GREEN ? ret = std::make_tuple(0xC4,0x15,0x08): ret =  std::make_tuple(0xC4,0x15,0x01); break;
-        case 19: color == GPIO::GREEN ? ret = std::make_tuple(0xC4,0x15,0x80): ret =  std::make_tuple(0xC4,0x15,0x10); break;
-        case 20: color == GPIO::GREEN ? ret = std::make_tuple(0xC4,0x16,0x08): ret =  std::make_tuple(0xC4,0x16,0x01); break;
-        case 21: color == GPIO::GREEN ? ret = std::make_tuple(0xC4,0x16,0x80): ret =  std::make_tuple(0xC4,0x16,0x10); break;
-        case 22: color == GPIO::GREEN ? ret = std::make_tuple(0xC4,0x17,0x08): ret =  std::make_tuple(0xC4,0x17,0x01); break;
-        case 23: color == GPIO::GREEN ? ret = std::make_tuple(0xC4,0x17,0x80): ret =  std::make_tuple(0xC4,0x17,0x10); break;
-        case 24: color == GPIO::GREEN ? ret = std::make_tuple(0xC6,0x14,0x08): ret =  std::make_tuple(0xC6,0x14,0x01); break;
-        case 25: color == GPIO::GREEN ? ret = std::make_tuple(0xC6,0x14,0x80): ret =  std::make_tuple(0xC6,0x14,0x10); break;
-        case 26: color == GPIO::GREEN ? ret = std::make_tuple(0xC6,0x15,0x08): ret =  std::make_tuple(0xC6,0x15,0x01); break;
-        case 27: color == GPIO::GREEN ? ret = std::make_tuple(0xC6,0x15,0x80): ret =  std::make_tuple(0xC6,0x15,0x10); break;
-        case 28: color == GPIO::GREEN ? ret = std::make_tuple(0xC6,0x16,0x08): ret =  std::make_tuple(0xC6,0x16,0x01); break;
-        case 29: color == GPIO::GREEN ? ret = std::make_tuple(0xC6,0x16,0x80): ret =  std::make_tuple(0xC6,0x16,0x10); break;
-        case 30: color == GPIO::GREEN ? ret = std::make_tuple(0xC6,0x17,0x08): ret =  std::make_tuple(0xC6,0x17,0x01); break;
-        case 31: color == GPIO::GREEN ? ret = std::make_tuple(0xC6,0x17,0x80): ret =  std::make_tuple(0xC6,0x17,0x10); break;
+        case 8: //Пишем в младшие 4 бита
+            reg = I2C::getInstance()->readRegister(0xC2, 0x14, false); reg &= 0xF0; color == GPIO::GREEN ? reg |=0x08 : reg |=0x01;
+            ret = std::make_tuple(0xC2, 0x14, reg ); break;
+        case 9: //Пишем в старшие 4 бита
+            reg = I2C::getInstance()->readRegister(0xC2, 0x14, false); reg &= 0x0F;  color == GPIO::GREEN ? reg |=0x80 : reg |=0x10;
+            ret = std::make_tuple(0xC2, 0x14, reg ); break;
+        case 10:
+            reg = I2C::getInstance()->readRegister(0xC2, 0x15, false); reg &= 0xF0; color == GPIO::GREEN ? reg |=0x08 : reg |=0x01;
+            ret = std::make_tuple(0xC2, 0x15, reg ); break;
+        case 11:
+            reg = I2C::getInstance()->readRegister(0xC2, 0x15, false); reg &= 0x0F;  color == GPIO::GREEN ? reg |=0x80 : reg |=0x10;
+            ret = std::make_tuple(0xC2, 0x15, reg ); break;
+        case 12:
+            reg = I2C::getInstance()->readRegister(0xC2, 0x16, false); reg &= 0xF0; color == GPIO::GREEN ? reg |=0x08 : reg |=0x01;
+            ret = std::make_tuple(0xC2, 0x16, reg ); break;
+        case 13:
+            reg = I2C::getInstance()->readRegister(0xC2, 0x16, false); reg &= 0x0F;  color == GPIO::GREEN ? reg |=0x80 : reg |=0x10;
+            ret = std::make_tuple(0xC2, 0x16, reg ); break;
+        case 14:
+            reg = I2C::getInstance()->readRegister(0xC2, 0x17, false); reg &= 0xF0; color == GPIO::GREEN ? reg |=0x08 : reg |=0x01;
+            ret = std::make_tuple(0xC2, 0x17, reg ); break;
+        case 15:
+            reg = I2C::getInstance()->readRegister(0xC2, 0x17, false); reg &= 0x0F;  color == GPIO::GREEN ? reg |=0x80 : reg |=0x10;
+            ret = std::make_tuple(0xC2, 0x17, reg ); break;
 
-//        case 32: return std::make_tuple(0xC8,0x14);
-//        case 33: return std::make_tuple(0xC8,0x14);
-//        case 34: return std::make_tuple(0xC8,0x15);
-//        case 35: return std::make_tuple(0xC8,0x15);
-//        case 36: return std::make_tuple(0xC8,0x16);
-//        case 37: return std::make_tuple(0xC8,0x16);
-//        case 38: return std::make_tuple(0xC8,0x17);
-//        case 39: return std::make_tuple(0xC8,0x17);
-//        case 40: return std::make_tuple(0xCA,0x14);
-//        case 41: return std::make_tuple(0xCA,0x14);
-//        case 42: return std::make_tuple(0xCA,0x15);
-//        case 43: return std::make_tuple(0xCA,0x15);
-//        case 44: return std::make_tuple(0xCA,0x16);
-//        case 45: return std::make_tuple(0xCA,0x16);
-//        case 46: return std::make_tuple(0xCA,0x17);
-//        case 47: return std::make_tuple(0xCA,0x17); //48
-//        default: return std::make_tuple(0xC0,0x14);
+        case 16: //Пишем в младшие 4 бита
+            reg = I2C::getInstance()->readRegister(0xC4, 0x14, false); reg &= 0xF0; color == GPIO::GREEN ? reg |=0x08 : reg |=0x01;
+            ret = std::make_tuple(0xC4, 0x14, reg ); break;
+        case 17: //Пишем в старшие 4 бита
+            reg = I2C::getInstance()->readRegister(0xC4, 0x14, false); reg &= 0x0F;  color == GPIO::GREEN ? reg |=0x80 : reg |=0x10;
+            ret = std::make_tuple(0xC4, 0x14, reg ); break;
+        case 18:
+            reg = I2C::getInstance()->readRegister(0xC4, 0x15, false); reg &= 0xF0; color == GPIO::GREEN ? reg |=0x08 : reg |=0x01;
+            ret = std::make_tuple(0xC4, 0x15, reg ); break;
+        case 19:
+            reg = I2C::getInstance()->readRegister(0xC4, 0x15, false); reg &= 0x0F;  color == GPIO::GREEN ? reg |=0x80 : reg |=0x10;
+            ret = std::make_tuple(0xC4, 0x15, reg ); break;
+        case 20:
+            reg = I2C::getInstance()->readRegister(0xC4, 0x16, false); reg &= 0xF0; color == GPIO::GREEN ? reg |=0x08 : reg |=0x01;
+            ret = std::make_tuple(0xC4, 0x16, reg ); break;
+        case 21:
+            reg = I2C::getInstance()->readRegister(0xC4, 0x16, false); reg &= 0x0F;  color == GPIO::GREEN ? reg |=0x80 : reg |=0x10;
+            ret = std::make_tuple(0xC4, 0x16, reg ); break;
+        case 22:
+            reg = I2C::getInstance()->readRegister(0xC4, 0x17, false); reg &= 0xF0; color == GPIO::GREEN ? reg |=0x08 : reg |=0x01;
+            ret = std::make_tuple(0xC4, 0x17, reg ); break;
+        case 23:
+            reg = I2C::getInstance()->readRegister(0xC4, 0x17, false); reg &= 0x0F;  color == GPIO::GREEN ? reg |=0x80 : reg |=0x10;
+            ret = std::make_tuple(0xC4, 0x17, reg ); break;
+
+        case 24: //Пишем в младшие 4 бита
+            reg = I2C::getInstance()->readRegister(0xC6, 0x14, false); reg &= 0xF0; color == GPIO::GREEN ? reg |=0x08 : reg |=0x01;
+            ret = std::make_tuple(0xC6, 0x14, reg ); break;
+        case 25: //Пишем в старшие 4 бита
+            reg = I2C::getInstance()->readRegister(0xC6, 0x14, false); reg &= 0x0F;  color == GPIO::GREEN ? reg |=0x80 : reg |=0x10;
+            ret = std::make_tuple(0xC6, 0x14, reg ); break;
+        case 26:
+            reg = I2C::getInstance()->readRegister(0xC6, 0x15, false); reg &= 0xF0; color == GPIO::GREEN ? reg |=0x08 : reg |=0x01;
+            ret = std::make_tuple(0xC6, 0x15, reg ); break;
+        case 27:
+            reg = I2C::getInstance()->readRegister(0xC6, 0x15, false); reg &= 0x0F;  color == GPIO::GREEN ? reg |=0x80 : reg |=0x10;
+            ret = std::make_tuple(0xC6, 0x15, reg ); break;
+        case 28:
+            reg = I2C::getInstance()->readRegister(0xC6, 0x16, false); reg &= 0xF0; color == GPIO::GREEN ? reg |=0x08 : reg |=0x01;
+            ret = std::make_tuple(0xC6, 0x16, reg ); break;
+        case 29:
+            reg = I2C::getInstance()->readRegister(0xC6, 0x16, false); reg &= 0x0F;  color == GPIO::GREEN ? reg |=0x80 : reg |=0x10;
+            ret = std::make_tuple(0xC6, 0x16, reg ); break;
+        case 30:
+            reg = I2C::getInstance()->readRegister(0xC6, 0x17, false); reg &= 0xF0; color == GPIO::GREEN ? reg |=0x08 : reg |=0x01;
+            ret = std::make_tuple(0xC6, 0x17, reg ); break;
+        case 31:
+            reg = I2C::getInstance()->readRegister(0xC6, 0x17, false); reg &= 0x0F;  color == GPIO::GREEN ? reg |=0x80 : reg |=0x10;
+            ret = std::make_tuple(0xC6, 0x17, reg ); break;
+                //48
+        case 32: //Пишем в младшие 4 бита
+            reg = I2C::getInstance()->readRegister(0xC8, 0x14, false); reg &= 0xF0; color == GPIO::GREEN ? reg |=0x08 : reg |=0x01;
+            ret = std::make_tuple(0xC8, 0x14, reg ); break;
+        case 33: //Пишем в старшие 4 бита
+            reg = I2C::getInstance()->readRegister(0xC8, 0x14, false); reg &= 0x0F;  color == GPIO::GREEN ? reg |=0x80 : reg |=0x10;
+            ret = std::make_tuple(0xC8, 0x14, reg ); break;
+        case 34:
+            reg = I2C::getInstance()->readRegister(0xC8, 0x15, false); reg &= 0xF0; color == GPIO::GREEN ? reg |=0x08 : reg |=0x01;
+            ret = std::make_tuple(0xC8, 0x15, reg ); break;
+        case 35:
+            reg = I2C::getInstance()->readRegister(0xC8, 0x15, false); reg &= 0x0F;  color == GPIO::GREEN ? reg |=0x80 : reg |=0x10;
+            ret = std::make_tuple(0xC8, 0x15, reg ); break;
+        case 36:
+            reg = I2C::getInstance()->readRegister(0xC8, 0x16, false); reg &= 0xF0; color == GPIO::GREEN ? reg |=0x08 : reg |=0x01;
+            ret = std::make_tuple(0xC8, 0x16, reg ); break;
+        case 37:
+            reg = I2C::getInstance()->readRegister(0xC8, 0x16, false); reg &= 0x0F;  color == GPIO::GREEN ? reg |=0x80 : reg |=0x10;
+            ret = std::make_tuple(0xC8, 0x16, reg ); break;
+        case 38:
+            reg = I2C::getInstance()->readRegister(0xC8, 0x17, false); reg &= 0xF0; color == GPIO::GREEN ? reg |=0x08 : reg |=0x01;
+            ret = std::make_tuple(0xC8, 0x17, reg ); break;
+        case 39:
+            reg = I2C::getInstance()->readRegister(0xC8, 0x17, false); reg &= 0x0F;  color == GPIO::GREEN ? reg |=0x80 : reg |=0x10;
+            ret = std::make_tuple(0xC8, 0x17, reg ); break;
+
+        case 40: //Пишем в младшие 4 бита
+            reg = I2C::getInstance()->readRegister(0xCA, 0x14, false); reg &= 0xF0; color == GPIO::GREEN ? reg |=0x08 : reg |=0x01;
+            ret = std::make_tuple(0xCA, 0x14, reg ); break;
+        case 41: //Пишем в старшие 4 бита
+            reg = I2C::getInstance()->readRegister(0xCA, 0x14, false); reg &= 0x0F;  color == GPIO::GREEN ? reg |=0x80 : reg |=0x10;
+            ret = std::make_tuple(0xCA, 0x14, reg ); break;
+        case 42:
+            reg = I2C::getInstance()->readRegister(0xCA, 0x15, false); reg &= 0xF0; color == GPIO::GREEN ? reg |=0x08 : reg |=0x01;
+            ret = std::make_tuple(0xCA, 0x15, reg ); break;
+        case 43:
+            reg = I2C::getInstance()->readRegister(0xCA, 0x15, false); reg &= 0x0F;  color == GPIO::GREEN ? reg |=0x80 : reg |=0x10;
+            ret = std::make_tuple(0xCA, 0x15, reg ); break;
+        case 44:
+            reg = I2C::getInstance()->readRegister(0xCA, 0x16, false); reg &= 0xF0; color == GPIO::GREEN ? reg |=0x08 : reg |=0x01;
+            ret = std::make_tuple(0xCA, 0x16, reg ); break;
+        case 45:
+            reg = I2C::getInstance()->readRegister(0xCA, 0x16, false); reg &= 0x0F;  color == GPIO::GREEN ? reg |=0x80 : reg |=0x10;
+            ret = std::make_tuple(0xCA, 0x16, reg ); break;
+        case 46:
+            reg = I2C::getInstance()->readRegister(0xCA, 0x17, false); reg &= 0xF0; color == GPIO::GREEN ? reg |=0x08 : reg |=0x01;
+            ret = std::make_tuple(0xCA, 0x17, reg ); break;
+        case 47:
+            reg = I2C::getInstance()->readRegister(0xCA, 0x17, false); reg &= 0x0F;  color == GPIO::GREEN ? reg |=0x80 : reg |=0x10;
+            ret = std::make_tuple(0xCA, 0x17, reg ); break;
+
         }
     return ret;
 }
