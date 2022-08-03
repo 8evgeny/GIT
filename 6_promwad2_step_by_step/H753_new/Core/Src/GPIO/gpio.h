@@ -98,6 +98,13 @@ public:
         errString
     };
 
+    enum Color{
+        RED = 0,
+        GREEN
+    };
+    std::tuple<u_int8_t, u_int8_t, u_int8_t> fromIndexToReg(u_int8_t i, Color color);
+
+
     /*!
      \brief It returns the sole instance of the class.
 
