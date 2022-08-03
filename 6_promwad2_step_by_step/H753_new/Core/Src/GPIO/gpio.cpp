@@ -326,36 +326,55 @@ term("--- switchLEDsThread ---")
              I2C::getInstance()->writeRegister(TLC59116F_address[i], TLC59116F_registerBright[j], 0x30, false);
          }
     }
-
+    uint8_t test = 0;
     while(true)
     {
-        for (uint8_t i = 0; i < TLC59116F_max_address; i++)
+        while(test < 3)
         {
-            for (uint8_t j = 0; j < 4; j++)
-            { // красный
-            I2C::getInstance()->writeRegister(TLC59116F_address[i], TLC59116F_registerLED[j], 0x11, false);
+            //Тестовое попеременное моргание
+            for (uint8_t i = 0; i < TLC59116F_max_address; i++)
+            {
+                for (uint8_t j = 0; j < 4; j++)
+                { // красный
+                I2C::getInstance()->writeRegister(TLC59116F_address[i], TLC59116F_registerLED[j], 0x11, false);
+                //                               4 столбца LED (для 32)  4 регистра по 2*2 светодиода
+                }
             }
-        }
-        osDelay(1000);
+            osDelay(300);
 
-//        for (uint8_t i = 0; i < TLC59116F_max_address; i++)
-//        {
-//            for (uint8_t j = 0; j < 4; j++)
-//            {
-//            I2C::getInstance()->writeRegister(TLC59116F_address[i], TLC59116F_registerLED[j], 0x00, false);
-//            }
-//        }
-//        osDelay(1000);
+            for (uint8_t i = 0; i < TLC59116F_max_address; i++)
+            {
+                for (uint8_t j = 0; j < 4; j++)
+                { // зеленый  TLC59116F_registerBright
+                I2C::getInstance()->writeRegister(TLC59116F_address[i], TLC59116F_registerLED[j], 0x88, false);
+                }
+            }
+            osDelay(300);
+            ++test;
+        }//end тестовое моргание
 
+        //Гасим все
         for (uint8_t i = 0; i < TLC59116F_max_address; i++)
         {
             for (uint8_t j = 0; j < 4; j++)
             { // зеленый  TLC59116F_registerBright
-            I2C::getInstance()->writeRegister(TLC59116F_address[i], TLC59116F_registerLED[j], 0x88, false);
+            I2C::getInstance()->writeRegister(TLC59116F_address[i], TLC59116F_registerLED[j], 0x00, false);
             }
         }
-        osDelay(1000);
+        //Тут основное управление LED
+        for(uint8_t i = 0; i < GPIO::keysNum; ++i)
+        {
+            if (GPIO::getInstance()->aLeds[i].ledState)
+            {// Включаем пин
 
+
+
+            } else
+            {// Гасим пин
+
+
+            }
+        }
 
         osDelay(1);
     }
@@ -471,3 +490,61 @@ void EXTI15_10_IRQHandler(void)
 #ifdef __cplusplus
 }
 #endif
+
+std::pair<u_int8_t, u_int8_t> fromIndexToReg(u_int8_t i)
+{
+    switch (i)
+    { //Возвращаем адрес микросхемы и номер регистра
+        case 0: return std::make_pair(0xC0,0x14);
+        case 1: return std::make_pair(0xC0,0x14);
+        case 2: return std::make_pair(0xC0,0x15);
+        case 3: return std::make_pair(0xC0,0x15);
+        case 4: return std::make_pair(0xC0,0x16);
+        case 5: return std::make_pair(0xC0,0x16);
+        case 6: return std::make_pair(0xC0,0x17);
+        case 7: return std::make_pair(0xC0,0x17);
+        case 8: return std::make_pair(0xC2,0x14);
+        case 9: return std::make_pair(0xC2,0x14);
+        case 10: return std::make_pair(0xC2,0x15);
+        case 11: return std::make_pair(0xC2,0x15);
+        case 12: return std::make_pair(0xC2,0x16);
+        case 13: return std::make_pair(0xC2,0x16);
+        case 14: return std::make_pair(0xC2,0x17);
+        case 15: return std::make_pair(0xC2,0x17); //16
+
+        case 16: return std::make_pair(0xC4,0x14);
+        case 17: return std::make_pair(0xC4,0x14);
+        case 18: return std::make_pair(0xC4,0x15);
+        case 19: return std::make_pair(0xC4,0x15);
+        case 20: return std::make_pair(0xC4,0x16);
+        case 21: return std::make_pair(0xC4,0x16);
+        case 22: return std::make_pair(0xC4,0x17);
+        case 23: return std::make_pair(0xC4,0x17);
+        case 24: return std::make_pair(0xC6,0x14);
+        case 25: return std::make_pair(0xC6,0x14);
+        case 26: return std::make_pair(0xC6,0x15);
+        case 27: return std::make_pair(0xC6,0x15);
+        case 28: return std::make_pair(0xC6,0x16);
+        case 29: return std::make_pair(0xC6,0x16);
+        case 30: return std::make_pair(0xC6,0x17);
+        case 31: return std::make_pair(0xC6,0x17); //32
+
+        case 32: return std::make_pair(0xC8,0x14);
+        case 33: return std::make_pair(0xC8,0x14);
+        case 34: return std::make_pair(0xC8,0x15);
+        case 35: return std::make_pair(0xC8,0x15);
+        case 36: return std::make_pair(0xC8,0x16);
+        case 37: return std::make_pair(0xC8,0x16);
+        case 38: return std::make_pair(0xC8,0x17);
+        case 39: return std::make_pair(0xC8,0x17);
+        case 40: return std::make_pair(0xCA,0x14);
+        case 41: return std::make_pair(0xCA,0x14);
+        case 42: return std::make_pair(0xCA,0x15);
+        case 43: return std::make_pair(0xCA,0x15);
+        case 44: return std::make_pair(0xCA,0x16);
+        case 45: return std::make_pair(0xCA,0x16);
+        case 46: return std::make_pair(0xCA,0x17);
+        case 47: return std::make_pair(0xCA,0x17); //48
+        default: return std::make_pair(0xC0,0x14);
+        }
+}
