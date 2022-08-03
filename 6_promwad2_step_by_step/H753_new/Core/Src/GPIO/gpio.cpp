@@ -391,7 +391,7 @@ term("--- switchLEDsThread ---")
         {
             if (GPIO::getInstance()->aLeds[i].ledState)
             {// Включаем пин
-                std::tie (adr, reg, numON,numOFF)  = GPIO::getInstance()->fromIndexToReg(i, GPIO::getInstance()->RED);
+                std::tie (adr, reg, numON,numOFF)  = GPIO::getInstance()->fromIndexToReg(i, GPIO::getInstance()->GREEN);
                 I2C::getInstance()->writeRegister(adr, reg, numON, false);
             } else
             {// Гасим пин

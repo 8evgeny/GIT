@@ -363,7 +363,7 @@ int main(void)
 
 
     //Тестовые потоки
-//    testLed1();
+    testLed1();
 //    testLed2();
     testLed3();
 //    testUART();
