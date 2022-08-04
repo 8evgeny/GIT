@@ -278,25 +278,25 @@ void switchLEDsThread(void const *arg)
     (void)arg;
 term("--- switchLEDsThread ---")
 
-//    GPIO::getInstance()->initLEDS_SC4();
-//    GPIO::getInstance()->testLed();
+    GPIO::getInstance()->initLEDS_SC4();
+    GPIO::getInstance()->testLed();
 
     while(true)
     {
 
-//        uint8_t adr, reg, numON, numOFF;
-//        for(uint8_t i = 0; i < TLC59116F_max_address * 8; ++i)
-//        {
-//            if (GPIO::getInstance()->aLeds[i].ledState)
-//            {// Включаем пин
-//                std::tie (adr, reg, numON,numOFF)  = GPIO::getInstance()->fromIndexToReg(i, GPIO::getInstance()->GREEN);
-//                I2C::getInstance()->writeRegister(adr, reg, numON, false);
-//            } else
-//            {// Гасим пин
-//                std::tie (adr, reg, numON,numOFF)  = GPIO::getInstance()->fromIndexToReg(i, GPIO::getInstance()->RED);
-//                I2C::getInstance()->writeRegister(adr, reg, numOFF, false);
-//            }
-//        }
+        uint8_t adr, reg, numON, numOFF;
+        for(uint8_t i = 0; i < TLC59116F_max_address * 8; ++i)
+        {
+            if (GPIO::getInstance()->aLeds[i].ledState)
+            {// Включаем пин
+                std::tie (adr, reg, numON,numOFF)  = GPIO::getInstance()->fromIndexToReg(i, GPIO::getInstance()->GREEN);
+                I2C::getInstance()->writeRegister(adr, reg, numON, false);
+            } else
+            {// Гасим пин
+                std::tie (adr, reg, numON,numOFF)  = GPIO::getInstance()->fromIndexToReg(i, GPIO::getInstance()->RED);
+                I2C::getInstance()->writeRegister(adr, reg, numOFF, false);
+            }
+        }
 
         osDelay(1);
     }
@@ -312,36 +312,70 @@ void readButtonThread(void const *arg)
     osDelay(1000);
     GPIO::getInstance()->initBUTTONS_SC4();
 
-
 term("--- readButtonThread ---")
-    uint8_t tmp = 0;
+    uint8_t readBoard = 0;
     uint8_t numButton = 0;
-    uint8_t numButton2 = 0;
+//    uint8_t numButton2 = 0;
+
     while(true)
     {
 
     for (uint8_t i = 0; i < MCP23017_max_address; ++i)
+    {
         for (uint8_t j = 0; j < 2; ++j)
         {
-            tmp = I2C::getInstance()->readRegister(MCP23017_address[i], MCP23017_register[j], false);
-            if (tmp != 255)
+            readBoard = I2C::getInstance()->readRegister(MCP23017_address[i], MCP23017_register[j], false);
+            if (readBoard != 255)
             {
-                numButton = GPIO::getInstance()->findBUTTONS_SC4(tmp, i, j);
-                 if (numButton != numButton2 )
-                 {
-                     term1("Pressed key") term2(numButton)
-                     numButton2 = numButton;
-                 }
+
+                numButton = GPIO::getInstance()->findBUTTONS_SC4(readBoard, i, j);
+                term1("Pressed key") term2(numButton)
+
             }
         }
+    }//Просканировали все клавиши
 
 
+        for (uint8_t i = 0; i < GPIO::getInstance()->buttonArray.size() ; ++i)
+        {
+            if ((numButton-1) == GPIO::getInstance()->buttonArray[i].i)
+            {
+                GPIO::getInstance()->buttonArray[i].n = 1;
 
+                auto n = GPIO::getInstance()->buttonArray[i].i;
+                tempPack.payloadData = numButton;
+
+                osMutexWait(GPIO::getInstance()->mutexRingBufferRx_id, osWaitForever);
+//Передача кнопки в основной код
+//                GPIO::getInstance()->ringBufferRx.push(tempPack);
+
+                osMutexRelease(GPIO::getInstance()->mutexRingBufferRx_id);
+
+                osDelay(50);
+            }
+            else
+            {
+                GPIO::getInstance()->buttonArray[i].n = 0;
+            }
+
+        }
+
+         osDelay(50); //Возможно нужно убрать
 
         osDelay(1);
     }
+
+
+
+
 }
 #endif
+
+
+
+
+
+
 
 #ifdef __cplusplus
 }
@@ -655,14 +689,18 @@ void GPIO::initLEDS_SC4()
 void GPIO::initBUTTONS_SC4()
 {
 #ifdef SC4
+    for (uint8_t i = 0; i < MCP23017_max_address * 16; ++i)
+    {
+        buttonArray[i].i = i;
+        buttonArray[i].n = 0;
+    }
+
 
     for (uint8_t i = 0; i < MCP23017_max_address; ++i)
     {
-//        I2C::getInstance()->writeRegister(0x40, MCP23017_Init_Val[0] , MCP23017_Init_Val[1], false);
         for (uint8_t j = 0; j < sizeof(MCP23017_Init_Val); j += 2)
         {
             I2C::getInstance()->writeRegister(MCP23017_address[i], MCP23017_Init_Val[j] , MCP23017_Init_Val[j+1], false);
-            term("writeRegister")
         }
     }
 
