@@ -316,8 +316,10 @@ void readButtonThread(void const *arg)
 term("--- readButtonThread ---")
     uint8_t tmp = 0;
     uint8_t numButton = 0;
+    uint8_t numButton2 = 0;
     while(true)
     {
+
     for (uint8_t i = 0; i < MCP23017_max_address; ++i)
         for (uint8_t j = 0; j < 2; ++j)
         {
@@ -325,11 +327,15 @@ term("--- readButtonThread ---")
             if (tmp != 255)
             {
                 numButton = GPIO::getInstance()->findBUTTONS_SC4(tmp, i, j);
-                term1("Pressed key") term(numButton)
+                 if (numButton != numButton2 )
+                 {
+                     term1("Pressed key") term2(numButton)
+                     numButton2 = numButton;
+                 }
             }
         }
 
-            osDelay(500);
+
 
 
         osDelay(1);

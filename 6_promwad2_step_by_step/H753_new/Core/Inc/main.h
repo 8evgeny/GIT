@@ -36,7 +36,7 @@
 
 //#define term2(x) (RS232::getInstance().term << x << "..."<<__FUNCTION__ << "..." << __LINE__ <<"\r\n");
 
-#define term2(x) (RS232::getInstance().term << x );
+#define term2(x) (RS232::getInstance().term << x << "\r\n" );
 #define blank_str RS232::getInstance().term <<"\r\n";
 
 
