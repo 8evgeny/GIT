@@ -37,17 +37,24 @@ const uint8_t TLC59116F_address[] = {0xC0,0xC2,0xC4,0xC6,0xC8,0xCA};
 const uint8_t TLC59116F_registerLED[] = {0x14,0x15,0x16,0x17};
 // Регистры индивидуальной яркости каждого светодиода
 const uint8_t TLC59116F_registerBright[] = {0x02,0x03,0x04,0x05,0x06,0x07,0x08,0x09,0x0A,0x0B,0x0C,0x0D,0x0E,0x0F,0x10,0x11};
+// TLC59116F chip setup registers values
+
 
 // max address number of MCP23017 chips
 extern uint8_t MCP23017_max_address;
 // MCP23017 chips addresses
-extern uint8_t MCP23017_address[];
+const uint8_t MCP23017_address[] = {0x40,0x42,0x44,0x4E};
 // MCP23017 chip LEDs registers
-extern  uint8_t MCP23017_register[];
-// TLC59116F chip setup registers values
-extern uint8_t TLC59116F_Init_Val[];
+const uint8_t MCP23017_register[] = {0x12,0x13};
 // MCP23017 chip setup registers values
-extern uint8_t MCP23017_Init_Val[];
+const uint8_t MCP23017_Init_Val[] = {
+            //  Reg    Data
+                0x04 , 0xFF,	// GPINTENA
+                0x05 , 0xFF,	// GPINTENB
+                0x0A , 0x42,	// IOCON
+                0x0C , 0xFF,	// GPPUA
+                0x0D , 0xFF,	// GPPUB
+             };
 
 //extern osSemaphoreId Netif_LinkSemaphore;
 static osTimerId timerId7; /*!< The thread ID of the timer */
@@ -83,9 +90,6 @@ GPIO::GPIO()
 #ifndef SC4
     initLEDS_SC2();
 #endif
-#ifdef SC4
-
-#endif
 
     mutexRingBufferRx_id = osMutexCreate(osMutex(mutexRingBufferRx));
     if (mutexRingBufferRx_id == nullptr)
@@ -100,7 +104,7 @@ GPIO::GPIO()
     initBUTTONS_SC2();
 #endif
 #ifdef SC4
-    initBUTTONS_SC4();
+    i2cInitBoard();
     SC4_EXTI_IRQHandler_Config();
 #endif
 }
@@ -274,25 +278,25 @@ void switchLEDsThread(void const *arg)
     (void)arg;
 term("--- switchLEDsThread ---")
 
-    GPIO::getInstance()->initLEDS_SC4();
-    GPIO::getInstance()->testLed();
+//    GPIO::getInstance()->initLEDS_SC4();
+//    GPIO::getInstance()->testLed();
 
     while(true)
     {
-        //Начало основного цикла управления LED
-        uint8_t adr, reg, numON, numOFF;
-        for(uint8_t i = 0; i < TLC59116F_max_address * 8; ++i)
-        {
-            if (GPIO::getInstance()->aLeds[i].ledState)
-            {// Включаем пин
-                std::tie (adr, reg, numON,numOFF)  = GPIO::getInstance()->fromIndexToReg(i, GPIO::getInstance()->GREEN);
-                I2C::getInstance()->writeRegister(adr, reg, numON, false);
-            } else
-            {// Гасим пин
-                std::tie (adr, reg, numON,numOFF)  = GPIO::getInstance()->fromIndexToReg(i, GPIO::getInstance()->RED);
-                I2C::getInstance()->writeRegister(adr, reg, numOFF, false);
-            }
-        }
+
+//        uint8_t adr, reg, numON, numOFF;
+//        for(uint8_t i = 0; i < TLC59116F_max_address * 8; ++i)
+//        {
+//            if (GPIO::getInstance()->aLeds[i].ledState)
+//            {// Включаем пин
+//                std::tie (adr, reg, numON,numOFF)  = GPIO::getInstance()->fromIndexToReg(i, GPIO::getInstance()->GREEN);
+//                I2C::getInstance()->writeRegister(adr, reg, numON, false);
+//            } else
+//            {// Гасим пин
+//                std::tie (adr, reg, numON,numOFF)  = GPIO::getInstance()->fromIndexToReg(i, GPIO::getInstance()->RED);
+//                I2C::getInstance()->writeRegister(adr, reg, numOFF, false);
+//            }
+//        }
 
         osDelay(1);
     }
@@ -305,12 +309,27 @@ void readButtonThread(void const *arg)
     PackageRx tempPack;
     tempPack.packetType = GPIO::getInstance()->button;
 
+    osDelay(1000);
     GPIO::getInstance()->initBUTTONS_SC4();
 
 
 term("--- readButtonThread ---")
+    uint8_t tmp = 0;
+    uint8_t numButton = 0;
     while(true)
     {
+    for (uint8_t i = 0; i < MCP23017_max_address; ++i)
+        for (uint8_t j = 0; j < 2; ++j)
+        {
+            tmp = I2C::getInstance()->readRegister(MCP23017_address[i], MCP23017_register[j], false);
+            if (tmp != 255)
+            {
+                numButton = GPIO::getInstance()->findBUTTONS_SC4(tmp, i, j);
+                term1("Pressed key") term(numButton)
+            }
+        }
+
+            osDelay(500);
 
 
         osDelay(1);
@@ -397,6 +416,7 @@ void EXTI2_IRQHandler(void)
 
 void EXTI4_IRQHandler(void)
 {
+    term("Interrupt UI board")
     HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_4);
 }
 
@@ -448,104 +468,104 @@ std::tuple<u_int8_t, u_int8_t, u_int8_t, u_int8_t> GPIO::fromIndexToReg(u_int8_t
     switch (i)
     { //Возвращаем адрес микросхемы  номер регистра значение для установки и для сброса
         case 0: //Пишем в младшие 4 бита
-            reg = I2C::getInstance()->readRegister(0xC0, 0x14, false); regOFF = reg & 0xF0; regON = reg & 0xF0; color == GPIO::GREEN ? regON |=0x08 : regON  |=0x01;
-            return std::make_tuple(0xC0, 0x14, regON, regOFF );
+            reg = I2C::getInstance()->readRegister(TLC59116F_address[0], TLC59116F_registerLED[0], false); regOFF = reg & 0xF0; regON = reg & 0xF0; color == GPIO::GREEN ? regON |=0x08 : regON  |=0x01;
+            return std::make_tuple(TLC59116F_address[0], TLC59116F_registerLED[0], regON, regOFF );
         case 1: //Пишем в старшие 4 бита
-            reg = I2C::getInstance()->readRegister(0xC0, 0x14, false); regOFF = reg & 0x0F; regON = reg & 0x0F; color == GPIO::GREEN ? regON |=0x80 : regON  |=0x10;
-            return std::make_tuple(0xC0, 0x14, regON, regOFF );
+            reg = I2C::getInstance()->readRegister(TLC59116F_address[0], TLC59116F_registerLED[0], false); regOFF = reg & 0x0F; regON = reg & 0x0F; color == GPIO::GREEN ? regON |=0x80 : regON  |=0x10;
+            return std::make_tuple(TLC59116F_address[0], TLC59116F_registerLED[0], regON, regOFF );
         case 2:
-            reg = I2C::getInstance()->readRegister(0xC0, 0x15, false); regOFF = reg & 0xF0; regON = reg & 0xF0; color == GPIO::GREEN ? regON |=0x08 : regON  |=0x01;
-            return std::make_tuple(0xC0, 0x15, regON, regOFF );
+            reg = I2C::getInstance()->readRegister(TLC59116F_address[0], TLC59116F_registerLED[1], false); regOFF = reg & 0xF0; regON = reg & 0xF0; color == GPIO::GREEN ? regON |=0x08 : regON  |=0x01;
+            return std::make_tuple(TLC59116F_address[0], TLC59116F_registerLED[1], regON, regOFF );
         case 3:
-            reg = I2C::getInstance()->readRegister(0xC0, 0x15, false); regOFF = reg & 0x0F; regON = reg & 0x0F; color == GPIO::GREEN ? regON |=0x80 : regON  |=0x10;
-            return std::make_tuple(0xC0, 0x15, regON, regOFF );
+            reg = I2C::getInstance()->readRegister(TLC59116F_address[0], TLC59116F_registerLED[1], false); regOFF = reg & 0x0F; regON = reg & 0x0F; color == GPIO::GREEN ? regON |=0x80 : regON  |=0x10;
+            return std::make_tuple(TLC59116F_address[0], TLC59116F_registerLED[1], regON, regOFF );
         case 4:
-            reg = I2C::getInstance()->readRegister(0xC0, 0x16, false); regOFF = reg & 0xF0; regON = reg & 0xF0; color == GPIO::GREEN ? regON |=0x08 : regON  |=0x01;
-            return std::make_tuple(0xC0, 0x16, regON, regOFF );
+            reg = I2C::getInstance()->readRegister(TLC59116F_address[0], TLC59116F_registerLED[2], false); regOFF = reg & 0xF0; regON = reg & 0xF0; color == GPIO::GREEN ? regON |=0x08 : regON  |=0x01;
+            return std::make_tuple(TLC59116F_address[0], TLC59116F_registerLED[2], regON, regOFF );
         case 5:
-            reg = I2C::getInstance()->readRegister(0xC0, 0x16, false); regOFF = reg & 0x0F; regON = reg & 0x0F; color == GPIO::GREEN ? regON |=0x80 : regON  |=0x10;
-            return std::make_tuple(0xC0, 0x16, regON, regOFF );
+            reg = I2C::getInstance()->readRegister(TLC59116F_address[0], TLC59116F_registerLED[2], false); regOFF = reg & 0x0F; regON = reg & 0x0F; color == GPIO::GREEN ? regON |=0x80 : regON  |=0x10;
+            return std::make_tuple(TLC59116F_address[0], TLC59116F_registerLED[2], regON, regOFF );
         case 6:
-            reg = I2C::getInstance()->readRegister(0xC0, 0x17, false); regOFF = reg & 0xF0; regON = reg & 0xF0; color == GPIO::GREEN ? regON |=0x08 : regON  |=0x01;
-            return std::make_tuple(0xC0, 0x17, regON, regOFF );
+            reg = I2C::getInstance()->readRegister(TLC59116F_address[0], TLC59116F_registerLED[3], false); regOFF = reg & 0xF0; regON = reg & 0xF0; color == GPIO::GREEN ? regON |=0x08 : regON  |=0x01;
+            return std::make_tuple(TLC59116F_address[0], TLC59116F_registerLED[3], regON, regOFF );
         case 7:
-            reg = I2C::getInstance()->readRegister(0xC0, 0x17, false); regOFF = reg & 0x0F; regON = reg & 0x0F; color == GPIO::GREEN ? regON |=0x80 : regON  |=0x10;
-            return std::make_tuple(0xC0, 0x17, regON, regOFF );
+            reg = I2C::getInstance()->readRegister(TLC59116F_address[0], TLC59116F_registerLED[3], false); regOFF = reg & 0x0F; regON = reg & 0x0F; color == GPIO::GREEN ? regON |=0x80 : regON  |=0x10;
+            return std::make_tuple(TLC59116F_address[0], TLC59116F_registerLED[3], regON, regOFF );
 
         case 8: //Пишем в младшие 4 бита
-            reg = I2C::getInstance()->readRegister(0xC2, 0x14, false); regOFF = reg & 0xF0; regON = reg & 0xF0; color == GPIO::GREEN ? regON |=0x08 : regON  |=0x01;
-            return std::make_tuple(0xC2, 0x14, regON, regOFF );
+            reg = I2C::getInstance()->readRegister(TLC59116F_address[1], TLC59116F_registerLED[0], false); regOFF = reg & 0xF0; regON = reg & 0xF0; color == GPIO::GREEN ? regON |=0x08 : regON  |=0x01;
+            return std::make_tuple(TLC59116F_address[1], TLC59116F_registerLED[0], regON, regOFF );
         case 9: //Пишем в старшие 4 бита
-            reg = I2C::getInstance()->readRegister(0xC2, 0x14, false); regOFF = reg & 0x0F; regON = reg & 0x0F; color == GPIO::GREEN ? regON |=0x80 : regON  |=0x10;
-            return std::make_tuple(0xC2, 0x14, regON, regOFF );
+            reg = I2C::getInstance()->readRegister(TLC59116F_address[1], TLC59116F_registerLED[0], false); regOFF = reg & 0x0F; regON = reg & 0x0F; color == GPIO::GREEN ? regON |=0x80 : regON  |=0x10;
+            return std::make_tuple(TLC59116F_address[1], TLC59116F_registerLED[0], regON, regOFF );
         case 10:
-            reg = I2C::getInstance()->readRegister(0xC2, 0x15, false); regOFF = reg & 0xF0; regON = reg & 0xF0; color == GPIO::GREEN ? regON |=0x08 : regON  |=0x01;
-            return std::make_tuple(0xC2, 0x15, regON, regOFF );
+            reg = I2C::getInstance()->readRegister(TLC59116F_address[1], TLC59116F_registerLED[1], false); regOFF = reg & 0xF0; regON = reg & 0xF0; color == GPIO::GREEN ? regON |=0x08 : regON  |=0x01;
+            return std::make_tuple(TLC59116F_address[1], TLC59116F_registerLED[1], regON, regOFF );
         case 11:
-            reg = I2C::getInstance()->readRegister(0xC2, 0x15, false); regOFF = reg & 0x0F; regON = reg & 0x0F; color == GPIO::GREEN ? regON |=0x80 : regON  |=0x10;
-            return std::make_tuple(0xC2, 0x15, regON, regOFF );
+            reg = I2C::getInstance()->readRegister(TLC59116F_address[1], TLC59116F_registerLED[1], false); regOFF = reg & 0x0F; regON = reg & 0x0F; color == GPIO::GREEN ? regON |=0x80 : regON  |=0x10;
+            return std::make_tuple(TLC59116F_address[1], TLC59116F_registerLED[1], regON, regOFF );
         case 12:
-            reg = I2C::getInstance()->readRegister(0xC2, 0x16, false); regOFF = reg & 0xF0; regON = reg & 0xF0; color == GPIO::GREEN ? regON |=0x08 : regON  |=0x01;
-            return std::make_tuple(0xC2, 0x16, regON, regOFF );
+            reg = I2C::getInstance()->readRegister(TLC59116F_address[1], TLC59116F_registerLED[2], false); regOFF = reg & 0xF0; regON = reg & 0xF0; color == GPIO::GREEN ? regON |=0x08 : regON  |=0x01;
+            return std::make_tuple(TLC59116F_address[1], TLC59116F_registerLED[2], regON, regOFF );
         case 13:
-            reg = I2C::getInstance()->readRegister(0xC2, 0x16, false); regOFF = reg & 0x0F; regON = reg & 0x0F; color == GPIO::GREEN ? regON |=0x80 : regON  |=0x10;
-            return std::make_tuple(0xC2, 0x16, regON, regOFF );
+            reg = I2C::getInstance()->readRegister(TLC59116F_address[1], TLC59116F_registerLED[2], false); regOFF = reg & 0x0F; regON = reg & 0x0F; color == GPIO::GREEN ? regON |=0x80 : regON  |=0x10;
+            return std::make_tuple(TLC59116F_address[1], TLC59116F_registerLED[2], regON, regOFF );
         case 14:
-            reg = I2C::getInstance()->readRegister(0xC2, 0x17, false); regOFF = reg & 0xF0; regON = reg & 0xF0; color == GPIO::GREEN ? regON |=0x08 : regON  |=0x01;
-            return std::make_tuple(0xC2, 0x17, regON, regOFF );
+            reg = I2C::getInstance()->readRegister(TLC59116F_address[1], TLC59116F_registerLED[3], false); regOFF = reg & 0xF0; regON = reg & 0xF0; color == GPIO::GREEN ? regON |=0x08 : regON  |=0x01;
+            return std::make_tuple(TLC59116F_address[1], TLC59116F_registerLED[3], regON, regOFF );
         case 15:
-            reg = I2C::getInstance()->readRegister(0xC2, 0x17, false); regOFF = reg & 0x0F; regON = reg & 0x0F; color == GPIO::GREEN ? regON |=0x80 : regON  |=0x10;
-            return std::make_tuple(0xC2, 0x17, regON, regOFF );
+            reg = I2C::getInstance()->readRegister(TLC59116F_address[1], TLC59116F_registerLED[3], false); regOFF = reg & 0x0F; regON = reg & 0x0F; color == GPIO::GREEN ? regON |=0x80 : regON  |=0x10;
+            return std::make_tuple(TLC59116F_address[1], TLC59116F_registerLED[3], regON, regOFF );
 
         case 16: //Пишем в младшие 4 бита
-            reg = I2C::getInstance()->readRegister(0xC4, 0x14, false); regOFF = reg & 0xF0; regON = reg & 0xF0; color == GPIO::GREEN ? regON |=0x08 : regON  |=0x01;
-            return std::make_tuple(0xC4, 0x14, regON, regOFF );
+            reg = I2C::getInstance()->readRegister(TLC59116F_address[2], TLC59116F_registerLED[0], false); regOFF = reg & 0xF0; regON = reg & 0xF0; color == GPIO::GREEN ? regON |=0x08 : regON  |=0x01;
+            return std::make_tuple(TLC59116F_address[2], TLC59116F_registerLED[0], regON, regOFF );
         case 17: //Пишем в старшие 4 бита
-            reg = I2C::getInstance()->readRegister(0xC4, 0x14, false); regOFF = reg & 0x0F; regON = reg & 0x0F; color == GPIO::GREEN ? regON |=0x80 : regON  |=0x10;
-            return std::make_tuple(0xC4, 0x14, regON, regOFF );
+            reg = I2C::getInstance()->readRegister(TLC59116F_address[2], TLC59116F_registerLED[0], false); regOFF = reg & 0x0F; regON = reg & 0x0F; color == GPIO::GREEN ? regON |=0x80 : regON  |=0x10;
+            return std::make_tuple(TLC59116F_address[2], TLC59116F_registerLED[0], regON, regOFF );
         case 18:
-            reg = I2C::getInstance()->readRegister(0xC4, 0x15, false); regOFF = reg & 0xF0; regON = reg & 0xF0; color == GPIO::GREEN ? regON |=0x08 : regON  |=0x01;
-            return std::make_tuple(0xC4, 0x15, regON, regOFF );
+            reg = I2C::getInstance()->readRegister(TLC59116F_address[2], TLC59116F_registerLED[1], false); regOFF = reg & 0xF0; regON = reg & 0xF0; color == GPIO::GREEN ? regON |=0x08 : regON  |=0x01;
+            return std::make_tuple(TLC59116F_address[2], TLC59116F_registerLED[1], regON, regOFF );
         case 19:
-            reg = I2C::getInstance()->readRegister(0xC4, 0x15, false); regOFF = reg & 0x0F; regON = reg & 0x0F; color == GPIO::GREEN ? regON |=0x80 : regON  |=0x10;
-            return std::make_tuple(0xC4, 0x15, regON, regOFF );
+            reg = I2C::getInstance()->readRegister(TLC59116F_address[2], TLC59116F_registerLED[1], false); regOFF = reg & 0x0F; regON = reg & 0x0F; color == GPIO::GREEN ? regON |=0x80 : regON  |=0x10;
+            return std::make_tuple(TLC59116F_address[2], TLC59116F_registerLED[1], regON, regOFF );
         case 20:
-            reg = I2C::getInstance()->readRegister(0xC4, 0x16, false); regOFF = reg & 0xF0; regON = reg & 0xF0; color == GPIO::GREEN ? regON |=0x08 : regON  |=0x01;
-            return std::make_tuple(0xC4, 0x16, regON, regOFF );
+            reg = I2C::getInstance()->readRegister(TLC59116F_address[2], TLC59116F_registerLED[2], false); regOFF = reg & 0xF0; regON = reg & 0xF0; color == GPIO::GREEN ? regON |=0x08 : regON  |=0x01;
+            return std::make_tuple(TLC59116F_address[2], TLC59116F_registerLED[2], regON, regOFF );
         case 21:
-            reg = I2C::getInstance()->readRegister(0xC4, 0x16, false); regOFF = reg & 0x0F; regON = reg & 0x0F; color == GPIO::GREEN ? regON |=0x80 : regON  |=0x10;
-            return std::make_tuple(0xC4, 0x16, regON, regOFF );
+            reg = I2C::getInstance()->readRegister(TLC59116F_address[2], TLC59116F_registerLED[2], false); regOFF = reg & 0x0F; regON = reg & 0x0F; color == GPIO::GREEN ? regON |=0x80 : regON  |=0x10;
+            return std::make_tuple(TLC59116F_address[2], TLC59116F_registerLED[2], regON, regOFF );
         case 22:
-            reg = I2C::getInstance()->readRegister(0xC4, 0x17, false); regOFF = reg & 0xF0; regON = reg & 0xF0; color == GPIO::GREEN ? regON |=0x08 : regON  |=0x01;
-            return std::make_tuple(0xC4, 0x17, regON, regOFF );
+            reg = I2C::getInstance()->readRegister(TLC59116F_address[2], TLC59116F_registerLED[3], false); regOFF = reg & 0xF0; regON = reg & 0xF0; color == GPIO::GREEN ? regON |=0x08 : regON  |=0x01;
+            return std::make_tuple(TLC59116F_address[2], TLC59116F_registerLED[3], regON, regOFF );
         case 23:
-            reg = I2C::getInstance()->readRegister(0xC4, 0x17, false); regOFF = reg & 0x0F; regON = reg & 0x0F; color == GPIO::GREEN ? regON |=0x80 : regON  |=0x10;
-            return std::make_tuple(0xC4, 0x17, regON, regOFF );
+            reg = I2C::getInstance()->readRegister(TLC59116F_address[2], TLC59116F_registerLED[3], false); regOFF = reg & 0x0F; regON = reg & 0x0F; color == GPIO::GREEN ? regON |=0x80 : regON  |=0x10;
+            return std::make_tuple(TLC59116F_address[2], TLC59116F_registerLED[3], regON, regOFF );
 
         case 24: //Пишем в младшие 4 бита
-            reg = I2C::getInstance()->readRegister(0xC6, 0x14, false); regOFF = reg & 0xF0; regON = reg & 0xF0; color == GPIO::GREEN ? regON |=0x08 : regON  |=0x01;
-            return std::make_tuple(0xC6, 0x14, regON, regOFF );
+            reg = I2C::getInstance()->readRegister(TLC59116F_address[3], TLC59116F_registerLED[0], false); regOFF = reg & 0xF0; regON = reg & 0xF0; color == GPIO::GREEN ? regON |=0x08 : regON  |=0x01;
+            return std::make_tuple(TLC59116F_address[3], TLC59116F_registerLED[0], regON, regOFF );
         case 25: //Пишем в старшие 4 бита
-            reg = I2C::getInstance()->readRegister(0xC6, 0x14, false); regOFF = reg & 0x0F; regON = reg & 0x0F; color == GPIO::GREEN ? regON |=0x80 : regON  |=0x10;
-            return std::make_tuple(0xC6, 0x14, regON, regOFF );
+            reg = I2C::getInstance()->readRegister(TLC59116F_address[3], TLC59116F_registerLED[0], false); regOFF = reg & 0x0F; regON = reg & 0x0F; color == GPIO::GREEN ? regON |=0x80 : regON  |=0x10;
+            return std::make_tuple(TLC59116F_address[3], TLC59116F_registerLED[0], regON, regOFF );
         case 26:
-            reg = I2C::getInstance()->readRegister(0xC6, 0x15, false); regOFF = reg & 0xF0; regON = reg & 0xF0; color == GPIO::GREEN ? regON |=0x08 : regON  |=0x01;
-            return std::make_tuple(0xC6, 0x15, regON, regOFF );
+            reg = I2C::getInstance()->readRegister(TLC59116F_address[3], TLC59116F_registerLED[1], false); regOFF = reg & 0xF0; regON = reg & 0xF0; color == GPIO::GREEN ? regON |=0x08 : regON  |=0x01;
+            return std::make_tuple(TLC59116F_address[3], TLC59116F_registerLED[1], regON, regOFF );
         case 27:
-            reg = I2C::getInstance()->readRegister(0xC6, 0x15, false); regOFF = reg & 0x0F; regON = reg & 0x0F; color == GPIO::GREEN ? regON |=0x80 : regON  |=0x10;
-            return std::make_tuple(0xC6, 0x15, regON, regOFF );
+            reg = I2C::getInstance()->readRegister(TLC59116F_address[3], TLC59116F_registerLED[1], false); regOFF = reg & 0x0F; regON = reg & 0x0F; color == GPIO::GREEN ? regON |=0x80 : regON  |=0x10;
+            return std::make_tuple(TLC59116F_address[3], TLC59116F_registerLED[1], regON, regOFF );
         case 28:
-            reg = I2C::getInstance()->readRegister(0xC6, 0x16, false); regOFF = reg & 0xF0; regON = reg & 0xF0; color == GPIO::GREEN ? regON |=0x08 : regON  |=0x01;
-            return std::make_tuple(0xC6, 0x16, regON, regOFF );
+            reg = I2C::getInstance()->readRegister(TLC59116F_address[3], TLC59116F_registerLED[2], false); regOFF = reg & 0xF0; regON = reg & 0xF0; color == GPIO::GREEN ? regON |=0x08 : regON  |=0x01;
+            return std::make_tuple(TLC59116F_address[3], TLC59116F_registerLED[2], regON, regOFF );
         case 29:
-            reg = I2C::getInstance()->readRegister(0xC6, 0x16, false); regOFF = reg & 0x0F; regON = reg & 0x0F; color == GPIO::GREEN ? regON |=0x80 : regON  |=0x10;
-            return std::make_tuple(0xC6, 0x16, regON, regOFF );
+            reg = I2C::getInstance()->readRegister(TLC59116F_address[3], TLC59116F_registerLED[2], false); regOFF = reg & 0x0F; regON = reg & 0x0F; color == GPIO::GREEN ? regON |=0x80 : regON  |=0x10;
+            return std::make_tuple(TLC59116F_address[3], TLC59116F_registerLED[2], regON, regOFF );
         case 30:
-            reg = I2C::getInstance()->readRegister(0xC6, 0x17, false); regOFF = reg & 0xF0; regON = reg & 0xF0; color == GPIO::GREEN ? regON |=0x08 : regON  |=0x01;
-            return std::make_tuple(0xC6, 0x17, regON, regOFF );
+            reg = I2C::getInstance()->readRegister(TLC59116F_address[3], TLC59116F_registerLED[3], false); regOFF = reg & 0xF0; regON = reg & 0xF0; color == GPIO::GREEN ? regON |=0x08 : regON  |=0x01;
+            return std::make_tuple(TLC59116F_address[3], TLC59116F_registerLED[3], regON, regOFF );
         case 31:
-            reg = I2C::getInstance()->readRegister(0xC6, 0x17, false); regOFF = reg & 0x0F; regON = reg & 0x0F; color == GPIO::GREEN ? regON |=0x80 : regON  |=0x10;
-            return std::make_tuple(0xC6, 0x17, regON, regOFF );
+            reg = I2C::getInstance()->readRegister(TLC59116F_address[3], TLC59116F_registerLED[3], false); regOFF = reg & 0x0F; regON = reg & 0x0F; color == GPIO::GREEN ? regON |=0x80 : regON  |=0x10;
+            return std::make_tuple(TLC59116F_address[3], TLC59116F_registerLED[3], regON, regOFF );
         }
 
 }
@@ -609,7 +629,6 @@ void GPIO::testLed()
 void GPIO::initLEDS_SC4()
 {
 #ifdef SC4
-    i2cInitBoard();
     for (uint8_t i = 0; i < TLC59116F_max_address; i++)
     {
         I2C::getInstance()->writeRegister(TLC59116F_address[i], 0x00, 0x00, false);
@@ -630,8 +649,59 @@ void GPIO::initLEDS_SC4()
 void GPIO::initBUTTONS_SC4()
 {
 #ifdef SC4
-    i2cInitBoard();
+
+    for (uint8_t i = 0; i < MCP23017_max_address; ++i)
+    {
+//        I2C::getInstance()->writeRegister(0x40, MCP23017_Init_Val[0] , MCP23017_Init_Val[1], false);
+        for (uint8_t j = 0; j < sizeof(MCP23017_Init_Val); j += 2)
+        {
+            I2C::getInstance()->writeRegister(MCP23017_address[i], MCP23017_Init_Val[j] , MCP23017_Init_Val[j+1], false);
+            term("writeRegister")
+        }
+    }
+
+    //Инициализация регистров телефонного номера
 
 
+#endif
+}
+
+uint8_t GPIO::findBUTTONS_SC4(uint8_t num, uint8_t adr, uint8_t reg)
+{
+#ifdef SC4
+uint8_t ret = 0;
+switch (num)
+{
+    case 254: if(adr == 0) reg == 0? ret = 1:ret = 9;
+              if(adr == 1) reg == 0? ret = 17:ret = 25;
+              break;
+    case 253: if(adr == 0) reg == 0? ret = 2:ret = 10;
+              if(adr == 1) reg == 0? ret = 18:ret = 26;
+              break;
+    case 251: if(adr == 0) reg == 0? ret = 3:ret = 11;
+              if(adr == 1) reg == 0? ret = 19:ret = 27;
+              break;
+    case 247: if(adr == 0) reg == 0? ret = 4:ret = 12;
+              if(adr == 1) reg == 0? ret = 20:ret = 28;
+              break;
+    case 239: if(adr == 0) reg == 0? ret = 5:ret = 13;
+              if(adr == 1) reg == 0? ret = 21:ret = 29;
+              break;
+    case 223: if(adr == 0) reg == 0? ret = 6:ret = 14;
+              if(adr == 1) reg == 0? ret = 22:ret = 30;
+              break;
+    case 191: if(adr == 0) reg == 0? ret = 7:ret = 15;
+              if(adr == 1) reg == 0? ret = 23:ret = 31;
+              break;
+    case 127: if(adr == 0) reg == 0? ret = 8:ret = 16;
+              if(adr == 1) reg == 0? ret = 24:ret = 32;
+              break;
+
+    default : if(adr == 0) reg == 0? ret = 1:ret = 9;
+              if(adr == 1) reg == 0? ret = 17:ret = 25;
+              break;
+}
+
+return ret;
 #endif
 }
