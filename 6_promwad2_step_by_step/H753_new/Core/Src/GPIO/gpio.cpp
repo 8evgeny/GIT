@@ -285,7 +285,6 @@ term("--- switchLEDsThread ---")
 
     while(true)
     {
-
         uint8_t adr, reg, numON, numOFF;
         for(uint8_t i = 0; i < TLC59116F_max_address * 8; ++i)
         {
