@@ -272,10 +272,10 @@ term("--- readButtonThread ---")
 void switchLEDsThread(void const *arg)
 {
     (void)arg;
-osDelay(200);
 term("--- switchLEDsThread ---")
 
     i2cInitBoard();
+
     for (uint8_t i = 0; i < TLC59116F_max_address; i++)
     {
         I2C::getInstance()->writeRegister(TLC59116F_address[i], 0x00, 0x00, false);
@@ -375,7 +375,14 @@ void readButtonThread(void const *arg)
     PackageRx tempPack;
     tempPack.packetType = GPIO::getInstance()->button;
 
-osDelay(4000);
+    i2cInitBoard(); //Можно второй раз и не инициализировать
+
+//    for (uint8_t i = 0; i < TLC59116F_max_address; i++)
+//    {
+//        I2C::getInstance()->writeRegister(TLC59116F_address[i], 0x00, 0x00, false);
+//    }
+
+
 term("--- readButtonThread ---")
     while(true)
     {
@@ -432,6 +439,18 @@ extern "C" {
 
     void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
     {
+        if (GPIO_Pin == GPIO_PIN_5)
+        {
+            if (HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_5))
+                term("Release TEST button")
+            else
+                term("Pressed TEST button");
+        }
+        if (GPIO_Pin == GPIO_PIN_4)
+        {
+            term("Interrupt UI board")
+        }
+
 //        if (GPIO_Pin == GPIO_PIN_5)
 //        {
 //            HAL_GPIO_WritePin(GPIOB, GPIO_PIN_9, GPIO_PIN_SET);
@@ -458,15 +477,19 @@ void EXTI2_IRQHandler(void)
     HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_2);
 }
 
+void EXTI4_IRQHandler(void)
+{
+    HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_4);
+}
+
+
 void EXTI9_5_IRQHandler()
 {
-    term("Pressed TEST button")
+    HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_5);
 }
 
 void EXTI15_10_IRQHandler(void)
 {
-    term("Interrupt UI board")
-    HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_4);
 //    HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_14);
 //    HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_15);
 }
