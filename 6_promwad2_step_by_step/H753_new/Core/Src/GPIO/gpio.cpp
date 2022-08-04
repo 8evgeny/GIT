@@ -274,80 +274,12 @@ void switchLEDsThread(void const *arg)
     (void)arg;
 term("--- switchLEDsThread ---")
 
-    i2cInitBoard();
+    GPIO::getInstance()->initLEDS_SC4();
+    GPIO::getInstance()->testLed();
 
-    for (uint8_t i = 0; i < TLC59116F_max_address; i++)
-    {
-        I2C::getInstance()->writeRegister(TLC59116F_address[i], 0x00, 0x00, false);
-    }
-
-    //Яркость
-    for (uint8_t i = 0; i < TLC59116F_max_address; i++)
-    {
-       // зеленый  TLC59116F_registerBright
-         for (uint8_t j = 0; j < 16; j++)
-         {//Индивидуальная яркость
-             I2C::getInstance()->writeRegister(TLC59116F_address[i], TLC59116F_registerBright[j], 0x30, false);
-         }
-    }
-    uint8_t testBlink = 0;
-    uint8_t testRun = 0;
-    bool endTests = false;
     while(true)
     {
-        while(testBlink < 2)
-        {//Тестовое попеременное моргание
-            for (uint8_t i = 0; i < TLC59116F_max_address; i++)
-            {
-                for (uint8_t j = 0; j < 4; j++)
-                { // красный
-                I2C::getInstance()->writeRegister(TLC59116F_address[i], TLC59116F_registerLED[j], 0x11, false);
-                //                               4 столбца LED (для 32)  4 регистра по 2*2 светодиода
-                }
-            }
-            osDelay(150);
-            for (uint8_t i = 0; i < TLC59116F_max_address; i++)
-            {
-                for (uint8_t j = 0; j < 4; j++)
-                { // зеленый  TLC59116F_registerBright
-                I2C::getInstance()->writeRegister(TLC59116F_address[i], TLC59116F_registerLED[j], 0x88, false);
-                }
-            }
-            osDelay(150);
-            ++testBlink;
-        }//end тестовое моргание
 
-
-        while(testRun < 1)
-        { //Бегущий огонек
-            uint8_t adr, reg, numON, numOFF;
-            for (uint8_t i = 0; i < TLC59116F_max_address * 8; i++)
-            {
-               std::tie (adr, reg, numON, numOFF)  = GPIO::getInstance()->fromIndexToReg(i, GPIO::getInstance()->RED);
-               I2C::getInstance()->writeRegister(adr, reg, numON, false);
-               osDelay(30);
-            }
-            for (uint8_t i = 0; i < TLC59116F_max_address * 8; i++)
-            {
-               std::tie (adr, reg, numON, numOFF)  = GPIO::getInstance()->fromIndexToReg(i, GPIO::getInstance()->GREEN);
-               I2C::getInstance()->writeRegister(adr, reg, numON, false);
-               osDelay(30);
-            }
-            ++testRun;
-        }//End Бегущий огонек
-
-        //Гасим все
-        if(!endTests)
-        {
-            for (uint8_t i = 0; i < TLC59116F_max_address; i++)
-            {
-                for (uint8_t j = 0; j < 4; j++)
-                {
-                I2C::getInstance()->writeRegister(TLC59116F_address[i], TLC59116F_registerLED[j], 0x00, false);
-                }
-            }
-            endTests = true;
-        }
 
         //Начало основного цикла управления LED
         uint8_t adr, reg, numON, numOFF;
@@ -482,7 +414,6 @@ void EXTI4_IRQHandler(void)
     HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_4);
 }
 
-
 void EXTI9_5_IRQHandler()
 {
     HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_5);
@@ -517,7 +448,6 @@ void GPIO::SC4_EXTI_IRQHandler_Config() {
   HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
 #endif
 }
-
 
 #ifdef __cplusplus
 }
@@ -632,4 +562,79 @@ std::tuple<u_int8_t, u_int8_t, u_int8_t, u_int8_t> GPIO::fromIndexToReg(u_int8_t
             return std::make_tuple(0xC6, 0x17, regON, regOFF );
         }
 
+}
+
+void GPIO::testLed()
+{
+    uint8_t testBlink = 0;
+    uint8_t testRun = 0;
+
+    while(testBlink < 2)
+    {//Тестовое попеременное моргание
+        for (uint8_t i = 0; i < TLC59116F_max_address; i++)
+        {
+            for (uint8_t j = 0; j < 4; j++)
+            { // красный
+            I2C::getInstance()->writeRegister(TLC59116F_address[i], TLC59116F_registerLED[j], 0x11, false);
+            //                               4 столбца LED (для 32)  4 регистра по 2*2 светодиода
+            }
+        }
+        osDelay(150);
+        for (uint8_t i = 0; i < TLC59116F_max_address; i++)
+        {
+            for (uint8_t j = 0; j < 4; j++)
+            { // зеленый  TLC59116F_registerBright
+            I2C::getInstance()->writeRegister(TLC59116F_address[i], TLC59116F_registerLED[j], 0x88, false);
+            }
+        }
+        osDelay(150);
+        ++testBlink;
+    }//end тестовое моргание
+
+
+    while(testRun < 2)
+    { //Бегущий огонек
+        uint8_t adr, reg, numON, numOFF;
+        for (uint8_t i = 0; i < TLC59116F_max_address * 8; i++)
+        {
+           std::tie (adr, reg, numON, numOFF)  = GPIO::getInstance()->fromIndexToReg(i, GPIO::getInstance()->RED);
+           I2C::getInstance()->writeRegister(adr, reg, numON, false);
+           osDelay(30);
+        }
+        for (uint8_t i = 0; i < TLC59116F_max_address * 8; i++)
+        {
+           std::tie (adr, reg, numON, numOFF)  = GPIO::getInstance()->fromIndexToReg(i, GPIO::getInstance()->GREEN);
+           I2C::getInstance()->writeRegister(adr, reg, numON, false);
+           osDelay(30);
+        }
+        ++testRun;
+    }//End Бегущий огонек
+
+    //Гасим все
+    for (uint8_t i = 0; i < TLC59116F_max_address; i++)
+    {
+        for (uint8_t j = 0; j < 4; j++)
+        {
+            I2C::getInstance()->writeRegister(TLC59116F_address[i], TLC59116F_registerLED[j], 0x00, false);
+        }
+    }
+}
+
+void GPIO::initLEDS_SC4()
+{
+    i2cInitBoard();
+    for (uint8_t i = 0; i < TLC59116F_max_address; i++)
+    {
+        I2C::getInstance()->writeRegister(TLC59116F_address[i], 0x00, 0x00, false);
+    }
+
+    //Яркость
+    for (uint8_t i = 0; i < TLC59116F_max_address; i++)
+    {
+       // зеленый  TLC59116F_registerBright
+         for (uint8_t j = 0; j < 16; j++)
+         {//Индивидуальная яркость
+             I2C::getInstance()->writeRegister(TLC59116F_address[i], TLC59116F_registerBright[j], 0x30, false);
+         }
+    }
 }

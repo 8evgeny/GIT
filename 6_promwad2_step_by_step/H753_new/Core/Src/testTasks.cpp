@@ -80,7 +80,7 @@ void testReceiveMcast()
 
 void simpleLedTest1_RTOS(void const *argument)
 {
-    osDelay(3000);
+    osDelay(5000);
     (void)argument;
     bool reset = true;
     uint32_t tickstart = HAL_GetTick();

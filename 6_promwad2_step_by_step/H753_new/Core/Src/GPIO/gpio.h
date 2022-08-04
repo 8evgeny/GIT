@@ -171,6 +171,7 @@ public:
     void initBUTTONS_SC2();
     void initBUTTONS_SC4();
     void SC4_EXTI_IRQHandler_Config();
+    void testLed();
 #ifndef SC4
     constexpr static uint8_t keysNum = 6; /*!< Number of the keys on the keyboard */
 #endif
