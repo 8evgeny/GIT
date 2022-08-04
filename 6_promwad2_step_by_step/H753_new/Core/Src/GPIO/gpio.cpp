@@ -35,7 +35,7 @@ extern uint8_t TLC59116F_max_address;
 const uint8_t TLC59116F_address[] = {0xC0,0xC2,0xC4,0xC6,0xC8,0xCA};
 // TLC59116F chip button registers
 const uint8_t TLC59116F_registerLED[] = {0x14,0x15,0x16,0x17};
-// Индивидуальная яркость каждого светодиода
+// Регистры индивидуальной яркости каждого светодиода
 const uint8_t TLC59116F_registerBright[] = {0x02,0x03,0x04,0x05,0x06,0x07,0x08,0x09,0x0A,0x0B,0x0C,0x0D,0x0E,0x0F,0x10,0x11};
 
 // max address number of MCP23017 chips
@@ -49,19 +49,12 @@ extern uint8_t TLC59116F_Init_Val[];
 // MCP23017 chip setup registers values
 extern uint8_t MCP23017_Init_Val[];
 
-
 //extern osSemaphoreId Netif_LinkSemaphore;
 static osTimerId timerId7; /*!< The thread ID of the timer */
 constexpr static uint8_t timerDelay = 50;
 
-
 static GPIO_InitTypeDef GPIO_InitStruct;
 
-/*!
-  \brief GPIO Initialization Function
-  \param None
-  \retval None
-  */
 void GPIOInit(void)
 {
 
@@ -87,13 +80,10 @@ void GPIOInit(void)
 GPIO::GPIO()
 {
     gpioInit = & GPIO_InitStruct;
-
-//ИНИЦИАЛИЗАЦИЯ светодиодов
 #ifndef SC4
     initLEDS_SC2();
 #endif
 #ifdef SC4
-
 
 #endif
 
@@ -104,7 +94,6 @@ GPIO::GPIO()
             RS232::getInstance().term << "Failed to create [mutexRingBufferRx]" << "\n";
     }
 
-//ИНИЦИАЛИЗАЦИЯ РЫЧАГОВ (кнопок)
 //    message_q_id = osMessageCreate(osMessageQ(message_q), NULL);
 
 #ifndef SC4
@@ -112,8 +101,8 @@ GPIO::GPIO()
 #endif
 #ifdef SC4
     initBUTTONS_SC4();
+    SC4_EXTI_IRQHandler_Config();
 #endif
-
 }
 
 GPIO *GPIO::getInstance()
@@ -124,47 +113,22 @@ GPIO *GPIO::getInstance()
 
 GPIO *GPIO::p_instance = nullptr;
 
-/*!
-  \brief Function of getting board configuration
-  \param None
-  \retval None
-  */
-
-/*!
- * \brief Volume up function
- * \param none
- * \return none
- */
 void GPIO::upVolume(void)
 {
     //Empty
 }
 
-/*!
- * \brief Volume down function
- * \param none
- * \return none
- */
 void GPIO::downVolume(void)
 {
     //Empty
 }
 
-/*!
-  \brief GPIO Test Function
-  \param None
-  \retval None
-  */
 void GPIO::test(void)
 {
 
 }
 
-void GPIO::configLed(uint8_t ledNumber,
-                     bool ledOn,
-                     uint32_t timeOn,
-                     uint32_t timeOff,
-                     uint8_t repeatNum)
+void GPIO::configLed(uint8_t ledNumber, bool ledOn, uint32_t timeOn, uint32_t timeOff, uint8_t repeatNum)
 {
 term1("**** configLed ledNumber") term(ledNumber)
     --ledNumber;
@@ -442,7 +406,6 @@ void GPIO::initLEDS_SC2()
 #endif
 }
 
-
 void GPIO::initBUTTONS_SC2()
 {
 #ifndef SC4
@@ -467,19 +430,14 @@ void GPIO::initBUTTONS_SC4()
 extern "C" {
 #endif
 
-/*!
-  * @brief EXTI line detection callbacks
-  * @param GPIO_Pin: Specifies the pins connected EXTI line
-  * @retval None
-  */
     void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
     {
-        if (GPIO_Pin == GPIO_PIN_5)
-        {
-            HAL_GPIO_WritePin(GPIOB, GPIO_PIN_9, GPIO_PIN_SET);
-            GPIO::getInstance()->testFlag = true;
-            osSignalSet(GPIO::getInstance()->createTestTaskThreadId, 0x03);
-        }
+//        if (GPIO_Pin == GPIO_PIN_5)
+//        {
+//            HAL_GPIO_WritePin(GPIOB, GPIO_PIN_9, GPIO_PIN_SET);
+//            GPIO::getInstance()->testFlag = true;
+//            osSignalSet(GPIO::getInstance()->createTestTaskThreadId, 0x03);
+//        }
 
     //    else if (GPIO_Pin == GPIO_PIN_14) {
     //        if (GPIO::getInstance()->dacDriverGainValue < 29)
@@ -499,17 +457,44 @@ void EXTI2_IRQHandler(void)
 {
     HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_2);
 }
-/*!
-  * @brief  This function handles external lines 15 to 10 interrupt request.
-  * @param  None
-  * @retval None
-  */
+
+void EXTI9_5_IRQHandler()
+{
+    term("Pressed TEST button")
+}
+
 void EXTI15_10_IRQHandler(void)
 {
-    HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_11);
+    term("Interrupt UI board")
+    HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_4);
 //    HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_14);
 //    HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_15);
 }
+
+void GPIO::SC4_EXTI_IRQHandler_Config() {
+  GPIO_InitTypeDef   GPIO_InitStructure;
+
+  //button TEST interrupt pin setup
+  GPIO_InitStructure.Mode = GPIO_MODE_IT_RISING_FALLING;
+  GPIO_InitStructure.Pull = GPIO_PULLUP;
+  GPIO_InitStructure.Pin = TEST_BUT_Pin;
+  HAL_GPIO_Init(TEST_BUT_GPIO_Port, &GPIO_InitStructure);
+  //set interrupt for EXTI5
+  HAL_NVIC_SetPriority(EXTI9_5_IRQn, 5, 0);
+  HAL_NVIC_EnableIRQ(EXTI9_5_IRQn);
+
+#ifdef SC4
+  //button UI board interrupt pin setup
+  GPIO_InitStructure.Mode = GPIO_MODE_IT_RISING;
+  GPIO_InitStructure.Pull = GPIO_PULLUP;
+  GPIO_InitStructure.Pin = GPIO_PIN_4;
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStructure);
+  //set interrupt for EXTI12
+  HAL_NVIC_SetPriority(EXTI15_10_IRQn, 5, 0);
+  HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
+#endif
+}
+
 
 #ifdef __cplusplus
 }

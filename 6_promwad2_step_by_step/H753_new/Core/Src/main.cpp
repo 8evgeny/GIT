@@ -71,10 +71,8 @@ uint8_t macAdr5;
 //Массив во внешней памяти для конфига (readelf -S H753_new.elf)
 char buff_config [200*1024] __attribute__((section(".ExtRamData")));
 
-//Добавил_CUBE_03_05_2022
 MDMA_HandleTypeDef hmdma_memtomem_dma2_stream0;
 //static void MX_MDMA_Init(void); //Вынес с SRAM
-
 
 extern struct netif gnetif;
 extern DP83848_Object_t DP83848;
