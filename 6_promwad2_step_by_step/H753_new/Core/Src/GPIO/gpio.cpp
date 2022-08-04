@@ -279,8 +279,6 @@ term("--- switchLEDsThread ---")
 
     while(true)
     {
-
-
         //Начало основного цикла управления LED
         uint8_t adr, reg, numON, numOFF;
         for(uint8_t i = 0; i < TLC59116F_max_address * 8; ++i)
@@ -307,12 +305,7 @@ void readButtonThread(void const *arg)
     PackageRx tempPack;
     tempPack.packetType = GPIO::getInstance()->button;
 
-    i2cInitBoard(); //Можно второй раз и не инициализировать
-
-//    for (uint8_t i = 0; i < TLC59116F_max_address; i++)
-//    {
-//        I2C::getInstance()->writeRegister(TLC59116F_address[i], 0x00, 0x00, false);
-//    }
+    GPIO::getInstance()->initBUTTONS_SC4();
 
 
 term("--- readButtonThread ---")
@@ -357,13 +350,6 @@ void GPIO::initBUTTONS_SC2()
 #endif
 }
 
-void GPIO::initBUTTONS_SC4()
-{
-#ifdef SC4
-
-
-#endif
-}
 
 #ifdef __cplusplus
 extern "C" {
@@ -592,7 +578,7 @@ void GPIO::testLed()
     }//end тестовое моргание
 
 
-    while(testRun < 2)
+    while(testRun < 1)
     { //Бегущий огонек
         uint8_t adr, reg, numON, numOFF;
         for (uint8_t i = 0; i < TLC59116F_max_address * 8; i++)
@@ -622,6 +608,7 @@ void GPIO::testLed()
 
 void GPIO::initLEDS_SC4()
 {
+#ifdef SC4
     i2cInitBoard();
     for (uint8_t i = 0; i < TLC59116F_max_address; i++)
     {
@@ -637,4 +624,14 @@ void GPIO::initLEDS_SC4()
              I2C::getInstance()->writeRegister(TLC59116F_address[i], TLC59116F_registerBright[j], 0x30, false);
          }
     }
+#endif
+}
+
+void GPIO::initBUTTONS_SC4()
+{
+#ifdef SC4
+    i2cInitBoard();
+
+
+#endif
 }
