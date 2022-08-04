@@ -28,6 +28,7 @@ osTimerDef(timer7, timerCallback); /*!< Define the attributes of the timer */
 
 //osMessageQDef(message_q, 1, uint16_t); // Declare a message queue
 osMutexDef (mutexRingBufferRx);
+osMutexDef (mutexBoard);
 
 // max address number of TLC59116F chips
 extern uint8_t TLC59116F_max_address;
@@ -92,6 +93,7 @@ GPIO::GPIO()
 #endif
 
     mutexRingBufferRx_id = osMutexCreate(osMutex(mutexRingBufferRx));
+    mutexBoard_id = osMutexCreate(osMutex(mutexBoard));
     if (mutexRingBufferRx_id == nullptr)
     {
         while(1)
@@ -309,7 +311,7 @@ void readButtonThread(void const *arg)
     PackageRx tempPack;
     tempPack.packetType = GPIO::getInstance()->button;
 
-    osDelay(1000);
+    osDelay(8000);
     GPIO::getInstance()->initBUTTONS_SC4();
 
 term("--- readButtonThread ---")
@@ -621,6 +623,7 @@ void GPIO::testLed()
         {
             for (uint8_t j = 0; j < 4; j++)
             { // красный
+
             I2C::getInstance()->writeRegister(TLC59116F_address[i], TLC59116F_registerLED[j], 0x11, false);
             //                               4 столбца LED (для 32)  4 регистра по 2*2 светодиода
             }
@@ -630,6 +633,7 @@ void GPIO::testLed()
         {
             for (uint8_t j = 0; j < 4; j++)
             { // зеленый  TLC59116F_registerBright
+
             I2C::getInstance()->writeRegister(TLC59116F_address[i], TLC59116F_registerLED[j], 0x88, false);
             }
         }

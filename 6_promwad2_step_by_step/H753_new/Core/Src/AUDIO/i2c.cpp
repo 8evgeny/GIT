@@ -2,6 +2,7 @@
 #include "stm32h7xx_hal.h"
 #include "stm32h7xx_hal_i2c.h"
 #include "rs232.h"
+#include "gpio.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -120,6 +121,7 @@ uint8_t I2C::readRegister(uint8_t addr, uint8_t reg, bool audio)
     {
         while (HAL_I2C_GetState(hI2cHandlerBoard) != HAL_I2C_STATE_READY);
         do {
+  osMutexWait(GPIO::getInstance()->mutexBoard_id, osWaitForever);
             status = HAL_I2C_Master_Transmit_DMA(hI2cHandlerBoard, addr, &reg, 1);
             while (I2C::getInstance()->i2c3WriteReady == RESET);
             I2C::getInstance()->i2c3WriteReady = RESET;
@@ -132,6 +134,7 @@ uint8_t I2C::readRegister(uint8_t addr, uint8_t reg, bool audio)
             status = HAL_I2C_Master_Receive_DMA(hI2cHandlerBoard, addr, &readData, 1);
             while (I2C::getInstance()->i2c3ReadReady == RESET);
             I2C::getInstance()->i2c3ReadReady = RESET;
+  osMutexRelease(GPIO::getInstance()->mutexBoard_id);
             errorI2CBoard(status);
             }
         while (status != HAL_OK);
@@ -162,10 +165,12 @@ void I2C::writeRegister(uint8_t addr, uint8_t reg, uint8_t val, bool audio)
     {
         while (HAL_I2C_GetState(hI2cHandlerBoard) != HAL_I2C_STATE_READY);
         do {
+   osMutexWait(GPIO::getInstance()->mutexBoard_id, osWaitForever);
             status = HAL_I2C_Master_Transmit_DMA(hI2cHandlerBoard, addr, request, sizeof(request) / sizeof(uint8_t));
-HAL_Delay(5);
+//HAL_Delay(5);
             while (I2C::getInstance()->i2c3WriteReady == RESET);
             I2C::getInstance()->i2c3WriteReady = RESET;
+   osMutexRelease(GPIO::getInstance()->mutexBoard_id);
             errorI2CBoard(status);
            }
         while (status != HAL_OK);

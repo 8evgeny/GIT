@@ -213,6 +213,7 @@ public:
 //    CircularBuffer <PackageRx, sizeCircularBuffer> ringBufferTx; /**< TX CAN ring buffer */
 
     osMutexId mutexRingBufferRx_id; /**< The variable that stores ID of the mutexRingBufferRx */
+    osMutexId mutexBoard_id;
 //              mutexRingBufferTx_id;
 
     PackageRx packageRx;
