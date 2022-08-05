@@ -193,7 +193,7 @@ static const struct Aic3254Configs ConfigureDAC[] {
     // Select Page 0
     {TLV320AIC3254_REG_PAGE_SELECT, 0x00},
     // DAC => 0dB
-//    {TLV320AIC3254_REG_LDAC_DVOL_CR, 0x10},
+    {TLV320AIC3254_REG_LDAC_DVOL_CR, 0xC0},
     {TLV320AIC3254_REG_RDAC_DVOL_CR, 0xC0},   // ГРОМКОСТЬ -32dB
     // Powerup LDAC/RDAC
     {TLV320AIC3254_REG_DAC_SETUP1, 0xd4},
