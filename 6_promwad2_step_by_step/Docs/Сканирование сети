@@ -1,1 +1,1 @@
-sudo arp-scan --interface=eno1 192.168.0.5/24
+sudo arp-scan --interface=eno1 192.168.108.1/24
