@@ -78,7 +78,8 @@ void GPIOInit(void)
     }
 
     HAL_GPIO_WritePin(TEST_LED_GPIO_Port, TEST_LED_Pin, GPIO_PIN_RESET);
-
+    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_6, GPIO_PIN_RESET); //Пин Норма
+    HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET); //Пин МК Вкл
 }
 
 #ifdef __cplusplus

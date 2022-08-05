@@ -167,7 +167,7 @@ static void ethernet_link_status_updated(struct netif *netif)
 /* USER CODE BEGIN 5 */
 
 RS232Puts("netif_link_status_up\r\n");
-
+HAL_GPIO_WritePin(GPIOD, GPIO_PIN_6, GPIO_PIN_SET); //Пин Норма
 /* USER CODE END 5 */
   }
   else /* netif is down */
@@ -175,7 +175,7 @@ RS232Puts("netif_link_status_up\r\n");
 /* USER CODE BEGIN 6 */
 
 RS232Puts("--netif_link_status_down--\r\n");
-
+HAL_GPIO_WritePin(GPIOD, GPIO_PIN_6, GPIO_PIN_RESET); //Пин Норма
 /* USER CODE END 6 */
   }
 }
