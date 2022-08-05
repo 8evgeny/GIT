@@ -427,10 +427,13 @@ extern "C" {
         if (GPIO_Pin == GPIO_PIN_5)
         {
             if (HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_5))
+            {
                 term("Release TEST button")
+            }
             else
+            {
                 term("Pressed TEST button");
-        }
+            }
         if (GPIO_Pin == GPIO_PIN_4)
         {
             term("Interrupt UI board")
@@ -455,6 +458,7 @@ extern "C" {
 //            osSemaphoreRelease(Netif_LinkSemaphore);
 //        }
 
+        }
     }
 
 void EXTI2_IRQHandler(void)

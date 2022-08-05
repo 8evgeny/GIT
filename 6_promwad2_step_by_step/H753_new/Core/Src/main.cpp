@@ -999,7 +999,7 @@ void TaskEthernet_(void const * argument)
         sys_check_timeouts();
         Ethernet_Link_Periodic_Handle(&gnetif);
 
-        osDelay(1);
+        osDelay(1000);
     }
     //  /* USER CODE END 5 */
 }
