@@ -299,8 +299,8 @@ int main(void)
     if (Json::getInstance()->deserializeJsonFlag == Json::JsonFlags::OK)
     {
 
-//        osThreadDef(TaskEthernet, TaskEthernet_, osPriorityBelowNormal, 0, configMINIMAL_STACK_SIZE * 2);
-//        TaskEthernetHandle = osThreadCreate(osThread(TaskEthernet), nullptr);
+        osThreadDef(TaskEthernet, TaskEthernet_, osPriorityBelowNormal, 0, configMINIMAL_STACK_SIZE * 2);
+        TaskEthernetHandle = osThreadCreate(osThread(TaskEthernet), nullptr);
 
         osThreadDef(audioInitThread, threadAudioInit, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 5);
         SAI::getInstance()->threadAudioInitId = osThreadCreate(osThread(audioInitThread), nullptr);
@@ -311,11 +311,11 @@ int main(void)
             Debug::getInstance().dbg << __FUNCTION__ << " " << __LINE__ << " " << "\n";
         }
 
-//        osThreadDef(recvUdpThread, recvUdpThread, osPriorityHigh, 0, configMINIMAL_STACK_SIZE * 10);
-//        if ((UdpJsonExch::getInstance()->recvUdpThreadId = osThreadCreate(osThread(recvUdpThread), nullptr)) == nullptr)
-//        {
-//            Debug::getInstance().dbg << __FUNCTION__ << " " << __LINE__ << " " << "\n";
-//        }
+        osThreadDef(recvUdpThread, recvUdpThread, osPriorityHigh, 0, configMINIMAL_STACK_SIZE * 10);
+        if ((UdpJsonExch::getInstance()->recvUdpThreadId = osThreadCreate(osThread(recvUdpThread), nullptr)) == nullptr)
+        {
+            Debug::getInstance().dbg << __FUNCTION__ << " " << __LINE__ << " " << "\n";
+        }
 
 
 //          firmwareInitThread();
@@ -877,13 +877,13 @@ static void MX_GPIO_Init(void)
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
     HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
-    /*Configure GPIO pin : PA8 */
-    GPIO_InitStruct.Pin = GPIO_PIN_8;
-    GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
-    GPIO_InitStruct.Pull = GPIO_PULLUP;
-    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-    GPIO_InitStruct.Alternate = GPIO_AF0_MCO;
-    HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+//    /*Configure GPIO pin : PA8 */
+//    GPIO_InitStruct.Pin = GPIO_PIN_8;
+//    GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+//    GPIO_InitStruct.Pull = GPIO_PULLUP;
+//    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+//    GPIO_InitStruct.Alternate = GPIO_AF0_MCO;
+//    HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
 #ifndef SC4
 //Прерывание от кодека для SC2
