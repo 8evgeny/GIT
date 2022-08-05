@@ -316,54 +316,48 @@ void readButtonThread(void const *arg)
 term("--- readButtonThread ---")
     uint8_t readBoard = 0;
     uint8_t numButton = 0;
-    uint8_t numButtonSendToMainCode = 0;
     uint32_t tickstart = HAL_GetTick();
     bool keySendingFlag = false;
-//    uint8_t numButton2 = 0;
 
     while(true)
     {
-
-    for (uint8_t i = 0; i < MCP23017_max_address; ++i)
-    {
-        for (uint8_t j = 0; j < 2; ++j)
+        //Повторное нажатие воспринимается
+        if (HAL_GetTick() - 50 > tickstart)
         {
-            readBoard = I2C::getInstance()->readRegister(MCP23017_address[i], MCP23017_register[j], false);
-            if (readBoard != 255)
-            {
-                numButton = GPIO::getInstance()->findBUTTONS_SC4(readBoard, i, j);
-            }
+            keySendingFlag = false;
+            numButton = 0;
         }
-    }//Просканировали все клавиши
 
-    if (numButtonSendToMainCode != numButton) keySendingFlag = false;
+        for (uint8_t i = 0; i < MCP23017_max_address; ++i)
+        {
+            for (uint8_t j = 0; j < 2; ++j)
+            {
+                readBoard = I2C::getInstance()->readRegister(MCP23017_address[i], MCP23017_register[j], false);
+                if (readBoard != 255)
+                {
+                    numButton = GPIO::getInstance()->findBUTTONS_SC4(readBoard, i, j);
+                }
+            }
+        }//Просканировали все клавиши
 
         for (uint8_t i = 0; i < GPIO::getInstance()->buttonArray.size() ; ++i)
         {
-            if ((numButton-1) == GPIO::getInstance()->buttonArray[i].i)
+            if ((numButton-1) == GPIO::getInstance()->buttonArray[i].i) //Похоже здесь buttonArray не нужен
             {
-                GPIO::getInstance()->buttonArray[i].n = 1;
 
-                auto n = GPIO::getInstance()->buttonArray[i].i;
-                tempPack.payloadData = numButton;
-
-                osMutexWait(GPIO::getInstance()->mutexRingBufferRx_id, osWaitForever);
-
-                //Передача кнопки в основной код
-                if ((numButtonSendToMainCode != numButton) && !keySendingFlag)
+                if ((!keySendingFlag) && (numButton != 0))
                 {
-//                    GPIO::getInstance()->ringBufferRx.push(tempPack);
-                    tickstart = HAL_GetTick();
-                    numButtonSendToMainCode = numButton;
-                    term1("Pressed key") term2(numButton)
-                    keySendingFlag = true;
-                }
-//                //Повтор клавиши возможен через 1 секунду
-//                if (HAL_GetTick() - 1000 > tickstart) numButtonSendToMainCode = 0;
-
+                //Передача кнопки в основной код
+                    tempPack.payloadData = numButton;
+                osMutexWait(GPIO::getInstance()->mutexRingBufferRx_id, osWaitForever);
+                    GPIO::getInstance()->ringBufferRx.push(tempPack);
                 osMutexRelease(GPIO::getInstance()->mutexRingBufferRx_id);
+                    tickstart = HAL_GetTick();
+                    keySendingFlag = true;
 
-                osDelay(50);
+                    term1("Pressed key") term2(numButton) //Тестовый вывод
+                }
+
             }
             else
             {

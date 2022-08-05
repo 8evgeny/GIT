@@ -118,12 +118,7 @@ term("startingSimpleLedTest1_RTOS")
             osDelay(1500);
             GPIO::getInstance()->aLeds[i].ledState = false;
             osDelay(5);
-
         }
-
-
-
-
 
     osDelay(10);
     } //end for(;;)
