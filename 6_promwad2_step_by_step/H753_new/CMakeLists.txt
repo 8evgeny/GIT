@@ -25,8 +25,8 @@ add_definitions(-D__FPU_PRESENT)
 
 #Логгирование
 add_definitions(-DLogsEnableRS232Puts)
-add_definitions(-DLogsEnableToConsole)
-add_definitions(-DPrintTaskLogs) #Запускает поток с логами задач
+#add_definitions(-DLogsEnableToConsole)
+#add_definitions(-DPrintTaskLogs) #Запускает поток с логами задач
 
 #Выбор типа устройства
 add_definitions(-DSC4) #(Для выбора УПВ SC2 закомментировать эту строку)
@@ -267,7 +267,7 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}\
 
 set_target_properties(${PROJECT_NAME}.elf PROPERTIES LINKER_LANGUAGE CXX)
 set(LINKER_SCRIPT_FLASH "${CMAKE_SOURCE_DIR}/STM32H753IITX_FLASH.ld")
-set(LINKER_SCRIPT_RAM "${CMAKE_SOURCE_DIR}/STM32H753IITX_RAM.ld")
+#set(LINKER_SCRIPT_RAM "${CMAKE_SOURCE_DIR}/STM32H753IITX_RAM.ld")
 set(LINKER_FLAGS "SHELL: \
     -T${LINKER_SCRIPT_FLASH} \
     -mcpu=cortex-m7 \

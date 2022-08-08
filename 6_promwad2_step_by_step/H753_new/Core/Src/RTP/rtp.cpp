@@ -424,7 +424,7 @@ term2("--- rtpRecvThread ---") blank_str
                         if (result >= static_cast<int>(sizeof(struct rtp_hdr)))
                         {
 
-term2("Receive result = ") term2(result) blank_str
+//term2("Receive result = ") term2(result) blank_str
 
                             lostPackCounter = 0;
                             //copy header
@@ -443,15 +443,17 @@ term2("Receive result = ") term2(result) blank_str
                         } else {
                             lostPackCounter++;
 
-                        sprintf(msg,"%d",lostPackCounter);
+//sprintf(msg,"%d",lostPackCounter);
 
-term2("lostPackCounter = ") term2(msg) blank_str
+//term2("lostPackCounter = ") term2(msg) blank_str
 
                             if (lostPackCounter > MAX_NUMBER_LOST_PACK) {
                                 lostPackCounter = 0;
                                 osSignalSet(lostPackThreadId, 0xFB);
                             }
+
                             osDelay(1);
+
                         }
                     }
 

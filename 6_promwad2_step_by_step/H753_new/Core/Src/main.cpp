@@ -355,6 +355,8 @@ int main(void)
 
     vTraceEnable(TRC_INIT);
 
+    vTraceEnable(TRC_START);
+
     osKernelStart();
 
     while (1)
