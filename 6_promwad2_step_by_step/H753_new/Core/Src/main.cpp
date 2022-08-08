@@ -353,7 +353,7 @@ int main(void)
     Debug::getInstance().dbg << "ee";
 
 
-    //    vTraceEnable(TRC_INIT);  //Разобраться что позволяет
+//    vTraceEnable(TRC_INIT);
 
     osKernelStart();
 

@@ -180,7 +180,10 @@ term("--- simpleLedTest3_RTOS ---")
         {
             if (HAL_GetTick() > tickstart + timeReset)
             {
-                 HAL_GPIO_WritePin(TEST_LED_GPIO_Port, TEST_LED_Pin, GPIO_PIN_SET);
+//                 HAL_GPIO_WritePin(TEST_LED_GPIO_Port, TEST_LED_Pin, GPIO_PIN_SET);
+//Временный тест SC4
+HAL_GPIO_WritePin(GPIOD, GPIO_PIN_6, GPIO_PIN_SET);
+
                  reset = false;
                  tickstart = HAL_GetTick();
             }
@@ -189,7 +192,10 @@ term("--- simpleLedTest3_RTOS ---")
         {
             if (HAL_GetTick() > tickstart + timeSet)
             {
-                 HAL_GPIO_WritePin(TEST_LED_GPIO_Port, TEST_LED_Pin, GPIO_PIN_RESET);
+//                 HAL_GPIO_WritePin(TEST_LED_GPIO_Port, TEST_LED_Pin, GPIO_PIN_RESET);
+//Временный тест SC4
+HAL_GPIO_WritePin(GPIOD, GPIO_PIN_6, GPIO_PIN_RESET);
+
                  reset = true;
                  tickstart = HAL_GetTick();
 

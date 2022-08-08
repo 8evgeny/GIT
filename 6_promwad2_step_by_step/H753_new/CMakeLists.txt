@@ -185,8 +185,6 @@ add_executable(${PROJECT_NAME}.elf
     ${SOURCES_CPP}
     Core/Src/LWIP/App/lwip.c
     Core/Src/LWIP/Target/ethernetif.c
-#    Core/Src/AUDIO/microphone.cpp
-#    Core/Src/AUDIO/sai.cpp
     Middlewares/Third_Party/LwIP/src/api/sockets.c
     Core/Src/RTP/rtp.cpp
     Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_q7.c
