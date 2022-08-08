@@ -15,6 +15,7 @@
 #include "lwip.h"
 #include "ethernetif.h"
 #include "dp83848.h"
+#include "trcRecorder.h"
 
 char msgOCD[] = "Hello STM32 lovers!\n";
 extern void flashErraseBank2();
@@ -352,8 +353,7 @@ int main(void)
     //Debug пока не работает - выпилил везде из кода
     Debug::getInstance().dbg << "ee";
 
-
-//    vTraceEnable(TRC_INIT);
+    vTraceEnable(TRC_INIT);
 
     osKernelStart();
 
