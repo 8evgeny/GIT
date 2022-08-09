@@ -69,6 +69,9 @@ UART_HandleTypeDef huart7;
 SRAM_HandleTypeDef hsram1;
 uint8_t macAdr5;
 
+osMutexId mutexEth_id;
+osMutexDef (mutexEth);
+
 //Массив во внешней памяти для конфига (readelf -S H753_new.elf)
 char buff_config [200*1024] __attribute__((section(".ExtRamData")));
 
@@ -79,6 +82,7 @@ extern struct netif gnetif;
 extern DP83848_Object_t DP83848;
 void ethernet_link_check_state(struct netif *netif)
 {
+MUTEX_ON
     ETH_MACConfigTypeDef MACConf;
     int32_t PHYLinkState;
     uint32_t linkchanged = 0, speed = 0, duplex =0;
@@ -132,7 +136,7 @@ void ethernet_link_check_state(struct netif *netif)
             netif_set_link_up(netif);
         }
     }
-
+MUTEX_OFF
 }
 uint32_t EthernetLinkTimer;
 void Ethernet_Link_Periodic_Handle(struct netif *netif)
@@ -293,6 +297,7 @@ int main(void)
         default: TLC59116F_max_address = 6; MCP23017_max_address = 3; break;
     }
 
+    mutexEth_id = osMutexCreate(osMutex(mutexEth));
 
     memset(buff_config,' ',sizeof(buff_config));
 

@@ -37,6 +37,7 @@
 /* Within 'USER CODE' section, code will be kept by default at each generation */
 /* USER CODE BEGIN 0 */
 extern uint8_t macAdr5;
+extern osMutexId mutexEth_id;
 #include "dp83848.h"
 
 /* USER CODE END 0 */
@@ -626,13 +627,18 @@ void ethernetif_input(void const * argument)
     {
       do
       {
+
+MUTEX_ON
         p = low_level_input( netif );
+MUTEX_OFF
         if (p != NULL)
         {
 //            RS232Puts("--packet--\r\n");
           if (netif->input( p, netif) != ERR_OK )
           {
+MUTEX_ON
             pbuf_free(p);
+MUTEX_OFF
           }
         }
       } while(p!=NULL);
@@ -708,8 +714,9 @@ err_t ethernetif_init(struct netif *netif)
   netif->linkoutput = low_level_output;
 
   /* initialize the hardware */
+MUTEX_ON
   low_level_init(netif);
-
+MUTEX_OFF
   return ERR_OK;
 }
 
@@ -832,6 +839,7 @@ int32_t ETH_PHY_IO_GetTick(void)
 
 void ethernetif_set_link(void const * argument)
 {
+
   ETH_MACConfigTypeDef MACConf;
   int32_t PHYLinkState;
   uint32_t linkchanged = 0, speed = 0, duplex =0 ;
@@ -846,6 +854,7 @@ osDelay(500);
 
   for(;;)
   {
+MUTEX_ON
 //      if (osSemaphoreWait(link_arg->semaphore, osWaitForever) == osOK) {
 
 //RS232Puts("--- link_arg->semaphore ---\r\n");
@@ -917,8 +926,9 @@ RS232Puts("--DP83848_STATUS_10MBITS_HALFDUPLEX--\n\r");
       }
 
 //     }//end semaphore
+MUTEX_OFF
+    osDelay(500);
 
-    osDelay(3000);
   }//end for(;;)
 }
 /* USER CODE BEGIN 8 */

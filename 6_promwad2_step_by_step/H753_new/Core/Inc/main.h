@@ -21,7 +21,8 @@
 /* Define to prevent recursive inclusion -------------------------------------*/
 #ifndef __MAIN_H
 #define __MAIN_H
-
+#define MUTEX_ON osMutexWait(mutexEth_id, osWaitForever);
+#define MUTEX_OFF osMutexRelease(mutexEth_id);
 //Расширенная диагнотика в консоли
 
 #ifdef LogsEnableToConsole
