@@ -62,6 +62,7 @@ set (Tests  ${CMAKE_HOME_DIRECTORY}/Core/Src/Tests)
 set (uid  ${CMAKE_HOME_DIRECTORY}/Core/Src/uid)
 set (WDT  ${CMAKE_HOME_DIRECTORY}/Core/Src/WDT)
 set (STARTUP_SOURCES ${CMAKE_HOME_DIRECTORY}/Core/startup/startup_stm32h753iitx.s)
+set (SEGGER_RTT  ${CMAKE_HOME_DIRECTORY}/SEGGER_RTT_V767d)
 
 include_directories(
     Core/Inc
@@ -117,6 +118,8 @@ include_directories(
     ${WDT}
     Core/Src/LWIP/App
     Core/Src/LWIP/Target
+    ${SEGGER_RTT}/RTT
+    ${SEGGER_RTT}/Config
     )
 
 file (GLOB SOURCES_C Core/Src/*.c STM32H753IITX_FLASH.ld Drivers/BSP/Components/dp83848/dp83848.c )
@@ -151,6 +154,7 @@ list(REMOVE_ITEM HAL_SRC ${CMAKE_HOME_DIRECTORY}/Drivers/STM32H7xx_HAL_Driver/Sr
 
 file (GLOB CMSIS_RTOS_SOURCES Middlewares/Third_Party/FreeRTOS/Source/*.c Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.c Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.c Middlewares/Third_Party/LwIP/src/core/*.c Middlewares/Third_Party/LwIP/system/OS/*.c  Middlewares/Third_Party/FreeRTOS/Source/portable/MemMang/*.c )
 file (GLOB LWIP_SRC Middlewares/Third_Party/LwIP/src/api/* Middlewares/Third_Party/LwIP/src/apps/mqtt/mqtt.c Middlewares/Third_Party/LwIP/src/core/* Middlewares/Third_Party/LwIP/src/core/ipv4/* Middlewares/Third_Party/LwIP/src/netif/* Middlewares/Third_Party/LwIP/src/netif/ppp/* )
+file (GLOB SEGGER_RTT_SOURCES ${SEGGER_RTT}/RTT/*.c ${SEGGER_RTT}/RTT/SEGGER_RTT_ASM_ARMv7M.S ${SEGGER_RTT}/Syscalls/SEGGER_RTT_Syscalls_GCC.c)
 
 add_library(RS232_LIB ${RS232_src} )
 add_library(Debug_LIB ${Debug_src} )
@@ -179,6 +183,7 @@ add_library(STARTUP ${STARTUP_SOURCES} )
 add_library(STM32H7xx_HAL_Driver ${HAL_SRC})
 add_library(CMSIS_RTOS ${CMSIS_RTOS_SOURCES} )
 add_library(LWIP ${LWIP_SRC} )
+add_library(RTT ${SEGGER_RTT_SOURCES})
 
 add_executable(${PROJECT_NAME}.elf
     ${SOURCES_C}
@@ -315,6 +320,7 @@ target_link_libraries(${PROJECT_NAME}.elf PUBLIC
     WDT_LIB
     AUDIO_LIB
     flash_LIB
+    RTT
     )
 
 set(HEX_FILE ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.hex)

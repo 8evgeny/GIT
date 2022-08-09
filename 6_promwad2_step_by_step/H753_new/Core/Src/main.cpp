@@ -31,6 +31,9 @@ extern "C" {
 #include "stm32h7xx_hal.h"
 #include "cmsis_os.h"
 
+
+
+
 [[ noreturn ]] static void trackRingBufferThread(void const *arg);
 //[[ noreturn ]] static void readPackageTypeThread(void const *arg);
 //[[ noreturn ]] static void createTestTaskThread(void const *arg);
@@ -344,7 +347,7 @@ int main(void)
 
     //Тестовые потоки
 //    testLed1();
-//    testLed2();
+    testLed2(); //SEGGER TEST
     testLed3();
 //    testUART();
 
