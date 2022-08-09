@@ -219,12 +219,11 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}\
     -mthumb \
     -Xlinker \
     -Map=${PROJECT_NAME}.map \
-    -Wl,-section-start=.rtt=0x20000000 \
     -u_printf_float \
     -fno-exceptions \
     -Wl,--end-group \
     ")
-
+#    -Wl,-section-start=.rtt=0x20000000 \
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}\
     -Wl,--start-group \
     -Wl,--gc-sections \
@@ -244,12 +243,11 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}\
     -mthumb \
     -Xlinker \
     -Map=${PROJECT_NAME}.map \
-    -Wl,-section-start=.rtt=0x20000000 \
     -u_printf_float \
     -fno-exceptions \
     -Wl,--end-group \
     ")
-
+#-Wl,-section-start=.rtt=0x20000000 \
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}\
     -mcpu=cortex-m7 \
     -std=gnu11 \

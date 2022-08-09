@@ -12,6 +12,8 @@
 #include "SEGGER_RTT.h"
 #include <stdio.h>
 volatile int _Cnt;
+volatile int _Delay;
+static char r;
 
 extern unsigned char zvon3_raw[];
 extern unsigned int zvon3_raw_len;
@@ -113,7 +115,16 @@ void SeggerTest(void) {
 //  }
 //  while (1);
 }
-
+void SeggerTest2(void)
+{
+    SEGGER_RTT_WriteString(0, "SEGGER Real-Time-Terminal Sample\r\n");
+    SEGGER_RTT_ConfigUpBuffer(0, NULL, NULL, 0, SEGGER_RTT_MODE_NO_BLOCK_SKIP);
+    do {
+      r = SEGGER_RTT_WaitKey();
+      SEGGER_RTT_Write(0, &r, 1);
+      r++;
+    } while (1);
+}
 
 
 void testLed1()
@@ -259,8 +270,6 @@ term("startingSimpleLedTest2_RTOS")
         }
 #endif
 
-    SeggerTest();
-
     osDelay(10);
     } //end for(;;)
 
@@ -279,6 +288,7 @@ term("--- simpleLedTest3_RTOS ---")
 
     for(;;)
     {
+    SEGGER_RTT_Write(0, "01234567890123456789012345678901234567890123456789012345678901234567890123456789\r\n", 82);
 //        osDelay (8000);
 //        osSemaphoreRelease(Netif_LinkSemaphore);
         if(reset)
