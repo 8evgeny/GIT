@@ -270,6 +270,8 @@ term("startingSimpleLedTest2_RTOS")
         }
 #endif
 
+    SEGGER_RTT_Write(0, "01234567890123456789012345678901234567890123456789012345678901234567890123456789\r\n", 82);
+
     osDelay(10);
     } //end for(;;)
 
@@ -288,7 +290,6 @@ term("--- simpleLedTest3_RTOS ---")
 
     for(;;)
     {
-    SEGGER_RTT_Write(0, "01234567890123456789012345678901234567890123456789012345678901234567890123456789\r\n", 82);
 //        osDelay (8000);
 //        osSemaphoreRelease(Netif_LinkSemaphore);
         if(reset)
