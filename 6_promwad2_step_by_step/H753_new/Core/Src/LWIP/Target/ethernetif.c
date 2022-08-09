@@ -830,22 +830,25 @@ int32_t ETH_PHY_IO_GetTick(void)
   * @retval None
   */
 
-void ethernet_link_thread(void const * argument)
+void ethernetif_set_link(void const * argument)
 {
   ETH_MACConfigTypeDef MACConf;
   int32_t PHYLinkState;
-  uint32_t linkchanged = 0, speed = 0, duplex =0;
+  uint32_t linkchanged = 0, speed = 0, duplex =0 ;
+  struct link_str *link_arg = (struct link_str *)argument;
 
-  struct netif *netif = (struct netif *) argument;
+//  struct netif *netif = (struct netif *) argument;
 /* USER CODE BEGIN ETH link init */
 osDelay(500);
-  RS232Puts("--- ethernet_link_thread ---\r\n");
+  RS232Puts("--- ethernetif_set_link ---\r\n");
 
 /* USER CODE END ETH link init */
 
   for(;;)
   {
+//      if (osSemaphoreWait(link_arg->semaphore, osWaitForever) == osOK) {
 
+//RS232Puts("--- link_arg->semaphore ---\r\n");
 /* USER CODE BEGIN ETH link Thread core code for User BSP */
 
       PHYLinkState = DP83848_GetLinkState(&DP83848);
@@ -855,14 +858,14 @@ osDelay(500);
 //      sprintf(msgUart7,"%s %d %s", "\rPHYLinkState = ",PHYLinkState,"\r\n");
 //      RS232Puts(msgUart7);
 
-      if(netif_is_link_up(netif) && (PHYLinkState <= DP83848_STATUS_LINK_DOWN))
+      if(netif_is_link_up(link_arg->netif) && (PHYLinkState <= DP83848_STATUS_LINK_DOWN))
       {
 RS232Puts("--DP83848_STATUS_LINK_DOWN--\n\r");
         HAL_ETH_Stop_IT(&heth);
-        netif_set_down(netif);
-        netif_set_link_down(netif);
+        netif_set_down(link_arg->netif);
+        netif_set_link_down(link_arg->netif);
       }
-      else if(!netif_is_link_up(netif) && (PHYLinkState > DP83848_STATUS_LINK_DOWN))
+      else if(!netif_is_link_up(link_arg->netif) && (PHYLinkState > DP83848_STATUS_LINK_DOWN))
       {
         switch (PHYLinkState)
         {
@@ -904,8 +907,8 @@ RS232Puts("--DP83848_STATUS_10MBITS_HALFDUPLEX--\n\r");
 
           HAL_ETH_Start_IT(&heth);
 
-          netif_set_up(netif);
-          netif_set_link_up(netif);
+          netif_set_up(link_arg->netif);
+          netif_set_link_up(link_arg->netif);
 
 //          printAll_Regs_DP83848();
 
@@ -913,10 +916,10 @@ RS232Puts("--DP83848_STATUS_10MBITS_HALFDUPLEX--\n\r");
 
       }
 
-/* USER CODE END ETH link Thread core code for User BSP */
+//     }//end semaphore
 
-    osDelay(1000);
-  }
+    osDelay(3000);
+  }//end for(;;)
 }
 /* USER CODE BEGIN 8 */
 

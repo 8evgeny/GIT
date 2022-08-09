@@ -57,7 +57,7 @@ const uint8_t MCP23017_Init_Val[] = {
                 0x0D , 0xFF,	// GPPUB
              };
 
-//extern osSemaphoreId Netif_LinkSemaphore;
+extern osSemaphoreId Netif_LinkSemaphore;
 static osTimerId timerId7; /*!< The thread ID of the timer */
 constexpr static uint8_t timerDelay = 50;
 
@@ -454,15 +454,16 @@ extern "C" {
     //            --GPIO::getInstance()->dacDriverGainValue;
     //    }
 
-//        if (GPIO_Pin == GPIO_PIN_2) {
-//            osSemaphoreRelease(Netif_LinkSemaphore);
-//        }
+        if (GPIO_Pin == GPIO_PIN_2) {
+            osSemaphoreRelease(Netif_LinkSemaphore);
+        }
 
         }
     }
 
 void EXTI2_IRQHandler(void)
 {
+RS232Puts("--- EXTI2_IRQHandler ---\r\n");
     HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_2);
 }
 

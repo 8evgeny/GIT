@@ -18,7 +18,7 @@ extern "C" {
 #endif
 
 extern SAI_HandleTypeDef audioTxSai;
-
+extern osSemaphoreId Netif_LinkSemaphore;
 void testLed1()
 {
     osThreadDef(simpleLedTest1_RTOS, simpleLedTest1_RTOS, osPriorityNormal, 0, configMINIMAL_STACK_SIZE );
@@ -37,6 +37,9 @@ void testLed2()
 }
 void testLed3()
 {
+//    osDelay (8000);
+//    osSemaphoreRelease(Netif_LinkSemaphore);
+
     osThreadDef(simpleLedTest3_RTOS, simpleLedTest3_RTOS, osPriorityNormal, 0, configMINIMAL_STACK_SIZE );
     if ((osThreadCreate(osThread(simpleLedTest3_RTOS), nullptr)) == nullptr)
     {
@@ -176,6 +179,8 @@ term("--- simpleLedTest3_RTOS ---")
 
     for(;;)
     {
+//        osDelay (8000);
+//        osSemaphoreRelease(Netif_LinkSemaphore);
         if(reset)
         {
             if (HAL_GetTick() > tickstart + timeReset)
