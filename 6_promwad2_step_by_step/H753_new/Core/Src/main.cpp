@@ -347,7 +347,7 @@ int main(void)
 
     //Тестовые потоки
 //    testLed1();
-    testLed2(); //SEGGER TEST
+//    testLed2(); //SEGGER TEST
     testLed3();
 //    testUART();
 
