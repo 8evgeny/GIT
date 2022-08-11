@@ -82,12 +82,6 @@ void GPIOInit(void)
     HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET); //Пин МК Вкл
     HAL_GPIO_WritePin(GPIOA, GPIO_PIN_3, GPIO_PIN_RESET); //Пин UPR1_SP - Включение усилителя
 
-    // Configure GPIO for volume buttons ######################*/
-    GPIO_InitStruct.Pin       = GPIO_PIN_9 | GPIO_PIN_10;
-    GPIO_InitStruct.Mode      = GPIO_MODE_IT_FALLING;
-    GPIO_InitStruct.Pull      = GPIO_NOPULL;
-    HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
-
 }
 
 #ifdef __cplusplus
@@ -445,15 +439,15 @@ extern "C" {
         }
         else if (GPIO_Pin == GPIO_PIN_9)
         {
-            if (!HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_9) && (timeVolPlus +500 < HAL_GetTick()))
+            if (!HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_9) && (timeVolPlus + 1000 < HAL_GetTick()))
             {
-
                 RS232Puts("Pressed VOL+ button\r\n");
                 if (GPIO::getInstance()->dacDriverGainValue < 29)
                 ++GPIO::getInstance()->dacDriverGainValue;
-                term2(GPIO::getInstance()->dacDriverGainValue)
-
+                GPIO::getInstance()->upVolume();
                 timeVolPlus = HAL_GetTick();
+
+                term2(GPIO::getInstance()->dacDriverGainValue)
             }
         }
         else if (GPIO_Pin == GPIO_PIN_10)
@@ -463,6 +457,8 @@ extern "C" {
                 RS232Puts("Pressed VOL- button\r\n");
                 if (GPIO::getInstance()->dacDriverGainValue > -6)
                 --GPIO::getInstance()->dacDriverGainValue;
+                GPIO::getInstance()->downVolume();
+
                 term2(GPIO::getInstance()->dacDriverGainValue)
             }
         }
@@ -501,9 +497,6 @@ void GPIO::SC4_EXTI_IRQHandler_Config() {
   GPIO_InitStructure.Pull = GPIO_PULLUP;
   GPIO_InitStructure.Pin = TEST_BUT_Pin;
   HAL_GPIO_Init(TEST_BUT_GPIO_Port, &GPIO_InitStructure);
-  //set interrupt for EXTI5
-  HAL_NVIC_SetPriority(EXTI9_5_IRQn, 5, 0);
-  HAL_NVIC_EnableIRQ(EXTI9_5_IRQn);
 
 #ifdef SC4
   //button UI board interrupt pin setup
@@ -511,10 +504,26 @@ void GPIO::SC4_EXTI_IRQHandler_Config() {
   GPIO_InitStructure.Pull = GPIO_PULLUP;
   GPIO_InitStructure.Pin = GPIO_PIN_4;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStructure);
-  //set interrupt for EXTI12
+
+  // Configure GPIO for volume buttons ######################*/
+  GPIO_InitStructure.Pin       = GPIO_PIN_10;
+  GPIO_InitStructure.Mode      = GPIO_MODE_IT_FALLING;
+  GPIO_InitStructure.Pull      = GPIO_NOPULL;
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStructure);
+
+  GPIO_InitStructure.Pin       = GPIO_PIN_9 ;
+  GPIO_InitStructure.Mode      = GPIO_MODE_IT_FALLING;
+  GPIO_InitStructure.Pull      = GPIO_NOPULL;
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStructure);
+
+
   HAL_NVIC_SetPriority(EXTI15_10_IRQn, 5, 0);
   HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
+
 #endif
+
+  HAL_NVIC_SetPriority(EXTI9_5_IRQn, 5, 0);
+  HAL_NVIC_EnableIRQ(EXTI9_5_IRQn);
 }
 
 #ifdef __cplusplus
