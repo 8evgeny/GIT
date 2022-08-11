@@ -364,9 +364,8 @@ int main(void)
     //Debug пока не работает - выпилил везде из кода
     Debug::getInstance().dbg << "ee";
 
-    vTraceEnable(TRC_INIT);
-
-    vTraceEnable(TRC_START);
+//    vTraceEnable(TRC_INIT); //Пока не смог запустить
+//    vTraceEnable(TRC_START);
 
     osKernelStart();
 

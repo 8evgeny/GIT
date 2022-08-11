@@ -10,6 +10,11 @@
 #include "i2c.h"
 #include "cmsis_os.h"
 
+struct Aic3254Configs {
+    uint8_t regOffset;
+    uint8_t regVal;
+};
+
 class TLV320AIC3254
 {
 

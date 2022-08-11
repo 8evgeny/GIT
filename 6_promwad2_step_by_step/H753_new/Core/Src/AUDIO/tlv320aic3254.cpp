@@ -5,11 +5,6 @@
 #include "rs232.h"
 #include "aic3254_reg.h"
 
-struct Aic3254Configs {
-    uint8_t regOffset;
-    uint8_t regVal;
-};
-
 //soft reset
 static const struct Aic3254Configs SoftReset[] {
     {TLV320AIC3254_REG_PAGE_SELECT, 0x0},
@@ -174,7 +169,7 @@ static const struct Aic3254Configs ConfigureADC[] {
 //    {TLV320AIC3254_REG_ADC_FGAIN, 0x00},    // Left ADC Channel Un-muted Left ADC Channel Fine Gain = 0dB Right ADC Channel Un-muted Right ADC Channel Fine Gain = 0dB
 //};
 
-static const struct Aic3254Configs ConfigureDAC[] {
+struct Aic3254Configs ConfigureDAC[] {
     {TLV320AIC3254_REG_PAGE_SELECT, 0x01},
     //Page 1 / Register 10: Common Mode Control Register - 0x01 / 0x0A (P1_R10)
     //: When Page-1, Reg-10, D1 = 1, then LDOIN input range is 1.8V to 3.6V
