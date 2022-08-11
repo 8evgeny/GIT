@@ -81,6 +81,13 @@ void GPIOInit(void)
     HAL_GPIO_WritePin(GPIOD, GPIO_PIN_6, GPIO_PIN_RESET); //Пин Норма
     HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET); //Пин МК Вкл
     HAL_GPIO_WritePin(GPIOA, GPIO_PIN_3, GPIO_PIN_RESET); //Пин UPR1_SP - Включение усилителя
+
+    // Configure GPIO for volume buttons ######################*/
+    GPIO_InitStruct.Pin       = GPIO_PIN_9 | GPIO_PIN_10;
+    GPIO_InitStruct.Mode      = GPIO_MODE_IT_FALLING;
+    GPIO_InitStruct.Pull      = GPIO_NOPULL;
+    HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
 }
 
 #ifdef __cplusplus
@@ -421,9 +428,10 @@ void GPIO::initBUTTONS_SC2()
 #ifdef __cplusplus
 extern "C" {
 #endif
-
+    auto timeVolPlus = HAL_GetTick();
     void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
     {
+
         if (GPIO_Pin == GPIO_PIN_5)
         {
             if (HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_5))
@@ -434,31 +442,32 @@ extern "C" {
             {
                 RS232Puts("Pressed TEST button\r\n");
             }
-        if (GPIO_Pin == GPIO_PIN_4)
+        }
+        else if (GPIO_Pin == GPIO_PIN_9)
         {
-            term("Interrupt UI board")
+            if (!HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_9) && (timeVolPlus +500 < HAL_GetTick()))
+            {
+
+                RS232Puts("Pressed VOL+ button\r\n");
+                if (GPIO::getInstance()->dacDriverGainValue < 29)
+                ++GPIO::getInstance()->dacDriverGainValue;
+                term2(GPIO::getInstance()->dacDriverGainValue)
+
+                timeVolPlus = HAL_GetTick();
+            }
+        }
+        else if (GPIO_Pin == GPIO_PIN_10)
+        {
+            if (!HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_10))
+            {
+                RS232Puts("Pressed VOL- button\r\n");
+                if (GPIO::getInstance()->dacDriverGainValue > -6)
+                --GPIO::getInstance()->dacDriverGainValue;
+                term2(GPIO::getInstance()->dacDriverGainValue)
+            }
         }
 
-//        if (GPIO_Pin == GPIO_PIN_5)
-//        {
-//            HAL_GPIO_WritePin(GPIOB, GPIO_PIN_9, GPIO_PIN_SET);
-//            GPIO::getInstance()->testFlag = true;
-//            osSignalSet(GPIO::getInstance()->createTestTaskThreadId, 0x03);
-//        }
 
-    //    else if (GPIO_Pin == GPIO_PIN_14) {
-    //        if (GPIO::getInstance()->dacDriverGainValue < 29)
-    //            ++GPIO::getInstance()->dacDriverGainValue;
-    //    } else if (GPIO_Pin == GPIO_PIN_15) {
-    //        if (GPIO::getInstance()->dacDriverGainValue > -6)
-    //            --GPIO::getInstance()->dacDriverGainValue;
-    //    }
-
-        if (GPIO_Pin == GPIO_PIN_2) {
-            osSemaphoreRelease(Netif_LinkSemaphore);
-        }
-
-        }
     }
 
 void EXTI2_IRQHandler(void)
@@ -476,12 +485,12 @@ void EXTI4_IRQHandler(void)
 void EXTI9_5_IRQHandler()
 {
     HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_5);
+    HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_9);
 }
 
 void EXTI15_10_IRQHandler(void)
 {
-//    HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_14);
-//    HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_15);
+    HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_10);
 }
 
 void GPIO::SC4_EXTI_IRQHandler_Config() {
