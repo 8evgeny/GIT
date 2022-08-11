@@ -428,11 +428,11 @@ extern "C" {
         {
             if (HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_5))
             {
-                term("Release TEST button")
+                RS232Puts("Release TEST button\r\n");
             }
             else
             {
-                term("Pressed TEST button");
+                RS232Puts("Pressed TEST button\r\n");
             }
         if (GPIO_Pin == GPIO_PIN_4)
         {
