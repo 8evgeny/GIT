@@ -351,11 +351,7 @@ int main(void)
     testLed3();
 //    testUART();
 
-//extern osSemaphoreId Netif_LinkSemaphore;
-//osSemaphoreRelease(Netif_LinkSemaphore);
 
-//    testSendMcast(); //Пустые задачи
-//    testReceiveMcast();
 
 #ifdef PrintTaskLogs
     testTasksLog(); //Логи задач

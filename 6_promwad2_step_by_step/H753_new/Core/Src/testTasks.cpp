@@ -174,22 +174,6 @@ void testTasksLog()
         term("Failed to create TasksLog");
     }
 }
-void testSendMcast()
-{
-    osThreadDef(testSendMcast, SendMcast, osPriorityNormal, 0, configMINIMAL_STACK_SIZE );
-    if ((osThreadCreate(osThread(testSendMcast), nullptr)) == nullptr)
-    {
-        term("Failed to create testSendMcast");
-    }
-}
-void testReceiveMcast()
-{
-    osThreadDef(testReceiveMcast, ReceiveMcast, osPriorityNormal, 0, configMINIMAL_STACK_SIZE );
-    if ((osThreadCreate(osThread(testReceiveMcast), nullptr)) == nullptr)
-    {
-        term("Failed to create testSendMcast");
-    }
-}
 
 void simpleLedTest1_RTOS(void const *argument)
 {
@@ -385,40 +369,6 @@ void TasksLog(void const *argument)
         term(logTasks)
         term1("heap size") term(xPortGetFreeHeapSize())
         osDelay(30000);
-    } //end for(;;)
-
-    vTaskDelete(nullptr);
-}
-
-void SendMcast(void const *argument)
-{
-    (void)argument;
-    osDelay(11000);
-    term("--- SendMcast ---")
-
-        for(;;)
-    {
-
-
-
-        osDelay(1);
-    } //end for(;;)
-
-    vTaskDelete(nullptr);
-}
-
-void ReceiveMcast(void const *argument)
-{
-    (void)argument;
-    osDelay(12000);
-    term("--- ReceiveMcast ---")
-
-        for(;;)
-    {
-
-
-
-        osDelay(1);
     } //end for(;;)
 
     vTaskDelete(nullptr);
