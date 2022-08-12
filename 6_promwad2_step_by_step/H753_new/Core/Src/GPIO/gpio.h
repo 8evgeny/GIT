@@ -205,8 +205,9 @@ public:
     osThreadId createTestTaskThreadId, /*!< The variable stores ID of the createTestTaskThread */
                testThreadId, /*!< The variable stores ID of the testThread */
                trackRingBufferThreadId;
-    volatile int8_t dacDriverGainValue = 0;  /*!< The variable stores a value of the driver gain */
-
+    volatile int8_t dacDriverGainValue = 0xD7; //-20,5
+    volatile int8_t dacDriverGainValueMax = 0xFF; //-0,5
+    volatile int8_t dacDriverGainValueMin = 0xC0; //-32
     constexpr static uint16_t sizeCircularBuffer = 1040; /**< The variable stores size of CAN ring buffer */
 
     CircularBuffer <PackageRx, sizeCircularBuffer> ringBufferRx; /**< RX CAN ring buffer */

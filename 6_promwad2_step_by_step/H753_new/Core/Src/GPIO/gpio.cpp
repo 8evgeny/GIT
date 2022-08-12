@@ -19,6 +19,9 @@
 #include <cstring>
 #include "rs232.h"
 #include "rs232_printf.h"
+#include "tlv320aic3254.h"
+#include "aic3254_reg.h"
+
 bool volUpPressed;
 bool volDownPressed;
 #ifdef __cplusplus
@@ -124,16 +127,44 @@ GPIO *GPIO::getInstance()
 
 GPIO *GPIO::p_instance = nullptr;
 
+struct Aic3254Configs ConfigureDAC_VOL[] {
+    {TLV320AIC3254_REG_PAGE_SELECT, 0x01},
+    {TLV320AIC3254_REG_CM_CR, 0x0B},
+    {TLV320AIC3254_REG_LOL_SEL, 0x08},
+    {TLV320AIC3254_REG_LOR_SEL, 0x08},
+    {TLV320AIC3254_REG_OUTDRV_PWR_CR, 0x0C},
+    {TLV320AIC3254_REG_LOL_GAIN, 0x0A},
+    {TLV320AIC3254_REG_LOR_GAIN, 0x0A},
+    // Select Page 0
+    {TLV320AIC3254_REG_PAGE_SELECT, 0x00},
+    // DAC => 0dB
+    {TLV320AIC3254_REG_LDAC_DVOL_CR, 0xD7},   // ГРОМКОСТЬ -20,5dB
+    {TLV320AIC3254_REG_RDAC_DVOL_CR, 0xC0},   // ГРОМКОСТЬ -32dB
+    // Powerup LDAC/RDAC
+    {TLV320AIC3254_REG_DAC_SETUP1, 0xd4},
+    // UnmuteLDAC/RDAC
+    {TLV320AIC3254_REG_DAC_SETUP2, 0x00},
+};
+
+constexpr static uint32_t I2C_ADDRESS = 49;
 void GPIO::upVolume(void)
 {
     term2("upVolume")
-
+    ConfigureDAC_VOL[8].regVal = GPIO::getInstance()->dacDriverGainValue;
+    for (uint32_t i = 0; i < sizeof(ConfigureDAC_VOL) / sizeof(struct Aic3254Configs); i++)
+    {
+        I2C::getInstance()->writeRegister(I2C_ADDRESS, ConfigureDAC_VOL[i].regOffset, ConfigureDAC_VOL[i].regVal, true);
+    }
 }
 
 void GPIO::downVolume(void)
 {
     term2("downVolume")
-
+    ConfigureDAC_VOL[8].regVal = GPIO::getInstance()->dacDriverGainValue;
+    for (uint32_t i = 0; i < sizeof(ConfigureDAC_VOL) / sizeof(struct Aic3254Configs); i++)
+    {
+        I2C::getInstance()->writeRegister(I2C_ADDRESS, ConfigureDAC_VOL[i].regOffset, ConfigureDAC_VOL[i].regVal, true);
+    }
 }
 
 void GPIO::test(void)
@@ -466,7 +497,7 @@ extern "C" {
             if (!HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_9) && (timeVolPlus + 1000 < HAL_GetTick()))
             {
                 RS232Puts("Pressed VOL+ button\r\n");
-                if (GPIO::getInstance()->dacDriverGainValue < 29)
+                if (GPIO::getInstance()->dacDriverGainValue < GPIO::getInstance()->dacDriverGainValueMax)
                 ++GPIO::getInstance()->dacDriverGainValue;
                 volUpPressed = true;
                 timeVolPlus = HAL_GetTick();
@@ -479,7 +510,7 @@ extern "C" {
             if (!HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_10))
             {
                 RS232Puts("Pressed VOL- button\r\n");
-                if (GPIO::getInstance()->dacDriverGainValue > -6)
+                if (GPIO::getInstance()->dacDriverGainValue > GPIO::getInstance()->dacDriverGainValueMin)
                 --GPIO::getInstance()->dacDriverGainValue;
                 volDownPressed = true;
 
