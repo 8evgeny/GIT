@@ -19,7 +19,8 @@
 #include <cstring>
 #include "rs232.h"
 #include "rs232_printf.h"
-
+bool volUpPressed;
+bool volDownPressed;
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -125,12 +126,14 @@ GPIO *GPIO::p_instance = nullptr;
 
 void GPIO::upVolume(void)
 {
-    //Empty
+    term2("upVolume")
+
 }
 
 void GPIO::downVolume(void)
 {
-    //Empty
+    term2("downVolume")
+
 }
 
 void GPIO::test(void)
@@ -323,7 +326,7 @@ void readButtonThread(void const *arg)
     PackageRx tempPack;
     tempPack.packetType = GPIO::getInstance()->button;
 
-    osDelay(8000);
+//    osDelay(8000);
     GPIO::getInstance()->initBUTTONS_SC4();
 
 term("--- readButtonThread ---")
@@ -378,6 +381,17 @@ term("--- readButtonThread ---")
             }
 
         }
+        if(volDownPressed)
+        {
+            GPIO::getInstance()->downVolume();
+            volDownPressed = false;
+        }
+        if(volUpPressed)
+        {
+            GPIO::getInstance()->upVolume();
+            volUpPressed = false;
+        }
+
 
          osDelay(50); //Возможно нужно убрать
 
@@ -454,7 +468,7 @@ extern "C" {
                 RS232Puts("Pressed VOL+ button\r\n");
                 if (GPIO::getInstance()->dacDriverGainValue < 29)
                 ++GPIO::getInstance()->dacDriverGainValue;
-                GPIO::getInstance()->upVolume();
+                volUpPressed = true;
                 timeVolPlus = HAL_GetTick();
 
                 term2(GPIO::getInstance()->dacDriverGainValue)
@@ -467,7 +481,7 @@ extern "C" {
                 RS232Puts("Pressed VOL- button\r\n");
                 if (GPIO::getInstance()->dacDriverGainValue > -6)
                 --GPIO::getInstance()->dacDriverGainValue;
-                GPIO::getInstance()->downVolume();
+                volDownPressed = true;
 
                 term2(GPIO::getInstance()->dacDriverGainValue)
             }

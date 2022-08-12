@@ -25,8 +25,8 @@ add_definitions(-D__FPU_PRESENT)
 
 #Логгирование
 add_definitions(-DLogsEnableRS232Puts)
-add_definitions(-DLogsEnableToConsole)
-add_definitions(-DPrintTaskLogs) #Запускает поток с логами задач
+#add_definitions(-DLogsEnableToConsole)
+#add_definitions(-DPrintTaskLogs) #Запускает поток с логами задач
 
 #Выбор типа устройства
 add_definitions(-DSC4) #(Для выбора УПВ SC2 закомментировать эту строку)
