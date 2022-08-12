@@ -163,7 +163,9 @@ void testUART()
     }
 }
 
-char *logTasks = new char[2048];
+//char *logTasks = new char[2048];
+static char logTasks[2048];
+static char logTasksTime[2048];
 void testTasksLog()
 {
     osThreadDef(TasksLog, TasksLog, osPriorityNormal, 0, configMINIMAL_STACK_SIZE );
@@ -379,6 +381,7 @@ void TasksLog(void const *argument)
         for(;;)
     {
         vTaskList(logTasks);
+//        vTaskGetRunTimeStats(logTasksTime);
         term(logTasks)
         term1("heap size") term(xPortGetFreeHeapSize())
         osDelay(30000);
