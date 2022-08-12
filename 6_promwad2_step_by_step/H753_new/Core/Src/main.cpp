@@ -71,7 +71,8 @@ TIM_HandleTypeDef htim3;
 UART_HandleTypeDef huart7;
 SRAM_HandleTypeDef hsram1;
 uint8_t macAdr5;
-
+uint8_t LinkStatus;
+uint8_t inMcastGroup;
 osMutexId mutexEth_id;
 osMutexDef (mutexEth);
 

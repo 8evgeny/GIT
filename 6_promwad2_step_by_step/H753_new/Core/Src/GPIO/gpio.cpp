@@ -25,7 +25,8 @@ extern "C" {
 #endif
 
 osTimerDef(timer7, timerCallback); /*!< Define the attributes of the timer */
-
+extern uint8_t LinkStatus;
+extern uint8_t inMcastGroup;
 //osMessageQDef(message_q, 1, uint16_t); // Declare a message queue
 osMutexDef (mutexRingBufferRx);
 osMutexDef (mutexBoard);
@@ -300,6 +301,15 @@ term("--- switchLEDsThread ---")
                 std::tie (adr, reg, numON,numOFF)  = GPIO::getInstance()->fromIndexToReg(i, GPIO::getInstance()->RED);
                 I2C::getInstance()->writeRegister(adr, reg, numOFF, false);
             }
+        }
+
+        if ((LinkStatus == 1) && (inMcastGroup == 1))
+        {
+            HAL_GPIO_WritePin(GPIOD, GPIO_PIN_6, GPIO_PIN_SET); //Пин Норма
+        }
+        else
+        {
+            HAL_GPIO_WritePin(GPIOD, GPIO_PIN_6, GPIO_PIN_RESET);
         }
 
         osDelay(1);

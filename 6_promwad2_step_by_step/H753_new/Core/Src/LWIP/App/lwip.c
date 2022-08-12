@@ -11,7 +11,7 @@ extern ETH_HandleTypeDef heth;
 osSemaphoreId Netif_LinkSemaphore = NULL;
 /* Ethernet link thread Argument */
 struct link_str link_arg;
-
+extern uint8_t LinkStatus;
 /**
  * Convert human readable IPv4 address to UINT32
  * @param pDottedQuad   Input C string e.g. "192.168.0.1"
@@ -173,9 +173,9 @@ static void ethernet_link_status_updated(struct netif *netif)
   {
 /* USER CODE BEGIN 5 */
 
-//RS232Puts("netif_link_status_up\r\n");
-//osDelay(500);
-HAL_GPIO_WritePin(GPIOD, GPIO_PIN_6, GPIO_PIN_SET); //Пин Норма
+RS232Puts("netif_link_status_up\r\n");
+LinkStatus = 1;
+
 /* USER CODE END 5 */
   }
   else /* netif is down */
@@ -183,7 +183,7 @@ HAL_GPIO_WritePin(GPIOD, GPIO_PIN_6, GPIO_PIN_SET); //Пин Норма
 /* USER CODE BEGIN 6 */
 
 RS232Puts("--netif_link_status_down--\r\n");
-HAL_GPIO_WritePin(GPIOD, GPIO_PIN_6, GPIO_PIN_RESET); //Пин Норма
+LinkStatus = 0;
 /* USER CODE END 6 */
   }
 }

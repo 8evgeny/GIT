@@ -18,7 +18,7 @@ extern "C" {
 osMutexDef (mutexCallControl);
 osMutexDef (mutexSock);
 //osMutexDef (mutexS);
-
+extern uint8_t inMcastGroup;
 /**
   * @brief  RTP Status definition
   */
@@ -188,6 +188,7 @@ term("--- recvUdpThread ---")
 term1("err") term(err)
             if (err == 0)
             {
+                inMcastGroup = 1;
                 /* receive RTP packets */
 
                 while (1)
