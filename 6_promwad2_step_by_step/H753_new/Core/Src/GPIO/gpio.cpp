@@ -495,7 +495,7 @@ extern "C" {
             {
                 RS232Puts("Pressed VOL+ button\r\n");
                 if (GPIO::getInstance()->dacDriverGainValue < GPIO::getInstance()->dacDriverGainValueMax)
-                ++GPIO::getInstance()->dacDriverGainValue;
+                GPIO::getInstance()->dacDriverGainValue = GPIO::getInstance()->dacDriverGainValue + GPIO::getInstance()->dacDriverGainValueStep;
                 volUpPressed = true;
                 timeVolPlus = HAL_GetTick();
 
@@ -508,7 +508,7 @@ extern "C" {
             {
                 RS232Puts("Pressed VOL- button\r\n");
                 if (GPIO::getInstance()->dacDriverGainValue > GPIO::getInstance()->dacDriverGainValueMin)
-                --GPIO::getInstance()->dacDriverGainValue;
+                GPIO::getInstance()->dacDriverGainValue = GPIO::getInstance()->dacDriverGainValue - GPIO::getInstance()->dacDriverGainValueStep;
                 volDownPressed = true;
 
                 term2(GPIO::getInstance()->dacDriverGainValue)
