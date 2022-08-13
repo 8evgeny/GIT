@@ -204,7 +204,14 @@ extern "C" {
 void timerCallback(void const *arg)
 {
     (void)arg;
-    for (uint8_t i = 0; i < GPIO::keysNum; i++) {
+    for (uint8_t i = 0; i <
+#ifdef SC4
+                        keysNum;
+#endif
+#ifndef SC4
+                        6;
+#endif
+         i++) {
         if (GPIO::getInstance()->aLeds[i].timeStart)
         {
             GPIO::getInstance()->aLeds[i].count += 1;
@@ -277,7 +284,7 @@ osDelay(4000);
 term("--- readButtonThread ---")
     while(true)
     {
-        for (uint8_t i = 0; i < GPIO::getInstance()->buttonArray.size() ; ++i)
+        for (uint8_t i = 0; i < 6 ; ++i)
         {
             uint16_t n = GPIO::getInstance()->buttonArray[i].n;
 //            k = GPIO::getInstance()->buttonArray[i].i;

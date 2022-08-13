@@ -8,7 +8,7 @@
 #include <array>
 #include "CircularBuffer.h"
 #include "cmsis_os.h"
-
+extern uint8_t keysNum;
 struct alignas(4) Keyboard {
 
     uint16_t ledPin = 0;    /*!< The field stores a pin number to switch LED */
@@ -31,6 +31,8 @@ struct PackageRx {
     uint8_t packetType,     /**< packet type */
             payloadData;
 };
+
+
 
 class GPIO
 {
@@ -77,24 +79,6 @@ public:
     void testLed();
 #ifndef SC4
     constexpr static uint8_t keysNum = 6; /*!< Number of the keys on the keyboard */
-#endif
-
-#ifdef SC4
-    #ifdef SC4_CFG_0
-        constexpr static uint8_t keysNum = 16;
-    #endif
-    #ifdef SC4_CFG_1
-        constexpr static uint8_t keysNum = 32;
-    #endif
-    #ifdef SC4_CFG_2
-        constexpr static uint8_t keysNum = 48;
-    #endif
-    #ifdef SC4_CFG_3
-        constexpr static uint8_t keysNum = 16;
-    #endif
-    #ifdef SC4_CFG_4
-        constexpr static uint8_t keysNum = 32;
-    #endif
 #endif
 
     osMessageQId message_q_id;  /*!< ID for the message queue */
