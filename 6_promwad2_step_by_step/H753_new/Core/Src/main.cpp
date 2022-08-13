@@ -32,8 +32,6 @@ extern "C" {
 #include "cmsis_os.h"
 
 
-
-
 [[ noreturn ]] static void trackRingBufferThread(void const *arg);
 //[[ noreturn ]] static void readPackageTypeThread(void const *arg);
 //[[ noreturn ]] static void createTestTaskThread(void const *arg);
@@ -61,10 +59,6 @@ DMA_HandleTypeDef hdma_i2c2_tx;
 DMA_HandleTypeDef hdma_i2c3_rx;
 DMA_HandleTypeDef hdma_i2c3_tx;
 RNG_HandleTypeDef hrng;
-//SAI_HandleTypeDef hsai_BlockA1;
-//SAI_HandleTypeDef hsai_BlockB1;
-//DMA_HandleTypeDef hdma_sai1_a;
-//DMA_HandleTypeDef hdma_sai1_b;
 DMA_HandleTypeDef hdma_uart7_rx;
 DMA_HandleTypeDef hdma_uart7_tx;
 TIM_HandleTypeDef htim3;
@@ -153,7 +147,6 @@ void Ethernet_Link_Periodic_Handle(struct netif *netif)
     }
 }
 
-
 osThreadId TaskEthernetHandle;
 
 osThreadDef(readFromUartThread, readFromUartThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE );
@@ -233,14 +226,11 @@ uint8_t getCFG(void)
 
 int main(void)
 {
-
     /* Configure the MPU attributes as Device memory for ETH DMA descriptors */
     MPU_Config();
 
     /* Enable the CPU Cache */
-
     //    SCB_EnableICache();
-
     //    SCB_EnableDCache();
 
     HAL_Init();
@@ -250,10 +240,8 @@ int main(void)
     PeriphCommonClock_Config();
 
     /* Initialize all configured peripherals */
-
     MX_GPIO_Init();
     //    MX_FMC_Init();  //Вынес в SRAMInit
-
     //    MX_MDMA_Init(); //Вынес в SRAM
     //    MX_I2C1_Init(); //Вынесен в EEPROM
     MX_I2C2_Init(); //Кодек
@@ -267,8 +255,7 @@ int main(void)
     MX_TIM3_Init();
     //    MX_DMA_Init(); //Вынесен в RS232
     MX_RNG_Init();
-    GPIOInit();  //Тут остался только таймер - не стартует ??
-
+    GPIOInit();
     SRAMInit();
     BSP_EEPROM_Init();
 
@@ -278,7 +265,6 @@ int main(void)
     //    FsForEeprom::getInstance().test();
 
     //    Flash::getInstance().test(); // Не работает
-
 
     //ЗАПИСЬ КОНФИГА ЧЕРЕЗ UART реализована без SRAM в другой ветке
     //    if ((RS232::getInstance().readFromUartThreadId = osThreadCreate(osThread(readFromUartThread), nullptr)) == nullptr)
