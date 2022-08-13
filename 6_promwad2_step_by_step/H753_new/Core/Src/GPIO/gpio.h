@@ -98,8 +98,11 @@ public:
 #endif
 
     osMessageQId message_q_id;  /*!< ID for the message queue */
-    alignas(4) std::array <sButton, keysNum> buttonArray; /*!< The array stores sButton struct elements */
-    alignas(4) Keyboard aLeds[keysNum]; /*!< The array stores Keyboard struct elements */
+
+//    alignas(4) std::array <sButton, keysNum> buttonArray; /*!< The array stores sButton struct elements */
+    alignas(4) sButton * buttonArray =  new sButton[keysNum];
+//    alignas(4) Keyboard aLeds[keysNum]; /*!< The array stores Keyboard struct elements */
+    alignas(4) Keyboard * aLeds =  new Keyboard[keysNum];
 
     GPIO_InitTypeDef *gpioInit; /**< The variable is pointer to GPIO Handle Type */
     bool bedCfgFlag = false; /*! The variable stores forbidden combination presence flag */

@@ -391,7 +391,7 @@ term("--- readButtonThread ---")
             }
         }//Просканировали все клавиши
 
-        for (uint8_t i = 0; i < GPIO::getInstance()->buttonArray.size() ; ++i)
+        for (uint8_t i = 0; i < TLC59116F_max_address * 8 ; ++i)
         {
             if ((numButton-1) == GPIO::getInstance()->buttonArray[i].i) //Похоже здесь buttonArray не нужен
             {
