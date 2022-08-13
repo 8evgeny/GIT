@@ -103,6 +103,7 @@ public:
     CircularBuffer <PackageRx, sizeCircularBuffer> ringBufferRx;
     osMutexId mutexRingBufferRx_id;
     osMutexId mutexBoard_id;
+    osMutexId mutexButtonsVol_id;
     PackageRx packageRx;
 };
 
