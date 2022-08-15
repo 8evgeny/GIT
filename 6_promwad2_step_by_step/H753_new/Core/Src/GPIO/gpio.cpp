@@ -142,7 +142,7 @@ struct Aic3254Configs ConfigureDAC_VOL[] {
     // Select Page 0
     {TLV320AIC3254_REG_PAGE_SELECT, 0x00},
     // DAC => 0dB
-    {TLV320AIC3254_REG_LDAC_DVOL_CR, 0xD7},   // ГРОМКОСТЬ -20,5dB
+    {TLV320AIC3254_REG_LDAC_DVOL_CR, 0xC8},   // ГРОМКОСТЬ -28dB
     {TLV320AIC3254_REG_RDAC_DVOL_CR, 0xC0},   // ГРОМКОСТЬ -32dB
     // Powerup LDAC/RDAC
     {TLV320AIC3254_REG_DAC_SETUP1, 0xd4},
@@ -180,11 +180,16 @@ void GPIO::downVolume(void)
 void GPIO::upSens(void)
 {
     term2("upSens")
+    I2C::getInstance()->writeRegister(TLV320AIC3254::I2C_ADDRESS, 0x00, 0x00, true);
+    I2C::getInstance()->writeRegister(TLV320AIC3254::I2C_ADDRESS, 0x53, 0x0A, true);
 
 }
 void GPIO::downSens(void)
 {
     term2("downSens")
+    I2C::getInstance()->writeRegister(TLV320AIC3254::I2C_ADDRESS, 0x00, 0x00, true);
+    I2C::getInstance()->writeRegister(TLV320AIC3254::I2C_ADDRESS, 0x53, 0xC0, true);
+
 }
 void GPIO::test(void)
 {

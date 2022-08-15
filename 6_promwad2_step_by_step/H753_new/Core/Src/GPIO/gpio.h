@@ -97,9 +97,9 @@ public:
 
 //Vol
     volatile int8_t dacDriverGainValue = 0xC8 ; //-28
-    volatile int8_t dacDriverGainValueMax = 0xEC; //-10
+    volatile int8_t dacDriverGainValueMax = 0xF4; //-6
     volatile int8_t dacDriverGainValueMin = 0x98; //-52
-    volatile int8_t dacDriverGainValueStep = 0x04;
+    volatile int8_t dacDriverGainValueStep = 0x02;
 //Sens
     volatile int8_t dacDriverSensValue = 0xC8 ;
     volatile int8_t dacDriverSensValueMax = 0xEC;
