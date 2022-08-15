@@ -179,11 +179,12 @@ void GPIO::downVolume(void)
 }
 void GPIO::upSens(void)
 {
+    term2("upSens")
 
 }
 void GPIO::downSens(void)
 {
-
+    term2("downSens")
 }
 void GPIO::test(void)
 {
@@ -521,9 +522,9 @@ extern "C" {
         }
         else if (GPIO_Pin == GPIO_PIN_9)
         {
-            RS232Puts("Pressed VOL+ button\r\n");
             if (!HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_9) && (timeVolPlus + 300 < HAL_GetTick()))
             {
+                RS232Puts("Pressed VOL+ button\r\n");
 
                 if (GPIO::getInstance()->dacDriverGainValue < GPIO::getInstance()->dacDriverGainValueMax)
                 GPIO::getInstance()->dacDriverGainValue = GPIO::getInstance()->dacDriverGainValue + GPIO::getInstance()->dacDriverGainValueStep;
@@ -535,9 +536,9 @@ extern "C" {
         }
         else if (GPIO_Pin == GPIO_PIN_10)
         {
-            RS232Puts("Pressed VOL- button\r\n");
             if (!HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_10))
             {
+                RS232Puts("Pressed VOL- button\r\n");
                 if (GPIO::getInstance()->dacDriverGainValue > GPIO::getInstance()->dacDriverGainValueMin)
                 GPIO::getInstance()->dacDriverGainValue = GPIO::getInstance()->dacDriverGainValue - GPIO::getInstance()->dacDriverGainValueStep;
                 volDownPressed = true;
@@ -553,8 +554,8 @@ extern "C" {
 //            {
 //                if (GPIO::getInstance()->dacDriverSensValue > GPIO::getInstance()->dacDriverSensValueMin)
 //                GPIO::getInstance()->dacDriverSensValue = GPIO::getInstance()->dacDriverSensValue - GPIO::getInstance()->dacDriverSensValueStep;
-//                sensUpPressed = true;
-//                term2(GPIO::getInstance()->dacDriverSensValue )
+                sensUpPressed = true;
+                term2(GPIO::getInstance()->dacDriverSensValue )
 //            }
         }
         else if (GPIO_Pin == GPIO_PIN_12)
@@ -565,8 +566,8 @@ extern "C" {
 //            {
 //                if (GPIO::getInstance()->dacDriverSensValue < GPIO::getInstance()->dacDriverSensValueMax)
 //                GPIO::getInstance()->dacDriverSensValue = GPIO::getInstance()->dacDriverSensValue + GPIO::getInstance()->dacDriverSensValueStep;
-//                sensUpPressed = true;
-//                term2(GPIO::getInstance()->dacDriverSensValue )
+                sensDownPressed = true;
+                term2(GPIO::getInstance()->dacDriverSensValue )
 //            }
         }
     }
