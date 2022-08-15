@@ -1,3 +1,4 @@
+#pragma once
 #include <cstdint>
 
 static const uint16_t ringBackToneArray_raw_length = 304;
