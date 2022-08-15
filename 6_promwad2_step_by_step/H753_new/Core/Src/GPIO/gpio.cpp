@@ -590,10 +590,9 @@ extern "C" {
                 GPIO::getInstance()->dacDriverSensValue = GPIO::getInstance()->dacDriverSensValue + GPIO::getInstance()->dacDriverSensValueStep;
                 sensUpPressed = true;
                 term2(GPIO::getInstance()->dacDriverSensValue / 2 )
-
-//HAL_SAI_Transmit_DMA(&audioTxSai, ring_raw, ring_length/2);
-//osDelay(100);
-//HAL_SAI_DMAStop(&audioTxSai);
+                startRingTone(RingToneType::RING_TONE);
+                osDelay(100);
+                stopRingTone();
 //            }
         }
         else if (GPIO_Pin == GPIO_PIN_12)
@@ -607,9 +606,9 @@ extern "C" {
                 sensDownPressed = true;
                 term2(GPIO::getInstance()->dacDriverSensValue / 2)
 
-//HAL_SAI_Transmit_DMA(&audioTxSai, ring_raw, ring_length/2);
-//osDelay(100);
-//HAL_SAI_DMAStop(&audioTxSai);
+                startRingTone(RingToneType::RING_TONE);
+                osDelay(100);
+                stopRingTone();
 
 //            }
         }
