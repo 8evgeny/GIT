@@ -94,10 +94,10 @@ public:
     osThreadId createTestTaskThreadId, testThreadId, trackRingBufferThreadId;
 
 //Громкость
-    volatile int8_t dacDriverGainValue = 0xD7; //-20,5
-    volatile int8_t dacDriverGainValueMax = 0xFF; //-0,5
-    volatile int8_t dacDriverGainValueMin = 0xC0; //-32
-    volatile int8_t dacDriverGainValueStep = 0x02;
+    volatile int8_t dacDriverGainValue = 0xC8; //-28
+    volatile int8_t dacDriverGainValueMax = 0xEC; //-10
+    volatile int8_t dacDriverGainValueMin = 0x98; //-52
+    volatile int8_t dacDriverGainValueStep = 0x04;
 
     constexpr static uint16_t sizeCircularBuffer = 1040;
     CircularBuffer <PackageRx, sizeCircularBuffer> ringBufferRx;

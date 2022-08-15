@@ -101,7 +101,6 @@ uint8_t I2C::readRegister(uint8_t addr, uint8_t reg, bool audio)
     {
         while (HAL_I2C_GetState(hI2cHandlerAudio) != HAL_I2C_STATE_READY);
         do {
-osMutexWait(GPIO::getInstance()->mutexButtonsVol_id, osWaitForever);
             status = HAL_I2C_Master_Transmit_DMA(hI2cHandlerAudio, addr, &reg, 1);
             while (I2C::getInstance()->i2c2WriteReady == RESET);
             I2C::getInstance()->i2c2WriteReady = RESET;
@@ -114,7 +113,6 @@ osMutexWait(GPIO::getInstance()->mutexButtonsVol_id, osWaitForever);
             status = HAL_I2C_Master_Receive_DMA(hI2cHandlerAudio, addr, &readData, 1);
             while (I2C::getInstance()->i2c2ReadReady == RESET);
             I2C::getInstance()->i2c2ReadReady = RESET;
-osMutexRelease(GPIO::getInstance()->mutexButtonsVol_id);
             errorI2CAudio(status);
             }
         while (status != HAL_OK);
@@ -168,10 +166,13 @@ void I2C::writeRegister(uint8_t addr, uint8_t reg, uint8_t val, bool audio)
         while (HAL_I2C_GetState(hI2cHandlerBoard) != HAL_I2C_STATE_READY);
         do {
 osMutexWait(GPIO::getInstance()->mutexBoard_id, osWaitForever);
+osMutexWait(GPIO::getInstance()->mutexButtonsVol_id, osWaitForever);
             status = HAL_I2C_Master_Transmit_DMA(hI2cHandlerBoard, addr, request, sizeof(request) / sizeof(uint8_t));
             while (I2C::getInstance()->i2c3WriteReady == RESET);
             I2C::getInstance()->i2c3WriteReady = RESET;
+osMutexRelease(GPIO::getInstance()->mutexButtonsVol_id);
 osMutexRelease(GPIO::getInstance()->mutexBoard_id);
+
             errorI2CBoard(status);
            }
         while (status != HAL_OK);

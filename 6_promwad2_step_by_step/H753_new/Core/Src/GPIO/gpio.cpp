@@ -153,24 +153,28 @@ void GPIO::upVolume(void)
 {
     term2("upVolume")
     ConfigureDAC_VOL[8].regVal = GPIO::getInstance()->dacDriverGainValue;
-osMutexWait(GPIO::getInstance()->mutexButtonsVol_id, osWaitForever);
+
     for (uint32_t i = 0; i < sizeof(ConfigureDAC_VOL) / sizeof(struct Aic3254Configs); i++)
     {
+        osMutexWait(GPIO::getInstance()->mutexButtonsVol_id, osWaitForever);
         I2C::getInstance()->writeRegister(I2C_ADDRESS, ConfigureDAC_VOL[i].regOffset, ConfigureDAC_VOL[i].regVal, true);
+        osMutexRelease(GPIO::getInstance()->mutexButtonsVol_id);
     }
-osMutexRelease(GPIO::getInstance()->mutexButtonsVol_id);
+
 }
 
 void GPIO::downVolume(void)
 {
     term2("downVolume")
     ConfigureDAC_VOL[8].regVal = GPIO::getInstance()->dacDriverGainValue;
-osMutexWait(GPIO::getInstance()->mutexButtonsVol_id, osWaitForever);
+
     for (uint32_t i = 0; i < sizeof(ConfigureDAC_VOL) / sizeof(struct Aic3254Configs); i++)
     {
+        osMutexWait(GPIO::getInstance()->mutexButtonsVol_id, osWaitForever);
         I2C::getInstance()->writeRegister(I2C_ADDRESS, ConfigureDAC_VOL[i].regOffset, ConfigureDAC_VOL[i].regVal, true);
+        osMutexRelease(GPIO::getInstance()->mutexButtonsVol_id);
     }
-osMutexRelease(GPIO::getInstance()->mutexButtonsVol_id);
+
 }
 
 void GPIO::test(void)
@@ -500,7 +504,7 @@ extern "C" {
         }
         else if (GPIO_Pin == GPIO_PIN_9)
         {
-            if (!HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_9) && (timeVolPlus + 1000 < HAL_GetTick()))
+            if (!HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_9) && (timeVolPlus + 300 < HAL_GetTick()))
             {
                 RS232Puts("Pressed VOL+ button\r\n");
                 if (GPIO::getInstance()->dacDriverGainValue < GPIO::getInstance()->dacDriverGainValueMax)
@@ -508,7 +512,7 @@ extern "C" {
                 volUpPressed = true;
                 timeVolPlus = HAL_GetTick();
 
-                term2(GPIO::getInstance()->dacDriverGainValue)
+                term2(GPIO::getInstance()->dacDriverGainValue / 2)
             }
         }
         else if (GPIO_Pin == GPIO_PIN_10)
@@ -520,7 +524,7 @@ extern "C" {
                 GPIO::getInstance()->dacDriverGainValue = GPIO::getInstance()->dacDriverGainValue - GPIO::getInstance()->dacDriverGainValueStep;
                 volDownPressed = true;
 
-                term2(GPIO::getInstance()->dacDriverGainValue)
+                term2(GPIO::getInstance()->dacDriverGainValue / 2 )
             }
         }
 
