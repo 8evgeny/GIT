@@ -94,7 +94,7 @@ public:
     osThreadId createTestTaskThreadId, testThreadId, trackRingBufferThreadId;
 
 //Громкость
-    volatile int8_t dacDriverGainValue = 0xCF ; //-28
+    volatile int8_t dacDriverGainValue = 0xC8 ; //-28
     volatile int8_t dacDriverGainValueMax = 0xEC; //-10
     volatile int8_t dacDriverGainValueMin = 0x98; //-52
     volatile int8_t dacDriverGainValueStep = 0x04;
