@@ -24,6 +24,8 @@
 
 bool volUpPressed;
 bool volDownPressed;
+bool sensUpPressed;
+bool sensDownPressed;
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -162,7 +164,6 @@ void GPIO::upVolume(void)
     }
 
 }
-
 void GPIO::downVolume(void)
 {
     term2("downVolume")
@@ -176,7 +177,14 @@ void GPIO::downVolume(void)
     }
 
 }
+void GPIO::upSens(void)
+{
 
+}
+void GPIO::downSens(void)
+{
+
+}
 void GPIO::test(void)
 {
 
@@ -439,7 +447,16 @@ term("--- readButtonThread ---")
             GPIO::getInstance()->upVolume();
             volUpPressed = false;
         }
-
+        if(sensDownPressed)
+        {
+            GPIO::getInstance()->downSens();
+            sensDownPressed = false;
+        }
+        if(sensUpPressed)
+        {
+            GPIO::getInstance()->upSens();
+            sensUpPressed = false;
+        }
 
          osDelay(50); //Возможно нужно убрать
 
@@ -504,9 +521,10 @@ extern "C" {
         }
         else if (GPIO_Pin == GPIO_PIN_9)
         {
+            RS232Puts("Pressed VOL+ button\r\n");
             if (!HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_9) && (timeVolPlus + 300 < HAL_GetTick()))
             {
-                RS232Puts("Pressed VOL+ button\r\n");
+
                 if (GPIO::getInstance()->dacDriverGainValue < GPIO::getInstance()->dacDriverGainValueMax)
                 GPIO::getInstance()->dacDriverGainValue = GPIO::getInstance()->dacDriverGainValue + GPIO::getInstance()->dacDriverGainValueStep;
                 volUpPressed = true;
@@ -517,9 +535,9 @@ extern "C" {
         }
         else if (GPIO_Pin == GPIO_PIN_10)
         {
+            RS232Puts("Pressed VOL- button\r\n");
             if (!HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_10))
             {
-                RS232Puts("Pressed VOL- button\r\n");
                 if (GPIO::getInstance()->dacDriverGainValue > GPIO::getInstance()->dacDriverGainValueMin)
                 GPIO::getInstance()->dacDriverGainValue = GPIO::getInstance()->dacDriverGainValue - GPIO::getInstance()->dacDriverGainValueStep;
                 volDownPressed = true;
@@ -527,8 +545,30 @@ extern "C" {
                 term2(GPIO::getInstance()->dacDriverGainValue / 2 )
             }
         }
+        else if (GPIO_Pin == GPIO_PIN_11)
+        {
+            RS232Puts("Pressed SENS+ button\r\n");
 
+//            if (!HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_11))
+//            {
+//                if (GPIO::getInstance()->dacDriverSensValue > GPIO::getInstance()->dacDriverSensValueMin)
+//                GPIO::getInstance()->dacDriverSensValue = GPIO::getInstance()->dacDriverSensValue - GPIO::getInstance()->dacDriverSensValueStep;
+//                sensUpPressed = true;
+//                term2(GPIO::getInstance()->dacDriverSensValue )
+//            }
+        }
+        else if (GPIO_Pin == GPIO_PIN_12)
+        {
+            RS232Puts("Pressed SENS- button\r\n");
 
+//            if (!HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_12))
+//            {
+//                if (GPIO::getInstance()->dacDriverSensValue < GPIO::getInstance()->dacDriverSensValueMax)
+//                GPIO::getInstance()->dacDriverSensValue = GPIO::getInstance()->dacDriverSensValue + GPIO::getInstance()->dacDriverSensValueStep;
+//                sensUpPressed = true;
+//                term2(GPIO::getInstance()->dacDriverSensValue )
+//            }
+        }
     }
 
 void EXTI2_IRQHandler(void)
@@ -552,6 +592,8 @@ void EXTI9_5_IRQHandler()
 void EXTI15_10_IRQHandler(void)
 {
     HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_10);
+    HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_11);
+    HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_12);
 }
 
 void GPIO::SC4_EXTI_IRQHandler_Config() {
@@ -570,17 +612,11 @@ void GPIO::SC4_EXTI_IRQHandler_Config() {
   GPIO_InitStructure.Pin = GPIO_PIN_4;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStructure);
 
-  // Configure GPIO for volume buttons ######################*/
-  GPIO_InitStructure.Pin       = GPIO_PIN_10;
+  // Configure GPIO for volume and sens buttons ######################*/
+  GPIO_InitStructure.Pin       = GPIO_PIN_9| GPIO_PIN_10 | GPIO_PIN_11 | GPIO_PIN_12;
   GPIO_InitStructure.Mode      = GPIO_MODE_IT_FALLING;
-  GPIO_InitStructure.Pull      = GPIO_NOPULL;
+  GPIO_InitStructure.Pull      = GPIO_PULLUP;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStructure);
-
-  GPIO_InitStructure.Pin       = GPIO_PIN_9 ;
-  GPIO_InitStructure.Mode      = GPIO_MODE_IT_FALLING;
-  GPIO_InitStructure.Pull      = GPIO_NOPULL;
-  HAL_GPIO_Init(GPIOA, &GPIO_InitStructure);
-
 
   HAL_NVIC_SetPriority(EXTI15_10_IRQn, 5, 0);
   HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);

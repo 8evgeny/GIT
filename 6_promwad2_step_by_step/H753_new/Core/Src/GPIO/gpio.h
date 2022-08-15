@@ -61,6 +61,8 @@ public:
 
     void upVolume(void);
     void downVolume(void);
+    void upSens(void);
+    void downSens(void);
 
     void test(void);
 
@@ -93,11 +95,16 @@ public:
     volatile bool testFlag = false;
     osThreadId createTestTaskThreadId, testThreadId, trackRingBufferThreadId;
 
-//Громкость
+//Vol
     volatile int8_t dacDriverGainValue = 0xC8 ; //-28
     volatile int8_t dacDriverGainValueMax = 0xEC; //-10
     volatile int8_t dacDriverGainValueMin = 0x98; //-52
     volatile int8_t dacDriverGainValueStep = 0x04;
+//Sens
+    volatile int8_t dacDriverSensValue = 0xC8 ;
+    volatile int8_t dacDriverSensValueMax = 0xEC;
+    volatile int8_t dacDriverSensValueMin = 0x98;
+    volatile int8_t dacDriverSensValueStep = 0x01;
 
     constexpr static uint16_t sizeCircularBuffer = 1040;
     CircularBuffer <PackageRx, sizeCircularBuffer> ringBufferRx;
