@@ -181,15 +181,13 @@ void GPIO::upSens(void)
 {
     term2("upSens")
     I2C::getInstance()->writeRegister(TLV320AIC3254::I2C_ADDRESS, 0x00, 0x00, true);
-    I2C::getInstance()->writeRegister(TLV320AIC3254::I2C_ADDRESS, 0x53, 0x0A, true);
-
+    I2C::getInstance()->writeRegister(TLV320AIC3254::I2C_ADDRESS, 0x53, GPIO::getInstance()->dacDriverSensValue, true);
 }
 void GPIO::downSens(void)
 {
     term2("downSens")
     I2C::getInstance()->writeRegister(TLV320AIC3254::I2C_ADDRESS, 0x00, 0x00, true);
-    I2C::getInstance()->writeRegister(TLV320AIC3254::I2C_ADDRESS, 0x53, 0xC0, true);
-
+    I2C::getInstance()->writeRegister(TLV320AIC3254::I2C_ADDRESS, 0x53, GPIO::getInstance()->dacDriverSensValue, true);
 }
 void GPIO::test(void)
 {

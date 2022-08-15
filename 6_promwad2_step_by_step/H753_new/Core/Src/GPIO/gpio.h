@@ -101,9 +101,9 @@ public:
     volatile int8_t dacDriverGainValueMin = 0x98; //-52
     volatile int8_t dacDriverGainValueStep = 0x02;
 //Sens
-    volatile int8_t dacDriverSensValue = 0xC8 ;
-    volatile int8_t dacDriverSensValueMax = 0xEC;
-    volatile int8_t dacDriverSensValueMin = 0x98;
+    volatile int8_t dacDriverSensValue = 0x00 ;
+    volatile int8_t dacDriverSensValueMax = 0x28; //20dB
+    volatile int8_t dacDriverSensValueMin = 0xC8; //-12dB
     volatile int8_t dacDriverSensValueStep = 0x02;
 
     constexpr static uint16_t sizeCircularBuffer = 1040;
