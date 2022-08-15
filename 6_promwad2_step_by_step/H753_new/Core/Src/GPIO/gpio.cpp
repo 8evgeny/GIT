@@ -153,7 +153,6 @@ struct Aic3254Configs ConfigureDAC_VOL[] {
 constexpr static uint32_t I2C_ADDRESS = 49;
 void GPIO::upVolume(void)
 {
-    term2("upVolume")
     ConfigureDAC_VOL[8].regVal = GPIO::getInstance()->dacDriverGainValue;
 
     for (uint32_t i = 0; i < sizeof(ConfigureDAC_VOL) / sizeof(struct Aic3254Configs); i++)
@@ -166,7 +165,6 @@ void GPIO::upVolume(void)
 }
 void GPIO::downVolume(void)
 {
-    term2("downVolume")
     ConfigureDAC_VOL[8].regVal = GPIO::getInstance()->dacDriverGainValue;
 
     for (uint32_t i = 0; i < sizeof(ConfigureDAC_VOL) / sizeof(struct Aic3254Configs); i++)
@@ -179,13 +177,11 @@ void GPIO::downVolume(void)
 }
 void GPIO::upSens(void)
 {
-    term2("upSens")
     I2C::getInstance()->writeRegister(TLV320AIC3254::I2C_ADDRESS, 0x00, 0x00, true);
     I2C::getInstance()->writeRegister(TLV320AIC3254::I2C_ADDRESS, 0x53, GPIO::getInstance()->dacDriverSensValue, true);
 }
 void GPIO::downSens(void)
 {
-    term2("downSens")
     I2C::getInstance()->writeRegister(TLV320AIC3254::I2C_ADDRESS, 0x00, 0x00, true);
     I2C::getInstance()->writeRegister(TLV320AIC3254::I2C_ADDRESS, 0x53, GPIO::getInstance()->dacDriverSensValue, true);
 }
@@ -558,7 +554,7 @@ extern "C" {
                 if (GPIO::getInstance()->dacDriverSensValue < GPIO::getInstance()->dacDriverSensValueMax)
                 GPIO::getInstance()->dacDriverSensValue = GPIO::getInstance()->dacDriverSensValue + GPIO::getInstance()->dacDriverSensValueStep;
                 sensUpPressed = true;
-                term2(GPIO::getInstance()->dacDriverSensValue )
+                term2(GPIO::getInstance()->dacDriverSensValue / 2 )
 //            }
         }
         else if (GPIO_Pin == GPIO_PIN_12)
@@ -570,7 +566,7 @@ extern "C" {
                 if (GPIO::getInstance()->dacDriverSensValue > GPIO::getInstance()->dacDriverSensValueMin)
                 GPIO::getInstance()->dacDriverSensValue = GPIO::getInstance()->dacDriverSensValue - GPIO::getInstance()->dacDriverSensValueStep;
                 sensDownPressed = true;
-                term2(GPIO::getInstance()->dacDriverSensValue )
+                term2(GPIO::getInstance()->dacDriverSensValue / 2)
 //            }
         }
     }
