@@ -552,8 +552,8 @@ extern "C" {
 
 //            if (!HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_11))
 //            {
-//                if (GPIO::getInstance()->dacDriverSensValue > GPIO::getInstance()->dacDriverSensValueMin)
-//                GPIO::getInstance()->dacDriverSensValue = GPIO::getInstance()->dacDriverSensValue - GPIO::getInstance()->dacDriverSensValueStep;
+                if (GPIO::getInstance()->dacDriverSensValue < GPIO::getInstance()->dacDriverSensValueMax)
+                GPIO::getInstance()->dacDriverSensValue = GPIO::getInstance()->dacDriverSensValue + GPIO::getInstance()->dacDriverSensValueStep;
                 sensUpPressed = true;
                 term2(GPIO::getInstance()->dacDriverSensValue )
 //            }
@@ -564,8 +564,8 @@ extern "C" {
 
 //            if (!HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_12))
 //            {
-//                if (GPIO::getInstance()->dacDriverSensValue < GPIO::getInstance()->dacDriverSensValueMax)
-//                GPIO::getInstance()->dacDriverSensValue = GPIO::getInstance()->dacDriverSensValue + GPIO::getInstance()->dacDriverSensValueStep;
+                if (GPIO::getInstance()->dacDriverSensValue > GPIO::getInstance()->dacDriverSensValueMin)
+                GPIO::getInstance()->dacDriverSensValue = GPIO::getInstance()->dacDriverSensValue - GPIO::getInstance()->dacDriverSensValueStep;
                 sensDownPressed = true;
                 term2(GPIO::getInstance()->dacDriverSensValue )
 //            }
