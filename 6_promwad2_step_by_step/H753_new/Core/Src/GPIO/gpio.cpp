@@ -36,7 +36,7 @@ extern uint8_t inMcastGroup;
 //osMessageQDef(message_q, 1, uint16_t); // Declare a message queue
 osMutexDef (mutexRingBufferRx);
 osMutexDef (mutexBoard);
-osMutexDef (mutexButtonsVol);
+osMutexDef (mutexButtons);
 
 // max address number of TLC59116F chips
 extern uint8_t TLC59116F_max_address;
@@ -105,7 +105,7 @@ GPIO::GPIO()
 
     mutexRingBufferRx_id = osMutexCreate(osMutex(mutexRingBufferRx));
     mutexBoard_id = osMutexCreate(osMutex(mutexBoard));
-    mutexButtonsVol_id = osMutexCreate(osMutex(mutexButtonsVol));
+    mutexButtons_id = osMutexCreate(osMutex(mutexButtons));
     if (mutexRingBufferRx_id == nullptr)
     {
         while(1)
@@ -158,9 +158,9 @@ void GPIO::upVolume(void)
 
     for (uint32_t i = 0; i < sizeof(ConfigureDAC_VOL) / sizeof(struct Aic3254Configs); i++)
     {
-        osMutexWait(GPIO::getInstance()->mutexButtonsVol_id, osWaitForever);
+        osMutexWait(GPIO::getInstance()->mutexButtons_id, osWaitForever);
         I2C::getInstance()->writeRegister(I2C_ADDRESS, ConfigureDAC_VOL[i].regOffset, ConfigureDAC_VOL[i].regVal, true);
-        osMutexRelease(GPIO::getInstance()->mutexButtonsVol_id);
+        osMutexRelease(GPIO::getInstance()->mutexButtons_id);
     }
 
 }
@@ -171,9 +171,9 @@ void GPIO::downVolume(void)
 
     for (uint32_t i = 0; i < sizeof(ConfigureDAC_VOL) / sizeof(struct Aic3254Configs); i++)
     {
-        osMutexWait(GPIO::getInstance()->mutexButtonsVol_id, osWaitForever);
+        osMutexWait(GPIO::getInstance()->mutexButtons_id, osWaitForever);
         I2C::getInstance()->writeRegister(I2C_ADDRESS, ConfigureDAC_VOL[i].regOffset, ConfigureDAC_VOL[i].regVal, true);
-        osMutexRelease(GPIO::getInstance()->mutexButtonsVol_id);
+        osMutexRelease(GPIO::getInstance()->mutexButtons_id);
     }
 
 }
