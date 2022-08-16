@@ -643,10 +643,10 @@ void GPIO::test(void)
 
 }
 
-void GPIO::configLed(uint8_t ledNumber, bool ledOn, uint32_t timeOn, uint32_t timeOff, uint8_t repeatNum)
+void GPIO::configLed(uint8_t ledNumber, bool ledOn, uint32_t timeOn, uint32_t timeOff, uint8_t repeatNum, Color color)
 {
-term1("**** configLed ledNumber") term(ledNumber)
-    --ledNumber;
+     --ledNumber;
+    aLeds[ledNumber].colour = color;
     if (timeOn < 50 && timeOff < 50)
     {
         aLeds[ledNumber].ledState = ledOn;
@@ -806,11 +806,18 @@ term("--- switchLEDsThread ---")
         {
             if (GPIO::getInstance()->aLeds[i].ledState)
             {// Включаем пин
-                std::tie (adr, reg, numON,numOFF)  = GPIO::getInstance()->fromIndexToReg(i, GPIO::getInstance()->GREEN);
+                if (GPIO::getInstance()->aLeds[i].colour == GPIO::getInstance()->GREEN)
+                {
+                    std::tie (adr, reg, numON, numOFF)  = GPIO::getInstance()->fromIndexToReg(i, GPIO::getInstance()->GREEN);
+                }
+                else
+                {
+                    std::tie (adr, reg, numON, numOFF)  = GPIO::getInstance()->fromIndexToReg(i, GPIO::getInstance()->RED);
+                }
                 I2C::getInstance()->writeRegister(adr, reg, numON, false);
             } else
             {// Гасим пин
-                std::tie (adr, reg, numON,numOFF)  = GPIO::getInstance()->fromIndexToReg(i, GPIO::getInstance()->RED);
+                std::tie (adr, reg, numON, numOFF)  = GPIO::getInstance()->fromIndexToReg(i, GPIO::getInstance()->RED); //Тут может быть и GREEN
                 I2C::getInstance()->writeRegister(adr, reg, numOFF, false);
             }
         }

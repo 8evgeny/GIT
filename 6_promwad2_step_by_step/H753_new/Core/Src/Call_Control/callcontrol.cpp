@@ -915,11 +915,7 @@ void switchLed(uint8_t ledNumber, bool ledOn, uint16_t timeOn, uint16_t timeOff,
 #ifndef SC2BOARD
     CAN::getInstance()->configLed(ledNumber, ledOn, timeOn, timeOff, repeatNum);
 #else
-term("switchLed")
-char msg[20];
-sprintf(msg,"ledNumber= %d\r\n ",ledNumber);
-RS232Puts(msg);
 
-    GPIO::getInstance()->configLed(ledNumber, ledOn, timeOn, timeOff, repeatNum);
+    GPIO::getInstance()->configLed(ledNumber, ledOn, timeOn, timeOff, repeatNum, GPIO::RED);
 #endif
 }

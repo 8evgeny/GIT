@@ -384,7 +384,7 @@ term("--- trackRingBufferThread ---")
                     osMutexRelease(UdpJsonExch::getInstance()->mutexCallControlId);
                 } else {
                     RS232::getInstance().term << "Button [" << GPIO::getInstance()->packageRx.payloadData << "] was pressed" << "\n";
-                    GPIO::getInstance()->configLed(GPIO::getInstance()->packageRx.payloadData, true, 250, 250);
+                    GPIO::getInstance()->configLed(GPIO::getInstance()->packageRx.payloadData, true, 250, 250, GPIO::GREEN);
                 }
             } else osMutexRelease(GPIO::getInstance()->mutexRingBufferRx_id);
 

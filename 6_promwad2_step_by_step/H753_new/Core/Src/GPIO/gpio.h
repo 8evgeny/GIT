@@ -9,7 +9,8 @@
 #include "CircularBuffer.h"
 #include "cmsis_os.h"
 extern uint8_t keysNum;
-struct alignas(4) Keyboard {
+struct alignas(4) Keyboard
+{
 
     uint16_t ledPin = 0;    /*!< The field stores a pin number to switch LED */
     uint16_t timeOn = 0,    /**< The field stores time in millisec when LED is On*/
@@ -18,6 +19,7 @@ struct alignas(4) Keyboard {
          timeStart = false; /**< The field stores the start flag of the switching mode */
     uint8_t count = 0;      /**< The counter is used to control the switching mode of the LEDs*/
     int8_t reiterationNum = -1; /**< Number of reiteration is used to set the reiteration number of the switching mode */
+    uint8_t colour = 1; //green
 };
 
 struct sButton {
@@ -71,7 +73,8 @@ public:
                    bool ledOn = true,
                    uint32_t timeOn = 0,
                    uint32_t timeOff = 0,
-                   uint8_t repeatNum = 0);
+                   uint8_t repeatNum = 0,
+                   Color = Color::GREEN );
 
     void initLEDS_SC2();
     void initLEDS_SC4();
