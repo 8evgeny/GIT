@@ -210,7 +210,7 @@ term("case Direct")
                 assignedData.priority = subjectKey.priority;
 
                 missedCall.remove(assignedData.key);
-                switchLed(subjectKey.key, true, 250, 250);
+                switchLed(subjectKey.key, true, 250, 250, GPIO::RED);
 
                 isIncomingCall = true;
 
@@ -274,7 +274,7 @@ term("case Group")
 
                 assignedData.key = subjectKey.key;
                 missedCall.remove(assignedData.key);
-                switchLed(subjectKey.key, true, 250, 250);
+                switchLed(subjectKey.key, true, 250, 250, GPIO::GREEN);
 
 //                retransmitJsonDoc(UdpJsonExch::getInstance()->recvBuff, strlen(UdpJsonExch::getInstance()->recvBuff), Request::ACK);
                 copyRecvBuff(messageData.recvMessageBuff, UdpJsonExch::getInstance()->recvBuff);
@@ -308,7 +308,7 @@ term("case Circular")
                 assignedData.key = subjectKey.key;
 
 //                missedCall.remove(assignedData.key);
-                switchLed(subjectKey.key, true, 250, 250);
+                switchLed(subjectKey.key, true, 250, 250, GPIO::RED);
 
                 copyRecvBuff(messageData.recvMessageBuff, UdpJsonExch::getInstance()->recvBuff);
                 retransmitMessage(UdpJsonExch::getInstance()->recvBuff, strlen(UdpJsonExch::getInstance()->recvBuff), Request::ACK_ANSW);
@@ -347,7 +347,7 @@ term("case Conference")
                 assignedData.key = assignedData.conferenceKey;
 
                 missedCall.remove(assignedData.key);
-                switchLed(assignedData.conferenceKey, true, 250, 250);
+                switchLed(assignedData.conferenceKey, true, 250, 250, GPIO::GREEN);
                 startRingTone(RingToneType::RING_TONE);
 
                 retransmitMessage(UdpJsonExch::getInstance()->recvBuff, strlen(UdpJsonExch::getInstance()->recvBuff), Request::ACK);
@@ -367,7 +367,7 @@ term("case Conference")
             assignedData.priority = 4;
             isIncomingCall = true;
             missedCall.remove(assignedData.key);
-            switchLed(assignedData.key, true, 250, 250);
+            switchLed(assignedData.key, true, 250, 250, GPIO::RED);
             control = Control::NONE;
 //            sendUdpMulticast(UdpJsonExch::getInstance()->recvBuff, strlen(UdpJsonExch::getInstance()->recvBuff));
             copyRecvBuff(messageData.recvMessageBuff, UdpJsonExch::getInstance()->recvBuff);
@@ -559,13 +559,12 @@ term("callcontrol.cpp")
 
 bool CallControl::popDynamicStorage(std::vector <uint16_t>& v, uint16_t subject)
 {
-term("CallControl::popDynamicStorage")
     uint8_t key = 0;
     if (!v.empty()) {
         for (uint8_t i = 0; i < v.size(); ++i) {
             if (*(v.begin() + i) == subject) {
                 key = getKey(subject);
-                switchLed(key, false);
+                switchLed(key, false, GPIO::RED);
 //                osDelay(5);
                 v.erase((v.begin() + i));
                 return true;
@@ -599,7 +598,7 @@ term("CallControl::pushDynamicStorage")
             v.push_back(subject);
             key = getKey(subject);
             missedCall.remove(key);
-            switchLed(key, true);
+            switchLed(key, true, GPIO::RED);
             return true;
         }
     }
@@ -885,12 +884,12 @@ term("CallControl::switchToConf")
             uint8_t key = 0;
             for (auto &n : dynamicStorage) {
                 key = getKey(n);
-                switchLed(key, true);
+                switchLed(key, true, GPIO::RED);
                 osDelay(10);
             }
         }
 
-        switchLed(assignedData.conferenceKey, true);
+        switchLed(assignedData.conferenceKey, true, GPIO::RED);
         assignedData.key = assignedData.conferenceKey;
         assignedData.priority = assignedData.confPriority;
         TransitionTo(new ConferenceCall);
@@ -910,12 +909,12 @@ term("CallControl::switchToConf")
     return false;
 }
 
-void switchLed(uint8_t ledNumber, bool ledOn, uint16_t timeOn, uint16_t timeOff, uint8_t repeatNum)
+void switchLed(uint8_t ledNumber, bool ledOn, uint16_t timeOn, uint16_t timeOff, uint8_t repeatNum, GPIO::Color colour)
 {
 #ifndef SC2BOARD
     CAN::getInstance()->configLed(ledNumber, ledOn, timeOn, timeOff, repeatNum);
 #else
 
-    GPIO::getInstance()->configLed(ledNumber, ledOn, timeOn, timeOff, repeatNum, GPIO::RED);
+    GPIO::getInstance()->configLed(ledNumber, ledOn, timeOn, timeOff, repeatNum, colour);
 #endif
 }

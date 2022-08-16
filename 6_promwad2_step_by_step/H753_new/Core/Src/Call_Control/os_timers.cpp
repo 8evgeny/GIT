@@ -102,7 +102,7 @@ void handleRelasedButtonTimer_Callback(void const *arg)
         } else if (UdpJsonExch::getInstance()->callControl->assignedData.key == CallControl::Asterisk) {
             if (UdpJsonExch::getInstance()->callControl->subjectKey.key != CallControl::Asterisk
                     && UdpJsonExch::getInstance()->callControl->subjectKey.key != CallControl::Hash)
-                switchLed(UdpJsonExch::getInstance()->callControl->subjectKey.key, false);
+                switchLed(UdpJsonExch::getInstance()->callControl->subjectKey.key, false, GPIO::GREEN);
             stopDtmfTone();
         }
 
@@ -164,8 +164,8 @@ void dialingTimer_Callback(void const *arg)
         UdpJsonExch::getInstance()->callControl->telephoneDynamicStorage.clear();
 
     } else {
-        switchLed(UdpJsonExch::getInstance()->callControl->assignedData.key, false);
-        switchLed(UdpJsonExch::getInstance()->callControl->subjectKey.key, false);
+        switchLed(UdpJsonExch::getInstance()->callControl->assignedData.key, false, GPIO::GREEN);
+        switchLed(UdpJsonExch::getInstance()->callControl->subjectKey.key, false, GPIO::GREEN);
         stopDtmfTone();
         UdpJsonExch::getInstance()->callControl->resetData();
         UdpJsonExch::getInstance()->callControl->telephoneDynamicStorage.clear();

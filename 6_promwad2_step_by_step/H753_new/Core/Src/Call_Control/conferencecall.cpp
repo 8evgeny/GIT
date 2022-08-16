@@ -69,7 +69,7 @@ void ConferenceCall::handleJsonMessage()
                     context_->missedCall.add(context_->assignedData.key);
                 } else {
                     context_->removeRtp();
-                    switchLed(context_->assignedData.conferenceKey, false);
+                    switchLed(context_->assignedData.conferenceKey, false, GPIO::GREEN);
                     context_->microphone.stop();
                 }
 
@@ -96,7 +96,7 @@ void ConferenceCall::handleJsonMessage()
 
                     context_->microphone.stop();
                     context_->removeRtp();
-                    switchLed(context_->assignedData.conferenceKey, false);
+                    switchLed(context_->assignedData.conferenceKey, false, GPIO::GREEN);
                     context_->resetData();
                     if(!context_->switchToConf())
                         this->context_->TransitionTo(new CallWaiting);
@@ -118,7 +118,7 @@ void ConferenceCall::handleJsonMessage()
                     context_->microphone.stop();
 
                     context_->removeRtp();
-                    switchLed(context_->assignedData.conferenceKey, false);
+                    switchLed(context_->assignedData.conferenceKey, false, GPIO::GREEN);
 
                     if (!context_->isIncomingCall) {
 
@@ -188,7 +188,7 @@ void ConferenceCall::handleJsonMessage()
             }
 
             key = context_->getKey(context_->messageData.field.distId);
-            switchLed(key, true, 300, 300, 2);
+            switchLed(key, true, 300, 300, 2, GPIO::GREEN);
 
 //            memcpy(context_->serviceData->recvBuffCopy, UdpJsonExch::getInstance()->recvBuff, strlen(UdpJsonExch::getInstance()->recvBuff) + 1);
 //            context_->sendRequest(CallControl::Request::ACK);
@@ -203,7 +203,7 @@ void ConferenceCall::handleJsonMessage()
                 uint16_t assign = context_->inputBuff.shift();
                 uint8_t key = context_->getKey(assign);
                 context_->busyDynamicStorage.push_back(assign);
-                switchLed(key, true, 900, 100);
+                switchLed(key, true, 900, 100, GPIO::GREEN);
                 context_->osTimer.stop(context_->osTimer.request_timerId, context_->osTimer.request_timerStatus);
                 context_->retransmitMessage(UdpJsonExch::getInstance()->recvBuff, strlen(UdpJsonExch::getInstance()->recvBuff), CallControl::Request::ACK);
             }
@@ -216,7 +216,7 @@ void ConferenceCall::handleJsonMessage()
                     context_->popDynamicStorage(context_->dynamicStorage, context_->messageData.field.distId);
                     uint8_t key = context_->getKey(context_->messageData.field.distId);
                     context_->busyDynamicStorage.push_back(context_->messageData.field.distId);
-                    switchLed(key, true, 900, 100);
+                    switchLed(key, true, 900, 100, GPIO::GREEN);
                     context_->retransmitMessage(UdpJsonExch::getInstance()->recvBuff, strlen(UdpJsonExch::getInstance()->recvBuff), CallControl::Request::ACK);
                 }
             }
@@ -246,7 +246,7 @@ void ConferenceCall::handleLostLink()
     context_->osTimer.stop(context_->osTimer.request_timerId, context_->osTimer.request_timerStatus);
     context_->microphone.stop();
     context_->removeRtp();
-    switchLed(context_->assignedData.conferenceKey, false);
+    switchLed(context_->assignedData.conferenceKey, false, GPIO::GREEN);
 
     if (!context_->isIncomingCall) {
 
@@ -316,7 +316,7 @@ void ConferenceCall::handleRepeatedRequestCallBack()
                     uint16_t assign = context_->inputBuff.shift();
                     uint8_t key = context_->getKey(assign);
                     context_->busyDynamicStorage.push_back(assign);
-                    switchLed(key, true, 900, 100);
+                    switchLed(key, true, 900, 100, GPIO::GREEN);
                 }
 
                 if (!context_->inputBuff.isEmpty()) {
@@ -328,7 +328,7 @@ void ConferenceCall::handleRepeatedRequestCallBack()
             break;
             case CallControl::Control::ANSWER: {
                 context_->resetData();
-                switchLed(context_->subjectKey.key, false);
+                switchLed(context_->subjectKey.key, false, GPIO::GREEN);
                 if(!context_->switchToConf())
                     context_->TransitionTo(new CallWaiting);
             }
@@ -352,7 +352,7 @@ void ConferenceCall::handleRepeatedRequestCallBack()
                     context_->microphone.stop();
                     context_->removeRtp();
                     context_->resetData();
-                    switchLed(context_->assignedData.conferenceKey, false);
+                    switchLed(context_->assignedData.conferenceKey, false, GPIO::GREEN);
                     if(!context_->switchToConf())
                         context_->TransitionTo(new CallWaiting);
                 } else {
@@ -370,7 +370,7 @@ void ConferenceCall::handleRepeatedRequestCallBack()
 
                             context_->microphone.stop();
                             context_->removeRtp();
-                            switchLed(context_->assignedData.conferenceKey, false);
+                            switchLed(context_->assignedData.conferenceKey, false, GPIO::GREEN);
                             context_->resetData();
                             this->context_->TransitionTo(new CallWaiting);
                         }
@@ -397,7 +397,7 @@ void ConferenceCall::endConferenceCall()
 {
     switchOffLeds(context_->busyDynamicStorage);
     context_->busyDynamicStorage.clear();
-    switchLed(context_->assignedData.conferenceKey, false);
+    switchLed(context_->assignedData.conferenceKey, false, GPIO::GREEN);
     context_->microphone.stop();
     context_->removeRtp();
 
@@ -417,7 +417,7 @@ void ConferenceCall::hungUp()
 {
     stopRingTone();
     context_->microphone.stop();
-    switchLed(context_->assignedData.conferenceKey, false);
+    switchLed(context_->assignedData.conferenceKey, false, GPIO::GREEN);
     context_->removeRtp();
     if (context_->isInterruptConf != CallControl::InterruptConf::CALLED_PARTY) {
         context_->calledPartyConfDataBuff.clear();
@@ -448,7 +448,7 @@ void ConferenceCall::switchOffLeds(std::vector <uint16_t> &v)
     if (!v.empty()) {
         for (auto &n : v) {
             key = context_->getKey(n);
-            switchLed(key, false);
+            switchLed(key, false, GPIO::GREEN);
             osDelay(10);
         }
     }
@@ -535,7 +535,7 @@ void ConferenceCall::handleAck()
 //                context_->control = Control::None;
                 context_->osTimer.stop(context_->osTimer.request_timerId, context_->osTimer.request_timerStatus);
                 context_->createRtp(context_->messageData.field.prevOwnId, context_->Duplex_type);
-                switchLed(context_->subjectKey.key, true);
+                switchLed(context_->subjectKey.key, true, GPIO::GREEN);
                 context_->microphone.start();
                 context_->isAnsweredCall = true;
 

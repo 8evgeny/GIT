@@ -625,9 +625,7 @@ void switchLed(uint8_t ledNumber,
                bool ledOn = true,
                uint16_t timeOn = 0,
                uint16_t timeOff = 0,
-               uint8_t repeatNum = 0);
-
-
-
+               uint8_t repeatNum = 0,
+               GPIO::Color =  GPIO::GREEN);
 
 #endif // CALLCONTROL_H

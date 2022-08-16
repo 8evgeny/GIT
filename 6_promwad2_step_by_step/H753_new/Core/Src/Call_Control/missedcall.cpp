@@ -21,14 +21,14 @@ void MissedCall::add(const uint8_t key)
             missedCallData.key = key;
             missedCalls.push_back(missedCallData);
         }
-        switchLed(key, true, 100, 900);
+        switchLed(key, true, 100, 900, GPIO::RED);
     }
 }
 
 bool MissedCall::remove(const uint8_t key)
 {
     if (seek(key)) {
-        switchLed(key, false);
+        switchLed(key, false, GPIO::RED);
         missedCalls.erase(i);
         i = missedCalls.begin();
         return true;
