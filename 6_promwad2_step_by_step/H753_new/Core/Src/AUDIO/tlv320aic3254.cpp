@@ -5,6 +5,15 @@
 #include "rs232.h"
 #include "aic3254_reg.h"
 
+TLV320AIC3254 *TLV320AIC3254::pInstance = nullptr;
+
+TLV320AIC3254 *TLV320AIC3254::getInstance()
+{
+    if (!pInstance) pInstance = new TLV320AIC3254();
+    return pInstance;
+}
+
+
 //soft reset
 static const struct Aic3254Configs SoftReset[] {
     {TLV320AIC3254_REG_PAGE_SELECT, 0x0},

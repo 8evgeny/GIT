@@ -207,6 +207,11 @@ void GPIO::downVolume(void)
         osMutexWait(GPIO::getInstance()->mutexButtons_id, osWaitForever);
         I2C::getInstance()->writeRegister(I2C_ADDRESS, ConfigureDAC_VOL[i].regOffset, ConfigureDAC_VOL[i].regVal, true);
         osMutexRelease(GPIO::getInstance()->mutexButtons_id);
+
+//        startRingTone(RingToneType::RING_BACK_BUSY_TONE);
+//        HAL_SAI_DMAStop(&audioTxSai);
+//        stopRingTone();
+
     }
 
 }
@@ -590,9 +595,7 @@ extern "C" {
                 GPIO::getInstance()->dacDriverSensValue = GPIO::getInstance()->dacDriverSensValue + GPIO::getInstance()->dacDriverSensValueStep;
                 sensUpPressed = true;
                 term2(GPIO::getInstance()->dacDriverSensValue / 2 )
-                startRingTone(RingToneType::RING_TONE);
-                osDelay(100);
-                stopRingTone();
+
 //            }
         }
         else if (GPIO_Pin == GPIO_PIN_12)
@@ -605,10 +608,6 @@ extern "C" {
                 GPIO::getInstance()->dacDriverSensValue = GPIO::getInstance()->dacDriverSensValue - GPIO::getInstance()->dacDriverSensValueStep;
                 sensDownPressed = true;
                 term2(GPIO::getInstance()->dacDriverSensValue / 2)
-
-                startRingTone(RingToneType::RING_TONE);
-                osDelay(100);
-                stopRingTone();
 
 //            }
         }

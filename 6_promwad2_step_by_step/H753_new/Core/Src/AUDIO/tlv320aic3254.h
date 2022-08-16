@@ -24,7 +24,7 @@ public:
     SAI *pSAI;
 
     TLV320AIC3254();
-
+    static TLV320AIC3254 *getInstance();
     /*!
      \brief This method is required to initialize the audio codec.
 
@@ -39,7 +39,8 @@ public:
     void configFilter();
     void mute();
     constexpr static uint32_t I2C_ADDRESS = 49; /*! Device address on the bus */
-
+private:
+    static TLV320AIC3254 *pInstance;
 };
 
 #endif // TLV320AIC3254_H
