@@ -63,6 +63,7 @@ public:
     void downVolume(void);
     void upSens(void);
     void downSens(void);
+    void signalMaxMin(void);
 
     void test(void);
 
@@ -96,15 +97,15 @@ public:
     osThreadId createTestTaskThreadId, testThreadId, trackRingBufferThreadId;
 
 //Vol
-    volatile int8_t dacDriverGainValue = 0xC8 ; //-28
-    volatile int8_t dacDriverGainValueMax = 0xF4; //-6
-    volatile int8_t dacDriverGainValueMin = 0x98; //-52
-    volatile int8_t dacDriverGainValueStep = 0x02;
+    volatile int8_t dacDriverGainValue = 0xD0 ; //-24
+    volatile int8_t dacDriverGainValueMax = 0xF0; //-8
+    volatile int8_t dacDriverGainValueMin = 0xB0; //-40
+    volatile int8_t dacDriverGainValueStep = 0x04;
 //Sens
-    volatile int8_t dacDriverSensValue = 0x00 ;
+    volatile int8_t dacDriverSensValue = 0x08 ; //4dB
     volatile int8_t dacDriverSensValueMax = 0x28; //20dB
     volatile int8_t dacDriverSensValueMin = 0xE8; //-12dB
-    volatile int8_t dacDriverSensValueStep = 0x02;
+    volatile int8_t dacDriverSensValueStep = 0x04;
 
     constexpr static uint16_t sizeCircularBuffer = 1040;
     CircularBuffer <PackageRx, sizeCircularBuffer> ringBufferRx;
