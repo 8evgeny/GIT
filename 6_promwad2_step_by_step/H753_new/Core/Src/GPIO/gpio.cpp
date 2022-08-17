@@ -1326,40 +1326,40 @@ void GPIO::initBUTTONS_SC4()
 
 uint8_t GPIO::findBUTTONS_SC4(uint8_t num, uint8_t adr, uint8_t reg)
 {
-#ifdef SC4
-uint8_t ret = 0;
-switch (num)
-{
-    case 254: if(adr == 0) reg == 0? ret = 1:ret = 9;
-              if(adr == 1) reg == 0? ret = 17:ret = 25;
-              break;
-    case 253: if(adr == 0) reg == 0? ret = 2:ret = 10;
-              if(adr == 1) reg == 0? ret = 18:ret = 26;
-              break;
-    case 251: if(adr == 0) reg == 0? ret = 3:ret = 11;
-              if(adr == 1) reg == 0? ret = 19:ret = 27;
-              break;
-    case 247: if(adr == 0) reg == 0? ret = 4:ret = 12;
-              if(adr == 1) reg == 0? ret = 20:ret = 28;
-              break;
-    case 239: if(adr == 0) reg == 0? ret = 5:ret = 13;
-              if(adr == 1) reg == 0? ret = 21:ret = 29;
-              break;
-    case 223: if(adr == 0) reg == 0? ret = 6:ret = 14;
-              if(adr == 1) reg == 0? ret = 22:ret = 30;
-              break;
-    case 191: if(adr == 0) reg == 0? ret = 7:ret = 15;
-              if(adr == 1) reg == 0? ret = 23:ret = 31;
-              break;
-    case 127: if(adr == 0) reg == 0? ret = 8:ret = 16;
-              if(adr == 1) reg == 0? ret = 24:ret = 32;
-              break;
+    uint8_t ret = 0;
+    if (boardType == sc4)
+    {
+        switch (num)
+        {
+            case 254: if(adr == 0) reg == 0? ret = 1:ret = 9;
+                      if(adr == 1) reg == 0? ret = 17:ret = 25;
+                      break;
+            case 253: if(adr == 0) reg == 0? ret = 2:ret = 10;
+                      if(adr == 1) reg == 0? ret = 18:ret = 26;
+                      break;
+            case 251: if(adr == 0) reg == 0? ret = 3:ret = 11;
+                      if(adr == 1) reg == 0? ret = 19:ret = 27;
+                      break;
+            case 247: if(adr == 0) reg == 0? ret = 4:ret = 12;
+                      if(adr == 1) reg == 0? ret = 20:ret = 28;
+                      break;
+            case 239: if(adr == 0) reg == 0? ret = 5:ret = 13;
+                      if(adr == 1) reg == 0? ret = 21:ret = 29;
+                      break;
+            case 223: if(adr == 0) reg == 0? ret = 6:ret = 14;
+                      if(adr == 1) reg == 0? ret = 22:ret = 30;
+                      break;
+            case 191: if(adr == 0) reg == 0? ret = 7:ret = 15;
+                      if(adr == 1) reg == 0? ret = 23:ret = 31;
+                      break;
+            case 127: if(adr == 0) reg == 0? ret = 8:ret = 16;
+                      if(adr == 1) reg == 0? ret = 24:ret = 32;
+                      break;
 
-    default : if(adr == 0) reg == 0? ret = 1:ret = 9;
-              if(adr == 1) reg == 0? ret = 17:ret = 25;
-              break;
-}
-
-return ret;
-#endif
+            default : if(adr == 0) reg == 0? ret = 1:ret = 9;
+                      if(adr == 1) reg == 0? ret = 17:ret = 25;
+                      break;
+        }
+    }
+    return ret;
 }
