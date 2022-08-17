@@ -671,14 +671,8 @@ extern "C" {
 void timerCallback(void const *arg)
 {
     (void)arg;
-    for (uint8_t i = 0; i <
-#ifdef SC4
-                        keysNum;
-#endif
-#ifndef SC4
-                        6;
-#endif
-         i++) {
+    for (uint8_t i = 0; i < keysNum; i++)
+    {
         if (GPIO::getInstance()->aLeds[i].timeStart)
         {
             GPIO::getInstance()->aLeds[i].count += 1;
@@ -939,30 +933,28 @@ term("--- readButtonThread ---")
 
 void GPIO::initLEDS_SC2()
 {
-#ifndef SC4
-//    for (uint8_t i = 0, j = 6; i < 6; i++, j++) {
-//        if (i == 3) j = 10;
-//        aLeds[i].ledPin = aPin[j];
-//    }
-    aLeds[0].ledPin = GPIO_PIN_6;
-    aLeds[1].ledPin = GPIO_PIN_10;
-    aLeds[2].ledPin = GPIO_PIN_7;
-    aLeds[3].ledPin = GPIO_PIN_11;
-    aLeds[4].ledPin = GPIO_PIN_8;
-    aLeds[5].ledPin = GPIO_PIN_12;
-#endif
+    if (boardType == sc2)
+    {
+        aLeds[0].ledPin = GPIO_PIN_6;
+        aLeds[1].ledPin = GPIO_PIN_10;
+        aLeds[2].ledPin = GPIO_PIN_7;
+        aLeds[3].ledPin = GPIO_PIN_11;
+        aLeds[4].ledPin = GPIO_PIN_8;
+        aLeds[5].ledPin = GPIO_PIN_12;
+    }
 }
 
 void GPIO::initBUTTONS_SC2()
 {
-#ifndef SC4
-    buttonArray[0].i = 1;     buttonArray[0].n = GPIO_PIN_11;
-    buttonArray[1].i = 2;     buttonArray[1].n = GPIO_PIN_12;
-    buttonArray[2].i = 3;     buttonArray[2].n = GPIO_PIN_10;
-    buttonArray[3].i = 4;     buttonArray[3].n = GPIO_PIN_13;
-    buttonArray[4].i = 5;     buttonArray[4].n = GPIO_PIN_9;
-    buttonArray[5].i = 6;     buttonArray[5].n = GPIO_PIN_14;
-#endif
+    if (boardType == sc2)
+    {
+        buttonArray[0].i = 1;     buttonArray[0].n = GPIO_PIN_11;
+        buttonArray[1].i = 2;     buttonArray[1].n = GPIO_PIN_12;
+        buttonArray[2].i = 3;     buttonArray[2].n = GPIO_PIN_10;
+        buttonArray[3].i = 4;     buttonArray[3].n = GPIO_PIN_13;
+        buttonArray[4].i = 5;     buttonArray[4].n = GPIO_PIN_9;
+        buttonArray[5].i = 6;     buttonArray[5].n = GPIO_PIN_14;
+    }
 }
 
 

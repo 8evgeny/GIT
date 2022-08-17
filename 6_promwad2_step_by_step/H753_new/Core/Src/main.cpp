@@ -213,21 +213,20 @@ uint8_t MCP23017_max_address;
 
 uint8_t getCFG(void)
 {
-      uint8_t res = 0;
-#ifdef SC4
-      if (HAL_GPIO_ReadPin(GPIOC, CFG_UI0_Pin)==GPIO_PIN_SET)
-          res |= 1;
-      if (HAL_GPIO_ReadPin(GPIOC, CFG_UI1_Pin)==GPIO_PIN_SET)
-          res |= 2;
-      if (HAL_GPIO_ReadPin(GPIOC, CFG_UI2_Pin)==GPIO_PIN_SET)
-          res |= 4;
-#endif
+    uint8_t res = 0;
+    if (boardType == sc4)
+    {
+          if (HAL_GPIO_ReadPin(GPIOC, CFG_UI0_Pin)==GPIO_PIN_SET)
+              res |= 1;
+          if (HAL_GPIO_ReadPin(GPIOC, CFG_UI1_Pin)==GPIO_PIN_SET)
+              res |= 2;
+          if (HAL_GPIO_ReadPin(GPIOC, CFG_UI2_Pin)==GPIO_PIN_SET)
+              res |= 4;
+    }
     return res;
 }
 
-#ifdef SC4
 uint8_t keysNum;
-#endif
 
 int main(void)
 {
@@ -254,6 +253,7 @@ int main(void)
     {
         //Такой-же код у платы SC4 32N - его нужно будет изменить или ввести пин для определенияя SC2-SC4-SL1
         boardType = sc2;
+        keysNum = 6;
     }
     else
     {
