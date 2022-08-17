@@ -297,19 +297,20 @@ int main(void)
     //        RS232::getInstance().term << __FUNCTION__ << " " << __LINE__ << " " << "\n";
     //    }
 
-#ifdef SC4
-    term1("getCFG()") term(getCFG())
-
-    switch (getCFG())
+    if (boardType == sc4)
     {
-    case 0: TLC59116F_max_address = 2; MCP23017_max_address = 1; keysNum = 16; break; //УИ-16-1
-        case 1: TLC59116F_max_address = 4; MCP23017_max_address = 2; keysNum = 32 ; break;	//УИ-32-1
-        case 2: TLC59116F_max_address = 6; MCP23017_max_address = 3; keysNum = 48; break;	//УИ-48-1
-        case 3: TLC59116F_max_address = 2; MCP23017_max_address = 1; keysNum = 16; break;	//УИ-16Н-1
-        case 4: TLC59116F_max_address = 4; MCP23017_max_address = 2; keysNum = 32; break;	//УИ-32Н-1
-        default: TLC59116F_max_address = 6; MCP23017_max_address = 3; keysNum = 48; break;
+        term1("getCFG()") term(getCFG())
+
+        switch (getCFG())
+        {
+        case 0: TLC59116F_max_address = 2; MCP23017_max_address = 1; keysNum = 16; break; //УИ-16-1
+            case 1: TLC59116F_max_address = 4; MCP23017_max_address = 2; keysNum = 32 ; break;	//УИ-32-1
+            case 2: TLC59116F_max_address = 6; MCP23017_max_address = 3; keysNum = 48; break;	//УИ-48-1
+            case 3: TLC59116F_max_address = 2; MCP23017_max_address = 1; keysNum = 16; break;	//УИ-16Н-1
+            case 4: TLC59116F_max_address = 4; MCP23017_max_address = 2; keysNum = 32; break;	//УИ-32Н-1
+            default: TLC59116F_max_address = 6; MCP23017_max_address = 3; keysNum = 48; break;
+        }
     }
-#endif
     mutexEth_id = osMutexCreate(osMutex(mutexEth));
 
     memset(buff_config,' ',sizeof(buff_config));
