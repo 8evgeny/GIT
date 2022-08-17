@@ -881,13 +881,14 @@ static void MX_GPIO_Init(void)
     /*Configure GPIO pin Output Level */
     HAL_GPIO_WritePin(GPIOB, POW_DOWN_Pin|TEST_LED_Pin, GPIO_PIN_SET);
 
-#ifndef SC4
-    /*Configure GPIO pin Output Level */
-    HAL_GPIO_WritePin(GPIOG, L4_Pin|L5_Pin|L6_Pin, GPIO_PIN_RESET);
+    if (boardType == sc2)
+    {
+        /*Configure GPIO pin Output Level */
+        HAL_GPIO_WritePin(GPIOG, GPIO_PIN_6|GPIO_PIN_7|GPIO_PIN_8, GPIO_PIN_RESET);
 
-    /*Configure GPIO pin Output Level */
-    HAL_GPIO_WritePin(GPIOC, L1_Pin|L2_Pin|L3_Pin, GPIO_PIN_RESET);
-#endif
+        /*Configure GPIO pin Output Level */
+        HAL_GPIO_WritePin(GPIOC, GPIO_PIN_10|GPIO_PIN_11|GPIO_PIN_12, GPIO_PIN_RESET);
+    }
 
     /*Configure GPIO pins : POW_DOWN_Pin TEST_LED_Pin */
     GPIO_InitStruct.Pin = POW_DOWN_Pin|TEST_LED_Pin;
@@ -941,7 +942,7 @@ static void MX_GPIO_Init(void)
 
 #ifdef SC4
     //Пины для чтения типа платы клавиатуры
-    GPIO_InitStruct.Pin = CFG_UI0_Pin|CFG_UI1_Pin|CFG_UI2_Pin;
+    GPIO_InitStruct.Pin = GPIO_PIN_6|GPIO_PIN_7|GPIO_PIN_8;
     GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
     HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
