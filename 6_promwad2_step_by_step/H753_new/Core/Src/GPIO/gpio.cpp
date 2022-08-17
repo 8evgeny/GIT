@@ -738,8 +738,6 @@ void switchLEDsThread(void const *arg)
     if (boardType == sc4)
     {
         (void)arg;
-        term("--- switchLEDsThread SC4 ---")
-
         GPIO::getInstance()->initLEDS_SC4();
         GPIO::getInstance()->testLed();
 
@@ -819,7 +817,6 @@ void readButtonThread(void const *arg)
         PackageRx tempPack;
         tempPack.packetType = GPIO::getInstance()->button;
         GPIO::getInstance()->initBUTTONS_SC4();
-        term("--- readButtonThread SC4 ---")
         uint8_t readBoard = 0;
         uint8_t numButton = 0;
         uint32_t tickstart = HAL_GetTick();

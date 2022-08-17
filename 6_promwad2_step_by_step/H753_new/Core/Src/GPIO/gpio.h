@@ -83,9 +83,6 @@ public:
     uint8_t findBUTTONS_SC4(uint8_t num, uint8_t adr, uint8_t reg);
     void SC4_EXTI_IRQHandler_Config();
     void testLed();
-#ifndef SC4
-    constexpr static uint8_t keysNum = 6; /*!< Number of the keys on the keyboard */
-#endif
 
     osMessageQId message_q_id;  /*!< ID for the message queue */
 
