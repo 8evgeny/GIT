@@ -1076,35 +1076,36 @@ void EXTI15_10_IRQHandler(void)
     HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_12);
 }
 
-void GPIO::SC4_EXTI_IRQHandler_Config() {
-  GPIO_InitTypeDef   GPIO_InitStructure;
+void GPIO::SC4_EXTI_IRQHandler_Config()
+{
+    GPIO_InitTypeDef   GPIO_InitStructure;
 
-  //button TEST interrupt pin setup
-  GPIO_InitStructure.Mode = GPIO_MODE_IT_RISING_FALLING;
-  GPIO_InitStructure.Pull = GPIO_PULLUP;
-  GPIO_InitStructure.Pin = TEST_BUT_Pin;
-  HAL_GPIO_Init(TEST_BUT_GPIO_Port, &GPIO_InitStructure);
+    //button TEST interrupt pin setup
+    GPIO_InitStructure.Mode = GPIO_MODE_IT_RISING_FALLING;
+    GPIO_InitStructure.Pull = GPIO_PULLUP;
+    GPIO_InitStructure.Pin = TEST_BUT_Pin;
+    HAL_GPIO_Init(TEST_BUT_GPIO_Port, &GPIO_InitStructure);
 
-#ifdef SC4
-  //button UI board interrupt pin setup
-  GPIO_InitStructure.Mode = GPIO_MODE_IT_RISING;
-  GPIO_InitStructure.Pull = GPIO_PULLUP;
-  GPIO_InitStructure.Pin = GPIO_PIN_4;
-  HAL_GPIO_Init(GPIOA, &GPIO_InitStructure);
+    if (boardType == sc4)
+    {
+        //button UI board interrupt pin setup
+        GPIO_InitStructure.Mode = GPIO_MODE_IT_RISING;
+        GPIO_InitStructure.Pull = GPIO_PULLUP;
+        GPIO_InitStructure.Pin = GPIO_PIN_4;
+        HAL_GPIO_Init(GPIOA, &GPIO_InitStructure);
 
-  // Configure GPIO for volume and sens buttons ######################*/
-  GPIO_InitStructure.Pin       = GPIO_PIN_9| GPIO_PIN_10 | GPIO_PIN_11 | GPIO_PIN_12;
-  GPIO_InitStructure.Mode      = GPIO_MODE_IT_FALLING;
-  GPIO_InitStructure.Pull      = GPIO_PULLUP;
-  HAL_GPIO_Init(GPIOA, &GPIO_InitStructure);
+        // Configure GPIO for volume and sens buttons ######################*/
+        GPIO_InitStructure.Pin       = GPIO_PIN_9| GPIO_PIN_10 | GPIO_PIN_11 | GPIO_PIN_12;
+        GPIO_InitStructure.Mode      = GPIO_MODE_IT_FALLING;
+        GPIO_InitStructure.Pull      = GPIO_PULLUP;
+        HAL_GPIO_Init(GPIOA, &GPIO_InitStructure);
 
-  HAL_NVIC_SetPriority(EXTI15_10_IRQn, 5, 0);
-  HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
+        HAL_NVIC_SetPriority(EXTI15_10_IRQn, 5, 0);
+        HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
+    }
 
-#endif
-
-  HAL_NVIC_SetPriority(EXTI9_5_IRQn, 5, 0);
-  HAL_NVIC_EnableIRQ(EXTI9_5_IRQn);
+    HAL_NVIC_SetPriority(EXTI9_5_IRQn, 5, 0);
+    HAL_NVIC_EnableIRQ(EXTI9_5_IRQn);
 }
 
 #ifdef __cplusplus
@@ -1282,46 +1283,48 @@ void GPIO::testLed()
 
 void GPIO::initLEDS_SC4()
 {
-#ifdef SC4
-    for (uint8_t i = 0; i < TLC59116F_max_address; i++)
+    if (boardType == sc4)
     {
-        I2C::getInstance()->writeRegister(TLC59116F_address[i], 0x00, 0x00, false);
-    }
+        for (uint8_t i = 0; i < TLC59116F_max_address; i++)
+        {
+            I2C::getInstance()->writeRegister(TLC59116F_address[i], 0x00, 0x00, false);
+        }
 
-    //Яркость
-    for (uint8_t i = 0; i < TLC59116F_max_address; i++)
-    {
-       // зеленый  TLC59116F_registerBright
-         for (uint8_t j = 0; j < 16; j++)
-         {//Индивидуальная яркость
-             I2C::getInstance()->writeRegister(TLC59116F_address[i], TLC59116F_registerBright[j], 0x30, false);
-         }
+        //Яркость
+        for (uint8_t i = 0; i < TLC59116F_max_address; i++)
+        {
+           // зеленый  TLC59116F_registerBright
+             for (uint8_t j = 0; j < 16; j++)
+             {//Индивидуальная яркость
+                 I2C::getInstance()->writeRegister(TLC59116F_address[i], TLC59116F_registerBright[j], 0x30, false);
+             }
+        }
     }
-#endif
 }
 
 void GPIO::initBUTTONS_SC4()
 {
-#ifdef SC4
-    for (uint8_t i = 0; i < MCP23017_max_address * 16; ++i)
+    if (boardType == sc4)
     {
-        buttonArray[i].i = i;
-        buttonArray[i].n = 0;
-    }
-
-
-    for (uint8_t i = 0; i < MCP23017_max_address; ++i)
-    {
-        for (uint8_t j = 0; j < sizeof(MCP23017_Init_Val); j += 2)
+        for (uint8_t i = 0; i < MCP23017_max_address * 16; ++i)
         {
-            I2C::getInstance()->writeRegister(MCP23017_address[i], MCP23017_Init_Val[j] , MCP23017_Init_Val[j+1], false);
+            buttonArray[i].i = i;
+            buttonArray[i].n = 0;
         }
+
+
+        for (uint8_t i = 0; i < MCP23017_max_address; ++i)
+        {
+            for (uint8_t j = 0; j < sizeof(MCP23017_Init_Val); j += 2)
+            {
+                I2C::getInstance()->writeRegister(MCP23017_address[i], MCP23017_Init_Val[j] , MCP23017_Init_Val[j+1], false);
+            }
+        }
+
+        //Инициализация регистров телефонного номера
+
+
     }
-
-    //Инициализация регистров телефонного номера
-
-
-#endif
 }
 
 uint8_t GPIO::findBUTTONS_SC4(uint8_t num, uint8_t adr, uint8_t reg)
