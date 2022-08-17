@@ -40,6 +40,12 @@
 #define term2(x) (RS232::getInstance().term << x << "\r\n" );
 #define blank_str RS232::getInstance().term <<"\r\n";
 
+enum
+{
+    sc2,
+    sc4,
+    sl1
+};
 
 #ifdef __cplusplus
 extern "C" {

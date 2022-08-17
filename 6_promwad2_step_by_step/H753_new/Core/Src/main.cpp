@@ -51,6 +51,7 @@ static void MX_DMA_Init(void);
 static void MX_RNG_Init(void);
 void TaskEthernet_(void const * argument);
 
+uint8_t boardType;
 I2C_HandleTypeDef hi2c1;
 I2C_HandleTypeDef hi2c2;
 I2C_HandleTypeDef hi2c3;
@@ -252,20 +253,20 @@ int main(void)
             HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_8))
     {
         //Такой-же код у платы SC4 32N - его нужно будет изменить или ввести пин для определенияя SC2-SC4-SL1
-//        boardType = boardType::sc2;
+        boardType = sc2;
     }
     else
     {
-//        boardType = boardType::sc4;
+        boardType = sc4;
     }
 
     //    MX_FMC_Init();  //Вынес в SRAMInit
     //    MX_MDMA_Init(); //Вынес в SRAM
     //    MX_I2C1_Init(); //Вынесен в EEPROM
     MX_I2C2_Init(); //Кодек
-#ifdef SC4
-    MX_I2C3_Init(); //Внешняя плата клавиатуры и светодиодов
-#endif
+    if (boardType == sc4)
+        MX_I2C3_Init(); //Внешняя плата клавиатуры и светодиодов
+
 //    MX_SAI1_Init();
     MX_UART7_Init(); //Вынесен в RS232
     debugInit();
