@@ -245,6 +245,20 @@ int main(void)
 
     /* Initialize all configured peripherals */
     MX_GPIO_Init();
+
+    //Определяем тип платы SC2 или SC4
+    if (!HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_6) &&
+            !HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_7) &&
+            HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_8))
+    {
+        //Такой-же код у платы SC4 32N - его нужно будет изменить или ввести пин для определенияя SC2-SC4-SL1
+//        boardType = boardType::sc2;
+    }
+    else
+    {
+//        boardType = boardType::sc4;
+    }
+
     //    MX_FMC_Init();  //Вынес в SRAMInit
     //    MX_MDMA_Init(); //Вынес в SRAM
     //    MX_I2C1_Init(); //Вынесен в EEPROM
