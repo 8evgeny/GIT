@@ -29,7 +29,7 @@ bool sensDownPressed;
 bool signalMaxMin = false;
 
 extern SAI_HandleTypeDef audioTxSai;
-
+extern uint8_t boardType;
 static const uint16_t ring_length = 5136;
 alignas(4) static uint8_t ring_raw[] = {
 
@@ -537,9 +537,8 @@ void GPIOInit(void)
 GPIO::GPIO()
 {
     gpioInit = & GPIO_InitStruct;
-#ifndef SC4
-    initLEDS_SC2();
-#endif
+    if (boardType == sc2)
+        initLEDS_SC2();
 
     mutexRingBufferRx_id = osMutexCreate(osMutex(mutexRingBufferRx));
     mutexBoard_id = osMutexCreate(osMutex(mutexBoard));
@@ -552,13 +551,14 @@ GPIO::GPIO()
 
 //    message_q_id = osMessageCreate(osMessageQ(message_q), NULL);
 
-#ifndef SC4
-    initBUTTONS_SC2();
-#endif
-#ifdef SC4
-    i2cInitBoard();
-    SC4_EXTI_IRQHandler_Config();
-#endif
+    if (boardType == sc2)
+        initBUTTONS_SC2();
+
+    if (boardType == sc4)
+    {
+        i2cInitBoard();
+        SC4_EXTI_IRQHandler_Config();
+    }
 }
 
 GPIO *GPIO::getInstance()
