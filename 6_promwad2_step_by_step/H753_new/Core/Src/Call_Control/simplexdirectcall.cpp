@@ -14,7 +14,7 @@ term("SimplexDirectCall ")
         context_->microphone.stop();
 sprintf(msg,"assignedData.key= %d\r\n ",context_->assignedData.key);
 RS232Puts(msg);
-        switchLed(context_->assignedData.key, false, GPIO::GREEN);
+        switchLed(context_->assignedData.key, false);
 
         if (context_->control == CallControl::Control::NONE ||
                 context_->control == CallControl::Control::READY) {
@@ -47,7 +47,7 @@ term("SimplexDirectCall ")
                 context_->sendRequest(CallControl::Request::ACK);
 
                 context_->removeRtp();
-                switchLed(context_->assignedData.key, false, GPIO::GREEN);
+                switchLed(context_->assignedData.key, false);
                 context_->resetData();
                 if(!context_->switchToConf())
                     this->context_->TransitionTo(new CallWaiting);
@@ -58,7 +58,7 @@ term("SimplexDirectCall ")
                 context_->microphone.stop();
                 context_->sendRequest(CallControl::Request::ACK);
                 context_->removeRtp();
-                switchLed(context_->assignedData.key, false, GPIO::GREEN);
+                switchLed(context_->assignedData.key, false);
                 context_->resetData();
                 this->context_->TransitionTo(new CallWaiting);
             }
@@ -78,7 +78,7 @@ term("SimplexDirectCall ")
                     context_->microphone.stop();
 sprintf(msg,"assignedData.key= %d\r\n ",context_->assignedData.key);
 RS232Puts(msg);
-                    switchLed(context_->assignedData.key, false, GPIO::GREEN);
+                    switchLed(context_->assignedData.key, false);
 
                     context_->osTimer.stop(context_->osTimer.autoAnsw_timerId, context_->osTimer.autoAnsw_timerStatus);
 
@@ -118,9 +118,8 @@ RS232Puts(msg);
             if (context_->messageData.field.distId == context_->messageData.field.prevDistId) {
                 context_->control = CallControl::Control::NONE;
                 context_->copyRecvBuff(context_->messageData.recvMessageBuff, UdpJsonExch::getInstance()->recvBuff);
-sprintf(msg,"assignedData.key= %d\r\n ",context_->assignedData.key);
-RS232Puts(msg);
-                switchLed(context_->assignedData.key, true, GPIO::GREEN);
+
+                switchLed(context_->assignedData.key, true, 0,0,0, GPIO::GREEN);
 //                context_->messageData.field.prevPriority = context_->messageData.field.distPriority;
                 context_->microphone.start();
                 context_->createRtp(Json::getInstance()->thisStation.id, CallControl::Simplex_send_type);
@@ -134,7 +133,7 @@ RS232Puts(msg);
                 context_->control = CallControl::Control::BUSY;
                 context_->sendRequest(CallControl::Request::ACK);
                 startRingTone(RingToneType::RING_BACK_BUSY_TONE);
-                switchLed(context_->assignedData.key, true, 900, 100, GPIO::GREEN);
+                switchLed(context_->assignedData.key, true, 900, 100, 0, GPIO::GREEN);
 //                context_->serviceData->isBusy = true;
                 context_->osTimer.stop(context_->osTimer.request_timerId, context_->osTimer.request_timerStatus);
             }
@@ -152,7 +151,7 @@ term("SimplexDirectCall ")
         context_->osTimer.stop(context_->osTimer.request_timerId, context_->osTimer.request_timerStatus);
         context_->microphone.stop();
         context_->removeRtp();
-        switchLed(context_->assignedData.key, false, GPIO::GREEN);
+        switchLed(context_->assignedData.key, false);
         context_->resetData();
         if(!context_->switchToConf())
             context_->TransitionTo(new CallWaiting);
@@ -189,7 +188,7 @@ term("SimplexDirectCall ")
                     startRingTone(RingToneType::RING_BACK_BUSY_TONE);
 sprintf(msg,"assignedData.key= %d\r\n ",context_->assignedData.key);
 RS232Puts(msg);
-                    switchLed(context_->assignedData.key, true, 900, 100, GPIO::GREEN);
+                    switchLed(context_->assignedData.key, true, 900, 100, 0, GPIO::GREEN);
                 }
             }
             break;
@@ -197,7 +196,7 @@ RS232Puts(msg);
                 context_->resetData();
 sprintf(msg,"assignedData.key= %d\r\n ",context_->assignedData.key);
 RS232Puts(msg);
-                switchLed(context_->assignedData.key, false, GPIO::GREEN);
+                switchLed(context_->assignedData.key, false);
                 if(!context_->switchToConf())
                     context_->TransitionTo(new CallWaiting);
             }

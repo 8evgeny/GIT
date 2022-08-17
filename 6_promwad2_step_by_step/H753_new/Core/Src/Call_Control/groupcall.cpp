@@ -15,7 +15,7 @@ void GroupCall::handleButton()
 //            context_->sendRequest(CallControl::Group, CallControl::Request::HANG_UP, TIMEOUT);
 //        } else {
         context_->removeRtp();
-        switchLed(context_->assignedData.key, false, GPIO::GREEN);
+        switchLed(context_->assignedData.key, false);
 //        context_->isIncomingCall = false;
         context_->resetData();
         if(!context_->switchToConf())
@@ -35,7 +35,7 @@ void GroupCall::handleJsonMessage()
                 context_->retransmitMessage(UdpJsonExch::getInstance()->recvBuff, strlen(UdpJsonExch::getInstance()->recvBuff), context_->messageData.field.prevDistId, CallControl::Request::ACK);
 
                 context_->removeRtp();
-                switchLed(context_->assignedData.key, false, GPIO::GREEN);
+                switchLed(context_->assignedData.key, false);
                 context_->resetData();
                 if(!context_->switchToConf())
                     this->context_->TransitionTo(new CallWaiting);
@@ -52,7 +52,7 @@ void GroupCall::handleJsonMessage()
 
                     context_->microphone.stop();
                     context_->removeRtp();
-                    switchLed(context_->assignedData.key, false, GPIO::GREEN);
+                    switchLed(context_->assignedData.key, false);
 
 //                    if (!context_->isIncomingCall) {
 
@@ -118,7 +118,7 @@ void GroupCall::handleLostLink()
     if (context_->isIncomingCall) {
         context_->microphone.stop();
         context_->removeRtp();
-        switchLed(context_->assignedData.key, false, GPIO::GREEN);
+        switchLed(context_->assignedData.key, false);
         context_->resetData();
         if(!context_->switchToConf())
             context_->TransitionTo(new CallWaiting);
@@ -147,7 +147,7 @@ void GroupCall::handleRepeatedRequestCallBack()
             if (!subscriberNum) {
                 if (!context_->isIncomingCall) {
                     startRingTone(RingToneType::RING_BACK_BUSY_TONE);
-                    switchLed(context_->assignedData.key, true, 900, 100, GPIO::GREEN);
+                    switchLed(context_->assignedData.key, true, 900, 100, 0, GPIO::GREEN);
                 }
             }
 
@@ -172,7 +172,7 @@ void GroupCall::handleAck()
             subscriberNum++;
 //                if (context_->rtpStatus != OK_RTP) {
             context_->microphone.start();
-            switchLed(context_->assignedData.key, true, GPIO::GREEN);
+            switchLed(context_->assignedData.key, true, 0,0,0, GPIO::GREEN);
         }
 //                }
     }

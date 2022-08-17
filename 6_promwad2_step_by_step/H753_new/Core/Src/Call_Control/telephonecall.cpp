@@ -11,7 +11,7 @@ void TelephoneCall::handleButton()
 
         stopRingTone();
         context_->microphone.stop();
-        switchLed(context_->assignedData.key, false, GPIO::GREEN);
+        switchLed(context_->assignedData.key, false);
         if (!context_->telephoneDynamicStorage.empty())
             context_->telephoneDynamicStorage.clear();
 
@@ -42,7 +42,7 @@ void TelephoneCall::handleButton()
                 if (context_->subjectKey.key == var.n) {
                     if (context_->telephoneDynamicStorage.size() < 5) {
                         context_->telephoneDynamicStorage.push_back(var.i);
-                        switchLed(context_->subjectKey.key, true, GPIO::GREEN);
+                        switchLed(context_->subjectKey.key, true, 0,0,0, GPIO::GREEN);
                         context_->osTimer.start(context_->osTimer.telephone_timerId, context_->osTimer.telephone_timerStatus, DIALING_TIMEOUT);
                         startDtmfTone(var.i);
                         break;
@@ -69,7 +69,7 @@ void TelephoneCall::handleJsonMessage()
                     context_->missedCall.add(context_->assignedData.key);
                 } else {
                     context_->removeRtp();
-                    switchLed(context_->assignedData.key, false, GPIO::GREEN);
+                    switchLed(context_->assignedData.key, false);
                     context_->microphone.stop();
                 }
 
@@ -84,7 +84,7 @@ void TelephoneCall::handleJsonMessage()
                 context_->microphone.stop();
                 context_->sendRequest(CallControl::Request::ACK);
                 context_->removeRtp();
-                switchLed(context_->assignedData.key, false, GPIO::GREEN);
+                switchLed(context_->assignedData.key, false);
                 context_->resetData();
                 this->context_->TransitionTo(new CallWaiting);
             }
@@ -102,7 +102,7 @@ void TelephoneCall::handleJsonMessage()
                     context_->osTimer.stop(context_->osTimer.telephone_timerId, context_->osTimer.telephone_timerStatus);
 
                     stopRingTone();
-                    switchLed(context_->assignedData.key, false, GPIO::GREEN);
+                    switchLed(context_->assignedData.key, false);
                     context_->microphone.stop();
 
                     if (context_->telephoneDynamicStorage.empty()) {
@@ -154,7 +154,7 @@ void TelephoneCall::handleJsonMessage()
             if (context_->messageData.field.distId == context_->messageData.field.prevDistId) {
                 context_->sendRequest(CallControl::Request::ACK);
                 startRingTone(RingToneType::RING_BACK_BUSY_TONE);
-                switchLed(context_->assignedData.key, true, 900, 100, GPIO::GREEN);
+                switchLed(context_->assignedData.key, true, 900, 100, 0, GPIO::GREEN);
 //                context_->serviceData->isBusy = true;
                 context_->osTimer.stop(context_->osTimer.request_timerId, context_->osTimer.request_timerStatus);
             }
@@ -170,7 +170,7 @@ void TelephoneCall::handleLostLink()
     context_->osTimer.stop(context_->osTimer.request_timerId, context_->osTimer.request_timerStatus);
     context_->microphone.stop();
     context_->removeRtp();
-    switchLed(context_->assignedData.key, false, GPIO::GREEN);
+    switchLed(context_->assignedData.key, false);
     context_->resetData();
     if(!context_->switchToConf())
         context_->TransitionTo(new CallWaiting);
@@ -203,13 +203,13 @@ void TelephoneCall::handleRepeatedRequestCallBack()
             case CallControl::Control::READY: {
                 if (!context_->isIncomingCall) {
                     startRingTone(RingToneType::RING_BACK_BUSY_TONE);
-                    switchLed(context_->assignedData.key, true, 900, 100, GPIO::GREEN);
+                    switchLed(context_->assignedData.key, true, 900, 100, 0, GPIO::GREEN);
                 }
             }
             break;
             case CallControl::Control::ANSWER: {
                 context_->resetData();
-                switchLed(context_->assignedData.key, false, GPIO::GREEN);
+                switchLed(context_->assignedData.key, false);
                 if(!context_->switchToConf())
                     context_->TransitionTo(new CallWaiting);
             }
@@ -245,7 +245,7 @@ void TelephoneCall::handleAck()
             if (context_->messageData.field.distId == context_->messageData.field.prevDistId) {
                 context_->control = CallControl::Control::NONE;
                 context_->copyRecvBuff(context_->messageData.recvMessageBuff, UdpJsonExch::getInstance()->recvBuff);
-//                switchLed(context_->assignedData.key, true, GPIO::GREEN);
+//                switchLed(context_->assignedData.key, true, 0,0,0, GPIO::GREEN);
 //                context_->messageData.field.prevPriority = context_->messageData.field.distPriority;
                 startRingTone(RingToneType::RING_BACK_TONE);
 //                context_->requestCount = 0;
@@ -306,7 +306,7 @@ void TelephoneCall::handleAck()
                 context_->control = CallControl::Control::NONE;
                 context_->osTimer.stop(context_->osTimer.request_timerId, context_->osTimer.request_timerStatus);
                 context_->createRtp(context_->messageData.field.prevOwnId, context_->Duplex_type);
-                switchLed(context_->assignedData.key, true, GPIO::GREEN);
+                switchLed(context_->assignedData.key, true, 0,0,0, GPIO::GREEN);
                 context_->isAnsweredCall = true;
             }
         }

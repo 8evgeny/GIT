@@ -17,7 +17,7 @@ term("DuplexDirectCall ")
 
             stopRingTone();
             context_->microphone.stop();
-            switchLed(context_->assignedData.key, false, GPIO::GREEN);
+            switchLed(context_->assignedData.key, false);
 
             if (context_->control == CallControl::Control::NONE) {
                 context_->removeRtp();
@@ -51,7 +51,7 @@ term("DuplexDirectCall ")
                     context_->missedCall.add(context_->assignedData.key);
                 } else {
                     context_->removeRtp();
-                    switchLed(context_->assignedData.key, false, GPIO::GREEN);
+                    switchLed(context_->assignedData.key, false);
                     context_->microphone.stop();
                 }
 
@@ -66,7 +66,7 @@ term("DuplexDirectCall ")
                 context_->microphone.stop();
                 context_->sendRequest(CallControl::Request::ACK);
                 context_->removeRtp();
-                switchLed(context_->assignedData.key, false, GPIO::GREEN);
+                switchLed(context_->assignedData.key, false);
                 context_->resetData();
                 this->context_->TransitionTo(new CallWaiting);
             }
@@ -86,7 +86,7 @@ term("DuplexDirectCall ")
                     stopRingTone();
                     context_->osTimer.stop(context_->osTimer.autoAnsw_timerId, context_->osTimer.autoAnsw_timerStatus);
 
-                    switchLed(context_->assignedData.key, false, GPIO::GREEN);
+                    switchLed(context_->assignedData.key, false);
                     context_->microphone.stop();
 
 //                    if (context_->rtpStatus == OK_RTP) {
@@ -143,7 +143,7 @@ term("DuplexDirectCall ")
             if (context_->messageData.field.distId == context_->messageData.field.prevDistId) {
                 context_->sendRequest(CallControl::Request::ACK);
                 startRingTone(RingToneType::RING_BACK_BUSY_TONE);
-                switchLed(context_->assignedData.key, true, 900, 100, GPIO::GREEN);
+                switchLed(context_->assignedData.key, true, 900, 100, 0, GPIO::GREEN);
                 context_->osTimer.stop(context_->osTimer.request_timerId, context_->osTimer.request_timerStatus);
             }
         }
@@ -159,7 +159,7 @@ term("DuplexDirectCall ")
     context_->osTimer.stop(context_->osTimer.request_timerId, context_->osTimer.request_timerStatus);
     context_->microphone.stop();
     context_->removeRtp();
-    switchLed(context_->assignedData.key, false, GPIO::GREEN);
+    switchLed(context_->assignedData.key, false);
     context_->resetData();
     if(!context_->switchToConf())
         context_->TransitionTo(new CallWaiting);
@@ -194,13 +194,13 @@ term("DuplexDirectCall ")
             case CallControl::Control::READY: {
                 if (!context_->isIncomingCall) {
                     startRingTone(RingToneType::RING_BACK_BUSY_TONE);
-                    switchLed(context_->assignedData.key, true, 900, 100, GPIO::GREEN);
+                    switchLed(context_->assignedData.key, true, 900, 100, 0, GPIO::GREEN);
                 }
             }
             break;
             case CallControl::Control::ANSWER: {
                 context_->resetData();
-                switchLed(context_->assignedData.key, false, GPIO::GREEN);
+                switchLed(context_->assignedData.key, false);
                 if(!context_->switchToConf())
                     context_->TransitionTo(new CallWaiting);
             }
@@ -303,7 +303,7 @@ term("DuplexDirectCall ")
                 context_->control = CallControl::Control::NONE;
                 context_->osTimer.stop(context_->osTimer.request_timerId, context_->osTimer.request_timerStatus);
                 context_->createRtp(context_->messageData.field.prevOwnId, context_->Duplex_type);
-                switchLed(context_->assignedData.key, true, GPIO::GREEN);
+                switchLed(context_->assignedData.key, true, 0,0,0, GPIO::GREEN);
                 context_->microphone.start();
                 context_->isAnsweredCall = true;
             }
