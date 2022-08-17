@@ -28,9 +28,6 @@ add_definitions(-DLogsEnableRS232Puts)
 #add_definitions(-DLogsEnableToConsole)
 #add_definitions(-DPrintTaskLogs) #Запускает поток с логами задач
 
-#Выбор типа устройства
-#add_definitions(-DSC4) #(Для выбора УПВ SC2 закомментировать эту строку)
-
 set (RS232  ${CMAKE_HOME_DIRECTORY}/Core/Src/RS232)
 set (Debug  ${CMAKE_HOME_DIRECTORY}/Core/Src/Debug)
 set (littlefs ${CMAKE_HOME_DIRECTORY}/Middlewares/Third_Party/littlefs)

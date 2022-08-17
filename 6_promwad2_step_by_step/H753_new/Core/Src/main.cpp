@@ -51,7 +51,7 @@ static void MX_DMA_Init(void);
 static void MX_RNG_Init(void);
 void TaskEthernet_(void const * argument);
 
-uint8_t boardType;
+volatile uint8_t boardType;
 I2C_HandleTypeDef hi2c1;
 I2C_HandleTypeDef hi2c2;
 I2C_HandleTypeDef hi2c3;
@@ -940,13 +940,6 @@ static void MX_GPIO_Init(void)
         HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
     }
 
-#ifdef SC4
-    //Пины для чтения типа платы клавиатуры
-    GPIO_InitStruct.Pin = GPIO_PIN_6|GPIO_PIN_7|GPIO_PIN_8;
-    GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
-    GPIO_InitStruct.Pull = GPIO_NOPULL;
-    HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
-
     //Пин Норма
     GPIO_InitStruct.Pin = GPIO_PIN_6;
     GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
@@ -961,9 +954,15 @@ static void MX_GPIO_Init(void)
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
     HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-
-#endif
-
+//ХЗ не работаеи если if (boardType == sc4)
+if (boardType != sc2)
+{
+    //Пины для чтения типа платы клавиатуры
+    GPIO_InitStruct.Pin = GPIO_PIN_6|GPIO_PIN_7|GPIO_PIN_8;
+    GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+    GPIO_InitStruct.Pull = GPIO_NOPULL;
+    HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+}
 
     /*Configure GPIO pin : TEST_BUT_Pin */
     GPIO_InitStruct.Pin = TEST_BUT_Pin;
@@ -990,11 +989,6 @@ static void MX_GPIO_Init(void)
     {
         RS232::getInstance().term << "Failed to create [readButtonThread]" << "\n";
     }
-
-//    if ((osThreadCreate(osThread(replaceTimerCallback), nullptr)) == nullptr)
-//    {
-//        RS232::getInstance().term << "Failed to create [switchLEDsThread]" << "\n";
-//    }
 
 }
 
