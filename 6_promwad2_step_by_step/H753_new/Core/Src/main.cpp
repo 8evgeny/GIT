@@ -954,7 +954,7 @@ static void MX_GPIO_Init(void)
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
     HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-//ХЗ не работаеи если if (boardType == sc4)
+//ХЗ не работаеи если if (boardType == sc4) видимо настройки оптимизации компилятора
 if (boardType != sc2)
 {
     //Пины для чтения типа платы клавиатуры
