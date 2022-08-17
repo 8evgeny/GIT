@@ -13,6 +13,7 @@ static char *outptr;
 
 void RS232Putc(char c)
 {
+#ifdef  LogsEnableRS232Puts
     if (_CR_CRLF_RS232 && c == '\n') RS232Putc('\r');		/* CR -> CRLF */
 
 	if (outptr) {		/* Destination is memory */
@@ -22,6 +23,7 @@ void RS232Putc(char c)
     if (RS232FuncOut) {	/* Destination is device */
         RS232FuncOut((unsigned char)c);
 	}
+#endif
 }
 
 /*----------------------------------------------*/
