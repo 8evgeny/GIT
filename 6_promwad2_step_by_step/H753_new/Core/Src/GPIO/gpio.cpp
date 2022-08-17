@@ -701,230 +701,208 @@ void timerCallback(void const *arg)
     }
 }
 
-#ifndef SC4 //Два потока для SC2 - светодиоды и рычаги
+
 [[ noreturn ]]
 void switchLEDsThread(void const *arg)
 {
-    (void)arg;
-osDelay(200);
-term("--- switchLEDsThread ---")
-    while(true)
+    if (boardType == sc2)
     {
-        for(uint8_t i = 0; i < 6; ++i)
+        (void)arg;
+        osDelay(200);
+        term("--- switchLEDsThread_SC2 ---")
+        while(true)
         {
-            if (GPIO::getInstance()->aLeds[i].ledState) // Включаем пин
+            for(uint8_t i = 0; i < 6; ++i)
             {
-                if(i == 0) HAL_GPIO_WritePin(GPIOG, GPIO_PIN_6, GPIO_PIN_SET);
-                if(i == 1) HAL_GPIO_WritePin(GPIOC, GPIO_PIN_10, GPIO_PIN_SET);
-                if(i == 2) HAL_GPIO_WritePin(GPIOG, GPIO_PIN_7, GPIO_PIN_SET);
-                if(i == 3) HAL_GPIO_WritePin(GPIOC, GPIO_PIN_11, GPIO_PIN_SET);
-                if(i == 4) HAL_GPIO_WritePin(GPIOG, GPIO_PIN_8, GPIO_PIN_SET);
-                if(i == 5) HAL_GPIO_WritePin(GPIOC, GPIO_PIN_12, GPIO_PIN_SET);
-            } else
-            {
-                if(i == 0) HAL_GPIO_WritePin(GPIOG, GPIO_PIN_6, GPIO_PIN_RESET);
-                if(i == 1) HAL_GPIO_WritePin(GPIOC, GPIO_PIN_10, GPIO_PIN_RESET);
-                if(i == 2) HAL_GPIO_WritePin(GPIOG, GPIO_PIN_7, GPIO_PIN_RESET);
-                if(i == 3) HAL_GPIO_WritePin(GPIOC, GPIO_PIN_11, GPIO_PIN_RESET);
-                if(i == 4) HAL_GPIO_WritePin(GPIOG, GPIO_PIN_8, GPIO_PIN_RESET);
-                if(i == 5) HAL_GPIO_WritePin(GPIOC, GPIO_PIN_12, GPIO_PIN_RESET);
+                if (GPIO::getInstance()->aLeds[i].ledState) // Включаем пин
+                {
+                    if(i == 0) HAL_GPIO_WritePin(GPIOG, GPIO_PIN_6, GPIO_PIN_SET);
+                    if(i == 1) HAL_GPIO_WritePin(GPIOC, GPIO_PIN_10, GPIO_PIN_SET);
+                    if(i == 2) HAL_GPIO_WritePin(GPIOG, GPIO_PIN_7, GPIO_PIN_SET);
+                    if(i == 3) HAL_GPIO_WritePin(GPIOC, GPIO_PIN_11, GPIO_PIN_SET);
+                    if(i == 4) HAL_GPIO_WritePin(GPIOG, GPIO_PIN_8, GPIO_PIN_SET);
+                    if(i == 5) HAL_GPIO_WritePin(GPIOC, GPIO_PIN_12, GPIO_PIN_SET);
+                } else
+                {
+                    if(i == 0) HAL_GPIO_WritePin(GPIOG, GPIO_PIN_6, GPIO_PIN_RESET);
+                    if(i == 1) HAL_GPIO_WritePin(GPIOC, GPIO_PIN_10, GPIO_PIN_RESET);
+                    if(i == 2) HAL_GPIO_WritePin(GPIOG, GPIO_PIN_7, GPIO_PIN_RESET);
+                    if(i == 3) HAL_GPIO_WritePin(GPIOC, GPIO_PIN_11, GPIO_PIN_RESET);
+                    if(i == 4) HAL_GPIO_WritePin(GPIOG, GPIO_PIN_8, GPIO_PIN_RESET);
+                    if(i == 5) HAL_GPIO_WritePin(GPIOC, GPIO_PIN_12, GPIO_PIN_RESET);
+                }
             }
+            osDelay(1);
         }
-        osDelay(1);
+    }
+    if (boardType == sc4)
+    {
+        (void)arg;
+        term("--- switchLEDsThread SC4 ---")
+
+        GPIO::getInstance()->initLEDS_SC4();
+        GPIO::getInstance()->testLed();
+
+        while(true)
+        {
+            uint8_t adr, reg, numON, numOFF;
+            for(uint8_t i = 0; i < TLC59116F_max_address * 8; ++i)
+            {
+                if (GPIO::getInstance()->aLeds[i].ledState)
+                {// Включаем пин
+                    if (GPIO::getInstance()->aLeds[i].colour == GPIO::getInstance()->GREEN)
+                    {
+                        std::tie (adr, reg, numON, numOFF)  = GPIO::getInstance()->fromIndexToReg(i, GPIO::getInstance()->GREEN);
+                    }
+                    else
+                    {
+                        std::tie (adr, reg, numON, numOFF)  = GPIO::getInstance()->fromIndexToReg(i, GPIO::getInstance()->RED);
+                    }
+                    I2C::getInstance()->writeRegister(adr, reg, numON, false);
+                } else
+                {// Гасим пин
+                    std::tie (adr, reg, numON, numOFF)  = GPIO::getInstance()->fromIndexToReg(i, GPIO::getInstance()->RED); //Тут может быть и GREEN
+                    I2C::getInstance()->writeRegister(adr, reg, numOFF, false);
+                }
+            }
+
+            if ((LinkStatus == 1) && (inMcastGroup == 1))
+            {
+                HAL_GPIO_WritePin(GPIOD, GPIO_PIN_6, GPIO_PIN_SET); //Пин Норма
+            }
+            else
+            {
+                HAL_GPIO_WritePin(GPIOD, GPIO_PIN_6, GPIO_PIN_RESET);
+            }
+
+            osDelay(1);
+        }
     }
 }
 
 [[ noreturn ]]
 void readButtonThread(void const *arg)
 {
-    (void)arg;
-    PackageRx tempPack;
-    tempPack.packetType = GPIO::getInstance()->button;
-
-osDelay(4000);
-term("--- readButtonThread ---")
-    while(true)
+    if (boardType == sc2)
     {
-        for (uint8_t i = 0; i < 6 ; ++i)
+        (void)arg;
+        PackageRx tempPack;
+        tempPack.packetType = GPIO::getInstance()->button;
+
+        osDelay(4000);
+        term("--- readButtonThread SC2 ---")
+        while(true)
         {
-            uint16_t n = GPIO::getInstance()->buttonArray[i].n;
-//            k = GPIO::getInstance()->buttonArray[i].i;
-            if (HAL_GPIO_ReadPin(GPIOG, GPIO::getInstance()->buttonArray[i].n) == GPIO_PIN_SET)
+            for (uint8_t i = 0; i < 6 ; ++i)
             {
-                osDelay(50);
-                if (HAL_GPIO_ReadPin(GPIOG, GPIO::getInstance()->buttonArray[i].n)  == GPIO_PIN_SET)
+                uint16_t n = GPIO::getInstance()->buttonArray[i].n;
+                if (HAL_GPIO_ReadPin(GPIOG, GPIO::getInstance()->buttonArray[i].n) == GPIO_PIN_SET)
                 {
+                    osDelay(50);
+                    if (HAL_GPIO_ReadPin(GPIOG, GPIO::getInstance()->buttonArray[i].n)  == GPIO_PIN_SET)
+                    {
+                        n = GPIO::getInstance()->buttonArray[i].i;
+                        tempPack.payloadData = n;
 
-//term1("Pressed button: ") term(std::to_string(i + 1))
-
-                //Включаю Led
-//                if (i < 3 )  HAL_GPIO_WritePin(GPIOG, GPIO::getInstance()->aLeds[i].ledPin, GPIO_PIN_SET);
-//                if (i >= 3 ) HAL_GPIO_WritePin(GPIOC, GPIO::getInstance()->aLeds[i ].ledPin, GPIO_PIN_SET);
-
-                    n = GPIO::getInstance()->buttonArray[i].i;
-                    tempPack.payloadData = n;
-
-                    osMutexWait(GPIO::getInstance()->mutexRingBufferRx_id, osWaitForever);
-                    GPIO::getInstance()->ringBufferRx.push(tempPack);
-                    osMutexRelease(GPIO::getInstance()->mutexRingBufferRx_id);
-
-//                    osMessagePut(GPIO::getInstance()->message_q_id, n, osWaitForever);
+                        osMutexWait(GPIO::getInstance()->mutexRingBufferRx_id, osWaitForever);
+                        GPIO::getInstance()->ringBufferRx.push(tempPack);
+                        osMutexRelease(GPIO::getInstance()->mutexRingBufferRx_id);
+                    }
                 }
             }
-            else
-            {
-                //Гашу Led
-//                if (i < 3 ) HAL_GPIO_WritePin(GPIOG, GPIO::getInstance()->aLeds[i].ledPin, GPIO_PIN_RESET);
-//                if (i >= 3 ) HAL_GPIO_WritePin(GPIOC, GPIO::getInstance()->aLeds[i ].ledPin, GPIO_PIN_RESET);
-            }
+            osDelay(1);
         }
-        osDelay(1);
     }
-}
-#endif
-
-#ifdef SC4 //Два потока для SC4 - светодиоды и кнопки
-[[ noreturn ]]
-void switchLEDsThread(void const *arg)
-{
-    (void)arg;
-term("--- switchLEDsThread ---")
-
-    GPIO::getInstance()->initLEDS_SC4();
-    GPIO::getInstance()->testLed();
-
-    while(true)
+    if (boardType == sc4)
     {
-        uint8_t adr, reg, numON, numOFF;
-        for(uint8_t i = 0; i < TLC59116F_max_address * 8; ++i)
+        (void)arg;
+        PackageRx tempPack;
+        tempPack.packetType = GPIO::getInstance()->button;
+        GPIO::getInstance()->initBUTTONS_SC4();
+        term("--- readButtonThread SC4 ---")
+        uint8_t readBoard = 0;
+        uint8_t numButton = 0;
+        uint32_t tickstart = HAL_GetTick();
+        bool keySendingFlag = false;
+
+        while(true)
         {
-            if (GPIO::getInstance()->aLeds[i].ledState)
-            {// Включаем пин
-                if (GPIO::getInstance()->aLeds[i].colour == GPIO::getInstance()->GREEN)
+            //Повторное нажатие воспринимается
+            if (HAL_GetTick() - 50 > tickstart)
+            {
+                keySendingFlag = false;
+                numButton = 0;
+            }
+
+            for (uint8_t i = 0; i < MCP23017_max_address; ++i)
+            {
+                for (uint8_t j = 0; j < 2; ++j)
                 {
-                    std::tie (adr, reg, numON, numOFF)  = GPIO::getInstance()->fromIndexToReg(i, GPIO::getInstance()->GREEN);
+                    readBoard = I2C::getInstance()->readRegister(MCP23017_address[i], MCP23017_register[j], false);
+                    if (readBoard != 255)
+                    {
+                        numButton = GPIO::getInstance()->findBUTTONS_SC4(readBoard, i, j);
+                    }
+                }
+            }//Просканировали все клавиши
+
+            for (uint8_t i = 0; i < TLC59116F_max_address * 8 ; ++i)
+            {
+                if ((numButton-1) == GPIO::getInstance()->buttonArray[i].i) //Похоже здесь buttonArray не нужен
+                {
+
+                    if ((!keySendingFlag) && (numButton != 0))
+                    {
+                    //Передача кнопки в основной код
+                        tempPack.payloadData = numButton;
+                    osMutexWait(GPIO::getInstance()->mutexRingBufferRx_id, osWaitForever);
+                        GPIO::getInstance()->ringBufferRx.push(tempPack);
+                    osMutexRelease(GPIO::getInstance()->mutexRingBufferRx_id);
+                        tickstart = HAL_GetTick();
+                        keySendingFlag = true;
+
+                        term1("Pressed key") term2(numButton) //Тестовый вывод
+                    }
+
                 }
                 else
                 {
-                    std::tie (adr, reg, numON, numOFF)  = GPIO::getInstance()->fromIndexToReg(i, GPIO::getInstance()->RED);
+                    GPIO::getInstance()->buttonArray[i].n = 0;
                 }
-                I2C::getInstance()->writeRegister(adr, reg, numON, false);
-            } else
-            {// Гасим пин
-                std::tie (adr, reg, numON, numOFF)  = GPIO::getInstance()->fromIndexToReg(i, GPIO::getInstance()->RED); //Тут может быть и GREEN
-                I2C::getInstance()->writeRegister(adr, reg, numOFF, false);
+
             }
-        }
+            if(volDownPressed)
+            {
+                GPIO::getInstance()->downVolume();
+                volDownPressed = false;
+            }
+            if(volUpPressed)
+            {
+                GPIO::getInstance()->upVolume();
+                volUpPressed = false;
+            }
+            if(sensDownPressed)
+            {
+                GPIO::getInstance()->downSens();
+                sensDownPressed = false;
+            }
+            if(sensUpPressed)
+            {
+                GPIO::getInstance()->upSens();
+                sensUpPressed = false;
+            }
+            if(signalMaxMin)
+            {
+                GPIO::getInstance()->signalMaxMin();
+                signalMaxMin = false;
+            }
 
-        if ((LinkStatus == 1) && (inMcastGroup == 1))
-        {
-            HAL_GPIO_WritePin(GPIOD, GPIO_PIN_6, GPIO_PIN_SET); //Пин Норма
-        }
-        else
-        {
-            HAL_GPIO_WritePin(GPIOD, GPIO_PIN_6, GPIO_PIN_RESET);
-        }
+             osDelay(50); //Возможно нужно убрать
 
-        osDelay(1);
+            osDelay(1);
+        }
     }
 }
-
-[[ noreturn ]]
-void readButtonThread(void const *arg)
-{
-    (void)arg;
-    PackageRx tempPack;
-    tempPack.packetType = GPIO::getInstance()->button;
-
-//    osDelay(8000);
-    GPIO::getInstance()->initBUTTONS_SC4();
-
-term("--- readButtonThread ---")
-    uint8_t readBoard = 0;
-    uint8_t numButton = 0;
-    uint32_t tickstart = HAL_GetTick();
-    bool keySendingFlag = false;
-
-    while(true)
-    {
-        //Повторное нажатие воспринимается
-        if (HAL_GetTick() - 50 > tickstart)
-        {
-            keySendingFlag = false;
-            numButton = 0;
-        }
-
-        for (uint8_t i = 0; i < MCP23017_max_address; ++i)
-        {
-            for (uint8_t j = 0; j < 2; ++j)
-            {
-                readBoard = I2C::getInstance()->readRegister(MCP23017_address[i], MCP23017_register[j], false);
-                if (readBoard != 255)
-                {
-                    numButton = GPIO::getInstance()->findBUTTONS_SC4(readBoard, i, j);
-                }
-            }
-        }//Просканировали все клавиши
-
-        for (uint8_t i = 0; i < TLC59116F_max_address * 8 ; ++i)
-        {
-            if ((numButton-1) == GPIO::getInstance()->buttonArray[i].i) //Похоже здесь buttonArray не нужен
-            {
-
-                if ((!keySendingFlag) && (numButton != 0))
-                {
-                //Передача кнопки в основной код
-                    tempPack.payloadData = numButton;
-                osMutexWait(GPIO::getInstance()->mutexRingBufferRx_id, osWaitForever);
-                    GPIO::getInstance()->ringBufferRx.push(tempPack);
-                osMutexRelease(GPIO::getInstance()->mutexRingBufferRx_id);
-                    tickstart = HAL_GetTick();
-                    keySendingFlag = true;
-
-                    term1("Pressed key") term2(numButton) //Тестовый вывод
-                }
-
-            }
-            else
-            {
-                GPIO::getInstance()->buttonArray[i].n = 0;
-            }
-
-        }
-        if(volDownPressed)
-        {
-            GPIO::getInstance()->downVolume();
-            volDownPressed = false;
-        }
-        if(volUpPressed)
-        {
-            GPIO::getInstance()->upVolume();
-            volUpPressed = false;
-        }
-        if(sensDownPressed)
-        {
-            GPIO::getInstance()->downSens();
-            sensDownPressed = false;
-        }
-        if(sensUpPressed)
-        {
-            GPIO::getInstance()->upSens();
-            sensUpPressed = false;
-        }
-        if(signalMaxMin)
-        {
-            GPIO::getInstance()->signalMaxMin();
-            signalMaxMin = false;
-        }
-
-         osDelay(50); //Возможно нужно убрать
-
-        osDelay(1);
-    }
-
-}
-#endif
-
 
 
 #ifdef __cplusplus
