@@ -60,7 +60,7 @@ void CircularCall::handleJsonMessage()
                 context_->sendRequest(CallControl::Request::ACK);
 
                 context_->removeRtp();
-                switchLed(context_->subjectKey.key, false, GPIO::RED);
+                switchLed(context_->subjectKey.key, false, GPIO::GREEN);
 
                 context_->resetData();
                 if (!context_->switchToConf())
@@ -82,7 +82,7 @@ void CircularCall::handleJsonMessage()
 
                     context_->microphone.stop();
                     context_->removeRtp();
-                    switchLed(context_->assignedData.key, false, GPIO::RED);
+                    switchLed(context_->assignedData.key, false, GPIO::GREEN);
                     context_->resetData();
                     this->context_->TransitionTo(new CallWaiting);
                 }
@@ -103,7 +103,7 @@ void CircularCall::handleJsonMessage()
                         context_->microphone.stop();
 
                     context_->removeRtp();
-                    switchLed(context_->assignedData.key, false, GPIO::RED);
+                    switchLed(context_->assignedData.key, false, GPIO::GREEN);
 
                     if (context_->isIncomingCall) {
 
@@ -176,7 +176,7 @@ void CircularCall::handleJsonMessage()
                 uint16_t assign = context_->inputBuff.shift();
                 uint8_t key = context_->getKey(assign);
                 context_->busyDynamicStorage.push_back(assign);
-                switchLed(key, true, 900, 100, GPIO::RED);
+                switchLed(key, true, 900, 100, GPIO::GREEN);
 
 //                context_->busyDynamicStorage.push_back(context_->inputBuff.shift());
 //                switchLed(context_->subjectKey.key, true, 900, 100);
@@ -196,7 +196,7 @@ void CircularCall::handleLostLink()
         context_->osTimer.stop(context_->osTimer.request_timerId, context_->osTimer.request_timerStatus);
         context_->microphone.stop();
         context_->removeRtp();
-        switchLed(context_->subjectKey.key, false, GPIO::RED);
+        switchLed(context_->subjectKey.key, false, GPIO::GREEN);
         context_->resetData();
         if(!context_->switchToConf())
             context_->TransitionTo(new CallWaiting);
@@ -244,7 +244,7 @@ void CircularCall::handleRepeatedRequestCallBack()
                     uint16_t assign = context_->inputBuff.shift();
                     uint8_t key = context_->getKey(assign);
                     context_->busyDynamicStorage.push_back(assign);
-                    switchLed(key, true, 900, 100, GPIO::RED);
+                    switchLed(key, true, 900, 100, GPIO::GREEN);
                 }
 
                 if (!context_->inputBuff.isEmpty()) {
@@ -256,7 +256,7 @@ void CircularCall::handleRepeatedRequestCallBack()
             break;
             case CallControl::Control::ANSWER: {
                 context_->resetData();
-                switchLed(context_->subjectKey.key, false, GPIO::RED);
+                switchLed(context_->subjectKey.key, false, GPIO::GREEN);
                 context_->TransitionTo(new CallWaiting);
             }
             break;
@@ -291,7 +291,7 @@ void CircularCall::endCircularCall()
     switchOffLeds(context_->dynamicStorage);
     context_->dynamicStorage.clear();
 
-    switchLed(context_->assignedData.key, false, GPIO::RED);
+    switchLed(context_->assignedData.key, false, GPIO::GREEN);
     context_->microphone.stop();
     context_->removeRtp();
     context_->resetData();
@@ -302,7 +302,7 @@ void CircularCall::endCircularCall()
 void CircularCall::hungUp()
 {
     context_->microphone.stop();
-    switchLed(context_->assignedData.key, false, GPIO::RED);
+    switchLed(context_->assignedData.key, false, GPIO::GREEN);
     context_->removeRtp();
     context_->control = CallControl::Control::HANG_UP;
     context_->sendRequest(CallControl::Request::HANG_UP);
@@ -315,7 +315,7 @@ void CircularCall::switchOffLeds(std::vector <uint16_t> &v)
     if (!v.empty()) {
         for (auto &n : v) {
             key = context_->getKey(n);
-            switchLed(key, false, GPIO::RED);
+            switchLed(key, false, GPIO::GREEN);
             osDelay(10);
         }
     }
@@ -386,7 +386,7 @@ void CircularCall::handleAck()
         if (Json::getInstance()->thisStation.id == context_->messageData.field.distId) {
             context_->osTimer.stop(context_->osTimer.request_timerId, context_->osTimer.request_timerStatus);
             context_->createRtp(context_->messageData.field.prevOwnId, context_->Duplex_type);
-            switchLed(context_->subjectKey.key, true, GPIO::RED);
+            switchLed(context_->subjectKey.key, true, GPIO::GREEN);
             context_->microphone.stop();
             context_->isAnsweredCall = true;
         }

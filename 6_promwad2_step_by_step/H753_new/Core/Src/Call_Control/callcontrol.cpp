@@ -195,10 +195,8 @@ uint16_t CallControl::getSubjectData(CallControl::SubjectData control, uint8_t i
 
 void CallControl::setCallType()
 {
-term("CallControl")
     switch (messageData.field.callType) {
     case Direct:
-term("case Direct")
         if (messageData.field.linkData == static_cast<uint8_t>(Request::LINK)) {
 
             if(detectSubject(messageData.field.ownId)) {
@@ -210,7 +208,7 @@ term("case Direct")
                 assignedData.priority = subjectKey.priority;
 
                 missedCall.remove(assignedData.key);
-                switchLed(subjectKey.key, true, 250, 250, GPIO::RED);
+                switchLed(subjectKey.key, true, 250, 250, 0, GPIO::GREEN);
 
                 isIncomingCall = true;
 
@@ -262,7 +260,6 @@ term("autoAnsw_timerId")
         }
         break;
     case Group:
-term("case Group")
         if (messageData.field.linkData == static_cast<uint8_t>(Request::LINK)) {
 
             if(detectSubject(messageData.field.ownId)) {
@@ -274,7 +271,7 @@ term("case Group")
 
                 assignedData.key = subjectKey.key;
                 missedCall.remove(assignedData.key);
-                switchLed(subjectKey.key, true, 250, 250, GPIO::GREEN);
+                switchLed(subjectKey.key, true, 250, 250, 0, GPIO::GREEN); //Цвет принимаемый групповой вызов
 
 //                retransmitJsonDoc(UdpJsonExch::getInstance()->recvBuff, strlen(UdpJsonExch::getInstance()->recvBuff), Request::ACK);
                 copyRecvBuff(messageData.recvMessageBuff, UdpJsonExch::getInstance()->recvBuff);
@@ -297,7 +294,6 @@ term("autoAnsw_timerId")
         }
         break;
     case Circular:
-term("case Circular")
         if (messageData.field.linkData == 0xFF) {
 
             if(detectSubject(messageData.field.ownId)) {
@@ -308,7 +304,7 @@ term("case Circular")
                 assignedData.key = subjectKey.key;
 
 //                missedCall.remove(assignedData.key);
-                switchLed(subjectKey.key, true, 250, 250, GPIO::RED);
+                switchLed(subjectKey.key, true, 250, 250, 0, GPIO::GREEN);//Цвет принимаемый циркулярный вызов
 
                 copyRecvBuff(messageData.recvMessageBuff, UdpJsonExch::getInstance()->recvBuff);
                 retransmitMessage(UdpJsonExch::getInstance()->recvBuff, strlen(UdpJsonExch::getInstance()->recvBuff), Request::ACK_ANSW);
@@ -331,7 +327,6 @@ term("autoAnsw_timerId")
         }
         break;
     case Conference:
-term("case Conference")
         if (messageData.field.linkData == 0xFF) {
 
             if(detectSubjCallType(Conference)) {
@@ -347,7 +342,7 @@ term("case Conference")
                 assignedData.key = assignedData.conferenceKey;
 
                 missedCall.remove(assignedData.key);
-                switchLed(assignedData.conferenceKey, true, 250, 250, GPIO::GREEN);
+                switchLed(assignedData.conferenceKey, true, 250, 250, 0, GPIO::GREEN); //Цвет запрос на прием вызова
                 startRingTone(RingToneType::RING_TONE);
 
                 retransmitMessage(UdpJsonExch::getInstance()->recvBuff, strlen(UdpJsonExch::getInstance()->recvBuff), Request::ACK);
@@ -367,7 +362,7 @@ term("case Conference")
             assignedData.priority = 4;
             isIncomingCall = true;
             missedCall.remove(assignedData.key);
-            switchLed(assignedData.key, true, 250, 250, GPIO::RED);
+            switchLed(assignedData.key, true, 250, 250, 0, GPIO::GREEN);
             control = Control::NONE;
 //            sendUdpMulticast(UdpJsonExch::getInstance()->recvBuff, strlen(UdpJsonExch::getInstance()->recvBuff));
             copyRecvBuff(messageData.recvMessageBuff, UdpJsonExch::getInstance()->recvBuff);
@@ -564,7 +559,7 @@ bool CallControl::popDynamicStorage(std::vector <uint16_t>& v, uint16_t subject)
         for (uint8_t i = 0; i < v.size(); ++i) {
             if (*(v.begin() + i) == subject) {
                 key = getKey(subject);
-                switchLed(key, false, GPIO::RED);
+                switchLed(key, false);
 //                osDelay(5);
                 v.erase((v.begin() + i));
                 return true;
@@ -598,7 +593,7 @@ term("CallControl::pushDynamicStorage")
             v.push_back(subject);
             key = getKey(subject);
             missedCall.remove(key);
-            switchLed(key, true, GPIO::RED);
+            switchLed(key, true, 0,0,0, GPIO::GREEN);
             return true;
         }
     }
@@ -884,12 +879,12 @@ term("CallControl::switchToConf")
             uint8_t key = 0;
             for (auto &n : dynamicStorage) {
                 key = getKey(n);
-                switchLed(key, true, GPIO::RED);
+                switchLed(key, true, 0,0,0, GPIO::GREEN);
                 osDelay(10);
             }
         }
 
-        switchLed(assignedData.conferenceKey, true, GPIO::RED);
+        switchLed(assignedData.conferenceKey, true, 0,0,0, GPIO::GREEN);
         assignedData.key = assignedData.conferenceKey;
         assignedData.priority = assignedData.confPriority;
         TransitionTo(new ConferenceCall);

@@ -49,7 +49,7 @@ void CallWaiting::handleButton()
     case CallControl::Circular: {
         context_->messageData.field.prevOwnId = 0;
         context_->microphone.start();
-        switchLed(context_->subjectKey.key, true, GPIO::RED);
+        switchLed(context_->subjectKey.key, true, GPIO::GREEN);
 //        context_->createRtp(Json::getInstance()->thisStation.id, context_->Simplex_send_type);
         context_->TransitionTo(new CircularCall);
     }
@@ -73,7 +73,7 @@ void CallWaiting::handleButton()
             context_->assignedData.key = context_->subjectKey.key;
             context_->assignedData.priority = context_->subjectKey.priority;
 //            context_->messageData.field.prevPriority = 4;
-            switchLed(context_->subjectKey.key, true, GPIO::RED );
+            switchLed(context_->subjectKey.key, true, GPIO::GREEN );
             context_->TransitionTo(new TelephoneCall);
         }
     }
