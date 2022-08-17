@@ -236,26 +236,27 @@ term("startingSimpleLedTest2_RTOS")
 
     for(;;)
     {
-#ifndef SC4
-        if(reset)
-        {
-            if (HAL_GetTick() > tickstart + timeReset)
+    if (boardType == sc2)
+    {
+            if(reset)
             {
-                 HAL_GPIO_WritePin(GPIOC, L1_Pin|L2_Pin|L3_Pin, GPIO_PIN_SET);
-                 reset = false;
-                 tickstart = HAL_GetTick();
+                if (HAL_GetTick() > tickstart + timeReset)
+                {
+                     HAL_GPIO_WritePin(GPIOC, GPIO_PIN_10|GPIO_PIN_11|GPIO_PIN_12, GPIO_PIN_SET);
+                     reset = false;
+                     tickstart = HAL_GetTick();
+                }
             }
-        }
-        if(!reset)
-        {
-            if (HAL_GetTick() > tickstart + timeSet)
+            if(!reset)
             {
-                 HAL_GPIO_WritePin(GPIOC, L1_Pin|L2_Pin|L3_Pin, GPIO_PIN_RESET);
-                 reset = true;
-                 tickstart = HAL_GetTick();
+                if (HAL_GetTick() > tickstart + timeSet)
+                {
+                     HAL_GPIO_WritePin(GPIOC, GPIO_PIN_10|GPIO_PIN_11|GPIO_PIN_12, GPIO_PIN_RESET);
+                     reset = true;
+                     tickstart = HAL_GetTick();
+                }
             }
-        }
-#endif
+    }
 
 //    SEGGER_RTT_Write(0, "01234567890123456789012345678901234567890123456789012345678901234567890123456789\r\n", 82);
         SEGGER_RTT_WriteString(0, "SEGGER Real-Time-Terminal Sample\r\n");
@@ -290,8 +291,6 @@ term("--- simpleLedTest3_RTOS ---")
             if (HAL_GetTick() > tickstart + timeReset)
             {
                  HAL_GPIO_WritePin(TEST_LED_GPIO_Port, TEST_LED_Pin, GPIO_PIN_SET);
-//Временный тест SC4
-//HAL_GPIO_WritePin(GPIOD, GPIO_PIN_6, GPIO_PIN_SET);
 
                  reset = false;
                  tickstart = HAL_GetTick();
@@ -302,8 +301,6 @@ term("--- simpleLedTest3_RTOS ---")
             if (HAL_GetTick() > tickstart + timeSet)
             {
                  HAL_GPIO_WritePin(TEST_LED_GPIO_Port, TEST_LED_Pin, GPIO_PIN_RESET);
-//Временный тест SC4
-//HAL_GPIO_WritePin(GPIOD, GPIO_PIN_6, GPIO_PIN_RESET);
 
                  reset = true;
                  tickstart = HAL_GetTick();
