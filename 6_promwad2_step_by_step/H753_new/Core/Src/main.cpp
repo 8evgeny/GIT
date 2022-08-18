@@ -247,11 +247,8 @@ int main(void)
     MX_GPIO_Init();
 
     //Определяем тип платы SC2 или SC4
-    if (!HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_6) &&
-            !HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_7) &&
-            HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_8))
+    if (!HAL_GPIO_ReadPin(GPIOG, GPIO_PIN_9))
     {
-        //Такой-же код у платы SC4 32N - его нужно будет изменить или ввести пин для определенияя SC2-SC4-SL1
         boardType = sc2;
         keysNum = 6;
     }
@@ -780,7 +777,6 @@ static void MX_UART7_Init(void)
 
 static void MX_DMA_Init(void)
 {
-
     /* DMA controller clock enable */
     __HAL_RCC_DMA1_CLK_ENABLE();
     __HAL_RCC_DMA2_CLK_ENABLE();
@@ -877,14 +873,11 @@ static void MX_GPIO_Init(void)
     /*Configure GPIO pin Output Level */
     HAL_GPIO_WritePin(GPIOB, POW_DOWN_Pin|TEST_LED_Pin, GPIO_PIN_SET);
 
-    if (boardType == sc2)
-    {
-        /*Configure GPIO pin Output Level */
-        HAL_GPIO_WritePin(GPIOG, GPIO_PIN_6|GPIO_PIN_7|GPIO_PIN_8, GPIO_PIN_RESET);
+    /*Configure GPIO pin Output Level */
+    HAL_GPIO_WritePin(GPIOG, GPIO_PIN_6|GPIO_PIN_7|GPIO_PIN_8, GPIO_PIN_RESET);
 
-        /*Configure GPIO pin Output Level */
-        HAL_GPIO_WritePin(GPIOC, GPIO_PIN_10|GPIO_PIN_11|GPIO_PIN_12, GPIO_PIN_RESET);
-    }
+    /*Configure GPIO pin Output Level */
+    HAL_GPIO_WritePin(GPIOC, GPIO_PIN_10|GPIO_PIN_11|GPIO_PIN_12, GPIO_PIN_RESET);
 
     /*Configure GPIO pins : POW_DOWN_Pin TEST_LED_Pin */
     GPIO_InitStruct.Pin = POW_DOWN_Pin|TEST_LED_Pin;
@@ -893,48 +886,32 @@ static void MX_GPIO_Init(void)
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
     HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
-//    GPIO_InitStruct.Pin = GPIO_PIN_2;
-//    GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
-//    GPIO_InitStruct.Pull = GPIO_NOPULL;
-//    HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
-
-//    /*Configure GPIO pin : PA8 */
-//    GPIO_InitStruct.Pin = GPIO_PIN_8;
-//    GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
-//    GPIO_InitStruct.Pull = GPIO_PULLUP;
-//    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-//    GPIO_InitStruct.Alternate = GPIO_AF0_MCO;
-//    HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
-
-    if (boardType == sc2)
-    {
     //Прерывание от кодека для SC2
-        /*Configure GPIO pin : I2C3_INT_Pin */
-        GPIO_InitStruct.Pin = GPIO_PIN_8;
-        GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
-        GPIO_InitStruct.Pull = GPIO_NOPULL;
-        HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+    /*Configure GPIO pin : I2C3_INT_Pin */
+    GPIO_InitStruct.Pin = GPIO_PIN_8;
+    GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+    GPIO_InitStruct.Pull = GPIO_NOPULL;
+    HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
-        /*Configure GPIO pins : L1_Pin L2_Pin L3_Pin */
-        GPIO_InitStruct.Pin = GPIO_PIN_10|GPIO_PIN_11|GPIO_PIN_12;
-        GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-        GPIO_InitStruct.Pull = GPIO_NOPULL;
-        GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-        HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+    /*Configure GPIO pins : L1_Pin L2_Pin L3_Pin */
+    GPIO_InitStruct.Pin = GPIO_PIN_10|GPIO_PIN_11|GPIO_PIN_12;
+    GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+    GPIO_InitStruct.Pull = GPIO_NOPULL;
+    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+    HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
-        /*Configure GPIO pins : L4_Pin L5_Pin L6_Pin */
-        GPIO_InitStruct.Pin = GPIO_PIN_6|GPIO_PIN_7|GPIO_PIN_8;
-        GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-        GPIO_InitStruct.Pull = GPIO_NOPULL;
-        GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-        HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
+    /*Configure GPIO pins : L4_Pin L5_Pin L6_Pin */
+    GPIO_InitStruct.Pin = GPIO_PIN_6|GPIO_PIN_7|GPIO_PIN_8;
+    GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+    GPIO_InitStruct.Pull = GPIO_NOPULL;
+    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+    HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
 
-        /*Configure GPIO pins : K1_Pin K2_Pin K3_Pin K4_Pin K5_Pin K6_Pin */
-        GPIO_InitStruct.Pin = GPIO_PIN_9|GPIO_PIN_10|GPIO_PIN_11|GPIO_PIN_12|GPIO_PIN_13|GPIO_PIN_14;
-        GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
-        GPIO_InitStruct.Pull = GPIO_NOPULL;
-        HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
-    }
+    /*Configure GPIO pins : K1_Pin K2_Pin K3_Pin K4_Pin K5_Pin K6_Pin */
+    GPIO_InitStruct.Pin = GPIO_PIN_9|GPIO_PIN_10|GPIO_PIN_11|GPIO_PIN_12|GPIO_PIN_13|GPIO_PIN_14;
+    GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+    GPIO_InitStruct.Pull = GPIO_NOPULL;
+    HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
 
     //Пин Норма
     GPIO_InitStruct.Pin = GPIO_PIN_6;
@@ -950,15 +927,11 @@ static void MX_GPIO_Init(void)
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
     HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-//ХЗ не работаеи если if (boardType == sc4) видимо настройки оптимизации компилятора
-if (boardType != sc2)
-{
     //Пины для чтения типа платы клавиатуры
     GPIO_InitStruct.Pin = GPIO_PIN_6|GPIO_PIN_7|GPIO_PIN_8;
     GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
     HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
-}
 
     /*Configure GPIO pin : TEST_BUT_Pin */
     GPIO_InitStruct.Pin = TEST_BUT_Pin;
@@ -985,7 +958,6 @@ if (boardType != sc2)
     {
         RS232::getInstance().term << "Failed to create [readButtonThread]" << "\n";
     }
-
 }
 
 void TaskEthernet_(void const * argument)
@@ -1020,8 +992,6 @@ void TaskEthernet_(void const * argument)
     //  /* USER CODE END 5 */
 }
 
-
-//Добавил_CUBE_03_05_2022
 /**
   * Enable MDMA controller clock
   * Configure MDMA for global transfers
@@ -1068,8 +1038,6 @@ void TaskEthernet_(void const * argument)
 //  HAL_NVIC_EnableIRQ(MDMA_IRQn);
 
 //}
-
-
 
 void MPU_Config(void)
 {
