@@ -295,7 +295,7 @@ void AppCore::sendConfigJsonToStation(const QString &stationID)
         //max size of step for transferring
         constexpr qint32 SIZE_DEF = 128;
         constexpr qint32 SIZE_MAX_SIZE_READ = 256;
-        constexpr qint32 TIME_OUT = 2000;
+        constexpr qint32 TIME_OUT = 100; //Время между пакетами - было 2000
 
         if (port.isOpen()) {
 
