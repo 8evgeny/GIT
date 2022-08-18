@@ -13,7 +13,7 @@ static char *outptr;
 
 void RS232Putc(char c)
 {
-#ifdef  LogsEnableRS232Puts
+#ifdef  LogsEnable
     if (_CR_CRLF_RS232 && c == '\n') RS232Putc('\r');		/* CR -> CRLF */
 
 	if (outptr) {		/* Destination is memory */
@@ -34,7 +34,7 @@ void RS232Puts(      /* Put a string to the default device */
     const char *str				/* Pointer to the string */
 )
 {
-#ifdef  LogsEnableRS232Puts
+#ifdef  LogsEnable
 	while (*str) {
         RS232Putc(*str++);
 	}

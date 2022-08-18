@@ -289,14 +289,6 @@ int main(void)
 
     //    Flash::getInstance().test(); // Не работает
 
-    //ЗАПИСЬ КОНФИГА ЧЕРЕЗ UART реализована без SRAM в другой ветке
-    //    if ((RS232::getInstance().readFromUartThreadId = osThreadCreate(osThread(readFromUartThread), nullptr)) == nullptr)
-    //   if ((osThreadCreate(osThread(readFromUartThread), nullptr)) == nullptr)
-    //    {
-    //        term("readFromUartThread Error")
-    //        RS232::getInstance().term << __FUNCTION__ << " " << __LINE__ << " " << "\n";
-    //    }
-
     if (boardType == sc4)
     {
         term1("getCFG()") term(getCFG())
@@ -346,7 +338,11 @@ int main(void)
         term2("deserializeJsonFlag  -  error")
     }
 
-
+#ifndef LogsEnable
+        //Для записи конфига через UART требуется отключить весь диагностический вывод в консоль
+        osThreadDef(readFromUartThread, readFromUartThread, osPriorityLow, 0, configMINIMAL_STACK_SIZE * 5);
+        RS232::getInstance().readFromUartThreadId = osThreadCreate(osThread(readFromUartThread), nullptr);
+#endif
 
 //    WDTInit();
 //    osThreadDef(StartWdtThread, StartWdtThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 1);
@@ -359,7 +355,7 @@ int main(void)
     //Тестовые потоки
 //    testLed1();
 //    testLed2(); //SEGGER TEST
-    testLed3();
+//    testLed3();
 //    testUART();
 
 

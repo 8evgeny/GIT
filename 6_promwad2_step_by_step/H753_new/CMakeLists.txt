@@ -24,8 +24,8 @@ add_definitions(-DHAVE_CONFIG_H)
 add_definitions(-D__FPU_PRESENT)
 
 #Логгирование
-add_definitions(-DLogsEnableRS232Puts)
-#add_definitions(-DLogsEnableToConsole)
+#add_definitions(-DLogsEnable) #Полное выключение логоd требуется для потока UART
+#add_definitions(-DLogsEnableToConsole) #более подробные логи через макрос term
 add_definitions(-DPrintTaskLogs) #Запускает поток с логами задач
 
 set (RS232  ${CMAKE_HOME_DIRECTORY}/Core/Src/RS232)

@@ -506,12 +506,11 @@ void readFromUartThread(void const *arg)
 
 
     uint32_t  fileSize = 0;
-HAL_Delay(10000);
-term("****  readFromUartThread  start  ****")
+osDelay(10000);
+term2("****  readFromUartThread  start  ****")
 
     while (true)
     {
-term("\r\n****  readFromUartThread  working  ****")
         const int capacityJson = 2000;
         StaticJsonDocument <capacityJson> doc;
 
@@ -520,9 +519,9 @@ term("\r\n****  readFromUartThread  working  ****")
 
         while (1)
         {
-//term("****  read ****")
+
             RS232::getInstance().read(buffUart, sizeof(buffUart));
-//term("****  receive block ****")
+
             if (buffUart[0] == 0)
             {
                 memcpy(buf, buffUart + 1, SIZE_DEF_BLOCK_UDP - 1);
@@ -569,7 +568,7 @@ term("\r\n****  readFromUartThread  working  ****")
               std::memcpy(allConfig + number * SIZE_WRITE_BLOCK, config, SIZE_WRITE_BLOCK);
 
 
-term(allConfig) //Тут все части конфига
+term2(allConfig) //Тут все части конфига
                     if (number == all)
                     {
                         break;
@@ -590,8 +589,8 @@ HAL_GPIO_WritePin(TEST_LED_GPIO_Port, TEST_LED_Pin, GPIO_PIN_SET); //Показ�
 
         for (int32_t i = 0; i < commonSizeAllFrames; i += SIZE_WRITE_BLOCK)
         {
-term1("i")
-term((uint8_t)i)
+term2("i")
+term2((uint8_t)i)
 //            SRAM::getInstance()->readData(
 //                        reinterpret_cast<uint32_t *>(readSramBuff),
 //                        SIZE_WRITE_BLOCK,
@@ -647,5 +646,5 @@ taskEXIT_CRITICAL();
 
     osDelay(1000);
     } //end while (true)
-
+    osDelay(1);
 }
