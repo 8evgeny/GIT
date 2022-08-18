@@ -4020,7 +4020,7 @@ lwip_socket_register_membership(int s, const ip4_addr_t *if_addr, const ip4_addr
 static void
 lwip_socket_unregister_membership(int s, const ip4_addr_t *if_addr, const ip4_addr_t *multi_addr)
 {
-RS232Puts("lwip_socket_unregister_membership\r\n");
+//RS232Puts("lwip_socket_unregister_membership\r\n");
   struct lwip_sock *sock = get_socket(s);
   int i;
 

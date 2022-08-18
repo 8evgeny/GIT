@@ -376,7 +376,6 @@ term("autoAnsw_timerId")
 
 bool CallControl::handleClick(PackageRx pack)
 {
-term1("*** pressedKey") term ((uint8_t)pressedKey)
 
     if (pack.packetType == GPIO::getInstance()->button) {
 

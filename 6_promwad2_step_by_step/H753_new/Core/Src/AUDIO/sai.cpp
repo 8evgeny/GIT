@@ -684,6 +684,7 @@ arm_copy_q15( reinterpret_cast<q15_t *>(rtpDataTxHalfCrypt),
 //Simplex to send callback signal, type = 3
 ErrorCode rtpCreate(uint32_t port, uint32_t type)
 {
+    term2("rtpCreate")
     constexpr uint32_t PORT_MIN = 100;
     constexpr uint32_t PORT_MAX = 65000;
     constexpr uint32_t TIME_OUT = 10;
@@ -756,6 +757,7 @@ extern RTP_HandleTypeDef rtpStructSend;         /* RTP structure */
 
 ErrorCode rtpRemove()
 {
+    term2("rtpRemove")
 //    if (saveCurrentTypeOfRtp != 3) {
     HAL_SAI_DMAStop(&audioTxSai);
     HAL_SAI_DMAStop(&audioRxSai);

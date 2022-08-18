@@ -858,7 +858,6 @@ void readButtonThread(void const *arg)
                         tickstart = HAL_GetTick();
                         keySendingFlag = true;
 
-                        term1("Pressed key") term2(numButton) //Тестовый вывод
                     }
 
                 }
