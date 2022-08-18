@@ -8,11 +8,7 @@
 #include "missedcall.h"
 #include "messagedata.h"
 #include "../AUDIO/microphone.h"
-#ifndef SC2BOARD
-#include "can_stm32f7xx.h"
-#else
 #include "gpio.h"
-#endif
 #include "../AUDIO/sai.h"
 #include <memory>
 #include "os_timers.h"
@@ -459,6 +455,7 @@ public:
      \fn createJsonDoc
      \param linkStatus is a status of the link
     */
+
     void sendMessage(const Request linkData);
 
     /*!

@@ -12,8 +12,8 @@ term("SimplexDirectCall ")
 
         stopRingTone();
         context_->microphone.stop();
-sprintf(msg,"assignedData.key= %d\r\n ",context_->assignedData.key);
-RS232Puts(msg);
+//sprintf(msg,"assignedData.key= %d\r\n ",context_->assignedData.key);
+//RS232Puts(msg);
         switchLed(context_->assignedData.key, false);
 
         if (context_->control == CallControl::Control::NONE ||
@@ -76,8 +76,8 @@ term("SimplexDirectCall ")
 
                     stopRingTone();
                     context_->microphone.stop();
-sprintf(msg,"assignedData.key= %d\r\n ",context_->assignedData.key);
-RS232Puts(msg);
+//sprintf(msg,"assignedData.key= %d\r\n ",context_->assignedData.key);
+//RS232Puts(msg);
                     switchLed(context_->assignedData.key, false);
 
                     context_->osTimer.stop(context_->osTimer.autoAnsw_timerId, context_->osTimer.autoAnsw_timerStatus);
@@ -186,16 +186,16 @@ term("SimplexDirectCall ")
             case CallControl::Control::READY: {
                 if (!context_->isIncomingCall) {
                     startRingTone(RingToneType::RING_BACK_BUSY_TONE);
-sprintf(msg,"assignedData.key= %d\r\n ",context_->assignedData.key);
-RS232Puts(msg);
+//sprintf(msg,"assignedData.key= %d\r\n ",context_->assignedData.key);
+//RS232Puts(msg);
                     switchLed(context_->assignedData.key, true, 900, 100, 0, GPIO::GREEN);
                 }
             }
             break;
             case CallControl::Control::ANSWER: {
                 context_->resetData();
-sprintf(msg,"assignedData.key= %d\r\n ",context_->assignedData.key);
-RS232Puts(msg);
+//sprintf(msg,"assignedData.key= %d\r\n ",context_->assignedData.key);
+//RS232Puts(msg);
                 switchLed(context_->assignedData.key, false);
                 if(!context_->switchToConf())
                     context_->TransitionTo(new CallWaiting);

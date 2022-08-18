@@ -65,7 +65,7 @@ void CallWaiting::handleButton()
         context_->TransitionTo(new ConferenceCall);
     }
     break;
-#ifndef SC2BOARD
+
     case CallControl::Telephone: {
         if (context_->subjectKey.key == CallControl::Asterisk) {
 
@@ -78,7 +78,7 @@ void CallWaiting::handleButton()
         }
     }
     break;
-#endif
+
     default:
         break;
     }

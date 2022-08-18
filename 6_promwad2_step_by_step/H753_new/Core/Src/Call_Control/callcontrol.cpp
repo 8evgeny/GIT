@@ -24,7 +24,7 @@ uint8_t handleClick_count = 0; /*!< The variable is the counter to handle clicks
 uint8_t keyMode = 0, /*!< The variable stores a mode of the pressed key */
         func = 0;    /*!< The variable stores a function of the pressed key */
 
-
+extern uint8_t boardType;
 constexpr static uint16_t AUTO_ANSW_TIMEOUT {2000};
 
 //uint8_t checkGroupCounter = 1;
@@ -71,13 +71,8 @@ void CallControl::TransitionTo(State *state)
 }
 
 
-#ifndef SC2BOARD
-void CallControl::button(uPackageRx pack)
-{
-#else
 void CallControl::button(PackageRx pack)
 {
-#endif
 
     if (handleClick(pack)) {
 
@@ -352,8 +347,8 @@ term("autoAnsw_timerId")
             }
         }
         break;
-#ifndef SC2BOARD
-    case Telephone:
+
+    case Telephone :
         if (messageData.field.linkData == static_cast<uint8_t>(Request::LINK)) {
 
             messageData.field.prevOwnId = messageData.field.ownId;
@@ -373,20 +368,12 @@ term("autoAnsw_timerId")
             this->TransitionTo(new TelephoneCall);
         }
         break;
-#endif
+
     default:
         break;
     }
 }
-#ifndef SC2BOARD
-bool CallControl::handleClick(uPackageRx pack)
-{
 
-    if (pack.s.packetType == CAN::getInstance()->button) {
-
-        if (pressedKey == pack.s.payloadData) {
-
-#else
 bool CallControl::handleClick(PackageRx pack)
 {
 term1("*** pressedKey") term ((uint8_t)pressedKey)
@@ -394,7 +381,6 @@ term1("*** pressedKey") term ((uint8_t)pressedKey)
     if (pack.packetType == GPIO::getInstance()->button) {
 
         if (pressedKey == pack.payloadData) {
-#endif
 
             if (osTimer.button_timerStatus != osOK) {
                 handleClick_count++;
@@ -416,12 +402,7 @@ term("osTimer.start")
             }
 
         } else {
-#ifndef SC2BOARD
-            pressedKey = pack.s.payloadData;
-#else
             pressedKey = pack.payloadData;
-#endif
-
 
             handleClick_count = 1;
             osTimer.stop(osTimer.button_timerId, osTimer.button_timerStatus);
@@ -906,10 +887,5 @@ term("CallControl::switchToConf")
 
 void switchLed(uint8_t ledNumber, bool ledOn, uint16_t timeOn, uint16_t timeOff, uint8_t repeatNum, GPIO::Color colour)
 {
-#ifndef SC2BOARD
-    CAN::getInstance()->configLed(ledNumber, ledOn, timeOn, timeOff, repeatNum);
-#else
-
     GPIO::getInstance()->configLed(ledNumber, ledOn, timeOn, timeOff, repeatNum, colour);
-#endif
 }

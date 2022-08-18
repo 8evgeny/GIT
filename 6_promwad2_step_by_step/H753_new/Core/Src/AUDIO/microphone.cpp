@@ -1,10 +1,6 @@
 #include "microphone.h"
 #include "rs232.h"
 
-#ifndef SC2BOARD
-#include "can_stm32f7xx.h"
-#endif
-
 void Microphone::start()
 {
 term("Microphone::start")
@@ -15,9 +11,6 @@ term("Microphone::start")
 
         HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_SET); //Пин МК Вкл
 
-#ifndef SC2BOARD
-        CAN::getInstance()->configLed(0, true, 0, 0, 0, CAN::mikeLed);
-#endif
     }
 }
 
@@ -31,8 +24,5 @@ term("Microphone::stop")
 
         HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET); //Пин МК Вкл
 
-#ifndef SC2BOARD
-        CAN::getInstance()->configLed(0, false, 0, 0, 0, CAN::mikeLed);
-#endif
     }
 }
