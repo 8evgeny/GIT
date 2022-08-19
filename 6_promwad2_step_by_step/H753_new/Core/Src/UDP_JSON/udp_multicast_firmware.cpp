@@ -358,8 +358,6 @@ term2("write config OK")
 
                 commonSizeAllFrames = 0;
                 counterFrames = 0;
-//term2("System reboot")
-//HAL_NVIC_SystemReset();
 
             }
         }
