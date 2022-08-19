@@ -596,9 +596,9 @@ term2((uint8_t)i)
 //                        SIZE_WRITE_BLOCK,
 //                        reinterpret_cast<uint32_t *>(0x60000000 + i));
 
-            std::memcpy(readSramBuff,
-                        allConfig + i ,
-                        commonSizeAllFrames - i  < SIZE_WRITE_BLOCK ? static_cast<uint32_t>(commonSizeAllFrames - i) : SIZE_WRITE_BLOCK);
+std::memcpy(readSramBuff,
+  allConfig + i,
+  commonSizeAllFrames - i < SIZE_WRITE_BLOCK ? static_cast<uint32_t>(commonSizeAllFrames - i) : SIZE_WRITE_BLOCK);
 
             lfs_file_write(FsForEeprom::getInstance().lfsPtr,
                            FsForEeprom::getInstance().filePtr,
