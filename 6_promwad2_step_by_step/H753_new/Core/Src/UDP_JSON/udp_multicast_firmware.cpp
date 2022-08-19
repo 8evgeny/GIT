@@ -273,16 +273,13 @@ void writeConfigMcuByJson(JsonDocument &doc)
     if (Json::getInstance()->thisStation.id == writeConfigId)
     {
 
-term2("writeConfigMcuByJson")
-
         int number =  doc["number"];
         if (number == counterFrames)
         {
 
             int all = doc["all"];
             int size = doc["size"];
-term2(all)
-term2(size)
+term2(number)
             counterFrames++;
             commonSizeAllFrames += size;
             const char *config  = doc["config"];
@@ -361,6 +358,9 @@ term2("write config OK")
 
                 commonSizeAllFrames = 0;
                 counterFrames = 0;
+term2("System reboot")
+                HAL_NVIC_SystemReset();
+
             }
         }
     }
