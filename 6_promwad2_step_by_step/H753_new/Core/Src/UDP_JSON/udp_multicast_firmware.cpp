@@ -126,7 +126,8 @@ static int counterPackegs = 0; /*! A counter for size of packages */
     while (1)
     {
         osMutexWait(mutexFirmwareRingBufferId, osWaitForever);
-        if (firmwareRingBuffer.size() != 0) {
+        if (firmwareRingBuffer.size() != 0)
+        {
             FirmwarePackage pack = firmwareRingBuffer.first();
             firmwareRingBuffer.shift();
             osMutexRelease(mutexFirmwareRingBufferId);
@@ -216,9 +217,11 @@ void parsingFirmwareFromJson(JsonDocument &doc)
 {
     /* FatFs function common result code */
     const char *cmd = doc["cmd"];
+term2("parsingFirmware")
+term2("*1*")
 
     if (cmd != nullptr) {
-
+term2("*2*")
         int versionFirmware = doc["versionFirmware"];
         int subVersionFirmware = doc["subVersionFirmware"];
         int size = doc["size"];
@@ -280,61 +283,34 @@ void writeConfigMcuByJson(JsonDocument &doc)
 
             int all = doc["all"];
             int size = doc["size"];
-term2(number)
+        term2(number)
             counterFrames++;
             commonSizeAllFrames += size;
             const char *config  = doc["config"];
-
             std::fill(tmp, tmp + SIZE_DEF_BLOCK_UDP / 4, 0);
             std::memcpy(tmp, config, SIZE_DEF_BLOCK_UDP);
-/* Это образец
-SRAM::getInstance()->writeData(
-reinterpret_cast<uint32_t *>(tmp),
-sizeof(tmp) / sizeof(uint8_t),
-reinterpret_cast<uint32_t *>(0x60000000  + number * SIZE_WRITE_BLOCK));
-
-std::memcpy(allConfig + number * SIZE_WRITE_BLOCK, config, SIZE_WRITE_BLOCK);
-*/
-
-//Это нерабочий метод который я меняю на memcpy
-//SRAM::getInstance()->writeData(
-//tmp,
-//SIZE_DEF_BLOCK_UDP,
-//reinterpret_cast<uint32_t *>(0x60020000 + number * SIZE_DEF_BLOCK_UDP));
-
-std::memcpy(allConfig + number * SIZE_DEF_BLOCK_UDP, config, SIZE_WRITE_BLOCK);
-
+//            Это нерабочий метод который я меняю на memcpy
+//            SRAM::getInstance()->writeData(
+//            tmp,
+//            SIZE_DEF_BLOCK_UDP,
+//            reinterpret_cast<uint32_t *>(0x60020000 + number * SIZE_DEF_BLOCK_UDP));
+            std::memcpy(allConfig + number * SIZE_DEF_BLOCK_UDP, config, SIZE_WRITE_BLOCK);
 
             if ((all == number) && (counterFrames > 0))
             {
-
                 uint8_t readSramBuff[SIZE_WRITE_BLOCK] {0};
-
                 lfs_remove(FsForEeprom::getInstance().lfsPtr, "boot_config");
                 lfs_file_open(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, "boot_config", LFS_O_RDWR | LFS_O_CREAT);
-
                 for (int32_t i = 0; i < commonSizeAllFrames; i += SIZE_WRITE_BLOCK)
                 {
-/* Это образец
-SRAM::getInstance()->readData(
-reinterpret_cast<uint32_t *>(readSramBuff),
-SIZE_WRITE_BLOCK,
-reinterpret_cast<uint32_t *>(0x60000000 + i));
-
-std::memcpy(readSramBuff,
-allConfig + i,
-commonSizeAllFrames - i < SIZE_WRITE_BLOCK ? static_cast<uint32_t>(commonSizeAllFrames - i) : SIZE_WRITE_BLOCK);
-*/
-
-//Это нерабочий метод который я меняю на memcpy
-//SRAM::getInstance()->readData(
-//reinterpret_cast<uint32_t *>(readSramBuff),
-//SIZE_WRITE_BLOCK,
-//reinterpret_cast<uint32_t *>(0x60020000 + i));
-
-std::memcpy(readSramBuff,
-allConfig + i,
-commonSizeAllFrames - i < SIZE_WRITE_BLOCK ? static_cast<uint32_t>(commonSizeAllFrames - i) : SIZE_WRITE_BLOCK);
+//                    Это нерабочий метод который я меняю на memcpy
+//                    SRAM::getInstance()->readData(
+//                    reinterpret_cast<uint32_t *>(readSramBuff),
+//                    SIZE_WRITE_BLOCK,
+//                    reinterpret_cast<uint32_t *>(0x60020000 + i));
+                    std::memcpy(readSramBuff,
+                    allConfig + i,
+                    commonSizeAllFrames - i < SIZE_WRITE_BLOCK ? static_cast<uint32_t>(commonSizeAllFrames - i) : SIZE_WRITE_BLOCK);
 
                     lfs_file_write(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, readSramBuff,  commonSizeAllFrames - i < SIZE_WRITE_BLOCK ? static_cast<uint32_t>(commonSizeAllFrames - i) : SIZE_WRITE_BLOCK);
                 }
@@ -349,7 +325,7 @@ commonSizeAllFrames - i < SIZE_WRITE_BLOCK ? static_cast<uint32_t>(commonSizeAll
                 configDoc["status"].set("ok");
 //                UdpJsonExch::getInstance()->callControl->sendJson(configDoc, capacity/*, UDP_PORT*/);
 
-term2("write config OK")
+            term2("write config OK")
 
                 std::fill(UdpJsonExch::getInstance()->callControl->messageData.txBuff, UdpJsonExch::getInstance()->callControl->messageData.txBuff + UdpJsonExch::getInstance()->callControl->messageData.txBuffSize, 0);
                 if (serializeJson(configDoc, UdpJsonExch::getInstance()->callControl->messageData.txBuff, capacity) > 0)
@@ -359,6 +335,9 @@ term2("write config OK")
 
                 commonSizeAllFrames = 0;
                 counterFrames = 0;
+
+                osDelay(1000);
+                HAL_NVIC_SystemReset();
 
             }
         }
