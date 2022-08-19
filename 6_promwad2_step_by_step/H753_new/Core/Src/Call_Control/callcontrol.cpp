@@ -13,7 +13,7 @@
 #include "telephonecall.h"
 #include "rs232.h"
 #include"rs232_printf.h"
-
+extern uint8_t macAdr5;
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -476,12 +476,18 @@ term("CallControl::sendInfoAboutStation")
         infoDoc["Sub"] = *currentSubFirmware;
         infoDoc["IP"] = Json::getInstance()->thisStation.ip;
 
-        MACAddr[0] = 0x40;
-        MACAddr[1] = 0x8d;
-        MACAddr[2] = 0x5c;
-        MACAddr[3] = 0xba;
-        MACAddr[4] = 0xf6;
-        MACAddr[5] = 0x22;
+//        MACAddr[0] = 0x40;
+//        MACAddr[1] = 0x8d;
+//        MACAddr[2] = 0x5c;
+//        MACAddr[3] = 0xba;
+//        MACAddr[4] = 0xf6;
+//        MACAddr[5] = 0x22;
+        MACAddr[0] = 0x00;
+        MACAddr[1] = 0x80;
+        MACAddr[2] = 0xE1;
+        MACAddr[3] = 0x00;
+        MACAddr[4] = 0x00;
+        MACAddr[5] = macAdr5;
 
         for (auto &n : MACAddr) {
             infoDoc["MAC"].add(n);
