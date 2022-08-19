@@ -56,7 +56,8 @@ void WDT::SetDelayTime(uint32_t time)
 
 void WDT::Loop()
 {
-    while (running_) {
+    while (running_)
+    {
         refresh();
 
         osDelay(time_);
@@ -81,7 +82,8 @@ WDT::WDT()
 
 void WDT::refresh(void)
 {
-    if (HAL_WWDG_Refresh(wwdgtHandle) != HAL_OK) {
+    if (HAL_WWDG_Refresh(wwdgtHandle) != HAL_OK)
+    {
         RS232::getInstance().term << "WWDG Refresh Error!" << "\n";
         while(1);
     }

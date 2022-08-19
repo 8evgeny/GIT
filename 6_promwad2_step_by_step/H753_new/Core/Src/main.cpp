@@ -327,7 +327,7 @@ int main(void)
         }
 
 
-//          firmwareInitThread();
+          firmwareInitThread();
 
     }
     else
@@ -341,12 +341,12 @@ int main(void)
         RS232::getInstance().readFromUartThreadId = osThreadCreate(osThread(readFromUartThread), nullptr);
 #endif
 
-//    WDTInit();
-//    osThreadDef(StartWdtThread, StartWdtThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 1);
-//    if ((osThreadCreate(osThread(StartWdtThread), nullptr)) == nullptr)
-//    {
-//        RS232::getInstance().term << __FUNCTION__ << " " << __LINE__ << " " << "\n";
-//    }
+    WDTInit();
+    osThreadDef(StartWdtThread, StartWdtThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 1);
+    if ((osThreadCreate(osThread(StartWdtThread), nullptr)) == nullptr)
+    {
+        RS232::getInstance().term << __FUNCTION__ << " " << __LINE__ << " " << "\n";
+    }
 
 
     //Тестовые потоки

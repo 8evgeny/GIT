@@ -123,7 +123,8 @@ static int counterPackegs = 0; /*! A counter for size of packages */
 //    int current;
 //    int all;
 
-    while (1) {
+    while (1)
+    {
         osMutexWait(mutexFirmwareRingBufferId, osWaitForever);
         if (firmwareRingBuffer.size() != 0) {
             FirmwarePackage pack = firmwareRingBuffer.first();

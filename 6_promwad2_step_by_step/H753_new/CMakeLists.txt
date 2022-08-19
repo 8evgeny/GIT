@@ -24,7 +24,7 @@ add_definitions(-DHAVE_CONFIG_H)
 add_definitions(-D__FPU_PRESENT)
 
 #Логгирование
-#add_definitions(-DLogsEnable) #Полное выключение логоd требуется для потока UART
+add_definitions(-DLogsEnable) #Полное выключение логоd требуется для потока UART
 #add_definitions(-DLogsEnableToConsole) #более подробные логи через макрос term
 #add_definitions(-DPrintTaskLogs) #Запускает поток с логами задач
 
@@ -188,6 +188,7 @@ add_executable(${PROJECT_NAME}.elf
     Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_q15.c
     Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_q15.c
     Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_add_q15.c
+    Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_flash.c
     )
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}\
