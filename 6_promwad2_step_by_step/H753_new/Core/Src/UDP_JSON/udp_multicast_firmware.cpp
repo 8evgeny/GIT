@@ -10,6 +10,8 @@
 
 #include "CircularBuffer.h"
 #include "json.h"
+#include "main.h"
+#include "rs232.h"
 
 #include "../UDP_JSON/udp_multicast.h"
 //#ifndef SC2BOARD
@@ -241,7 +243,8 @@ void parsingFirmwareFromJson(JsonDocument &doc)
 void rebootMcuByJson(JsonDocument &doc)
 {
     int rebootId = doc["rebootId"];
-    if (Json::getInstance()->thisStation.id == rebootId) {
+    if (Json::getInstance()->thisStation.id == rebootId)
+    {
         HAL_NVIC_SystemReset();
     }
 }
@@ -249,7 +252,8 @@ void rebootMcuByJson(JsonDocument &doc)
 void deleteConfigMcuByJson(JsonDocument &doc)
 {
     int deleteConfigId = doc["deleteConfigId"];
-    if (Json::getInstance()->thisStation.id == deleteConfigId) {
+    if (Json::getInstance()->thisStation.id == deleteConfigId)
+    {
         lfs_remove(FsForEeprom::getInstance().lfsPtr, "boot_config");
     }
 }
@@ -265,32 +269,45 @@ void writeConfigMcuByJson(JsonDocument &doc)
     uint32_t tmp[SIZE_DEF_BLOCK_UDP / 4];
 
     int writeConfigId = doc["writeConfigId"];
-    if (Json::getInstance()->thisStation.id == writeConfigId) {
+    if (Json::getInstance()->thisStation.id == writeConfigId)
+    {
+
+term2("writeConfigMcuByJson")
 
         int number =  doc["number"];
-        if (number == counterFrames) {
+        if (number == counterFrames)
+        {
 
             int all = doc["all"];
             int size = doc["size"];
-
+term2(all)
+term2(size)
             counterFrames++;
             commonSizeAllFrames += size;
             const char *config  = doc["config"];
 
             std::fill(tmp, tmp + SIZE_DEF_BLOCK_UDP / 4, 0);
             std::memcpy(tmp, config, SIZE_DEF_BLOCK_UDP);
-            SRAM::getInstance()->writeData(tmp, SIZE_DEF_BLOCK_UDP, reinterpret_cast<uint32_t *>(0x60020000 + number * SIZE_DEF_BLOCK_UDP));
-            if ((all == number) && (counterFrames > 0)) {
+
+            SRAM::getInstance()->writeData(
+                        tmp,
+                        SIZE_DEF_BLOCK_UDP,
+                        reinterpret_cast<uint32_t *>(0x60020000 + number * SIZE_DEF_BLOCK_UDP));
+
+            if ((all == number) && (counterFrames > 0))
+            {
 
                 uint8_t readSramBuff[SIZE_WRITE_BLOCK] {0};
 
                 lfs_remove(FsForEeprom::getInstance().lfsPtr, "boot_config");
                 lfs_file_open(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, "boot_config", LFS_O_RDWR | LFS_O_CREAT);
 
-                for (int32_t i = 0; i < commonSizeAllFrames; i += SIZE_WRITE_BLOCK) {
+                for (int32_t i = 0; i < commonSizeAllFrames; i += SIZE_WRITE_BLOCK)
+                {
                     SRAM::getInstance()->readData(reinterpret_cast<uint32_t *>(readSramBuff), SIZE_WRITE_BLOCK, reinterpret_cast<uint32_t *>(0x60020000 + i));
                     lfs_file_write(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, readSramBuff,  commonSizeAllFrames - i < SIZE_WRITE_BLOCK ? static_cast<uint32_t>(commonSizeAllFrames - i) : SIZE_WRITE_BLOCK);
                 }
+
                 lfs_file_close(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr);
 
                 //send msg configuration write OK

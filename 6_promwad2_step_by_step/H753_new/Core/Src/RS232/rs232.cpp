@@ -644,7 +644,9 @@ term2((uint8_t)i)
 
 taskEXIT_CRITICAL();
 
-    osDelay(1000);
+        HAL_NVIC_SystemReset(); //Перезагрузка после записи конфига
+
+//    osDelay(1000);
     } //end while (true)
     osDelay(1);
 }
