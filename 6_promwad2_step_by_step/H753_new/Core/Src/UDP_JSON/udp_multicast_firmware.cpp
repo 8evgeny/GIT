@@ -283,7 +283,7 @@ void writeConfigMcuByJson(JsonDocument &doc)
 
             int all = doc["all"];
             int size = doc["size"];
-        term2(number)
+term2(number)
             counterFrames++;
             commonSizeAllFrames += size;
             const char *config  = doc["config"];
@@ -294,10 +294,13 @@ void writeConfigMcuByJson(JsonDocument &doc)
 //            tmp,
 //            SIZE_DEF_BLOCK_UDP,
 //            reinterpret_cast<uint32_t *>(0x60020000 + number * SIZE_DEF_BLOCK_UDP));
-            std::memcpy(allConfig + number * SIZE_DEF_BLOCK_UDP, config, SIZE_WRITE_BLOCK);
 
+            std::memcpy(allConfig + number * SIZE_DEF_BLOCK_UDP, config, SIZE_WRITE_BLOCK);
+term2(config)
             if ((all == number) && (counterFrames > 0))
             {
+term2(allConfig) //Может быть нужно очистить перед записью?
+
                 uint8_t readSramBuff[SIZE_WRITE_BLOCK] {0};
                 lfs_remove(FsForEeprom::getInstance().lfsPtr, "boot_config");
                 lfs_file_open(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, "boot_config", LFS_O_RDWR | LFS_O_CREAT);
@@ -308,9 +311,12 @@ void writeConfigMcuByJson(JsonDocument &doc)
 //                    reinterpret_cast<uint32_t *>(readSramBuff),
 //                    SIZE_WRITE_BLOCK,
 //                    reinterpret_cast<uint32_t *>(0x60020000 + i));
+
                     std::memcpy(readSramBuff,
                     allConfig + i,
                     commonSizeAllFrames - i < SIZE_WRITE_BLOCK ? static_cast<uint32_t>(commonSizeAllFrames - i) : SIZE_WRITE_BLOCK);
+
+term2(readSramBuff)
 
                     lfs_file_write(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, readSramBuff,  commonSizeAllFrames - i < SIZE_WRITE_BLOCK ? static_cast<uint32_t>(commonSizeAllFrames - i) : SIZE_WRITE_BLOCK);
                 }
