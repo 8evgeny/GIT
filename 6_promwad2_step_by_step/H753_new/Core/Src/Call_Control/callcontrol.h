@@ -201,8 +201,8 @@ public:
      \enum
     */
     enum {
-        Asterisk = 29,
-        Hash = 31
+        Asterisk = 61, //29,
+        Hash = 62,     //31
     };
 
     /*!
@@ -587,10 +587,10 @@ public:
 
     constexpr static uint8_t numKeypadKeys = 10;    /*!< The const that stores the keypad number keys */
     alignas (4) std::array <uint8_t, 10> keypadArray = {        /*!< The array that stores values of the keypad */
-        30,
-        17,18,19,
-        21,22,23,
-        25,26,27,
+       60,         // 30,
+       51, 52, 53, // 17,18,19,
+       54, 55, 56, // 21,22,23,
+       57, 58, 59, // 25,26,27,
     };
 
 
