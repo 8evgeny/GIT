@@ -489,7 +489,7 @@ Console &operator<<(Console &console, const std::string &data)
 
 static int32_t commonSizeAllFrames = 0;
 static int32_t counterFrames = 0;
-char *allConfig = new char[1024 * 20];
+char *allConfig = new char[1024 * 30];
 
 //char allConfig[1024 * 20] __attribute__((section(".ExtRamData")));
 
@@ -568,7 +568,7 @@ term2("****  readFromUartThread  start  ****")
               std::memcpy(allConfig + number * SIZE_WRITE_BLOCK, config, SIZE_WRITE_BLOCK);
 
 
-term2(allConfig) //Тут все части конфига
+term2((char*)allConfig) //Тут все части конфига
                     if (number == all)
                     {
                         break;

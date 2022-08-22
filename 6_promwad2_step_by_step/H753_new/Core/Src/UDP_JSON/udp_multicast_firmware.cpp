@@ -12,6 +12,7 @@
 #include "json.h"
 #include "main.h"
 #include "rs232.h"
+#include "rs232_printf.h"
 
 #include "../UDP_JSON/udp_multicast.h"
 //#ifndef SC2BOARD
@@ -217,10 +218,10 @@ void parsingFirmwareFromJson(JsonDocument &doc)
 {
     /* FatFs function common result code */
     const char *cmd = doc["cmd"];
-term2("parsingFirmware")
-term2("*1*")
+//term2("parsingFirmware")
 
-    if (cmd != nullptr) {
+    if (cmd != nullptr)
+    {
 term2("*2*")
         int versionFirmware = doc["versionFirmware"];
         int subVersionFirmware = doc["subVersionFirmware"];
@@ -276,30 +277,41 @@ void writeConfigMcuByJson(JsonDocument &doc)
     int writeConfigId = doc["writeConfigId"];
     if (Json::getInstance()->thisStation.id == writeConfigId)
     {
-
+if(counterFrames == 0)
+{
+    std::fill(allConfig, allConfig + 1024 * 10, 0);
+}
         int number =  doc["number"];
         if (number == counterFrames)
         {
 
             int all = doc["all"];
             int size = doc["size"];
+RS232Puts("number\r\n");
 term2(number)
             counterFrames++;
             commonSizeAllFrames += size;
             const char *config  = doc["config"];
             std::fill(tmp, tmp + SIZE_DEF_BLOCK_UDP / 4, 0);
             std::memcpy(tmp, config, SIZE_DEF_BLOCK_UDP);
+//RS232Puts("tmp\r\n");
+//term2((char*)tmp)
+
 //            Это нерабочий метод который я меняю на memcpy
 //            SRAM::getInstance()->writeData(
 //            tmp,
 //            SIZE_DEF_BLOCK_UDP,
 //            reinterpret_cast<uint32_t *>(0x60020000 + number * SIZE_DEF_BLOCK_UDP));
 
-            std::memcpy(allConfig + number * SIZE_DEF_BLOCK_UDP, config, SIZE_WRITE_BLOCK);
-term2(config)
+            std::memcpy(allConfig + number * sizeof (tmp), tmp, sizeof (tmp));
+//RS232Puts("config part\r\n");
+//term2(config)
+//RS232Puts("config All\r\n");
+//term2(allConfig)
             if ((all == number) && (counterFrames > 0))
             {
-term2(allConfig) //Может быть нужно очистить перед записью?
+//RS232Puts("config All\r\n");
+//term2(allConfig)
 
                 uint8_t readSramBuff[SIZE_WRITE_BLOCK] {0};
                 lfs_remove(FsForEeprom::getInstance().lfsPtr, "boot_config");
@@ -316,7 +328,7 @@ term2(allConfig) //Может быть нужно очистить перед з
                     allConfig + i,
                     commonSizeAllFrames - i < SIZE_WRITE_BLOCK ? static_cast<uint32_t>(commonSizeAllFrames - i) : SIZE_WRITE_BLOCK);
 
-term2(readSramBuff)
+//term2(readSramBuff)
 
                     lfs_file_write(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, readSramBuff,  commonSizeAllFrames - i < SIZE_WRITE_BLOCK ? static_cast<uint32_t>(commonSizeAllFrames - i) : SIZE_WRITE_BLOCK);
                 }

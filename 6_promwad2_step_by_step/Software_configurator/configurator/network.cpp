@@ -315,7 +315,7 @@ void AppCore::sendConfigJsonToStationByEthernet(const QString &stationID, const 
 
         //max size of step for transferring
         constexpr qint32 SIZE_DEF = 256;
-        constexpr qint32 TIME_OUT = 5; //Время между пакетами (отправка по сети) - было 500
+        constexpr qint32 TIME_OUT = 20; //Время между пакетами (отправка по сети) - было 500
 
         //write data
         qint32 sizeBuf = json.size();
