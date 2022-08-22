@@ -210,7 +210,7 @@ static void empty(void const *arg)
 uint8_t TLC59116F_max_address;
 // max address number of MCP23017 chips
 uint8_t MCP23017_max_address;
-
+bool telephoneButtons = false;
 uint8_t getCFG(void)
 {
     uint8_t res = 0;
@@ -295,8 +295,8 @@ int main(void)
         case 0: TLC59116F_max_address = 2; MCP23017_max_address = 1; keysNum = 16; break; //УИ-16-1
             case 1: TLC59116F_max_address = 4; MCP23017_max_address = 2; keysNum = 32 ; break;	//УИ-32-1
             case 2: TLC59116F_max_address = 6; MCP23017_max_address = 3; keysNum = 48; break;	//УИ-48-1
-            case 3: TLC59116F_max_address = 2; MCP23017_max_address = 1; keysNum = 16; break;	//УИ-16Н-1
-            case 4: TLC59116F_max_address = 4; MCP23017_max_address = 2; keysNum = 32; break;	//УИ-32Н-1
+            case 3: TLC59116F_max_address = 2; MCP23017_max_address = 1; keysNum = 16; telephoneButtons = true; break;	//УИ-16Н-1
+            case 4: TLC59116F_max_address = 4; MCP23017_max_address = 2; keysNum = 32; telephoneButtons = true; break;	//УИ-32Н-1
             default: TLC59116F_max_address = 6; MCP23017_max_address = 3; keysNum = 48; break;
         }
     }

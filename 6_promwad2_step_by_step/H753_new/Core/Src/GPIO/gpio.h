@@ -80,6 +80,7 @@ public:
     void initLEDS_SC4();
     void initBUTTONS_SC2();
     void initBUTTONS_SC4();
+    uint8_t findTelephoneBUTTONS(uint8_t num, uint8_t reg);
     uint8_t findBUTTONS_SC4(uint8_t num, uint8_t adr, uint8_t reg);
     void SC4_EXTI_IRQHandler_Config();
     void testLed();

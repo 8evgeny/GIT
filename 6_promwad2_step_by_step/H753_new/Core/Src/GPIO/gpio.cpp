@@ -489,6 +489,7 @@ const uint8_t TLC59116F_registerBright[] = {0x02,0x03,0x04,0x05,0x06,0x07,0x08,0
 
 // max address number of MCP23017 chips
 extern uint8_t MCP23017_max_address;
+extern bool telephoneButtons;
 // MCP23017 chips addresses
 const uint8_t MCP23017_address[] = {0x40,0x42,0x44,0x4E};
 // MCP23017 chip LEDs registers
@@ -841,7 +842,22 @@ void readButtonThread(void const *arg)
                         numButton = GPIO::getInstance()->findBUTTONS_SC4(readBoard, i, j);
                     }
                 }
-            }//Просканировали все клавиши
+            }//Просканировали основные клавиши
+
+            if (telephoneButtons && readBoard == 255)
+            {
+                for (uint8_t j = 0; j < 2; ++j)
+                {
+                    readBoard = I2C::getInstance()->readRegister(0x4E, MCP23017_register[j], false);
+                    if (readBoard != 255)
+                    {
+                        numButton = GPIO::getInstance()->findTelephoneBUTTONS(readBoard, j);
+//term2(numButton)
+                    }
+                }
+            }//Просканировали клавиши номеронабирателя
+
+
 
             for (uint8_t i = 0; i < TLC59116F_max_address * 8 ; ++i)
             {
@@ -1278,7 +1294,6 @@ void GPIO::initBUTTONS_SC4()
             buttonArray[i].n = 0;
         }
 
-
         for (uint8_t i = 0; i < MCP23017_max_address; ++i)
         {
             for (uint8_t j = 0; j < sizeof(MCP23017_Init_Val); j += 2)
@@ -1288,9 +1303,36 @@ void GPIO::initBUTTONS_SC4()
         }
 
         //Инициализация регистров телефонного номера
-
-
+        if (telephoneButtons)
+        {
+            for (uint8_t j = 0; j < sizeof(MCP23017_Init_Val); j += 2)
+            {
+                I2C::getInstance()->writeRegister(0x4E, MCP23017_Init_Val[j] , MCP23017_Init_Val[j+1], false);
+            }
+        }
     }
+}
+
+
+uint8_t GPIO::findTelephoneBUTTONS(uint8_t num, uint8_t reg)
+{
+    uint8_t ret = 0;
+    if (boardType == sc4)
+    {
+        switch (num)
+        {
+            case 254: reg == 0? ret = 51:ret = 59;  break; //1  //9
+            case 253: reg == 0? ret = 52:ret = 61; break; //2  //*
+            case 251: reg == 0? ret = 53:ret = 60;  break; //3  //0
+            case 247: reg == 0? ret = 54:ret = 62; break; //4  //#
+            case 239: ret = 55; break; //5
+            case 223: ret = 56; break; //6
+            case 191: ret = 57; break; //7
+            case 127: ret = 58; break; //8
+            default: ret = 1; break;
+        }
+    }
+    return ret;
 }
 
 uint8_t GPIO::findBUTTONS_SC4(uint8_t num, uint8_t adr, uint8_t reg)
