@@ -25,8 +25,8 @@ add_definitions(-D__FPU_PRESENT)
 
 #Логгирование
 add_definitions(-DLogsEnable) #Полное выключение логов требуется для потока UART
-add_definitions(-DLogsEnableToConsole) #более подробные логи через макрос term
-add_definitions(-DPrintTaskLogs) #Запускает поток с логами задач
+#add_definitions(-DLogsEnableToConsole) #более подробные логи через макрос term
+#add_definitions(-DPrintTaskLogs) #Запускает поток с логами задач
 
 set (RS232  ${CMAKE_HOME_DIRECTORY}/Core/Src/RS232)
 set (Debug  ${CMAKE_HOME_DIRECTORY}/Core/Src/Debug)

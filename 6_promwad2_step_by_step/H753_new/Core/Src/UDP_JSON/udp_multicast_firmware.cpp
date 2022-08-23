@@ -22,6 +22,8 @@
 //#endif
 
 extern char *allConfig;
+char allConfigExtRam[1024 * 100] __attribute__((section(".ExtRamData")));
+
 const size_t SIZE_FIRMWARE_BASE = 512; /*! Firmware block */
 
 /*!

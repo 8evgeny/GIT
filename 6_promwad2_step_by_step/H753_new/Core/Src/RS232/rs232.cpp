@@ -491,8 +491,6 @@ static int32_t commonSizeAllFrames = 0;
 static int32_t counterFrames = 0;
 char *allConfig = new char[1024 * 100];
 
-//char allConfig[1024 * 20] __attribute__((section(".ExtRamData")));
-
 void readFromUartThread(void const *arg)
 {
     (void)arg;

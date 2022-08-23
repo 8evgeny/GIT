@@ -72,7 +72,7 @@ osMutexId mutexEth_id;
 osMutexDef (mutexEth);
 
 //Массив во внешней памяти для конфига (readelf -S H753_new.elf)
-char buff_config [200*1024] __attribute__((section(".ExtRamData")));
+//char buff_config [200*1024] __attribute__((section(".ExtRamData")));
 
 MDMA_HandleTypeDef hmdma_memtomem_dma2_stream0;
 //static void MX_MDMA_Init(void); //Вынес с SRAM
@@ -302,7 +302,7 @@ int main(void)
     }
     mutexEth_id = osMutexCreate(osMutex(mutexEth));
 
-    memset(buff_config,' ',sizeof(buff_config));
+//    memset(buff_config,' ',sizeof(buff_config));
 
     Json::getInstance()->configStation();
     if (Json::getInstance()->deserializeJsonFlag == Json::JsonFlags::OK)
