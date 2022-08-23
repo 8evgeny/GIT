@@ -310,8 +310,8 @@ term2(number)
 //term2(allConfig)
             if ((all == number) && (counterFrames > 0))
             {
-//RS232Puts("config All\r\n");
-//term2(allConfig)
+RS232Puts("config size = ");
+term2((int)commonSizeAllFrames)
 
                 uint8_t readSramBuff[SIZE_WRITE_BLOCK] {0};
                 lfs_remove(FsForEeprom::getInstance().lfsPtr, "boot_config");
