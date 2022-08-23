@@ -269,9 +269,9 @@ int main(void)
     debugInit();
     RS232Init();
     if (boardType == sc2)
-        term2("Board SC2")
+term2("Board SC2")
     if (boardType == sc4)
-        term2("Board SC4")
+term2("Board SC4")
     MX_TIM3_Init();
     //    MX_DMA_Init(); //Вынесен в RS232
     MX_RNG_Init();
