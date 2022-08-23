@@ -489,7 +489,8 @@ Console &operator<<(Console &console, const std::string &data)
 
 static int32_t commonSizeAllFrames = 0;
 static int32_t counterFrames = 0;
-char *allConfig = new char[1024 * 100];
+int sizeConfig = 1024 * 100; //Память под конфиг
+char *allConfig = new char[sizeConfig];
 
 void readFromUartThread(void const *arg)
 {

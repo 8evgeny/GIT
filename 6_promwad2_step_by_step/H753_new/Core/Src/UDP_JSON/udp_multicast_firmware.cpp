@@ -22,7 +22,8 @@
 //#endif
 
 extern char *allConfig;
-char allConfigExtRam[1024 * 100] __attribute__((section(".ExtRamData")));
+extern int sizeConfig;
+//char allConfigExtRam[1024 * 100] __attribute__((section(".ExtRamData")));
 
 const size_t SIZE_FIRMWARE_BASE = 512; /*! Firmware block */
 
@@ -281,7 +282,7 @@ void writeConfigMcuByJson(JsonDocument &doc)
     {
 if(counterFrames == 0)
 {
-    std::fill(allConfig, allConfig + 1024 * 10, 0);
+    std::fill(allConfig, allConfig + sizeConfig, 0);
 }
         int number =  doc["number"];
         if (number == counterFrames)
