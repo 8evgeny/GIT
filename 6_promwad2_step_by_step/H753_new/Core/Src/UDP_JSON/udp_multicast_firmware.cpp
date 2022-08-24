@@ -221,7 +221,7 @@ void parsingFirmwareFromJson(JsonDocument &doc)
 {
     /* FatFs function common result code */
     const char *cmd = doc["cmd"];
-term2("parsingFirmware")
+//term2("parsingFirmware")
 
     if (cmd != nullptr)
     {
