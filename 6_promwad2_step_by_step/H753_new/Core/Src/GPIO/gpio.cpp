@@ -852,17 +852,16 @@ void readButtonThread(void const *arg)
                     if (readBoard != 255)
                     {
                         numButton = GPIO::getInstance()->findTelephoneBUTTONS(readBoard, j);
-//term2(numButton)
+
                     }
                 }
             }//Просканировали клавиши номеронабирателя
 
 
-
-            for (uint8_t i = 0; i < TLC59116F_max_address * 8 ; ++i)
-            {
-                if ((numButton-1) == GPIO::getInstance()->buttonArray[i].i) //Похоже здесь buttonArray не нужен
-                {
+//            for (uint8_t i = 0; i < TLC59116F_max_address * 8 ; ++i)
+//            {
+//                if ((numButton-1) == GPIO::getInstance()->buttonArray[i].i) //Похоже здесь buttonArray не нужен
+//                {
 
                     if ((!keySendingFlag) && (numButton != 0))
                     {
@@ -876,13 +875,14 @@ void readButtonThread(void const *arg)
 
                     }
 
-                }
-                else
-                {
-                    GPIO::getInstance()->buttonArray[i].n = 0;
-                }
+//                }
+//                else
+//                {
+//                    GPIO::getInstance()->buttonArray[i].n = 0;
+//                }
 
-            }
+//            }
+
             if(volDownPressed)
             {
                 GPIO::getInstance()->downVolume();

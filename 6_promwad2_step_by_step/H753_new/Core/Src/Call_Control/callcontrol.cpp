@@ -349,9 +349,9 @@ term("autoAnsw_timerId")
         break;
 
     case Telephone :
+term2("Asterisk2")
         if (messageData.field.linkData == static_cast<uint8_t>(Request::LINK))
         {
-term2("Asterisk2")
             messageData.field.prevOwnId = messageData.field.ownId;
             messageData.field.prevPriority = messageData.field.priority;
             assignedData.key = CallControl::Asterisk;
@@ -377,7 +377,6 @@ term2("Asterisk2")
 
 bool CallControl::handleClick(PackageRx pack)
 {
-term2(pack.payloadData)
     if (pack.packetType == GPIO::getInstance()->button)
     {
 
