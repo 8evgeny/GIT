@@ -1,17 +1,22 @@
 #include "telephonecall.h"
 #include "callwaiting.h"
 #include "../UDP_JSON/udp_multicast.h"
+#include "rs232.h"
 
 //extern osTimerId telephone_timerId_;
 //extern osStatus  telephone_timerStatus_;
 
 void TelephoneCall::handleButton()
 {
-    if (context_->subjectKey.key == CallControl::Hash) {
+term2("handleButton")
+    if (context_->subjectKey.key == CallControl::Hash)
+    {
 
         stopRingTone();
         context_->microphone.stop();
-        switchLed(context_->assignedData.key, false);
+
+//switchLed(context_->assignedData.key, false);
+
         if (!context_->telephoneDynamicStorage.empty())
             context_->telephoneDynamicStorage.clear();
 
@@ -25,9 +30,12 @@ void TelephoneCall::handleButton()
             this->context_->TransitionTo(new CallWaiting);
         }
 
-    } else if (context_->subjectKey.key == CallControl::Asterisk) {
-
-        if (!context_->isAnsweredCall && context_->isIncomingCall) {
+    }
+    else if (context_->subjectKey.key == CallControl::Asterisk)
+    {
+term2("Asterisk6")
+        if (!context_->isAnsweredCall && context_->isIncomingCall)
+        {
 
             stopRingTone();
             context_->isAnsweredCall = true;

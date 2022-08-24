@@ -70,11 +70,12 @@ void handleRelasedButtonTimer_Callback(void const *arg)
 
     osMutexWait(UdpJsonExch::getInstance()->mutexCallControlId, osWaitForever);
     if (!UdpJsonExch::getInstance()->callControl->isIncomingCall ||
-            UdpJsonExch::getInstance()->callControl->assignedData.key == CallControl::Asterisk) {
-        if (UdpJsonExch::getInstance()->callControl->subjectKey.key == UdpJsonExch::getInstance()->callControl->assignedData.key) {
-
-
-            if (keyMode == NotFixed) {
+            UdpJsonExch::getInstance()->callControl->assignedData.key == CallControl::Asterisk)
+    {
+        if (UdpJsonExch::getInstance()->callControl->subjectKey.key == UdpJsonExch::getInstance()->callControl->assignedData.key)
+        {
+            if (keyMode == NotFixed)
+            {
                 switch (func) {
                 case CallControl::Direct: {
                     if (!UdpJsonExch::getInstance()->callControl->missedCall.isMissedKey)
@@ -99,7 +100,9 @@ void handleRelasedButtonTimer_Callback(void const *arg)
                 }
 
             }
-        } else if (UdpJsonExch::getInstance()->callControl->assignedData.key == CallControl::Asterisk) {
+        } else if (UdpJsonExch::getInstance()->callControl->assignedData.key == CallControl::Asterisk)
+        {
+term2("Asterisk1")
             if (UdpJsonExch::getInstance()->callControl->subjectKey.key != CallControl::Asterisk
                     && UdpJsonExch::getInstance()->callControl->subjectKey.key != CallControl::Hash)
                 switchLed(UdpJsonExch::getInstance()->callControl->subjectKey.key, false);

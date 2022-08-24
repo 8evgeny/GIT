@@ -852,7 +852,7 @@ void readButtonThread(void const *arg)
                     if (readBoard != 255)
                     {
                         numButton = GPIO::getInstance()->findTelephoneBUTTONS(readBoard, j);
-term2(numButton)
+//term2(numButton)
                     }
                 }
             }//Просканировали клавиши номеронабирателя

@@ -349,8 +349,9 @@ term("autoAnsw_timerId")
         break;
 
     case Telephone :
-        if (messageData.field.linkData == static_cast<uint8_t>(Request::LINK)) {
-
+        if (messageData.field.linkData == static_cast<uint8_t>(Request::LINK))
+        {
+term2("Asterisk2")
             messageData.field.prevOwnId = messageData.field.ownId;
             messageData.field.prevPriority = messageData.field.priority;
             assignedData.key = CallControl::Asterisk;
@@ -377,11 +378,14 @@ term("autoAnsw_timerId")
 bool CallControl::handleClick(PackageRx pack)
 {
 
-    if (pack.packetType == GPIO::getInstance()->button) {
+    if (pack.packetType == GPIO::getInstance()->button)
+    {
 
-        if (pressedKey == pack.payloadData) {
+        if (pressedKey == pack.payloadData)
+        {
 
-            if (osTimer.button_timerStatus != osOK) {
+            if (osTimer.button_timerStatus != osOK)
+            {
                 handleClick_count++;
 
                 if (handleClick_count > 2 && foundKeyFlag_) {
@@ -395,12 +399,15 @@ bool CallControl::handleClick(PackageRx pack)
                     }
                 }
 
-            } else {
-term("osTimer.start")
+            }
+            else
+            {
                 osTimer.start(osTimer.button_timerId, osTimer.button_timerStatus, 200);
             }
 
-        } else {
+        }
+        else
+        {
             pressedKey = pack.payloadData;
 
             handleClick_count = 1;
@@ -410,9 +417,14 @@ term("osTimer.start")
             missedCall.isMissedKey = missedCall.seek(static_cast<uint8_t>(pressedKey));
             if (!missedCall.isMissedKey) {
 
-                for(uint8_t i = 0; i < getSubjectData(Size); ++i ) {
+                for(uint8_t i = 0; i < getSubjectData(Size); ++i ) {//Число задействованных клавиш на номеронабирателе
 
-                    if ((getSubjectData(Key, i)) == pressedKey) {
+                    if ((getSubjectData(Key, i)) == pressedKey)
+                    {
+term2("etSubjectData(Size)=")
+term2((uint8_t)getSubjectData(Size))
+term2("pressedKey=")
+term2((uint8_t)pressedKey)
                         subjectKey = Json::getInstance()->thisStation.keysBuffer[i];
                         foundKeyFlag_ = true;
                         keyMode = subjectKey.mode;
@@ -425,6 +437,7 @@ term("osTimer.start")
                 // The code to support the telephone calls
                 /*-------------------------------------------------------------------------*/
                 if (pressedKey == Asterisk ) {
+term2("Asterisk3")
                     subjectKey.key = Asterisk;
                     func = subjectKey.function = Telephone;
                     keyMode = subjectKey.mode = NotFixed;
@@ -442,11 +455,17 @@ term("osTimer.start")
                 }
 
                 if (func == Telephone && pressedKey != Asterisk )
+                {
+term2("Asterisk4")
+term2("pressedKey==")
+term2((uint8_t)pressedKey)
                     for (auto& var : keypadStructArray)
-                        if (pressedKey == var.n) {
+                        if (pressedKey == var.n)
+                        {
                             subjectKey.key = static_cast<uint8_t>(pressedKey);
                             foundKeyFlag_ = true;
                         }
+                }
                 /*-------------------------------------------------------------------------*/
 
             } else {
