@@ -102,7 +102,6 @@ void handleRelasedButtonTimer_Callback(void const *arg)
             }
         } else if (UdpJsonExch::getInstance()->callControl->assignedData.key == CallControl::Asterisk)
         {
-term2("Asterisk1")
             if (UdpJsonExch::getInstance()->callControl->subjectKey.key != CallControl::Asterisk
                     && UdpJsonExch::getInstance()->callControl->subjectKey.key != CallControl::Hash)
                 switchLed(UdpJsonExch::getInstance()->callControl->subjectKey.key, false);

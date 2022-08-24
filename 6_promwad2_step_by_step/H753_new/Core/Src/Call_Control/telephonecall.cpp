@@ -8,7 +8,6 @@
 
 void TelephoneCall::handleButton()
 {
-term2("TelephoneCall1")
     if (context_->subjectKey.key == CallControl::Hash)
     {
 
@@ -33,7 +32,6 @@ term2("TelephoneCall1")
     }
     else if (context_->subjectKey.key == CallControl::Asterisk)
     {
-term2("Asterisk6")
         if (!context_->isAnsweredCall && context_->isIncomingCall)
         {
 
@@ -61,7 +59,6 @@ term2("Asterisk6")
 
 void TelephoneCall::handleJsonMessage()
 {
-term2("TelephoneCall2")
     switch (static_cast<CallControl::Request>(context_->messageData.field.linkData)) {
     case CallControl::Request::HANG_UP:
         if (Json::getInstance()->thisStation.id == context_->messageData.field.distId) {

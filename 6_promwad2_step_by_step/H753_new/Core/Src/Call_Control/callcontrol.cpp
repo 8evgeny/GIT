@@ -349,7 +349,6 @@ term("autoAnsw_timerId")
         break;
 
     case Telephone :
-term2("Asterisk2")
         if (messageData.field.linkData == static_cast<uint8_t>(Request::LINK))
         {
             messageData.field.prevOwnId = messageData.field.ownId;
@@ -420,16 +419,10 @@ bool CallControl::handleClick(PackageRx pack)
 
                     if ((getSubjectData(Key, i)) == pressedKey)
                     {
-term2("etSubjectData(Size)=")
-term2((uint8_t)getSubjectData(Size))
-term2("pressedKey=")
-term2((uint8_t)pressedKey)
                         subjectKey = Json::getInstance()->thisStation.keysBuffer[i];
                         foundKeyFlag_ = true;
                         keyMode = subjectKey.mode;
                         func = subjectKey.function;
-term2("func==")
-term2((uint8_t)func)
                         break;
                     }
                 }
@@ -437,7 +430,6 @@ term2((uint8_t)func)
                 // The code to support the telephone calls
                 /*-------------------------------------------------------------------------*/
                 if (pressedKey == Asterisk ) {
-term2("Asterisk3")
                     subjectKey.key = Asterisk;
                     func = subjectKey.function = Telephone;
                     keyMode = subjectKey.mode = NotFixed;
@@ -456,9 +448,6 @@ term2("Asterisk3")
 
                 if (func == Telephone && pressedKey != Asterisk )
                 {
-term2("Asterisk4")
-term2("pressedKey==")
-term2((uint8_t)pressedKey)
                     for (auto& var : keypadStructArray)
                         if (pressedKey == var.n)
                         {
@@ -644,14 +633,13 @@ void CallControl::sendMessage(const Request linkData)
 
     std::fill(messageData.txBuff, messageData.txBuff + messageData.txBuffSize, 0);
     if (serializeJson(doc, messageData.txBuff, capacity) > 0) {
-term(messageData.txBuff)
+//term2(messageData.txBuff)
         sendUdpMulticast(messageData.txBuff, strlen(messageData.txBuff));
     }
 }
 
 void CallControl::sendMessage(const uint16_t arr[], const uint16_t size, const Request linkData)
 {
-term("CallControl::sendMessage")
     const int capacity = JSON_OBJECT_SIZE(6) + JSON_ARRAY_SIZE(100);
     DynamicJsonDocument doc (capacity);
 
@@ -668,14 +656,13 @@ term("CallControl::sendMessage")
 
     std::fill(messageData.txBuff, messageData.txBuff + messageData.txBuffSize, 0);
     if (serializeJson(doc, messageData.txBuff, capacity) > 0) {
-term(messageData.txBuff)
+//term2(messageData.txBuff)
         sendUdpMulticast(messageData.txBuff, strlen(messageData.txBuff));
     }
 }
 
 bool CallControl::retransmitMessage(char* arr, const size_t size, const Request linkData)
 {
-term("CallControl::retransmitMessage")
     bool ret = false;
     const int capacity = JSON_OBJECT_SIZE(6)  + JSON_ARRAY_SIZE(100);
     DynamicJsonDocument doc (capacity);
@@ -685,7 +672,7 @@ term("CallControl::retransmitMessage")
 
         std::fill(messageData.txBuff, messageData.txBuff + messageData.txBuffSize, 0);
         if (serializeJson(doc, messageData.txBuff, capacity) > 0) {
-term(messageData.txBuff)
+//term2(messageData.txBuff)
             sendUdpMulticast(messageData.txBuff, strlen(messageData.txBuff));
         }
     }
@@ -732,7 +719,6 @@ term("CallControl::retransmitMessage")
 
 void CallControl::resetData()
 {
-term("CallControl::resetData")
 //    messageData.field.prevOwnId = 0;                      //commented to check conf returning
 //    messageData.field.prevPriority = 0;                   //commented to check conf returning
     assignedData.key = 0;
@@ -774,7 +760,6 @@ void CallControl::sendRequest(uint8_t callType, Request reqType, uint16_t timeou
     }
     break;
     case Group: {
-term("CallControl::Group")
         checkGroupIndex = 0;
         uint16_t size = Json::getInstance()->thisStation.groupsBuffer[assignedData.id].stSize;
         sendMessage(Json::getInstance()->thisStation.groupsBuffer[assignedData.id].stantions, size, reqType);
@@ -791,50 +776,39 @@ constexpr static uint16_t TIMEOUT {300};
 
 void CallControl::sendRequest(Request reqType)
 {
-term1("Request") term((uint8_t)reqType)
     switch (reqType) {
     case Request::HANG_UP:
-term("HANG_UP")
         requestCount = 0;
         retransmitMessage(messageData.recvMessageBuff, strlen(messageData.recvMessageBuff), Request::HANG_UP);
-term("request_timerId")
         osTimer.start(osTimer.request_timerId, osTimer.request_timerStatus, HANG_UP_TIMEOUT);
         requestCount++;
         break;
     case Request::ACK:
-term("ACK")
         retransmitMessage(UdpJsonExch::getInstance()->recvBuff, strlen(UdpJsonExch::getInstance()->recvBuff), CallControl::Request::ACK);
         break;
     case Request::ACK_ANSW:
-term("ACK_ANSW")
         requestCount = 0;
         control = Control::ANSWER;
         retransmitMessage(messageData.recvMessageBuff, strlen(messageData.recvMessageBuff), Request::ACK_ANSW);
-term("request_timerId")
         osTimer.start(osTimer.request_timerId, osTimer.request_timerStatus, TIMEOUT);
         requestCount++;
         break;
     case Request::BUSY:
-term("BUSY")
         if (messageData.distIdArrSize == 1) {
             requestCount = 0;
             control = Control::BUSY;
             retransmitMessage(UdpJsonExch::getInstance()->recvBuff, strlen(UdpJsonExch::getInstance()->recvBuff), messageData.field.distId, CallControl::Request::BUSY);
-term("request_timerId")
             osTimer.start(osTimer.request_timerId, osTimer.request_timerStatus, TIMEOUT);
             requestCount++;
         }
         break;
     case Request::CHANGE_CONF:
-term("CHANGE_CONF")
         requestCount = 0;
         retransmitMessage(messageData.recvMessageBuff, strlen(messageData.recvMessageBuff), Request::CHANGE_CONF);
-term("request_timerId")
         osTimer.start(osTimer.request_timerId, osTimer.request_timerStatus, TIMEOUT);
         requestCount++;
         break;
     case Request::RETURN_CONF:
-term("RETURN_CONF")
         requestCount = 0;
         switch (isInterruptConf) {
         case InterruptConf::CALLED_PARTY:
@@ -847,7 +821,6 @@ term("RETURN_CONF")
         default:
             break;
         }
-term("request_timerId")
         osTimer.start(osTimer.request_timerId, osTimer.request_timerStatus, TIMEOUT);
         requestCount++;
         break;
@@ -858,7 +831,6 @@ term("request_timerId")
 
 bool CallControl::switchToConf()
 {
-term("CallControl::switchToConf")
     if(isInterruptConf != InterruptConf::NONE) {
 
         if (isInterruptConf == InterruptConf::CALLED_PARTY) {

@@ -374,7 +374,6 @@ term("--- rtpSendPacketsFull ---")
 void rtpRecvThread(void const *arg)
 {
 //osDelay(800);
-term2("--- rtpRecvThread ---") blank_str
     char msg[20];
     struct sockaddr_in local;
     struct sockaddr_in from;
