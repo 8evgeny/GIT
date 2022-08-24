@@ -377,7 +377,7 @@ term2("Asterisk2")
 
 bool CallControl::handleClick(PackageRx pack)
 {
-
+term2(pack.payloadData)
     if (pack.packetType == GPIO::getInstance()->button)
     {
 
@@ -415,9 +415,9 @@ bool CallControl::handleClick(PackageRx pack)
             foundKeyFlag_ = false;
 
             missedCall.isMissedKey = missedCall.seek(static_cast<uint8_t>(pressedKey));
-            if (!missedCall.isMissedKey) {
-
-                for(uint8_t i = 0; i < getSubjectData(Size); ++i ) {//Число задействованных клавиш на номеронабирателе
+            if (!missedCall.isMissedKey)
+            {
+                for(uint8_t i = 0; i < getSubjectData(Size); ++i ) {//Число задействованных клавиш в конфиге
 
                     if ((getSubjectData(Key, i)) == pressedKey)
                     {
@@ -429,7 +429,8 @@ term2((uint8_t)pressedKey)
                         foundKeyFlag_ = true;
                         keyMode = subjectKey.mode;
                         func = subjectKey.function;
-
+term2("func==")
+term2((uint8_t)func)
                         break;
                     }
                 }
