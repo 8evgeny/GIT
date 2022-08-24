@@ -1,0 +1,47 @@
+Испочник 104 приемник 107
+
+Симплекс
+- Нажата кнопка на 104 и удерживается
+- посылка от 104   0xFF  (LINK)     {"Own_Id":104,"Dist_Id":[107],"Call_Type":1,"Priority":2,"Link_Data":255,"Direct_Link_Mode":1}
+- ответ от 107     0x22  (ACK_ANSW) {"Own_Id":104,"Dist_Id":[107],"Call_Type":1,"Priority":2,"Link_Data":34,"Direct_Link_Mode":1}
+- Идет передача пакетов с голосовыми данными от 104 к 107
+- отпущена кнопка на 104
+- посылка от 104   0x00  (HANG_UP)  {"Own_Id":104,"Dist_Id":[107],"Call_Type":1,"Priority":2,"Link_Data":0,"Direct_Link_Mode":1}
+- ответ от 107     0x11  (ACK)      {"Own_Id":104,"Dist_Id":[107],"Call_Type":1,"Priority":2,"Link_Data":17,"Direct_Link_Mode":1}
+- конец
+
+Дуплекс
+- Нажата и отпущена кнопка на 104
+- посылка от 104   0xFF  (LINK)     {"Own_Id":104,"Dist_Id":[107],"Call_Type":1,"Priority":1,"Link_Data":255,"Direct_Link_Mode":2}
+- ответ от 107     0x11  (ACK)      {"Own_Id":104,"Dist_Id":[107],"Call_Type":1,"Priority":1,"Link_Data":17,"Direct_Link_Mode":2}
+- идет вызов пока не нажата кнопка на 107
+- нажата и отпущена кнопка на 107
+- ответ от 107     0x22  (ACK_ANSW) {"Own_Id":104,"Dist_Id":[107],"Call_Type":1,"Priority":1,"Link_Data":34,"Direct_Link_Mode":2}
+- ответ от 104     0x11  (ACK)      {"Own_Id":104,"Dist_Id":[107],"Call_Type":1,"Priority":1,"Link_Data":17,"Direct_Link_Mode":2}
+- Идет передача пакетов с голосовыми данными от 104 к 107
+- Идет передача пакетов с голосовыми данными от 107 к 104
+- Если нажата кнопка на 104 (отбой)
+- посылка от 104   0x00  (HANG_UP)  {"Own_Id":104,"Dist_Id":[107],"Call_Type":1,"Priority":1,"Link_Data":0,"Direct_Link_Mode":2}
+- ответ от 107     0x11  (ACK)      {"Own_Id":104,"Dist_Id":[107],"Call_Type":1,"Priority":1,"Link_Data":17,"Direct_Link_Mode":2}
+- конец
+- Если нажата кнопка на 107 (отбой)
+- посылка от 107   0x00  (HANG_UP)  {"Own_Id":104,"Dist_Id":[107],"Call_Type":1,"Priority":1,"Link_Data":0,"Direct_Link_Mode":2}
+- ответ от 104     0x11  (ACK)      {"Own_Id":104,"Dist_Id":[107],"Call_Type":1,"Priority":1,"Link_Data":17,"Direct_Link_Mode":2}
+- конец
+
+Со 107 удален конфиг
+Симплекс  та-же последовательность
+Дуплекс (работает автоподнятие)
+- Нажата и отпущена кнопка на 104
+- посылка от 104   0xFF  (LINK)     {"Own_Id":104,"Dist_Id":[107],"Call_Type":1,"Priority":1,"Link_Data":255,"Direct_Link_Mode":2}
+- ответ от 107     0x11  (ACK)      {"Own_Id":104,"Dist_Id":[107],"Call_Type":1,"Priority":1,"Link_Data":17,"Direct_Link_Mode":2}
+
+- ответ от 107     0x22  (ACK_ANSW) {"Own_Id":104,"Dist_Id":[107],"Call_Type":1,"Priority":2,"Link_Data":34,"Direct_Link_Mode":1}
+- ответ от 104     0x11  (ACK)      {"Own_Id":104,"Dist_Id":[107],"Call_Type":1,"Priority":1,"Link_Data":17,"Direct_Link_Mode":2}
+- Идет передача пакетов с голосовыми данными от 104 к 107
+- Идет передача пакетов с голосовыми данными от 107 к 104
+и далее каждые 2 с
+- ответ от 107     0x22  (ACK_ANSW) {"Own_Id":104,"Dist_Id":[107],"Call_Type":1,"Priority":2,"Link_Data":34,"Direct_Link_Mode":1}
+- ответ от 104     0x11  (ACK)      {"Own_Id":104,"Dist_Id":[107],"Call_Type":1,"Priority":1,"Link_Data":17,"Direct_Link_Mode":2}
+
+- Завершение аналогично обычному дуплексу
