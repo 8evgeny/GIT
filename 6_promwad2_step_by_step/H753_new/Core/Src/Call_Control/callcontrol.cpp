@@ -20,7 +20,7 @@ extern "C" {
 
 uint16_t pressedKey = 0; /*!< The variable stores a number of the pressed key */
 uint8_t handleClick_count = 0; /*!< The variable is the counter to handle clicks */
-
+uint8_t legIndicateAsterisk = 0;
 uint8_t keyMode = 0, /*!< The variable stores a mode of the pressed key */
         func = 0;    /*!< The variable stores a function of the pressed key */
 
@@ -207,8 +207,6 @@ void CallControl::setCallType()
 
                 if (messageData.field.linkMode == Duplex) {
 
-
-
                     startRingTone(RingToneType::RING_TONE);
                     this->TransitionTo(new DuplexDirectCall);
 
@@ -367,7 +365,7 @@ void CallControl::setCallType()
         break;
     }
 }
-uint8_t legIndicateAsterisk = 0;
+
 bool CallControl::handleClick(PackageRx pack)
 {
 bool changeToAsterisk = false;
@@ -412,7 +410,12 @@ bool changeToHash = false;
             missedCall.isMissedKey = missedCall.seek(static_cast<uint8_t>(pressedKey));
             if (!missedCall.isMissedKey)
             {
-                for(uint8_t i = 0; i < getSubjectData(Size); ++i ) {//Число задействованных клавиш в конфиге
+                for(uint8_t i = 0; i < getSubjectData(Size); ++i ) //Число задействованных клавиш в конфиге
+                {
+                    if ((getSubjectData(Function, i)) == Telephone)
+                    {
+                        legIndicateAsterisk = getSubjectData(Key, i);
+                    }
 
                     if ((getSubjectData(Key, i)) == pressedKey)
                     {
@@ -423,7 +426,7 @@ bool changeToHash = false;
                         if (subjectKey.function == Telephone)
                         {
                             changeToAsterisk = true;
-                            legIndicateAsterisk = subjectKey.key;
+//                            legIndicateAsterisk = subjectKey.key;
 
                             subjectKey.key = Asterisk;
                         }
