@@ -74,9 +74,8 @@ void CallControl::TransitionTo(State *state)
 void CallControl::button(PackageRx pack)
 {
 
-    if (handleClick(pack)) {
-
-//term("*** handleClick end ***")
+    if (handleClick(pack))
+    {
         this->state_->handleButton();
     }
 }
@@ -109,10 +108,9 @@ void CallControl::answerUnknownCall()
 
 bool CallControl::detectSubject(uint16_t subject)
 {
-term1("CallControl subject ") term(subject)
     uint16_t size = getSubjectData(Size);
-    for(uint8_t i = 0; i < size; ++i ) {
-
+    for(uint8_t i = 0; i < size; ++i )
+    {
         subjectKey = Json::getInstance()->thisStation.keysBuffer[i];
         if (subjectKey.assign == subject) {
             return true;
@@ -123,14 +121,14 @@ term1("CallControl subject ") term(subject)
 
 uint8_t CallControl::getKey(const uint16_t subject)
 {
-term("CallControl::getKey")
     uint16_t id = 0;
 
     uint16_t size = getSubjectData(Size);
-    for(uint8_t i = 0; i < size; ++i ) {
-
+    for(uint8_t i = 0; i < size; ++i )
+    {
         id = getSubjectData(Assign, i);
-        if (id == subject) {
+        if (id == subject)
+        {
             return static_cast<uint8_t>(getSubjectData(Key, i));
         }
     }
@@ -139,12 +137,11 @@ term("CallControl::getKey")
 
 bool CallControl::detectSubjCallType(uint8_t func)
 {
-term("CallControl::detectSubjCallType")
     uint16_t size = getSubjectData(Size);
     uint8_t foundFunc = 0;
 
-    for(uint8_t i = 0; i < size; ++i ) {
-
+    for(uint8_t i = 0; i < size; ++i )
+    {
         foundFunc = static_cast<uint8_t>(getSubjectData(Function, i));
         if (foundFunc == func) {
             assignedData.conferenceKey = static_cast<uint8_t>(getSubjectData(Key, i));
@@ -190,7 +187,8 @@ uint16_t CallControl::getSubjectData(CallControl::SubjectData control, uint8_t i
 
 void CallControl::setCallType()
 {
-    switch (messageData.field.callType) {
+    switch (messageData.field.callType)
+    {
     case Direct:
         if (messageData.field.linkData == static_cast<uint8_t>(Request::LINK)) {
 
@@ -238,7 +236,6 @@ void CallControl::setCallType()
                     retransmitMessage(UdpJsonExch::getInstance()->recvBuff, strlen(UdpJsonExch::getInstance()->recvBuff), Request::ACK);
 
                     startRingTone(RingToneType::RING_UNKNOWN_TONE);
-term("autoAnsw_timerId")
                     osTimer.start(osTimer.autoAnsw_timerId, osTimer.autoAnsw_timerStatus, AUTO_ANSW_TIMEOUT);
                     this->TransitionTo(new DuplexDirectCall);
 
@@ -247,7 +244,6 @@ term("autoAnsw_timerId")
                     retransmitMessage(UdpJsonExch::getInstance()->recvBuff, strlen(UdpJsonExch::getInstance()->recvBuff), Request::ACK_ANSW);
 
                     startRingTone(RingToneType::RING_UNKNOWN_TONE);
-term("autoAnsw_timerId")
                     osTimer.start(osTimer.autoAnsw_timerId, osTimer.autoAnsw_timerStatus, AUTO_ANSW_TIMEOUT);
                     this->TransitionTo(new SimplexDirectCall);
                 }
@@ -281,7 +277,6 @@ term("autoAnsw_timerId")
                 isIncomingCall = true;
                 copyRecvBuff(messageData.recvMessageBuff, UdpJsonExch::getInstance()->recvBuff);
                 startRingTone(RingToneType::RING_UNKNOWN_TONE);
-term("autoAnsw_timerId")
                 osTimer.start(osTimer.autoAnsw_timerId, osTimer.autoAnsw_timerStatus, AUTO_ANSW_TIMEOUT);
 //                createRtp(messageData.field.prevOwnId, Simplex_recv_type);
                 this->TransitionTo(new GroupCall);
@@ -314,7 +309,6 @@ term("autoAnsw_timerId")
                 copyRecvBuff(messageData.recvMessageBuff, UdpJsonExch::getInstance()->recvBuff);
                 retransmitMessage(UdpJsonExch::getInstance()->recvBuff, strlen(UdpJsonExch::getInstance()->recvBuff), Request::ACK_ANSW);
                 startRingTone(RingToneType::RING_UNKNOWN_TONE);
-term("autoAnsw_timerId")
                 osTimer.start(osTimer.autoAnsw_timerId, osTimer.autoAnsw_timerStatus, AUTO_ANSW_TIMEOUT);
 //                createRtp(messageData.field.prevOwnId, Simplex_recv_type);
                 this->TransitionTo(new CircularCall);
@@ -419,7 +413,24 @@ bool CallControl::handleClick(PackageRx pack)
 
                     if ((getSubjectData(Key, i)) == pressedKey)
                     {
+
                         subjectKey = Json::getInstance()->thisStation.keysBuffer[i];
+
+//Добавил переопределение клавиш для возможности принимать телефонный вызовы
+                        if (subjectKey.function == Telephone)
+                        {
+                            subjectKey.key = Asterisk;
+                            term2("redefined key")
+                            term2(subjectKey.key)
+
+                        }
+                        if (subjectKey.function == HungUp)
+                        {
+                            subjectKey.key = Hash;
+                            term2("redefined key")
+                            term2(subjectKey.key)
+                        }
+
                         foundKeyFlag_ = true;
                         keyMode = subjectKey.mode;
                         func = subjectKey.function;
