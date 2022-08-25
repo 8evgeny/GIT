@@ -558,8 +558,9 @@ GPIO::GPIO()
     if (boardType == sc4)
     {
         i2cInitBoard();
-        SC4_EXTI_IRQHandler_Config();
+//       EXTI_IRQHandler_Config();
     }
+    EXTI_IRQHandler_Config();
 }
 
 GPIO *GPIO::getInstance()
@@ -1047,6 +1048,8 @@ void EXTI4_IRQHandler(void)
 
 void EXTI9_5_IRQHandler()
 {
+    if (boardType == sc2)
+        HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_8);
     HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_5);
     HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_9);
 }
@@ -1058,7 +1061,7 @@ void EXTI15_10_IRQHandler(void)
     HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_12);
 }
 
-void GPIO::SC4_EXTI_IRQHandler_Config()
+void GPIO::EXTI_IRQHandler_Config()
 {
     GPIO_InitTypeDef   GPIO_InitStructure;
 
@@ -1085,6 +1088,16 @@ void GPIO::SC4_EXTI_IRQHandler_Config()
         HAL_NVIC_SetPriority(EXTI15_10_IRQn, 5, 0);
         HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
     }
+
+    if (boardType == sc2)
+    {
+        //button UI board interrupt pin setup
+        GPIO_InitStructure.Mode = GPIO_MODE_IT_RISING;
+        GPIO_InitStructure.Pull = GPIO_PULLUP;
+        GPIO_InitStructure.Pin = GPIO_PIN_8;
+        HAL_GPIO_Init(GPIOC, &GPIO_InitStructure);
+    }
+
 
     HAL_NVIC_SetPriority(EXTI9_5_IRQn, 5, 0);
     HAL_NVIC_EnableIRQ(EXTI9_5_IRQn);
