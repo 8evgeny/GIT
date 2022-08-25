@@ -457,7 +457,7 @@ bool changeToHash = false;
                 /*-------------------------------------------------------------------------*/
                 if ((pressedKey == Asterisk )|| changeToAsterisk)
                 {
-                    switchLed(legIndicateAsterisk, true, 250, 250, 0, GPIO::RED);
+                    switchLed(legIndicateAsterisk, true, 0, 0, 0, GPIO::GREEN);
                     subjectKey.key = Asterisk;
                     func = subjectKey.function = Telephone;
                     keyMode = subjectKey.mode = NotFixed;
