@@ -5,7 +5,7 @@
 #include "rs232.h"
 #include "sai.h"
 #include "ringBack.h"
-
+#include "callcontrol.h"
 #include "i2c.h"
 #include "tlv320aic3254.h"
 #include "rtp.h"
@@ -25,7 +25,7 @@ static uint8_t saveCurrentTypeOfRtp = 0;
 static uint8_t timerCount = 0;
 static osTimerId ringToneTimer_id;
 static RingToneType toneType = RingToneType::RING_TONE;
-
+extern uint8_t legIndicateAsterisk;
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -758,6 +758,8 @@ extern RTP_HandleTypeDef rtpStructSend;         /* RTP structure */
 ErrorCode rtpRemove()
 {
     term2("rtpRemove")
+    switchLed(legIndicateAsterisk, false); //При телефонном вызове
+
 //    if (saveCurrentTypeOfRtp != 3) {
     HAL_SAI_DMAStop(&audioTxSai);
     HAL_SAI_DMAStop(&audioRxSai);

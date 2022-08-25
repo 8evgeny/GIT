@@ -34,8 +34,6 @@ void TelephoneCall::handleButton()
     }
     else if (context_->subjectKey.key == CallControl::Asterisk)
     {
-//switchLed(legIndicateAsterisk, true, 250, 250, 0, GPIO::GREEN);
-
         if (!context_->isAnsweredCall && context_->isIncomingCall)
         {
             stopRingTone();
