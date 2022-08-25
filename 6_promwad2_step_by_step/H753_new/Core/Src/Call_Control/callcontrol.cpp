@@ -370,6 +370,8 @@ void CallControl::setCallType()
 
 bool CallControl::handleClick(PackageRx pack)
 {
+bool changeToAsterisk = false;
+bool changeToHash = false;
     if (pack.packetType == GPIO::getInstance()->button)
     {
 
@@ -419,16 +421,20 @@ bool CallControl::handleClick(PackageRx pack)
 //Добавил переопределение клавиш для возможности принимать телефонный вызовы
                         if (subjectKey.function == Telephone)
                         {
+                            changeToAsterisk = true;
                             subjectKey.key = Asterisk;
-                            term2("redefined key")
-                            term2(subjectKey.key)
+//pressedKey = Asterisk;
+//term2("redefined key")
+//term2(subjectKey.key)
 
                         }
                         if (subjectKey.function == HungUp)
                         {
+                            changeToHash = true;
                             subjectKey.key = Hash;
-                            term2("redefined key")
-                            term2(subjectKey.key)
+//pressedKey = Hash;
+//term2("redefined key")
+//term2(subjectKey.key)
                         }
 
                         foundKeyFlag_ = true;
@@ -440,7 +446,9 @@ bool CallControl::handleClick(PackageRx pack)
 
                 // The code to support the telephone calls
                 /*-------------------------------------------------------------------------*/
-                if (pressedKey == Asterisk ) {
+                if ((pressedKey == Asterisk )|| changeToAsterisk)
+                {
+term2("---1")
                     subjectKey.key = Asterisk;
                     func = subjectKey.function = Telephone;
                     keyMode = subjectKey.mode = NotFixed;
@@ -448,7 +456,8 @@ bool CallControl::handleClick(PackageRx pack)
                     subjectKey.type = 0;
                     subjectKey.priority = 4;
                     foundKeyFlag_ = true;
-                } else if (pressedKey == Hash) {
+                } else if ((pressedKey == Hash)|| changeToHash)
+                {
                     subjectKey.key = Hash;
                     subjectKey.function = Telephone;
                     subjectKey.mode = Fixed;
