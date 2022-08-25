@@ -358,12 +358,11 @@ void CallControl::setCallType()
 
             for(uint8_t i = 0; i < getSubjectData(Size); ++i ) //Число задействованных клавиш в конфиге
             {
-                if ((getSubjectData(Function, i)) == Telephone)
+                if ((getSubjectData(Function, i)) == Telephone) //Определяем какой Led зажигать
                 {
                     legIndicateAsterisk = getSubjectData(Key, i);
                 }
             }
-
             switchLed(legIndicateAsterisk, true, 250, 250, 0, GPIO::GREEN);
             startRingTone(RingToneType::RING_TONE);
             this->TransitionTo(new TelephoneCall);
