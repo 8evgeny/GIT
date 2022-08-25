@@ -356,6 +356,15 @@ void CallControl::setCallType()
             sendRequest(Request::ACK);
 //            memcpy (messageData.field.recvBuffCopy, UdpJsonExch::getInstance()->recvBuff, strlen(UdpJsonExch::getInstance()->recvBuff)+1);
 
+            for(uint8_t i = 0; i < getSubjectData(Size); ++i ) //Число задействованных клавиш в конфиге
+            {
+                if ((getSubjectData(Function, i)) == Telephone)
+                {
+                    legIndicateAsterisk = getSubjectData(Key, i);
+                }
+            }
+
+            switchLed(legIndicateAsterisk, true, 250, 250, 0, GPIO::GREEN);
             startRingTone(RingToneType::RING_TONE);
             this->TransitionTo(new TelephoneCall);
         }
