@@ -367,11 +367,12 @@ void CallControl::setCallType()
         break;
     }
 }
-
+uint8_t legIndicateAsterisk = 0;
 bool CallControl::handleClick(PackageRx pack)
 {
 bool changeToAsterisk = false;
 bool changeToHash = false;
+
     if (pack.packetType == GPIO::getInstance()->button)
     {
 
@@ -422,19 +423,16 @@ bool changeToHash = false;
                         if (subjectKey.function == Telephone)
                         {
                             changeToAsterisk = true;
-                            subjectKey.key = Asterisk;
-//pressedKey = Asterisk;
-//term2("redefined key")
-//term2(subjectKey.key)
+                            legIndicateAsterisk = subjectKey.key;
 
+                            subjectKey.key = Asterisk;
                         }
+
                         if (subjectKey.function == HungUp)
                         {
                             changeToHash = true;
+
                             subjectKey.key = Hash;
-//pressedKey = Hash;
-//term2("redefined key")
-//term2(subjectKey.key)
                         }
 
                         foundKeyFlag_ = true;
@@ -448,7 +446,7 @@ bool changeToHash = false;
                 /*-------------------------------------------------------------------------*/
                 if ((pressedKey == Asterisk )|| changeToAsterisk)
                 {
-term2("---1")
+                    switchLed(legIndicateAsterisk, true, 0,0,0, GPIO::RED);
                     subjectKey.key = Asterisk;
                     func = subjectKey.function = Telephone;
                     keyMode = subjectKey.mode = NotFixed;
@@ -458,6 +456,7 @@ term2("---1")
                     foundKeyFlag_ = true;
                 } else if ((pressedKey == Hash)|| changeToHash)
                 {
+                    switchLed(legIndicateAsterisk, false);
                     subjectKey.key = Hash;
                     subjectKey.function = Telephone;
                     subjectKey.mode = Fixed;
