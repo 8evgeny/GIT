@@ -162,7 +162,6 @@ void TelephoneCall::handleJsonMessage()
         if (Json::getInstance()->thisStation.id == context_->messageData.field.ownId) {
             if (context_->messageData.field.distId == context_->messageData.field.prevDistId) {
                 context_->sendRequest(CallControl::Request::ACK);
-term2("---1")
                 startRingTone(RingToneType::RING_BACK_BUSY_TONE);
                 switchLed(context_->assignedData.key, true, 900, 100, 0, GPIO::GREEN);
 //                context_->serviceData->isBusy = true;
@@ -213,7 +212,6 @@ void TelephoneCall::handleRepeatedRequestCallBack()
             case CallControl::Control::READY: {
                 if (!context_->isIncomingCall)
                 {
-term2("---2")
                     startRingTone(RingToneType::RING_BACK_BUSY_TONE);
                     switchLed(context_->assignedData.key, true, 900, 100, 0, GPIO::GREEN);
                 }
@@ -259,7 +257,6 @@ void TelephoneCall::handleAck()
                 context_->copyRecvBuff(context_->messageData.recvMessageBuff, UdpJsonExch::getInstance()->recvBuff);
 //                switchLed(context_->assignedData.key, true, 0,0,0, GPIO::GREEN);
 //                context_->messageData.field.prevPriority = context_->messageData.field.distPriority;
-term2("---3")
                 startRingTone(RingToneType::RING_BACK_TONE);
 //                context_->requestCount = 0;
                 context_->osTimer.stop(context_->osTimer.request_timerId, context_->osTimer.request_timerStatus);
