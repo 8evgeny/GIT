@@ -66,6 +66,7 @@ void TelephoneCall::handleJsonMessage()
             if (context_->messageData.field.ownId == context_->messageData.field.prevOwnId) {
 
                 stopRingTone();
+                switchLed(legIndicateAsterisk, false);
 
                 context_->osTimer.stop(context_->osTimer.request_timerId, context_->osTimer.request_timerStatus);
 
