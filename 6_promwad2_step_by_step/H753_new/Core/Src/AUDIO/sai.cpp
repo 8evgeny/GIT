@@ -92,9 +92,11 @@ static void crypInit(uint32_t *key)
     hcryp.Init.pKey = key;
     hcryp.Init.Algorithm = CRYP_AES_ECB;
     hcryp.Init.DataWidthUnit = CRYP_DATAWIDTHUNIT_WORD;
-//    if (HAL_CRYP_Init(&hcryp) != HAL_OK) {
-//        RS232::getInstance().term << "crypInit -> ERROR\n";
-//    }
+
+    if (HAL_CRYP_Init(&hcryp) != HAL_OK)
+    {
+        RS232::getInstance().term << "crypInit -> ERROR\n";
+    }
 }
 
 #ifdef __cplusplus

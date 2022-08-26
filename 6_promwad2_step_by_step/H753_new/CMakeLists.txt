@@ -192,6 +192,7 @@ add_executable(${PROJECT_NAME}.elf
     Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_q15.c
     Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_add_q15.c
     Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_flash.c
+    Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_cryp.c
     )
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}\
