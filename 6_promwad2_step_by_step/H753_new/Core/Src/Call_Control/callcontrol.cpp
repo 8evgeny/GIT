@@ -122,6 +122,7 @@ bool CallControl::detectSubject(uint16_t subject)
 uint8_t CallControl::getKey(const uint16_t subject)
 {
     uint16_t id = 0;
+    uint8_t ret = 0;
 
     uint16_t size = getSubjectData(Size);
     for(uint8_t i = 0; i < size; ++i )
@@ -129,10 +130,13 @@ uint8_t CallControl::getKey(const uint16_t subject)
         id = getSubjectData(Assign, i);
         if (id == subject)
         {
-            return static_cast<uint8_t>(getSubjectData(Key, i));
+            ret = static_cast<uint8_t>(getSubjectData(Key, i));
         }
     }
-    return 0;
+    //Теперь проверяем контекст и если дуплекс - ищем правильное значение
+
+
+    return ret;
 }
 
 bool CallControl::detectSubjCallType(uint8_t func)

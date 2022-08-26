@@ -90,8 +90,10 @@ void CircularCall::handleJsonMessage()
         }
         break;
     case CallControl::Request::LINK:
-        if (Json::getInstance()->thisStation.id == context_->messageData.field.distId) {
-            if (context_->messageData.field.ownId != context_->messageData.field.prevOwnId) {
+        if (Json::getInstance()->thisStation.id == context_->messageData.field.distId)
+        {
+            if (context_->messageData.field.ownId != context_->messageData.field.prevOwnId)
+            {
 
 //                if ((context_->assignedData.priority > context_->messageData.field.priority || context_->assignedData.priority == 0) &&
 //                        (context_->messageData.field.prevPriority > context_->messageData.field.priority || context_->messageData.field.prevPriority == 0)) {
@@ -125,9 +127,12 @@ void CircularCall::handleJsonMessage()
                         context_->setCallType();
                     }
 
-                } else {
+                }
+                else
+                {
                     uint8_t key = context_->getKey(context_->messageData.field.ownId);
-                    if (key) {
+                    if (key)
+                    {
                         context_->missedCall.add(key);
                     }
                     context_->sendRequest(CallControl::Request::BUSY);
