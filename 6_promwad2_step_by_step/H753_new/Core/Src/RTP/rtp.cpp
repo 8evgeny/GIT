@@ -179,25 +179,32 @@ term("--- timerForMixAudio ---")
             //проверить сколько элементов в tmpRingBuffer
 //            std::fill(rtpDataRxMixAudio, rtpDataRxMixAudio + BUFFER_AUDIO_SIZE_RTP / 2, 0);
             uint32_t sizeTmp =  SAI::getInstance()->tmpRingBuffer.size();
-            if(sizeTmp >= ssrcTmp.size()) {
+            if(sizeTmp >= ssrcTmp.size())
+            {
                 arm_fill_q15(0, reinterpret_cast<q15_t *>(rtpDataRxMixAudio), BUFFER_AUDIO_SIZE_RTP / 2);
-                for (uint32_t i = 0; i < sizeTmp; i++) {
+                for (uint32_t i = 0; i < sizeTmp; i++)
+                {
                     inMix = SAI::getInstance()->tmpRingBuffer.shift();
 
-
 //                    osMutexWait(mutexCryptTxId, osWaitForever);
-//                    HAL_CRYP_Decrypt_DMA(&hcryp, reinterpret_cast<uint32_t *>(inMix.payload), BUFFER_AUDIO_SIZE_RTP / 4, reinterpret_cast<uint32_t *>(rtpDataRxMixCrypt));
+//                    HAL_CRYP_Decrypt_DMA(&hcryp, reinterpret_cast<uint32_t *>(inMix.payload),
+//                                         BUFFER_AUDIO_SIZE_RTP / 4,
+//                                         reinterpret_cast<uint32_t *>(rtpDataRxMixCrypt));
 //                    while (!SAI::getInstance()->cryptTxComplete);
 //                    SAI::getInstance()->cryptTxComplete = false;
 //                    osMutexRelease(mutexCryptTxId);
-arm_copy_q15( reinterpret_cast<q15_t *>(inMix.payload),
-              reinterpret_cast<q15_t *>(rtpDataRxMixCrypt),
-              BUFFER_AUDIO_SIZE_RTP / 2);
+
+                    arm_copy_q15( reinterpret_cast<q15_t *>(inMix.payload),     //Вместо дешифрования
+                                  reinterpret_cast<q15_t *>(rtpDataRxMixCrypt),
+                                  BUFFER_AUDIO_SIZE_RTP / 2);
 
                     arm_add_q15(reinterpret_cast<q15_t *>(rtpDataRxMixAudio), reinterpret_cast<q15_t *>(rtpDataRxMixCrypt), reinterpret_cast<q15_t *>(rtpDataRxMixAudioDst), BUFFER_AUDIO_SIZE_RTP / 2);
                     arm_copy_q15( reinterpret_cast<q15_t *>(rtpDataRxMixAudioDst), reinterpret_cast<q15_t *>(rtpDataRxMixAudio), BUFFER_AUDIO_SIZE_RTP / 2);
                 }
-                arm_copy_q15(reinterpret_cast<q15_t *>(rtpDataRxMixAudio), reinterpret_cast<q15_t *>(inMix.payload), BUFFER_AUDIO_SIZE_RTP / 2);
+
+                arm_copy_q15(reinterpret_cast<q15_t *>(rtpDataRxMixAudio),
+                             reinterpret_cast<q15_t *>(inMix.payload),
+                             BUFFER_AUDIO_SIZE_RTP / 2);
 
                 osMutexWait(mutexRtpRxId, osWaitForever);
                 SAI::getInstance()->outRingBuffer.push(inMix);
