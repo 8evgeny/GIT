@@ -623,9 +623,8 @@ term("--- threadAudioRxFull ---")
     UNUSED(arg);
     while (1) {
         if (osSemaphoreWait(semaphoreRxFullId, 0) == osOK) {
-//term("____semaphoreRxFullId set____")
             memcpy(reinterpret_cast<uint8_t *>(rtpDataTxFullCrypt), reinterpret_cast<uint8_t *>(rxBuf) +  BUFFER_AUDIO_SIZE_RTP, BUFFER_AUDIO_SIZE_RTP);
-            memcpy(reinterpret_cast<uint8_t *>(rtpDataTxFull), reinterpret_cast<uint8_t *>(rxBuf) +  BUFFER_AUDIO_SIZE_RTP, BUFFER_AUDIO_SIZE_RTP);
+//            memcpy(reinterpret_cast<uint8_t *>(rtpDataTxFull), reinterpret_cast<uint8_t *>(rxBuf) +  BUFFER_AUDIO_SIZE_RTP, BUFFER_AUDIO_SIZE_RTP);
 //            arm_copy_q15(reinterpret_cast<q15_t *>(rxBuf)  + BUFFER_AUDIO_SIZE_RTP / 2, reinterpret_cast<q15_t *>(rtpDataTxFullCrypt), BUFFER_AUDIO_SIZE_RTP / 2);
 
 
@@ -634,7 +633,8 @@ term("--- threadAudioRxFull ---")
 //            while (!SAI::getInstance()->cryptTxComplete);
 //            SAI::getInstance()->cryptTxComplete = false;
 //            osMutexRelease(mutexCryptTxId);
-arm_copy_q15( reinterpret_cast<q15_t *>(rtpDataTxFullCrypt),
+
+arm_copy_q15( reinterpret_cast<q15_t *>(rtpDataTxFullCrypt), //Вместо шифрования
               reinterpret_cast<q15_t *>(rtpDataTxFull),
               BUFFER_AUDIO_SIZE_RTP / 2);
 
@@ -656,7 +656,7 @@ term("--- threadAudioRxHalf ---")
         {
 //term("____semaphoreRxHalfId set____")
             memcpy(reinterpret_cast<uint8_t *>(rtpDataTxHalfCrypt), reinterpret_cast<uint8_t *>(rxBuf), BUFFER_AUDIO_SIZE_RTP);
-            memcpy(reinterpret_cast<uint8_t *>(rtpDataTxHalf), reinterpret_cast<uint8_t *>(rxBuf), BUFFER_AUDIO_SIZE_RTP);
+//            memcpy(reinterpret_cast<uint8_t *>(rtpDataTxHalf), reinterpret_cast<uint8_t *>(rxBuf), BUFFER_AUDIO_SIZE_RTP);
 //            arm_copy_q15(reinterpret_cast<q15_t *>(rxBuf), reinterpret_cast<q15_t *>(rtpDataTxHalfCrypt), BUFFER_AUDIO_SIZE_RTP / 2);
 
 //            osMutexWait(mutexCryptTxId, osWaitForever);
@@ -664,7 +664,8 @@ term("--- threadAudioRxHalf ---")
 //            while (!SAI::getInstance()->cryptTxComplete);
 //            SAI::getInstance()->cryptTxComplete = false;
 //            osMutexRelease(mutexCryptTxId);
-arm_copy_q15( reinterpret_cast<q15_t *>(rtpDataTxHalfCrypt),
+
+arm_copy_q15( reinterpret_cast<q15_t *>(rtpDataTxHalfCrypt), //Вместо шифрования
               reinterpret_cast<q15_t *>(rtpDataTxHalf),
               BUFFER_AUDIO_SIZE_RTP / 2);
 
