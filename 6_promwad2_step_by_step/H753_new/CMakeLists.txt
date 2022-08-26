@@ -28,6 +28,9 @@ add_definitions(-DLogsEnable) #Полное выключение логов тр
 #add_definitions(-DLogsEnableToConsole) #более подробные логи через макрос term
 #add_definitions(-DPrintTaskLogs) #Запускает поток с логами задач
 
+#Для SC2 наличие номеронабирателя
+add_definitions(-DenablePAD)
+
 set (RS232  ${CMAKE_HOME_DIRECTORY}/Core/Src/RS232)
 set (Debug  ${CMAKE_HOME_DIRECTORY}/Core/Src/Debug)
 set (littlefs ${CMAKE_HOME_DIRECTORY}/Middlewares/Third_Party/littlefs)

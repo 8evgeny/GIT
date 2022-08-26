@@ -504,6 +504,15 @@ const uint8_t MCP23017_Init_Val[] = {
                 0x0D , 0xFF,	// GPPUB
              };
 
+const uint8_t MCP23017_Init_PAD[] = {//Номеронабиратель SC2
+            //  Reg    Data
+                0x04 , 0xFF,	// GPINTENA
+                0x05 , 0xFF,	// GPINTENB
+                0x0A , 0x42,	// IOCON
+                0x0C , 0xFF,	// GPPUA
+                0x0D , 0xFF,	// GPPUB
+             };
+
 extern osSemaphoreId Netif_LinkSemaphore;
 static osTimerId timerId7; /*!< The thread ID of the timer */
 constexpr static uint8_t timerDelay = 50;
@@ -553,13 +562,13 @@ GPIO::GPIO()
 //    message_q_id = osMessageCreate(osMessageQ(message_q), NULL);
 
     if (boardType == sc2)
-        initBUTTONS_SC2();
-
-    if (boardType == sc4)
     {
-        i2cInitBoard();
-//       EXTI_IRQHandler_Config();
+        initBUTTONS_SC2();
     }
+//    if (boardType == sc4)
+//    {
+//    }
+    i2cInitBoard();
     EXTI_IRQHandler_Config();
 }
 
@@ -787,12 +796,14 @@ void readButtonThread(void const *arg)
     {
         (void)arg;
         PackageRx tempPack;
+        uint8_t readPAD = 0, temp = 0;
         tempPack.packetType = GPIO::getInstance()->button;
-
+        GPIO::getInstance()->initPAD();
         osDelay(4000);
-        term("--- readButtonThread SC2 ---")
+
         while(true)
         {
+            //Сканируем рычаги
             for (uint8_t i = 0; i < 6 ; ++i)
             {
                 uint16_t n = GPIO::getInstance()->buttonArray[i].n;
@@ -810,6 +821,21 @@ void readButtonThread(void const *arg)
                     }
                 }
             }
+#ifdef enablePAD
+            //Сканируем PAD
+            uint8_t j;
+            for (j = 0; j < 2; ++j)
+            {
+                readPAD = I2C::getInstance()->readRegister(0x40, MCP23017_register[j], false);
+                if (readPAD != 255)
+                {
+                    term2(readPAD)
+                    osDelay(100);
+                }
+
+            }
+#endif
+
             osDelay(1);
         }
     }
@@ -939,8 +965,10 @@ void GPIO::initBUTTONS_SC2()
 {
     if (boardType == sc2)
     {
+//#ifndef enablePAD
         buttonArray[0].i = 1;     buttonArray[0].n = GPIO_PIN_11;
         buttonArray[1].i = 2;     buttonArray[1].n = GPIO_PIN_12;
+//#endif
         buttonArray[2].i = 3;     buttonArray[2].n = GPIO_PIN_10;
         buttonArray[3].i = 4;     buttonArray[3].n = GPIO_PIN_13;
         buttonArray[4].i = 5;     buttonArray[4].n = GPIO_PIN_9;
@@ -1326,6 +1354,19 @@ void GPIO::initBUTTONS_SC4()
     }
 }
 
+void GPIO::initPAD()
+{
+#ifdef enablePAD
+    if (boardType == sc2)
+    {
+        for (uint8_t j = 0; j < sizeof(MCP23017_Init_PAD); j += 2)
+        {
+            I2C::getInstance()->writeRegister(0x40, MCP23017_Init_PAD[j] , MCP23017_Init_PAD[j+1], false);
+        }
+    }
+    term2("initPAD OK")
+#endif
+}
 
 uint8_t GPIO::findTelephoneBUTTONS(uint8_t num, uint8_t reg)
 {
