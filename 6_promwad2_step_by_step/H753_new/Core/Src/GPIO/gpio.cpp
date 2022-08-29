@@ -853,7 +853,7 @@ void readButtonThread(void const *arg)
             for (uint8_t i = 0; i < 4 ; ++i)
             {
                 uint16_t n = GPIO::getInstance()->buttonArray[i].n;
-                if (HAL_GPIO_ReadPin(GPIOG, GPIO::getInstance()->buttonArray[i].n) == GPIO_PIN_RESET)
+                if (HAL_GPIO_ReadPin(GPIOC, GPIO::getInstance()->buttonArray[i].n) == GPIO_PIN_RESET)
                 {
                     osDelay(50);
                     if (HAL_GPIO_ReadPin(GPIOC, GPIO::getInstance()->buttonArray[i].n)  == GPIO_PIN_RESET)
@@ -870,14 +870,14 @@ term2(tempPack.payloadData)
             for (uint8_t i = 4; i < 8 ; ++i)
             {
                 uint16_t n = GPIO::getInstance()->buttonArray[i].n;
-                   if (HAL_GPIO_ReadPin(GPIOG, GPIO::getInstance()->buttonArray[i].n) == GPIO_PIN_RESET)
+                   if (HAL_GPIO_ReadPin(GPIOA, GPIO::getInstance()->buttonArray[i].n) == GPIO_PIN_RESET)
                 {
                     osDelay(50);
                     if (HAL_GPIO_ReadPin(GPIOA, GPIO::getInstance()->buttonArray[i].n)  == GPIO_PIN_RESET)
                     {
                         n = GPIO::getInstance()->buttonArray[i].i;
                         tempPack.payloadData = n;
-//term2(tempPack.payloadData)
+term2(tempPack.payloadData)
                         osMutexWait(GPIO::getInstance()->mutexRingBufferRx_id, osWaitForever);
                         GPIO::getInstance()->ringBufferRx.push(tempPack);
                         osMutexRelease(GPIO::getInstance()->mutexRingBufferRx_id);
