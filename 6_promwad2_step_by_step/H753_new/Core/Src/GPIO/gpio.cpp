@@ -542,16 +542,23 @@ void GPIOInit(void)
         GPIO_InitTypeDef GPIO_InitStruct = {0};
 
         /*Configure GPIO pins : IN1 - IN4 */
-        GPIO_InitStruct.Pin = GPIO_PIN_9|GPIO_PIN_8|GPIO_PIN_7|GPIO_PIN_6;
+        GPIO_InitStruct.Pin = GPIO_PIN_9;  //Пины 6 - 8 уже установлены как входы в самом начале
         GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
         GPIO_InitStruct.Pull = GPIO_NOPULL;
         HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+
         /*Configure GPIO pins : IN5 - IN8 */
         GPIO_InitStruct.Pin = GPIO_PIN_12|GPIO_PIN_11|GPIO_PIN_10|GPIO_PIN_9;
         GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
         GPIO_InitStruct.Pull = GPIO_NOPULL;
         HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
+        /*Configure GPIO pins : UPR1 - UPR8 */  //PG8 PG9 которые были входами и использовались для определения типа платы теперь выходы
+        GPIO_InitStruct.Pin = GPIO_PIN_7|GPIO_PIN_8|GPIO_PIN_9|GPIO_PIN_10|GPIO_PIN_11|GPIO_PIN_12|GPIO_PIN_13|GPIO_PIN_14;
+        GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+        GPIO_InitStruct.Pull = GPIO_NOPULL;
+        GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+        HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
     }
 
 }
