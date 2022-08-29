@@ -79,6 +79,7 @@ public:
     void initLEDS_SC2();
     void initLEDS_SC4();
     void initBUTTONS_SC2();
+    void initBUTTONS_SL1();
     void initBUTTONS_SC4();
     void initPAD();
     uint8_t findTelephoneBUTTONS(uint8_t num, uint8_t reg);

@@ -590,11 +590,30 @@ GPIO::GPIO()
     {
         initBUTTONS_SC2();
     }
+    if (boardType == sl1)
+    {
+        initBUTTONS_SL1();
+    }
 //    if (boardType == sc4)
 //    {
 //    }
     i2cInitBoard();
     EXTI_IRQHandler_Config();
+}
+
+void GPIO::initBUTTONS_SL1()
+{
+    if (boardType == sl1)
+    {
+        buttonArray[0].i = 1;     buttonArray[0].n = GPIO_PIN_9;
+        buttonArray[1].i = 2;     buttonArray[1].n = GPIO_PIN_8;
+        buttonArray[2].i = 3;     buttonArray[2].n = GPIO_PIN_7;
+        buttonArray[3].i = 4;     buttonArray[3].n = GPIO_PIN_6;
+        buttonArray[4].i = 5;     buttonArray[4].n = GPIO_PIN_12;
+        buttonArray[5].i = 6;     buttonArray[5].n = GPIO_PIN_11;
+        buttonArray[6].i = 7;     buttonArray[4].n = GPIO_PIN_10;
+        buttonArray[7].i = 8;     buttonArray[5].n = GPIO_PIN_9;
+    }
 }
 
 GPIO *GPIO::getInstance()
