@@ -559,8 +559,10 @@ void GPIOInit(void)
         GPIO_InitStruct.Pull = GPIO_NOPULL;
         GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
         HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
-    }
 
+        //Выходы - инверсные поэтому устанавливаем их (на SL1 - выходы в нуле)
+        HAL_GPIO_WritePin(GPIOG, GPIO_PIN_7|GPIO_PIN_8|GPIO_PIN_9|GPIO_PIN_10|GPIO_PIN_11|GPIO_PIN_12|GPIO_PIN_13|GPIO_PIN_14, GPIO_PIN_SET);
+    }
 }
 
 #ifdef __cplusplus
