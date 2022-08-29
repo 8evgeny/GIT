@@ -262,7 +262,10 @@ int main(void)
         HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
 
         if (HAL_GPIO_ReadPin(GPIOG, GPIO_PIN_8))
+        {
             boardType = sl1;
+            keysNum = 8;
+        }
         else
             boardType = sc4;
     }
