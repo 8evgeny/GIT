@@ -312,6 +312,7 @@ term2("Board SL1")
             default: TLC59116F_max_address = 6; MCP23017_max_address = 3; keysNum = 48; break;
         }
     }
+
     mutexEth_id = osMutexCreate(osMutex(mutexEth));
 
 //    memset(buff_config,' ',sizeof(buff_config));

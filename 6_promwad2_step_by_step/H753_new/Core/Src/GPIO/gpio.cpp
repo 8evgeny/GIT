@@ -486,7 +486,6 @@ const uint8_t TLC59116F_registerLED[] = {0x14,0x15,0x16,0x17};
 const uint8_t TLC59116F_registerBright[] = {0x02,0x03,0x04,0x05,0x06,0x07,0x08,0x09,0x0A,0x0B,0x0C,0x0D,0x0E,0x0F,0x10,0x11};
 // TLC59116F chip setup registers values
 
-
 // max address number of MCP23017 chips
 extern uint8_t MCP23017_max_address;
 extern bool telephoneButtons;
@@ -537,6 +536,23 @@ void GPIOInit(void)
     HAL_GPIO_WritePin(GPIOD, GPIO_PIN_6, GPIO_PIN_RESET); //Пин Норма
     HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET); //Пин МК Вкл
     HAL_GPIO_WritePin(GPIOA, GPIO_PIN_3, GPIO_PIN_RESET); //Пин UPR1_SP - Включение усилителя
+
+    if (boardType == sl1)
+    {
+        GPIO_InitTypeDef GPIO_InitStruct = {0};
+
+        /*Configure GPIO pins : IN1 - IN4 */
+        GPIO_InitStruct.Pin = GPIO_PIN_9|GPIO_PIN_8|GPIO_PIN_7|GPIO_PIN_6;
+        GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+        GPIO_InitStruct.Pull = GPIO_NOPULL;
+        HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+        /*Configure GPIO pins : IN5 - IN8 */
+        GPIO_InitStruct.Pin = GPIO_PIN_12|GPIO_PIN_11|GPIO_PIN_10|GPIO_PIN_9;
+        GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+        GPIO_InitStruct.Pull = GPIO_NOPULL;
+        HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+    }
 
 }
 
@@ -1428,3 +1444,4 @@ uint8_t GPIO::findBUTTONS_SC4(uint8_t num, uint8_t adr, uint8_t reg)
     }
     return ret;
 }
+
