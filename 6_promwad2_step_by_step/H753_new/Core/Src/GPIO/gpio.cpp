@@ -611,8 +611,8 @@ void GPIO::initBUTTONS_SL1()
         buttonArray[3].i = 4;     buttonArray[3].n = GPIO_PIN_6;
         buttonArray[4].i = 5;     buttonArray[4].n = GPIO_PIN_12;
         buttonArray[5].i = 6;     buttonArray[5].n = GPIO_PIN_11;
-        buttonArray[6].i = 7;     buttonArray[4].n = GPIO_PIN_10;
-        buttonArray[7].i = 8;     buttonArray[5].n = GPIO_PIN_9;
+        buttonArray[6].i = 7;     buttonArray[6].n = GPIO_PIN_10;
+        buttonArray[7].i = 8;     buttonArray[7].n = GPIO_PIN_9;
     }
 }
 
@@ -760,6 +760,7 @@ void timerCallback(void const *arg)
 [[ noreturn ]]
 void switchLEDsThread(void const *arg)
 {
+    osDelay(4000);
     if (boardType == sc2)
     {
         (void)arg;
@@ -836,6 +837,56 @@ void switchLEDsThread(void const *arg)
 [[ noreturn ]]
 void readButtonThread(void const *arg)
 {
+    osDelay(4000);
+    if (boardType == sl1)
+    {
+        (void)arg;
+        PackageRx tempPack;
+        uint8_t readPAD = 0, temp = 0;
+        tempPack.packetType = GPIO::getInstance()->button;
+        GPIO::getInstance()->initPAD();
+
+
+        while(true)
+        {
+            //Сканируем входы
+            for (uint8_t i = 0; i < 4 ; ++i)
+            {
+                uint16_t n = GPIO::getInstance()->buttonArray[i].n;
+                if (HAL_GPIO_ReadPin(GPIOG, GPIO::getInstance()->buttonArray[i].n) == GPIO_PIN_RESET)
+                {
+                    osDelay(50);
+                    if (HAL_GPIO_ReadPin(GPIOC, GPIO::getInstance()->buttonArray[i].n)  == GPIO_PIN_RESET)
+                    {
+                        n = GPIO::getInstance()->buttonArray[i].i;
+                        tempPack.payloadData = n;
+term2(tempPack.payloadData)
+                        osMutexWait(GPIO::getInstance()->mutexRingBufferRx_id, osWaitForever);
+                        GPIO::getInstance()->ringBufferRx.push(tempPack);
+                        osMutexRelease(GPIO::getInstance()->mutexRingBufferRx_id);
+                    }
+                }
+            }
+            for (uint8_t i = 4; i < 8 ; ++i)
+            {
+                uint16_t n = GPIO::getInstance()->buttonArray[i].n;
+                   if (HAL_GPIO_ReadPin(GPIOG, GPIO::getInstance()->buttonArray[i].n) == GPIO_PIN_RESET)
+                {
+                    osDelay(50);
+                    if (HAL_GPIO_ReadPin(GPIOA, GPIO::getInstance()->buttonArray[i].n)  == GPIO_PIN_RESET)
+                    {
+                        n = GPIO::getInstance()->buttonArray[i].i;
+                        tempPack.payloadData = n;
+//term2(tempPack.payloadData)
+                        osMutexWait(GPIO::getInstance()->mutexRingBufferRx_id, osWaitForever);
+                        GPIO::getInstance()->ringBufferRx.push(tempPack);
+                        osMutexRelease(GPIO::getInstance()->mutexRingBufferRx_id);
+                    }
+                }
+            }
+            osDelay(1);
+        }
+    }
     if (boardType == sc2)
     {
         (void)arg;
