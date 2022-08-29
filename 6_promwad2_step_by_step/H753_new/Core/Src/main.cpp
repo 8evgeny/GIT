@@ -254,7 +254,17 @@ int main(void)
     }
     else
     {
-        boardType = sc4;
+        GPIO_InitTypeDef GPIO_InitStruct = {0};
+        GPIO_InitStruct.Pin = GPIO_PIN_8;
+        GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+        GPIO_InitStruct.Pull = GPIO_NOPULL;
+        GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+        HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
+
+        if (HAL_GPIO_ReadPin(GPIOG, GPIO_PIN_8))
+            boardType = sl1;
+        else
+            boardType = sc4;
     }
 
     //    MX_FMC_Init();  //Вынес в SRAMInit
@@ -272,6 +282,8 @@ int main(void)
 term2("Board SC2")
     if (boardType == sc4)
 term2("Board SC4")
+    if (boardType == sl1)
+term2("Board SL1")
     MX_TIM3_Init();
     //    MX_DMA_Init(); //Вынесен в RS232
     MX_RNG_Init();
