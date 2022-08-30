@@ -860,7 +860,6 @@ void readButtonThread(void const *arg)
                     {
                         n = GPIO::getInstance()->buttonArray[i].i;
                         tempPack.payloadData = n;
-term2(tempPack.payloadData)
                         osMutexWait(GPIO::getInstance()->mutexRingBufferRx_id, osWaitForever);
                         GPIO::getInstance()->ringBufferRx.push(tempPack);
                         osMutexRelease(GPIO::getInstance()->mutexRingBufferRx_id);
@@ -877,7 +876,6 @@ term2(tempPack.payloadData)
                     {
                         n = GPIO::getInstance()->buttonArray[i].i;
                         tempPack.payloadData = n;
-term2(tempPack.payloadData)
                         osMutexWait(GPIO::getInstance()->mutexRingBufferRx_id, osWaitForever);
                         GPIO::getInstance()->ringBufferRx.push(tempPack);
                         osMutexRelease(GPIO::getInstance()->mutexRingBufferRx_id);
