@@ -17,7 +17,6 @@
 #include "dp83848.h"
 #include "trcRecorder.h"
 
-char msgOCD[] = "Hello STM32 lovers!\n";
 extern void flashErraseBank2();
 
 //static osThreadId readPackageTypeThreadId;

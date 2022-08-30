@@ -162,7 +162,7 @@ public:
     uint32_t modifiedfileSize = 0; /**< The variable that stores modified JSON file size */
 
 private:
-
+    volatile int memoryForJsonConfig = 150 * 1024;
     char *tempBuff = nullptr; /**< The pointer to the temporary data buffer */
 };
 

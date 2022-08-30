@@ -67,8 +67,7 @@ void Json::configStation()
 
 //    if (fileSize < 8000) modifiedfileSize = fileSize + (8000 - fileSize +512); //The filesize must be more than 1KB
 //    else modifiedfileSize = fileSize;
-
-    DynamicJsonDocument doc(15 * 1024);  //memory allocating
+    DynamicJsonDocument doc(memoryForJsonConfig);  //memory allocating
 //    doc[]
 
     if (deserialize(doc, reinterpret_cast<char *>(tempBuff), fileSize)) {   //deserialize json
