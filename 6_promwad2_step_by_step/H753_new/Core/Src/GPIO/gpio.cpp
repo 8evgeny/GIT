@@ -862,6 +862,14 @@ void switchLEDsThread(void const *arg)
                     if(i == 1) HAL_GPIO_WritePin(GPIOG, GPIO_PIN_13, GPIO_PIN_SET);
                     if(i == 0) HAL_GPIO_WritePin(GPIOG, GPIO_PIN_14, GPIO_PIN_SET);
                 }
+                if ((LinkStatus == 1) && (inMcastGroup == 1))
+                {
+                    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_6, GPIO_PIN_SET); //Пин Норма
+                }
+                else
+                {
+                    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_6, GPIO_PIN_RESET);
+                }
             }
             osDelay(1);
         }
