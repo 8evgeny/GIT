@@ -574,6 +574,8 @@ GPIO::GPIO()
     gpioInit = & GPIO_InitStruct;
     if (boardType == sc2)
         initLEDS_SC2();
+    if (boardType == sl1)
+        initLEDS_SL1();
 
     mutexRingBufferRx_id = osMutexCreate(osMutex(mutexRingBufferRx));
     mutexBoard_id = osMutexCreate(osMutex(mutexBoard));
@@ -832,7 +834,40 @@ void switchLEDsThread(void const *arg)
             osDelay(1);
         }
     }
+    if (boardType == sl1)
+    {
+        (void)arg;
+        while(true)
+        {
+            for(uint8_t i = 0; i < 8; ++i)
+            {
+                if (GPIO::getInstance()->aLeds[i].ledState) // Включаем пин
+                {//Выходы - Перепутан порядок нумерации
+                    if(i == 7) HAL_GPIO_WritePin(GPIOG, GPIO_PIN_7, GPIO_PIN_RESET);
+                    if(i == 6) HAL_GPIO_WritePin(GPIOG, GPIO_PIN_8, GPIO_PIN_RESET);
+                    if(i == 5) HAL_GPIO_WritePin(GPIOG, GPIO_PIN_9, GPIO_PIN_RESET);
+                    if(i == 4) HAL_GPIO_WritePin(GPIOG, GPIO_PIN_10, GPIO_PIN_RESET);
+                    if(i == 3) HAL_GPIO_WritePin(GPIOG, GPIO_PIN_11, GPIO_PIN_RESET);
+                    if(i == 2) HAL_GPIO_WritePin(GPIOG, GPIO_PIN_12, GPIO_PIN_RESET);
+                    if(i == 1) HAL_GPIO_WritePin(GPIOG, GPIO_PIN_13, GPIO_PIN_RESET);
+                    if(i == 0) HAL_GPIO_WritePin(GPIOG, GPIO_PIN_14, GPIO_PIN_RESET);
+                } else
+                {
+                    if(i == 7) HAL_GPIO_WritePin(GPIOG, GPIO_PIN_7, GPIO_PIN_SET);
+                    if(i == 6) HAL_GPIO_WritePin(GPIOG, GPIO_PIN_8, GPIO_PIN_SET);
+                    if(i == 5) HAL_GPIO_WritePin(GPIOG, GPIO_PIN_9, GPIO_PIN_SET);
+                    if(i == 4) HAL_GPIO_WritePin(GPIOG, GPIO_PIN_10, GPIO_PIN_SET);
+                    if(i == 3) HAL_GPIO_WritePin(GPIOG, GPIO_PIN_11, GPIO_PIN_SET);
+                    if(i == 2) HAL_GPIO_WritePin(GPIOG, GPIO_PIN_12, GPIO_PIN_SET);
+                    if(i == 1) HAL_GPIO_WritePin(GPIOG, GPIO_PIN_13, GPIO_PIN_SET);
+                    if(i == 0) HAL_GPIO_WritePin(GPIOG, GPIO_PIN_14, GPIO_PIN_SET);
+                }
+            }
+            osDelay(1);
+        }
+    }
 }
+
 
 [[ noreturn ]]
 void readButtonThread(void const *arg)
@@ -1051,6 +1086,21 @@ void GPIO::initLEDS_SC2()
         aLeds[3].ledPin = GPIO_PIN_11;
         aLeds[4].ledPin = GPIO_PIN_8;
         aLeds[5].ledPin = GPIO_PIN_12;
+    }
+}
+
+void GPIO::initLEDS_SL1()
+{
+    if (boardType == sl1)
+    {
+        aLeds[0].ledPin = GPIO_PIN_7;
+        aLeds[1].ledPin = GPIO_PIN_8;
+        aLeds[2].ledPin = GPIO_PIN_9;
+        aLeds[3].ledPin = GPIO_PIN_10;
+        aLeds[4].ledPin = GPIO_PIN_11;
+        aLeds[5].ledPin = GPIO_PIN_12;
+        aLeds[6].ledPin = GPIO_PIN_13;
+        aLeds[7].ledPin = GPIO_PIN_14;
     }
 }
 

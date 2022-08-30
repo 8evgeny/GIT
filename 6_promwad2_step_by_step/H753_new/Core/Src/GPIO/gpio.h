@@ -77,6 +77,7 @@ public:
                    Color = Color::GREEN );
 
     void initLEDS_SC2();
+    void initLEDS_SL1();
     void initLEDS_SC4();
     void initBUTTONS_SC2();
     void initBUTTONS_SL1();
