@@ -429,8 +429,6 @@ term("sai.cpp")
     saiInitAudio();
 
     TLV320AIC3254::getInstance()->codecInit();
-//    TLV320AIC3254 codec;
-//    codec.codecInit();
 
     osMutexDef(mutexRtpRx);
     mutexRtpRxId = osMutexCreate(osMutex(mutexRtpRx));

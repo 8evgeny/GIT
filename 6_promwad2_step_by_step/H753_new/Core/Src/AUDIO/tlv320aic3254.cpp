@@ -12,7 +12,7 @@ TLV320AIC3254 *TLV320AIC3254::getInstance()
     if (!pInstance) pInstance = new TLV320AIC3254();
     return pInstance;
 }
-
+extern uint8_t boardType;
 
 //soft reset
 static const struct Aic3254Configs SoftReset[] {
@@ -135,7 +135,8 @@ static const struct Aic3254Configs ConfigurePower[] {
 //    { TLV320AIC3254_REG_HPHONE_STARTUP_CR, 0x40 },
 //};
 
-static const struct Aic3254Configs ConfigureADC[] {
+static const struct Aic3254Configs ConfigureADC[]
+{
     //Select Page 1
     {TLV320AIC3254_REG_PAGE_SELECT, 0x01},
 
@@ -165,18 +166,28 @@ static const struct Aic3254Configs ConfigureADC[] {
     {TLV320AIC3254_REG_ADC_SETUP, 0x80}, //88(0x58) регистр //==
     //Unmute LADC/RADC
     {TLV320AIC3254_REG_ADC_FGAIN, 0x00}, //82(0x52) регистр
-
 };
 
-//static const struct Aic3254Configs ConfigureADC[] {//as MUROM
-//    {TLV320AIC3254_REG_PAGE_SELECT, 0x01},
-//    {TLV320AIC3254_REG_LMICPGA_PMUX, 0x40}, //IN1L is routed to Left MICPGA with 10k resistance ???
-//    {TLV320AIC3254_REG_LMICPGA_NMUX, 0x40}, //CM is routed to Left MICPGA via CM1L with 10k resistance
-//    {TLV320AIC3254_REG_LMICPGA_VOL, 0x2F},  // Volume
-//    {TLV320AIC3254_REG_PAGE_SELECT, 0x00},
-//    {TLV320AIC3254_REG_ADC_SETUP, 0xC0},    // Left Channel ADC is powered up  Right Channel ADC is powered up
-//    {TLV320AIC3254_REG_ADC_FGAIN, 0x00},    // Left ADC Channel Un-muted Left ADC Channel Fine Gain = 0dB Right ADC Channel Un-muted Right ADC Channel Fine Gain = 0dB
-//};
+static const struct Aic3254Configs ConfigureADC_SL1[]
+{
+    //Select Page 1
+    {TLV320AIC3254_REG_PAGE_SELECT, 0x01},
+
+    //IN1R is routed to Left MICPGA with 10k resistance
+    {TLV320AIC3254_REG_LMICPGA_PMUX, 0x01}, //52(0x34)
+
+    //101 1111: Volume Control = 47.5dB
+    //010 1111: Volume Control = 23.5dB
+    //001 0100: Volume Control = 10.0dB
+    {TLV320AIC3254_REG_LMICPGA_VOL, 0x14}, //59(0x3B) регистр
+
+    //Select Page 0
+    {TLV320AIC3254_REG_PAGE_SELECT, 0x00},
+    //Power up LADC/RADC
+    {TLV320AIC3254_REG_ADC_SETUP, 0x80}, //88(0x58) регистр
+    //Unmute LADC/RADC
+    {TLV320AIC3254_REG_ADC_FGAIN, 0x00}, //82(0x52) регистр
+};
 
 struct Aic3254Configs ConfigureDAC[] {
     {TLV320AIC3254_REG_PAGE_SELECT, 0x01},
@@ -264,9 +275,19 @@ void TLV320AIC3254::configDAC()
 }
 void TLV320AIC3254::configADC()
 {
-    for (uint32_t i = 0; i < sizeof(ConfigureADC) / sizeof(struct Aic3254Configs); i++)
+    if ((boardType == sc2) || (boardType == sc4))
     {
-        I2C::getInstance()->writeRegister(I2C_ADDRESS, ConfigureADC[i].regOffset, ConfigureADC[i].regVal, true);
+        for (uint32_t i = 0; i < sizeof(ConfigureADC) / sizeof(struct Aic3254Configs); i++)
+        {
+            I2C::getInstance()->writeRegister(I2C_ADDRESS, ConfigureADC[i].regOffset, ConfigureADC[i].regVal, true);
+        }
+    }
+    if (boardType == sl1)
+    {
+        for (uint32_t i = 0; i < sizeof(ConfigureADC_SL1) / sizeof(struct Aic3254Configs); i++)
+        {
+            I2C::getInstance()->writeRegister(I2C_ADDRESS, ConfigureADC_SL1[i].regOffset, ConfigureADC_SL1[i].regVal, true);
+        }
     }
 }
 void TLV320AIC3254::configFilter()
@@ -295,14 +316,14 @@ osDelay(5000);
     configDAC();
     configFilter();
 
-//Вывод всех регистров codec определенной страницы
-
-char buf[20];
-I2C::getInstance()->writeRegister(I2C_ADDRESS, 0x00, 0x01, true); //Тут установить номер страницы
-for (uint8_t i = 0; i < 255; ++i){
-uint8_t read = I2C::getInstance()->readRegister(I2C_ADDRESS,i, true);
-sprintf(buf,"reg %d Value = %d ",i,read);
-term(buf)
-}
+//    //Вывод всех регистров codec определенной страницы
+//    char buf[20];
+//    I2C::getInstance()->writeRegister(I2C_ADDRESS, 0x00, 0x01, true); //Тут установить номер страницы
+//    for (uint8_t i = 0; i < 255; ++i)
+//    {
+//        uint8_t read = I2C::getInstance()->readRegister(I2C_ADDRESS,i, true);
+//        sprintf(buf,"reg %d Value = %d ",i,read);
+//        term(buf)
+//    }
 
 }
