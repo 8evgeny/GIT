@@ -171,21 +171,12 @@ static const struct Aic3254Configs ConfigureADC[]
 static const struct Aic3254Configs ConfigureADC_SL1[]
 {
     {TLV320AIC3254_REG_PAGE_SELECT, 0x01},      //Select Page 1
-
     {TLV320AIC3254_REG_LMICPGA_PMUX, 0x01},		//0x34  PosTerm  IN1R -> L MICPGA
     {TLV320AIC3254_REG_LMICPGA_NMUX, 0x40},		//0x36  NegTerm  CM1L -> L MICPGA
-    {TLV320AIC3254_REG_RMICPGA_NMUX, 0x40},		//0x39  NegTerm  CM1R -> R MICPGA
-    //101 1111: Volume Control = 47.5dB
-    //010 1111: Volume Control = 23.5dB
-    //001 0100: Volume Control = 10.0dB
-    {TLV320AIC3254_REG_LMICPGA_VOL, 0x2F},      //0x3B
-    {TLV320AIC3254_REG_RMICPGA_VOL, 0x2F},		//0x3C
-
+    {TLV320AIC3254_REG_LMICPGA_VOL, 0x2F},      //0x3B  010 1111: Volume Control = 23.5dB
     {TLV320AIC3254_REG_PAGE_SELECT, 0x00},      //Select Page 0
-    //Power up LADC/RADC
-    {TLV320AIC3254_REG_ADC_SETUP, 0xC0},        //0x51 Right ADC on, Left ADC on
-    //Unmute LADC/RADC
-    {TLV320AIC3254_REG_ADC_FGAIN, 0x00},        //0x52
+    {TLV320AIC3254_REG_ADC_SETUP, 0x80},        //0x51 Left ADC on
+    {TLV320AIC3254_REG_ADC_FGAIN, 0x08},        //0x52 Unmute LADC
 };
 
 struct Aic3254Configs ConfigureDAC[] {
@@ -214,21 +205,6 @@ struct Aic3254Configs ConfigureDAC[] {
     // UnmuteLDAC/RDAC
     {TLV320AIC3254_REG_DAC_SETUP2, 0x00},
 };
-
-//static const struct Aic3254Configs ConfigureDAC[] {//as MUROM
-//    {TLV320AIC3254_REG_PAGE_SELECT, 0x01},
-//    {TLV320AIC3254_REG_HPL_SEL, 0x00}, //not routed to HPL
-//    {TLV320AIC3254_REG_HPR_SEL, 0x00}, //not routed to HPR
-//    {TLV320AIC3254_REG_LOL_SEL, 0x08}, //Left Channel DAC reconstruction filter output is routed to LOL
-//    {TLV320AIC3254_REG_LOR_SEL, 0x08}, //Right Channel DAC reconstruction filter output is routed to LOR
-//    {TLV320AIC3254_REG_OUTDRV_PWR_CR, 0x0C}, //LOL is powered up LOR is powered up
-//    {TLV320AIC3254_REG_LOL_GAIN, 0x00}, //LOL driver is not muted   gain is 0dB
-//    {TLV320AIC3254_REG_LOR_GAIN, 0x00}, //LOR driver is not muted   gain is 0dB
-//    {TLV320AIC3254_REG_PAGE_SELECT, 0x00},
-//    {TLV320AIC3254_REG_DAC_SETUP1, 0xD4}, //Left DAC Channel Powered Up Right DAC Channel Powered Up Left DAC data Left Channel Audio Interface Data Right DAC data Right Channel Audio Interface Data
-//    {TLV320AIC3254_REG_DAC_SETUP2, 0x00}, //not muted
-//};
-
 
 static const struct Aic3254Configs ConfigureFilter[] {
     {TLV320AIC3254_REG_PAGE_SELECT, 8},
