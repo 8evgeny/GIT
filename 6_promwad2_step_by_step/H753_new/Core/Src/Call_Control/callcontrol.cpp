@@ -205,7 +205,9 @@ void CallControl::setCallType()
                 assignedData.priority = subjectKey.priority;
 
                 missedCall.remove(assignedData.key);
-                switchLed(subjectKey.key, true, 250, 250, 0, GPIO::GREEN);
+
+                if (boardType != sl1) switchLed(subjectKey.key, true, 250, 250, 0, GPIO::GREEN);
+                if (boardType == sl1) switchLed(subjectKey.key, true, 0, 0, 0, GPIO::GREEN);
 
                 isIncomingCall = true;
 
@@ -264,8 +266,8 @@ void CallControl::setCallType()
 
                 assignedData.key = subjectKey.key;
                 missedCall.remove(assignedData.key);
-                switchLed(subjectKey.key, true, 250, 250, 0, GPIO::GREEN); //Цвет принимаемый групповой вызов
-
+                if (boardType != sl1) switchLed(subjectKey.key, true, 250, 250, 0, GPIO::GREEN);
+                if (boardType == sl1) switchLed(subjectKey.key, true, 0, 0, 0, GPIO::GREEN);
 //                retransmitJsonDoc(UdpJsonExch::getInstance()->recvBuff, strlen(UdpJsonExch::getInstance()->recvBuff), Request::ACK);
                 copyRecvBuff(messageData.recvMessageBuff, UdpJsonExch::getInstance()->recvBuff);
 
