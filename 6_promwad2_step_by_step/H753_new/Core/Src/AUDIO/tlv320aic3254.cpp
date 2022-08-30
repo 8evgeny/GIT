@@ -170,23 +170,22 @@ static const struct Aic3254Configs ConfigureADC[]
 
 static const struct Aic3254Configs ConfigureADC_SL1[]
 {
-    //Select Page 1
-    {TLV320AIC3254_REG_PAGE_SELECT, 0x01},
+    {TLV320AIC3254_REG_PAGE_SELECT, 0x01},      //Select Page 1
 
-    //IN1R is routed to Left MICPGA with 10k resistance
-    {TLV320AIC3254_REG_LMICPGA_PMUX, 0x01}, //52(0x34)
-
+    {TLV320AIC3254_REG_LMICPGA_PMUX, 0x01},		//0x34  PosTerm  IN1R -> L MICPGA
+    {TLV320AIC3254_REG_LMICPGA_NMUX, 0x40},		//0x36  NegTerm  CM1L -> L MICPGA
+    {TLV320AIC3254_REG_RMICPGA_NMUX, 0x40},		//0x39  NegTerm  CM1R -> R MICPGA
     //101 1111: Volume Control = 47.5dB
     //010 1111: Volume Control = 23.5dB
     //001 0100: Volume Control = 10.0dB
-    {TLV320AIC3254_REG_LMICPGA_VOL, 0x14}, //59(0x3B) регистр
+    {TLV320AIC3254_REG_LMICPGA_VOL, 0x2F},      //0x3B
+    {TLV320AIC3254_REG_RMICPGA_VOL, 0x2F},		//0x3C
 
-    //Select Page 0
-    {TLV320AIC3254_REG_PAGE_SELECT, 0x00},
+    {TLV320AIC3254_REG_PAGE_SELECT, 0x00},      //Select Page 0
     //Power up LADC/RADC
-    {TLV320AIC3254_REG_ADC_SETUP, 0x80}, //88(0x58) регистр
+    {TLV320AIC3254_REG_ADC_SETUP, 0xC0},        //0x51 Right ADC on, Left ADC on
     //Unmute LADC/RADC
-    {TLV320AIC3254_REG_ADC_FGAIN, 0x00}, //82(0x52) регистр
+    {TLV320AIC3254_REG_ADC_FGAIN, 0x00},        //0x52
 };
 
 struct Aic3254Configs ConfigureDAC[] {
