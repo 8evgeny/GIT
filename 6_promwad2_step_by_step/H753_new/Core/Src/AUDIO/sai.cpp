@@ -298,8 +298,8 @@ term("___sai.cpp")
         hdmaSaiTx.Init.MemDataAlignment = DMA_MDATAALIGN_HALFWORD;
         hdmaSaiTx.Init.Mode = DMA_CIRCULAR;
         hdmaSaiTx.Init.Priority = DMA_PRIORITY_VERY_HIGH;
-        hdmaSaiTx.Init.FIFOMode = DMA_FIFOMODE_ENABLE;
-        hdmaSaiTx.Init.FIFOThreshold = DMA_FIFO_THRESHOLD_FULL;
+        hdmaSaiTx.Init.FIFOMode = DMA_FIFOMODE_DISABLE;
+//        hdmaSaiTx.Init.FIFOThreshold = DMA_FIFO_THRESHOLD_FULL;
         hdmaSaiTx.Init.MemBurst = DMA_MBURST_INC8;
         hdmaSaiTx.Init.PeriphBurst = DMA_PBURST_SINGLE;
 
