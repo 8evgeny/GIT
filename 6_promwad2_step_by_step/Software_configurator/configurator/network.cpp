@@ -390,6 +390,7 @@ void AppCore::startLoadFirmware(const QString &stationID, bool state)
             QString dataStr = QString::fromLocal8Bit(strByte.c_str());
 
             firmware.insert("cmd", "update");
+            firmware.insert("station", QString(stationID).right(3));
             firmware.insert("ver", versionFirmware.toInt());
             firmware.insert("sub", subVersionFirmware.toInt());
             firmware.insert("size", dataStr.count());
@@ -431,7 +432,8 @@ void AppCore::startLoadFirmware(const QString &stationID, bool state)
                     }
 
                     if (isStation) {
-                        sendDataByUdp(json, listOfStations.at(indexOfStation).ip);
+//                        sendDataByUdp(json, listOfStations.at(indexOfStation).ip);
+                        sendDataByUdp(json, "232.0.0.0");
                         QThread::msleep(100);
 //                        if (currentState == 0) QThread::msleep(5000);
 //                        sendDataByUdp(json, listOfStations.at(indexOfStation).ip);

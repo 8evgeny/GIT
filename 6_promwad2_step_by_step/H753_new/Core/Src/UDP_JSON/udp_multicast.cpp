@@ -199,7 +199,8 @@ term1("err") term(err)
                     osMutexRelease(UdpJsonExch::getInstance()->mutexSock_id);
 
                     if (result != 0) {
-term1("receivedUDP result") term(result)
+//term2("receivedUDP result")
+//term2(result)
                         if (Json::getInstance()->deserialize(recvDoc, (void *)UdpJsonExch::getInstance()->recvBuff, strlen(UdpJsonExch::getInstance()->recvBuff))) {
 
                             osMutexWait(UdpJsonExch::getInstance()->mutexCallControlId, osWaitForever);

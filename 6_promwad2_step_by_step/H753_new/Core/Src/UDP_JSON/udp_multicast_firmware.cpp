@@ -3,7 +3,7 @@
 #include <iomanip>
 #include <array>
 #include "ArduinoJson.h"
-
+#include "json.h"
 #include "ff_gen_drv.h"
 #include "../flash/flash.h"
 #include <stm32h7xx_hal.h>
@@ -221,11 +221,15 @@ void parsingFirmwareFromJson(JsonDocument &doc)
 {
     /* FatFs function common result code */
     const char *cmd = doc["cmd"];
-//term2("parsingFirmware")
+    const char *station = doc["station"];
 
-    if (cmd != nullptr)
+    if ((doc["cmd"] == "update") && ((uint8_t)doc["station"] == (uint8_t)Json::getInstance()->thisStation.id))
     {
-term2("*2*")
+
+//term2(cmd)
+//term2(station)
+//term2((uint8_t)Json::getInstance()->thisStation.id)
+
         int versionFirmware = doc["versionFirmware"];
         int subVersionFirmware = doc["subVersionFirmware"];
         int size = doc["size"];
