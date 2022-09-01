@@ -116,7 +116,8 @@ Window {
         onClicked: {
             if ((textFieldKey.text.length === 16)
                     && (!isNaN(parseInt(textFieldMainVersion.text)))
-                    && (!isNaN(parseInt(textFieldSubVersion.text)))) {
+                    && (!isNaN(parseInt(textFieldSubVersion.text))))
+            {
                 labelDateTimeCurrent.text = Qt.formatDateTime(
                             new Date(), "dd.MM.yyyy hh:mm:ss")
                 appCore.encryptionBinFile(labelPath.text, textFieldKey.text,

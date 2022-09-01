@@ -433,16 +433,16 @@ void AppCore::startLoadFirmware(const QString &stationID, bool state)
                     if (isStation) {
                         sendDataByUdp(json, listOfStations.at(indexOfStation).ip);
                         QThread::msleep(100);
-                        if (currentState == 0) QThread::msleep(5000);
-                        sendDataByUdp(json, listOfStations.at(indexOfStation).ip);
-                        QThread::msleep(100);
-                        sendDataByUdp(json, listOfStations.at(indexOfStation).ip);
-                        QThread::msleep(100);
-                        sendDataByUdp(json, listOfStations.at(indexOfStation).ip);
-                        QThread::msleep(100);
-                        sendDataByUdp(json, listOfStations.at(indexOfStation).ip);
-                        QThread::msleep(100);
-                        sendDataByUdp(json, listOfStations.at(indexOfStation).ip);
+//                        if (currentState == 0) QThread::msleep(5000);
+//                        sendDataByUdp(json, listOfStations.at(indexOfStation).ip);
+//                        QThread::msleep(100);
+//                        sendDataByUdp(json, listOfStations.at(indexOfStation).ip);
+//                        QThread::msleep(100);
+//                        sendDataByUdp(json, listOfStations.at(indexOfStation).ip);
+//                        QThread::msleep(100);
+//                        sendDataByUdp(json, listOfStations.at(indexOfStation).ip);
+//                        QThread::msleep(100);
+//                        sendDataByUdp(json, listOfStations.at(indexOfStation).ip);
                     }
                 }
             } else {
