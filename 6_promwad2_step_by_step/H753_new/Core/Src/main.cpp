@@ -298,7 +298,7 @@ term2("Board SL1")
     FsForEeprom::getInstance().test();
     FsForEeprom::getInstance().numReboots();
 
-    //    Flash::getInstance().test(); // Не работает
+    Flash::getInstance().test(); // Не работает
 
     if (boardType == sc4)
     {

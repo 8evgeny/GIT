@@ -85,6 +85,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32h7xx_hal.h"
+#include "rs232_printf.h"
 
 /** @addtogroup STM32H7xx_HAL_Driver
   * @{
@@ -178,15 +179,14 @@ HAL_StatusTypeDef HAL_FLASH_Program(uint32_t TypeProgram, uint32_t FlashAddress,
   {
     return HAL_ERROR;
   }
-
   /* Reset error code */
   pFlash.ErrorCode = HAL_FLASH_ERROR_NONE;
 
   /* Wait for last operation to be completed */
   status = FLASH_WaitForLastOperation((uint32_t)FLASH_TIMEOUT_VALUE, bank);
-
   if(status == HAL_OK)
   {
+
 #if defined (DUAL_BANK)
     if(bank == FLASH_BANK_1)
     {
@@ -222,10 +222,8 @@ HAL_StatusTypeDef HAL_FLASH_Program(uint32_t TypeProgram, uint32_t FlashAddress,
         SET_BIT(FLASH->CR1, FLASH_CR_PG);
       }
 #endif /* DUAL_BANK */
-
     __ISB();
     __DSB();
-
 #if defined (FLASH_OPTCR_PG_OTP)
     if (TypeProgram == FLASH_TYPEPROGRAM_OTPWORD)
     {
@@ -238,17 +236,21 @@ HAL_StatusTypeDef HAL_FLASH_Program(uint32_t TypeProgram, uint32_t FlashAddress,
       /* Program the flash word */
       do
       {
+RS232Puts("__1\r\n");
         *dest_addr = *src_addr;
+RS232Puts("__2\r\n");
         dest_addr++;
         src_addr++;
         row_index--;
-     } while (row_index != 0U);
+     }
+        while (row_index != 0U);
     }
 
     __ISB();
     __DSB();
 
     /* Wait for last operation to be completed */
+
     status = FLASH_WaitForLastOperation((uint32_t)FLASH_TIMEOUT_VALUE, bank);
 
 #if defined (DUAL_BANK)
