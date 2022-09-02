@@ -328,7 +328,7 @@ void Flash::erase(){
     }
 
 //    SCB_CleanInvalidateDCache_by_Addr((uint32_t *)FLASH_SECTOR_8, 4 * 256 * 1024);
-    SCB_InvalidateICache();
+//    SCB_InvalidateICache();
 
     Flash::getInstance().lock();
 }

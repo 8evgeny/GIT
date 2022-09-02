@@ -139,68 +139,78 @@ static int counterPackegs = 0; /*! A counter for size of packages */
 //            versionFirmware = pack.versionFirmware;
 //            subVersionFirmware = pack.subVersionFirmware;
             size = pack.size;
+term2(size)
 //            all = pack.all;
 //            current = pack.current;
 
-            if (pack.current == counterPackegs) {
+            if (pack.current == counterPackegs)
+            {
                 if (pack.current == 0) {
-
+term2("counterPackegs =  ")
+term2(counterPackegs)
                     //always erase
                     Flash::getInstance().erase();
 
                     counterSize = 0;
                     counterPackegs = 0;
-                    /*##-1- Link the micro Flash I/O driver ##################################*/
-                    FATFS_LinkDriver(&FLASH_Driver, FLASHPath);
-                    /*##-2- Register the file system object to the FatFs module ##############*/
-                    res = f_mount(&FLASHFatFs, (TCHAR const *)FLASHPath, 0);
-                    /*##-3- Create a FAT file system (format) on the logical drive #########*/
-                    /* WARNING: Formatting the Flash will delete all content on the device */
-                    res = f_mkfs((TCHAR const *)FLASHPath, FS_FAT32, 0, workBuffer, sizeof(workBuffer));
+//                    /*##-1- Link the micro Flash I/O driver ##################################*/
+//                    FATFS_LinkDriver(&FLASH_Driver, FLASHPath);
+//                    /*##-2- Register the file system object to the FatFs module ##############*/
+//                    res = f_mount(&FLASHFatFs, (TCHAR const *)FLASHPath, 0);
+//                    /*##-3- Create a FAT file system (format) on the logical drive #########*/
+//                    /* WARNING: Formatting the Flash will delete all content on the device */
+//                    res = f_mkfs((TCHAR const *)FLASHPath, FS_FAT32, 0, workBuffer, sizeof(workBuffer));
 
-                    /*##-4- Create and Open a new text file object with write access #####*/
-                    res = f_open(&MyFile, "BIN", FA_CREATE_ALWAYS | FA_WRITE);
-                    /*##-5- Write data to the text file ################################*/
+//                    /*##-4- Create and Open a new text file object with write access #####*/
+//                    res = f_open(&MyFile, "BIN", FA_CREATE_ALWAYS | FA_WRITE);
+//                    /*##-5- Write data to the text file ################################*/
 
-                    res = f_write(&MyFile, pack.data.data(), pack.data.size(), (UINT *)&byteswritten);
-                    counterSize += pack.data.size();
-                    counterPackegs++;
-
-                } else if (pack.current == pack.all) {
-
-                    //this packeage can be less than 512 bytes
 //                    res = f_write(&MyFile, pack.data.data(), pack.data.size(), (UINT *)&byteswritten);
-                    res = f_write(&MyFile, pack.data.data(), size / 2, (UINT *)&byteswritten);
                     counterSize += pack.data.size();
                     counterPackegs++;
+term2("counterPackegs =  ")
+term2(counterPackegs)
 
-                    /*##-6- Close the open text file #################################*/
-                    f_close(&MyFile);
+                }
+                else if (pack.current == pack.all)
+                {
 
-                    Flash::getInstance().flush();
-                    /*##-11- Unlink the Flash I/O driver ###############################*/
-                    FATFS_UnLinkDriver(FLASHPath);
-                    //resety
-                    counterPackegs = 0;
+//                    //this packeage can be less than 512 bytes
+////                    res = f_write(&MyFile, pack.data.data(), pack.data.size(), (UINT *)&byteswritten);
+//                    res = f_write(&MyFile, pack.data.data(), size / 2, (UINT *)&byteswritten);
+//                    counterSize += pack.data.size();
+//                    counterPackegs++;
 
-                    //send msg firmware write OK
-                    //send msg configuration write OK
-                    const int capacity = JSON_OBJECT_SIZE(3);
-                    StaticJsonDocument<capacity> firmwareDoc;
+//                    /*##-6- Close the open text file #################################*/
+//                    f_close(&MyFile);
 
-                    firmwareDoc["writeFirmwareId"] = Json::getInstance()->thisStation.id;
-                    firmwareDoc["status"].set("ok");
-//                    UdpJsonExch::getInstance()->callControl->sendJson(firmwareDoc, capacity/*, UDP_PORT*/);
+//                    Flash::getInstance().flush();
+//                    /*##-11- Unlink the Flash I/O driver ###############################*/
+//                    FATFS_UnLinkDriver(FLASHPath);
+//                    //resety
+//                    counterPackegs = 0;
 
-                    std::fill(UdpJsonExch::getInstance()->callControl->messageData.txBuff, UdpJsonExch::getInstance()->callControl->messageData.txBuff + UdpJsonExch::getInstance()->callControl->messageData.txBuffSize, 0);
-                    if (serializeJson(firmwareDoc, UdpJsonExch::getInstance()->callControl->messageData.txBuff, capacity) > 0) {
-                        sendUdpMulticast(UdpJsonExch::getInstance()->callControl->messageData.txBuff, strlen(UdpJsonExch::getInstance()->callControl->messageData.txBuff));
-                    }
+//                    //send msg firmware write OK
+//                    //send msg configuration write OK
+//                    const int capacity = JSON_OBJECT_SIZE(3);
+//                    StaticJsonDocument<capacity> firmwareDoc;
 
-                } else {
-                    res = f_write(&MyFile,  pack.data.data(),  pack.data.size(), (UINT *)&byteswritten);
+//                    firmwareDoc["writeFirmwareId"] = Json::getInstance()->thisStation.id;
+//                    firmwareDoc["status"].set("ok");
+////                    UdpJsonExch::getInstance()->callControl->sendJson(firmwareDoc, capacity/*, UDP_PORT*/);
+
+//                    std::fill(UdpJsonExch::getInstance()->callControl->messageData.txBuff, UdpJsonExch::getInstance()->callControl->messageData.txBuff + UdpJsonExch::getInstance()->callControl->messageData.txBuffSize, 0);
+//                    if (serializeJson(firmwareDoc, UdpJsonExch::getInstance()->callControl->messageData.txBuff, capacity) > 0) {
+//                        sendUdpMulticast(UdpJsonExch::getInstance()->callControl->messageData.txBuff, strlen(UdpJsonExch::getInstance()->callControl->messageData.txBuff));
+//                    }
+
+                } else
+                {
+//                    res = f_write(&MyFile,  pack.data.data(),  pack.data.size(), (UINT *)&byteswritten);
                     counterSize += pack.data.size();
                     counterPackegs++;
+term2(counterPackegs)
+term2(counterSize)
                 }
             }
             osDelay(1);
