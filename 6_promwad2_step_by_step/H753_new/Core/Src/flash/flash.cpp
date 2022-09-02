@@ -62,6 +62,7 @@
 #include "stm32h7xx_hal.h"
 #include <cstring>
 #include <rs232.h>
+#include "fmware_flasher.h"
 
 #include "stm32h7xx_hal_flash_ex.h"
 
@@ -118,7 +119,7 @@ term2("**** FlashTest 9 ****")
         tmp = *(volatile uint32_t *)alignedFlashAddress;
 
         /* Compute how much bytes one must update in the data read */
-        chunkSize = sizeof(uint32_t) - alignOffset;
+        chunkSize = IFLASH_PAGE_SIZE - alignOffset;
         if (chunkSize > size)
             chunkSize = size; // this happens when both address and address + size are not aligned
 
@@ -140,18 +141,16 @@ term2("**** FlashTest 9 ****")
      * buffer's data to flash memory until the size of the data remaining to be
      * copied requires special treatment. */
 
-    while (size >= sizeof(uint32_t)) {
+    while (size >= IFLASH_PAGE_SIZE) {
 term2("**** FlashTest 10 ****")
 
         HAL_FLASH_Program(FLASH_TYPEPROGRAM_FLASHWORD, addr, *(const uint32_t *)buf);
 
-
-
 term2("**** FlashTest 11 ****")
 
-        addr += sizeof(uint32_t) * 8;
-        buf += sizeof(uint32_t) * 8;
-        size -= sizeof(uint32_t) * 8;
+        addr += IFLASH_PAGE_SIZE;
+        buf += IFLASH_PAGE_SIZE;
+        size -= IFLASH_PAGE_SIZE;
     }
 
     /* Now, address is correctly aligned, but the remaining data are to
