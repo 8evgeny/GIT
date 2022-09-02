@@ -150,22 +150,22 @@ FsForEeprom &FsForEeprom::getInstance()
 
 void FsForEeprom::test()
 {
-    char rhymeToEEPROM[] = "Red on top, Green below. Red says “Stop”, Green says “Go”. Yellow says “Wait” Even if you’re late.";
-    char rhymeFromEEPROM[sizeof (rhymeToEEPROM)];
+    char fileToEEPROM[] = "Red on top, Green below. Red says “Stop”, Green says “Go”. Yellow says “Wait” Even if you’re late.";
+    char fileFromEEPROM[sizeof (fileToEEPROM)];
     lfs_file_open(&lfs, &file, "boot_count", LFS_O_RDWR | LFS_O_CREAT);
     lfs_file_rewind(&lfs, &file);
-    lfs_file_write(&lfs, &file, &rhymeToEEPROM, sizeof(rhymeToEEPROM));
+    lfs_file_write(&lfs, &file, &fileToEEPROM, sizeof(fileToEEPROM));
     lfs_file_close(&lfs, &file);
 
     // read current count
 //    uint32_t boot_count = 0;
     lfs_file_open(&lfs, &file, "boot_count", LFS_O_RDWR | LFS_O_CREAT);
-    lfs_file_read(&lfs, &file, &rhymeFromEEPROM, sizeof(rhymeFromEEPROM));
+    lfs_file_read(&lfs, &file, &fileFromEEPROM, sizeof(fileFromEEPROM));
     lfs_file_close(&lfs, &file);
     bool error = false;
-    for (int i = 0; i < sizeof(rhymeToEEPROM); ++i)
+    for (int i = 0; i < sizeof(fileToEEPROM); ++i)
     {
-        if (rhymeToEEPROM[i] != rhymeFromEEPROM[i]) error = true;
+        if (fileToEEPROM[i] != fileFromEEPROM[i]) error = true;
     }
     if(error)
         term2("test EEPROM FAILED !")
