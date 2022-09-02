@@ -125,6 +125,7 @@ public:
      * \fn test
      */
     void test();
+    void numReboots();
 
     lfs_t *lfsPtr;
     lfs_file_t *filePtr;

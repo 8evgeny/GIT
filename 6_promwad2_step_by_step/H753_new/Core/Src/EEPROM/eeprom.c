@@ -48,7 +48,6 @@ uint32_t BSP_EEPROM_Init(void)
     /* I2C Initialization */
     EEPROM_IO_Init();
 
-
     /* Select the EEPROM address and check if OK */
     if (EEPROM_IO_IsDeviceReady(EEPROM_I2C_ADDRESS, EEPROM_MAX_TRIALS) != HAL_OK) {
 
