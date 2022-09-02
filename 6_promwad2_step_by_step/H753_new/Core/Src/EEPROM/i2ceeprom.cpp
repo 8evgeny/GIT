@@ -48,7 +48,13 @@ static void I2C1Init(void)
 
 }
 
-void simpleEEPROM_test()
+void printNumReboot()
+{
+    FsForEeprom::getInstance().numReboots();
+}
+
+
+void test_EEPROM()
 {
     const char wmsg[] = "Some data";
         char rmsg[sizeof(wmsg)];
@@ -77,17 +83,16 @@ void simpleEEPROM_test()
 
         if(memcmp(rmsg, wmsg, sizeof(rmsg)) == 0)
         {
-            const char result[] = "simpleEEPROM_test passed";
-            term2(result)
-
-        } else
+            FsForEeprom::getInstance().test();
+        }
+        else
         {
             const char result[] = "Test EEPROM failed :(";
             term2(result)
         }
 }
 
-void simpleEEPROM_test2()
+void test_EEPROM_2()
 {
     const char wmsg[] = "1234567890";
         char rmsg[128];

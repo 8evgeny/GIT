@@ -292,11 +292,9 @@ term2("Board SL1")
     GPIOInit();
     SRAMInit();
     BSP_EEPROM_Init();
-
-    simpleEEPROM_test();
     littleFsInit();
-    FsForEeprom::getInstance().test();
-    FsForEeprom::getInstance().numReboots();
+    printNumReboot();
+    test_EEPROM();
 
     Flash::getInstance().test(); // Не работает
 

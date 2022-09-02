@@ -103,7 +103,6 @@ void Flash::write(uint32_t addr, const char *buf, uint32_t size)
 
     /* Wait for any busy flags */
     while (FLASH_WaitForLastOperation(10, FLASH_BANK_BOTH) != HAL_OK);
-term2("**** FlashTest 9 ****")
     /* Check if the flash address is correctly aligned */
     alignOffset = addr % IFLASH_PAGE_SIZE;
 
@@ -142,11 +141,12 @@ term2("**** FlashTest 9 ****")
      * copied requires special treatment. */
 
     while (size >= IFLASH_PAGE_SIZE) {
-term2("**** FlashTest 10 ****")
+
+term2("**** FlashTest 2 ****")
 
         HAL_FLASH_Program(FLASH_TYPEPROGRAM_FLASHWORD, addr, *(const uint32_t *)buf);
 
-term2("**** FlashTest 11 ****")
+term2("**** FlashTest 3 ****")
 
         addr += IFLASH_PAGE_SIZE;
         buf += IFLASH_PAGE_SIZE;
@@ -205,9 +205,6 @@ bool Flash::compare(uint32_t address, const uint8_t *buffer, uint32_t size)
 
 void Flash::test()
 {
-
-term2("**** FlashTest 1 ****")
-
     char bufWrite[512] = "hello world";
     char bufRead[512];
 
@@ -240,11 +237,7 @@ term2("**** FlashTest 1 ****")
     /* Allow Access to option bytes sector */
     HAL_FLASH_OB_Lock();
 
-term2("**** FlashTest 2 ****")
-
     Flash::getInstance().unlock();
-
-term2("**** FlashTest 3 ****")
 
 //   В 753 не используется упреждающее чтение
 //    __HAL_FLASH_ART_DISABLE();
@@ -263,13 +256,8 @@ term2("**** FlashTest 3 ****")
         RS232::getInstance().term << "Error occurred while sector erase.\n";
     }
 
-term2("**** FlashTest 4 ****")
-
 //    SCB_CleanInvalidateDCache_by_Addr((uint32_t *)FLASH_SECTOR_7, 256 * 1024);
-term2("**** FlashTest 5 ****")
 //    SCB_InvalidateICache();
-
-term2("**** FlashTest 6 ****")
 
     Flash::getInstance().lock();
 
@@ -280,16 +268,16 @@ term2("**** FlashTest 6 ****")
 //    __HAL_FLASH_ART_RESET();
 //    __HAL_FLASH_ART_ENABLE();
 
-term2("**** FlashTest 7 ****")
-    write(ADDR_FLASH_SECTOR_7, reinterpret_cast<const char *>(bufWrite), sizeof(bufWrite));
+term2("**** FlashTest 1 ****")
 
+    write(ADDR_FLASH_SECTOR_7, reinterpret_cast<const char *>(bufWrite), sizeof(bufWrite));
 
 //    SCB_CleanInvalidateDCache_by_Addr((uint32_t *)ADDR_FLASH_SECTOR_7, sizeof(bufWrite));
 //    SCB_InvalidateICache();
-term2("**** FlashTest 8 ****")
+
+term2("**** FlashTest 4 ****")
+
     read(ADDR_FLASH_SECTOR_7, reinterpret_cast<char *>(bufRead), sizeof(bufRead));
-
-
 
     lock();
 }

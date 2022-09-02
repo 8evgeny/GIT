@@ -158,7 +158,7 @@ void FsForEeprom::numReboots()
     lfs_file_open(&lfs, &file, "numBoot", LFS_O_WRONLY );
     lfs_file_write(&lfs, &file, &numBoot, sizeof(numBoot));
     lfs_file_close(&lfs, &file);
-    RS232::getInstance().term << "NUMBER OF REBOOT = " << numBoot << "\r\n";
+    RS232::getInstance().term << "number of reboot = " << numBoot << "\r\n";
 }
 
 void FsForEeprom::test()
@@ -179,9 +179,9 @@ void FsForEeprom::test()
         if (fileToEEPROM[i] != fileFromEEPROM[i]) error = true;
     }
     if(error)
-        term2("test FS of EEPROM FAILED")
+        term2("test EEPROM FAILED")
     if(!error)
-        term2("test FS of EEPROM passed")
+        term2("test EEPROM passed")
 }
 
 uint32_t FsForEeprom::init(void)

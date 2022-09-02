@@ -120,8 +120,9 @@ enum {
 */
 void EEPROM_IO_Init(void);
 
-void simpleEEPROM_test();
-void simpleEEPROM_test2();
+void test_EEPROM();
+void test_EEPROM_2();
+void printNumReboot();
 
 /*!
  \brief The function writes data to the EEPROM
