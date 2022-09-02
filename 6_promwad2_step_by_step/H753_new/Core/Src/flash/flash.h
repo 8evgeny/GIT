@@ -84,14 +84,14 @@ public:
     static constexpr uint32_t IFLASH_PAGE_SIZE = 256;
     static constexpr uint32_t FATFS_SIZE = 0xC0000; //768 Kbytes
 
-    static constexpr uint32_t ADDR_FLASH_SECTOR_0 = 0x08000000; /*! Base address of Sector 0, 32 Kbytes */
-    static constexpr uint32_t ADDR_FLASH_SECTOR_1 = 0x08008000; /*! Base address of Sector 1, 32 Kbytes */
-    static constexpr uint32_t ADDR_FLASH_SECTOR_2 = 0x08010000; /*! Base address of Sector 2, 32 Kbytes */
-    static constexpr uint32_t ADDR_FLASH_SECTOR_3 = 0x08018000; /*! Base address of Sector 3, 32 Kbytes */
-    static constexpr uint32_t ADDR_FLASH_SECTOR_4 = 0x08020000; /*! Base address of Sector 4, 128 Kbytes */
-    static constexpr uint32_t ADDR_FLASH_SECTOR_5 = 0x08040000; /*! Base address of Sector 5, 256 Kbytes */
-    static constexpr uint32_t ADDR_FLASH_SECTOR_6 = 0x08080000; /*! Base address of Sector 6, 256 Kbytes */
-    static constexpr uint32_t ADDR_FLASH_SECTOR_7 = 0x080C0000; /*! Base address of Sector 7, 256 Kbytes */
+    static constexpr uint32_t ADDR_FLASH_SECTOR_0 = 0x08000000; /*! Base address of Sector 0, 128 Kbytes */
+    static constexpr uint32_t ADDR_FLASH_SECTOR_1 = 0x08020000; /*! Base address of Sector 1, 128 Kbytes */
+    static constexpr uint32_t ADDR_FLASH_SECTOR_2 = 0x08040000; /*! Base address of Sector 2, 128 Kbytes */
+    static constexpr uint32_t ADDR_FLASH_SECTOR_3 = 0x08060000; /*! Base address of Sector 3, 128 Kbytes */
+    static constexpr uint32_t ADDR_FLASH_SECTOR_4 = 0x08080000; /*! Base address of Sector 4, 128 Kbytes */
+    static constexpr uint32_t ADDR_FLASH_SECTOR_5 = 0x080A0000; /*! Base address of Sector 5, 128 Kbytes */
+    static constexpr uint32_t ADDR_FLASH_SECTOR_6 = 0x080C0000; /*! Base address of Sector 6, 128 Kbytes */
+    static constexpr uint32_t ADDR_FLASH_SECTOR_7 = 0x080E0000; /*! Base address of Sector 7, 128 Kbytes */
 
     static constexpr uint32_t ADDR_FLASH_BANK_2 =  0x08100000; /*! Base address of bank 2 */
 

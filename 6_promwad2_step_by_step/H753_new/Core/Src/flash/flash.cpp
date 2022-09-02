@@ -104,7 +104,7 @@ void Flash::write(uint32_t addr, const char *buf, uint32_t size)
     while (FLASH_WaitForLastOperation(10, FLASH_BANK_BOTH) != HAL_OK);
 term2("**** FlashTest 9 ****")
     /* Check if the flash address is correctly aligned */
-    alignOffset = addr % (sizeof(uint32_t) * 8);
+    alignOffset = addr % IFLASH_PAGE_SIZE;
 
     if (alignOffset != 0)
     {
@@ -143,8 +143,6 @@ term2("**** FlashTest 9 ****")
     while (size >= sizeof(uint32_t)) {
 term2("**** FlashTest 10 ****")
 
-term2((uint32_t)addr)
-term2(*(const uint32_t *)buf)
         HAL_FLASH_Program(FLASH_TYPEPROGRAM_FLASHWORD, addr, *(const uint32_t *)buf);
 
 
