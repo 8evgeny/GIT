@@ -297,6 +297,11 @@ term2("Board SL1")
     littleFsInit();
     FsForEeprom::getInstance().test();
     FsForEeprom::getInstance().numReboots();
+    char tmp[256];
+    Flash::getInstance().read(0x08001000, tmp, 256);
+    term2(tmp)
+    Flash::getInstance().read(0x08002000, tmp, 256);
+    term2(tmp)
 
     Flash::getInstance().test(); // Не работает
 

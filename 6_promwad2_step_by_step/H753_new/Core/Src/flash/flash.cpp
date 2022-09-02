@@ -65,7 +65,6 @@
 
 #include "stm32h7xx_hal_flash_ex.h"
 
-
 Flash *Flash::pInstance = nullptr;
 FlashDestroyer Flash::destroyer;
 
@@ -90,8 +89,8 @@ Flash &Flash::getInstance()
 
 void Flash::read(uint32_t addr, char *buf, uint32_t size)
 {
-//    std::copy(reinterpret_cast<uint8_t *>(addr), reinterpret_cast<uint8_t *>(addr + size), buf);
-    std::memcpy(buf, (char *)addr, size);
+    std::copy(reinterpret_cast<uint8_t *>(addr), reinterpret_cast<uint8_t *>(addr + size), buf);
+//    std::memcpy(buf, (char *)addr, size);
 }
 
 void Flash::write(uint32_t addr, const char *buf, uint32_t size)
@@ -105,9 +104,10 @@ void Flash::write(uint32_t addr, const char *buf, uint32_t size)
     while (FLASH_WaitForLastOperation(10, FLASH_BANK_BOTH) != HAL_OK);
 term2("**** FlashTest 9 ****")
     /* Check if the flash address is correctly aligned */
-    alignOffset = addr % sizeof(uint32_t);
+    alignOffset = addr % (sizeof(uint32_t) * 8);
 
-    if (alignOffset != 0) {
+    if (alignOffset != 0)
+    {
         /* Not aligned, thus we have to read the data in flash already present
         * and update them with buffer's data */
 
@@ -142,12 +142,18 @@ term2("**** FlashTest 9 ****")
 
     while (size >= sizeof(uint32_t)) {
 term2("**** FlashTest 10 ****")
+
+term2((uint32_t)addr)
+term2(*(const uint32_t *)buf)
         HAL_FLASH_Program(FLASH_TYPEPROGRAM_FLASHWORD, addr, *(const uint32_t *)buf);
+
+
+
 term2("**** FlashTest 11 ****")
 
-        addr += sizeof(uint32_t);
-        buf += sizeof(uint32_t);
-        size -= sizeof(uint32_t);
+        addr += sizeof(uint32_t) * 8;
+        buf += sizeof(uint32_t) * 8;
+        size -= sizeof(uint32_t) * 8;
     }
 
     /* Now, address is correctly aligned, but the remaining data are to
@@ -218,7 +224,8 @@ term2("**** FlashTest 1 ****")
 
     /* Get the 1st sector to erase */
     EraseInitStruct.TypeErase     = FLASH_TYPEERASE_SECTORS;
-    EraseInitStruct.VoltageRange  = FLASH_VOLTAGE_RANGE_3;
+//    EraseInitStruct.VoltageRange  = FLASH_VOLTAGE_RANGE_3;
+    EraseInitStruct.VoltageRange  = FLASH_VOLTAGE_RANGE_1;
     EraseInitStruct.Sector        = FLASH_SECTOR_7;
     EraseInitStruct.NbSectors     = 1;
 

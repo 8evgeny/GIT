@@ -86,6 +86,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "stm32h7xx_hal.h"
 #include "rs232_printf.h"
+#include "stdio.h"
 
 /** @addtogroup STM32H7xx_HAL_Driver
   * @{
@@ -153,6 +154,9 @@ HAL_StatusTypeDef HAL_FLASH_Program(uint32_t TypeProgram, uint32_t FlashAddress,
   __IO uint32_t *src_addr = (__IO uint32_t*)DataAddress;
   uint32_t bank;
   uint8_t row_index = FLASH_NB_32BITWORD_IN_FLASHWORD;
+char tmp[128];
+sprintf(tmp,"dest_addr = %X src_addr = %X  \r\n", FlashAddress, DataAddress);
+RS232Puts(tmp);
 
   /* Check the parameters */
   assert_param(IS_FLASH_TYPEPROGRAM(TypeProgram));
