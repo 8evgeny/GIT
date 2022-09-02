@@ -158,10 +158,20 @@ void FsForEeprom::test()
     lfs_file_close(&lfs, &file);
 
     // read current count
-    uint32_t boot_count = 0;
+//    uint32_t boot_count = 0;
     lfs_file_open(&lfs, &file, "boot_count", LFS_O_RDWR | LFS_O_CREAT);
     lfs_file_read(&lfs, &file, &rhymeFromEEPROM, sizeof(rhymeFromEEPROM));
     lfs_file_close(&lfs, &file);
+    bool error = false;
+    for (int i = 0; i < sizeof(rhymeToEEPROM); ++i)
+    {
+        if (rhymeToEEPROM[i] != rhymeFromEEPROM[i]) error = true;
+    }
+    if(error)
+        term2("test EEPROM FAILED !")
+    if(!error)
+        term2("test EEPROM OK !")
+
 
     // update boot count
 //    boot_count += 1;

@@ -296,7 +296,7 @@ term2("Board SL1")
     //    simpleEEPROM_test();
     //    simpleEEPROM_test2();
     littleFsInit();
-    //    FsForEeprom::getInstance().test();
+    FsForEeprom::getInstance().test();
 
     //    Flash::getInstance().test(); // Не работает
 
