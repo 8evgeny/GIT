@@ -293,8 +293,7 @@ term2("Board SL1")
     SRAMInit();
     BSP_EEPROM_Init();
 
-    //    simpleEEPROM_test();
-    //    simpleEEPROM_test2();
+    simpleEEPROM_test();
     littleFsInit();
     FsForEeprom::getInstance().test();
     FsForEeprom::getInstance().numReboots();

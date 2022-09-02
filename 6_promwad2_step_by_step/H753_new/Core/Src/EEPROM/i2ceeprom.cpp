@@ -77,13 +77,13 @@ void simpleEEPROM_test()
 
         if(memcmp(rmsg, wmsg, sizeof(rmsg)) == 0)
         {
-            const char result[] = "Test EEPROM passed!\r";
-            term(result)
+            const char result[] = "simpleEEPROM_test passed";
+            term2(result)
 
         } else
         {
-            const char result[] = "Test EEPROM failed :(\r";
-            term(result)
+            const char result[] = "Test EEPROM failed :(";
+            term2(result)
         }
 }
 
@@ -94,14 +94,10 @@ void simpleEEPROM_test2()
         uint16_t devAddr = 0xA0;
         uint16_t memAddr = 0x0000;
         HAL_StatusTypeDef status;
-
         HAL_I2C_Mem_Read(&hi2c1, devAddr, memAddr, I2C_MEMADD_SIZE_16BIT, (uint8_t*)rmsg, sizeof(rmsg), HAL_MAX_DELAY);
-//        HAL_I2C_Mem_Read(&hi2c1, devAddr, memAddr, I2C_MEMADD_SIZE_16BIT, (uint8_t*)rmsg, sizeof(rmsg), 10);
-        term ("Read Data:")
-        term (rmsg)
+        RS232::getInstance().term << "old EEPROM Data:  " << rmsg << "\r\n";
 
         HAL_I2C_Mem_Write(&hi2c1, devAddr, memAddr, I2C_MEMADD_SIZE_16BIT, (uint8_t*)wmsg, sizeof(wmsg), HAL_MAX_DELAY);
-//        HAL_I2C_Mem_Write(&hi2c1, devAddr, memAddr, I2C_MEMADD_SIZE_16BIT, (uint8_t*)wmsg, sizeof(wmsg), 10);
         for(;;)
         { // wait...
             status = HAL_I2C_IsDeviceReady(&hi2c1, devAddr, 1, HAL_MAX_DELAY);
@@ -110,36 +106,24 @@ void simpleEEPROM_test2()
         }
 
         HAL_I2C_Mem_Read(&hi2c1, devAddr, memAddr, I2C_MEMADD_SIZE_16BIT, (uint8_t*)rmsg, sizeof(rmsg), HAL_MAX_DELAY);
-        term ("Read Data2:")
-        term (rmsg)
-
+        RS232::getInstance().term << "new EEPROM Data: " << rmsg << "\r\n";
 }
 
 
 void EEPROM_IO_Init(void)
 {
-//term("EEPROM_IO_Init__begin")
     I2C1Init();
-//term("EEPROM_IO_Init__sucsess")
-
 }
 
 HAL_StatusTypeDef EEPROM_IO_WriteData(uint16_t DevAddress, uint16_t MemAddress, uint8_t *pBuffer, uint32_t BufferSize)
 {
-
-//term("EEPROM_IO_WriteData")
-
     HAL_StatusTypeDef status = I2c1::getInstance()->writeData(DevAddress, MemAddress, pBuffer, BufferSize);
     return status;
 }
 
 HAL_StatusTypeDef EEPROM_IO_ReadData(uint16_t DevAddress, uint16_t MemAddress, uint8_t *pBuffer, uint32_t BufferSize)
 {
-//    term("EEPROM_IO_ReadData__begin_read_data")
-
     HAL_StatusTypeDef status = I2c1::getInstance()->readData(DevAddress, MemAddress, pBuffer, BufferSize);
-
-//    term("EEPROM_IO_ReadData__end_read_data")
     return status;
 }
 
