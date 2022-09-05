@@ -62,6 +62,7 @@
 #include "stm32h7xx_hal.h"
 #include <cstring>
 #include <rs232.h>
+#include "rs232_printf.h"
 #include "fmware_flasher.h"
 
 #include "stm32h7xx_hal_flash_ex.h"
@@ -218,8 +219,8 @@ void Flash::test()
 
     /* Get the 1st sector to erase */
     EraseInitStruct.TypeErase     = FLASH_TYPEERASE_SECTORS;
-//    EraseInitStruct.VoltageRange  = FLASH_VOLTAGE_RANGE_3;
-    EraseInitStruct.VoltageRange  = FLASH_VOLTAGE_RANGE_1;
+    EraseInitStruct.VoltageRange  = FLASH_VOLTAGE_RANGE_3;
+//    EraseInitStruct.VoltageRange  = FLASH_VOLTAGE_RANGE_1;
     EraseInitStruct.Sector        = FLASH_SECTOR_7;
     EraseInitStruct.NbSectors     = 1;
 
@@ -234,6 +235,26 @@ void Flash::test()
     HAL_FLASH_OB_Unlock();
     /* Get the Dual bank configuration status */
     HAL_FLASHEx_OBGetConfig(&OBInit);
+    char tmp[256];
+
+    sprintf(tmp, "OptionType=%X\r\n"
+            "WRPState=%X\r\n"
+            "WRPSector=%X\r\n"
+            "BORLevel=%X\r\n"
+            "USERType=%X\r\n"
+            "USERConfig=%X\r\n"
+            "Banks=%X\r\n"
+                 ,
+            OBInit.OptionType,
+            OBInit.WRPState,
+            OBInit.WRPSector,
+            OBInit.BORLevel,
+            OBInit.USERType,
+            OBInit.USERConfig,
+            OBInit.Banks
+            );
+    RS232Puts(tmp);
+
     /* Allow Access to option bytes sector */
     HAL_FLASH_OB_Lock();
 
