@@ -111,6 +111,8 @@ public:
     */
     void read(uint32_t addr, char *buf, uint32_t size);
 
+    uint32_t Flash_Read(uint32_t addr);
+
     /*!
      \brief Copy data from a @p buffer to the flash memory.
      \warning The flash memory area receiving the data must be erased.

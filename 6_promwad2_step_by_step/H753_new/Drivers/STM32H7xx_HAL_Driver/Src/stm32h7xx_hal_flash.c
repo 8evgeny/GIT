@@ -241,7 +241,11 @@ RS232Puts(tmp);
       do
       {
 RS232Puts("__1\r\n");
-        *dest_addr = *src_addr;
+    *(uint32_t*)dest_addr = *(uint32_t*)src_addr;
+memset(tmp,0,128);
+        *(uint32_t*)tmp = *src_addr;
+RS232Puts((uint32_t)tmp);RS232Puts("\r\n");
+
 RS232Puts("__2\r\n");
         dest_addr++;
         src_addr++;

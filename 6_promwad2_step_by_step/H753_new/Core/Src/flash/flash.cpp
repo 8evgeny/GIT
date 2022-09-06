@@ -91,8 +91,13 @@ Flash &Flash::getInstance()
 
 void Flash::read(uint32_t addr, char *buf, uint32_t size)
 {
-    std::copy(reinterpret_cast<uint8_t *>(addr), reinterpret_cast<uint8_t *>(addr + size), buf);
+    std::copy(reinterpret_cast<__IO uint8_t *>(addr), reinterpret_cast<__IO uint8_t *>(addr + size), buf);
 //    std::memcpy(buf, (char *)addr, size);
+}
+
+uint32_t Flash::Flash_Read(uint32_t addr)
+{
+    return (*(__IO uint32_t*)addr);
 }
 
 void Flash::write(uint32_t addr, const char *buf, uint32_t size)
@@ -211,8 +216,8 @@ bool Flash::compare(uint32_t address, const uint8_t *buffer, uint32_t size)
 void Flash::test()
 {
     char bufWrite[512] = "hello world";
-    char bufRead[512];
-
+    static char bufRead[512];
+    char tmp[256];
     std::fill(bufRead, bufRead + sizeof(bufRead), 0);
 
     /*Variable used for Erase procedure*/
@@ -223,8 +228,8 @@ void Flash::test()
 
     /* Get the 1st sector to erase */
     EraseInitStruct.TypeErase     = FLASH_TYPEERASE_SECTORS;
-    EraseInitStruct.VoltageRange  = FLASH_VOLTAGE_RANGE_3;
-//    EraseInitStruct.VoltageRange  = FLASH_VOLTAGE_RANGE_1;
+//    EraseInitStruct.VoltageRange  = FLASH_VOLTAGE_RANGE_3;
+    EraseInitStruct.VoltageRange  = FLASH_VOLTAGE_RANGE_1;
     EraseInitStruct.Sector        = FLASH_SECTOR_7;
     EraseInitStruct.NbSectors     = 1;
 
@@ -239,7 +244,6 @@ void Flash::test()
     HAL_FLASH_OB_Unlock();
     /* Get the Dual bank configuration status */
     HAL_FLASHEx_OBGetConfig(&OBInit);
-    char tmp[256];
 
     sprintf(tmp, "OptionType=%X\r\n"
             "WRPState=%X\r\n"
@@ -264,48 +268,38 @@ void Flash::test()
 
     Flash::getInstance().unlock();
 
-//   В 753 не используется упреждающее чтение
-//    __HAL_FLASH_ART_DISABLE();
-//    __HAL_FLASH_ART_RESET();
-//    __HAL_FLASH_ART_ENABLE();
 
     while (HAL_FLASHEx_Erase(&EraseInitStruct, &SECTORError) != HAL_OK)
     {
-        /*
-        Error occurred while sector erase.
-        User can add here some code to deal with this error.
-        SECTORError will contain the faulty sector and then to know the code error on this sector,
-        user can call function 'HAL_FLASH_GetError()'
-        */
-        /* Infinite loop */
         RS232::getInstance().term << "Error occurred while sector erase.\n";
     }
 
-//    SCB_CleanInvalidateDCache_by_Addr((uint32_t *)FLASH_SECTOR_7, 256 * 1024);
-//    SCB_InvalidateICache();
-
-//    Flash::getInstance().lock();
-
-//    Flash::getInstance().unlock();
-
-//   В 753 не используется упреждающее чтение
-//    __HAL_FLASH_ART_DISABLE();
-//    __HAL_FLASH_ART_RESET();
-//    __HAL_FLASH_ART_ENABLE();
 
 term2("**** FlashTest 1 ****")
 
     write(ADDR_FLASH_SECTOR_7, reinterpret_cast<const char *>(bufWrite), sizeof(bufWrite));
-//write(ADDR_FLASH_SECTOR_7, "bla bla bla", sizeof("bla bla bla"));
-
-//    SCB_CleanInvalidateDCache_by_Addr((uint32_t *)ADDR_FLASH_SECTOR_7, sizeof(bufWrite));
-//    SCB_InvalidateICache();
 
 term2("**** FlashTest 4 ****")
 
-    read(ADDR_FLASH_SECTOR_7, reinterpret_cast<char *>(bufRead), sizeof(bufRead));
+        __IO uint32_t  addr = 0x80E0000;
+        __IO uint32_t uu = *(__IO uint32_t*) addr;
+        sprintf(tmp,"%0.8X : %0.8X \n", addr , uu);
+        term2(tmp)
 
-    lock();
+
+//        __IO uint32_t  addr = 0x80E0000;
+//        __IO uint32_t uu = *(__IO uint32_t*) addr;
+
+//        sprintf(tmp,"%0.8X : %0.8X \n", addr , uu);
+
+
+//  term2(Flash_Read(ADDR_FLASH_SECTOR_7))
+//     bufRead[0] = *(__IO uint32_t *) ADDR_FLASH_SECTOR_7;
+//    read(ADDR_FLASH_SECTOR_7, reinterpret_cast<char *>(bufRead), sizeof(bufRead));
+//term2(bufRead)
+
+term2("**** FlashTest 5 ****")
+      Flash::getInstance().lock();
 }
 
 void Flash::erase(){
