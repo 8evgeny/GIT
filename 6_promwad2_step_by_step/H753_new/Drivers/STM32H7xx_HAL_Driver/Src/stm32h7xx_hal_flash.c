@@ -157,7 +157,7 @@ HAL_StatusTypeDef HAL_FLASH_Program(uint32_t TypeProgram, uint32_t FlashAddress,
 char tmp[128];
 sprintf(tmp,"dest_addr = %X src_addr = %X  \r\n", FlashAddress, DataAddress);
 RS232Puts(tmp);
-
+//RS232Puts((char*)DataAddress);
   /* Check the parameters */
   assert_param(IS_FLASH_TYPEPROGRAM(TypeProgram));
   assert_param(IS_FLASH_PROGRAM_ADDRESS(FlashAddress));

@@ -102,8 +102,12 @@ void Flash::write(uint32_t addr, const char *buf, uint32_t size)
     uint32_t tmp;
     uint32_t chunkSize;
 
+char tmp2[512];
+sprintf (tmp2,"adress - %X\r\nstring - %s\r\nsize - %d\r\n", addr, buf, size);
+RS232Puts(tmp2);
+
     /* Wait for any busy flags */
-    while (FLASH_WaitForLastOperation(10, FLASH_BANK_BOTH) != HAL_OK);
+    while (FLASH_WaitForLastOperation(1000, FLASH_BANK_BOTH) != HAL_OK);
     /* Check if the flash address is correctly aligned */
     alignOffset = addr % IFLASH_PAGE_SIZE;
 
@@ -280,9 +284,9 @@ void Flash::test()
 //    SCB_CleanInvalidateDCache_by_Addr((uint32_t *)FLASH_SECTOR_7, 256 * 1024);
 //    SCB_InvalidateICache();
 
-    Flash::getInstance().lock();
+//    Flash::getInstance().lock();
 
-    unlock();
+//    Flash::getInstance().unlock();
 
 //   В 753 не используется упреждающее чтение
 //    __HAL_FLASH_ART_DISABLE();
@@ -292,6 +296,7 @@ void Flash::test()
 term2("**** FlashTest 1 ****")
 
     write(ADDR_FLASH_SECTOR_7, reinterpret_cast<const char *>(bufWrite), sizeof(bufWrite));
+//write(ADDR_FLASH_SECTOR_7, "bla bla bla", sizeof("bla bla bla"));
 
 //    SCB_CleanInvalidateDCache_by_Addr((uint32_t *)ADDR_FLASH_SECTOR_7, sizeof(bufWrite));
 //    SCB_InvalidateICache();
