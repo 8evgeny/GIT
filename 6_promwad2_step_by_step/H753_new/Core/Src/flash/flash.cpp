@@ -149,7 +149,7 @@ RS232Puts(tmp2);
 
 term2("**** FlashTest 2 ****")
 
-        HAL_FLASH_Program(FLASH_TYPEPROGRAM_FLASHWORD, addr, *(const uint32_t *)buf);
+        HAL_FLASH_Program(FLASH_TYPEPROGRAM_FLASHWORD, addr, (uint32_t)buf);
 
 term2("**** FlashTest 3 ****")
 
