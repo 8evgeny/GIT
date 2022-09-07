@@ -118,13 +118,13 @@ static int counterPackegs = 0; /*! A counter for size of packages */
 
 [[ noreturn ]]void updateFirmwareThread(const void *arg)
 {
+    char tmp[256];
     UNUSED(arg);
     uint32_t byteswritten{0};
     FRESULT res;
 
 //    int versionFirmware;
 //    int subVersionFirmware;
-    int size;
 //    int current;
 //    int all;
 
@@ -139,8 +139,7 @@ static int counterPackegs = 0; /*! A counter for size of packages */
 
 //            versionFirmware = pack.versionFirmware;
 //            subVersionFirmware = pack.subVersionFirmware;
-            size = pack.size;
-term2(size)
+
 //            all = pack.all;
 //            current = pack.current;
 
@@ -148,13 +147,12 @@ term2(size)
             {
                 if (pack.current == 0) //Первый пакет
                 {
-term2("counterPackegs =  ")
-term2(counterPackegs)
                     //always erase
-                    Flash::getInstance().erase();
+//                    Flash::getInstance().erase();
 
                     counterSize = 0;
                     counterPackegs = 0;
+
 //                    /*##-1- Link the micro Flash I/O driver ##################################*/
 //                    FATFS_LinkDriver(&FLASH_Driver, FLASHPath);
 //                    /*##-2- Register the file system object to the FatFs module ##############*/
@@ -168,15 +166,10 @@ term2(counterPackegs)
 //                    /*##-5- Write data to the text file ################################*/
 
 //                    res = f_write(&MyFile, pack.data.data(), pack.data.size(), (UINT *)&byteswritten);
-                    counterSize += pack.data.size();
-                    counterPackegs++;
-term2("counterPackegs =  ")
-term2(counterPackegs)
 
                 }
                 else if (pack.current == pack.all) //Последний пакет
                 {
-
 //                    //this packeage can be less than 512 bytes
 ////                    res = f_write(&MyFile, pack.data.data(), pack.data.size(), (UINT *)&byteswritten);
 //                    res = f_write(&MyFile, pack.data.data(), size / 2, (UINT *)&byteswritten);
@@ -209,12 +202,16 @@ term2(counterPackegs)
                 } else
                 {
 //                    res = f_write(&MyFile,  pack.data.data(),  pack.data.size(), (UINT *)&byteswritten);
-                    counterSize += pack.data.size();
-                    counterPackegs++;
-term2(counterPackegs)
-term2(counterSize)
                 }
+                counterSize += pack.data.size();
+                counterPackegs++;
+
             }
+
+            sprintf(tmp,"packet %d of %d\r\nsize packet = %d\r\ndata size = %d\r\n", pack.current, pack.all, pack.size, counterSize);
+            term2(tmp)
+//            term2(hexStr(pack.data))
+
             osDelay(1);
         }
         else
@@ -236,13 +233,8 @@ void parsingFirmwareFromJson(JsonDocument &doc)
     /* FatFs function common result code */
     const char *cmd = doc["cmd"];
     const char *station = doc["station"];
-term2("parsingFirmwareFromJson")
     if ((doc["cmd"] == "update") && ((uint8_t)doc["station"] == (uint8_t)Json::getInstance()->thisStation.id))
     {
-
-term2(cmd)
-term2(station)
-term2((uint8_t)Json::getInstance()->thisStation.id)
 
         int versionFirmware = doc["versionFirmware"];
         int subVersionFirmware = doc["subVersionFirmware"];

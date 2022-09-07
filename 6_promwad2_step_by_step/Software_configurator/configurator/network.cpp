@@ -441,7 +441,7 @@ void AppCore::startLoadFirmware(const QString &stationID, bool state)
 //                        sendDataByUdp(json, listOfStations.at(indexOfStation).ip);
                         sendDataByUdp(json, "232.0.0.0");
                         QThread::msleep(100);
-                        if (currentState == 0) QThread::msleep(5000);
+//                        if (currentState == 0) QThread::msleep(5000);
 //                        sendDataByUdp(json, listOfStations.at(indexOfStation).ip);
 //                        QThread::msleep(100);
 //                        sendDataByUdp(json, listOfStations.at(indexOfStation).ip);

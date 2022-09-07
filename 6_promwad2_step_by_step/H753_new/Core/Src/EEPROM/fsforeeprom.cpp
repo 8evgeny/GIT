@@ -94,11 +94,7 @@ void littleFsInit()
     cfg.file_buffer = lfs_file_buf;
 
 // mount the filesystem
-
-//term("lfs_mount___begin")
-
     int err = lfs_mount(&lfs, &cfg);
-
 term("lfs_mount")
 
 // reformat if we can't mount the filesystem
