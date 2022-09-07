@@ -367,7 +367,8 @@ void AppCore::startLoadFirmware(const QString &stationID, bool state)
 {
 
     constexpr int SIZE_FIRMWARE = 512;
-    if (firmwareForDownload.size()) {
+    if (firmwareForDownload.size())
+    {
         qint32 allPackegs = static_cast<int>(ceil(static_cast<double>(firmwareForDownload.size()) / static_cast<double>(SIZE_FIRMWARE))) - 1;
         qint32 currentState = 0;
         for (qint32 i = 0; i < firmwareForDownload.size(); i += SIZE_FIRMWARE) {
@@ -417,21 +418,26 @@ void AppCore::startLoadFirmware(const QString &stationID, bool state)
                     QThread::msleep(100);
                     sendDataByUdpMulticast(json, groupAddress);
                     QThread::msleep(100);
-                } else {
+                }
+                else
+                {
                     //for saving an index
                     int indexOfStation = 0;
                     bool isStation = false;
 
                     //look for an index of the station
-                    for (int i = 0; i < listOfStations.size(); i++) {
-                        if (listOfStations.at(i).nameOfID == stationID) {
+                    for (int i = 0; i < listOfStations.size(); i++)
+                    {
+                        if (listOfStations.at(i).nameOfID == stationID)
+                        {
                             indexOfStation = i;
                             isStation = true;
                             break;
                         }
                     }
 
-                    if (isStation) {
+                    if (isStation)
+                    {
 //                        sendDataByUdp(json, listOfStations.at(indexOfStation).ip);
                         sendDataByUdp(json, "232.0.0.0");
                         QThread::msleep(100);

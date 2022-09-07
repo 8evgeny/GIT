@@ -58,7 +58,8 @@ std::array<char, SIZE_FIRMWARE_BASE> strHex(const std::string &data)
 {
     std::array<char, SIZE_FIRMWARE_BASE> tmp;
     size_t j = 0;
-    for (size_t i = 0; i < data.size(); i += 2) {
+    for (size_t i = 0; i < data.size(); i += 2)
+    {
         std::stringstream ss;
         ss << std::hex;
         std::string hexConv = std::string("") + data.at(i) + std::string("") + data.at(i + 1);
