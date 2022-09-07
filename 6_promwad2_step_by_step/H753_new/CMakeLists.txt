@@ -24,7 +24,7 @@ add_definitions(-DHAVE_CONFIG_H)
 add_definitions(-D__FPU_PRESENT)
 
 #Логгирование
-add_definitions(-DLogsEnable) #Полное выключение логов требуется для потока UART
+#add_definitions(-DLogsEnable) #Полное выключение логов требуется для потока UART
 #add_definitions(-DLogsEnableToConsole) #более подробные логи через макрос term
 #add_definitions(-DPrintTaskLogs) #Запускает поток с логами задач
 
