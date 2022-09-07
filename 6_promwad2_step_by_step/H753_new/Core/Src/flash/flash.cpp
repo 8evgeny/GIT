@@ -218,7 +218,7 @@ void Flash::test()
     char bufWrite[512] = "hello world";
     static char bufRead[512];
     char tmp[256];
-    std::fill(bufRead, bufRead + sizeof(bufRead), 0);
+    std::fill(bufRead, bufRead + sizeof(bufRead), '1');
 
     /*Variable used for Erase procedure*/
     static FLASH_EraseInitTypeDef EraseInitStruct;
@@ -230,7 +230,7 @@ void Flash::test()
     EraseInitStruct.TypeErase     = FLASH_TYPEERASE_SECTORS;
 //    EraseInitStruct.VoltageRange  = FLASH_VOLTAGE_RANGE_3;
     EraseInitStruct.VoltageRange  = FLASH_VOLTAGE_RANGE_1;
-    EraseInitStruct.Sector        = FLASH_SECTOR_7;
+    EraseInitStruct.Sector        = FLASH_SECTOR_6;
     EraseInitStruct.NbSectors     = 1;
 
 
@@ -277,26 +277,31 @@ void Flash::test()
 
 term2("**** FlashTest 1 ****")
 
-    write(ADDR_FLASH_SECTOR_7, reinterpret_cast<const char *>(bufWrite), sizeof(bufWrite));
+    write(ADDR_FLASH_SECTOR_6, reinterpret_cast<const char *>(bufWrite), sizeof(bufWrite));
 
 term2("**** FlashTest 4 ****")
 
-        __IO uint32_t  addr = 0x80E0000;
-        __IO uint32_t uu = *(__IO uint32_t*) addr;
-        sprintf(tmp,"%0.8X : %0.8X \n", addr , uu);
-        term2(tmp)
+//Читаю значение по адресу (проверка обращения к региону памяти)
+    __IO uint32_t  addr = 0x080C0000;
+    __IO uint32_t uu = *(__IO uint32_t*) addr;
+    sprintf(tmp,"%0.8X : %0.8X", addr , uu);
+    term2(tmp)
+//SRAM
+    __IO uint32_t  addr2 = 0x60000008;
+    __IO uint32_t uu2 = *(__IO uint32_t*) addr2;
+    sprintf(tmp,"%0.8X : %0.8X", addr2 , uu2);
+    term2(tmp)
+    *(__IO uint32_t*) addr2 = 0x11111111;  //Пишу новое значение
+    uu2 = *(__IO uint32_t*) addr2;
+    sprintf(tmp,"%0.8X : %0.8X", addr2 , uu2);
+    term2(tmp)
 
-
-//        __IO uint32_t  addr = 0x80E0000;
-//        __IO uint32_t uu = *(__IO uint32_t*) addr;
-
-//        sprintf(tmp,"%0.8X : %0.8X \n", addr , uu);
-
-
-//  term2(Flash_Read(ADDR_FLASH_SECTOR_7))
-//     bufRead[0] = *(__IO uint32_t *) ADDR_FLASH_SECTOR_7;
-//    read(ADDR_FLASH_SECTOR_7, reinterpret_cast<char *>(bufRead), sizeof(bufRead));
-//term2(bufRead)
+    term2(bufRead)
+    read(ADDR_FLASH_SECTOR_6, reinterpret_cast<char *>(bufRead), sizeof(bufRead));
+    term2(bufWrite)
+    term2(bufRead)
+    if (compare(ADDR_FLASH_SECTOR_6, reinterpret_cast<uint8_t *>(bufWrite), sizeof(bufWrite)))
+        term2("Flash test passed")
 
 term2("**** FlashTest 5 ****")
       Flash::getInstance().lock();
