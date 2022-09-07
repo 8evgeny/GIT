@@ -208,9 +208,9 @@ static int counterPackegs = 0; /*! A counter for size of packages */
 
             }
 
-            sprintf(tmp,"packet %d of %d\r\nsize packet = %d\r\ndata size = %d\r\n", pack.current, pack.all, pack.size, counterSize);
+            sprintf(tmp,"packet %d of %d\r\nsize packet = %d\r\ndata size = %d", pack.current, pack.all, pack.size, counterSize);
             term2(tmp)
-//            term2(hexStr(pack.data))
+            term2(hexStr(pack.data))
 
             osDelay(1);
         }
