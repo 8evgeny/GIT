@@ -64,7 +64,6 @@
 #include <rs232.h>
 #include "rs232_printf.h"
 #include "fmware_flasher.h"
-
 #include "stm32h7xx_hal_flash_ex.h"
 
 Flash *Flash::pInstance = nullptr;
@@ -107,9 +106,9 @@ void Flash::write(uint32_t addr, const char *buf, uint32_t size)
     uint32_t tmp;
     uint32_t chunkSize;
 
-char tmp2[512];
-sprintf (tmp2,"adress - %X\r\nstring - %s\r\nsize - %d\r\n", addr, buf, size);
-RS232Puts(tmp2);
+//char tmp2[512];
+//sprintf (tmp2,"adress - %X\r\nstring - %s\r\nsize - %d\r\n", addr, buf, size);
+//RS232Puts(tmp2);
 
     /* Wait for any busy flags */
     while (FLASH_WaitForLastOperation(1000, FLASH_BANK_BOTH) != HAL_OK);
@@ -151,13 +150,7 @@ RS232Puts(tmp2);
      * copied requires special treatment. */
 
     while (size >= IFLASH_PAGE_SIZE) {
-
-term2("**** FlashTest 2 ****")
-
         HAL_FLASH_Program(FLASH_TYPEPROGRAM_FLASHWORD, addr, (uint32_t)buf);
-
-term2("**** FlashTest 3 ****")
-
         addr += IFLASH_PAGE_SIZE;
         buf += IFLASH_PAGE_SIZE;
         size -= IFLASH_PAGE_SIZE;
@@ -193,6 +186,7 @@ void Flash::lock()
 
 bool Flash::compare(uint32_t address, const uint8_t *buffer, uint32_t size)
 {
+//НЕ РАБОТАЕТ
     /* For efficiency, compare flashdata_t values as much as possible,
      * then, fallback to byte per byte comparison. */
     while (size >= sizeof(uint32_t)) {
@@ -215,10 +209,11 @@ bool Flash::compare(uint32_t address, const uint8_t *buffer, uint32_t size)
 
 void Flash::test()
 {
-    char bufWrite[512] = "hello world";
+    uint32_t testADDR = ADDR_FLASH_SECTOR_6;
+    char bufWrite[512] = ".....................hello world......................";
     static char bufRead[512];
     char tmp[256];
-    std::fill(bufRead, bufRead + sizeof(bufRead), '1');
+    std::fill(bufRead, bufRead + sizeof(bufRead), 0);
 
     /*Variable used for Erase procedure*/
     static FLASH_EraseInitTypeDef EraseInitStruct;
@@ -245,23 +240,23 @@ void Flash::test()
     /* Get the Dual bank configuration status */
     HAL_FLASHEx_OBGetConfig(&OBInit);
 
-    sprintf(tmp, "OptionType=%X\r\n"
-            "WRPState=%X\r\n"
-            "WRPSector=%X\r\n"
-            "BORLevel=%X\r\n"
-            "USERType=%X\r\n"
-            "USERConfig=%X\r\n"
-            "Banks=%X\r\n"
-                 ,
-            OBInit.OptionType,
-            OBInit.WRPState,
-            OBInit.WRPSector,
-            OBInit.BORLevel,
-            OBInit.USERType,
-            OBInit.USERConfig,
-            OBInit.Banks
-            );
-    RS232Puts(tmp);
+//    sprintf(tmp, "OptionType=%X\r\n"
+//            "WRPState=%X\r\n"
+//            "WRPSector=%X\r\n"
+//            "BORLevel=%X\r\n"
+//            "USERType=%X\r\n"
+//            "USERConfig=%X\r\n"
+//            "Banks=%X\r\n"
+//                 ,
+//            OBInit.OptionType,
+//            OBInit.WRPState,
+//            OBInit.WRPSector,
+//            OBInit.BORLevel,
+//            OBInit.USERType,
+//            OBInit.USERConfig,
+//            OBInit.Banks
+//            );
+//term2(tmp);
 
     /* Allow Access to option bytes sector */
     HAL_FLASH_OB_Lock();
@@ -275,36 +270,33 @@ void Flash::test()
     }
 
 
-term2("**** FlashTest 1 ****")
+    write(testADDR, reinterpret_cast<const char *>(bufWrite), sizeof(bufWrite));
 
-    write(ADDR_FLASH_SECTOR_6, reinterpret_cast<const char *>(bufWrite), sizeof(bufWrite));
+//    //Читаю значение по адресу (проверка обращения к региону памяти)
+//    __IO uint32_t  addr = 0x080C0000;
+//    __IO uint32_t uu = *(__IO uint32_t*) addr;
+//    sprintf(tmp,"%0.8X : %0.8X", addr , uu);
+//    term2(tmp)
+//    //SRAM
+//    __IO uint32_t  addr2 = 0x60000008;
+//    __IO uint32_t uu2 = *(__IO uint32_t*) addr2;
+//    sprintf(tmp,"%0.8X : %0.8X", addr2 , uu2);
+//    term2(tmp)
+//    *(__IO uint32_t*) addr2 = 0x11111111;  //Пишу новое значение
+//    uu2 = *(__IO uint32_t*) addr2;
+//    sprintf(tmp,"%0.8X : %0.8X", addr2 , uu2);
+//    term2(tmp)
 
-term2("**** FlashTest 4 ****")
+    read(testADDR, reinterpret_cast<char *>(bufRead), sizeof(bufRead));
 
-//Читаю значение по адресу (проверка обращения к региону памяти)
-    __IO uint32_t  addr = 0x080C0000;
-    __IO uint32_t uu = *(__IO uint32_t*) addr;
-    sprintf(tmp,"%0.8X : %0.8X", addr , uu);
-    term2(tmp)
-//SRAM
-    __IO uint32_t  addr2 = 0x60000008;
-    __IO uint32_t uu2 = *(__IO uint32_t*) addr2;
-    sprintf(tmp,"%0.8X : %0.8X", addr2 , uu2);
-    term2(tmp)
-    *(__IO uint32_t*) addr2 = 0x11111111;  //Пишу новое значение
-    uu2 = *(__IO uint32_t*) addr2;
-    sprintf(tmp,"%0.8X : %0.8X", addr2 , uu2);
-    term2(tmp)
+    std::string in(bufWrite);
+    std::string out(bufWrite);
+    if(in == out)
+        term2("test FLASH passed")
+    else
+        term2("test FLASH failed.")
 
-    term2(bufRead)
-    read(ADDR_FLASH_SECTOR_6, reinterpret_cast<char *>(bufRead), sizeof(bufRead));
-    term2(bufWrite)
-    term2(bufRead)
-    if (compare(ADDR_FLASH_SECTOR_6, reinterpret_cast<uint8_t *>(bufWrite), sizeof(bufWrite)))
-        term2("Flash test passed")
-
-term2("**** FlashTest 5 ****")
-      Flash::getInstance().lock();
+    Flash::getInstance().lock();
 }
 
 void Flash::erase(){

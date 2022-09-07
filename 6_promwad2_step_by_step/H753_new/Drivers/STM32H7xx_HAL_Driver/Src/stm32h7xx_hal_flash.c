@@ -154,10 +154,11 @@ HAL_StatusTypeDef HAL_FLASH_Program(uint32_t TypeProgram, uint32_t FlashAddress,
   __IO uint32_t *src_addr = (__IO uint32_t*)DataAddress;
   uint32_t bank;
   uint8_t row_index = FLASH_NB_32BITWORD_IN_FLASHWORD;
-char tmp[128];
-sprintf(tmp,"dest_addr = %X src_addr = %X  \r\n", FlashAddress, DataAddress);
-RS232Puts(tmp);
-//RS232Puts((char*)DataAddress);
+
+//char tmp[128];
+//sprintf(tmp,"dest_addr = %X src_addr = %X  \r\n", FlashAddress, DataAddress);
+//RS232Puts(tmp);
+
   /* Check the parameters */
   assert_param(IS_FLASH_TYPEPROGRAM(TypeProgram));
   assert_param(IS_FLASH_PROGRAM_ADDRESS(FlashAddress));
@@ -240,13 +241,7 @@ RS232Puts(tmp);
       /* Program the flash word */
       do
       {
-RS232Puts("__1\r\n");
-    *(uint32_t*)dest_addr = *(uint32_t*)src_addr;
-memset(tmp,0,128);
-        *(uint32_t*)tmp = *src_addr;
-RS232Puts((uint32_t)tmp);RS232Puts("\r\n");
-
-RS232Puts("__2\r\n");
+        *(uint32_t*)dest_addr = *(uint32_t*)src_addr;
         dest_addr++;
         src_addr++;
         row_index--;
