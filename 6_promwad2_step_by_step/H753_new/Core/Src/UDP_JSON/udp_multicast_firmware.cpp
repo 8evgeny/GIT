@@ -146,7 +146,8 @@ term2(size)
 
             if (pack.current == counterPackegs)
             {
-                if (pack.current == 0) {
+                if (pack.current == 0) //Первый пакет
+                {
 term2("counterPackegs =  ")
 term2(counterPackegs)
                     //always erase
@@ -173,7 +174,7 @@ term2("counterPackegs =  ")
 term2(counterPackegs)
 
                 }
-                else if (pack.current == pack.all)
+                else if (pack.current == pack.all) //Последний пакет
                 {
 
 //                    //this packeage can be less than 512 bytes
@@ -215,7 +216,9 @@ term2(counterSize)
                 }
             }
             osDelay(1);
-        } else {
+        }
+        else
+        {
             osMutexRelease(mutexFirmwareRingBufferId);
             osDelay(10);
         }
