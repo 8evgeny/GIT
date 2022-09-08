@@ -20,6 +20,8 @@
 //#else
 //#include "../Call_control_for_SC2_board/call_control_sc2.h"
 //#endif
+
+extern CRC_HandleTypeDef hcrc;
 extern uint8_t DataFirmware[NUM_FIRMWARE_PACKET][SIZE_FIRMWARE_BASE] __attribute__((section(".ExtRamData")));
 extern char *allConfig;
 extern int sizeConfig;
@@ -216,7 +218,7 @@ static int counterPackegs = 0; /*! A counter for size of packages */
 
             }
 
-            sprintf(tmp,"\r\npacket %d of %d size packet = %d data size = %d", pack.current, pack.all, pack.size, counterSize);
+            sprintf(tmp,"packet %d of %d size packet = %d data size = %d", pack.current, pack.all, pack.size, counterSize);
 
             for (int i = 0; i < SIZE_FIRMWARE_BASE; ++i)
             {
@@ -229,9 +231,10 @@ static int counterPackegs = 0; /*! A counter for size of packages */
 //            RS232::getInstance().term <<"\r\n";
 
             if (calculateCRC)
-            {//Прршивка вся в SRAM - считать CRC
-
-
+            {//Прршивка вся в SRAM - считать CRC BUFFER_SIZE указывается не в байтах, а в количестве 32-разрядных слов.
+                uint32_t CRCVal = HAL_CRC_Calculate(&hcrc, (uint32_t *)DataFirmware, SIZE_FIRMWARE_BASE * NUM_FIRMWARE_PACKET /4);
+                sprintf(tmp,"CRC =  %X", CRCVal);
+                term2(tmp)
             }
 
 

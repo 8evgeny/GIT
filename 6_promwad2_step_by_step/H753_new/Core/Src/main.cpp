@@ -51,6 +51,7 @@ static void MX_RNG_Init(void);
 void TaskEthernet_(void const * argument);
 
 volatile uint8_t boardType;
+CRC_HandleTypeDef hcrc;
 I2C_HandleTypeDef hi2c1;
 I2C_HandleTypeDef hi2c2;
 I2C_HandleTypeDef hi2c3;
@@ -149,6 +150,12 @@ void Ethernet_Link_Periodic_Handle(struct netif *netif)
     }
 }
 
+void HAL_CRC_MspInit(CRC_HandleTypeDef *hcrc)
+{
+    /* Разрешение тактирования периферии CRC: */
+    __HAL_RCC_CRC_CLK_ENABLE();
+}
+
 osThreadId TaskEthernetHandle;
 
 osThreadDef(readFromUartThread, readFromUartThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE );
@@ -243,7 +250,8 @@ int main(void)
 
     /* Configure the peripherals common clocks */
     PeriphCommonClock_Config();
-
+    HAL_CRC_MspInit(&hcrc);
+    HAL_CRC_Init(&hcrc);
     /* Initialize all configured peripherals */
     MX_GPIO_Init();
 
@@ -299,19 +307,30 @@ term2("Board SL1")
     test_EEPROM();
     Flash::getInstance().test();
 
-    char tmp[2];
-    RS232::getInstance().term <<"DataFirmware:\r\n";
-//    for (int k = 0; k < NUM_FIRMWARE_PACKET; ++k)
-    for (int k = 0; k < 10; ++k)
-    {
-        RS232::getInstance().term << k+1 <<"\r\n";
-        for (int i = 0; i < SIZE_FIRMWARE_BASE; ++i)
-        {
-            sprintf(tmp, "%X", DataFirmware[k][i]);
-            RS232::getInstance().term << tmp;
-        }
-            RS232::getInstance().term <<"\r\n";
-    }
+//    char tmp[2];
+//    RS232::getInstance().term <<"DataFirmware:\r\n";
+////    for (int k = 0; k < NUM_FIRMWARE_PACKET; ++k)
+//    for (int k = 0; k < 4; ++k)
+//    {
+//        RS232::getInstance().term << k+1 <<"\r\n";
+//        for (int i = 0; i < SIZE_FIRMWARE_BASE; ++i)
+//        {
+//            sprintf(tmp, "%X", DataFirmware[k][i]);
+//            RS232::getInstance().term << tmp;
+//        }
+//            RS232::getInstance().term <<"\r\n";
+//    }
+    char tmp2[128];
+    hcrc.InputDataFormat = CRC_INPUTDATA_FORMAT_WORDS;
+    uint32_t buff[3];
+    buff[0] = 0xaabbccde; buff[1] = 0xeeff0011; buff[2] = 0xffeeddce;
+
+    uint32_t CRCVal = HAL_CRC_Calculate(&hcrc, buff, 3);
+//    uint32_t CRCVal = HAL_CRC_Accumulate(&hcrc, (uint32_t *)DataFirmware, SIZE_FIRMWARE_BASE * NUM_FIRMWARE_PACKET /4);
+    sprintf(tmp2,"CRC = %4X", CRCVal);
+    term2(tmp2)
+
+
 
     if (boardType == sc4)
     {
