@@ -149,6 +149,7 @@ FLASH_ProcessTypeDef pFlash;
   */
 HAL_StatusTypeDef HAL_FLASH_Program(uint32_t TypeProgram, uint32_t FlashAddress, uint32_t DataAddress)
 {
+    RS232Puts("HAL_FLASH_Program");
   HAL_StatusTypeDef status;
   __IO uint32_t *dest_addr = (__IO uint32_t *)FlashAddress;
   __IO uint32_t *src_addr = (__IO uint32_t*)DataAddress;
