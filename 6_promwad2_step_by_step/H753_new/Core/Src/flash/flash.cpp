@@ -113,7 +113,7 @@ void Flash::write(uint32_t addr, const char *buf, uint32_t size)
     /* Wait for any busy flags */
     while (FLASH_WaitForLastOperation(1000, FLASH_BANK_BOTH) != HAL_OK);
     /* Check if the flash address is correctly aligned */
-    alignOffset = addr % IFLASH_PAGE_SIZE;
+    alignOffset = addr % 32;
 
     if (alignOffset != 0)
     {
@@ -149,11 +149,11 @@ void Flash::write(uint32_t addr, const char *buf, uint32_t size)
      * buffer's data to flash memory until the size of the data remaining to be
      * copied requires special treatment. */
 
-    while (size >= IFLASH_PAGE_SIZE) {
+    while (size >= 32) {
         HAL_FLASH_Program(FLASH_TYPEPROGRAM_FLASHWORD, addr, (uint32_t)buf);
-        addr += IFLASH_PAGE_SIZE;
-        buf += IFLASH_PAGE_SIZE;
-        size -= IFLASH_PAGE_SIZE;
+        addr += 32;
+        buf += 32;
+        size -= 32;
     }
 
     /* Now, address is correctly aligned, but the remaining data are to
@@ -171,7 +171,7 @@ void Flash::write(uint32_t addr, const char *buf, uint32_t size)
 
 void Flash::write(void *addr, void *data)
 {
-    write(reinterpret_cast<uint32_t>(addr), reinterpret_cast<const char *>(data), IFLASH_PAGE_SIZE);
+    write(reinterpret_cast<uint32_t>(addr), reinterpret_cast<const char *>(data), 32);
 }
 
 void Flash::unlock()

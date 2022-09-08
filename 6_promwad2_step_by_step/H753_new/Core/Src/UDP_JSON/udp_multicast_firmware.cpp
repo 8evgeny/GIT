@@ -433,5 +433,7 @@ void writeFlashFromExtRam()
     }
     Flash::getInstance().write(writeADDR, reinterpret_cast<const char *>(DataFirmware), sizeof(DataFirmware));
 
+    Flash::getInstance().lock();
+
     taskEXIT_CRITICAL();
 }
