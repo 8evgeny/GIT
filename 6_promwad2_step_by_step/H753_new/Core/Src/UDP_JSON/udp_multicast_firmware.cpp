@@ -218,10 +218,6 @@ static int counterPackegs = 0; /*! A counter for size of packages */
 
             sprintf(tmp,"\r\npacket %d of %d size packet = %d data size = %d", pack.current, pack.all, pack.size, counterSize);
 
-//            RS232::getInstance().term <<"\r\n";
-//            for (int i = 0; i < SIZE_FIRMWARE_BASE; ++i)
-//                RS232::getInstance().term << DataFirmware[pack.current][i];
-
             for (int i = 0; i < SIZE_FIRMWARE_BASE; ++i)
             {
                 DataFirmware[pack.current][i] = pack.data.at(i);
@@ -234,6 +230,7 @@ static int counterPackegs = 0; /*! A counter for size of packages */
 
             if (calculateCRC)
             {//Прршивка вся в SRAM - считать CRC
+
 
             }
 
