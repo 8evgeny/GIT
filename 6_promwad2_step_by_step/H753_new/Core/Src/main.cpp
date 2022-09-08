@@ -45,6 +45,7 @@ static void MX_I2C2_Init(void);
 static void MX_I2C3_Init(void);
 //static void MX_SAI1_Init(void);
 static void MX_UART7_Init(void);
+static void MX_CRC_Init(void);
 static void MX_TIM3_Init(void);
 static void MX_DMA_Init(void);
 static void MX_RNG_Init(void);
@@ -150,10 +151,45 @@ void Ethernet_Link_Periodic_Handle(struct netif *netif)
     }
 }
 
-void HAL_CRC_MspInit(CRC_HandleTypeDef *hcrc)
+void HAL_CRC_MspInit(CRC_HandleTypeDef* hcrc)
 {
-    /* Разрешение тактирования периферии CRC: */
-    __HAL_RCC_CRC_CLK_ENABLE();
+    if(hcrc->Instance==CRC)
+    {
+    /* USER CODE BEGIN CRC_MspInit 0 */
+
+    /* USER CODE END CRC_MspInit 0 */
+      /* Peripheral clock enable */
+      __HAL_RCC_CRC_CLK_ENABLE();
+    /* USER CODE BEGIN CRC_MspInit 1 */
+
+    /* USER CODE END CRC_MspInit 1 */
+    }
+}
+
+static void MX_CRC_Init(void)
+{
+
+  /* USER CODE BEGIN CRC_Init 0 */
+
+  /* USER CODE END CRC_Init 0 */
+
+  /* USER CODE BEGIN CRC_Init 1 */
+
+  /* USER CODE END CRC_Init 1 */
+  hcrc.Instance = CRC;
+  hcrc.Init.DefaultPolynomialUse = DEFAULT_POLYNOMIAL_ENABLE;
+  hcrc.Init.DefaultInitValueUse = DEFAULT_INIT_VALUE_ENABLE;
+  hcrc.Init.InputDataInversionMode = CRC_INPUTDATA_INVERSION_WORD;
+  hcrc.Init.OutputDataInversionMode = CRC_OUTPUTDATA_INVERSION_ENABLE;
+  hcrc.InputDataFormat = CRC_INPUTDATA_FORMAT_WORDS;
+  if (HAL_CRC_Init(&hcrc) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN CRC_Init 2 */
+
+  /* USER CODE END CRC_Init 2 */
+
 }
 
 osThreadId TaskEthernetHandle;
@@ -250,10 +286,10 @@ int main(void)
 
     /* Configure the peripherals common clocks */
     PeriphCommonClock_Config();
-    HAL_CRC_MspInit(&hcrc);
-    HAL_CRC_Init(&hcrc);
     /* Initialize all configured peripherals */
     MX_GPIO_Init();
+
+    MX_CRC_Init();
 
     //Определяем тип платы SC2 или SC4
     if (!HAL_GPIO_ReadPin(GPIOG, GPIO_PIN_9))
@@ -323,7 +359,7 @@ term2("Board SL1")
     char tmp2[128];
     hcrc.InputDataFormat = CRC_INPUTDATA_FORMAT_WORDS;
     uint32_t buff[3];
-    buff[0] = 0xaabbccde; buff[1] = 0xeeff0011; buff[2] = 0xffeeddce;
+    buff[0] = 0xaabbccde; buff[1] = 0xeeff0012; buff[2] = 0xf2345678;
 
     uint32_t CRCVal = HAL_CRC_Calculate(&hcrc, buff, 3);
 //    uint32_t CRCVal = HAL_CRC_Accumulate(&hcrc, (uint32_t *)DataFirmware, SIZE_FIRMWARE_BASE * NUM_FIRMWARE_PACKET /4);
