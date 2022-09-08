@@ -70,6 +70,8 @@ uint8_t inMcastGroup;
 osMutexId mutexEth_id;
 osMutexDef (mutexEth);
 
+uint8_t DataFirmware[NUM_FIRMWARE_PACKET][SIZE_FIRMWARE_BASE] __attribute__((section(".ExtRamData"))); //512кБ
+
 //Массив во внешней памяти для конфига (readelf -S H753_new.elf)
 //char buff_config [200*1024] __attribute__((section(".ExtRamData")));
 
@@ -295,8 +297,28 @@ term2("Board SL1")
     littleFsInit();
     printNumReboot();
     test_EEPROM();
+    Flash::getInstance().test();
 
-    Flash::getInstance().test(); // Не работает
+    for (int k = 0; k < NUM_FIRMWARE_PACKET; ++k)
+    {
+        for (int i = 0; i < SIZE_FIRMWARE_BASE; ++i)
+        {
+            DataFirmware[k][i] = 0x00;
+        }
+    }
+
+//    char tmp[2];
+//    RS232::getInstance().term <<"DataFirmware:\r\n";
+//    for (int k = 0; k < NUM_FIRMWARE_PACKET; ++k)
+//    {
+//        RS232::getInstance().term << k+1 <<"\r\n";
+//        for (int i = 0; i < SIZE_FIRMWARE_BASE; ++i)
+//        {
+//            sprintf(tmp, "%X", DataFirmware[k][i]);
+//            RS232::getInstance().term << tmp;
+//        }
+//            RS232::getInstance().term <<"\r\n";
+//    }
 
     if (boardType == sc4)
     {

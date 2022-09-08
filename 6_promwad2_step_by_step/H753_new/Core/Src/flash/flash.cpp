@@ -225,7 +225,7 @@ void Flash::test()
     EraseInitStruct.TypeErase     = FLASH_TYPEERASE_SECTORS;
 //    EraseInitStruct.VoltageRange  = FLASH_VOLTAGE_RANGE_3;
     EraseInitStruct.VoltageRange  = FLASH_VOLTAGE_RANGE_1;
-    EraseInitStruct.Sector        = FLASH_SECTOR_6;
+    EraseInitStruct.Sector        = FLASH_SECTOR_7;
     EraseInitStruct.NbSectors     = 1;
 
 
