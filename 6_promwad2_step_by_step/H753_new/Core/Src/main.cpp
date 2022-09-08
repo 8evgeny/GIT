@@ -299,26 +299,19 @@ term2("Board SL1")
     test_EEPROM();
     Flash::getInstance().test();
 
-    for (int k = 0; k < NUM_FIRMWARE_PACKET; ++k)
+    char tmp[2];
+    RS232::getInstance().term <<"DataFirmware:\r\n";
+//    for (int k = 0; k < NUM_FIRMWARE_PACKET; ++k)
+    for (int k = 0; k < 10; ++k)
     {
+        RS232::getInstance().term << k+1 <<"\r\n";
         for (int i = 0; i < SIZE_FIRMWARE_BASE; ++i)
         {
-            DataFirmware[k][i] = 0x00;
+            sprintf(tmp, "%X", DataFirmware[k][i]);
+            RS232::getInstance().term << tmp;
         }
+            RS232::getInstance().term <<"\r\n";
     }
-
-//    char tmp[2];
-//    RS232::getInstance().term <<"DataFirmware:\r\n";
-//    for (int k = 0; k < NUM_FIRMWARE_PACKET; ++k)
-//    {
-//        RS232::getInstance().term << k+1 <<"\r\n";
-//        for (int i = 0; i < SIZE_FIRMWARE_BASE; ++i)
-//        {
-//            sprintf(tmp, "%X", DataFirmware[k][i]);
-//            RS232::getInstance().term << tmp;
-//        }
-//            RS232::getInstance().term <<"\r\n";
-//    }
 
     if (boardType == sc4)
     {

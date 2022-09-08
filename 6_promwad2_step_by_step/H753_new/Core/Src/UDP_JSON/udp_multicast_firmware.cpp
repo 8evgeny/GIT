@@ -20,7 +20,7 @@
 //#else
 //#include "../Call_control_for_SC2_board/call_control_sc2.h"
 //#endif
-
+extern uint8_t DataFirmware[NUM_FIRMWARE_PACKET][SIZE_FIRMWARE_BASE] __attribute__((section(".ExtRamData")));
 extern char *allConfig;
 extern int sizeConfig;
 //char allConfigExtRam[1024 * 100] __attribute__((section(".ExtRamData")));
@@ -120,7 +120,7 @@ static int counterPackegs = 0; /*! A counter for size of packages */
     UNUSED(arg);
     uint32_t byteswritten{0};
     FRESULT res;
-
+    bool calculateCRC = false;
 //    int versionFirmware;
 //    int subVersionFirmware;
 //    int current;
@@ -148,6 +148,14 @@ static int counterPackegs = 0; /*! A counter for size of packages */
                     //always erase
 //                    Flash::getInstance().erase();
 
+                    //Очищаем массив под прошивку
+                    for (int k = 0; k < NUM_FIRMWARE_PACKET; ++k)
+                    {
+                        for (int i = 0; i < SIZE_FIRMWARE_BASE; ++i)
+                        {
+                           DataFirmware[k][i] = 0x00;
+                        }
+                    }
                     counterSize = 0;
                     counterPackegs = 0;
 
@@ -168,6 +176,8 @@ static int counterPackegs = 0; /*! A counter for size of packages */
                 }
                 else if (pack.current == pack.all) //Последний пакет
                 {
+                    calculateCRC = true;
+
 //                    //this packeage can be less than 512 bytes
 ////                    res = f_write(&MyFile, pack.data.data(), pack.data.size(), (UINT *)&byteswritten);
 //                    res = f_write(&MyFile, pack.data.data(), size / 2, (UINT *)&byteswritten);
@@ -206,9 +216,27 @@ static int counterPackegs = 0; /*! A counter for size of packages */
 
             }
 
-            sprintf(tmp,"packet %d of %d\r\nsize packet = %d\r\ndata size = %d", pack.current, pack.all, pack.size, counterSize);
+            sprintf(tmp,"\r\npacket %d of %d size packet = %d data size = %d", pack.current, pack.all, pack.size, counterSize);
+
+//            RS232::getInstance().term <<"\r\n";
+//            for (int i = 0; i < SIZE_FIRMWARE_BASE; ++i)
+//                RS232::getInstance().term << DataFirmware[pack.current][i];
+
+            for (int i = 0; i < SIZE_FIRMWARE_BASE; ++i)
+            {
+                DataFirmware[pack.current][i] = pack.data.at(i);
+            }
             term2(tmp)
-            term2(hexStr(pack.data))
+
+//            for (int i = 0; i < SIZE_FIRMWARE_BASE; ++i)
+//                RS232::getInstance().term << DataFirmware[pack.current][i];
+//            RS232::getInstance().term <<"\r\n";
+
+            if (calculateCRC)
+            {//Прршивка вся в SRAM - считать CRC
+
+            }
+
 
             osDelay(1);
         }
