@@ -191,7 +191,6 @@ static void MX_CRC_Init(void)
   /* USER CODE END CRC_Init 2 */
 
 }
-
 osThreadId TaskEthernetHandle;
 
 osThreadDef(readFromUartThread, readFromUartThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE );
@@ -356,14 +355,10 @@ term2("Board SL1")
 //        }
 //            RS232::getInstance().term <<"\r\n";
 //    }
-    char tmp2[128];
-    hcrc.InputDataFormat = CRC_INPUTDATA_FORMAT_WORDS;
-    uint32_t buff[3];
-    buff[0] = 0xaabbccde; buff[1] = 0xeeff0012; buff[2] = 0xf2345678;
 
-    uint32_t CRCVal = HAL_CRC_Calculate(&hcrc, buff, 3);
-//    uint32_t CRCVal = HAL_CRC_Accumulate(&hcrc, (uint32_t *)DataFirmware, SIZE_FIRMWARE_BASE * NUM_FIRMWARE_PACKET /4);
-    sprintf(tmp2,"CRC = %4X", CRCVal);
+    char tmp2[128];
+    uint32_t CRCVal = HAL_CRC_Calculate(&hcrc, (uint32_t *)DataFirmware, SIZE_FIRMWARE_BASE * NUM_FIRMWARE_PACKET /4);
+    sprintf(tmp2,"DataFirmware CRC = %4X", CRCVal);
     term2(tmp2)
 
 

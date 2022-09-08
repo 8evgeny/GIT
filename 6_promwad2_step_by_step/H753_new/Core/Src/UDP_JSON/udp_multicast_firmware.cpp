@@ -160,7 +160,9 @@ static int counterPackegs = 0; /*! A counter for size of packages */
                     }
                     counterSize = 0;
                     counterPackegs = 0;
-
+                    uint32_t CRCVal = HAL_CRC_Calculate(&hcrc, (uint32_t *)DataFirmware, SIZE_FIRMWARE_BASE * NUM_FIRMWARE_PACKET /4);
+                    sprintf(tmp,"DataFirmwareStart CRC =  %X", CRCVal);
+                    term2(tmp)
 //                    /*##-1- Link the micro Flash I/O driver ##################################*/
 //                    FATFS_LinkDriver(&FLASH_Driver, FLASHPath);
 //                    /*##-2- Register the file system object to the FatFs module ##############*/
@@ -226,15 +228,14 @@ static int counterPackegs = 0; /*! A counter for size of packages */
             }
             term2(tmp)
 
-//            for (int i = 0; i < SIZE_FIRMWARE_BASE; ++i)
-//                RS232::getInstance().term << DataFirmware[pack.current][i];
-//            RS232::getInstance().term <<"\r\n";
-
             if (calculateCRC)
             {//Прршивка вся в SRAM - считать CRC BUFFER_SIZE указывается не в байтах, а в количестве 32-разрядных слов.
                 uint32_t CRCVal = HAL_CRC_Calculate(&hcrc, (uint32_t *)DataFirmware, SIZE_FIRMWARE_BASE * NUM_FIRMWARE_PACKET /4);
-                sprintf(tmp,"CRC =  %X", CRCVal);
+                sprintf(tmp,"DataFirmwareEnd CRC =  %X", CRCVal);
                 term2(tmp)
+
+            //Перезагрузка
+            HAL_NVIC_SystemReset();
             }
 
 

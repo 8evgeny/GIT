@@ -409,7 +409,7 @@ void AppCore::startLoadFirmware(const QString &stationID, bool state)
                 if (state) {
                     sendDataByUdpMulticast(json, groupAddress);
                     QThread::msleep(100);
-                    if (currentState == 0) QThread::msleep(5000);
+                    if (currentState == 0) QThread::msleep(500);
                     sendDataByUdpMulticast(json, groupAddress);
                     QThread::msleep(100);
                     sendDataByUdpMulticast(json, groupAddress);
@@ -440,8 +440,8 @@ void AppCore::startLoadFirmware(const QString &stationID, bool state)
                     {
 //                        sendDataByUdp(json, listOfStations.at(indexOfStation).ip);
                         sendDataByUdp(json, "232.0.0.0");
-                        QThread::msleep(500);
-                        if (currentState == 0) QThread::msleep(5000);
+                        QThread::msleep(100);
+                        if (currentState == 0) QThread::msleep(1000);
 //                        sendDataByUdp(json, listOfStations.at(indexOfStation).ip);
 //                        QThread::msleep(100);
 //                        sendDataByUdp(json, listOfStations.at(indexOfStation).ip);
