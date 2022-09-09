@@ -19,7 +19,7 @@
 //#else
 //#include "../Call_control_for_SC2_board/call_control_sc2.h"
 //#endif
-
+void printFlashOptions(FLASH_OBProgramInitTypeDef &OBInit);
 extern CRC_HandleTypeDef hcrc;
 extern uint8_t DataFirmware[NUM_FIRMWARE_PACKET][SIZE_FIRMWARE_BASE] __attribute__((section(".ExtRamData")));
 extern char *allConfig;
@@ -240,29 +240,15 @@ static int counterPackegs = 0; /*! A counter for size of packages */
 
             //Нужно переключить банк памяти для новой загрузки
             static FLASH_OBProgramInitTypeDef OBInit;
-            HAL_FLASH_OB_Unlock();
 
-            sprintf(tmp, "OptionType=%X "
-                         "WRPState=%X "
-                         "WRPSector=%X "
-                         "BORLevel=%X "
-                         "USERType=%X "
-                         "USERConfig=%X "
-                         "Banks=%X\r\n"
-                         ,
-                         OBInit.OptionType,
-                         OBInit.WRPState,
-                         OBInit.WRPSector,
-                         OBInit.BORLevel,
-                         OBInit.USERType,
-                         OBInit.USERConfig,
-                         OBInit.Banks
-                         );
-            term2(tmp);
+
+
 
             /* Get FLASH_WRP_SECTORS write protection status */
-            OBInit.Banks     = FLASH_BANK_1;
+            HAL_FLASH_OB_Unlock();
+//            OBInit.Banks     = FLASH_BANK_1;
             HAL_FLASHEx_OBGetConfig(&OBInit);
+            printFlashOptions(OBInit);
             /* Check Swap Flash banks  status */
             if ((OBInit.USERConfig & OB_SWAP_BANK_ENABLE) == OB_SWAP_BANK_DISABLE)
             {
@@ -288,25 +274,7 @@ static int counterPackegs = 0; /*! A counter for size of packages */
               /* Launch Option bytes loading */
               HAL_FLASH_OB_Launch();
             }
-
-            sprintf(tmp, "OptionType=%X "
-                         "WRPState=%X "
-                         "WRPSector=%X "
-                         "BORLevel=%X "
-                         "USERType=%X "
-                         "USERConfig=%X "
-                         "Banks=%X\r\n"
-                         ,
-                         OBInit.OptionType,
-                         OBInit.WRPState,
-                         OBInit.WRPSector,
-                         OBInit.BORLevel,
-                         OBInit.USERType,
-                         OBInit.USERConfig,
-                         OBInit.Banks
-                         );
-            term2(tmp);
-
+            printFlashOptions(OBInit);
             HAL_FLASH_OB_Lock();
 
             term2("reboot...")
@@ -542,4 +510,26 @@ void writeFirmwareFromBank0ToBank1()
     Flash::getInstance().lock();
 
     taskEXIT_CRITICAL();
+}
+
+void printFlashOptions(FLASH_OBProgramInitTypeDef &OBInit)
+{
+    char tmp[128];
+    sprintf(tmp, "OptionType=%X "
+                 "WRPState=%X "
+                 "WRPSector=%X "
+                 "BORLevel=%X "
+                 "USERType=%X "
+                 "USERConfig=%X "
+                 "Banks=%X\r\n"
+                 ,
+                 OBInit.OptionType,
+                 OBInit.WRPState,
+                 OBInit.WRPSector,
+                 OBInit.BORLevel,
+                 OBInit.USERType,
+                 OBInit.USERConfig,
+                 OBInit.Banks
+                 );
+    term2(tmp);
 }
