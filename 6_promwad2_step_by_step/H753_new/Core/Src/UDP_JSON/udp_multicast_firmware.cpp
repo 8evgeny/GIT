@@ -241,14 +241,13 @@ static int counterPackegs = 0; /*! A counter for size of packages */
             //Нужно переключить банк памяти для новой загрузки
             static FLASH_OBProgramInitTypeDef OBInit;
             HAL_FLASH_OB_Unlock();
-            HAL_FLASHEx_OBGetConfig(&OBInit);
 
-            sprintf(tmp, "OptionType=%X\r\n"
-                         "WRPState=%X\r\n"
-                         "WRPSector=%X\r\n"
-                         "BORLevel=%X\r\n"
-                         "USERType=%X\r\n"
-                         "USERConfig=%X\r\n"
+            sprintf(tmp, "OptionType=%X "
+                         "WRPState=%X "
+                         "WRPSector=%X "
+                         "BORLevel=%X "
+                         "USERType=%X "
+                         "USERConfig=%X "
                          "Banks=%X\r\n"
                          ,
                          OBInit.OptionType,
@@ -260,6 +259,54 @@ static int counterPackegs = 0; /*! A counter for size of packages */
                          OBInit.Banks
                          );
             term2(tmp);
+
+            /* Get FLASH_WRP_SECTORS write protection status */
+            OBInit.Banks     = FLASH_BANK_1;
+            HAL_FLASHEx_OBGetConfig(&OBInit);
+            /* Check Swap Flash banks  status */
+            if ((OBInit.USERConfig & OB_SWAP_BANK_ENABLE) == OB_SWAP_BANK_DISABLE)
+            {
+                /*Swap to bank2 */
+                /*Set OB SWAP_BANK_OPT to swap Bank2*/
+                OBInit.OptionType = OPTIONBYTE_USER;
+                OBInit.USERType   = OB_USER_SWAP_BANK;
+                OBInit.USERConfig = OB_SWAP_BANK_ENABLE;
+                HAL_FLASHEx_OBProgram(&OBInit);
+
+                /* Launch Option bytes loading */
+                HAL_FLASH_OB_Launch();
+            }
+            else
+            {
+              /* Swap to bank1 */
+              /*Set OB SWAP_BANK_OPT to swap Bank1*/
+              OBInit.OptionType = OPTIONBYTE_USER;
+              OBInit.USERType = OB_USER_SWAP_BANK;
+              OBInit.USERConfig = OB_SWAP_BANK_DISABLE;
+              HAL_FLASHEx_OBProgram(&OBInit);
+
+              /* Launch Option bytes loading */
+              HAL_FLASH_OB_Launch();
+            }
+
+            sprintf(tmp, "OptionType=%X "
+                         "WRPState=%X "
+                         "WRPSector=%X "
+                         "BORLevel=%X "
+                         "USERType=%X "
+                         "USERConfig=%X "
+                         "Banks=%X\r\n"
+                         ,
+                         OBInit.OptionType,
+                         OBInit.WRPState,
+                         OBInit.WRPSector,
+                         OBInit.BORLevel,
+                         OBInit.USERType,
+                         OBInit.USERConfig,
+                         OBInit.Banks
+                         );
+            term2(tmp);
+
             HAL_FLASH_OB_Lock();
 
             term2("reboot...")
