@@ -369,16 +369,21 @@ term2("Board SL1")
     sprintf(tmp2,"Firmware Bank1 CRC    \t%4X", CRCVal3);
     term2(tmp2)
 
-//    eraseFlashBank(1);
-//    uint32_t CRCVal4 = HAL_CRC_Calculate(&hcrc, (uint32_t *)0x8100000, 1024 * 128 );
-//    sprintf(tmp2,"Firmware Bank1 erased CRC    \t%4X", CRCVal4);
-//    term2(tmp2)
+if(CRCVal3 != CRCVal2)
+    {
+        term2("erasing Bank 1")
+        eraseFlashBank(1);
+        uint32_t CRCVal4 = HAL_CRC_Calculate(&hcrc, (uint32_t *)0x8100000, 1024 * 128 );
+        sprintf(tmp2,"Firmware Bank1 erased CRC    \t%4X", CRCVal4);
+        term2(tmp2)
 
-//    writeFlashFromExtRam(1);
-//    uint32_t CRCVal5 = HAL_CRC_Calculate(&hcrc, (uint32_t *)0x8100000, 1024 * 128 );
-//    sprintf(tmp2,"Firmware Bank1 writed CRC    \t%4X", CRCVal5);
-//    term2(tmp2)
-
+        term2("writing Bank 1")
+    //    writeFlashFromExtRam(1);
+        writeFirmwareFromBank0ToBank1();
+        uint32_t CRCVal5 = HAL_CRC_Calculate(&hcrc, (uint32_t *)0x8100000, 1024 * 128 );
+        sprintf(tmp2,"Firmware Bank1 writed CRC    \t%4X", CRCVal5);
+        term2(tmp2)
+    }
 
     if (boardType == sc4)
     {

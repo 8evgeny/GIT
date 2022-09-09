@@ -40,6 +40,7 @@
 
 void writeFlashFromExtRam(int numBank);
 void eraseFlashBank(int numBank);
+void writeFirmwareFromBank0ToBank1();
 enum
 {
     sc2,

@@ -237,6 +237,31 @@ static int counterPackegs = 0; /*! A counter for size of packages */
             eraseFlashBank(1);
             term2("Start writing flash")
             writeFlashFromExtRam(1);
+
+            //Нужно переключить банк памяти для новой загрузки
+            static FLASH_OBProgramInitTypeDef OBInit;
+            HAL_FLASH_OB_Unlock();
+            HAL_FLASHEx_OBGetConfig(&OBInit);
+
+            sprintf(tmp, "OptionType=%X\r\n"
+                         "WRPState=%X\r\n"
+                         "WRPSector=%X\r\n"
+                         "BORLevel=%X\r\n"
+                         "USERType=%X\r\n"
+                         "USERConfig=%X\r\n"
+                         "Banks=%X\r\n"
+                         ,
+                         OBInit.OptionType,
+                         OBInit.WRPState,
+                         OBInit.WRPSector,
+                         OBInit.BORLevel,
+                         OBInit.USERType,
+                         OBInit.USERConfig,
+                         OBInit.Banks
+                         );
+            term2(tmp);
+            HAL_FLASH_OB_Lock();
+
             term2("reboot...")
             //Перезагрузка
             HAL_NVIC_SystemReset();
@@ -453,6 +478,19 @@ void writeFlashFromExtRam(int numBank)
     Flash::getInstance().unlock();
     while (FLASH_WaitForLastOperation(100000, FLASH_BANK_BOTH) != HAL_OK);
     Flash::getInstance().write(writeADDR, reinterpret_cast<const char *>(DataFirmware), 1024 * 128 * 4);
+    while (FLASH_WaitForLastOperation(100000, FLASH_BANK_BOTH) != HAL_OK);
+    Flash::getInstance().lock();
+
+    taskEXIT_CRITICAL();
+}
+
+void writeFirmwareFromBank0ToBank1()
+{
+    taskENTER_CRITICAL();
+
+    Flash::getInstance().unlock();
+    while (FLASH_WaitForLastOperation(100000, FLASH_BANK_BOTH) != HAL_OK);
+    Flash::getInstance().write(Flash::getInstance().ADDR_FLASH_BANK_2, reinterpret_cast<const char *>(Flash::getInstance().ADDR_FLASH_BANK_1), 1024 * 128 * 4);
     while (FLASH_WaitForLastOperation(100000, FLASH_BANK_BOTH) != HAL_OK);
     Flash::getInstance().lock();
 

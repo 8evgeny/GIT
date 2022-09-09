@@ -127,7 +127,7 @@ void Flash::write(uint32_t addr, const char *buf, uint32_t size)
         tmp = *(volatile uint32_t *)alignedFlashAddress;
 
         /* Compute how much bytes one must update in the data read */
-        chunkSize = IFLASH_PAGE_SIZE - alignOffset;
+        chunkSize = 32 - alignOffset;
         if (chunkSize > size)
             chunkSize = size; // this happens when both address and address + size are not aligned
 
@@ -218,7 +218,6 @@ void Flash::test()
 
     /*Variable used for Erase procedure*/
     static FLASH_EraseInitTypeDef EraseInitStruct;
-    static FLASH_OBProgramInitTypeDef OBInit;
 
     uint32_t SECTORError = 0;
 
@@ -236,34 +235,7 @@ void Flash::test()
      execution. If this cannot be done safely, it is recommended to flush the caches by setting the
      DCRST and ICRST bits in the FLASH_CR register. */
 
-    /* Allow Access to option bytes sector */
-    HAL_FLASH_OB_Unlock();
-    /* Get the Dual bank configuration status */
-    HAL_FLASHEx_OBGetConfig(&OBInit);
-
-//    sprintf(tmp, "OptionType=%X\r\n"
-//            "WRPState=%X\r\n"
-//            "WRPSector=%X\r\n"
-//            "BORLevel=%X\r\n"
-//            "USERType=%X\r\n"
-//            "USERConfig=%X\r\n"
-//            "Banks=%X\r\n"
-//                 ,
-//            OBInit.OptionType,
-//            OBInit.WRPState,
-//            OBInit.WRPSector,
-//            OBInit.BORLevel,
-//            OBInit.USERType,
-//            OBInit.USERConfig,
-//            OBInit.Banks
-//            );
-//term2(tmp);
-
-    /* Allow Access to option bytes sector */
-    HAL_FLASH_OB_Lock();
-
     Flash::getInstance().unlock();
-
 
     while (HAL_FLASHEx_Erase(&EraseInitStruct, &SECTORError) != HAL_OK)
     {
