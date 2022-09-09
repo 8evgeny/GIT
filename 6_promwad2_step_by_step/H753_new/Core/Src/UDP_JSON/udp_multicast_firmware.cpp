@@ -228,8 +228,8 @@ static int counterPackegs = 0; /*! A counter for size of packages */
             term2(tmp)
 
             if (calculateCRC)
-            {//Прршивка вся в SRAM - считать CRC BUFFER_SIZE указывается не в байтах, а в количестве 32-разрядных слов.
-                uint32_t CRCVal = HAL_CRC_Calculate(&hcrc, (uint32_t *)DataFirmware, SIZE_FIRMWARE_BASE * NUM_FIRMWARE_PACKET /4);
+            {//Прошивка вся в SRAM - считать CRC BUFFER_SIZE указывается не в байтах, а в количестве 32-разрядных слов.
+                uint32_t CRCVal = HAL_CRC_Calculate(&hcrc, (uint32_t *)DataFirmware, 1024 * 128);
                 sprintf(tmp,"DataFirmwareEnd CRC =  %X", CRCVal);
                 term2(tmp)
 
