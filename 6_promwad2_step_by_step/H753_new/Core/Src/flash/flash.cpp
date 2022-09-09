@@ -149,7 +149,8 @@ void Flash::write(uint32_t addr, const char *buf, uint32_t size)
      * buffer's data to flash memory until the size of the data remaining to be
      * copied requires special treatment. */
 
-    while (size >= 32) {
+    while (size >= 32)
+    {
         HAL_FLASH_Program(FLASH_TYPEPROGRAM_FLASHWORD, addr, (uint32_t)buf);
         addr += 32;
         buf += 32;

@@ -93,6 +93,7 @@ public:
     static constexpr uint32_t ADDR_FLASH_SECTOR_6 = 0x080C0000; /*! Base address of Sector 6, 128 Kbytes */
     static constexpr uint32_t ADDR_FLASH_SECTOR_7 = 0x080E0000; /*! Base address of Sector 7, 128 Kbytes */
 
+    static constexpr uint32_t ADDR_FLASH_BANK_1 =  0x08000000; /*! Base address of bank 1 */
     static constexpr uint32_t ADDR_FLASH_BANK_2 =  0x08100000; /*! Base address of bank 2 */
 
     /*!

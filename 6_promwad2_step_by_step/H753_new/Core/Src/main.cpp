@@ -356,11 +356,30 @@ term2("Board SL1")
 //            RS232::getInstance().term <<"\r\n";
 //    }
 
-    char tmp2[128];
-    uint32_t CRCVal = HAL_CRC_Calculate(&hcrc, (uint32_t *)DataFirmware, SIZE_FIRMWARE_BASE * NUM_FIRMWARE_PACKET /4);
-    sprintf(tmp2,"DataFirmware CRC = %4X", CRCVal);
+    char tmp2[64];
+    uint32_t CRCVal = HAL_CRC_Calculate(&hcrc, (uint32_t *)DataFirmware, 1024 * 128);
+    sprintf(tmp2,"Sram DataFirmware CRC \t%4X", CRCVal);
     term2(tmp2)
 
+    uint32_t CRCVal2 = HAL_CRC_Calculate(&hcrc, (uint32_t *)0x8000000, 1024 * 128 ); //4 сектора FLASH - 512кБ
+    sprintf(tmp2,"Firmware Bank0 CRC    \t%4X", CRCVal2);
+    term2(tmp2)
+
+    uint32_t CRCVal3 = HAL_CRC_Calculate(&hcrc, (uint32_t *)0x8100000, 1024 * 128 );
+    sprintf(tmp2,"Firmware Bank1 CRC    \t%4X", CRCVal3);
+    term2(tmp2)
+
+    eraseFlashBank(1);
+
+    uint32_t CRCVal4 = HAL_CRC_Calculate(&hcrc, (uint32_t *)0x8100000, 1024 * 128 );
+    sprintf(tmp2,"Firmware Bank1 erased CRC    \t%4X", CRCVal4);
+    term2(tmp2)
+
+    writeFlashFromExtRam(1);
+
+    uint32_t CRCVal5 = HAL_CRC_Calculate(&hcrc, (uint32_t *)0x8100000, 1024 * 128 );
+    sprintf(tmp2,"Firmware Bank1 writed CRC    \t%4X", CRCVal5);
+    term2(tmp2)
 
 
     if (boardType == sc4)
@@ -419,12 +438,12 @@ term2("Board SL1")
         RS232::getInstance().readFromUartThreadId = osThreadCreate(osThread(readFromUartThread), nullptr);
 #endif
 
-    WDTInit();
-    osThreadDef(StartWdtThread, StartWdtThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 1);
-    if ((osThreadCreate(osThread(StartWdtThread), nullptr)) == nullptr)
-    {
-        RS232::getInstance().term << __FUNCTION__ << " " << __LINE__ << " " << "\n";
-    }
+//    WDTInit();
+//    osThreadDef(StartWdtThread, StartWdtThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 1);
+//    if ((osThreadCreate(osThread(StartWdtThread), nullptr)) == nullptr)
+//    {
+//        RS232::getInstance().term << __FUNCTION__ << " " << __LINE__ << " " << "\n";
+//    }
 
 
     //Тестовые потоки

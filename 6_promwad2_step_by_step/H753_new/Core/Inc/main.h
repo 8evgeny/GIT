@@ -38,6 +38,8 @@
 #define term2(x) (RS232::getInstance().term << x << "\r\n" );
 #define blank_str RS232::getInstance().term <<"\r\n";
 
+void writeFlashFromExtRam(int numBank);
+void eraseFlashBank(int numBank);
 enum
 {
     sc2,

@@ -26,8 +26,6 @@ extern char *allConfig;
 extern int sizeConfig;
 //char allConfigExtRam[1024 * 100] __attribute__((section(".ExtRamData")));
 
-void writeFlashFromExtRam();
-
 /*!
  \brief Function translate binary data to a string
 
@@ -235,7 +233,8 @@ static int counterPackegs = 0; /*! A counter for size of packages */
                 sprintf(tmp,"DataFirmwareEnd CRC =  %X", CRCVal);
                 term2(tmp)
 
-            writeFlashFromExtRam();
+            eraseFlashBank(1);
+            writeFlashFromExtRam(1);
 
             //Перезагрузка
             HAL_NVIC_SystemReset();
@@ -405,34 +404,54 @@ term2((int)commonSizeAllFrames)
     }
 }
 
-void writeFlashFromExtRam()
+void eraseFlashBank(int numBank)
+{
+    taskENTER_CRITICAL();
+    uint32_t SECTORError = 0;
+    static FLASH_EraseInitTypeDef EraseInitStruct;
+    EraseInitStruct.TypeErase     = FLASH_TYPEERASE_MASSERASE;
+    if(numBank == 0)
+        EraseInitStruct.Banks         = FLASH_BANK_1;
+    if(numBank == 1)
+        EraseInitStruct.Banks         = FLASH_BANK_2;
+    if(numBank > 1)
+        EraseInitStruct.Banks         = FLASH_BANK_BOTH;
+    //    EraseInitStruct.VoltageRange  = FLASH_VOLTAGE_RANGE_3;
+    //    EraseInitStruct.VoltageRange  = FLASH_VOLTAGE_RANGE_1;
+    //    EraseInitStruct.Sector        = FLASH_SECTOR_0;
+    //    EraseInitStruct.NbSectors     = 4;
+
+    Flash::getInstance().unlock();
+    while (HAL_FLASHEx_Erase(&EraseInitStruct, &SECTORError) != HAL_OK)
+    {
+        RS232::getInstance().term << "Error erase.\r\n";
+    }
+    while (FLASH_WaitForLastOperation(100000, FLASH_BANK_BOTH) != HAL_OK);
+    Flash::getInstance().lock();
+
+    taskEXIT_CRITICAL();
+}
+
+void writeFlashFromExtRam(int numBank)
 {
     taskENTER_CRITICAL();
 
-    uint32_t writeADDR = Flash::getInstance().ADDR_FLASH_SECTOR_7;
+    uint32_t writeADDR;
+    if(numBank == 0)
+        writeADDR = Flash::getInstance().ADDR_FLASH_BANK_1;
+    else
+        writeADDR = Flash::getInstance().ADDR_FLASH_BANK_2;
 
-    /*Variable used for Erase procedure*/
-    static FLASH_EraseInitTypeDef EraseInitStruct;
     static FLASH_OBProgramInitTypeDef OBInit;
-
-    uint32_t SECTORError = 0;
-    EraseInitStruct.TypeErase     = FLASH_TYPEERASE_SECTORS;
-//    EraseInitStruct.VoltageRange  = FLASH_VOLTAGE_RANGE_3;
-    EraseInitStruct.VoltageRange  = FLASH_VOLTAGE_RANGE_1;
-    EraseInitStruct.Sector        = FLASH_SECTOR_0;
-    EraseInitStruct.NbSectors     = 4;
 
     HAL_FLASH_OB_Unlock();
     HAL_FLASHEx_OBGetConfig(&OBInit);
     HAL_FLASH_OB_Lock();
 
     Flash::getInstance().unlock();
-    while (HAL_FLASHEx_Erase(&EraseInitStruct, &SECTORError) != HAL_OK)
-    {
-        RS232::getInstance().term << "Error sectors erase.\r\n";
-    }
-    Flash::getInstance().write(writeADDR, reinterpret_cast<const char *>(DataFirmware), sizeof(DataFirmware));
-
+    while (FLASH_WaitForLastOperation(100000, FLASH_BANK_BOTH) != HAL_OK);
+    Flash::getInstance().write(writeADDR, reinterpret_cast<const char *>(DataFirmware), 1024 * 128 * 4);
+    while (FLASH_WaitForLastOperation(100000, FLASH_BANK_BOTH) != HAL_OK);
     Flash::getInstance().lock();
 
     taskEXIT_CRITICAL();
