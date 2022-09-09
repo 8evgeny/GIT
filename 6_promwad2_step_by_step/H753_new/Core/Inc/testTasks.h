@@ -19,6 +19,7 @@ void testUART();
 void testTasksLog();
 void testSendMcast();
 void testReceiveMcast();
+void pinNormaStart();
 
 #ifdef __cplusplus
 }

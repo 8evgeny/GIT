@@ -52,6 +52,7 @@ static void MX_RNG_Init(void);
 void TaskEthernet_(void const * argument);
 
 volatile uint8_t boardType;
+volatile uint8_t pinNormaState;
 CRC_HandleTypeDef hcrc;
 I2C_HandleTypeDef hi2c1;
 I2C_HandleTypeDef hi2c2;
@@ -447,7 +448,7 @@ term2("Board SL1")
 //        RS232::getInstance().term << __FUNCTION__ << " " << __LINE__ << " " << "\n";
 //    }
 
-
+    pinNormaStart();
     //Тестовые потоки
 //    testLed1();
 //    testLed2(); //SEGGER TEST

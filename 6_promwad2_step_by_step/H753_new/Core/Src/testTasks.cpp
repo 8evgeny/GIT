@@ -15,6 +15,7 @@ volatile int _Cnt;
 volatile int _Delay;
 static char r;
 extern uint8_t boardType;
+extern uint8_t pinNormaState;
 extern unsigned char zvon3_raw[];
 extern unsigned int zvon3_raw_len;
 extern uint8_t TLC59116F_max_address;
@@ -160,6 +161,65 @@ void testUART()
     if ((osThreadCreate(osThread(simpletestUART_RTOS), nullptr)) == nullptr)
     {
         term("Failed to create simpletestUART_RTOS");
+    }
+}
+
+void pinNorma_RTOS(void const *argument)
+{
+    (void)argument;
+    bool reset = true;
+    uint32_t tickstart = HAL_GetTick();
+    uint32_t timeSet = 500;
+    uint32_t timeReset = 500;
+
+    for(;;)
+    {
+    if ((boardType == sc4) && (pinNormaState == pinNormaBlink))
+    {
+        if(reset)
+        {
+            if (HAL_GetTick() > tickstart + timeReset)
+            {
+                 HAL_GPIO_WritePin(GPIOD, GPIO_PIN_6, GPIO_PIN_RESET);
+                 reset = false;
+                 tickstart = HAL_GetTick();
+            }
+        }
+
+        if(!reset)
+        {
+            if (HAL_GetTick() > tickstart + timeSet)
+            {
+                 HAL_GPIO_WritePin(GPIOD, GPIO_PIN_6, GPIO_PIN_SET);
+                 reset = true;
+                 tickstart = HAL_GetTick();
+            }
+        }
+    }
+
+    if ((boardType == sc4) && (pinNormaState == pinNormaReset))
+    {
+        HAL_GPIO_WritePin(GPIOD, GPIO_PIN_6, GPIO_PIN_RESET);
+    }
+
+    if ((boardType == sc4) && (pinNormaState == pinNormaSet))
+    {
+        HAL_GPIO_WritePin(GPIOD, GPIO_PIN_6, GPIO_PIN_SET); //Пин Норма
+    }
+
+
+    osDelay(1);
+    } //end for(;;)
+
+    vTaskDelete(nullptr);
+}
+
+void pinNormaStart()
+{
+    osThreadDef(pinNormaRTOS, pinNorma_RTOS, osPriorityHigh, 0, configMINIMAL_STACK_SIZE );
+    if ((osThreadCreate(osThread(pinNormaRTOS), nullptr)) == nullptr)
+    {
+        term("Failed to create simpleLedTest3_RTOS");
     }
 }
 

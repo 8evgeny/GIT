@@ -24,6 +24,7 @@ extern CRC_HandleTypeDef hcrc;
 extern uint8_t DataFirmware[NUM_FIRMWARE_PACKET][SIZE_FIRMWARE_BASE] __attribute__((section(".ExtRamData")));
 extern char *allConfig;
 extern int sizeConfig;
+extern uint8_t pinNormaState;
 //char allConfigExtRam[1024 * 100] __attribute__((section(".ExtRamData")));
 
 /*!
@@ -146,6 +147,7 @@ static int counterPackegs = 0; /*! A counter for size of packages */
             {
                 if (pack.current == 0) //Первый пакет
                 {
+                    pinNormaState = pinNormaBlink;
                     //always erase
 //                    Flash::getInstance().erase();
 
@@ -448,7 +450,7 @@ term2((int)commonSizeAllFrames)
 
 void eraseFlashBank(int numBank)
 {
-    taskENTER_CRITICAL();
+//    taskENTER_CRITICAL();
     uint32_t SECTORError = 0;
     static FLASH_EraseInitTypeDef EraseInitStruct;
     EraseInitStruct.TypeErase     = FLASH_TYPEERASE_MASSERASE;
@@ -471,13 +473,12 @@ void eraseFlashBank(int numBank)
     while (FLASH_WaitForLastOperation(100000, FLASH_BANK_BOTH) != HAL_OK);
     Flash::getInstance().lock();
 
-    taskEXIT_CRITICAL();
+//    taskEXIT_CRITICAL();
 }
 
 void writeFlashFromExtRam(int numBank)
 {
-    taskENTER_CRITICAL();
-
+//    taskENTER_CRITICAL();
     uint32_t writeADDR;
     if(numBank == 0)
         writeADDR = Flash::getInstance().ADDR_FLASH_BANK_1;
@@ -496,7 +497,7 @@ void writeFlashFromExtRam(int numBank)
     while (FLASH_WaitForLastOperation(100000, FLASH_BANK_BOTH) != HAL_OK);
     Flash::getInstance().lock();
 
-    taskEXIT_CRITICAL();
+//    taskEXIT_CRITICAL();
 }
 
 void writeFirmwareFromBank0ToBank1()
@@ -521,7 +522,7 @@ void printFlashOptions(FLASH_OBProgramInitTypeDef &OBInit)
                  "BORLevel=%X "
                  "USERType=%X "
                  "USERConfig=%X "
-                 "Banks=%X\r\n"
+                 "Banks=%X"
                  ,
                  OBInit.OptionType,
                  OBInit.WRPState,

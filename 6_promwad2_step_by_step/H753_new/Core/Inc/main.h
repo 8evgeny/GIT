@@ -46,7 +46,12 @@ enum
     sc4,
     sl1
 };
-
+enum
+{
+    pinNormaReset = 0,
+    pinNormaSet = 1,
+    pinNormaBlink = 2
+};
 #ifdef __cplusplus
 extern "C" {
 #endif

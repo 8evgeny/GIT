@@ -27,6 +27,7 @@ bool volDownPressed;
 bool sensUpPressed;
 bool sensDownPressed;
 bool signalMaxMin = false;
+extern uint8_t pinNormaState;
 
 extern SAI_HandleTypeDef audioTxSai;
 extern uint8_t boardType;
@@ -821,16 +822,19 @@ void switchLEDsThread(void const *arg)
                     I2C::getInstance()->writeRegister(adr, reg, numOFF, false);
                 }
             }
-
-            if ((LinkStatus == 1) && (inMcastGroup == 1))
+            if (pinNormaState != pinNormaBlink)
             {
-                HAL_GPIO_WritePin(GPIOD, GPIO_PIN_6, GPIO_PIN_SET); //Пин Норма
+                if ((LinkStatus == 1) && (inMcastGroup == 1))
+                {
+                    pinNormaState = pinNormaSet;
+//                    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_6, GPIO_PIN_SET); //Пин Норма
+                }
+                else
+                {
+                    pinNormaState = pinNormaReset;
+//                    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_6, GPIO_PIN_RESET);
+                }
             }
-            else
-            {
-                HAL_GPIO_WritePin(GPIOD, GPIO_PIN_6, GPIO_PIN_RESET);
-            }
-
             osDelay(1);
         }
     }
@@ -862,13 +866,19 @@ void switchLEDsThread(void const *arg)
                     if(i == 1) HAL_GPIO_WritePin(GPIOG, GPIO_PIN_13, GPIO_PIN_SET);
                     if(i == 0) HAL_GPIO_WritePin(GPIOG, GPIO_PIN_14, GPIO_PIN_SET);
                 }
-                if ((LinkStatus == 1) && (inMcastGroup == 1))
+                if (pinNormaState != pinNormaBlink)
                 {
-                    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_6, GPIO_PIN_SET); //Пин Норма
-                }
-                else
-                {
-                    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_6, GPIO_PIN_RESET);
+
+                    if ((LinkStatus == 1) && (inMcastGroup == 1))
+                    {
+                        pinNormaState = pinNormaSet;
+//                        HAL_GPIO_WritePin(GPIOD, GPIO_PIN_6, GPIO_PIN_SET); //Пин Норма
+                    }
+                    else
+                    {
+                        pinNormaState = pinNormaReset;
+//                        HAL_GPIO_WritePin(GPIOD, GPIO_PIN_6, GPIO_PIN_RESET);
+                    }
                 }
             }
             osDelay(1);
