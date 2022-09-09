@@ -233,9 +233,11 @@ static int counterPackegs = 0; /*! A counter for size of packages */
                 sprintf(tmp,"DataFirmwareEnd CRC =  %X", CRCVal);
                 term2(tmp)
 
+            term2("Start erasing flash")
             eraseFlashBank(1);
+            term2("Start writing flash")
             writeFlashFromExtRam(1);
-
+            term2("reboot...")
             //Перезагрузка
             HAL_NVIC_SystemReset();
             }
