@@ -196,6 +196,7 @@ add_executable(${PROJECT_NAME}.elf
     Core/Src/flash/fmware_flasher.c
     Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_crc.c
     Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_crc_ex.c
+#    Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_rtc.c
     )
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}\

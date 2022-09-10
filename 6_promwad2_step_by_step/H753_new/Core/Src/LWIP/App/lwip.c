@@ -160,6 +160,7 @@ RS232Puts("--netif_link_up--\r\n");
 /* USER CODE BEGIN 3 */
 
 /* USER CODE END 3 */
+  return 0;
 }
 
 /**

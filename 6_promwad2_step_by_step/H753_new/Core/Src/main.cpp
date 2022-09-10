@@ -47,7 +47,7 @@ static void MX_I2C3_Init(void);
 static void MX_UART7_Init(void);
 static void MX_CRC_Init(void);
 static void MX_TIM3_Init(void);
-static void MX_DMA_Init(void);
+//static void MX_DMA_Init(void);
 static void MX_RNG_Init(void);
 void TaskEthernet_(void const * argument);
 
@@ -194,7 +194,7 @@ static void MX_CRC_Init(void)
 }
 osThreadId TaskEthernetHandle;
 
-osThreadDef(readFromUartThread, readFromUartThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE );
+//osThreadDef(readFromUartThread, readFromUartThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE );
 osThreadDef(switchLEDsThread, switchLEDsThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 2);
 osThreadDef(readButtonThread, readButtonThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 4 );
 
@@ -215,7 +215,6 @@ to allow the application writer to override this default by providing their own
 implementation in the application code. */
 void vApplicationMallocFailedHook(void)
 {
-
     /* vApplicationMallocFailedHook() will only be called if
     configUSE_MALLOC_FAILED_HOOK is set to 1 in FreeRTOSConfig.h.  It is a hook
     function that will get called if a call to pvPortMalloc() fails.
@@ -237,18 +236,18 @@ void vApplicationMallocFailedHook(void)
 }
 #endif
 
-[[ noreturn ]]
-static void empty(void const *arg)
-{
+//[[ noreturn ]]
+//static void empty(void const *arg)
+//{
 
-    HAL_Delay(400);
-    term("****  empty  start  ****")
+//    HAL_Delay(400);
+//    term("****  empty  start  ****")
 
-        (void)arg;
-    while (1) {
-        osDelay(10);
-    }
-}
+//        (void)arg;
+//    while (1) {
+//        osDelay(10);
+//    }
+//}
 
 // max address number of TLC59116F chips
 uint8_t TLC59116F_max_address;
@@ -1071,7 +1070,10 @@ void TaskEthernet_(void const * argument)
 
 
         //  /* init code for LWIP */
-        MX_LWIP_Init(Json::getInstance()->thisStation.ip, Json::getInstance()->thisStation.mask,Json::getInstance()->thisStation.gateway);
+    if (MX_LWIP_Init(Json::getInstance()->thisStation.ip, Json::getInstance()->thisStation.mask,Json::getInstance()->thisStation.gateway) != 0)
+    {
+        RS232::getInstance().term << "Error MX_LWIP_Init" << "\n";
+    }
     //  /* USER CODE BEGIN 5 */
 
 
