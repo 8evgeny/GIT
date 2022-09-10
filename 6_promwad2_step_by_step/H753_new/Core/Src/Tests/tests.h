@@ -190,7 +190,7 @@ public:
 
      \fn ~RS232Test
     */
-    ~RS232Test() {}
+ virtual ~RS232Test() {}
     /*!
      \brief test for FatFs, need to check internal flash of mcu
 
@@ -220,7 +220,7 @@ public:
 
      \fn ~FatFsTest
     */
-    ~FatFsTest() {}
+   virtual ~FatFsTest() {}
 
     /*!
      \brief test for littlefs, need to check functions of littlefs
@@ -252,7 +252,7 @@ public:
 
      \fn ~LittleFsTest
     */
-    ~LittleFsTest() {}
+ virtual ~LittleFsTest() {}
 
     /*!
      \brief simple test for UID
@@ -284,7 +284,7 @@ public:
 
      \fn ~UidTest
     */
-    ~UidTest() {}
+  virtual  ~UidTest() {}
 
     /*!
      \brief need to check randomization of mcu
@@ -316,7 +316,7 @@ public:
 
      \fn ~Trng
     */
-    ~Trng() {}
+  virtual  ~Trng() {}
 
     /*!
      \brief this is the finish test

@@ -170,7 +170,7 @@ void FsForEeprom::test()
     lfs_file_read(&lfs, &file, &fileFromEEPROM, sizeof(fileFromEEPROM));
     lfs_file_close(&lfs, &file); // remember the storage is not updated until the file is closed successfully
     bool error = false;
-    for (int i = 0; i < sizeof(fileToEEPROM); ++i)
+    for (unsigned int i = 0; i < sizeof(fileToEEPROM); ++i)
     {
         if (fileToEEPROM[i] != fileFromEEPROM[i]) error = true;
     }
