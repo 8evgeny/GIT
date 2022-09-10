@@ -1,6 +1,5 @@
 #include "i2ceeprom.h"
 #include "rs232.h"
-#include "MUROM_EEPROM.h"
 #include <cstring>
 
 #ifdef __cplusplus

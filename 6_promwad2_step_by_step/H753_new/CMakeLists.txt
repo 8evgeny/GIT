@@ -43,7 +43,7 @@ set (RTC  ${CMAKE_HOME_DIRECTORY}/Core/Src/RTC)
 set (SNTP  ${CMAKE_HOME_DIRECTORY}/Core/Src/SNTP)
 set (TRNG  ${CMAKE_HOME_DIRECTORY}/Core/Src/TRNG)
 set (GPIO  ${CMAKE_HOME_DIRECTORY}/Core/Src/GPIO)
-set (UpdateMechanism  ${CMAKE_HOME_DIRECTORY}/Core/Src/UpdateMechanism)
+#set (UpdateMechanism  ${CMAKE_HOME_DIRECTORY}/Core/Src/UpdateMechanism)
 set (TraceRecorder  ${CMAKE_HOME_DIRECTORY}/Tracealyzer-4.2.12-linux64/FreeRTOS/TraceRecorder)
 set (RTP  ${CMAKE_HOME_DIRECTORY}/Core/Src/RTP)
 set (AUDIO  ${CMAKE_HOME_DIRECTORY}/Core/Src/AUDIO)
@@ -96,7 +96,7 @@ include_directories(
     ${SNTP}
     ${TRNG}
     ${GPIO}
-    ${UpdateMechanism}
+#    ${UpdateMechanism}
     ${TraceRecorder}/streamports/TCPIP/include
     ${TraceRecorder}/include
     ${TraceRecorder}/config
@@ -129,7 +129,7 @@ file (GLOB RTC_src ${RTC}/*.cpp ${RTC}/*.h )
 file (GLOB SNTP_src ${SNTP}/*.cpp ${SNTP}/*.h )
 file (GLOB TRNG_src ${TRNG}/*.cpp ${TRNG}/*.h )
 file (GLOB GPIO_SOURCES ${GPIO}/*.cpp ${GPIO}/*.h)
-file (GLOB UpdateMechanism_src ${UpdateMechanism}/*.cpp ${UpdateMechanism}/*.h )
+#file (GLOB UpdateMechanism_src ${UpdateMechanism}/*.cpp ${UpdateMechanism}/*.h )
 file (GLOB TraceRecorder_src ${TraceRecorder}/*.c ${TraceRecorder}/streamports/TCPIP/*.c ${TraceRecorder}/streamports/TCPIP/include/*.h ${TraceRecorder}/include/*.h ${TraceRecorder}/config/*.h )
 file (GLOB RTP_src ${RTP}/*.cpp ${RTP}/*.h )
 file (GLOB AUDIO_src ${AUDIO}/*.cpp ${AUDIO}/*.h )
@@ -161,7 +161,7 @@ add_library(RTC_LIB ${RTC_src} )
 add_library(SNTP_LIB ${SNTP_src} )
 add_library(TRNG_LIB ${TRNG_src} )
 add_library(GPIO_LIB ${GPIO_SOURCES} )
-add_library(UpdateMechanism_LIB ${UpdateMechanism_src} )
+#add_library(UpdateMechanism_LIB ${UpdateMechanism_src} )
 add_library(TraceRecorder_LIB ${TraceRecorder_src} )
 add_library(RTP_LIB ${RTP_src} )
 add_library(AUDIO_LIB ${AUDIO_src})
@@ -305,7 +305,7 @@ target_link_libraries(${PROJECT_NAME}.elf PUBLIC
     SNTP_LIB
     TRNG_LIB
     GPIO_LIB
-    UpdateMechanism_LIB
+#    UpdateMechanism_LIB
     TraceRecorder_LIB
     RTP_LIB
     UDP_JSON_LIB

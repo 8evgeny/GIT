@@ -161,7 +161,7 @@ public:
 
      \fn ~DebugTest
     */
-    ~DebugTest() {}
+   virtual ~DebugTest() {}
     /*!
      \brief rs232 (uart) test for our platform
 
