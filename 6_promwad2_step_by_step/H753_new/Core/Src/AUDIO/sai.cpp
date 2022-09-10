@@ -17,7 +17,7 @@
 
 #include "stm32h7xx_hal_cryp.h"
 
-#define PI 3.141592653589793
+//#define PI 3.141592653589793
 
 osTimerDef (ringToneTimer, ringToneTimer_Callback);
 
@@ -861,9 +861,8 @@ term("RingToneType::RING_UNKNOWN_TONE")
 //buffSize = zvon3_raw_len;
 
 //     auto ret =  HAL_SAI_Transmit_IT(&audioTxSai, buff, buffSize/2);
-     auto ret =  HAL_SAI_Transmit_DMA(&audioTxSai, buff, buffSize/2);
+        HAL_SAI_Transmit_DMA(&audioTxSai, buff, buffSize/2);
 
-term1("ret") term(ret)
         if (SAI::getInstance()->ringToneStatus != osOK)  {
             RS232::getInstance().term << __FUNCTION__ << " " << __LINE__ << " " << "\n";
         }

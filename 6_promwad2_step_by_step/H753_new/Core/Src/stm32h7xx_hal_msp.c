@@ -871,8 +871,6 @@ static void HAL_FMC_MspDeInit(void){
 
 //extern DMA_HandleTypeDef hdma_sai1_b;
 
-static uint32_t SAI1_client =0;
-
 //void HAL_SAI_MspInit(SAI_HandleTypeDef* hsai)
 //{
 

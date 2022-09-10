@@ -380,8 +380,6 @@ term("--- rtpSendPacketsFull ---")
  */
 void rtpRecvThread(void const *arg)
 {
-//osDelay(800);
-    char msg[20];
     struct sockaddr_in local;
     struct sockaddr_in from;
     int                fromlen;
@@ -425,12 +423,8 @@ void rtpRecvThread(void const *arg)
                         fromlen = sizeof(from);
                         result  = recvfrom(sockRtpRecv, rtpRecvPacket, sizeof(rtpRecvPacket), 0, reinterpret_cast<struct sockaddr *>(&from), reinterpret_cast<socklen_t *>(&fromlen));
 
-//term2("Receive result = ") term2(result) blank_str
-
                         if (result >= static_cast<int>(sizeof(struct rtp_hdr)))
                         {
-
-//term2("Receive result = ") term2(result) blank_str
 
                             lostPackCounter = 0;
                             //copy header
@@ -448,10 +442,6 @@ void rtpRecvThread(void const *arg)
                             osMutexRelease(mutexMixRtpRxId);
                         } else {
                             lostPackCounter++;
-
-//sprintf(msg,"%d",lostPackCounter);
-
-//term2("lostPackCounter = ") term2(msg) blank_str
 
                             if (lostPackCounter > MAX_NUMBER_LOST_PACK) {
                                 lostPackCounter = 0;
