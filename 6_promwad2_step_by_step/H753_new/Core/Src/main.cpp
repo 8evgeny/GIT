@@ -358,15 +358,15 @@ term2("Board SL1")
 
     char tmp2[64];
     uint32_t CRCVal = HAL_CRC_Calculate(&hcrc, (uint32_t *)DataFirmware, 1024 * 128);
-    sprintf(tmp2,"Sram DataFirmware CRC \t%4X", CRCVal);
+    sprintf(tmp2,"Sram DataFirmware CRC \t%4X", (unsigned int)CRCVal);
     term2(tmp2)
 
     uint32_t CRCVal2 = HAL_CRC_Calculate(&hcrc, (uint32_t *)0x8000000, 1024 * 128 ); //4 сектора FLASH - 512кБ
-    sprintf(tmp2,"Firmware Bank0 CRC    \t%4X", CRCVal2);
+    sprintf(tmp2,"Firmware Bank0 CRC    \t%4X", (unsigned int)CRCVal2);
     term2(tmp2)
 
     uint32_t CRCVal3 = HAL_CRC_Calculate(&hcrc, (uint32_t *)0x8100000, 1024 * 128 );
-    sprintf(tmp2,"Firmware Bank1 CRC    \t%4X", CRCVal3);
+    sprintf(tmp2,"Firmware Bank1 CRC    \t%4X", (unsigned)CRCVal3);
     term2(tmp2)
 
 //if(CRCVal3 != CRCVal2)

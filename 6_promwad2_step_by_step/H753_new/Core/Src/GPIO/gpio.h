@@ -125,9 +125,9 @@ extern "C" {
 
 void GPIOInit(void);
 void timerCallback(void const *arg);
-[[ noreturn ]] void switchLEDsThread(void const *arg);
+void switchLEDsThread(void const *arg);
 [[ noreturn ]] void replaceTimerCallback(void const *arg);
-[[ noreturn ]] void readButtonThread(void const *arg);
+void readButtonThread(void const *arg);
 
 #ifdef __cplusplus
 }

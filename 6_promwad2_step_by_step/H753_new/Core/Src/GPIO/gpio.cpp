@@ -760,7 +760,6 @@ void timerCallback(void const *arg)
 }
 
 
-[[ noreturn ]]
 void switchLEDsThread(void const *arg)
 {
     osDelay(4000);
@@ -890,7 +889,6 @@ void switchLEDsThread(void const *arg)
 }
 
 
-[[ noreturn ]]
 void readButtonThread(void const *arg)
 {
     osDelay(4000);
@@ -1406,8 +1404,10 @@ std::tuple<u_int8_t, u_int8_t, u_int8_t, u_int8_t> GPIO::fromIndexToReg(u_int8_t
         case 31:
             reg = I2C::getInstance()->readRegister(TLC59116F_address[3], TLC59116F_registerLED[3], false); regOFF = reg & 0x0F; regON = reg & 0x0F; color == GPIO::GREEN ? regON |=0x80 : regON  |=0x10;
             return std::make_tuple(TLC59116F_address[3], TLC59116F_registerLED[3], regON, regOFF );
-        }
 
+        default: // as 0
+        return std::make_tuple(TLC59116F_address[0], TLC59116F_registerLED[0], regON, regOFF );
+    }
 }
 
 void GPIO::testLed()

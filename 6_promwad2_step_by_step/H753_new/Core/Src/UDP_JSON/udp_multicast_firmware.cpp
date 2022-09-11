@@ -162,7 +162,7 @@ static int counterPackegs = 0; /*! A counter for size of packages */
                     counterSize = 0;
                     counterPackegs = 0;
                     uint32_t CRCVal = HAL_CRC_Calculate(&hcrc, (uint32_t *)DataFirmware, SIZE_FIRMWARE_BASE * NUM_FIRMWARE_PACKET /4);
-                    sprintf(tmp,"DataFirmwareStart CRC =  %X", CRCVal);
+                    sprintf(tmp,"DataFirmwareStart CRC =  %X", (unsigned int)CRCVal);
                     term2(tmp)
 //                    /*##-1- Link the micro Flash I/O driver ##################################*/
 //                    FATFS_LinkDriver(&FLASH_Driver, FLASHPath);
@@ -221,7 +221,7 @@ static int counterPackegs = 0; /*! A counter for size of packages */
 
             }
 
-            sprintf(tmp,"packet %d of %d size packet = %d data size = %d", pack.current, pack.all, pack.size, counterSize);
+            sprintf(tmp,"packet %d of %d size packet = %d data size = %d", (int)pack.current, (int)pack.all, (int)pack.size, (int)counterSize);
 
             for (int i = 0; i < SIZE_FIRMWARE_BASE; ++i)
             {
@@ -232,7 +232,7 @@ static int counterPackegs = 0; /*! A counter for size of packages */
             if (calculateCRC)
             {//Прошивка вся в SRAM - считать CRC BUFFER_SIZE указывается не в байтах, а в количестве 32-разрядных слов.
                 uint32_t CRCVal = HAL_CRC_Calculate(&hcrc, (uint32_t *)DataFirmware, 1024 * 128);
-                sprintf(tmp,"DataFirmwareEnd CRC =  %X", CRCVal);
+                sprintf(tmp,"DataFirmwareEnd CRC =  %X", (unsigned)CRCVal);
                 term2(tmp)
 
             term2("Start erasing flash")
@@ -524,13 +524,13 @@ void printFlashOptions(FLASH_OBProgramInitTypeDef &OBInit)
                  "USERConfig=%X "
                  "Banks=%X"
                  ,
-                 OBInit.OptionType,
-                 OBInit.WRPState,
-                 OBInit.WRPSector,
-                 OBInit.BORLevel,
-                 OBInit.USERType,
-                 OBInit.USERConfig,
-                 OBInit.Banks
+                 (unsigned)OBInit.OptionType,
+                 (unsigned)OBInit.WRPState,
+                 (unsigned)OBInit.WRPSector,
+                 (unsigned)OBInit.BORLevel,
+                 (unsigned)OBInit.USERType,
+                 (unsigned)OBInit.USERConfig,
+                 (unsigned)OBInit.Banks
                  );
     term2(tmp);
 }
