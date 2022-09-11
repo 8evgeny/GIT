@@ -504,7 +504,7 @@ void readFromUartThread(void const *arg)
 
 
 
-    uint32_t  fileSize = 0;
+//    uint32_t  fileSize = 0;
 osDelay(10000);
 term2("****  readFromUartThread  start  ****")
 

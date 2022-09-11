@@ -213,7 +213,7 @@ void Flash::test()
     uint32_t testADDR = ADDR_FLASH_SECTOR_7;
     char bufWrite[512] = ".....................hello world...........................................hello world......................";
     static char bufRead[512];
-    char tmp[256];
+//    char tmp[256];
     std::fill(bufRead, bufRead + sizeof(bufRead), 0);
 
     /*Variable used for Erase procedure*/

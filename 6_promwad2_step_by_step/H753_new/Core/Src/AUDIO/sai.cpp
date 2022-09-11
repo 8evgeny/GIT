@@ -884,7 +884,7 @@ term("sai.cpp")
 
 void ringToneTimer_Callback(void const *arg)
 {
-    uint8_t control = *(uint8_t*)arg;
+//    uint8_t control = *(uint8_t*)arg;
     (void)arg;
     switch (toneType) {
     case RingToneType::RING_TONE:

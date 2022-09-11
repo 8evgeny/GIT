@@ -257,7 +257,7 @@ void pinNormaStart()
 
 //char *logTasks = new char[2048];
 static char logTasks[2048];
-static char logTasksTime[2048];
+//static char logTasksTime[2048];
 void testTasksLog()
 {
     osThreadDef(TasksLog, TasksLog, osPriorityNormal, 0, configMINIMAL_STACK_SIZE );

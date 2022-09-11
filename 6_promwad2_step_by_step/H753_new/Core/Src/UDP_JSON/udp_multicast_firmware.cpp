@@ -73,10 +73,10 @@ std::array<char, SIZE_FIRMWARE_BASE> strHex(const std::string &data)
     return tmp;
 }
 
-static FATFS FLASHFatFs;  /*! File system object for Flash logical drive */
-static FIL MyFile;     /*! File object */
-static char FLASHPath[4]; /*! FLASH logical drive path */
-static uint8_t workBuffer[1024]; /*! Work buffer */
+//static FATFS FLASHFatFs;  /*! File system object for Flash logical drive */
+//static FIL MyFile;     /*! File object */
+//static char FLASHPath[4]; /*! FLASH logical drive path */
+//static uint8_t workBuffer[1024]; /*! Work buffer */
 
 using FirmwarePackage = struct {
     int versionFirmware;
@@ -120,8 +120,8 @@ static int counterPackegs = 0; /*! A counter for size of packages */
 {
     char tmp[256];
     UNUSED(arg);
-    uint32_t byteswritten{0};
-    FRESULT res;
+//    uint32_t byteswritten{0};
+//    FRESULT res;
     bool calculateCRC = false;
 //    int versionFirmware;
 //    int subVersionFirmware;
@@ -152,9 +152,9 @@ static int counterPackegs = 0; /*! A counter for size of packages */
 //                    Flash::getInstance().erase();
 
                     //Очищаем массив под прошивку
-                    for (int k = 0; k < NUM_FIRMWARE_PACKET; ++k)
+                    for (size_t k = 0; k < NUM_FIRMWARE_PACKET; ++k)
                     {
-                        for (int i = 0; i < SIZE_FIRMWARE_BASE; ++i)
+                        for (size_t i = 0; i < SIZE_FIRMWARE_BASE; ++i)
                         {
                            DataFirmware[k][i] = 0x00;
                         }
@@ -223,7 +223,7 @@ static int counterPackegs = 0; /*! A counter for size of packages */
 
             sprintf(tmp,"packet %d of %d size packet = %d data size = %d", (int)pack.current, (int)pack.all, (int)pack.size, (int)counterSize);
 
-            for (int i = 0; i < SIZE_FIRMWARE_BASE; ++i)
+            for (size_t i = 0; i < SIZE_FIRMWARE_BASE; ++i)
             {
                 DataFirmware[pack.current][i] = pack.data.at(i);
             }
@@ -304,8 +304,8 @@ static int counterPackegs = 0; /*! A counter for size of packages */
 void parsingFirmwareFromJson(JsonDocument &doc)
 {
     /* FatFs function common result code */
-    const char *cmd = doc["cmd"];
-    const char *station = doc["station"];
+//    const char *cmd = doc["cmd"];
+//    const char *station = doc["station"];
     if ((doc["cmd"] == "update") && ((uint8_t)doc["station"] == (uint8_t)Json::getInstance()->thisStation.id))
     {
 

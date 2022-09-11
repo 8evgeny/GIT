@@ -896,7 +896,7 @@ void readButtonThread(void const *arg)
     {
         (void)arg;
         PackageRx tempPack;
-        uint8_t readPAD = 0, temp = 0;
+//        uint8_t readPAD = 0, temp = 0;
         tempPack.packetType = GPIO::getInstance()->button;
         GPIO::getInstance()->initPAD();
 
@@ -943,7 +943,7 @@ void readButtonThread(void const *arg)
     {
         (void)arg;
         PackageRx tempPack;
-        uint8_t readPAD = 0, temp = 0;
+//        uint8_t readPAD = 0, temp = 0;
         tempPack.packetType = GPIO::getInstance()->button;
         GPIO::getInstance()->initPAD();
         osDelay(4000);
