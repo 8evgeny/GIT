@@ -372,6 +372,10 @@ term2("Board SL1")
 
     printSramFlashCRC();
 
+    //Вычисляем MD5
+
+
+
 //if(CRCVal3 != CRCVal2)
 //    {
 //        term2("erasing Bank 1")

@@ -76,7 +76,8 @@ void AppCore::encryptionBinFile(const QUrl &pathFile, const QString &key, const 
 //    QByteArray hashKey = QCryptographicHash::hash(encodedText, QCryptographicHash::Md5);
     QByteArray hashKey = QCryptographicHash::hash(bin, QCryptographicHash::Md5);
 
-    qint32 sizeFirmware = encodedText.size();
+//    qint32 sizeFirmware = encodedText.size();
+    qint32 sizeFirmware = bin.size();
     qint32 countFirmware = encodedText.count();
     qDebug() << countFirmware;
 
