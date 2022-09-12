@@ -238,6 +238,7 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}\
     -MMD \
     -MP \
     -mfpu=fpv5-d16 \
+    -fno-strict-aliasing \
     -mfloat-abi=hard \
     -mthumb \
     -Xlinker \
