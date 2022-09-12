@@ -369,6 +369,8 @@ term2("Board SL1")
     sprintf(tmp2,"Firmware Bank1 CRC    \t%4X", (unsigned)CRCVal3);
     term2(tmp2)
 
+term2 ("test 7")
+
 //if(CRCVal3 != CRCVal2)
 //    {
 //        term2("erasing Bank 1")
@@ -440,12 +442,12 @@ term2("Board SL1")
         RS232::getInstance().readFromUartThreadId = osThreadCreate(osThread(readFromUartThread), nullptr);
 #endif
 
-    WDTInit();
-    osThreadDef(StartWdtThread, StartWdtThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE );
-    if ((osThreadCreate(osThread(StartWdtThread), nullptr)) == nullptr)
-    {
-        RS232::getInstance().term << __FUNCTION__ << " " << __LINE__ << " " << "\n";
-    }
+//    WDTInit();
+//    osThreadDef(StartWdtThread, StartWdtThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE );
+//    if ((osThreadCreate(osThread(StartWdtThread), nullptr)) == nullptr)
+//    {
+//        RS232::getInstance().term << __FUNCTION__ << " " << __LINE__ << " " << "\n";
+//    }
 
     pinNormaStart();
     //Тестовые потоки

@@ -251,7 +251,7 @@ static int counterPackegs = 0; /*! A counter for size of packages */
             HAL_FLASH_OB_Unlock();
 //            OBInit.Banks     = FLASH_BANK_1;
             HAL_FLASHEx_OBGetConfig(&OBInit);
-            printFlashOptions(OBInit);
+//            printFlashOptions(OBInit);
             /* Check Swap Flash banks  status */
             if ((OBInit.USERConfig & OB_SWAP_BANK_ENABLE) == OB_SWAP_BANK_DISABLE)
             {
@@ -277,8 +277,8 @@ static int counterPackegs = 0; /*! A counter for size of packages */
               /* Launch Option bytes loading */
               HAL_FLASH_OB_Launch();
             }
-            printFlashOptions(OBInit);
-            HAL_FLASH_OB_Lock();
+//            printFlashOptions(OBInit);
+//            HAL_FLASH_OB_Lock();
 
             term2("reboot...")
             //Перезагрузка
