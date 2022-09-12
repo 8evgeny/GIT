@@ -46,6 +46,7 @@ static void MX_I2C3_Init(void);
 //static void MX_SAI1_Init(void);
 static void MX_UART7_Init(void);
 static void MX_CRC_Init(void);
+static void MX_HASH_Init(void);
 static void MX_TIM3_Init(void);
 //static void MX_DMA_Init(void);
 static void MX_RNG_Init(void);
@@ -54,6 +55,7 @@ void TaskEthernet_(void const * argument);
 volatile uint8_t boardType;
 volatile uint8_t pinNormaState;
 CRC_HandleTypeDef hcrc;
+HASH_HandleTypeDef hhash;
 I2C_HandleTypeDef hi2c1;
 I2C_HandleTypeDef hi2c2;
 I2C_HandleTypeDef hi2c3;
@@ -192,6 +194,28 @@ static void MX_CRC_Init(void)
   /* USER CODE END CRC_Init 2 */
 
 }
+
+static void MX_HASH_Init(void)
+{
+
+  /* USER CODE BEGIN HASH_Init 0 */
+
+  /* USER CODE END HASH_Init 0 */
+
+  /* USER CODE BEGIN HASH_Init 1 */
+
+  /* USER CODE END HASH_Init 1 */
+  hhash.Init.DataType = HASH_DATATYPE_1B;
+  if (HAL_HASH_Init(&hhash) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN HASH_Init 2 */
+
+  /* USER CODE END HASH_Init 2 */
+
+}
+
 osThreadId TaskEthernetHandle;
 
 //osThreadDef(readFromUartThread, readFromUartThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE );
@@ -270,21 +294,42 @@ uint8_t getCFG(void)
 }
 
 uint8_t keysNum;
-void printSramFlashCRC()
+void printSramFlashCrcMd5()
 {
+    uint32_t len = 128*1024 / 4 ;
     char tmp2[64];
-    uint32_t CRCVal = HAL_CRC_Calculate(&hcrc, (uint32_t *)DataFirmware, 1024 * 128);
-    sprintf(tmp2,"Sram DataFirmware CRC \t%4X", (unsigned int)CRCVal);
+    uint32_t CRCVal = HAL_CRC_Calculate(&hcrc, (uint32_t *)DataFirmware, len);
+    sprintf(tmp2,"Sram DataFirmware CRC \t%x", (unsigned int)CRCVal);
     term2(tmp2)
 
-    uint32_t CRCVal2 = HAL_CRC_Calculate(&hcrc, (uint32_t *)0x8000000, 1024 * 128 ); //4 сектора FLASH - 512кБ
-    sprintf(tmp2,"Firmware Bank0 CRC    \t%4X", (unsigned int)CRCVal2);
+    uint32_t CRCVal2 = HAL_CRC_Calculate(&hcrc, (uint32_t *)0x8000000, len );
+    sprintf(tmp2,"Firmware Bank0 CRC    \t%x", (unsigned int)CRCVal2);
     term2(tmp2)
 
-    uint32_t CRCVal3 = HAL_CRC_Calculate(&hcrc, (uint32_t *)0x8100000, 1024 * 128 );
-    sprintf(tmp2,"Firmware Bank1 CRC    \t%4X", (unsigned)CRCVal3);
+    uint32_t CRCVal3 = HAL_CRC_Calculate(&hcrc, (uint32_t *)0x8100000, len );
+    sprintf(tmp2,"Firmware Bank1 CRC    \t%x", (unsigned)CRCVal3);
     term2(tmp2)
+
+    //Вычисляем MD5
+    char tmp[2];
+    static  uint8_t outMD5[16];
+    HAL_HASH_MD5_Start(&hhash, (uint8_t *)DataFirmware, len, outMD5, 1000);
+    RS232::getInstance().term <<"Sram DataFirmware MD5\t";
+    for (uint8_t i:outMD5) { sprintf(tmp,"%x",i); RS232::getInstance().term <<tmp;}
+    RS232::getInstance().term <<"\r\n";
+
+    HAL_HASH_MD5_Start(&hhash, (uint8_t *)0x8000000, len, outMD5, 1000);
+    RS232::getInstance().term <<"Firmware Bank0 MD5\t";
+    for (uint8_t i:outMD5) { sprintf(tmp,"%x",i); RS232::getInstance().term <<tmp;}
+    RS232::getInstance().term <<"\r\n";
+
+    HAL_HASH_MD5_Start(&hhash, (uint8_t *)0x8100000, len, outMD5, 1000);
+    RS232::getInstance().term <<"Firmware Bank1 MD5\t";
+    for (uint8_t i:outMD5) { sprintf(tmp,"%x",i); RS232::getInstance().term <<tmp;}
+    RS232::getInstance().term <<"\r\n";
+
 }
+
 int main(void)
 {
     /* Configure the MPU attributes as Device memory for ETH DMA descriptors */
@@ -303,6 +348,7 @@ int main(void)
     MX_GPIO_Init();
 
     MX_CRC_Init();
+    MX_HASH_Init();
 
     //Определяем тип платы SC2 или SC4
     if (!HAL_GPIO_ReadPin(GPIOG, GPIO_PIN_9))
@@ -370,12 +416,9 @@ term2("Board SL1")
 //            RS232::getInstance().term <<"\r\n";
 //    }
 
-    printSramFlashCRC();
+    printSramFlashCrcMd5();
 
-    //Вычисляем MD5
-
-
-
+    term2("test1")
 //if(CRCVal3 != CRCVal2)
 //    {
 //        term2("erasing Bank 1")
