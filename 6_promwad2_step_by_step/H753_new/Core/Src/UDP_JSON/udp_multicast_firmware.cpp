@@ -161,9 +161,11 @@ static int counterPackegs = 0; /*! A counter for size of packages */
                     }
                     counterSize = 0;
                     counterPackegs = 0;
-                    uint32_t CRCVal = HAL_CRC_Calculate(&hcrc, (uint32_t *)DataFirmware, SIZE_FIRMWARE_BASE * NUM_FIRMWARE_PACKET /4);
-                    sprintf(tmp,"DataFirmwareStart CRC =  %X", (unsigned int)CRCVal);
-                    term2(tmp)
+
+//                    uint32_t CRCVal = HAL_CRC_Calculate(&hcrc, (uint32_t *)DataFirmware, SIZE_FIRMWARE_BASE * NUM_FIRMWARE_PACKET /4);
+//                    sprintf(tmp,"DataFirmwareStart CRC =  %X", (unsigned int)CRCVal);
+//                    term2(tmp)
+
 //                    /*##-1- Link the micro Flash I/O driver ##################################*/
 //                    FATFS_LinkDriver(&FLASH_Driver, FLASHPath);
 //                    /*##-2- Register the file system object to the FatFs module ##############*/
@@ -232,15 +234,16 @@ static int counterPackegs = 0; /*! A counter for size of packages */
             if (calculateCRC)
             {//Прошивка вся в SRAM - считать CRC BUFFER_SIZE указывается не в байтах, а в количестве 32-разрядных слов.
                 pinNormaState = pinNormaBlinkFast;
-                uint32_t CRCVal = HAL_CRC_Calculate(&hcrc, (uint32_t *)DataFirmware, 1024 * 128);
-                sprintf(tmp,"DataFirmwareEnd CRC =  %X", (unsigned)CRCVal);
-                term2(tmp)
+
+//                uint32_t CRCVal = HAL_CRC_Calculate(&hcrc, (uint32_t *)DataFirmware, 1024 * 128);
+//                sprintf(tmp,"DataFirmwareEnd CRC =  %X", (unsigned)CRCVal);
+//                term2(tmp)
 
             term2("Start erasing flash")
             eraseFlashBank(1);
             term2("Start writing flash")
             writeFlashFromExtRam(1);
-
+            printSramFlashCRC();
             //Нужно переключить банк памяти для новой загрузки
             static FLASH_OBProgramInitTypeDef OBInit;
 
@@ -255,6 +258,7 @@ static int counterPackegs = 0; /*! A counter for size of packages */
             /* Check Swap Flash banks  status */
             if ((OBInit.USERConfig & OB_SWAP_BANK_ENABLE) == OB_SWAP_BANK_DISABLE)
             {
+                term2("swap 0 ->1 bank")
                 /*Swap to bank2 */
                 /*Set OB SWAP_BANK_OPT to swap Bank2*/
                 OBInit.OptionType = OPTIONBYTE_USER;
@@ -267,15 +271,16 @@ static int counterPackegs = 0; /*! A counter for size of packages */
             }
             else
             {
-              /* Swap to bank1 */
-              /*Set OB SWAP_BANK_OPT to swap Bank1*/
-              OBInit.OptionType = OPTIONBYTE_USER;
-              OBInit.USERType = OB_USER_SWAP_BANK;
-              OBInit.USERConfig = OB_SWAP_BANK_DISABLE;
-              HAL_FLASHEx_OBProgram(&OBInit);
+                term2("swap 1 ->0 bank")
+                /* Swap to bank1 */
+                /*Set OB SWAP_BANK_OPT to swap Bank1*/
+                OBInit.OptionType = OPTIONBYTE_USER;
+                OBInit.USERType = OB_USER_SWAP_BANK;
+                OBInit.USERConfig = OB_SWAP_BANK_DISABLE;
+                HAL_FLASHEx_OBProgram(&OBInit);
 
-              /* Launch Option bytes loading */
-              HAL_FLASH_OB_Launch();
+                /* Launch Option bytes loading */
+                HAL_FLASH_OB_Launch();
             }
 //            printFlashOptions(OBInit);
 //            HAL_FLASH_OB_Lock();

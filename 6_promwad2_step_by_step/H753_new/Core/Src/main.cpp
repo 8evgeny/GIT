@@ -270,7 +270,21 @@ uint8_t getCFG(void)
 }
 
 uint8_t keysNum;
+void printSramFlashCRC()
+{
+    char tmp2[64];
+    uint32_t CRCVal = HAL_CRC_Calculate(&hcrc, (uint32_t *)DataFirmware, 1024 * 128);
+    sprintf(tmp2,"Sram DataFirmware CRC \t%4X", (unsigned int)CRCVal);
+    term2(tmp2)
 
+    uint32_t CRCVal2 = HAL_CRC_Calculate(&hcrc, (uint32_t *)0x8000000, 1024 * 128 ); //4 сектора FLASH - 512кБ
+    sprintf(tmp2,"Firmware Bank0 CRC    \t%4X", (unsigned int)CRCVal2);
+    term2(tmp2)
+
+    uint32_t CRCVal3 = HAL_CRC_Calculate(&hcrc, (uint32_t *)0x8100000, 1024 * 128 );
+    sprintf(tmp2,"Firmware Bank1 CRC    \t%4X", (unsigned)CRCVal3);
+    term2(tmp2)
+}
 int main(void)
 {
     /* Configure the MPU attributes as Device memory for ETH DMA descriptors */
@@ -356,20 +370,7 @@ term2("Board SL1")
 //            RS232::getInstance().term <<"\r\n";
 //    }
 
-    char tmp2[64];
-    uint32_t CRCVal = HAL_CRC_Calculate(&hcrc, (uint32_t *)DataFirmware, 1024 * 128);
-    sprintf(tmp2,"Sram DataFirmware CRC \t%4X", (unsigned int)CRCVal);
-    term2(tmp2)
-
-    uint32_t CRCVal2 = HAL_CRC_Calculate(&hcrc, (uint32_t *)0x8000000, 1024 * 128 ); //4 сектора FLASH - 512кБ
-    sprintf(tmp2,"Firmware Bank0 CRC    \t%4X", (unsigned int)CRCVal2);
-    term2(tmp2)
-
-    uint32_t CRCVal3 = HAL_CRC_Calculate(&hcrc, (uint32_t *)0x8100000, 1024 * 128 );
-    sprintf(tmp2,"Firmware Bank1 CRC    \t%4X", (unsigned)CRCVal3);
-    term2(tmp2)
-
-term2 ("test 7")
+    printSramFlashCRC();
 
 //if(CRCVal3 != CRCVal2)
 //    {
