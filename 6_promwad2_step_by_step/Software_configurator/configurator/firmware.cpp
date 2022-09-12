@@ -72,7 +72,9 @@ void AppCore::encryptionBinFile(const QUrl &pathFile, const QString &key, const 
     //decode the bin file
 //    QByteArray decodedText = encryption.decode(encodedText, simpleKey);
     //get MD5 hash (no encoded file)
-    QByteArray hashKey = QCryptographicHash::hash(encodedText, QCryptographicHash::Md5);
+
+//    QByteArray hashKey = QCryptographicHash::hash(encodedText, QCryptographicHash::Md5);
+    QByteArray hashKey = QCryptographicHash::hash(bin, QCryptographicHash::Md5);
 
     qint32 sizeFirmware = encodedText.size();
     qint32 countFirmware = encodedText.count();
@@ -143,6 +145,7 @@ byteArrayFinalBin = bin; //Отключаю шифрование
 // Only for testing strHex and strHex
 
 //    std::string tmp = hexStr(byteArrayFinalBin);
+
 
 
 //    QString str = QString::fromStdString(tmp.c_str());
