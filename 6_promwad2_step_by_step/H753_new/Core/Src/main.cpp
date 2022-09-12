@@ -440,12 +440,12 @@ term2("Board SL1")
         RS232::getInstance().readFromUartThreadId = osThreadCreate(osThread(readFromUartThread), nullptr);
 #endif
 
-//    WDTInit();
-//    osThreadDef(StartWdtThread, StartWdtThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 1);
-//    if ((osThreadCreate(osThread(StartWdtThread), nullptr)) == nullptr)
-//    {
-//        RS232::getInstance().term << __FUNCTION__ << " " << __LINE__ << " " << "\n";
-//    }
+    WDTInit();
+    osThreadDef(StartWdtThread, StartWdtThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE );
+    if ((osThreadCreate(osThread(StartWdtThread), nullptr)) == nullptr)
+    {
+        RS232::getInstance().term << __FUNCTION__ << " " << __LINE__ << " " << "\n";
+    }
 
     pinNormaStart();
     //Тестовые потоки

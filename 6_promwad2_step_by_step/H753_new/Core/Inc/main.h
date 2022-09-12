@@ -50,7 +50,8 @@ enum
 {
     pinNormaReset = 0,
     pinNormaSet = 1,
-    pinNormaBlink = 2
+    pinNormaBlink = 2,
+    pinNormaBlinkFast = 3
 };
 #ifdef __cplusplus
 extern "C" {

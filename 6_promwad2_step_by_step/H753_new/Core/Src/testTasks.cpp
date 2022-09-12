@@ -171,6 +171,8 @@ void pinNorma_RTOS(void const *argument)
     uint32_t tickstart = HAL_GetTick();
     uint32_t timeSet = 500;
     uint32_t timeReset = 500;
+    uint32_t timeSetFast = 100;
+    uint32_t timeResetFast = 100;
 
     for(;;)
     {
@@ -206,6 +208,40 @@ void pinNorma_RTOS(void const *argument)
                 }
             }
         }
+
+        if ((boardType == sc2) && (pinNormaState == pinNormaBlinkFast))
+        {
+            if(reset)
+            {
+                if (HAL_GetTick() > tickstart + timeResetFast)
+                {
+                    HAL_GPIO_WritePin(GPIOG, GPIO_PIN_6, GPIO_PIN_SET);
+                    HAL_GPIO_WritePin(GPIOC, GPIO_PIN_10, GPIO_PIN_SET);
+                    HAL_GPIO_WritePin(GPIOG, GPIO_PIN_7, GPIO_PIN_SET);
+                    HAL_GPIO_WritePin(GPIOC, GPIO_PIN_11, GPIO_PIN_SET);
+                    HAL_GPIO_WritePin(GPIOG, GPIO_PIN_8, GPIO_PIN_SET);
+                    HAL_GPIO_WritePin(GPIOC, GPIO_PIN_12, GPIO_PIN_SET);
+                     reset = false;
+                     tickstart = HAL_GetTick();
+                }
+            }
+
+            if(!reset)
+            {
+                if (HAL_GetTick() > tickstart + timeSetFast)
+                {
+                    HAL_GPIO_WritePin(GPIOG, GPIO_PIN_6, GPIO_PIN_RESET);
+                    HAL_GPIO_WritePin(GPIOC, GPIO_PIN_10, GPIO_PIN_RESET);
+                    HAL_GPIO_WritePin(GPIOG, GPIO_PIN_7, GPIO_PIN_RESET);
+                    HAL_GPIO_WritePin(GPIOC, GPIO_PIN_11, GPIO_PIN_RESET);
+                    HAL_GPIO_WritePin(GPIOG, GPIO_PIN_8, GPIO_PIN_RESET);
+                    HAL_GPIO_WritePin(GPIOC, GPIO_PIN_12, GPIO_PIN_RESET);
+                     reset = true;
+                     tickstart = HAL_GetTick();
+                }
+            }
+        }
+
     if ((boardType == sc4) && (pinNormaState == pinNormaBlink))
     {
         if(reset)
@@ -221,6 +257,29 @@ void pinNorma_RTOS(void const *argument)
         if(!reset)
         {
             if (HAL_GetTick() > tickstart + timeSet)
+            {
+                 HAL_GPIO_WritePin(GPIOD, GPIO_PIN_6, GPIO_PIN_SET);
+                 reset = true;
+                 tickstart = HAL_GetTick();
+            }
+        }
+    }
+
+    if ((boardType == sc4) && (pinNormaState == pinNormaBlinkFast))
+    {
+        if(reset)
+        {
+            if (HAL_GetTick() > tickstart + timeResetFast)
+            {
+                 HAL_GPIO_WritePin(GPIOD, GPIO_PIN_6, GPIO_PIN_RESET);
+                 reset = false;
+                 tickstart = HAL_GetTick();
+            }
+        }
+
+        if(!reset)
+        {
+            if (HAL_GetTick() > tickstart + timeSetFast)
             {
                  HAL_GPIO_WritePin(GPIOD, GPIO_PIN_6, GPIO_PIN_SET);
                  reset = true;

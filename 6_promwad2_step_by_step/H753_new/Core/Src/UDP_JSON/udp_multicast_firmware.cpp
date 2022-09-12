@@ -109,7 +109,7 @@ void firmwareInitThread()
     osMutexDef(mutexFirmware);
     mutexFirmwareRingBufferId = osMutexCreate(osMutex(mutexFirmware));
 
-    osThreadDef(handelFirmwareThread, updateFirmwareThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 3);
+    osThreadDef(handelFirmwareThread, updateFirmwareThread, osPriorityHigh, 0, configMINIMAL_STACK_SIZE * 3);
     firmwareThreadId = osThreadCreate(osThread(handelFirmwareThread), NULL);
 }
 
@@ -231,6 +231,7 @@ static int counterPackegs = 0; /*! A counter for size of packages */
 
             if (calculateCRC)
             {//Прошивка вся в SRAM - считать CRC BUFFER_SIZE указывается не в байтах, а в количестве 32-разрядных слов.
+                pinNormaState = pinNormaBlinkFast;
                 uint32_t CRCVal = HAL_CRC_Calculate(&hcrc, (uint32_t *)DataFirmware, 1024 * 128);
                 sprintf(tmp,"DataFirmwareEnd CRC =  %X", (unsigned)CRCVal);
                 term2(tmp)
