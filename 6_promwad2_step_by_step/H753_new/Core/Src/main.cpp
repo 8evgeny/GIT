@@ -311,7 +311,7 @@ void printSramFlashCrcMd5()
     term2(tmp2)
 
     //Вычисляем MD5
-    char tmp[2];
+    char tmp[3];
     static  uint8_t outMD5[16];
     HAL_HASH_MD5_Start(&hhash, (uint8_t *)DataFirmware, len, outMD5, 1000);
     RS232::getInstance().term <<"Sram DataFirmware MD5\t";
