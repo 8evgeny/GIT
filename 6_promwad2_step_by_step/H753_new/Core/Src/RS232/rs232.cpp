@@ -42,18 +42,7 @@
 #include "../Debug/debug.h"
 #include "eeprom.h"
 #include "fsforeeprom.h"
-
-//#ifndef SC2BOARD
-////#include "call_control.h"
-//#else
-////#include "../Call_control_for_SC2_board/call_control_sc2.h"
-//#endif
-
-
 #include "json.h"
-
-
-
 
 #ifdef __cplusplus
 extern "C" {

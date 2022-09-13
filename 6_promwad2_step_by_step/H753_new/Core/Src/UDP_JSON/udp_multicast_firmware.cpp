@@ -12,13 +12,8 @@
 #include "main.h"
 #include "rs232.h"
 #include "rs232_printf.h"
-
 #include "../UDP_JSON/udp_multicast.h"
-//#ifndef SC2BOARD
-////#include "call_control.h"
-//#else
-//#include "../Call_control_for_SC2_board/call_control_sc2.h"
-//#endif
+
 void printFlashOptions(FLASH_OBProgramInitTypeDef &OBInit);
 extern CRC_HandleTypeDef hcrc;
 extern uint8_t DataFirmware[NUM_FIRMWARE_PACKET][SIZE_FIRMWARE_BASE] __attribute__((section(".ExtRamData")));
