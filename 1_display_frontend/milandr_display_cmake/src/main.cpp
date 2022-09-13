@@ -230,6 +230,10 @@ void firstScreen()
     LCD_write_string((char*)"   GIT-VIDEO  SURV  ");
     LCD_set_line(2);
     LCD_write_string((char*)"       GDMX S       ");
+    LCD_set_line(3);
+    LCD_write_string((char*)"                    ");
+    LCD_set_line(4);
+    LCD_write_string((char*)"                    ");
     LCD_set_XY(6, 4);
     LCD_write_data(0xA4);//З
     LCD_write_data(0x61);//а
