@@ -185,7 +185,7 @@ static void MX_CRC_Init(void)
   hcrc.Init.DefaultInitValueUse = DEFAULT_INIT_VALUE_DISABLE;
   hcrc.Init.InputDataInversionMode = CRC_INPUTDATA_INVERSION_NONE;
   hcrc.Init.OutputDataInversionMode = CRC_OUTPUTDATA_INVERSION_DISABLE;
-  hcrc.InputDataFormat = CRC_INPUTDATA_FORMAT_WORDS;
+  hcrc.InputDataFormat = CRC_INPUTDATA_FORMAT_BYTES;
   if (HAL_CRC_Init(&hcrc) != HAL_OK)
   {
     Error_Handler();
@@ -303,18 +303,18 @@ void printSramFlashCrcMd5(int lenth)
     //Вычисляем MD5
     char tmp[3];
     static  uint8_t outMD5[16];
-//    HAL_HASH_MD5_Start(&hhash, (uint8_t *)DataFirmware, len, outMD5, 1000);
-//    RS232::getInstance().term <<"Sram DataFirmware MD5\t";
-//    for (uint8_t i:outMD5) { sprintf(tmp,"%x",i); RS232::getInstance().term <<tmp;}
-//    RS232::getInstance().term <<"\r\n";
+    HAL_HASH_MD5_Start(&hhash, (uint8_t *)DataFirmware, len, outMD5, 1000);
+    RS232::getInstance().term <<"Sram DataFirmware SHA1\t";
+    for (uint8_t i:outMD5) { sprintf(tmp,"%x",i); RS232::getInstance().term <<tmp;}
+    RS232::getInstance().term <<"\r\n";
 
     HAL_HASH_MD5_Start(&hhash, (uint8_t *)0x8000000, len, outMD5, 1000);
-    RS232::getInstance().term <<"Firmware Bank0_hard MD5\t";
+    RS232::getInstance().term <<"Firmware Bank0_hard SHA1\t";
     for (uint8_t i:outMD5) { sprintf(tmp,"%x",i); RS232::getInstance().term <<tmp;}
     RS232::getInstance().term <<"\r\n";
 
 //    HAL_HASH_MD5_Start(&hhash, (uint8_t *)0x8100000, len, outMD5, 1000);
-//    RS232::getInstance().term <<"Firmware Bank1 MD5\t";
+//    RS232::getInstance().term <<"Firmware Bank1 SHA1\t";
 //    for (uint8_t i:outMD5) { sprintf(tmp,"%x",i); RS232::getInstance().term <<tmp;}
 //    RS232::getInstance().term <<"\r\n";
 
@@ -411,7 +411,7 @@ term2("Board SL1")
 //    }
 
 //    printSramFlashCrcMd5(1024 * 128);
-    printSramFlashCrcMd5(414868);
+    printSramFlashCrcMd5(414956);
 
 //if(CRCVal3 != CRCVal2)
 //    {
