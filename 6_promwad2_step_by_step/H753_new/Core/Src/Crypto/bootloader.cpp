@@ -1,5 +1,5 @@
 #include "bootloader.h"
-#include "stm32f7xx_hal.h"
+#include "stm32h7xx_hal.h"
 #include "../flash/flash.h"
 #include "../Debug/debug.h"
 #include <stdlib.h>
