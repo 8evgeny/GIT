@@ -16,6 +16,7 @@
 #include "ethernetif.h"
 #include "dp83848.h"
 #include "trcRecorder.h"
+#include "MD5.h"
 
 extern void flashErraseBank2();
 
@@ -181,9 +182,9 @@ static void MX_CRC_Init(void)
   /* USER CODE END CRC_Init 1 */
   hcrc.Instance = CRC;
   hcrc.Init.DefaultPolynomialUse = DEFAULT_POLYNOMIAL_ENABLE;
-  hcrc.Init.DefaultInitValueUse = DEFAULT_INIT_VALUE_ENABLE;
-  hcrc.Init.InputDataInversionMode = CRC_INPUTDATA_INVERSION_WORD;
-  hcrc.Init.OutputDataInversionMode = CRC_OUTPUTDATA_INVERSION_ENABLE;
+  hcrc.Init.DefaultInitValueUse = DEFAULT_INIT_VALUE_DISABLE;
+  hcrc.Init.InputDataInversionMode = CRC_INPUTDATA_INVERSION_NONE;
+  hcrc.Init.OutputDataInversionMode = CRC_OUTPUTDATA_INVERSION_DISABLE;
   hcrc.InputDataFormat = CRC_INPUTDATA_FORMAT_WORDS;
   if (HAL_CRC_Init(&hcrc) != HAL_OK)
   {
@@ -197,22 +198,11 @@ static void MX_CRC_Init(void)
 
 static void MX_HASH_Init(void)
 {
-
-  /* USER CODE BEGIN HASH_Init 0 */
-
-  /* USER CODE END HASH_Init 0 */
-
-  /* USER CODE BEGIN HASH_Init 1 */
-
-  /* USER CODE END HASH_Init 1 */
-  hhash.Init.DataType = HASH_DATATYPE_1B;
+  hhash.Init.DataType = HASH_DATATYPE_8B;
   if (HAL_HASH_Init(&hhash) != HAL_OK)
   {
     Error_Handler();
   }
-  /* USER CODE BEGIN HASH_Init 2 */
-
-  /* USER CODE END HASH_Init 2 */
 
 }
 
@@ -296,7 +286,7 @@ uint8_t getCFG(void)
 uint8_t keysNum;
 void printSramFlashCrcMd5(int lenth)
 {
-    uint32_t len = (uint32_t)lenth;
+    uint32_t len = lenth / 4;
     char tmp2[64];
     uint32_t CRCVal = HAL_CRC_Calculate(&hcrc, (uint32_t *)DataFirmware, len);
     sprintf(tmp2,"Sram DataFirmware CRC \t%x", (unsigned int)CRCVal);
@@ -328,6 +318,10 @@ void printSramFlashCrcMd5(int lenth)
     for (uint8_t i:outMD5) { sprintf(tmp,"%x",i); RS232::getInstance().term <<tmp;}
     RS232::getInstance().term <<"\r\n";
 
+    auto hash = MD5::make_hash2((const void *)0x8000000,len);
+    RS232::getInstance().term <<"Firmware Bank0 MD5\t";
+    for (uint8_t i = 0; i <16;++i) { sprintf(tmp,"%x",hash[i]); RS232::getInstance().term <<tmp;}
+    RS232::getInstance().term <<"\r\n";
 }
 
 int main(void)
@@ -416,7 +410,8 @@ term2("Board SL1")
 //            RS232::getInstance().term <<"\r\n";
 //    }
 
-    printSramFlashCrcMd5(1024 * 128);
+//    printSramFlashCrcMd5(1024 * 128);
+    printSramFlashCrcMd5(415504);
 
 //if(CRCVal3 != CRCVal2)
 //    {
