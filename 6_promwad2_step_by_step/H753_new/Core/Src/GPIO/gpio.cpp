@@ -521,7 +521,6 @@ static GPIO_InitTypeDef GPIO_InitStruct;
 
 void GPIOInit(void)
 {
-
 // timerCallback  каллбек
     timerId7 = osTimerCreate( osTimer(timer7), osTimerPeriodic, nullptr); // create timer thread
     if (timerId7)
@@ -587,8 +586,6 @@ GPIO::GPIO()
             RS232::getInstance().term << "Failed to create [mutexRingBufferRx]" << "\n";
     }
 
-//    message_q_id = osMessageCreate(osMessageQ(message_q), NULL);
-
     if (boardType == sc2)
     {
         initBUTTONS_SC2();
@@ -597,9 +594,7 @@ GPIO::GPIO()
     {
         initBUTTONS_SL1();
     }
-//    if (boardType == sc4)
-//    {
-//    }
+
     i2cInitBoard();
     EXTI_IRQHandler_Config();
 }
@@ -671,7 +666,6 @@ void GPIO::downVolume(void)
         I2C::getInstance()->writeRegister(I2C_ADDRESS, ConfigureDAC_VOL[i].regOffset, ConfigureDAC_VOL[i].regVal, true);
         osMutexRelease(GPIO::getInstance()->mutexButtons_id);
         HAL_SAI_Transmit_IT(&audioTxSai, ring_raw, ring_length/2);
-
     }
 
 }
@@ -740,11 +734,13 @@ void timerCallback(void const *arg)
                 GPIO::getInstance()->aLeds[i].count = 0;
                 if (GPIO::getInstance()->aLeds[i].reiterationNum > 0)
                     GPIO::getInstance()->aLeds[i].reiterationNum -= 1;
-                if (GPIO::getInstance()->aLeds[i].reiterationNum == 0) {
+                if (GPIO::getInstance()->aLeds[i].reiterationNum == 0)
+                {
                     GPIO::getInstance()->aLeds[i].timeStart = false;
                     GPIO::getInstance()->aLeds[i].reiterationNum -= 1;
                 }
-            } else if (GPIO::getInstance()->aLeds[i].ledState == true && GPIO::getInstance()->aLeds[i].count >= GPIO::getInstance()->aLeds[i].timeOn/timerDelay)
+            } else if (GPIO::getInstance()->aLeds[i].ledState == true &&
+                       GPIO::getInstance()->aLeds[i].count >= GPIO::getInstance()->aLeds[i].timeOn/timerDelay)
             {
                 GPIO::getInstance()->aLeds[i].ledState = false;
                 GPIO::getInstance()->aLeds[i].count = 0;
@@ -758,7 +754,6 @@ void timerCallback(void const *arg)
         }
     }
 }
-
 
 void switchLEDsThread(void const *arg)
 {
@@ -829,12 +824,10 @@ void switchLEDsThread(void const *arg)
                 if ((LinkStatus == 1) && (inMcastGroup == 1))
                 {
                     pinNormaState = pinNormaSet;
-//                    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_6, GPIO_PIN_SET); //Пин Норма
                 }
                 else
                 {
                     pinNormaState = pinNormaReset;
-//                    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_6, GPIO_PIN_RESET);
                 }
             }
             osDelay(1);
@@ -874,12 +867,10 @@ void switchLEDsThread(void const *arg)
                     if ((LinkStatus == 1) && (inMcastGroup == 1))
                     {
                         pinNormaState = pinNormaSet;
-//                        HAL_GPIO_WritePin(GPIOD, GPIO_PIN_6, GPIO_PIN_SET); //Пин Норма
                     }
                     else
                     {
                         pinNormaState = pinNormaReset;
-//                        HAL_GPIO_WritePin(GPIOD, GPIO_PIN_6, GPIO_PIN_RESET);
                     }
                 }
             }

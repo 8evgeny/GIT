@@ -294,9 +294,9 @@ uint8_t getCFG(void)
 }
 
 uint8_t keysNum;
-void printSramFlashCrcMd5()
+void printSramFlashCrcMd5(int lenth)
 {
-    uint32_t len = 128*1024;
+    uint32_t len = (uint32_t)lenth;
     char tmp2[64];
     uint32_t CRCVal = HAL_CRC_Calculate(&hcrc, (uint32_t *)DataFirmware, len);
     sprintf(tmp2,"Sram DataFirmware CRC \t%x", (unsigned int)CRCVal);
@@ -416,7 +416,7 @@ term2("Board SL1")
 //            RS232::getInstance().term <<"\r\n";
 //    }
 
-    printSramFlashCrcMd5();
+    printSramFlashCrcMd5(1024 * 128);
 
 //if(CRCVal3 != CRCVal2)
 //    {
@@ -490,7 +490,7 @@ term2("Board SL1")
 #endif
 
 //    WDTInit();
-//    osThreadDef(StartWdtThread, StartWdtThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE );
+//    osThreadDef(StartWdtThread, StartWdtThread, osPriorityIdle, 0, configMINIMAL_STACK_SIZE );
 //    if ((osThreadCreate(osThread(StartWdtThread), nullptr)) == nullptr)
 //    {
 //        RS232::getInstance().term << __FUNCTION__ << " " << __LINE__ << " " << "\n";

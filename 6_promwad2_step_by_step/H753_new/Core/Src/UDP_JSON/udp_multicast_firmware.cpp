@@ -228,22 +228,22 @@ static int counterPackegs = 0; /*! A counter for size of packages */
 
             if (calculateCRC)
             {//Прошивка вся в SRAM - считать CRC BUFFER_SIZE указывается не в байтах, а в количестве 32-разрядных слов.
-                pinNormaState = pinNormaBlinkFast;
+            //Размер полученного файла
+            uint32_t firmwareSize = counterSize - pack.data.size() + pack.size/2;
 
-//                uint32_t CRCVal = HAL_CRC_Calculate(&hcrc, (uint32_t *)DataFirmware, 1024 * 128);
-//                sprintf(tmp,"DataFirmwareEnd CRC =  %X", (unsigned)CRCVal);
-//                term2(tmp)
+            sprintf(tmp,"firmware size = %d",firmwareSize);
+            term2 (tmp)
+
+            pinNormaState = pinNormaBlinkFast;
 
             term2("Start erasing flash")
             eraseFlashBank(1);
             term2("Start writing flash")
             writeFlashFromExtRam(1);
-            printSramFlashCrcMd5();
+            printSramFlashCrcMd5(firmwareSize / 4);//передаем число не байт а слов
+
             //Нужно переключить банк памяти для новой загрузки
             static FLASH_OBProgramInitTypeDef OBInit;
-
-
-
 
             /* Get FLASH_WRP_SECTORS write protection status */
             HAL_FLASH_OB_Unlock();

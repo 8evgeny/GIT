@@ -242,7 +242,7 @@ void pinNorma_RTOS(void const *argument)
             }
         }
 
-    if ((boardType == sc4) && (pinNormaState == pinNormaBlink))
+    if (((boardType == sc4) || (boardType == sl1))  && (pinNormaState == pinNormaBlink))
     {
         if(reset)
         {
@@ -265,7 +265,7 @@ void pinNorma_RTOS(void const *argument)
         }
     }
 
-    if ((boardType == sc4) && (pinNormaState == pinNormaBlinkFast))
+    if (((boardType == sc4) || (boardType == sl1)) && (pinNormaState == pinNormaBlinkFast))
     {
         if(reset)
         {
@@ -288,12 +288,12 @@ void pinNorma_RTOS(void const *argument)
         }
     }
 
-    if ((boardType == sc4) && (pinNormaState == pinNormaReset))
+    if (((boardType == sc4) || (boardType == sl1)) && (pinNormaState == pinNormaReset))
     {
         HAL_GPIO_WritePin(GPIOD, GPIO_PIN_6, GPIO_PIN_RESET);
     }
 
-    if ((boardType == sc4) && (pinNormaState == pinNormaSet))
+    if (((boardType == sc4) || (boardType == sl1)) && (pinNormaState == pinNormaSet))
     {
         HAL_GPIO_WritePin(GPIOD, GPIO_PIN_6, GPIO_PIN_SET); //Пин Норма
     }
