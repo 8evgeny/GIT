@@ -296,7 +296,7 @@ uint8_t getCFG(void)
 uint8_t keysNum;
 void printSramFlashCrcMd5()
 {
-    uint32_t len = 128*1024 / 4 ;
+    uint32_t len = 128*1024;
     char tmp2[64];
     uint32_t CRCVal = HAL_CRC_Calculate(&hcrc, (uint32_t *)DataFirmware, len);
     sprintf(tmp2,"Sram DataFirmware CRC \t%x", (unsigned int)CRCVal);
@@ -418,7 +418,6 @@ term2("Board SL1")
 
     printSramFlashCrcMd5();
 
-    term2("test1")
 //if(CRCVal3 != CRCVal2)
 //    {
 //        term2("erasing Bank 1")
