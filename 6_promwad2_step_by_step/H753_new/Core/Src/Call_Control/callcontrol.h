@@ -274,23 +274,8 @@ public:
      * The Context delegates part of its behavior to the current State object.
      */
 
-#ifndef SC2BOARD
-    /*!
-     \brief The method handles a key press.
-
-     \fn button
-     \param pack data of the pressed buttons from the CAN bus.
-     */
-    void button(uPackageRx pack);
-#else
-    /*!
-     \brief The method handles a key press.
-
-     \fn button
-     \param pack data of the pressed buttons.
-     */
     void button(PackageRx pack);
-#endif
+
     /*!
      \brief The method handles received Json message.
 
@@ -358,25 +343,9 @@ public:
      \fn setCallType
     */
     void setCallType();
-#ifndef SC2BOARD
-    /*!
-     \brief The function handles button presses
 
-     \fn handleClick
-     \param pack is data of the pressed buttons from the CAN bus.
-     \return bool is state of the detection
-    */
-    bool handleClick(uPackageRx pack);
-#else
-    /*!
-     \brief The function handles button presses
-
-     \fn handleClick
-     \param pack is data of the pressed buttons.
-     \return bool is state of the detection
-    */
     bool handleClick(PackageRx pack);
-#endif
+
     /*!
      \brief The function sends Json message by UDP
 
