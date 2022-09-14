@@ -48,6 +48,7 @@ static void MX_I2C3_Init(void);
 static void MX_UART7_Init(void);
 static void MX_CRC_Init(void);
 static void MX_HASH_Init(void);
+static void MX_CRYP_Init(void);
 static void MX_TIM3_Init(void);
 //static void MX_DMA_Init(void);
 static void MX_RNG_Init(void);
@@ -58,6 +59,9 @@ volatile uint8_t pinNormaState;
 volatile uint8_t pinMkState;
 CRC_HandleTypeDef hcrc;
 HASH_HandleTypeDef hhash;
+CRYP_HandleTypeDef hcrypECB;
+__ALIGN_BEGIN static const uint32_t pKeyCRYP_ECB[4] __ALIGN_END =
+    {0x00000000,0x00000000,0x00000000,0x00000000};
 I2C_HandleTypeDef hi2c1;
 I2C_HandleTypeDef hi2c2;
 I2C_HandleTypeDef hi2c3;
@@ -157,31 +161,8 @@ void Ethernet_Link_Periodic_Handle(struct netif *netif)
     }
 }
 
-void HAL_CRC_MspInit(CRC_HandleTypeDef* hcrc)
-{
-    if(hcrc->Instance==CRC)
-    {
-    /* USER CODE BEGIN CRC_MspInit 0 */
-
-    /* USER CODE END CRC_MspInit 0 */
-      /* Peripheral clock enable */
-      __HAL_RCC_CRC_CLK_ENABLE();
-    /* USER CODE BEGIN CRC_MspInit 1 */
-
-    /* USER CODE END CRC_MspInit 1 */
-    }
-}
-
 static void MX_CRC_Init(void)
 {
-
-  /* USER CODE BEGIN CRC_Init 0 */
-
-  /* USER CODE END CRC_Init 0 */
-
-  /* USER CODE BEGIN CRC_Init 1 */
-
-  /* USER CODE END CRC_Init 1 */
   hcrc.Instance = CRC;
   hcrc.Init.DefaultPolynomialUse = DEFAULT_POLYNOMIAL_ENABLE;
   hcrc.Init.DefaultInitValueUse = DEFAULT_INIT_VALUE_DISABLE;
@@ -192,12 +173,7 @@ static void MX_CRC_Init(void)
   {
     Error_Handler();
   }
-  /* USER CODE BEGIN CRC_Init 2 */
-
-  /* USER CODE END CRC_Init 2 */
-
 }
-
 static void MX_HASH_Init(void)
 {
   hhash.Init.DataType = HASH_DATATYPE_8B;
@@ -206,6 +182,18 @@ static void MX_HASH_Init(void)
     Error_Handler();
   }
 
+}
+static void MX_CRYP_Init(void)
+{
+    hcrypECB.Instance = CRYP;
+    hcrypECB.Init.DataType = CRYP_DATATYPE_32B;
+    hcrypECB.Init.KeySize = CRYP_KEYSIZE_128B;
+    hcrypECB.Init.pKey = (uint32_t *)pKeyCRYP_ECB;
+    hcrypECB.Init.Algorithm = CRYP_AES_ECB;
+    if (HAL_CRYP_Init(&hcrypECB) != HAL_OK)
+    {
+        Error_Handler();
+    }
 }
 
 osThreadId TaskEthernetHandle;
@@ -345,6 +333,7 @@ int main(void)
 
     MX_CRC_Init();
     MX_HASH_Init();
+    MX_CRYP_Init();
 
     //Определяем тип платы SC2 или SC4
     if (!HAL_GPIO_ReadPin(GPIOG, GPIO_PIN_9))

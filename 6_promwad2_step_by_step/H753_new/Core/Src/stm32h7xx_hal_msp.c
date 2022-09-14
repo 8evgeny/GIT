@@ -16,69 +16,20 @@
   *
   ******************************************************************************
   */
-/* USER CODE END Header */
-
-/* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "rs232_printf.h"
 
-/* USER CODE BEGIN Includes */
-
-/* USER CODE END Includes */
 extern DMA_HandleTypeDef hdma_i2c1_rx;
 extern DMA_HandleTypeDef hdma_i2c1_tx;
-
 extern DMA_HandleTypeDef hdma_i2c2_rx;
 extern DMA_HandleTypeDef hdma_i2c2_tx;
-
 extern DMA_HandleTypeDef hdma_i2c3_rx;
 extern DMA_HandleTypeDef hdma_i2c3_tx;
-
 extern DMA_HandleTypeDef hdma_uart7_rx;
 extern DMA_HandleTypeDef hdma_uart7_tx;
 
-/* Private typedef -----------------------------------------------------------*/
-/* USER CODE BEGIN TD */
-
-/* USER CODE END TD */
-
-/* Private define ------------------------------------------------------------*/
-/* USER CODE BEGIN Define */
-
-/* USER CODE END Define */
-
-/* Private macro -------------------------------------------------------------*/
-/* USER CODE BEGIN Macro */
-
-/* USER CODE END Macro */
-
-/* Private variables ---------------------------------------------------------*/
-/* USER CODE BEGIN PV */
-
-/* USER CODE END PV */
-
-/* Private function prototypes -----------------------------------------------*/
-/* USER CODE BEGIN PFP */
-
-/* USER CODE END PFP */
-
-/* External functions --------------------------------------------------------*/
-/* USER CODE BEGIN ExternalFunctions */
-
-/* USER CODE END ExternalFunctions */
-
-/* USER CODE BEGIN 0 */
-
-/* USER CODE END 0 */
-/**
-  * Initializes the Global MSP.
-  */
 void HAL_MspInit(void)
 {
-    /* USER CODE BEGIN MspInit 0 */
-
-    /* USER CODE END MspInit 0 */
-
     __HAL_RCC_SYSCFG_CLK_ENABLE();
 
     /* System interrupt init*/
@@ -86,61 +37,43 @@ void HAL_MspInit(void)
     HAL_NVIC_SetPriority(DebugMonitor_IRQn, 5, 0);
     /* PendSV_IRQn interrupt configuration */
     HAL_NVIC_SetPriority(PendSV_IRQn, 15, 0);
-
-    /* USER CODE BEGIN MspInit 1 */
-
-    /* USER CODE END MspInit 1 */
 }
-
+void HAL_CRC_MspInit(CRC_HandleTypeDef* hcrc)
+{
+    if(hcrc->Instance==CRC)
+    {
+        __HAL_RCC_CRC_CLK_ENABLE();
+    }
+}
 void HAL_HASH_MspInit(HASH_HandleTypeDef* hhash)
 {
-  /* USER CODE BEGIN HASH_MspInit 0 */
-
-  /* USER CODE END HASH_MspInit 0 */
-    /* Peripheral clock enable */
     __HAL_RCC_HASH_CLK_ENABLE();
-  /* USER CODE BEGIN HASH_MspInit 1 */
-
-  /* USER CODE END HASH_MspInit 1 */
-
 }
-
-/**
-* @brief HASH MSP De-Initialization
-* This function freeze the hardware resources used in this example
-* @param hhash: HASH handle pointer
-* @retval None
-*/
 void HAL_HASH_MspDeInit(HASH_HandleTypeDef* hhash)
 {
-  /* USER CODE BEGIN HASH_MspDeInit 0 */
-
-  /* USER CODE END HASH_MspDeInit 0 */
-    /* Peripheral clock disable */
     __HAL_RCC_HASH_CLK_DISABLE();
-  /* USER CODE BEGIN HASH_MspDeInit 1 */
-
-  /* USER CODE END HASH_MspDeInit 1 */
+}
+void HAL_CRYP_MspInit(CRYP_HandleTypeDef* hcryp)
+{
+    if(hcryp->Instance==CRYP)
+    {
+        __HAL_RCC_CRYP_CLK_ENABLE();
+    }
 
 }
-
-
-
-/**
-* @brief I2C MSP Initialization
-* This function configures the hardware resources used in this example
-* @param hi2c: I2C handle pointer
-* @retval None
-*/
+void HAL_CRYP_MspDeInit(CRYP_HandleTypeDef* hcryp)
+{
+    if(hcryp->Instance==CRYP)
+    {
+        __HAL_RCC_CRYP_CLK_DISABLE();
+    }
+}
 void HAL_I2C_MspInit(I2C_HandleTypeDef* hi2c)
 {
     GPIO_InitTypeDef GPIO_InitStruct = {0};
     RCC_PeriphCLKInitTypeDef PeriphClkInitStruct = {0};
     if(hi2c->Instance==I2C1)
     {
-    /* USER CODE BEGIN I2C1_MspInit 0 */
-
-    /* USER CODE END I2C1_MspInit 0 */
     /** Initializes the peripherals clock
     */
       PeriphClkInitStruct.PeriphClockSelection = RCC_PERIPHCLK_I2C1;
@@ -360,13 +293,6 @@ void HAL_I2C_MspInit(I2C_HandleTypeDef* hi2c)
           HAL_NVIC_EnableIRQ(I2C3_ER_IRQn);
     }
 }
-
-/**
-* @brief I2C MSP De-Initialization
-* This function freeze the hardware resources used in this example
-* @param hi2c: I2C handle pointer
-* @retval None
-*/
 void HAL_I2C_MspDeInit(I2C_HandleTypeDef* hi2c)
 {
     if(hi2c->Instance==I2C1)
@@ -435,13 +361,6 @@ void HAL_I2C_MspDeInit(I2C_HandleTypeDef* hi2c)
       HAL_NVIC_DisableIRQ(I2C3_ER_IRQn);
     }
 }
-
-/**
-* @brief RNG MSP Initialization
-* This function configures the hardware resources used in this example
-* @param hrng: RNG handle pointer
-* @retval None
-*/
 void HAL_RNG_MspInit(RNG_HandleTypeDef* hrng)
 {
   RCC_PeriphCLKInitTypeDef PeriphClkInitStruct = {0};
@@ -467,13 +386,6 @@ void HAL_RNG_MspInit(RNG_HandleTypeDef* hrng)
   }
 
 }
-
-/**
-* @brief RNG MSP De-Initialization
-* This function freeze the hardware resources used in this example
-* @param hrng: RNG handle pointer
-* @retval None
-*/
 void HAL_RNG_MspDeInit(RNG_HandleTypeDef* hrng)
 {
   if(hrng->Instance==RNG)
@@ -489,13 +401,6 @@ void HAL_RNG_MspDeInit(RNG_HandleTypeDef* hrng)
   }
 
 }
-
-/**
-* @brief TIM_Base MSP Initialization
-* This function configures the hardware resources used in this example
-* @param htim_base: TIM_Base handle pointer
-* @retval None
-*/
 void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* htim_base)
 {
   if(htim_base->Instance==TIM3)
@@ -514,13 +419,6 @@ void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* htim_base)
   }
 
 }
-
-/**
-* @brief TIM_Base MSP De-Initialization
-* This function freeze the hardware resources used in this example
-* @param htim_base: TIM_Base handle pointer
-* @retval None
-*/
 void HAL_TIM_Base_MspDeInit(TIM_HandleTypeDef* htim_base)
 {
   if(htim_base->Instance==TIM3)
@@ -539,7 +437,6 @@ void HAL_TIM_Base_MspDeInit(TIM_HandleTypeDef* htim_base)
   }
 
 }
-
 void HAL_UART_MspInit(UART_HandleTypeDef *huart)
 {
     if (huart->Instance == UART7) {
@@ -612,7 +509,6 @@ void HAL_UART_MspInit(UART_HandleTypeDef *huart)
     }
 
 }
-
 void HAL_UART_MspDeInit(UART_HandleTypeDef *huart)
 {
     if (huart->Instance == UART7) {
@@ -639,7 +535,6 @@ void HAL_UART_MspDeInit(UART_HandleTypeDef *huart)
         /* USER CODE END UART7_MspDeInit 1 */
     }
 }
-
 
 static uint32_t FMC_Initialized = 0;
 
