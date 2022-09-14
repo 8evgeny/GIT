@@ -16,6 +16,7 @@ volatile int _Delay;
 static char r;
 extern uint8_t boardType;
 extern uint8_t pinNormaState;
+extern uint8_t pinMkState;
 extern unsigned char zvon3_raw[];
 extern unsigned int zvon3_raw_len;
 extern uint8_t TLC59116F_max_address;
@@ -305,14 +306,98 @@ void pinNorma_RTOS(void const *argument)
     vTaskDelete(nullptr);
 }
 
+void pinMk_RTOS(void const *argument)
+{
+    (void)argument;
+    bool reset = true;
+    uint32_t tickstart = HAL_GetTick();
+    uint32_t timeSet = 500;
+    uint32_t timeReset = 500;
+    uint32_t timeSetFast = 100;
+    uint32_t timeResetFast = 100;
+
+    for(;;)
+    {
+    if ((boardType == sc4)  && (pinMkState == pinMkBlink))
+    {
+        if(reset)
+        {
+            if (HAL_GetTick() > tickstart + timeReset)
+            {
+                 HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET);
+                 reset = false;
+                 tickstart = HAL_GetTick();
+            }
+        }
+
+        if(!reset)
+        {
+            if (HAL_GetTick() > tickstart + timeSet)
+            {
+                 HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_SET);
+                 reset = true;
+                 tickstart = HAL_GetTick();
+            }
+        }
+    }
+
+    if ((boardType == sc4)  && (pinMkState == pinMkBlinkFast))
+    {
+        if(reset)
+        {
+            if (HAL_GetTick() > tickstart + timeResetFast)
+            {
+                 HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET);
+                 reset = false;
+                 tickstart = HAL_GetTick();
+            }
+        }
+
+        if(!reset)
+        {
+            if (HAL_GetTick() > tickstart + timeSetFast)
+            {
+                 HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_SET);
+                 reset = true;
+                 tickstart = HAL_GetTick();
+            }
+        }
+    }
+
+    if ((boardType == sc4)  && (pinMkState == pinMkReset))
+    {
+        HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET);
+    }
+
+    if ((boardType == sc4)  && (pinMkState == pinMkSet))
+    {
+        HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_SET);
+    }
+
+    osDelay(1);
+    } //end for(;;)
+
+    vTaskDelete(nullptr);
+}
+
 void pinNormaStart()
 {
     osThreadDef(pinNormaRTOS, pinNorma_RTOS, osPriorityHigh, 0, configMINIMAL_STACK_SIZE );
     if ((osThreadCreate(osThread(pinNormaRTOS), nullptr)) == nullptr)
     {
-        term("Failed to create simpleLedTest3_RTOS");
+        term("Failed to create pinNorma_RTOS");
     }
 }
+
+void pinMkStart()
+{
+    osThreadDef(pinMkRTOS, pinMk_RTOS, osPriorityHigh, 0, configMINIMAL_STACK_SIZE );
+    if ((osThreadCreate(osThread(pinMkRTOS), nullptr)) == nullptr)
+    {
+        term("Failed to create pinMk_RTOS");
+    }
+}
+
 
 //char *logTasks = new char[2048];
 static char logTasks[2048];

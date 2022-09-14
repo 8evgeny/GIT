@@ -20,6 +20,7 @@ void testTasksLog();
 void testSendMcast();
 void testReceiveMcast();
 void pinNormaStart();
+void pinMkStart();
 
 #ifdef __cplusplus
 }

@@ -1,6 +1,7 @@
 #include "microphone.h"
 #include "rs232.h"
 
+extern uint8_t pinMkState;
 void Microphone::start()
 {
 term("Microphone::start")
@@ -8,9 +9,7 @@ term("Microphone::start")
         I2C::getInstance()->writeRegister(TLV320AIC3254::I2C_ADDRESS, 0x00, 0x00, true);
         I2C::getInstance()->writeRegister(TLV320AIC3254::I2C_ADDRESS, 0x52, 0x00, true);
         status = micStatus::ON;
-
-        HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_SET); //Пин МК Вкл
-
+        pinMkState = pinMkSet;
     }
 }
 
@@ -21,8 +20,6 @@ term("Microphone::stop")
         I2C::getInstance()->writeRegister(TLV320AIC3254::I2C_ADDRESS, 0x00, 0x00, true);
         I2C::getInstance()->writeRegister(TLV320AIC3254::I2C_ADDRESS, 0x52, 0x88, true);
         status = micStatus::OFF;
-
-        HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET); //Пин МК Вкл
-
+        pinMkState = pinMkReset;
     }
 }

@@ -54,12 +54,16 @@ enum
     pinNormaBlink = 2,
     pinNormaBlinkFast = 3
 };
+enum
+{
+    pinMkReset = 0,
+    pinMkSet = 1,
+    pinMkBlink = 2,
+    pinMkBlinkFast = 3
+};
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-
-
 
 #define MII_MOC_Pin GPIO_PIN_1
 #define MII_MOC_GPIO_Port GPIOC

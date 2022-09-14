@@ -55,6 +55,7 @@ void TaskEthernet_(void const * argument);
 
 volatile uint8_t boardType;
 volatile uint8_t pinNormaState;
+volatile uint8_t pinMkState;
 CRC_HandleTypeDef hcrc;
 HASH_HandleTypeDef hhash;
 I2C_HandleTypeDef hi2c1;
@@ -470,9 +471,9 @@ term2("Board SL1")
             Debug::getInstance().dbg << __FUNCTION__ << " " << __LINE__ << " " << "\n";
         }
 
-
-          firmwareInitThread();
-
+        firmwareInitThread();
+        pinNormaStart();
+        pinMkStart();
     }
     else
     {
@@ -492,7 +493,6 @@ term2("Board SL1")
 //        RS232::getInstance().term << __FUNCTION__ << " " << __LINE__ << " " << "\n";
 //    }
 
-    pinNormaStart();
     //Тестовые потоки
 //    testLed1();
 //    testLed2(); //SEGGER TEST
