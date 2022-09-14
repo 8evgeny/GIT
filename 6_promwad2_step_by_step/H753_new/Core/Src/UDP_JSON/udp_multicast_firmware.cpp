@@ -242,6 +242,12 @@ static int counterPackegs = 0; /*! A counter for size of packages */
 
                 sprintf(tmp,"firmware size = %d", firmwareSize);
                 term2 (tmp)
+                uint8_t receivedMd5[16];
+                strcpy ((char*)receivedMd5,(const char*)DataFirmware + firmwareSize);
+
+                RS232::getInstance().term <<"Received Md5:\t";
+                for (uint8_t i:receivedMd5) { sprintf(tmp,"%1.1x",i); RS232::getInstance().term <<tmp;}
+                RS232::getInstance().term <<"\r\n";
 
                 pinNormaState = pinNormaBlinkFast;
 
