@@ -230,7 +230,7 @@ static int counterPackegs = 0; /*! A counter for size of packages */
             {
                 counterSize += pack.size/2;
                 counterPackegs++;
-                for (size_t i = 0; i < pack.size/2 ; ++i)
+                for (int i = 0; i < pack.size/2 ; ++i)
                     DataFirmware[pack.current][i] = pack.data.at(i);
             }
             sprintf(tmp,"packet %d of %d size_packet = %d firmware_size = %d", (int)pack.current, (int)pack.all, (int)pack.size, (int)counterSize);
@@ -241,7 +241,7 @@ static int counterPackegs = 0; /*! A counter for size of packages */
                 //Размер полученного файла
                 uint32_t firmwareSize = counterSize - 16; //Последние 16 байт - md5
 
-                sprintf(tmp,"firmware size = %d", firmwareSize);
+                sprintf(tmp,"firmware size = %d", (int)firmwareSize);
                 term2 (tmp)
 
                 //Копируем полученный Md5
@@ -261,58 +261,59 @@ static int counterPackegs = 0; /*! A counter for size of packages */
                 for (uint8_t i:calculatedMd5) { sprintf(tmp,"%1.1x",i); RS232::getInstance().term <<tmp;}
                 RS232::getInstance().term <<"\r\n";
 
+               if(strcmp((char*)receivedMd5, (char*)calculatedMd5))
+               {
+                   term2("MD5 - OK")
+                   pinNormaState = pinNormaBlinkFast;
+                   term2("Start erasing flash")
+                   eraseFlashBank(1);
+                   term2("Start writing flash")
+                   writeFlashFromExtRam(1);
+                   printMd5(firmwareSize);
 
-                pinNormaState = pinNormaBlinkFast;
+                   //Нужно переключить банк памяти для новой загрузки
+                   static FLASH_OBProgramInitTypeDef OBInit;
+                   /* Get FLASH_WRP_SECTORS write protection status */
+                   HAL_FLASH_OB_Unlock();
+                   HAL_FLASHEx_OBGetConfig(&OBInit);
+//                   printFlashOptions(OBInit);
+                   /* Check Swap Flash banks  status */
+                   if ((OBInit.USERConfig & OB_SWAP_BANK_ENABLE) == OB_SWAP_BANK_DISABLE)
+                   {
+                       term2("swap bank")
+                       /*Swap to bank2 */
+                       /*Set OB SWAP_BANK_OPT to swap Bank2*/
+                       OBInit.OptionType = OPTIONBYTE_USER;
+                       OBInit.USERType   = OB_USER_SWAP_BANK;
+                       OBInit.USERConfig = OB_SWAP_BANK_ENABLE;
+                       HAL_FLASHEx_OBProgram(&OBInit);
+                       /* Launch Option bytes loading */
+                       HAL_FLASH_OB_Launch();
+                   }
+                   else
+                   {
+                       term2("swap bank")
+                       /* Swap to bank1 */
+                       /*Set OB SWAP_BANK_OPT to swap Bank1*/
+                       OBInit.OptionType = OPTIONBYTE_USER;
+                       OBInit.USERType = OB_USER_SWAP_BANK;
+                       OBInit.USERConfig = OB_SWAP_BANK_DISABLE;
+                       HAL_FLASHEx_OBProgram(&OBInit);
+                       /* Launch Option bytes loading */
+                       HAL_FLASH_OB_Launch();
+                   }
+//                   printFlashOptions(OBInit);
+//                   HAL_FLASH_OB_Lock();
+                   term2("reboot...\r\n")
+                   HAL_NVIC_SystemReset();
+               }
+               else
+               {
+                   term2("MD5 error")
+                   //Обработка неудачной прошивки
 
-                term2("Start erasing flash")
-                eraseFlashBank(1);
+               }
 
-                term2("Start writing flash")
-                writeFlashFromExtRam(1);
-
-                printMd5(firmwareSize);
-
-                //Нужно переключить банк памяти для новой загрузки
-                static FLASH_OBProgramInitTypeDef OBInit;
-
-                /* Get FLASH_WRP_SECTORS write protection status */
-                HAL_FLASH_OB_Unlock();
-    //            OBInit.Banks     = FLASH_BANK_1;
-                HAL_FLASHEx_OBGetConfig(&OBInit);
-    //            printFlashOptions(OBInit);
-                /* Check Swap Flash banks  status */
-                if ((OBInit.USERConfig & OB_SWAP_BANK_ENABLE) == OB_SWAP_BANK_DISABLE)
-                {
-                    term2("swap bank")
-                    /*Swap to bank2 */
-                    /*Set OB SWAP_BANK_OPT to swap Bank2*/
-                    OBInit.OptionType = OPTIONBYTE_USER;
-                    OBInit.USERType   = OB_USER_SWAP_BANK;
-                    OBInit.USERConfig = OB_SWAP_BANK_ENABLE;
-                    HAL_FLASHEx_OBProgram(&OBInit);
-
-                    /* Launch Option bytes loading */
-                    HAL_FLASH_OB_Launch();
-                }
-                else
-                {
-                    term2("swap bank")
-                    /* Swap to bank1 */
-                    /*Set OB SWAP_BANK_OPT to swap Bank1*/
-                    OBInit.OptionType = OPTIONBYTE_USER;
-                    OBInit.USERType = OB_USER_SWAP_BANK;
-                    OBInit.USERConfig = OB_SWAP_BANK_DISABLE;
-                    HAL_FLASHEx_OBProgram(&OBInit);
-
-                    /* Launch Option bytes loading */
-                    HAL_FLASH_OB_Launch();
-                }
-    //            printFlashOptions(OBInit);
-    //            HAL_FLASH_OB_Lock();
-
-                term2("reboot...\r\n")
-                //Перезагрузка
-                HAL_NVIC_SystemReset();
             }
 
             osDelay(1);
