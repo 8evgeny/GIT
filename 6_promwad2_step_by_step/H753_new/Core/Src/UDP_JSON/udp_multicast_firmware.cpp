@@ -240,7 +240,8 @@ static int counterPackegs = 0; /*! A counter for size of packages */
             eraseFlashBank(1);
             term2("Start writing flash")
             writeFlashFromExtRam(1);
-            printSramFlashCrcMd5(firmwareSize / 4);
+            term2("Md5 for firmware: ")
+            printSramFlashCrcMd5(firmwareSize);
 
             //Нужно переключить банк памяти для новой загрузки
             static FLASH_OBProgramInitTypeDef OBInit;

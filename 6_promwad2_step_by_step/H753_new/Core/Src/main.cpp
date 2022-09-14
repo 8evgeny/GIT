@@ -284,9 +284,8 @@ uint8_t getCFG(void)
 }
 
 uint8_t keysNum;
-void printSramFlashCrcMd5(int lenth)
+void printSramFlashCrcMd5(int len)
 {
-    uint32_t len = lenth / 4;
 //    char tmp2[64];
 //    uint32_t CRCVal = HAL_CRC_Calculate(&hcrc, (uint32_t *)DataFirmware, len);
 //    sprintf(tmp2,"Sram DataFirmware CRC \t%x", (unsigned int)CRCVal);
@@ -304,23 +303,23 @@ void printSramFlashCrcMd5(int lenth)
     char tmp[3];
     static  uint8_t outMD5[16];
     HAL_HASH_MD5_Start(&hhash, (uint8_t *)DataFirmware, len, outMD5, 1000);
-    RS232::getInstance().term <<"Sram DataFirmware SHA1\t";
-    for (uint8_t i:outMD5) { sprintf(tmp,"%x",i); RS232::getInstance().term <<tmp;}
+    RS232::getInstance().term <<"Sram DataFirmware Md5\t";
+    for (uint8_t i:outMD5) { sprintf(tmp,"%.1x",i); RS232::getInstance().term <<tmp;}
     RS232::getInstance().term <<"\r\n";
 
     HAL_HASH_MD5_Start(&hhash, (uint8_t *)0x8000000, len, outMD5, 1000);
-    RS232::getInstance().term <<"Firmware Bank0_hard SHA1\t";
-    for (uint8_t i:outMD5) { sprintf(tmp,"%x",i); RS232::getInstance().term <<tmp;}
+    RS232::getInstance().term <<"Firmware Bank0_hard Md5\t";
+    for (uint8_t i:outMD5) { sprintf(tmp,"%.1x",i); RS232::getInstance().term <<tmp;}
     RS232::getInstance().term <<"\r\n";
 
 //    HAL_HASH_MD5_Start(&hhash, (uint8_t *)0x8100000, len, outMD5, 1000);
-//    RS232::getInstance().term <<"Firmware Bank1 SHA1\t";
+//    RS232::getInstance().term <<"Firmware Bank1 Md5\t";
 //    for (uint8_t i:outMD5) { sprintf(tmp,"%x",i); RS232::getInstance().term <<tmp;}
 //    RS232::getInstance().term <<"\r\n";
 
     auto hash = MD5::make_hash2((const void *)0x8000000,len);
-    RS232::getInstance().term <<"Firmware Bank0_soft MD5\t";
-    for (uint8_t i = 0; i <16;++i) { sprintf(tmp,"%x",hash[i]); RS232::getInstance().term <<tmp;}
+    RS232::getInstance().term <<"Firmware Bank0_soft Md5\t";
+    for (uint8_t i = 0; i <16;++i) { sprintf(tmp,"%.1x",hash[i]); RS232::getInstance().term <<tmp;}
     RS232::getInstance().term <<"\r\n";
 }
 
@@ -410,8 +409,9 @@ term2("Board SL1")
 //            RS232::getInstance().term <<"\r\n";
 //    }
 
-//    printSramFlashCrcMd5(1024 * 128);
-    printSramFlashCrcMd5(414956);
+    term2("Md5 for 0-3 sectors: ")
+    printSramFlashCrcMd5(1024 * 128 * 4);
+
 
 //if(CRCVal3 != CRCVal2)
 //    {

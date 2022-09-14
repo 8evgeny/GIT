@@ -145,21 +145,15 @@ void AppCore::encryptionBinFile(const QUrl &pathFile, const QString &key, const 
     QAESEncryption encryption(QAESEncryption::AES_128, QAESEncryption::ECB);
     //encode the bin file
     QByteArray encodedText = encryption.encode(bin, simpleKey);
+
     //decode the bin file
 //    QByteArray decodedText = encryption.decode(encodedText, simpleKey);
     //get MD5 hash (no encoded file)
 
 //    QByteArray hashKey = QCryptographicHash::hash(encodedText, QCryptographicHash::Md5);
-    QCryptographicHash hashBin(QCryptographicHash::Md5);
-    hashBin.reset();
-//    hashBin.addData(bin);
+
     QByteArray hashKey = QCryptographicHash::hash(bin, QCryptographicHash::Md5);
-
-    hashBin.hash(bin, QCryptographicHash::Md5);
-
     qDebug() <<"Hash key: "<<hashKey.toHex();
-    qDebug() <<"hashBin key: "<<hashBin.result().toHex();
-
 //    qint32 sizeFirmware = encodedText.size();
     qint32 sizeFirmware = bin.size();
     qint32 countFirmware = encodedText.count();
