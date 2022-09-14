@@ -13,11 +13,14 @@
 #include "rs232.h"
 #include "rs232_printf.h"
 #include "../UDP_JSON/udp_multicast.h"
+#include "aes.h"
 
 void printFlashOptions(FLASH_OBProgramInitTypeDef &OBInit);
 extern HASH_HandleTypeDef hhash;
 extern CRC_HandleTypeDef hcrc;
 extern uint8_t DataFirmware[NUM_FIRMWARE_PACKET][SIZE_FIRMWARE_BASE] __attribute__((section(".ExtRamData")));
+extern uint8_t DataFirmwareDecrypted[NUM_FIRMWARE_PACKET][SIZE_FIRMWARE_BASE] __attribute__((section(".ExtRamData")));
+
 extern char *allConfig;
 extern int sizeConfig;
 extern uint8_t pinNormaState;
@@ -220,8 +223,12 @@ static int counterPackegs = 0; /*! A counter for size of packages */
                 for (uint8_t i:receivedMd5) { sprintf(tmp,"%1.1x",i); RS232::getInstance().term <<tmp;}
                 RS232::getInstance().term <<"\r\n";
 
+                //Теперь расшифровываем файл
+                uint8_t const key[16] = {'1','2','3','4','5','6','7','8','1','2','3','4','5','6','7','8'};
+                AES128_ECB_decrypt((uint8_t *)DataFirmware, key, (uint8_t *)DataFirmwareDecrypted);
+
                 //Считаем Md5 у загруженной в Sram прошивки
-                HAL_HASH_MD5_Start(&hhash, (uint8_t *)DataFirmware, firmwareSize, calculatedMd5, 1000);
+                HAL_HASH_MD5_Start(&hhash, (uint8_t *)DataFirmwareDecrypted, firmwareSize -12, calculatedMd5, 1000);
                 //Выводим посчитанный Md5
                 RS232::getInstance().term <<"Calculated Md5:\t\t";
                 for (uint8_t i:calculatedMd5) { sprintf(tmp,"%1.1x",i); RS232::getInstance().term <<tmp;}

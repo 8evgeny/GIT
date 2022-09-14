@@ -197,6 +197,7 @@ add_executable(${PROJECT_NAME}.elf
     Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_crc.c
     Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_crc_ex.c
 #    Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_rtc.c
+    Core/Src/Crypto/AES128/aes.c
     )
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}\

@@ -78,6 +78,7 @@ osMutexId mutexEth_id;
 osMutexDef (mutexEth);
 
 uint8_t DataFirmware[NUM_FIRMWARE_PACKET][SIZE_FIRMWARE_BASE] __attribute__((section(".ExtRamData"))); //512кБ
+uint8_t DataFirmwareDecrypted[NUM_FIRMWARE_PACKET][SIZE_FIRMWARE_BASE] __attribute__((section(".ExtRamData"))); //512кБ
 
 //Массив во внешней памяти для конфига (readelf -S H753_new.elf)
 //char buff_config [200*1024] __attribute__((section(".ExtRamData")));
