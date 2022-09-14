@@ -209,40 +209,38 @@ static int counterPackegs = 0; /*! A counter for size of packages */
 //                        sendUdpMulticast(UdpJsonExch::getInstance()->callControl->messageData.txBuff, strlen(UdpJsonExch::getInstance()->callControl->messageData.txBuff));
 //                    }
 
-                } else
-                {
+                }
+                else
+                { //Все пакеты кроме первого и последнего
 //                    res = f_write(&MyFile,  pack.data.data(),  pack.data.size(), (UINT *)&byteswritten);
                 }
-                counterSize += pack.data.size();
-                counterPackegs++;
+
 
             }
 
             if(!lastPacket)
             {
-                sprintf(tmp,"packet %d of %d size packet = %d data size = %d", (int)pack.current, (int)pack.all, (int)pack.size, (int)counterSize);
+                counterSize += pack.data.size();
+                counterPackegs++;
                 for (size_t i = 0; i < SIZE_FIRMWARE_BASE; ++i)
-                {
                     DataFirmware[pack.current][i] = pack.data.at(i);
-                }
-                term2(tmp)
             }
             else //Последний пакет меньше
             {
-                sprintf(tmp,"packet %d of %d size packet = %d data size = %d", (int)pack.current, (int)pack.all, (int)pack.size, (int)(counterSize - pack.data.size() + pack.size/2));
+                counterSize += pack.size/2;
+                counterPackegs++;
                 for (size_t i = 0; i < pack.size/2 ; ++i)
-                {
                     DataFirmware[pack.current][i] = pack.data.at(i);
-                }
-                term2(tmp)
             }
+            sprintf(tmp,"packet %d of %d size_packet = %d firmware_size = %d", (int)pack.current, (int)pack.all, (int)pack.size, (int)counterSize);
+            term2(tmp)
 
             if (lastPacket) //Прошивка вся в SRAM
             {
                 //Размер полученного файла
-                uint32_t firmwareSize = counterSize - pack.data.size() + pack.size/2;
+                uint32_t firmwareSize = counterSize - 16; //Последние 16 байт - md5
 
-                sprintf(tmp,"firmware size = %d",firmwareSize);
+                sprintf(tmp,"firmware size = %d", firmwareSize);
                 term2 (tmp)
 
                 pinNormaState = pinNormaBlinkFast;
