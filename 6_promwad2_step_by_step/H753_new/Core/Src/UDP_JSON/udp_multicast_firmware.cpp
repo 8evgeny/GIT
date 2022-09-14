@@ -117,7 +117,7 @@ static int counterPackegs = 0; /*! A counter for size of packages */
     UNUSED(arg);
 //    uint32_t byteswritten{0};
 //    FRESULT res;
-    bool calculateCRC = false;
+    bool lastPacket = false;
 //    int versionFirmware;
 //    int subVersionFirmware;
 //    int current;
@@ -178,7 +178,7 @@ static int counterPackegs = 0; /*! A counter for size of packages */
                 }
                 else if (pack.current == pack.all) //Последний пакет
                 {
-                    calculateCRC = true;
+                    lastPacket = true;
 
 //                    //this packeage can be less than 512 bytes
 ////                    res = f_write(&MyFile, pack.data.data(), pack.data.size(), (UINT *)&byteswritten);
@@ -218,15 +218,26 @@ static int counterPackegs = 0; /*! A counter for size of packages */
 
             }
 
-            sprintf(tmp,"packet %d of %d size packet = %d data size = %d", (int)pack.current, (int)pack.all, (int)pack.size, (int)counterSize);
-
-            for (size_t i = 0; i < SIZE_FIRMWARE_BASE; ++i)
+            if(!lastPacket)
             {
-                DataFirmware[pack.current][i] = pack.data.at(i);
+                sprintf(tmp,"packet %d of %d size packet = %d data size = %d", (int)pack.current, (int)pack.all, (int)pack.size, (int)counterSize);
+                for (size_t i = 0; i < SIZE_FIRMWARE_BASE; ++i)
+                {
+                    DataFirmware[pack.current][i] = pack.data.at(i);
+                }
+                term2(tmp)
             }
-            term2(tmp)
+            else //Последний пакет меньше
+            {
+                sprintf(tmp,"packet %d of %d size packet = %d data size = %d", (int)pack.current, (int)pack.all, (int)pack.size, (int)(counterSize - pack.data.size() + pack.size/2));
+                for (size_t i = 0; i < pack.size/2 ; ++i)
+                {
+                    DataFirmware[pack.current][i] = pack.data.at(i);
+                }
+                term2(tmp)
+            }
 
-            if (calculateCRC) //Прошивка вся в SRAM
+            if (lastPacket) //Прошивка вся в SRAM
             {
                 //Размер полученного файла
                 uint32_t firmwareSize = counterSize - pack.data.size() + pack.size/2;
