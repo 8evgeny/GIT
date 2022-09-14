@@ -242,8 +242,7 @@ static int counterPackegs = 0; /*! A counter for size of packages */
                 term2("Start writing flash")
                 writeFlashFromExtRam(1);
 
-                term2("Md5 for firmware: ")
-                printSramFlashCrcMd5(firmwareSize);
+                printMd5(firmwareSize);
 
                 //Нужно переключить банк памяти для новой загрузки
                 static FLASH_OBProgramInitTypeDef OBInit;
@@ -283,7 +282,7 @@ static int counterPackegs = 0; /*! A counter for size of packages */
     //            printFlashOptions(OBInit);
     //            HAL_FLASH_OB_Lock();
 
-                term2("reboot...")
+                term2("reboot...\r\n")
                 //Перезагрузка
                 HAL_NVIC_SystemReset();
             }
