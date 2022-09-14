@@ -261,7 +261,7 @@ static int counterPackegs = 0; /*! A counter for size of packages */
                 for (uint8_t i:calculatedMd5) { sprintf(tmp,"%1.1x",i); RS232::getInstance().term <<tmp;}
                 RS232::getInstance().term <<"\r\n";
 
-               if(strcmp((char*)receivedMd5, (char*)calculatedMd5))
+               if(strncmp((char*)receivedMd5, (char*)calculatedMd5, 16) == 0)
                {
                    term2("MD5 - OK")
                    pinNormaState = pinNormaBlinkFast;
