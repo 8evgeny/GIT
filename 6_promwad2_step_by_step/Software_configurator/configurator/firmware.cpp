@@ -140,24 +140,27 @@ void AppCore::encryptionBinFile(const QUrl &pathFile, const QString &key, const 
 
     QString strCRC = calcFileCRC(bin);
     qDebug() << "strCRC: " << strCRC;
+    qDebug() << "simpleKey: " << simpleKey;
 
     //AES128 - ECB
     QAESEncryption encryption(QAESEncryption::AES_128, QAESEncryption::ECB);
     //encode the bin file
     QByteArray encodedText = encryption.encode(bin, simpleKey);
+    qDebug()<< "Size encodedText: "<< encodedText.size();
 
     //decode the bin file
 //    QByteArray decodedText = encryption.decode(encodedText, simpleKey);
     //get MD5 hash (no encoded file)
 
-//    QByteArray hashKey = QCryptographicHash::hash(encodedText, QCryptographicHash::Md5);
+    QByteArray hashKey = QCryptographicHash::hash(encodedText, QCryptographicHash::Md5);
+    QByteArray hashKeyBin = QCryptographicHash::hash(bin, QCryptographicHash::Md5);
 
-    QByteArray hashKey = QCryptographicHash::hash(bin, QCryptographicHash::Md5);
-    qDebug() <<"Hash key: "<<hashKey.toHex();
-//    qint32 sizeFirmware = encodedText.size();
-    qint32 sizeFirmware = bin.size();
+    qDebug() <<"hashKey: "<<hashKey.toHex();
+    qDebug() <<"hashKeyBin: "<<hashKeyBin.toHex();
+    qint32 sizeFirmware = encodedText.size();
+//    qint32 sizeFirmware = bin.size();
     qint32 countFirmware = encodedText.count();
-    qDebug() << countFirmware;
+    qDebug() << "countFirmware "<< countFirmware;
 
     QByteArray byteArray;
 //    QDataStream stream(&byteArray, QIODevice::WriteOnly);
@@ -216,7 +219,8 @@ void AppCore::encryptionBinFile(const QUrl &pathFile, const QString &key, const 
     QByteArray byteArrayFinalBin;
     QDataStream streamFinalBin(&byteArrayFinalBin, QIODevice::WriteOnly);
 //    byteArrayFinalBin =  byteArray + byteArraySize + byteArrayMd5 + byteArrayTimeDate + byteArraySizeBare + byteArrayMd5Bare + byteArrayReserve + encodedText;
-    byteArrayFinalBin =  bin + hashKey;
+//    byteArrayFinalBin =  bin + hashKey;
+    byteArrayFinalBin =  encodedText + hashKeyBin;
 
 
     firmwareForDownload = byteArrayFinalBin;
