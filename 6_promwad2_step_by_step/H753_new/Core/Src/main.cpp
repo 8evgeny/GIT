@@ -305,22 +305,22 @@ void printMd5(int len)
 
 //    HAL_HASH_MD5_Start(&hhash, (uint8_t *)DataFirmware, len, outMD5, 1000);
 //    RS232::getInstance().term <<"Firmware Sram   Md5\t";
-//    for (uint8_t i:outMD5) { sprintf(tmp,"%.1x",i); RS232::getInstance().term <<tmp;}
+//    for (uint8_t i:outMD5) { sprintf(tmp,"%1.1x",i); RS232::getInstance().term <<tmp;}
 //    RS232::getInstance().term <<"\r\n";
 
 //    HAL_HASH_MD5_Start(&hhash, (uint8_t *)0x8000000, len, outMD5, 1000);
 //    RS232::getInstance().term <<"Firmware Bank0 Md5\t";
-//    for (uint8_t i:outMD5) { sprintf(tmp,"%.1x",i); RS232::getInstance().term <<tmp;}
+//    for (uint8_t i:outMD5) { sprintf(tmp,"%1.1x",i); RS232::getInstance().term <<tmp;}
 //    RS232::getInstance().term <<"\r\n";
 
     HAL_HASH_MD5_Start(&hhash, (uint8_t *)0x8100000, len, outMD5, 1000);
     RS232::getInstance().term <<"Firmware Bank1 Md5\t";
-    for (uint8_t i:outMD5) { sprintf(tmp,"%x",i); RS232::getInstance().term <<tmp;}
+    for (uint8_t i:outMD5) { sprintf(tmp,"%1.1x",i); RS232::getInstance().term <<tmp;}
     RS232::getInstance().term <<"\r\n";
 
 //    auto hash = MD5::make_hash2((const void *)0x8000000,len);
 //    RS232::getInstance().term <<"Firmware Bank0_soft Md5\t";
-//    for (uint8_t i = 0; i <16;++i) { sprintf(tmp,"%.1x",hash[i]); RS232::getInstance().term <<tmp;}
+//    for (uint8_t i = 0; i <16;++i) { sprintf(tmp,"%1.1x",hash[i]); RS232::getInstance().term <<tmp;}
 //    RS232::getInstance().term <<"\r\n";
 }
 
