@@ -21,6 +21,7 @@ extern uint8_t DataFirmware[NUM_FIRMWARE_PACKET][SIZE_FIRMWARE_BASE] __attribute
 extern char *allConfig;
 extern int sizeConfig;
 extern uint8_t pinNormaState;
+extern uint8_t pinMkState;
 //char allConfigExtRam[1024 * 100] __attribute__((section(".ExtRamData")));
 
 /*!
@@ -144,6 +145,7 @@ static int counterPackegs = 0; /*! A counter for size of packages */
                 if (pack.current == 0) //Первый пакет
                 {
                     pinNormaState = pinNormaBlink;
+                    pinMkState = pinMkReset;
                     //always erase
 //                    Flash::getInstance().erase();
 
@@ -238,6 +240,7 @@ static int counterPackegs = 0; /*! A counter for size of packages */
 
             if (lastPacket) //Прошивка вся в SRAM
             {
+                lastPacket = false;
                 //Размер полученного файла
                 uint32_t firmwareSize = counterSize - 16; //Последние 16 байт - md5
 
@@ -311,7 +314,10 @@ static int counterPackegs = 0; /*! A counter for size of packages */
                {
                    term2("MD5 error")
                    //Обработка неудачной прошивки
-
+                   pinNormaState = pinNormaSet;
+                   pinMkState = pinMkBlinkFast;
+                   counterSize = 0;
+                   counterPackegs = 0;
                }
 
             }
