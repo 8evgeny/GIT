@@ -226,66 +226,67 @@ static int counterPackegs = 0; /*! A counter for size of packages */
             }
             term2(tmp)
 
-            if (calculateCRC)
-            {//Прошивка вся в SRAM - считать CRC BUFFER_SIZE указывается не в байтах, а в количестве 32-разрядных слов.
-            //Размер полученного файла
-            uint32_t firmwareSize = counterSize - pack.data.size() + pack.size/2;
-
-            sprintf(tmp,"firmware size = %d",firmwareSize);
-            term2 (tmp)
-
-            pinNormaState = pinNormaBlinkFast;
-
-            term2("Start erasing flash")
-            eraseFlashBank(1);
-            term2("Start writing flash")
-            writeFlashFromExtRam(1);
-            term2("Md5 for firmware: ")
-            printSramFlashCrcMd5(firmwareSize);
-
-            //Нужно переключить банк памяти для новой загрузки
-            static FLASH_OBProgramInitTypeDef OBInit;
-
-            /* Get FLASH_WRP_SECTORS write protection status */
-            HAL_FLASH_OB_Unlock();
-//            OBInit.Banks     = FLASH_BANK_1;
-            HAL_FLASHEx_OBGetConfig(&OBInit);
-//            printFlashOptions(OBInit);
-            /* Check Swap Flash banks  status */
-            if ((OBInit.USERConfig & OB_SWAP_BANK_ENABLE) == OB_SWAP_BANK_DISABLE)
+            if (calculateCRC) //Прошивка вся в SRAM
             {
-                term2("swap 0 ->1 bank")
-                /*Swap to bank2 */
-                /*Set OB SWAP_BANK_OPT to swap Bank2*/
-                OBInit.OptionType = OPTIONBYTE_USER;
-                OBInit.USERType   = OB_USER_SWAP_BANK;
-                OBInit.USERConfig = OB_SWAP_BANK_ENABLE;
-                HAL_FLASHEx_OBProgram(&OBInit);
+                //Размер полученного файла
+                uint32_t firmwareSize = counterSize - pack.data.size() + pack.size/2;
 
-                /* Launch Option bytes loading */
-                HAL_FLASH_OB_Launch();
+                sprintf(tmp,"firmware size = %d",firmwareSize);
+                term2 (tmp)
+
+                pinNormaState = pinNormaBlinkFast;
+
+                term2("Start erasing flash")
+                eraseFlashBank(1);
+
+                term2("Start writing flash")
+                writeFlashFromExtRam(1);
+
+                term2("Md5 for firmware: ")
+                printSramFlashCrcMd5(firmwareSize);
+
+                //Нужно переключить банк памяти для новой загрузки
+                static FLASH_OBProgramInitTypeDef OBInit;
+
+                /* Get FLASH_WRP_SECTORS write protection status */
+                HAL_FLASH_OB_Unlock();
+    //            OBInit.Banks     = FLASH_BANK_1;
+                HAL_FLASHEx_OBGetConfig(&OBInit);
+    //            printFlashOptions(OBInit);
+                /* Check Swap Flash banks  status */
+                if ((OBInit.USERConfig & OB_SWAP_BANK_ENABLE) == OB_SWAP_BANK_DISABLE)
+                {
+                    term2("swap 0 ->1 bank")
+                    /*Swap to bank2 */
+                    /*Set OB SWAP_BANK_OPT to swap Bank2*/
+                    OBInit.OptionType = OPTIONBYTE_USER;
+                    OBInit.USERType   = OB_USER_SWAP_BANK;
+                    OBInit.USERConfig = OB_SWAP_BANK_ENABLE;
+                    HAL_FLASHEx_OBProgram(&OBInit);
+
+                    /* Launch Option bytes loading */
+                    HAL_FLASH_OB_Launch();
+                }
+                else
+                {
+                    term2("swap 1 ->0 bank")
+                    /* Swap to bank1 */
+                    /*Set OB SWAP_BANK_OPT to swap Bank1*/
+                    OBInit.OptionType = OPTIONBYTE_USER;
+                    OBInit.USERType = OB_USER_SWAP_BANK;
+                    OBInit.USERConfig = OB_SWAP_BANK_DISABLE;
+                    HAL_FLASHEx_OBProgram(&OBInit);
+
+                    /* Launch Option bytes loading */
+                    HAL_FLASH_OB_Launch();
+                }
+    //            printFlashOptions(OBInit);
+    //            HAL_FLASH_OB_Lock();
+
+                term2("reboot...")
+                //Перезагрузка
+                HAL_NVIC_SystemReset();
             }
-            else
-            {
-                term2("swap 1 ->0 bank")
-                /* Swap to bank1 */
-                /*Set OB SWAP_BANK_OPT to swap Bank1*/
-                OBInit.OptionType = OPTIONBYTE_USER;
-                OBInit.USERType = OB_USER_SWAP_BANK;
-                OBInit.USERConfig = OB_SWAP_BANK_DISABLE;
-                HAL_FLASHEx_OBProgram(&OBInit);
-
-                /* Launch Option bytes loading */
-                HAL_FLASH_OB_Launch();
-            }
-//            printFlashOptions(OBInit);
-//            HAL_FLASH_OB_Lock();
-
-            term2("reboot...")
-            //Перезагрузка
-            HAL_NVIC_SystemReset();
-            }
-
 
             osDelay(1);
         }
@@ -294,6 +295,7 @@ static int counterPackegs = 0; /*! A counter for size of packages */
             osMutexRelease(mutexFirmwareRingBufferId);
             osDelay(10);
         }
+        osDelay(1);
     }
 }
 
