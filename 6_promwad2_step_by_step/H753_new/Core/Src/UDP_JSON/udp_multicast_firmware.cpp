@@ -161,79 +161,29 @@ static int counterPackegs = 0; /*! A counter for size of packages */
                     }
                     counterSize = 0;
                     counterPackegs = 0;
-
-//                    uint32_t CRCVal = HAL_CRC_Calculate(&hcrc, (uint32_t *)DataFirmware, SIZE_FIRMWARE_BASE * NUM_FIRMWARE_PACKET /4);
-//                    sprintf(tmp,"DataFirmwareStart CRC =  %X", (unsigned int)CRCVal);
-//                    term2(tmp)
-
-//                    /*##-1- Link the micro Flash I/O driver ##################################*/
-//                    FATFS_LinkDriver(&FLASH_Driver, FLASHPath);
-//                    /*##-2- Register the file system object to the FatFs module ##############*/
-//                    res = f_mount(&FLASHFatFs, (TCHAR const *)FLASHPath, 0);
-//                    /*##-3- Create a FAT file system (format) on the logical drive #########*/
-//                    /* WARNING: Formatting the Flash will delete all content on the device */
-//                    res = f_mkfs((TCHAR const *)FLASHPath, FS_FAT32, 0, workBuffer, sizeof(workBuffer));
-
-//                    /*##-4- Create and Open a new text file object with write access #####*/
-//                    res = f_open(&MyFile, "BIN", FA_CREATE_ALWAYS | FA_WRITE);
-//                    /*##-5- Write data to the text file ################################*/
-
-//                    res = f_write(&MyFile, pack.data.data(), pack.data.size(), (UINT *)&byteswritten);
-
                 }
                 else if (pack.current == pack.all) //Последний пакет
                 {
                     lastPacket = true;
-
-//                    //this packeage can be less than 512 bytes
-////                    res = f_write(&MyFile, pack.data.data(), pack.data.size(), (UINT *)&byteswritten);
-//                    res = f_write(&MyFile, pack.data.data(), size / 2, (UINT *)&byteswritten);
-//                    counterSize += pack.data.size();
-//                    counterPackegs++;
-
-//                    /*##-6- Close the open text file #################################*/
-//                    f_close(&MyFile);
-
-//                    Flash::getInstance().flush();
-//                    /*##-11- Unlink the Flash I/O driver ###############################*/
-//                    FATFS_UnLinkDriver(FLASHPath);
-//                    //resety
-//                    counterPackegs = 0;
-
-//                    //send msg firmware write OK
-//                    //send msg configuration write OK
-//                    const int capacity = JSON_OBJECT_SIZE(3);
-//                    StaticJsonDocument<capacity> firmwareDoc;
-
-//                    firmwareDoc["writeFirmwareId"] = Json::getInstance()->thisStation.id;
-//                    firmwareDoc["status"].set("ok");
-////                    UdpJsonExch::getInstance()->callControl->sendJson(firmwareDoc, capacity/*, UDP_PORT*/);
-
-//                    std::fill(UdpJsonExch::getInstance()->callControl->messageData.txBuff, UdpJsonExch::getInstance()->callControl->messageData.txBuff + UdpJsonExch::getInstance()->callControl->messageData.txBuffSize, 0);
-//                    if (serializeJson(firmwareDoc, UdpJsonExch::getInstance()->callControl->messageData.txBuff, capacity) > 0) {
-//                        sendUdpMulticast(UdpJsonExch::getInstance()->callControl->messageData.txBuff, strlen(UdpJsonExch::getInstance()->callControl->messageData.txBuff));
-//                    }
-
                 }
                 else
                 { //Все пакеты кроме первого и последнего
-//                    res = f_write(&MyFile,  pack.data.data(),  pack.data.size(), (UINT *)&byteswritten);
                 }
-
-
             }
 
             if(beginFirmware && (pack.current != counterPackegs)) //Ошибка получения пакета
             {
+                term2("error receiving package...")
                 //Обработка неудачной прошивки
                 pinNormaState = pinNormaSet;
                 pinMkState = pinMkBlinkFast;
                 counterSize = 0;
                 counterPackegs = 0;
                 beginFirmware = false;
+//                break;
             }
 
-            if((!lastPacket) && (pack.current == counterPackegs))
+            if((!lastPacket) && (pack.current == counterPackegs) && beginFirmware)
             {
                 counterSize += pack.data.size();
                 counterPackegs++;
@@ -243,20 +193,16 @@ static int counterPackegs = 0; /*! A counter for size of packages */
                 sprintf(tmp,"packet %d of %d size_packet = %d firmware_size = %d", (int)pack.current, (int)pack.all, (int)pack.size, (int)counterSize);
                 term2(tmp)
             }
-            else //Последний пакет меньше
+
+            if((lastPacket) && (pack.current == counterPackegs) && beginFirmware)
             {
-                counterSize += pack.size/2;
-                counterPackegs++;
+                counterSize += pack.size/2;   //Последний пакет меньше
                 for (int i = 0; i < pack.size/2 ; ++i)
                     DataFirmware[pack.current][i] = pack.data.at(i);
 
                 sprintf(tmp,"packet %d of %d size_packet = %d firmware_size = %d", (int)pack.current, (int)pack.all, (int)pack.size, (int)counterSize);
                 term2(tmp)
-            }
 
-
-            if (lastPacket) //Прошивка вся в SRAM
-            {
                 lastPacket = false;
                 //Размер полученного файла
                 uint32_t firmwareSize = counterSize - 16; //Последние 16 байт - md5
@@ -337,7 +283,6 @@ static int counterPackegs = 0; /*! A counter for size of packages */
                    counterPackegs = 0;
                    beginFirmware = false;
                }
-
             }
 
             osDelay(1);
