@@ -30,7 +30,7 @@ extern "C" {
 #include "eeprom.h"
 #include "stm32h7xx_hal.h"
 #include "cmsis_os.h"
-
+#include "sai.h"
 
 [[ noreturn ]] static void trackRingBufferThread(void const *arg);
 //[[ noreturn ]] static void readPackageTypeThread(void const *arg);
@@ -59,9 +59,10 @@ volatile uint8_t pinNormaState;
 volatile uint8_t pinMkState;
 CRC_HandleTypeDef hcrc;
 HASH_HandleTypeDef hhash;
-CRYP_HandleTypeDef hcrypECB;
-__ALIGN_BEGIN static const uint32_t pKeyCRYP_ECB[4] __ALIGN_END =
-    {0x00000000,0x00000000,0x00000000,0x00000000};
+CRYP_HandleTypeDef hcrypFIRMWARE;
+__ALIGN_BEGIN static const uint32_t pKeyCRYP_FIRMWARE[4] __ALIGN_END = {
+    0x12345678, 0x12345678, 0x12345678, 0x12345678
+};
 I2C_HandleTypeDef hi2c1;
 I2C_HandleTypeDef hi2c2;
 I2C_HandleTypeDef hi2c3;
@@ -185,12 +186,12 @@ static void MX_HASH_Init(void)
 }
 static void MX_CRYP_Init(void)
 {
-    hcrypECB.Instance = CRYP;
-    hcrypECB.Init.DataType = CRYP_DATATYPE_32B;
-    hcrypECB.Init.KeySize = CRYP_KEYSIZE_128B;
-    hcrypECB.Init.pKey = (uint32_t *)pKeyCRYP_ECB;
-    hcrypECB.Init.Algorithm = CRYP_AES_ECB;
-    if (HAL_CRYP_Init(&hcrypECB) != HAL_OK)
+    hcrypFIRMWARE.Instance = CRYP;
+    hcrypFIRMWARE.Init.DataType = CRYP_DATATYPE_32B;
+    hcrypFIRMWARE.Init.KeySize = CRYP_KEYSIZE_128B;
+    hcrypFIRMWARE.Init.pKey = (uint32_t *)pKeyCRYP_FIRMWARE;
+    hcrypFIRMWARE.Init.Algorithm = CRYP_AES_ECB;
+    if (HAL_CRYP_Init(&hcrypFIRMWARE) != HAL_OK)
     {
         Error_Handler();
     }

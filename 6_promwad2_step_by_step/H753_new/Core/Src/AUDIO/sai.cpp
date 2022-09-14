@@ -32,8 +32,8 @@ extern "C" {
 
 _Noreturn void timerForMixAudio(void const *arg);                     // prototypes for timer callback function
 
-CRYP_HandleTypeDef hcryp;
-__ALIGN_BEGIN static const uint32_t pKeyCRYP[4] __ALIGN_END = {
+CRYP_HandleTypeDef hcrypSAI;
+__ALIGN_BEGIN static const uint32_t pKeySAI[4] __ALIGN_END = {
     0x12345678, 0x12345678, 0x12345678, 0x12345678
 };
 
@@ -86,14 +86,14 @@ static void crypInit(uint32_t *key)
     HAL_NVIC_SetPriority(DMA2_Stream6_IRQn, 5, 0);
     HAL_NVIC_EnableIRQ(DMA2_Stream6_IRQn);
 
-    hcryp.Instance = CRYP;
-    hcryp.Init.DataType = CRYP_DATATYPE_32B;
-    hcryp.Init.KeySize = CRYP_KEYSIZE_128B;
-    hcryp.Init.pKey = key;
-    hcryp.Init.Algorithm = CRYP_AES_ECB;
-    hcryp.Init.DataWidthUnit = CRYP_DATAWIDTHUNIT_WORD;
+    hcrypSAI.Instance = CRYP;
+    hcrypSAI.Init.DataType = CRYP_DATATYPE_32B;
+    hcrypSAI.Init.KeySize = CRYP_KEYSIZE_128B;
+    hcrypSAI.Init.pKey = key;
+    hcrypSAI.Init.Algorithm = CRYP_AES_ECB;
+    hcrypSAI.Init.DataWidthUnit = CRYP_DATAWIDTHUNIT_WORD;
 
-    if (HAL_CRYP_Init(&hcryp) != HAL_OK)
+    if (HAL_CRYP_Init(&hcrypSAI) != HAL_OK)
     {
         RS232::getInstance().term << "crypInit -> ERROR\n";
     }
@@ -422,7 +422,7 @@ term("sai.cpp")
 
     constexpr uint32_t TIME_OUT = 10;
 
-    crypInit((uint32_t *)pKeyCRYP);
+    crypInit((uint32_t *)pKeySAI);
 
     //Audio full initialization
     i2cInitAudio();
