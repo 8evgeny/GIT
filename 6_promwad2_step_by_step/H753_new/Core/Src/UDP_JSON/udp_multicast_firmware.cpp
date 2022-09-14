@@ -120,6 +120,7 @@ static int counterPackegs = 0; /*! A counter for size of packages */
 //    uint32_t byteswritten{0};
 //    FRESULT res;
     bool lastPacket = false;
+    bool beginFirmware = false;
 //    int versionFirmware;
 //    int subVersionFirmware;
 //    int current;
@@ -142,6 +143,7 @@ static int counterPackegs = 0; /*! A counter for size of packages */
 
             if (pack.current == counterPackegs)
             {
+                beginFirmware = true;
                 if (pack.current == 0) //Первый пакет
                 {
                     pinNormaState = pinNormaBlink;
@@ -221,12 +223,25 @@ static int counterPackegs = 0; /*! A counter for size of packages */
 
             }
 
-            if(!lastPacket)
+            if(beginFirmware && (pack.current != counterPackegs)) //Ошибка получения пакета
+            {
+                //Обработка неудачной прошивки
+                pinNormaState = pinNormaSet;
+                pinMkState = pinMkBlinkFast;
+                counterSize = 0;
+                counterPackegs = 0;
+                beginFirmware = false;
+            }
+
+            if((!lastPacket) && (pack.current == counterPackegs))
             {
                 counterSize += pack.data.size();
                 counterPackegs++;
                 for (size_t i = 0; i < SIZE_FIRMWARE_BASE; ++i)
                     DataFirmware[pack.current][i] = pack.data.at(i);
+
+                sprintf(tmp,"packet %d of %d size_packet = %d firmware_size = %d", (int)pack.current, (int)pack.all, (int)pack.size, (int)counterSize);
+                term2(tmp)
             }
             else //Последний пакет меньше
             {
@@ -234,9 +249,11 @@ static int counterPackegs = 0; /*! A counter for size of packages */
                 counterPackegs++;
                 for (int i = 0; i < pack.size/2 ; ++i)
                     DataFirmware[pack.current][i] = pack.data.at(i);
+
+                sprintf(tmp,"packet %d of %d size_packet = %d firmware_size = %d", (int)pack.current, (int)pack.all, (int)pack.size, (int)counterSize);
+                term2(tmp)
             }
-            sprintf(tmp,"packet %d of %d size_packet = %d firmware_size = %d", (int)pack.current, (int)pack.all, (int)pack.size, (int)counterSize);
-            term2(tmp)
+
 
             if (lastPacket) //Прошивка вся в SRAM
             {
@@ -318,6 +335,7 @@ static int counterPackegs = 0; /*! A counter for size of packages */
                    pinMkState = pinMkBlinkFast;
                    counterSize = 0;
                    counterPackegs = 0;
+                   beginFirmware = false;
                }
 
             }
