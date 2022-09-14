@@ -255,7 +255,7 @@ static int counterPackegs = 0; /*! A counter for size of packages */
                 /* Check Swap Flash banks  status */
                 if ((OBInit.USERConfig & OB_SWAP_BANK_ENABLE) == OB_SWAP_BANK_DISABLE)
                 {
-                    term2("swap 0 ->1 bank")
+                    term2("swap bank")
                     /*Swap to bank2 */
                     /*Set OB SWAP_BANK_OPT to swap Bank2*/
                     OBInit.OptionType = OPTIONBYTE_USER;
@@ -268,7 +268,7 @@ static int counterPackegs = 0; /*! A counter for size of packages */
                 }
                 else
                 {
-                    term2("swap 1 ->0 bank")
+                    term2("swap bank")
                     /* Swap to bank1 */
                     /*Set OB SWAP_BANK_OPT to swap Bank1*/
                     OBInit.OptionType = OPTIONBYTE_USER;
