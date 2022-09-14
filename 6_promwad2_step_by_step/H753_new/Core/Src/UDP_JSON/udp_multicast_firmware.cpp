@@ -15,6 +15,7 @@
 #include "../UDP_JSON/udp_multicast.h"
 
 void printFlashOptions(FLASH_OBProgramInitTypeDef &OBInit);
+extern HASH_HandleTypeDef hhash;
 extern CRC_HandleTypeDef hcrc;
 extern uint8_t DataFirmware[NUM_FIRMWARE_PACKET][SIZE_FIRMWARE_BASE] __attribute__((section(".ExtRamData")));
 extern char *allConfig;
@@ -242,12 +243,24 @@ static int counterPackegs = 0; /*! A counter for size of packages */
 
                 sprintf(tmp,"firmware size = %d", firmwareSize);
                 term2 (tmp)
+
+                //Копируем полученный Md5
                 uint8_t receivedMd5[16];
+                uint8_t calculatedMd5[16];
                 strcpy ((char*)receivedMd5,(const char*)DataFirmware + firmwareSize);
 
-                RS232::getInstance().term <<"Received Md5:\t";
+                //Выводим полученный Md5
+                RS232::getInstance().term <<"Received Md5:\t\t";
                 for (uint8_t i:receivedMd5) { sprintf(tmp,"%1.1x",i); RS232::getInstance().term <<tmp;}
                 RS232::getInstance().term <<"\r\n";
+
+                //Считаем Md5 у загруженной в Sram прошивки
+                HAL_HASH_MD5_Start(&hhash, (uint8_t *)DataFirmware, firmwareSize, calculatedMd5, 1000);
+                //Выводим посчитанный Md5
+                RS232::getInstance().term <<"Calculated Md5:\t\t";
+                for (uint8_t i:calculatedMd5) { sprintf(tmp,"%1.1x",i); RS232::getInstance().term <<tmp;}
+                RS232::getInstance().term <<"\r\n";
+
 
                 pinNormaState = pinNormaBlinkFast;
 
