@@ -218,6 +218,7 @@ static int counterPackegs = 0; /*! A counter for size of packages */
                 //Копируем полученный Md5
                 uint8_t receivedMd5[16];
                 uint8_t calculatedMd5[16];
+                uint8_t encryptedMd5[16];
                 strcpy ((char*)receivedMd5,(const char*)DataFirmware + firmwareSize);
 
                 //Выводим полученный Md5
@@ -229,8 +230,16 @@ static int counterPackegs = 0; /*! A counter for size of packages */
 //      const uint8_t key[16] = {'1','2','3','4','5','6','7','8','1','2','3','4','5','6','7','8'};
 //      AES128_ECB_decrypt((uint8_t *)DataFirmware, key, (uint8_t *)DataFirmware2);
 
-//                HAL_CRYP_Decrypt(&hcrypFIRMWARE, (uint32_t *)DataFirmware, firmwareSize,
-//                                 (uint32_t *)DataFirmware2, 1000);
+                HAL_CRYP_Encrypt(&hcrypFIRMWARE, (uint32_t *)DataFirmware, firmwareSize,
+                                 (uint32_t *)DataFirmware2, 1000);
+
+                HAL_HASH_MD5_Start(&hhash, (uint8_t *)DataFirmware2, firmwareSize, encryptedMd5, 1000);
+                RS232::getInstance().term <<"Encrypted Md5:\t\t";
+                for (uint8_t i:encryptedMd5) { sprintf(tmp,"%1.1x",i); RS232::getInstance().term <<tmp;}
+                RS232::getInstance().term <<"\r\n";
+
+                HAL_CRYP_Decrypt(&hcrypFIRMWARE, (uint32_t *)DataFirmware2, firmwareSize,
+                                 (uint32_t *)DataFirmware, 1000);
 
                 //Считаем Md5 у загруженной в Sram прошивки
                 HAL_HASH_MD5_Start(&hhash, (uint8_t *)DataFirmware, firmwareSize, calculatedMd5, 1000);
