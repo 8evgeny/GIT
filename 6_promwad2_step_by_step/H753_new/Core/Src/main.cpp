@@ -61,7 +61,7 @@ CRC_HandleTypeDef hcrc;
 HASH_HandleTypeDef hhash;
 CRYP_HandleTypeDef hcrypFIRMWARE;
 __ALIGN_BEGIN static const uint32_t pKeyCRYP_FIRMWARE[4] __ALIGN_END = {
-    0x12345678, 0x12345678, 0x12345678, 0x12345678
+    0x00000000, 0x00000000, 0x00000000, 0x00000000
 };
 I2C_HandleTypeDef hi2c1;
 I2C_HandleTypeDef hi2c2;
@@ -83,7 +83,7 @@ osMutexId mutexEth_id;
 osMutexDef (mutexEth);
 
 uint8_t DataFirmware[NUM_FIRMWARE_PACKET][SIZE_FIRMWARE_BASE] __attribute__((section(".ExtRamData"))); //512кБ
-uint8_t DataFirmwareDecrypted[NUM_FIRMWARE_PACKET][SIZE_FIRMWARE_BASE] __attribute__((section(".ExtRamData"))); //512кБ
+uint8_t DataFirmware2[NUM_FIRMWARE_PACKET][SIZE_FIRMWARE_BASE] __attribute__((section(".ExtRamData"))); //512кБ
 
 //Массив во внешней памяти для конфига (readelf -S H753_new.elf)
 //char buff_config [200*1024] __attribute__((section(".ExtRamData")));
@@ -241,19 +241,6 @@ void vApplicationMallocFailedHook(void)
 }
 #endif
 
-//[[ noreturn ]]
-//static void empty(void const *arg)
-//{
-
-//    HAL_Delay(400);
-//    term("****  empty  start  ****")
-
-//        (void)arg;
-//    while (1) {
-//        osDelay(10);
-//    }
-//}
-
 // max address number of TLC59116F chips
 uint8_t TLC59116F_max_address;
 // max address number of MCP23017 chips
@@ -314,6 +301,39 @@ void printMd5(int len)
 //    for (uint8_t i = 0; i <16;++i) { sprintf(tmp,"%1.1x",hash[i]); RS232::getInstance().term <<tmp;}
 //    RS232::getInstance().term <<"\r\n";
 }
+
+void testCryptoAES()
+{
+//    char tmp[3];
+    static  uint8_t MD5_1[16], MD5_2[16], MD5_3[16];
+    uint32_t len = 1024 * 128 * 4; //512K
+
+    HAL_HASH_MD5_Start(&hhash, (uint8_t *)DataFirmware, len, MD5_1, 1000);
+//    RS232::getInstance().term <<"DataFirmware Md5\t";
+//    for (uint8_t i:MD5_1) { sprintf(tmp,"%1.1x",i); RS232::getInstance().term <<tmp;}
+//    RS232::getInstance().term <<"\r\n";
+    HAL_CRYP_Encrypt(&hcrypFIRMWARE, (uint32_t *)DataFirmware, (uint16_t)len,(uint32_t *)DataFirmware2, 1000);
+    HAL_HASH_MD5_Start(&hhash, (uint8_t *)DataFirmware2, len, MD5_2, 1000);
+//    RS232::getInstance().term <<"DataFirmware Md5\t";
+//    for (uint8_t i:MD5_2) { sprintf(tmp,"%1.1x",i); RS232::getInstance().term <<tmp;}
+//    RS232::getInstance().term <<"\r\n";
+    HAL_CRYP_Decrypt(&hcrypFIRMWARE, (uint32_t *)DataFirmware2, (uint16_t)len, (uint32_t *)DataFirmware, 1000);
+    HAL_HASH_MD5_Start(&hhash, (uint8_t *)DataFirmware, len, MD5_3, 1000);
+
+//    RS232::getInstance().term <<"DataFirmware Md5\t";
+//    for (uint8_t i:MD5_3) { sprintf(tmp,"%1.1x",i); RS232::getInstance().term <<tmp;}
+//    RS232::getInstance().term <<"\r\n";
+
+    if(strncmp((char*)MD5_1, (char*)MD5_3, 16) == 0)
+    {
+        term2("test AES passed")
+    }
+    else
+    {
+        term2("test AES failed")
+    }
+}
+
 
 int main(void)
 {
@@ -421,6 +441,7 @@ term2("Board SL1")
 //        term2(tmp2)
 //    }
 
+
     if (boardType == sc4)
     {
         term1("getCFG()") term(getCFG())
@@ -489,6 +510,7 @@ term2("Board SL1")
 //    testLed2(); //SEGGER TEST
     testLed3();
 //    testUART();
+    testCryptoAES();
 
 
 
