@@ -237,10 +237,10 @@ static int counterPackegs = 0; /*! A counter for size of packages */
 //                for (auto i=0; i < 16; ++i) { sprintf(tmp,"%1.1x",calculatedMd5[i]); RS232::getInstance().term <<tmp;}
 //                RS232::getInstance().term <<"\r\n";
 
-                if(strncmp((char*)receivedHashKeyEncoded, (char*)calculatedMd5, 16) == 0)
-                    term2("Received encoded file 0K")
-                else
-                    term2("Received encoded file damaged")
+//                if(strncmp((char*)receivedHashKeyEncoded, (char*)calculatedMd5, 16) == 0)
+//                    term2("Received encoded file 0K")
+//                else
+//                    term2("Received encoded file damaged")
 //test AES  проходит
 //                HAL_CRYP_Decrypt(&hcrypFIRMWARE, (uint32_t *)DataFirmware, (uint16_t)firmwareSize,(uint32_t *)DataFirmware2, 1000);
 //                HAL_HASH_MD5_Start(&hhash, (uint8_t *)DataFirmware2, firmwareSize, decryptedMd5, 1000);

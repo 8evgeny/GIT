@@ -154,9 +154,9 @@ void AppCore::encryptionBinFile(const QUrl &pathFile, const QString &key, const 
     qDebug()<< "Size originText: "<< bin.size();
     qDebug()<< "Size encodedText: "<< encodedText.size();
     qDebug()<< "Size decodedText: "<< decodedText.size();
-
+//Хеш формирую из преобазованного 2 раза файла (не меняется размер)
     QByteArray hashKeyEncoded = QCryptographicHash::hash(encodedText, QCryptographicHash::Md5);
-    QByteArray hashKeyBin = QCryptographicHash::hash(bin, QCryptographicHash::Md5);
+    QByteArray hashKeyBin = QCryptographicHash::hash(decodedText, QCryptographicHash::Md5);
 
     qDebug() <<"hashKeyBin: "<<hashKeyBin.toHex();
     qDebug() <<"hashKeyEncoded: "<<hashKeyEncoded.toHex();
