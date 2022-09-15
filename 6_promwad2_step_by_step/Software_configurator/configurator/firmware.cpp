@@ -146,19 +146,21 @@ void AppCore::encryptionBinFile(const QUrl &pathFile, const QString &key, const 
     QAESEncryption encryption(QAESEncryption::AES_128, QAESEncryption::ECB);
     //encode the bin file
     QByteArray encodedText = encryption.encode(bin, simpleKey);
-//    qDebug()<< "Size encodedText: "<< encodedText.size();
+    qDebug()<< "Size originText: "<< bin.size();
+    qDebug()<< "Size encodedText: "<< encodedText.size();
 
     //decode the bin file
 //    QByteArray decodedText = encryption.decode(encodedText, simpleKey);
     //get MD5 hash (no encoded file)
 
-//    QByteArray hashKey = QCryptographicHash::hash(encodedText, QCryptographicHash::Md5);
-    QByteArray hashKey = QCryptographicHash::hash(bin, QCryptographicHash::Md5);
+    QByteArray hashKeyEncoded = QCryptographicHash::hash(encodedText, QCryptographicHash::Md5);
+    QByteArray hashKeyBin = QCryptographicHash::hash(bin, QCryptographicHash::Md5);
 
-    qDebug() <<"hashKey: "<<hashKey.toHex();
+    qDebug() <<"hashKeyBin: "<<hashKeyBin.toHex();
+    qDebug() <<"hashKeyEncoded: "<<hashKeyEncoded.toHex();
 
-//    qint32 sizeFirmware = encodedText.size();
-    qint32 sizeFirmware = bin.size();
+    qint32 sizeFirmware = encodedText.size();
+//    qint32 sizeFirmware = bin.size();
     qint32 countFirmware = encodedText.count();
     qDebug() << "countFirmware "<< countFirmware;
 
@@ -185,7 +187,7 @@ void AppCore::encryptionBinFile(const QUrl &pathFile, const QString &key, const 
 //    byteArraySize.at(subNumber);
 
     //MD5 16B
-    const QByteArray& byteArrayMd5 = hashKey; //16 //22
+    const QByteArray& byteArrayMd5 = hashKeyEncoded; //16 //22
 
     //Time and date of firmware creation 30B
     QByteArray byteArrayTimeDate;
@@ -210,17 +212,13 @@ void AppCore::encryptionBinFile(const QUrl &pathFile, const QString &key, const 
     //Size of new firmware4B
     streamSizeBare << sizeFirmwareBare; //4
 
-    //MD5 16B
-    QByteArray hashKeyBare = QCryptographicHash::hash(bin, QCryptographicHash::Md5);
-    const QByteArray& byteArrayMd5Bare = hashKeyBare; //16 //22
-
+    const QByteArray& byteArrayMd5Bin = hashKeyBin;
+    const QByteArray& byteArrayMd5Enc = hashKeyEncoded;
 
     //Final bin
     QByteArray byteArrayFinalBin;
     QDataStream streamFinalBin(&byteArrayFinalBin, QIODevice::WriteOnly);
-//    byteArrayFinalBin =  byteArray + byteArraySize + byteArrayMd5 + byteArrayTimeDate + byteArraySizeBare + byteArrayMd5Bare + byteArrayReserve + encodedText;
-    byteArrayFinalBin =  bin + hashKey;
-//    byteArrayFinalBin =  encodedText + hashKeyBin;
+    byteArrayFinalBin =  encodedText + byteArrayMd5Bin + byteArrayMd5Enc;
 
 
     firmwareForDownload = byteArrayFinalBin;

@@ -187,7 +187,7 @@ static void MX_HASH_Init(void)
 static void MX_CRYP_Init(void)
 {
     hcrypFIRMWARE.Instance = CRYP;
-    hcrypFIRMWARE.Init.DataType = CRYP_DATATYPE_32B;
+    hcrypFIRMWARE.Init.DataType = CRYP_DATATYPE_8B;
     hcrypFIRMWARE.Init.KeySize = CRYP_KEYSIZE_128B;
     hcrypFIRMWARE.Init.pKey = (uint32_t *)pKeyCRYP_FIRMWARE;
     hcrypFIRMWARE.Init.Algorithm = CRYP_AES_ECB;

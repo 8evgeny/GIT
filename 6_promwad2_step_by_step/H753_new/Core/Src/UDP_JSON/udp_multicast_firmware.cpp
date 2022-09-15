@@ -209,46 +209,45 @@ static int counterPackegs = 0; /*! A counter for size of packages */
                 term2(tmp)
 
                 lastPacket = false;
+//byteArrayFinalBin =  encodedText + byteArrayMd5Bin + byteArrayMd5Enc;
                 //Размер полученного файла
-                uint32_t firmwareSize = counterSize - 16; //Последние 16 байт - md5
-
+                uint32_t firmwareSize = counterSize - 32; //Последние 32 байт  hashKeyBin + hashKeyEncoded
                 sprintf(tmp,"firmware size = %d", (int)firmwareSize);
                 term2 (tmp)
-
-                //Копируем полученный Md5
-                uint8_t receivedMd5[16];
+                uint8_t receivedHashKeyBin[16];
+                uint8_t receivedHashKeyEncoded[16];
                 uint8_t calculatedMd5[16];
                 uint8_t encryptedMd5[16];
-                strcpy ((char*)receivedMd5,(const char*)DataFirmware + firmwareSize);
-
-                //Выводим полученный Md5
-                RS232::getInstance().term <<"Received Md5:\t\t";
-                for (auto i=0; i < 16; ++i) { sprintf(tmp,"%1.1x", receivedMd5[i]); RS232::getInstance().term <<tmp;}
+                //Копируем полученный hashKeyBin
+                strncpy ((char*)receivedHashKeyBin,(const char*)DataFirmware + firmwareSize , 16);
+                //Копируем полученный hashKeyEncoded
+                strncpy ((char*)receivedHashKeyEncoded,(const char*)DataFirmware + firmwareSize + 16 , 16);
+                //Выводим полученный hashKeyBin
+                RS232::getInstance().term <<"Received hashKeyBin:\t";
+                for (auto i=0; i < 16; ++i) { sprintf(tmp,"%1.1x", receivedHashKeyBin[i]); RS232::getInstance().term <<tmp;}
+                RS232::getInstance().term <<"\r\n";
+                //Выводим полученный hashKeyEncoded
+                RS232::getInstance().term <<"Received hashKeyEncoded:\t";
+                for (auto i=0; i < 16; ++i) { sprintf(tmp,"%1.1x", receivedHashKeyEncoded[i]); RS232::getInstance().term <<tmp;}
                 RS232::getInstance().term <<"\r\n";
 
       //Теперь расшифровываем файл
-//      const uint8_t key[16] = {'1','2','3','4','5','6','7','8','1','2','3','4','5','6','7','8'};
-//      AES128_ECB_decrypt((uint8_t *)DataFirmware, key, (uint8_t *)DataFirmware2);
 
-                HAL_CRYP_Encrypt(&hcrypFIRMWARE, (uint32_t *)DataFirmware, firmwareSize,
+                HAL_HASH_MD5_Start(&hhash, (uint8_t *)DataFirmware, firmwareSize, calculatedMd5, 1000);
+                RS232::getInstance().term <<"Calculated Md5:\t\t";
+                for (auto i=0; i < 16; ++i) { sprintf(tmp,"%1.1x",calculatedMd5[i]); RS232::getInstance().term <<tmp;}
+                RS232::getInstance().term <<"\r\n";
+term2("decrypt")
+                HAL_CRYP_Decrypt(&hcrypFIRMWARE, (uint32_t *)DataFirmware, firmwareSize,
                                  (uint32_t *)DataFirmware2, 1000);
 
-                HAL_HASH_MD5_Start(&hhash, (uint8_t *)DataFirmware2, firmwareSize, encryptedMd5, 1000);
-                RS232::getInstance().term <<"Encrypted Md5:\t\t";
-                for (auto i=0; i < 16; ++i) { sprintf(tmp,"%1.1x",encryptedMd5[i]); RS232::getInstance().term <<tmp;}
-                RS232::getInstance().term <<"\r\n";
-
-                HAL_CRYP_Decrypt(&hcrypFIRMWARE, (uint32_t *)DataFirmware2, firmwareSize,
-                                 (uint32_t *)DataFirmware, 1000);
-
                 //Считаем Md5 у загруженной в Sram прошивки
-                HAL_HASH_MD5_Start(&hhash, (uint8_t *)DataFirmware, firmwareSize, calculatedMd5, 1000);
-                //Выводим посчитанный Md5
+                HAL_HASH_MD5_Start(&hhash, (uint8_t *)DataFirmware2, firmwareSize, calculatedMd5, 1000);
                 RS232::getInstance().term <<"Calculated Md5:\t\t";
                 for (auto i=0; i < 16; ++i) { sprintf(tmp,"%1.1x",calculatedMd5[i]); RS232::getInstance().term <<tmp;}
                 RS232::getInstance().term <<"\r\n";
 
-               if(strncmp((char*)receivedMd5, (char*)calculatedMd5, 16) == 0)
+               if(strncmp((char*)receivedHashKeyBin, (char*)calculatedMd5, 16) == 0)
                {
                    term2("MD5 - OK")
                    pinNormaState = pinNormaBlinkFast;
