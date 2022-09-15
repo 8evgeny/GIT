@@ -146,20 +146,26 @@ void AppCore::encryptionBinFile(const QUrl &pathFile, const QString &key, const 
     QAESEncryption encryption(QAESEncryption::AES_128, QAESEncryption::ECB, QAESEncryption::ZERO);
     //encode the bin file
     QByteArray encodedText = encryption.encode(bin, simpleKey);
-
+    QByteArray encodedText2 = QAESEncryption::Crypt(QAESEncryption::AES_128, QAESEncryption::ECB, bin, simpleKey);
 
     //decode the bin file
     QByteArray decodedText = encryption.decode(encodedText, simpleKey);
     //get MD5 hash (no encoded file)
     qDebug()<< "Size originText: "<< bin.size();
     qDebug()<< "Size encodedText: "<< encodedText.size();
+    qDebug()<< "Size encodedText2: "<< encodedText2.size();
     qDebug()<< "Size decodedText: "<< decodedText.size();
-//Хеш формирую из преобазованного 2 раза файла (не меняется размер)
+
+
     QByteArray hashKeyEncoded = QCryptographicHash::hash(encodedText, QCryptographicHash::Md5);
-    QByteArray hashKeyBin = QCryptographicHash::hash(decodedText, QCryptographicHash::Md5);
+    QByteArray hashKeyEncoded2 = QCryptographicHash::hash(encodedText2, QCryptographicHash::Md5);
+    //Хеш формирую из преобазованного 2 раза файла (не меняется размер)
+//    QByteArray hashKeyBin = QCryptographicHash::hash(decodedText, QCryptographicHash::Md5);
+    QByteArray hashKeyBin = QCryptographicHash::hash(bin, QCryptographicHash::Md5);
 
     qDebug() <<"hashKeyBin: "<<hashKeyBin.toHex();
     qDebug() <<"hashKeyEncoded: "<<hashKeyEncoded.toHex();
+    qDebug() <<"hashKeyEncoded2: "<<hashKeyEncoded2.toHex();
 
     qint32 sizeFirmware = encodedText.size();
 //    qint32 sizeFirmware = bin.size();
@@ -220,8 +226,8 @@ void AppCore::encryptionBinFile(const QUrl &pathFile, const QString &key, const 
     //Final bin
     QByteArray byteArrayFinalBin;
     QDataStream streamFinalBin(&byteArrayFinalBin, QIODevice::WriteOnly);
-//    byteArrayFinalBin =  encodedText + byteArrayMd5Bin + byteArrayMd5Enc;
-    byteArrayFinalBin =  decodedText + byteArrayMd5Bin + byteArrayMd5Enc;
+    byteArrayFinalBin =  encodedText2 + byteArrayMd5Bin + byteArrayMd5Enc;
+//    byteArrayFinalBin =  decodedText + byteArrayMd5Bin + byteArrayMd5Enc;
 
     firmwareForDownload = byteArrayFinalBin;
 
