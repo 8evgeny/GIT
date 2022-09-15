@@ -223,7 +223,7 @@ static int counterPackegs = 0; /*! A counter for size of packages */
 
                 //Выводим полученный Md5
                 RS232::getInstance().term <<"Received Md5:\t\t";
-                for (uint8_t i:receivedMd5) { sprintf(tmp,"%1.1x",i); RS232::getInstance().term <<tmp;}
+                for (auto i=0; i < 16; ++i) { sprintf(tmp,"%1.1x", receivedMd5[i]); RS232::getInstance().term <<tmp;}
                 RS232::getInstance().term <<"\r\n";
 
       //Теперь расшифровываем файл
@@ -235,7 +235,7 @@ static int counterPackegs = 0; /*! A counter for size of packages */
 
                 HAL_HASH_MD5_Start(&hhash, (uint8_t *)DataFirmware2, firmwareSize, encryptedMd5, 1000);
                 RS232::getInstance().term <<"Encrypted Md5:\t\t";
-                for (uint8_t i:encryptedMd5) { sprintf(tmp,"%1.1x",i); RS232::getInstance().term <<tmp;}
+                for (auto i=0; i < 16; ++i) { sprintf(tmp,"%1.1x",encryptedMd5[i]); RS232::getInstance().term <<tmp;}
                 RS232::getInstance().term <<"\r\n";
 
                 HAL_CRYP_Decrypt(&hcrypFIRMWARE, (uint32_t *)DataFirmware2, firmwareSize,
@@ -245,7 +245,7 @@ static int counterPackegs = 0; /*! A counter for size of packages */
                 HAL_HASH_MD5_Start(&hhash, (uint8_t *)DataFirmware, firmwareSize, calculatedMd5, 1000);
                 //Выводим посчитанный Md5
                 RS232::getInstance().term <<"Calculated Md5:\t\t";
-                for (uint8_t i:calculatedMd5) { sprintf(tmp,"%1.1x",i); RS232::getInstance().term <<tmp;}
+                for (auto i=0; i < 16; ++i) { sprintf(tmp,"%1.1x",calculatedMd5[i]); RS232::getInstance().term <<tmp;}
                 RS232::getInstance().term <<"\r\n";
 
                if(strncmp((char*)receivedMd5, (char*)calculatedMd5, 16) == 0)
