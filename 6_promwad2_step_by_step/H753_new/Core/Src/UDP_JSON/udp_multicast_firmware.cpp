@@ -233,35 +233,41 @@ static int counterPackegs = 0; /*! A counter for size of packages */
                 RS232::getInstance().term <<"\r\n";
 
                 HAL_HASH_MD5_Start(&hhash, (uint8_t *)DataFirmware, firmwareSize, calculatedMd5, 1000);
-                RS232::getInstance().term <<"Calculated Md5:\t\t";
-                for (auto i=0; i < 16; ++i) { sprintf(tmp,"%1.1x",calculatedMd5[i]); RS232::getInstance().term <<tmp;}
-                RS232::getInstance().term <<"\r\n";
+//                RS232::getInstance().term <<"Calculated Md5:\t\t";
+//                for (auto i=0; i < 16; ++i) { sprintf(tmp,"%1.1x",calculatedMd5[i]); RS232::getInstance().term <<tmp;}
+//                RS232::getInstance().term <<"\r\n";
 
                 if(strncmp((char*)receivedHashKeyEncoded, (char*)calculatedMd5, 16) == 0)
-                    term2("Received encrypted file Hash 0K")
+                    term2("Received encoded file 0K")
                 else
-                    term2("Received encrypted file damaged")
-//test AES
-                HAL_CRYP_Encrypt(&hcrypFIRMWARE, (uint32_t *)DataFirmware, (uint16_t)firmwareSize,(uint32_t *)DataFirmware2, 1000);
-                HAL_HASH_MD5_Start(&hhash, (uint8_t *)DataFirmware2, firmwareSize, encryptedMd5, 1000);
-                HAL_CRYP_Decrypt(&hcrypFIRMWARE, (uint32_t *)DataFirmware2, (uint16_t)firmwareSize, (uint32_t *)DataFirmware, 1000);
-                HAL_HASH_MD5_Start(&hhash, (uint8_t *)DataFirmware, firmwareSize, calculatedMd5, 1000);
-                if(strncmp((char*)receivedHashKeyEncoded, (char*)calculatedMd5, 16) == 0)
-                    term2("test AES passed")
-                else
-                    term2("test AES failed")
+                    term2("Received encoded file damaged")
+//test AES  проходит
+//                HAL_CRYP_Decrypt(&hcrypFIRMWARE, (uint32_t *)DataFirmware, (uint16_t)firmwareSize,(uint32_t *)DataFirmware2, 1000);
+//                HAL_HASH_MD5_Start(&hhash, (uint8_t *)DataFirmware2, firmwareSize, decryptedMd5, 1000);
+//                HAL_CRYP_Encrypt(&hcrypFIRMWARE, (uint32_t *)DataFirmware2, (uint16_t)firmwareSize, (uint32_t *)DataFirmware, 1000);
+//                HAL_HASH_MD5_Start(&hhash, (uint8_t *)DataFirmware, firmwareSize, calculatedMd5, 1000);
+
+//                HAL_CRYP_Encrypt(&hcrypFIRMWARE, (uint32_t *)DataFirmware, (uint16_t)firmwareSize,(uint32_t *)DataFirmware2, 1000);
+//                HAL_HASH_MD5_Start(&hhash, (uint8_t *)DataFirmware2, firmwareSize, encryptedMd5, 1000);
+//                HAL_CRYP_Decrypt(&hcrypFIRMWARE, (uint32_t *)DataFirmware2, (uint16_t)firmwareSize, (uint32_t *)DataFirmware, 1000);
+//                HAL_HASH_MD5_Start(&hhash, (uint8_t *)DataFirmware, firmwareSize, calculatedMd5, 1000);
+
+//                if(strncmp((char*)receivedHashKeyEncoded, (char*)calculatedMd5, 16) == 0)
+//                    term2("test AES passed")
+//                else
+//                    term2("test AES failed")
 //test AES end
 
       //Теперь расшифровываем файл
-      term2("decrypt")
+//      term2("decrypt")
+//                HAL_CRYP_Decrypt(&hcrypFIRMWARE, (uint32_t *)DataFirmware, (uint16_t)firmwareSize, (uint32_t *)DataFirmware2, 1000);
+//                HAL_HASH_MD5_Start(&hhash, (uint8_t *)DataFirmware2, firmwareSize, decryptedMd5, 1000);
+//                RS232::getInstance().term <<"Decrypted Md5:\t\t";
+//                for (auto i=0; i < 16; ++i) { sprintf(tmp,"%1.1x",decryptedMd5[i]); RS232::getInstance().term <<tmp;}
+//                RS232::getInstance().term <<"\r\n";
 
-                HAL_CRYP_Decrypt(&hcrypFIRMWARE, (uint32_t *)DataFirmware, firmwareSize, (uint32_t *)DataFirmware2, 1000);
-                HAL_HASH_MD5_Start(&hhash, (uint8_t *)DataFirmware2, firmwareSize, decryptedMd5, 1000);
-                RS232::getInstance().term <<"Decrypted Md5:\t\t";
-                for (auto i=0; i < 16; ++i) { sprintf(tmp,"%1.1x",decryptedMd5[i]); RS232::getInstance().term <<tmp;}
-                RS232::getInstance().term <<"\r\n";
-
-               if(strncmp((char*)receivedHashKeyBin, (char*)decryptedMd5, 16) == 0)
+//               if(strncmp((char*)receivedHashKeyBin, (char*)decryptedMd5, 16) == 0)
+               if(strncmp((char*)receivedHashKeyBin, (char*)calculatedMd5, 16) == 0)
                {
                    term2("MD5 - OK")
                    pinNormaState = pinNormaBlinkFast;

@@ -143,15 +143,17 @@ void AppCore::encryptionBinFile(const QUrl &pathFile, const QString &key, const 
     qDebug() << "simpleKey: " << simpleKey;
 
     //AES128 - ECB
-    QAESEncryption encryption(QAESEncryption::AES_128, QAESEncryption::ECB);
+    QAESEncryption encryption(QAESEncryption::AES_128, QAESEncryption::ECB, QAESEncryption::ZERO);
     //encode the bin file
     QByteArray encodedText = encryption.encode(bin, simpleKey);
-    qDebug()<< "Size originText: "<< bin.size();
-    qDebug()<< "Size encodedText: "<< encodedText.size();
+
 
     //decode the bin file
-//    QByteArray decodedText = encryption.decode(encodedText, simpleKey);
+    QByteArray decodedText = encryption.decode(encodedText, simpleKey);
     //get MD5 hash (no encoded file)
+    qDebug()<< "Size originText: "<< bin.size();
+    qDebug()<< "Size encodedText: "<< encodedText.size();
+    qDebug()<< "Size decodedText: "<< decodedText.size();
 
     QByteArray hashKeyEncoded = QCryptographicHash::hash(encodedText, QCryptographicHash::Md5);
     QByteArray hashKeyBin = QCryptographicHash::hash(bin, QCryptographicHash::Md5);
@@ -218,8 +220,8 @@ void AppCore::encryptionBinFile(const QUrl &pathFile, const QString &key, const 
     //Final bin
     QByteArray byteArrayFinalBin;
     QDataStream streamFinalBin(&byteArrayFinalBin, QIODevice::WriteOnly);
-    byteArrayFinalBin =  encodedText + byteArrayMd5Bin + byteArrayMd5Enc;
-
+//    byteArrayFinalBin =  encodedText + byteArrayMd5Bin + byteArrayMd5Enc;
+    byteArrayFinalBin =  decodedText + byteArrayMd5Bin + byteArrayMd5Enc;
 
     firmwareForDownload = byteArrayFinalBin;
 
