@@ -27,7 +27,6 @@ extern char *allConfig;
 extern int sizeConfig;
 extern uint8_t pinNormaState;
 extern uint8_t pinMkState;
-//char allConfigExtRam[1024 * 100] __attribute__((section(".ExtRamData")));
 
 /*!
  \brief Function translate binary data to a string
@@ -75,11 +74,6 @@ std::array<char, SIZE_FIRMWARE_BASE> strHex(const std::string &data)
     return tmp;
 }
 
-//static FATFS FLASHFatFs;  /*! File system object for Flash logical drive */
-//static FIL MyFile;     /*! File object */
-//static char FLASHPath[4]; /*! FLASH logical drive path */
-//static uint8_t workBuffer[1024]; /*! Work buffer */
-
 using FirmwarePackage = struct {
     int versionFirmware;
     int subVersionFirmware;
@@ -93,19 +87,8 @@ static CircularBuffer <FirmwarePackage, 20> firmwareRingBuffer; /*! Ring buffer 
 static osMutexId mutexFirmwareRingBufferId; /*! Mutex ID */
 static osThreadId firmwareThreadId; /*! Thread ID */
 
-/*!
- \brief The thread for updating the firmware
-
- \fn updateFirmwareThread
- \param arg Doesn't need
-*/
 [[ noreturn ]]void updateFirmwareThread(const void *arg);
 
-/*!
- \brief Create a thread for updating the firmware
-
- \fn firmwareInitThread
-*/
 void firmwareInitThread()
 {
     osMutexDef(mutexFirmware);
@@ -122,8 +105,7 @@ static int counterPackegs = 0; /*! A counter for size of packages */
 {
     char tmp[256];
     UNUSED(arg);
-//    uint32_t byteswritten{0};
-//    FRESULT res;
+
     bool lastPacket = false;
     bool beginFirmware = false;
 //    int versionFirmware;
@@ -153,9 +135,6 @@ static int counterPackegs = 0; /*! A counter for size of packages */
                 {
                     pinNormaState = pinNormaBlink;
                     pinMkState = pinMkReset;
-                    //always erase
-//                    Flash::getInstance().erase();
-
                     //Очищаем массив под прошивку
                     for (size_t k = 0; k < NUM_FIRMWARE_PACKET; ++k)
                     {
@@ -185,7 +164,6 @@ static int counterPackegs = 0; /*! A counter for size of packages */
                 counterSize = 0;
                 counterPackegs = 0;
                 beginFirmware = false;
-//                break;
             }
 
             if((!lastPacket) && (pack.current == counterPackegs) && beginFirmware)
@@ -209,7 +187,7 @@ static int counterPackegs = 0; /*! A counter for size of packages */
                 term2(tmp)
 
                 lastPacket = false;
-//byteArrayFinalBin =  encodedText + byteArrayMd5Bin + byteArrayMd5Enc;
+                // В конфигураторе: byteArrayFinalBin =  decodedText + byteArrayMd5Bin + byteArrayMd5Enc;
                 //Размер полученного файла
                 uint32_t firmwareSize = counterSize - 32; //Последние 32 байт  hashKeyBin + hashKeyEncoded
                 sprintf(tmp,"firmware size = %d", (int)firmwareSize);
