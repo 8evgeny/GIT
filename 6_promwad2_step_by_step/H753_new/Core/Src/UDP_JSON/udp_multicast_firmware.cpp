@@ -187,9 +187,9 @@ static int counterPackegs = 0; /*! A counter for size of packages */
                 term2(tmp)
 
                 lastPacket = false;
-                // В конфигураторе: byteArrayFinalBin =  decodedText + byteArrayMd5Bin + byteArrayMd5Enc;
+                // В конфигураторе: byteArrayFinalBin =  encodedText2 + byteArrayMd5Bin + byteArrayMd5Enc2
                 //Размер полученного файла
-                uint32_t firmwareSize = counterSize - 32; //Последние 32 байт  hashKeyBin + hashKeyEncoded
+                uint32_t firmwareSize = counterSize - 32; //Последние 32 байт  - два Хеша
                 sprintf(tmp,"firmware size = %d", (int)firmwareSize);
                 term2 (tmp)
                 uint8_t receivedHashKeyBin[16];
@@ -211,14 +211,14 @@ static int counterPackegs = 0; /*! A counter for size of packages */
                 RS232::getInstance().term <<"\r\n";
 
                 HAL_HASH_MD5_Start(&hhash, (uint8_t *)DataFirmware, firmwareSize, calculatedMd5, 1000);
-//                RS232::getInstance().term <<"Calculated Md5:\t\t";
-//                for (auto i=0; i < 16; ++i) { sprintf(tmp,"%1.1x",calculatedMd5[i]); RS232::getInstance().term <<tmp;}
-//                RS232::getInstance().term <<"\r\n";
+                RS232::getInstance().term <<"Calculated Md5:\t\t";
+                for (auto i=0; i < 16; ++i) { sprintf(tmp,"%1.1x",calculatedMd5[i]); RS232::getInstance().term <<tmp;}
+                RS232::getInstance().term <<"\r\n";
 
-//                if(strncmp((char*)receivedHashKeyEncoded, (char*)calculatedMd5, 16) == 0)
-//                    term2("Received encoded file 0K")
-//                else
-//                    term2("Received encoded file damaged")
+                if(strncmp((char*)receivedHashKeyEncoded, (char*)calculatedMd5, 16) == 0)
+                    term2("Received encoded file 0K")
+                else
+                    term2("Received encoded file damaged")
 //test AES  проходит
 //                HAL_CRYP_Decrypt(&hcrypFIRMWARE, (uint32_t *)DataFirmware, (uint16_t)firmwareSize,(uint32_t *)DataFirmware2, 1000);
 //                HAL_HASH_MD5_Start(&hhash, (uint8_t *)DataFirmware2, firmwareSize, decryptedMd5, 1000);
