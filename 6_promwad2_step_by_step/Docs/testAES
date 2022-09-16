@@ -1,0 +1,9 @@
+simpleKey:  "0000000000000000"
+test origin:  "1234567890"
+test encoded Base64:  "ZZG6gw8aamxQv2NMPKDeYQ=="
+test encoded Hex:  "6591ba830f1a6a6c50bf634c3ca0de61"
+
+simpleKey:  "1111111111111111"
+test origin:  "1234567890"
+test encoded Base64:  "bZ9RlBG3aCHgO/UNd7aqFA=="
+test encoded Hex:  "6d9f519411b76821e03bf50d77b6aa14"

@@ -510,8 +510,17 @@ term2("Board SL1")
 //    testLed2(); //SEGGER TEST
     testLed3();
 //    testUART();
-    testCryptoAES();
+//    testCryptoAES();
 
+//    char tmp[3];
+//    std::string test = "1234567890";
+//    char resultTest[24];
+
+//    HAL_CRYP_Encrypt(&hcrypFIRMWARE, (uint32_t *)test.c_str(), (uint16_t)10,(uint32_t *)resultTest, 1000);
+//term2(resultTest)
+//    RS232::getInstance().term <<"resultTest encrypt: \t";
+//    for (uint8_t i:resultTest) { sprintf(tmp,"%x",i); RS232::getInstance().term <<tmp;}
+//    RS232::getInstance().term <<"\r\n";
 
 
 #ifdef PrintTaskLogs
