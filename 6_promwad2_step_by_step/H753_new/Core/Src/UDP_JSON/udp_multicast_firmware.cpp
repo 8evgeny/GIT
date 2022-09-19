@@ -194,26 +194,26 @@ static char FLASHPath[4]; /*! FLASH logical drive path */
                 lastPacket = false;
                 // В конфигураторе: byteArrayFinalBin =  encodedText2 + byteArrayMd5Bin + byteArrayMd5Enc2
                 //Размер полученного файла
-                uint32_t firmwareSize = counterSize - 32; //Последние 32 байт  - два Хеша
+                uint32_t firmwareSize = counterSize - 16; //Последние 32 байт  - два Хеша
                 sprintf(tmp,"firmware size = %d", (int)firmwareSize);
                 term2 (tmp)
                 uint8_t receivedHashKeyBin[16];
-                uint8_t receivedHashKeyEncoded[16];
+//                uint8_t receivedHashKeyEncoded[16];
                 uint8_t calculatedMd5[16];
-                uint8_t encryptedMd5[16];
-                uint8_t decryptedMd5[16];
+//                uint8_t encryptedMd5[16];
+//                uint8_t decryptedMd5[16];
                 //Копируем полученный hashKeyBin
                 strncpy ((char*)receivedHashKeyBin,(const char*)DataFirmware + firmwareSize , 16);
-                //Копируем полученный hashKeyEnc
-                strncpy ((char*)receivedHashKeyEncoded,(const char*)DataFirmware + firmwareSize + 16 , 16);
+//                //Копируем полученный hashKeyEnc
+//                strncpy ((char*)receivedHashKeyEncoded,(const char*)DataFirmware + firmwareSize + 16 , 16);
                 //Выводим полученный hashKeyBin
                 RS232::getInstance().term <<"Received hashKeyBin:\t";
                 for (auto i=0; i < 16; ++i) { sprintf(tmp,"%1.1x", receivedHashKeyBin[i]); RS232::getInstance().term <<tmp;}
                 RS232::getInstance().term <<"\r\n";
-                //Выводим полученный hashKeyEncoded
-                RS232::getInstance().term <<"Received hashKeyEnc:\t";
-                for (auto i=0; i < 16; ++i) { sprintf(tmp,"%1.1x", receivedHashKeyEncoded[i]); RS232::getInstance().term <<tmp;}
-                RS232::getInstance().term <<"\r\n";
+//                //Выводим полученный hashKeyEncoded
+//                RS232::getInstance().term <<"Received hashKeyEnc:\t";
+//                for (auto i=0; i < 16; ++i) { sprintf(tmp,"%1.1x", receivedHashKeyEncoded[i]); RS232::getInstance().term <<tmp;}
+//                RS232::getInstance().term <<"\r\n";
 
                 HAL_HASH_MD5_Start(&hhash, (uint8_t *)DataFirmware, firmwareSize, calculatedMd5, 1000);
                 RS232::getInstance().term <<"Calculated Md5:\t\t";
