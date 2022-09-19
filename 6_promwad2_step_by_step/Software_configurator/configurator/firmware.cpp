@@ -150,7 +150,7 @@ void AppCore::encryptionBinFile(const QUrl &pathFile, const QString &key, const 
 //    QByteArray decodedText = encryption.decode(encodedText, simpleKey);
     //get MD5 hash (no encoded file)
 
-//    QByteArray hashKey = QCryptographicHash::hash(encodedText, QCryptographicHash::Md5);
+    QByteArray hashKeyEnc = QCryptographicHash::hash(encodedText, QCryptographicHash::Md5);
 
     QByteArray hashKey = QCryptographicHash::hash(bin, QCryptographicHash::Md5);
     qDebug() <<"Hash key: "<<hashKey.toHex();
@@ -216,7 +216,7 @@ void AppCore::encryptionBinFile(const QUrl &pathFile, const QString &key, const 
     QByteArray byteArrayFinalBin;
     QDataStream streamFinalBin(&byteArrayFinalBin, QIODevice::WriteOnly);
 //    byteArrayFinalBin =  byteArray + byteArraySize + byteArrayMd5 + byteArrayTimeDate + byteArraySizeBare + byteArrayMd5Bare + byteArrayReserve + encodedText;
-    byteArrayFinalBin =  bin + hashKey;
+    byteArrayFinalBin =  bin + hashKey + hashKeyEnc;
 
 
     firmwareForDownload = byteArrayFinalBin;
