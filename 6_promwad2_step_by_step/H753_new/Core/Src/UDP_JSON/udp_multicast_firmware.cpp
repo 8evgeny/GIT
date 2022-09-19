@@ -100,6 +100,8 @@ void firmwareInitThread()
 
 static uint32_t counterSize = 0; /*! A counter for size of data */
 static int counterPackegs = 0; /*! A counter for size of packages */
+static FATFS FLASHFatFs;  /*! File system object for Flash logical drive */
+static char FLASHPath[4]; /*! FLASH logical drive path */
 
 [[ noreturn ]]void updateFirmwareThread(const void *arg)
 {
@@ -135,6 +137,9 @@ static int counterPackegs = 0; /*! A counter for size of packages */
                 {
                     pinNormaState = pinNormaBlink;
                     pinMkState = pinMkReset;
+
+                    f_mount(&FLASHFatFs, (TCHAR const *)FLASHPath, 0); //Прерывистось если нет этого
+
                     //Очищаем массив под прошивку
                     for (size_t k = 0; k < NUM_FIRMWARE_PACKET; ++k)
                     {
