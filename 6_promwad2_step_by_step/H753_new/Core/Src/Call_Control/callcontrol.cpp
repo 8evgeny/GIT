@@ -32,7 +32,6 @@ constexpr static uint16_t AUTO_ANSW_TIMEOUT {2000};
 //static OSTimer osTimer_;
 //static Keys subjectKey_;
 
-
 #ifdef __cplusplus
 }
 #endif
@@ -69,7 +68,6 @@ void CallControl::TransitionTo(State *state)
     this->state_ = state;
     this->state_->set_context(this);
 }
-
 
 void CallControl::button(PackageRx pack)
 {
@@ -155,7 +153,6 @@ bool CallControl::detectSubjCallType(uint8_t func)
     }
     return false;
 }
-
 
 uint16_t CallControl::getSubjectData(CallControl::SubjectData control, uint8_t i)
 {
@@ -546,8 +543,6 @@ term("CallControl::sendInfoAboutStation")
     } else return hasWho;
 }
 
-
-
 void CallControl::createRtp(uint32_t port, uint8_t rtpType)
 {
 term("callcontrol.cpp")
@@ -566,8 +561,6 @@ term("callcontrol.cpp")
     return rtpStatus;
 }
 
-
-
 bool CallControl::seekDynamicStorage(std::vector <uint16_t>& v, uint16_t subject)
 {
 term("callcontrol.cpp")
@@ -580,7 +573,6 @@ term("callcontrol.cpp")
     }
     return false;
 }
-
 
 bool CallControl::popDynamicStorage(std::vector <uint16_t>& v, uint16_t subject)
 {
@@ -598,7 +590,6 @@ bool CallControl::popDynamicStorage(std::vector <uint16_t>& v, uint16_t subject)
     }
     return false;
 }
-
 
 bool CallControl::pushDynamicStorage(uint8_t callType, std::vector <uint16_t>& v, uint16_t subject)
 {
