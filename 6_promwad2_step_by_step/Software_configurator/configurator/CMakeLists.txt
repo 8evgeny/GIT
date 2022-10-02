@@ -9,7 +9,18 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-file (GLOB src
+find_package (Qt5 REQUIRED COMPONENTS
+    Core
+    Widgets
+    Quick
+    Gui
+    Network
+    Sql
+    SerialPort
+    Test
+    )
+
+add_executable(${PROJECT_NAME}
     Lib/qjson/src/cmdline_tester.cpp
     Lib/qjson/src/cmdlineparser.cpp
     Lib/qjson/src/json_parser.cc
@@ -33,19 +44,6 @@ file (GLOB src
     terminal.cpp
     verification.cpp
     )
-
-find_package (Qt5 REQUIRED COMPONENTS
-    Core
-    Widgets
-    Quick
-    Gui
-    Network
-    Sql
-    SerialPort
-    Test
-    )
-
-add_executable(${PROJECT_NAME} ${src})
 
 set_target_properties(${PROJECT_NAME}  PROPERTIES
     CXX_STANDARD 14
