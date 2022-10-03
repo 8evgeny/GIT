@@ -99,10 +99,12 @@ unix:LIBS +=  -lboost_filesystem -lboost_system
 win32:INCLUDEPATH += "C:\Users\Professional\Documents\GIT1\6_promwad2_step_by_step\Software_configurator\configurator\Lib\aes"
 
 win32:INCLUDEPATH += C:/boost/boost_1_66_0
-win32:LIBS += "-LC:/boost/boost_1_66_0/stage/lib/" \
-    "-Llibboost_filesystem-mgw112-mt-d-x32-1_66.a", \
-    "-Llibboost_system-mgw112-mt-x32-1_66.a"  \
-    -LLIBS
+
+win32 {
+    INCLUDEPATH += C:/boost/boost_1_66_0
+    LIBS += "-LC:/boost/boost_1_66_0/stage/lib/" \
+    "-Llibboost_system-mgw112-mt-x64-1_66.a", "-Llibboost_filesystem-mgw112-mt-d-x64-1_66.a" -LLIBS
+}
 
 
 unix:HEADERS += \
