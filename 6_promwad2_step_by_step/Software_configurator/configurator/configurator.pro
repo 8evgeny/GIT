@@ -1,4 +1,4 @@
-QT += quick multimedia sql testlib network core-private gui-private widgets multimedia serialport
+QT += quick multimedia sql testlib network core gui widgets multimedia serialport
 CONFIG += c++14
 
 # The following define makes your compiler emit warnings if you use
@@ -42,18 +42,19 @@ unix {
             verification.cpp
 }
 
+win32:SOURCES += "C:\Users\Professional\Documents\GIT1\6_promwad2_step_by_step\Software_configurator\configurator\Lib\qjson\src\parserrunnable.cpp"
+win32:SOURCES += "C:\Users\Professional\Documents\GIT1\6_promwad2_step_by_step\Software_configurator\configurator\Lib\qjson\src\cmdline_tester.cpp"
+win32:SOURCES += "C:\Users\Professional\Documents\GIT1\6_promwad2_step_by_step\Software_configurator\configurator\Lib\qjson\src\cmdlineparser.cpp"
+win32:SOURCES += "C:\Users\Professional\Documents\GIT1\6_promwad2_step_by_step\Software_configurator\configurator\Lib\qjson\src\json_parser.cc"
+win32:SOURCES += "C:\Users\Professional\Documents\GIT1\6_promwad2_step_by_step\Software_configurator\configurator\Lib\qjson\src\json_scanner.cc"
+win32:SOURCES += "C:\Users\Professional\Documents\GIT1\6_promwad2_step_by_step\Software_configurator\configurator\Lib\qjson\src\json_scanner.cpp"
+win32:SOURCES += "C:\Users\Professional\Documents\GIT1\6_promwad2_step_by_step\Software_configurator\configurator\Lib\qjson\src\parser.cpp"
+win32:SOURCES += "C:\Users\Professional\Documents\GIT1\6_promwad2_step_by_step\Software_configurator\configurator\Lib\qjson\src\qobjecthelper.cpp"
+win32:SOURCES += "C:\Users\Professional\Documents\GIT1\6_promwad2_step_by_step\Software_configurator\configurator\Lib\qjson\src\serializer.cpp"
+win32:SOURCES += "C:\Users\Professional\Documents\GIT1\6_promwad2_step_by_step\Software_configurator\configurator\Lib\qjson\src\serializerrunnable.cpp"
+win32:SOURCES += "C:\Users\Professional\Documents\GIT1\6_promwad2_step_by_step\Software_configurator\configurator\Lib\aes\qaesencryption.cpp"
+
 win32:SOURCES += \
-            Lib/qjson/src/cmdline_tester.cpp \
-            Lib/qjson/src/cmdlineparser.cpp \
-            Lib/qjson/src/json_parser.cc \
-            Lib/qjson/src/json_scanner.cc \
-            Lib/qjson/src/json_scanner.cpp \
-            Lib/qjson/src/parser.cpp \
-            "C:\Users\Professional\Documents\GIT1\6_promwad2_step_by_step\Software_configurator\configurator\Lib\qjson\src\parserrunnable.cpp" \
-            Lib/qjson/src/qobjecthelper.cpp \
-            Lib/qjson/src/serializer.cpp \
-            Lib/qjson/src/serializerrunnable.cpp \
-            Lib/aes/qaesencryption.cpp \
             appcore.cpp \
             assignment_list.cpp \
             firmware.cpp \
@@ -65,6 +66,7 @@ win32:SOURCES += \
             subscriber.cpp \
             terminal.cpp \
             verification.cpp
+
 unix:RESOURCES += qml.qrc \
             icons/GIT_en.png \
             icons/git-logo.png \
@@ -81,17 +83,18 @@ qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
-DISTFILES += \
+unix:DISTFILES += \
     icons/GIT_en.png \
     icons/GIT_en.svg \
     icons/git-logo.png \
     qtquickcontrols2.conf
 
 
-    unix:INCLUDEPATH += \
-            Lib/qjson/include/ \
-            Lib/aes/
-    unix:LIBS +=  -lboost_filesystem -lboost_system
+unix:INCLUDEPATH += \
+    Lib/qjson/include/ \
+    Lib/aes/
+
+unix:LIBS +=  -lboost_filesystem -lboost_system
 
 
 
