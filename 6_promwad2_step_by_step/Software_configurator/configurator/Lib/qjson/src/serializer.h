@@ -148,7 +148,7 @@ namespace QJson {
   *
   * It's possible to tune the indentation level of the resulting string. \sa setIndentMode
   */
-  class QJSON_EXPORT Serializer {
+  class  Serializer {
   public:
     Serializer();
     ~Serializer();
