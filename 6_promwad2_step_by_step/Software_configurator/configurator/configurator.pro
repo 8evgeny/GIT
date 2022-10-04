@@ -269,7 +269,7 @@ INCLUDEPATH += \
         Lib/qjson/include/ \
         Lib/aes/
 
-LIBS += -lboost_filesystem -lboost_system
+unix:LIBS += -lboost_filesystem -lboost_system
 #-lmysqlclient
 
 # QMAKE_CXXFLAGS -= -Wmismatched-tags
