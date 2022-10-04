@@ -1,4 +1,4 @@
-QT += quick multimedia sql testlib network core gui widgets multimedia serialport
+QT += quick multimedia sql testlib network core-private gui-private widgets multimedia serialport
 CONFIG += c++14
 
 # The following define makes your compiler emit warnings if you use
@@ -16,7 +16,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
  # ~/Qt/5.12.5/gcc_64/bin/lupdate assignment_list.qml firmware.qml groups.qml network.qml main.qml main_menu.qml subscriber.qml subscriber_navigation.qml subscriber_window.qml update_rs232.qml assignment_list_firmware.qml assignment_list_rs232.qml verification.qml programmer_window.qml status_window.qml change_window.qml -ts translator/main_ru.ts
 
 TRANSLATIONS += translator/main_ru.ts
-unix {
+
     SOURCES += \
             Lib/qjson/src/cmdline_tester.cpp \
             Lib/qjson/src/cmdlineparser.cpp \
@@ -29,32 +29,6 @@ unix {
             Lib/qjson/src/serializer.cpp \
             Lib/qjson/src/serializerrunnable.cpp \
             Lib/aes/qaesencryption.cpp \
-            appcore.cpp \
-            assignment_list.cpp \
-            firmware.cpp \
-            groups.cpp \
-            main.cpp \
-            network.cpp \
-            programmer.cpp \
-            receiver.cpp \
-            subscriber.cpp \
-            terminal.cpp \
-            verification.cpp
-}
-
-win32:SOURCES += "C:\Users\Professional\Documents\GIT1\6_promwad2_step_by_step\Software_configurator\configurator\Lib\qjson\src\parserrunnable.cpp"
-win32:SOURCES += "C:\Users\Professional\Documents\GIT1\6_promwad2_step_by_step\Software_configurator\configurator\Lib\qjson\src\cmdline_tester.cpp"
-win32:SOURCES += "C:\Users\Professional\Documents\GIT1\6_promwad2_step_by_step\Software_configurator\configurator\Lib\qjson\src\cmdlineparser.cpp"
-win32:SOURCES += "C:\Users\Professional\Documents\GIT1\6_promwad2_step_by_step\Software_configurator\configurator\Lib\qjson\src\json_parser.cc"
-win32:SOURCES += "C:\Users\Professional\Documents\GIT1\6_promwad2_step_by_step\Software_configurator\configurator\Lib\qjson\src\json_scanner.cc"
-win32:SOURCES += "C:\Users\Professional\Documents\GIT1\6_promwad2_step_by_step\Software_configurator\configurator\Lib\qjson\src\json_scanner.cpp"
-win32:SOURCES += "C:\Users\Professional\Documents\GIT1\6_promwad2_step_by_step\Software_configurator\configurator\Lib\qjson\src\parser.cpp"
-win32:SOURCES += "C:\Users\Professional\Documents\GIT1\6_promwad2_step_by_step\Software_configurator\configurator\Lib\qjson\src\qobjecthelper.cpp"
-win32:SOURCES += "C:\Users\Professional\Documents\GIT1\6_promwad2_step_by_step\Software_configurator\configurator\Lib\qjson\src\serializer.cpp"
-win32:SOURCES += "C:\Users\Professional\Documents\GIT1\6_promwad2_step_by_step\Software_configurator\configurator\Lib\qjson\src\serializerrunnable.cpp"
-win32:SOURCES += "C:\Users\Professional\Documents\GIT1\6_promwad2_step_by_step\Software_configurator\configurator\Lib\aes\qaesencryption.cpp"
-
-win32:SOURCES += \
             appcore.cpp \
             assignment_list.cpp \
             firmware.cpp \
@@ -98,16 +72,7 @@ unix:LIBS +=  -lboost_filesystem -lboost_system
 
 win32:INCLUDEPATH += "C:\Users\Professional\Documents\GIT1\6_promwad2_step_by_step\Software_configurator\configurator\Lib\aes"
 
-win32:INCLUDEPATH += C:/boost/boost_1_66_0
-
-win32 {
-    INCLUDEPATH += C:/boost/boost_1_66_0
-    LIBS += "-LC:/boost/boost_1_66_0/stage/lib/" \
-    "-Llibboost_system-mgw112-mt-x64-1_66.a", "-Llibboost_filesystem-mgw112-mt-d-x64-1_66.a" -LLIBS
-}
-
-
-unix:HEADERS += \
+HEADERS += \
     Lib/qjson/include/QJson/Parser \
     Lib/qjson/include/QJson/QObjectHelper \
     Lib/qjson/include/QJson/Serializer \
@@ -132,28 +97,40 @@ unix:HEADERS += \
     appcore.h \
     receiver.h
 
-win32:HEADERS += "C:\Users\Professional\Documents\GIT1\6_promwad2_step_by_step\Software_configurator\configurator\Lib\qjson\include\QJson\Parser"
-win32:HEADERS += "C:\Users\Professional\Documents\GIT1\6_promwad2_step_by_step\Software_configurator\configurator\Lib\qjson\include\QJson\QObjectHelper"
-win32:HEADERS += "C:\Users\Professional\Documents\GIT1\6_promwad2_step_by_step\Software_configurator\configurator\Lib\qjson\include\QJson\Serializer"
+#win32:HEADERS += "C:\Users\Professional\Documents\GIT1\6_promwad2_step_by_step\Software_configurator\configurator\Lib\qjson\include\QJson\Parser"
+#win32:HEADERS += "C:\Users\Professional\Documents\GIT1\6_promwad2_step_by_step\Software_configurator\configurator\Lib\qjson\include\QJson\QObjectHelper"
+#win32:HEADERS += "C:\Users\Professional\Documents\GIT1\6_promwad2_step_by_step\Software_configurator\configurator\Lib\qjson\include\QJson\Serializer"
 
-win32:HEADERS += "C:\Users\Professional\Documents\GIT1\6_promwad2_step_by_step\Software_configurator\configurator\Lib\qjson\src\FlexLexer.h"
-win32:HEADERS += "C:\Users\Professional\Documents\GIT1\6_promwad2_step_by_step\Software_configurator\configurator\Lib\qjson\src\cmdlineparser.h"
-win32:HEADERS += "C:\Users\Professional\Documents\GIT1\6_promwad2_step_by_step\Software_configurator\configurator\Lib\qjson\src\json_parser.hh"
-win32:HEADERS += "C:\Users\Professional\Documents\GIT1\6_promwad2_step_by_step\Software_configurator\configurator\Lib\qjson\src\json_scanner.h"
-win32:HEADERS += "C:\Users\Professional\Documents\GIT1\6_promwad2_step_by_step\Software_configurator\configurator\Lib\qjson\src\location.hh"
-win32:HEADERS += "C:\Users\Professional\Documents\GIT1\6_promwad2_step_by_step\Software_configurator\configurator\Lib\qjson\src\parser.h"
-win32:HEADERS += "C:\Users\Professional\Documents\GIT1\6_promwad2_step_by_step\Software_configurator\configurator\Lib\qjson\src\parser_p.h"
-win32:HEADERS += "C:\Users\Professional\Documents\GIT1\6_promwad2_step_by_step\Software_configurator\configurator\Lib\qjson\src\parserrunnable.h"
-win32:HEADERS += "C:\Users\Professional\Documents\GIT1\6_promwad2_step_by_step\Software_configurator\configurator\Lib\qjson\src\position.hh"
-win32:HEADERS += "C:\Users\Professional\Documents\GIT1\6_promwad2_step_by_step\Software_configurator\configurator\Lib\qjson\src\qjson_debug.h"
-win32:HEADERS += "C:\Users\Professional\Documents\GIT1\6_promwad2_step_by_step\Software_configurator\configurator\Lib\qjson\src\qjson_export.h"
-win32:HEADERS += "C:\Users\Professional\Documents\GIT1\6_promwad2_step_by_step\Software_configurator\configurator\Lib\qjson\src\qobjecthelper.h"
-win32:HEADERS += "C:\Users\Professional\Documents\GIT1\6_promwad2_step_by_step\Software_configurator\configurator\Lib\qjson\src\serializer.h"
-win32:HEADERS += "C:\Users\Professional\Documents\GIT1\6_promwad2_step_by_step\Software_configurator\configurator\Lib\qjson\src\serializerrunnable.h"
-win32:HEADERS += "C:\Users\Professional\Documents\GIT1\6_promwad2_step_by_step\Software_configurator\configurator\Lib\qjson\src\stack.hh"
-win32:HEADERS += "C:\Users\Professional\Documents\GIT1\6_promwad2_step_by_step\Software_configurator\configurator\Lib\aes\qaesencryption.h"
+#win32:HEADERS += "C:\Users\Professional\Documents\GIT1\6_promwad2_step_by_step\Software_configurator\configurator\Lib\qjson\src\FlexLexer.h"
+#win32:HEADERS += "C:\Users\Professional\Documents\GIT1\6_promwad2_step_by_step\Software_configurator\configurator\Lib\qjson\src\cmdlineparser.h"
+#win32:HEADERS += "C:\Users\Professional\Documents\GIT1\6_promwad2_step_by_step\Software_configurator\configurator\Lib\qjson\src\json_parser.hh"
+#win32:HEADERS += "C:\Users\Professional\Documents\GIT1\6_promwad2_step_by_step\Software_configurator\configurator\Lib\qjson\src\json_scanner.h"
+#win32:HEADERS += "C:\Users\Professional\Documents\GIT1\6_promwad2_step_by_step\Software_configurator\configurator\Lib\qjson\src\location.hh"
+#win32:HEADERS += "C:\Users\Professional\Documents\GIT1\6_promwad2_step_by_step\Software_configurator\configurator\Lib\qjson\src\parser.h"
+#win32:HEADERS += "C:\Users\Professional\Documents\GIT1\6_promwad2_step_by_step\Software_configurator\configurator\Lib\qjson\src\parser_p.h"
+#win32:HEADERS += "C:\Users\Professional\Documents\GIT1\6_promwad2_step_by_step\Software_configurator\configurator\Lib\qjson\src\parserrunnable.h"
+#win32:HEADERS += "C:\Users\Professional\Documents\GIT1\6_promwad2_step_by_step\Software_configurator\configurator\Lib\qjson\src\position.hh"
+#win32:HEADERS += "C:\Users\Professional\Documents\GIT1\6_promwad2_step_by_step\Software_configurator\configurator\Lib\qjson\src\qjson_debug.h"
+#win32:HEADERS += "C:\Users\Professional\Documents\GIT1\6_promwad2_step_by_step\Software_configurator\configurator\Lib\qjson\src\qjson_export.h"
+#win32:HEADERS += "C:\Users\Professional\Documents\GIT1\6_promwad2_step_by_step\Software_configurator\configurator\Lib\qjson\src\qobjecthelper.h"
+#win32:HEADERS += "C:\Users\Professional\Documents\GIT1\6_promwad2_step_by_step\Software_configurator\configurator\Lib\qjson\src\serializer.h"
+#win32:HEADERS += "C:\Users\Professional\Documents\GIT1\6_promwad2_step_by_step\Software_configurator\configurator\Lib\qjson\src\serializerrunnable.h"
+#win32:HEADERS += "C:\Users\Professional\Documents\GIT1\6_promwad2_step_by_step\Software_configurator\configurator\Lib\qjson\src\stack.hh"
+#win32:HEADERS += "C:\Users\Professional\Documents\GIT1\6_promwad2_step_by_step\Software_configurator\configurator\Lib\aes\qaesencryption.h"
 
-win32:HEADERS += RuLang.h \
-                RuTranslator.h \
-                appcore.h \
-                receiver.h
+#win32:HEADERS += RuLang.h \
+#                RuTranslator.h \
+#                appcore.h \
+#                receiver.h
+
+win32 {
+    INCLUDEPATH += C:/boost/boost_1_66_0/boost_mingw_810/include/boost-1_66/
+    LIBS += \
+            -LC:/boost/boost_1_66_0/boost_mingw_810/lib/ \
+            -llibboost_filesystem-mgw81-mt-d-x64-1_66 \
+            -llibboost_system-mgw81-mt-d-x64-1_66 \
+            -llibboost_serialization-mgw81-mt-x64-1_66 \
+            -llibboost_iostreams-mgw81-mt-d-x64-1_66 \
+            -LC:/build-qjson-Desktop_Qt_5_15_2_MinGW_64_bit-Debug/bin \
+            -llibqjson-qt5d
+}
