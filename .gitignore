@@ -81,3 +81,5 @@
 /KeilProjects/1_display/Objects/cmsis_dv.o
 /KeilProjects/1_display/Objects/cmsis_os2.d
 /6_promwad2_step_by_step/SC2_FreeRTOS_CUBE_and_CMake/CMakeLists.txt.user
+/6_promwad2_step_by_step/Software_configurator/configurator/debug
+/6_promwad2_step_by_step/Software_configurator/configurator/release

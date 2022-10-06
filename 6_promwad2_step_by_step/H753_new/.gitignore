@@ -5,3 +5,4 @@ build_cmake_debug
 build_qbs_release
 build_qbs_debug
 CMakeLists.txt.use*
+.idea
