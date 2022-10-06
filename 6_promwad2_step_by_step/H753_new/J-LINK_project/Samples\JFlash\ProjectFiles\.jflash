@@ -1,10 +1,10 @@
-  AppVersion = 76606
+  AppVersion = 78003
   FileVersion = 2
 [GENERAL]
   aATEModuleSel[24] = 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
   ConnectMode = 0
-  CurrentFile = "/home/evg/SOFT/Github/GIT/6_promwad2_step_by_step/H753_new/build_cmake_release/H753_new.hex"
-  DataFileSAddr = 0x00000000
+  CurrentFile = "/home/evg/SOFT/Github/GIT/6_promwad2_step_by_step/H753_new/build_cmake_release/H753_new.bin"
+  DataFileSAddr = 0x08000000
   GUIMode = 0
   HostName = ""
   TargetIF = 1
@@ -56,13 +56,13 @@
 [FLASH2]
   BankName = "External QSPI flash"
   BaseAddr = 0x90000000
+  LoaderName = "CLK@PB2_nCS@PG6_D0@PF8_D1@PF9_D2@PF7_D3@PF6"
 [PRODUCTION]
   AutoPerformsDisconnect = 0
   AutoPerformsErase = 1
   AutoPerformsProgram = 1
   AutoPerformsSecure = 0
   AutoPerformsStartApp = 0
-  AutoPerformsUnsecure = 0
   AutoPerformsVerify = 1
   EnableFixedVTref = 0
   EnableTargetPower = 0
