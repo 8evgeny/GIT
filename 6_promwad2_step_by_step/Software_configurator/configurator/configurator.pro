@@ -16,7 +16,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
  # ~/Qt/5.12.5/gcc_64/bin/lupdate assignment_list.qml firmware.qml groups.qml network.qml main.qml main_menu.qml subscriber.qml subscriber_navigation.qml subscriber_window.qml update_rs232.qml assignment_list_firmware.qml assignment_list_rs232.qml verification.qml programmer_window.qml status_window.qml change_window.qml -ts translator/main_ru.ts
 
 TRANSLATIONS += translator/main_ru.ts
-unix {
+
 SOURCES += \
 #        Lib/BasicUsageEnvironment/BasicHashTable.cpp \
 #        Lib/BasicUsageEnvironment/BasicTaskScheduler.cpp \
@@ -236,35 +236,6 @@ SOURCES += \
         subscriber.cpp \
     terminal.cpp \
     verification.cpp
-}
-
-win32 {
-SOURCES += \
-        Lib/qjson/src/cmdline_tester.cpp \
-        Lib/qjson/src/cmdlineparser.cpp \
-        Lib/qjson/src/json_parser.cc \
-        Lib/qjson/src/json_scanner.cc \
-        Lib/qjson/src/json_scanner.cpp \
-        Lib/qjson/src/parser.cpp \
-        Lib/qjson/src/parserrunnable.cpp \
-        Lib/qjson/src/qobjecthelper.cpp \
-        Lib/qjson/src/serializer.cpp \
-        Lib/qjson/src/serializerrunnable.cpp \
-        Lib/aes/qaesencryption.cpp \
-        appcore.cpp \
-        assignment_list.cpp \
-        firmware.cpp \
-        groups.cpp \
-        main.cpp \
-        network.cpp \
-        programmer.cpp \
-        receiver.cpp \
-        subscriber.cpp \
-        terminal.cpp \
-        verification.cpp
-}
-
-
 
 RESOURCES += qml.qrc \
             icons/GIT_en.png \
@@ -298,21 +269,7 @@ INCLUDEPATH += \
         Lib/qjson/include/ \
         Lib/aes/
 
-unix {
-    LIBS +=  -lboost_filesystem -lboost_system
-}
-
-win32 {
-    INCLUDEPATH += C:/boost/boost_1_66_0
-    LIBS += "-LC:/boost/boost_1_66_0/stage/lib/" \
-    "-Llibboost_filesystem-mgw112-mt-d-x64-1_66.a", \
-    "-Llibboost_system-mgw112-mt-x64-1_66.a"  \
-    -LLIBS
-}
-
-
-#LIBS += -lboost_filesystem -lboost_system
-
+unix:LIBS += -lboost_filesystem -lboost_system
 #-lmysqlclient
 
 # QMAKE_CXXFLAGS -= -Wmismatched-tags
@@ -557,6 +514,14 @@ HEADERS += \
 #    server_https.hpp \
 #    status_code.hpp \
  #    utility.hpp \
-
-
-
+win32 {
+    INCLUDEPATH += C:/boost/boost_1_66_0/boost_mingw_810/include/boost-1_66/
+    LIBS += \
+            -LC:/boost/boost_1_66_0/boost_mingw_810/lib/ \
+            -llibboost_filesystem-mgw81-mt-d-x64-1_66 \
+            -llibboost_system-mgw81-mt-d-x64-1_66 \
+            -llibboost_serialization-mgw81-mt-x64-1_66 \
+            -llibboost_iostreams-mgw81-mt-d-x64-1_66 \
+            -LC:/build-qjson-Desktop_Qt_5_15_2_MinGW_64_bit-Debug/bin \
+            -llibqjson-qt5d
+}
