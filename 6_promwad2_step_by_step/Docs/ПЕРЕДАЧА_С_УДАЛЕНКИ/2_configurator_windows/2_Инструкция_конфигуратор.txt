@@ -1,0 +1,3 @@
+1. Установить Configurator_setup.exe
+2. Запустить configurator.exe
+3. Загрузить в конфигуратор файл конфиграции системы - 2_config
