@@ -385,6 +385,10 @@ void writeVolSensToFlash_RTOS(void const *argument)
     (void)argument;
     for(;;)
     {
+        RS232Puts("Current VOL=\r\n");
+        term2(GPIO::getInstance()->dacDriverGainValue / 2)
+        RS232Puts("Current SENS=\r\n");
+        term2(GPIO::getInstance()->dacDriverSensValue / 2)
 
 
         osDelay(1);
@@ -416,7 +420,7 @@ void writeVolSensToFlashStart()
     osThreadDef(writeVolSensToFlash, writeVolSensToFlash_RTOS, osPriorityNormal, 0, configMINIMAL_STACK_SIZE );
     if ((osThreadCreate(osThread(writeVolSensToFlash), nullptr)) == nullptr)
     {
-        term("Failed to create pinMk_RTOS");
+        term("Failed to create writeVolSensToFlash_RTOS");
     }
 }
 
