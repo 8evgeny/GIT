@@ -21,6 +21,7 @@ void testSendMcast();
 void testReceiveMcast();
 void pinNormaStart();
 void pinMkStart();
+void writeVolSensToFlashStart();
 
 #ifdef __cplusplus
 }

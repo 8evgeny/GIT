@@ -380,6 +380,19 @@ void pinMk_RTOS(void const *argument)
     vTaskDelete(nullptr);
 }
 
+void writeVolSensToFlash_RTOS(void const *argument)
+{
+    (void)argument;
+    for(;;)
+    {
+
+
+        osDelay(1);
+    } //end for(;;)
+    vTaskDelete(nullptr);
+}
+
+
 void pinNormaStart()
 {
     osThreadDef(pinNormaRTOS, pinNorma_RTOS, osPriorityHigh, 0, configMINIMAL_STACK_SIZE );
@@ -393,6 +406,15 @@ void pinMkStart()
 {
     osThreadDef(pinMkRTOS, pinMk_RTOS, osPriorityHigh, 0, configMINIMAL_STACK_SIZE );
     if ((osThreadCreate(osThread(pinMkRTOS), nullptr)) == nullptr)
+    {
+        term("Failed to create pinMk_RTOS");
+    }
+}
+
+void writeVolSensToFlashStart()
+{
+    osThreadDef(writeVolSensToFlash, writeVolSensToFlash_RTOS, osPriorityNormal, 0, configMINIMAL_STACK_SIZE );
+    if ((osThreadCreate(osThread(writeVolSensToFlash), nullptr)) == nullptr)
     {
         term("Failed to create pinMk_RTOS");
     }
