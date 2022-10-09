@@ -643,21 +643,7 @@ struct Aic3254Configs ConfigureDAC_VOL[] {
 };
 
 constexpr static uint32_t I2C_ADDRESS = 49;
-void GPIO::upVolume(void)
-{
-    ConfigureDAC_VOL[8].regVal = GPIO::getInstance()->dacDriverGainValue;
-
-    for (uint32_t i = 0; i < sizeof(ConfigureDAC_VOL) / sizeof(struct Aic3254Configs); i++)
-    {
-        osMutexWait(GPIO::getInstance()->mutexButtons_id, osWaitForever);
-        I2C::getInstance()->writeRegister(I2C_ADDRESS, ConfigureDAC_VOL[i].regOffset, ConfigureDAC_VOL[i].regVal, true);
-        osMutexRelease(GPIO::getInstance()->mutexButtons_id);
-
-        HAL_SAI_Transmit_IT(&audioTxSai, ring_raw, ring_length/2);
-    }
-
-}
-void GPIO::downVolume(void)
+void GPIO::changeVolume(void)
 {
     ConfigureDAC_VOL[8].regVal = GPIO::getInstance()->dacDriverGainValue;
 
@@ -668,21 +654,28 @@ void GPIO::downVolume(void)
         osMutexRelease(GPIO::getInstance()->mutexButtons_id);
         HAL_SAI_Transmit_IT(&audioTxSai, ring_raw, ring_length/2);
     }
-
 }
-void GPIO::upSens(void)
+void GPIO::changeVolumeMute(void)
+{
+    ConfigureDAC_VOL[8].regVal = GPIO::getInstance()->dacDriverGainValue;
+
+    for (uint32_t i = 0; i < sizeof(ConfigureDAC_VOL) / sizeof(struct Aic3254Configs); i++)
+    {
+        osMutexWait(GPIO::getInstance()->mutexButtons_id, osWaitForever);
+        I2C::getInstance()->writeRegister(I2C_ADDRESS, ConfigureDAC_VOL[i].regOffset, ConfigureDAC_VOL[i].regVal, true);
+        osMutexRelease(GPIO::getInstance()->mutexButtons_id);
+    }
+}
+void GPIO::changeSens(void)
 {
     I2C::getInstance()->writeRegister(TLV320AIC3254::I2C_ADDRESS, 0x00, 0x00, true);
     I2C::getInstance()->writeRegister(TLV320AIC3254::I2C_ADDRESS, 0x53, GPIO::getInstance()->dacDriverSensValue, true);
-
     HAL_SAI_Transmit_IT(&audioTxSai, ring_raw, ring_length/2);
 }
-void GPIO::downSens(void)
+void GPIO::changeSensMute(void)
 {
     I2C::getInstance()->writeRegister(TLV320AIC3254::I2C_ADDRESS, 0x00, 0x00, true);
     I2C::getInstance()->writeRegister(TLV320AIC3254::I2C_ADDRESS, 0x53, GPIO::getInstance()->dacDriverSensValue, true);
-
-    HAL_SAI_Transmit_IT(&audioTxSai, ring_raw, ring_length/2);
 }
 void GPIO::signalMaxMin(void)
 {
@@ -1051,22 +1044,22 @@ void readButtonThread(void const *arg)
 
             if(volDownPressed)
             {
-                GPIO::getInstance()->downVolume();
+                GPIO::getInstance()->changeVolume();
                 volDownPressed = false;
             }
             if(volUpPressed)
             {
-                GPIO::getInstance()->upVolume();
+                GPIO::getInstance()->changeVolume();
                 volUpPressed = false;
             }
             if(sensDownPressed)
             {
-                GPIO::getInstance()->downSens();
+                GPIO::getInstance()->changeSens();
                 sensDownPressed = false;
             }
             if(sensUpPressed)
             {
-                GPIO::getInstance()->upSens();
+                GPIO::getInstance()->changeSens();
                 sensUpPressed = false;
             }
             if(signalMaxMin)
