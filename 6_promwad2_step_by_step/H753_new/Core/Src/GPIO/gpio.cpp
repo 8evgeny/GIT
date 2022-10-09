@@ -26,6 +26,7 @@ bool volUpPressed;
 bool volDownPressed;
 bool sensUpPressed;
 bool sensDownPressed;
+uint32_t lastTimePressed;
 bool signalMaxMin = false;
 extern uint8_t pinNormaState;
 
@@ -1136,7 +1137,6 @@ extern "C" {
     auto timeVolPlus = HAL_GetTick();
     void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
     {
-
         if (GPIO_Pin == GPIO_PIN_5)
         {
             if (HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_5))
@@ -1152,6 +1152,7 @@ extern "C" {
         {
             if (!HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_9) && (timeVolPlus + 300 < HAL_GetTick()))
             {
+                lastTimePressed = HAL_GetTick();
                 RS232Puts("Pressed VOL+ button\r\n");
                 if (GPIO::getInstance()->dacDriverGainValue < GPIO::getInstance()->dacDriverGainValueMax)
                 {
@@ -1164,13 +1165,14 @@ extern "C" {
                     signalMaxMin = true;
                 }
 
-                term2(GPIO::getInstance()->dacDriverGainValue / 2)
+                term2(GPIO::getInstance()->dacDriverGainValue )
             }
         }
         else if (GPIO_Pin == GPIO_PIN_10)
         {
             if (!HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_10))
             {
+                lastTimePressed = HAL_GetTick();
                 RS232Puts("Pressed VOL- button\r\n");
                 if (GPIO::getInstance()->dacDriverGainValue > GPIO::getInstance()->dacDriverGainValueMin)
                 {
@@ -1182,11 +1184,12 @@ extern "C" {
                     signalMaxMin = true;
                 }
 
-                term2(GPIO::getInstance()->dacDriverGainValue / 2 )
+                term2(GPIO::getInstance()->dacDriverGainValue )
             }
         }
         else if (GPIO_Pin == GPIO_PIN_11)
         {
+            lastTimePressed = HAL_GetTick();
             RS232Puts("Pressed SENS+ button\r\n");
             if (GPIO::getInstance()->dacDriverSensValue < GPIO::getInstance()->dacDriverSensValueMax)
             {
@@ -1197,10 +1200,11 @@ extern "C" {
             {
                 signalMaxMin = true;
             }
-                term2(GPIO::getInstance()->dacDriverSensValue / 2 )
+                term2(GPIO::getInstance()->dacDriverSensValue )
         }
         else if (GPIO_Pin == GPIO_PIN_12)
         {
+            lastTimePressed = HAL_GetTick();
             RS232Puts("Pressed SENS- button\r\n");
             if (GPIO::getInstance()->dacDriverSensValue > GPIO::getInstance()->dacDriverSensValueMin)
             {
@@ -1211,7 +1215,7 @@ extern "C" {
             {
                 signalMaxMin = true;
             }
-                term2(GPIO::getInstance()->dacDriverSensValue / 2)
+                term2(GPIO::getInstance()->dacDriverSensValue )
         }
     }
 

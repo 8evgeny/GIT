@@ -474,7 +474,7 @@ term2("Board SL1")
         firmwareInitThread();
         pinNormaStart();
         pinMkStart();
-        if (boardType == sc4) //Запоминаем измененнык значения VOL SENSE во FLASH
+        if (boardType == sc4) //Запоминаем измененные значения VOL SENSE во FLASH
         {
             writeVolSensToFlashStart();
         }
