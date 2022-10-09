@@ -388,17 +388,23 @@ void pinMk_RTOS(void const *argument)
 void writeVolSensToFlash_RTOS(void const *argument)
 {
     (void)argument;
+    while (pinNormaState != pinMkSet)
+    {
+        osDelay(10);
+    }
     int vol = -24;
     int sens = 4;
     lfs_file_open(&lfs, &file, "vol", LFS_O_RDWR | LFS_O_CREAT);
     lfs_file_read(&lfs, &file, &vol, sizeof(vol));
     GPIO::getInstance()->dacDriverGainValue = vol;
+    GPIO::getInstance()->changeVolumeMute();
     lfs_file_close(&lfs, &file);
     RS232::getInstance().term << "current vol = " << vol << "\r\n";
 
     lfs_file_open(&lfs, &file, "sens", LFS_O_RDWR | LFS_O_CREAT);
     lfs_file_read(&lfs, &file, &sens, sizeof(sens));
     GPIO::getInstance()->dacDriverSensValue = sens;
+    GPIO::getInstance()->changeSensMute();
     lfs_file_close(&lfs, &file);
     RS232::getInstance().term << "current sens = " << sens << "\r\n";
 
