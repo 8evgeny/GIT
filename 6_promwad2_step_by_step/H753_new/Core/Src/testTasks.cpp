@@ -20,6 +20,11 @@ extern uint8_t pinMkState;
 extern unsigned char zvon3_raw[];
 extern unsigned int zvon3_raw_len;
 extern uint8_t TLC59116F_max_address;
+
+extern lfs_t lfs;
+extern lfs_file_t file;
+extern uint32_t lastTimePressed;
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -380,6 +385,52 @@ void pinMk_RTOS(void const *argument)
     vTaskDelete(nullptr);
 }
 
+void writeVolSensToFlash_RTOS(void const *argument)
+{
+    (void)argument;
+    int vol = -24;
+    int sens = 4;
+    lfs_file_open(&lfs, &file, "vol", LFS_O_RDWR | LFS_O_CREAT);
+    lfs_file_read(&lfs, &file, &vol, sizeof(vol));
+    GPIO::getInstance()->dacDriverGainValue = vol;
+    lfs_file_close(&lfs, &file);
+    RS232::getInstance().term << "current vol = " << vol << "\r\n";
+
+    lfs_file_open(&lfs, &file, "sens", LFS_O_RDWR | LFS_O_CREAT);
+    lfs_file_read(&lfs, &file, &sens, sizeof(sens));
+    GPIO::getInstance()->dacDriverSensValue = sens;
+    lfs_file_close(&lfs, &file);
+    RS232::getInstance().term << "current sens = " << sens << "\r\n";
+
+    for(;;)
+    {
+        if (lastTimePressed  + 10000 < HAL_GetTick()) //Проверяем раз в 10 секунд
+        {
+            lastTimePressed = HAL_GetTick();
+            if (vol != GPIO::getInstance()->dacDriverGainValue)
+            {
+                vol = GPIO::getInstance()->dacDriverGainValue;
+                lfs_file_open(&lfs, &file, "vol", LFS_O_WRONLY );
+                lfs_file_write(&lfs, &file, &vol, sizeof(vol));
+                lfs_file_close(&lfs, &file);
+                RS232::getInstance().term << "vol stored " << vol << "\r\n";
+            }
+            if (sens != GPIO::getInstance()->dacDriverSensValue)
+            {
+                sens = GPIO::getInstance()->dacDriverSensValue;
+                lfs_file_open(&lfs, &file, "sens", LFS_O_WRONLY );
+                lfs_file_write(&lfs, &file, &sens, sizeof(sens));
+                lfs_file_close(&lfs, &file);
+                RS232::getInstance().term << "sens stored " << sens << "\r\n";
+            }
+        }
+
+        osDelay(1);
+    } //end for(;;)
+    vTaskDelete(nullptr);
+}
+
+
 void pinNormaStart()
 {
     osThreadDef(pinNormaRTOS, pinNorma_RTOS, osPriorityHigh, 0, configMINIMAL_STACK_SIZE );
@@ -395,6 +446,15 @@ void pinMkStart()
     if ((osThreadCreate(osThread(pinMkRTOS), nullptr)) == nullptr)
     {
         term("Failed to create pinMk_RTOS");
+    }
+}
+
+void writeVolSensToFlashStart()
+{
+    osThreadDef(writeVolSensToFlash, writeVolSensToFlash_RTOS, osPriorityNormal, 0, configMINIMAL_STACK_SIZE );
+    if ((osThreadCreate(osThread(writeVolSensToFlash), nullptr)) == nullptr)
+    {
+        term("Failed to create writeVolSensToFlash_RTOS");
     }
 }
 
