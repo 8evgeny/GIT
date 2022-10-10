@@ -48,7 +48,9 @@ CallControl::CallControl(State *state) : state_(nullptr)
     telephoneDynamicStorage.reserve(5);
 //    inputBuff.reserve(10);
 
-    for (uint8_t i = 0; i < sizeof (keypadArray); ++i) {
+    //Инициализация номеронабирателя
+    for (uint8_t i = 0; i < sizeof (keypadArray); ++i)
+    {
         keypadStructArray[i].n = keypadArray[i];
         keypadStructArray[i].i = i;
     }

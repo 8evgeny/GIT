@@ -47,7 +47,7 @@ void TelephoneCall::handleButton()
         if (context_->rtpStatus != OK_RTP)
             for (auto& var : context_->keypadStructArray)
                 if (context_->subjectKey.key == var.n) {
-                    if (context_->telephoneDynamicStorage.size() < 5) {
+                    if (context_->telephoneDynamicStorage.size() < 3) {
                         context_->telephoneDynamicStorage.push_back(var.i);
                         switchLed(context_->subjectKey.key, true, 0,0,0, GPIO::GREEN);
                         context_->osTimer.start(context_->osTimer.telephone_timerId, context_->osTimer.telephone_timerStatus, DIALING_TIMEOUT);
