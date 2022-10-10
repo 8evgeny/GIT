@@ -6,7 +6,7 @@
 
 void DuplexDirectCall::handleButton()
 {
-term("DuplexDirectCall ")
+term2("DuplexDirectCall::handleButton")
     if (context_->subjectKey.key == context_->assignedData.key) {
 
         if (!context_->isAnsweredCall && context_->isIncomingCall) {

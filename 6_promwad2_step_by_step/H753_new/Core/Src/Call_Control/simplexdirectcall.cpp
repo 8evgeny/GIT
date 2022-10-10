@@ -7,7 +7,7 @@
 char msg[30];
 void SimplexDirectCall::handleButton()
 {
-term("SimplexDirectCall ")
+term2("SimplexDirectCall::handleButton")
     if (context_->subjectKey.key == context_->assignedData.key) {
 
         stopRingTone();

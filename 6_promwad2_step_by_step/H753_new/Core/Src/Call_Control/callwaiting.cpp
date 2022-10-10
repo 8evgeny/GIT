@@ -6,11 +6,11 @@
 #include "circularcall.h"
 #include "conferencecall.h"
 #include "telephonecall.h"
-
+#include "rs232.h"
 
 void CallWaiting::handleButton()
 {
-
+term2("CallWaiting::handleButton")
     context_->assignedData.key = context_->subjectKey.key;
     context_->assignedData.priority = context_->subjectKey.priority;
 
@@ -66,9 +66,11 @@ void CallWaiting::handleButton()
     }
     break;
 
-    case CallControl::Telephone: {
-        if (context_->subjectKey.key == CallControl::Asterisk) {
-
+    case CallControl::Telephone:
+    {
+        if (context_->subjectKey.key == CallControl::Asterisk)
+        {
+term2("Asterisk pressed")
 
             context_->assignedData.key = context_->subjectKey.key;
             context_->assignedData.priority = context_->subjectKey.priority;
@@ -76,6 +78,11 @@ void CallWaiting::handleButton()
             switchLed(context_->subjectKey.key, true, 0,0,0, GPIO::GREEN );
             context_->TransitionTo(new TelephoneCall);
         }
+//Здесь код обработки клавиш
+
+
+
+
     }
     break;
 

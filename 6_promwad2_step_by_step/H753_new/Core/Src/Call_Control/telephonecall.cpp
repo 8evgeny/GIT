@@ -9,7 +9,7 @@
 extern uint8_t ledIndicateAsterisk;
 void TelephoneCall::handleButton()
 {
-
+term2("TelephoneCall::handleButton")
     if (context_->subjectKey.key == CallControl::Hash)
     {
 
