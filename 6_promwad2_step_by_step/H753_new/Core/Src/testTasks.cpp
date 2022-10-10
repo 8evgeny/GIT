@@ -407,6 +407,10 @@ void writeVolSensToFlash_RTOS(void const *argument)
     GPIO::getInstance()->changeSensMute();
     lfs_file_close(&lfs, &file);
     RS232::getInstance().term << "current sens = " << sens << "\r\n";
+    RS232::getInstance().term << "vol min max = " << GPIO::getInstance()->dacDriverGainValueMin
+                              << " "<< GPIO::getInstance()->dacDriverGainValueMax<<"\r\n";
+    RS232::getInstance().term << "sense min max = " << GPIO::getInstance()->dacDriverSensValueMin
+                              << " "<< GPIO::getInstance()->dacDriverSensValueMax<<"\r\n";
 
     for(;;)
     {
