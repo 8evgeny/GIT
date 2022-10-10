@@ -119,8 +119,6 @@ void handleRelasedButtonTimer_Callback(void const *arg)
     pressedKey = 0;
 }
 
-
-
 void dialingTimer_Callback(void const *arg)
 {
     (void)arg;
@@ -133,8 +131,10 @@ void dialingTimer_Callback(void const *arg)
     uint8_t size = static_cast<uint8_t>(UdpJsonExch::getInstance()->callControl->telephoneDynamicStorage.size());
     uint16_t distSubject = 0;
 
-    if (size > 2) {
-        for (uint8_t i = 0; i < size; ++i) {
+    if (size > 2)
+    {
+        for (uint8_t i = 0; i < size; ++i)
+        {//distSubject - абонент набранный на кейпаде
             distSubject += static_cast<uint16_t> (pow(10, (size-i-1))
                                                   * UdpJsonExch::getInstance()->callControl->telephoneDynamicStorage[i]);
         }

@@ -45,7 +45,7 @@ CallControl::CallControl(State *state) : state_(nullptr)
     dynamicStorageIter = dynamicStorage.begin();
 
     busyDynamicStorage.reserve(10);
-    telephoneDynamicStorage.reserve(5);
+    telephoneDynamicStorage.reserve(3);
 //    inputBuff.reserve(10);
 
     //Инициализация номеронабирателя
