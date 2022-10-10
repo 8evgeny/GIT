@@ -20,7 +20,7 @@ extern "C" {
 
 uint16_t pressedKey = 0; /*!< The variable stores a number of the pressed key */
 uint8_t handleClick_count = 0; /*!< The variable is the counter to handle clicks */
-uint8_t legIndicateAsterisk = 0;
+uint8_t ledIndicateAsterisk = 0;
 uint8_t keyMode = 0, /*!< The variable stores a mode of the pressed key */
         func = 0;    /*!< The variable stores a function of the pressed key */
 
@@ -365,10 +365,10 @@ void CallControl::setCallType()
             {
                 if ((getSubjectData(Function, i)) == Telephone) //Определяем какой Led зажигать
                 {
-                    legIndicateAsterisk = getSubjectData(Key, i);
+                    ledIndicateAsterisk = getSubjectData(Key, i);
                 }
             }
-            switchLed(legIndicateAsterisk, true, 250, 250, 0, GPIO::GREEN);
+            switchLed(ledIndicateAsterisk, true, 250, 250, 0, GPIO::GREEN);
             startRingTone(RingToneType::RING_TONE);
             this->TransitionTo(new TelephoneCall);
         }
@@ -427,19 +427,18 @@ bool changeToHash = false;
                 {
                     if ((getSubjectData(Function, i)) == Telephone)
                     {
-                        legIndicateAsterisk = getSubjectData(Key, i);
+                        ledIndicateAsterisk = getSubjectData(Key, i);
                     }
 
                     if ((getSubjectData(Key, i)) == pressedKey)
                     {
-
                         subjectKey = Json::getInstance()->thisStation.keysBuffer[i];
 
 //Добавил переопределение клавиш для возможности принимать телефонный вызовы
                         if (subjectKey.function == Telephone)
                         {
                             changeToAsterisk = true;
-//                            legIndicateAsterisk = subjectKey.key;
+//                            ledIndicateAsterisk = subjectKey.key;
 
                             subjectKey.key = Asterisk;
                         }
@@ -462,7 +461,7 @@ bool changeToHash = false;
                 /*-------------------------------------------------------------------------*/
                 if ((pressedKey == Asterisk )|| changeToAsterisk)
                 {
-                    switchLed(legIndicateAsterisk, true, 0, 0, 0, GPIO::GREEN);
+                    switchLed(ledIndicateAsterisk, true, 0, 0, 0, GPIO::GREEN);
                     subjectKey.key = Asterisk;
                     func = subjectKey.function = Telephone;
                     keyMode = subjectKey.mode = NotFixed;
@@ -472,7 +471,7 @@ bool changeToHash = false;
                     foundKeyFlag_ = true;
                 } else if ((pressedKey == Hash)|| changeToHash)
                 {
-                    switchLed(legIndicateAsterisk, false);
+                    switchLed(ledIndicateAsterisk, false);
                     subjectKey.key = Hash;
                     subjectKey.function = Telephone;
                     subjectKey.mode = Fixed;

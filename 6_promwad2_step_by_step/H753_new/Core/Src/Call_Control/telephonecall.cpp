@@ -6,7 +6,7 @@
 
 //extern osTimerId telephone_timerId_;
 //extern osStatus  telephone_timerStatus_;
-extern uint8_t legIndicateAsterisk;
+extern uint8_t ledIndicateAsterisk;
 void TelephoneCall::handleButton()
 {
 
@@ -66,7 +66,7 @@ void TelephoneCall::handleJsonMessage()
             if (context_->messageData.field.ownId == context_->messageData.field.prevOwnId) {
 
                 stopRingTone();
-                switchLed(legIndicateAsterisk, false); //Здесь может быть индикация пропущенного вызова
+                switchLed(ledIndicateAsterisk, false); //Здесь может быть индикация пропущенного вызова
 
                 context_->osTimer.stop(context_->osTimer.request_timerId, context_->osTimer.request_timerStatus);
 
