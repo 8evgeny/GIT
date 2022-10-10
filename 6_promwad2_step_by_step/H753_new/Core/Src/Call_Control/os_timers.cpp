@@ -141,7 +141,7 @@ void dialingTimer_Callback(void const *arg)
 
         UdpJsonExch::getInstance()->callControl->messageData.field.prevDistId = distSubject;
 
-        if (65001 > distSubject && distSubject > 99) {
+        if (1000 > distSubject && distSubject > 99) {
             doc["Own_Id"] = Json::getInstance()->thisStation.id;
             doc["Dist_Id"].add(distSubject);
             doc["Call_Type"] = 5;
