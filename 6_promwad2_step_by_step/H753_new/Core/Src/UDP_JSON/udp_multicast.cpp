@@ -203,7 +203,7 @@ term1("err") term(err)
 //term2(result)
                         if (Json::getInstance()->deserialize(recvDoc, (void *)RecvBuff_, strlen(RecvBuff_))) {
 
-                            osMutexWait(UdpJsonExch::getInstance()->mutexCallControlId, osWaitForever);
+                            osMutexWait(MutexCallControl_, osWaitForever);
                             if (!CallControl_->sendInfoAboutStation(recvDoc)) {
                                 CallControl_->jsonMessage(recvDoc);
                                 parsingFirmwareFromJson(recvDoc);
@@ -211,7 +211,7 @@ term1("err") term(err)
                                 deleteConfigMcuByJson(recvDoc);
                                 writeConfigMcuByJson(recvDoc);
                             }
-                            osMutexRelease(UdpJsonExch::getInstance()->mutexCallControlId);
+                            osMutexRelease(MutexCallControl_);
                         }
                     }
                     osDelay(1);

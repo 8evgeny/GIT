@@ -15,6 +15,7 @@
 
 #define CallControl_ UdpJsonExch::getInstance()->callControl
 #define RecvBuff_ UdpJsonExch::getInstance()->recvBuff
+#define MutexCallControl_ UdpJsonExch::getInstance()->mutexCallControlId
 /*!
  \brief The enumeration that stores key types of the key modes
 

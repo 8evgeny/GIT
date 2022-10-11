@@ -68,7 +68,7 @@ void handleRelasedButtonTimer_Callback(void const *arg)
 {
     (void)arg;
 
-    osMutexWait(UdpJsonExch::getInstance()->mutexCallControlId, osWaitForever);
+    osMutexWait(MutexCallControl_, osWaitForever);
     if (!CallControl_->isIncomingCall ||
             CallControl_->assignedData.key == CallControl::Asterisk)
     {
@@ -113,7 +113,7 @@ void handleRelasedButtonTimer_Callback(void const *arg)
     CallControl_->osTimer.stop( CallControl_->osTimer.button_timerId,
             CallControl_->osTimer.button_timerStatus);
 
-    osMutexRelease(UdpJsonExch::getInstance()->mutexCallControlId);
+    osMutexRelease(MutexCallControl_);
 
     handleClick_count = 0;
     pressedKey = 0;
@@ -126,7 +126,7 @@ void dialingTimer_Callback(void const *arg)
     const int capacity = JSON_OBJECT_SIZE(6) + JSON_ARRAY_SIZE(100);
     DynamicJsonDocument doc (capacity);
 
-    osMutexWait(UdpJsonExch::getInstance()->mutexCallControlId, osWaitForever);
+    osMutexWait(MutexCallControl_, osWaitForever);
 
     uint8_t size = static_cast<uint8_t>(CallControl_->telephoneDynamicStorage.size());
     uint16_t distSubject = 0;
@@ -184,25 +184,25 @@ if ((1000 > distSubject && distSubject > 99)
     }
     CallControl_->osTimer.stop(CallControl_->osTimer.telephone_timerId,
             CallControl_->osTimer.telephone_timerStatus);
-    osMutexRelease(UdpJsonExch::getInstance()->mutexCallControlId);
+    osMutexRelease(MutexCallControl_);
 }
 
 void autoAnswTimer_Callback(void const *arg)
 {
 
     (void)arg;
-    osMutexWait(UdpJsonExch::getInstance()->mutexCallControlId, osWaitForever);
+    osMutexWait(MutexCallControl_, osWaitForever);
     CallControl_->answerUnknownCall();
-    osMutexRelease(UdpJsonExch::getInstance()->mutexCallControlId);
+    osMutexRelease(MutexCallControl_);
 
 }
 
 void requestTimer_Callback(void const *arg)
 {
     (void)arg;
-    osMutexWait(UdpJsonExch::getInstance()->mutexCallControlId, osWaitForever);
+    osMutexWait(MutexCallControl_, osWaitForever);
     CallControl_->checkRequest();
-    osMutexRelease(UdpJsonExch::getInstance()->mutexCallControlId);
+    osMutexRelease(MutexCallControl_);
 }
 
 #ifdef __cplusplus
