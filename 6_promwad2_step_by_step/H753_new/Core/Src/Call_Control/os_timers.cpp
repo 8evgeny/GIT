@@ -69,30 +69,30 @@ void handleRelasedButtonTimer_Callback(void const *arg)
     (void)arg;
 
     osMutexWait(UdpJsonExch::getInstance()->mutexCallControlId, osWaitForever);
-    if (!UdpJsonExch::getInstance()->callControl->isIncomingCall ||
-            UdpJsonExch::getInstance()->callControl->assignedData.key == CallControl::Asterisk)
+    if (!CallControl_->isIncomingCall ||
+            CallControl_->assignedData.key == CallControl::Asterisk)
     {
-        if (UdpJsonExch::getInstance()->callControl->subjectKey.key == UdpJsonExch::getInstance()->callControl->assignedData.key)
+        if (CallControl_->subjectKey.key == CallControl_->assignedData.key)
         {
             if (keyMode == NotFixed)
             {
                 switch (func) {
                 case CallControl::Direct: {
-                    if (!UdpJsonExch::getInstance()->callControl->missedCall.isMissedKey)
-                        UdpJsonExch::getInstance()->callControl->handleNotFixedButton();
+                    if (!CallControl_->missedCall.isMissedKey)
+                        CallControl_->handleNotFixedButton();
                 }
                 break;
                 case CallControl::Group:
-                    UdpJsonExch::getInstance()->callControl->handleNotFixedButton();
+                    CallControl_->handleNotFixedButton();
                     break;
                 case CallControl::Circular:
-                    UdpJsonExch::getInstance()->callControl->microphone.stop();
+                    CallControl_->microphone.stop();
                     break;
                 case CallControl::Conference:
-                    UdpJsonExch::getInstance()->callControl->microphone.stop();
+                    CallControl_->microphone.stop();
                     break;
                 case CallControl::Telephone:
-                    UdpJsonExch::getInstance()->callControl->microphone.stop();
+                    CallControl_->microphone.stop();
 
                     break;
                 default:
@@ -100,18 +100,18 @@ void handleRelasedButtonTimer_Callback(void const *arg)
                 }
 
             }
-        } else if (UdpJsonExch::getInstance()->callControl->assignedData.key == CallControl::Asterisk)
+        } else if (CallControl_->assignedData.key == CallControl::Asterisk)
         {
-            if (UdpJsonExch::getInstance()->callControl->subjectKey.key != CallControl::Asterisk
-                    && UdpJsonExch::getInstance()->callControl->subjectKey.key != CallControl::Hash)
-                switchLed(UdpJsonExch::getInstance()->callControl->subjectKey.key, false);
+            if (CallControl_->subjectKey.key != CallControl::Asterisk
+                    && CallControl_->subjectKey.key != CallControl::Hash)
+                switchLed(CallControl_->subjectKey.key, false);
             stopDtmfTone();
         }
 
     }
 
-    UdpJsonExch::getInstance()->callControl->osTimer.stop( UdpJsonExch::getInstance()->callControl->osTimer.button_timerId,
-            UdpJsonExch::getInstance()->callControl->osTimer.button_timerStatus);
+    CallControl_->osTimer.stop( CallControl_->osTimer.button_timerId,
+            CallControl_->osTimer.button_timerStatus);
 
     osMutexRelease(UdpJsonExch::getInstance()->mutexCallControlId);
 
@@ -128,7 +128,7 @@ void dialingTimer_Callback(void const *arg)
 
     osMutexWait(UdpJsonExch::getInstance()->mutexCallControlId, osWaitForever);
 
-    uint8_t size = static_cast<uint8_t>(UdpJsonExch::getInstance()->callControl->telephoneDynamicStorage.size());
+    uint8_t size = static_cast<uint8_t>(CallControl_->telephoneDynamicStorage.size());
     uint16_t distSubject = 0;
 
     if (size > 2)
@@ -136,50 +136,53 @@ void dialingTimer_Callback(void const *arg)
         for (uint8_t i = 0; i < size; ++i)
         {//distSubject - абонент набранный на кейпаде
             distSubject += static_cast<uint16_t> (pow(10, (size-i-1))
-                                                  * UdpJsonExch::getInstance()->callControl->telephoneDynamicStorage[i]);
+                                                  * CallControl_->telephoneDynamicStorage[i]);
         }
         char msg[100];
         sprintf(msg,"abonent = %d",distSubject);
 term2(msg)
 
-        UdpJsonExch::getInstance()->callControl->messageData.field.prevDistId = distSubject;
+        CallControl_->messageData.field.prevDistId = distSubject;
 
-        if (1000 > distSubject && distSubject > 99) {
+if ((1000 > distSubject && distSubject > 99)
+//    && CallControl_->detectSubjCallType(CallControl::Telephone)
+    )
+        {
             doc["Own_Id"] = Json::getInstance()->thisStation.id;
             doc["Dist_Id"].add(distSubject);
             doc["Call_Type"] = 5;
-            doc["Priority"] = UdpJsonExch::getInstance()->callControl->assignedData.priority;
+            doc["Priority"] = CallControl_->assignedData.priority;
             doc["Link_Data"] = 0xFF;
-//            UdpJsonExch::getInstance()->callControl->sendJson(doc, capacity);
+//            CallControl_->sendJson(doc, capacity);
 
-            UdpJsonExch::getInstance()->callControl->requestCount = 0;
-            std::fill(UdpJsonExch::getInstance()->callControl->messageData.txBuff, UdpJsonExch::getInstance()->callControl->messageData.txBuff + UdpJsonExch::getInstance()->callControl->messageData.txBuffSize, 0);
-            if (serializeJson(doc, UdpJsonExch::getInstance()->callControl->messageData.txBuff, capacity) > 0) {
-                sendUdpMulticast(UdpJsonExch::getInstance()->callControl->messageData.txBuff, strlen(UdpJsonExch::getInstance()->callControl->messageData.txBuff));
+            CallControl_->requestCount = 0;
+            std::fill(CallControl_->messageData.txBuff, CallControl_->messageData.txBuff + CallControl_->messageData.txBuffSize, 0);
+            if (serializeJson(doc, CallControl_->messageData.txBuff, capacity) > 0) {
+                sendUdpMulticast(CallControl_->messageData.txBuff, strlen(CallControl_->messageData.txBuff));
             }
-            UdpJsonExch::getInstance()->callControl->requestCount++;
+            CallControl_->requestCount++;
 
-//            UdpJsonExch::getInstance()->callControl->copyRecvBuff(UdpJsonExch::getInstance()->callControl->serviceData->recvBuffCopy,
-//                    UdpJsonExch::getInstance()->callControl->outputJsonBuff);
-            UdpJsonExch::getInstance()->callControl->osTimer.start(UdpJsonExch::getInstance()->callControl->osTimer.request_timerId,
-                    UdpJsonExch::getInstance()->callControl->osTimer.request_timerStatus,
+//            CallControl_->copyRecvBuff(CallControl_->serviceData->recvBuffCopy,
+//                    CallControl_->outputJsonBuff);
+            CallControl_->osTimer.start(CallControl_->osTimer.request_timerId,
+                    CallControl_->osTimer.request_timerStatus,
                     200);
         }
 
-        UdpJsonExch::getInstance()->callControl->telephoneDynamicStorage.clear();
+        CallControl_->telephoneDynamicStorage.clear();
 
     } else {
-        switchLed(UdpJsonExch::getInstance()->callControl->assignedData.key, false);
-        switchLed(UdpJsonExch::getInstance()->callControl->subjectKey.key, false);
+        switchLed(CallControl_->assignedData.key, false);
+        switchLed(CallControl_->subjectKey.key, false);
         stopDtmfTone();
-        UdpJsonExch::getInstance()->callControl->resetData();
-        UdpJsonExch::getInstance()->callControl->telephoneDynamicStorage.clear();
-//        UdpJsonExch::getInstance()->callControl->osTimer.stop( UdpJsonExch::getInstance()->callControl->osTimer.telephone_timerId,
-//                UdpJsonExch::getInstance()->callControl->osTimer.telephone_timerStatus);
-        UdpJsonExch::getInstance()->callControl->TransitionTo(new CallWaiting);
+        CallControl_->resetData();
+        CallControl_->telephoneDynamicStorage.clear();
+//        CallControl_->osTimer.stop( CallControl_->osTimer.telephone_timerId,
+//                CallControl_->osTimer.telephone_timerStatus);
+        CallControl_->TransitionTo(new CallWaiting);
     }
-    UdpJsonExch::getInstance()->callControl->osTimer.stop(UdpJsonExch::getInstance()->callControl->osTimer.telephone_timerId,
-            UdpJsonExch::getInstance()->callControl->osTimer.telephone_timerStatus);
+    CallControl_->osTimer.stop(CallControl_->osTimer.telephone_timerId,
+            CallControl_->osTimer.telephone_timerStatus);
     osMutexRelease(UdpJsonExch::getInstance()->mutexCallControlId);
 }
 
@@ -188,7 +191,7 @@ void autoAnswTimer_Callback(void const *arg)
 
     (void)arg;
     osMutexWait(UdpJsonExch::getInstance()->mutexCallControlId, osWaitForever);
-    UdpJsonExch::getInstance()->callControl->answerUnknownCall();
+    CallControl_->answerUnknownCall();
     osMutexRelease(UdpJsonExch::getInstance()->mutexCallControlId);
 
 }
@@ -197,7 +200,7 @@ void requestTimer_Callback(void const *arg)
 {
     (void)arg;
     osMutexWait(UdpJsonExch::getInstance()->mutexCallControlId, osWaitForever);
-    UdpJsonExch::getInstance()->callControl->checkRequest();
+    CallControl_->checkRequest();
     osMutexRelease(UdpJsonExch::getInstance()->mutexCallControlId);
 }
 

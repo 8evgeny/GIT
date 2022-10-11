@@ -204,8 +204,8 @@ term1("err") term(err)
                         if (Json::getInstance()->deserialize(recvDoc, (void *)UdpJsonExch::getInstance()->recvBuff, strlen(UdpJsonExch::getInstance()->recvBuff))) {
 
                             osMutexWait(UdpJsonExch::getInstance()->mutexCallControlId, osWaitForever);
-                            if (!UdpJsonExch::getInstance()->callControl->sendInfoAboutStation(recvDoc)) {
-                                UdpJsonExch::getInstance()->callControl->jsonMessage(recvDoc);
+                            if (!CallControl_->sendInfoAboutStation(recvDoc)) {
+                                CallControl_->jsonMessage(recvDoc);
                                 parsingFirmwareFromJson(recvDoc);
                                 rebootMcuByJson(recvDoc);
                                 deleteConfigMcuByJson(recvDoc);

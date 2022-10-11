@@ -451,14 +451,14 @@ term2((int)commonSizeAllFrames)
 
                 configDoc["writeConfigId"] = Json::getInstance()->thisStation.id;
                 configDoc["status"].set("ok");
-//                UdpJsonExch::getInstance()->callControl->sendJson(configDoc, capacity/*, UDP_PORT*/);
+//                CallControl_->sendJson(configDoc, capacity/*, UDP_PORT*/);
 
             term2("write config OK")
 
-                std::fill(UdpJsonExch::getInstance()->callControl->messageData.txBuff, UdpJsonExch::getInstance()->callControl->messageData.txBuff + UdpJsonExch::getInstance()->callControl->messageData.txBuffSize, 0);
-                if (serializeJson(configDoc, UdpJsonExch::getInstance()->callControl->messageData.txBuff, capacity) > 0)
+                std::fill(CallControl_->messageData.txBuff, CallControl_->messageData.txBuff + CallControl_->messageData.txBuffSize, 0);
+                if (serializeJson(configDoc, CallControl_->messageData.txBuff, capacity) > 0)
                 {
-                    sendUdpMulticast(UdpJsonExch::getInstance()->callControl->messageData.txBuff, strlen(UdpJsonExch::getInstance()->callControl->messageData.txBuff));
+                    sendUdpMulticast(CallControl_->messageData.txBuff, strlen(CallControl_->messageData.txBuff));
                 }
 
                 commonSizeAllFrames = 0;

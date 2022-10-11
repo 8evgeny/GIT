@@ -13,6 +13,7 @@
 #include <memory>
 #include "os_timers.h"
 
+#define CallControl_ UdpJsonExch::getInstance()->callControl
 /*!
  \brief The enumeration that stores key types of the key modes
 

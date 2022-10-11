@@ -79,6 +79,7 @@ term2("Asterisk pressed")
             switchLed(context_->subjectKey.key, true, 0,0,0, GPIO::GREEN );
             context_->TransitionTo(new TelephoneCall);
         }
+
 //Здесь код обработки клавиш
         if (context_->rtpStatus != OK_RTP)
             for (auto& var : context_->keypadStructArray)

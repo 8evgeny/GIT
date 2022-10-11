@@ -74,7 +74,7 @@ void missedCallThread (void const *arg)
     (void)arg;
     while(true) {
         osMutexWait(UdpJsonExch::getInstance()->mutexCallControlId, osWaitForever);
-        UdpJsonExch::getInstance()->callControl->missedCall.handleAutoReset();
+        CallControl_->missedCall.handleAutoReset();
         osMutexRelease(UdpJsonExch::getInstance()->mutexCallControlId);
         osDelay(1000);
     }

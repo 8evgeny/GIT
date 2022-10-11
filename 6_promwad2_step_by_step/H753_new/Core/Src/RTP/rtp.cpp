@@ -547,7 +547,7 @@ term("--- lostPackThread ---")
         osEvent evt = osSignalWait(0xFB, osWaitForever);
         if (evt.status == osEventSignal) {
             osMutexWait(UdpJsonExch::getInstance()->mutexCallControlId, osWaitForever);
-            UdpJsonExch::getInstance()->callControl->hungUp();
+            CallControl_->hungUp();
             osMutexRelease(UdpJsonExch::getInstance()->mutexCallControlId);
 
         }
