@@ -195,13 +195,13 @@ term1("err") term(err)
                 {
                     fromlen = sizeof(from);
                     osMutexWait(UdpJsonExch::getInstance()->mutexSock_id, osWaitForever);
-                    result = recvfrom(sockUdpRecv, &UdpJsonExch::getInstance()->recvBuff, sizeof(UdpJsonExch::getInstance()->recvBuff), 0, (struct sockaddr *)&from, (socklen_t *)&fromlen);
+                    result = recvfrom(sockUdpRecv, &RecvBuff_, sizeof(RecvBuff_), 0, (struct sockaddr *)&from, (socklen_t *)&fromlen);
                     osMutexRelease(UdpJsonExch::getInstance()->mutexSock_id);
 
                     if (result != 0) {
 //term2("receivedUDP result")
 //term2(result)
-                        if (Json::getInstance()->deserialize(recvDoc, (void *)UdpJsonExch::getInstance()->recvBuff, strlen(UdpJsonExch::getInstance()->recvBuff))) {
+                        if (Json::getInstance()->deserialize(recvDoc, (void *)RecvBuff_, strlen(RecvBuff_))) {
 
                             osMutexWait(UdpJsonExch::getInstance()->mutexCallControlId, osWaitForever);
                             if (!CallControl_->sendInfoAboutStation(recvDoc)) {

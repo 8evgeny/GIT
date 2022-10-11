@@ -215,13 +215,13 @@ void CallControl::setCallType()
                     startRingTone(RingToneType::RING_TONE);
                     this->TransitionTo(new DuplexDirectCall);
 
-                    retransmitMessage(UdpJsonExch::getInstance()->recvBuff, strlen(UdpJsonExch::getInstance()->recvBuff), Request::ACK);
-                    copyRecvBuff(messageData.recvMessageBuff, UdpJsonExch::getInstance()->recvBuff);
+                    retransmitMessage(RecvBuff_, strlen(RecvBuff_), Request::ACK);
+                    copyRecvBuff(messageData.recvMessageBuff, RecvBuff_);
 
                 } else if (messageData.field.linkMode == Simplex) {
 
-                    retransmitMessage(UdpJsonExch::getInstance()->recvBuff, strlen(UdpJsonExch::getInstance()->recvBuff), Request::ACK_ANSW);
-                    copyRecvBuff(messageData.recvMessageBuff, UdpJsonExch::getInstance()->recvBuff);
+                    retransmitMessage(RecvBuff_, strlen(RecvBuff_), Request::ACK_ANSW);
+                    copyRecvBuff(messageData.recvMessageBuff, RecvBuff_);
                     createRtp(messageData.field.prevOwnId, Simplex_recv_type);
                     this->TransitionTo(new SimplexDirectCall);
                 }
@@ -232,11 +232,11 @@ void CallControl::setCallType()
                 isIncomingCall = true;
                 messageDataBuff.field.linkMode = messageData.field.linkMode;
 
-                copyRecvBuff(messageData.recvMessageBuff, UdpJsonExch::getInstance()->recvBuff);
+                copyRecvBuff(messageData.recvMessageBuff, RecvBuff_);
 
                 if (messageData.field.linkMode == Duplex) {
 
-                    retransmitMessage(UdpJsonExch::getInstance()->recvBuff, strlen(UdpJsonExch::getInstance()->recvBuff), Request::ACK);
+                    retransmitMessage(RecvBuff_, strlen(RecvBuff_), Request::ACK);
 
                     startRingTone(RingToneType::RING_UNKNOWN_TONE);
                     osTimer.start(osTimer.autoAnsw_timerId, osTimer.autoAnsw_timerStatus, AUTO_ANSW_TIMEOUT);
@@ -244,7 +244,7 @@ void CallControl::setCallType()
 
                 } else if (messageData.field.linkMode == Simplex) {
 
-                    retransmitMessage(UdpJsonExch::getInstance()->recvBuff, strlen(UdpJsonExch::getInstance()->recvBuff), Request::ACK_ANSW);
+                    retransmitMessage(RecvBuff_, strlen(RecvBuff_), Request::ACK_ANSW);
 
                     startRingTone(RingToneType::RING_UNKNOWN_TONE);
                     osTimer.start(osTimer.autoAnsw_timerId, osTimer.autoAnsw_timerStatus, AUTO_ANSW_TIMEOUT);
@@ -267,8 +267,8 @@ void CallControl::setCallType()
                 missedCall.remove(assignedData.key);
                 if (boardType != sl1) switchLed(subjectKey.key, true, 250, 250, 0, GPIO::GREEN);
                 if (boardType == sl1) switchLed(subjectKey.key, true, 0, 0, 0, GPIO::GREEN);
-//                retransmitJsonDoc(UdpJsonExch::getInstance()->recvBuff, strlen(UdpJsonExch::getInstance()->recvBuff), Request::ACK);
-                copyRecvBuff(messageData.recvMessageBuff, UdpJsonExch::getInstance()->recvBuff);
+//                retransmitJsonDoc(RecvBuff_, strlen(RecvBuff_), Request::ACK);
+                copyRecvBuff(messageData.recvMessageBuff, RecvBuff_);
 
                 createRtp(messageData.field.prevOwnId, Simplex_recv_type);
                 this->TransitionTo(new GroupCall);
@@ -278,7 +278,7 @@ void CallControl::setCallType()
                 messageData.field.prevPriority = messageData.field.priority;
                 assignedData.key = 0;
                 isIncomingCall = true;
-                copyRecvBuff(messageData.recvMessageBuff, UdpJsonExch::getInstance()->recvBuff);
+                copyRecvBuff(messageData.recvMessageBuff, RecvBuff_);
                 startRingTone(RingToneType::RING_UNKNOWN_TONE);
                 osTimer.start(osTimer.autoAnsw_timerId, osTimer.autoAnsw_timerStatus, AUTO_ANSW_TIMEOUT);
 //                createRtp(messageData.field.prevOwnId, Simplex_recv_type);
@@ -299,8 +299,8 @@ void CallControl::setCallType()
 //                missedCall.remove(assignedData.key);
                 switchLed(subjectKey.key, true, 250, 250, 0, GPIO::GREEN);//Цвет принимаемый циркулярный вызов
 
-                copyRecvBuff(messageData.recvMessageBuff, UdpJsonExch::getInstance()->recvBuff);
-                retransmitMessage(UdpJsonExch::getInstance()->recvBuff, strlen(UdpJsonExch::getInstance()->recvBuff), Request::ACK_ANSW);
+                copyRecvBuff(messageData.recvMessageBuff, RecvBuff_);
+                retransmitMessage(RecvBuff_, strlen(RecvBuff_), Request::ACK_ANSW);
 
                 createRtp(messageData.field.prevOwnId, Simplex_recv_type);
                 this->TransitionTo(new CircularCall);
@@ -309,8 +309,8 @@ void CallControl::setCallType()
                 messageData.field.prevPriority = messageData.field.priority;
                 assignedData.key = 0;
                 isIncomingCall = true;
-                copyRecvBuff(messageData.recvMessageBuff, UdpJsonExch::getInstance()->recvBuff);
-                retransmitMessage(UdpJsonExch::getInstance()->recvBuff, strlen(UdpJsonExch::getInstance()->recvBuff), Request::ACK_ANSW);
+                copyRecvBuff(messageData.recvMessageBuff, RecvBuff_);
+                retransmitMessage(RecvBuff_, strlen(RecvBuff_), Request::ACK_ANSW);
                 startRingTone(RingToneType::RING_UNKNOWN_TONE);
                 osTimer.start(osTimer.autoAnsw_timerId, osTimer.autoAnsw_timerStatus, AUTO_ANSW_TIMEOUT);
 //                createRtp(messageData.field.prevOwnId, Simplex_recv_type);
@@ -337,9 +337,9 @@ void CallControl::setCallType()
                 switchLed(assignedData.conferenceKey, true, 250, 250, 0, GPIO::GREEN); //Цвет запрос на прием вызова
                 startRingTone(RingToneType::RING_TONE);
 
-                retransmitMessage(UdpJsonExch::getInstance()->recvBuff, strlen(UdpJsonExch::getInstance()->recvBuff), Request::ACK);
-//                memcpy (messageData.field.recvBuffCopy, UdpJsonExch::getInstance()->recvBuff, strlen(UdpJsonExch::getInstance()->recvBuff)+1);
-                copyRecvBuff(messageData.recvMessageBuff, UdpJsonExch::getInstance()->recvBuff);
+                retransmitMessage(RecvBuff_, strlen(RecvBuff_), Request::ACK);
+//                memcpy (messageData.field.recvBuffCopy, RecvBuff_, strlen(RecvBuff_)+1);
+                copyRecvBuff(messageData.recvMessageBuff, RecvBuff_);
                 this->TransitionTo(new ConferenceCall);
             }
         }
@@ -356,10 +356,10 @@ void CallControl::setCallType()
             missedCall.remove(assignedData.key);
             switchLed(assignedData.key, true, 250, 250, 0, GPIO::GREEN);
             control = Control::NONE;
-//            sendUdpMulticast(UdpJsonExch::getInstance()->recvBuff, strlen(UdpJsonExch::getInstance()->recvBuff));
-            copyRecvBuff(messageData.recvMessageBuff, UdpJsonExch::getInstance()->recvBuff);
+//            sendUdpMulticast(RecvBuff_, strlen(RecvBuff_));
+            copyRecvBuff(messageData.recvMessageBuff, RecvBuff_);
             sendRequest(Request::ACK);
-//            memcpy (messageData.field.recvBuffCopy, UdpJsonExch::getInstance()->recvBuff, strlen(UdpJsonExch::getInstance()->recvBuff)+1);
+//            memcpy (messageData.field.recvBuffCopy, RecvBuff_, strlen(RecvBuff_)+1);
 
             for(uint8_t i = 0; i < getSubjectData(Size); ++i ) //Число задействованных клавиш в конфиге
             {
@@ -812,7 +812,7 @@ void CallControl::sendRequest(Request reqType)
         requestCount++;
         break;
     case Request::ACK:
-        retransmitMessage(UdpJsonExch::getInstance()->recvBuff, strlen(UdpJsonExch::getInstance()->recvBuff), CallControl::Request::ACK);
+        retransmitMessage(RecvBuff_, strlen(RecvBuff_), CallControl::Request::ACK);
         break;
     case Request::ACK_ANSW:
         requestCount = 0;
@@ -825,7 +825,7 @@ void CallControl::sendRequest(Request reqType)
         if (messageData.distIdArrSize == 1) {
             requestCount = 0;
             control = Control::BUSY;
-            retransmitMessage(UdpJsonExch::getInstance()->recvBuff, strlen(UdpJsonExch::getInstance()->recvBuff), messageData.field.distId, CallControl::Request::BUSY);
+            retransmitMessage(RecvBuff_, strlen(RecvBuff_), messageData.field.distId, CallControl::Request::BUSY);
             osTimer.start(osTimer.request_timerId, osTimer.request_timerStatus, TIMEOUT);
             requestCount++;
         }

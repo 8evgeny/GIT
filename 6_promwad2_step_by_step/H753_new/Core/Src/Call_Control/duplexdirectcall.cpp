@@ -92,7 +92,7 @@ term("DuplexDirectCall ")
 //                    if (context_->rtpStatus == OK_RTP) {
                     context_->control = CallControl::Control::EXCH_CALL_TYPE;
                     context_->messageDataBuff.field = context_->messageData.field;                  //it is copying incoming json to the buffer
-                    context_->copyRecvBuff(context_->messageDataBuff.recvMessageBuff, UdpJsonExch::getInstance()->recvBuff);
+                    context_->copyRecvBuff(context_->messageDataBuff.recvMessageBuff, RecvBuff_);
 
                     context_->sendRequest(CallControl::Request::HANG_UP);
                     context_->removeRtp();
@@ -208,7 +208,7 @@ term("DuplexDirectCall ")
             case CallControl::Control::EXCH_CALL_TYPE: {
 
                 context_->messageData.field = context_->messageDataBuff.field;
-                std::memcpy(UdpJsonExch::getInstance()->recvBuff, context_->messageDataBuff.recvMessageBuff, std::strlen(context_->messageDataBuff.recvMessageBuff));
+                std::memcpy(RecvBuff_, context_->messageDataBuff.recvMessageBuff, std::strlen(context_->messageDataBuff.recvMessageBuff));
 
                 context_->resetData();
                 context_->setCallType();
@@ -243,7 +243,7 @@ term("DuplexDirectCall ")
             if (context_->messageData.field.distId == context_->messageData.field.prevDistId) {
                 context_->control = CallControl::Control::NONE;
 
-                context_->copyRecvBuff(context_->messageData.recvMessageBuff, UdpJsonExch::getInstance()->recvBuff);
+                context_->copyRecvBuff(context_->messageData.recvMessageBuff, RecvBuff_);
                 switchLed(context_->assignedData.key, true, 0,0,0, GPIO::GREEN);
 //                context_->messageData.field.prevPriority = context_->messageData.field.distPriority;
                 startRingTone(RingToneType::RING_BACK_TONE);
@@ -281,7 +281,7 @@ term("DuplexDirectCall ")
             context_->osTimer.stop(context_->osTimer.request_timerId, context_->osTimer.request_timerStatus);
 
             context_->messageData.field = context_->messageDataBuff.field;
-            std::memcpy(UdpJsonExch::getInstance()->recvBuff, context_->messageDataBuff.recvMessageBuff, std::strlen(context_->messageDataBuff.recvMessageBuff)); // it is reading some incoming data from the buff
+            std::memcpy(RecvBuff_, context_->messageDataBuff.recvMessageBuff, std::strlen(context_->messageDataBuff.recvMessageBuff)); // it is reading some incoming data from the buff
 
             context_->control = CallControl::Control::NONE;
             context_->resetData();

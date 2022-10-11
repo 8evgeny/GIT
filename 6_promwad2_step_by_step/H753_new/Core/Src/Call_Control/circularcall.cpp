@@ -69,9 +69,9 @@ void CircularCall::handleJsonMessage()
         } else if (Json::getInstance()->thisStation.id == context_->messageData.field.ownId) {
             if (context_->seekDynamicStorage(context_->dynamicStorage, context_->messageData.field.distId)) {
 
-//            memcpy(context_->messageData.field.recvBuffCopy, UdpJsonExch::getInstance()->recvBuff, strlen(UdpJsonExch::getInstance()->recvBuff) + 1);
+//            memcpy(context_->messageData.field.recvBuffCopy, RecvBuff_, strlen(RecvBuff_) + 1);
 //            context_->sendRequest(CallControl::Request::ACK);
-                context_->retransmitMessage(UdpJsonExch::getInstance()->recvBuff, strlen(UdpJsonExch::getInstance()->recvBuff), CallControl::Request::ACK);
+                context_->retransmitMessage(RecvBuff_, strlen(RecvBuff_), CallControl::Request::ACK);
 
                 context_->popDynamicStorage(context_->dynamicStorage, context_->messageData.field.distId);
 
@@ -111,7 +111,7 @@ void CircularCall::handleJsonMessage()
 
                         context_->control = CallControl::Control::EXCH_CALL_TYPE;
                         context_->messageDataBuff.field = context_->messageData.field;                  //it is copying incoming json to the buffer
-                        context_->copyRecvBuff(context_->messageDataBuff.recvMessageBuff, UdpJsonExch::getInstance()->recvBuff);
+                        context_->copyRecvBuff(context_->messageDataBuff.recvMessageBuff, RecvBuff_);
 
                         context_->sendRequest(CallControl::Request::HANG_UP);
 
@@ -186,7 +186,7 @@ void CircularCall::handleJsonMessage()
 //                context_->busyDynamicStorage.push_back(context_->inputBuff.shift());
 //                switchLed(context_->subjectKey.key, true, 900, 100);
                 context_->osTimer.stop(context_->osTimer.request_timerId, context_->osTimer.request_timerStatus);
-                context_->retransmitMessage(UdpJsonExch::getInstance()->recvBuff, strlen(UdpJsonExch::getInstance()->recvBuff), CallControl::Request::ACK);
+                context_->retransmitMessage(RecvBuff_, strlen(RecvBuff_), CallControl::Request::ACK);
             }
         }
         break;
@@ -268,7 +268,7 @@ void CircularCall::handleRepeatedRequestCallBack()
             case CallControl::Control::EXCH_CALL_TYPE: {
                 context_->osTimer.stop(context_->osTimer.request_timerId, context_->osTimer.request_timerStatus);
                 context_->messageData.field = context_->messageDataBuff.field;
-                std::memcpy(UdpJsonExch::getInstance()->recvBuff, context_->messageDataBuff.recvMessageBuff, std::strlen(context_->messageDataBuff.recvMessageBuff));
+                std::memcpy(RecvBuff_, context_->messageDataBuff.recvMessageBuff, std::strlen(context_->messageDataBuff.recvMessageBuff));
                 context_->resetData();
                 context_->setCallType();
             }
@@ -368,7 +368,7 @@ void CircularCall::handleAck()
             context_->osTimer.stop(context_->osTimer.request_timerId, context_->osTimer.request_timerStatus);
 
             context_->messageData.field = context_->messageDataBuff.field;
-            std::memcpy(UdpJsonExch::getInstance()->recvBuff, context_->messageDataBuff.recvMessageBuff, std::strlen(context_->messageDataBuff.recvMessageBuff));
+            std::memcpy(RecvBuff_, context_->messageDataBuff.recvMessageBuff, std::strlen(context_->messageDataBuff.recvMessageBuff));
 
             context_->resetData();
             context_->setCallType();

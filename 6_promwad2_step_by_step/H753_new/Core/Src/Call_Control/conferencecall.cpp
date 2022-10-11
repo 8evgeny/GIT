@@ -83,9 +83,9 @@ void ConferenceCall::handleJsonMessage()
         } else if (Json::getInstance()->thisStation.id == context_->messageData.field.ownId) {
             if (context_->seekDynamicStorage(context_->dynamicStorage, context_->messageData.field.distId)) {
 
-//            memcpy(context_->serviceData->recvBuffCopy, UdpJsonExch::getInstance()->recvBuff, strlen(UdpJsonExch::getInstance()->recvBuff) + 1);
+//            memcpy(context_->serviceData->recvBuffCopy, RecvBuff_, strlen(RecvBuff_) + 1);
 //            context_->sendRequest(CallControl::Request::ACK);
-                context_->retransmitMessage(UdpJsonExch::getInstance()->recvBuff, strlen(UdpJsonExch::getInstance()->recvBuff), CallControl::Request::ACK);
+                context_->retransmitMessage(RecvBuff_, strlen(RecvBuff_), CallControl::Request::ACK);
 
                 context_->popDynamicStorage(context_->dynamicStorage, context_->messageData.field.distId);
 
@@ -136,7 +136,7 @@ void ConferenceCall::handleJsonMessage()
 //                        *(context_->serviceBuff) = *(context_->serviceData);
 //                        context_->messageDataBuff
                             context_->messageDataBuff.field = context_->messageData.field;
-                            context_->copyRecvBuff(context_->messageDataBuff.recvMessageBuff, UdpJsonExch::getInstance()->recvBuff);
+                            context_->copyRecvBuff(context_->messageDataBuff.recvMessageBuff, RecvBuff_);
 
 
                             context_->control = CallControl::Control::CHANGE_CONF;
@@ -190,9 +190,9 @@ void ConferenceCall::handleJsonMessage()
             key = context_->getKey(context_->messageData.field.distId);
             switchLed(key, true, 300, 300, 2, GPIO::GREEN);
 
-//            memcpy(context_->serviceData->recvBuffCopy, UdpJsonExch::getInstance()->recvBuff, strlen(UdpJsonExch::getInstance()->recvBuff) + 1);
+//            memcpy(context_->serviceData->recvBuffCopy, RecvBuff_, strlen(RecvBuff_) + 1);
 //            context_->sendRequest(CallControl::Request::ACK);
-            context_->retransmitMessage(UdpJsonExch::getInstance()->recvBuff, strlen(UdpJsonExch::getInstance()->recvBuff), CallControl::Request::ACK);
+            context_->retransmitMessage(RecvBuff_, strlen(RecvBuff_), CallControl::Request::ACK);
 
 //            }
         }
@@ -205,7 +205,7 @@ void ConferenceCall::handleJsonMessage()
                 context_->busyDynamicStorage.push_back(assign);
                 switchLed(key, true, 900, 100, 0, GPIO::GREEN);
                 context_->osTimer.stop(context_->osTimer.request_timerId, context_->osTimer.request_timerStatus);
-                context_->retransmitMessage(UdpJsonExch::getInstance()->recvBuff, strlen(UdpJsonExch::getInstance()->recvBuff), CallControl::Request::ACK);
+                context_->retransmitMessage(RecvBuff_, strlen(RecvBuff_), CallControl::Request::ACK);
             }
         }
         break;
@@ -217,7 +217,7 @@ void ConferenceCall::handleJsonMessage()
                     uint8_t key = context_->getKey(context_->messageData.field.distId);
                     context_->busyDynamicStorage.push_back(context_->messageData.field.distId);
                     switchLed(key, true, 900, 100, 0, GPIO::GREEN);
-                    context_->retransmitMessage(UdpJsonExch::getInstance()->recvBuff, strlen(UdpJsonExch::getInstance()->recvBuff), CallControl::Request::ACK);
+                    context_->retransmitMessage(RecvBuff_, strlen(RecvBuff_), CallControl::Request::ACK);
                 }
             }
         }
@@ -227,12 +227,12 @@ void ConferenceCall::handleJsonMessage()
             if (context_->seekDynamicStorage(context_->busyDynamicStorage, context_->messageData.field.distId)) {
                 context_->popDynamicStorage(context_->busyDynamicStorage, context_->messageData.field.distId);
                 if ( context_->pushDynamicStorage(CallControl::Conference, context_->dynamicStorage, context_->messageData.field.distId)) {
-                    context_->retransmitMessage(UdpJsonExch::getInstance()->recvBuff, strlen(UdpJsonExch::getInstance()->recvBuff), CallControl::Request::ACK);
+                    context_->retransmitMessage(RecvBuff_, strlen(RecvBuff_), CallControl::Request::ACK);
                 }
             }
         } else if (Json::getInstance()->thisStation.id == context_->messageData.field.distId) {
             if (context_->messageData.field.ownId == context_->messageData.field.prevOwnId) {
-                context_->retransmitMessage(UdpJsonExch::getInstance()->recvBuff, strlen(UdpJsonExch::getInstance()->recvBuff), CallControl::Request::ACK);
+                context_->retransmitMessage(RecvBuff_, strlen(RecvBuff_), CallControl::Request::ACK);
             }
         }
         break;
@@ -338,7 +338,7 @@ void ConferenceCall::handleRepeatedRequestCallBack()
                 context_->osTimer.stop(context_->osTimer.request_timerId, context_->osTimer.request_timerStatus);// added the timer stop function
 
                 context_->messageData.field = context_->messageDataBuff.field;
-                std::memcpy(UdpJsonExch::getInstance()->recvBuff, context_->messageDataBuff.recvMessageBuff, std::strlen(context_->messageDataBuff.recvMessageBuff));
+                std::memcpy(RecvBuff_, context_->messageDataBuff.recvMessageBuff, std::strlen(context_->messageDataBuff.recvMessageBuff));
 
                 context_->messageDataBuff.clear();
 
@@ -557,7 +557,7 @@ void ConferenceCall::handleAck()
 //                *(context_->serviceData) = *(context_->serviceBuff);
 
                 context_->messageData.field = context_->messageDataBuff.field;
-                std::memcpy(UdpJsonExch::getInstance()->recvBuff, context_->messageDataBuff.recvMessageBuff, std::strlen(context_->messageDataBuff.recvMessageBuff));
+                std::memcpy(RecvBuff_, context_->messageDataBuff.recvMessageBuff, std::strlen(context_->messageDataBuff.recvMessageBuff));
 
                 context_->messageDataBuff.clear();
 //                if (context_->messageDataBuff.recvMessageBuff != nullptr) {
