@@ -69,10 +69,11 @@ term2("CallWaiting::handleButton")
 
     case CallControl::Telephone:
     {
-        if (context_->subjectKey.key == CallControl::Asterisk)
-        {
+        if ((context_->subjectKey.key == CallControl::Asterisk)
+            && (context_->telephoneDynamicStorage.size() == 0))
+        {//Когда первым следует Астериск то режим обычного телефонного вызова
 term2("Asterisk pressed")
-
+            context_->ordinaryTelephoneCall = true;
             context_->assignedData.key = context_->subjectKey.key;
             context_->assignedData.priority = context_->subjectKey.priority;
 //            context_->messageData.field.prevPriority = 4;

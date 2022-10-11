@@ -562,7 +562,8 @@ public:
        54, 55, 56, // 21,22,23,
        57, 58, 59, // 25,26,27,
     };
-
+    bool ordinaryTelephoneCall = false;
+    bool simplexTelephoneCall = false;
 
     std::array <Keypad, 10> keypadStructArray; /*!< The array that stores Keypad struct elements */
 

@@ -131,8 +131,9 @@ void dialingTimer_Callback(void const *arg)
     uint8_t size = static_cast<uint8_t>(CallControl_->telephoneDynamicStorage.size());
     uint16_t distSubject = 0;
 
-    if (size > 2)
+    if (size > 2 && CallControl_->ordinaryTelephoneCall)
     {
+        CallControl_->ordinaryTelephoneCall = false;
         for (uint8_t i = 0; i < size; ++i)
         {//distSubject - абонент набранный на кейпаде
             distSubject += static_cast<uint16_t> (pow(10, (size-i-1))
