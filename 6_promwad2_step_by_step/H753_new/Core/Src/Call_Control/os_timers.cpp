@@ -138,6 +138,9 @@ void dialingTimer_Callback(void const *arg)
             distSubject += static_cast<uint16_t> (pow(10, (size-i-1))
                                                   * UdpJsonExch::getInstance()->callControl->telephoneDynamicStorage[i]);
         }
+        char msg[100];
+        sprintf(msg,"abonent = %d",distSubject);
+term2(msg)
 
         UdpJsonExch::getInstance()->callControl->messageData.field.prevDistId = distSubject;
 
