@@ -82,6 +82,12 @@ term2("Asterisk pressed")
         }
 
 //Здесь код обработки клавиш
+     //Контекст переключаю когда набраны 3 цифры и четвертым Asterisk
+//     fix_point
+
+
+
+
         if (context_->rtpStatus != OK_RTP)
             for (auto& var : context_->keypadStructArray)
                 if (context_->subjectKey.key == var.n)
