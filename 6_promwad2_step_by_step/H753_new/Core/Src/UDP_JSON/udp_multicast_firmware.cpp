@@ -330,7 +330,7 @@ void parsingFirmwareFromJson(JsonDocument &doc)
     /* FatFs function common result code */
 //    const char *cmd = doc["cmd"];
 //    const char *station = doc["station"];
-    if ((doc["cmd"] == "update") && ((uint8_t)doc["station"] == (uint8_t)Json::getInstance()->thisStation.id))
+    if ((doc["cmd"] == "update") && ((uint8_t)doc["station"] == (uint8_t)ThisStation_.id))
     {
 
         int versionFirmware = doc["versionFirmware"];
@@ -359,7 +359,7 @@ void parsingFirmwareFromJson(JsonDocument &doc)
 void rebootMcuByJson(JsonDocument &doc)
 {
     int rebootId = doc["rebootId"];
-    if (Json::getInstance()->thisStation.id == rebootId)
+    if (ThisStation_.id == rebootId)
     {
         HAL_NVIC_SystemReset();
     }
@@ -368,7 +368,7 @@ void rebootMcuByJson(JsonDocument &doc)
 void deleteConfigMcuByJson(JsonDocument &doc)
 {
     int deleteConfigId = doc["deleteConfigId"];
-    if (Json::getInstance()->thisStation.id == deleteConfigId)
+    if (ThisStation_.id == deleteConfigId)
     {
         lfs_remove(FsForEeprom::getInstance().lfsPtr, "boot_config");
     }
@@ -385,7 +385,7 @@ void writeConfigMcuByJson(JsonDocument &doc)
     uint32_t tmp[SIZE_DEF_BLOCK_UDP / 4];
 
     int writeConfigId = doc["writeConfigId"];
-    if (Json::getInstance()->thisStation.id == writeConfigId)
+    if (ThisStation_.id == writeConfigId)
     {
 if(counterFrames == 0)
 {
@@ -449,7 +449,7 @@ term2((int)commonSizeAllFrames)
                 const int capacity = JSON_OBJECT_SIZE(3);
                 StaticJsonDocument<capacity> configDoc;
 
-                configDoc["writeConfigId"] = Json::getInstance()->thisStation.id;
+                configDoc["writeConfigId"] = ThisStation_.id;
                 configDoc["status"].set("ok");
 //                CallControl_->sendJson(configDoc, capacity/*, UDP_PORT*/);
 

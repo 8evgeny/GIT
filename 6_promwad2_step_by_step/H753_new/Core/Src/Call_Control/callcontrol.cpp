@@ -111,7 +111,7 @@ bool CallControl::detectSubject(uint16_t subject)
     uint16_t size = getSubjectData(Size);
     for(uint8_t i = 0; i < size; ++i )
     {
-        subjectKey = Json::getInstance()->thisStation.keysBuffer[i];
+        subjectKey = ThisStation_.keysBuffer[i];
         if (subjectKey.assign == subject) {
             return true;
         }
@@ -163,25 +163,25 @@ uint16_t CallControl::getSubjectData(CallControl::SubjectData control, uint8_t i
 
     switch (control) {
     case Key:
-        retVal = Json::getInstance()->thisStation.keysBuffer[i].key;
+        retVal = ThisStation_.keysBuffer[i].key;
         break;
     case Assign:
-        retVal = Json::getInstance()->thisStation.keysBuffer[i].assign;
+        retVal = ThisStation_.keysBuffer[i].assign;
         break;
     case Function:
-        retVal = Json::getInstance()->thisStation.keysBuffer[i].function;
+        retVal = ThisStation_.keysBuffer[i].function;
         break;
     case Priority:
-        retVal = Json::getInstance()->thisStation.keysBuffer[i].priority;
+        retVal = ThisStation_.keysBuffer[i].priority;
         break;
     case Mode:
-        retVal = Json::getInstance()->thisStation.keysBuffer[i].mode;
+        retVal = ThisStation_.keysBuffer[i].mode;
         break;
     case Link:
-        retVal = Json::getInstance()->thisStation.keysBuffer[i].directLinkMode;
+        retVal = ThisStation_.keysBuffer[i].directLinkMode;
         break;
     case Size:
-        retVal = static_cast<uint8_t>(Json::getInstance()->thisStation.keysBuffer.size());
+        retVal = static_cast<uint8_t>(ThisStation_.keysBuffer.size());
         break;
     }
 //    osMutexRelease(mutexKeyBufferId_);
@@ -432,7 +432,7 @@ bool changeToHash = false;
 
                     if ((getSubjectData(Key, i)) == pressedKey)
                     {
-                        subjectKey = Json::getInstance()->thisStation.keysBuffer[i];
+                        subjectKey = ThisStation_.keysBuffer[i];
 
 //Добавил переопределение клавиш для возможности принимать телефонный вызовы
                         if (subjectKey.function == Telephone)
@@ -511,12 +511,12 @@ term("CallControl::sendInfoAboutStation")
         const int capacity = JSON_OBJECT_SIZE(6) + JSON_ARRAY_SIZE(6);
         StaticJsonDocument<capacity> infoDoc;
 
-        infoDoc["ID"] = Json::getInstance()->thisStation.id;
+        infoDoc["ID"] = ThisStation_.id;
         uint8_t *currentFirmware = reinterpret_cast<uint8_t *>(START_AREA_CURRENT_FIRMWARE);
         uint8_t *currentSubFirmware = reinterpret_cast<uint8_t *>(START_AREA_CURRENT_FIRMWARE + 1);
         infoDoc["Version"] = *currentFirmware;
         infoDoc["Sub"] = *currentSubFirmware;
-        infoDoc["IP"] = Json::getInstance()->thisStation.ip;
+        infoDoc["IP"] = ThisStation_.ip;
 
 //        MACAddr[0] = 0x40;
 //        MACAddr[1] = 0x8d;
@@ -628,7 +628,7 @@ term("CallControl::sendMessage")
     const int capacity = JSON_OBJECT_SIZE(6) + JSON_ARRAY_SIZE(100);
     DynamicJsonDocument doc (capacity);
 
-    doc["Own_Id"] = Json::getInstance()->thisStation.id;
+    doc["Own_Id"] = ThisStation_.id;
     doc["Dist_Id"].add(distId);
     doc["Call_Type"] = func;
     doc["Priority"] = assignedData.priority;
@@ -650,7 +650,7 @@ void CallControl::sendMessage(const Request linkData)
     const int capacity = JSON_OBJECT_SIZE(6) + JSON_ARRAY_SIZE(100);
     DynamicJsonDocument doc (capacity);
 
-    doc["Own_Id"] = Json::getInstance()->thisStation.id;
+    doc["Own_Id"] = ThisStation_.id;
     doc["Dist_Id"].add(subjectKey.assign);
     doc["Call_Type"] = subjectKey.function;
     doc["Priority"] = subjectKey.priority;
@@ -671,7 +671,7 @@ void CallControl::sendMessage(const uint16_t arr[], const uint16_t size, const R
     const int capacity = JSON_OBJECT_SIZE(6) + JSON_ARRAY_SIZE(100);
     DynamicJsonDocument doc (capacity);
 
-    doc["Own_Id"] = Json::getInstance()->thisStation.id;
+    doc["Own_Id"] = ThisStation_.id;
     for (uint16_t i = 0; i < size; ++i) {
         doc["Dist_Id"].add(arr[i]);
     }
@@ -789,8 +789,8 @@ void CallControl::sendRequest(uint8_t callType, Request reqType, uint16_t timeou
     break;
     case Group: {
         checkGroupIndex = 0;
-        uint16_t size = Json::getInstance()->thisStation.groupsBuffer[assignedData.id].stSize;
-        sendMessage(Json::getInstance()->thisStation.groupsBuffer[assignedData.id].stantions, size, reqType);
+        uint16_t size = ThisStation_.groupsBuffer[assignedData.id].stSize;
+        sendMessage(ThisStation_.groupsBuffer[assignedData.id].stantions, size, reqType);
     }
     break;
     default:
@@ -895,7 +895,7 @@ bool CallControl::switchToConf()
         TransitionTo(new ConferenceCall);
 
         if (isInterruptConf == InterruptConf::CALLER) {
-            createRtp(Json::getInstance()->thisStation.id, Duplex_type);
+            createRtp(ThisStation_.id, Duplex_type);
         } else if (isInterruptConf == InterruptConf::CALLED_PARTY) {
             createRtp(messageData.field.prevOwnId, Duplex_type);
             control = Control::RETURN_CONF;

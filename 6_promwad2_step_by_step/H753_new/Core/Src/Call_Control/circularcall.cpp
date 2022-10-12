@@ -54,7 +54,7 @@ void CircularCall::handleJsonMessage()
 {
     switch (static_cast<CallControl::Request>(context_->messageData.field.linkData)) {
     case CallControl::Request::HANG_UP:
-        if (Json::getInstance()->thisStation.id == context_->messageData.field.distId) {
+        if (ThisStation_.id == context_->messageData.field.distId) {
             if (context_->messageData.field.ownId == context_->messageData.field.prevOwnId) {
 
                 context_->sendRequest(CallControl::Request::ACK);
@@ -66,7 +66,7 @@ void CircularCall::handleJsonMessage()
                 if (!context_->switchToConf())
                     this->context_->TransitionTo(new CallWaiting);
             }
-        } else if (Json::getInstance()->thisStation.id == context_->messageData.field.ownId) {
+        } else if (ThisStation_.id == context_->messageData.field.ownId) {
             if (context_->seekDynamicStorage(context_->dynamicStorage, context_->messageData.field.distId)) {
 
 //            memcpy(context_->messageData.field.recvBuffCopy, RecvBuff_, strlen(RecvBuff_) + 1);
@@ -90,7 +90,7 @@ void CircularCall::handleJsonMessage()
         }
         break;
     case CallControl::Request::LINK:
-        if (Json::getInstance()->thisStation.id == context_->messageData.field.distId)
+        if (ThisStation_.id == context_->messageData.field.distId)
         {
             if (context_->messageData.field.ownId != context_->messageData.field.prevOwnId)
             {
@@ -148,12 +148,12 @@ void CircularCall::handleJsonMessage()
         break;
     case CallControl::Request::ACK_ANSW:
 
-        if (Json::getInstance()->thisStation.id == context_->messageData.field.ownId) {
+        if (ThisStation_.id == context_->messageData.field.ownId) {
             if (!context_->inputBuff.isEmpty()) {
                 if (context_->messageData.field.distId == context_->inputBuff.first()) {
 
                     if (context_->rtpStatus != OK_RTP)
-                        context_->createRtp(Json::getInstance()->thisStation.id, context_->Simplex_send_type);
+                        context_->createRtp(ThisStation_.id, context_->Simplex_send_type);
 
                     context_->pushDynamicStorage(CallControl::Circular, context_->dynamicStorage, context_->inputBuff.shift());
 
@@ -176,7 +176,7 @@ void CircularCall::handleJsonMessage()
         }
         break;
     case CallControl::Request::BUSY:
-        if (Json::getInstance()->thisStation.id == context_->messageData.field.ownId) {
+        if (ThisStation_.id == context_->messageData.field.ownId) {
             if (context_->messageData.field.distId == context_->inputBuff.first()) {
                 uint16_t assign = context_->inputBuff.shift();
                 uint8_t key = context_->getKey(assign);
@@ -338,14 +338,14 @@ void CircularCall::handleAck()
 {
     switch (context_->control) {
     case CallControl::Control::HANG_UP: {
-        if (Json::getInstance()->thisStation.id == context_->messageData.field.distId) {
+        if (ThisStation_.id == context_->messageData.field.distId) {
             if (context_->messageData.field.ownId == context_->messageData.field.prevOwnId) {
                 context_->osTimer.stop(context_->osTimer.request_timerId, context_->osTimer.request_timerStatus);
                 context_->resetData();
                 if (!context_->switchToConf())
                     this->context_->TransitionTo(new CallWaiting);
             }
-        } else if (Json::getInstance()->thisStation.id == context_->messageData.field.ownId) {
+        } else if (ThisStation_.id == context_->messageData.field.ownId) {
             if (context_->inputBuff.first() == context_->messageData.field.distId) {
                 context_->inputBuff.shift();
                 if (!context_->inputBuff.isEmpty()) {
@@ -362,7 +362,7 @@ void CircularCall::handleAck()
     }
     break;
     case CallControl::Control::EXCH_CALL_TYPE: {
-        if (Json::getInstance()->thisStation.id == context_->messageData.field.distId
+        if (ThisStation_.id == context_->messageData.field.distId
                 && context_->messageData.field.ownId == context_->messageData.field.prevOwnId) {
 
             context_->osTimer.stop(context_->osTimer.request_timerId, context_->osTimer.request_timerStatus);
@@ -376,7 +376,7 @@ void CircularCall::handleAck()
     }
     break;
     case CallControl::Control::BUSY: {
-        if (Json::getInstance()->thisStation.id == context_->messageData.field.distId) {
+        if (ThisStation_.id == context_->messageData.field.distId) {
             context_->control = CallControl::Control::READY;
 
             context_->osTimer.stop(context_->osTimer.request_timerId, context_->osTimer.request_timerStatus);
@@ -388,7 +388,7 @@ void CircularCall::handleAck()
     }
     break;
     case CallControl::Control::ANSWER: {
-        if (Json::getInstance()->thisStation.id == context_->messageData.field.distId) {
+        if (ThisStation_.id == context_->messageData.field.distId) {
             context_->osTimer.stop(context_->osTimer.request_timerId, context_->osTimer.request_timerStatus);
             context_->createRtp(context_->messageData.field.prevOwnId, context_->Duplex_type);
             switchLed(context_->subjectKey.key, true, 0,0,0, GPIO::GREEN);

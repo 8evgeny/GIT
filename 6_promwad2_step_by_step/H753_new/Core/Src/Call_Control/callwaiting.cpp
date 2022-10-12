@@ -42,7 +42,7 @@ term2("CallWaiting::handleButton")
         context_->sendRequest(CallControl::Group, CallControl::Request::LINK, TIMEOUT);
 
 
-        context_->createRtp(Json::getInstance()->thisStation.id, context_->Simplex_send_type);
+        context_->createRtp(ThisStation_.id, context_->Simplex_send_type);
 
         context_->TransitionTo(new GroupCall);
     }
@@ -51,7 +51,7 @@ term2("CallWaiting::handleButton")
         context_->messageData.field.prevOwnId = 0;
         context_->microphone.start();
         switchLed(context_->subjectKey.key, true, 0,0,0, GPIO::GREEN);
-//        context_->createRtp(Json::getInstance()->thisStation.id, context_->Simplex_send_type);
+//        context_->createRtp(ThisStation_.id, context_->Simplex_send_type);
         context_->TransitionTo(new CircularCall);
     }
     break;
@@ -62,7 +62,7 @@ term2("CallWaiting::handleButton")
         context_->assignedData.confPriority = context_->subjectKey.priority;
         switchLed(context_->subjectKey.key, true, 0,0,0, GPIO::GREEN);
         context_->microphone.start();
-//        context_->createRtp(Json::getInstance()->thisStation.id, context_->Duplex_type);
+//        context_->createRtp(ThisStation_.id, context_->Duplex_type);
         context_->TransitionTo(new ConferenceCall);
     }
     break;
@@ -123,7 +123,7 @@ term2("Keypad pressed")
 
 void CallWaiting::handleJsonMessage()
 {
-    if (Json::getInstance()->thisStation.id == context_->messageData.field.distId)
+    if (ThisStation_.id == context_->messageData.field.distId)
         context_->setCallType();
 }
 

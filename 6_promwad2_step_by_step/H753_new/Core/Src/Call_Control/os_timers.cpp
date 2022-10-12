@@ -152,7 +152,7 @@ term2(msg)
 
         if (1000 > distSubject && distSubject > 99)
         {
-            doc["Own_Id"] = Json::getInstance()->thisStation.id;
+            doc["Own_Id"] = ThisStation_.id;
             doc["Dist_Id"].add(distSubject);
             doc["Call_Type"] = 5;
             doc["Priority"] = CallControl_->assignedData.priority;
@@ -189,11 +189,8 @@ term2(msg)
         CallControl_->telephoneDynamicStorage.clear();
 
         //Тут переход в симплекс и астерикс ловим уже там
-        CallControl_->TransitionTo(new CallWaiting);
-//        CallControl_->TransitionTo(new SimplexDirectCall);
-
-
-
+//        CallControl_->TransitionTo(new CallWaiting);
+        CallControl_->TransitionTo(new SimplexDirectCall);
     }
 
     else if (CallControl_->ordinaryTelephoneCall)

@@ -59,7 +59,7 @@ void ConferenceCall::handleJsonMessage()
 {
     switch (static_cast<CallControl::Request>(context_->messageData.field.linkData)) {
     case CallControl::Request::HANG_UP:
-        if (Json::getInstance()->thisStation.id == context_->messageData.field.distId) {
+        if (ThisStation_.id == context_->messageData.field.distId) {
             if (context_->messageData.field.ownId == context_->messageData.field.prevOwnId) {
 
                 stopRingTone();
@@ -80,7 +80,7 @@ void ConferenceCall::handleJsonMessage()
                 if(!context_->switchToConf())
                     this->context_->TransitionTo(new CallWaiting);
             }
-        } else if (Json::getInstance()->thisStation.id == context_->messageData.field.ownId) {
+        } else if (ThisStation_.id == context_->messageData.field.ownId) {
             if (context_->seekDynamicStorage(context_->dynamicStorage, context_->messageData.field.distId)) {
 
 //            memcpy(context_->serviceData->recvBuffCopy, RecvBuff_, strlen(RecvBuff_) + 1);
@@ -105,7 +105,7 @@ void ConferenceCall::handleJsonMessage()
         }
         break;
     case CallControl::Request::LINK:
-        if (Json::getInstance()->thisStation.id == context_->messageData.field.distId) {
+        if (ThisStation_.id == context_->messageData.field.distId) {
             if (context_->messageData.field.ownId != context_->messageData.field.prevOwnId) {
 
 //                if ((context_->assignedData.priority > context_->messageData.field.priority || context_->assignedData.priority == 0) &&
@@ -168,13 +168,13 @@ void ConferenceCall::handleJsonMessage()
     }
     break;
     case CallControl::Request::ACK_ANSW:
-        if (Json::getInstance()->thisStation.id == context_->messageData.field.ownId) {
+        if (ThisStation_.id == context_->messageData.field.ownId) {
 //            if (context_->seekDynamicStorage(context_->dynamicStorage, context_->messageData.field.distId)) {
             bool isFound = false;
             uint8_t key = 0;
 
             if (context_->rtpStatus != OK_RTP)
-                context_->createRtp(Json::getInstance()->thisStation.id, context_->Duplex_type);
+                context_->createRtp(ThisStation_.id, context_->Duplex_type);
 
             if (!context_->dynamicStorage.empty()) {
                 for (auto &n : context_->dynamicStorage) {
@@ -198,7 +198,7 @@ void ConferenceCall::handleJsonMessage()
         }
         break;
     case CallControl::Request::BUSY:
-        if (Json::getInstance()->thisStation.id == context_->messageData.field.ownId) {
+        if (ThisStation_.id == context_->messageData.field.ownId) {
             if (context_->messageData.field.distId == context_->inputBuff.first()) {
                 uint16_t assign = context_->inputBuff.shift();
                 uint8_t key = context_->getKey(assign);
@@ -210,7 +210,7 @@ void ConferenceCall::handleJsonMessage()
         }
         break;
     case CallControl::Request::CHANGE_CONF:
-        if (Json::getInstance()->thisStation.id == context_->messageData.field.ownId) {
+        if (ThisStation_.id == context_->messageData.field.ownId) {
             if (context_->isInterruptConf == CallControl::InterruptConf::NONE) {
                 if (context_->seekDynamicStorage(context_->dynamicStorage, context_->messageData.field.distId)) {
                     context_->popDynamicStorage(context_->dynamicStorage, context_->messageData.field.distId);
@@ -223,14 +223,14 @@ void ConferenceCall::handleJsonMessage()
         }
         break;
     case CallControl::Request::RETURN_CONF:
-        if (Json::getInstance()->thisStation.id == context_->messageData.field.ownId) {
+        if (ThisStation_.id == context_->messageData.field.ownId) {
             if (context_->seekDynamicStorage(context_->busyDynamicStorage, context_->messageData.field.distId)) {
                 context_->popDynamicStorage(context_->busyDynamicStorage, context_->messageData.field.distId);
                 if ( context_->pushDynamicStorage(CallControl::Conference, context_->dynamicStorage, context_->messageData.field.distId)) {
                     context_->retransmitMessage(RecvBuff_, strlen(RecvBuff_), CallControl::Request::ACK);
                 }
             }
-        } else if (Json::getInstance()->thisStation.id == context_->messageData.field.distId) {
+        } else if (ThisStation_.id == context_->messageData.field.distId) {
             if (context_->messageData.field.ownId == context_->messageData.field.prevOwnId) {
                 context_->retransmitMessage(RecvBuff_, strlen(RecvBuff_), CallControl::Request::ACK);
             }
@@ -458,7 +458,7 @@ void ConferenceCall::handleAck()
 {
     switch (context_->control) {
     case CallControl::Control::READY: {
-        if (Json::getInstance()->thisStation.id == context_->messageData.field.ownId) {
+        if (ThisStation_.id == context_->messageData.field.ownId) {
             if (!context_->inputBuff.isEmpty())
                 if (context_->messageData.field.distId == context_->inputBuff.first()) {
 
@@ -477,14 +477,14 @@ void ConferenceCall::handleAck()
     }
     break;
     case CallControl::Control::HANG_UP: {
-        if (Json::getInstance()->thisStation.id == context_->messageData.field.distId) {
+        if (ThisStation_.id == context_->messageData.field.distId) {
             if (context_->messageData.field.ownId == context_->messageData.field.prevOwnId) {
                 context_->osTimer.stop(context_->osTimer.request_timerId, context_->osTimer.request_timerStatus);
                 context_->resetData();
                 if(!context_->switchToConf())
                     this->context_->TransitionTo(new CallWaiting);
             }
-        } else if (Json::getInstance()->thisStation.id == context_->messageData.field.ownId) {
+        } else if (ThisStation_.id == context_->messageData.field.ownId) {
             if (context_->inputBuff.first() == context_->messageData.field.distId) {
                 context_->inputBuff.shift();
                 if (!context_->inputBuff.isEmpty()) {
@@ -518,7 +518,7 @@ void ConferenceCall::handleAck()
     }
     break;
     case CallControl::Control::BUSY: {
-        if (Json::getInstance()->thisStation.id == context_->messageData.field.distId) {
+        if (ThisStation_.id == context_->messageData.field.distId) {
             context_->control = CallControl::Control::READY;
 
             context_->osTimer.stop(context_->osTimer.request_timerId, context_->osTimer.request_timerStatus);
@@ -530,7 +530,7 @@ void ConferenceCall::handleAck()
     }
     break;
     case CallControl::Control::ANSWER: {
-        if (Json::getInstance()->thisStation.id == context_->messageData.field.distId) {
+        if (ThisStation_.id == context_->messageData.field.distId) {
             if (context_->messageData.field.ownId == context_->messageData.field.prevOwnId) {
 //                context_->control = Control::None;
                 context_->osTimer.stop(context_->osTimer.request_timerId, context_->osTimer.request_timerStatus);
@@ -548,7 +548,7 @@ void ConferenceCall::handleAck()
     }
     break;
     case CallControl::Control::CHANGE_CONF: {
-        if (Json::getInstance()->thisStation.id == context_->messageData.field.distId) {
+        if (ThisStation_.id == context_->messageData.field.distId) {
             if (context_->messageData.field.ownId == context_->messageData.field.prevOwnId) {
 
                 context_->osTimer.stop(context_->osTimer.request_timerId, context_->osTimer.request_timerStatus);
@@ -570,7 +570,7 @@ void ConferenceCall::handleAck()
                 context_->resetData();
                 context_->setCallType();
             }
-        } /*else if (Json::getInstance()->thisStation.id == context_->messageData.field.ownId) {
+        } /*else if (ThisStation_.id == context_->messageData.field.ownId) {
 context_->isInterruptConf = CallControl::Caller;
 }*/
 
@@ -578,11 +578,11 @@ context_->isInterruptConf = CallControl::Caller;
     }
     break;
     case CallControl::Control::RETURN_CONF: {
-        if (Json::getInstance()->thisStation.id == context_->messageData.field.distId) {
+        if (ThisStation_.id == context_->messageData.field.distId) {
             if (context_->messageData.field.ownId == context_->messageData.field.prevOwnId) {
                 context_->osTimer.stop(context_->osTimer.request_timerId, context_->osTimer.request_timerStatus);
             }
-        } else if (Json::getInstance()->thisStation.id == context_->messageData.field.ownId) {
+        } else if (ThisStation_.id == context_->messageData.field.ownId) {
             if (context_->seekDynamicStorage(context_->dynamicStorage, context_->messageData.field.distId)) {
 
                 context_->dynamicStorageIter++;

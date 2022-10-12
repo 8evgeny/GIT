@@ -1113,13 +1113,13 @@ void TaskEthernet_(void const * argument)
 //    osDelay(2000); //Если ставить задержку - зависания и непонятное поведение
     term("--- TaskEthernet_ ---")
 
-        term1("ip")      term(Json::getInstance()->thisStation.ip)
-        term1("mask")    term(Json::getInstance()->thisStation.mask)
-        term1("gateway") term(Json::getInstance()->thisStation.gateway)
+        term1("ip")      term(ThisStation_.ip)
+        term1("mask")    term(ThisStation_.mask)
+        term1("gateway") term(ThisStation_.gateway)
 
 
         //  /* init code for LWIP */
-    if (MX_LWIP_Init(Json::getInstance()->thisStation.ip, Json::getInstance()->thisStation.mask,Json::getInstance()->thisStation.gateway) != 0)
+    if (MX_LWIP_Init(ThisStation_.ip, ThisStation_.mask,ThisStation_.gateway) != 0)
     {
         RS232::getInstance().term << "Error MX_LWIP_Init" << "\n";
     }

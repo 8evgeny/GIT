@@ -36,7 +36,7 @@ void SimplexDirectCall::handleJsonMessage()
 term("SimplexDirectCall ")
     switch (static_cast<CallControl::Request>(context_->messageData.field.linkData)) {
     case CallControl::Request::HANG_UP:
-        if (Json::getInstance()->thisStation.id == context_->messageData.field.distId) {
+        if (ThisStation_.id == context_->messageData.field.distId) {
             if (context_->messageData.field.ownId == context_->messageData.field.prevOwnId) {
 
 
@@ -52,7 +52,7 @@ term("SimplexDirectCall ")
                 if(!context_->switchToConf())
                     this->context_->TransitionTo(new CallWaiting);
             }
-        } else if (Json::getInstance()->thisStation.id == context_->messageData.field.ownId) {
+        } else if (ThisStation_.id == context_->messageData.field.ownId) {
             if (context_->messageData.field.distId == context_->messageData.field.prevDistId) {
 
                 context_->microphone.stop();
@@ -65,7 +65,7 @@ term("SimplexDirectCall ")
         }
         break;
     case CallControl::Request::LINK:
-        if (Json::getInstance()->thisStation.id == context_->messageData.field.distId) {
+        if (ThisStation_.id == context_->messageData.field.distId) {
             if (context_->messageData.field.ownId != context_->messageData.field.prevOwnId) {
 //                if ((context_->assignedData.priority > context_->messageData.field.priority || context_->assignedData.priority == 0) &&
 //                        (context_->messageData.field.prevPriority > context_->messageData.field.priority || context_->messageData.field.prevPriority == 0)) {
@@ -114,7 +114,7 @@ term("SimplexDirectCall ")
     }
     break;
     case CallControl::Request::ACK_ANSW:
-        if (Json::getInstance()->thisStation.id == context_->messageData.field.ownId) {
+        if (ThisStation_.id == context_->messageData.field.ownId) {
             if (context_->messageData.field.distId == context_->messageData.field.prevDistId) {
                 context_->control = CallControl::Control::NONE;
                 context_->copyRecvBuff(context_->messageData.recvMessageBuff, RecvBuff_);
@@ -122,13 +122,13 @@ term("SimplexDirectCall ")
                 switchLed(context_->assignedData.key, true, 0,0,0, GPIO::GREEN);
 //                context_->messageData.field.prevPriority = context_->messageData.field.distPriority;
                 context_->microphone.start();
-                context_->createRtp(Json::getInstance()->thisStation.id, CallControl::Simplex_send_type);
+                context_->createRtp(ThisStation_.id, CallControl::Simplex_send_type);
                 context_->osTimer.stop(context_->osTimer.request_timerId, context_->osTimer.request_timerStatus);
             }
         }
         break;
     case CallControl::Request::BUSY:
-        if (Json::getInstance()->thisStation.id == context_->messageData.field.ownId) {
+        if (ThisStation_.id == context_->messageData.field.ownId) {
             if (context_->messageData.field.distId == context_->messageData.field.prevDistId) {
                 context_->control = CallControl::Control::BUSY;
                 context_->sendRequest(CallControl::Request::ACK);
@@ -230,11 +230,11 @@ term("SimplexDirectCall ")
 
 void SimplexDirectCall::handleAck()
 {
-term("SimplexDirectCall ")
+term("SimplexHandleAck")
     switch (context_->control) {
 
     case CallControl::Control::HANG_UP: {
-        if (Json::getInstance()->thisStation.id == context_->messageData.field.distId) {
+        if (ThisStation_.id == context_->messageData.field.distId) {
             if (context_->messageData.field.ownId == context_->messageData.field.prevOwnId) {
                 context_->control = CallControl::Control::NONE;
                 context_->osTimer.stop(context_->osTimer.request_timerId, context_->osTimer.request_timerStatus);
@@ -242,7 +242,7 @@ term("SimplexDirectCall ")
                 if(!context_->switchToConf())
                     this->context_->TransitionTo(new CallWaiting);
             }
-        } else if (Json::getInstance()->thisStation.id == context_->messageData.field.ownId) {
+        } else if (ThisStation_.id == context_->messageData.field.ownId) {
             if (context_->messageData.field.distId == context_->messageData.field.prevDistId) {
                 context_->control = CallControl::Control::NONE;
                 context_->osTimer.stop(context_->osTimer.request_timerId, context_->osTimer.request_timerStatus);
@@ -253,8 +253,8 @@ term("SimplexDirectCall ")
     }
     break;
     case CallControl::Control::EXCH_CALL_TYPE: {
-        if ((Json::getInstance()->thisStation.id == context_->messageData.field.ownId && context_->messageData.field.distId == context_->messageData.field.prevDistId)
-                || (Json::getInstance()->thisStation.id == context_->messageData.field.distId && context_->messageData.field.ownId == context_->messageData.field.prevOwnId)) {
+        if ((ThisStation_.id == context_->messageData.field.ownId && context_->messageData.field.distId == context_->messageData.field.prevDistId)
+                || (ThisStation_.id == context_->messageData.field.distId && context_->messageData.field.ownId == context_->messageData.field.prevOwnId)) {
             context_->osTimer.stop(context_->osTimer.request_timerId, context_->osTimer.request_timerStatus);
 
             context_->messageData.field = context_->messageDataBuff.field;
@@ -267,7 +267,7 @@ term("SimplexDirectCall ")
     }
     break;
     case CallControl::Control::BUSY: {
-        if (Json::getInstance()->thisStation.id == context_->messageData.field.distId) {
+        if (ThisStation_.id == context_->messageData.field.distId) {
             context_->control = CallControl::Control::NONE;
             context_->osTimer.stop(context_->osTimer.request_timerId, context_->osTimer.request_timerStatus);
 //            if (context_->serviceData->recvBuffBusyCopy != nullptr) {

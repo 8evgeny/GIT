@@ -37,7 +37,7 @@ void DuplexDirectCall::handleJsonMessage()
 term("DuplexDirectCall ")
     switch (static_cast<CallControl::Request>(context_->messageData.field.linkData)) {
     case CallControl::Request::HANG_UP:
-        if (Json::getInstance()->thisStation.id == context_->messageData.field.distId) {
+        if (ThisStation_.id == context_->messageData.field.distId) {
             if (context_->messageData.field.ownId == context_->messageData.field.prevOwnId) {
 
                 stopRingTone();
@@ -60,7 +60,7 @@ term("DuplexDirectCall ")
                 if(!context_->switchToConf())
                     this->context_->TransitionTo(new CallWaiting);
             }
-        } else if (Json::getInstance()->thisStation.id == context_->messageData.field.ownId) {
+        } else if (ThisStation_.id == context_->messageData.field.ownId) {
             if (context_->messageData.field.distId == context_->messageData.field.prevDistId) {
                 stopRingTone();
                 context_->microphone.stop();
@@ -73,7 +73,7 @@ term("DuplexDirectCall ")
         }
         break;
     case CallControl::Request::LINK:
-        if (Json::getInstance()->thisStation.id == context_->messageData.field.distId) {
+        if (ThisStation_.id == context_->messageData.field.distId) {
             if (context_->messageData.field.ownId != context_->messageData.field.prevOwnId) {
 //                if ((context_->assignedData.priority > context_->messageData.field.priority || context_->assignedData.priority == 0) &&
 //                        (context_->messageData.field.prevPriority > context_->messageData.field.priority || context_->messageData.field.prevPriority == 0)) {
@@ -127,11 +127,11 @@ term("DuplexDirectCall ")
     }
     break;
     case CallControl::Request::ACK_ANSW:
-        if (Json::getInstance()->thisStation.id == context_->messageData.field.ownId) {
+        if (ThisStation_.id == context_->messageData.field.ownId) {
             if (context_->messageData.field.distId == context_->messageData.field.prevDistId) {
                 stopRingTone();
                 context_->sendRequest(CallControl::Request::ACK);
-                context_->createRtp(Json::getInstance()->thisStation.id, CallControl::Duplex_type);
+                context_->createRtp(ThisStation_.id, CallControl::Duplex_type);
                 context_->microphone.start();
 //            context_->requestCount = 0;
                 context_->osTimer.stop(context_->osTimer.request_timerId, context_->osTimer.request_timerStatus);
@@ -139,7 +139,7 @@ term("DuplexDirectCall ")
         }
         break;
     case CallControl::Request::BUSY:
-        if (Json::getInstance()->thisStation.id == context_->messageData.field.ownId) {
+        if (ThisStation_.id == context_->messageData.field.ownId) {
             if (context_->messageData.field.distId == context_->messageData.field.prevDistId) {
                 context_->sendRequest(CallControl::Request::ACK);
                 startRingTone(RingToneType::RING_BACK_BUSY_TONE);
@@ -239,7 +239,7 @@ void DuplexDirectCall::handleAck()
 term("DuplexDirectCall ")
     switch (context_->control) {
     case CallControl::Control::READY: {
-        if (Json::getInstance()->thisStation.id == context_->messageData.field.ownId) {
+        if (ThisStation_.id == context_->messageData.field.ownId) {
             if (context_->messageData.field.distId == context_->messageData.field.prevDistId) {
                 context_->control = CallControl::Control::NONE;
 
@@ -254,7 +254,7 @@ term("DuplexDirectCall ")
     }
     break;
     case CallControl::Control::HANG_UP: {
-        if (Json::getInstance()->thisStation.id == context_->messageData.field.distId) {
+        if (ThisStation_.id == context_->messageData.field.distId) {
             if (context_->messageData.field.ownId == context_->messageData.field.prevOwnId) {
                 context_->control = CallControl::Control::NONE;
                 context_->osTimer.stop(context_->osTimer.request_timerId, context_->osTimer.request_timerStatus);
@@ -262,7 +262,7 @@ term("DuplexDirectCall ")
                 if(!context_->switchToConf())
                     this->context_->TransitionTo(new CallWaiting);
             }
-        } else if (Json::getInstance()->thisStation.id == context_->messageData.field.ownId) {
+        } else if (ThisStation_.id == context_->messageData.field.ownId) {
             if (context_->messageData.field.distId == context_->messageData.field.prevDistId) {
                 context_->control = CallControl::Control::NONE;
                 context_->osTimer.stop(context_->osTimer.request_timerId, context_->osTimer.request_timerStatus);
@@ -275,8 +275,8 @@ term("DuplexDirectCall ")
     break;
     case CallControl::Control::EXCH_CALL_TYPE: {
 
-        if ((Json::getInstance()->thisStation.id == context_->messageData.field.ownId && context_->messageData.field.distId == context_->messageData.field.prevDistId)
-                || (Json::getInstance()->thisStation.id == context_->messageData.field.distId && context_->messageData.field.ownId == context_->messageData.field.prevOwnId)) {
+        if ((ThisStation_.id == context_->messageData.field.ownId && context_->messageData.field.distId == context_->messageData.field.prevDistId)
+                || (ThisStation_.id == context_->messageData.field.distId && context_->messageData.field.ownId == context_->messageData.field.prevOwnId)) {
 
             context_->osTimer.stop(context_->osTimer.request_timerId, context_->osTimer.request_timerStatus);
 
@@ -290,14 +290,14 @@ term("DuplexDirectCall ")
     }
     break;
     case CallControl::Control::BUSY: {
-        if (Json::getInstance()->thisStation.id == context_->messageData.field.distId) {
+        if (ThisStation_.id == context_->messageData.field.distId) {
             context_->control = CallControl::Control::NONE;
             context_->osTimer.stop(context_->osTimer.request_timerId, context_->osTimer.request_timerStatus);
         }
     }
     break;
     case CallControl::Control::ANSWER: {
-        if (Json::getInstance()->thisStation.id == context_->messageData.field.distId) {
+        if (ThisStation_.id == context_->messageData.field.distId) {
             if (context_->messageData.field.ownId == context_->messageData.field.prevOwnId) {
 
                 context_->control = CallControl::Control::NONE;
