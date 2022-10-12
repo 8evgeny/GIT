@@ -5,15 +5,16 @@
 #include "rs232.h"
 #include "rs232_printf.h"
 char msg[30];
+uint16_t subjectDirectTelephoneCall = 0;
+
 void SimplexDirectCall::handleButton()
 {
 term2("SimplexDirectCall::handleButton")
-    if (context_->subjectKey.key == context_->assignedData.key) {
+    if ((context_->subjectKey.key == context_->assignedData.key)&&(subjectDirectTelephoneCall == 0))
+    {
 
         stopRingTone();
         context_->microphone.stop();
-//sprintf(msg,"assignedData.key= %d\r\n ",context_->assignedData.key);
-//RS232Puts(msg);
         switchLed(context_->assignedData.key, false);
 
         if (context_->control == CallControl::Control::NONE ||
@@ -28,7 +29,12 @@ term2("SimplexDirectCall::handleButton")
                 this->context_->TransitionTo(new CallWaiting);
         }
     }
+    if (subjectDirectTelephoneCall != 0)
+    {
+        //Ловим *
+term2("*****")
 
+    }
 }
 
 void SimplexDirectCall::handleJsonMessage()

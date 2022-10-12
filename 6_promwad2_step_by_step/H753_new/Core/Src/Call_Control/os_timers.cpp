@@ -10,6 +10,7 @@ extern uint8_t handleClick_count; /*!< The variable is the counter to handle cli
 
 extern uint8_t keyMode, /*!< The variable stores a mode of the pressed key */
        func;    /*!< The variable stores a function of the pressed key */
+extern uint16_t subjectDirectTelephoneCall;
 
 //constexpr static uint16_t TIMEOUT {200};
 
@@ -190,6 +191,7 @@ term2(msg)
 
         //Тут переход в симплекс и астерикс ловим уже там
 //        CallControl_->TransitionTo(new CallWaiting);
+        subjectDirectTelephoneCall = distSubject;
         CallControl_->TransitionTo(new SimplexDirectCall);
     }
 
