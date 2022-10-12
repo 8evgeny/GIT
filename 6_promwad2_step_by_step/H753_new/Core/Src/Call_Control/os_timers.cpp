@@ -101,13 +101,19 @@ void handleRelasedButtonTimer_Callback(void const *arg)
                 }
 
             }
-        } else if (CallControl_->assignedData.key == CallControl::Asterisk)
+        }
+        else if (CallControl_->assignedData.key == CallControl::Asterisk)
         {
             if (CallControl_->subjectKey.key != CallControl::Asterisk
                     && CallControl_->subjectKey.key != CallControl::Hash)
                 switchLed(CallControl_->subjectKey.key, false);
             stopDtmfTone();
         }
+term2("handleRelasedButton - Asterisk")
+//Обработка отпускания Asterisk
+
+
+
 
     }
 

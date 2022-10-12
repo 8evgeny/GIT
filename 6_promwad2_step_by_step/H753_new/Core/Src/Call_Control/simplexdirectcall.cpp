@@ -59,9 +59,9 @@ term2("Start Direct Simplex Telephone")
                 }
 //                CallControl_->requestCount++;
 
-//                CallControl_->osTimer.start(CallControl_->osTimer.request_timerId,
-//                                            CallControl_->osTimer.request_timerStatus,
-//                                            200);
+                CallControl_->osTimer.start(CallControl_->osTimer.request_timerId,
+                                            CallControl_->osTimer.request_timerStatus,
+                                            200);
             }
 
 
@@ -206,7 +206,7 @@ term("SimplexDirectCall ")
 
 void SimplexDirectCall::handleRepeatedRequestCallBack()
 {
-term("SimplexDirectCall ")
+term("SimplexHandleRepeatedRequestCallBack")
     if (context_->osTimer.request_timerStatus == osOK) {
 
         if (context_->requestCount < 3) {
