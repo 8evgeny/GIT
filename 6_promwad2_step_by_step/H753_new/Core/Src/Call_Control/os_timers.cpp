@@ -130,16 +130,14 @@ void dialingTimer_Callback(void const *arg)
 
     uint8_t size = static_cast<uint8_t>(CallControl_->telephoneDynamicStorage.size());
     uint16_t distSubject = 0;
-
+    char msg[100];
     if (size > 2 && CallControl_->ordinaryTelephoneCall)
     {
         CallControl_->ordinaryTelephoneCall = false;
         for (uint8_t i = 0; i < size; ++i)
         {//distSubject - абонент набранный на кейпаде
-            distSubject += static_cast<uint16_t> (pow(10, (size-i-1))
-                                                  * CallControl_->telephoneDynamicStorage[i]);
+            distSubject += static_cast<uint16_t> (pow(10, (size-i-1)) * CallControl_->telephoneDynamicStorage[i]);
         }
-        char msg[100];
         sprintf(msg,"abonent = %d",distSubject);
 term2(msg)
 
@@ -172,7 +170,25 @@ if ((1000 > distSubject && distSubject > 99)
 
         CallControl_->telephoneDynamicStorage.clear();
 
-    } else {
+    }
+    else if (size > 2 && CallControl_->simplexTelephoneCall)
+    {
+        CallControl_->simplexTelephoneCall = false;
+        for (uint8_t i = 0; i < size; ++i)
+        {//distSubject - абонент набранный на кейпаде
+            distSubject += static_cast<uint16_t> (pow(10, (size-i-1)) * CallControl_->telephoneDynamicStorage[i]);
+        }
+        sprintf(msg,"abonent simplex = %d",distSubject);
+        term2(msg)
+
+        CallControl_->TransitionTo(new CallWaiting);
+        CallControl_->telephoneDynamicStorage.clear();
+
+    }
+
+    else if (CallControl_->ordinaryTelephoneCall)
+    {
+        CallControl_->ordinaryTelephoneCall = false;
         switchLed(CallControl_->assignedData.key, false);
         switchLed(CallControl_->subjectKey.key, false);
         stopDtmfTone();
@@ -182,8 +198,15 @@ if ((1000 > distSubject && distSubject > 99)
 //                CallControl_->osTimer.telephone_timerStatus);
         CallControl_->TransitionTo(new CallWaiting);
     }
-    CallControl_->osTimer.stop(CallControl_->osTimer.telephone_timerId,
-            CallControl_->osTimer.telephone_timerStatus);
+    else if (CallControl_->simplexTelephoneCall)
+    {
+        CallControl_->simplexTelephoneCall = false;
+        stopDtmfTone();
+        CallControl_->resetData();
+        CallControl_->telephoneDynamicStorage.clear();
+        CallControl_->TransitionTo(new CallWaiting);
+    }
+    CallControl_->osTimer.stop(CallControl_->osTimer.telephone_timerId, CallControl_->osTimer.telephone_timerStatus);
     osMutexRelease(MutexCallControl_);
 }
 

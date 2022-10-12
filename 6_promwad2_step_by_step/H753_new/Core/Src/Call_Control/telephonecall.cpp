@@ -46,6 +46,7 @@ term2("TelephoneCall::handleButton")
     }
     else
     {
+        //старый тлф вызов
         if ((context_->rtpStatus != OK_RTP) && context_->ordinaryTelephoneCall)
             for (auto& var : context_->keypadStructArray)
                 if (context_->subjectKey.key == var.n)
@@ -54,6 +55,19 @@ term2("TelephoneCall::handleButton")
                     {
                         context_->telephoneDynamicStorage.push_back(var.i);
                         switchLed(context_->subjectKey.key, true, 0,0,0, GPIO::GREEN);
+                        context_->osTimer.start(context_->osTimer.telephone_timerId, context_->osTimer.telephone_timerStatus, DIALING_TIMEOUT);
+                        startDtmfTone(var.i);
+                        break;
+                    }
+                }
+        //Добавил - симплекс тлф
+        if ((context_->rtpStatus != OK_RTP) && context_->simplexTelephoneCall)
+            for (auto& var : context_->keypadStructArray)
+                if (context_->subjectKey.key == var.n)
+                {
+                    if (context_->telephoneDynamicStorage.size() < 3)
+                    {
+                        context_->telephoneDynamicStorage.push_back(var.i);
                         context_->osTimer.start(context_->osTimer.telephone_timerId, context_->osTimer.telephone_timerStatus, DIALING_TIMEOUT);
                         startDtmfTone(var.i);
                         break;

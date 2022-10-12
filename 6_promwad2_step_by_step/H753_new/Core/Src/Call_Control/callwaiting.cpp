@@ -7,7 +7,7 @@
 #include "conferencecall.h"
 #include "telephonecall.h"
 #include "rs232.h"
-
+extern SAI_HandleTypeDef audioTxSai;
 void CallWaiting::handleButton()
 {
 term2("CallWaiting::handleButton")
@@ -69,6 +69,15 @@ term2("CallWaiting::handleButton")
 
     case CallControl::Telephone:
     {
+        if (context_->subjectKey.key == CallControl::Hash)
+        {
+            if (SAI::getInstance()->tone.status == DTMF::Status::START)
+            {
+                HAL_SAI_DMAStop(&audioTxSai);
+                SAI::getInstance()->tone.status = DTMF::Status::IDLE;
+            }
+        }
+
         if ((context_->subjectKey.key == CallControl::Asterisk)
             && (context_->telephoneDynamicStorage.size() == 0))
         {//Когда первым следует Астериск то режим обычного телефонного вызова
@@ -89,26 +98,19 @@ term2("Asterisk pressed")
 term2("Keypad pressed")
             context_->simplexTelephoneCall = true;
             context_->TransitionTo(new TelephoneCall);
+            if ((context_->rtpStatus != OK_RTP) && context_->simplexTelephoneCall)
+                for (auto& var : context_->keypadStructArray)
+                    if (context_->subjectKey.key == var.n)
+                    {
+                        if (context_->telephoneDynamicStorage.size() < 3)
+                        {
+                            context_->telephoneDynamicStorage.push_back(var.i);
+                            context_->osTimer.start(context_->osTimer.telephone_timerId, context_->osTimer.telephone_timerStatus, TelephoneCall::DIALING_TIMEOUT);
+                            startDtmfTone(var.i);
+                            break;
+                        }
+                    }
         }
-
-//        if (context_->rtpStatus != OK_RTP)
-//            for (auto& var : context_->keypadStructArray)
-//                if (context_->subjectKey.key == var.n)
-//                {
-//                    context_->simplexTelephoneCall = true;
-////term2 (var.n)
-//RS232::getInstance().term << "Pressed "<< var.i << "\r\n";
-////                    startDtmfTone(var.i);
-//                    if (context_->telephoneDynamicStorage.size() < 3)
-//                    {
-//                        context_->telephoneDynamicStorage.push_back(var.i);
-////                        switchLed(context_->subjectKey.key, true, 0,0,0, GPIO::GREEN);
-//                        context_->osTimer.start(context_->osTimer.telephone_timerId, context_->osTimer.telephone_timerStatus, TelephoneCall::DIALING_TIMEOUT);
-
-////                        break;
-//                    }
-//                }
-
 
 
     }// end case CallControl::Telephone
