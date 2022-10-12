@@ -155,7 +155,7 @@ term2(msg)
         {
             doc["Own_Id"] = ThisStation_.id;
             doc["Dist_Id"].add(distSubject);
-            doc["Call_Type"] = 5;
+            doc["Call_Type"] = CallControl_->Telephone;
             doc["Priority"] = CallControl_->assignedData.priority;
             doc["Link_Data"] = 0xFF;
 //            CallControl_->sendJson(doc, capacity);
@@ -193,6 +193,7 @@ term2(msg)
 //        CallControl_->TransitionTo(new CallWaiting);
         subjectDirectTelephoneCall = distSubject;
         CallControl_->TransitionTo(new SimplexDirectCall);
+//        CallControl_->sendRequest(CallControl::Direct, CallControl::Request::LINK, 300);
     }
 
     else if (CallControl_->ordinaryTelephoneCall)

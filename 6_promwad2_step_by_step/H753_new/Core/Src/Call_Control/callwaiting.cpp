@@ -69,14 +69,15 @@ term2("CallWaiting::handleButton")
 
     case CallControl::Telephone:
     {
-        if (context_->subjectKey.key == CallControl::Hash)
-        {
-            if (SAI::getInstance()->tone.status == DTMF::Status::START)
+            //Костыль
+            if (context_->subjectKey.key == CallControl::Hash)
             {
-                HAL_SAI_DMAStop(&audioTxSai);
-                SAI::getInstance()->tone.status = DTMF::Status::IDLE;
+                if (SAI::getInstance()->tone.status == DTMF::Status::START)
+                {
+                    HAL_SAI_DMAStop(&audioTxSai);
+                    SAI::getInstance()->tone.status = DTMF::Status::IDLE;
+                }
             }
-        }
 
         if ((context_->subjectKey.key == CallControl::Asterisk)
             && (context_->telephoneDynamicStorage.size() == 0))

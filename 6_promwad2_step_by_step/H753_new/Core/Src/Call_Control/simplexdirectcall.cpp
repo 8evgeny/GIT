@@ -18,7 +18,8 @@ term2("SimplexDirectCall::handleButton")
         switchLed(context_->assignedData.key, false);
 
         if (context_->control == CallControl::Control::NONE ||
-                context_->control == CallControl::Control::READY) {
+                context_->control == CallControl::Control::READY)
+        {
             context_->removeRtp();
             context_->control = CallControl::Control::HANG_UP;
             context_->sendRequest(CallControl::Request::HANG_UP);
@@ -34,6 +35,37 @@ term2("SimplexDirectCall::handleButton")
         if(context_->subjectKey.key == CallControl::Asterisk)
         {
 term2("Start Direct Simplex Telephone")
+            uint16_t distSubject = subjectDirectTelephoneCall;
+            const int capacity = JSON_OBJECT_SIZE(6) + JSON_ARRAY_SIZE(100);
+            DynamicJsonDocument doc (capacity);
+            CallControl_->messageData.field.prevDistId = distSubject;
+
+            if (1000 > distSubject && distSubject > 99)
+            {
+//                CallControl_->sendRequest(CallControl::Direct, CallControl::Request::LINK, 300);
+                doc["Own_Id"] = ThisStation_.id;
+                doc["Dist_Id"].add(distSubject);
+                doc["Call_Type"] = CallControl_->Telephone;
+                doc["Priority"] = CallControl_->assignedData.priority;
+                doc["Link_Data"] = 0xFF;
+                //            CallControl_->sendJson(doc, capacity);
+
+                CallControl_->requestCount = 0;
+                std::fill(CallControl_->messageData.txBuff, CallControl_->messageData.txBuff + CallControl_->messageData.txBuffSize, 0);
+                if (serializeJson(doc, CallControl_->messageData.txBuff, capacity) > 0)
+                {
+                    sendUdpMulticast(CallControl_->messageData.txBuff, strlen(CallControl_->messageData.txBuff));
+                }
+                CallControl_->requestCount++;
+
+                //            CallControl_->copyRecvBuff(CallControl_->serviceData->recvBuffCopy,
+                //                    CallControl_->outputJsonBuff);
+                CallControl_->osTimer.start(CallControl_->osTimer.request_timerId,
+                                            CallControl_->osTimer.request_timerStatus,
+                                            200);
+            }
+
+
 
 
         }
@@ -48,7 +80,7 @@ term2("Start Direct Simplex Telephone")
 
 void SimplexDirectCall::handleJsonMessage()
 {
-term("SimplexDirectCall ")
+term("SimplexHandleJsonMessage")
     switch (static_cast<CallControl::Request>(context_->messageData.field.linkData)) {
     case CallControl::Request::HANG_UP:
         if (ThisStation_.id == context_->messageData.field.distId) {
