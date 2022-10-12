@@ -31,8 +31,17 @@ term2("SimplexDirectCall::handleButton")
     }
     if (subjectDirectTelephoneCall != 0)
     {
-        //Ловим *
-term2("*****")
+        if(context_->subjectKey.key == CallControl::Asterisk)
+        {
+term2("Start Direct Simplex Telephone")
+
+
+        }
+        else
+        {//Все сбрасываем
+            subjectDirectTelephoneCall = 0;
+            this->context_->TransitionTo(new CallWaiting);
+        }
 
     }
 }
