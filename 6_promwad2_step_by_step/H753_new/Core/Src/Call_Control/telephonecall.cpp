@@ -12,10 +12,10 @@ void TelephoneCall::handleButton()
 term2("TelephoneCall::handleButton")
     if (context_->subjectKey.key == CallControl::Hash)
     {
-
         stopRingTone();
         context_->microphone.stop();
-
+        context_->ordinaryTelephoneCall = false;
+        context_->simplexTelephoneCall = false;
 //switchLed(context_->assignedData.key, false);
 
         if (!context_->telephoneDynamicStorage.empty())
@@ -46,7 +46,7 @@ term2("TelephoneCall::handleButton")
     }
     else
     {
-        if (context_->rtpStatus != OK_RTP)
+        if ((context_->rtpStatus != OK_RTP) && context_->ordinaryTelephoneCall)
             for (auto& var : context_->keypadStructArray)
                 if (context_->subjectKey.key == var.n)
                 {

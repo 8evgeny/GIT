@@ -81,29 +81,33 @@ term2("Asterisk pressed")
             context_->TransitionTo(new TelephoneCall);
         }
 
-//Здесь код обработки клавиш
-     //Контекст переключаю когда набраны 3 цифры и четвертым Asterisk
-//     fix_point
+//Здесь код обработки клавиш Контекст переключаю сразу но взвожу другой флаг
+        if ((context_->subjectKey.key != CallControl::Asterisk)
+            && (context_->subjectKey.key != CallControl::Hash)
+            && (context_->telephoneDynamicStorage.size() == 0))
+        {//Нажата одна из цифровых клавиш
+term2("Keypad pressed")
+            context_->simplexTelephoneCall = true;
+            context_->TransitionTo(new TelephoneCall);
+        }
 
+//        if (context_->rtpStatus != OK_RTP)
+//            for (auto& var : context_->keypadStructArray)
+//                if (context_->subjectKey.key == var.n)
+//                {
+//                    context_->simplexTelephoneCall = true;
+////term2 (var.n)
+//RS232::getInstance().term << "Pressed "<< var.i << "\r\n";
+////                    startDtmfTone(var.i);
+//                    if (context_->telephoneDynamicStorage.size() < 3)
+//                    {
+//                        context_->telephoneDynamicStorage.push_back(var.i);
+////                        switchLed(context_->subjectKey.key, true, 0,0,0, GPIO::GREEN);
+//                        context_->osTimer.start(context_->osTimer.telephone_timerId, context_->osTimer.telephone_timerStatus, TelephoneCall::DIALING_TIMEOUT);
 
-
-
-        if (context_->rtpStatus != OK_RTP)
-            for (auto& var : context_->keypadStructArray)
-                if (context_->subjectKey.key == var.n)
-                {
-//term2 (var.n)
-RS232::getInstance().term << "Pressed "<< var.i << "\r\n";
-//                    startDtmfTone(var.i);
-                    if (context_->telephoneDynamicStorage.size() < 3)
-                    {
-                        context_->telephoneDynamicStorage.push_back(var.i);
-//                        switchLed(context_->subjectKey.key, true, 0,0,0, GPIO::GREEN);
-                        context_->osTimer.start(context_->osTimer.telephone_timerId, context_->osTimer.telephone_timerStatus, TelephoneCall::DIALING_TIMEOUT);
-
-//                        break;
-                    }
-                }
+////                        break;
+//                    }
+//                }
 
 
 
