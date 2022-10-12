@@ -45,9 +45,10 @@ term2("Start Direct Simplex Telephone")
 //                CallControl_->sendRequest(CallControl::Direct, CallControl::Request::LINK, 300);
                 doc["Own_Id"] = ThisStation_.id;
                 doc["Dist_Id"].add(distSubject);
-                doc["Call_Type"] = CallControl_->Telephone;
+                doc["Call_Type"] = CallControl_->Direct;
                 doc["Priority"] = CallControl_->assignedData.priority;
                 doc["Link_Data"] = 0xFF;
+                doc["Direct_Link_Mode"] = 1;
                 //            CallControl_->sendJson(doc, capacity);
 
                 CallControl_->requestCount = 0;
@@ -56,13 +57,11 @@ term2("Start Direct Simplex Telephone")
                 {
                     sendUdpMulticast(CallControl_->messageData.txBuff, strlen(CallControl_->messageData.txBuff));
                 }
-                CallControl_->requestCount++;
+//                CallControl_->requestCount++;
 
-                //            CallControl_->copyRecvBuff(CallControl_->serviceData->recvBuffCopy,
-                //                    CallControl_->outputJsonBuff);
-                CallControl_->osTimer.start(CallControl_->osTimer.request_timerId,
-                                            CallControl_->osTimer.request_timerStatus,
-                                            200);
+//                CallControl_->osTimer.start(CallControl_->osTimer.request_timerId,
+//                                            CallControl_->osTimer.request_timerStatus,
+//                                            200);
             }
 
 
