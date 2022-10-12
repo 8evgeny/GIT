@@ -3,6 +3,7 @@
 #include "../UDP_JSON/udp_multicast.h"
 #include "callwaiting.h"
 #include "conferencecall.h"
+#include "simplexdirectcall.h"
 
 extern uint16_t pressedKey; /*!< The variable stores a number of the pressed key */
 extern uint8_t handleClick_count; /*!< The variable is the counter to handle clicks */
@@ -69,8 +70,7 @@ void handleRelasedButtonTimer_Callback(void const *arg)
     (void)arg;
 
     osMutexWait(MutexCallControl_, osWaitForever);
-    if (!CallControl_->isIncomingCall ||
-            CallControl_->assignedData.key == CallControl::Asterisk)
+    if (!CallControl_->isIncomingCall || CallControl_->assignedData.key == CallControl::Asterisk)
     {
         if (CallControl_->subjectKey.key == CallControl_->assignedData.key)
         {
@@ -110,6 +110,12 @@ void handleRelasedButtonTimer_Callback(void const *arg)
 
     }
 
+    //Начальный набор номера на кейпаде
+    if (CallControl_->simplexTelephoneCall)
+    {
+            stopDtmfTone();
+    }
+
     CallControl_->osTimer.stop( CallControl_->osTimer.button_timerId,
             CallControl_->osTimer.button_timerStatus);
 
@@ -131,6 +137,7 @@ void dialingTimer_Callback(void const *arg)
     uint8_t size = static_cast<uint8_t>(CallControl_->telephoneDynamicStorage.size());
     uint16_t distSubject = 0;
     char msg[100];
+    //old telefone call
     if (size > 2 && CallControl_->ordinaryTelephoneCall)
     {
         CallControl_->ordinaryTelephoneCall = false;
@@ -143,9 +150,7 @@ term2(msg)
 
         CallControl_->messageData.field.prevDistId = distSubject;
 
-if ((1000 > distSubject && distSubject > 99)
-//    && CallControl_->detectSubjCallType(CallControl::Telephone)
-    )
+        if (1000 > distSubject && distSubject > 99)
         {
             doc["Own_Id"] = Json::getInstance()->thisStation.id;
             doc["Dist_Id"].add(distSubject);
@@ -171,6 +176,7 @@ if ((1000 > distSubject && distSubject > 99)
         CallControl_->telephoneDynamicStorage.clear();
 
     }
+    //new telefone call
     else if (size > 2 && CallControl_->simplexTelephoneCall)
     {
         CallControl_->simplexTelephoneCall = false;
@@ -180,9 +186,13 @@ if ((1000 > distSubject && distSubject > 99)
         }
         sprintf(msg,"abonent simplex = %d",distSubject);
         term2(msg)
-
-        CallControl_->TransitionTo(new CallWaiting);
         CallControl_->telephoneDynamicStorage.clear();
+
+        //Тут переход в симплекс и астерикс ловим уже там
+        CallControl_->TransitionTo(new CallWaiting);
+//        CallControl_->TransitionTo(new SimplexDirectCall);
+
+
 
     }
 
