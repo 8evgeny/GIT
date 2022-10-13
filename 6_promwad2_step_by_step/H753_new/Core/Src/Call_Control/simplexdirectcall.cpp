@@ -64,9 +64,6 @@ term2("Start Direct Simplex Telephone")
                                             200);
             }
 
-
-
-
         }
         else
         {//Все сбрасываем

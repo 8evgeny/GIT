@@ -68,7 +68,10 @@ term2("TelephoneCall::handleButton")
                     if (context_->telephoneDynamicStorage.size() < 3)
                     {
                         context_->telephoneDynamicStorage.push_back(var.i);
-                        context_->osTimer.start(context_->osTimer.telephone_timerId, context_->osTimer.telephone_timerStatus, DIALING_TIMEOUT);
+                        if (context_->telephoneDynamicStorage.size() < 3)
+                            context_->osTimer.start(context_->osTimer.telephone_timerId, context_->osTimer.telephone_timerStatus,DIALING_TIMEOUT);
+                        else //После последней цифры не ждем
+                            context_->osTimer.start(context_->osTimer.telephone_timerId, context_->osTimer.telephone_timerStatus, 100);
                         startDtmfTone(var.i);
                         break;
                     }
