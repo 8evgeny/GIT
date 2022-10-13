@@ -153,7 +153,7 @@ term2("handleRelasedButton - Asterisk")
         CallControl_->resetData();
 
         //Если занято - останавливаем сигнал
-        HAL_SAI_DMAStop(&audioTxSai);
+        stopRingTone();
         }
 
     }
