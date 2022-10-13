@@ -8,6 +8,8 @@
 #include "telephonecall.h"
 #include "rs232.h"
 extern SAI_HandleTypeDef audioTxSai;
+extern uint16_t lastDirectSubject;
+
 void CallWaiting::handleButton()
 {
 term2("CallWaiting::handleButton")
@@ -82,7 +84,14 @@ term2("CallWaiting::handleButton")
         if ((context_->subjectKey.key == CallControl::Asterisk)
             && (context_->telephoneDynamicStorage.size() == 0))
         {//Когда первым следует Астериск то режим обычного телефонного вызова
+//Или повторного вызова - тут нужно отслеживать длительность удержания *
+
+
+
+
 term2("Asterisk pressed")
+
+
             context_->ordinaryTelephoneCall = true;
             context_->assignedData.key = context_->subjectKey.key;
             context_->assignedData.priority = context_->subjectKey.priority;

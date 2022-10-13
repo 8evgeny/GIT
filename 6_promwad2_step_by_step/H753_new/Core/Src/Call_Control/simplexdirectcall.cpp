@@ -5,8 +5,8 @@
 #include "rs232.h"
 #include "rs232_printf.h"
 char msg[30];
-uint16_t subjectDirectTelephoneCall = 0;
-
+uint16_t subjectDirectTelephoneCall = 0;//Абонент вызываемый на кейпаде
+uint16_t lastDirectSubject = 0; //Последний абонент
 void SimplexDirectCall::handleButton()
 {
 term2("SimplexDirectCall::handleButton")
@@ -36,6 +36,7 @@ term2("SimplexDirectCall::handleButton")
         {
 term2("Start Direct Simplex Telephone")
             uint16_t distSubject = subjectDirectTelephoneCall;
+            lastDirectSubject = subjectDirectTelephoneCall;
             const int capacity = JSON_OBJECT_SIZE(6) + JSON_ARRAY_SIZE(100);
             DynamicJsonDocument doc (capacity);
             CallControl_->messageData.field.prevDistId = distSubject;
