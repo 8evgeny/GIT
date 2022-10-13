@@ -317,7 +317,7 @@ term("--- rtpSendPacketsHalf ---")
     rtphdr = reinterpret_cast<struct rtp_hdr *>(rtpStructSend.rtp_send_packet);
     rtphdr->version = RTP_VERSION;
     rtphdr->payloadtype = 0;
-    rtphdr->ssrc = PP_HTONL(inet_addr(Json::getInstance()->thisStation.ip));
+    rtphdr->ssrc = PP_HTONL(inet_addr(ThisStation_.ip));
     rtphdr->timestamp = htonl(ntohl(rtphdr->timestamp) + RTP_TIMESTAMP);
 
     /* send RTP stream packets */
@@ -353,7 +353,7 @@ term("--- rtpSendPacketsFull ---")
     rtphdr = reinterpret_cast<struct rtp_hdr *>(rtpStructSend.rtp_send_packet);
     rtphdr->version = RTP_VERSION;
     rtphdr->payloadtype = 0;
-    rtphdr->ssrc = PP_HTONL(inet_addr(Json::getInstance()->thisStation.ip));
+    rtphdr->ssrc = PP_HTONL(inet_addr(ThisStation_.ip));
     rtphdr->timestamp = htonl(ntohl(rtphdr->timestamp) + RTP_TIMESTAMP);
 
     /* send RTP stream packets */
@@ -546,9 +546,9 @@ term("--- lostPackThread ---")
     while (1) {
         osEvent evt = osSignalWait(0xFB, osWaitForever);
         if (evt.status == osEventSignal) {
-            osMutexWait(UdpJsonExch::getInstance()->mutexCallControlId, osWaitForever);
-            UdpJsonExch::getInstance()->callControl->hungUp();
-            osMutexRelease(UdpJsonExch::getInstance()->mutexCallControlId);
+            osMutexWait(MutexCallControl_, osWaitForever);
+            CallControl_->hungUp();
+            osMutexRelease(MutexCallControl_);
 
         }
         osDelay(1);

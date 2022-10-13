@@ -6,7 +6,7 @@
 
 void DuplexDirectCall::handleButton()
 {
-term("DuplexDirectCall ")
+term2("DuplexDirectCall::handleButton")
     if (context_->subjectKey.key == context_->assignedData.key) {
 
         if (!context_->isAnsweredCall && context_->isIncomingCall) {
@@ -37,7 +37,7 @@ void DuplexDirectCall::handleJsonMessage()
 term("DuplexDirectCall ")
     switch (static_cast<CallControl::Request>(context_->messageData.field.linkData)) {
     case CallControl::Request::HANG_UP:
-        if (Json::getInstance()->thisStation.id == context_->messageData.field.distId) {
+        if (ThisStation_.id == context_->messageData.field.distId) {
             if (context_->messageData.field.ownId == context_->messageData.field.prevOwnId) {
 
                 stopRingTone();
@@ -60,7 +60,7 @@ term("DuplexDirectCall ")
                 if(!context_->switchToConf())
                     this->context_->TransitionTo(new CallWaiting);
             }
-        } else if (Json::getInstance()->thisStation.id == context_->messageData.field.ownId) {
+        } else if (ThisStation_.id == context_->messageData.field.ownId) {
             if (context_->messageData.field.distId == context_->messageData.field.prevDistId) {
                 stopRingTone();
                 context_->microphone.stop();
@@ -73,7 +73,7 @@ term("DuplexDirectCall ")
         }
         break;
     case CallControl::Request::LINK:
-        if (Json::getInstance()->thisStation.id == context_->messageData.field.distId) {
+        if (ThisStation_.id == context_->messageData.field.distId) {
             if (context_->messageData.field.ownId != context_->messageData.field.prevOwnId) {
 //                if ((context_->assignedData.priority > context_->messageData.field.priority || context_->assignedData.priority == 0) &&
 //                        (context_->messageData.field.prevPriority > context_->messageData.field.priority || context_->messageData.field.prevPriority == 0)) {
@@ -92,7 +92,7 @@ term("DuplexDirectCall ")
 //                    if (context_->rtpStatus == OK_RTP) {
                     context_->control = CallControl::Control::EXCH_CALL_TYPE;
                     context_->messageDataBuff.field = context_->messageData.field;                  //it is copying incoming json to the buffer
-                    context_->copyRecvBuff(context_->messageDataBuff.recvMessageBuff, UdpJsonExch::getInstance()->recvBuff);
+                    context_->copyRecvBuff(context_->messageDataBuff.recvMessageBuff, RecvBuff_);
 
                     context_->sendRequest(CallControl::Request::HANG_UP);
                     context_->removeRtp();
@@ -127,11 +127,11 @@ term("DuplexDirectCall ")
     }
     break;
     case CallControl::Request::ACK_ANSW:
-        if (Json::getInstance()->thisStation.id == context_->messageData.field.ownId) {
+        if (ThisStation_.id == context_->messageData.field.ownId) {
             if (context_->messageData.field.distId == context_->messageData.field.prevDistId) {
                 stopRingTone();
                 context_->sendRequest(CallControl::Request::ACK);
-                context_->createRtp(Json::getInstance()->thisStation.id, CallControl::Duplex_type);
+                context_->createRtp(ThisStation_.id, CallControl::Duplex_type);
                 context_->microphone.start();
 //            context_->requestCount = 0;
                 context_->osTimer.stop(context_->osTimer.request_timerId, context_->osTimer.request_timerStatus);
@@ -139,7 +139,7 @@ term("DuplexDirectCall ")
         }
         break;
     case CallControl::Request::BUSY:
-        if (Json::getInstance()->thisStation.id == context_->messageData.field.ownId) {
+        if (ThisStation_.id == context_->messageData.field.ownId) {
             if (context_->messageData.field.distId == context_->messageData.field.prevDistId) {
                 context_->sendRequest(CallControl::Request::ACK);
                 startRingTone(RingToneType::RING_BACK_BUSY_TONE);
@@ -208,7 +208,7 @@ term("DuplexDirectCall ")
             case CallControl::Control::EXCH_CALL_TYPE: {
 
                 context_->messageData.field = context_->messageDataBuff.field;
-                std::memcpy(UdpJsonExch::getInstance()->recvBuff, context_->messageDataBuff.recvMessageBuff, std::strlen(context_->messageDataBuff.recvMessageBuff));
+                std::memcpy(RecvBuff_, context_->messageDataBuff.recvMessageBuff, std::strlen(context_->messageDataBuff.recvMessageBuff));
 
                 context_->resetData();
                 context_->setCallType();
@@ -239,11 +239,11 @@ void DuplexDirectCall::handleAck()
 term("DuplexDirectCall ")
     switch (context_->control) {
     case CallControl::Control::READY: {
-        if (Json::getInstance()->thisStation.id == context_->messageData.field.ownId) {
+        if (ThisStation_.id == context_->messageData.field.ownId) {
             if (context_->messageData.field.distId == context_->messageData.field.prevDistId) {
                 context_->control = CallControl::Control::NONE;
 
-                context_->copyRecvBuff(context_->messageData.recvMessageBuff, UdpJsonExch::getInstance()->recvBuff);
+                context_->copyRecvBuff(context_->messageData.recvMessageBuff, RecvBuff_);
                 switchLed(context_->assignedData.key, true, 0,0,0, GPIO::GREEN);
 //                context_->messageData.field.prevPriority = context_->messageData.field.distPriority;
                 startRingTone(RingToneType::RING_BACK_TONE);
@@ -254,7 +254,7 @@ term("DuplexDirectCall ")
     }
     break;
     case CallControl::Control::HANG_UP: {
-        if (Json::getInstance()->thisStation.id == context_->messageData.field.distId) {
+        if (ThisStation_.id == context_->messageData.field.distId) {
             if (context_->messageData.field.ownId == context_->messageData.field.prevOwnId) {
                 context_->control = CallControl::Control::NONE;
                 context_->osTimer.stop(context_->osTimer.request_timerId, context_->osTimer.request_timerStatus);
@@ -262,7 +262,7 @@ term("DuplexDirectCall ")
                 if(!context_->switchToConf())
                     this->context_->TransitionTo(new CallWaiting);
             }
-        } else if (Json::getInstance()->thisStation.id == context_->messageData.field.ownId) {
+        } else if (ThisStation_.id == context_->messageData.field.ownId) {
             if (context_->messageData.field.distId == context_->messageData.field.prevDistId) {
                 context_->control = CallControl::Control::NONE;
                 context_->osTimer.stop(context_->osTimer.request_timerId, context_->osTimer.request_timerStatus);
@@ -275,13 +275,13 @@ term("DuplexDirectCall ")
     break;
     case CallControl::Control::EXCH_CALL_TYPE: {
 
-        if ((Json::getInstance()->thisStation.id == context_->messageData.field.ownId && context_->messageData.field.distId == context_->messageData.field.prevDistId)
-                || (Json::getInstance()->thisStation.id == context_->messageData.field.distId && context_->messageData.field.ownId == context_->messageData.field.prevOwnId)) {
+        if ((ThisStation_.id == context_->messageData.field.ownId && context_->messageData.field.distId == context_->messageData.field.prevDistId)
+                || (ThisStation_.id == context_->messageData.field.distId && context_->messageData.field.ownId == context_->messageData.field.prevOwnId)) {
 
             context_->osTimer.stop(context_->osTimer.request_timerId, context_->osTimer.request_timerStatus);
 
             context_->messageData.field = context_->messageDataBuff.field;
-            std::memcpy(UdpJsonExch::getInstance()->recvBuff, context_->messageDataBuff.recvMessageBuff, std::strlen(context_->messageDataBuff.recvMessageBuff)); // it is reading some incoming data from the buff
+            std::memcpy(RecvBuff_, context_->messageDataBuff.recvMessageBuff, std::strlen(context_->messageDataBuff.recvMessageBuff)); // it is reading some incoming data from the buff
 
             context_->control = CallControl::Control::NONE;
             context_->resetData();
@@ -290,14 +290,14 @@ term("DuplexDirectCall ")
     }
     break;
     case CallControl::Control::BUSY: {
-        if (Json::getInstance()->thisStation.id == context_->messageData.field.distId) {
+        if (ThisStation_.id == context_->messageData.field.distId) {
             context_->control = CallControl::Control::NONE;
             context_->osTimer.stop(context_->osTimer.request_timerId, context_->osTimer.request_timerStatus);
         }
     }
     break;
     case CallControl::Control::ANSWER: {
-        if (Json::getInstance()->thisStation.id == context_->messageData.field.distId) {
+        if (ThisStation_.id == context_->messageData.field.distId) {
             if (context_->messageData.field.ownId == context_->messageData.field.prevOwnId) {
 
                 context_->control = CallControl::Control::NONE;

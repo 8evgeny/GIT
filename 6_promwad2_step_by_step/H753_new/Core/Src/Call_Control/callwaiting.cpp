@@ -6,11 +6,13 @@
 #include "circularcall.h"
 #include "conferencecall.h"
 #include "telephonecall.h"
-
+#include "rs232.h"
+extern SAI_HandleTypeDef audioTxSai;
+extern uint16_t lastDirectSubject;
 
 void CallWaiting::handleButton()
 {
-
+term2("CallWaiting::handleButton")
     context_->assignedData.key = context_->subjectKey.key;
     context_->assignedData.priority = context_->subjectKey.priority;
 
@@ -18,7 +20,8 @@ void CallWaiting::handleButton()
     context_->messageData.field.prevPriority = 0;
 
 
-    switch (context_->subjectKey.function) {
+    switch (context_->subjectKey.function)
+    {
 
     case CallControl::Direct: {
 
@@ -41,7 +44,7 @@ void CallWaiting::handleButton()
         context_->sendRequest(CallControl::Group, CallControl::Request::LINK, TIMEOUT);
 
 
-        context_->createRtp(Json::getInstance()->thisStation.id, context_->Simplex_send_type);
+        context_->createRtp(ThisStation_.id, context_->Simplex_send_type);
 
         context_->TransitionTo(new GroupCall);
     }
@@ -50,7 +53,7 @@ void CallWaiting::handleButton()
         context_->messageData.field.prevOwnId = 0;
         context_->microphone.start();
         switchLed(context_->subjectKey.key, true, 0,0,0, GPIO::GREEN);
-//        context_->createRtp(Json::getInstance()->thisStation.id, context_->Simplex_send_type);
+//        context_->createRtp(ThisStation_.id, context_->Simplex_send_type);
         context_->TransitionTo(new CircularCall);
     }
     break;
@@ -61,22 +64,66 @@ void CallWaiting::handleButton()
         context_->assignedData.confPriority = context_->subjectKey.priority;
         switchLed(context_->subjectKey.key, true, 0,0,0, GPIO::GREEN);
         context_->microphone.start();
-//        context_->createRtp(Json::getInstance()->thisStation.id, context_->Duplex_type);
+//        context_->createRtp(ThisStation_.id, context_->Duplex_type);
         context_->TransitionTo(new ConferenceCall);
     }
     break;
 
-    case CallControl::Telephone: {
-        if (context_->subjectKey.key == CallControl::Asterisk) {
+    case CallControl::Telephone:
+    {
+            //Костыль
+            if (context_->subjectKey.key == CallControl::Hash)
+            {
+                if (SAI::getInstance()->tone.status == DTMF::Status::START)
+                {
+                    HAL_SAI_DMAStop(&audioTxSai);
+                    SAI::getInstance()->tone.status = DTMF::Status::IDLE;
+                }
+            }
+
+        if ((context_->subjectKey.key == CallControl::Asterisk)
+            && (context_->telephoneDynamicStorage.size() == 0))
+        {//Когда первым следует Астериск то режим обычного телефонного вызова
+//Или повторного вызова - тут нужно отслеживать длительность удержания *
 
 
+
+
+term2("Asterisk pressed")
+
+
+            context_->ordinaryTelephoneCall = true;
             context_->assignedData.key = context_->subjectKey.key;
             context_->assignedData.priority = context_->subjectKey.priority;
 //            context_->messageData.field.prevPriority = 4;
             switchLed(context_->subjectKey.key, true, 0,0,0, GPIO::GREEN );
             context_->TransitionTo(new TelephoneCall);
         }
-    }
+
+//Здесь код обработки клавиш Контекст переключаю сразу но взвожу другой флаг
+        if ((context_->subjectKey.key != CallControl::Asterisk)
+            && (context_->subjectKey.key != CallControl::Hash)
+            && (context_->telephoneDynamicStorage.size() == 0))
+        {//Нажата одна из цифровых клавиш
+term2("Keypad pressed")
+            context_->simplexTelephoneCall = true;
+            context_->TransitionTo(new TelephoneCall);
+            if ((context_->rtpStatus != OK_RTP) && context_->simplexTelephoneCall)
+                for (auto& var : context_->keypadStructArray)
+                    if (context_->subjectKey.key == var.n)
+                    {
+                        if (context_->telephoneDynamicStorage.size() < 3)
+                        {
+                            context_->telephoneDynamicStorage.push_back(var.i);
+                            context_->osTimer.start(context_->osTimer.telephone_timerId, context_->osTimer.telephone_timerStatus, TelephoneCall::DIALING_TIMEOUT);
+                            startDtmfTone(var.i);
+                            break;
+                        }
+                    }
+        }
+
+
+    }// end case CallControl::Telephone
     break;
 
     default:
@@ -86,7 +133,7 @@ void CallWaiting::handleButton()
 
 void CallWaiting::handleJsonMessage()
 {
-    if (Json::getInstance()->thisStation.id == context_->messageData.field.distId)
+    if (ThisStation_.id == context_->messageData.field.distId)
         context_->setCallType();
 }
 
