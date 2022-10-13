@@ -7,7 +7,7 @@
 
 extern uint16_t pressedKey; /*!< The variable stores a number of the pressed key */
 extern uint8_t handleClick_count; /*!< The variable is the counter to handle clicks */
-
+extern SAI_HandleTypeDef audioTxSai;
 extern uint8_t keyMode, /*!< The variable stores a mode of the pressed key */
        func;    /*!< The variable stores a function of the pressed key */
 extern uint16_t subjectDirectTelephoneCall;
@@ -151,6 +151,9 @@ term2("handleRelasedButton - Asterisk")
         subjectDirectTelephoneCall = 0;
         CallControl_->microphone.stop();
         CallControl_->resetData();
+
+        //Если занято - останавливаем сигнал
+        HAL_SAI_DMAStop(&audioTxSai);
         }
 
     }
