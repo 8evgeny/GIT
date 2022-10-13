@@ -62,6 +62,12 @@ term2("Start Direct Simplex Telephone")
                 CallControl_->osTimer.start(CallControl_->osTimer.request_timerId,
                                             CallControl_->osTimer.request_timerStatus,
                                             200);
+
+                //Находим есть ли в конфиге абонент subjectDirectTelephoneCall
+                uint8_t key = context_->getKey(subjectDirectTelephoneCall);
+sprintf(msg,"key= %d\r\n ", key);
+RS232Puts(msg);
+                switchLed(key, true, 0, 0, 0, GPIO::GREEN);
             }
 
         }

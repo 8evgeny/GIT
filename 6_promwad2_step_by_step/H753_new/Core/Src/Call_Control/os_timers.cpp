@@ -147,13 +147,16 @@ term2("handleRelasedButton - Asterisk")
                                     CallControl_->osTimer.request_timerStatus,
                                     200);
 
+        //Если занято - останавливаем сигнал
+        stopRingTone();
+        //Гасим led
+        uint8_t key = CallControl_->getKey(subjectDirectTelephoneCall);
+        switchLed(key, false);
+
         //Обнуляем адрес и выключаем микрофон
         subjectDirectTelephoneCall = 0;
         CallControl_->microphone.stop();
         CallControl_->resetData();
-
-        //Если занято - останавливаем сигнал
-        stopRingTone();
         }
 
     }
