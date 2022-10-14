@@ -76,7 +76,7 @@ uint8_t LinkStatus;
 uint8_t inMcastGroup;
 osMutexId mutexEth_id;
 osMutexDef (mutexEth);
-
+bool asteriskPressed = false;
 uint8_t DataFirmware[NUM_FIRMWARE_PACKET][SIZE_FIRMWARE_BASE] __attribute__((section(".ExtRamData"))); //512кБ
 
 //Массив во внешней памяти для конфига (readelf -S H753_new.elf)
@@ -537,6 +537,12 @@ term("--- trackRingBufferThread ---")
             if (GPIO::getInstance()->ringBufferRx.size() != 0) {
 
                 GPIO::getInstance()->packageRx = GPIO::getInstance()->ringBufferRx.shift();
+
+                if(GPIO::getInstance()->packageRx.payloadData == CallControl::Asterisk)
+                {
+term2(GPIO::getInstance()->packageRx.payloadData)
+                    asteriskPressed = true;
+                }
                 osMutexRelease(GPIO::getInstance()->mutexRingBufferRx_id);
                 if (!GPIO::getInstance()->testFlag)
                 {

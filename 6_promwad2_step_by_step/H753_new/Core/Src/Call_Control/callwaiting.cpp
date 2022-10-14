@@ -9,7 +9,7 @@
 #include "rs232.h"
 extern SAI_HandleTypeDef audioTxSai;
 extern uint16_t lastDirectSubject;
-
+extern bool asteriskPressed;
 void CallWaiting::handleButton()
 {
 term2("CallWaiting::handleButton")
@@ -86,10 +86,19 @@ term2("CallWaiting::handleButton")
         {//Когда первым следует Астериск то режим обычного телефонного вызова
 //Или повторного вызова - тут нужно отслеживать длительность удержания *
 
+osDelay(500);
+asteriskPressed = false;
+osDelay(500);
+if (asteriskPressed)
+{
+    term2("Asterisk pressed long")
+}
+else
+{
+    term2("Asterisk pressed short")
+}
 
 
-
-term2("Asterisk pressed")
 
 
             context_->ordinaryTelephoneCall = true;
