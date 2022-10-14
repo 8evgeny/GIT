@@ -20,6 +20,7 @@ class CallWaiting : public State
 private:
 
 public:
+    CallWaiting();
     /*!
      \brief The overridden method to handle a button press
 

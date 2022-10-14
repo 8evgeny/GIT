@@ -9,6 +9,24 @@
 #include "rs232.h"
 extern SAI_HandleTypeDef audioTxSai;
 extern uint16_t lastDirectSubject;
+extern lfs_t lfs;
+extern lfs_file_t file;
+extern uint8_t boardType;
+
+CallWaiting::CallWaiting()
+{
+    //Восстанавливаем громкость
+    if (boardType == sc4)
+    {
+        int vol = -24;
+        lfs_file_open(&lfs, &file, "vol", LFS_O_RDWR | LFS_O_CREAT);
+        lfs_file_read(&lfs, &file, &vol, sizeof(vol));
+        GPIO::getInstance()->dacDriverGainValue = vol;
+        GPIO::getInstance()->changeVolumeMute();
+        lfs_file_close(&lfs, &file);
+    }
+}
+
 
 void CallWaiting::handleButton()
 {
