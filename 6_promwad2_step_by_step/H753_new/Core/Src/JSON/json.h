@@ -15,6 +15,8 @@
 #include <cstring>
 #include "ArduinoJson.h"
 #include "vector"
+
+#define ThisStation_ Json::getInstance()->thisStation
 const size_t SIZE_FIRMWARE_BASE = 512; /*! Firmware block */
 const size_t NUM_FIRMWARE_PACKET = 1000; //Макс размер прошивки 512 кБ
 /*!
