@@ -9,7 +9,7 @@
 #include "rs232.h"
 extern SAI_HandleTypeDef audioTxSai;
 extern uint16_t lastDirectSubject;
-extern bool asteriskPressed;
+extern volatile bool asteriskPressed;
 void CallWaiting::handleButton()
 {
 term2("CallWaiting::handleButton")
