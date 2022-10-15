@@ -29,7 +29,7 @@ bool sensDownPressed;
 uint32_t lastTimePressed;
 bool signalMaxMin = false;
 extern uint8_t pinNormaState;
-
+int volatile asteriskPressed = 0;
 extern SAI_HandleTypeDef audioTxSai;
 extern uint8_t boardType;
 static const uint16_t ring_length = 5136;
@@ -1011,7 +1011,9 @@ void readButtonThread(void const *arg)
                     if (readBoard != 255)
                     {
                         numButton = GPIO::getInstance()->findTelephoneBUTTONS(readBoard, j);
-
+                        if (numButton == 61)
+                            ++asteriskPressed;
+//term2(numButton)
                     }
                 }
             }//Просканировали клавиши номеронабирателя

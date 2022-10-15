@@ -76,7 +76,7 @@ uint8_t LinkStatus;
 uint8_t inMcastGroup;
 osMutexId mutexEth_id;
 osMutexDef (mutexEth);
-int volatile asteriskPressed = 0;
+extern int volatile asteriskPressed;
 uint8_t DataFirmware[NUM_FIRMWARE_PACKET][SIZE_FIRMWARE_BASE] __attribute__((section(".ExtRamData"))); //512кБ
 
 //Массив во внешней памяти для конфига (readelf -S H753_new.elf)
