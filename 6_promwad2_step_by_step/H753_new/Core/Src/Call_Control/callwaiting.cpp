@@ -87,13 +87,24 @@ term2("CallWaiting::handleButton")
          //Или повторного вызова - тут нужно отслеживать длительность удержания *
 term2("Delay")
 term2(asteriskPressed);
-auto tt = HAL_GetTick();
-while (tt +2000 > HAL_GetTick())
-{
-    osDelay(1);
-}
+osDelay(1000);
 term2(asteriskPressed);
-
+//auto tt = HAL_GetTick();
+//while (tt +10000 > HAL_GetTick())
+//{
+//    osDelay(100);
+//}
+//term2(asteriskPressed);
+//            osEvent evt = osSignalWait(0x42, 10);
+//            if (evt.status == osEventSignal)
+//            {
+//                term2("osSignal received 1");
+//            }
+//            osEvent evt2 = osSignalWait(0x42, 10);
+//            if (evt2.status == osEventSignal)
+//            {
+//                term2("osSignal received 2");
+//            }
 
             context_->ordinaryTelephoneCall = true;
             context_->assignedData.key = context_->subjectKey.key;

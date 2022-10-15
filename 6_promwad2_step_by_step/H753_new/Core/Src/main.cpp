@@ -459,7 +459,7 @@ term2("Board SL1")
         osThreadDef(audioInitThread, threadAudioInit, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 5);
         SAI::getInstance()->threadAudioInitId = osThreadCreate(osThread(audioInitThread), nullptr);
 
-        osThreadDef(trackRingBufferThread, trackRingBufferThread, osPriorityHigh, 0, configMINIMAL_STACK_SIZE * 2);
+        osThreadDef(trackRingBufferThread, trackRingBufferThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 2);
         if ((GPIO::getInstance()->trackRingBufferThreadId = osThreadCreate(osThread(trackRingBufferThread), nullptr)) == nullptr)
         {
             Debug::getInstance().dbg << __FUNCTION__ << " " << __LINE__ << " " << "\n";
@@ -541,8 +541,9 @@ term("--- trackRingBufferThread ---")
 
                 if(GPIO::getInstance()->packageRx.payloadData == CallControl::Asterisk)
                 {
-term2(asteriskPressed)
+//                    osSignalSet(osThreadGetId(), 0x42);
                     ++asteriskPressed;
+//term2(asteriskPressed)
                     timePressedAsterisk = HAL_GetTick();
                 }
                 osMutexRelease(GPIO::getInstance()->mutexRingBufferRx_id);
