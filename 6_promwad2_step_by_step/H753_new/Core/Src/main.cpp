@@ -76,7 +76,7 @@ uint8_t LinkStatus;
 uint8_t inMcastGroup;
 osMutexId mutexEth_id;
 osMutexDef (mutexEth);
-bool volatile asteriskPressed = false;
+int volatile asteriskPressed = 0;
 uint8_t DataFirmware[NUM_FIRMWARE_PACKET][SIZE_FIRMWARE_BASE] __attribute__((section(".ExtRamData"))); //512кБ
 
 //Массив во внешней памяти для конфига (readelf -S H753_new.elf)
@@ -531,6 +531,7 @@ static void trackRingBufferThread(void const *arg)
 {
 term("--- trackRingBufferThread ---")
         (void)arg;
+        auto timePressedAsterisk = HAL_GetTick();
         while(true)
         {
             osMutexWait(GPIO::getInstance()->mutexRingBufferRx_id, osWaitForever);
@@ -540,8 +541,9 @@ term("--- trackRingBufferThread ---")
 
                 if(GPIO::getInstance()->packageRx.payloadData == CallControl::Asterisk)
                 {
-term2(GPIO::getInstance()->packageRx.payloadData)
-                    asteriskPressed = true;
+term2(asteriskPressed)
+                    ++asteriskPressed;
+                    timePressedAsterisk = HAL_GetTick();
                 }
                 osMutexRelease(GPIO::getInstance()->mutexRingBufferRx_id);
                 if (!GPIO::getInstance()->testFlag)
@@ -556,6 +558,11 @@ term2(GPIO::getInstance()->packageRx.payloadData)
             } else osMutexRelease(GPIO::getInstance()->mutexRingBufferRx_id);
 
             osDelay(50);
+            if (timePressedAsterisk + 1000 < HAL_GetTick())
+            {
+                timePressedAsterisk = HAL_GetTick();
+                asteriskPressed = 0;
+            }
         }
 }
 
