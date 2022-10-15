@@ -103,7 +103,9 @@ term2("ordinaryTelephoneCall")
             {
  term2("recall")
                 asteriskPressed = 0;
-                context_->TransitionTo(new SimplexDirectCall);
+//Здесь код прямого вызова Simplex
+
+
 
             }
 
