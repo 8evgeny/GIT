@@ -85,18 +85,29 @@ term2("CallWaiting::handleButton")
             && (context_->telephoneDynamicStorage.size() == 0))
         {//Когда первым следует Астериск то режим обычного телефонного вызова
          //Или повторного вызова - тут нужно отслеживать длительность удержания *
-term2("Delay")
-term2(asteriskPressed);
-osDelay(1000);
-term2(asteriskPressed);
+
+osDelay(700);
+
+            if (asteriskPressed < 18)
+            {
+term2("ordinaryTelephoneCall")
+                context_->ordinaryTelephoneCall = true;
+                context_->assignedData.key = context_->subjectKey.key;
+                context_->assignedData.priority = context_->subjectKey.priority;
+                //            context_->messageData.field.prevPriority = 4;
+                switchLed(context_->subjectKey.key, true, 0,0,0, GPIO::GREEN );
+                context_->TransitionTo(new TelephoneCall);
+
+            }
+            else
+            {
+ term2("recall")
+                asteriskPressed = 0;
+                context_->TransitionTo(new SimplexDirectCall);
+
+            }
 
 
-            context_->ordinaryTelephoneCall = true;
-            context_->assignedData.key = context_->subjectKey.key;
-            context_->assignedData.priority = context_->subjectKey.priority;
-//            context_->messageData.field.prevPriority = 4;
-            switchLed(context_->subjectKey.key, true, 0,0,0, GPIO::GREEN );
-            context_->TransitionTo(new TelephoneCall);
         }
 
 //Здесь код обработки клавиш Контекст переключаю сразу но взвожу другой флаг
