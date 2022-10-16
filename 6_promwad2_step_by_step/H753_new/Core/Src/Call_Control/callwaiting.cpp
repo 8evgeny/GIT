@@ -104,40 +104,11 @@ term2("ordinaryTelephoneCall")
             else
             {
  term2("recall")
+
                 asteriskPressed = 0;
                 asteriksRecall = true;
                 context_->TransitionTo(new SimplexDirectCall);
-                int recallSubject = 103;
-//Здесь код прямого вызова Simplex
-//                const int capacity = JSON_OBJECT_SIZE(6) + JSON_ARRAY_SIZE(100);
-//                DynamicJsonDocument doc (capacity);
-//                doc["Own_Id"] = ThisStation_.id;
-//                doc["Dist_Id"].add(recallSubject);
-//                doc["Call_Type"] = CallControl_->Direct;
-//                doc["Priority"] = CallControl_->assignedData.priority;
-//                doc["Link_Data"] = 0xFF;
-//                doc["Direct_Link_Mode"] = 1;
-//                //            CallControl_->sendJson(doc, capacity);
-
-//                context_->requestCount = 0;
-//                std::fill(context_->messageData.txBuff, context_->messageData.txBuff + context_->messageData.txBuffSize, 0);
-//                if (serializeJson(doc, context_->messageData.txBuff, capacity) > 0) {
-//                    sendUdpMulticast(context_->messageData.txBuff, strlen(context_->messageData.txBuff));
-//                }
-////                context_->requestCount++;
-
-//                //            CallControl_->copyRecvBuff(CallControl_->serviceData->recvBuffCopy,
-//                //                    CallControl_->outputJsonBuff);
-//                context_->osTimer.start(context_->osTimer.request_timerId,
-//                                            context_->osTimer.request_timerStatus,
-//                                            200);
-//                //Находим есть ли в конфиге абонент subjectDirectTelephoneCall
-//                uint8_t key = context_->getKey(recallSubject);
-//                switchLed(key, true, 0, 0, 0, GPIO::GREEN);
-//                context_->TransitionTo(new SimplexDirectCall);
             }
-
-
         }
 
 //Здесь код обработки клавиш Контекст переключаю сразу но взвожу другой флаг

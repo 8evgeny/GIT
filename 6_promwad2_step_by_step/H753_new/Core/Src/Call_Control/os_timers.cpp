@@ -11,7 +11,8 @@ extern SAI_HandleTypeDef audioTxSai;
 extern uint8_t keyMode, /*!< The variable stores a mode of the pressed key */
        func;    /*!< The variable stores a function of the pressed key */
 extern uint16_t subjectDirectTelephoneCall;
-
+extern bool asteriksRecall;
+extern bool asteriksReleasedAfterLongTime;
 //constexpr static uint16_t TIMEOUT {200};
 
 osTimerDef (handleRelasedButtonTimer, handleRelasedButtonTimer_Callback);   /*!< handleRelasedButtonTimer definition */
@@ -111,52 +112,55 @@ void handleRelasedButtonTimer_Callback(void const *arg)
         }
 
 //Обработка отпускания Asterisk при телефонном симплексе
-        if ((CallControl_->simplexTelephoneCall)
-            && (CallControl_->subjectKey.key == CallControl::Asterisk))
+        if (
+            ((CallControl_->simplexTelephoneCall) && (CallControl_->subjectKey.key == CallControl::Asterisk))
+            || (asteriksRecall && asteriksReleasedAfterLongTime)
+            )
         {
+            asteriksRecall = false;
 term2("handleRelasedButton - Asterisk")
-        CallControl_->simplexTelephoneCall = false;
-        //Переключаем контекст
-        CallControl_->TransitionTo(new CallWaiting);
+            CallControl_->simplexTelephoneCall = false;
+            //Переключаем контекст
+            CallControl_->TransitionTo(new CallWaiting);
 
-        //Останавливаем rtp
-        CallControl_->removeRtp();
+            //Останавливаем rtp
+            CallControl_->removeRtp();
 
-        //Отправляем message
-        uint16_t distSubject = subjectDirectTelephoneCall;
-        const int capacity = JSON_OBJECT_SIZE(6) + JSON_ARRAY_SIZE(100);
-        DynamicJsonDocument doc (capacity);
+            //Отправляем message
+            uint16_t distSubject = subjectDirectTelephoneCall;
+            const int capacity = JSON_OBJECT_SIZE(6) + JSON_ARRAY_SIZE(100);
+            DynamicJsonDocument doc (capacity);
 
-        doc["Own_Id"] = ThisStation_.id;
-        doc["Dist_Id"].add(distSubject);
-        doc["Call_Type"] = CallControl_->Direct;
-        doc["Priority"] = CallControl_->assignedData.priority;
-        doc["Link_Data"] = 0x00;
-        doc["Direct_Link_Mode"] = 1;
-        //            CallControl_->sendJson(doc, capacity);
+            doc["Own_Id"] = ThisStation_.id;
+            doc["Dist_Id"].add(distSubject);
+            doc["Call_Type"] = CallControl_->Direct;
+            doc["Priority"] = CallControl_->assignedData.priority;
+            doc["Link_Data"] = 0x00;
+            doc["Direct_Link_Mode"] = 1;
+            //            CallControl_->sendJson(doc, capacity);
 
-        CallControl_->requestCount = 0;
-        std::fill(CallControl_->messageData.txBuff, CallControl_->messageData.txBuff + CallControl_->messageData.txBuffSize, 0);
-        if (serializeJson(doc, CallControl_->messageData.txBuff, capacity) > 0)
-        {
-            sendUdpMulticast(CallControl_->messageData.txBuff, strlen(CallControl_->messageData.txBuff));
-        }
-        //                CallControl_->requestCount++;
+            CallControl_->requestCount = 0;
+            std::fill(CallControl_->messageData.txBuff, CallControl_->messageData.txBuff + CallControl_->messageData.txBuffSize, 0);
+            if (serializeJson(doc, CallControl_->messageData.txBuff, capacity) > 0)
+            {
+                sendUdpMulticast(CallControl_->messageData.txBuff, strlen(CallControl_->messageData.txBuff));
+            }
+            //                CallControl_->requestCount++;
 
-        CallControl_->osTimer.start(CallControl_->osTimer.request_timerId,
-                                    CallControl_->osTimer.request_timerStatus,
-                                    200);
+            CallControl_->osTimer.start(CallControl_->osTimer.request_timerId,
+                                        CallControl_->osTimer.request_timerStatus,
+                                        200);
 
-        //Если занято - останавливаем сигнал
-        stopRingTone();
-        //Гасим led
-        uint8_t key = CallControl_->getKey(subjectDirectTelephoneCall);
-        switchLed(key, false);
+            //Если занято - останавливаем сигнал
+            stopRingTone();
+            //Гасим led
+            uint8_t key = CallControl_->getKey(subjectDirectTelephoneCall);
+            switchLed(key, false);
 
-        //Обнуляем адрес и выключаем микрофон
-        subjectDirectTelephoneCall = 0;
-        CallControl_->microphone.stop();
-        CallControl_->resetData();
+            //Обнуляем адрес и выключаем микрофон
+            subjectDirectTelephoneCall = 0;
+            CallControl_->microphone.stop();
+            CallControl_->resetData();
         }
 
     }
