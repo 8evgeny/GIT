@@ -115,7 +115,7 @@ void handleRelasedButtonTimer_Callback(void const *arg)
             && (CallControl_->subjectKey.key == CallControl::Asterisk))
         {
 term2("handleRelasedButton - Asterisk")
-            CallControl_->simplexTelephoneCall = false;
+        CallControl_->simplexTelephoneCall = false;
         //Переключаем контекст
         CallControl_->TransitionTo(new CallWaiting);
 
