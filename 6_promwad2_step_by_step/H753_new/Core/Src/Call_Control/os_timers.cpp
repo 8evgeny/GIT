@@ -13,6 +13,7 @@ extern uint8_t keyMode, /*!< The variable stores a mode of the pressed key */
 extern uint16_t subjectDirectTelephoneCall;
 extern bool asteriksRecall;
 extern bool asteriksReleasedAfterLongTime;
+extern uint16_t lastDirectSubject;
 //constexpr static uint16_t TIMEOUT {200};
 
 osTimerDef (handleRelasedButtonTimer, handleRelasedButtonTimer_Callback);   /*!< handleRelasedButtonTimer definition */
@@ -156,6 +157,9 @@ term2("handleRelasedButton - Asterisk")
             //Гасим led
             uint8_t key = CallControl_->getKey(subjectDirectTelephoneCall);
             switchLed(key, false);
+            key = CallControl_->getKey(lastDirectSubject);
+            switchLed(key, false);
+
 
             //Обнуляем адрес и выключаем микрофон
             subjectDirectTelephoneCall = 0;

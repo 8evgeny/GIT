@@ -85,7 +85,7 @@ RS232Puts(msg);
         if(context_->subjectKey.key == CallControl::Asterisk)
         {
             term2("Start Recall Simplex Telephone")
-            uint16_t distSubject = 103;
+            uint16_t distSubject = lastDirectSubject;
 
             const int capacity = JSON_OBJECT_SIZE(6) + JSON_ARRAY_SIZE(100);
             DynamicJsonDocument doc (capacity);
