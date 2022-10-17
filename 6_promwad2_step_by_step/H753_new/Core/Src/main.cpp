@@ -76,7 +76,7 @@ uint8_t LinkStatus;
 uint8_t inMcastGroup;
 osMutexId mutexEth_id;
 osMutexDef (mutexEth);
-
+extern int volatile asteriskPressed;
 uint8_t DataFirmware[NUM_FIRMWARE_PACKET][SIZE_FIRMWARE_BASE] __attribute__((section(".ExtRamData"))); //512кБ
 
 //Массив во внешней памяти для конфига (readelf -S H753_new.elf)
@@ -459,7 +459,7 @@ term2("Board SL1")
         osThreadDef(audioInitThread, threadAudioInit, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 5);
         SAI::getInstance()->threadAudioInitId = osThreadCreate(osThread(audioInitThread), nullptr);
 
-        osThreadDef(trackRingBufferThread, trackRingBufferThread, osPriorityHigh, 0, configMINIMAL_STACK_SIZE * 2);
+        osThreadDef(trackRingBufferThread, trackRingBufferThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 2);
         if ((GPIO::getInstance()->trackRingBufferThreadId = osThreadCreate(osThread(trackRingBufferThread), nullptr)) == nullptr)
         {
             Debug::getInstance().dbg << __FUNCTION__ << " " << __LINE__ << " " << "\n";
@@ -531,12 +531,21 @@ static void trackRingBufferThread(void const *arg)
 {
 term("--- trackRingBufferThread ---")
         (void)arg;
+        auto timePressedAsterisk = HAL_GetTick();
         while(true)
         {
             osMutexWait(GPIO::getInstance()->mutexRingBufferRx_id, osWaitForever);
             if (GPIO::getInstance()->ringBufferRx.size() != 0) {
 
                 GPIO::getInstance()->packageRx = GPIO::getInstance()->ringBufferRx.shift();
+
+                if(GPIO::getInstance()->packageRx.payloadData == CallControl::Asterisk)
+                {
+//                    osSignalSet(osThreadGetId(), 0x42);
+                    ++asteriskPressed;
+//term2(asteriskPressed)
+                    timePressedAsterisk = HAL_GetTick();
+                }
                 osMutexRelease(GPIO::getInstance()->mutexRingBufferRx_id);
                 if (!GPIO::getInstance()->testFlag)
                 {
@@ -550,6 +559,11 @@ term("--- trackRingBufferThread ---")
             } else osMutexRelease(GPIO::getInstance()->mutexRingBufferRx_id);
 
             osDelay(50);
+            if (timePressedAsterisk + 1000 < HAL_GetTick())
+            {
+                timePressedAsterisk = HAL_GetTick();
+                asteriskPressed = 0;
+            }
         }
 }
 

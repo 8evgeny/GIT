@@ -29,9 +29,10 @@ bool sensDownPressed;
 uint32_t lastTimePressed;
 bool signalMaxMin = false;
 extern uint8_t pinNormaState;
-
+int volatile asteriskPressed = 0;
 extern SAI_HandleTypeDef audioTxSai;
 extern uint8_t boardType;
+bool asteriskReleasedAfterLongTime;
 static const uint16_t ring_length = 5136;
 alignas(4) static uint8_t ring_raw[] = {
 
@@ -981,7 +982,7 @@ void readButtonThread(void const *arg)
         uint8_t numButton = 0;
         uint32_t tickstart = HAL_GetTick();
         bool keySendingFlag = false;
-
+        auto timePressAsterisk = HAL_GetTick();
         while(true)
         {
             //Повторное нажатие воспринимается
@@ -1011,7 +1012,14 @@ void readButtonThread(void const *arg)
                     if (readBoard != 255)
                     {
                         numButton = GPIO::getInstance()->findTelephoneBUTTONS(readBoard, j);
+                        if (numButton == 61)
+                        {
+                            ++asteriskPressed;
+                            timePressAsterisk = HAL_GetTick();
+                            asteriskReleasedAfterLongTime = false;
+                        }
 
+//term2(numButton)
                     }
                 }
             }//Просканировали клавиши номеронабирателя
@@ -1069,6 +1077,11 @@ void readButtonThread(void const *arg)
             }
 
              osDelay(50); //Возможно нужно убрать
+
+             if (asteriskPressed + 500 < HAL_GetTick())
+             {
+                 asteriskReleasedAfterLongTime = true;
+             }
 
             osDelay(1);
         }

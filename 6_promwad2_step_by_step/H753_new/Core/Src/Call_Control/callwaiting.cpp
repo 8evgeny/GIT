@@ -1,5 +1,5 @@
 #include "callwaiting.h"
-
+#include "../UDP_JSON/udp_multicast.h"
 #include "duplexdirectcall.h"
 #include "simplexdirectcall.h"
 #include "groupcall.h"
@@ -9,7 +9,9 @@
 #include "rs232.h"
 extern SAI_HandleTypeDef audioTxSai;
 extern uint16_t lastDirectSubject;
-
+extern int volatile asteriskPressed;
+bool asteriskRecall = false;
+extern char msg[50];
 void CallWaiting::handleButton()
 {
 term2("CallWaiting::handleButton")
@@ -26,7 +28,10 @@ term2("CallWaiting::handleButton")
     case CallControl::Direct: {
 
         context_->messageData.field.prevDistId = context_->subjectKey.assign;
-
+//Тут ловлю номер исходящего
+sprintf(msg, "call to %d", context_->subjectKey.assign);
+term2(msg)
+        lastDirectSubject =  context_->subjectKey.assign;
         if (context_->subjectKey.directLinkMode == CallControl::Duplex)
             context_->TransitionTo(new DuplexDirectCall);
         else if (context_->subjectKey.directLinkMode == CallControl::Simplex)
@@ -84,28 +89,36 @@ term2("CallWaiting::handleButton")
         if ((context_->subjectKey.key == CallControl::Asterisk)
             && (context_->telephoneDynamicStorage.size() == 0))
         {//Когда первым следует Астериск то режим обычного телефонного вызова
-//Или повторного вызова - тут нужно отслеживать длительность удержания *
+         //Или повторного вызова - тут нужно отслеживать длительность удержания *
 
+osDelay(timeWiteForAsteriskRecall);
 
+            if (asteriskPressed < numberPressedAsteriskForRecall)
+            {
+//term2("ordinaryTelephoneCall")
+                context_->ordinaryTelephoneCall = true;
+                context_->assignedData.key = context_->subjectKey.key;
+                context_->assignedData.priority = context_->subjectKey.priority;
+                //            context_->messageData.field.prevPriority = 4;
+                switchLed(context_->subjectKey.key, true, 0,0,0, GPIO::GREEN );
+                context_->TransitionTo(new TelephoneCall);
 
-
-term2("Asterisk pressed")
-
-
-            context_->ordinaryTelephoneCall = true;
-            context_->assignedData.key = context_->subjectKey.key;
-            context_->assignedData.priority = context_->subjectKey.priority;
-//            context_->messageData.field.prevPriority = 4;
-            switchLed(context_->subjectKey.key, true, 0,0,0, GPIO::GREEN );
-            context_->TransitionTo(new TelephoneCall);
+            }
+            else
+            {
+// term2("recall")
+                asteriskPressed = 0;
+                asteriskRecall = true;
+                context_->TransitionTo(new SimplexDirectCall);
+            }
         }
 
-//Здесь код обработки клавиш Контекст переключаю сразу но взвожу другой флаг
+//Здесь код обработки Simplex telephone call Контекст переключаю сразу но взвожу другой флаг
         if ((context_->subjectKey.key != CallControl::Asterisk)
             && (context_->subjectKey.key != CallControl::Hash)
             && (context_->telephoneDynamicStorage.size() == 0))
         {//Нажата одна из цифровых клавиш
-term2("Keypad pressed")
+//term2("Keypad pressed")
             context_->simplexTelephoneCall = true;
             context_->TransitionTo(new TelephoneCall);
             if ((context_->rtpStatus != OK_RTP) && context_->simplexTelephoneCall)
@@ -134,6 +147,10 @@ term2("Keypad pressed")
 void CallWaiting::handleJsonMessage()
 {
     if (ThisStation_.id == context_->messageData.field.distId)
+//Тут ловлю номер входящего
+sprintf(msg, "call from %d",context_->messageData.field.ownId);
+term2(msg)
+        lastDirectSubject =  context_->messageData.field.ownId;
         context_->setCallType();
 }
 
