@@ -7,13 +7,12 @@
 char msg[30];
 uint16_t subjectDirectTelephoneCall = 0;//Абонент вызываемый на кейпаде
 uint16_t lastDirectSubject = 0; //Последний абонент
-extern bool asteriksRecall;
+extern bool asteriskRecall;
 void SimplexDirectCall::handleButton()
 {
 term2("SimplexDirectCall::handleButton")
-    if ((context_->subjectKey.key == context_->assignedData.key)&&(subjectDirectTelephoneCall == 0))
+    if ((context_->subjectKey.key == context_->assignedData.key) && (subjectDirectTelephoneCall == 0))
     {
-
         stopRingTone();
         context_->microphone.stop();
         switchLed(context_->assignedData.key, false);
@@ -80,7 +79,7 @@ RS232Puts(msg);
         }
 
     }
-    if (asteriksRecall)
+    if (asteriskRecall)
     {
         if(context_->subjectKey.key == CallControl::Asterisk)
         {

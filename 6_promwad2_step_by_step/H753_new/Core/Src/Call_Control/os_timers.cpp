@@ -11,8 +11,8 @@ extern SAI_HandleTypeDef audioTxSai;
 extern uint8_t keyMode, /*!< The variable stores a mode of the pressed key */
        func;    /*!< The variable stores a function of the pressed key */
 extern uint16_t subjectDirectTelephoneCall;
-extern bool asteriksRecall;
-extern bool asteriksReleasedAfterLongTime;
+extern bool asteriskRecall;
+extern bool asteriskReleasedAfterLongTime;
 extern uint16_t lastDirectSubject;
 //constexpr static uint16_t TIMEOUT {200};
 
@@ -115,10 +115,10 @@ void handleRelasedButtonTimer_Callback(void const *arg)
 //Обработка отпускания Asterisk при телефонном симплексе
         if (
             ((CallControl_->simplexTelephoneCall) && (CallControl_->subjectKey.key == CallControl::Asterisk))
-            || (asteriksRecall && asteriksReleasedAfterLongTime)
+            || (asteriskRecall && asteriskReleasedAfterLongTime)
             )
         {
-            asteriksRecall = false;
+            asteriskRecall = false;
 term2("handleRelasedButton - Asterisk")
             CallControl_->simplexTelephoneCall = false;
             //Переключаем контекст

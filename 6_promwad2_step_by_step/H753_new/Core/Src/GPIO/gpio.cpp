@@ -32,7 +32,7 @@ extern uint8_t pinNormaState;
 int volatile asteriskPressed = 0;
 extern SAI_HandleTypeDef audioTxSai;
 extern uint8_t boardType;
-bool asteriksReleasedAfterLongTime;
+bool asteriskReleasedAfterLongTime;
 static const uint16_t ring_length = 5136;
 alignas(4) static uint8_t ring_raw[] = {
 
@@ -982,7 +982,7 @@ void readButtonThread(void const *arg)
         uint8_t numButton = 0;
         uint32_t tickstart = HAL_GetTick();
         bool keySendingFlag = false;
-        auto timePressAsteriks = HAL_GetTick();
+        auto timePressAsterisk = HAL_GetTick();
         while(true)
         {
             //Повторное нажатие воспринимается
@@ -1015,8 +1015,8 @@ void readButtonThread(void const *arg)
                         if (numButton == 61)
                         {
                             ++asteriskPressed;
-                            timePressAsteriks = HAL_GetTick();
-                            asteriksReleasedAfterLongTime = false;
+                            timePressAsterisk = HAL_GetTick();
+                            asteriskReleasedAfterLongTime = false;
                         }
 
 //term2(numButton)
@@ -1080,7 +1080,7 @@ void readButtonThread(void const *arg)
 
              if (asteriskPressed + 500 < HAL_GetTick())
              {
-                 asteriksReleasedAfterLongTime = true;
+                 asteriskReleasedAfterLongTime = true;
              }
 
             osDelay(1);

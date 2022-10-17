@@ -10,7 +10,7 @@
 extern SAI_HandleTypeDef audioTxSai;
 extern uint16_t lastDirectSubject;
 extern int volatile asteriskPressed;
-bool asteriksRecall = false;
+bool asteriskRecall = false;
 
 void CallWaiting::handleButton()
 {
@@ -88,11 +88,11 @@ term2("CallWaiting::handleButton")
         {//Когда первым следует Астериск то режим обычного телефонного вызова
          //Или повторного вызова - тут нужно отслеживать длительность удержания *
 
-osDelay(700);
+osDelay(timeWiteForAsteriskRecall);
 
-            if (asteriskPressed < 18)
+            if (asteriskPressed < numberPressedAsteriskForRecall)
             {
-term2("ordinaryTelephoneCall")
+//term2("ordinaryTelephoneCall")
                 context_->ordinaryTelephoneCall = true;
                 context_->assignedData.key = context_->subjectKey.key;
                 context_->assignedData.priority = context_->subjectKey.priority;
@@ -103,20 +103,19 @@ term2("ordinaryTelephoneCall")
             }
             else
             {
- term2("recall")
-
+// term2("recall")
                 asteriskPressed = 0;
-                asteriksRecall = true;
+                asteriskRecall = true;
                 context_->TransitionTo(new SimplexDirectCall);
             }
         }
 
-//Здесь код обработки клавиш Контекст переключаю сразу но взвожу другой флаг
+//Здесь код обработки Simplex telephone call Контекст переключаю сразу но взвожу другой флаг
         if ((context_->subjectKey.key != CallControl::Asterisk)
             && (context_->subjectKey.key != CallControl::Hash)
             && (context_->telephoneDynamicStorage.size() == 0))
         {//Нажата одна из цифровых клавиш
-term2("Keypad pressed")
+//term2("Keypad pressed")
             context_->simplexTelephoneCall = true;
             context_->TransitionTo(new TelephoneCall);
             if ((context_->rtpStatus != OK_RTP) && context_->simplexTelephoneCall)
