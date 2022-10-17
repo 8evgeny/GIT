@@ -4,15 +4,15 @@
 #include "conferencecall.h"
 #include "rs232.h"
 #include "rs232_printf.h"
-char msg[30];
+char msg[50];
 uint16_t subjectDirectTelephoneCall = 0;//Абонент вызываемый на кейпаде
 uint16_t lastDirectSubject = 0; //Последний абонент
+extern bool asteriskRecall;
 void SimplexDirectCall::handleButton()
 {
 term2("SimplexDirectCall::handleButton")
-    if ((context_->subjectKey.key == context_->assignedData.key)&&(subjectDirectTelephoneCall == 0))
+    if ((context_->subjectKey.key == context_->assignedData.key) && (subjectDirectTelephoneCall == 0))
     {
-
         stopRingTone();
         context_->microphone.stop();
         switchLed(context_->assignedData.key, false);
@@ -79,6 +79,57 @@ RS232Puts(msg);
         }
 
     }
+    if (asteriskRecall)
+    {
+        if(context_->subjectKey.key == CallControl::Asterisk)
+        {
+            term2("Start Recall Simplex Telephone")
+            uint16_t distSubject = lastDirectSubject;
+
+            const int capacity = JSON_OBJECT_SIZE(6) + JSON_ARRAY_SIZE(100);
+            DynamicJsonDocument doc (capacity);
+            CallControl_->messageData.field.prevDistId = distSubject;
+
+            if (1000 > distSubject && distSubject > 99)
+            {
+                //                CallControl_->sendRequest(CallControl::Direct, CallControl::Request::LINK, 300);
+                doc["Own_Id"] = ThisStation_.id;
+                doc["Dist_Id"].add(distSubject);
+                doc["Call_Type"] = CallControl_->Direct;
+                doc["Priority"] = CallControl_->assignedData.priority;
+                doc["Link_Data"] = 0xFF;
+                doc["Direct_Link_Mode"] = 1;
+                //            CallControl_->sendJson(doc, capacity);
+
+                CallControl_->requestCount = 0;
+                std::fill(CallControl_->messageData.txBuff, CallControl_->messageData.txBuff + CallControl_->messageData.txBuffSize, 0);
+                if (serializeJson(doc, CallControl_->messageData.txBuff, capacity) > 0)
+                {
+                    sendUdpMulticast(CallControl_->messageData.txBuff, strlen(CallControl_->messageData.txBuff));
+                }
+                //                CallControl_->requestCount++;
+
+                CallControl_->osTimer.start(CallControl_->osTimer.request_timerId,
+                                            CallControl_->osTimer.request_timerStatus,
+                                            200);
+
+                //Находим есть ли в конфиге абонент subjectDirectTelephoneCall
+                uint8_t key = context_->getKey(distSubject);
+                sprintf(msg,"key= %d\r\n ", key);
+                RS232Puts(msg);
+                switchLed(key, true, 0, 0, 0, GPIO::GREEN);
+            }
+
+        }
+        else
+        {//Все сбрасываем
+            subjectDirectTelephoneCall = 0;
+            this->context_->TransitionTo(new CallWaiting);
+        }
+
+    }
+
+
 }
 
 void SimplexDirectCall::handleJsonMessage()

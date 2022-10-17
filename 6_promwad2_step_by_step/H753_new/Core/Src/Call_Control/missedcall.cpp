@@ -21,7 +21,6 @@ void MissedCall::add(const uint8_t key)
             missedCallData.key = key;
             missedCalls.push_back(missedCallData);
         }
-term2("--1")
         switchLed(key, true, 100, 900, 0, GPIO::RED); //Цвет пропущенный дуплекс
     }
 }
