@@ -28,7 +28,10 @@ term2("CallWaiting::handleButton")
     case CallControl::Direct: {
 
         context_->messageData.field.prevDistId = context_->subjectKey.assign;
-
+//Тут ловлю номер исходящего
+sprintf(msg, "call to %d", context_->subjectKey.assign);
+term2(msg)
+        lastDirectSubject =  context_->subjectKey.assign;
         if (context_->subjectKey.directLinkMode == CallControl::Duplex)
             context_->TransitionTo(new DuplexDirectCall);
         else if (context_->subjectKey.directLinkMode == CallControl::Simplex)
