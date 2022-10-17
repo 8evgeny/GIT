@@ -11,7 +11,7 @@ extern SAI_HandleTypeDef audioTxSai;
 extern uint16_t lastDirectSubject;
 extern int volatile asteriskPressed;
 bool asteriskRecall = false;
-
+extern char msg[50];
 void CallWaiting::handleButton()
 {
 term2("CallWaiting::handleButton")
@@ -144,6 +144,10 @@ osDelay(timeWiteForAsteriskRecall);
 void CallWaiting::handleJsonMessage()
 {
     if (ThisStation_.id == context_->messageData.field.distId)
+//Тут ловлю номер входящего
+sprintf(msg, "call from %d",context_->messageData.field.ownId);
+term2(msg)
+        lastDirectSubject =  context_->messageData.field.ownId;
         context_->setCallType();
 }
 

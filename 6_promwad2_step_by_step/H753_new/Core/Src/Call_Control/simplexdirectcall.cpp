@@ -4,7 +4,7 @@
 #include "conferencecall.h"
 #include "rs232.h"
 #include "rs232_printf.h"
-char msg[30];
+char msg[50];
 uint16_t subjectDirectTelephoneCall = 0;//Абонент вызываемый на кейпаде
 uint16_t lastDirectSubject = 0; //Последний абонент
 extern bool asteriskRecall;
