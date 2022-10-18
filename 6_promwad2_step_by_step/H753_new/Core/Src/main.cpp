@@ -393,9 +393,9 @@ term2("Board SL1")
     SRAMInit();
     BSP_EEPROM_Init();
     littleFsInit();
-    printNumReboot();
-    test_EEPROM();
-    Flash::getInstance().test();
+//    printNumReboot();
+//    test_EEPROM();
+//    Flash::getInstance().test();
 
 //    char tmp[2];
 //    RS232::getInstance().term <<"DataFirmware:\r\n";
