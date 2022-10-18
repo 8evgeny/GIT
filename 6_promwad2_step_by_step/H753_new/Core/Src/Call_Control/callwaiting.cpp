@@ -166,11 +166,13 @@ osDelay(timeWiteForAsteriskRecall);
 void CallWaiting::handleJsonMessage()
 {
     if (ThisStation_.id == context_->messageData.field.distId)
+    {
 //Тут ловлю номер входящего
 sprintf(msg, "call from %d",context_->messageData.field.ownId);
 term2(msg)
         lastDirectSubject =  context_->messageData.field.ownId;
         context_->setCallType();
+    }
 }
 
 void CallWaiting::handleLostLink()
