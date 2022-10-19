@@ -20,7 +20,7 @@ void printFlashOptions(FLASH_OBProgramInitTypeDef &OBInit);
 void newFirmwareWrite(int firmwareSize);
 extern HASH_HandleTypeDef hhash;
 extern CRC_HandleTypeDef hcrc;
-CRYP_HandleTypeDef hcrypFIRMWARE;
+extern CRYP_HandleTypeDef hcrypFIRMWARE;
 extern uint8_t DataFirmware[NUM_FIRMWARE_PACKET][SIZE_FIRMWARE_BASE] __attribute__((section(".ExtRamData")));
 extern uint8_t DataFirmware2[NUM_FIRMWARE_PACKET][SIZE_FIRMWARE_BASE] __attribute__((section(".ExtRamData")));
 
@@ -201,8 +201,8 @@ static char FLASHPath[4]; /*! FLASH logical drive path */
                 uint8_t receivedHashKeyBin[16];
 //                uint8_t receivedHashKeyEncoded[16];
                 uint8_t calculatedMd5[16];
-//                uint8_t encryptedMd5[16];
-//                uint8_t decryptedMd5[16];
+                uint8_t encryptedMd5[16];
+                uint8_t decryptedMd5[16];
                 //Копируем полученный hashKeyBin
                 strncpy ((char*)receivedHashKeyBin,(const char*)DataFirmware + firmwareSize , 16);
 //                //Копируем полученный hashKeyEnc
@@ -221,36 +221,23 @@ static char FLASHPath[4]; /*! FLASH logical drive path */
                 for (auto i=0; i < 16; ++i) { sprintf(tmp,"%1.1x",calculatedMd5[i]); RS232::getInstance().term <<tmp;}
                 RS232::getInstance().term <<"\r\n";
 
-//                if(strncmp((char*)receivedHashKeyEncoded, (char*)calculatedMd5, 16) == 0)
-//                    term2("Received encoded file 0K")
-//                else
-//                    term2("Received encoded file damaged")
-//test AES  проходит
-//                HAL_CRYP_Decrypt(&hcrypFIRMWARE, (uint32_t *)DataFirmware, (uint16_t)firmwareSize,(uint32_t *)DataFirmware2, 1000);
-//                HAL_HASH_MD5_Start(&hhash, (uint8_t *)DataFirmware2, firmwareSize, decryptedMd5, 1000);
-//                HAL_CRYP_Encrypt(&hcrypFIRMWARE, (uint32_t *)DataFirmware2, (uint16_t)firmwareSize, (uint32_t *)DataFirmware, 1000);
-//                HAL_HASH_MD5_Start(&hhash, (uint8_t *)DataFirmware, firmwareSize, calculatedMd5, 1000);
+term2("test AES")
+                HAL_CRYP_Encrypt(&hcrypFIRMWARE, (uint32_t *)DataFirmware, (uint16_t)firmwareSize,(uint32_t *)DataFirmware2, 1000);
+                HAL_HASH_MD5_Start(&hhash, (uint8_t *)DataFirmware2, firmwareSize, encryptedMd5, 1000);
+                RS232::getInstance().term <<"encryptedMd5:\t";
+                for (auto i=0; i < 16; ++i) { sprintf(tmp,"%1.1x", encryptedMd5[i]); RS232::getInstance().term <<tmp;} RS232::getInstance().term <<"\r\n";
 
-//                HAL_CRYP_Encrypt(&hcrypFIRMWARE, (uint32_t *)DataFirmware, (uint16_t)firmwareSize,(uint32_t *)DataFirmware2, 1000);
-//                HAL_HASH_MD5_Start(&hhash, (uint8_t *)DataFirmware2, firmwareSize, encryptedMd5, 1000);
-//                HAL_CRYP_Decrypt(&hcrypFIRMWARE, (uint32_t *)DataFirmware2, (uint16_t)firmwareSize, (uint32_t *)DataFirmware, 1000);
-//                HAL_HASH_MD5_Start(&hhash, (uint8_t *)DataFirmware, firmwareSize, calculatedMd5, 1000);
+                HAL_CRYP_Decrypt(&hcrypFIRMWARE, (uint32_t *)DataFirmware2, (uint16_t)firmwareSize, (uint32_t *)DataFirmware, 1000);
+                HAL_HASH_MD5_Start(&hhash, (uint8_t *)DataFirmware, firmwareSize, decryptedMd5, 1000);
+                RS232::getInstance().term <<"decryptedMd5:\t";
+                for (auto i=0; i < 16; ++i) { sprintf(tmp,"%1.1x", decryptedMd5[i]); RS232::getInstance().term <<tmp;} RS232::getInstance().term <<"\r\n";
 
-//                if(strncmp((char*)receivedHashKeyEncoded, (char*)calculatedMd5, 16) == 0)
-//                    term2("test AES passed")
-//                else
-//                    term2("test AES failed")
+                if(strncmp((char*)receivedHashKeyBin, (char*)calculatedMd5, 16) == 0)
+                    term2("test AES passed")
+                else
+                    term2("test AES failed")
 //test AES end
 
-      //Теперь расшифровываем файл
-//      term2("decrypt")
-//                HAL_CRYP_Decrypt(&hcrypFIRMWARE, (uint32_t *)DataFirmware, (uint16_t)firmwareSize * 2 , (uint32_t *)DataFirmware2, 1000);
-//                HAL_HASH_MD5_Start(&hhash, (uint8_t *)DataFirmware2, firmwareSize, decryptedMd5, 1000);
-//                RS232::getInstance().term <<"Decrypted Md5:\t\t";
-//                for (auto i=0; i < 16; ++i) { sprintf(tmp,"%1.1x",decryptedMd5[i]); RS232::getInstance().term <<tmp;}
-//                RS232::getInstance().term <<"\r\n";
-
-//               if(strncmp((char*)receivedHashKeyBin, (char*)decryptedMd5, 16) == 0)
                if(strncmp((char*)receivedHashKeyBin, (char*)calculatedMd5, 16) == 0)
                {
                    //md5 совпали - пишем прошивку
@@ -261,8 +248,7 @@ static char FLASHPath[4]; /*! FLASH logical drive path */
                    HAL_CRYP_Encrypt(&hcrypFIRMWARE, (uint32_t *)DataFirmware, (uint16_t)firmwareSize,(uint32_t *)DataFirmware2, 1000);
                    HAL_HASH_MD5_Start(&hhash, (uint8_t *)DataFirmware2, firmwareSize, cryptMd5, 1000);
                    RS232::getInstance().term <<"hashKeyEnc:\t";
-                   for (auto i=0; i < 16; ++i) { sprintf(tmp,"%1.1x", cryptMd5[i]); RS232::getInstance().term <<tmp;}
-                   RS232::getInstance().term <<"\r\n";
+                   for (auto i=0; i < 16; ++i) { sprintf(tmp,"%1.1x", cryptMd5[i]); RS232::getInstance().term <<tmp;} RS232::getInstance().term <<"\r\n";
                }
                else
                {
