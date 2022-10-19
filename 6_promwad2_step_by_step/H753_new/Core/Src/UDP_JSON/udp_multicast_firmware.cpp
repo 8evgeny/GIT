@@ -20,10 +20,10 @@ void printFlashOptions(FLASH_OBProgramInitTypeDef &OBInit);
 void newFirmwareWrite(int firmwareSize);
 extern HASH_HandleTypeDef hhash;
 extern CRC_HandleTypeDef hcrc;
-extern CRYP_HandleTypeDef hcrypFIRMWARE;
+//extern CRYP_HandleTypeDef hcrypFIRMWARE;
 extern uint8_t DataFirmware[NUM_FIRMWARE_PACKET][SIZE_FIRMWARE_BASE] __attribute__((section(".ExtRamData")));
 extern uint8_t DataFirmware2[NUM_FIRMWARE_PACKET][SIZE_FIRMWARE_BASE] __attribute__((section(".ExtRamData")));
-
+extern CRYP_HandleTypeDef hcryp;
 extern char *allConfig;
 extern int sizeConfig;
 extern uint8_t pinNormaState;
@@ -221,21 +221,21 @@ static char FLASHPath[4]; /*! FLASH logical drive path */
                 for (auto i=0; i < 16; ++i) { sprintf(tmp,"%1.1x",calculatedMd5[i]); RS232::getInstance().term <<tmp;}
                 RS232::getInstance().term <<"\r\n";
 
-term2("test AES")
-                HAL_CRYP_Encrypt(&hcrypFIRMWARE, (uint32_t *)DataFirmware, (uint16_t)firmwareSize,(uint32_t *)DataFirmware2, 1000);
-                HAL_HASH_MD5_Start(&hhash, (uint8_t *)DataFirmware2, firmwareSize, encryptedMd5, 1000);
-                RS232::getInstance().term <<"encryptedMd5:\t";
-                for (auto i=0; i < 16; ++i) { sprintf(tmp,"%1.1x", encryptedMd5[i]); RS232::getInstance().term <<tmp;} RS232::getInstance().term <<"\r\n";
+//term2("test AES")
+//                HAL_CRYP_Encrypt(&hcryp, (uint32_t *)DataFirmware, (uint16_t)firmwareSize,(uint32_t *)DataFirmware2, 1000);
+//                HAL_HASH_MD5_Start(&hhash, (uint8_t *)DataFirmware2, firmwareSize, encryptedMd5, 1000);
+//                RS232::getInstance().term <<"encryptedMd5:\t";
+//                for (auto i=0; i < 16; ++i) { sprintf(tmp,"%1.1x", encryptedMd5[i]); RS232::getInstance().term <<tmp;} RS232::getInstance().term <<"\r\n";
 
-                HAL_CRYP_Decrypt(&hcrypFIRMWARE, (uint32_t *)DataFirmware2, (uint16_t)firmwareSize, (uint32_t *)DataFirmware, 1000);
-                HAL_HASH_MD5_Start(&hhash, (uint8_t *)DataFirmware, firmwareSize, decryptedMd5, 1000);
-                RS232::getInstance().term <<"decryptedMd5:\t";
-                for (auto i=0; i < 16; ++i) { sprintf(tmp,"%1.1x", decryptedMd5[i]); RS232::getInstance().term <<tmp;} RS232::getInstance().term <<"\r\n";
+//                HAL_CRYP_Decrypt(&hcryp, (uint32_t *)DataFirmware2, (uint16_t)firmwareSize, (uint32_t *)DataFirmware, 1000);
+//                HAL_HASH_MD5_Start(&hhash, (uint8_t *)DataFirmware, firmwareSize, decryptedMd5, 1000);
+//                RS232::getInstance().term <<"decryptedMd5:\t";
+//                for (auto i=0; i < 16; ++i) { sprintf(tmp,"%1.1x", decryptedMd5[i]); RS232::getInstance().term <<tmp;} RS232::getInstance().term <<"\r\n";
 
-                if(strncmp((char*)receivedHashKeyBin, (char*)calculatedMd5, 16) == 0)
-                    term2("test AES passed")
-                else
-                    term2("test AES failed")
+//                if(strncmp((char*)receivedHashKeyBin, (char*)calculatedMd5, 16) == 0)
+//                    term2("test AES passed")
+//                else
+//                    term2("test AES failed")
 //test AES end
 
                if(strncmp((char*)receivedHashKeyBin, (char*)calculatedMd5, 16) == 0)
@@ -245,7 +245,9 @@ term2("test AES")
 
                    //Шифрую AES128 и затем получаю Хеш
                    uint8_t cryptMd5[16];
-                   HAL_CRYP_Encrypt(&hcrypFIRMWARE, (uint32_t *)DataFirmware, (uint16_t)firmwareSize,(uint32_t *)DataFirmware2, 1000);
+                   HAL_CRYP_Encrypt_DMA(&hcryp, (uint32_t *)DataFirmware, (uint16_t)firmwareSize,(uint32_t *)DataFirmware2);
+                   while (!SAI::getInstance()->cryptTxComplete);
+                   SAI::getInstance()->cryptTxComplete = false;
                    HAL_HASH_MD5_Start(&hhash, (uint8_t *)DataFirmware2, firmwareSize, cryptMd5, 1000);
                    RS232::getInstance().term <<"hashKeyEnc:\t";
                    for (auto i=0; i < 16; ++i) { sprintf(tmp,"%1.1x", cryptMd5[i]); RS232::getInstance().term <<tmp;} RS232::getInstance().term <<"\r\n";
