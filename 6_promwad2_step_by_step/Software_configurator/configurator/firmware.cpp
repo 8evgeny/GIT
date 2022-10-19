@@ -136,24 +136,25 @@ void AppCore::encryptionBinFile(const QUrl &pathFile, const QString &key, const 
     file.open(QIODevice::ReadOnly);
     bin = file.readAll();
     file.close();
+    qDebug()<< "KEY: "<< key;
     qDebug()<< "Size bin: "<< bin.size();
 
-    QString strCRC = calcFileCRC(bin);
-    qDebug() << "strCRC: " << strCRC;
+    QString originCRC = calcFileCRC(bin);
+    qDebug() << "originCRC: " << originCRC;
 
     //AES128 - ECB
-//    QAESEncryption encryption(QAESEncryption::AES_128, QAESEncryption::ECB);
+    QAESEncryption encryption(QAESEncryption::AES_128, QAESEncryption::ECB);
     //encode the bin file
-//    QByteArray encodedText = encryption.encode(bin, simpleKey);
+    QByteArray encodedBin = encryption.encode(bin, simpleKey);
 
     //decode the bin file
-//    QByteArray decodedText = encryption.decode(encodedText, simpleKey);
+//    QByteArray decodedText = encryption.decode(encodedBin, simpleKey);
     //get MD5 hash (no encoded file)
 
 //    QByteArray hashKeyEnc = QCryptographicHash::hash(encodedText, QCryptographicHash::Md5);
 
-    QByteArray hashKey = QCryptographicHash::hash(bin, QCryptographicHash::Md5);
-    qDebug() <<"Hash key: "<<hashKey.toHex();
+    QByteArray hashKeyOrijinBin = QCryptographicHash::hash(bin, QCryptographicHash::Md5);
+    qDebug() <<"Hash key origin bin: "<<hashKeyOrijinBin.toHex();
 //    qint32 sizeFirmware = encodedText.size();
     qint32 sizeFirmware = bin.size();
 //    qint32 countFirmware = encodedText.count();
@@ -182,7 +183,7 @@ void AppCore::encryptionBinFile(const QUrl &pathFile, const QString &key, const 
 //    byteArraySize.at(subNumber);
 
     //MD5 16B
-    const QByteArray& byteArrayMd5 = hashKey; //16 //22
+    const QByteArray& byteArrayMd5 = hashKeyOrijinBin; //16 //22
 
     //Time and date of firmware creation 30B
     QByteArray byteArrayTimeDate;
@@ -216,7 +217,7 @@ void AppCore::encryptionBinFile(const QUrl &pathFile, const QString &key, const 
     QByteArray byteArrayFinalBin;
     QDataStream streamFinalBin(&byteArrayFinalBin, QIODevice::WriteOnly);
 //    byteArrayFinalBin =  byteArray + byteArraySize + byteArrayMd5 + byteArrayTimeDate + byteArraySizeBare + byteArrayMd5Bare + byteArrayReserve + encodedText;
-    byteArrayFinalBin =  bin + hashKey;
+    byteArrayFinalBin =  bin + hashKeyOrijinBin;
 
 
     firmwareForDownload = byteArrayFinalBin;
@@ -242,8 +243,21 @@ void AppCore::encryptionBinFile(const QUrl &pathFile, const QString &key, const 
     //Write a bin file
     QFile fileEnc(pathFile.toLocalFile() + ".enc");
     fileEnc.open(QIODevice::WriteOnly);
-    fileEnc.write(byteArrayFinalBin);
+    fileEnc.write(encodedBin);
     fileEnc.close();
+
+    QByteArray binEnc;
+    fileEnc.open(QIODevice::ReadOnly);
+    binEnc = fileEnc.readAll();
+    fileEnc.close();
+
+    qDebug()<< "Size binEnc: "<< binEnc.size();
+    QString encrypCRC = calcFileCRC(binEnc);
+    qDebug() << "encrypCRC: " << encrypCRC;
+
+    QByteArray hashKeyEncryptedBin = QCryptographicHash::hash(binEnc, QCryptographicHash::Md5);
+    qDebug() <<"Hash key encryp bin: "<<hashKeyEncryptedBin.toHex();
+
 
     emit sendEncFileName("file://" + pathFile.toLocalFile() + ".enc");
     emit sendMD5FileName(QString(byteArrayMd5.toHex()));

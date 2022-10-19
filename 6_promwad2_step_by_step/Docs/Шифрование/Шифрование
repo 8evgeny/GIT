@@ -1,0 +1,32 @@
+evg@evg-HP:~/Рабочий стол$ md5sum H753_new.bin
+0dfa875f0094bd56b6061c9fe437f1f0  H753_new.bin
+
+evg@evg-HP:~/Рабочий стол$ md5sum H753_new.bin.enc 
+6e40746c9b5cb25702885cfe6cd6c215  H753_new.bin.enc
+
+ECB
+0000000000000000
+Size bin:  435596
+originCRC:  "8ea50a0e"
+Hash key origin bin:  "0dfa875f0094bd56b6061c9fe437f1f0"
+Size binEnc:  435600
+encrypCRC:  "270ad612"
+Hash key encryp bin:  "9350378f9598855cec2bded555bc862a"
+
+1122334455667788
+Size bin:  435596
+originCRC:  "8ea50a0e"
+Hash key origin bin:  "0dfa875f0094bd56b6061c9fe437f1f0"
+Size binEnc:  435600
+encrypCRC:  "2f55e9af"
+Hash key encryp bin:  "300f2a6664504c6f16f7b8aca48afed0"
+
+
+Encryption:
+openssl aes-128-cbc -salt -iter 100000 -in H753_new.bin -out firmware.enc -pass pass:0000000000000000
+
+Decryption:
+openssl aes-128-cbc -d -in firmware.enc -out H753_new.bin.dec
+
+gpg -c --cipher-algo AES128 -z 0 -o firmware.enc H753_new.bin
+ccrypt -e H753_new.bin

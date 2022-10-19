@@ -17,6 +17,7 @@
 #include "stm32h7xx_hal_cryp.h"
 
 void printFlashOptions(FLASH_OBProgramInitTypeDef &OBInit);
+void newFirmwareWrite();
 extern HASH_HandleTypeDef hhash;
 extern CRC_HandleTypeDef hcrc;
 extern CRYP_HandleTypeDef hcrypFIRMWARE;
@@ -252,49 +253,10 @@ static char FLASHPath[4]; /*! FLASH logical drive path */
 //               if(strncmp((char*)receivedHashKeyBin, (char*)decryptedMd5, 16) == 0)
                if(strncmp((char*)receivedHashKeyBin, (char*)calculatedMd5, 16) == 0)
                {
-                   term2("MD5 - OK")
-                   pinNormaState = pinNormaBlinkFast;
-                   term2("Start erasing flash")
-                   eraseFlashBank(1);
-                   term2("Start writing flash")
-                   writeFlashFromExtRam(1);
+                   //md5 совпали - пишем прошивку
+//                   newFirmwareWrite();
                    printMd5(firmwareSize);
 
-                   //Нужно переключить банк памяти для новой загрузки
-                   static FLASH_OBProgramInitTypeDef OBInit;
-                   /* Get FLASH_WRP_SECTORS write protection status */
-                   HAL_FLASH_OB_Unlock();
-                   HAL_FLASHEx_OBGetConfig(&OBInit);
-//                   printFlashOptions(OBInit);
-                   /* Check Swap Flash banks  status */
-                   if ((OBInit.USERConfig & OB_SWAP_BANK_ENABLE) == OB_SWAP_BANK_DISABLE)
-                   {
-                       term2("swap bank")
-                       /*Swap to bank2 */
-                       /*Set OB SWAP_BANK_OPT to swap Bank2*/
-                       OBInit.OptionType = OPTIONBYTE_USER;
-                       OBInit.USERType   = OB_USER_SWAP_BANK;
-                       OBInit.USERConfig = OB_SWAP_BANK_ENABLE;
-                       HAL_FLASHEx_OBProgram(&OBInit);
-                       /* Launch Option bytes loading */
-                       HAL_FLASH_OB_Launch();
-                   }
-                   else
-                   {
-                       term2("swap bank")
-                       /* Swap to bank1 */
-                       /*Set OB SWAP_BANK_OPT to swap Bank1*/
-                       OBInit.OptionType = OPTIONBYTE_USER;
-                       OBInit.USERType = OB_USER_SWAP_BANK;
-                       OBInit.USERConfig = OB_SWAP_BANK_DISABLE;
-                       HAL_FLASHEx_OBProgram(&OBInit);
-                       /* Launch Option bytes loading */
-                       HAL_FLASH_OB_Launch();
-                   }
-//                   printFlashOptions(OBInit);
-//                   HAL_FLASH_OB_Lock();
-                   term2("reboot...\r\n")
-                   HAL_NVIC_SystemReset();
                }
                else
                {
@@ -325,6 +287,53 @@ static char FLASHPath[4]; /*! FLASH logical drive path */
  \fn parsingFirmwareFromJson
  \param doc Json package
 */
+
+void newFirmwareWrite()
+{
+    term2("MD5 - OK")
+        pinNormaState = pinNormaBlinkFast;
+    term2("Start erasing flash")
+        eraseFlashBank(1);
+    term2("Start writing flash")
+        writeFlashFromExtRam(1);
+
+    //Нужно переключить банк памяти для новой загрузки
+    static FLASH_OBProgramInitTypeDef OBInit;
+    /* Get FLASH_WRP_SECTORS write protection status */
+    HAL_FLASH_OB_Unlock();
+    HAL_FLASHEx_OBGetConfig(&OBInit);
+    //                   printFlashOptions(OBInit);
+    /* Check Swap Flash banks  status */
+    if ((OBInit.USERConfig & OB_SWAP_BANK_ENABLE) == OB_SWAP_BANK_DISABLE)
+    {
+        term2("swap bank")
+            /*Swap to bank2 */
+            /*Set OB SWAP_BANK_OPT to swap Bank2*/
+            OBInit.OptionType = OPTIONBYTE_USER;
+        OBInit.USERType   = OB_USER_SWAP_BANK;
+        OBInit.USERConfig = OB_SWAP_BANK_ENABLE;
+        HAL_FLASHEx_OBProgram(&OBInit);
+        /* Launch Option bytes loading */
+        HAL_FLASH_OB_Launch();
+    }
+    else
+    {
+        term2("swap bank")
+            /* Swap to bank1 */
+            /*Set OB SWAP_BANK_OPT to swap Bank1*/
+            OBInit.OptionType = OPTIONBYTE_USER;
+        OBInit.USERType = OB_USER_SWAP_BANK;
+        OBInit.USERConfig = OB_SWAP_BANK_DISABLE;
+        HAL_FLASHEx_OBProgram(&OBInit);
+        /* Launch Option bytes loading */
+        HAL_FLASH_OB_Launch();
+    }
+    //                   printFlashOptions(OBInit);
+    //                   HAL_FLASH_OB_Lock();
+    term2("reboot...\r\n")
+        HAL_NVIC_SystemReset();
+}
+
 void parsingFirmwareFromJson(JsonDocument &doc)
 {
     /* FatFs function common result code */
