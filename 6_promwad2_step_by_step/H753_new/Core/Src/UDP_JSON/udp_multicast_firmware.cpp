@@ -17,10 +17,10 @@
 #include "stm32h7xx_hal_cryp.h"
 
 void printFlashOptions(FLASH_OBProgramInitTypeDef &OBInit);
-void newFirmwareWrite();
+void newFirmwareWrite(int firmwareSize);
 extern HASH_HandleTypeDef hhash;
 extern CRC_HandleTypeDef hcrc;
-extern CRYP_HandleTypeDef hcrypFIRMWARE;
+CRYP_HandleTypeDef hcrypFIRMWARE;
 extern uint8_t DataFirmware[NUM_FIRMWARE_PACKET][SIZE_FIRMWARE_BASE] __attribute__((section(".ExtRamData")));
 extern uint8_t DataFirmware2[NUM_FIRMWARE_PACKET][SIZE_FIRMWARE_BASE] __attribute__((section(".ExtRamData")));
 
@@ -195,7 +195,7 @@ static char FLASHPath[4]; /*! FLASH logical drive path */
                 lastPacket = false;
                 // В конфигураторе: byteArrayFinalBin =  encodedText2 + byteArrayMd5Bin + byteArrayMd5Enc2
                 //Размер полученного файла
-                uint32_t firmwareSize = counterSize - 16; //Последние 32 байт  - два Хеша
+                uint32_t firmwareSize = counterSize - 16; //Последние 16 байт  - Хеш
                 sprintf(tmp,"firmware size = %d", (int)firmwareSize);
                 term2 (tmp)
                 uint8_t receivedHashKeyBin[16];
@@ -254,9 +254,15 @@ static char FLASHPath[4]; /*! FLASH logical drive path */
                if(strncmp((char*)receivedHashKeyBin, (char*)calculatedMd5, 16) == 0)
                {
                    //md5 совпали - пишем прошивку
-//                   newFirmwareWrite();
-                   printMd5(firmwareSize);
+//                   newFirmwareWrite(firmwareSize);
 
+                   //Шифрую AES128 и затем получаю Хеш
+                   uint8_t cryptMd5[16];
+                   HAL_CRYP_Encrypt(&hcrypFIRMWARE, (uint32_t *)DataFirmware, (uint16_t)firmwareSize,(uint32_t *)DataFirmware2, 1000);
+                   HAL_HASH_MD5_Start(&hhash, (uint8_t *)DataFirmware2, firmwareSize, cryptMd5, 1000);
+                   RS232::getInstance().term <<"hashKeyEnc:\t";
+                   for (auto i=0; i < 16; ++i) { sprintf(tmp,"%1.1x", cryptMd5[i]); RS232::getInstance().term <<tmp;}
+                   RS232::getInstance().term <<"\r\n";
                }
                else
                {
@@ -288,7 +294,7 @@ static char FLASHPath[4]; /*! FLASH logical drive path */
  \param doc Json package
 */
 
-void newFirmwareWrite()
+void newFirmwareWrite(int firmwareSize)
 {
     term2("MD5 - OK")
         pinNormaState = pinNormaBlinkFast;
@@ -296,6 +302,7 @@ void newFirmwareWrite()
         eraseFlashBank(1);
     term2("Start writing flash")
         writeFlashFromExtRam(1);
+        printMd5(firmwareSize);
 
     //Нужно переключить банк памяти для новой загрузки
     static FLASH_OBProgramInitTypeDef OBInit;
