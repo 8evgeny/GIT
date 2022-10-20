@@ -178,7 +178,7 @@ static char FLASHPath[4]; /*! FLASH logical drive path */
                 for (size_t i = 0; i < SIZE_FIRMWARE_BASE; ++i)
                     DataFirmware[pack.current][i] = pack.data.at(i);
 
-                sprintf(tmp,"packet %d of %d size_packet = %d firmware_size = %d", (int)pack.current, (int)pack.all, (int)pack.size, (int)counterSize);
+                sprintf(tmp,"packet %d of %d size_packet = %d received_size = %d", (int)pack.current, (int)pack.all, (int)pack.size, (int)counterSize);
                 term2(tmp)
             }
 
@@ -188,7 +188,7 @@ static char FLASHPath[4]; /*! FLASH logical drive path */
                 for (int i = 0; i < pack.size/2 ; ++i)
                     DataFirmware[pack.current][i] = pack.data.at(i);
 
-                sprintf(tmp,"packet %d of %d size_packet = %d firmware_size = %d", (int)pack.current, (int)pack.all, (int)pack.size, (int)counterSize);
+                sprintf(tmp,"packet %d of %d size_packet = %d received_size = %d", (int)pack.current, (int)pack.all, (int)pack.size, (int)counterSize);
                 term2(tmp)
 
                 lastPacket = false;
@@ -246,16 +246,24 @@ static char FLASHPath[4]; /*! FLASH logical drive path */
 
                    //Вывожу полученный файл
                    char test[1000];
-                   snprintf(test,896,"%s",DataFirmware);
+                   snprintf(test,firmwareSize + 1,"%s",DataFirmware);
                    term2(test)
 
                    uint8_t cryptMd5[16];
-                   HAL_CRYP_Encrypt(&hcrypFIRMWARE, (uint32_t *)DataFirmware, (uint16_t)firmwareSize,(uint32_t *)DataFirmware2,1000);
-                   HAL_HASH_MD5_Start(&hhash, (uint8_t *)DataFirmware2, firmwareSize, cryptMd5, 1000);
-                   RS232::getInstance().term <<"hashKeyEnc:\t";
-                   for (auto i=0; i < 16; ++i) { sprintf(tmp,"%1.1x", cryptMd5[i]); RS232::getInstance().term <<tmp;} RS232::getInstance().term <<"\r\n";
-                   snprintf(test, 896,"%s",DataFirmware2);
+                   auto statusCrypt = HAL_CRYP_Encrypt(&hcrypFIRMWARE, (uint32_t *)DataFirmware, (uint16_t)firmwareSize,(uint32_t *)DataFirmware2,1000);
+                   sprintf(test, "Status Crypt = %d",statusCrypt);
                    term2(test)
+                   if (statusCrypt == 0)
+                   {
+                       HAL_HASH_MD5_Start(&hhash, (uint8_t *)DataFirmware2, firmwareSize, cryptMd5, 1000);
+                       RS232::getInstance().term <<"hashKeyEnc:\t";
+                       for (auto i=0; i < 16; ++i) { sprintf(tmp,"%1.1x", cryptMd5[i]); RS232::getInstance().term <<tmp;} RS232::getInstance().term <<"\r\n";
+                       snprintf(test, firmwareSize + 1,"%s",DataFirmware2);
+                       term2(test)
+                   }
+                   else
+                       term2("Error Crypt")
+
 
 
 
