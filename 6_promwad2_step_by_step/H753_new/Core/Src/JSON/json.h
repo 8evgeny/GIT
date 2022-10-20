@@ -18,7 +18,9 @@
 
 #define ThisStation_ Json::getInstance()->thisStation
 const size_t SIZE_FIRMWARE_BASE = 512; /*! Firmware block */
-const size_t NUM_FIRMWARE_PACKET = 1000; //Макс размер прошивки 512 кБ
+//const size_t NUM_FIRMWARE_PACKET = 1000; //Макс размер прошивки 512 кБ
+const size_t NUM_FIRMWARE_PACKET = 10; //Для тестов
+
 /*!
  * \brief The struct that stores fields of the keys
  *

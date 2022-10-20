@@ -40,9 +40,11 @@ void HAL_CRYP_MspInit(CRYP_HandleTypeDef *hcryp)
         hdmaCrypIn.Init.Priority = DMA_PRIORITY_LOW;
         hdmaCrypIn.Init.FIFOMode = DMA_FIFOMODE_DISABLE;
 
-//        hdmaCrypIn.Init.FIFOThreshold = DMA_FIFO_THRESHOLD_FULL;
-//        hdmaCrypIn.Init.MemBurst = DMA_MBURST_INC16;
-//        hdmaCrypIn.Init.PeriphBurst  = DMA_MBURST_INC16;
+    //        hdmaCrypIn.Init.FIFOThreshold = DMA_FIFO_THRESHOLD_FULL;
+    //        hdmaCrypIn.Init.MemBurst = DMA_MBURST_INC16;
+    //        hdmaCrypIn.Init.PeriphBurst  = DMA_MBURST_INC16;
+
+
         if (HAL_DMA_Init(&hdmaCrypIn) != HAL_OK) {
             RS232::getInstance().term << __FUNCTION__ << " " << __LINE__ << "\n";
         }
@@ -61,9 +63,9 @@ void HAL_CRYP_MspInit(CRYP_HandleTypeDef *hcryp)
         hdmaCrypOut.Init.Priority = DMA_PRIORITY_LOW;
         hdmaCrypOut.Init.FIFOMode = DMA_FIFOMODE_DISABLE;
 
-//        hdmaCrypOut.Init.FIFOThreshold = DMA_FIFO_THRESHOLD_FULL;
-//        hdmaCrypOut.Init.MemBurst = DMA_MBURST_INC16;
-//        hdmaCrypOut.Init.PeriphBurst  = DMA_MBURST_INC16;
+    //        hdmaCrypOut.Init.FIFOThreshold = DMA_FIFO_THRESHOLD_FULL;
+    //        hdmaCrypOut.Init.MemBurst = DMA_MBURST_INC16;
+    //        hdmaCrypOut.Init.PeriphBurst  = DMA_MBURST_INC16;
         if (HAL_DMA_Init(&hdmaCrypOut) != HAL_OK) {
             RS232::getInstance().term << __FUNCTION__ << " " << __LINE__ << "\n";
         }

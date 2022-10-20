@@ -81,8 +81,12 @@ uint8_t inMcastGroup;
 osMutexId mutexEth_id;
 osMutexDef (mutexEth);
 extern int volatile asteriskPressed;
-uint8_t DataFirmware[NUM_FIRMWARE_PACKET][SIZE_FIRMWARE_BASE] __attribute__((section(".ExtRamData"))); //512кБ
-ALIGN_32BYTES uint8_t DataFirmware2[NUM_FIRMWARE_PACKET][SIZE_FIRMWARE_BASE] __attribute__((section(".ExtRamData"))); //512кБ
+uint8_t DataFirmware[NUM_FIRMWARE_PACKET][SIZE_FIRMWARE_BASE]
+//    __attribute__((section(".ExtRamData")))
+    __attribute__ ((aligned (32)));                       //512кБ
+uint8_t DataFirmware2[NUM_FIRMWARE_PACKET][SIZE_FIRMWARE_BASE]
+//    __attribute__((section(".ExtRamData")))
+    __attribute__ ((aligned (32)));                       //512кБ
 
 //Массив во внешней памяти для конфига (readelf -S H753_new.elf)
 //char buff_config [200*1024] __attribute__((section(".ExtRamData")));
@@ -362,7 +366,7 @@ int main(void)
 
     MX_CRC_Init();
     MX_HASH_Init();
-    MX_CRYPT_FIRMWARE_Init(((uint32_t *)pKeyCRYP_FIRMWARE));
+//    MX_CRYPT_FIRMWARE_Init(((uint32_t *)pKeyCRYP_FIRMWARE));
 
     //Определяем тип платы SC2 или SC4
     if (!HAL_GPIO_ReadPin(GPIOG, GPIO_PIN_9))
