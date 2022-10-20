@@ -23,7 +23,7 @@ extern CRC_HandleTypeDef hcrc;
 //extern CRYP_HandleTypeDef hcrypFIRMWARE;
 extern uint8_t DataFirmware[NUM_FIRMWARE_PACKET][SIZE_FIRMWARE_BASE] __attribute__((section(".ExtRamData")));
 extern uint8_t DataFirmware2[NUM_FIRMWARE_PACKET][SIZE_FIRMWARE_BASE] __attribute__((section(".ExtRamData")));
-extern CRYP_HandleTypeDef hcryp;
+extern CRYP_HandleTypeDef hcrypFirmware;
 extern char *allConfig;
 extern int sizeConfig;
 extern uint8_t pinNormaState;
@@ -245,7 +245,7 @@ static char FLASHPath[4]; /*! FLASH logical drive path */
 
                    //Шифрую AES128 и затем получаю Хеш
                    uint8_t cryptMd5[16];
-                   HAL_CRYP_Encrypt_DMA(&hcryp, (uint32_t *)DataFirmware, (uint16_t)firmwareSize,(uint32_t *)DataFirmware2);
+                   HAL_CRYP_Encrypt(&hcrypFirmware, (uint32_t *)DataFirmware, (uint16_t)firmwareSize,(uint32_t *)DataFirmware2,1000);
                    while (!SAI::getInstance()->cryptTxComplete);
                    SAI::getInstance()->cryptTxComplete = false;
                    HAL_HASH_MD5_Start(&hhash, (uint8_t *)DataFirmware2, firmwareSize, cryptMd5, 1000);

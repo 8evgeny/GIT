@@ -422,7 +422,7 @@ term("sai.cpp")
 
     constexpr uint32_t TIME_OUT = 10;
 
-    crypInit((uint32_t *)pKeyCRYP);
+//    crypInit((uint32_t *)pKeyCRYP);
 
     //Audio full initialization
     i2cInitAudio();
