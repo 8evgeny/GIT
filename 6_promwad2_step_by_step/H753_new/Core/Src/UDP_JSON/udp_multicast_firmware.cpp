@@ -24,9 +24,6 @@ extern CRC_HandleTypeDef hcrc;
 extern uint8_t DataFirmware[NUM_FIRMWARE_PACKET][SIZE_FIRMWARE_BASE] __attribute__((section(".ExtRamData")));
 extern uint8_t DataFirmware2[NUM_FIRMWARE_PACKET][SIZE_FIRMWARE_BASE] __attribute__((section(".ExtRamData")));
 
-extern uint8_t *DataFirmware3;
-extern uint8_t *DataFirmware4;
-
 extern CRYP_HandleTypeDef hcrypFIRMWARE;
 extern char *allConfig;
 extern int sizeConfig;
@@ -225,19 +222,16 @@ static char FLASHPath[4]; /*! FLASH logical drive path */
 //                   newFirmwareWrite(firmwareSize);   //md5 совпали - пишем прошивку
 
                // Начало тестов Шифрую AES128 и затем получаю Хеш
-                   strncpy ((char*)DataFirmware3,(const char*)DataFirmware, firmwareSize);
-
-
 
                    //Вывожу полученный файл
                    char test[1000];
-                   snprintf(test,firmwareSize + 1,"%s",DataFirmware3);
+                   snprintf(test,firmwareSize + 1,"%s",(char *)DataFirmware);
                    term2(test)
 
                    const uint8_t key [16]{0};
-                   AES128_ECB_encrypt(DataFirmware3, key, DataFirmware4);
+                   AES128_ECB_encrypt((uint8_t *)DataFirmware, key, (uint8_t *)DataFirmware2);
                    //Вывожу зашифрованный файл
-                   snprintf(test,firmwareSize + 1,"%s",DataFirmware4);
+                   snprintf(test,firmwareSize + 1,"%s",(char *)DataFirmware2);
 //                   snprintf(test,firmwareSize + 1,"%" PRIu8 "\n",DataFirmware4);
                    term2(test)
 
@@ -249,7 +243,7 @@ static char FLASHPath[4]; /*! FLASH logical drive path */
 //                   {
 
                        uint8_t cryptMd5[16];
-                       HAL_HASH_MD5_Start(&hhash, (uint8_t *)DataFirmware4, firmwareSize, cryptMd5, 1000);
+                       HAL_HASH_MD5_Start(&hhash, (uint8_t *)DataFirmware2, firmwareSize, cryptMd5, 1000);
                        RS232::getInstance().term <<"hashKeyEnc:\t";
                        for (auto i=0; i < 16; ++i) { sprintf(tmp,"%1.1x", cryptMd5[i]); RS232::getInstance().term <<tmp;} RS232::getInstance().term <<"\r\n";
 

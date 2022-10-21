@@ -82,14 +82,11 @@ osMutexId mutexEth_id;
 osMutexDef (mutexEth);
 extern int volatile asteriskPressed;
 uint8_t DataFirmware[NUM_FIRMWARE_PACKET][SIZE_FIRMWARE_BASE]
-//    __attribute__((section(".ExtRamData")))
+    __attribute__((section(".ExtRamData")))
     __attribute__ ((aligned (32)));                       //512кБ
 uint8_t DataFirmware2[NUM_FIRMWARE_PACKET][SIZE_FIRMWARE_BASE]
-//    __attribute__((section(".ExtRamData")))
+    __attribute__((section(".ExtRamData")))
     __attribute__ ((aligned (32)));                       //512кБ
-//Для тестов
-uint8_t *DataFirmware3 = new uint8_t[1000];
-uint8_t *DataFirmware4 = new uint8_t[1000];
 
 //Массив во внешней памяти для конфига (readelf -S H753_new.elf)
 //char buff_config [200*1024] __attribute__((section(".ExtRamData")));
