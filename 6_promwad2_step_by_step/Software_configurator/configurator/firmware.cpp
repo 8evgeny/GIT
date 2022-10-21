@@ -145,10 +145,10 @@ void AppCore::encryptionBinFile(const QUrl &pathFile, const QString &key, const 
     //AES128 - ECB
     QAESEncryption encryption(QAESEncryption::AES_128, QAESEncryption::ECB);
     //encode the bin file
-    char*  binChar = bin.data();
-    QByteArray bin32 = QByteArray::fromRawData(binChar,32);
+//    char*  binChar = bin.data();
+//    QByteArray bin32 = QByteArray::fromRawData(binChar,32);
     QByteArray encodedBin = encryption.encode(bin, simpleKey);
-    QByteArray encodedBin32 = encryption.encode(bin32, simpleKey);
+//    QByteArray encodedBin32 = encryption.encode(bin32, simpleKey);
 
     //decode the bin file
 //    QByteArray decodedText = encryption.decode(encodedBin, simpleKey);
@@ -246,8 +246,8 @@ void AppCore::encryptionBinFile(const QUrl &pathFile, const QString &key, const 
     //Write a bin file
     QFile fileEnc(pathFile.toLocalFile() + ".enc");
     fileEnc.open(QIODevice::WriteOnly);
-    fileEnc.write(encodedBin32);
-//    fileEnc.write(encodedBin);
+//    fileEnc.write(encodedBin32);
+    fileEnc.write(encodedBin);
     fileEnc.close();
 
     QByteArray binEnc;
