@@ -101,6 +101,7 @@ void firmwareInitThread()
 }
 static uint32_t sizeEncoded = 0;
 int jjj = 0;
+int iii = 0;
 static uint32_t counterSize = 0; /*! A counter for size of data */
 static int counterPackegs = 0; /*! A counter for size of packages */
 static FATFS FLASHFatFs;  /*! File system object for Flash logical drive */
@@ -173,7 +174,7 @@ static char FLASHPath[4]; /*! FLASH logical drive path */
                 counterPackegs = 0;
                 beginFirmware = false;
             }
-            uint8_t temp[512];
+            uint8_t temp[16];
             if((!lastPacket) && (pack.current == counterPackegs) && beginFirmware)
             {
                 counterSize += pack.data.size();
@@ -181,17 +182,16 @@ static char FLASHPath[4]; /*! FLASH logical drive path */
                 for (size_t i = 0; i < SIZE_FIRMWARE_BASE; ++i)
                 {
                     DataFirmware[pack.current][i] = pack.data.at(i);
-                    temp[i] = pack.data.at(i);
+                    temp[iii] = pack.data.at(i);
+                    ++iii;
+                    if (iii == 16)
+                    {
+                        iii = 0;
+                        AES128_ECB_encrypt(temp, key, (uint8_t *)DataFirmware2 + jjj * 16 );
+                        ++jjj;
+                        sizeEncoded +=16;
+                    }
                 }
-
-                for (int i = 0; i < 512/16 ; ++i )
-                {
-                    AES128_ECB_encrypt(temp + i * 16  , key, (uint8_t *)DataFirmware2 + jjj * 16 );
-                    sizeEncoded +=16;
-                    if (i < 512/16)
-                    ++jjj;
-                }
-
 
                 sprintf(tmp,"packet %d of %d size_packet = %d received_size = %d j = %d" , (int)pack.current, (int)pack.all, (int)pack.data.size(), (int)counterSize, jjj);
                 term2(tmp)
@@ -203,20 +203,20 @@ static char FLASHPath[4]; /*! FLASH logical drive path */
                 for (int i = 0; i < pack.size/2 ; ++i)
                 {
                     DataFirmware[pack.current][i] = pack.data.at(i);
-                    temp[i] = pack.data.at(i);
+                    temp[iii] = pack.data.at(i);
+                    ++iii;
+                    if ((iii == 16) && (i < pack.size/2 - 16 ))
+                    {
+                        iii = 0;
+                        AES128_ECB_encrypt(temp, key, (uint8_t *)DataFirmware2 + jjj * 16 );
+                        ++jjj;
+                        sizeEncoded +=16;
+                    }
                 }
 
+                std::string ttt = "12345"; //Выравнивание Размер прошивки должен быть кратен 16
 
-                for (int i = 0; i < (pack.size/2 - 16)/16 ; ++i )
-                {
-                    AES128_ECB_encrypt(temp + i * 16  , key, (uint8_t *)DataFirmware2 + jjj * 16 );
-                    sizeEncoded +=16;
-                    ++jjj;
-                }
-
-//                std::string ttt = "123"; //Выравнивание Размер прошивки должен быть кратен 16
-
-                sprintf(tmp,"packet %d of %d size_packet = %d received_size = %d j = %d", (int)pack.current, (int)pack.all, (int)pack.size, (int)counterSize, jjj);
+                sprintf(tmp,"packet %d of %d size_packet = %d received_size = %d j = %d", (int)pack.current, (int)pack.all, (int)pack.size /2, (int)counterSize, jjj);
                 term2(tmp)
 
                 sprintf(tmp,"sizeEncoded = %d", sizeEncoded);
