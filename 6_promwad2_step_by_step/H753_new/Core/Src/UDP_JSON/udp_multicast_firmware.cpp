@@ -23,7 +23,7 @@ extern HASH_HandleTypeDef hhash;
 extern CRC_HandleTypeDef hcrc;
 extern uint8_t DataFirmware[NUM_FIRMWARE_PACKET][SIZE_FIRMWARE_BASE] __attribute__((section(".ExtRamData")));
 extern uint8_t DataFirmware2[NUM_FIRMWARE_PACKET][SIZE_FIRMWARE_BASE] __attribute__((section(".ExtRamData")));
-
+const uint8_t key [16]{'1','2','3','4','5','6','7','8','1','2','3','4','5','6','7','8'};
 extern CRYP_HandleTypeDef hcrypFIRMWARE;
 extern char *allConfig;
 extern int sizeConfig;
@@ -99,7 +99,8 @@ void firmwareInitThread()
     osThreadDef(handelFirmwareThread, updateFirmwareThread, osPriorityHigh, 0, configMINIMAL_STACK_SIZE * 3);
     firmwareThreadId = osThreadCreate(osThread(handelFirmwareThread), NULL);
 }
-
+static uint32_t sizeEncoded = 0;
+int jjj = 0;
 static uint32_t counterSize = 0; /*! A counter for size of data */
 static int counterPackegs = 0; /*! A counter for size of packages */
 static FATFS FLASHFatFs;  /*! File system object for Flash logical drive */
@@ -172,25 +173,53 @@ static char FLASHPath[4]; /*! FLASH logical drive path */
                 counterPackegs = 0;
                 beginFirmware = false;
             }
-
+            uint8_t temp[512];
             if((!lastPacket) && (pack.current == counterPackegs) && beginFirmware)
             {
                 counterSize += pack.data.size();
                 counterPackegs++;
                 for (size_t i = 0; i < SIZE_FIRMWARE_BASE; ++i)
+                {
                     DataFirmware[pack.current][i] = pack.data.at(i);
+                    temp[i] = pack.data.at(i);
+                }
 
-                sprintf(tmp,"packet %d of %d size_packet = %d received_size = %d", (int)pack.current, (int)pack.all, (int)pack.size, (int)counterSize);
+                for (int i = 0; i < 512/16 ; ++i )
+                {
+                    AES128_ECB_encrypt(temp + i * 16  , key, (uint8_t *)DataFirmware2 + jjj * 16 );
+                    sizeEncoded +=16;
+                    if (i < 512/16)
+                    ++jjj;
+                }
+
+
+                sprintf(tmp,"packet %d of %d size_packet = %d received_size = %d j = %d" , (int)pack.current, (int)pack.all, (int)pack.data.size(), (int)counterSize, jjj);
                 term2(tmp)
             }
 
             if((lastPacket) && (pack.current == counterPackegs) && beginFirmware)
             {
-                counterSize += pack.size/2;   //Последний пакет меньше
+                counterSize += pack.size / 2;   //Последний пакет меньше
                 for (int i = 0; i < pack.size/2 ; ++i)
+                {
                     DataFirmware[pack.current][i] = pack.data.at(i);
+                    temp[i] = pack.data.at(i);
+                }
 
-                sprintf(tmp,"packet %d of %d size_packet = %d received_size = %d", (int)pack.current, (int)pack.all, (int)pack.size, (int)counterSize);
+
+                for (int i = 0; i < (pack.size/2 - 16)/16 ; ++i )
+                {
+                    AES128_ECB_encrypt(temp + i * 16  , key, (uint8_t *)DataFirmware2 + jjj * 16 );
+                    sizeEncoded +=16;
+                    ++jjj;
+                }
+
+                std::string ttt = "1234"; //Выравнивание
+
+                sprintf(tmp,"packet %d of %d size_packet = %d received_size = %d j = %d", (int)pack.current, (int)pack.all, (int)pack.size, (int)counterSize, jjj);
+                term2(tmp)
+
+                sprintf(tmp,"sizeEncoded = %d", sizeEncoded);
                 term2(tmp)
 
                 lastPacket = false;
@@ -221,13 +250,13 @@ static char FLASHPath[4]; /*! FLASH logical drive path */
 //                    newFirmwareWrite(firmwareSize);   //md5 совпали - пишем прошивку
 
                 // Начало теста Шифрую AES128 и затем получаю Хеш
-                    const uint8_t key [16]{'1','2','3','4','5','6','7','8','1','2','3','4','5','6','7','8'};
-                    for (int i = 0; i < firmwareSize /16; ++i)
-                    {
-                        AES128_ECB_encrypt((uint8_t *)DataFirmware + 16 * i , key, (uint8_t *)DataFirmware2 + 16 * i );
-                        sprintf(tmp,"encrypt stage %d of %d ", i, firmwareSize /16);
-                        term2(tmp)
-                    }
+
+//                    for (int i = 0; i < firmwareSize /16; ++i)
+//                    {
+//                        AES128_ECB_encrypt((uint8_t *)DataFirmware + 16 * i , key, (uint8_t *)DataFirmware2 + 16 * i );
+//                        sprintf(tmp,"encrypt stage %d of %d ", i, firmwareSize /16);
+//                        term2(tmp)
+//                    }
                     uint8_t cryptMd5[16];
                     HAL_HASH_MD5_Start(&hhash, (uint8_t *)DataFirmware2, firmwareSize, cryptMd5, 1000);
                     RS232::getInstance().term <<"hashKeyEnc:\t";
