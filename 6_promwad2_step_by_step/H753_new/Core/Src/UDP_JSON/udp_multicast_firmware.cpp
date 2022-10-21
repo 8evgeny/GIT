@@ -222,19 +222,30 @@ static char FLASHPath[4]; /*! FLASH logical drive path */
 //                   newFirmwareWrite(firmwareSize);   //md5 совпали - пишем прошивку
 
                // Начало тестов Шифрую AES128 и затем получаю Хеш
-
+                uint8_t *DataFirmware3 = new uint8_t[900];
+                uint8_t *DataFirmware4 = new uint8_t[900];
+                for (int i =0; i<900; ++i)
+                {
+                    DataFirmware3[i] = 0x00;
+                    DataFirmware4[i] = 0x00;
+                }
+                strncpy ((char*)DataFirmware3,(char*)DataFirmware, firmwareSize );
                    //Вывожу полученный файл
                    char test[1000];
-                   snprintf(test,firmwareSize + 1,"%s",(char *)DataFirmware);
+                   snprintf(test,firmwareSize + 1,"%s",(char *)DataFirmware3);
                    term2(test)
 
-                   const uint8_t key [16]{0};
-                   AES128_ECB_encrypt((uint8_t *)DataFirmware, key, (uint8_t *)DataFirmware2);
-                   //Вывожу зашифрованный файл
-                   snprintf(test,firmwareSize + 1,"%s",(char *)DataFirmware2);
-//                   snprintf(test,firmwareSize + 1,"%" PRIu8 "\n",DataFirmware4);
-                   term2(test)
-
+                   const uint8_t key [16]{'1','2','3','4','5','6','7','8','1','2','3','4','5','6','7','8'};
+                   int numBlocks = firmwareSize/16;
+                   for (int i = 0; i < numBlocks; ++i)
+                   {
+                       AES128_ECB_encrypt(DataFirmware3 + i * 16, key, DataFirmware4 + i * 16);
+                       //Вывожу зашифрованный блок
+                       snprintf(test,16,"block %d %s",i, DataFirmware4 + i * 16);
+                       RS232::getInstance().term << test;
+                       RS232::getInstance().term << "\r\n";
+                   }
+                   RS232::getInstance().term << "\r\n";
 
 //                   auto statusCrypt = HAL_CRYP_Encrypt(&hcrypFIRMWARE, (uint32_t *)DataFirmware, (uint16_t)firmwareSize,(uint32_t *)DataFirmware2,1000);
 //                   sprintf(test, "Status Crypt = %d",statusCrypt);
