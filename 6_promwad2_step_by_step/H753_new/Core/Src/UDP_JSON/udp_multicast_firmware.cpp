@@ -194,7 +194,6 @@ static char FLASHPath[4]; /*! FLASH logical drive path */
                 term2(tmp)
 
                 lastPacket = false;
-                // В конфигураторе: byteArrayFinalBin =  encodedText2 + byteArrayMd5Bin + byteArrayMd5Enc2
                 //Размер полученного файла
                 uint32_t firmwareSize = counterSize - 16; //Последние 16 байт  - Хеш
                 sprintf(tmp,"firmware size = %d", (int)firmwareSize);
@@ -229,22 +228,21 @@ static char FLASHPath[4]; /*! FLASH logical drive path */
                     DataFirmware3[i] = 0x00;
                     DataFirmware4[i] = 0x00;
                 }
-                strncpy ((char*)DataFirmware3,(char*)DataFirmware, firmwareSize );
+//                strncpy ((char*)DataFirmware3,(char*)DataFirmware, firmwareSize );
+                strncpy ((char*)DataFirmware3,(char*)DataFirmware, 16 );
                    //Вывожу полученный файл
                    char test[1000];
-                   snprintf(test,firmwareSize + 1,"%s",(char *)DataFirmware3);
+//                   snprintf(test,firmwareSize + 1,"%s",(char *)DataFirmware3);
+                   snprintf(test,17,"%s",(char *)DataFirmware3);
                    term2(test)
 
                    const uint8_t key [16]{'1','2','3','4','5','6','7','8','1','2','3','4','5','6','7','8'};
-                   int numBlocks = firmwareSize/16;
-                   for (int i = 0; i < numBlocks; ++i)
-                   {
-                       AES128_ECB_encrypt(DataFirmware3 + i * 16, key, DataFirmware4 + i * 16);
+                   AES128_ECB_encrypt(DataFirmware3 , key, DataFirmware4 );
                        //Вывожу зашифрованный блок
-                       snprintf(test,16,"block %d %s",i, DataFirmware4 + i * 16);
+                       snprintf(test,17,"%s", DataFirmware4);
                        RS232::getInstance().term << test;
                        RS232::getInstance().term << "\r\n";
-                   }
+
                    RS232::getInstance().term << "\r\n";
 
 //                   auto statusCrypt = HAL_CRYP_Encrypt(&hcrypFIRMWARE, (uint32_t *)DataFirmware, (uint16_t)firmwareSize,(uint32_t *)DataFirmware2,1000);
@@ -254,7 +252,8 @@ static char FLASHPath[4]; /*! FLASH logical drive path */
 //                   {
 
                        uint8_t cryptMd5[16];
-                       HAL_HASH_MD5_Start(&hhash, (uint8_t *)DataFirmware2, firmwareSize, cryptMd5, 1000);
+//                       HAL_HASH_MD5_Start(&hhash, (uint8_t *)DataFirmware2, firmwareSize, cryptMd5, 1000);
+                       HAL_HASH_MD5_Start(&hhash, (uint8_t *)DataFirmware4, 16, cryptMd5, 1000);
                        RS232::getInstance().term <<"hashKeyEnc:\t";
                        for (auto i=0; i < 16; ++i) { sprintf(tmp,"%1.1x", cryptMd5[i]); RS232::getInstance().term <<tmp;} RS232::getInstance().term <<"\r\n";
 
