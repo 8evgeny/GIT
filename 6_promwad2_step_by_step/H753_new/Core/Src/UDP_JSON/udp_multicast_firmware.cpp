@@ -187,7 +187,6 @@ static char FLASHPath[4]; /*! FLASH logical drive path */
                 counterPackegs++;
                 for (size_t i = 0; i < SIZE_FIRMWARE_BASE; ++i)
                 {
-//                    DataFirmware[pack.current][i] = pack.data.at(i);
                     temp[indexTempArray16byte] = pack.data.at(i);
                     ++indexTempArray16byte;
                     if (indexTempArray16byte == 16)
@@ -207,7 +206,6 @@ static char FLASHPath[4]; /*! FLASH logical drive path */
                 counterSize += pack.size / 2;   //Последний пакет меньше
                 for (int i = 0; i < pack.size/2 ; ++i)
                 {
-//                    DataFirmware[pack.current][i] = pack.data.at(i);
                     temp[indexTempArray16byte] = pack.data.at(i);
                     ++indexTempArray16byte;
                     if ((indexTempArray16byte == 16) && (i < pack.size/2 - 16 ))
