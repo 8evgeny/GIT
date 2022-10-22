@@ -52,7 +52,7 @@ uint8_t rtpDataTxFull[BUFFER_AUDIO_SIZE_RTP];
 RTP_HandleTypeDef rtpStructSend; /* RTP structure */
 
 static uint16_t lostPackCounter = 0;
-constexpr static uint16_t MAX_NUMBER_LOST_PACK = 1200;//50;
+constexpr static uint16_t MAX_NUMBER_LOST_PACK = 100;//50;
 
 static u8_t rtpRecvPacket[PORT_RTP_SIZE];
 static uint16_t rtpDataRxMixCrypt[BUFFER_AUDIO_SIZE_RTP / 2];
@@ -380,6 +380,7 @@ term("--- rtpSendPacketsFull ---")
  */
 void rtpRecvThread(void const *arg)
 {
+    char message[100];
     struct sockaddr_in local;
     struct sockaddr_in from;
     int                fromlen;
@@ -440,9 +441,12 @@ void rtpRecvThread(void const *arg)
                             SAI::getInstance()->outMixRingBuffer[SAI::getInstance()->outMixRingBufferPosition] = in;
                             SAI::getInstance()->outMixRingBufferPosition = (SAI::getInstance()->outMixRingBufferPosition + 1) % COUNTER_RTP_MIX;
                             osMutexRelease(mutexMixRtpRxId);
-                        } else {
+                        }
+                        else
+                        {
                             lostPackCounter++;
-
+//sprintf(message, "lostPackCount = %d",lostPackCounter);
+//term2(message)
                             if (lostPackCounter > MAX_NUMBER_LOST_PACK) {
                                 lostPackCounter = 0;
                                 osSignalSet(lostPackThreadId, 0xFB);
@@ -540,13 +544,13 @@ term("----rtpSendPacketsFull----")
 _Noreturn void lostPackThread(void const *arg)
 {
 osDelay(700);
-term("--- lostPackThread ---")
     UNUSED(arg);
 
     while (1) {
         osEvent evt = osSignalWait(0xFB, osWaitForever);
         if (evt.status == osEventSignal) {
             osMutexWait(MutexCallControl_, osWaitForever);
+term2("CallControl_->hungUp()")
             CallControl_->hungUp();
             osMutexRelease(MutexCallControl_);
 
