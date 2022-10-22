@@ -22,9 +22,9 @@ void newFirmwareWrite(int firmwareSize);
 extern HASH_HandleTypeDef hhash;
 extern CRC_HandleTypeDef hcrc;
 extern uint8_t DataFirmware[NUM_FIRMWARE_PACKET][SIZE_FIRMWARE_BASE] __attribute__((section(".ExtRamData")));
-extern uint8_t DataFirmware2[NUM_FIRMWARE_PACKET][SIZE_FIRMWARE_BASE] __attribute__((section(".ExtRamData")));
+//extern uint8_t DataFirmware2[NUM_FIRMWARE_PACKET][SIZE_FIRMWARE_BASE] __attribute__((section(".ExtRamData")));
 const uint8_t key [16]{'1','2','3','4','5','6','7','8','1','2','3','4','5','6','7','8'};
-extern CRYP_HandleTypeDef hcrypFIRMWARE;
+//extern CRYP_HandleTypeDef hcrypFIRMWARE;
 extern char *allConfig;
 extern int sizeConfig;
 extern uint8_t pinNormaState;
@@ -99,9 +99,9 @@ void firmwareInitThread()
     osThreadDef(handelFirmwareThread, updateFirmwareThread, osPriorityHigh, 0, configMINIMAL_STACK_SIZE * 3);
     firmwareThreadId = osThreadCreate(osThread(handelFirmwareThread), NULL);
 }
-static uint32_t sizeEncoded = 0;
-int jjj = 0;
-int iii = 0;
+static uint32_t sizeDecoded = 0;
+int indexFirwareArray = 0;
+int indexTempArray16byte = 0;
 static uint32_t counterSize = 0; /*! A counter for size of data */
 static int counterPackegs = 0; /*! A counter for size of packages */
 static FATFS FLASHFatFs;  /*! File system object for Flash logical drive */
@@ -114,6 +114,8 @@ static char FLASHPath[4]; /*! FLASH logical drive path */
 
     bool lastPacket = false;
     bool beginFirmware = false;
+    uint8_t receivedHashKeyBin[16];
+    uint8_t calculatedMd5[16];
 //    int versionFirmware;
 //    int subVersionFirmware;
 //    int current;
@@ -144,7 +146,7 @@ static char FLASHPath[4]; /*! FLASH logical drive path */
 
                     f_mount(&FLASHFatFs, (TCHAR const *)FLASHPath, 0); //Прерывистось если нет этого
 
-                    //Очищаем массив под прошивку
+                    //Очищаем массив под прошивку (Можно и не очищать)
                     for (size_t k = 0; k < NUM_FIRMWARE_PACKET; ++k)
                     {
                         for (size_t i = 0; i < SIZE_FIRMWARE_BASE; ++i)
@@ -172,6 +174,10 @@ static char FLASHPath[4]; /*! FLASH logical drive path */
                 pinMkState = pinMkBlinkFast;
                 counterSize = 0;
                 counterPackegs = 0;
+                indexFirwareArray = 0;
+                sizeDecoded = 0;
+                indexTempArray16byte = 0;
+                indexFirwareArray = 0;
                 beginFirmware = false;
             }
             uint8_t temp[16];
@@ -181,19 +187,18 @@ static char FLASHPath[4]; /*! FLASH logical drive path */
                 counterPackegs++;
                 for (size_t i = 0; i < SIZE_FIRMWARE_BASE; ++i)
                 {
-                    DataFirmware[pack.current][i] = pack.data.at(i);
-                    temp[iii] = pack.data.at(i);
-                    ++iii;
-                    if (iii == 16)
+//                    DataFirmware[pack.current][i] = pack.data.at(i);
+                    temp[indexTempArray16byte] = pack.data.at(i);
+                    ++indexTempArray16byte;
+                    if (indexTempArray16byte == 16)
                     {
-                        iii = 0;
-                        AES128_ECB_encrypt(temp, key, (uint8_t *)DataFirmware2 + jjj * 16 );
-                        ++jjj;
-                        sizeEncoded +=16;
+                        indexTempArray16byte = 0;
+                        AES128_ECB_decrypt(temp, key, (uint8_t *)DataFirmware + indexFirwareArray * 16 );
+                        ++indexFirwareArray;
+                        sizeDecoded +=16;
                     }
                 }
-
-                sprintf(tmp,"packet %d of %d size_packet = %d received_size = %d j = %d" , (int)pack.current, (int)pack.all, (int)pack.data.size(), (int)counterSize, jjj);
+                sprintf(tmp,"packet %d of %d size_packet = %d received_size = %d" , (int)pack.current, (int)pack.all, (int)pack.data.size(), (int)counterSize);
                 term2(tmp)
             }
 
@@ -202,24 +207,29 @@ static char FLASHPath[4]; /*! FLASH logical drive path */
                 counterSize += pack.size / 2;   //Последний пакет меньше
                 for (int i = 0; i < pack.size/2 ; ++i)
                 {
-                    DataFirmware[pack.current][i] = pack.data.at(i);
-                    temp[iii] = pack.data.at(i);
-                    ++iii;
-                    if ((iii == 16) && (i < pack.size/2 - 16 ))
+//                    DataFirmware[pack.current][i] = pack.data.at(i);
+                    temp[indexTempArray16byte] = pack.data.at(i);
+                    ++indexTempArray16byte;
+                    if ((indexTempArray16byte == 16) && (i < pack.size/2 - 16 ))
                     {
-                        iii = 0;
-                        AES128_ECB_encrypt(temp, key, (uint8_t *)DataFirmware2 + jjj * 16 );
-                        ++jjj;
-                        sizeEncoded +=16;
+                        indexTempArray16byte = 0;
+                        AES128_ECB_decrypt(temp, key, (uint8_t *)DataFirmware + indexFirwareArray * 16 );
+                        ++indexFirwareArray;
+                        sizeDecoded +=16;
+                    }
+                    if ((indexTempArray16byte == 16) && (i >= pack.size/2 - 16 )) //В indexTempArray16byte находится Хеш
+                    {
+                        //Копируем полученный hashKeyBin
+                        strncpy ((char*)receivedHashKeyBin,(const char*)temp , 16);
                     }
                 }
 
-                std::string ttt = "12345"; //Выравнивание Размер прошивки должен быть кратен 16
+      std::string ttt = "12345"; //Выравнивание Размер прошивки должен быть кратен 16
 
-                sprintf(tmp,"packet %d of %d size_packet = %d received_size = %d j = %d", (int)pack.current, (int)pack.all, (int)pack.size /2, (int)counterSize, jjj);
+                sprintf(tmp,"packet %d of %d size_packet = %d received_size = %d", (int)pack.current, (int)pack.all, (int)pack.size /2, (int)counterSize);
                 term2(tmp)
 
-                sprintf(tmp,"sizeEncoded = %d", sizeEncoded);
+                sprintf(tmp,"sizeDecoded = %d", sizeDecoded);
                 term2(tmp)
 
                 lastPacket = false;
@@ -227,13 +237,6 @@ static char FLASHPath[4]; /*! FLASH logical drive path */
                 uint32_t firmwareSize = counterSize - 16; //Последние 16 байт  - Хеш
                 sprintf(tmp,"firmware size = %d", (int)firmwareSize);
                 term2 (tmp)
-                uint8_t receivedHashKeyBin[16];
-                uint8_t calculatedMd5[16];
-                //Копируем полученный hashKeyBin
-                strncpy ((char*)receivedHashKeyBin,(const char*)DataFirmware + firmwareSize , 16);
-
-//                //Копируем полученный hashKeyEnc
-//                strncpy ((char*)receivedHashKeyEncoded,(const char*)DataFirmware + firmwareSize + 16 , 16);
 
                 //Выводим полученный hashKeyBin
                 RS232::getInstance().term <<"Received hashKeyBin:\t";
@@ -247,6 +250,7 @@ static char FLASHPath[4]; /*! FLASH logical drive path */
 
                 if(strncmp((char*)receivedHashKeyBin, (char*)calculatedMd5, 16) == 0)
                 {
+                    term2("all OK")
 //                    newFirmwareWrite(firmwareSize);   //md5 совпали - пишем прошивку
 
                 // Начало теста Шифрую AES128 и затем получаю Хеш
@@ -257,10 +261,10 @@ static char FLASHPath[4]; /*! FLASH logical drive path */
 //                        sprintf(tmp,"encrypt stage %d of %d ", i, firmwareSize /16);
 //                        term2(tmp)
 //                    }
-                    uint8_t cryptMd5[16];
-                    HAL_HASH_MD5_Start(&hhash, (uint8_t *)DataFirmware2, firmwareSize, cryptMd5, 1000);
-                    RS232::getInstance().term <<"hashKeyEnc:\t";
-                    for (auto i=0; i < 16; ++i) { sprintf(tmp,"%1.1x", cryptMd5[i]); RS232::getInstance().term <<tmp;} RS232::getInstance().term <<"\r\n";
+//                    uint8_t cryptMd5[16];
+//                    HAL_HASH_MD5_Start(&hhash, (uint8_t *)DataFirmware2, firmwareSize, cryptMd5, 1000);
+//                    RS232::getInstance().term <<"hashKeyEnc:\t";
+//                    for (auto i=0; i < 16; ++i) { sprintf(tmp,"%1.1x", cryptMd5[i]); RS232::getInstance().term <<tmp;} RS232::getInstance().term <<"\r\n";
                 // Конец теста
                 }
                 else
@@ -271,6 +275,10 @@ static char FLASHPath[4]; /*! FLASH logical drive path */
                     pinMkState = pinMkBlinkFast;
                     counterSize = 0;
                     counterPackegs = 0;
+                    indexFirwareArray = 0;
+                    sizeDecoded = 0;
+                    indexTempArray16byte = 0;
+                    indexFirwareArray = 0;
                     beginFirmware = false;
                 }
             }
