@@ -138,7 +138,14 @@ void AppCore::encryptionBinFile(const QUrl &pathFile, const QString &key, const 
     file.close();
     qDebug()<< "KEY: "<< key;
     qDebug()<< "Size bin: "<< bin.size();
-
+    //Вычисляем на сколько нужно дополнить bin
+    int addNumZero = bin.size()%16;
+    qDebug()<< "addNumZero: "<< addNumZero;
+    for (auto i = 0; i <addNumZero; ++i )
+    {
+        bin.append('0');
+    }
+    qDebug()<< "New size bin: "<< bin.size();
     QString originCRC = calcFileCRC(bin);
     qDebug() << "originCRC: " << originCRC;
 
@@ -207,16 +214,11 @@ void AppCore::encryptionBinFile(const QUrl &pathFile, const QString &key, const 
     fileEnc.write(encodedBin);
     fileEnc.close();
 
-    QByteArray binEnc;
-    fileEnc.open(QIODevice::ReadOnly);
-    binEnc = fileEnc.readAll();
-    fileEnc.close();
-
-    qDebug()<< "Size binEnc: "<< binEnc.size();
-    QString encrypCRC = calcFileCRC(binEnc);
+    qDebug()<< "Size binEnc: "<< encodedBin.size();
+    QString encrypCRC = calcFileCRC(encodedBin);
     qDebug() << "encrypCRC: " << encrypCRC;
 
-    QByteArray hashKeyEncryptedBin = QCryptographicHash::hash(binEnc, QCryptographicHash::Md5);
+    QByteArray hashKeyEncryptedBin = QCryptographicHash::hash(encodedBin, QCryptographicHash::Md5);
     qDebug() <<"Hash key encryp bin: "<<hashKeyEncryptedBin.toHex();
 
 
