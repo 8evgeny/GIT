@@ -224,7 +224,7 @@ static char FLASHPath[4]; /*! FLASH logical drive path */
                     }
                 }
 
-      std::string ttt = "12345"; //Выравнивание Размер прошивки должен быть кратен 16
+      std::string ttt = "1234567"; //Выравнивание Размер прошивки должен быть кратен 16
 
                 sprintf(tmp,"packet %d of %d size_packet = %d received_size = %d", (int)pack.current, (int)pack.all, (int)pack.size /2, (int)counterSize);
                 term2(tmp)
@@ -250,22 +250,7 @@ static char FLASHPath[4]; /*! FLASH logical drive path */
 
                 if(strncmp((char*)receivedHashKeyBin, (char*)calculatedMd5, 16) == 0)
                 {
-                    term2("all OK")
-//                    newFirmwareWrite(firmwareSize);   //md5 совпали - пишем прошивку
-
-                // Начало теста Шифрую AES128 и затем получаю Хеш
-
-//                    for (int i = 0; i < firmwareSize /16; ++i)
-//                    {
-//                        AES128_ECB_encrypt((uint8_t *)DataFirmware + 16 * i , key, (uint8_t *)DataFirmware2 + 16 * i );
-//                        sprintf(tmp,"encrypt stage %d of %d ", i, firmwareSize /16);
-//                        term2(tmp)
-//                    }
-//                    uint8_t cryptMd5[16];
-//                    HAL_HASH_MD5_Start(&hhash, (uint8_t *)DataFirmware2, firmwareSize, cryptMd5, 1000);
-//                    RS232::getInstance().term <<"hashKeyEnc:\t";
-//                    for (auto i=0; i < 16; ++i) { sprintf(tmp,"%1.1x", cryptMd5[i]); RS232::getInstance().term <<tmp;} RS232::getInstance().term <<"\r\n";
-                // Конец теста
+                    newFirmwareWrite(firmwareSize);   //md5 совпали - пишем прошивку
                 }
                 else
                 {
@@ -303,7 +288,7 @@ static char FLASHPath[4]; /*! FLASH logical drive path */
 
 void newFirmwareWrite(int firmwareSize)
 {
-    term2("MD5 - OK")
+    term2("md5 received == md5 calculated")
         pinNormaState = pinNormaBlinkFast;
     term2("Start erasing flash")
         eraseFlashBank(1);
