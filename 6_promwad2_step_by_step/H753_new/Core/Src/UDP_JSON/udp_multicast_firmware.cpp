@@ -222,7 +222,7 @@ static char FLASHPath[4]; /*! FLASH logical drive path */
                     }
                 }
 
-      std::string ttt = "1234567"; //Выравнивание Размер прошивки должен быть кратен 16
+      std::string ttt = "12"; //Выравнивание Размер прошивки должен быть кратен 16
 
                 sprintf(tmp,"packet %d of %d size_packet = %d received_size = %d", (int)pack.current, (int)pack.all, (int)pack.size /2, (int)counterSize);
                 term2(tmp)
