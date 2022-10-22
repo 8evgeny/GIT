@@ -220,8 +220,8 @@ void AppCore::encryptionBinFile(const QUrl &pathFile, const QString &key, const 
     QByteArray byteArrayFinalBin;
     QDataStream streamFinalBin(&byteArrayFinalBin, QIODevice::WriteOnly);
 //    byteArrayFinalBin =  byteArray + byteArraySize + byteArrayMd5 + byteArrayTimeDate + byteArraySizeBare + byteArrayMd5Bare + byteArrayReserve + encodedText;
-    byteArrayFinalBin =  bin + hashKeyOrijinBin;
-
+//    byteArrayFinalBin =  bin + hashKeyOrijinBin;
+    byteArrayFinalBin =  encodedBin + hashKeyOrijinBin;
 
     firmwareForDownload = byteArrayFinalBin;
 
