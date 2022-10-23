@@ -80,7 +80,7 @@ uint8_t LinkStatus;
 uint8_t inMcastGroup;
 osMutexId mutexEth_id;
 osMutexDef (mutexEth);
-extern int volatile asteriskPressed;
+extern uint8_t volatile asteriskPressed;
 uint8_t DataFirmware[NUM_FIRMWARE_PACKET][SIZE_FIRMWARE_BASE]
     __attribute__((section(".ExtRamData")))
     __attribute__ ((aligned (32)));                       //512кБ
