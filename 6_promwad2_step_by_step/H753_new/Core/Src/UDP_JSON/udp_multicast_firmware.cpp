@@ -29,7 +29,8 @@ extern char *allConfig;
 extern int sizeConfig;
 extern uint8_t pinNormaState;
 extern uint8_t pinMkState;
-
+extern lfs_t lfs;
+extern lfs_file_t file;
 /*!
  \brief Function translate binary data to a string
 
@@ -290,7 +291,11 @@ void newFirmwareWrite(uint32_t firmwareSize)
         eraseFlashBank(1);
     term2("Start writing flash")
         writeFlashFromExtRam(1);
-        printMd5(firmwareSize);
+        printMd5(1, firmwareSize);
+        //Запоминаем в EEPROM firmwareSize
+        lfs_file_open(&lfs, &file, "firmwareSize", LFS_O_RDWR | LFS_O_CREAT);
+        lfs_file_write(&lfs, &file, &firmwareSize, sizeof(firmwareSize));
+        lfs_file_close(&lfs, &file);
 
     //Нужно переключить банк памяти для новой загрузки
     static FLASH_OBProgramInitTypeDef OBInit;
