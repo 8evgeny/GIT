@@ -29,7 +29,7 @@ bool sensDownPressed;
 uint32_t lastTimePressed;
 bool signalMaxMin = false;
 extern uint8_t pinNormaState;
-int volatile asteriskPressed = 0;
+uint8_t volatile asteriskPressed = 0;
 extern SAI_HandleTypeDef audioTxSai;
 extern uint8_t boardType;
 bool asteriskReleasedAfterLongTime;

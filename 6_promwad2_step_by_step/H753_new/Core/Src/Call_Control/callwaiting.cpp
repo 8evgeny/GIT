@@ -28,7 +28,7 @@ CallWaiting::CallWaiting()
     }
 }
 
-extern int volatile asteriskPressed;
+extern uint8_t volatile asteriskPressed;
 bool asteriskRecall = false;
 extern char msg[50];
 void CallWaiting::handleButton()
