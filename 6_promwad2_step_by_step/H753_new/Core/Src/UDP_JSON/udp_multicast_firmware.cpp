@@ -18,7 +18,7 @@
 #include <inttypes.h>
 
 void printFlashOptions(FLASH_OBProgramInitTypeDef &OBInit);
-void newFirmwareWrite(uint8_t firmwareSize);
+void newFirmwareWrite(uint32_t firmwareSize);
 extern HASH_HandleTypeDef hhash;
 extern CRC_HandleTypeDef hcrc;
 extern uint8_t DataFirmware[NUM_FIRMWARE_PACKET][SIZE_FIRMWARE_BASE] __attribute__((section(".ExtRamData")));
@@ -99,11 +99,7 @@ void firmwareInitThread()
     osThreadDef(handelFirmwareThread, updateFirmwareThread, osPriorityHigh, 0, configMINIMAL_STACK_SIZE * 3);
     firmwareThreadId = osThreadCreate(osThread(handelFirmwareThread), NULL);
 }
-static uint32_t sizeDecoded = 0;
-static uint8_t indexFirwareArray = 0;
-static uint8_t indexTempArray16byte = 0;
-static uint32_t counterSize = 0; /*! A counter for size of data */
-static uint8_t counterPackegs = 0; /*! A counter for size of packages */
+
 static FATFS FLASHFatFs;  /*! File system object for Flash logical drive */
 static char FLASHPath[4]; /*! FLASH logical drive path */
 
@@ -116,6 +112,11 @@ static char FLASHPath[4]; /*! FLASH logical drive path */
     bool beginFirmware = false;
     uint8_t receivedHashKeyBin[16];
     uint8_t calculatedMd5[16];
+    uint32_t indexFirwareArray = 0;
+    uint8_t indexTempArray16byte = 0;
+    uint32_t sizeDecoded = 0;
+    uint32_t counterPackegs = 0; /*! A counter for size of packages */
+    uint32_t counterSize = 0; /*! A counter for size of data */
 //    int versionFirmware;
 //    int subVersionFirmware;
 //    int current;
@@ -197,14 +198,14 @@ static char FLASHPath[4]; /*! FLASH logical drive path */
                         sizeDecoded +=16;
                     }
                 }
-                sprintf(tmp,"packet %d of %d size_packet = %d received_size = %d" , (uint8_t)pack.current, (uint8_t)pack.all, (uint8_t)pack.data.size(), (uint8_t)counterSize);
+                sprintf(tmp,"packet %d of %d size_packet = %d received_size = %d" , (uint32_t)pack.current, (uint32_t)pack.all, (uint32_t)pack.data.size(), (uint32_t)counterSize);
                 term2(tmp)
             }
 
             if((lastPacket) && (pack.current == counterPackegs) && beginFirmware)
             {
                 counterSize += pack.size / 2;   //Последний пакет меньше
-                for (uint8_t i = 0; i < pack.size/2 ; ++i)
+                for (size_t i = 0; i < pack.size/2 ; ++i)
                 {
                     temp[indexTempArray16byte] = pack.data.at(i);
                     ++indexTempArray16byte;
@@ -221,7 +222,7 @@ static char FLASHPath[4]; /*! FLASH logical drive path */
                         strncpy ((char*)receivedHashKeyBin,(const char*)temp , 16);
                     }
                 }
-                sprintf(tmp,"packet %d of %d size_packet = %d received_size = %d", (uint8_t)pack.current, (uint8_t)pack.all, (uint8_t)pack.size /2, (uint8_t)counterSize);
+                sprintf(tmp,"packet %d of %d size_packet = %d received_size = %d", (uint32_t)pack.current, (uint32_t)pack.all, (uint32_t)pack.size /2, (uint32_t)counterSize);
                 term2(tmp)
 
                 sprintf(tmp,"sizeDecoded = %d", sizeDecoded);
@@ -230,7 +231,7 @@ static char FLASHPath[4]; /*! FLASH logical drive path */
                 lastPacket = false;
                 //Размер полученного файла
                 uint32_t firmwareSize = counterSize - 16; //Последние 16 байт  - Хеш
-                sprintf(tmp,"firmware size = %d", (uint8_t)firmwareSize);
+                sprintf(tmp,"firmware size = %d", (uint32_t)firmwareSize);
                 term2 (tmp)
 
                 //Выводим полученный hashKeyBin
@@ -281,7 +282,7 @@ static char FLASHPath[4]; /*! FLASH logical drive path */
  \param doc Json package
 */
 
-void newFirmwareWrite(uint8_t firmwareSize)
+void newFirmwareWrite(uint32_t firmwareSize)
 {
     term2("md5 received == md5 calculated")
         pinNormaState = pinNormaBlinkFast;
