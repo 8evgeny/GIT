@@ -64,7 +64,7 @@ _Noreturn void timerForMixAudio(void const *arg)
 osDelay(400);
 term("--- timerForMixAudio ---")
     UNUSED(arg);
-    char * temp = new char[BUFFER_AUDIO_SIZE_RTP];
+//    char * temp = new char[BUFFER_AUDIO_SIZE_RTP];
     while (1) {
         using SsrcIndex = struct alignas (4) {
             uint16_t seqNum;
@@ -315,7 +315,7 @@ term("--- rtpSendPacketsHalf ---")
     struct rtp_hdr *rtphdr;            /* RTP header */
     uint8_t *rtp_payload;              /* RTP payload */
     int rtp_payload_size = 0;          /* RTP payload size in the current packet */
-
+    char * tempSendPacketsHalf = new char[1280];
     /* prepare RTP packet */
     rtphdr = reinterpret_cast<struct rtp_hdr *>(rtpStructSend.rtp_send_packet);
     rtphdr->version = RTP_VERSION;
@@ -324,8 +324,9 @@ term("--- rtpSendPacketsHalf ---")
     rtphdr->timestamp = htonl(ntohl(rtphdr->timestamp) + RTP_TIMESTAMP);
 
     /* send RTP stream packets */
-    rtpStructSend.rtp_data = reinterpret_cast<char *>(rtpDataTxHalf);
-
+//    rtpStructSend.rtp_data = reinterpret_cast<char *>(rtpDataTxHalf);
+    xorEncoding((char *)rtpDataTxHalf, BUFFER_AUDIO_SIZE_RTP , (const char*)keyXor, 32, tempSendPacketsHalf);
+    xorEncoding(tempSendPacketsHalf, BUFFER_AUDIO_SIZE_RTP , (const char*)keyXor, 32, rtpStructSend.rtp_data );
     /* Set a payload pointer */
     rtp_payload = rtpStructSend.rtp_send_packet + sizeof(struct rtp_hdr);
 
