@@ -194,12 +194,12 @@ term("--- timerForMixAudio ---")
 //                    SAI::getInstance()->cryptTxComplete = false;
 //                    osMutexRelease(mutexCryptTxId);
 
-//                    arm_copy_q15( reinterpret_cast<q15_t *>(inMix.payload),     //Вместо дешифрования
-//                                  reinterpret_cast<q15_t *>(rtpDataRxMixCrypt),
-//                                  BUFFER_AUDIO_SIZE_RTP / 2);
+                    arm_copy_q15( reinterpret_cast<q15_t *>(inMix.payload),     //Вместо дешифрования
+                                  reinterpret_cast<q15_t *>(rtpDataRxMixCrypt),
+                                  BUFFER_AUDIO_SIZE_RTP / 2);
 
-                    xorEncoding((const char *)inMix.payload, BUFFER_AUDIO_SIZE_RTP , (const char*)keyXor, 32, temp);
-                    xorEncoding(temp, BUFFER_AUDIO_SIZE_RTP , (const char*)keyXor, 32, (char *)rtpDataRxMixCrypt );
+//                    xorEncoding((const char *)inMix.payload, BUFFER_AUDIO_SIZE_RTP , (const char*)keyXor, 32, temp);
+//                    xorEncoding(temp, BUFFER_AUDIO_SIZE_RTP , (const char*)keyXor, 32, (char *)rtpDataRxMixCrypt );
 
                     arm_add_q15(reinterpret_cast<q15_t *>(rtpDataRxMixAudio), reinterpret_cast<q15_t *>(rtpDataRxMixCrypt), reinterpret_cast<q15_t *>(rtpDataRxMixAudioDst), BUFFER_AUDIO_SIZE_RTP / 2);
                     arm_copy_q15( reinterpret_cast<q15_t *>(rtpDataRxMixAudioDst), reinterpret_cast<q15_t *>(rtpDataRxMixAudio), BUFFER_AUDIO_SIZE_RTP / 2);
