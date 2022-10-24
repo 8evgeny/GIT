@@ -315,7 +315,7 @@ term("--- rtpSendPacketsHalf ---")
     struct rtp_hdr *rtphdr;            /* RTP header */
     uint8_t *rtp_payload;              /* RTP payload */
     int rtp_payload_size = 0;          /* RTP payload size in the current packet */
-    char * tempSendPacketsHalf = new char[1280];
+//    char tempSendPacketsHalf [1280];
     /* prepare RTP packet */
     rtphdr = reinterpret_cast<struct rtp_hdr *>(rtpStructSend.rtp_send_packet);
     rtphdr->version = RTP_VERSION;
@@ -353,7 +353,7 @@ term("--- rtpSendPacketsFull ---")
     struct rtp_hdr *rtphdr;            /* RTP header */
     uint8_t *rtp_payload;              /* RTP payload */
     int rtp_payload_size = 0;          /* RTP payload size in the current packet */
-    char * tempSendPacketsFull = new char[1280];
+//    char * tempSendPacketsFull = new char[1280];
     /* prepare RTP packet */
     rtphdr = reinterpret_cast<struct rtp_hdr *>(rtpStructSend.rtp_send_packet);
     rtphdr->version = RTP_VERSION;
@@ -395,7 +395,7 @@ void rtpRecvThread(void const *arg)
     u32_t              rtp_stream_address;
     int                result;
     RtpPackages in;
-    char * tempRecv = new char[1280];
+//    char * tempRecv = new char[1280];
     /* initialize RTP stream address */
     rtp_stream_address = RTP_STREAM_ADDRESS;
 
