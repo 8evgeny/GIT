@@ -4,7 +4,7 @@
 #include <algorithm>
 #include "rs232.h"
 #include "../UDP_JSON/udp_multicast.h"
-
+#include "testTasks.h"
 #include "stm32h7xx_hal_cryp.h"
 #include "json.h"
 
@@ -42,7 +42,6 @@ extern CRYP_HandleTypeDef hcryp;
 extern osThreadId sendThreadHalfId;
 extern osThreadId sendThreadFullId;
 extern osThreadId sendThreadMixAudioId;
-
 int                sockRtpRecv;
 struct ip_mreq     ipmreqRtpRecv;
 
@@ -65,6 +64,7 @@ _Noreturn void timerForMixAudio(void const *arg)
 osDelay(400);
 term("--- timerForMixAudio ---")
     UNUSED(arg);
+    char * temp = new char[BUFFER_AUDIO_SIZE_RTP];
     while (1) {
         using SsrcIndex = struct alignas (4) {
             uint16_t seqNum;
@@ -194,9 +194,13 @@ term("--- timerForMixAudio ---")
 //                    SAI::getInstance()->cryptTxComplete = false;
 //                    osMutexRelease(mutexCryptTxId);
 
-                    arm_copy_q15( reinterpret_cast<q15_t *>(inMix.payload),     //Вместо дешифрования
-                                  reinterpret_cast<q15_t *>(rtpDataRxMixCrypt),
-                                  BUFFER_AUDIO_SIZE_RTP / 2);
+//                    arm_copy_q15( reinterpret_cast<q15_t *>(inMix.payload),     //Вместо дешифрования
+//                                  reinterpret_cast<q15_t *>(rtpDataRxMixCrypt),
+//                                  BUFFER_AUDIO_SIZE_RTP / 2);
+
+                    std::string *keyXor = new std::string {"108_!@#$%^&*()_+_108!@#$%^&*()_+42"};
+                    xorEncoding((const char *)inMix.payload, BUFFER_AUDIO_SIZE_RTP , keyXor->c_str(), keyXor->size(), temp);
+                    xorEncoding(temp, BUFFER_AUDIO_SIZE_RTP , keyXor->c_str(), keyXor->size(), (char *)rtpDataRxMixCrypt );
 
                     arm_add_q15(reinterpret_cast<q15_t *>(rtpDataRxMixAudio), reinterpret_cast<q15_t *>(rtpDataRxMixCrypt), reinterpret_cast<q15_t *>(rtpDataRxMixAudioDst), BUFFER_AUDIO_SIZE_RTP / 2);
                     arm_copy_q15( reinterpret_cast<q15_t *>(rtpDataRxMixAudioDst), reinterpret_cast<q15_t *>(rtpDataRxMixAudio), BUFFER_AUDIO_SIZE_RTP / 2);
