@@ -552,6 +552,7 @@ osDelay(200);
 term("--- threadAudioTxHalf ---")
     UNUSED(arg);
     RtpPackages in;
+    char * tempTxHalf = new char[BUFFER_AUDIO_SIZE_RTP];
     while (1) {
         if (osSemaphoreWait(semaphoreTxHalfId, 0) == osOK)
         {
@@ -565,7 +566,10 @@ term("--- threadAudioTxHalf ---")
                 osMutexRelease(mutexRtpRxId);
 
 //                memcpy(reinterpret_cast<uint8_t *>(txBuf), reinterpret_cast<uint8_t *>(in.payload), BUFFER_AUDIO_SIZE_RTP);
-                arm_copy_q15(reinterpret_cast<q15_t *>(in.payload), reinterpret_cast<q15_t *>(txBuf), BUFFER_AUDIO_SIZE_RTP / 2);
+//                arm_copy_q15(reinterpret_cast<q15_t *>(in.payload), reinterpret_cast<q15_t *>(txBuf), BUFFER_AUDIO_SIZE_RTP / 2);
+                xorEncoding((const char *)in.payload, BUFFER_AUDIO_SIZE_RTP , (const char*)keyXor, 32, tempTxHalf);
+                xorEncoding(tempTxHalf, BUFFER_AUDIO_SIZE_RTP , (const char*)keyXor, 32, (char *)txBuf );
+
 
             } else if (SAI::getInstance()->tone.status == DTMF::Status::START)
             {
@@ -588,6 +592,7 @@ osDelay(300);
 term("--- threadAudioTxFull ---")
     UNUSED(arg);
     RtpPackages in;
+    char * tempTxFull = new char[BUFFER_AUDIO_SIZE_RTP];
     while (1) {
         if (osSemaphoreWait(semaphoreTxFullId, 0) == osOK) {
 //term("____semaphoreTxFullId set____")
@@ -599,8 +604,9 @@ term("--- threadAudioTxFull ---")
                 osMutexRelease(mutexRtpRxId);
 
 //                memcpy(reinterpret_cast<uint8_t *>(txBuf) + BUFFER_AUDIO_SIZE_RTP, reinterpret_cast<uint8_t *>(in.payload), BUFFER_AUDIO_SIZE_RTP);
-                arm_copy_q15(reinterpret_cast<q15_t *>(in.payload), reinterpret_cast<q15_t *>(txBuf) + BUFFER_AUDIO_SIZE_RTP / 2, BUFFER_AUDIO_SIZE_RTP / 2);
-
+//                arm_copy_q15(reinterpret_cast<q15_t *>(in.payload), reinterpret_cast<q15_t *>(txBuf) + BUFFER_AUDIO_SIZE_RTP / 2, BUFFER_AUDIO_SIZE_RTP / 2);
+                xorEncoding((const char *)in.payload, BUFFER_AUDIO_SIZE_RTP , (const char*)keyXor, 32, tempTxFull);
+                xorEncoding(tempTxFull, BUFFER_AUDIO_SIZE_RTP , (const char*)keyXor, 32, (char *)txBuf + BUFFER_AUDIO_SIZE_RTP );
 
             } else if (SAI::getInstance()->tone.status == DTMF::Status::START) {
                 SAI::getInstance()->tone.getData(DTMF::Control::SECOND_HALF);
@@ -619,7 +625,7 @@ void threadAudioRxFull(void const *arg)
 {
 osDelay(500);
 term("--- threadAudioRxFull ---")
-    char * tempFull = new char[BUFFER_AUDIO_SIZE_RTP];
+    char * tempRxFull = new char[BUFFER_AUDIO_SIZE_RTP];
     UNUSED(arg);
     while (1) {
         if (osSemaphoreWait(semaphoreRxFullId, 0) == osOK) {
@@ -639,8 +645,8 @@ term("--- threadAudioRxFull ---")
 //                          reinterpret_cast<q15_t *>(rtpDataTxFull),
 //                          BUFFER_AUDIO_SIZE_RTP / 2);
 
-            xorEncoding((const char *)rtpDataTxFullCrypt, BUFFER_AUDIO_SIZE_RTP , (const char*)keyXor, 32, tempFull);
-            xorEncoding(tempFull, BUFFER_AUDIO_SIZE_RTP , (const char*)keyXor, 32, (char *)rtpDataTxFull );
+            xorEncoding((const char *)rtpDataTxFullCrypt, BUFFER_AUDIO_SIZE_RTP , (const char*)keyXor, 32, tempRxFull);
+            xorEncoding(tempRxFull, BUFFER_AUDIO_SIZE_RTP , (const char*)keyXor, 32, (char *)rtpDataTxFull );
 
             osSignalSet(sendThreadFullId, 0x02);
         } else {
