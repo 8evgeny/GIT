@@ -394,7 +394,7 @@ void rtpRecvThread(void const *arg)
     u32_t              rtp_stream_address;
     int                result;
     RtpPackages in;
-
+    char * tempRecv = new char[1280];
     /* initialize RTP stream address */
     rtp_stream_address = RTP_STREAM_ADDRESS;
 
@@ -437,7 +437,10 @@ void rtpRecvThread(void const *arg)
                             //copy header
                             arm_copy_q7(reinterpret_cast<q7_t *>(rtpRecvPacket), reinterpret_cast<q7_t *>(&in.header),  sizeof(rtp_hdr));
                             //copy payload
-                            arm_copy_q7(reinterpret_cast<q7_t *>(rtpRecvPacket + sizeof(rtp_hdr)), reinterpret_cast<q7_t *>(in.payload), BUFFER_AUDIO_SIZE_RTP);
+//                            arm_copy_q7(reinterpret_cast<q7_t *>(rtpRecvPacket + sizeof(rtp_hdr)),
+//                                        reinterpret_cast<q7_t *>(in.payload), BUFFER_AUDIO_SIZE_RTP);
+                            xorEncoding((char *)rtpRecvPacket + sizeof(rtp_hdr), BUFFER_AUDIO_SIZE_RTP , (const char*)keyXor, 32, tempRecv);
+                            xorEncoding(tempRecv, BUFFER_AUDIO_SIZE_RTP , (const char*)keyXor, 32, (char *)in.payload );
 
                             osMutexWait(mutexMixRtpRxId, osWaitForever);
                             auto it = std::find(SAI::getInstance()->ssrc.begin(), SAI::getInstance()->ssrc.end(), in.header.ssrc);
