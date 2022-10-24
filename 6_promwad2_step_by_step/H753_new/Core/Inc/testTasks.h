@@ -22,7 +22,7 @@ void testReceiveMcast();
 void pinNormaStart();
 void pinMkStart();
 void writeVolSensToFlashStart();
-
+void testXOR();
 #ifdef __cplusplus
 }
 #endif

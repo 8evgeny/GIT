@@ -470,6 +470,8 @@ term2("Board SL1")
     term2(temp)
     printMd5(0, firmwareSize);
 
+    testXOR();
+
     if (boardType == sc4)
     {
         term1("getCFG()") term(getCFG())
