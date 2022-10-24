@@ -23,6 +23,8 @@ void pinNormaStart();
 void pinMkStart();
 void writeVolSensToFlashStart();
 void testXOR();
+void xorEncoding(const char* input, uint32_t inputLength, const char* key, uint8_t keyLength, char* output);
+
 #ifdef __cplusplus
 }
 #endif

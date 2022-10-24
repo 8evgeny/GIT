@@ -678,56 +678,49 @@ void TasksLog(void const *argument)
     vTaskDelete(nullptr);
 }
 
-void testXOR()
+void xorEncoding(const char* input, uint32_t inputLength, const char* key, uint8_t keyLength, char* output)
 {
-    char temp[100];
-    std::string *stringOrigin = new std::string{
-        "qwertyQWERTYUIOPASDFGHqwertyuiopasdfghQWERTYUIOPASDFGHqwertyuiopasdfgh123456789012345678901234567890endend11"
-        "qwertyQWERTYUIOPASDFGHqwertyuiopasdfghQWERTYUIOPASDFGHqwertyuiopasdfgh123456789012345678901234567890endend11"
-        "qwertyQWERTYUIOPASDFGHqwertyuiopasdfghQWERTYUIOPASDFGHqwertyuiopasdfgh123456789012345678901234567890endend11"
-        "qwertyQWERTYUIOPASDFGHqwertyuiopasdfghQWERTYUIOPASDFGHqwertyuiopasdfgh123456789012345678901234567890endend11"
-        "qwertyQWERTYUIOPASDFGHqwertyuiopasdfghQWERTYUIOPASDFGHqwertyuiopasdfgh123456789012345678901234567890endend11"
-        "qwertyQWERTYUIOPASDFGHqwertyuiopasdfghQWERTYUIOPASDFGHqwertyuiopasdfgh123456789012345678901234567890endend11"
-        "qwertyQWERTYUIOPASDFGHqwertyuiopasdfghQWERTYUIOPASDFGHqwertyuiopasdfgh123456789012345678901234567890endend11"
-        "qwertyQWERTYUIOPASDFGHqwertyuiopasdfghQWERTYUIOPASDFGHqwertyuiopasdfgh123456789012345678901234567890endend11"
-        "qwertyQWERTYUIOPASDFGHqwertyuiopasdfghQWERTYUIOPASDFGHqwertyuiopasdfgh123456789012345678901234567890endend11"
-        "qwertyQWERTYUIOPASDFGHqwertyuiopasdfghQWERTYUIOPASDFGHqwertyuiopasdfgh123456789012345678901234567890endend11"
-        "qwertyQWERTYUIOPASDFGHqwertyuiopasdfghQWERTYUIOPASDFGHqwertyuiopasdfgh123456789012345678901234567890endend11"
-        "qwertyQWERTYUIOPASDFGHqwertyuiopasdfghQWERTYUIOPASDFGHqwertyuiopasdfgh123456789012345678901234567890endend11"
-    };
-    std::string keyTest = "108_!@#$%^&*()_+_108!@#$%^&*()_+42";
-    const char* key = keyTest.c_str();
-    const char* input = stringOrigin->c_str();
-    uint32_t inputLength = stringOrigin->size();
-    uint8_t keyLength = keyTest.size();
-    char *encoded = new char[inputLength];
-    char *decoded = new char[inputLength];
-    for (int i =0; i<inputLength;++i)
-    {
-        encoded[i] = 0x00;
-        decoded[i] = 0x00;
-    }
     for (uint32_t i = 0; i < inputLength + 1; ++i)
     {
-        encoded[i] = input[i] ^ key[i % keyLength + 1];
+        output[i] = input[i] ^ key[i % keyLength + 1];
     }
-    for (int i = 0; i < inputLength + 1; ++i)
-    {
-        decoded[i] = encoded[i] ^ key[i % keyLength + 1];
-    }
+}
+void testXOR()
+{
     term2("test XOR")
+    std::string *stringOrigin = new std::string{
+            "qwertyQWERTYUIOPASDFGHqwertyuiopasdfghQWERTYUIOPASDFGHqwertyuiopasdfgh123456789012345678901234567890endend11"
+            "qwertyQWERTYUIOPASDFGHqwertyuiopasdfghQWERTYUIOPASDFGHqwertyuiopasdfgh123456789012345678901234567890endend11"
+            "qwertyQWERTYUIOPASDFGHqwertyuiopasdfghQWERTYUIOPASDFGHqwertyuiopasdfgh123456789012345678901234567890endend11"
+            "qwertyQWERTYUIOPASDFGHqwertyuiopasdfghQWERTYUIOPASDFGHqwertyuiopasdfgh123456789012345678901234567890endend11"
+            "qwertyQWERTYUIOPASDFGHqwertyuiopasdfghQWERTYUIOPASDFGHqwertyuiopasdfgh123456789012345678901234567890endend11"
+            "qwertyQWERTYUIOPASDFGHqwertyuiopasdfghQWERTYUIOPASDFGHqwertyuiopasdfgh123456789012345678901234567890endend11"
+            "qwertyQWERTYUIOPASDFGHqwertyuiopasdfghQWERTYUIOPASDFGHqwertyuiopasdfgh123456789012345678901234567890endend11"
+            "qwertyQWERTYUIOPASDFGHqwertyuiopasdfghQWERTYUIOPASDFGHqwertyuiopasdfgh123456789012345678901234567890endend11"
+            "qwertyQWERTYUIOPASDFGHqwertyuiopasdfghQWERTYUIOPASDFGHqwertyuiopasdfgh123456789012345678901234567890endend11"
+            "qwertyQWERTYUIOPASDFGHqwertyuiopasdfghQWERTYUIOPASDFGHqwertyuiopasdfgh123456789012345678901234567890endend11"
+            "qwertyQWERTYUIOPASDFGHqwertyuiopasdfghQWERTYUIOPASDFGHqwertyuiopasdfgh123456789012345678901234567890endend11"
+            "qwertyQWERTYUIOPASDFGHqwertyuiopasdfghQWERTYUIOPASDFGHqwertyuiopasdfgh123456789012345678901234567890endend11"
+    };
+    std::string keyTest = "108_!@#$%^&*()_+_108!@#$%^&*()_+42";
+    char* temp = new char[2000];
+    char* encoded = new char[stringOrigin->size()];
+    char* decoded = new char[stringOrigin->size()];
+    xorEncoding(stringOrigin->c_str(), stringOrigin->size(), keyTest.c_str(), keyTest.size(), encoded);
+    xorEncoding(encoded, stringOrigin->size(), keyTest.c_str(), keyTest.size(), decoded);
+
     RS232::getInstance().term << "key for test = ";
-    snprintf(temp, keyLength + 1,"%s", key); term2(temp)
+    snprintf(temp, keyTest.size() + 1,"%s", keyTest.c_str()); term2(temp)
     RS232::getInstance().term << "key lentgh = ";
-    sprintf(temp, "%d", keyLength); term2(temp)
+    sprintf(temp, "%d", keyTest.size()); term2(temp)
     RS232::getInstance().term << "input lentgh = ";
-    sprintf(temp, "%d", inputLength); term2(temp)
+    sprintf(temp, "%d", stringOrigin->size()); term2(temp)
+
 //    sprintf(temp,"origin  text =  %s",stringOrigin->c_str()); term2(temp)
 //    RS232::getInstance().term << "encoded text = ";
-//    snprintf(temp, inputLength + 1, "%s",encoded); term2(temp)
-
+//    snprintf(temp, stringOrigin->size() + 1, "%s", encoded); term2(temp)
 //    RS232::getInstance().term << "decoded text = ";
-//    snprintf(temp, inputLength + 1,"%s", decoded); term2(temp)
+//    snprintf(temp, stringOrigin->size() + 1,"%s", decoded); term2(temp)
 
     if (strcmp(stringOrigin->c_str(), decoded) == 0)
     {
@@ -740,6 +733,7 @@ void testXOR()
     delete stringOrigin;
     delete[]  encoded;
     delete[]  decoded;
+    delete[]  temp;
 }
 
 
