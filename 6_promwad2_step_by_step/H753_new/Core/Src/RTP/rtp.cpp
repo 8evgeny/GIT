@@ -198,8 +198,8 @@ term("--- timerForMixAudio ---")
                                   reinterpret_cast<q15_t *>(rtpDataRxMixCrypt),
                                   BUFFER_AUDIO_SIZE_RTP / 2);
 
-//                    xorEncoding((const char *)inMix.payload, BUFFER_AUDIO_SIZE_RTP , (const char*)keyXor, 32, temp);
-//                    xorEncoding(temp, BUFFER_AUDIO_SIZE_RTP , (const char*)keyXor, 32, (char *)rtpDataRxMixCrypt );
+//                    xorEncoding((const char *)inMix.payload, BUFFER_AUDIO_SIZE_RTP , (const char*)key, 16, temp);
+//                    xorEncoding(temp, BUFFER_AUDIO_SIZE_RTP , (const char*)key, 16, (char *)rtpDataRxMixCrypt );
 
                     arm_add_q15(reinterpret_cast<q15_t *>(rtpDataRxMixAudio), reinterpret_cast<q15_t *>(rtpDataRxMixCrypt), reinterpret_cast<q15_t *>(rtpDataRxMixAudioDst), BUFFER_AUDIO_SIZE_RTP / 2);
                     arm_copy_q15( reinterpret_cast<q15_t *>(rtpDataRxMixAudioDst), reinterpret_cast<q15_t *>(rtpDataRxMixAudio), BUFFER_AUDIO_SIZE_RTP / 2);
@@ -325,9 +325,9 @@ term("--- rtpSendPacketsHalf ---")
 
     /* send RTP stream packets */
 //    rtpStructSend.rtp_data = reinterpret_cast<char *>(rtpDataTxHalf);
-//    xorEncoding((char *)rtpDataTxHalf, BUFFER_AUDIO_SIZE_RTP , (const char*)keyXor, 32, tempSendPacketsHalf);
-//    xorEncoding(tempSendPacketsHalf, BUFFER_AUDIO_SIZE_RTP , (const char*)keyXor, 32, rtpStructSend.rtp_data );
-    xorEncoding((char *)rtpDataTxHalf, BUFFER_AUDIO_SIZE_RTP , (const char*)keyXor, 32, rtpStructSend.rtp_data);
+//    xorEncoding((char *)rtpDataTxHalf, BUFFER_AUDIO_SIZE_RTP , (const char*)key, 16, tempSendPacketsHalf);
+//    xorEncoding(tempSendPacketsHalf, BUFFER_AUDIO_SIZE_RTP , (const char*)key, 16, rtpStructSend.rtp_data );
+    xorEncoding((char *)rtpDataTxHalf, BUFFER_AUDIO_SIZE_RTP , (const char*)key, 16, rtpStructSend.rtp_data);
     /* Set a payload pointer */
     rtp_payload = rtpStructSend.rtp_send_packet + sizeof(struct rtp_hdr);
 
@@ -363,9 +363,9 @@ term("--- rtpSendPacketsFull ---")
 
     /* send RTP stream packets */
 //    rtpStructSend.rtp_data = reinterpret_cast<char *>(rtpDataTxFull);
-//    xorEncoding((char *)rtpDataTxFull, BUFFER_AUDIO_SIZE_RTP , (const char*)keyXor, 32, tempSendPacketsFull);
-//    xorEncoding(tempSendPacketsFull, BUFFER_AUDIO_SIZE_RTP , (const char*)keyXor, 32, rtpStructSend.rtp_data );
-    xorEncoding((char *)rtpDataTxFull, BUFFER_AUDIO_SIZE_RTP , (const char*)keyXor, 32, rtpStructSend.rtp_data);
+//    xorEncoding((char *)rtpDataTxFull, BUFFER_AUDIO_SIZE_RTP , (const char*)key, 16, tempSendPacketsFull);
+//    xorEncoding(tempSendPacketsFull, BUFFER_AUDIO_SIZE_RTP , (const char*)key, 16, rtpStructSend.rtp_data );
+    xorEncoding((char *)rtpDataTxFull, BUFFER_AUDIO_SIZE_RTP , (const char*)key, 16, rtpStructSend.rtp_data);
     /* Set a payload pointer */
     rtp_payload = rtpStructSend.rtp_send_packet + sizeof(struct rtp_hdr);
 
@@ -440,9 +440,9 @@ void rtpRecvThread(void const *arg)
                             //copy payload
 //                            arm_copy_q7(reinterpret_cast<q7_t *>(rtpRecvPacket + sizeof(rtp_hdr)),
 //                                        reinterpret_cast<q7_t *>(in.payload), BUFFER_AUDIO_SIZE_RTP);
-//                            xorEncoding((char *)rtpRecvPacket + sizeof(rtp_hdr), BUFFER_AUDIO_SIZE_RTP , (const char*)keyXor, 32, tempRecv);
-//                            xorEncoding(tempRecv, BUFFER_AUDIO_SIZE_RTP , (const char*)keyXor, 32, (char *)in.payload );
-                            xorEncoding((char *)rtpRecvPacket + sizeof(rtp_hdr), BUFFER_AUDIO_SIZE_RTP , (const char*)keyXor, 32, (char *)in.payload);
+//                            xorEncoding((char *)rtpRecvPacket + sizeof(rtp_hdr), BUFFER_AUDIO_SIZE_RTP , (const char*)key, 16, tempRecv);
+//                            xorEncoding(tempRecv, BUFFER_AUDIO_SIZE_RTP , (const char*)key, 16, (char *)in.payload );
+                            xorEncoding((char *)rtpRecvPacket + sizeof(rtp_hdr), BUFFER_AUDIO_SIZE_RTP , (const char*)key, 16, (char *)in.payload);
 
                             osMutexWait(mutexMixRtpRxId, osWaitForever);
                             auto it = std::find(SAI::getInstance()->ssrc.begin(), SAI::getInstance()->ssrc.end(), in.header.ssrc);

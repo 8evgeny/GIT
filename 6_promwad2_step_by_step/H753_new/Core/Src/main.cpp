@@ -63,7 +63,6 @@ HASH_HandleTypeDef hhash;
 CRYP_HandleTypeDef hcrypFIRMWARE;
 //__ALIGN_BEGIN static const uint32_t pKeyCRYP_FIRMWARE[4] __ALIGN_END =
 //    {0x00000000, 0x00000000, 0x00000000, 0x00000000};
-extern const uint32_t keyXor[8];
 I2C_HandleTypeDef hi2c1;
 I2C_HandleTypeDef hi2c2;
 I2C_HandleTypeDef hi2c3;

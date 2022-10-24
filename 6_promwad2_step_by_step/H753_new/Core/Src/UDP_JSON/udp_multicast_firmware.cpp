@@ -16,6 +16,7 @@
 #include "aes.h"
 #include "stm32h7xx_hal_cryp.h"
 #include <inttypes.h>
+#include "testTasks.h"
 
 void printFlashOptions(FLASH_OBProgramInitTypeDef &OBInit);
 void newFirmwareWrite(uint32_t firmwareSize);
@@ -23,7 +24,7 @@ extern HASH_HandleTypeDef hhash;
 extern CRC_HandleTypeDef hcrc;
 extern uint8_t DataFirmware[NUM_FIRMWARE_PACKET][SIZE_FIRMWARE_BASE] __attribute__((section(".ExtRamData")));
 //extern uint8_t DataFirmware2[NUM_FIRMWARE_PACKET][SIZE_FIRMWARE_BASE] __attribute__((section(".ExtRamData")));
-const uint8_t key [16]{'1','2','3','4','5','6','7','8','1','2','3','4','5','6','7','8'};
+
 //extern CRYP_HandleTypeDef hcrypFIRMWARE;
 extern char *allConfig;
 extern int sizeConfig;

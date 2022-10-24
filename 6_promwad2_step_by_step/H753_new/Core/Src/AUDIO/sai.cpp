@@ -567,8 +567,8 @@ term("--- threadAudioTxHalf ---")
 
 //                memcpy(reinterpret_cast<uint8_t *>(txBuf), reinterpret_cast<uint8_t *>(in.payload), BUFFER_AUDIO_SIZE_RTP);
                 arm_copy_q15(reinterpret_cast<q15_t *>(in.payload), reinterpret_cast<q15_t *>(txBuf), BUFFER_AUDIO_SIZE_RTP / 2);
-//                xorEncoding((const char *)in.payload, BUFFER_AUDIO_SIZE_RTP , (const char*)keyXor, 32, tempTxHalf);
-//                xorEncoding(tempTxHalf, BUFFER_AUDIO_SIZE_RTP , (const char*)keyXor, 32, (char *)txBuf );
+//                xorEncoding((const char *)in.payload, BUFFER_AUDIO_SIZE_RTP , (const char*)key, 16, tempTxHalf);
+//                xorEncoding(tempTxHalf, BUFFER_AUDIO_SIZE_RTP , (const char*)key, 16, (char *)txBuf );
 
 
             } else if (SAI::getInstance()->tone.status == DTMF::Status::START)
@@ -605,8 +605,8 @@ term("--- threadAudioTxFull ---")
 
 //                memcpy(reinterpret_cast<uint8_t *>(txBuf) + BUFFER_AUDIO_SIZE_RTP, reinterpret_cast<uint8_t *>(in.payload), BUFFER_AUDIO_SIZE_RTP);
                 arm_copy_q15(reinterpret_cast<q15_t *>(in.payload), reinterpret_cast<q15_t *>(txBuf) + BUFFER_AUDIO_SIZE_RTP / 2, BUFFER_AUDIO_SIZE_RTP / 2);
-//                xorEncoding((const char *)in.payload, BUFFER_AUDIO_SIZE_RTP , (const char*)keyXor, 32, tempTxFull);
-//                xorEncoding(tempTxFull, BUFFER_AUDIO_SIZE_RTP , (const char*)keyXor, 32, (char *)txBuf + BUFFER_AUDIO_SIZE_RTP );
+//                xorEncoding((const char *)in.payload, BUFFER_AUDIO_SIZE_RTP , (const char*)key, 16, tempTxFull);
+//                xorEncoding(tempTxFull, BUFFER_AUDIO_SIZE_RTP , (const char*)key, 16, (char *)txBuf + BUFFER_AUDIO_SIZE_RTP );
 
             } else if (SAI::getInstance()->tone.status == DTMF::Status::START) {
                 SAI::getInstance()->tone.getData(DTMF::Control::SECOND_HALF);
@@ -645,8 +645,8 @@ term("--- threadAudioRxFull ---")
                           reinterpret_cast<q15_t *>(rtpDataTxFull),
                           BUFFER_AUDIO_SIZE_RTP / 2);
 
-//            xorEncoding((const char *)rtpDataTxFullCrypt, BUFFER_AUDIO_SIZE_RTP , (const char*)keyXor, 32, tempRxFull);
-//            xorEncoding(tempRxFull, BUFFER_AUDIO_SIZE_RTP , (const char*)keyXor, 32, (char *)rtpDataTxFull );
+//            xorEncoding((const char *)rtpDataTxFullCrypt, BUFFER_AUDIO_SIZE_RTP , (const char*)key, 16, tempRxFull);
+//            xorEncoding(tempRxFull, BUFFER_AUDIO_SIZE_RTP , (const char*)key, 16, (char *)rtpDataTxFull );
 
             osSignalSet(sendThreadFullId, 0x02);
         } else {
@@ -681,8 +681,8 @@ term("--- threadAudioRxHalf ---")
                           reinterpret_cast<q15_t *>(rtpDataTxHalf),
                           BUFFER_AUDIO_SIZE_RTP / 2);
 //osMutexWait(mutexCryptTxId, osWaitForever);
-//            xorEncoding((const char *)rtpDataTxHalfCrypt, BUFFER_AUDIO_SIZE_RTP , (const char*)keyXor, 32, tempHalf);
-//            xorEncoding(tempHalf, BUFFER_AUDIO_SIZE_RTP , (const char*)keyXor, 32, (char *)rtpDataTxHalf);
+//            xorEncoding((const char *)rtpDataTxHalfCrypt, BUFFER_AUDIO_SIZE_RTP , (const char*)key, 16, tempHalf);
+//            xorEncoding(tempHalf, BUFFER_AUDIO_SIZE_RTP , (const char*)key, 16, (char *)rtpDataTxHalf);
 //osMutexRelease(mutexCryptTxId);
             osSignalSet(sendThreadHalfId, 0x01);
         }
