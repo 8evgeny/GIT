@@ -352,7 +352,7 @@ term("--- rtpSendPacketsFull ---")
     struct rtp_hdr *rtphdr;            /* RTP header */
     uint8_t *rtp_payload;              /* RTP payload */
     int rtp_payload_size = 0;          /* RTP payload size in the current packet */
-
+    char * tempSendPacketsFull = new char[1280];
     /* prepare RTP packet */
     rtphdr = reinterpret_cast<struct rtp_hdr *>(rtpStructSend.rtp_send_packet);
     rtphdr->version = RTP_VERSION;
@@ -361,7 +361,9 @@ term("--- rtpSendPacketsFull ---")
     rtphdr->timestamp = htonl(ntohl(rtphdr->timestamp) + RTP_TIMESTAMP);
 
     /* send RTP stream packets */
-    rtpStructSend.rtp_data = reinterpret_cast<char *>(rtpDataTxFull);
+//    rtpStructSend.rtp_data = reinterpret_cast<char *>(rtpDataTxFull);
+    xorEncoding((char *)rtpDataTxFull, BUFFER_AUDIO_SIZE_RTP , (const char*)keyXor, 32, tempSendPacketsFull);
+    xorEncoding(tempSendPacketsFull, BUFFER_AUDIO_SIZE_RTP , (const char*)keyXor, 32, rtpStructSend.rtp_data );
 
     /* Set a payload pointer */
     rtp_payload = rtpStructSend.rtp_send_packet + sizeof(struct rtp_hdr);
