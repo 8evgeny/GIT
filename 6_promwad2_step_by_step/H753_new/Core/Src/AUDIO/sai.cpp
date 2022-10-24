@@ -638,6 +638,7 @@ term("--- threadAudioRxFull ---")
 //            arm_copy_q15( reinterpret_cast<q15_t *>(rtpDataTxFullCrypt), //Вместо шифрования
 //                          reinterpret_cast<q15_t *>(rtpDataTxFull),
 //                          BUFFER_AUDIO_SIZE_RTP / 2);
+
             xorEncoding((const char *)rtpDataTxFullCrypt, BUFFER_AUDIO_SIZE_RTP , (const char*)keyXor, 32, tempFull);
             xorEncoding(tempFull, BUFFER_AUDIO_SIZE_RTP , (const char*)keyXor, 32, (char *)rtpDataTxFull );
 
@@ -670,12 +671,13 @@ term("--- threadAudioRxHalf ---")
 //            SAI::getInstance()->cryptTxComplete = false;
 //            osMutexRelease(mutexCryptTxId);
 
-//            arm_copy_q15( reinterpret_cast<q15_t *>(rtpDataTxHalfCrypt), //Вместо шифрования
-//                          reinterpret_cast<q15_t *>(rtpDataTxHalf),
-//                          BUFFER_AUDIO_SIZE_RTP / 2);
-            xorEncoding((const char *)rtpDataTxFullCrypt, BUFFER_AUDIO_SIZE_RTP , (const char*)keyXor, 32, tempHalf);
-            xorEncoding(tempHalf, BUFFER_AUDIO_SIZE_RTP , (const char*)keyXor, 32, (char *)rtpDataTxFull );
-
+            arm_copy_q15( reinterpret_cast<q15_t *>(rtpDataTxHalfCrypt), //Вместо шифрования
+                          reinterpret_cast<q15_t *>(rtpDataTxHalf),
+                          BUFFER_AUDIO_SIZE_RTP / 2);
+//osMutexWait(mutexCryptTxId, osWaitForever);
+//            xorEncoding((const char *)rtpDataTxHalfCrypt, BUFFER_AUDIO_SIZE_RTP , (const char*)keyXor, 32, tempHalf);
+//            xorEncoding(tempHalf, BUFFER_AUDIO_SIZE_RTP , (const char*)keyXor, 32, (char *)rtpDataTxHalf);
+//osMutexRelease(mutexCryptTxId);
             osSignalSet(sendThreadHalfId, 0x01);
         }
         else
