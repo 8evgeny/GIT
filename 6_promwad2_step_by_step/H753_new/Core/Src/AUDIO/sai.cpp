@@ -11,7 +11,7 @@
 #include "rtp.h"
 #include "net_sockets.h"
 #include <cstdlib>
-
+#include "testTasks.h"
 #include <cmath>
 #include "arm_math.h"
 
@@ -26,6 +26,7 @@ static uint8_t timerCount = 0;
 static osTimerId ringToneTimer_id;
 static RingToneType toneType = RingToneType::RING_TONE;
 extern uint8_t ledIndicateAsterisk;
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -618,6 +619,7 @@ void threadAudioRxFull(void const *arg)
 {
 osDelay(500);
 term("--- threadAudioRxFull ---")
+    char * tempFull = new char[BUFFER_AUDIO_SIZE_RTP];
     UNUSED(arg);
     while (1) {
         if (osSemaphoreWait(semaphoreRxFullId, 0) == osOK) {
@@ -633,9 +635,11 @@ term("--- threadAudioRxFull ---")
 //            SAI::getInstance()->cryptTxComplete = false;
 //            osMutexRelease(mutexCryptTxId);
 
-            arm_copy_q15( reinterpret_cast<q15_t *>(rtpDataTxFullCrypt), //Вместо шифрования
-                          reinterpret_cast<q15_t *>(rtpDataTxFull),
-                          BUFFER_AUDIO_SIZE_RTP / 2);
+//            arm_copy_q15( reinterpret_cast<q15_t *>(rtpDataTxFullCrypt), //Вместо шифрования
+//                          reinterpret_cast<q15_t *>(rtpDataTxFull),
+//                          BUFFER_AUDIO_SIZE_RTP / 2);
+            xorEncoding((const char *)rtpDataTxFullCrypt, BUFFER_AUDIO_SIZE_RTP , (const char*)keyXor, 32, tempFull);
+            xorEncoding(tempFull, BUFFER_AUDIO_SIZE_RTP , (const char*)keyXor, 32, (char *)rtpDataTxFull );
 
             osSignalSet(sendThreadFullId, 0x02);
         } else {
@@ -648,6 +652,7 @@ void threadAudioRxHalf(void const *arg)
 {
 osDelay(600);
 term("--- threadAudioRxHalf ---")
+    char * tempHalf = new char[BUFFER_AUDIO_SIZE_RTP];
     UNUSED(arg);
     while (1)
     {
@@ -665,10 +670,11 @@ term("--- threadAudioRxHalf ---")
 //            SAI::getInstance()->cryptTxComplete = false;
 //            osMutexRelease(mutexCryptTxId);
 
-            arm_copy_q15( reinterpret_cast<q15_t *>(rtpDataTxHalfCrypt), //Вместо шифрования
-                          reinterpret_cast<q15_t *>(rtpDataTxHalf),
-                          BUFFER_AUDIO_SIZE_RTP / 2);
-
+//            arm_copy_q15( reinterpret_cast<q15_t *>(rtpDataTxHalfCrypt), //Вместо шифрования
+//                          reinterpret_cast<q15_t *>(rtpDataTxHalf),
+//                          BUFFER_AUDIO_SIZE_RTP / 2);
+            xorEncoding((const char *)rtpDataTxFullCrypt, BUFFER_AUDIO_SIZE_RTP , (const char*)keyXor, 32, tempHalf);
+            xorEncoding(tempHalf, BUFFER_AUDIO_SIZE_RTP , (const char*)keyXor, 32, (char *)rtpDataTxFull );
 
             osSignalSet(sendThreadHalfId, 0x01);
         }

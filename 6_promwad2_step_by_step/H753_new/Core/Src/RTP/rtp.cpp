@@ -50,9 +50,6 @@ uint8_t rtpDataTxFull[BUFFER_AUDIO_SIZE_RTP];
 
 RTP_HandleTypeDef rtpStructSend; /* RTP structure */
 
-const uint32_t keyXor[8] = {
-    0x10842108, 0xababefef, 0xfe42fe87, 0x23567adc, 0xcefa13f5, 0xabcdef, 0xfefefefe, 0x42435788
-};
 static uint16_t lostPackCounter = 0;
 constexpr static uint16_t MAX_NUMBER_LOST_PACK = 100;//50;
 
@@ -386,7 +383,7 @@ term("--- rtpSendPacketsFull ---")
  */
 void rtpRecvThread(void const *arg)
 {
-    char message[100];
+//    char message[100];
     struct sockaddr_in local;
     struct sockaddr_in from;
     int                fromlen;

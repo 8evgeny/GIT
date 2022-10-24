@@ -5,7 +5,9 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-
+const uint32_t keyXor[8] = {
+    0x10842108, 0xababefef, 0xfe42fe87, 0x23567adc, 0xcefa13f5, 0xabcdef, 0xfefefefe, 0x42435788
+};
 void simpleLedTest1_RTOS(void const *argument);
 void simpleLedTest2_RTOS(void const *argument);
 void simpleLedTest3_RTOS(void const *argument);
