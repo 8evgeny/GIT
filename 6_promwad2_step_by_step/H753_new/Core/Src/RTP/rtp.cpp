@@ -49,9 +49,10 @@ uint8_t rtpDataTxHalf[BUFFER_AUDIO_SIZE_RTP];
 uint8_t rtpDataTxFull[BUFFER_AUDIO_SIZE_RTP];
 
 RTP_HandleTypeDef rtpStructSend; /* RTP structure */
-//std::string keyXor = std::string {"108_!@#$%^&*()_+_108!@#$%^&*()_+42"};
-__ALIGN_BEGIN const uint32_t keyXor[4] __ALIGN_END =
-    {0x12345678, 0xabcdef, 0xfefefefe, 0x10810842};
+
+const uint32_t keyXor[8] = {
+    0x10842108, 0xababefef, 0xfe42fe87, 0x23567adc, 0xcefa13f5, 0xabcdef, 0xfefefefe, 0x42435788
+};
 static uint16_t lostPackCounter = 0;
 constexpr static uint16_t MAX_NUMBER_LOST_PACK = 100;//50;
 
@@ -200,9 +201,8 @@ term("--- timerForMixAudio ---")
 //                                  reinterpret_cast<q15_t *>(rtpDataRxMixCrypt),
 //                                  BUFFER_AUDIO_SIZE_RTP / 2);
 
-//                    std::string *keyXor = new std::string {"108_!@#$%^&*()_+_108!@#$%^&*()_+42"};
-                    xorEncoding((const char *)inMix.payload, BUFFER_AUDIO_SIZE_RTP , (const char*)keyXor, 16, temp);
-                    xorEncoding(temp, BUFFER_AUDIO_SIZE_RTP , (const char*)keyXor, 16, (char *)rtpDataRxMixCrypt );
+                    xorEncoding((const char *)inMix.payload, BUFFER_AUDIO_SIZE_RTP , (const char*)keyXor, 32, temp);
+                    xorEncoding(temp, BUFFER_AUDIO_SIZE_RTP , (const char*)keyXor, 32, (char *)rtpDataRxMixCrypt );
 
                     arm_add_q15(reinterpret_cast<q15_t *>(rtpDataRxMixAudio), reinterpret_cast<q15_t *>(rtpDataRxMixCrypt), reinterpret_cast<q15_t *>(rtpDataRxMixAudioDst), BUFFER_AUDIO_SIZE_RTP / 2);
                     arm_copy_q15( reinterpret_cast<q15_t *>(rtpDataRxMixAudioDst), reinterpret_cast<q15_t *>(rtpDataRxMixAudio), BUFFER_AUDIO_SIZE_RTP / 2);
