@@ -9,8 +9,7 @@ extern "C" {
 //    0x10842108, 0xababefef, 0xfe42fe87, 0x23567adc, 0xcefa13f5, 0xabcdef, 0xfefefefe, 0x42435788
 //};
 const uint8_t key [16]{'1','2','3','4','5','6','7','8','1','2','3','4','5','6','7','8'};
-//const uint8_t key [16]{'1','6','3','4','5','6','7','8','8','2','3','4','5','s','7','8'};
-//const uint8_t key [16]{'a','s','d','5','3','1','f','s','c','u','.','^','A','i','d','N'};
+
 void simpleLedTest1_RTOS(void const *argument);
 void simpleLedTest2_RTOS(void const *argument);
 void simpleLedTest3_RTOS(void const *argument);

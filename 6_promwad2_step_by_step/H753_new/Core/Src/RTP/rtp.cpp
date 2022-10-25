@@ -448,16 +448,12 @@ void rtpRecvThread(void const *arg)
 //                            xorEncoding(tempRecv, BUFFER_AUDIO_SIZE_RTP , (const char*)key, 16, (char *)in.payload );
 
                             xorEncoding((char *)rtpRecvPacket + sizeof(rtp_hdr), BUFFER_AUDIO_SIZE_RTP , (const char*)key, 16, (char *)in.payload);
+                            //Вычисляем CRC полученного пакета
                             uint32_t crcCalc = HAL_CRC_Calculate(&hcrc, (uint32_t *)in.payload, BUFFER_AUDIO_SIZE_RTP/4);
                             //Теперь сравниваем CRC
-                            uint32_t crcRecv = in.header.crc;
-                            if (crcCalc == crcRecv)
+                            if (crcCalc != in.header.crc)
                             {
-                                term2("CRC OK")
-                            }
-                            else
-                            {
-                                term2("CRC fail")
+                                std::fill(in.payload, in.payload + BUFFER_AUDIO_SIZE_RTP / 2, 0);
                             }
                             osMutexWait(mutexMixRtpRxId, osWaitForever);
                             auto it = std::find(SAI::getInstance()->ssrc.begin(), SAI::getInstance()->ssrc.end(), in.header.ssrc);
