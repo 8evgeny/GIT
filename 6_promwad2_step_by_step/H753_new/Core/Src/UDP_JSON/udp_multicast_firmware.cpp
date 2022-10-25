@@ -246,8 +246,16 @@ static char FLASHPath[4]; /*! FLASH logical drive path */
                 for (auto i=0; i < 16; ++i) { sprintf(tmp,"%1.1x",calculatedMd5[i]); RS232::getInstance().term <<tmp;}
                 RS232::getInstance().term <<"\r\n";
 
+                //Для тестов - выводим DataFirmware
+//                for (uint32_t i = 0; i < firmwareSize; ++i)
+//                {
+//                    RS232::getInstance().term << DataFirmware[i];
+//                }
+//                RS232::getInstance().term << "\r\n";
+                std::string align = "12345678";
                 if(strncmp((char*)receivedHashKeyBin, (char*)calculatedMd5, 16) == 0)
                 {
+                    term2("MD5 OK")
                     newFirmwareWrite(firmwareSize);   //md5 совпали - пишем прошивку
                 }
                 else
