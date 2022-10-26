@@ -17,6 +17,7 @@
 #include "dp83848.h"
 #include "trcRecorder.h"
 #include "MD5.h"
+#include "uid.h"
 
 extern void flashErraseBank2();
 
@@ -81,6 +82,10 @@ uint8_t LinkStatus;
 uint8_t inMcastGroup;
 osMutexId mutexEth_id;
 osMutexDef (mutexEth);
+char uid[25];
+uint32_t uid1;
+uint32_t uid2;
+uint32_t uid3;
 extern uint8_t volatile asteriskPressed;
 uint8_t DataFirmware[NUM_FIRMWARE_PACKET][SIZE_FIRMWARE_BASE]
     __attribute__((section(".ExtRamData")))
@@ -470,7 +475,11 @@ term2("Board SL1")
     term2(temp)
     printMd5(0, firmwareSize);
 
-    testXOR();
+//    testXOR();
+term2("Get UID");
+    UID::getInstance().getUID();
+    sprintf(temp,"UID - %s",uid);
+    term2(temp)
 
     if (boardType == sc4)
     {

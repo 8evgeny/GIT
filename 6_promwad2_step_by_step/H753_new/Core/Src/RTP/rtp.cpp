@@ -44,7 +44,10 @@ extern osThreadId sendThreadFullId;
 extern osThreadId sendThreadMixAudioId;
 int                sockRtpRecv;
 struct ip_mreq     ipmreqRtpRecv;
-
+extern char uid[25];
+extern uint32_t uid1;
+extern uint32_t uid2;
+extern uint32_t uid3;
 uint8_t rtpDataTxHalf[BUFFER_AUDIO_SIZE_RTP];
 uint8_t rtpDataTxFull[BUFFER_AUDIO_SIZE_RTP];
 
@@ -322,6 +325,10 @@ term("--- rtpSendPacketsHalf ---")
     rtphdr->payloadtype = 0;
     rtphdr->ssrc = PP_HTONL(inet_addr(ThisStation_.ip));
     rtphdr->timestamp = htonl(ntohl(rtphdr->timestamp) + RTP_TIMESTAMP);
+    strcpy(rtphdr->uid, uid);
+//    rtphdr->uid1 = uid1;
+//    rtphdr->uid2 = uid2;
+//    rtphdr->uid3 = uid3;
 
     /* send RTP stream packets */
 //    rtpStructSend.rtp_data = reinterpret_cast<char *>(rtpDataTxHalf);
@@ -362,7 +369,10 @@ term("--- rtpSendPacketsFull ---")
     rtphdr->payloadtype = 0;
     rtphdr->ssrc = PP_HTONL(inet_addr(ThisStation_.ip));
     rtphdr->timestamp = htonl(ntohl(rtphdr->timestamp) + RTP_TIMESTAMP);
-
+    strcpy(rtphdr->uid, uid);
+//    rtphdr->uid1 = uid1;
+//    rtphdr->uid2 = uid2;
+//    rtphdr->uid3 = uid3;
     /* send RTP stream packets */
 //    rtpStructSend.rtp_data = reinterpret_cast<char *>(rtpDataTxFull);
 //    xorEncoding((char *)rtpDataTxFull, BUFFER_AUDIO_SIZE_RTP , (const char*)key, 16, tempSendPacketsFull);
