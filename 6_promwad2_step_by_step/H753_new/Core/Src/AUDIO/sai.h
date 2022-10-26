@@ -39,6 +39,9 @@ struct rtp_hdr {
     PACK_STRUCT_FIELD(uint32_t timestamp);
     PACK_STRUCT_FIELD(uint32_t ssrc);
     PACK_STRUCT_FIELD(uint32_t crc);
+    PACK_STRUCT_FIELD(uint32_t uid1);
+    PACK_STRUCT_FIELD(uint32_t uid2);
+    PACK_STRUCT_FIELD(uint32_t uid3);
 } PACK_STRUCT_STRUCT;
 PACK_STRUCT_END
 

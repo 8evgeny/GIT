@@ -83,6 +83,9 @@ uint8_t inMcastGroup;
 osMutexId mutexEth_id;
 osMutexDef (mutexEth);
 char uid[25];
+uint32_t uid1;
+uint32_t uid2;
+uint32_t uid3;
 extern uint8_t volatile asteriskPressed;
 uint8_t DataFirmware[NUM_FIRMWARE_PACKET][SIZE_FIRMWARE_BASE]
     __attribute__((section(".ExtRamData")))
