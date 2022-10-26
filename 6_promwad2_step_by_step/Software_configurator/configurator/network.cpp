@@ -391,7 +391,14 @@ void AppCore::startLoadFirmware(const QString &stationID, bool state)
             QString dataStr = QString::fromLocal8Bit(strByte.c_str());
 
             firmware.insert("cmd", "update");
-            firmware.insert("station", QString(stationID).right(3));
+            if (!state)
+            {
+                firmware.insert("station", QString(stationID).right(3));
+            }
+            else
+            {
+                firmware.insert("station", "all");
+            }
             firmware.insert("ver", versionFirmware.toInt());
             firmware.insert("sub", subVersionFirmware.toInt());
             firmware.insert("size", dataStr.count());
@@ -407,17 +414,20 @@ void AppCore::startLoadFirmware(const QString &stationID, bool state)
             if (ok) {
                 qDebug() << json;
                 if (state) {
-                    sendDataByUdpMulticast(json, groupAddress);
-                    QThread::msleep(100);
-                    if (currentState == 0) QThread::msleep(500);
-                    sendDataByUdpMulticast(json, groupAddress);
-                    QThread::msleep(100);
-                    sendDataByUdpMulticast(json, groupAddress);
-                    QThread::msleep(100);
-                    sendDataByUdpMulticast(json, groupAddress);
-                    QThread::msleep(100);
-                    sendDataByUdpMulticast(json, groupAddress);
-                    QThread::msleep(100);
+                    sendDataByUdp(json, "232.0.0.0");
+                    QThread::msleep(120);
+                    if (currentState == 0) QThread::msleep(1000);
+//                    sendDataByUdpMulticast(json, groupAddress);
+//                    QThread::msleep(120);
+//                    if (currentState == 0) QThread::msleep(500);
+//                    sendDataByUdpMulticast(json, groupAddress);
+//                    QThread::msleep(100);
+//                    sendDataByUdpMulticast(json, groupAddress);
+//                    QThread::msleep(100);
+//                    sendDataByUdpMulticast(json, groupAddress);
+//                    QThread::msleep(100);
+//                    sendDataByUdpMulticast(json, groupAddress);
+//                    QThread::msleep(100);
                 }
                 else
                 {

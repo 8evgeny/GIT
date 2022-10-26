@@ -348,9 +348,10 @@ void parsingFirmwareFromJson(JsonDocument &doc)
     /* FatFs function common result code */
 //    const char *cmd = doc["cmd"];
 //    const char *station = doc["station"];
-    if ((doc["cmd"] == "update") && ((uint8_t)doc["station"] == (uint8_t)ThisStation_.id))
+    if ((doc["cmd"] == "update")
+        && (((uint8_t)doc["station"] == (uint8_t)ThisStation_.id)
+            ||(doc["station"] == "all"))) //Заливаем на все устройства
     {
-
         int versionFirmware = doc["versionFirmware"];
         int subVersionFirmware = doc["subVersionFirmware"];
         int size = doc["size"];
