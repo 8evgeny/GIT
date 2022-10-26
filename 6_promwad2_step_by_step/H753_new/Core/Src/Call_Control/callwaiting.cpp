@@ -7,6 +7,8 @@
 #include "conferencecall.h"
 #include "telephonecall.h"
 #include "rs232.h"
+#include "rs232_printf.h"
+
 extern SAI_HandleTypeDef audioTxSai;
 extern uint16_t lastDirectSubject;
 
@@ -110,26 +112,70 @@ term2(msg)
         {//Когда первым следует Астериск то режим обычного телефонного вызова
          //Или повторного вызова - тут нужно отслеживать длительность удержания *
 
-osDelay(timeWiteForAsteriskRecall);
+//osDelay(timeWiteForAsteriskRecall);
 
-            if (asteriskPressed < numberPressedAsteriskForRecall)
-            {
-//term2("ordinaryTelephoneCall")
-                context_->ordinaryTelephoneCall = true;
-                context_->assignedData.key = context_->subjectKey.key;
-                context_->assignedData.priority = context_->subjectKey.priority;
-                //            context_->messageData.field.prevPriority = 4;
-                switchLed(context_->subjectKey.key, true, 0,0,0, GPIO::GREEN );
-                context_->TransitionTo(new TelephoneCall);
+//            if (asteriskPressed < numberPressedAsteriskForRecall)
+//            {
+////term2("ordinaryTelephoneCall")
+//                context_->ordinaryTelephoneCall = true;
+//                context_->assignedData.key = context_->subjectKey.key;
+//                context_->assignedData.priority = context_->subjectKey.priority;
+//                //            context_->messageData.field.prevPriority = 4;
+//                switchLed(context_->subjectKey.key, true, 0,0,0, GPIO::GREEN );
+//                context_->TransitionTo(new TelephoneCall);
 
-            }
-            else
-            {
-// term2("recall")
+//            }
+//            else
+//            {
+ term2("recall")
                 asteriskPressed = 0;
                 asteriskRecall = true;
+
+//Перенес из Симплекс для уменьшения задержки
+                if (asteriskRecall)
+                {
+term2("Start Recall Simplex Telephone")
+                            uint16_t distSubject = lastDirectSubject;
+
+                        const int capacity = JSON_OBJECT_SIZE(6) + JSON_ARRAY_SIZE(100);
+                        DynamicJsonDocument doc (capacity);
+                        CallControl_->messageData.field.prevDistId = distSubject;
+
+                        if (1000 > distSubject && distSubject > 99)
+                        {
+                            //                CallControl_->sendRequest(CallControl::Direct, CallControl::Request::LINK, 300);
+                            doc["Own_Id"] = ThisStation_.id;
+                            doc["Dist_Id"].add(distSubject);
+                            doc["Call_Type"] = CallControl_->Direct;
+                            doc["Priority"] = CallControl_->assignedData.priority;
+                            doc["Link_Data"] = 0xFF;
+                            doc["Direct_Link_Mode"] = 1;
+                            //            CallControl_->sendJson(doc, capacity);
+
+                            CallControl_->requestCount = 0;
+                            std::fill(CallControl_->messageData.txBuff, CallControl_->messageData.txBuff + CallControl_->messageData.txBuffSize, 0);
+                            if (serializeJson(doc, CallControl_->messageData.txBuff, capacity) > 0)
+                            {
+                                sendUdpMulticast(CallControl_->messageData.txBuff, strlen(CallControl_->messageData.txBuff));
+                            }
+                            //                CallControl_->requestCount++;
+
+                            CallControl_->osTimer.start(CallControl_->osTimer.request_timerId,
+                                                        CallControl_->osTimer.request_timerStatus,
+                                                        200);
+
+                            //Находим есть ли в конфиге абонент subjectDirectTelephoneCall
+                            uint8_t key = context_->getKey(distSubject);
+                            sprintf(msg,"key= %d\r\n ", key);
+                            RS232Puts(msg);
+                            switchLed(key, true, 0, 0, 0, GPIO::GREEN);
+                        }
+
+                }
+
                 context_->TransitionTo(new SimplexDirectCall);
-            }
+//                context_->sendRequest(CallControl::Direct, CallControl::Request::LINK, TIMEOUT);
+//            }
         }
 
 //Здесь код обработки Simplex telephone call Контекст переключаю сразу но взвожу другой флаг

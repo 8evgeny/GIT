@@ -118,15 +118,11 @@ void handleRelasedButtonTimer_Callback(void const *arg)
             || (asteriskRecall && asteriskReleasedAfterLongTime)
             )
         {
-            asteriskRecall = false;
-term2("handleRelasedButton - Asterisk")
-            CallControl_->simplexTelephoneCall = false;
-            //Переключаем контекст
-            CallControl_->TransitionTo(new CallWaiting);
-
-            //Останавливаем rtp
-            CallControl_->removeRtp();
-
+            //Гасим led
+            uint8_t key = CallControl_->getKey(subjectDirectTelephoneCall);
+            switchLed(key, false);
+            key = CallControl_->getKey(lastDirectSubject);
+            switchLed(key, false);
             //Отправляем message
             uint16_t distSubject = subjectDirectTelephoneCall;
             const int capacity = JSON_OBJECT_SIZE(6) + JSON_ARRAY_SIZE(100);
@@ -146,6 +142,15 @@ term2("handleRelasedButton - Asterisk")
             {
                 sendUdpMulticast(CallControl_->messageData.txBuff, strlen(CallControl_->messageData.txBuff));
             }
+            asteriskRecall = false;
+term2("handleRelasedButton - Asterisk")
+            CallControl_->simplexTelephoneCall = false;
+
+
+            //Останавливаем rtp
+            CallControl_->removeRtp();
+
+
             //                CallControl_->requestCount++;
 
             CallControl_->osTimer.start(CallControl_->osTimer.request_timerId,
@@ -154,17 +159,13 @@ term2("handleRelasedButton - Asterisk")
 
             //Если занято - останавливаем сигнал
             stopRingTone();
-            //Гасим led
-            uint8_t key = CallControl_->getKey(subjectDirectTelephoneCall);
-            switchLed(key, false);
-            key = CallControl_->getKey(lastDirectSubject);
-            switchLed(key, false);
-
 
             //Обнуляем адрес и выключаем микрофон
             subjectDirectTelephoneCall = 0;
             CallControl_->microphone.stop();
             CallControl_->resetData();
+            //Переключаем контекст
+            CallControl_->TransitionTo(new CallWaiting);
         }
 
     }
@@ -197,46 +198,46 @@ void dialingTimer_Callback(void const *arg)
     uint16_t distSubject = 0;
     char msg[100];
     //old telefone call
-    if (size > 2 && CallControl_->ordinaryTelephoneCall)
-    {
-        CallControl_->ordinaryTelephoneCall = false;
-        for (uint8_t i = 0; i < size; ++i)
-        {//distSubject - абонент набранный на кейпаде
-            distSubject += static_cast<uint16_t> (pow(10, (size-i-1)) * CallControl_->telephoneDynamicStorage[i]);
-        }
-        sprintf(msg,"abonent = %d",distSubject);
-term2(msg)
+//    if (size > 2 && CallControl_->ordinaryTelephoneCall)
+//    {
+//        CallControl_->ordinaryTelephoneCall = false;
+////        for (uint8_t i = 0; i < size; ++i)
+////        {//distSubject - абонент набранный на кейпаде
+////            distSubject += static_cast<uint16_t> (pow(10, (size-i-1)) * CallControl_->telephoneDynamicStorage[i]);
+////        }
+////        sprintf(msg,"abonent = %d",distSubject);
+////term2(msg)
 
-        CallControl_->messageData.field.prevDistId = distSubject;
+////        CallControl_->messageData.field.prevDistId = distSubject;
 
-        if (1000 > distSubject && distSubject > 99)
-        {
-            doc["Own_Id"] = ThisStation_.id;
-            doc["Dist_Id"].add(distSubject);
-            doc["Call_Type"] = CallControl_->Telephone;
-            doc["Priority"] = CallControl_->assignedData.priority;
-            doc["Link_Data"] = 0xFF;
-//            CallControl_->sendJson(doc, capacity);
+////        if (1000 > distSubject && distSubject > 99)
+////        {
+////            doc["Own_Id"] = ThisStation_.id;
+////            doc["Dist_Id"].add(distSubject);
+////            doc["Call_Type"] = CallControl_->Telephone;
+////            doc["Priority"] = CallControl_->assignedData.priority;
+////            doc["Link_Data"] = 0xFF;
+//////            CallControl_->sendJson(doc, capacity);
 
-            CallControl_->requestCount = 0;
-            std::fill(CallControl_->messageData.txBuff, CallControl_->messageData.txBuff + CallControl_->messageData.txBuffSize, 0);
-            if (serializeJson(doc, CallControl_->messageData.txBuff, capacity) > 0) {
-                sendUdpMulticast(CallControl_->messageData.txBuff, strlen(CallControl_->messageData.txBuff));
-            }
-            CallControl_->requestCount++;
+////            CallControl_->requestCount = 0;
+////            std::fill(CallControl_->messageData.txBuff, CallControl_->messageData.txBuff + CallControl_->messageData.txBuffSize, 0);
+////            if (serializeJson(doc, CallControl_->messageData.txBuff, capacity) > 0) {
+////                sendUdpMulticast(CallControl_->messageData.txBuff, strlen(CallControl_->messageData.txBuff));
+////            }
+////            CallControl_->requestCount++;
 
-//            CallControl_->copyRecvBuff(CallControl_->serviceData->recvBuffCopy,
-//                    CallControl_->outputJsonBuff);
-            CallControl_->osTimer.start(CallControl_->osTimer.request_timerId,
-                    CallControl_->osTimer.request_timerStatus,
-                    200);
-        }
+//////            CallControl_->copyRecvBuff(CallControl_->serviceData->recvBuffCopy,
+//////                    CallControl_->outputJsonBuff);
+////            CallControl_->osTimer.start(CallControl_->osTimer.request_timerId,
+////                    CallControl_->osTimer.request_timerStatus,
+////                    200);
+////        }
 
-        CallControl_->telephoneDynamicStorage.clear();
+//        CallControl_->telephoneDynamicStorage.clear();
 
-    }
+//    }
     //new telefone call
-    else if (size > 2 && CallControl_->simplexTelephoneCall)
+    if (size > 2 && CallControl_->simplexTelephoneCall)
     {
         for (uint8_t i = 0; i < size; ++i)
         {//distSubject - абонент набранный на кейпаде
@@ -253,20 +254,22 @@ term2(msg)
 //        CallControl_->sendRequest(CallControl::Direct, CallControl::Request::LINK, 300);
     }
 
-    else if (CallControl_->ordinaryTelephoneCall)
-    {
-        CallControl_->ordinaryTelephoneCall = false;
-        switchLed(CallControl_->assignedData.key, false);
-        switchLed(CallControl_->subjectKey.key, false);
-        stopDtmfTone();
-        CallControl_->resetData();
-        CallControl_->telephoneDynamicStorage.clear();
-//        CallControl_->osTimer.stop( CallControl_->osTimer.telephone_timerId,
-//                CallControl_->osTimer.telephone_timerStatus);
-        CallControl_->TransitionTo(new CallWaiting);
-    }
+//    else if (CallControl_->ordinaryTelephoneCall)
+//    {
+//term2("ordinaryTelephoneCall")
+//        CallControl_->ordinaryTelephoneCall = false;
+//        switchLed(CallControl_->assignedData.key, false);
+//        switchLed(CallControl_->subjectKey.key, false);
+//        stopDtmfTone();
+//        CallControl_->resetData();
+//        CallControl_->telephoneDynamicStorage.clear();
+////        CallControl_->osTimer.stop( CallControl_->osTimer.telephone_timerId,
+////                CallControl_->osTimer.telephone_timerStatus);
+//        CallControl_->TransitionTo(new CallWaiting);
+//    }
     else if (CallControl_->simplexTelephoneCall)
     {
+term2("simplexTelephoneCall")
         CallControl_->simplexTelephoneCall = false;
         stopDtmfTone();
         CallControl_->resetData();
