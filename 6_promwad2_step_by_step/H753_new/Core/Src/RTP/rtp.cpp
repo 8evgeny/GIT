@@ -4,7 +4,7 @@
 #include <algorithm>
 #include "rs232.h"
 #include "../UDP_JSON/udp_multicast.h"
-
+#include "testTasks.h"
 #include "stm32h7xx_hal_cryp.h"
 #include "json.h"
 
@@ -42,7 +42,6 @@ extern CRYP_HandleTypeDef hcryp;
 extern osThreadId sendThreadHalfId;
 extern osThreadId sendThreadFullId;
 extern osThreadId sendThreadMixAudioId;
-
 int                sockRtpRecv;
 struct ip_mreq     ipmreqRtpRecv;
 
@@ -59,12 +58,13 @@ static uint16_t rtpDataRxMixCrypt[BUFFER_AUDIO_SIZE_RTP / 2];
 static uint16_t rtpDataRxMixAudio[BUFFER_AUDIO_SIZE_RTP / 2];
 static uint16_t rtpDataRxMixAudioDst[BUFFER_AUDIO_SIZE_RTP / 2];
 static RtpPackages inMix;
-
+extern CRC_HandleTypeDef hcrc;
 _Noreturn void timerForMixAudio(void const *arg)
 {
 osDelay(400);
 term("--- timerForMixAudio ---")
     UNUSED(arg);
+//    char * temp = new char[BUFFER_AUDIO_SIZE_RTP];
     while (1) {
         using SsrcIndex = struct alignas (4) {
             uint16_t seqNum;
@@ -198,6 +198,9 @@ term("--- timerForMixAudio ---")
                                   reinterpret_cast<q15_t *>(rtpDataRxMixCrypt),
                                   BUFFER_AUDIO_SIZE_RTP / 2);
 
+//                    xorEncoding((const char *)inMix.payload, BUFFER_AUDIO_SIZE_RTP , (const char*)key, 16, temp);
+//                    xorEncoding(temp, BUFFER_AUDIO_SIZE_RTP , (const char*)key, 16, (char *)rtpDataRxMixCrypt );
+
                     arm_add_q15(reinterpret_cast<q15_t *>(rtpDataRxMixAudio), reinterpret_cast<q15_t *>(rtpDataRxMixCrypt), reinterpret_cast<q15_t *>(rtpDataRxMixAudioDst), BUFFER_AUDIO_SIZE_RTP / 2);
                     arm_copy_q15( reinterpret_cast<q15_t *>(rtpDataRxMixAudioDst), reinterpret_cast<q15_t *>(rtpDataRxMixAudio), BUFFER_AUDIO_SIZE_RTP / 2);
                 }
@@ -312,7 +315,7 @@ term("--- rtpSendPacketsHalf ---")
     struct rtp_hdr *rtphdr;            /* RTP header */
     uint8_t *rtp_payload;              /* RTP payload */
     int rtp_payload_size = 0;          /* RTP payload size in the current packet */
-
+//    char tempSendPacketsHalf [1280];
     /* prepare RTP packet */
     rtphdr = reinterpret_cast<struct rtp_hdr *>(rtpStructSend.rtp_send_packet);
     rtphdr->version = RTP_VERSION;
@@ -321,8 +324,12 @@ term("--- rtpSendPacketsHalf ---")
     rtphdr->timestamp = htonl(ntohl(rtphdr->timestamp) + RTP_TIMESTAMP);
 
     /* send RTP stream packets */
-    rtpStructSend.rtp_data = reinterpret_cast<char *>(rtpDataTxHalf);
+//    rtpStructSend.rtp_data = reinterpret_cast<char *>(rtpDataTxHalf);
+//    xorEncoding((char *)rtpDataTxHalf, BUFFER_AUDIO_SIZE_RTP , (const char*)key, 16, tempSendPacketsHalf);
+//    xorEncoding(tempSendPacketsHalf, BUFFER_AUDIO_SIZE_RTP , (const char*)key, 16, rtpStructSend.rtp_data );
 
+    rtphdr->crc = HAL_CRC_Calculate(&hcrc, (uint32_t *)rtpDataTxHalf, BUFFER_AUDIO_SIZE_RTP/4);
+    xorEncoding((char *)rtpDataTxHalf, BUFFER_AUDIO_SIZE_RTP , (const char*)key, 16, rtpStructSend.rtp_data);
     /* Set a payload pointer */
     rtp_payload = rtpStructSend.rtp_send_packet + sizeof(struct rtp_hdr);
 
@@ -348,7 +355,7 @@ term("--- rtpSendPacketsFull ---")
     struct rtp_hdr *rtphdr;            /* RTP header */
     uint8_t *rtp_payload;              /* RTP payload */
     int rtp_payload_size = 0;          /* RTP payload size in the current packet */
-
+//    char * tempSendPacketsFull = new char[1280];
     /* prepare RTP packet */
     rtphdr = reinterpret_cast<struct rtp_hdr *>(rtpStructSend.rtp_send_packet);
     rtphdr->version = RTP_VERSION;
@@ -357,8 +364,12 @@ term("--- rtpSendPacketsFull ---")
     rtphdr->timestamp = htonl(ntohl(rtphdr->timestamp) + RTP_TIMESTAMP);
 
     /* send RTP stream packets */
-    rtpStructSend.rtp_data = reinterpret_cast<char *>(rtpDataTxFull);
+//    rtpStructSend.rtp_data = reinterpret_cast<char *>(rtpDataTxFull);
+//    xorEncoding((char *)rtpDataTxFull, BUFFER_AUDIO_SIZE_RTP , (const char*)key, 16, tempSendPacketsFull);
+//    xorEncoding(tempSendPacketsFull, BUFFER_AUDIO_SIZE_RTP , (const char*)key, 16, rtpStructSend.rtp_data );
 
+    rtphdr->crc = HAL_CRC_Calculate(&hcrc, (uint32_t *)rtpDataTxFull, BUFFER_AUDIO_SIZE_RTP/4);
+    xorEncoding((char *)rtpDataTxFull, BUFFER_AUDIO_SIZE_RTP , (const char*)key, 16, rtpStructSend.rtp_data);
     /* Set a payload pointer */
     rtp_payload = rtpStructSend.rtp_send_packet + sizeof(struct rtp_hdr);
 
@@ -380,7 +391,7 @@ term("--- rtpSendPacketsFull ---")
  */
 void rtpRecvThread(void const *arg)
 {
-    char message[100];
+//    char message[100];
     struct sockaddr_in local;
     struct sockaddr_in from;
     int                fromlen;
@@ -388,7 +399,7 @@ void rtpRecvThread(void const *arg)
     u32_t              rtp_stream_address;
     int                result;
     RtpPackages in;
-
+//    char * tempRecv = new char[1280];
     /* initialize RTP stream address */
     rtp_stream_address = RTP_STREAM_ADDRESS;
 
@@ -431,8 +442,19 @@ void rtpRecvThread(void const *arg)
                             //copy header
                             arm_copy_q7(reinterpret_cast<q7_t *>(rtpRecvPacket), reinterpret_cast<q7_t *>(&in.header),  sizeof(rtp_hdr));
                             //copy payload
-                            arm_copy_q7(reinterpret_cast<q7_t *>(rtpRecvPacket + sizeof(rtp_hdr)), reinterpret_cast<q7_t *>(in.payload), BUFFER_AUDIO_SIZE_RTP);
+//                            arm_copy_q7(reinterpret_cast<q7_t *>(rtpRecvPacket + sizeof(rtp_hdr)),
+//                                        reinterpret_cast<q7_t *>(in.payload), BUFFER_AUDIO_SIZE_RTP);
+//                            xorEncoding((char *)rtpRecvPacket + sizeof(rtp_hdr), BUFFER_AUDIO_SIZE_RTP , (const char*)key, 16, tempRecv);
+//                            xorEncoding(tempRecv, BUFFER_AUDIO_SIZE_RTP , (const char*)key, 16, (char *)in.payload );
 
+                            xorEncoding((char *)rtpRecvPacket + sizeof(rtp_hdr), BUFFER_AUDIO_SIZE_RTP , (const char*)key, 16, (char *)in.payload);
+                            //Вычисляем CRC полученного пакета
+                            uint32_t crcCalc = HAL_CRC_Calculate(&hcrc, (uint32_t *)in.payload, BUFFER_AUDIO_SIZE_RTP/4);
+                            //Теперь сравниваем CRC
+                            if (crcCalc != in.header.crc)
+                            {
+                                std::fill(in.payload, in.payload + BUFFER_AUDIO_SIZE_RTP / 2, 0);
+                            }
                             osMutexWait(mutexMixRtpRxId, osWaitForever);
                             auto it = std::find(SAI::getInstance()->ssrc.begin(), SAI::getInstance()->ssrc.end(), in.header.ssrc);
                             if (it == SAI::getInstance()->ssrc.end()) {

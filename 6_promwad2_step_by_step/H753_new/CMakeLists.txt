@@ -22,7 +22,8 @@ add_definitions(-DHAVE_CONFIG_H)
 add_definitions(-D__FPU_PRESENT)
 
 #Логгирование
-#add_definitions(-DLogsEnable) #Полное выключение логов требуется для потока UART
+#Полное выключение логов требуется для потока UART и для передачи чистого синуса без прерывистости
+#add_definitions(-DLogsEnable)
 #add_definitions(-DLogsEnableToConsole) #более подробные логи через макрос term
 #add_definitions(-DPrintTaskLogs) #Запускает поток с логами задач
 
@@ -147,7 +148,7 @@ list(REMOVE_ITEM HAL_SRC ${CMAKE_HOME_DIRECTORY}/Drivers/STM32H7xx_HAL_Driver/Sr
 file (GLOB CMSIS_RTOS_SOURCES Middlewares/Third_Party/FreeRTOS/Source/*.c Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.c Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.c Middlewares/Third_Party/LwIP/src/core/*.c Middlewares/Third_Party/LwIP/system/OS/*.c  Middlewares/Third_Party/FreeRTOS/Source/portable/MemMang/*.c )
 file (GLOB LWIP_SRC Middlewares/Third_Party/LwIP/src/api/* Middlewares/Third_Party/LwIP/src/apps/mqtt/mqtt.c Middlewares/Third_Party/LwIP/src/core/* Middlewares/Third_Party/LwIP/src/core/ipv4/* Middlewares/Third_Party/LwIP/src/netif/* Middlewares/Third_Party/LwIP/src/netif/ppp/* )
 file (GLOB SEGGER_RTT_SOURCES ${SEGGER_RTT}/RTT/*.c ${SEGGER_RTT}/RTT/SEGGER_RTT_ASM_ARMv7M.S ${SEGGER_RTT}/Syscalls/*.c)
-file (GLOB CRYPTO_src ${CRYPTO}/*.cpp ${CRYPTO}/MD5/*.cpp  ${CRYPTO}/AES128/*.c)
+file (GLOB CRYPTO_src ${CRYPTO}/*.cpp ${CRYPTO}/MD5/*.cpp )
 
 add_library(RS232_LIB ${RS232_src} )
 add_library(Debug_LIB ${Debug_src} )

@@ -128,7 +128,7 @@ void timerCallback(void const *arg);
 void switchLEDsThread(void const *arg);
 [[ noreturn ]] void replaceTimerCallback(void const *arg);
 void readButtonThread(void const *arg);
-
+void printMd5(uint8_t bank, uint32_t len);
 #ifdef __cplusplus
 }
 #endif

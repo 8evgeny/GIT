@@ -11,7 +11,7 @@
 #include "rtp.h"
 #include "net_sockets.h"
 #include <cstdlib>
-
+#include "testTasks.h"
 #include <cmath>
 #include "arm_math.h"
 
@@ -26,6 +26,7 @@ static uint8_t timerCount = 0;
 static osTimerId ringToneTimer_id;
 static RingToneType toneType = RingToneType::RING_TONE;
 extern uint8_t ledIndicateAsterisk;
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -422,7 +423,7 @@ term("sai.cpp")
 
     constexpr uint32_t TIME_OUT = 10;
 
-    crypInit((uint32_t *)pKeyCRYP);
+//    crypInit((uint32_t *)pKeyCRYP);
 
     //Audio full initialization
     i2cInitAudio();
@@ -551,6 +552,7 @@ osDelay(200);
 term("--- threadAudioTxHalf ---")
     UNUSED(arg);
     RtpPackages in;
+//    char * tempTxHalf = new char[BUFFER_AUDIO_SIZE_RTP];
     while (1) {
         if (osSemaphoreWait(semaphoreTxHalfId, 0) == osOK)
         {
@@ -565,6 +567,9 @@ term("--- threadAudioTxHalf ---")
 
 //                memcpy(reinterpret_cast<uint8_t *>(txBuf), reinterpret_cast<uint8_t *>(in.payload), BUFFER_AUDIO_SIZE_RTP);
                 arm_copy_q15(reinterpret_cast<q15_t *>(in.payload), reinterpret_cast<q15_t *>(txBuf), BUFFER_AUDIO_SIZE_RTP / 2);
+//                xorEncoding((const char *)in.payload, BUFFER_AUDIO_SIZE_RTP , (const char*)key, 16, tempTxHalf);
+//                xorEncoding(tempTxHalf, BUFFER_AUDIO_SIZE_RTP , (const char*)key, 16, (char *)txBuf );
+
 
             } else if (SAI::getInstance()->tone.status == DTMF::Status::START)
             {
@@ -587,6 +592,7 @@ osDelay(300);
 term("--- threadAudioTxFull ---")
     UNUSED(arg);
     RtpPackages in;
+//    char * tempTxFull = new char[BUFFER_AUDIO_SIZE_RTP];
     while (1) {
         if (osSemaphoreWait(semaphoreTxFullId, 0) == osOK) {
 //term("____semaphoreTxFullId set____")
@@ -599,7 +605,8 @@ term("--- threadAudioTxFull ---")
 
 //                memcpy(reinterpret_cast<uint8_t *>(txBuf) + BUFFER_AUDIO_SIZE_RTP, reinterpret_cast<uint8_t *>(in.payload), BUFFER_AUDIO_SIZE_RTP);
                 arm_copy_q15(reinterpret_cast<q15_t *>(in.payload), reinterpret_cast<q15_t *>(txBuf) + BUFFER_AUDIO_SIZE_RTP / 2, BUFFER_AUDIO_SIZE_RTP / 2);
-
+//                xorEncoding((const char *)in.payload, BUFFER_AUDIO_SIZE_RTP , (const char*)key, 16, tempTxFull);
+//                xorEncoding(tempTxFull, BUFFER_AUDIO_SIZE_RTP , (const char*)key, 16, (char *)txBuf + BUFFER_AUDIO_SIZE_RTP );
 
             } else if (SAI::getInstance()->tone.status == DTMF::Status::START) {
                 SAI::getInstance()->tone.getData(DTMF::Control::SECOND_HALF);
@@ -618,6 +625,7 @@ void threadAudioRxFull(void const *arg)
 {
 osDelay(500);
 term("--- threadAudioRxFull ---")
+//    char * tempRxFull = new char[BUFFER_AUDIO_SIZE_RTP];
     UNUSED(arg);
     while (1) {
         if (osSemaphoreWait(semaphoreRxFullId, 0) == osOK) {
@@ -637,6 +645,9 @@ term("--- threadAudioRxFull ---")
                           reinterpret_cast<q15_t *>(rtpDataTxFull),
                           BUFFER_AUDIO_SIZE_RTP / 2);
 
+//            xorEncoding((const char *)rtpDataTxFullCrypt, BUFFER_AUDIO_SIZE_RTP , (const char*)key, 16, tempRxFull);
+//            xorEncoding(tempRxFull, BUFFER_AUDIO_SIZE_RTP , (const char*)key, 16, (char *)rtpDataTxFull );
+
             osSignalSet(sendThreadFullId, 0x02);
         } else {
             osDelay(1);
@@ -648,6 +659,7 @@ void threadAudioRxHalf(void const *arg)
 {
 osDelay(600);
 term("--- threadAudioRxHalf ---")
+//    char * tempHalf = new char[BUFFER_AUDIO_SIZE_RTP];
     UNUSED(arg);
     while (1)
     {
@@ -668,8 +680,10 @@ term("--- threadAudioRxHalf ---")
             arm_copy_q15( reinterpret_cast<q15_t *>(rtpDataTxHalfCrypt), //Вместо шифрования
                           reinterpret_cast<q15_t *>(rtpDataTxHalf),
                           BUFFER_AUDIO_SIZE_RTP / 2);
-
-
+//osMutexWait(mutexCryptTxId, osWaitForever);
+//            xorEncoding((const char *)rtpDataTxHalfCrypt, BUFFER_AUDIO_SIZE_RTP , (const char*)key, 16, tempHalf);
+//            xorEncoding(tempHalf, BUFFER_AUDIO_SIZE_RTP , (const char*)key, 16, (char *)rtpDataTxHalf);
+//osMutexRelease(mutexCryptTxId);
             osSignalSet(sendThreadHalfId, 0x01);
         }
         else

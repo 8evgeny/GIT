@@ -48,16 +48,21 @@ static void MX_I2C3_Init(void);
 static void MX_UART7_Init(void);
 static void MX_CRC_Init(void);
 static void MX_HASH_Init(void);
+static void MX_CRYPT_FIRMWARE_Init(uint32_t *key);
 static void MX_TIM3_Init(void);
 //static void MX_DMA_Init(void);
 static void MX_RNG_Init(void);
 void TaskEthernet_(void const * argument);
-
+extern lfs_t lfs;
+extern lfs_file_t file;
 volatile uint8_t boardType;
 volatile uint8_t pinNormaState;
 volatile uint8_t pinMkState;
 CRC_HandleTypeDef hcrc;
 HASH_HandleTypeDef hhash;
+CRYP_HandleTypeDef hcrypFIRMWARE;
+//__ALIGN_BEGIN static const uint32_t pKeyCRYP_FIRMWARE[4] __ALIGN_END =
+//    {0x00000000, 0x00000000, 0x00000000, 0x00000000};
 I2C_HandleTypeDef hi2c1;
 I2C_HandleTypeDef hi2c2;
 I2C_HandleTypeDef hi2c3;
@@ -77,7 +82,12 @@ uint8_t inMcastGroup;
 osMutexId mutexEth_id;
 osMutexDef (mutexEth);
 extern uint8_t volatile asteriskPressed;
-uint8_t DataFirmware[NUM_FIRMWARE_PACKET][SIZE_FIRMWARE_BASE] __attribute__((section(".ExtRamData"))); //512кБ
+uint8_t DataFirmware[NUM_FIRMWARE_PACKET][SIZE_FIRMWARE_BASE]
+    __attribute__((section(".ExtRamData")))
+    __attribute__ ((aligned (32)));                       //512кБ
+//uint8_t DataFirmware2[NUM_FIRMWARE_PACKET][SIZE_FIRMWARE_BASE]
+//    __attribute__((section(".ExtRamData")))
+//    __attribute__ ((aligned (32)));                       //512кБ
 
 //Массив во внешней памяти для конфига (readelf -S H753_new.elf)
 //char buff_config [200*1024] __attribute__((section(".ExtRamData")));
@@ -207,6 +217,19 @@ static void MX_HASH_Init(void)
 
 }
 
+static void MX_CRYPT_FIRMWARE_Init(uint32_t *key)
+{
+    hcrypFIRMWARE.Instance = CRYP;
+    hcrypFIRMWARE.Init.DataType = CRYP_DATATYPE_32B;
+    hcrypFIRMWARE.Init.KeySize = CRYP_KEYSIZE_128B;
+    hcrypFIRMWARE.Init.pKey = key;
+    hcrypFIRMWARE.Init.Algorithm = CRYP_AES_ECB;
+    if (HAL_CRYP_Init(&hcrypFIRMWARE) != HAL_OK)
+    {
+        RS232::getInstance().term << "crypInit -> ERROR\n";
+    }
+}
+
 osThreadId TaskEthernetHandle;
 
 //osThreadDef(readFromUartThread, readFromUartThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE );
@@ -285,7 +308,7 @@ uint8_t getCFG(void)
 }
 
 uint8_t keysNum;
-void printMd5(int len)
+void printMd5(uint8_t bank, uint32_t len)
 {
 //    char tmp2[64];
 //    uint32_t CRCVal = HAL_CRC_Calculate(&hcrc, (uint32_t *)DataFirmware, len);
@@ -314,8 +337,15 @@ void printMd5(int len)
 //    for (uint8_t i:outMD5) { sprintf(tmp,"%1.1x",i); RS232::getInstance().term <<tmp;}
 //    RS232::getInstance().term <<"\r\n";
 
-    HAL_HASH_MD5_Start(&hhash, (uint8_t *)0x8100000, len, outMD5, 1000);
-    RS232::getInstance().term <<"Firmware Bank1 Md5\t";
+    if(bank == 1)
+    {
+        HAL_HASH_MD5_Start(&hhash, (uint8_t *)0x8100000, len, outMD5, 1000);
+    }
+    if(bank == 0)
+    {
+        HAL_HASH_MD5_Start(&hhash, (uint8_t *)0x8000000, len, outMD5, 1000);
+    }
+    RS232::getInstance().term <<"Firmware Md5: ";
     for (uint8_t i:outMD5) { sprintf(tmp,"%1.1x",i); RS232::getInstance().term <<tmp;}
     RS232::getInstance().term <<"\r\n";
 
@@ -344,6 +374,7 @@ int main(void)
 
     MX_CRC_Init();
     MX_HASH_Init();
+//    MX_CRYPT_FIRMWARE_Init(((uint32_t *)pKeyCRYP_FIRMWARE));
 
     //Определяем тип платы SC2 или SC4
     if (!HAL_GPIO_ReadPin(GPIOG, GPIO_PIN_9))
@@ -429,6 +460,17 @@ term2("Board SL1")
 //        sprintf(tmp2,"Firmware Bank1 writed CRC    \t%4X", CRCVal5);
 //        term2(tmp2)
 //    }
+
+    uint32_t firmwareSize =0;
+    lfs_file_open(&lfs, &file, "firmwareSize", LFS_O_RDWR | LFS_O_CREAT);
+    lfs_file_read(&lfs, &file, &firmwareSize, sizeof(firmwareSize));
+    lfs_file_close(&lfs, &file);
+    char temp[100];
+    sprintf(temp,"FirmwareSize: %d",firmwareSize);
+    term2(temp)
+    printMd5(0, firmwareSize);
+
+    testXOR();
 
     if (boardType == sc4)
     {

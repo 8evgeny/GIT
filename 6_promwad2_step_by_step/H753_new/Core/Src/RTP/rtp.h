@@ -29,6 +29,7 @@ struct rtp_hdr_t {
     PACK_STRUCT_FIELD(u16_t seqNum);
     PACK_STRUCT_FIELD(u32_t timestamp);
     PACK_STRUCT_FIELD(u32_t ssrc);
+    PACK_STRUCT_FIELD(u32_t crc);
 } PACK_STRUCT_STRUCT;
 PACK_STRUCT_END
 
