@@ -256,6 +256,7 @@ term2(msg)
 
     else if (CallControl_->ordinaryTelephoneCall)
     {
+term2("ordinaryTelephoneCall")
         CallControl_->ordinaryTelephoneCall = false;
         switchLed(CallControl_->assignedData.key, false);
         switchLed(CallControl_->subjectKey.key, false);
@@ -268,6 +269,7 @@ term2(msg)
     }
     else if (CallControl_->simplexTelephoneCall)
     {
+term2("simplexTelephoneCall")
         CallControl_->simplexTelephoneCall = false;
         stopDtmfTone();
         CallControl_->resetData();

@@ -55,7 +55,7 @@ public:
 
     constexpr static uint16_t TIMEOUT {300};
     constexpr static uint16_t timeWiteForAsteriskRecall {200};
-    constexpr static uint16_t numberPressedAsteriskForRecall {1};
+//    constexpr static uint16_t numberPressedAsteriskForRecall {1};
 };
 
 #endif // CALLWAITING_H

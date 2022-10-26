@@ -112,24 +112,25 @@ term2(msg)
 
 osDelay(timeWiteForAsteriskRecall);
 
-            if (asteriskPressed < numberPressedAsteriskForRecall)
-            {
-//term2("ordinaryTelephoneCall")
-                context_->ordinaryTelephoneCall = true;
-                context_->assignedData.key = context_->subjectKey.key;
-                context_->assignedData.priority = context_->subjectKey.priority;
-                //            context_->messageData.field.prevPriority = 4;
-                switchLed(context_->subjectKey.key, true, 0,0,0, GPIO::GREEN );
-                context_->TransitionTo(new TelephoneCall);
+//            if (asteriskPressed < numberPressedAsteriskForRecall)
+//            {
+////term2("ordinaryTelephoneCall")
+//                context_->ordinaryTelephoneCall = true;
+//                context_->assignedData.key = context_->subjectKey.key;
+//                context_->assignedData.priority = context_->subjectKey.priority;
+//                //            context_->messageData.field.prevPriority = 4;
+//                switchLed(context_->subjectKey.key, true, 0,0,0, GPIO::GREEN );
+//                context_->TransitionTo(new TelephoneCall);
 
-            }
-            else
-            {
-// term2("recall")
+//            }
+//            else
+//            {
+ term2("recall")
                 asteriskPressed = 0;
                 asteriskRecall = true;
                 context_->TransitionTo(new SimplexDirectCall);
-            }
+//                context_->sendRequest(CallControl::Direct, CallControl::Request::LINK, TIMEOUT);
+//            }
         }
 
 //Здесь код обработки Simplex telephone call Контекст переключаю сразу но взвожу другой флаг
