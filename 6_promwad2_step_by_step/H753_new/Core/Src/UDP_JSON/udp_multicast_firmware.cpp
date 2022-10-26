@@ -252,7 +252,7 @@ static char FLASHPath[4]; /*! FLASH logical drive path */
 //                    RS232::getInstance().term << DataFirmware[i];
 //                }
 //                RS232::getInstance().term << "\r\n";
-                std::string align = "12345678";
+                std::string align = "12";
                 if(strncmp((char*)receivedHashKeyBin, (char*)calculatedMd5, 16) == 0)
                 {
                     term2("MD5 OK")
