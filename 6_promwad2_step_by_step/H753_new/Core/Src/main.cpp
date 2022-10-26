@@ -541,12 +541,12 @@ term2("Get UID");
         RS232::getInstance().readFromUartThreadId = osThreadCreate(osThread(readFromUartThread), nullptr);
 #endif
 
-//    WDTInit();
-//    osThreadDef(StartWdtThread, StartWdtThread, osPriorityIdle, 0, configMINIMAL_STACK_SIZE );
-//    if ((osThreadCreate(osThread(StartWdtThread), nullptr)) == nullptr)
-//    {
-//        RS232::getInstance().term << __FUNCTION__ << " " << __LINE__ << " " << "\n";
-//    }
+    WDTInit();
+    osThreadDef(StartWdtThread, StartWdtThread, osPriorityIdle, 0, configMINIMAL_STACK_SIZE );
+    if ((osThreadCreate(osThread(StartWdtThread), nullptr)) == nullptr)
+    {
+        RS232::getInstance().term << __FUNCTION__ << " " << __LINE__ << " " << "\n";
+    }
 
     //Тестовые потоки
 //    testLed1();
