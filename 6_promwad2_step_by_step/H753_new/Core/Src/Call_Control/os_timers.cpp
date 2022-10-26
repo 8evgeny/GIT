@@ -118,15 +118,11 @@ void handleRelasedButtonTimer_Callback(void const *arg)
             || (asteriskRecall && asteriskReleasedAfterLongTime)
             )
         {
-            asteriskRecall = false;
-term2("handleRelasedButton - Asterisk")
-            CallControl_->simplexTelephoneCall = false;
-            //Переключаем контекст
-            CallControl_->TransitionTo(new CallWaiting);
-
-            //Останавливаем rtp
-            CallControl_->removeRtp();
-
+            //Гасим led
+            uint8_t key = CallControl_->getKey(subjectDirectTelephoneCall);
+            switchLed(key, false);
+            key = CallControl_->getKey(lastDirectSubject);
+            switchLed(key, false);
             //Отправляем message
             uint16_t distSubject = subjectDirectTelephoneCall;
             const int capacity = JSON_OBJECT_SIZE(6) + JSON_ARRAY_SIZE(100);
@@ -146,6 +142,15 @@ term2("handleRelasedButton - Asterisk")
             {
                 sendUdpMulticast(CallControl_->messageData.txBuff, strlen(CallControl_->messageData.txBuff));
             }
+            asteriskRecall = false;
+term2("handleRelasedButton - Asterisk")
+            CallControl_->simplexTelephoneCall = false;
+
+
+            //Останавливаем rtp
+            CallControl_->removeRtp();
+
+
             //                CallControl_->requestCount++;
 
             CallControl_->osTimer.start(CallControl_->osTimer.request_timerId,
@@ -154,17 +159,13 @@ term2("handleRelasedButton - Asterisk")
 
             //Если занято - останавливаем сигнал
             stopRingTone();
-            //Гасим led
-            uint8_t key = CallControl_->getKey(subjectDirectTelephoneCall);
-            switchLed(key, false);
-            key = CallControl_->getKey(lastDirectSubject);
-            switchLed(key, false);
-
 
             //Обнуляем адрес и выключаем микрофон
             subjectDirectTelephoneCall = 0;
             CallControl_->microphone.stop();
             CallControl_->resetData();
+            //Переключаем контекст
+            CallControl_->TransitionTo(new CallWaiting);
         }
 
     }
