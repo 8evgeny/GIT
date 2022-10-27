@@ -22,7 +22,7 @@ void WDTInit(void)
 
 
         /* Insert 4s delay */
-        HAL_Delay(30000);
+        HAL_Delay(10000);
 
         /* Clear reset flags */
         __HAL_RCC_CLEAR_RESET_FLAGS();
@@ -31,12 +31,11 @@ void WDTInit(void)
     hwwdg.Instance = WWDG1;
 
     hwwdg.Init.Window = 0x7F;
-    hwwdg.Init.Prescaler = WWDG_PRESCALER_4;
+    hwwdg.Init.Prescaler = WWDG_PRESCALER_128;
 
     hwwdg.Init.Counter = 0x7E;
-//    hwwdg.Init.Counter = 0x50;
-    hwwdg.Init.EWIMode = WWDG_EWI_ENABLE;
-//    hwwdg.Init.EWIMode = WWDG_EWI_DISABLE;
+//    hwwdg.Init.EWIMode = WWDG_EWI_ENABLE;
+    hwwdg.Init.EWIMode = WWDG_EWI_DISABLE;
 
     if (HAL_WWDG_Init(&hwwdg) != HAL_OK) {
         while (1) {
@@ -62,12 +61,17 @@ void WDT::Loop()
     while (running_)
     {
         ++count;
-        if (count < 1000)
+        if (count%10 == 0)
+        {
+            term2(count)
+        }
+
+        if (count < 100)
+        {
             refresh();
+        }
 
         osDelay(time_);
-        if (count%100 == 0)
-            term2(count)
     }
 }
 
@@ -81,7 +85,7 @@ WDT::WDT()
     wwdgtHandle = &hwwdg;
     running_ = true;
 
-    SetDelayTime(100);
+    SetDelayTime(200);
 
 }
 
@@ -162,11 +166,14 @@ void HAL_WWDG_MspDeInit(WWDG_HandleTypeDef* hwwdg)
   \param  WwdgHandle: WWDG handle
   \retval None
 */
+
 void HAL_WWDG_EarlyWakeupCallback(WWDG_HandleTypeDef *hwwdg)
 {
     if (hwwdg->Instance == WWDG1) {
-        //Empty
+
         WDT::getInstance()->refresh();
+
+
     }
 }
 

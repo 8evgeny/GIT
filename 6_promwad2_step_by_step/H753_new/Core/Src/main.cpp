@@ -429,7 +429,7 @@ term2("Board SL1")
     SRAMInit();
     BSP_EEPROM_Init();
     littleFsInit();
-    printNumReboot();
+//    printNumReboot();
     test_EEPROM();
     Flash::getInstance().test();
 
@@ -557,6 +557,7 @@ term2("Board SL1")
 
 //    vTraceEnable(TRC_INIT); //Пока не смог запустить
 //    vTraceEnable(TRC_START);
+
     WDTInit();
     osThreadDef(StartWdtThread, StartWdtThread, osPriorityRealtime, 0, configMINIMAL_STACK_SIZE );
     if ((osThreadCreate(osThread(StartWdtThread), nullptr)) == nullptr)
