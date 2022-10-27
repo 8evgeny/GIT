@@ -429,7 +429,7 @@ term2("Board SL1")
     SRAMInit();
     BSP_EEPROM_Init();
     littleFsInit();
-//    printNumReboot();
+    printNumReboot();
     test_EEPROM();
     Flash::getInstance().test();
 
