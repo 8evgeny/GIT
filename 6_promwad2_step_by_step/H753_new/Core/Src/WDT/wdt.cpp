@@ -85,7 +85,7 @@ WDT::WDT()
     wwdgtHandle = &hwwdg;
     running_ = true;
 
-    SetDelayTime(250);
+    SetDelayTime(280);
 
 }
 
