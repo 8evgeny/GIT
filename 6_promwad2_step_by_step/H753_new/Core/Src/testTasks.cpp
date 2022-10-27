@@ -470,14 +470,14 @@ void writeVolSensToFlashStart()
 
 
 //char *logTasks = new char[2048];
-static char logTasks[2048];
-//static char logTasksTime[2048];
+static char *logTasks = new char[2048];
+static char *logTasksTime = new char[2048];
 void testTasksLog()
 {
     osThreadDef(TasksLog, TasksLog, osPriorityNormal, 0, configMINIMAL_STACK_SIZE );
     if ((osThreadCreate(osThread(TasksLog), nullptr)) == nullptr)
     {
-        term("Failed to create TasksLog");
+        term2("Failed to create TasksLog");
     }
 }
 
@@ -665,13 +665,15 @@ void TasksLog(void const *argument)
 
     osDelay(6000);
     term("--- TasksLog ---")
-
+        char tmp[100];
         for(;;)
     {
         vTaskList(logTasks);
-//        vTaskGetRunTimeStats(logTasksTime);
         term2(logTasks)
-        term1("heap size") term(xPortGetFreeHeapSize())
+        sprintf(tmp,"heap size = %d", xPortGetFreeHeapSize());
+        term2(tmp)
+//        vTaskGetRunTimeStats(logTasksTime);
+//        term2(logTasksTime)
         osDelay(30000);
     } //end for(;;)
 

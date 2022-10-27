@@ -153,8 +153,8 @@ RS232Puts("--netif_link_up--\r\n");
 
   /* Create the Ethernet link handler thread */
 /* USER CODE BEGIN H7_OS_THREAD_DEF_CREATE_CMSIS_RTOS_V1 */
-  osThreadDef(LinkThr, ethernetif_set_link, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 5);
-  osThreadCreate (osThread(LinkThr), &link_arg);
+  osThreadDef(LinkThr__, ethernetif_set_link, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 5);
+  osThreadCreate (osThread(LinkThr__), &link_arg);
 /* USER CODE END H7_OS_THREAD_DEF_CREATE_CMSIS_RTOS_V1 */
 
 /* USER CODE BEGIN 3 */

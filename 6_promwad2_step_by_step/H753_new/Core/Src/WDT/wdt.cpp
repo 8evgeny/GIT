@@ -22,7 +22,7 @@ void WDTInit(void)
 
 
         /* Insert 4s delay */
-        HAL_Delay(4000);
+        HAL_Delay(30000);
 
         /* Clear reset flags */
         __HAL_RCC_CLEAR_RESET_FLAGS();
@@ -30,11 +30,13 @@ void WDTInit(void)
 
     hwwdg.Instance = WWDG1;
 
-    hwwdg.Init.Window = 127;
-    hwwdg.Init.Prescaler = WWDG_PRESCALER_8;
+    hwwdg.Init.Window = 0x7F;
+    hwwdg.Init.Prescaler = WWDG_PRESCALER_4;
 
     hwwdg.Init.Counter = 0x7E;
+//    hwwdg.Init.Counter = 0x50;
     hwwdg.Init.EWIMode = WWDG_EWI_ENABLE;
+//    hwwdg.Init.EWIMode = WWDG_EWI_DISABLE;
 
     if (HAL_WWDG_Init(&hwwdg) != HAL_OK) {
         while (1) {
@@ -56,13 +58,16 @@ void WDT::SetDelayTime(uint32_t time)
 
 void WDT::Loop()
 {
+    uint32_t count = 0;
     while (running_)
     {
-        refresh();
+        ++count;
+        if (count < 1000)
+            refresh();
 
         osDelay(time_);
-
-
+        if (count%100 == 0)
+            term2(count)
     }
 }
 
@@ -76,7 +81,7 @@ WDT::WDT()
     wwdgtHandle = &hwwdg;
     running_ = true;
 
-    SetDelayTime(22);
+    SetDelayTime(100);
 
 }
 
@@ -104,11 +109,10 @@ WDT *WDT::getInstance()
 void StartWdtThread(void const *argument)
 {
     (void)argument;
-    osDelay(7000);
-//    while(1) {
+    while(1) {
     WDT::getInstance()->Loop();
-//        osDelay(15);
-//    }
+        osDelay(1);
+    }
 }
 
 #ifdef __cplusplus
