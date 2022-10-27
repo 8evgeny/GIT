@@ -25,7 +25,7 @@ add_definitions(-D__FPU_PRESENT)
 #Полное выключение логов требуется для потока UART и для передачи чистого синуса без прерывистости
 add_definitions(-DLogsEnable)
 #add_definitions(-DLogsEnableToConsole) #более подробные логи через макрос term
-add_definitions(-DPrintTaskLogs) #Запускает поток с логами задач
+#add_definitions(-DPrintTaskLogs) #Запускает поток с логами задач
 
 #Для SC2 наличие номеронабирателя
 #add_definitions(-DenablePAD)
