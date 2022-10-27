@@ -477,7 +477,7 @@ term2("Board SL1")
 
     testXOR();
     UID::getInstance().getUID();
-    sprintf(temp,"UID - %s",uid);
+    sprintf(temp,"UID = %s",uid);
     term2(temp)
 
     if (boardType == sc4)
