@@ -57,19 +57,16 @@ void WDT::SetDelayTime(uint32_t time)
 
 void WDT::Loop()
 {
-    uint32_t count = 0;
+//    uint32_t count = 0;
     while (running_)
     {
-        ++count;
-        if (count%10 == 0)
-        {
-            term2(count)
-        }
-
-        if (count < 100)
-        {
+//        ++count;
+//        if (count%10 == 0)
+//        {
+//            term2(count)
+//        }
+//        if (count < 100)
             refresh();
-        }
 
         osDelay(time_);
     }
@@ -85,7 +82,7 @@ WDT::WDT()
     wwdgtHandle = &hwwdg;
     running_ = true;
 
-    SetDelayTime(280);
+    SetDelayTime(180);
 
 }
 
