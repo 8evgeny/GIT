@@ -66,7 +66,7 @@ void WDT::Loop()
             term2(count)
         }
 
-        if (count < 100)
+        if (count < 1000)
         {
             refresh();
         }
@@ -85,7 +85,7 @@ WDT::WDT()
     wwdgtHandle = &hwwdg;
     running_ = true;
 
-    SetDelayTime(200);
+    SetDelayTime(20);
 
 }
 
