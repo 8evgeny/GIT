@@ -704,20 +704,20 @@ void testXOR()
             "qwertyQWERTYUIOPASDFGHqwertyuiopasdfghQWERTYUIOPASDFGHqwertyuiopasdfgh123456789012345678901234567890endend11"
             "qwertyQWERTYUIOPASDFGHqwertyuiopasdfghQWERTYUIOPASDFGHqwertyuiopasdfgh123456789012345678901234567890endend11"
     };
-    std::string keyTest = "108_!@#$%^&*()_+_108!@#$%^&*()_+42";
+//    std::string keyTest = "108_!@#$%^&*()_+_108!@#$%^&*()_+42";
+
     char* temp = new char[2000];
     char* encoded = new char[stringOrigin->size()];
     char* decoded = new char[stringOrigin->size()];
-    xorEncoding(stringOrigin->c_str(), stringOrigin->size(), keyTest.c_str(), keyTest.size(), encoded);
-    xorEncoding(encoded, stringOrigin->size(), keyTest.c_str(), keyTest.size(), decoded);
+    xorEncoding(stringOrigin->c_str(), stringOrigin->size(), (const char*)key, 16, encoded);
+    xorEncoding(encoded, stringOrigin->size(), (const char*)key, 16, decoded);
 
-    RS232::getInstance().term << "key for test = ";
-    snprintf(temp, keyTest.size() + 1,"%s", keyTest.c_str()); term2(temp)
+    RS232::getInstance().term << "key = ";
+    snprintf(temp, 16 + 1,"%s", key); term2(temp)
     RS232::getInstance().term << "key lentgh = ";
-    sprintf(temp, "%d", keyTest.size()); term2(temp)
+    sprintf(temp, "%d", 16); term2(temp)
     RS232::getInstance().term << "input lentgh = ";
     sprintf(temp, "%d", stringOrigin->size()); term2(temp)
-
 //    sprintf(temp,"origin  text =  %s",stringOrigin->c_str()); term2(temp)
 //    RS232::getInstance().term << "encoded text = ";
 //    snprintf(temp, stringOrigin->size() + 1, "%s", encoded); term2(temp)

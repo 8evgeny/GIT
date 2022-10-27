@@ -475,8 +475,7 @@ term2("Board SL1")
     term2(temp)
     printMd5(0, firmwareSize);
 
-//    testXOR();
-term2("Get UID");
+    testXOR();
     UID::getInstance().getUID();
     sprintf(temp,"UID - %s",uid);
     term2(temp)
