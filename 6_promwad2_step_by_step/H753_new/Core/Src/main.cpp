@@ -559,7 +559,7 @@ term2("Board SL1")
 //    vTraceEnable(TRC_START);
 
     WDTInit();
-    osThreadDef(StartWdtThread, StartWdtThread, osPriorityHigh, 0, configMINIMAL_STACK_SIZE );
+    osThreadDef(StartWdtThread, StartWdtThread, osPriorityRealtime, 0, configMINIMAL_STACK_SIZE );
     if ((osThreadFirmwareId = osThreadCreate(osThread(StartWdtThread), nullptr)) == nullptr)
     {
         RS232::getInstance().term << __FUNCTION__ << " " << __LINE__ << " " << "\n";

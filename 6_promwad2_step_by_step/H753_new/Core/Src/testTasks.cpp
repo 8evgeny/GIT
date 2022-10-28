@@ -155,7 +155,7 @@ void testLed3()
 //    osDelay (8000);
 //    osSemaphoreRelease(Netif_LinkSemaphore);
 
-    osThreadDef(simpleLedTest3_RTOS, simpleLedTest3_RTOS, osPriorityNormal, 0, configMINIMAL_STACK_SIZE );
+    osThreadDef(simpleLedTest3_RTOS, simpleLedTest3_RTOS, osPriorityHigh, 0, configMINIMAL_STACK_SIZE );
     if ((osThreadCreate(osThread(simpleLedTest3_RTOS), nullptr)) == nullptr)
     {
         term("Failed to create simpleLedTest3_RTOS");
@@ -583,7 +583,7 @@ void simpleLedTest3_RTOS(void const *argument)
     bool reset = true;
     uint32_t tickstart = HAL_GetTick();
     uint32_t timeSet = 10;
-    uint32_t timeReset = 2000;
+    uint32_t timeReset = 1000;
 
 osDelay(100);
 term("--- simpleLedTest3_RTOS ---")
