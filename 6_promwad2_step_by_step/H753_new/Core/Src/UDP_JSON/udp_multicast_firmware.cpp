@@ -104,7 +104,7 @@ void firmwareInitThread()
 
 static FATFS FLASHFatFs;  /*! File system object for Flash logical drive */
 static char FLASHPath[4]; /*! FLASH logical drive path */
-
+extern osThreadId osThreadFirmwareId;
 [[ noreturn ]]void updateFirmwareThread(const void *arg)
 {
     char tmp[256];
@@ -252,7 +252,7 @@ static char FLASHPath[4]; /*! FLASH logical drive path */
 //                    RS232::getInstance().term << DataFirmware[i];
 //                }
 //                RS232::getInstance().term << "\r\n";
-                std::string align = "1234";
+                std::string align = "12";
                 if(strncmp((char*)receivedHashKeyBin, (char*)calculatedMd5, 16) == 0)
                 {
                     term2("MD5 OK")
