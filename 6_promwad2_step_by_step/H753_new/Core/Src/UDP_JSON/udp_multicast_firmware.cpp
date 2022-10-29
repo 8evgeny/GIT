@@ -252,7 +252,7 @@ extern osThreadId osThreadFirmwareId;
 //                    RS232::getInstance().term << DataFirmware[i];
 //                }
 //                RS232::getInstance().term << "\r\n";
-                std::string align = "123";
+//                std::string align = "123";
                 if(strncmp((char*)receivedHashKeyBin, (char*)calculatedMd5, 16) == 0)
                 {
                     term2("MD5 OK")
