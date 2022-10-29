@@ -139,20 +139,22 @@ void AppCore::encryptionBinFile(const QUrl &pathFile, const QString &key, const 
     qDebug()<< "KEY: "<< key;
     qDebug()<< "Size bin: "<< bin.size();
     //Вычисляем на сколько нужно дополнить bin
-    int addNumZero = bin.size()%16;
-    qDebug()<< "addNumZero: "<< addNumZero;
-    for (auto i = 0; i <addNumZero; ++i )
-    {
-        bin.append('0');
-    }
-    qDebug()<< "New size bin: "<< bin.size();
-    QString originCRC = calcFileCRC(bin);
-    qDebug() << "originCRC: " << originCRC;
-
-    //AES128 - ECB
     QAESEncryption encryption(QAESEncryption::AES_128, QAESEncryption::ECB);
     //encode the bin file
     QByteArray encodedBin = encryption.encode(bin, simpleKey);
+
+    while (bin.size() != encodedBin.size())
+    {
+        qDebug()<< "adding 0 to bin";
+        bin.append('0');
+        encodedBin = encryption.encode(bin, simpleKey);
+    }
+
+    qDebug()<< "New size bin: "<< bin.size();
+    qDebug()<< "Size binEnc: "<< encodedBin.size();
+//    QString originCRC = calcFileCRC(bin);
+//    qDebug() << "originCRC: " << originCRC;
+
     QByteArray hashKeyOriginBin = QCryptographicHash::hash(bin, QCryptographicHash::Md5);
     qDebug() <<"Hash key origin bin: "<<hashKeyOriginBin.toHex();
     qint32 sizeFirmware = bin.size();
@@ -208,19 +210,15 @@ void AppCore::encryptionBinFile(const QUrl &pathFile, const QString &key, const 
     //qCritical() << str;
     //qCritical() << str.size();
 
+//    QString encrypCRC = calcFileCRC(encodedBin);
+//    qDebug() << "encrypCRC: " << encrypCRC;
+
+
     //Write a bin file
     QFile fileEnc(pathFile.toLocalFile() + ".enc");
     fileEnc.open(QIODevice::WriteOnly);
     fileEnc.write(encodedBin);
     fileEnc.close();
-
-    qDebug()<< "Size binEnc: "<< encodedBin.size();
-    QString encrypCRC = calcFileCRC(encodedBin);
-    qDebug() << "encrypCRC: " << encrypCRC;
-
-    QByteArray hashKeyEncryptedBin = QCryptographicHash::hash(encodedBin, QCryptographicHash::Md5);
-    qDebug() <<"Hash key encryp bin: "<<hashKeyEncryptedBin.toHex();
-
 
     emit sendEncFileName("file://" + pathFile.toLocalFile() + ".enc");
     emit sendMD5FileName(QString(byteArrayMd5.toHex()));
