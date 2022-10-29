@@ -40,7 +40,7 @@ void WDTInit(void)
 //    }
 
     hiwdg.Instance = IWDG1;
-    hiwdg.Init.Prescaler = IWDG_PRESCALER_256;
+    hiwdg.Init.Prescaler = IWDG_PRESCALER_32; //5 секунд до перезагрузки
     hiwdg.Init.Reload = 0xFFF;
     hiwdg.Init.Window = 0xFFF;
     if (HAL_IWDG_Init(&hiwdg) != HAL_OK)
