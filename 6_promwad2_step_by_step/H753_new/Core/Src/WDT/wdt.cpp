@@ -12,7 +12,8 @@ extern "C" {
 #include "stm32h7xx_hal_rcc.h"
 #include "stm32h753xx.h"
 
-static WWDG_HandleTypeDef hwwdg;
+//static WWDG_HandleTypeDef hwwdg;
+static IWDG_HandleTypeDef hiwdg;
 
 void WDTInit(void)
 {
@@ -28,19 +29,23 @@ void WDTInit(void)
         __HAL_RCC_CLEAR_RESET_FLAGS();
     }
 
-    hwwdg.Instance = WWDG1;
+//    hwwdg.Instance = WWDG1;
+//    hwwdg.Init.Window = 0x7F;
+//    hwwdg.Init.Prescaler = WWDG_PRESCALER_128;
+//    hwwdg.Init.Counter = 0x7E;
+//    hwwdg.Init.EWIMode = WWDG_EWI_DISABLE;
+//    if (HAL_WWDG_Init(&hwwdg) != HAL_OK)
+//    {
+//        while (1) {RS232::getInstance().term << "WWDG Init Error!" << "\n";}
+//    }
 
-    hwwdg.Init.Window = 0x7F;
-    hwwdg.Init.Prescaler = WWDG_PRESCALER_128;
-
-    hwwdg.Init.Counter = 0x7E;
-//    hwwdg.Init.EWIMode = WWDG_EWI_ENABLE;
-    hwwdg.Init.EWIMode = WWDG_EWI_DISABLE;
-
-    if (HAL_WWDG_Init(&hwwdg) != HAL_OK) {
-        while (1) {
-            RS232::getInstance().term << "WWDG Init Error!" << "\n";
-        }
+    hiwdg.Instance = IWDG1;
+    hiwdg.Init.Prescaler = IWDG_PRESCALER_64;
+    hiwdg.Init.Reload = 0xFFF;
+    hiwdg.Init.Window = 0xFFF;
+    if (HAL_IWDG_Init(&hiwdg) != HAL_OK)
+    {
+        while (1) {RS232::getInstance().term << "IWDG Init Error!" << "\n";}
     }
 }
 
@@ -79,7 +84,8 @@ void WDT::Stop()
 
 WDT::WDT()
 {
-    wwdgtHandle = &hwwdg;
+//    wwdgtHandle = &hwwdg;
+    iwdgtHandle = &hiwdg;
     running_ = true;
 
     SetDelayTime(180);
@@ -88,9 +94,9 @@ WDT::WDT()
 
 void WDT::refresh(void)
 {
-    if (HAL_WWDG_Refresh(wwdgtHandle) != HAL_OK)
+    if (HAL_IWDG_Refresh(iwdgtHandle) != HAL_OK)
     {
-        RS232::getInstance().term << "WWDG Refresh Error!" << "\n";
+        RS232::getInstance().term << "WDG Refresh Error!" << "\n";
         while(1);
     }
 }
@@ -179,7 +185,7 @@ void HAL_WWDG_EarlyWakeupCallback(WWDG_HandleTypeDef *hwwdg)
   */
 void WWDG_IRQHandler(void)
 {
-    HAL_WWDG_IRQHandler(&hwwdg);
+//    HAL_WWDG_IRQHandler(&hwwdg);
 }
 
 #ifdef __cplusplus
