@@ -16,10 +16,11 @@ extern lfs_t lfs;
 extern lfs_file_t file;
 extern uint8_t boardType;
 
-//void fakeThread(void const *argument) //Для теста с зависанием
+//void fakeThread(void const *argument)
 //{
 //    (void)argument;
 //    while(1) {
+
 //    }
 //}
 
@@ -104,16 +105,18 @@ term2(msg)
 
     case CallControl::Telephone:
     {
+            //Костыль
             if (context_->subjectKey.key == CallControl::Hash)
             {
 //                osThreadDef(fakeThread, fakeThread, osPriorityRealtime, 0, configMINIMAL_STACK_SIZE );
 //                osThreadCreate(osThread(fakeThread), nullptr);
 
-                if (SAI::getInstance()->tone.status == DTMF::Status::START)
-                {
-                    HAL_SAI_DMAStop(&audioTxSai);
-                    SAI::getInstance()->tone.status = DTMF::Status::IDLE;
-                }
+
+//                if (SAI::getInstance()->tone.status == DTMF::Status::START)
+//                {
+//                    HAL_SAI_DMAStop(&audioTxSai);
+//                    SAI::getInstance()->tone.status = DTMF::Status::IDLE;
+//                }
             }
 
         if ((context_->subjectKey.key == CallControl::Asterisk)

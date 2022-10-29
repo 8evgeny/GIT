@@ -189,6 +189,7 @@ add_executable(${PROJECT_NAME}.elf
     Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_q7.c
     Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_sai.c
     Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_wwdg.c
+    Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_iwdg.c
     Drivers/CMSIS/DSP/Source/SupportFunctions/arm_copy_q15.c
     Drivers/CMSIS/DSP/Source/SupportFunctions/arm_fill_q15.c
     Drivers/CMSIS/DSP/Source/BasicMathFunctions/arm_add_q15.c
