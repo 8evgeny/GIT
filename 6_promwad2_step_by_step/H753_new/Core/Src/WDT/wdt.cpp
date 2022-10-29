@@ -40,7 +40,9 @@ void WDTInit(void)
 //    }
 
     hiwdg.Instance = IWDG1;
-    hiwdg.Init.Prescaler = IWDG_PRESCALER_32; //5 секунд до перезагрузки
+    hiwdg.Init.Prescaler = IWDG_PRESCALER_8;
+//    hiwdg.Init.Prescaler = IWDG_PRESCALER_16; //2,5 секунд до перезагрузки
+//    hiwdg.Init.Prescaler = IWDG_PRESCALER_32; //5 секунд до перезагрузки
 //    hiwdg.Init.Prescaler = IWDG_PRESCALER_128; //20 секунд до перезагрузки
     hiwdg.Init.Reload = 0xFFF;
     hiwdg.Init.Window = 0xFFF;
@@ -92,7 +94,7 @@ WDT::WDT()
     iwdgtHandle = &hiwdg;
     running_ = true;
 
-    SetDelayTime(1000);
+    SetDelayTime(500);
 
 }
 
