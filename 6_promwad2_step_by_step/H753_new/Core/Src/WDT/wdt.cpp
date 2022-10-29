@@ -40,7 +40,7 @@ void WDTInit(void)
 //    }
 
     hiwdg.Instance = IWDG1;
-    hiwdg.Init.Prescaler = IWDG_PRESCALER_64;
+    hiwdg.Init.Prescaler = IWDG_PRESCALER_256;
     hiwdg.Init.Reload = 0xFFF;
     hiwdg.Init.Window = 0xFFF;
     if (HAL_IWDG_Init(&hiwdg) != HAL_OK)
@@ -70,8 +70,11 @@ void WDT::Loop()
 //        {
 //            term2(count)
 //        }
-//        if (count < 100)
+//        if (count < 10)
+//        {
             refresh();
+//        }
+
 
         osDelay(time_);
     }
@@ -88,7 +91,7 @@ WDT::WDT()
     iwdgtHandle = &hiwdg;
     running_ = true;
 
-    SetDelayTime(180);
+    SetDelayTime(1000);
 
 }
 
