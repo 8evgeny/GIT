@@ -95,10 +95,10 @@ public:
      */
     void Loop();
 
-    std::atomic<uint32_t> time_; /**< The variable stores time of restart timer  */
+    std::atomic<uint32_t> time_ = 500;
     std::atomic<bool> running_; /**< The variable stores flag of the WWDG timer state */
 
-    WWDG_HandleTypeDef *wwdgtHandle; /**< The variable is pointer to WWDG Handle Type */
+//    WWDG_HandleTypeDef *wwdgtHandle; /**< The variable is pointer to WWDG Handle Type */
     IWDG_HandleTypeDef *iwdgtHandle;
 };
 

@@ -236,7 +236,6 @@ static void MX_CRYPT_FIRMWARE_Init(uint32_t *key)
 }
 
 osThreadId TaskEthernetHandle;
-osThreadId osThreadFirmwareId;
 //osThreadDef(readFromUartThread, readFromUartThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE );
 osThreadDef(switchLEDsThread, switchLEDsThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 2);
 osThreadDef(readButtonThread, readButtonThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 4 );
@@ -543,9 +542,8 @@ term2("Board SL1")
     //Тестовые потоки
 //    testLed1();
 //    testLed2(); //SEGGER TEST
-    testLed3();
 //    testUART();
-
+        watchDog();
 
 
 #ifdef PrintTaskLogs
@@ -557,13 +555,6 @@ term2("Board SL1")
 
 //    vTraceEnable(TRC_INIT); //Пока не смог запустить
 //    vTraceEnable(TRC_START);
-
-//    WDTInit();
-//    osThreadDef(StartWdtThread, StartWdtThread, osPriorityHigh, 0, configMINIMAL_STACK_SIZE );
-//    if ((osThreadFirmwareId = osThreadCreate(osThread(StartWdtThread), nullptr)) == nullptr)
-//    {
-//        RS232::getInstance().term << __FUNCTION__ << " " << __LINE__ << " " << "\n";
-//    }
 
     osKernelStart();
 

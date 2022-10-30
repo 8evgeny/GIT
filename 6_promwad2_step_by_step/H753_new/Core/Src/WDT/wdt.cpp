@@ -63,10 +63,10 @@ void WDT::SetDelayTime(uint32_t time)
     time_.store(time);
 }
 
-void WDT::Loop()
+void Loop()
 {
 //    uint32_t count = 0;
-    while (running_)
+    while (1)
     {
 //        ++count;
 //        if (count%10 == 0)
@@ -75,11 +75,11 @@ void WDT::Loop()
 //        }
 //        if (count < 10)
 //        {
-            refresh();
+        HAL_IWDG_Refresh(&hiwdg);
 //        }
 
 
-        osDelay(time_);
+        osDelay(500);
     }
 }
 
@@ -94,7 +94,7 @@ WDT::WDT()
     iwdgtHandle = &hiwdg;
     running_ = true;
 
-    SetDelayTime(500);
+    SetDelayTime(time_);
 
 }
 
@@ -123,8 +123,8 @@ void StartWdtThread(void const *argument)
 {
     (void)argument;
     while(1) {
-    WDT::getInstance()->Loop();
-        osDelay(1);
+    Loop();
+    osDelay(1);
     }
 }
 

@@ -104,7 +104,6 @@ void firmwareInitThread()
 
 static FATFS FLASHFatFs;  /*! File system object for Flash logical drive */
 static char FLASHPath[4]; /*! FLASH logical drive path */
-extern osThreadId osThreadFirmwareId;
 [[ noreturn ]]void updateFirmwareThread(const void *arg)
 {
     char tmp[256];
