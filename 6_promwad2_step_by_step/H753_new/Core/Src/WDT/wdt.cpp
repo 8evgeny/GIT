@@ -28,7 +28,6 @@ void WDTInit(void)
         /* Clear reset flags */
         __HAL_RCC_CLEAR_RESET_FLAGS();
     }
-
 //    hwwdg.Instance = WWDG1;
 //    hwwdg.Init.Window = 0x7F;
 //    hwwdg.Init.Prescaler = WWDG_PRESCALER_128;

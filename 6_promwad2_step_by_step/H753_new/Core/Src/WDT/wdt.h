@@ -94,7 +94,7 @@ public:
      * \fn Loop
      */
     void Loop();
-    static const uint32_t timeWdt = 500;
+    const uint32_t timeWdt = 500;
 //    std::atomic<uint32_t> time_ = 500;
     std::atomic<bool> running_; /**< The variable stores flag of the WWDG timer state */
 
