@@ -14,7 +14,7 @@ extern "C" {
 
 //static WWDG_HandleTypeDef hwwdg;
 static IWDG_HandleTypeDef hiwdg;
-
+const uint32_t wdtDelay = 500;
 void WDTInit(void)
 {
     /*Check if the system has resumed from WWDG reset ####################*/
@@ -60,26 +60,15 @@ WDT *WDT::pInstance = nullptr;
 
 void WDT::SetDelayTime(uint32_t time)
 {
-    time_.store(time);
+//    time_.store(time);
 }
 
 void Loop()
 {
-//    uint32_t count = 0;
     while (1)
     {
-//        ++count;
-//        if (count%10 == 0)
-//        {
-//            term2(count)
-//        }
-//        if (count < 10)
-//        {
         HAL_IWDG_Refresh(&hiwdg);
-//        }
-
-
-        osDelay(500);
+        osDelay(wdtDelay);
     }
 }
 
@@ -94,7 +83,7 @@ WDT::WDT()
     iwdgtHandle = &hiwdg;
     running_ = true;
 
-    SetDelayTime(time_);
+//    SetDelayTime(time_);
 
 }
 
