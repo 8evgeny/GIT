@@ -142,14 +142,21 @@ void AppCore::encryptionBinFile(const QUrl &pathFile, const QString &key, const 
     QAESEncryption encryption(QAESEncryption::AES_128, QAESEncryption::ECB);
     //encode the bin file
     QByteArray encodedBin = encryption.encode(bin, simpleKey);
-
+    bool binAdded = false;
     while (bin.size() != encodedBin.size())
     {
         qDebug()<< "adding 0 to bin";
         bin.append('0');
         encodedBin = encryption.encode(bin, simpleKey);
+        binAdded = true;
     }
-
+    if (binAdded)
+    {
+        QFile fileAdded(pathFile.toLocalFile() + ".add");
+        fileAdded.open(QIODevice::WriteOnly);
+        fileAdded.write(bin);
+        fileAdded.close();
+    }
     qDebug()<< "New size bin: "<< bin.size();
     qDebug()<< "Size binEnc: "<< encodedBin.size();
 //    QString originCRC = calcFileCRC(bin);
