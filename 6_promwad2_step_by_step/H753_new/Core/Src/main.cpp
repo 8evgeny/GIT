@@ -86,6 +86,7 @@ char uid[25];
 uint32_t uid1;
 uint32_t uid2;
 uint32_t uid3;
+//extern char *dateTimeFirmware;
 extern uint8_t volatile asteriskPressed;
 uint8_t DataFirmware[NUM_FIRMWARE_PACKET][SIZE_FIRMWARE_BASE]
     __attribute__((section(".ExtRamData")))
@@ -472,6 +473,15 @@ term2("Board SL1")
     char temp[100];
     sprintf(temp,"FirmwareSize: %d",firmwareSize);
     term2(temp)
+    char dt[19];
+    lfs_file_open(&lfs, &file, "dateTime", LFS_O_RDWR | LFS_O_CREAT);
+    lfs_file_read(&lfs, &file, &dt, sizeof(dt));
+    lfs_file_close(&lfs, &file);
+//    strncpy(dateTimeFirmware, dt, sizeof(dt));
+    sprintf(temp, "DateTime: %s", dt);
+    term2(temp)
+
+
     printMd5(0, firmwareSize);
 
     testXOR();

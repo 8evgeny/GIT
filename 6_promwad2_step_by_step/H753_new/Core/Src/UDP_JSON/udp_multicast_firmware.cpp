@@ -258,8 +258,14 @@ static char FLASHPath[4]; /*! FLASH logical drive path */
                 {
                     term2("MD5 OK")
                     strncpy(dateTimeFirmware, (char *)pack.dateTime, sizeof(dateTimeFirmware));
-                    snprintf(tmp, 38,"DateTime: %s", dateTimeFirmware);
+                    sprintf(tmp, "DateTime: %s", dateTimeFirmware);
                     term2(tmp)
+                    //Запоминаем в EEPROM dateTime
+                    lfs_file_open(&lfs, &file, "dateTime", LFS_O_RDWR | LFS_O_CREAT);
+                    lfs_file_write(&lfs, &file, &dateTimeFirmware, sizeof(dateTimeFirmware));
+                    lfs_file_close(&lfs, &file);
+
+
                     newFirmwareWrite(firmwareSize);   //md5 совпали - пишем прошивку
                 }
                 else
