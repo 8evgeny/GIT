@@ -90,7 +90,7 @@ Window {
 
         Label {
             id: labelPath
-            text: ""
+            text: "file:///home/evg/SOFT/Github/GIT/6_promwad2_step_by_step/H753_new/build_cmake_release/H753_new.bin"
             verticalAlignment: Text.AlignVCenter
             anchors.fill: parent
         }
