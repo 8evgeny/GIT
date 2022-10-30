@@ -118,8 +118,8 @@ Window {
                     && (!isNaN(parseInt(textFieldMainVersion.text)))
                     && (!isNaN(parseInt(textFieldSubVersion.text))))
             {
-//                labelDateTimeCurrent.text = Qt.formatDateTime(
-//                            new Date(), "dd.MM.yyyy hh:mm:ss")
+                labelDateTimeCurrent.text = Qt.formatDateTime(
+                            new Date(), "dd.MM.yyyy hh:mm:ss")
                 appCore.encryptionBinFile(labelPath.text, textFieldKey.text,
                                           labelDateTimeCurrent.text,
                                           parseInt(textFieldMainVersion.text),
