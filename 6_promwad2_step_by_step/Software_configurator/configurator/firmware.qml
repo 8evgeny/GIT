@@ -98,7 +98,7 @@ Window {
 
     TextField {
         id: textFieldKey
-        text: ""
+        text: "1234567812345678"
         anchors.left: parent.left
         anchors.leftMargin: spaceDefault
         anchors.top: rectangleNameKey.bottom
@@ -149,7 +149,7 @@ Window {
 
     TextField {
         id: textFieldMainVersion
-        text: ""
+        text: "0"
         anchors.right: rectangleMainVersion.right
         anchors.rightMargin: 0
         anchors.left: parent.left
@@ -179,7 +179,7 @@ Window {
 
     TextField {
         id: textFieldSubVersion
-        text: ""
+        text: "0"
         anchors.right: rectangleSubVersion.right
         anchors.rightMargin: 0
         anchors.left: textFieldMainVersion.right
