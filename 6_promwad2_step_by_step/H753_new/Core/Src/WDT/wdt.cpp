@@ -14,7 +14,7 @@ extern "C" {
 
 //static WWDG_HandleTypeDef hwwdg;
 static IWDG_HandleTypeDef hiwdg;
-
+const uint32_t wdtDelay = 500;
 void WDTInit(void)
 {
     /*Check if the system has resumed from WWDG reset ####################*/
@@ -28,7 +28,6 @@ void WDTInit(void)
         /* Clear reset flags */
         __HAL_RCC_CLEAR_RESET_FLAGS();
     }
-
 //    hwwdg.Instance = WWDG1;
 //    hwwdg.Init.Window = 0x7F;
 //    hwwdg.Init.Prescaler = WWDG_PRESCALER_128;
@@ -60,52 +59,41 @@ WDT *WDT::pInstance = nullptr;
 
 void WDT::SetDelayTime(uint32_t time)
 {
-    time_.store(time);
+//    time_.store(time);
 }
 
-void WDT::Loop()
+void Loop()
 {
-//    uint32_t count = 0;
-    while (running_)
+    while (1)
     {
-//        ++count;
-//        if (count%10 == 0)
-//        {
-//            term2(count)
-//        }
-//        if (count < 10)
-//        {
-            refresh();
-//        }
-
-
-        osDelay(time_);
+        HAL_IWDG_Refresh(&hiwdg);
+        osDelay(wdtDelay);
     }
 }
 
 void WDT::Stop()
 {
-    running_ = false;
+//    running_ = false;
 }
 
 WDT::WDT()
 {
 //    wwdgtHandle = &hwwdg;
-    iwdgtHandle = &hiwdg;
-    running_ = true;
+//    iwdgtHandle = &hiwdg;
+//    running_ = true;
 
-    SetDelayTime(500);
+//    SetDelayTime(time_);
 
 }
 
-void WDT::refresh(void)
-{
-    if (HAL_IWDG_Refresh(iwdgtHandle) != HAL_OK)
-    {
-        RS232::getInstance().term << "WDG Refresh Error!" << "\n";
-        while(1);
-    }
-}
+//void WDT::refresh(void)
+//{
+//    if (HAL_IWDG_Refresh(iwdgtHandle) != HAL_OK)
+//    {
+//        RS232::getInstance().term << "WDG Refresh Error!" << "\n";
+//        while(1);
+//    }
+//}
 
 WDT *WDT::getInstance()
 {
@@ -123,8 +111,8 @@ void StartWdtThread(void const *argument)
 {
     (void)argument;
     while(1) {
-    WDT::getInstance()->Loop();
-        osDelay(1);
+    Loop();
+    osDelay(1);
     }
 }
 
@@ -180,7 +168,7 @@ void HAL_WWDG_EarlyWakeupCallback(WWDG_HandleTypeDef *hwwdg)
 {
     if (hwwdg->Instance == WWDG1) {
 
-        WDT::getInstance()->refresh();
+//        WDT::getInstance()->refresh();
 
 
     }

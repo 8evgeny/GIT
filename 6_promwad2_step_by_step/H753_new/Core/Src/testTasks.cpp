@@ -11,6 +11,8 @@
 #include "ethernetif.h"
 #include "SEGGER_RTT.h"
 #include <stdio.h>
+#include "wdt.h"
+
 volatile int _Cnt;
 volatile int _Delay;
 static char r;
@@ -150,10 +152,14 @@ void testLed2()
         term("Failed to create simpleLedTest2_RTOS");
     }
 }
-void testLed3()
+void watchDog()
 {
-//    osDelay (8000);
-//    osSemaphoreRelease(Netif_LinkSemaphore);
+    WDTInit();
+    osThreadDef(StartWdtThread, StartWdtThread, osPriorityHigh, 0, configMINIMAL_STACK_SIZE );
+    if ((osThreadCreate(osThread(StartWdtThread), nullptr)) == nullptr)
+    {
+        RS232::getInstance().term << __FUNCTION__ << " " << __LINE__ << " " << "\n";
+    }
 
     osThreadDef(simpleLedTest3_RTOS, simpleLedTest3_RTOS, osPriorityHigh, 0, configMINIMAL_STACK_SIZE );
     if ((osThreadCreate(osThread(simpleLedTest3_RTOS), nullptr)) == nullptr)

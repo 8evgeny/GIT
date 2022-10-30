@@ -105,7 +105,6 @@ term2(msg)
 
     case CallControl::Telephone:
     {
-            //Костыль
             if (context_->subjectKey.key == CallControl::Hash)
             {
 //                osThreadDef(fakeThread, fakeThread, osPriorityRealtime, 0, configMINIMAL_STACK_SIZE );

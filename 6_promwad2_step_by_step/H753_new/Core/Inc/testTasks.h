@@ -18,7 +18,7 @@ void TasksLog(void const *argument);
 
 void testLed1();
 void testLed2();
-void testLed3();
+void watchDog();
 void testUART();
 void testTasksLog();
 void testSendMcast();

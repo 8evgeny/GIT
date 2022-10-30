@@ -18,7 +18,7 @@
  *
  * \class WDT wdt.h "wdt.h"
  */
-class WDT
+class WDT //Класс не использую иначе появляется прерывистость звука
 {
 private:
 
@@ -85,7 +85,7 @@ public:
      *
      * \fn refresh
      */
-    void refresh();
+//    void refresh();
 
     /**
      * \brief The function checks if the WWDG is ranning and
@@ -93,12 +93,12 @@ public:
      *
      * \fn Loop
      */
-    void Loop();
+//    void Loop();
+//    const uint32_t timeWdt = 500;
+//    std::atomic<uint32_t> time_ = 500;
+//    std::atomic<bool> running_; /**< The variable stores flag of the WWDG timer state */
 
-    std::atomic<uint32_t> time_; /**< The variable stores time of restart timer  */
-    std::atomic<bool> running_; /**< The variable stores flag of the WWDG timer state */
-
-    WWDG_HandleTypeDef *wwdgtHandle; /**< The variable is pointer to WWDG Handle Type */
+//    WWDG_HandleTypeDef *wwdgtHandle; /**< The variable is pointer to WWDG Handle Type */
     IWDG_HandleTypeDef *iwdgtHandle;
 };
 
