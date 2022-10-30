@@ -473,12 +473,12 @@ term2("Board SL1")
     char temp[100];
     sprintf(temp,"FirmwareSize: %d",firmwareSize);
     term2(temp)
-    char dt[19];
+    char dt[30];
     lfs_file_open(&lfs, &file, "dateTime", LFS_O_RDWR | LFS_O_CREAT);
     lfs_file_read(&lfs, &file, &dt, sizeof(dt));
     lfs_file_close(&lfs, &file);
 //    strncpy(dateTimeFirmware, dt, sizeof(dt));
-    sprintf(temp, "DateTime: %s", dt);
+    snprintf(temp, 30, "DateTime: %s", dt);
     term2(temp)
 
 
