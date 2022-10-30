@@ -405,7 +405,7 @@ void AppCore::startLoadFirmware(const QString &stationID, bool state)
             firmware.insert("current", currentState);
             firmware.insert("all",  allPackegs);
             firmware.insert("data", dataStr);
-
+            firmware.insert("dateTime", dateTime_);
             QJson::Serializer serializer;
 
             bool ok;

@@ -32,6 +32,7 @@ extern uint8_t pinNormaState;
 extern uint8_t pinMkState;
 extern lfs_t lfs;
 extern lfs_file_t file;
+char dateTimeFirmware[19];
 /*!
  \brief Function translate binary data to a string
 
@@ -85,6 +86,7 @@ using FirmwarePackage = struct {
     int current;
     int all;
     std::array<char, SIZE_FIRMWARE_BASE> data;
+    char* dateTime;
 };
 
 static CircularBuffer <FirmwarePackage, 20> firmwareRingBuffer; /*! Ring buffer for JSON packages */
@@ -255,6 +257,9 @@ static char FLASHPath[4]; /*! FLASH logical drive path */
                 if(strncmp((char*)receivedHashKeyBin, (char*)calculatedMd5, 16) == 0)
                 {
                     term2("MD5 OK")
+                    strncpy(dateTimeFirmware, (char *)pack.dateTime, sizeof(dateTimeFirmware));
+                    snprintf(tmp, 38,"DateTime: %s", dateTimeFirmware);
+                    term2(tmp)
                     newFirmwareWrite(firmwareSize);   //md5 совпали - пишем прошивку
                 }
                 else
@@ -357,7 +362,7 @@ void parsingFirmwareFromJson(JsonDocument &doc)
         int current = doc["current"];
         int all = doc["all"];
         const char *data =  doc["data"];
-
+        const char *dateTime =  doc["dateTime"];
         std::string dataStr(data);
         FirmwarePackage pack;
 
@@ -367,6 +372,11 @@ void parsingFirmwareFromJson(JsonDocument &doc)
         pack.size = size;
         pack.current = current;
         pack.all = all;
+        for (uint8_t i = 0; i < 25 ;++i)
+        {
+            pack.dateTime[i] = dateTime[i];
+        }
+
 
         osMutexWait(mutexFirmwareRingBufferId, osWaitForever);
         firmwareRingBuffer.push(pack);

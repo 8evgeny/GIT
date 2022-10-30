@@ -162,6 +162,7 @@ void AppCore::encryptionBinFile(const QUrl &pathFile, const QString &key, const 
 //    QString originCRC = calcFileCRC(bin);
 //    qDebug() << "originCRC: " << originCRC;
     qDebug()<< "DateTime: "<<dateTime;
+    dateTime_ = dateTime;
     QByteArray hashKeyOriginBin = QCryptographicHash::hash(bin, QCryptographicHash::Md5);
     qDebug() <<"Hash key origin bin: "<<hashKeyOriginBin.toHex();
     qint32 sizeFirmware = bin.size();
