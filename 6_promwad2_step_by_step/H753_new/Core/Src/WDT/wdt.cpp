@@ -73,27 +73,27 @@ void Loop()
 
 void WDT::Stop()
 {
-    running_ = false;
+//    running_ = false;
 }
 
 WDT::WDT()
 {
 //    wwdgtHandle = &hwwdg;
-    iwdgtHandle = &hiwdg;
-    running_ = true;
+//    iwdgtHandle = &hiwdg;
+//    running_ = true;
 
 //    SetDelayTime(time_);
 
 }
 
-void WDT::refresh(void)
-{
-    if (HAL_IWDG_Refresh(iwdgtHandle) != HAL_OK)
-    {
-        RS232::getInstance().term << "WDG Refresh Error!" << "\n";
-        while(1);
-    }
-}
+//void WDT::refresh(void)
+//{
+//    if (HAL_IWDG_Refresh(iwdgtHandle) != HAL_OK)
+//    {
+//        RS232::getInstance().term << "WDG Refresh Error!" << "\n";
+//        while(1);
+//    }
+//}
 
 WDT *WDT::getInstance()
 {
@@ -168,7 +168,7 @@ void HAL_WWDG_EarlyWakeupCallback(WWDG_HandleTypeDef *hwwdg)
 {
     if (hwwdg->Instance == WWDG1) {
 
-        WDT::getInstance()->refresh();
+//        WDT::getInstance()->refresh();
 
 
     }
