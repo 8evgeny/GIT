@@ -310,45 +310,45 @@ Rectangle {
                 }
             }
 
-            Button {
-                id: buttonListBoardSl2
-                width: baseHeight
-                height: baseHeight
-                text: "-"
-                visible: true
-                anchors.topMargin: 0
-                anchors.top: rectListBoardSl1.bottom
-            }
+//            Button {
+//                id: buttonListBoardSl2
+//                width: baseHeight
+//                height: baseHeight
+//                text: "-"
+//                visible: true
+//                anchors.topMargin: 0
+//                anchors.top: rectListBoardSl1.bottom
+//            }
 
-            Connections {
-                target: buttonListBoardSl2
-                onClicked: {
-                    if (listBoardSl2) {
-                        buttonListBoardSl2.text = "+"
-                    } else {
-                        buttonListBoardSl2.text = "-"
-                    }
+//            Connections {
+//                target: buttonListBoardSl2
+//                onClicked: {
+//                    if (listBoardSl2) {
+//                        buttonListBoardSl2.text = "+"
+//                    } else {
+//                        buttonListBoardSl2.text = "-"
+//                    }
 
-                    listBoardSl2 = !listBoardSl2
+//                    listBoardSl2 = !listBoardSl2
 
-                    resizeFlick()
-                }
-            }
+//                    resizeFlick()
+//                }
+//            }
 
-            Label {
-                id: labelBoardSl2
-                width: 300
-                height: baseHeight
-                text: qsTr("Boards SL2:")
-                anchors.top: rectListBoardSl1.bottom
-                anchors.topMargin: 0
-                font.bold: true
-                visible: true
-                verticalAlignment: Text.AlignVCenter
-                horizontalAlignment: Text.AlignLeft
-                anchors.left: buttonListBoardSl2.right
-                anchors.leftMargin: 5
-            }
+//            Label {
+//                id: labelBoardSl2
+//                width: 300
+//                height: baseHeight
+//                text: qsTr("Boards SL2:")
+//                anchors.top: rectListBoardSl1.bottom
+//                anchors.topMargin: 0
+//                font.bold: true
+//                visible: true
+//                verticalAlignment: Text.AlignVCenter
+//                horizontalAlignment: Text.AlignLeft
+//                anchors.left: buttonListBoardSl2.right
+//                anchors.leftMargin: 5
+//            }
 
             Label {
                 id: labelBoardSl1
