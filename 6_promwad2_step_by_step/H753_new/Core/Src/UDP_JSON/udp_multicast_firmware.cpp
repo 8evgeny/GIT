@@ -17,14 +17,12 @@
 #include "stm32h7xx_hal_cryp.h"
 #include <inttypes.h>
 #include "testTasks.h"
-
 void printFlashOptions(FLASH_OBProgramInitTypeDef &OBInit);
 void newFirmwareWrite(uint32_t firmwareSize);
 extern HASH_HandleTypeDef hhash;
 extern CRC_HandleTypeDef hcrc;
 extern uint8_t DataFirmware[NUM_FIRMWARE_PACKET][SIZE_FIRMWARE_BASE] __attribute__((section(".ExtRamData")));
 //extern uint8_t DataFirmware2[NUM_FIRMWARE_PACKET][SIZE_FIRMWARE_BASE] __attribute__((section(".ExtRamData")));
-
 //extern CRYP_HandleTypeDef hcrypFIRMWARE;
 extern char *allConfig;
 extern int sizeConfig;
@@ -32,7 +30,6 @@ extern uint8_t pinNormaState;
 extern uint8_t pinMkState;
 extern lfs_t lfs;
 extern lfs_file_t file;
-char dateTimeFirmware[19];
 /*!
  \brief Function translate binary data to a string
 
@@ -257,14 +254,15 @@ static char FLASHPath[4]; /*! FLASH logical drive path */
                 if(strncmp((char*)receivedHashKeyBin, (char*)calculatedMd5, 16) == 0)
                 {
                     term2("MD5 OK")
-                    strncpy(dateTimeFirmware, (char *)pack.dateTime, sizeof(dateTimeFirmware));
-                    sprintf(tmp, "DateTime: %s", dateTimeFirmware);
-                    term2(tmp)
+                    char dateTimeFirmware[20];
+                    std::fill (dateTimeFirmware, dateTimeFirmware + 19, 0x00);
+                    strcpy(dateTimeFirmware, (char *)pack.dateTime);
+
+                    RS232::getInstance().term <<"date firmware: "<< dateTimeFirmware << "\r\n";
                     //Запоминаем в EEPROM dateTime
                     lfs_file_open(&lfs, &file, "dateTime", LFS_O_RDWR | LFS_O_CREAT);
                     lfs_file_write(&lfs, &file, &dateTimeFirmware, sizeof(dateTimeFirmware));
                     lfs_file_close(&lfs, &file);
-
 
                     newFirmwareWrite(firmwareSize);   //md5 совпали - пишем прошивку
                 }

@@ -56,6 +56,7 @@ static void MX_RNG_Init(void);
 void TaskEthernet_(void const * argument);
 extern lfs_t lfs;
 extern lfs_file_t file;
+lfs_file_t file2;
 volatile uint8_t boardType;
 volatile uint8_t pinNormaState;
 volatile uint8_t pinMkState;
@@ -86,7 +87,6 @@ char uid[25];
 uint32_t uid1;
 uint32_t uid2;
 uint32_t uid3;
-//extern char *dateTimeFirmware;
 extern uint8_t volatile asteriskPressed;
 uint8_t DataFirmware[NUM_FIRMWARE_PACKET][SIZE_FIRMWARE_BASE]
     __attribute__((section(".ExtRamData")))
@@ -473,14 +473,12 @@ term2("Board SL1")
     char temp[100];
     sprintf(temp,"FirmwareSize: %d",firmwareSize);
     term2(temp)
-    char dt[30];
-    lfs_file_open(&lfs, &file, "dateTime", LFS_O_RDWR | LFS_O_CREAT);
-    lfs_file_read(&lfs, &file, &dt, sizeof(dt));
-    lfs_file_close(&lfs, &file);
-//    strncpy(dateTimeFirmware, dt, sizeof(dt));
-    snprintf(temp, 30, "DateTime: %s", dt);
-    term2(temp)
-
+    char dt[20];
+    lfs_file_open(&lfs, &file2, "dateTime", LFS_O_RDWR | LFS_O_CREAT);
+    lfs_file_read(&lfs, &file2, &dt, 20);
+    lfs_file_close(&lfs, &file2);
+    std::string dateTimeFw = std::string(dt);
+    RS232::getInstance().term <<"date firmware: "<< dateTimeFw.c_str() << "\r\n";
 
     printMd5(0, firmwareSize);
 

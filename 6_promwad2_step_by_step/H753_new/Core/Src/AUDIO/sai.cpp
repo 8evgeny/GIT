@@ -20,7 +20,6 @@
 //#define PI 3.141592653589793
 
 osTimerDef (ringToneTimer, ringToneTimer_Callback);
-
 static uint8_t saveCurrentTypeOfRtp = 0;
 static uint8_t timerCount = 0;
 static osTimerId ringToneTimer_id;

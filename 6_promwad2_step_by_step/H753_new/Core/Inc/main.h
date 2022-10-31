@@ -63,7 +63,6 @@ enum
 #ifdef __cplusplus
 extern "C" {
 #endif
-
 #define MII_MOC_Pin GPIO_PIN_1
 #define MII_MOC_GPIO_Port GPIOC
 #define MII_TXD2_Pin GPIO_PIN_2
