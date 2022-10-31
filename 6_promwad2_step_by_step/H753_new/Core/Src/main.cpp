@@ -56,15 +56,11 @@ static void MX_RNG_Init(void);
 void TaskEthernet_(void const * argument);
 extern lfs_t lfs;
 extern lfs_file_t file;
-lfs_file_t file2;
 volatile uint8_t boardType;
 volatile uint8_t pinNormaState;
 volatile uint8_t pinMkState;
 CRC_HandleTypeDef hcrc;
 HASH_HandleTypeDef hhash;
-CRYP_HandleTypeDef hcrypFIRMWARE;
-//__ALIGN_BEGIN static const uint32_t pKeyCRYP_FIRMWARE[4] __ALIGN_END =
-//    {0x00000000, 0x00000000, 0x00000000, 0x00000000};
 I2C_HandleTypeDef hi2c1;
 I2C_HandleTypeDef hi2c2;
 I2C_HandleTypeDef hi2c3;
@@ -223,18 +219,18 @@ static void MX_HASH_Init(void)
 
 }
 
-static void MX_CRYPT_FIRMWARE_Init(uint32_t *key)
-{
-    hcrypFIRMWARE.Instance = CRYP;
-    hcrypFIRMWARE.Init.DataType = CRYP_DATATYPE_32B;
-    hcrypFIRMWARE.Init.KeySize = CRYP_KEYSIZE_128B;
-    hcrypFIRMWARE.Init.pKey = key;
-    hcrypFIRMWARE.Init.Algorithm = CRYP_AES_ECB;
-    if (HAL_CRYP_Init(&hcrypFIRMWARE) != HAL_OK)
-    {
-        RS232::getInstance().term << "crypInit -> ERROR\n";
-    }
-}
+//static void MX_CRYPT_FIRMWARE_Init(uint32_t *key)
+//{
+//    hcrypFIRMWARE.Instance = CRYP;
+//    hcrypFIRMWARE.Init.DataType = CRYP_DATATYPE_32B;
+//    hcrypFIRMWARE.Init.KeySize = CRYP_KEYSIZE_128B;
+//    hcrypFIRMWARE.Init.pKey = key;
+//    hcrypFIRMWARE.Init.Algorithm = CRYP_AES_ECB;
+//    if (HAL_CRYP_Init(&hcrypFIRMWARE) != HAL_OK)
+//    {
+//        RS232::getInstance().term << "crypInit -> ERROR\n";
+//    }
+//}
 
 osThreadId TaskEthernetHandle;
 //osThreadDef(readFromUartThread, readFromUartThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE );
@@ -474,9 +470,9 @@ term2("Board SL1")
     sprintf(temp,"FirmwareSize: %d",firmwareSize);
     term2(temp)
     char dt[20];
-    lfs_file_open(&lfs, &file2, "dateTime", LFS_O_RDWR | LFS_O_CREAT);
-    lfs_file_read(&lfs, &file2, &dt, 20);
-    lfs_file_close(&lfs, &file2);
+    lfs_file_open(&lfs, &file, "dateTime", LFS_O_RDWR | LFS_O_CREAT);
+    lfs_file_read(&lfs, &file, &dt, 20);
+    lfs_file_close(&lfs, &file);
     std::string dateTimeFw = std::string(dt);
     RS232::getInstance().term <<"date firmware: "<< dateTimeFw.c_str() << "\r\n";
 
