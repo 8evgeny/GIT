@@ -449,7 +449,7 @@ Rectangle {
 
                             id += counterBoardSl1
 
-                            stationName = "Плата СЛ1 " + counterBoardSl1
+                            stationName = "board SL1 " + counterBoardSl1
                             listModelBoardSl1.append({
                                                          "name": stationName
                                                      })
@@ -496,7 +496,7 @@ Rectangle {
             //for future works
 
                         ListElement {
-                            text: "Плата СЛ1"
+                            text: "board SL1"
                         }
             //            ListElement {
             //                text: "Плата СЛ2"
