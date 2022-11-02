@@ -445,21 +445,22 @@ Rectangle {
                 counterDigitalStation++
             }
             //for future work
-            //            else if (comboBoxListOfDevices.currentIndex == 1) {
+                        else if (comboBoxListOfDevices.currentIndex == 1) {
 
-            //                id += counterBoardSl1
+                            id += counterBoardSl1
 
-            //                stationName = "Плата СЛ1 " + counterBoardSl1
-            //                listModelBoardSl1.append({
-            //                                             "name": stationName
-            //                                         })
+                            stationName = "Плата СЛ1 " + counterBoardSl1
+                            listModelBoardSl1.append({
+                                                         "name": stationName
+                                                     })
 
-            //                listModelStationWithoutGroup.append({
-            //                                                        "name": stationName
-            //                                                    })
+                            listModelStationWithoutGroup.append({
+                                                                    "name": stationName
+                                                                })
 
-            //                counterBoardSl1++
-            //            } else if (comboBoxListOfDevices.currentIndex == 2) {
+                            counterBoardSl1++
+                        }
+//            else if (comboBoxListOfDevices.currentIndex == 2) {
 
             //                id += counterBoardSl2
 
@@ -494,9 +495,9 @@ Rectangle {
             }
             //for future works
 
-            //            ListElement {
-            //                text: "Плата СЛ1"
-            //            }
+                        ListElement {
+                            text: "Плата СЛ1"
+                        }
             //            ListElement {
             //                text: "Плата СЛ2"
             //            }
