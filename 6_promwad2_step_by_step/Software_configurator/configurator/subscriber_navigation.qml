@@ -377,14 +377,15 @@ Rectangle //id: rectangleMain
         height: baseHeight
         anchors.left: addDevice.right
         anchors.leftMargin: 5
-        model: ListModel {
+        model: ListModel
+        {
             id: modelListOfDevices
             ListElement {
                 text: qsTr("Digital station")
             }
 
             ListElement {
-                text: "board SL1"
+                text: "Board SL1"
             }
         }
     }
@@ -404,7 +405,8 @@ Rectangle //id: rectangleMain
         clip: true
         ScrollBar.vertical: ScrollBar {}
 
-        Rectangle {
+        Rectangle //rectListsWithoutGroup
+        {
             id: rectListsWithoutGroup
             anchors.fill: parent
 
@@ -465,7 +467,8 @@ Rectangle //id: rectangleMain
         }
     }
 
-    Rectangle {
+    Rectangle //id: rectangleGroups
+    {
         id: rectangleGroups
         x: 0
         y: 45
@@ -479,7 +482,8 @@ Rectangle //id: rectangleMain
         anchors.top: addDevice.bottom
         anchors.topMargin: 0
 
-        Rectangle {
+        Rectangle  //Надпись Groups
+        {
             id: rectangleGroupsColor
             color: canvasColor1//"#ffffff"
             anchors.rightMargin: 5
@@ -491,6 +495,7 @@ Rectangle //id: rectangleMain
             Label {
                 id: labelGroups
                 text: qsTr("Groups")
+                color:  "blue"
                 font.bold: true
                 verticalAlignment: Text.AlignVCenter
                 anchors.fill: parent
@@ -510,7 +515,8 @@ Rectangle //id: rectangleMain
         }
     }
 
-    Button {
+    Button //Скрытая кнопка
+    {
         id: buttonLoadStations
         text: qsTr("Save project")
         anchors.left: checkBoxActGroup.right
@@ -521,7 +527,8 @@ Rectangle //id: rectangleMain
         }
     }
 
-    Button {
+    Button //Скрытая кнопка
+    {
         id: buttonLoadGroups
         text: qsTr("Load project")
         anchors.left: buttonLoadStations.right
