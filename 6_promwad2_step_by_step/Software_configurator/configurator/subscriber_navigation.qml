@@ -58,7 +58,8 @@ Rectangle //Список всех станций
         rectListStationWithoutGroup.height = listModelStationWithoutGroup.count * baseHeight
     }
 
-    Flickable {
+    Flickable
+    {
         id: flickLists
         width: parent.width
         anchors.bottom: parent.bottom
@@ -68,11 +69,14 @@ Rectangle //Список всех станций
         clip: true
         ScrollBar.vertical: ScrollBar {}
 
-        Rectangle {
+        Rectangle //id: rectLists
+        {
             id: rectLists
             anchors.fill: parent
             color: canvasColor2
-            Rectangle {
+
+            Rectangle  //id: rectListDigitalStation
+            {
                 id: rectListDigitalStation
                 color: canvasColor1
                 anchors.left: buttonListDigitalStation.right
@@ -133,8 +137,57 @@ Rectangle //Список всех станций
                     highlightMoveDuration: 100
                 }
             }
+            Button //Кнопка скрыть показать список станций
+            {
+                width: baseHeight
+                height: baseHeight
+                id: buttonListDigitalStation
+                x: 0
+                text: "-"
+                //                anchors.top: rectangleGroups.bottom
+                //                anchors.topMargin: 0
+            }
+            Connections //Действие кнопки
+            {
+                target: buttonListDigitalStation
+                onClicked:
+                {
+                    if (listDigitalStation) {
+                        buttonListDigitalStation.text = "+"
+                    } else {
+                        buttonListDigitalStation.text = "-"
+                    }
 
-            Rectangle {
+                    listDigitalStation = !listDigitalStation
+
+                    resizeFlick()
+                }
+            }
+            Label //Надпись Digital stations:
+            {
+                id: labelDigitalStation
+                width: 300
+                height: baseHeight
+                text: qsTr("Digital stations:")
+                anchors.left: buttonListDigitalStation.right
+                anchors.leftMargin: 5
+                //                anchors.top: rectangleGroups.bottom
+                //                anchors.topMargin: 0
+                font.bold: true
+                color: "blue"
+                //                anchors.left: buttonListDigitalStation.right
+                //                anchors.leftMargin: 5
+                verticalAlignment: Text.AlignVCenter
+                horizontalAlignment: Text.AlignLeft
+            }
+
+            Connections //Недоработано ?
+            {
+                target: listViewDigitalStation
+            }
+
+            Rectangle //id: rectListBoardSl1
+            {
                 id: rectListBoardSl1
                 color: canvasColor1
                 anchors.left: buttonListBoardSl1.right
@@ -180,53 +233,8 @@ Rectangle //Список всех станций
                     highlightMoveDuration: 100
                 }
             }
-
-            Label {
-                id: labelDigitalStation
-                width: 300
-                height: baseHeight
-                text: qsTr("Digital stations:")
-                anchors.left: buttonListDigitalStation.right
-                anchors.leftMargin: 5
-                //                anchors.top: rectangleGroups.bottom
-                //                anchors.topMargin: 0
-                font.bold: true
-                //                anchors.left: buttonListDigitalStation.right
-                //                anchors.leftMargin: 5
-                verticalAlignment: Text.AlignVCenter
-                horizontalAlignment: Text.AlignLeft
-            }
-
-            Connections {
-                target: listViewDigitalStation
-            }
-
-            Button {
-                width: baseHeight
-                height: baseHeight
-                id: buttonListDigitalStation
-                x: 0
-                text: "-"
-                //                anchors.top: rectangleGroups.bottom
-                //                anchors.topMargin: 0
-            }
-
-            Connections {
-                target: buttonListDigitalStation
-                onClicked: {
-                    if (listDigitalStation) {
-                        buttonListDigitalStation.text = "+"
-                    } else {
-                        buttonListDigitalStation.text = "-"
-                    }
-
-                    listDigitalStation = !listDigitalStation
-
-                    resizeFlick()
-                }
-            }
-
-            Button {
+            Button //Кнопка скрыть показать список SL1
+            {
                 id: buttonListBoardSl1
                 width: baseHeight
                 height: baseHeight
@@ -234,8 +242,8 @@ Rectangle //Список всех станций
                 anchors.top: rectListDigitalStation.bottom
                 anchors.topMargin: 0
             }
-
-            Connections {
+            Connections //Действие кнопки
+            {
                 target: buttonListBoardSl1
                 onClicked: {
                     if (listBoardSl1) {
@@ -249,12 +257,13 @@ Rectangle //Список всех станций
                     resizeFlick()
                 }
             }
-
-            Label {
+            Label //Надпись Boards SL1:
+            {
                 id: labelBoardSl1
                 width: 300
                 height: baseHeight
                 text: qsTr("Boards SL1:")
+                color: "blue"
                 font.bold: true
                 anchors.top: rectListDigitalStation.bottom
                 anchors.topMargin: 0
@@ -263,8 +272,9 @@ Rectangle //Список всех станций
                 verticalAlignment: Text.AlignVCenter
                 horizontalAlignment: Text.AlignLeft
             }
-        }
-    }
+
+        }//id: rectLists
+    }//Flickable
 
     Button {
         id: deleteDevice
