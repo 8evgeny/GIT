@@ -297,7 +297,7 @@ Rectangle //id: rectangleMain
                             anchors.fill: parent
                             onClicked: {
 
-                                rectangleGroupsColor.color = "#ffffff"
+                                rectangleGroupsColor.color = canvasColor1//"#ffffff"
 
                                 listViewDigitalStation.currentIndex = index
                                 listViewStationWithoutGroup.currentIndex = index
