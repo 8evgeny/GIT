@@ -3,26 +3,25 @@ import QtQuick.Window 2.2
 import QtQuick.Controls 2.12
 import QtQuick.Controls.Styles 1.4
 
-Rectangle {
+Rectangle //Список всех станций
+{
+    color: canvasColor1
     id: rectangleMain
     height: parent.height
-
+    width: 600
     //counter - [100-65000]
     property int counterDigitalStation: 100
-    property int counterBoardSl1: 100
-
+    property int counterBoardSl1: 200
+    property color canvasColor1: "#FAFCD4"
     property color defaultColor: "#D7C6A7"//"#e1e1e2" //Цвет выделения строки с номером
     property bool listDigitalStation: true
     property bool listBoardSl1: true
-
     property int baseHeight: 40
-
     property int currentPositionWithoutGroup: -1
     property int currentPosition: -1
 
-    width: 600
-
-    function resizeFlick() {
+    function resizeFlick()
+    {
         rectListDigitalStation.height = 0
         rectListBoardSl1.height = 0
 
@@ -50,9 +49,10 @@ Rectangle {
             rectListBoardSl1.visible = false
         }
 
-    }
+    }//resizeFlick()
 
-    function resizeFlickWithoutGroup() {
+    function resizeFlickWithoutGroup()
+    {
         flickListsWithoutGroup.contentHeight = listModelStationWithoutGroup.count * baseHeight
         rectListStationWithoutGroup.height = listModelStationWithoutGroup.count * baseHeight
     }
@@ -456,7 +456,7 @@ Rectangle {
         x: 0
         y: 45
         height: 40
-        color: "#ffffff"
+        color: canvasColor1//"#ffffff"
         visible: true
         anchors.right: parent.right
         anchors.rightMargin: 0
@@ -467,7 +467,7 @@ Rectangle {
 
         Rectangle {
             id: rectangleGroupsColor
-            color: "#ffffff"
+            color: canvasColor1//"#ffffff"
             anchors.rightMargin: 5
             anchors.leftMargin: 5
             anchors.bottomMargin: 5
