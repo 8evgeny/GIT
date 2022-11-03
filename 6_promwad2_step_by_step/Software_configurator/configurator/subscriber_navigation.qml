@@ -459,11 +459,13 @@ Rectangle //id: rectangleMain
         }//id: rectLists
     }//Flickable
 
-    Connections {
+    Connections
+    {
         target: appCore
     }
 
-    Flickable {
+    Flickable
+    {
         id: flickListsWithoutGroup
         anchors.top: rectangleGroups.bottom
         anchors.right: parent.right
@@ -561,7 +563,8 @@ Rectangle //id: rectangleMain
         }
     }
 
-    Connections {
+    Connections
+    {
         target: appCore
 
         onSendUpdateListOfStationsFromFile: {
