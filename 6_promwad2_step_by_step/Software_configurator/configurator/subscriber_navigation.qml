@@ -12,8 +12,7 @@ Rectangle {
     property int counterBoardSl1: 100
     property int counterBoardSl2: 100
 
-    property color defaultColor: "#e1e1e2"
-
+    property color defaultColor: "#D7C6A7"//"#e1e1e2" //Цвет выделения строки с номером
     property bool listDigitalStation: true
     property bool listBoardSl1: true
     property bool listBoardSl2: true
