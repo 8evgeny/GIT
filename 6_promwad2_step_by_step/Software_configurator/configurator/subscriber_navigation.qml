@@ -57,6 +57,190 @@ Rectangle //id: rectangleMain
         rectListStationWithoutGroup.height = listModelStationWithoutGroup.count * baseHeight
     }
 
+    Button //Кнопка Add device
+    {
+        id: addDevice
+        width: 130
+        height: baseHeight
+        text: qsTr("Add device")
+        onClicked:
+        {
+            var stationName = ""
+            var id = "CID "
+            if (comboBoxListOfDevices.currentIndex == 0)
+            {
+                //counterDigitalStation = 0// TODO
+                id += counterDigitalStation
+
+                stationName = qsTr(
+                            "Digital station") + " " + counterDigitalStation
+                listModelDigitalStation.append({
+                                                   "name": stationName,
+                                                   "cidName": id
+                                               })
+                listModelStationWithoutGroup.append({
+                                                        "name": stationName,
+                                                        "cidName": id
+                                                    })
+                counterDigitalStation++
+            }
+            else if (comboBoxListOfDevices.currentIndex == 1) {
+                id += counterBoardSl1
+                stationName = "board SL1 " + counterBoardSl1
+                listModelBoardSl1.append({
+                                             "name": stationName
+                                         })
+                listModelStationWithoutGroup.append({
+                                                        "name": stationName
+                                                     })
+                counterBoardSl1++
+            }
+
+            appCore.saveStation(stationName, id)
+
+            resizeFlick()
+            resizeFlickWithoutGroup()
+        }
+    }
+    ComboBox //Выбор типа станции
+    {
+        id: comboBoxListOfDevices
+        width: 175
+        height: baseHeight
+        anchors.left: addDevice.right
+        anchors.leftMargin: 5
+        model: ListModel
+        {
+            id: modelListOfDevices
+            ListElement {
+                text: qsTr("Digital station")
+            }
+
+            ListElement {
+                text: "Board SL1"
+            }
+        }
+    }
+    Button //Кнопка Remove device
+    {
+        id: deleteDevice
+        width: 150
+        height: baseHeight
+        text: qsTr("Remove device")
+        anchors.left: comboBoxListOfDevices.right
+        anchors.leftMargin: 5
+        onClicked:
+        {
+            var currentIndex = -1
+            currentIndex = listViewDigitalStation.currentIndex
+
+            if (currentIndex >= 0)
+            {
+                appCore.deleteStation(listModelDigitalStation.get(
+                                          currentIndex).cidName)
+            }
+            if (listModelDigitalStation.count > 0)
+            {
+                if (listViewDigitalStation.currentIndex >= 0) {
+                    listModelDigitalStation.remove(
+                                listViewDigitalStation.currentIndex)
+
+                    listModelStationWithoutGroup.remove(
+                                listViewStationWithoutGroup.currentIndex)
+                }
+            }
+            if (listModelBoardSl1.count > 0)
+            {
+                if (listViewBoardSl1.currentIndex >= 0)
+                    listModelBoardSl1.remove(listViewBoardSl1.currentIndex)
+            }
+
+            resizeFlick()
+            resizeFlickWithoutGroup()
+
+            if (listModelDigitalStation.count > 0)
+            {
+                if (listViewDigitalStation.currentIndex >= 0)
+                {
+                    appCore.sendCurrentIndexOfDigitalStation(
+                                listViewDigitalStation.currentIndex, listModelDigitalStation.get(
+                                    listViewDigitalStation.currentIndex).cidName)
+                }
+            }
+        }//onClicked
+    }
+    CheckBox  //Чек бокс Группы
+    {
+        id: checkBoxActGroup
+        width: 150
+        height: 40
+        text: qsTr("Group")
+        checked: true
+        anchors.left: deleteDevice.right
+        anchors.leftMargin: 5
+        onClicked: {
+            if (checkBoxActGroup.checked) {
+                flickLists.visible = true
+                flickListsWithoutGroup.visible = false
+                listViewDigitalStation.currentIndex = listViewStationWithoutGroup.currentIndex
+            } else {
+                flickLists.visible = false
+                flickListsWithoutGroup.visible = true
+                listViewStationWithoutGroup.currentIndex = listViewDigitalStation.currentIndex
+            }
+        }
+    }
+
+    Rectangle //id: rectangleGroups
+    {
+        id: rectangleGroups
+        x: 0
+        y: 45
+        height: 40
+        color: canvasColor1//"#ffffff"
+        visible: true
+        anchors.right: parent.right
+        anchors.rightMargin: 0
+        anchors.left: parent.left
+        anchors.leftMargin: 0
+        anchors.top: addDevice.bottom
+        anchors.topMargin: 0
+
+        Rectangle  //Надпись Groups
+        {
+            id: rectangleGroupsColor
+            color: canvasColor1//"#ffffff"
+            anchors.rightMargin: 5
+            anchors.leftMargin: 5
+            anchors.bottomMargin: 5
+            anchors.topMargin: 5
+            anchors.fill: parent
+
+            Label //Надпись Groups
+            {
+                id: labelGroups
+                text: qsTr("Groups")
+                color:  "blue"
+                font.bold: true
+                verticalAlignment: Text.AlignVCenter
+                anchors.fill: parent
+            }
+            MouseArea
+            {
+                id: mouseAreaGroups
+                anchors.fill: parent
+                onClicked:
+                {
+                    rectangleGroupsColor.color = defaultColor
+                    listViewDigitalStation.currentIndex = -1
+                    listViewStationWithoutGroup.currentIndex = -1
+                    appCore.enableVisibleGroups()
+                }
+
+            }
+        }
+    }
+
     Flickable
     {
         id: flickLists
@@ -275,121 +459,6 @@ Rectangle //id: rectangleMain
         }//id: rectLists
     }//Flickable
 
-    Button //Кнопка Remove device
-    {
-        id: deleteDevice
-        width: 150
-        height: baseHeight
-        text: qsTr("Remove device")
-        anchors.left: comboBoxListOfDevices.right
-        anchors.leftMargin: 5
-        onClicked:
-        {
-            var currentIndex = -1
-            currentIndex = listViewDigitalStation.currentIndex
-
-            if (currentIndex >= 0)
-            {
-                appCore.deleteStation(listModelDigitalStation.get(
-                                          currentIndex).cidName)
-            }
-            if (listModelDigitalStation.count > 0)
-            {
-                if (listViewDigitalStation.currentIndex >= 0) {
-                    listModelDigitalStation.remove(
-                                listViewDigitalStation.currentIndex)
-
-                    listModelStationWithoutGroup.remove(
-                                listViewStationWithoutGroup.currentIndex)
-                }
-            }            
-            if (listModelBoardSl1.count > 0)
-            {
-                if (listViewBoardSl1.currentIndex >= 0)
-                    listModelBoardSl1.remove(listViewBoardSl1.currentIndex)
-            }
-
-            resizeFlick()
-            resizeFlickWithoutGroup()
-
-            if (listModelDigitalStation.count > 0)
-            {
-                if (listViewDigitalStation.currentIndex >= 0)
-                {
-                    appCore.sendCurrentIndexOfDigitalStation(
-                                listViewDigitalStation.currentIndex, listModelDigitalStation.get(
-                                    listViewDigitalStation.currentIndex).cidName)
-                }
-            }
-        }//onClicked
-    }
-
-    Button //Кнопка Add device
-    {
-        id: addDevice
-        width: 130
-        height: baseHeight
-        text: qsTr("Add device")
-        onClicked:
-        {
-            var stationName = ""
-            var id = "CID "
-            if (comboBoxListOfDevices.currentIndex == 0)
-            {
-                //counterDigitalStation = 0// TODO
-                id += counterDigitalStation
-
-                stationName = qsTr(
-                            "Digital station") + " " + counterDigitalStation
-                listModelDigitalStation.append({
-                                                   "name": stationName,
-                                                   "cidName": id
-                                               })
-                listModelStationWithoutGroup.append({
-                                                        "name": stationName,
-                                                        "cidName": id
-                                                    })
-                counterDigitalStation++
-            }
-            else if (comboBoxListOfDevices.currentIndex == 1) {
-                id += counterBoardSl1
-                stationName = "board SL1 " + counterBoardSl1
-                listModelBoardSl1.append({
-                                             "name": stationName
-                                         })
-                listModelStationWithoutGroup.append({
-                                                        "name": stationName
-                                                     })
-                counterBoardSl1++
-            }
-
-            appCore.saveStation(stationName, id)
-
-            resizeFlick()
-            resizeFlickWithoutGroup()
-        }
-    }
-
-    ComboBox //Выбор типа станции
-    {
-        id: comboBoxListOfDevices
-        width: 175
-        height: baseHeight
-        anchors.left: addDevice.right
-        anchors.leftMargin: 5
-        model: ListModel
-        {
-            id: modelListOfDevices
-            ListElement {
-                text: qsTr("Digital station")
-            }
-
-            ListElement {
-                text: "Board SL1"
-            }
-        }
-    }
-
     Connections {
         target: appCore
     }
@@ -467,53 +536,6 @@ Rectangle //id: rectangleMain
         }
     }
 
-    Rectangle //id: rectangleGroups
-    {
-        id: rectangleGroups
-        x: 0
-        y: 45
-        height: 40
-        color: canvasColor1//"#ffffff"
-        visible: true
-        anchors.right: parent.right
-        anchors.rightMargin: 0
-        anchors.left: parent.left
-        anchors.leftMargin: 0
-        anchors.top: addDevice.bottom
-        anchors.topMargin: 0
-
-        Rectangle  //Надпись Groups
-        {
-            id: rectangleGroupsColor
-            color: canvasColor1//"#ffffff"
-            anchors.rightMargin: 5
-            anchors.leftMargin: 5
-            anchors.bottomMargin: 5
-            anchors.topMargin: 5
-            anchors.fill: parent
-
-            Label {
-                id: labelGroups
-                text: qsTr("Groups")
-                color:  "blue"
-                font.bold: true
-                verticalAlignment: Text.AlignVCenter
-                anchors.fill: parent
-            }
-            MouseArea {
-                id: mouseAreaGroups
-                anchors.fill: parent
-                onClicked:
-                {
-                    rectangleGroupsColor.color = defaultColor
-                    listViewDigitalStation.currentIndex = -1
-                    listViewStationWithoutGroup.currentIndex = -1
-                    appCore.enableVisibleGroups()
-                }
-
-            }
-        }
-    }
 
     Button //Скрытая кнопка
     {
@@ -536,27 +558,6 @@ Rectangle //id: rectangleMain
         anchors.leftMargin: 5
         onClicked: {
             appCore.loadListOfStationAndGroupsQJson()
-        }
-    }
-
-    CheckBox {
-        id: checkBoxActGroup
-        width: 150
-        height: 40
-        text: qsTr("Group")
-        checked: true
-        anchors.left: deleteDevice.right
-        anchors.leftMargin: 5
-        onClicked: {
-            if (checkBoxActGroup.checked) {
-                flickLists.visible = true
-                flickListsWithoutGroup.visible = false
-                listViewDigitalStation.currentIndex = listViewStationWithoutGroup.currentIndex
-            } else {
-                flickLists.visible = false
-                flickListsWithoutGroup.visible = true
-                listViewStationWithoutGroup.currentIndex = listViewDigitalStation.currentIndex
-            }
         }
     }
 
