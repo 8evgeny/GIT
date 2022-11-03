@@ -268,13 +268,14 @@ Rectangle //id: rectangleMain
                 anchors.rightMargin: 0
                 anchors.top: buttonListDigitalStation.bottom
                 anchors.topMargin: 0
-                ListView {
+                ListView //listViewDigitalStation
+                {
                     id: listViewDigitalStation
                     anchors.fill: parent
                     currentIndex: -1
-
                     interactive: false
-                    model: ListModel {
+                    model: ListModel
+                    {
                         id: listModelDigitalStation
                     }
                     delegate: Item {
@@ -293,23 +294,20 @@ Rectangle //id: rectangleMain
                             }
                             spacing: 10
                         }
-                        MouseArea {
+                        MouseArea
+                        {
                             anchors.fill: parent
-                            onClicked: {
-
+                            onClicked:
+                            {
                                 rectangleGroupsColor.color = canvasColor1//"#ffffff"
-
                                 listViewDigitalStation.currentIndex = index
                                 listViewStationWithoutGroup.currentIndex = index
-
                                 listViewBoardSl1.currentIndex = -1
 
                                 //send current index of the station
                                 appCore.sendCurrentIndexOfDigitalStation(
                                             index, listModelDigitalStation.get(
                                                 index).cidName)
-
-
                             }
                         }
                     }
@@ -327,8 +325,8 @@ Rectangle //id: rectangleMain
                 id: buttonListDigitalStation
                 x: 0
                 text: "-"
-                //                anchors.top: rectangleGroups.bottom
-                //                anchors.topMargin: 0
+                anchors.top: rectangleGroups.bottom
+                anchors.topMargin: 0
             }
             Connections //Действие кнопки
             {
@@ -364,10 +362,10 @@ Rectangle //id: rectangleMain
                 horizontalAlignment: Text.AlignLeft
             }
 
-            Connections //Недоработано ?
-            {
-                target: listViewDigitalStation
-            }
+//            Connections //Недоработано ?
+//            {
+//                target: listViewDigitalStation
+//            }
 
             Rectangle //id: rectListBoardSl1
             {
@@ -379,14 +377,14 @@ Rectangle //id: rectangleMain
                 anchors.rightMargin: 0
                 anchors.top: buttonListBoardSl1.bottom
                 anchors.topMargin: 0
-                ListView {
+                ListView // listViewBoardSl1
+                {
                     id: listViewBoardSl1
                     anchors.fill: parent
-
                     currentIndex: -1
-
                     interactive: false
-                    model: ListModel {
+                    model: ListModel
+                    {
                         id: listModelBoardSl1
                     }
                     delegate: Item {
@@ -396,6 +394,10 @@ Rectangle //id: rectangleMain
                         Row {
                             id: rowBoardSl1
                             Text {
+                                text: cidName
+                                anchors.verticalCenter: parent.verticalCenter
+                            }
+                            Text {
                                 text: name
                                 anchors.verticalCenter: parent.verticalCenter
                             }
@@ -403,7 +405,8 @@ Rectangle //id: rectangleMain
                         }
                         MouseArea {
                             anchors.fill: parent
-                            onClicked: {
+                            onClicked:
+                            {
                                 listViewDigitalStation.currentIndex = -1
                                 listViewBoardSl1.currentIndex = index
                             }
@@ -459,10 +462,10 @@ Rectangle //id: rectangleMain
         }//id: rectLists
     }//Flickable
 
-    Connections
-    {
-        target: appCore
-    }
+//    Connections
+//    {
+//        target: appCore
+//    }
 
     Flickable
     {
@@ -480,10 +483,11 @@ Rectangle //id: rectangleMain
         {
             id: rectListsWithoutGroup
             anchors.fill: parent
-
+            color: canvasColor1
             Rectangle {
                 id: rectListStationWithoutGroup
                 width: 0
+                color: canvasColor1
                 anchors.right: parent.right
                 anchors.rightMargin: 0
                 anchors.left: parent.left
@@ -517,7 +521,7 @@ Rectangle //id: rectangleMain
                         MouseArea {
                             anchors.fill: parent
                             onClicked: {
-                                rectangleGroupsColor.color = "#ffffff"
+                                rectangleGroupsColor.color = canvasColor1//"#ffffff"
 
                                 listViewDigitalStation.currentIndex = index
                                 listViewStationWithoutGroup.currentIndex = index
