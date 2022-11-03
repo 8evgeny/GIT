@@ -291,10 +291,10 @@ Rectangle {
 
             //for future works
 
-            //            if (listModelBoardSl1.count > 0) {
-            //                if (listViewBoardSl1.currentIndex >= 0)
-            //                    listModelBoardSl1.remove(listViewBoardSl1.currentIndex)
-            //            }
+            if (listModelBoardSl1.count > 0) {
+                if (listViewBoardSl1.currentIndex >= 0)
+                    listModelBoardSl1.remove(listViewBoardSl1.currentIndex)
+            }
 
             resizeFlick()
             resizeFlickWithoutGroup()
@@ -338,21 +338,17 @@ Rectangle {
                 counterDigitalStation++
             }
             //for future work
-                        else if (comboBoxListOfDevices.currentIndex == 1) {
-
-                            id += counterBoardSl1
-
-                            stationName = "board SL1 " + counterBoardSl1
-                            listModelBoardSl1.append({
-                                                         "name": stationName
+            else if (comboBoxListOfDevices.currentIndex == 1) {
+                id += counterBoardSl1
+                stationName = "board SL1 " + counterBoardSl1
+                listModelBoardSl1.append({
+                                             "name": stationName
+                                         })
+                listModelStationWithoutGroup.append({
+                                                        "name": stationName
                                                      })
-
-                            listModelStationWithoutGroup.append({
-                                                                    "name": stationName
-                                                                })
-
-                            counterBoardSl1++
-                        }
+                counterBoardSl1++
+            }
 
             appCore.saveStation(stationName, id)
 
@@ -372,14 +368,10 @@ Rectangle {
             ListElement {
                 text: qsTr("Digital station")
             }
-            //for future works
 
-                        ListElement {
-                            text: "board SL1"
-                        }
-            //            ListElement {
-            //                text: "Плата СЛ2"
-            //            }
+            ListElement {
+                text: "board SL1"
+            }
         }
     }
 
