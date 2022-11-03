@@ -275,23 +275,26 @@ Rectangle //id: rectangleMain
         }//id: rectLists
     }//Flickable
 
-    Button {
+    Button //Кнопка Remove device
+    {
         id: deleteDevice
         width: 150
         height: baseHeight
         text: qsTr("Remove device")
         anchors.left: comboBoxListOfDevices.right
         anchors.leftMargin: 5
-        onClicked: {
+        onClicked:
+        {
             var currentIndex = -1
             currentIndex = listViewDigitalStation.currentIndex
 
-            if (currentIndex >= 0) {
+            if (currentIndex >= 0)
+            {
                 appCore.deleteStation(listModelDigitalStation.get(
                                           currentIndex).cidName)
             }
-
-            if (listModelDigitalStation.count > 0) {
+            if (listModelDigitalStation.count > 0)
+            {
                 if (listViewDigitalStation.currentIndex >= 0) {
                     listModelDigitalStation.remove(
                                 listViewDigitalStation.currentIndex)
@@ -300,10 +303,8 @@ Rectangle //id: rectangleMain
                                 listViewStationWithoutGroup.currentIndex)
                 }
             }            
-
-            //for future works
-
-            if (listModelBoardSl1.count > 0) {
+            if (listModelBoardSl1.count > 0)
+            {
                 if (listViewBoardSl1.currentIndex >= 0)
                     listModelBoardSl1.remove(listViewBoardSl1.currentIndex)
             }
@@ -311,29 +312,30 @@ Rectangle //id: rectangleMain
             resizeFlick()
             resizeFlickWithoutGroup()
 
-
-            if (listModelDigitalStation.count > 0) {
-                if (listViewDigitalStation.currentIndex >= 0) {
+            if (listModelDigitalStation.count > 0)
+            {
+                if (listViewDigitalStation.currentIndex >= 0)
+                {
                     appCore.sendCurrentIndexOfDigitalStation(
                                 listViewDigitalStation.currentIndex, listModelDigitalStation.get(
                                     listViewDigitalStation.currentIndex).cidName)
                 }
             }
-
-        }
+        }//onClicked
     }
 
-    Button {
+    Button //Кнопка Add device
+    {
         id: addDevice
         width: 130
         height: baseHeight
         text: qsTr("Add device")
-        onClicked: {
-
+        onClicked:
+        {
             var stationName = ""
             var id = "CID "
-
-            if (comboBoxListOfDevices.currentIndex == 0) {
+            if (comboBoxListOfDevices.currentIndex == 0)
+            {
                 //counterDigitalStation = 0// TODO
                 id += counterDigitalStation
 
@@ -349,7 +351,6 @@ Rectangle //id: rectangleMain
                                                     })
                 counterDigitalStation++
             }
-            //for future work
             else if (comboBoxListOfDevices.currentIndex == 1) {
                 id += counterBoardSl1
                 stationName = "board SL1 " + counterBoardSl1
@@ -369,7 +370,8 @@ Rectangle //id: rectangleMain
         }
     }
 
-    ComboBox {
+    ComboBox //Выбор типа станции
+    {
         id: comboBoxListOfDevices
         width: 175
         height: baseHeight
