@@ -10,12 +10,10 @@ Rectangle {
     //counter - [100-65000]
     property int counterDigitalStation: 100
     property int counterBoardSl1: 100
-    property int counterBoardSl2: 100
 
     property color defaultColor: "#D7C6A7"//"#e1e1e2" //Цвет выделения строки с номером
     property bool listDigitalStation: true
     property bool listBoardSl1: true
-    property bool listBoardSl2: true
 
     property int baseHeight: 40
 
@@ -27,7 +25,6 @@ Rectangle {
     function resizeFlick() {
         rectListDigitalStation.height = 0
         rectListBoardSl1.height = 0
-        rectListBoardSl2.height = 0
 
         flickLists.contentHeight = baseHeight * 3
 
@@ -39,11 +36,6 @@ Rectangle {
         if (listBoardSl1) {
             flickLists.contentHeight += listModelBoardSl1.count * baseHeight
             rectListBoardSl1.height = listModelBoardSl1.count * baseHeight
-        }
-
-        if (listBoardSl2) {
-            flickLists.contentHeight += listModelBoardSl2.count * baseHeight
-            rectListBoardSl2.height = listModelBoardSl2.count * baseHeight
         }
 
         if (listDigitalStation) {
@@ -58,11 +50,6 @@ Rectangle {
             rectListBoardSl1.visible = false
         }
 
-        if (listBoardSl2) {
-            rectListBoardSl2.visible = true
-        } else {
-            rectListBoardSl2.visible = false
-        }
     }
 
     function resizeFlickWithoutGroup() {
@@ -127,7 +114,6 @@ Rectangle {
                                 listViewStationWithoutGroup.currentIndex = index
 
                                 listViewBoardSl1.currentIndex = -1
-                                listViewBoardSl2.currentIndex = -1
 
                                 //send current index of the station
                                 appCore.sendCurrentIndexOfDigitalStation(
@@ -181,59 +167,11 @@ Rectangle {
                             onClicked: {
                                 listViewDigitalStation.currentIndex = -1
                                 listViewBoardSl1.currentIndex = index
-                                listViewBoardSl2.currentIndex = -1
                             }
                         }
                     }
                     highlight: Rectangle {
                         id: highlightBoardSl1
-                        color: defaultColor
-                    }
-                    highlightMoveDuration: 100
-                }
-            }
-
-            Rectangle {
-                id: rectListBoardSl2
-                anchors.left: buttonListBoardSl2.right
-                anchors.leftMargin: 0
-                anchors.right: parent.right
-                anchors.rightMargin: 0
-                anchors.top: buttonListBoardSl2.bottom
-                anchors.topMargin: 0
-                ListView {
-                    id: listViewBoardSl2
-                    anchors.fill: parent
-
-                    currentIndex: -1
-
-                    interactive: false
-                    model: ListModel {
-                        id: listModelBoardSl2
-                    }
-                    delegate: Item {
-                        x: 5
-                        width: 300
-                        height: baseHeight
-                        Row {
-                            id: rowBoardSl2
-                            Text {
-                                text: name
-                                anchors.verticalCenter: parent.verticalCenter
-                            }
-                            spacing: 10
-                        }
-                        MouseArea {
-                            anchors.fill: parent
-                            onClicked: {
-                                listViewDigitalStation.currentIndex = -1
-                                listViewBoardSl1.currentIndex = -1
-                                listViewBoardSl2.currentIndex = index
-                            }
-                        }
-                    }
-                    highlight: Rectangle {
-                        id: highlightBoardSl2
                         color: defaultColor
                     }
                     highlightMoveDuration: 100
@@ -309,46 +247,6 @@ Rectangle {
                 }
             }
 
-//            Button {
-//                id: buttonListBoardSl2
-//                width: baseHeight
-//                height: baseHeight
-//                text: "-"
-//                visible: true
-//                anchors.topMargin: 0
-//                anchors.top: rectListBoardSl1.bottom
-//            }
-
-//            Connections {
-//                target: buttonListBoardSl2
-//                onClicked: {
-//                    if (listBoardSl2) {
-//                        buttonListBoardSl2.text = "+"
-//                    } else {
-//                        buttonListBoardSl2.text = "-"
-//                    }
-
-//                    listBoardSl2 = !listBoardSl2
-
-//                    resizeFlick()
-//                }
-//            }
-
-//            Label {
-//                id: labelBoardSl2
-//                width: 300
-//                height: baseHeight
-//                text: qsTr("Boards SL2:")
-//                anchors.top: rectListBoardSl1.bottom
-//                anchors.topMargin: 0
-//                font.bold: true
-//                visible: true
-//                verticalAlignment: Text.AlignVCenter
-//                horizontalAlignment: Text.AlignLeft
-//                anchors.left: buttonListBoardSl2.right
-//                anchors.leftMargin: 5
-//            }
-
             Label {
                 id: labelBoardSl1
                 width: 300
@@ -398,10 +296,6 @@ Rectangle {
             //                    listModelBoardSl1.remove(listViewBoardSl1.currentIndex)
             //            }
 
-            //            if (listModelBoardSl2.count > 0) {
-            //                if (listViewBoardSl2.currentIndex >= 0)
-            //                    listModelBoardSl2.remove(listViewBoardSl2.currentIndex)
-            //            }
             resizeFlick()
             resizeFlickWithoutGroup()
 
@@ -459,21 +353,7 @@ Rectangle {
 
                             counterBoardSl1++
                         }
-//            else if (comboBoxListOfDevices.currentIndex == 2) {
 
-            //                id += counterBoardSl2
-
-            //                stationName = "Плата СЛ2 " + counterBoardSl2
-            //                listModelBoardSl2.append({
-            //                                             "name": stationName
-            //                                         })
-            //                listModelStationWithoutGroup.append({
-            //                                                        "name": stationName
-            //                                                    })
-            //                counterBoardSl2++
-            //            }
-
-            //            appCore.saveStation(stationName, id)
             appCore.saveStation(stationName, id)
 
             resizeFlick()
