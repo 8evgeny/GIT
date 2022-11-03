@@ -3,7 +3,7 @@ import QtQuick.Window 2.2
 import QtQuick.Controls 2.12
 import QtQuick.Controls.Styles 1.4
 
-Rectangle //Список всех станций
+Rectangle //id: rectangleMain
 {
     color: canvasColor1
     id: rectangleMain
@@ -50,8 +50,7 @@ Rectangle //Список всех станций
             rectListBoardSl1.visible = false
         }
 
-    }//resizeFlick()
-
+    }
     function resizeFlickWithoutGroup()
     {
         flickListsWithoutGroup.contentHeight = listModelStationWithoutGroup.count * baseHeight
@@ -69,7 +68,7 @@ Rectangle //Список всех станций
         clip: true
         ScrollBar.vertical: ScrollBar {}
 
-        Rectangle //id: rectLists
+        Rectangle //Список станций + список SL1
         {
             id: rectLists
             anchors.fill: parent
@@ -278,7 +277,7 @@ Rectangle //Список всех станций
 
     Button {
         id: deleteDevice
-        width: 120
+        width: 150
         height: baseHeight
         text: qsTr("Remove device")
         anchors.left: comboBoxListOfDevices.right
