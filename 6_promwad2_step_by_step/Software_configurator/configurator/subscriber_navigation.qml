@@ -462,10 +462,10 @@ Rectangle //id: rectangleMain
         }//id: rectLists
     }//Flickable
 
-//    Connections
-//    {
-//        target: appCore
-//    }
+    Connections
+    {
+        target: appCore
+    }
 
     Flickable
     {
