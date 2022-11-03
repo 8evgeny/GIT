@@ -74,6 +74,7 @@ Rectangle //Список всех станций
             color: canvasColor2
             Rectangle {
                 id: rectListDigitalStation
+                color: canvasColor1
                 anchors.left: buttonListDigitalStation.right
                 anchors.leftMargin: 0
                 anchors.right: parent.right
@@ -135,6 +136,7 @@ Rectangle //Список всех станций
 
             Rectangle {
                 id: rectListBoardSl1
+                color: canvasColor1
                 anchors.left: buttonListBoardSl1.right
                 anchors.leftMargin: 0
                 anchors.right: parent.right
