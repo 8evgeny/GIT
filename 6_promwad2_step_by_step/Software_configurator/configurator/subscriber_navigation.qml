@@ -13,6 +13,7 @@ Rectangle //Список всех станций
     property int counterDigitalStation: 100
     property int counterBoardSl1: 200
     property color canvasColor1: "#FAFCD4"
+    property color canvasColor2: "#E1FCD4"
     property color defaultColor: "#D7C6A7"//"#e1e1e2" //Цвет выделения строки с номером
     property bool listDigitalStation: true
     property bool listBoardSl1: true
@@ -70,7 +71,7 @@ Rectangle //Список всех станций
         Rectangle {
             id: rectLists
             anchors.fill: parent
-
+            color: canvasColor2
             Rectangle {
                 id: rectListDigitalStation
                 anchors.left: buttonListDigitalStation.right
@@ -484,13 +485,14 @@ Rectangle //Список всех станций
             MouseArea {
                 id: mouseAreaGroups
                 anchors.fill: parent
-                onClicked: {
+                onClicked:
+                {
                     rectangleGroupsColor.color = defaultColor
                     listViewDigitalStation.currentIndex = -1
                     listViewStationWithoutGroup.currentIndex = -1
-
                     appCore.enableVisibleGroups()
                 }
+
             }
         }
     }
