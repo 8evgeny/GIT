@@ -11,7 +11,7 @@ Rectangle //id: rectangleMain
     width: 600
     //counter - [100-65000]
     property int counterDigitalStation: 100
-    property int counterBoardSl1: 100
+//    property int counterBoardSl1: 100
     property color canvasColor1: "#FAFCD4"
     property color canvasColor2: "#E1FCD4"
     property color defaultColor: "#D7C6A7"//"#e1e1e2" //Цвет выделения строки с номером
@@ -33,10 +33,10 @@ Rectangle //id: rectangleMain
             rectListDigitalStation.height = listModelDigitalStation.count * baseHeight
         }
 
-        if (listBoardSl1) {
-            flickLists.contentHeight += listModelBoardSl1.count * baseHeight
-            rectListBoardSl1.height = listModelBoardSl1.count * baseHeight
-        }
+//        if (listBoardSl1) {
+//            flickLists.contentHeight += listModelBoardSl1.count * baseHeight
+//            rectListBoardSl1.height = listModelBoardSl1.count * baseHeight
+//        }
 
         if (listDigitalStation) {
             rectListDigitalStation.visible = true
@@ -82,14 +82,16 @@ Rectangle //id: rectangleMain
                                                         "cidName": id
                                                     })
                 counterDigitalStation++
-                counterBoardSl1++
+//                counterBoardSl1++
             }
             else if (comboBoxListOfDevices.currentIndex == 1)
             {
-                id += counterBoardSl1
+//                id += counterBoardSl1
+                id += counterDigitalStation
 //                stationName = "SL1 " + counterBoardSl1
                 stationName = qsTr("SL1")
-                listModelBoardSl1.append({
+//                listModelBoardSl1.append({
+                listModelDigitalStation.append({
                                              "name": stationName,
                                              "cidName": id
                                          })
@@ -97,7 +99,7 @@ Rectangle //id: rectangleMain
                                                         "name": stationName,
                                                         "cidName": id
                                                      })
-                counterBoardSl1++
+//                counterBoardSl1++
                 counterDigitalStation++
             }
 
@@ -154,11 +156,11 @@ Rectangle //id: rectangleMain
                                 listViewStationWithoutGroup.currentIndex)
                 }
             }
-            if (listModelBoardSl1.count > 0)
-            {
-                if (listViewBoardSl1.currentIndex >= 0)
-                    listModelBoardSl1.remove(listViewBoardSl1.currentIndex)
-            }
+//            if (listModelBoardSl1.count > 0)
+//            {
+//                if (listViewBoardSl1.currentIndex >= 0)
+//                    listModelBoardSl1.remove(listViewBoardSl1.currentIndex)
+//            }
 
             resizeFlick()
             resizeFlickWithoutGroup()
@@ -414,13 +416,13 @@ visible: false
                             anchors.fill: parent
                             onClicked:
                             {
-                                listViewBoardSl1.currentIndex = index
-                                listViewDigitalStation.currentIndex = -1
+//                                listViewBoardSl1.currentIndex = index
+//                                listViewDigitalStation.currentIndex = -1
 
-                                //send current index of the station
-                                appCore.sendCurrentIndexOfDigitalStation(
-                                            index, listModelBoardSl1.get(
-                                                index).cidName)
+//                                //send current index of the station
+//                                appCore.sendCurrentIndexOfDigitalStation(
+//                                            index, listModelBoardSl1.get(
+//                                                index).cidName)
                             }
                         }
                     }
@@ -604,7 +606,7 @@ visible: true
         {
             listModelDigitalStation.clear()
             listModelStationWithoutGroup.clear()
-            listModelBoardSl1.clear()
+//            listModelBoardSl1.clear()
 
             resizeFlick()
             resizeFlickWithoutGroup()
@@ -642,8 +644,8 @@ visible: true
         {
             counterDigitalStation = idSetStaion
             counterDigitalStation++
-            counterBoardSl1 = idSetStaion
-            counterBoardSl1++
+//            counterBoardSl1 = idSetStaion
+//            counterBoardSl1++
         }
     }    
 }
