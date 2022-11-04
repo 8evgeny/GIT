@@ -1119,23 +1119,8 @@ Rectangle {
             }
         }
 
-        //The act of the key
-        Rectangle {
-            id: rectKeyAct
-            anchors.top: rectKeyPriority.bottom
-            anchors.topMargin: defaultSizeOfSpace
-            width: cellWidth
-            height: defaultSizeOfHeight
-            Label {
-                verticalAlignment: Text.AlignVCenter
-                anchors.fill: parent
-                id: labelKeyAct
-                text: qsTr("Activate when \npressed key:")
-            }
-        }
-
-        //List of modes for keys
-        ComboBox {
+        ComboBox //Выбор режима клавиши без/c фиксацией
+        {
             width: cellWidth
             id: comboBoxModeOfKey
             anchors.verticalCenter: rectKeyMode.verticalCenter
@@ -1184,8 +1169,8 @@ Rectangle {
             }
         }
 
-        //Text of priority
-        TextField {
+        TextField //Выбор приоритета клавиши
+        {
             width: cellWidth
             id: textFieldKeyPriority
             text: ""
@@ -1216,26 +1201,40 @@ Rectangle {
             }
         }
 
-        //Text of act
-        TextField {
-            width: cellWidth
-            readOnly: true
-            id: textFieldKeyAct
-            text: ""
-            anchors.left: rectKeyAct.right
-            anchors.leftMargin: defaultSizeOfSpace
-            anchors.verticalCenter: rectKeyAct.verticalCenter
-        }
 
-        //Button of act
-        Button {
-            id: buttonKeyAct
-            width: defaultSizeOfHeight
-            height: defaultSizeOfHeight
-            text: "..."
-            anchors.left: textFieldKeyAct.right
-            anchors.leftMargin: defaultSizeOfSpace
-            anchors.verticalCenter: textFieldKeyAct.verticalCenter
-        }
+//        Rectangle //The act of the key
+//        {
+//            id: rectKeyAct
+//            anchors.top: rectKeyPriority.bottom
+//            anchors.topMargin: defaultSizeOfSpace
+//            width: cellWidth
+//            height: defaultSizeOfHeight
+//            Label {
+//                verticalAlignment: Text.AlignVCenter
+//                anchors.fill: parent
+//                id: labelKeyAct
+//                text: qsTr("Activate when \npressed key:")
+//            }
+//        }
+//        TextField //Activated then pressed не завершено
+//        {
+//            width: cellWidth
+//            readOnly: true
+//            id: textFieldKeyAct
+//            text: ""
+//            anchors.left: rectKeyAct.right
+//            anchors.leftMargin: defaultSizeOfSpace
+//            anchors.verticalCenter: rectKeyAct.verticalCenter
+//        }
+//        Button //Не завершено
+//        {
+//            id: buttonKeyAct
+//            width: defaultSizeOfHeight
+//            height: defaultSizeOfHeight
+//            text: "..."
+//            anchors.left: textFieldKeyAct.right
+//            anchors.leftMargin: defaultSizeOfSpace
+//            anchors.verticalCenter: textFieldKeyAct.verticalCenter
+//        }
     }
 }
