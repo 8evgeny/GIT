@@ -73,7 +73,7 @@ Rectangle //id: rectangleMain
                 id += counterDigitalStation
 
                 stationName = qsTr(
-                            "Operators station") + " " + counterDigitalStation
+                            "PDO") + " " + counterDigitalStation
                 listModelDigitalStation.append({
                                                    "name": stationName,
                                                    "cidName": id
@@ -87,7 +87,7 @@ Rectangle //id: rectangleMain
             else if (comboBoxListOfDevices.currentIndex == 1)
             {
                 id += counterBoardSl1
-                stationName = "Sl1 station " + counterBoardSl1
+                stationName = "SL1 " + counterBoardSl1
                 listModelBoardSl1.append({
                                              "name": stationName,
                                              "cidName": id
@@ -109,7 +109,7 @@ Rectangle //id: rectangleMain
     ComboBox //Выбор типа станции
     {
         id: comboBoxListOfDevices
-        width: 190
+        width: 100
         height: baseHeight
         anchors.left: addDevice.right
         anchors.leftMargin: 5
@@ -117,11 +117,11 @@ Rectangle //id: rectangleMain
         {
             id: modelListOfDevices
             ListElement {
-                text: qsTr("Operators station")
+                text: qsTr("PDO")
             }
 
             ListElement {
-                text: "Sl1 station"
+                text: "SL1"
             }
         }
     }
