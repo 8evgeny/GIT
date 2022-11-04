@@ -602,6 +602,7 @@ Rectangle //id: rectangleMain
         {
             listModelDigitalStation.clear()
             listModelStationWithoutGroup.clear()
+            listModelBoardSl1.clear()
 
             resizeFlick()
             resizeFlickWithoutGroup()
@@ -611,6 +612,7 @@ Rectangle //id: rectangleMain
         {
             listModelDigitalStation.clear()
             listModelStationWithoutGroup.clear()
+            listModelBoardSl1.clear().clear()
         }
 
         onGetCurrentPositionListOfStation:
