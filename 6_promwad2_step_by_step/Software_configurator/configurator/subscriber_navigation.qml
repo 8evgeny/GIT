@@ -71,9 +71,8 @@ Rectangle //id: rectangleMain
             {
                 //counterDigitalStation = 0// TODO
                 id += counterDigitalStation
-
-                stationName = qsTr(
-                            "PDO") + " " + counterDigitalStation
+                stationName = qsTr("PDO")
+//                        + " " + counterDigitalStation
                 listModelDigitalStation.append({
                                                    "name": stationName,
                                                    "cidName": id
@@ -88,7 +87,8 @@ Rectangle //id: rectangleMain
             else if (comboBoxListOfDevices.currentIndex == 1)
             {
                 id += counterBoardSl1
-                stationName = "SL1 " + counterBoardSl1
+//                stationName = "SL1 " + counterBoardSl1
+                stationName = qsTr("SL1")
                 listModelBoardSl1.append({
                                              "name": stationName,
                                              "cidName": id
