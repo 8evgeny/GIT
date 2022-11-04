@@ -88,10 +88,12 @@ Rectangle //id: rectangleMain
                 id += counterBoardSl1
                 stationName = "board SL1 " + counterBoardSl1
                 listModelBoardSl1.append({
-                                             "name": stationName
+                                             "name": stationName,
+                                             "cidName": id
                                          })
                 listModelStationWithoutGroup.append({
-                                                        "name": stationName
+                                                        "name": stationName,
+                                                        "cidName": id
                                                      })
                 counterBoardSl1++
             }
@@ -407,8 +409,8 @@ Rectangle //id: rectangleMain
                             anchors.fill: parent
                             onClicked:
                             {
-                                listViewDigitalStation.currentIndex = -1
                                 listViewBoardSl1.currentIndex = index
+                                listViewDigitalStation.currentIndex = -1
                             }
                         }
                     }
