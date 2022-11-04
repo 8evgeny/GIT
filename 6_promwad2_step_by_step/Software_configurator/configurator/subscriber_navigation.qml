@@ -83,6 +83,7 @@ Rectangle //id: rectangleMain
                                                         "cidName": id
                                                     })
                 counterDigitalStation++
+                counterBoardSl1++
             }
             else if (comboBoxListOfDevices.currentIndex == 1)
             {
@@ -97,7 +98,7 @@ Rectangle //id: rectangleMain
                                                         "cidName": id
                                                      })
                 counterBoardSl1++
-
+                counterDigitalStation++
             }
 
             appCore.saveStation(stationName, id)
