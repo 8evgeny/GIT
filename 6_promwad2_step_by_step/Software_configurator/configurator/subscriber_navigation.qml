@@ -73,7 +73,7 @@ Rectangle //id: rectangleMain
                 id += counterDigitalStation
 
                 stationName = qsTr(
-                            "Digital station") + " " + counterDigitalStation
+                            "Operators station") + " " + counterDigitalStation
                 listModelDigitalStation.append({
                                                    "name": stationName,
                                                    "cidName": id
@@ -84,9 +84,10 @@ Rectangle //id: rectangleMain
                                                     })
                 counterDigitalStation++
             }
-            else if (comboBoxListOfDevices.currentIndex == 1) {
+            else if (comboBoxListOfDevices.currentIndex == 1)
+            {
                 id += counterBoardSl1
-                stationName = "board SL1 " + counterBoardSl1
+                stationName = "Sl1 station " + counterBoardSl1
                 listModelBoardSl1.append({
                                              "name": stationName,
                                              "cidName": id
@@ -96,6 +97,7 @@ Rectangle //id: rectangleMain
                                                         "cidName": id
                                                      })
                 counterBoardSl1++
+
             }
 
             appCore.saveStation(stationName, id)
@@ -107,7 +109,7 @@ Rectangle //id: rectangleMain
     ComboBox //Выбор типа станции
     {
         id: comboBoxListOfDevices
-        width: 175
+        width: 190
         height: baseHeight
         anchors.left: addDevice.right
         anchors.leftMargin: 5
@@ -115,11 +117,11 @@ Rectangle //id: rectangleMain
         {
             id: modelListOfDevices
             ListElement {
-                text: qsTr("Digital station")
+                text: qsTr("Operators station")
             }
 
             ListElement {
-                text: "Board SL1"
+                text: "Sl1 station"
             }
         }
     }
@@ -280,7 +282,8 @@ Rectangle //id: rectangleMain
                     {
                         id: listModelDigitalStation
                     }
-                    delegate: Item {
+                    delegate: Item
+                    {
                         x: 5
                         width: 300
                         height: baseHeight
@@ -578,7 +581,8 @@ Rectangle //id: rectangleMain
     {
         target: appCore
 
-        onSendUpdateListOfStationsFromFile: {
+        onSendUpdateListOfStationsFromFile:
+        {
 
             listModelDigitalStation.append({
                                                "name": nameOfStation,
@@ -593,7 +597,8 @@ Rectangle //id: rectangleMain
             resizeFlickWithoutGroup()
         }
 
-        onClearListOfStations : {
+        onClearListOfStations :
+        {
             listModelDigitalStation.clear()
             listModelStationWithoutGroup.clear()
 
@@ -601,22 +606,26 @@ Rectangle //id: rectangleMain
             resizeFlickWithoutGroup()
         }
 
-        onSendClearAllListOfStations: {
+        onSendClearAllListOfStations:
+        {
             listModelDigitalStation.clear()
             listModelStationWithoutGroup.clear()
         }
 
-        onGetCurrentPositionListOfStation: {
+        onGetCurrentPositionListOfStation:
+        {
             currentPosition = listViewDigitalStation.currentIndex
             currentPositionWithoutGroup = listViewStationWithoutGroup.currentIndex
         }
 
-        onRestoreCurrentPositionListOfStation: {
+        onRestoreCurrentPositionListOfStation:
+        {
             listViewDigitalStation.currentIndex = currentPosition
             listViewStationWithoutGroup.currentIndex = currentPosition
         }
 
-        onGetStartVerificationStation :{
+        onGetStartVerificationStation :
+        {
             if((listViewStationWithoutGroup.currentIndex >= 0) || (listViewDigitalStation.currentIndex >= 0)){
 //                console.log(listModelDigitalStation.get(listViewStationWithoutGroup.currentIndex).name)
 //                console.log(listModelDigitalStation.get(listViewDigitalStation.currentIndex).name)
@@ -624,7 +633,8 @@ Rectangle //id: rectangleMain
             }
         }
 
-        onSetCounterDigitalStation : {
+        onSetCounterDigitalStation :
+        {
             counterDigitalStation = idSetStaion
             counterDigitalStation++
         }
