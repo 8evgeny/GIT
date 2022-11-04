@@ -174,27 +174,27 @@ Rectangle //id: rectangleMain
             }
         }//onClicked
     }
-    CheckBox  //Чек бокс Группы
-    {
-        id: checkBoxActGroup
-        width: 150
-        height: 40
-        text: qsTr("Group")
-        checked: true
-        anchors.left: deleteDevice.right
-        anchors.leftMargin: 5
-        onClicked: {
-            if (checkBoxActGroup.checked) {
-                flickLists.visible = true
-                flickListsWithoutGroup.visible = false
-                listViewDigitalStation.currentIndex = listViewStationWithoutGroup.currentIndex
-            } else {
-                flickLists.visible = false
-                flickListsWithoutGroup.visible = true
-                listViewStationWithoutGroup.currentIndex = listViewDigitalStation.currentIndex
-            }
-        }
-    }
+//    CheckBox  //Чек бокс Группы
+//    {
+//        id: checkBoxActGroup
+//        width: 150
+//        height: 40
+//        text: qsTr("Group")
+//        checked: true
+//        anchors.left: deleteDevice.right
+//        anchors.leftMargin: 5
+//        onClicked: {
+//            if (checkBoxActGroup.checked) {
+//                flickLists.visible = true
+//                flickListsWithoutGroup.visible = false
+//                listViewDigitalStation.currentIndex = listViewStationWithoutGroup.currentIndex
+//            } else {
+//                flickLists.visible = false
+//                flickListsWithoutGroup.visible = true
+//                listViewStationWithoutGroup.currentIndex = listViewDigitalStation.currentIndex
+//            }
+//        }
+//    }
 
     Rectangle //id: rectangleGroups
     {
@@ -255,6 +255,7 @@ Rectangle //id: rectangleMain
         anchors.top: rectangleGroups.bottom
         anchors.topMargin: 0
         clip: true
+visible: false
         ScrollBar.vertical: ScrollBar {}
 
         Rectangle //Список станций + список SL1
@@ -486,7 +487,8 @@ Rectangle //id: rectangleMain
         anchors.bottom: parent.bottom
         anchors.left: parent.left
         anchors.topMargin: 0
-        visible: false
+//        visible: false
+visible: true
         clip: true
         ScrollBar.vertical: ScrollBar {}
 
