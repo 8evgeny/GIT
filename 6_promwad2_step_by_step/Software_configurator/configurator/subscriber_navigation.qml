@@ -411,6 +411,11 @@ Rectangle //id: rectangleMain
                             {
                                 listViewBoardSl1.currentIndex = index
                                 listViewDigitalStation.currentIndex = -1
+
+                                //send current index of the station
+                                appCore.sendCurrentIndexOfDigitalStation(
+                                            index, listModelBoardSl1.get(
+                                                index).cidName)
                             }
                         }
                     }
