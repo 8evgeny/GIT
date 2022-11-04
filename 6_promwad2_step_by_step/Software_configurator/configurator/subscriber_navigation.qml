@@ -638,6 +638,8 @@ Rectangle //id: rectangleMain
         {
             counterDigitalStation = idSetStaion
             counterDigitalStation++
+            counterBoardSl1 = idSetStaion
+            counterBoardSl1++
         }
     }    
 }
