@@ -881,15 +881,24 @@ void AppCore::loadListOfStationAndGroupsQJson(const QString &nameLoad)
         }
         listOfStationsSaved = listOfStations = tmpListOfStations;
 
-        if (listOfStations.size() > 0) {
+        if (listOfStations.size() > 0)
+        {
             QRegExp rx("[, ]"); // match a comma or a space
-            QStringList list =  listOfStations.last().nameOfID.split(rx, QString::SkipEmptyParts);
-
-            if (list.size() >= 2) {
-                const QString &idStr = list.at(1);
-                qint32 id = idStr.toInt();
-                emit setCounterDigitalStation(id);
+            qint32 id = 0;
+            QStringList list;
+            for (qint32 i = 0; i < listOfStations.size(); ++ i)
+            {
+                list =  listOfStations.at(i).nameOfID.split(rx, QString::SkipEmptyParts);
+                if (list.size() >= 2)
+                {
+                    const QString &idStr = list.at(1);
+                    if (id < idStr.toInt())
+                    {
+                        id = idStr.toInt();
+                    }
+                }
             }
+            emit setCounterDigitalStation(id);
         }
 
         emit sendClearAllListOfStations();
