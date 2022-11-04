@@ -612,7 +612,7 @@ Rectangle //id: rectangleMain
         {
             listModelDigitalStation.clear()
             listModelStationWithoutGroup.clear()
-            listModelBoardSl1.clear().clear()
+//            listModelBoardSl1.clear().clear()
         }
 
         onGetCurrentPositionListOfStation:
