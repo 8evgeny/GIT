@@ -233,7 +233,8 @@ Rectangle {
                                 }
                             }
 
-                            Rectangle {
+                            Rectangle //Имя Клавиши
+                            {
                                 id: rectangleNewKeyName
                                 width: cellWidth
                                 height: parent.height
@@ -292,7 +293,8 @@ Rectangle {
                                 }
                             }
 
-                            Rectangle {
+                            Rectangle //Функция Клавиши
+                            {
                                 id: rectangleNewKeyFunction
                                 width: cellWidth + cellWidth50 * 2
                                 height: parent.height
@@ -409,7 +411,8 @@ Rectangle {
                                 }
                             }
 
-                            Rectangle {
+                            Rectangle //Адресат назначенный на клавишу
+                            {
                                 id: rectangleNewAppointment
                                 width: 3 * cellWidth50
                                 height: parent.height
@@ -519,7 +522,8 @@ Rectangle {
         }
     }
 
-    Connections {
+    Connections
+    {
         target: appCore
         onSendListNameOfElements: {
 
@@ -631,7 +635,8 @@ Rectangle {
         }
     }
 
-    Connections {
+    Connections
+    {
         target: appCore
 
         onSendToQmlSubscriber: {
@@ -652,7 +657,8 @@ Rectangle {
         //        }
     }
 
-    Button {
+    Button //Клавиша +
+    {
         id: buttonAddSubscriber
         height: defaultSizeOfHeight
         width: defaultSizeOfHeight
@@ -667,7 +673,8 @@ Rectangle {
         }
     }
 
-    Button {
+    Button //Скрытая кнопка
+    {
         id: buttonSaveStations
         text: qsTr("Save stations")
         visible: false
@@ -680,7 +687,8 @@ Rectangle {
         }
     }
 
-    Button {
+    Button //Скрытая кнопка
+    {
         id: buttonLoadStations
         text: qsTr("Load stations")
         visible: false
@@ -693,7 +701,8 @@ Rectangle {
         }
     }
 
-    Button {
+    Button //Клавиша -
+    {
         id: buttonDeleteSubscriber
         width: defaultSizeOfHeight
         height: defaultSizeOfHeight
@@ -728,7 +737,8 @@ Rectangle {
         }
     }
 
-    Rectangle {
+    Rectangle //Текст Station Number:
+    {
         id: rectangleNumberStation
         width: 200
         height: 40
@@ -746,7 +756,8 @@ Rectangle {
         }
     }
 
-    Rectangle {
+    Rectangle // Шапка таблицы
+    {
         id: rectangleWithMargins
         width: cellWidth * 4 + defaultSizeOfSpace
         height: defaultSizeOfHeight
@@ -838,7 +849,8 @@ Rectangle {
         }
     }
 
-    Rectangle {
+    Rectangle //Текст Station Information
+    {
         id: rectangleStationInformation
         width: 360
         height: defaultSizeOfHeight
@@ -855,7 +867,8 @@ Rectangle {
         }
     }
 
-    Rectangle {
+    Rectangle //Текст Station Name:
+    {
         id: rectangleNameStation
         width: 200
         height: defaultSizeOfHeight
@@ -872,7 +885,8 @@ Rectangle {
         anchors.leftMargin: defaultSizeOfSpace
     }
 
-    Rectangle {
+    Rectangle //Текст IP address:
+    {
         id: rectangleIPStation
         width: 200
         height: defaultSizeOfHeight
@@ -889,7 +903,8 @@ Rectangle {
         anchors.leftMargin: defaultSizeOfSpace
     }
 
-    Rectangle {
+    Rectangle //Текст Network mask:
+    {
         id: rectangleMaskNetwork
         width: 200
         height: defaultSizeOfHeight
@@ -906,7 +921,8 @@ Rectangle {
         anchors.leftMargin: defaultSizeOfSpace
     }
 
-    Rectangle {
+    Rectangle //Текст Gateway:
+    {
         id: rectangleGateway
         width: 200
         height: defaultSizeOfHeight
@@ -923,7 +939,8 @@ Rectangle {
         anchors.leftMargin: defaultSizeOfSpace
     }
 
-    TextField {
+    TextField //Номер станции
+    {
         id: textFieldNumberStation
         text: ""
         anchors.top: rectangleStationInformation.bottom
@@ -933,17 +950,24 @@ Rectangle {
         onTextChanged: {
             appCore.sendPositionInListOfStation()
         }
-        onEditingFinished: {
+        onEditingFinished:
+        {
 
             focus = false
             appCore.updateStationId(nameOfStation, textFieldNumberStation.text)
             appCore.updateAllViewsWithPostion()
         }
+        background: Rectangle
+        {
+            border.color: "#333"
+            border.width: 1
+        }
     }
 
-    TextField {
+    TextField //Имя станции
+    {
         property string startEdit: ""
-
+        readOnly: true
         id: textFieldNameStation
         text: ""
         anchors.left: rectangleNameStation.right
@@ -960,11 +984,12 @@ Rectangle {
             appCore.updateStationName(nameOfStation, textFieldNameStation.text)
             appCore.updateAllViewsWithPostion()
         }
-        onEditingFinished: {
+        onEditingFinished:
+        {
             focus = false
-
         }
-        background: Rectangle {
+        background: Rectangle
+        {
             border.color: "#333"
             border.width: 1
         }
