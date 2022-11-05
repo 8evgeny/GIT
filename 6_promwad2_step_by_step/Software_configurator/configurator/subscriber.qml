@@ -164,7 +164,7 @@ Rectangle {
 
                             Rectangle {
                                 id: rectangleNewKeyboardUnit
-                                width: 3 * cellWidth50
+                                width: 2 * cellWidth50
                                 height: parent.height
                                 TextField {
                                     //                                    readOnly: true
@@ -761,7 +761,7 @@ Rectangle {
 
             Rectangle {
                 id: rectangleKeyBlock
-                width: cellWidth50 * 3
+                width: cellWidth50 * 2
                 height: parent.height
                 TextField {
                     readOnly: true
