@@ -33,7 +33,8 @@ Rectangle {
     property string nameTelephoneCommunications: qsTr("Telephone communications")
     property string nameHungUp: qsTr("Hung up")
 
-    function getNameOfKeyFunction(str) {
+    function getNameOfKeyFunction(str)
+    {
         var nameStr = ""
         if (str === "1")
             nameStr = nameDirectConnectionDuplex
@@ -59,7 +60,8 @@ Rectangle {
         return nameStr
     }
 
-    function checkAssignment(str1, str2){
+    function checkAssignment(str1, str2)
+    {
         var colorStr = "#333"
 
         if(str1 === ""){
@@ -79,7 +81,8 @@ Rectangle {
         return colorStr
     }
 
-    function getNameOfKeyFunctionNumber(str) {
+    function getNameOfKeyFunctionNumber(str)
+    {
         var nameStr = ""
         if (str === nameDirectConnectionDuplex)
             nameStr = "1"
@@ -105,12 +108,14 @@ Rectangle {
         return nameStr
     }
 
-    function resizeFlickableList() {
+    function resizeFlickableList()
+    {
         flickableListOfSubscribers.contentHeight
                 = listModelListOfSubscribers.count * (defaultSizeOfHeight - 1) + 1
     }
 
-    Flickable {
+    Flickable //Основное поле абонентов
+    {
         id: flickableListOfSubscribers
         width: parent.width + 5
         height: parent.height
@@ -120,11 +125,13 @@ Rectangle {
             id: scrollBarListOfSubscribers
         }
 
-        Rectangle {
+        Rectangle //rectangleListOfSubscribers
+        {
             id: rectangleListOfSubscribers
             anchors.fill: parent
 
-            Rectangle {
+            Rectangle
+            {
                 id: rectangleInternalListOfSubscribers
                 anchors.fill: parent
                 ListView {
@@ -995,7 +1002,8 @@ Rectangle {
         }
     }
 
-    TextField {
+    TextField //IP станции
+    {
         id: textFieldIPStation
         text: ""
         anchors.left: rectangleIPStation.right
@@ -1026,7 +1034,8 @@ Rectangle {
         }
     }
 
-    TextField {
+    TextField //Маска станции
+    {
         id: textFieldMaskNetwork
         text: ""
         anchors.left: rectangleMaskNetwork.right
@@ -1057,7 +1066,8 @@ Rectangle {
         }
     }
 
-    TextField {
+    TextField //Gateway станции
+    {
         id: textFieldGateway
         text: ""
         anchors.left: rectangleGateway.right
