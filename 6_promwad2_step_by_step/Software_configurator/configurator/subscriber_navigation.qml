@@ -12,7 +12,7 @@ Rectangle //id: rectangleMain
     //counter - [100-65000]
     property int counterDigitalStation: 100
 //    property int counterBoardSl1: 100
-property color canvasColor: "steelblue"
+property color canvasColor: "#F8FACF"
     property color defaultColor: "#D7C6A7"//"#e1e1e2" //Цвет выделения строки с номером
     property bool listDigitalStation: true
     property bool listBoardSl1: true
