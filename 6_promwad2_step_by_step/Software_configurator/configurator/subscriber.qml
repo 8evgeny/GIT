@@ -266,406 +266,397 @@ property color colorKeyProperty: "#F8FACF"
         height: parent.height
         clip: true
         ScrollBar.vertical: ScrollBar
-//        {
-//            id: scrollBarListOfSubscribers
-//        }
-            Rectangle //Основное поле абонентов
+        Rectangle //Основное поле абонентов
+        {
+            anchors.fill: parent
+            ListView
             {
-//                id: rectangleInternalListOfSubscribers
+                id: listViewListOfSubscribers
                 anchors.fill: parent
-                ListView {
-                    id: listViewListOfSubscribers
-                    anchors.fill: parent
-                    interactive: false
+                interactive: false
 
-                    model: ListModel {
-                        id: listModelListOfSubscribers
-                    }
+                model: ListModel {
+                    id: listModelListOfSubscribers
+                }
 
-                    delegate: Item {
-                        width: flickableListOfSubscribers.width
-                        height: defaultSizeOfHeight
+                delegate: Item
+                {
+                    width: flickableListOfSubscribers.width
+                    height: defaultSizeOfHeight
 
-                        property string uidOfKey: ""
+                    property string uidOfKey: ""
 
-                        Row {
-                            id: rowListOfSubscribers
-                            width: parent.width
+                    Row
+                    {
+                        id: rowListOfSubscribers
+                        width: parent.width
+                        height: parent.height
+
+                        Rectangle //rectangleNewKeyboardUnit
+                        {
+                            id: rectangleNewKeyboardUnit
+                            width: 2 * cellWidth50
                             height: parent.height
-
-                            //recangle for saving UID
-                            Rectangle {
-                                id: rectangleNewKeyboardUid
-                                width: 0
-                                height: 0
-                                visible: false
-                                TextField {
-                                    visible: false
-                                    readOnly: true
-                                    width: 0
-                                    height: 0
-                                    text: uid
-                                }
-                            }
-
-                            Rectangle {
-                                id: rectangleNewKeyboardUnit
-                                width: 2 * cellWidth50
+                            TextField
+                            {
+                                //                                    readOnly: true
+                                width: parent.width
                                 height: parent.height
-                                TextField {
-                                    //                                    readOnly: true
-                                    width: parent.width
-                                    height: parent.height
-                                    text: number
-                                    horizontalAlignment: Text.AlignHCenter
-                                    id: textFieldNewKeyboardUnit
-                                    background: Rectangle {
-                                        border.color: borderNumberColor
-                                        border.width: borderSize
+                                text: number
+                                horizontalAlignment: Text.AlignHCenter
+                                id: textFieldNewKeyboardUnit
+                                background: Rectangle {
+                                    border.color: borderNumberColor
+                                    border.width: borderSize
+                                }
+
+                                color: numberColor
+                                onPressed:
+                                {
+                                    if (listViewListOfSubscribers.currentIndex >= 0) {
+                                        listModelListOfSubscribers.get(
+                                                    listViewListOfSubscribers.currentIndex).borderSize = 1
                                     }
 
-                                    color: numberColor
-                                    onPressed: {
-                                        if (listViewListOfSubscribers.currentIndex >= 0) {
-                                            listModelListOfSubscribers.get(
-                                                        listViewListOfSubscribers.currentIndex).borderSize = 1
-                                        }
+                                    listViewListOfSubscribers.currentIndex = index
+                                    listModelListOfSubscribers.get(
+                                                index).borderSize = 2
 
-                                        listViewListOfSubscribers.currentIndex = index
-                                        listModelListOfSubscribers.get(
-                                                    index).borderSize = 2
+                                    appCore.getSubscriberListPriorityOfKeys(
+                                                nameOfStation,
+                                                listModelListOfSubscribers.get(
+                                                    listViewListOfSubscribers.currentIndex).uid)
+                                }
+                                onTextChanged: {
+                                    borderNumberColor = "#333"
+                                    numberColor = "#333"
 
-                                        appCore.getSubscriberListPriorityOfKeys(
+                                    if (listViewListOfSubscribers.currentIndex >= 0) {
+                                        appCore.updateKeySubscriberNumberOfKey(
                                                     nameOfStation,
                                                     listModelListOfSubscribers.get(
-                                                        listViewListOfSubscribers.currentIndex).uid)
+                                                        listViewListOfSubscribers.currentIndex).uid,
+                                                    textFieldNewKeyboardUnit.text)
                                     }
-                                    onTextChanged: {
-                                        borderNumberColor = "#333"
-                                        numberColor = "#333"
 
-                                        if (listViewListOfSubscribers.currentIndex >= 0) {
-                                            appCore.updateKeySubscriberNumberOfKey(
-                                                        nameOfStation,
-                                                        listModelListOfSubscribers.get(
-                                                            listViewListOfSubscribers.currentIndex).uid,
-                                                        textFieldNewKeyboardUnit.text)
-                                        }
+                                    if (!appCore.keyVerification(
+                                                nameOfStation,
+                                                textFieldNewKeyboardUnit.text)) {
+                                        borderNumberColor = "red"
+                                        numberColor = "red"
+                                    }
+                                }
+                                onEditingFinished: {
+                                    focus = false
 
+                                    var val = parseInt(
+                                                textFieldNewKeyboardUnit.text)
+                                    if (!isNaN(val)) {
                                         if (!appCore.keyVerification(
                                                     nameOfStation,
                                                     textFieldNewKeyboardUnit.text)) {
                                             borderNumberColor = "red"
                                             numberColor = "red"
                                         }
-                                    }
-                                    onEditingFinished: {
-                                        focus = false
-
-                                        var val = parseInt(
-                                                    textFieldNewKeyboardUnit.text)
-                                        if (!isNaN(val)) {
-                                            if (!appCore.keyVerification(
-                                                        nameOfStation,
-                                                        textFieldNewKeyboardUnit.text)) {
-                                                borderNumberColor = "red"
-                                                numberColor = "red"
-                                            }
-                                        } else {
-                                            borderNumberColor = "red"
-                                            numberColor = "red"
-                                        }
+                                    } else {
+                                        borderNumberColor = "red"
+                                        numberColor = "red"
                                     }
                                 }
                             }
+                        }
 
-                            Rectangle //Имя Клавиши
-                            {
-                                id: rectangleNewKeyName
-                                width: cellWidth
+                        Rectangle //rectangleNewKeyName
+                        {
+                            id: rectangleNewKeyName
+                            width: cellWidth
+                            height: parent.height
+                            color: "#ffffff"
+                            TextField {
+                                width: parent.width
                                 height: parent.height
-                                color: "#ffffff"
-                                TextField {
-                                    width: parent.width
-                                    height: parent.height
-                                    horizontalAlignment: Text.AlignHCenter
-                                    id: textFieldNewKeyName
-                                    text: name
-                                    background: Rectangle {
-                                        border.color: borderNameColor
-                                        border.width: borderSize
+                                horizontalAlignment: Text.AlignHCenter
+                                id: textFieldNewKeyName
+                                text: name
+                                background: Rectangle {
+                                    border.color: borderNameColor
+                                    border.width: borderSize
+                                }
+                                color: nameColor
+                                onPressed: {
+                                    if (listViewListOfSubscribers.currentIndex >= 0) {
+                                        listModelListOfSubscribers.get(
+                                                    listViewListOfSubscribers.currentIndex).borderSize = 1
                                     }
 
-                                    color: nameColor
+                                    listViewListOfSubscribers.currentIndex = index
+                                    listModelListOfSubscribers.get(
+                                                index).borderSize = 2
 
-                                    onPressed: {
-                                        if (listViewListOfSubscribers.currentIndex >= 0) {
-                                            listModelListOfSubscribers.get(
-                                                        listViewListOfSubscribers.currentIndex).borderSize = 1
-                                        }
+                                    appCore.getSubscriberListPriorityOfKeys(
+                                                nameOfStation,
+                                                listModelListOfSubscribers.get(
+                                                    listViewListOfSubscribers.currentIndex).uid)
+                                }
+                                onTextChanged: {
+                                    borderNameColor = "#333"
+                                    nameColor = "#333"
 
-                                        listViewListOfSubscribers.currentIndex = index
-                                        listModelListOfSubscribers.get(
-                                                    index).borderSize = 2
-
-                                        appCore.getSubscriberListPriorityOfKeys(
+                                    if (listViewListOfSubscribers.currentIndex >= 0) {
+                                        appCore.updateKeySubscriberNameOfKey(
                                                     nameOfStation,
                                                     listModelListOfSubscribers.get(
-                                                        listViewListOfSubscribers.currentIndex).uid)
+                                                        listViewListOfSubscribers.currentIndex).uid,
+                                                    textFieldNewKeyName.text)
                                     }
-                                    onTextChanged: {
-                                        borderNameColor = "#333"
-                                        nameColor = "#333"
+                                }
+                                onEditingFinished: {
+                                    focus = false
 
-                                        if (listViewListOfSubscribers.currentIndex >= 0) {
-                                            appCore.updateKeySubscriberNameOfKey(
-                                                        nameOfStation,
-                                                        listModelListOfSubscribers.get(
-                                                            listViewListOfSubscribers.currentIndex).uid,
-                                                        textFieldNewKeyName.text)
-                                        }
-                                    }
-                                    onEditingFinished: {
-                                        focus = false
+                                    var val = textFieldNewKeyName.text
+                                    if (val !== "") {
 
-                                        var val = textFieldNewKeyName.text
-                                        if (val !== "") {
-
-                                        } else {
-                                            borderNameColor = "red"
-                                            nameColor = "red"
-                                        }
+                                    } else {
+                                        borderNameColor = "red"
+                                        nameColor = "red"
                                     }
                                 }
                             }
+                        }
 
-                            Rectangle //Функция Клавиши
-                            {
-                                id: rectangleNewKeyFunction
-                                width: cellWidth + cellWidth50 * 2
+                        Rectangle //rectangleNewKeyFunction
+                        {
+                            id: rectangleNewKeyFunction
+                            width: cellWidth + cellWidth50 * 2
+                            height: parent.height
+                            color: "#ffffff"
+                            border.color: "#c54848"
+
+                            TextField {
+                                width: parent.width
                                 height: parent.height
-                                color: "#ffffff"
-                                border.color: "#c54848"
+                                id: textFieldNewKeyFunction
+                                text: functionName
+                                background: Rectangle {
+                                    border.color: borderFunctionNameColor
+                                    border.width: borderSize
+                                }
 
-                                TextField {
-                                    width: parent.width
-                                    height: parent.height
-                                    id: textFieldNewKeyFunction
-                                    text: functionName
-                                    background: Rectangle {
-                                        border.color: borderFunctionNameColor
-                                        border.width: borderSize
+                                color: functionNameColor
+
+                                onPressed: {
+                                    if (listViewListOfSubscribers.currentIndex >= 0) {
+                                        listModelListOfSubscribers.get(
+                                                    listViewListOfSubscribers.currentIndex).borderSize = 1
                                     }
 
-                                    color: functionNameColor
+                                    listViewListOfSubscribers.currentIndex = index
+                                    listModelListOfSubscribers.get(
+                                                index).borderSize = 2
 
-                                    onPressed: {
-                                        if (listViewListOfSubscribers.currentIndex >= 0) {
-                                            listModelListOfSubscribers.get(
-                                                        listViewListOfSubscribers.currentIndex).borderSize = 1
-                                        }
+                                    appCore.getSubscriberListPriorityOfKeys(
+                                                nameOfStation,
+                                                listModelListOfSubscribers.get(
+                                                    listViewListOfSubscribers.currentIndex).uid)
+                                }
+                                onTextChanged: {
 
-                                        listViewListOfSubscribers.currentIndex = index
-                                        listModelListOfSubscribers.get(
-                                                    index).borderSize = 2
+                                    functionNameColor = "#333"
+                                    borderFunctionNameColor = "#333"
 
-                                        appCore.getSubscriberListPriorityOfKeys(
+                                    var nameNumber = getNameOfKeyFunctionNumber(textFieldNewKeyFunction.text)
+
+                                    if (listViewListOfSubscribers.currentIndex >= 0) {
+                                        appCore.updateKeySubscriberFunctionOfKey(
                                                     nameOfStation,
                                                     listModelListOfSubscribers.get(
-                                                        listViewListOfSubscribers.currentIndex).uid)
-                                    }
-                                    onTextChanged: {
+                                                        listViewListOfSubscribers.currentIndex).uid,
+                                                    nameNumber)
 
-                                        functionNameColor = "#333"
-                                        borderFunctionNameColor = "#333"
-
-                                        var nameNumber = getNameOfKeyFunctionNumber(textFieldNewKeyFunction.text)
-
-                                        if (listViewListOfSubscribers.currentIndex >= 0) {
-                                            appCore.updateKeySubscriberFunctionOfKey(
-                                                        nameOfStation,
-                                                        listModelListOfSubscribers.get(
-                                                            listViewListOfSubscribers.currentIndex).uid,
-                                                        nameNumber)
-
-                                            if (!appCore.functionVerification(
-                                                        nameNumber)) {
-                                                functionNameColor = "red"
-                                                borderFunctionNameColor = "red"
-                                            }
-                                        }
-
-                                        //can't be assignment
-                                        if((getNameOfKeyFunctionNumber(textFieldNewKeyFunction.text) === "4")
-                                                ||(getNameOfKeyFunctionNumber(textFieldNewKeyFunction.text) === "3")
-                                                ||(getNameOfKeyFunctionNumber(textFieldNewKeyFunction.text) === "5")
-                                                ||(getNameOfKeyFunctionNumber(textFieldNewKeyFunction.text) === "7")){
-                                            textFieldNewAppointment.text = ""
-                                            buttonNewAppointment.visible = false
-                                            textFieldNewAppointment.readOnly = true
-                                            assignedNameColor = "#333"
-                                            borderAssignedNameColor = "#333"
-                                        }
-                                        else{
-                                            buttonNewAppointment.visible = true
-                                            textFieldNewAppointment.readOnly = false
-                                        }
-                                    }
-                                    onEditingFinished: {
-                                        focus = false
-                                        var nameNumber = getNameOfKeyFunctionNumber(textFieldNewKeyFunction.text)
-
-                                        var val = textFieldNewKeyFunction.text
-                                        if (val !== "") {
-                                            if (!appCore.functionVerification(
-                                                        nameNumber)) {
-                                                functionNameColor = "red"
-                                                borderFunctionNameColor = "red"
-                                            }
-                                        } else {
+                                        if (!appCore.functionVerification(
+                                                    nameNumber)) {
                                             functionNameColor = "red"
                                             borderFunctionNameColor = "red"
                                         }
                                     }
-                                }
 
-                                Button {
-                                    id: buttonNewKeyFunction
-                                    width: parent.height - 10
-                                    height: parent.height - 10
-                                    text: "..."
-                                    anchors.right: parent.right
-                                    anchors.rightMargin: 10
-                                    anchors.verticalCenter: parent.verticalCenter
-                                    onClicked: {
-
-                                        if (listViewListOfSubscribers.currentIndex >= 0) {
-                                            listModelListOfSubscribers.get(
-                                                        listViewListOfSubscribers.currentIndex).borderSize = 1
-                                        }
-
-                                        var component = Qt.createComponent(
-                                                    "subscriber_window.qml")
-                                        var windowSel = component.createObject(
-                                                    rectangleNewKeyFunction)
-                                        windowSel.mainText = textFieldNewKeyFunction.text
-                                        windowSel.mainNumber = index + 1
-                                        listViewListOfSubscribers.currentIndex = index
-
-                                        windowSel.show()
-                                    }
-                                }
-                            }
-
-                            Rectangle //Адресат назначенный на клавишу
-                            {
-                                id: rectangleNewAppointment
-                                width: 3 * cellWidth50
-                                height: parent.height
-                                color: "#ffffff"
-                                TextField {
-                                    width: parent.width
-                                    height: parent.height
-                                    id: textFieldNewAppointment
-                                    text: assignedName
-
-                                    background: Rectangle {
-                                        border.color: borderAssignedNameColor
-                                        border.width: borderSize
-                                    }
-
-                                    color: assignedNameColor
-
-                                    onPressed: {
-                                        if (listViewListOfSubscribers.currentIndex >= 0) {
-                                            listModelListOfSubscribers.get(
-                                                        listViewListOfSubscribers.currentIndex).borderSize = 1
-                                        }
-
-                                        listViewListOfSubscribers.currentIndex = index
-                                        listModelListOfSubscribers.get(
-                                                    index).borderSize = 2
-
-                                        appCore.getSubscriberListPriorityOfKeys(
-                                                    nameOfStation,
-                                                    listModelListOfSubscribers.get(
-                                                        listViewListOfSubscribers.currentIndex).uid)
-                                    }
-                                    onTextChanged: {
-
+                                    //can't be assignment
+                                    if((getNameOfKeyFunctionNumber(textFieldNewKeyFunction.text) === "4")
+                                            ||(getNameOfKeyFunctionNumber(textFieldNewKeyFunction.text) === "3")
+                                            ||(getNameOfKeyFunctionNumber(textFieldNewKeyFunction.text) === "5")
+                                            ||(getNameOfKeyFunctionNumber(textFieldNewKeyFunction.text) === "7")){
+                                        textFieldNewAppointment.text = ""
+                                        buttonNewAppointment.visible = false
+                                        textFieldNewAppointment.readOnly = true
                                         assignedNameColor = "#333"
                                         borderAssignedNameColor = "#333"
-
-                                        if (listViewListOfSubscribers.currentIndex >= 0) {
-                                            appCore.updateKeySubscriberAssignedOfKey(
-                                                        nameOfStation,
-                                                        listModelListOfSubscribers.get(
-                                                            listViewListOfSubscribers.currentIndex).uid,
-
-                                                        textFieldNewAppointment.text)
-                                        }
-                                        //can't be assignment
-                                        if((getNameOfKeyFunctionNumber(textFieldNewKeyFunction.text) === "4")
-                                                ||(getNameOfKeyFunctionNumber(textFieldNewKeyFunction.text) === "3")
-                                                ||(getNameOfKeyFunctionNumber(textFieldNewKeyFunction.text) === "5")
-                                                ||(getNameOfKeyFunctionNumber(textFieldNewKeyFunction.text) === "7")){
-                                            assignedNameColor = "#333"
-                                            borderAssignedNameColor = "#333"
-                                        }
                                     }
-                                    onEditingFinished: {
-                                        focus = false
-
-                                        var val = textFieldNewAppointment.text
-                                        if (val !== "") {
-
-                                        } else {
-                                            assignedNameColor = "red"
-                                            borderAssignedNameColor = "red"
-                                        }
-
-                                        //can't be assignment
-                                        if((getNameOfKeyFunctionNumber(textFieldNewKeyFunction.text) === "4")
-                                                ||(getNameOfKeyFunctionNumber(textFieldNewKeyFunction.text) === "3")
-                                                ||(getNameOfKeyFunctionNumber(textFieldNewKeyFunction.text) === "5")
-                                                ||(getNameOfKeyFunctionNumber(textFieldNewKeyFunction.text) === "7")){
-                                            assignedNameColor = "#333"
-                                            borderAssignedNameColor = "#333"
-                                        }
+                                    else{
+                                        buttonNewAppointment.visible = true
+                                        textFieldNewAppointment.readOnly = false
                                     }
                                 }
-                                Button {
-                                    id: buttonNewAppointment
-                                    width: parent.height - 10
-                                    height: parent.height - 10
-                                    text: "..."
-                                    anchors.right: parent.right
-                                    anchors.rightMargin: 10
-                                    anchors.verticalCenter: parent.verticalCenter
-                                    onClicked: {
+                                onEditingFinished: {
+                                    focus = false
+                                    var nameNumber = getNameOfKeyFunctionNumber(textFieldNewKeyFunction.text)
 
-                                        if (listViewListOfSubscribers.currentIndex >= 0) {
-                                            listModelListOfSubscribers.get(
-                                                        listViewListOfSubscribers.currentIndex).borderSize = 1
+                                    var val = textFieldNewKeyFunction.text
+                                    if (val !== "") {
+                                        if (!appCore.functionVerification(
+                                                    nameNumber)) {
+                                            functionNameColor = "red"
+                                            borderFunctionNameColor = "red"
                                         }
-
-                                        var component = Qt.createComponent(
-                                                    "assignment_list.qml")
-                                        var windowSel = component.createObject(
-                                                    rectangleNewAppointment)
-                                        listViewListOfSubscribers.currentIndex = index
-
-                                        windowSel.show()
+                                    } else {
+                                        functionNameColor = "red"
+                                        borderFunctionNameColor = "red"
                                     }
                                 }
                             }
-                            spacing: -1
-                        }
-                    }
+
+                            Button //buttonNewKeyFunction
+                            {
+                                id: buttonNewKeyFunction
+                                width: parent.height - 10
+                                height: parent.height - 10
+                                text: "..."
+                                anchors.right: parent.right
+                                anchors.rightMargin: 10
+                                anchors.verticalCenter: parent.verticalCenter
+                                onClicked: {
+
+                                    if (listViewListOfSubscribers.currentIndex >= 0) {
+                                        listModelListOfSubscribers.get(
+                                                    listViewListOfSubscribers.currentIndex).borderSize = 1
+                                    }
+
+                                    var component = Qt.createComponent(
+                                                "subscriber_window.qml")
+                                    var windowSel = component.createObject(
+                                                rectangleNewKeyFunction)
+                                    windowSel.mainText = textFieldNewKeyFunction.text
+                                    windowSel.mainNumber = index + 1
+                                    listViewListOfSubscribers.currentIndex = index
+
+                                    windowSel.show()
+                                }
+                            }
+                        }//Rectangle //rectangleNewKeyFunction
+
+                        Rectangle //rectangleNewAppointment
+                        {
+                            id: rectangleNewAppointment
+                            width: 3 * cellWidth50
+                            height: parent.height
+                            color: "#ffffff"
+                            TextField
+                            {
+                                width: parent.width
+                                height: parent.height
+                                id: textFieldNewAppointment
+                                text: assignedName
+
+                                background: Rectangle {
+                                    border.color: borderAssignedNameColor
+                                    border.width: borderSize
+                                }
+
+                                color: assignedNameColor
+
+                                onPressed: {
+                                    if (listViewListOfSubscribers.currentIndex >= 0) {
+                                        listModelListOfSubscribers.get(
+                                                    listViewListOfSubscribers.currentIndex).borderSize = 1
+                                    }
+
+                                    listViewListOfSubscribers.currentIndex = index
+                                    listModelListOfSubscribers.get(
+                                                index).borderSize = 2
+
+                                    appCore.getSubscriberListPriorityOfKeys(
+                                                nameOfStation,
+                                                listModelListOfSubscribers.get(
+                                                    listViewListOfSubscribers.currentIndex).uid)
+                                }
+                                onTextChanged:
+                                {
+
+                                    assignedNameColor = "#333"
+                                    borderAssignedNameColor = "#333"
+
+                                    if (listViewListOfSubscribers.currentIndex >= 0) {
+                                        appCore.updateKeySubscriberAssignedOfKey(
+                                                    nameOfStation,
+                                                    listModelListOfSubscribers.get(
+                                                        listViewListOfSubscribers.currentIndex).uid,
+
+                                                    textFieldNewAppointment.text)
+                                    }
+                                    //can't be assignment
+                                    if((getNameOfKeyFunctionNumber(textFieldNewKeyFunction.text) === "4")
+                                            ||(getNameOfKeyFunctionNumber(textFieldNewKeyFunction.text) === "3")
+                                            ||(getNameOfKeyFunctionNumber(textFieldNewKeyFunction.text) === "5")
+                                            ||(getNameOfKeyFunctionNumber(textFieldNewKeyFunction.text) === "7")){
+                                        assignedNameColor = "#333"
+                                        borderAssignedNameColor = "#333"
+                                    }
+                                }
+                                onEditingFinished: {
+                                    focus = false
+
+                                    var val = textFieldNewAppointment.text
+                                    if (val !== "") {
+
+                                    } else {
+                                        assignedNameColor = "red"
+                                        borderAssignedNameColor = "red"
+                                    }
+
+                                    //can't be assignment
+                                    if((getNameOfKeyFunctionNumber(textFieldNewKeyFunction.text) === "4")
+                                            ||(getNameOfKeyFunctionNumber(textFieldNewKeyFunction.text) === "3")
+                                            ||(getNameOfKeyFunctionNumber(textFieldNewKeyFunction.text) === "5")
+                                            ||(getNameOfKeyFunctionNumber(textFieldNewKeyFunction.text) === "7")){
+                                        assignedNameColor = "#333"
+                                        borderAssignedNameColor = "#333"
+                                    }
+                                }
+                            }
+                            Button //buttonNewAppointment
+                            {
+                                id: buttonNewAppointment
+                                width: parent.height - 10
+                                height: parent.height - 10
+                                text: "..."
+                                anchors.right: parent.right
+                                anchors.rightMargin: 10
+                                anchors.verticalCenter: parent.verticalCenter
+
+                                onClicked:
+                                {
+
+                                    if (listViewListOfSubscribers.currentIndex >= 0) {
+                                        listModelListOfSubscribers.get(
+                                                    listViewListOfSubscribers.currentIndex).borderSize = 1
+                                    }
+
+                                    var component = Qt.createComponent(
+                                                "assignment_list.qml")
+                                    var windowSel = component.createObject(
+                                                rectangleNewAppointment)
+                                    listViewListOfSubscribers.currentIndex = index
+
+                                    windowSel.show()
+                                }
+                            }//Button //buttonNewAppointment
+                        }    //Rectangle //rectangleNewAppointment
                     spacing: -1
-                }
-          }
-    }
+                    }       //Row
+                }           //delegate: Item
+                    spacing: -1
+            }               //ListView
+        }                   //Rectangle
+    }                       //Flickable
 
     Connections //Отработка логики appCore
     {
@@ -694,7 +685,6 @@ property color colorKeyProperty: "#F8FACF"
 
             resizeFlickableList()
         }
-
         onSendVisibleSubsriber:
         {
             subsribersWindow.visible = stateOnVisible
@@ -702,25 +692,21 @@ property color colorKeyProperty: "#F8FACF"
 
             listViewListOfSubscribers.currentIndex = -1
         }
-
         onClearVisibleSubsriber:
         {
             subsribersWindow.visible = false
             listModelListOfSubscribers.clear()
             listViewListOfSubscribers.currentIndex = -1
         }
-
         onSendNameOfStation:
         {
             nameOfStation = nameOfStationList
             indexOfStation = indexOfStationFromList
         }
-
         onSendUpdateListOfStationResize:
         {
             resizeFlickableList()
         }
-
         onSendInfoNetworkAboutTheStation:
         {
             textFieldNameStation.text = nameOfStationMain
@@ -756,7 +742,6 @@ property color colorKeyProperty: "#F8FACF"
                 gatewayBorderColor = "#333"
             }
         }
-
         onSendInfoPrioriryKeysAboutTheStation:
         {
             textFieldKeyPriority.text = prioriryKeyStation
@@ -778,70 +763,18 @@ property color colorKeyProperty: "#F8FACF"
                 keyModeBorderColor = "red"
             }
         }
-
         onSendToQmlSubscriber:
         {
             var nameStr = getNameOfKeyFunction(str)
             listModelListOfSubscribers.get(
                         listViewListOfSubscribers.currentIndex).functionName = nameStr
         }
-
         onSendToQmlSubscriberAssignment:
         {
             listModelListOfSubscribers.get(
                         listViewListOfSubscribers.currentIndex).assignedName = strAssignmentName
         }
     }
-
-//    Connections //Отработка логики appCore
-//    {
-//        target: appCore
-
-//        onSendToQmlSubscriber: {
-
-//            var nameStr = getNameOfKeyFunction(str)
-//            listModelListOfSubscribers.get(
-//                        listViewListOfSubscribers.currentIndex).functionName = nameStr
-//        }
-
-//        onSendToQmlSubscriberAssignment: {
-//            listModelListOfSubscribers.get(
-//                        listViewListOfSubscribers.currentIndex).assignedName = strAssignmentName
-//        }
-
-        //        onSendToQmlSubscriberForAssignmentList: {
-        //            listModelListOfSubscribers.get(
-        //                        listViewListOfSubscribers.currentIndex).functionName = str
-        //        }
-//    }
-
-//    Button //Скрытая кнопка
-//    {
-//        id: buttonSaveStations
-//        text: qsTr("Save stations")
-//        visible: false
-//        anchors.verticalCenter: buttonDeleteSubscriber.verticalCenter
-//        anchors.left: buttonDeleteSubscriber.right
-//        anchors.leftMargin: 5
-//        onClicked: {
-
-//            //...
-//        }
-//    }
-
-//    Button //Скрытая кнопка
-//    {
-//        id: buttonLoadStations
-//        text: qsTr("Load stations")
-//        visible: false
-//        anchors.left: buttonSaveStations.right
-//        anchors.leftMargin: 5
-//        anchors.verticalCenter: buttonDeleteSubscriber.verticalCenter
-//        onClicked: {
-
-//            //...
-//        }
-//    }
 
     Rectangle //Текст Station Number:
     {
@@ -1110,9 +1043,8 @@ property color colorKeyProperty: "#F8FACF"
         }
     }
 
-    // ---> This block of keys and them properties
-    //Area for property of keys
-    Rectangle {
+    Rectangle //Area for property of keys
+    {
         id: rectangleKeyProperty
         width: 400
         height: defaultSizeOfHeight * 2
@@ -1123,21 +1055,8 @@ property color colorKeyProperty: "#F8FACF"
         anchors.topMargin: 50
         visible: listViewListOfSubscribers.currentIndex >= 0 ? true : false
 
-        //The preporty of the key
-//        Rectangle {
-//            id: rectKeyProperty
-//            color: colorKeyProperty
-//            width: cellWidth
-//            height: defaultSizeOfHeight
-//            Label {
-//                verticalAlignment: Text.AlignVCenter
-//                anchors.fill: parent
-//                id: labelKeyProperty
-//                text: qsTr("Key Properties")
-//            }
-//        }
-        //The mode of the key
-        Rectangle {
+        Rectangle  //Text Key Mode:
+        {
             id: rectKeyMode
             color: colorKeyProperty
             anchors.top: rectKeyProperty.bottom
@@ -1151,8 +1070,8 @@ property color colorKeyProperty: "#F8FACF"
                 text: qsTr("Key Mode:")
             }
         }
-        //The priority of the key
-        Rectangle {
+        Rectangle //Text Key Priority:
+        {
             id: rectKeyPriority
             color: colorKeyProperty
             anchors.top: rectKeyMode.bottom
@@ -1218,7 +1137,6 @@ property color colorKeyProperty: "#F8FACF"
                 }
             }
         }
-
         TextField //Выбор приоритета клавиши
         {
             width: cellWidth
@@ -1252,41 +1170,5 @@ property color colorKeyProperty: "#F8FACF"
                 }
             }
         }
-
-
-//        Rectangle //The act of the key
-//        {
-//            id: rectKeyAct
-//            anchors.top: rectKeyPriority.bottom
-//            anchors.topMargin: defaultSizeOfSpace
-//            width: cellWidth
-//            height: defaultSizeOfHeight
-//            Label {
-//                verticalAlignment: Text.AlignVCenter
-//                anchors.fill: parent
-//                id: labelKeyAct
-//                text: qsTr("Activate when \npressed key:")
-//            }
-//        }
-//        TextField //Activated then pressed не завершено
-//        {
-//            width: cellWidth
-//            readOnly: true
-//            id: textFieldKeyAct
-//            text: ""
-//            anchors.left: rectKeyAct.right
-//            anchors.leftMargin: defaultSizeOfSpace
-//            anchors.verticalCenter: rectKeyAct.verticalCenter
-//        }
-//        Button //Не завершено
-//        {
-//            id: buttonKeyAct
-//            width: defaultSizeOfHeight
-//            height: defaultSizeOfHeight
-//            text: "..."
-//            anchors.left: textFieldKeyAct.right
-//            anchors.leftMargin: defaultSizeOfSpace
-//            anchors.verticalCenter: textFieldKeyAct.verticalCenter
-//        }
     }
 }
