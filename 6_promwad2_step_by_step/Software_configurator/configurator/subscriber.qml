@@ -115,25 +115,162 @@ property color colorSubsribersWindow: "#F8FACF"
                 = listModelListOfSubscribers.count * (defaultSizeOfHeight - 1) + 1
     }
 
-    Flickable //Основное поле абонентов
+    Button //Клавиша +
+    {
+        id: buttonAddSubscriber
+        height: defaultSizeOfHeight
+        width: defaultSizeOfHeight
+        text: "+"
+        anchors.bottom: rectangleWithMargins.top
+        anchors.bottomMargin: defaultSizeOfSpace
+        onClicked: {
+            //it is depricated
+            //appCore.setListOfElements()
+            //add a new key block
+            appCore.addNewKeyBlock(nameOfStation)
+        }
+    }
+    Button //Клавиша -
+    {
+        id: buttonDeleteSubscriber
+        width: defaultSizeOfHeight
+        height: defaultSizeOfHeight
+        text: "-"
+        anchors.bottom: rectangleWithMargins.top
+        anchors.bottomMargin: defaultSizeOfSpace
+        anchors.left: buttonAddSubscriber.right
+        anchors.leftMargin: defaultSizeOfSpace
+        onClicked: {
+            if (listModelListOfSubscribers.count > 0) {
+                if (listViewListOfSubscribers.currentIndex >= 0) {
+                    var index = listViewListOfSubscribers.currentIndex
+                    listModelListOfSubscribers.get(
+                                listViewListOfSubscribers.currentIndex).borderSize = 1
+
+                    appCore.deleteBlock(
+                                nameOfStation, listModelListOfSubscribers.get(
+                                    listViewListOfSubscribers.currentIndex).uid)
+
+                    listModelListOfSubscribers.remove(
+                                listViewListOfSubscribers.currentIndex)
+                    resizeFlickableList()
+                    index--
+                    if (index < 0)
+                        index = 0
+                    listViewListOfSubscribers.currentIndex = index
+
+                    if (listModelListOfSubscribers.count > 0)
+                        listModelListOfSubscribers.get(index).borderSize = 2
+                }
+            }
+        }
+    }
+    Rectangle // Шапка таблицы
+    {
+        id: rectangleWithMargins
+        width: cellWidth * 4 + defaultSizeOfSpace
+        height: defaultSizeOfHeight
+        color: "#ffffff"
+        anchors.bottom: flickableListOfSubscribers.top
+        anchors.bottomMargin: -1
+
+        Row {
+            id: rowWithMargins
+            width: parent.width
+            height: parent.height
+
+            Rectangle {
+                id: rectangleKeyBlock
+                width: cellWidth50 * 2
+                height: parent.height
+                TextField {
+                    readOnly: true
+                    width: parent.width
+                    height: parent.height
+                    text: qsTr("Key block")
+                    horizontalAlignment: Text.AlignHCenter
+                    id: textFieldKeyBlock
+                    background: Rectangle {
+                        border.color: "#333"
+                        border.width: 1
+                    }
+                }
+            }
+
+            Rectangle {
+                id: rectangleKeyName
+                width: cellWidth
+                height: parent.height
+                color: "#ffffff"
+                TextField {
+                    width: parent.width
+                    height: parent.height
+                    text: qsTr("Key Name")
+                    horizontalAlignment: Text.AlignHCenter
+                    id: textFieldKeyName
+                    readOnly: true
+                    background: Rectangle {
+                        border.color: "#333"
+                        border.width: 1
+                    }
+                }
+            }
+
+            Rectangle {
+                id: rectangleKeyFunction
+                width: cellWidth + 2 * cellWidth50
+                height: parent.height
+                color: "#ffffff"
+                border.color: "#c54848"
+                TextField {
+                    width: parent.width
+                    height: parent.height
+                    id: textFieldKeyFunction
+                    text: qsTr("Key function")
+                    horizontalAlignment: Text.AlignHCenter
+                    readOnly: true
+                    background: Rectangle {
+                        border.color: "#333"
+                        border.width: 1
+                    }
+                }
+            }
+
+            Rectangle {
+                id: rectangleAppointment
+                width: cellWidth50 * 3
+                height: parent.height
+                color: "#ffffff"
+                TextField {
+                    width: parent.width
+                    height: parent.height
+                    text: qsTr("Appointment")
+                    horizontalAlignment: Text.AlignHCenter
+                    id: textFieldAppointment
+                    readOnly: true
+                    background: Rectangle {
+                        border.color: "#333"
+                        border.width: 1
+                    }
+                }
+            }
+            spacing: -1
+        }
+    }
+
+    Flickable
     {
         id: flickableListOfSubscribers
         width: parent.width + 5
         height: parent.height
-
         clip: true
-        ScrollBar.vertical: ScrollBar {
-            id: scrollBarListOfSubscribers
-        }
-
-        Rectangle //rectangleListOfSubscribers
-        {
-            id: rectangleListOfSubscribers
-            anchors.fill: parent
-
-            Rectangle
+        ScrollBar.vertical: ScrollBar
+//        {
+//            id: scrollBarListOfSubscribers
+//        }
+            Rectangle //Основное поле абонентов
             {
-                id: rectangleInternalListOfSubscribers
+//                id: rectangleInternalListOfSubscribers
                 anchors.fill: parent
                 ListView {
                     id: listViewListOfSubscribers
@@ -526,11 +663,10 @@ property color colorSubsribersWindow: "#F8FACF"
                     }
                     spacing: -1
                 }
-            }
-        }
+          }
     }
 
-    Connections
+    Connections //Отработка логики appCore
     {
         target: appCore
         onSendListNameOfElements:
@@ -620,7 +756,8 @@ property color colorSubsribersWindow: "#F8FACF"
             }
         }
 
-        onSendInfoPrioriryKeysAboutTheStation: {
+        onSendInfoPrioriryKeysAboutTheStation:
+        {
             textFieldKeyPriority.text = prioriryKeyStation
 
             if (textFieldKeyPriority.text == "") {
@@ -640,174 +777,42 @@ property color colorSubsribersWindow: "#F8FACF"
                 keyModeBorderColor = "red"
             }
         }
-    }
 
-    Connections
-    {
-        target: appCore
-
-        onSendToQmlSubscriber: {
-
+        onSendToQmlSubscriber:
+        {
             var nameStr = getNameOfKeyFunction(str)
             listModelListOfSubscribers.get(
                         listViewListOfSubscribers.currentIndex).functionName = nameStr
         }
 
-        onSendToQmlSubscriberAssignment: {
+        onSendToQmlSubscriberAssignment:
+        {
             listModelListOfSubscribers.get(
                         listViewListOfSubscribers.currentIndex).assignedName = strAssignmentName
         }
+    }
+
+//    Connections //Отработка логики appCore
+//    {
+//        target: appCore
+
+//        onSendToQmlSubscriber: {
+
+//            var nameStr = getNameOfKeyFunction(str)
+//            listModelListOfSubscribers.get(
+//                        listViewListOfSubscribers.currentIndex).functionName = nameStr
+//        }
+
+//        onSendToQmlSubscriberAssignment: {
+//            listModelListOfSubscribers.get(
+//                        listViewListOfSubscribers.currentIndex).assignedName = strAssignmentName
+//        }
 
         //        onSendToQmlSubscriberForAssignmentList: {
         //            listModelListOfSubscribers.get(
         //                        listViewListOfSubscribers.currentIndex).functionName = str
         //        }
-    }
-
-    Button //Клавиша +
-    {
-        id: buttonAddSubscriber
-        height: defaultSizeOfHeight
-        width: defaultSizeOfHeight
-        text: "+"
-        anchors.bottom: rectangleWithMargins.top
-        anchors.bottomMargin: defaultSizeOfSpace
-        onClicked: {
-            //it is depricated
-            //appCore.setListOfElements()
-            //add a new key block
-            appCore.addNewKeyBlock(nameOfStation)
-        }
-    }
-
-    Button //Клавиша -
-    {
-        id: buttonDeleteSubscriber
-        width: defaultSizeOfHeight
-        height: defaultSizeOfHeight
-        text: "-"
-        anchors.bottom: rectangleWithMargins.top
-        anchors.bottomMargin: defaultSizeOfSpace
-        anchors.left: buttonAddSubscriber.right
-        anchors.leftMargin: defaultSizeOfSpace
-        onClicked: {
-            if (listModelListOfSubscribers.count > 0) {
-                if (listViewListOfSubscribers.currentIndex >= 0) {
-                    var index = listViewListOfSubscribers.currentIndex
-                    listModelListOfSubscribers.get(
-                                listViewListOfSubscribers.currentIndex).borderSize = 1
-
-                    appCore.deleteBlock(
-                                nameOfStation, listModelListOfSubscribers.get(
-                                    listViewListOfSubscribers.currentIndex).uid)
-
-                    listModelListOfSubscribers.remove(
-                                listViewListOfSubscribers.currentIndex)
-                    resizeFlickableList()
-                    index--
-                    if (index < 0)
-                        index = 0
-                    listViewListOfSubscribers.currentIndex = index
-
-                    if (listModelListOfSubscribers.count > 0)
-                        listModelListOfSubscribers.get(index).borderSize = 2
-                }
-            }
-        }
-    }
-
-    Rectangle // Шапка таблицы
-    {
-        id: rectangleWithMargins
-        width: cellWidth * 4 + defaultSizeOfSpace
-        height: defaultSizeOfHeight
-        color: "#ffffff"
-        anchors.bottom: flickableListOfSubscribers.top
-        anchors.bottomMargin: -1
-
-        Row {
-            id: rowWithMargins
-            width: parent.width
-            height: parent.height
-
-            Rectangle {
-                id: rectangleKeyBlock
-                width: cellWidth50 * 2
-                height: parent.height
-                TextField {
-                    readOnly: true
-                    width: parent.width
-                    height: parent.height
-                    text: qsTr("Key block")
-                    horizontalAlignment: Text.AlignHCenter
-                    id: textFieldKeyBlock
-                    background: Rectangle {
-                        border.color: "#333"
-                        border.width: 1
-                    }
-                }
-            }
-
-            Rectangle {
-                id: rectangleKeyName
-                width: cellWidth
-                height: parent.height
-                color: "#ffffff"
-                TextField {
-                    width: parent.width
-                    height: parent.height
-                    text: qsTr("Key Name")
-                    horizontalAlignment: Text.AlignHCenter
-                    id: textFieldKeyName
-                    readOnly: true
-                    background: Rectangle {
-                        border.color: "#333"
-                        border.width: 1
-                    }
-                }
-            }
-
-            Rectangle {
-                id: rectangleKeyFunction
-                width: cellWidth + 2 * cellWidth50
-                height: parent.height
-                color: "#ffffff"
-                border.color: "#c54848"
-                TextField {
-                    width: parent.width
-                    height: parent.height
-                    id: textFieldKeyFunction
-                    text: qsTr("Key function")
-                    horizontalAlignment: Text.AlignHCenter
-                    readOnly: true
-                    background: Rectangle {
-                        border.color: "#333"
-                        border.width: 1
-                    }
-                }
-            }
-
-            Rectangle {
-                id: rectangleAppointment
-                width: cellWidth50 * 3
-                height: parent.height
-                color: "#ffffff"
-                TextField {
-                    width: parent.width
-                    height: parent.height
-                    text: qsTr("Appointment")
-                    horizontalAlignment: Text.AlignHCenter
-                    id: textFieldAppointment
-                    readOnly: true
-                    background: Rectangle {
-                        border.color: "#333"
-                        border.width: 1
-                    }
-                }
-            }
-            spacing: -1
-        }
-    }
+//    }
 
 //    Button //Скрытая кнопка
 //    {
