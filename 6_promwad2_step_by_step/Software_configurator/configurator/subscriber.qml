@@ -1115,7 +1115,7 @@ property color colorKeyProperty: "#F8FACF"
     Rectangle {
         id: rectangleKeyProperty
         width: 400
-        height: 400
+        height: defaultSizeOfHeight * 2
         color: colorKeyProperty
         anchors.left: rectangleWithMargins.right
         anchors.leftMargin: defaultSizeOfSpace
@@ -1124,21 +1124,22 @@ property color colorKeyProperty: "#F8FACF"
         visible: listViewListOfSubscribers.currentIndex >= 0 ? true : false
 
         //The preporty of the key
-        Rectangle {
-            id: rectKeyProperty
-            width: cellWidth
-            height: defaultSizeOfHeight
-            Label {
-                verticalAlignment: Text.AlignVCenter
-                anchors.fill: parent
-                id: labelKeyProperty
-                text: qsTr("Key Properties")
-            }
-        }
-
+//        Rectangle {
+//            id: rectKeyProperty
+//            color: colorKeyProperty
+//            width: cellWidth
+//            height: defaultSizeOfHeight
+//            Label {
+//                verticalAlignment: Text.AlignVCenter
+//                anchors.fill: parent
+//                id: labelKeyProperty
+//                text: qsTr("Key Properties")
+//            }
+//        }
         //The mode of the key
         Rectangle {
             id: rectKeyMode
+            color: colorKeyProperty
             anchors.top: rectKeyProperty.bottom
             anchors.topMargin: defaultSizeOfSpace
             width: cellWidth
@@ -1150,10 +1151,10 @@ property color colorKeyProperty: "#F8FACF"
                 text: qsTr("Key Mode:")
             }
         }
-
         //The priority of the key
         Rectangle {
             id: rectKeyPriority
+            color: colorKeyProperty
             anchors.top: rectKeyMode.bottom
             anchors.topMargin: defaultSizeOfSpace
             width: cellWidth
@@ -1165,7 +1166,6 @@ property color colorKeyProperty: "#F8FACF"
                 text: qsTr("Key Priority:")
             }
         }
-
         ComboBox //Выбор режима клавиши без/c фиксацией
         {
             width: cellWidth
