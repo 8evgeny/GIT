@@ -475,7 +475,7 @@ visible: false
         }//id: rectLists
     }//Flickable
 
-    Connections
+    Connections  //Обработка сигналов
     {
         target: appCore
     }
@@ -557,35 +557,38 @@ visible: true
     }
 
 
-    Button //Скрытая кнопка
-    {
-        id: buttonLoadStations
-        text: qsTr("Save project")
-        anchors.left: checkBoxActGroup.right
-        visible: false
-        anchors.leftMargin: 5
-        onClicked: {
-            appCore.saveListOfStationAndGroupsQJson()
-        }
-    }
+//    Button //Скрытая кнопка
+//    {
+//        id: buttonLoadStations
+//        text: qsTr("Save project")
+//        anchors.left: checkBoxActGroup.right
+//        visible: false
+//        anchors.leftMargin: 5
+//        onClicked: {
+//            appCore.saveListOfStationAndGroupsQJson()
+//        }
+//    }
 
-    Button //Скрытая кнопка
-    {
-        id: buttonLoadGroups
-        text: qsTr("Load project")
-        anchors.left: buttonLoadStations.right
-        visible: false
-        anchors.leftMargin: 5
-        onClicked: {
-            appCore.loadListOfStationAndGroupsQJson()
-        }
-    }
+//    Button //Скрытая кнопка
+//    {
+//        id: buttonLoadGroups
+//        text: qsTr("Load project")
+//        anchors.left: buttonLoadStations.right
+//        visible: false
+//        anchors.leftMargin: 5
+//        onClicked: {
+//            appCore.loadListOfStationAndGroupsQJson()
+//        }
+//    }
 
-    Connections
+    Connections //Сигналы
     {
         target: appCore
 
-        onSendUpdateListOfStationsFromFile:
+        onSendUpdateListOfStationsFromFile://Сигеал
+//                                           void sendUpdateListOfStationsFromFile(
+//                                               QString nameOfStation,
+//                                               QString nameOfId);
         {
 
             listModelDigitalStation.append({
