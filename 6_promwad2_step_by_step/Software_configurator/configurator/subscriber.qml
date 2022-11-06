@@ -10,6 +10,7 @@ color: colorSubsribersWindow
 
     property color defaultColor: "#e1e1e2"
 property color colorSubsribersWindow: "#F8FACF"
+property color colorKeyProperty: "#F8FACF"
     property int defaultSizeOfHeight: 40
     property int defaultSizeOfSpace: 5
     property int cellWidth: 200
@@ -860,7 +861,6 @@ property color colorSubsribersWindow: "#F8FACF"
             anchors.fill: parent
         }
     }
-
     Rectangle //Текст Station Information
     {
         id: rectangleStationInformation
@@ -878,7 +878,6 @@ property color colorSubsribersWindow: "#F8FACF"
             anchors.fill: parent
         }
     }
-
     Rectangle //Текст Station Name:
     {
         id: rectangleNameStation
@@ -896,7 +895,6 @@ property color colorSubsribersWindow: "#F8FACF"
         }
         anchors.leftMargin: defaultSizeOfSpace
     }
-
     Rectangle //Текст IP address:
     {
         id: rectangleIPStation
@@ -914,7 +912,6 @@ property color colorSubsribersWindow: "#F8FACF"
         }
         anchors.leftMargin: defaultSizeOfSpace
     }
-
     Rectangle //Текст Network mask:
     {
         id: rectangleMaskNetwork
@@ -932,7 +929,6 @@ property color colorSubsribersWindow: "#F8FACF"
         }
         anchors.leftMargin: defaultSizeOfSpace
     }
-
     Rectangle //Текст Gateway:
     {
         id: rectangleGateway
@@ -980,7 +976,6 @@ property color colorSubsribersWindow: "#F8FACF"
             border.width: 1
         }
     }
-
     TextField //Имя станции
     {
         property string startEdit: ""
@@ -1015,7 +1010,6 @@ property color colorSubsribersWindow: "#F8FACF"
             border.width: 1
         }
     }
-
     TextField //IP станции
     {
         id: textFieldIPStation
@@ -1049,7 +1043,6 @@ property color colorSubsribersWindow: "#F8FACF"
             focus = false
         }
     }
-
     TextField //Маска станции
     {
         id: textFieldMaskNetwork
@@ -1083,7 +1076,6 @@ property color colorSubsribersWindow: "#F8FACF"
             focus = false
         }
     }
-
     TextField //Gateway станции
     {
         id: textFieldGateway
@@ -1124,7 +1116,7 @@ property color colorSubsribersWindow: "#F8FACF"
         id: rectangleKeyProperty
         width: 400
         height: 400
-        color: "#ffffff"
+        color: colorKeyProperty
         anchors.left: rectangleWithMargins.right
         anchors.leftMargin: defaultSizeOfSpace
         anchors.top: textFieldGateway.bottom
