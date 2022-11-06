@@ -533,60 +533,59 @@ property color colorSubsribersWindow: "#F8FACF"
     Connections
     {
         target: appCore
-        onSendListNameOfElements: {
-
+        onSendListNameOfElements:
+        {
             var nameStr = getNameOfKeyFunction(functionOfKeyAdd)
 
             listModelListOfSubscribers.append({
-                                                  "uid": uidOfKeyAdd,
-                                                  "borderSize": 1,
-                                                  "number": numberOfKeyAdd,
-                                                  "numberColor": appCore.keyVerification(
-                                                                     nameOfStation,
-                                                                     numberOfKeyAdd) ? "#333" : "red",
-                                                  "borderNumberColor": appCore.keyVerification(
-                                                                           nameOfStation,
-                                                                           numberOfKeyAdd) ? "#333" : "red",
-                                                  "name": nameOfKeyAdd,
-                                                  "nameColor": nameOfKeyAdd != "" ? "#333" : "red",
-                                                  "borderNameColor": nameOfKeyAdd
-                                                                     != "" ? "#333" : "red",
-                                                  "functionName": nameStr,
-                                                  "functionNameColor": nameStr
-                                                                       !== "" ? "#333" : "red",
-                                                  "borderFunctionNameColor": nameStr !== "" ? "#333" : "red",
-                                                  "assignedName": assignedKeyAdd,
-                                                  "assignedNameColor": checkAssignment(assignedKeyAdd, nameStr),
-                                                                       //!= "" ? "#333" : "red",
-                                                  "borderAssignedNameColor": checkAssignment(assignedKeyAdd, nameStr)//assignedKeyAdd != "" ? "#333" : "red"
-                                              })
+                    "uid": uidOfKeyAdd,
+                    "borderSize": 1,
+                    "number": numberOfKeyAdd,
+                    "numberColor": appCore.keyVerification(nameOfStation, numberOfKeyAdd) ? "#333" : "red",
+                    "borderNumberColor": appCore.keyVerification(nameOfStation, numberOfKeyAdd) ? "#333" : "red",
+                    "name": nameOfKeyAdd,
+                    "nameColor": nameOfKeyAdd != "" ? "#333" : "red",
+                    "borderNameColor": nameOfKeyAdd != "" ? "#333" : "red",
+                    "functionName": nameStr,
+                    "functionNameColor": nameStr !== "" ? "#333" : "red",
+                    "borderFunctionNameColor": nameStr !== "" ? "#333" : "red",
+                    "assignedName": assignedKeyAdd,
+                    "assignedNameColor": checkAssignment(assignedKeyAdd, nameStr),
+                     //!= "" ? "#333" : "red",
+                    "borderAssignedNameColor": checkAssignment(assignedKeyAdd, nameStr)//assignedKeyAdd != "" ? "#333" : "red"
+                    })
 
             resizeFlickableList()
         }
 
-        onSendVisibleSubsriber: {
+        onSendVisibleSubsriber:
+        {
             subsribersWindow.visible = stateOnVisible
             listModelListOfSubscribers.clear()
 
             listViewListOfSubscribers.currentIndex = -1
         }
 
-        onClearVisibleSubsriber: {
+        onClearVisibleSubsriber:
+        {
             subsribersWindow.visible = false
             listModelListOfSubscribers.clear()
             listViewListOfSubscribers.currentIndex = -1
         }
 
-        onSendNameOfStation: {
+        onSendNameOfStation:
+        {
             nameOfStation = nameOfStationList
             indexOfStation = indexOfStationFromList
         }
 
-        onSendUpdateListOfStationResize: {
+        onSendUpdateListOfStationResize:
+        {
             resizeFlickableList()
         }
 
-        onSendInfoNetworkAboutTheStation: {
+        onSendInfoNetworkAboutTheStation:
+        {
             textFieldNameStation.text = nameOfStationMain
             textFieldNumberStation.text = nameOfId
 
