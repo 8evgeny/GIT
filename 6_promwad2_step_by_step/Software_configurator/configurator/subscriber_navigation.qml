@@ -5,15 +5,14 @@ import QtQuick.Controls.Styles 1.4
 
 Rectangle //id: rectangleMain
 {
-    color: canvasColor1
+    color: canvasColor
     id: rectangleMain
     height: parent.height
     width: 600
     //counter - [100-65000]
     property int counterDigitalStation: 100
 //    property int counterBoardSl1: 100
-    property color canvasColor1: "#FAFCD4"
-    property color canvasColor2: "#E1FCD4"
+property color canvasColor: "steelblue"
     property color defaultColor: "#D7C6A7"//"#e1e1e2" //Цвет выделения строки с номером
     property bool listDigitalStation: true
     property bool listBoardSl1: true
@@ -204,7 +203,7 @@ Rectangle //id: rectangleMain
         x: 0
         y: 45
         height: 40
-        color: canvasColor1//"#ffffff"
+        color: canvasColor//"#ffffff"
         visible: true
         anchors.right: parent.right
         anchors.rightMargin: 0
@@ -216,7 +215,7 @@ Rectangle //id: rectangleMain
         Rectangle  //Надпись Groups
         {
             id: rectangleGroupsColor
-            color: canvasColor1//"#ffffff"
+            color: canvasColor//"#ffffff"
             anchors.rightMargin: 5
             anchors.leftMargin: 5
             anchors.bottomMargin: 5
@@ -264,12 +263,12 @@ visible: false
         {
             id: rectLists
             anchors.fill: parent
-            color: canvasColor2
+            color: canvasColor
 
             Rectangle  //id: rectListDigitalStation
             {
                 id: rectListDigitalStation
-                color: canvasColor1
+                color: canvasColor
                 anchors.left: buttonListDigitalStation.right
                 anchors.leftMargin: 0
                 anchors.right: parent.right
@@ -308,7 +307,7 @@ visible: false
                             anchors.fill: parent
                             onClicked:
                             {
-                                rectangleGroupsColor.color = canvasColor1//"#ffffff"
+                                rectangleGroupsColor.color = canvasColor//"#ffffff"
                                 listViewDigitalStation.currentIndex = index
                                 listViewStationWithoutGroup.currentIndex = index
                                 listViewBoardSl1.currentIndex = -1
@@ -379,7 +378,7 @@ visible: false
             Rectangle //id: rectListBoardSl1
             {
                 id: rectListBoardSl1
-                color: canvasColor1
+                color: canvasColor
                 anchors.left: buttonListBoardSl1.right
                 anchors.leftMargin: 0
                 anchors.right: parent.right
@@ -498,11 +497,11 @@ visible: true
         {
             id: rectListsWithoutGroup
             anchors.fill: parent
-            color: canvasColor1
+            color: canvasColor
             Rectangle {
                 id: rectListStationWithoutGroup
                 width: 0
-                color: canvasColor1
+                color: canvasColor
                 anchors.right: parent.right
                 anchors.rightMargin: 0
                 anchors.left: parent.left
@@ -536,7 +535,7 @@ visible: true
                         MouseArea {
                             anchors.fill: parent
                             onClicked: {
-                                rectangleGroupsColor.color = canvasColor1//"#ffffff"
+                                rectangleGroupsColor.color = canvasColor//"#ffffff"
 
                                 listViewDigitalStation.currentIndex = index
                                 listViewStationWithoutGroup.currentIndex = index

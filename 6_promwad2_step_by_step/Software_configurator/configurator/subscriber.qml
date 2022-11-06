@@ -3,12 +3,13 @@ import QtQuick.Controls 2.12
 
 Rectangle {
     id: subsribersWindow
-
-    width: cellWidth * 4
+color: colorSubsribersWindow
+    width: cellWidth * 4 - 50
     height: 742
     visible: false
 
     property color defaultColor: "#e1e1e2"
+property color colorSubsribersWindow: "steelblue"
     property int defaultSizeOfHeight: 40
     property int defaultSizeOfSpace: 5
     property int cellWidth: 200
