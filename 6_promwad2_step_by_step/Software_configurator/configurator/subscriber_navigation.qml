@@ -103,7 +103,6 @@ property color canvasColor: "#F8FACF"
 //                counterBoardSl1++
                 counterDigitalStation++
 
-//                appCore.addNewKeyBlock(stationName)
             }
 
             appCore.saveStation(stationName, id)

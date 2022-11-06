@@ -112,6 +112,10 @@ void AppCore::saveStation(const QString &nameOfStation, const QString &idOfStati
     st.nameOfID = idOfStation;
 
     listOfStations.append(st);
+
+    //Если имя станции начинается с SL1 то здесь добавляем 8 кнопок
+
+    //
 }
 
 void AppCore::deleteStation(const QString &nameOfStation)
