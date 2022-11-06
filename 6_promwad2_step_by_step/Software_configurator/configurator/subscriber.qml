@@ -658,14 +658,20 @@ property color colorKeyProperty: "#F8FACF"
         }                   //Rectangle
     }                       //Flickable
 
-    Connections //Отработка логики appCore
+    Connections //Отработка сигналов
     {
         target: appCore
-        onSendListNameOfElements:
+        onSendListNameOfElements:    //Это сигнал из C++ кода  - update list of stations
+//                                     void sendListNameOfElements(QString uidOfKeyAdd,
+//                                                                 QString numberOfKeyAdd,
+//                                                                 QString nameOfKeyAdd,
+//                                                                 QString functionOfKeyAdd,
+//                                                                 QString assignedKeyAdd);
         {
             var nameStr = getNameOfKeyFunction(functionOfKeyAdd)
 
-            listModelListOfSubscribers.append({
+            listModelListOfSubscribers.append //Обновляется одна строка таблицы
+                    ({
                     "uid": uidOfKeyAdd,
                     "borderSize": 1,
                     "number": numberOfKeyAdd,
@@ -685,33 +691,42 @@ property color colorKeyProperty: "#F8FACF"
 
             resizeFlickableList()
         }
-        onSendVisibleSubsriber:
+
+        onSendVisibleSubsriber:  //Это сигнал из C++ кода
+//                                 void sendVisibleSubsriber(bool stateOnVisible)
         {
             subsribersWindow.visible = stateOnVisible
             listModelListOfSubscribers.clear()
 
             listViewListOfSubscribers.currentIndex = -1
         }
-        onClearVisibleSubsriber:
+        onClearVisibleSubsriber:  //Это сигнал из C++ кода
         {
             subsribersWindow.visible = false
             listModelListOfSubscribers.clear()
             listViewListOfSubscribers.currentIndex = -1
         }
-        onSendNameOfStation:
+        onSendNameOfStation: //Это сигнал из C++ кода   void sendNameOfStation(
+//                                 qint32 indexOfStationFromList,
+//                                 QString nameOfStationList);
         {
             nameOfStation = nameOfStationList
             indexOfStation = indexOfStationFromList
         }
-        onSendUpdateListOfStationResize:
+        onSendUpdateListOfStationResize: //Это сигнал из C++ кода
         {
             resizeFlickableList()
         }
-        onSendInfoNetworkAboutTheStation:
+        onSendInfoNetworkAboutTheStation: //Это сигнал из C++ кода
+//                          void sendInfoNetworkAboutTheStation(
+//                                            QString nameOfStationMain,
+//                                            QString nameOfId,
+//                                            QString nameIP,
+//                                            QString nameMaskNetwork,
+//                                            QString nameGateway);
         {
             textFieldNameStation.text = nameOfStationMain
             textFieldNumberStation.text = nameOfId
-
             //check ip
             textFieldIPStation.text = nameIP
             if (!appCore.ipVerification(nameIP)) {
@@ -742,7 +757,10 @@ property color colorKeyProperty: "#F8FACF"
                 gatewayBorderColor = "#333"
             }
         }
-        onSendInfoPrioriryKeysAboutTheStation:
+        onSendInfoPrioriryKeysAboutTheStation: //Это сигнал из C++ кода
+//            void sendInfoPrioriryKeysAboutTheStation(
+//                QString modeKeyStation,
+//                QString prioriryKeyStation);
         {
             textFieldKeyPriority.text = prioriryKeyStation
 
@@ -763,13 +781,15 @@ property color colorKeyProperty: "#F8FACF"
                 keyModeBorderColor = "red"
             }
         }
-        onSendToQmlSubscriber:
+        onSendToQmlSubscriber: //Это сигнал из C++ кода
+//            void sendToQmlSubscriber(QString str,
+//                                     qint32 number);
         {
             var nameStr = getNameOfKeyFunction(str)
             listModelListOfSubscribers.get(
                         listViewListOfSubscribers.currentIndex).functionName = nameStr
         }
-        onSendToQmlSubscriberAssignment:
+        onSendToQmlSubscriberAssignment: //Это сигнал из C++ кода
         {
             listModelListOfSubscribers.get(
                         listViewListOfSubscribers.currentIndex).assignedName = strAssignmentName

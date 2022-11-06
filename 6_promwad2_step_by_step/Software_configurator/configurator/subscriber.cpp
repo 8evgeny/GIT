@@ -635,6 +635,7 @@ void AppCore::saveListOfStationAndGroupsQJson()
         qCritical() << "Something went wrong:" << serializer.errorMessage();
     }
 }
+
 void AppCore::updateInfoAboutListFiles()
 {
     emit historyOfFiles(listOfFiles.at(0), listOfFiles.at(1), listOfFiles.at(2));
