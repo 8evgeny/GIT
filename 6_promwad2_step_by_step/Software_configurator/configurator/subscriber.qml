@@ -949,8 +949,13 @@ property color colorSubsribersWindow: "#F8FACF"
 
     TextField //Номер станции
     {
+        width: cellWidth
+        height: defaultSizeOfHeight
         id: textFieldNumberStation
         text: ""
+        font.bold: true
+        font.pointSize: 12
+
         anchors.top: rectangleStationInformation.bottom
         anchors.topMargin: defaultSizeOfSpace
         anchors.left: rectangleNumberStation.right
@@ -978,6 +983,10 @@ property color colorSubsribersWindow: "#F8FACF"
         readOnly: true
         id: textFieldNameStation
         text: ""
+        font.bold: true
+        font.pointSize: 12
+        color: "grey"
+
         anchors.left: rectangleNameStation.right
         anchors.topMargin: defaultSizeOfSpace
         anchors.top: textFieldNumberStation.bottom
@@ -1007,6 +1016,8 @@ property color colorSubsribersWindow: "#F8FACF"
     {
         id: textFieldIPStation
         text: ""
+        font.bold: true
+        font.pointSize: 12
         anchors.left: rectangleIPStation.right
         anchors.topMargin: defaultSizeOfSpace
         anchors.top: textFieldNameStation.bottom
@@ -1039,6 +1050,8 @@ property color colorSubsribersWindow: "#F8FACF"
     {
         id: textFieldMaskNetwork
         text: ""
+        font.bold: true
+        font.pointSize: 12
         anchors.left: rectangleMaskNetwork.right
         anchors.topMargin: defaultSizeOfSpace
         anchors.top: textFieldIPStation.bottom
@@ -1071,6 +1084,8 @@ property color colorSubsribersWindow: "#F8FACF"
     {
         id: textFieldGateway
         text: ""
+        font.bold: true
+        font.pointSize: 12
         anchors.left: rectangleGateway.right
         anchors.topMargin: defaultSizeOfSpace
         anchors.top: textFieldMaskNetwork.bottom
@@ -1165,7 +1180,8 @@ property color colorSubsribersWindow: "#F8FACF"
             currentIndex: -1
 
             height: defaultSizeOfHeight
-
+            font.bold: true
+            font.pointSize: 12
             background: Rectangle {
                 border.color: keyModeBorderColor
                 border.width: 1
@@ -1174,10 +1190,12 @@ property color colorSubsribersWindow: "#F8FACF"
             model: ListModel {
                 id: cbItemsModeOfKey
                 ListElement {
-                    text: qsTr("Fixation")
+                    text: qsTr("fixation")
+
                 }
                 ListElement {
-                    text: qsTr("No fixation")
+                    text: qsTr("no fixation")
+
                 }
             }
 
@@ -1210,6 +1228,8 @@ property color colorSubsribersWindow: "#F8FACF"
             width: cellWidth
             id: textFieldKeyPriority
             text: ""
+            font.bold: true
+            font.pointSize: 12
             anchors.left: rectKeyPriority.right
             anchors.leftMargin: defaultSizeOfSpace
             anchors.verticalCenter: rectKeyPriority.verticalCenter
