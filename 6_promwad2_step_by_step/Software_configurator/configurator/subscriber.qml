@@ -680,34 +680,6 @@ property color colorSubsribersWindow: "#F8FACF"
         }
     }
 
-    Button //Скрытая кнопка
-    {
-        id: buttonSaveStations
-        text: qsTr("Save stations")
-        visible: false
-        anchors.verticalCenter: buttonDeleteSubscriber.verticalCenter
-        anchors.left: buttonDeleteSubscriber.right
-        anchors.leftMargin: 5
-        onClicked: {
-
-            //...
-        }
-    }
-
-    Button //Скрытая кнопка
-    {
-        id: buttonLoadStations
-        text: qsTr("Load stations")
-        visible: false
-        anchors.left: buttonSaveStations.right
-        anchors.leftMargin: 5
-        anchors.verticalCenter: buttonDeleteSubscriber.verticalCenter
-        onClicked: {
-
-            //...
-        }
-    }
-
     Button //Клавиша -
     {
         id: buttonDeleteSubscriber
@@ -741,25 +713,6 @@ property color colorSubsribersWindow: "#F8FACF"
                         listModelListOfSubscribers.get(index).borderSize = 2
                 }
             }
-        }
-    }
-
-    Rectangle //Текст Station Number:
-    {
-        id: rectangleNumberStation
-        width: 200
-        height: 40
-        color: "#ffffff"
-        anchors.top: rectangleStationInformation.bottom
-        anchors.topMargin: 5
-        anchors.left: flickableListOfSubscribers.right
-        anchors.leftMargin: 5
-
-        Label {
-            id: labelNumberStation
-            text: qsTr("Station Number:")
-            verticalAlignment: Text.AlignVCenter
-            anchors.fill: parent
         }
     }
 
@@ -853,6 +806,53 @@ property color colorSubsribersWindow: "#F8FACF"
                 }
             }
             spacing: -1
+        }
+    }
+
+//    Button //Скрытая кнопка
+//    {
+//        id: buttonSaveStations
+//        text: qsTr("Save stations")
+//        visible: false
+//        anchors.verticalCenter: buttonDeleteSubscriber.verticalCenter
+//        anchors.left: buttonDeleteSubscriber.right
+//        anchors.leftMargin: 5
+//        onClicked: {
+
+//            //...
+//        }
+//    }
+
+//    Button //Скрытая кнопка
+//    {
+//        id: buttonLoadStations
+//        text: qsTr("Load stations")
+//        visible: false
+//        anchors.left: buttonSaveStations.right
+//        anchors.leftMargin: 5
+//        anchors.verticalCenter: buttonDeleteSubscriber.verticalCenter
+//        onClicked: {
+
+//            //...
+//        }
+//    }
+
+    Rectangle //Текст Station Number:
+    {
+        id: rectangleNumberStation
+        width: 200
+        height: 40
+        color: "#ffffff"
+        anchors.top: rectangleStationInformation.bottom
+        anchors.topMargin: 5
+        anchors.left: flickableListOfSubscribers.right
+        anchors.leftMargin: 5
+
+        Label {
+            id: labelNumberStation
+            text: qsTr("Station Number:")
+            verticalAlignment: Text.AlignVCenter
+            anchors.fill: parent
         }
     }
 
