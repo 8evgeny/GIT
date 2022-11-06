@@ -71,7 +71,7 @@ property color canvasColor: "#F8FACF"
                 //counterDigitalStation = 0// TODO
                 id += counterDigitalStation
                 stationName = qsTr("PDO")
-//                        + " " + counterDigitalStation
+                        + " " + counterDigitalStation
                 listModelDigitalStation.append({
                                                    "name": stationName,
                                                    "cidName": id
@@ -87,8 +87,10 @@ property color canvasColor: "#F8FACF"
             {
 //                id += counterBoardSl1
                 id += counterDigitalStation
-//                stationName = "SL1 " + counterBoardSl1
-                stationName = qsTr("SL1")
+                stationName = "SL1 "
+                            + " " + counterDigitalStation
+//                        + counterBoardSl1
+//                stationName = qsTr("SL1")
 //                listModelBoardSl1.append({
                 listModelDigitalStation.append({
                                              "name": stationName,
@@ -100,6 +102,8 @@ property color canvasColor: "#F8FACF"
                                                      })
 //                counterBoardSl1++
                 counterDigitalStation++
+
+//                appCore.addNewKeyBlock(stationName)
             }
 
             appCore.saveStation(stationName, id)
