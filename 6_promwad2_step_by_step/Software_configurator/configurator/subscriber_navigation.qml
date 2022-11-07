@@ -107,6 +107,11 @@ property color canvasColor: "#F8FACF"
 
             appCore.saveStation(stationName, id)
 
+            //Добавил чтобы не ломалось отображение - иммитация клика мышки по текущей строчке
+            appCore.sendCurrentIndexOfDigitalStation(
+            listViewStationWithoutGroup.currentIndex,
+            listModelDigitalStation.get(listViewStationWithoutGroup.currentIndex).cidName)
+
             resizeFlick()
             resizeFlickWithoutGroup()
         }
