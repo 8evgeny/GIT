@@ -68,13 +68,25 @@ property color canvasColor: "#F8FACF"
             var id = "CID " + counterDigitalStation
             if (comboBoxListOfDevices.currentIndex == 0)
             {
-                stationName = qsTr("PDO") + " " + counterDigitalStation
+                stationName = qsTr("PDO16") + " " + counterDigitalStation
                 listModelDigitalStation.append({"name": stationName, "cidName": id })
                 listModelStationWithoutGroup.append({"name": stationName, "cidName": id })
             }
             else if (comboBoxListOfDevices.currentIndex == 1)
             {
-                stationName = "SL1 "  + " " + counterDigitalStation
+                stationName = qsTr("PDO16N") + " " + counterDigitalStation
+                listModelDigitalStation.append({ "name": stationName, "cidName": id })
+                listModelStationWithoutGroup.append({"name": stationName, "cidName": id })
+            }
+            else if (comboBoxListOfDevices.currentIndex == 2)
+            {
+                stationName = qsTr("PDO32") + " " + counterDigitalStation
+                listModelDigitalStation.append({ "name": stationName, "cidName": id })
+                listModelStationWithoutGroup.append({"name": stationName, "cidName": id })
+            }
+            else if (comboBoxListOfDevices.currentIndex == 3)
+            {
+                stationName = qsTr("SL1") + " " + counterDigitalStation
                 listModelDigitalStation.append({ "name": stationName, "cidName": id })
                 listModelStationWithoutGroup.append({"name": stationName, "cidName": id })
             }
@@ -94,7 +106,7 @@ property color canvasColor: "#F8FACF"
     ComboBox //Выбор типа станции
     {
         id: comboBoxListOfDevices
-        width: 100
+        width: 120
         height: baseHeight
         anchors.left: addDevice.right
         anchors.leftMargin: 5
@@ -102,9 +114,14 @@ property color canvasColor: "#F8FACF"
         {
             id: modelListOfDevices
             ListElement {
-                text: qsTr("PDO")
+                text: qsTr("PDO16")
             }
-
+            ListElement {
+                text: qsTr("PDO16N")
+            }
+            ListElement {
+                text: qsTr("PDO32")
+            }
             ListElement {
                 text: "SL1"
             }
