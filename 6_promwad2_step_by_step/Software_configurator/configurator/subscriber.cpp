@@ -59,7 +59,7 @@ void AppCore::sendCurrentIndexOfDigitalStation(const qint32 &index, const QStrin
 }
 
 //add a new key block
-void AppCore::addNewKeyBlock(const QString &nameOfStation)
+void AppCore::addNewKeyBlock(const QString &nameOfID)
 {
     //for saving an index
     int indexOfStation = 0;
@@ -67,7 +67,7 @@ void AppCore::addNewKeyBlock(const QString &nameOfStation)
 
     //look for an index of the station
     for (int i = 0; i < listOfStations.size(); i++) {
-        if (listOfStations.at(i).nameOfID == nameOfStation) {
+        if (listOfStations.at(i).nameOfID == nameOfID) {
             indexOfStation = i;
             isStation = true;
             break;
