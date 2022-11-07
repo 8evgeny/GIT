@@ -68,41 +68,20 @@ property color canvasColor: "#F8FACF"
             var id = "CID "
             if (comboBoxListOfDevices.currentIndex == 0)
             {
-                //counterDigitalStation = 0// TODO
                 id += counterDigitalStation
-                stationName = qsTr("PDO")
-                        + " " + counterDigitalStation
-                listModelDigitalStation.append({
-                                                   "name": stationName,
-                                                   "cidName": id
-                                               })
-                listModelStationWithoutGroup.append({
-                                                        "name": stationName,
-                                                        "cidName": id
-                                                    })
+                stationName = qsTr("PDO") + " " + counterDigitalStation
+                listModelDigitalStation.append({"name": stationName, "cidName": id })
+                listModelStationWithoutGroup.append({"name": stationName, "cidName": id })
                 counterDigitalStation++
-//                counterBoardSl1++
             }
             else if (comboBoxListOfDevices.currentIndex == 1)
             {
-//                id += counterBoardSl1
                 id += counterDigitalStation
-                stationName = "SL1 "
-                            + " " + counterDigitalStation
-//                        + counterBoardSl1
-//                stationName = qsTr("SL1")
-//                listModelBoardSl1.append({
-                listModelDigitalStation.append({
-                                             "name": stationName,
-                                             "cidName": id
-                                         })
-                listModelStationWithoutGroup.append({
-                                                        "name": stationName,
-                                                        "cidName": id
-                                                     })
-//                counterBoardSl1++
-                counterDigitalStation++
+                stationName = "SL1 "  + " " + counterDigitalStation
 
+                listModelDigitalStation.append({ "name": stationName, "cidName": id })
+                listModelStationWithoutGroup.append({"name": stationName, "cidName": id })
+                counterDigitalStation++
             }
 
             appCore.saveStation(stationName, id)
