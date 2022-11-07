@@ -116,9 +116,10 @@ void AppCore::saveStation(const QString &nameOfStation, const QString &idOfStati
     //Если имя станции начинается с SL1 то здесь добавляем 8 кнопок
     if (nameOfStation.contains("SL1"))
     {
-        for (int i =0; i<8;++i)
+        for (int i =0; i <8 ;++i)
         {
             addNewKeyBlock(idOfStation);
+            listOfStations.last().listOfKeys[i].numberOfKey = QString::number(i+1);
         }
     }
 }
