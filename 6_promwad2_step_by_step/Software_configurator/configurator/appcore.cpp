@@ -124,10 +124,15 @@ void AppCore::saveStation(const QString &nameOfStation, const QString &idOfStati
             listOfStations.last().listOfKeys[i].functionOfKey = "6"; //Direct connection simplex
             listOfStations.last().listOfKeys[i].modeKey = "2"; //No Fixation
             listOfStations.last().listOfKeys[i].prioriryKey = "0";
-            listOfStations.last().gateway = "0.0.0.0";
-            listOfStations.last().maskNetwork = "255.255.255.0";
         }
+
     }
+    else //PDO
+    {
+
+    }
+    listOfStations.last().gateway = "0.0.0.0";
+    listOfStations.last().maskNetwork = "255.255.255.0";
 }
 
 void AppCore::deleteStation(const QString &nameOfStation)
