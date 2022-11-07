@@ -11,6 +11,10 @@ Rectangle //id: rectangleMain
     width: 600
     //counter - [100-65000]
     property int counterDigitalStation: 100
+    property int counterPDO16: 1
+    property int counterPDO16N: 1
+    property int counterPDO32: 1
+    property int counterSL1: 1
 //    property int counterBoardSl1: 100
 property color canvasColor: "#F8FACF"
     property color defaultColor: "#D7C6A7"//"#e1e1e2" //Цвет выделения строки с номером
@@ -68,27 +72,31 @@ property color canvasColor: "#F8FACF"
             var id = "CID " + counterDigitalStation
             if (comboBoxListOfDevices.currentIndex == 0)
             {
-                stationName = qsTr("PDO16") + " " + counterDigitalStation
+                stationName = qsTr("PDO16") + "__" + counterPDO16
                 listModelDigitalStation.append({"name": stationName, "cidName": id })
                 listModelStationWithoutGroup.append({"name": stationName, "cidName": id })
+                counterPDO16++
             }
             else if (comboBoxListOfDevices.currentIndex == 1)
             {
-                stationName = qsTr("PDO16N") + " " + counterDigitalStation
+                stationName = qsTr("PDO16N") + "__" + counterPDO16N
                 listModelDigitalStation.append({ "name": stationName, "cidName": id })
                 listModelStationWithoutGroup.append({"name": stationName, "cidName": id })
+                counterPDO16N++
             }
             else if (comboBoxListOfDevices.currentIndex == 2)
             {
-                stationName = qsTr("PDO32") + " " + counterDigitalStation
+                stationName = qsTr("PDO32") + "__" + counterPDO32
                 listModelDigitalStation.append({ "name": stationName, "cidName": id })
                 listModelStationWithoutGroup.append({"name": stationName, "cidName": id })
+                counterPDO32++
             }
             else if (comboBoxListOfDevices.currentIndex == 3)
             {
-                stationName = qsTr("SL1") + " " + counterDigitalStation
+                stationName = qsTr("SL1") + "__" + counterSL1
                 listModelDigitalStation.append({ "name": stationName, "cidName": id })
                 listModelStationWithoutGroup.append({"name": stationName, "cidName": id })
+                counterSL1++
             }
             counterDigitalStation++
 
