@@ -120,6 +120,8 @@ void AppCore::saveStation(const QString &nameOfStation, const QString &idOfStati
         {
             addNewKeyBlock(idOfStation);
             listOfStations.last().listOfKeys[i].numberOfKey = QString::number(i+1);
+            listOfStations.last().listOfKeys[i].nameOfKey =  "input " + QString::number(i+1);
+            listOfStations.last().listOfKeys[i].functionOfKey = "6"; //Direct connection simplex
         }
     }
 }
