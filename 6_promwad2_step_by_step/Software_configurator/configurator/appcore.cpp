@@ -113,10 +113,10 @@ void AppCore::saveStation(const QString &nameOfStation, const QString &idOfStati
 
     listOfStations.append(st);
 
-    //Если имя станции начинается с SL1 то здесь добавляем 8 кнопок
+    //В зависимости от имени добавляем поля
     if (nameOfStation.contains("SL1"))
     {
-        for (int i =0; i <8 ;++i)
+        for (int i = 0; i < 8 ;++i)
         {
             addNewKeyBlock(idOfStation);
             listOfStations.last().listOfKeys[i].numberOfKey = QString::number(i+1);
@@ -125,11 +125,52 @@ void AppCore::saveStation(const QString &nameOfStation, const QString &idOfStati
             listOfStations.last().listOfKeys[i].modeKey = "2"; //No Fixation
             listOfStations.last().listOfKeys[i].prioriryKey = "0";
         }
-
     }
-    else //PDO
+    else if(nameOfStation.contains("PDO16") && !nameOfStation.contains("N"))
     {
+        for (int i = 0; i < 16 ;++i)
+        {
+            addNewKeyBlock(idOfStation);
+            listOfStations.last().listOfKeys[i].numberOfKey = QString::number(i+1);
+            listOfStations.last().listOfKeys[i].nameOfKey =  "key " + QString::number(i+1);
+            listOfStations.last().listOfKeys[i].modeKey = "2"; //No Fixation
+            listOfStations.last().listOfKeys[i].prioriryKey = "0";
+        }
+    }
+    else if(nameOfStation.contains("PDO32"))
+    {
+        for (int i = 0; i < 32 ;++i)
+        {
+            addNewKeyBlock(idOfStation);
+            listOfStations.last().listOfKeys[i].numberOfKey = QString::number(i+1);
+            listOfStations.last().listOfKeys[i].nameOfKey =  "key " + QString::number(i+1);
+            listOfStations.last().listOfKeys[i].modeKey = "2"; //No Fixation
+            listOfStations.last().listOfKeys[i].prioriryKey = "0";
+        }
+    }
+    else if(nameOfStation.contains("PDO16N"))
+    {
+        for (int i = 0, j=0; i < 26 ; ++i, ++j)
+        {
+                addNewKeyBlock(idOfStation);
+                listOfStations.last().listOfKeys[i].numberOfKey = QString::number(j+1);
+                listOfStations.last().listOfKeys[i].nameOfKey =  "key " + QString::number(j+1);
+                if (i > 15)
+                {
+                    listOfStations.last().listOfKeys[i].nameOfKey =  "telephone key " + QString::number(j+1-50);
+                    listOfStations.last().listOfKeys[i].functionOfKey = "5"; //Telephone
+                }
+                else
+                {
+                    listOfStations.last().listOfKeys[i].nameOfKey =  "key " + QString::number(j+1);
+                    listOfStations.last().listOfKeys[i].functionOfKey = "6";
+                }
 
+                listOfStations.last().listOfKeys[i].modeKey = "2"; //No Fixation
+                listOfStations.last().listOfKeys[i].prioriryKey = "0";
+                if (i == 15)
+                    j = 49;
+        }
     }
     listOfStations.last().gateway = "0.0.0.0";
     listOfStations.last().maskNetwork = "255.255.255.0";
