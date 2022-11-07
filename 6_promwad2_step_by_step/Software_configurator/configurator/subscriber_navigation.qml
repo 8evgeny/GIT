@@ -65,24 +65,20 @@ property color canvasColor: "#F8FACF"
         onClicked:
         {
             var stationName = ""
-            var id = "CID "
+            var id = "CID " + counterDigitalStation
             if (comboBoxListOfDevices.currentIndex == 0)
             {
-                id += counterDigitalStation
                 stationName = qsTr("PDO") + " " + counterDigitalStation
                 listModelDigitalStation.append({"name": stationName, "cidName": id })
                 listModelStationWithoutGroup.append({"name": stationName, "cidName": id })
-                counterDigitalStation++
             }
             else if (comboBoxListOfDevices.currentIndex == 1)
             {
-                id += counterDigitalStation
                 stationName = "SL1 "  + " " + counterDigitalStation
-
                 listModelDigitalStation.append({ "name": stationName, "cidName": id })
                 listModelStationWithoutGroup.append({"name": stationName, "cidName": id })
-                counterDigitalStation++
             }
+            counterDigitalStation++
 
             appCore.saveStation(stationName, id)
 
