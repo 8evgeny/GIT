@@ -812,7 +812,7 @@ ErrorCode rtpRemove()
 
     SAI::getInstance()->outRingBuffer.clear();
 
-    osDelay(100);
+    osDelay(5);
     osSemaphoreRelease(semaphoreRtpCreateId);
     return OK_RTP;
 }
