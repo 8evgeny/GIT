@@ -10,10 +10,10 @@ uint16_t lastDirectSubject = 0; //Последний абонент
 extern bool asteriskRecall;
 void SimplexDirectCall::handleButton()
 {
+    bool fastPress = true;
 term2("SimplexDirectCall::handleButton")
     if ((context_->subjectKey.key == context_->assignedData.key) && (subjectDirectTelephoneCall == 0))
     {
-term2("--0--")
         stopRingTone();
         context_->microphone.stop();
         switchLed(context_->assignedData.key, false);
@@ -21,6 +21,7 @@ term2("--0--")
         if (context_->control == CallControl::Control::NONE||context_->control == CallControl::Control::READY)
         {
 term2("--1--")
+            fastPress = false;
             context_->removeRtp();
             context_->control = CallControl::Control::HANG_UP;
             context_->sendRequest(CallControl::Request::HANG_UP);
@@ -34,6 +35,8 @@ term2("new CallWaiting")
                 this->context_->TransitionTo(new CallWaiting);
             }
         }
+
+
     }
     if (subjectDirectTelephoneCall != 0)
     {
@@ -134,7 +137,17 @@ RS232Puts(msg);
 
     }
 
-
+if (fastPress)
+    {
+        term2("fast press")
+        context_->removeRtp();
+        context_->control = CallControl::Control::HANG_UP;
+        context_->sendRequest(CallControl::Request::HANG_UP);
+        stopRingTone();
+        context_->microphone.stop();
+        switchLed(context_->assignedData.key, false);
+        this->context_->TransitionTo(new CallWaiting);
+    }
 }
 
 void SimplexDirectCall::handleJsonMessage()
