@@ -137,7 +137,7 @@ RS232Puts(msg);
 
     }
 
-if (fastPress)
+    if (fastPress && (context_->subjectKey.key != CallControl::Asterisk))
     {
         term2("fast press")
         context_->removeRtp();
