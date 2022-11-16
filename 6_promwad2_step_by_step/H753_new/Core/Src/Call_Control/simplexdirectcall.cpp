@@ -1,7 +1,6 @@
 #include "simplexdirectcall.h"
 #include "callwaiting.h"
 #include "../UDP_JSON/udp_multicast.h"
-//#include "conferencecall.h"
 #include "rs232.h"
 #include "rs232_printf.h"
 char msg[50];
@@ -20,13 +19,11 @@ term2("SimplexDirectCall::handleButton")
 
         if (context_->control == CallControl::Control::NONE||context_->control == CallControl::Control::READY)
         {
-term2("--1--")
             fastPress = false;
             context_->removeRtp();
             context_->control = CallControl::Control::HANG_UP;
             context_->sendRequest(CallControl::Request::HANG_UP);
         } else {
-term2("--2--")
             context_->removeRtp();
             context_->resetData();
             if(!context_->switchToConf())
