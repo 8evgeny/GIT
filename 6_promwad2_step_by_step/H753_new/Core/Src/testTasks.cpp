@@ -153,7 +153,7 @@ void testLed2()
     }
 }
 void watchDog()
-{
+{ //pev
 //    WDTInit();
 //    osThreadDef(StartWdtThread, StartWdtThread, osPriorityHigh, 0, configMINIMAL_STACK_SIZE );
 //    if ((osThreadCreate(osThread(StartWdtThread), nullptr)) == nullptr)
