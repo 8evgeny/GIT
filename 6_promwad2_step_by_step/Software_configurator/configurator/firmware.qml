@@ -90,7 +90,7 @@ Window {
 
         Label {
             id: labelPath
-            text: ""
+            text: "file:///home/evg/SOFT/Github/GIT/6_promwad2_step_by_step/H753_new/build_cmake_release/H753_new.bin"
             verticalAlignment: Text.AlignVCenter
             anchors.fill: parent
         }
@@ -98,7 +98,7 @@ Window {
 
     TextField {
         id: textFieldKey
-        text: ""
+        text: "1234567812345678"
         anchors.left: parent.left
         anchors.leftMargin: spaceDefault
         anchors.top: rectangleNameKey.bottom
@@ -118,8 +118,8 @@ Window {
                     && (!isNaN(parseInt(textFieldMainVersion.text)))
                     && (!isNaN(parseInt(textFieldSubVersion.text))))
             {
-//                labelDateTimeCurrent.text = Qt.formatDateTime(
-//                            new Date(), "dd.MM.yyyy hh:mm:ss")
+                labelDateTimeCurrent.text = Qt.formatDateTime(
+                            new Date(), "dd.MM.yyyy hh:mm:ss")
                 appCore.encryptionBinFile(labelPath.text, textFieldKey.text,
                                           labelDateTimeCurrent.text,
                                           parseInt(textFieldMainVersion.text),
@@ -149,7 +149,7 @@ Window {
 
     TextField {
         id: textFieldMainVersion
-        text: ""
+        text: "0"
         anchors.right: rectangleMainVersion.right
         anchors.rightMargin: 0
         anchors.left: parent.left
@@ -179,7 +179,7 @@ Window {
 
     TextField {
         id: textFieldSubVersion
-        text: ""
+        text: "0"
         anchors.right: rectangleSubVersion.right
         anchors.rightMargin: 0
         anchors.left: textFieldMainVersion.right

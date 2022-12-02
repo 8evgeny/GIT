@@ -1442,7 +1442,7 @@ private:
 
     qint32 uartSpeed{}; /*! UART speed 115200 default speed */
     qint32 currentLanguage = 0; /*! Current selected language, 0 - English, 1 - Russian */
-
+    QString dateTime_;
     QString portNameUarts; /*! Name of current UART */
     QString versionFirmware; /*! Current version of the firmware */
     QString subVersionFirmware; /*! Current subversion of the firmware  */

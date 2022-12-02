@@ -12,8 +12,9 @@ extern "C" {
 #include "stm32h7xx_hal_rcc.h"
 #include "stm32h753xx.h"
 
-static WWDG_HandleTypeDef hwwdg;
-
+//static WWDG_HandleTypeDef hwwdg;
+static IWDG_HandleTypeDef hiwdg;
+const uint32_t wdtDelay = 500;
 void WDTInit(void)
 {
     /*Check if the system has resumed from WWDG reset ####################*/
@@ -22,24 +23,31 @@ void WDTInit(void)
 
 
         /* Insert 4s delay */
-        HAL_Delay(4000);
+        HAL_Delay(10000);
 
         /* Clear reset flags */
         __HAL_RCC_CLEAR_RESET_FLAGS();
     }
+//    hwwdg.Instance = WWDG1;
+//    hwwdg.Init.Window = 0x7F;
+//    hwwdg.Init.Prescaler = WWDG_PRESCALER_128;
+//    hwwdg.Init.Counter = 0x7E;
+//    hwwdg.Init.EWIMode = WWDG_EWI_DISABLE;
+//    if (HAL_WWDG_Init(&hwwdg) != HAL_OK)
+//    {
+//        while (1) {RS232::getInstance().term << "WWDG Init Error!" << "\n";}
+//    }
 
-    hwwdg.Instance = WWDG1;
-
-    hwwdg.Init.Window = 127;
-    hwwdg.Init.Prescaler = WWDG_PRESCALER_8;
-
-    hwwdg.Init.Counter = 0x7E;
-    hwwdg.Init.EWIMode = WWDG_EWI_ENABLE;
-
-    if (HAL_WWDG_Init(&hwwdg) != HAL_OK) {
-        while (1) {
-            RS232::getInstance().term << "WWDG Init Error!" << "\n";
-        }
+    hiwdg.Instance = IWDG1;
+    hiwdg.Init.Prescaler = IWDG_PRESCALER_8;
+//    hiwdg.Init.Prescaler = IWDG_PRESCALER_16; //2,5 секунд до перезагрузки
+//    hiwdg.Init.Prescaler = IWDG_PRESCALER_32; //5 секунд до перезагрузки
+//    hiwdg.Init.Prescaler = IWDG_PRESCALER_128; //20 секунд до перезагрузки
+    hiwdg.Init.Reload = 0xFFF;
+    hiwdg.Init.Window = 0xFFF;
+    if (HAL_IWDG_Init(&hiwdg) != HAL_OK)
+    {
+        while (1) {RS232::getInstance().term << "IWDG Init Error!" << "\n";}
     }
 }
 
@@ -51,43 +59,41 @@ WDT *WDT::pInstance = nullptr;
 
 void WDT::SetDelayTime(uint32_t time)
 {
-    time_.store(time);
+//    time_.store(time);
 }
 
-void WDT::Loop()
+void Loop()
 {
-    while (running_)
+    while (1)
     {
-        refresh();
-
-        osDelay(time_);
-
-
+        HAL_IWDG_Refresh(&hiwdg);
+        osDelay(wdtDelay);
     }
 }
 
 void WDT::Stop()
 {
-    running_ = false;
+//    running_ = false;
 }
 
 WDT::WDT()
 {
-    wwdgtHandle = &hwwdg;
-    running_ = true;
+//    wwdgtHandle = &hwwdg;
+//    iwdgtHandle = &hiwdg;
+//    running_ = true;
 
-    SetDelayTime(22);
+//    SetDelayTime(time_);
 
 }
 
-void WDT::refresh(void)
-{
-    if (HAL_WWDG_Refresh(wwdgtHandle) != HAL_OK)
-    {
-        RS232::getInstance().term << "WWDG Refresh Error!" << "\n";
-        while(1);
-    }
-}
+//void WDT::refresh(void)
+//{
+//    if (HAL_IWDG_Refresh(iwdgtHandle) != HAL_OK)
+//    {
+//        RS232::getInstance().term << "WDG Refresh Error!" << "\n";
+//        while(1);
+//    }
+//}
 
 WDT *WDT::getInstance()
 {
@@ -104,11 +110,10 @@ WDT *WDT::getInstance()
 void StartWdtThread(void const *argument)
 {
     (void)argument;
-    osDelay(7000);
-//    while(1) {
-    WDT::getInstance()->Loop();
-//        osDelay(15);
-//    }
+    while(1) {
+    Loop();
+    osDelay(1);
+    }
 }
 
 #ifdef __cplusplus
@@ -158,11 +163,14 @@ void HAL_WWDG_MspDeInit(WWDG_HandleTypeDef* hwwdg)
   \param  WwdgHandle: WWDG handle
   \retval None
 */
+
 void HAL_WWDG_EarlyWakeupCallback(WWDG_HandleTypeDef *hwwdg)
 {
     if (hwwdg->Instance == WWDG1) {
-        //Empty
-        WDT::getInstance()->refresh();
+
+//        WDT::getInstance()->refresh();
+
+
     }
 }
 
@@ -171,7 +179,7 @@ void HAL_WWDG_EarlyWakeupCallback(WWDG_HandleTypeDef *hwwdg)
   */
 void WWDG_IRQHandler(void)
 {
-    HAL_WWDG_IRQHandler(&hwwdg);
+//    HAL_WWDG_IRQHandler(&hwwdg);
 }
 
 #ifdef __cplusplus

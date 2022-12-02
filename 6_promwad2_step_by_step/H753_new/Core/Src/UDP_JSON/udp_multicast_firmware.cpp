@@ -17,14 +17,12 @@
 #include "stm32h7xx_hal_cryp.h"
 #include <inttypes.h>
 #include "testTasks.h"
-
 void printFlashOptions(FLASH_OBProgramInitTypeDef &OBInit);
 void newFirmwareWrite(uint32_t firmwareSize);
 extern HASH_HandleTypeDef hhash;
 extern CRC_HandleTypeDef hcrc;
 extern uint8_t DataFirmware[NUM_FIRMWARE_PACKET][SIZE_FIRMWARE_BASE] __attribute__((section(".ExtRamData")));
 //extern uint8_t DataFirmware2[NUM_FIRMWARE_PACKET][SIZE_FIRMWARE_BASE] __attribute__((section(".ExtRamData")));
-
 //extern CRYP_HandleTypeDef hcrypFIRMWARE;
 extern char *allConfig;
 extern int sizeConfig;
@@ -85,6 +83,7 @@ using FirmwarePackage = struct {
     int current;
     int all;
     std::array<char, SIZE_FIRMWARE_BASE> data;
+    char* dateTime;
 };
 
 static CircularBuffer <FirmwarePackage, 20> firmwareRingBuffer; /*! Ring buffer for JSON packages */
@@ -104,7 +103,6 @@ void firmwareInitThread()
 
 static FATFS FLASHFatFs;  /*! File system object for Flash logical drive */
 static char FLASHPath[4]; /*! FLASH logical drive path */
-
 [[ noreturn ]]void updateFirmwareThread(const void *arg)
 {
     char tmp[256];
@@ -252,10 +250,20 @@ static char FLASHPath[4]; /*! FLASH logical drive path */
 //                    RS232::getInstance().term << DataFirmware[i];
 //                }
 //                RS232::getInstance().term << "\r\n";
-                std::string align = "12";
+
                 if(strncmp((char*)receivedHashKeyBin, (char*)calculatedMd5, 16) == 0)
                 {
                     term2("MD5 OK")
+                    char dateTimeFirmware[20];
+                    std::fill (dateTimeFirmware, dateTimeFirmware + 19, 0x00);
+                    strcpy(dateTimeFirmware, (char *)pack.dateTime);
+
+                    RS232::getInstance().term <<"date firmware: "<< dateTimeFirmware << "\r\n";
+                    //Запоминаем в EEPROM dateTime
+                    lfs_file_open(&lfs, &file, "dateTime", LFS_O_RDWR | LFS_O_CREAT);
+                    lfs_file_write(&lfs, &file, &dateTimeFirmware, sizeof(dateTimeFirmware));
+                    lfs_file_close(&lfs, &file);
+
                     newFirmwareWrite(firmwareSize);   //md5 совпали - пишем прошивку
                 }
                 else
@@ -348,16 +356,17 @@ void parsingFirmwareFromJson(JsonDocument &doc)
     /* FatFs function common result code */
 //    const char *cmd = doc["cmd"];
 //    const char *station = doc["station"];
-    if ((doc["cmd"] == "update") && ((uint8_t)doc["station"] == (uint8_t)ThisStation_.id))
+    if ((doc["cmd"] == "update")
+        && (((uint8_t)doc["station"] == (uint8_t)ThisStation_.id)
+            ||(doc["station"] == "all"))) //Заливаем на все устройства
     {
-
         int versionFirmware = doc["versionFirmware"];
         int subVersionFirmware = doc["subVersionFirmware"];
         int size = doc["size"];
         int current = doc["current"];
         int all = doc["all"];
         const char *data =  doc["data"];
-
+        const char *dateTime =  doc["dateTime"];
         std::string dataStr(data);
         FirmwarePackage pack;
 
@@ -367,6 +376,11 @@ void parsingFirmwareFromJson(JsonDocument &doc)
         pack.size = size;
         pack.current = current;
         pack.all = all;
+        for (uint8_t i = 0; i < 25 ;++i)
+        {
+            pack.dateTime[i] = dateTime[i];
+        }
+
 
         osMutexWait(mutexFirmwareRingBufferId, osWaitForever);
         firmwareRingBuffer.push(pack);

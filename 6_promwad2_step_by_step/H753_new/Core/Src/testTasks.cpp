@@ -11,6 +11,8 @@
 #include "ethernetif.h"
 #include "SEGGER_RTT.h"
 #include <stdio.h>
+#include "wdt.h"
+
 volatile int _Cnt;
 volatile int _Delay;
 static char r;
@@ -150,12 +152,16 @@ void testLed2()
         term("Failed to create simpleLedTest2_RTOS");
     }
 }
-void testLed3()
+void watchDog()
 {
-//    osDelay (8000);
-//    osSemaphoreRelease(Netif_LinkSemaphore);
+    WDTInit();
+    osThreadDef(StartWdtThread, StartWdtThread, osPriorityHigh, 0, configMINIMAL_STACK_SIZE );
+    if ((osThreadCreate(osThread(StartWdtThread), nullptr)) == nullptr)
+    {
+        RS232::getInstance().term << __FUNCTION__ << " " << __LINE__ << " " << "\n";
+    }
 
-    osThreadDef(simpleLedTest3_RTOS, simpleLedTest3_RTOS, osPriorityNormal, 0, configMINIMAL_STACK_SIZE );
+    osThreadDef(simpleLedTest3_RTOS, simpleLedTest3_RTOS, osPriorityHigh, 0, configMINIMAL_STACK_SIZE );
     if ((osThreadCreate(osThread(simpleLedTest3_RTOS), nullptr)) == nullptr)
     {
         term("Failed to create simpleLedTest3_RTOS");
@@ -470,14 +476,14 @@ void writeVolSensToFlashStart()
 
 
 //char *logTasks = new char[2048];
-static char logTasks[2048];
-//static char logTasksTime[2048];
+static char *logTasks = new char[2048];
+static char *logTasksTime = new char[2048];
 void testTasksLog()
 {
     osThreadDef(TasksLog, TasksLog, osPriorityNormal, 0, configMINIMAL_STACK_SIZE );
     if ((osThreadCreate(osThread(TasksLog), nullptr)) == nullptr)
     {
-        term("Failed to create TasksLog");
+        term2("Failed to create TasksLog");
     }
 }
 
@@ -583,7 +589,7 @@ void simpleLedTest3_RTOS(void const *argument)
     bool reset = true;
     uint32_t tickstart = HAL_GetTick();
     uint32_t timeSet = 10;
-    uint32_t timeReset = 2000;
+    uint32_t timeReset = 1000;
 
 osDelay(100);
 term("--- simpleLedTest3_RTOS ---")
@@ -665,13 +671,15 @@ void TasksLog(void const *argument)
 
     osDelay(6000);
     term("--- TasksLog ---")
-
+        char tmp[100];
         for(;;)
     {
         vTaskList(logTasks);
-//        vTaskGetRunTimeStats(logTasksTime);
         term2(logTasks)
-        term1("heap size") term(xPortGetFreeHeapSize())
+        sprintf(tmp,"heap size = %d", xPortGetFreeHeapSize());
+        term2(tmp)
+//        vTaskGetRunTimeStats(logTasksTime);
+//        term2(logTasksTime)
         osDelay(30000);
     } //end for(;;)
 
@@ -702,20 +710,20 @@ void testXOR()
             "qwertyQWERTYUIOPASDFGHqwertyuiopasdfghQWERTYUIOPASDFGHqwertyuiopasdfgh123456789012345678901234567890endend11"
             "qwertyQWERTYUIOPASDFGHqwertyuiopasdfghQWERTYUIOPASDFGHqwertyuiopasdfgh123456789012345678901234567890endend11"
     };
-    std::string keyTest = "108_!@#$%^&*()_+_108!@#$%^&*()_+42";
+//    std::string keyTest = "108_!@#$%^&*()_+_108!@#$%^&*()_+42";
+
     char* temp = new char[2000];
     char* encoded = new char[stringOrigin->size()];
     char* decoded = new char[stringOrigin->size()];
-    xorEncoding(stringOrigin->c_str(), stringOrigin->size(), keyTest.c_str(), keyTest.size(), encoded);
-    xorEncoding(encoded, stringOrigin->size(), keyTest.c_str(), keyTest.size(), decoded);
+    xorEncoding(stringOrigin->c_str(), stringOrigin->size(), (const char*)key, 16, encoded);
+    xorEncoding(encoded, stringOrigin->size(), (const char*)key, 16, decoded);
 
-    RS232::getInstance().term << "key for test = ";
-    snprintf(temp, keyTest.size() + 1,"%s", keyTest.c_str()); term2(temp)
+    RS232::getInstance().term << "key = ";
+    snprintf(temp, 16 + 1,"%s", key); term2(temp)
     RS232::getInstance().term << "key lentgh = ";
-    sprintf(temp, "%d", keyTest.size()); term2(temp)
+    sprintf(temp, "%d", 16); term2(temp)
     RS232::getInstance().term << "input lentgh = ";
     sprintf(temp, "%d", stringOrigin->size()); term2(temp)
-
 //    sprintf(temp,"origin  text =  %s",stringOrigin->c_str()); term2(temp)
 //    RS232::getInstance().term << "encoded text = ";
 //    snprintf(temp, stringOrigin->size() + 1, "%s", encoded); term2(temp)

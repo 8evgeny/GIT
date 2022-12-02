@@ -19,7 +19,6 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-
 #include "stm32h7xx_hal.h"
 #include "stm32h7xx_hal_sai.h"
 #include "stm32h7xx_hal_dma.h"
