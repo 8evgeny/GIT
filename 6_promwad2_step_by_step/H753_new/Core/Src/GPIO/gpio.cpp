@@ -833,7 +833,7 @@ void switchLEDsThread(void const *arg)
                 if (timeReset + 10000 < HAL_GetTick())
                 {
                     term2("REBOOT")
-                    HAL_NVIC_SystemReset();
+//                    HAL_NVIC_SystemReset();
                 }
             }
             osDelay(1);
