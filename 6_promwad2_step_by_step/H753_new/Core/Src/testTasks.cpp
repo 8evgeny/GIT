@@ -400,18 +400,18 @@ void writeVolSensToFlash_RTOS(void const *argument)
     }
     int vol = -24;
     int sens = 4;
-    lfs_file_open(&lfs, &file, "vol", LFS_O_RDWR | LFS_O_CREAT);
-    lfs_file_read(&lfs, &file, &vol, sizeof(vol));
+    lfs_file_open(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, "vol", LFS_O_RDWR | LFS_O_CREAT);
+    lfs_file_read(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, &vol, sizeof(vol));
     GPIO::getInstance()->dacDriverGainValue = vol;
     GPIO::getInstance()->changeVolumeMute();
-    lfs_file_close(&lfs, &file);
+    lfs_file_close(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr);
     RS232::getInstance().term << "current vol = " << vol << "\r\n";
 
-    lfs_file_open(&lfs, &file, "sens", LFS_O_RDWR | LFS_O_CREAT);
-    lfs_file_read(&lfs, &file, &sens, sizeof(sens));
+    lfs_file_open(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, "sens", LFS_O_RDWR | LFS_O_CREAT);
+    lfs_file_read(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, &sens, sizeof(sens));
     GPIO::getInstance()->dacDriverSensValue = sens;
     GPIO::getInstance()->changeSensMute();
-    lfs_file_close(&lfs, &file);
+    lfs_file_close(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr);
     RS232::getInstance().term << "current sens = " << sens << "\r\n";
     RS232::getInstance().term << "vol min max = " << GPIO::getInstance()->dacDriverGainValueMin
                               << " "<< GPIO::getInstance()->dacDriverGainValueMax<<"\r\n";
@@ -426,17 +426,17 @@ void writeVolSensToFlash_RTOS(void const *argument)
             if (vol != GPIO::getInstance()->dacDriverGainValue)
             {
                 vol = GPIO::getInstance()->dacDriverGainValue;
-                lfs_file_open(&lfs, &file, "vol", LFS_O_WRONLY );
-                lfs_file_write(&lfs, &file, &vol, sizeof(vol));
-                lfs_file_close(&lfs, &file);
+                lfs_file_open(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, "vol", LFS_O_WRONLY );
+                lfs_file_write(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, &vol, sizeof(vol));
+                lfs_file_close(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr);
                 RS232::getInstance().term << "vol stored " << vol << "\r\n";
             }
             if (sens != GPIO::getInstance()->dacDriverSensValue)
             {
                 sens = GPIO::getInstance()->dacDriverSensValue;
-                lfs_file_open(&lfs, &file, "sens", LFS_O_WRONLY );
-                lfs_file_write(&lfs, &file, &sens, sizeof(sens));
-                lfs_file_close(&lfs, &file);
+                lfs_file_open(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, "sens", LFS_O_WRONLY );
+                lfs_file_write(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, &sens, sizeof(sens));
+                lfs_file_close(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr);
                 RS232::getInstance().term << "sens stored " << sens << "\r\n";
             }
         }

@@ -260,9 +260,9 @@ static char FLASHPath[4]; /*! FLASH logical drive path */
 
                     RS232::getInstance().term <<"date firmware: "<< dateTimeFirmware << "\r\n";
                     //Запоминаем в EEPROM dateTime
-                    lfs_file_open(&lfs, &file, "dateTime", LFS_O_RDWR | LFS_O_CREAT);
-                    lfs_file_write(&lfs, &file, &dateTimeFirmware, sizeof(dateTimeFirmware));
-                    lfs_file_close(&lfs, &file);
+                    lfs_file_open(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, "dateTime", LFS_O_RDWR | LFS_O_CREAT);
+                    lfs_file_write(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, &dateTimeFirmware, sizeof(dateTimeFirmware));
+                    lfs_file_close(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr);
 
                     newFirmwareWrite(firmwareSize);   //md5 совпали - пишем прошивку
                 }
@@ -310,9 +310,9 @@ void newFirmwareWrite(uint32_t firmwareSize)
         writeFlashFromExtRam(1);
         printMd5(1, firmwareSize);
         //Запоминаем в EEPROM firmwareSize
-        lfs_file_open(&lfs, &file, "firmwareSize", LFS_O_RDWR | LFS_O_CREAT);
-        lfs_file_write(&lfs, &file, &firmwareSize, sizeof(firmwareSize));
-        lfs_file_close(&lfs, &file);
+        lfs_file_open(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, "firmwareSize", LFS_O_RDWR | LFS_O_CREAT);
+        lfs_file_write(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, &firmwareSize, sizeof(firmwareSize));
+        lfs_file_close(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr);
 
     //Нужно переключить банк памяти для новой загрузки
     static FLASH_OBProgramInitTypeDef OBInit;
