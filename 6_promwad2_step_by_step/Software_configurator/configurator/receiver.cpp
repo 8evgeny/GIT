@@ -23,7 +23,13 @@ Receiver::Receiver(QObject *parent)
 
     // Create a new UDP socket and bind it against port 99
     m_udpSocket = new QUdpSocket(this);
-    m_udpSocket->bind(QHostAddress(QHostAddress::AnyIPv4), PORT_JSON, QUdpSocket::ShareAddress);
+//    m_udpSocket->bind(QHostAddress(QHostAddress::AnyIPv4), PORT_JSON, QUdpSocket::ShareAddress);
+
+    if(m_udpSocket->bind(QHostAddress(QHostAddress::AnyIPv4), PORT_JSON, QUdpSocket::ShareAddress))
+        qDebug() << "Bind succesfull to port " << PORT_JSON;
+    else
+        qDebug() << "Bind failed to port " << PORT_JSON;
+
 
     // Tell the UDP socket which multicast group it should join
     m_udpSocket->joinMulticastGroup(m_groupAddress);
