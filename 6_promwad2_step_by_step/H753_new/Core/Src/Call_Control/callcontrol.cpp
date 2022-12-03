@@ -534,7 +534,7 @@ term("CallControl::sendInfoAboutStation")
         for (auto &n : MACAddr) {
             infoDoc["MAC"].add(n);
         }
-
+osDelay(200); //pev
         std::fill(messageData.txBuff, messageData.txBuff + messageData.txBuffSize, 0);
         if (serializeJson(infoDoc, messageData.txBuff, capacity) > 0) {
             sendUdpMulticast(messageData.txBuff, strlen(messageData.txBuff));
