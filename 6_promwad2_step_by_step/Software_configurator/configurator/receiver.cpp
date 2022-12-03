@@ -98,11 +98,12 @@ void Receiver::processPendingDatagrams()
             qDebug() << "ID:" << idTmp;
             QString id = QString::number(idTmp);
 
-            qint32 ver = result["Version"].toInt();
-            qDebug() << "Version:" << ver;
-            qint32 sub = result["Sub"].toInt();
-            qDebug() << "Sub:" << sub;
-            QString version = QString::number(ver) +  QString(".") + QString::number(sub);
+//            qint32 ver = result["Version"].toInt();
+            QString version = result["Version"].toString();
+            qDebug() << "Version:" << version;
+//            qint32 sub = result["Sub"].toInt();
+//            qDebug() << "Sub:" << sub;
+//            QString version = QString::number(ver) +  QString(".") + QString::number(sub);
 
             QString ip = QString(result["IP"].toString());
             qDebug() << "IP:" << ip;

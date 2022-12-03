@@ -481,7 +481,6 @@ term2("Board SL1")
         dTimeFw[i] = dateTimeFw[i];
     }
     dTimeFw[dateTimeFw.size()] = '\0';
-term2(dateTimeFw.size())
 term2(dTimeFw)
 
     RS232::getInstance().term <<"date firmware: "<< dateTimeFw.c_str() << "\r\n";
