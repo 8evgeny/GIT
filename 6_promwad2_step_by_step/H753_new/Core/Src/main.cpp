@@ -59,6 +59,7 @@ extern lfs_file_t file;
 volatile uint8_t boardType;
 volatile uint8_t pinNormaState;
 volatile uint8_t pinMkState;
+char* dTimeFw;
 CRC_HandleTypeDef hcrc;
 HASH_HandleTypeDef hhash;
 I2C_HandleTypeDef hi2c1;
@@ -474,6 +475,15 @@ term2("Board SL1")
     lfs_file_read(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, &dt, 20);
     lfs_file_close(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr);
     std::string dateTimeFw = std::string(dt);
+    dTimeFw = new char[dateTimeFw.size()+1];
+    for (size_t i=0; i < dateTimeFw.size();++i)
+    {
+        dTimeFw[i] = dateTimeFw[i];
+    }
+    dTimeFw[dateTimeFw.size()] = '\0';
+term2(dateTimeFw.size())
+term2(dTimeFw)
+
     RS232::getInstance().term <<"date firmware: "<< dateTimeFw.c_str() << "\r\n";
 
     printMd5(0, firmwareSize);
