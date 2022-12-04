@@ -539,20 +539,8 @@ term("CallControl::sendInfoAboutStation")
         char macAdr[18];
         sprintf(macAdr,"%02x:%02x:%02x:%02x:%02x:%02x",
                 MACAddr[0],MACAddr[1],MACAddr[2],MACAddr[3],MACAddr[4],MACAddr[5]);
-
-        RS232::getInstance().term << "macAdr: "<<macAdr <<"\r\n";
-//        std::vector <std::string> macAdr;
-
-//        for (auto &n : MACAddr)
-//        {
-//            macAdr.push_back(std::to_string(n));
-//            macAdr.push_back(":");
-//        }
-//        for (auto &n : macAdr)
-//        {
-//            RS232::getInstance().term << n;
-//        }
-//        RS232::getInstance().term << "\r\n";
+        RS232::getInstance().term << "MACAddr: "<<macAdr <<"\r\n";
+        infoDoc["MAC"] = macAdr;
 
 osDelay(200); //pev
         std::fill(messageData.txBuff, messageData.txBuff + messageData.txBuffSize, 0);
