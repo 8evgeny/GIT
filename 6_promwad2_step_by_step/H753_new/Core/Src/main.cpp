@@ -59,7 +59,6 @@ extern lfs_file_t file;
 volatile uint8_t boardType;
 volatile uint8_t pinNormaState;
 volatile uint8_t pinMkState;
-char* fwInfo;
 CRC_HandleTypeDef hcrc;
 HASH_HandleTypeDef hhash;
 I2C_HandleTypeDef hi2c1;
@@ -470,57 +469,6 @@ term2("Board SL1")
     char temp[100];
     sprintf(temp,"FirmwareSize: %d",firmwareSize);
     term2(temp)
-    char dt[20];
-    lfs_file_open(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, "dateTime", LFS_O_RDWR | LFS_O_CREAT);
-    lfs_file_read(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, &dt, sizeof(dt));
-    lfs_file_close(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr);
-    std::string dateTimeFw = std::string(dt);
-    RS232::getInstance().term <<"date firmware: "<< dateTimeFw.c_str() << "\r\n";
-
-    char versionFw[4];
-    lfs_file_open(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, "versionFw", LFS_O_RDWR | LFS_O_CREAT);
-    lfs_file_read(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, &versionFw, sizeof(versionFw));
-    lfs_file_close(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr);
-    std::string vFw = std::string(versionFw);
-    RS232::getInstance().term <<"versionFw: "<< vFw.c_str() << "\r\n";
-
-    char subVersionFw[4];
-    lfs_file_open(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, "subVersionFw", LFS_O_RDWR | LFS_O_CREAT);
-    lfs_file_read(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, &versionFw, sizeof(subVersionFw));
-    lfs_file_close(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr);
-    std::string subFw = std::string(versionFw);
-    RS232::getInstance().term <<"subVersionFw: "<< subFw.c_str() << "\r\n";
-
-    size_t k=0;
-    fwInfo = new char[100];
-    for (size_t i = 0; i < dateTimeFw.size();++i)
-    {
-        fwInfo[k] = dateTimeFw[i];
-        ++k;
-    }
-    fwInfo[k] = ' '; ++k;
-    fwInfo[k] = ' '; ++k;
-    fwInfo[k] = 'v'; ++k;
-    fwInfo[k] = 'e'; ++k;
-    fwInfo[k] = 'r'; ++k;
-    fwInfo[k] = ':'; ++k;
-    fwInfo[k] = ' '; ++k;
-    for (size_t i = 0; i < vFw.size();++i)
-    {
-        fwInfo[k] = vFw[i];
-        ++k;
-    }
-    fwInfo[k] = '.'; ++k;
-    for (size_t i = 0; i < subFw.size();++i)
-    {
-        fwInfo[k] = subFw[i];
-        ++k;
-    }
-
-    fwInfo[k] = '\0';
-    term2(fwInfo)
-
-
 
     printMd5(0, firmwareSize);
 
