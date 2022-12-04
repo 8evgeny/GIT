@@ -472,7 +472,7 @@ term2("Board SL1")
     term2(temp)
     char dt[20];
     lfs_file_open(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, "dateTime", LFS_O_RDWR | LFS_O_CREAT);
-    lfs_file_read(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, &dt, 20);
+    lfs_file_read(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, &dt, sizeof(dt));
     lfs_file_close(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr);
     std::string dateTimeFw = std::string(dt);
     dTimeFw = new char[dateTimeFw.size()+1];
@@ -481,9 +481,21 @@ term2("Board SL1")
         dTimeFw[i] = dateTimeFw[i];
     }
     dTimeFw[dateTimeFw.size()] = '\0';
-term2(dTimeFw)
-
+    term2(dTimeFw)
     RS232::getInstance().term <<"date firmware: "<< dateTimeFw.c_str() << "\r\n";
+
+    char versionFw[4];
+    lfs_file_open(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, "versionFw", LFS_O_RDWR | LFS_O_CREAT);
+    lfs_file_read(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, &versionFw, sizeof(versionFw));
+    lfs_file_close(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr);
+    std::string vFw = std::string(versionFw);
+    RS232::getInstance().term <<"versionFw: "<< vFw.c_str() << "\r\n";
+    char subVersionFw[4];
+    lfs_file_open(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, "subVersionFw", LFS_O_RDWR | LFS_O_CREAT);
+    lfs_file_read(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, &versionFw, sizeof(subVersionFw));
+    lfs_file_close(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr);
+    std::string subFw = std::string(versionFw);
+    RS232::getInstance().term <<"subVersionFw: "<< subFw.c_str() << "\r\n";
 
     printMd5(0, firmwareSize);
 

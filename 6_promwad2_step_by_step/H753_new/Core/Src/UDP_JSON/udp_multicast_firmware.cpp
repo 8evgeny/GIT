@@ -254,14 +254,32 @@ static char FLASHPath[4]; /*! FLASH logical drive path */
                 if(strncmp((char*)receivedHashKeyBin, (char*)calculatedMd5, 16) == 0)
                 {
                     term2("MD5 OK")
+
+                    //Запоминаем в EEPROM dateTime
                     char dateTimeFirmware[20];
                     std::fill (dateTimeFirmware, dateTimeFirmware + 19, 0x00);
                     strcpy(dateTimeFirmware, (char *)pack.dateTime);
-
                     RS232::getInstance().term <<"date firmware: "<< dateTimeFirmware << "\r\n";
-                    //Запоминаем в EEPROM dateTime
                     lfs_file_open(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, "dateTime", LFS_O_RDWR | LFS_O_CREAT);
                     lfs_file_write(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, &dateTimeFirmware, sizeof(dateTimeFirmware));
+                    lfs_file_close(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr);
+
+                    //Запоминаем в EEPROM version
+                    char versionFw[4];
+                    std::fill (versionFw, versionFw + 3, 0x00);
+                    strcpy(versionFw, (char *)pack.versionFirmware);
+                    RS232::getInstance().term <<"versionFw : "<< versionFw << "\r\n";
+                    lfs_file_open(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, "versionFw", LFS_O_RDWR | LFS_O_CREAT);
+                    lfs_file_write(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, &versionFw, sizeof(versionFw));
+                    lfs_file_close(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr);
+
+                    //Запоминаем в EEPROM subversion
+                    char subVersionFw[4];
+                    std::fill (subVersionFw, subVersionFw + 3, 0x00);
+                    strcpy(subVersionFw, (char *)pack.subVersionFirmware);
+                    RS232::getInstance().term <<"subVersionFw : "<< subVersionFw << "\r\n";
+                    lfs_file_open(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, "subVersionFw", LFS_O_RDWR | LFS_O_CREAT);
+                    lfs_file_write(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, &subVersionFw, sizeof(subVersionFw));
                     lfs_file_close(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr);
 
                     newFirmwareWrite(firmwareSize);   //md5 совпали - пишем прошивку
