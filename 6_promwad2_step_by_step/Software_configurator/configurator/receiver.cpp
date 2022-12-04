@@ -108,13 +108,15 @@ void Receiver::processPendingDatagrams()
             QString ip = QString(result["IP"].toString());
             qDebug() << "IP:" << ip;
 
-            QString mac = "";
-            foreach (QVariant plugin, result["MAC"].toList()) {
-                qint32 tmp = plugin.toInt();
-                qDebug() << " " << tmp;
-                QString valueInHex = QString("%1").arg(tmp, 0, 16);
-                mac += valueInHex;
-            }
+//            QString mac = "";
+//            foreach (QVariant plugin, result["MAC"].toList()) {
+//                qint32 tmp = plugin.toInt();
+//                qDebug() << " " << tmp;
+//                QString valueInHex = QString("%1").arg(tmp, 0, 16);
+//                mac += valueInHex;
+//            }
+            QString mac = QString(result["MAC"].toString());
+            qDebug() << "MAC:" << mac;
 
             if (id.toInt() >= MIN_ID)
                 emit statusChangedJson(id, version, mac, ip);
