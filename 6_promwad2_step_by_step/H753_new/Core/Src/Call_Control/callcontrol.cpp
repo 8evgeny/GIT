@@ -14,7 +14,7 @@
 #include "rs232.h"
 #include"rs232_printf.h"
 extern uint8_t macAdr5;
-extern char* dTimeFw;
+extern char* fwInfo;
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -517,7 +517,7 @@ term("CallControl::sendInfoAboutStation")
 //        uint8_t *currentSubFirmware = reinterpret_cast<uint8_t *>(START_AREA_CURRENT_FIRMWARE + 1);
 //        infoDoc["Version"] = *currentFirmware;
 //        infoDoc["Sub"] = *currentSubFirmware;
-        infoDoc["Version"] = dTimeFw;
+        infoDoc["Version"] = fwInfo;
         infoDoc["IP"] = ThisStation_.ip;
 
 //        MACAddr[0] = 0x40;
