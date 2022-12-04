@@ -492,7 +492,7 @@ term2("Board SL1")
     RS232::getInstance().term <<"subVersionFw: "<< subFw.c_str() << "\r\n";
 
     size_t k=0;
-    fwInfo = new char[dateTimeFw.size()+1];
+    fwInfo = new char[100];
     for (size_t i = 0; i < dateTimeFw.size();++i)
     {
         fwInfo[k] = dateTimeFw[i];
