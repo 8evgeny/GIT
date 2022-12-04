@@ -532,10 +532,28 @@ term("CallControl::sendInfoAboutStation")
         MACAddr[3] = 0x00;
         MACAddr[4] = 0x00;
         MACAddr[5] = macAdr5;
+//00:80:e1:00:00:67
+//        for (auto &n : MACAddr) {
+//            infoDoc["MAC"].add(n);
+//        }
+        char macAdr[18];
+        sprintf(macAdr,"%02x:%02x:%02x:%02x:%02x:%02x",
+                MACAddr[0],MACAddr[1],MACAddr[2],MACAddr[3],MACAddr[4],MACAddr[5]);
 
-        for (auto &n : MACAddr) {
-            infoDoc["MAC"].add(n);
-        }
+        RS232::getInstance().term << "macAdr: "<<macAdr <<"\r\n";
+//        std::vector <std::string> macAdr;
+
+//        for (auto &n : MACAddr)
+//        {
+//            macAdr.push_back(std::to_string(n));
+//            macAdr.push_back(":");
+//        }
+//        for (auto &n : macAdr)
+//        {
+//            RS232::getInstance().term << n;
+//        }
+//        RS232::getInstance().term << "\r\n";
+
 osDelay(200); //pev
         std::fill(messageData.txBuff, messageData.txBuff + messageData.txBuffSize, 0);
         if (serializeJson(infoDoc, messageData.txBuff, capacity) > 0) {
