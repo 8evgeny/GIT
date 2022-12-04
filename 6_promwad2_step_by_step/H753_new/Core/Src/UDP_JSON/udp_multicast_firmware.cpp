@@ -265,18 +265,30 @@ static char FLASHPath[4]; /*! FLASH logical drive path */
                     lfs_file_close(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr);
 
                     //Запоминаем в EEPROM version
-                    char versionFw[4];
-                    std::fill (versionFw, versionFw + 3, 0x00);
-                    strcpy(versionFw, (char *)pack.versionFirmware);
+                    char versionFw[10];
+                    std::fill (versionFw, versionFw + 9, 0x00);
+                    RS232::getInstance().term <<"versionFw : "<< versionFw << "\r\n";
+                    std::string vers = std::to_string(pack.versionFirmware);
+                    for (size_t i=0; i < vers.size();++i)
+                    {
+                        versionFw[i] = vers[i];
+                    }
+                    versionFw[vers.size()] = '\0';
                     RS232::getInstance().term <<"versionFw : "<< versionFw << "\r\n";
                     lfs_file_open(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, "versionFw", LFS_O_RDWR | LFS_O_CREAT);
                     lfs_file_write(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, &versionFw, sizeof(versionFw));
                     lfs_file_close(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr);
 
                     //Запоминаем в EEPROM subversion
-                    char subVersionFw[4];
-                    std::fill (subVersionFw, subVersionFw + 3, 0x00);
-                    strcpy(subVersionFw, (char *)pack.subVersionFirmware);
+                    char subVersionFw[10];
+                    std::fill (subVersionFw, subVersionFw + 9, 0x00);
+                    RS232::getInstance().term <<"subVersionFw : "<< subVersionFw << "\r\n";
+                    std::string subVers = std::to_string(pack.subVersionFirmware);
+                    for (size_t i=0; i < subVers.size();++i)
+                    {
+                        subVersionFw[i] = subVers[i];
+                    }
+                    subVersionFw[subVers.size()] = '\0';
                     RS232::getInstance().term <<"subVersionFw : "<< subVersionFw << "\r\n";
                     lfs_file_open(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, "subVersionFw", LFS_O_RDWR | LFS_O_CREAT);
                     lfs_file_write(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, &subVersionFw, sizeof(subVersionFw));
@@ -378,8 +390,8 @@ void parsingFirmwareFromJson(JsonDocument &doc)
         && (((uint8_t)doc["station"] == (uint8_t)ThisStation_.id)
             ||(doc["station"] == "all"))) //Заливаем на все устройства
     {
-        int versionFirmware = doc["versionFirmware"];
-        int subVersionFirmware = doc["subVersionFirmware"];
+        int versionFirmware = doc["ver"];
+        int subVersionFirmware = doc["sub"];
         int size = doc["size"];
         int current = doc["current"];
         int all = doc["all"];
