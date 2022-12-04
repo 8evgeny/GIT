@@ -267,7 +267,6 @@ static char FLASHPath[4]; /*! FLASH logical drive path */
                     //Запоминаем в EEPROM version
                     char versionFw[10];
                     std::fill (versionFw, versionFw + 9, 0x00);
-                    RS232::getInstance().term <<"versionFw : "<< versionFw << "\r\n";
                     std::string vers = std::to_string(pack.versionFirmware);
                     for (size_t i=0; i < vers.size();++i)
                     {
@@ -282,7 +281,6 @@ static char FLASHPath[4]; /*! FLASH logical drive path */
                     //Запоминаем в EEPROM subversion
                     char subVersionFw[10];
                     std::fill (subVersionFw, subVersionFw + 9, 0x00);
-                    RS232::getInstance().term <<"subVersionFw : "<< subVersionFw << "\r\n";
                     std::string subVers = std::to_string(pack.subVersionFirmware);
                     for (size_t i=0; i < subVers.size();++i)
                     {
