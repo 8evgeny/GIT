@@ -121,14 +121,14 @@ MenuBar {
         font.family: "Arial"
         font.pointSize: 14
         background: Rectangle {
-            implicitWidth: 300
+            implicitWidth: 320
             implicitHeight: 40
             border.color: "#000000"
         }
 
         Action {
             id: newAction
-            text: "%2\t%1".arg(newPrj).arg(ctrlN)
+            text: "%1\t\t%2".arg(newPrj).arg(ctrlN)
             shortcut: ctrlN
             onTriggered: {
                 appCore.resetCurrentStateForProject()
@@ -137,7 +137,7 @@ MenuBar {
 
         Action {
             id: openAction
-            text: "%2\t%1".arg(openPrj).arg(ctrlO)
+            text: "%1\t\t%2".arg(openPrj).arg(ctrlO)
             shortcut: ctrlO
             onTriggered: {
                 loadFileDialog.open()
@@ -146,7 +146,7 @@ MenuBar {
 
         Action {
             id: saveAction
-            text: "%2\t%1".arg(savePrj).arg(ctrlS)
+            text: "%1\t\t%2".arg(savePrj).arg(ctrlS)
             shortcut: ctrlS
             onTriggered: {
                 appCore.saveListOfStationAndGroupsQJson()
@@ -176,7 +176,7 @@ MenuBar {
 
         Action {
             id: saveAsAction
-            text: "%2\t%1".arg(saveAsPrj).arg(ctrlA)
+            text: "%1\t\t%2".arg(saveAsPrj).arg(ctrlA)
             shortcut: ctrlA
             onTriggered: {
                 saveFileDialog.open()
@@ -250,7 +250,7 @@ MenuBar {
 
         Action {
             id: exitAction
-            text: "%2\t%1".arg(exit).arg(altF4)
+            text: "%1\t\t\t%2".arg(exit).arg(altF4)
             shortcut: altF4
             onTriggered: {
                  appCore.exitActionFromMenu()
