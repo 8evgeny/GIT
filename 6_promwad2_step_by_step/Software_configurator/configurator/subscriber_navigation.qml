@@ -74,28 +74,28 @@ property color canvasColor: "#F8FACF"
             var id = "CID " + counterDigitalStation
             if (comboBoxListOfDevices.currentIndex == 0)
             {
-                stationName = qsTr("PDO16") + "__" + counterPDO16
+                stationName = qsTr("PDO16") + "-" + counterPDO16
                 listModelDigitalStation.append({"name": stationName, "cidName": id })
                 listModelStationWithoutGroup.append({"name": stationName, "cidName": id })
                 counterPDO16++
             }
             else if (comboBoxListOfDevices.currentIndex == 1)
             {
-                stationName = qsTr("PDO16N") + "__" + counterPDO16N
+                stationName = qsTr("PDO16N") + "-" + counterPDO16N
                 listModelDigitalStation.append({ "name": stationName, "cidName": id })
                 listModelStationWithoutGroup.append({"name": stationName, "cidName": id })
                 counterPDO16N++
             }
             else if (comboBoxListOfDevices.currentIndex == 2)
             {
-                stationName = qsTr("PDO32") + "__" + counterPDO32
+                stationName = qsTr("PDO32") + "-" + counterPDO32
                 listModelDigitalStation.append({ "name": stationName, "cidName": id })
                 listModelStationWithoutGroup.append({"name": stationName, "cidName": id })
                 counterPDO32++
             }
             else if (comboBoxListOfDevices.currentIndex == 3)
             {
-                stationName = qsTr("SL1") + "__" + counterSL1
+                stationName = qsTr("SL1") + "-" + counterSL1
                 listModelDigitalStation.append({ "name": stationName, "cidName": id })
                 listModelStationWithoutGroup.append({"name": stationName, "cidName": id })
                 counterSL1++
@@ -280,7 +280,6 @@ visible: false
             id: rectLists
             anchors.fill: parent
             color: canvasColor
-
             Rectangle  //id: rectListDigitalStation
             {
                 id: rectListDigitalStation
@@ -539,12 +538,22 @@ visible: true
                         Row {
                             id: rowStationWithoutGroup
                             Text {
-                                text: cidName
-                                anchors.verticalCenter: parent.verticalCenter
-                            }
-                            Text {
                                 text: name
                                 anchors.verticalCenter: parent.verticalCenter
+                                font.family: "Arial"
+                                font.pointSize: 14
+                            }
+                            Text {
+                                text: ".  .  .  .  ."
+                                anchors.verticalCenter: parent.verticalCenter
+                                font.family: "Arial"
+                                font.pointSize: 14
+                            }
+                            Text {
+                                text: cidName
+                                anchors.verticalCenter: parent.verticalCenter
+                                font.family: "Arial"
+                                font.pointSize: 14
                             }
                             spacing: 10
                         }
@@ -665,5 +674,5 @@ visible: true
 //            counterBoardSl1 = idSetStaion
 //            counterBoardSl1++
         }
-    }    
+    }
 }
