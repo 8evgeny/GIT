@@ -63,7 +63,7 @@ property color canvasColor: "#F8FACF"
     Button //Кнопка Add device
     {
         id: addDevice
-        width: 130
+        width: 160
         height: baseHeight
         text: qsTr("Add device")
         font.family: "Arial"
