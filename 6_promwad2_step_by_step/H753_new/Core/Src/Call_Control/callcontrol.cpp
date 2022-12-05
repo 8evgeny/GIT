@@ -512,29 +512,73 @@ term("CallControl::sendInfoAboutStation")
         StaticJsonDocument<capacity> infoDoc;
 
         infoDoc["ID"] = ThisStation_.id;
-        uint8_t *currentFirmware = reinterpret_cast<uint8_t *>(START_AREA_CURRENT_FIRMWARE);
-        uint8_t *currentSubFirmware = reinterpret_cast<uint8_t *>(START_AREA_CURRENT_FIRMWARE + 1);
-        infoDoc["Version"] = *currentFirmware;
-        infoDoc["Sub"] = *currentSubFirmware;
-        infoDoc["IP"] = ThisStation_.ip;
+        char fwInfo[100];
+        char dt[20];
+        lfs_file_open(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, "dateTime", LFS_O_RDWR | LFS_O_CREAT);
+        lfs_file_read(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, &dt, sizeof(dt));
+        lfs_file_close(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr);
+        std::string dateTimeFw = std::string(dt);
+        RS232::getInstance().term <<"date firmware: "<< dateTimeFw.c_str() << "\r\n";
 
-//        MACAddr[0] = 0x40;
-//        MACAddr[1] = 0x8d;
-//        MACAddr[2] = 0x5c;
-//        MACAddr[3] = 0xba;
-//        MACAddr[4] = 0xf6;
-//        MACAddr[5] = 0x22;
+        char versionFw[4];
+        lfs_file_open(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, "versionFw", LFS_O_RDWR | LFS_O_CREAT);
+        lfs_file_read(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, &versionFw, sizeof(versionFw));
+        lfs_file_close(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr);
+        std::string vFw = std::string(versionFw);
+        RS232::getInstance().term <<"versionFw: "<< vFw.c_str() << "\r\n";
+
+        char subVersionFw[4];
+        lfs_file_open(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, "subVersionFw", LFS_O_RDWR | LFS_O_CREAT);
+        lfs_file_read(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, &versionFw, sizeof(subVersionFw));
+        lfs_file_close(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr);
+        std::string subFw = std::string(versionFw);
+        RS232::getInstance().term <<"subVersionFw: "<< subFw.c_str() << "\r\n";
+
+        size_t k=0;
+        for (size_t i = 0; i < dateTimeFw.size();++i)
+        {
+            fwInfo[k] = dateTimeFw[i];
+            ++k;
+        }
+        fwInfo[k] = ' '; ++k;
+        fwInfo[k] = ' '; ++k;
+        fwInfo[k] = 'v'; ++k;
+        fwInfo[k] = 'e'; ++k;
+        fwInfo[k] = 'r'; ++k;
+        fwInfo[k] = ':'; ++k;
+        fwInfo[k] = ' '; ++k;
+        for (size_t i = 0; i < vFw.size();++i)
+        {
+            fwInfo[k] = vFw[i];
+            ++k;
+        }
+        fwInfo[k] = '.'; ++k;
+        for (size_t i = 0; i < subFw.size();++i)
+        {
+            fwInfo[k] = subFw[i];
+            ++k;
+        }
+        fwInfo[k] = '\0';
+        RS232::getInstance().term <<"fwInfo: " <<fwInfo <<"\r\n";
+        infoDoc["Version"] = fwInfo;
+        infoDoc["IP"] = ThisStation_.ip;
         MACAddr[0] = 0x00;
         MACAddr[1] = 0x80;
         MACAddr[2] = 0xE1;
         MACAddr[3] = 0x00;
         MACAddr[4] = 0x00;
         MACAddr[5] = macAdr5;
+//00:80:e1:00:00:67
+//        for (auto &n : MACAddr) {
+//            infoDoc["MAC"].add(n);
+//        }
+        char macAdr[18];
+        sprintf(macAdr,"%02x:%02x:%02x:%02x:%02x:%02x",
+                MACAddr[0],MACAddr[1],MACAddr[2],MACAddr[3],MACAddr[4],MACAddr[5]);
+        RS232::getInstance().term << "MACAddr: "<<macAdr <<"\r\n";
+        infoDoc["MAC"] = macAdr;
 
-        for (auto &n : MACAddr) {
-            infoDoc["MAC"].add(n);
-        }
-
+osDelay(200); //pev
         std::fill(messageData.txBuff, messageData.txBuff + messageData.txBuffSize, 0);
         if (serializeJson(infoDoc, messageData.txBuff, capacity) > 0) {
             sendUdpMulticast(messageData.txBuff, strlen(messageData.txBuff));

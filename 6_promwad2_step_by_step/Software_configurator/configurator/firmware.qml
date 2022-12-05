@@ -136,7 +136,7 @@ Window {
         anchors.rightMargin: firmwareWindow.width / 2 - 2 * spaceDefault
         Label {
             id: labelMainVersion
-            text: qsTr("New firmware version:")
+            text: qsTr("Firmware Version")
             anchors.rightMargin: 0
             anchors.fill: parent
             verticalAlignment: Text.AlignVCenter
@@ -166,7 +166,7 @@ Window {
         anchors.rightMargin: spaceDefault
         Label {
             id: labelSubVersion
-            text: qsTr("Update serial number:")
+            text: qsTr("Firmware subVersion")
             anchors.rightMargin: 0
             verticalAlignment: Text.AlignVCenter
             anchors.fill: parent
