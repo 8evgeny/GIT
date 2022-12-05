@@ -263,14 +263,14 @@ MenuBar {
         font.family: "Arial"
         font.pointSize: 14
         background: Rectangle {
-            implicitWidth: 360
+            implicitWidth: 280
             implicitHeight: 40
             border.color: "black"
         }
 
         Action {
             id: checkAction
-            text: "%2\t%1".arg(checkPrj).arg(f3)
+            text: "%1\t\t%2".arg(checkPrj).arg(f3)
             shortcut: f3
             onTriggered: {
                 var component = Qt.createComponent("verification.qml")
@@ -289,7 +289,7 @@ MenuBar {
 
         Action {
             id: checkDeviceAction
-            text: "%2\t%1".arg(checkDevice).arg(f5)
+            text: "%1\t\t%2".arg(checkDevice).arg(f5)
             shortcut: f5
             onTriggered: {                
                 var component = Qt.createComponent("verification.qml")
