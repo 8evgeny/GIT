@@ -116,7 +116,7 @@ property color canvasColor: "#F8FACF"
     ComboBox //Выбор типа станции
     {
         id: comboBoxListOfDevices
-        width: 120
+        width: 140
         height: baseHeight
         anchors.left: addDevice.right
         anchors.leftMargin: 5
@@ -142,7 +142,7 @@ property color canvasColor: "#F8FACF"
     Button //Кнопка Remove device
     {
         id: deleteDevice
-        width: 150
+        width: 160
         height: baseHeight
         text: qsTr("Remove device")
         anchors.left: comboBoxListOfDevices.right
