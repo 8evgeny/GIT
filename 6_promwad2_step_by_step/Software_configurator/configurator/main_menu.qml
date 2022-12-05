@@ -77,17 +77,17 @@ MenuBar {
         if (onepRecent1Action.text != ""){
                onepRecent1Action.visible = true
                heightFiles += 40
-               widthFiles = 400
+               widthFiles = 1100
         }
         if (onepRecent2Action.text != ""){
                onepRecent2Action.visible = true
                heightFiles += 40
-               widthFiles = 400
+               widthFiles = 1100
         }
         if (onepRecent3Action.text != ""){
                onepRecent3Action.visible = true
                heightFiles += 40
-               widthFiles = 400
+               widthFiles = 1100
         }
 
         menuFiles.width = widthFiles
@@ -200,6 +200,8 @@ MenuBar {
             title: recentPrj
             height: 0
             width: 0
+            font.family: "Arial"
+            font.pointSize: 14
             MenuItem {
                 id: onepRecent1Action
                 text: ""
@@ -427,8 +429,6 @@ MenuBar {
 
     Menu {
         title: qsTr("&About the program")
-        font.family: "Arial"
-        font.pointSize: 14
         background: Rectangle {
             id: place
             implicitWidth: if(langCurrentStatte == 0){
