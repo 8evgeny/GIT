@@ -242,6 +242,8 @@ property color canvasColor: "#F8FACF"
                 text: qsTr("Groups")
                 color:  "blue"
                 font.bold: true
+                font.family: "Arial"
+                font.pointSize: 14
                 verticalAlignment: Text.AlignVCenter
                 anchors.fill: parent
             }

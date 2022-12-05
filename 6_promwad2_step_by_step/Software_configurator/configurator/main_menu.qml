@@ -13,7 +13,8 @@ MenuBar {
     id: menuBar
     contentHeight: 40
     contentWidth: parent.width
-
+    font.family: "Arial"
+    font.pointSize: 14
     background: Rectangle {
         border.color: "#000000"
         color: "#e1e1e2"
@@ -117,7 +118,8 @@ MenuBar {
     Menu {
 
         title: qsTr("&File")
-
+        font.family: "Arial"
+        font.pointSize: 14
         background: Rectangle {
             implicitWidth: 300
             implicitHeight: 40
@@ -256,7 +258,8 @@ MenuBar {
 
     Menu {
         title: qsTr("&Instruments")
-
+        font.family: "Arial"
+        font.pointSize: 14
         background: Rectangle {
             implicitWidth: 360
             implicitHeight: 40
@@ -399,6 +402,8 @@ MenuBar {
     Menu {
 
         title: qsTr("&Languages")
+        font.family: "Arial"
+        font.pointSize: 14
         Action {
             id: rusId
             text: "%1".arg(rusMenu)
@@ -422,7 +427,8 @@ MenuBar {
 
     Menu {
         title: qsTr("&About the program")
-
+        font.family: "Arial"
+        font.pointSize: 14
         background: Rectangle {
             id: place
             implicitWidth: if(langCurrentStatte == 0){
