@@ -463,18 +463,12 @@ term2("Board SL1")
 //    }
 
     uint32_t firmwareSize =0;
-    lfs_file_open(&lfs, &file, "firmwareSize", LFS_O_RDWR | LFS_O_CREAT);
-    lfs_file_read(&lfs, &file, &firmwareSize, sizeof(firmwareSize));
-    lfs_file_close(&lfs, &file);
+    lfs_file_open(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, "firmwareSize", LFS_O_RDWR | LFS_O_CREAT);
+    lfs_file_read(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, &firmwareSize, sizeof(firmwareSize));
+    lfs_file_close(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr);
     char temp[100];
     sprintf(temp,"FirmwareSize: %d",firmwareSize);
     term2(temp)
-    char dt[20];
-    lfs_file_open(&lfs, &file, "dateTime", LFS_O_RDWR | LFS_O_CREAT);
-    lfs_file_read(&lfs, &file, &dt, 20);
-    lfs_file_close(&lfs, &file);
-    std::string dateTimeFw = std::string(dt);
-    RS232::getInstance().term <<"date firmware: "<< dateTimeFw.c_str() << "\r\n";
 
     printMd5(0, firmwareSize);
 

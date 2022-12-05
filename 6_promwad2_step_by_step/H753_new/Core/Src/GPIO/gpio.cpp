@@ -788,6 +788,7 @@ void switchLEDsThread(void const *arg)
     }
     if (boardType == sc4)
     {
+        auto timeReset = HAL_GetTick();
         (void)arg;
         GPIO::getInstance()->initLEDS_SC4();
         GPIO::getInstance()->testLed();
@@ -823,6 +824,16 @@ void switchLEDsThread(void const *arg)
                 else
                 {
                     pinNormaState = pinNormaReset;
+                }
+            }
+
+            //Обрабатываем невыход в готовность
+            if (pinNormaState == pinNormaReset)
+            {
+                if (timeReset + 10000 < HAL_GetTick())
+                {
+                    term2("REBOOT")
+//                    HAL_NVIC_SystemReset(); //pev
                 }
             }
             osDelay(1);

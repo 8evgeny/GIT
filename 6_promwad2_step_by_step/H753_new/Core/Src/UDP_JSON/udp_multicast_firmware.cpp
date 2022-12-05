@@ -254,15 +254,43 @@ static char FLASHPath[4]; /*! FLASH logical drive path */
                 if(strncmp((char*)receivedHashKeyBin, (char*)calculatedMd5, 16) == 0)
                 {
                     term2("MD5 OK")
+
+                    //Запоминаем в EEPROM dateTime
                     char dateTimeFirmware[20];
                     std::fill (dateTimeFirmware, dateTimeFirmware + 19, 0x00);
                     strcpy(dateTimeFirmware, (char *)pack.dateTime);
-
                     RS232::getInstance().term <<"date firmware: "<< dateTimeFirmware << "\r\n";
-                    //Запоминаем в EEPROM dateTime
-                    lfs_file_open(&lfs, &file, "dateTime", LFS_O_RDWR | LFS_O_CREAT);
-                    lfs_file_write(&lfs, &file, &dateTimeFirmware, sizeof(dateTimeFirmware));
-                    lfs_file_close(&lfs, &file);
+                    lfs_file_open(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, "dateTime", LFS_O_RDWR | LFS_O_CREAT);
+                    lfs_file_write(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, &dateTimeFirmware, sizeof(dateTimeFirmware));
+                    lfs_file_close(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr);
+
+                    //Запоминаем в EEPROM version
+                    char versionFw[10];
+                    std::fill (versionFw, versionFw + 9, 0x00);
+                    std::string vers = std::to_string(pack.versionFirmware);
+                    for (size_t i=0; i < vers.size();++i)
+                    {
+                        versionFw[i] = vers[i];
+                    }
+                    versionFw[vers.size()] = '\0';
+                    RS232::getInstance().term <<"versionFw : "<< versionFw << "\r\n";
+                    lfs_file_open(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, "versionFw", LFS_O_RDWR | LFS_O_CREAT);
+                    lfs_file_write(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, &versionFw, sizeof(versionFw));
+                    lfs_file_close(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr);
+
+                    //Запоминаем в EEPROM subversion
+                    char subVersionFw[10];
+                    std::fill (subVersionFw, subVersionFw + 9, 0x00);
+                    std::string subVers = std::to_string(pack.subVersionFirmware);
+                    for (size_t i=0; i < subVers.size();++i)
+                    {
+                        subVersionFw[i] = subVers[i];
+                    }
+                    subVersionFw[subVers.size()] = '\0';
+                    RS232::getInstance().term <<"subVersionFw : "<< subVersionFw << "\r\n";
+                    lfs_file_open(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, "subVersionFw", LFS_O_RDWR | LFS_O_CREAT);
+                    lfs_file_write(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, &subVersionFw, sizeof(subVersionFw));
+                    lfs_file_close(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr);
 
                     newFirmwareWrite(firmwareSize);   //md5 совпали - пишем прошивку
                 }
@@ -310,9 +338,9 @@ void newFirmwareWrite(uint32_t firmwareSize)
         writeFlashFromExtRam(1);
         printMd5(1, firmwareSize);
         //Запоминаем в EEPROM firmwareSize
-        lfs_file_open(&lfs, &file, "firmwareSize", LFS_O_RDWR | LFS_O_CREAT);
-        lfs_file_write(&lfs, &file, &firmwareSize, sizeof(firmwareSize));
-        lfs_file_close(&lfs, &file);
+        lfs_file_open(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, "firmwareSize", LFS_O_RDWR | LFS_O_CREAT);
+        lfs_file_write(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, &firmwareSize, sizeof(firmwareSize));
+        lfs_file_close(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr);
 
     //Нужно переключить банк памяти для новой загрузки
     static FLASH_OBProgramInitTypeDef OBInit;
@@ -360,8 +388,8 @@ void parsingFirmwareFromJson(JsonDocument &doc)
         && (((uint8_t)doc["station"] == (uint8_t)ThisStation_.id)
             ||(doc["station"] == "all"))) //Заливаем на все устройства
     {
-        int versionFirmware = doc["versionFirmware"];
-        int subVersionFirmware = doc["subVersionFirmware"];
+        int versionFirmware = doc["ver"];
+        int subVersionFirmware = doc["sub"];
         int size = doc["size"];
         int current = doc["current"];
         int all = doc["all"];

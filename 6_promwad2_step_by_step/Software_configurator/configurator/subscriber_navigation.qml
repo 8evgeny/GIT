@@ -66,6 +66,8 @@ property color canvasColor: "#F8FACF"
         width: 130
         height: baseHeight
         text: qsTr("Add device")
+        font.family: "Arial"
+        font.pointSize: 14
         onClicked:
         {
             var stationName = ""
@@ -118,6 +120,8 @@ property color canvasColor: "#F8FACF"
         height: baseHeight
         anchors.left: addDevice.right
         anchors.leftMargin: 5
+        font.family: "Arial"
+        font.pointSize: 14
         model: ListModel
         {
             id: modelListOfDevices
@@ -143,6 +147,8 @@ property color canvasColor: "#F8FACF"
         text: qsTr("Remove device")
         anchors.left: comboBoxListOfDevices.right
         anchors.leftMargin: 5
+        font.family: "Arial"
+        font.pointSize: 14
         onClicked:
         {
             var currentIndex = -1

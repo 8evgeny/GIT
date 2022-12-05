@@ -1,7 +1,6 @@
 #include "simplexdirectcall.h"
 #include "callwaiting.h"
 #include "../UDP_JSON/udp_multicast.h"
-#include "conferencecall.h"
 #include "rs232.h"
 #include "rs232_printf.h"
 char msg[50];
@@ -10,6 +9,7 @@ uint16_t lastDirectSubject = 0; //Последний абонент
 extern bool asteriskRecall;
 void SimplexDirectCall::handleButton()
 {
+    bool fastPress = true;
 term2("SimplexDirectCall::handleButton")
     if ((context_->subjectKey.key == context_->assignedData.key) && (subjectDirectTelephoneCall == 0))
     {
@@ -17,9 +17,9 @@ term2("SimplexDirectCall::handleButton")
         context_->microphone.stop();
         switchLed(context_->assignedData.key, false);
 
-        if (context_->control == CallControl::Control::NONE ||
-                context_->control == CallControl::Control::READY)
+        if (context_->control == CallControl::Control::NONE||context_->control == CallControl::Control::READY)
         {
+            fastPress = false;
             context_->removeRtp();
             context_->control = CallControl::Control::HANG_UP;
             context_->sendRequest(CallControl::Request::HANG_UP);
@@ -27,8 +27,13 @@ term2("SimplexDirectCall::handleButton")
             context_->removeRtp();
             context_->resetData();
             if(!context_->switchToConf())
+            {
+term2("new CallWaiting")
                 this->context_->TransitionTo(new CallWaiting);
+            }
         }
+
+
     }
     if (subjectDirectTelephoneCall != 0)
     {
@@ -129,7 +134,17 @@ RS232Puts(msg);
 
     }
 
-
+    if (fastPress && (context_->subjectKey.key != CallControl::Asterisk))
+    {
+        term2("fast press")
+        context_->removeRtp();
+        context_->control = CallControl::Control::HANG_UP;
+        context_->sendRequest(CallControl::Request::HANG_UP);
+        stopRingTone();
+        context_->microphone.stop();
+        switchLed(context_->assignedData.key, false);
+        this->context_->TransitionTo(new CallWaiting);
+    }
 }
 
 void SimplexDirectCall::handleJsonMessage()

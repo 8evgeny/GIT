@@ -147,13 +147,13 @@ FsForEeprom &FsForEeprom::getInstance()
 void FsForEeprom::numReboots()
 {
     int numBoot = 0;
-    lfs_file_open(&lfs, &file, "numBoot", LFS_O_RDWR | LFS_O_CREAT);
-    lfs_file_read(&lfs, &file, &numBoot, sizeof(numBoot));
-    lfs_file_close(&lfs, &file);
+    lfs_file_open(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, "numBoot", LFS_O_RDWR | LFS_O_CREAT);
+    lfs_file_read(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, &numBoot, sizeof(numBoot));
+    lfs_file_close(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr);
     ++numBoot;
-    lfs_file_open(&lfs, &file, "numBoot", LFS_O_WRONLY );
-    lfs_file_write(&lfs, &file, &numBoot, sizeof(numBoot));
-    lfs_file_close(&lfs, &file);
+    lfs_file_open(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, "numBoot", LFS_O_WRONLY );
+    lfs_file_write(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, &numBoot, sizeof(numBoot));
+    lfs_file_close(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr);
     RS232::getInstance().term << "number of reboot = " << numBoot << "\r\n";
 }
 
@@ -161,14 +161,14 @@ void FsForEeprom::test()
 {
     char fileToEEPROM[] = "Red on top, Green below. Red says “Stop”, Green says “Go”. Yellow says “Wait” Even if you’re late.";
     char fileFromEEPROM[sizeof (fileToEEPROM)];
-    lfs_file_open(&lfs, &file, "testEEPROM", LFS_O_RDWR | LFS_O_CREAT);
-    lfs_file_rewind(&lfs, &file);
-    lfs_file_write(&lfs, &file, &fileToEEPROM, sizeof(fileToEEPROM));
-    lfs_file_close(&lfs, &file);
+    lfs_file_open(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, "testEEPROM", LFS_O_RDWR | LFS_O_CREAT);
+    lfs_file_rewind(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr);
+    lfs_file_write(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, &fileToEEPROM, sizeof(fileToEEPROM));
+    lfs_file_close(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr);
 
-    lfs_file_open(&lfs, &file, "testEEPROM", LFS_O_RDWR | LFS_O_CREAT);
-    lfs_file_read(&lfs, &file, &fileFromEEPROM, sizeof(fileFromEEPROM));
-    lfs_file_close(&lfs, &file); // remember the storage is not updated until the file is closed successfully
+    lfs_file_open(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, "testEEPROM", LFS_O_RDWR | LFS_O_CREAT);
+    lfs_file_read(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, &fileFromEEPROM, sizeof(fileFromEEPROM));
+    lfs_file_close(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr); // remember the storage is not updated until the file is closed successfully
     bool error = false;
     for (unsigned int i = 0; i < sizeof(fileToEEPROM); ++i)
     {

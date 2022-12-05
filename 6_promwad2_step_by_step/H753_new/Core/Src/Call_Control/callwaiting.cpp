@@ -30,11 +30,11 @@ CallWaiting::CallWaiting()
     if (boardType == sc4)
     {
         int vol = -24;
-        lfs_file_open(&lfs, &file, "vol", LFS_O_RDWR | LFS_O_CREAT);
-        lfs_file_read(&lfs, &file, &vol, sizeof(vol));
+        lfs_file_open(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, "vol", LFS_O_RDWR | LFS_O_CREAT);
+        lfs_file_read(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, &vol, sizeof(vol));
         GPIO::getInstance()->dacDriverGainValue = vol;
         GPIO::getInstance()->changeVolumeMute();
-        lfs_file_close(&lfs, &file);
+        lfs_file_close(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr);
     }
 }
 
