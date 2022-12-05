@@ -142,7 +142,7 @@ property color canvasColor: "#F8FACF"
     Button //Кнопка Remove device
     {
         id: deleteDevice
-        width: 160
+        width: 180
         height: baseHeight
         text: qsTr("Remove device")
         anchors.left: comboBoxListOfDevices.right
