@@ -271,6 +271,7 @@ set(LINKER_FLAGS "SHELL: \
     -lc \
     -lm \
     -Wl,--end-group \
+    -Wl,--print-memory-usage \
     ")
 #    -T${LINKER_SCRIPT_RAM} \
 
