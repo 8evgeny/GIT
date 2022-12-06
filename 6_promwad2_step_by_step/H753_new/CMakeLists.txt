@@ -229,6 +229,7 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}\
     -Wl,--start-group \
     -Wl,--gc-sections \
     -mcpu=cortex-m7 \
+    -std=gnu11 \
     -DUSE_HAL_DRIVER \
     -DSTM32H753xx \
     -Os \
@@ -250,24 +251,6 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}\
     -Wl,--end-group \
     ")
 #-Wl,-section-start=.rtt=0x20000000 \
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}\
-    -mcpu=cortex-m7 \
-    -std=gnu11 \
-    -DUSE_HAL_DRIVER \
-    -DSTM32H753xx \
-    -Os \
-    -ffunction-sections \
-    -fdata-sections \
-    -Wall \
-    -mno-unaligned-access \
-    -fstack-usage \
-    -MMD \
-    -MP \
-    -mfpu=fpv5-d16 \
-    -mfloat-abi=hard \
-    -mthumb \
-    -Xlinker -Map=${PROJECT_NAME}.map \
-    ")
 
 
 set_target_properties(${PROJECT_NAME}.elf PROPERTIES LINKER_LANGUAGE CXX)
