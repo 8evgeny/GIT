@@ -6,7 +6,7 @@ import QtQuick.Dialogs 1.2
 
 Window {
     id: programmerWindow
-    width: 1030
+    width: 930
     height: 800
     visible: true
     title: qsTr("Programmer")
@@ -101,11 +101,11 @@ Window {
         //type of the device
         Rectangle {
             height: baseHeight
-            width: cellWidth
+            width: cellWidth - 100
             id: rectangleProgrammerTypeStatic
             TextField {
                 height: baseHeight
-                width: cellWidth
+                width: cellWidth - 100
                 readOnly: true
                 text: qsTr("Type")
 
@@ -280,11 +280,11 @@ Window {
                             //type of the device
                             Rectangle {
                                 height: baseHeight
-                                width: cellWidth
+                                width: cellWidth - 100
                                 id: rectangleProgrammerType
                                 TextField {
                                     height: baseHeight
-                                    width: cellWidth
+                                    width: cellWidth - 100
                                     readOnly: true
                                     text: typeOfDevice
 
