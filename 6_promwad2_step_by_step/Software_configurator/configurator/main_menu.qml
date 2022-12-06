@@ -176,7 +176,7 @@ MenuBar {
 
         Action {
             id: saveAsAction
-            text: "%1\t%2".arg(saveAsPrj).arg(ctrlA)
+            text: "%1             %2".arg(saveAsPrj).arg(ctrlA)
             shortcut: ctrlA
             onTriggered: {
                 saveFileDialog.open()
