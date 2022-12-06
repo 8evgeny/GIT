@@ -53,6 +53,8 @@ Window {
                 height: baseHeight
                 width: cellWidth - 100
                 readOnly: true
+                font.family: "Arial"
+                font.pointSize: 14
                 text: qsTr("CID")
 
                 background: Rectangle {
@@ -71,6 +73,8 @@ Window {
                 height: baseHeight
                 width: cellWidth - 100
                 readOnly: true
+                font.family: "Arial"
+                font.pointSize: 14
                 text: qsTr("Name")
 
                 background: Rectangle {
@@ -89,6 +93,8 @@ Window {
                 height: baseHeight
                 width: cellWidth + 50
                 readOnly: true
+                font.family: "Arial"
+                font.pointSize: 14
                 text: qsTr("Version Firmware")
 
                 background: Rectangle {
@@ -125,6 +131,8 @@ Window {
                 height: baseHeight
                 width: cellWidth -50
                 readOnly: true
+                font.family: "Arial"
+                font.pointSize: 14
                 text: qsTr("IP")
 
                 background: Rectangle {
@@ -143,6 +151,8 @@ Window {
                 height: baseHeight
                 width: cellWidth -50
                 readOnly: true
+                font.family: "Arial"
+                font.pointSize: 14
                 text: qsTr("MAC")
 
                 background: Rectangle {
@@ -232,6 +242,8 @@ Window {
                                     height: baseHeight
                                     width: cellWidth - 100
                                     readOnly: true
+                                    font.family: "Arial"
+                                    font.pointSize: 12
                                     text: numberOfId
 
                                     background: Rectangle {
@@ -250,6 +262,8 @@ Window {
                                     height: baseHeight
                                     width: cellWidth - 100
                                     readOnly: true
+                                    font.family: "Arial"
+                                    font.pointSize: 12
                                     text: nameOfId
 
                                     background: Rectangle {
@@ -268,6 +282,8 @@ Window {
                                     height: baseHeight
                                     width: cellWidth + 50
                                     readOnly: true
+                                    font.family: "Arial"
+                                    font.pointSize: 12
                                     text: versionOfSoftware
 
                                     background: Rectangle {
@@ -304,6 +320,8 @@ Window {
                                     height: baseHeight
                                     width: cellWidth -50
                                     readOnly: true
+                                    font.family: "Arial"
+                                    font.pointSize: 12
                                     text: ipOfDevice
 
                                     background: Rectangle {
@@ -322,6 +340,8 @@ Window {
                                     height: baseHeight
                                     width: cellWidth -50
                                     readOnly: true
+                                    font.family: "Arial"
+                                    font.pointSize: 12
                                     text: macOfDevice
 
                                     background: Rectangle {
