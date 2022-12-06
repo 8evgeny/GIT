@@ -6,7 +6,7 @@ import QtQuick.Dialogs 1.2
 
 Window {
     id: programmerWindow
-    width: 1280
+    width: 1230
     height: 800
     visible: true
     title: qsTr("Programmer")
@@ -125,11 +125,11 @@ Window {
         //IP of the device
         Rectangle {
             height: baseHeight
-            width: cellWidth + 50
+            width: cellWidth
             id: rectangleProgrammerIpStatic
             TextField {
                 height: baseHeight
-                width: cellWidth + 50
+                width: cellWidth
                 readOnly: true
                 font.family: "Arial"
                 font.pointSize: 14
@@ -314,11 +314,11 @@ Window {
                             //IP of the device
                             Rectangle {
                                 height: baseHeight
-                                width: cellWidth + 50
+                                width: cellWidth
                                 id: rectangleProgrammerIp
                                 TextField {
                                     height: baseHeight
-                                    width: cellWidth + 50
+                                    width: cellWidth
                                     readOnly: true
                                     font.family: "Arial"
                                     font.pointSize: 12
@@ -377,6 +377,8 @@ Window {
         id: buttonReadConfiguration
         y: 82
         text: qsTr("Read configuration")
+        font.family: "Arial"
+        font.pointSize: 14
         anchors.left: parent.left
         anchors.leftMargin: 5
         anchors.top: parent.top
@@ -389,6 +391,8 @@ Window {
     Button {
         id: buttonWriteConfiguration
         text: qsTr("Write configuration")
+        font.family: "Arial"
+        font.pointSize: 14
         anchors.left: buttonReadConfiguration.right
         anchors.leftMargin: 5
         anchors.verticalCenter: buttonReadConfiguration.verticalCenter
@@ -406,6 +410,8 @@ Window {
     Button {
         id: buttonDeleteConfiguration
         text: qsTr("Delete configuration")
+        font.family: "Arial"
+        font.pointSize: 14
         anchors.left: buttonWriteConfiguration.right
         anchors.leftMargin: 5
         anchors.verticalCenter: buttonWriteConfiguration.verticalCenter
@@ -423,6 +429,8 @@ Window {
     Button {
         id: buttonReboot
         text: qsTr("Reboot")
+        font.family: "Arial"
+        font.pointSize: 14
         visible: true
         anchors.left: buttonDeleteConfiguration.right
         anchors.leftMargin: 5
