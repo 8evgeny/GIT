@@ -6,7 +6,7 @@ import QtQuick.Dialogs 1.2
 
 Window {
     id: programmerWindow
-    width: 1280
+    width: 1030
     height: 800
     visible: true
     title: qsTr("Programmer")
@@ -47,13 +47,13 @@ Window {
         //number of the device
         Rectangle {
             height: baseHeight
-            width: cellWidth
+            width: cellWidth - 100
             id: rectangleProgrammerIdStatic
             TextField {
                 height: baseHeight
-                width: cellWidth
+                width: cellWidth - 100
                 readOnly: true
-                text: qsTr("Number")
+                text: qsTr("CID")
 
                 background: Rectangle {
                     border.color: "#333"
@@ -65,11 +65,11 @@ Window {
         //name of the device
         Rectangle {
             height: baseHeight
-            width: cellWidth
+            width: cellWidth - 100
             id: rectangleProgrammerNameStatic
             TextField {
                 height: baseHeight
-                width: cellWidth
+                width: cellWidth - 100
                 readOnly: true
                 text: qsTr("Name")
 
@@ -83,13 +83,13 @@ Window {
         //version of the embedded software
         Rectangle {
             height: baseHeight
-            width: cellWidth
+            width: cellWidth + 50
             id: rectangleProgrammerVersionStatic
             TextField {
                 height: baseHeight
-                width: cellWidth
+                width: cellWidth + 50
                 readOnly: true
-                text: qsTr("Version")
+                text: qsTr("Version Firmware")
 
                 background: Rectangle {
                     border.color: "#333"
@@ -119,11 +119,11 @@ Window {
         //IP of the device
         Rectangle {
             height: baseHeight
-            width: cellWidth
+            width: cellWidth -50
             id: rectangleProgrammerIpStatic
             TextField {
                 height: baseHeight
-                width: cellWidth
+                width: cellWidth -50
                 readOnly: true
                 text: qsTr("IP")
 
@@ -137,11 +137,11 @@ Window {
         //MAC of the device
         Rectangle {
             height: baseHeight
-            width: cellWidth
+            width: cellWidth -50
             id: rectangleProgrammerMacStatic
             TextField {
                 height: baseHeight
-                width: cellWidth
+                width: cellWidth -50
                 readOnly: true
                 text: qsTr("MAC")
 
@@ -226,11 +226,11 @@ Window {
                             //number of the device
                             Rectangle {
                                 height: baseHeight
-                                width: cellWidth
+                                width: cellWidth - 100
                                 id: rectangleProgrammerId
                                 TextField {
                                     height: baseHeight
-                                    width: cellWidth
+                                    width: cellWidth - 100
                                     readOnly: true
                                     text: numberOfId
 
@@ -244,11 +244,11 @@ Window {
                             //name of the device
                             Rectangle {
                                 height: baseHeight
-                                width: cellWidth
+                                width: cellWidth - 100
                                 id: rectangleProgrammerName
                                 TextField {
                                     height: baseHeight
-                                    width: cellWidth
+                                    width: cellWidth - 100
                                     readOnly: true
                                     text: nameOfId
 
@@ -262,11 +262,11 @@ Window {
                             //version of the embedded software
                             Rectangle {
                                 height: baseHeight
-                                width: cellWidth
+                                width: cellWidth + 50
                                 id: rectangleProgrammerVersion
                                 TextField {
                                     height: baseHeight
-                                    width: cellWidth
+                                    width: cellWidth + 50
                                     readOnly: true
                                     text: versionOfSoftware
 
@@ -298,11 +298,11 @@ Window {
                             //IP of the device
                             Rectangle {
                                 height: baseHeight
-                                width: cellWidth
+                                width: cellWidth -50
                                 id: rectangleProgrammerIp
                                 TextField {
                                     height: baseHeight
-                                    width: cellWidth
+                                    width: cellWidth -50
                                     readOnly: true
                                     text: ipOfDevice
 
@@ -316,11 +316,11 @@ Window {
                             //MAC of the device
                             Rectangle {
                                 height: baseHeight
-                                width: cellWidth
+                                width: cellWidth -50
                                 id: rectangleProgrammerMac
                                 TextField {
                                     height: baseHeight
-                                    width: cellWidth
+                                    width: cellWidth -50
                                     readOnly: true
                                     text: macOfDevice
 
