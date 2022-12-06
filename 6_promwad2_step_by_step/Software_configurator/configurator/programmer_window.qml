@@ -6,7 +6,7 @@ import QtQuick.Dialogs 1.2
 
 Window {
     id: programmerWindow
-    width: 930
+    width: 830
     height: 800
     visible: true
     title: qsTr("Programmer")
@@ -99,22 +99,22 @@ Window {
         }
 
         //type of the device
-        Rectangle {
-            height: baseHeight
-            width: cellWidth - 100
-            id: rectangleProgrammerTypeStatic
-            TextField {
-                height: baseHeight
-                width: cellWidth - 100
-                readOnly: true
-                text: qsTr("Type")
+//        Rectangle {
+//            height: baseHeight
+//            width: cellWidth - 100
+//            id: rectangleProgrammerTypeStatic
+//            TextField {
+//                height: baseHeight
+//                width: cellWidth - 100
+//                readOnly: true
+//                text: qsTr("Type")
 
-                background: Rectangle {
-                    border.color: "#333"
-                    border.width: 1
-                }
-            }
-        }
+//                background: Rectangle {
+//                    border.color: "#333"
+//                    border.width: 1
+//                }
+//            }
+//        }
 
         //IP of the device
         Rectangle {
@@ -278,22 +278,22 @@ Window {
                             }
 
                             //type of the device
-                            Rectangle {
-                                height: baseHeight
-                                width: cellWidth - 100
-                                id: rectangleProgrammerType
-                                TextField {
-                                    height: baseHeight
-                                    width: cellWidth - 100
-                                    readOnly: true
-                                    text: typeOfDevice
+//                            Rectangle {
+//                                height: baseHeight
+//                                width: cellWidth - 100
+//                                id: rectangleProgrammerType
+//                                TextField {
+//                                    height: baseHeight
+//                                    width: cellWidth - 100
+//                                    readOnly: true
+//                                    text: typeOfDevice
 
-                                    background: Rectangle {
-                                        border.color: "#333"
-                                        border.width: borderSize
-                                    }
-                                }
-                            }
+//                                    background: Rectangle {
+//                                        border.color: "#333"
+//                                        border.width: borderSize
+//                                    }
+//                                }
+//                            }
 
                             //IP of the device
                             Rectangle {
