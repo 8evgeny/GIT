@@ -721,7 +721,7 @@ property color colorKeyProperty: "#F8FACF"
 
         onNextIp:
         {
-            ipOfStation = ipNext
+            textFieldIPStation.text = ipNext
         }
 
         onSendInfoNetworkAboutTheStation: //Это сигнал из C++ кода
