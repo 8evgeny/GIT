@@ -19,6 +19,7 @@ property color colorKeyProperty: "#F8FACF"
     property string nameError: qsTr("Error")
 
     property string nameOfStation: ""
+
     property string ipOfStation: ""
     property int indexOfStation: -1
 

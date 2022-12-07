@@ -174,6 +174,7 @@ void AppCore::saveStation(const QString &nameOfStation, const QString &idOfStati
     }
     listOfStations.last().gateway = "0.0.0.0";
     listOfStations.last().maskNetwork = "255.255.255.0";
+    listOfStations.last().ip = ipNext;
 }
 
 void AppCore::deleteStation(const QString &nameOfStation)

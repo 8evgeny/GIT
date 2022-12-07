@@ -1427,7 +1427,7 @@ public slots:
     void exitActionFromMenu();
 
 private:
-    QString ipNext = "192.168.100.";
+    QString ipNext = "192.168.108.1";
     QList < ListOfMacros > listOfMacros; /*! List of existing macros */
     QList < ListOfStations> listOfStations; /*! List of existing stations */
     QList < ListOfGroups> listOfGroups; /*! List of existing groups */
