@@ -104,13 +104,13 @@ void AppCore::fillMacro(const QString &name)
     }
 }
 
-void AppCore::saveStation(const QString &nameOfStation, const QString &idOfStation)
+void AppCore::saveStation(const QString &nameOfStation, const QString &idOfStation, const QString &ipOfStation)
 {
     ListOfStations st;
 
     st.nameOfStation = nameOfStation;
     st.nameOfID = idOfStation;
-
+//    st.ip  = ipOfStation;
     listOfStations.append(st);
 
     //В зависимости от имени добавляем поля

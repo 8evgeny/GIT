@@ -1001,7 +1001,7 @@ property color colorKeyProperty: "#F8FACF"
         }
 
         onEditingFinished: {
-            appCore.ipPlus(textFieldIPStation.text)
+//            appCore.ipPlus()
             focus = false
         }
     }

@@ -11,6 +11,7 @@ Rectangle //id: rectangleMain
     width: 600
     //counter - [100-65000]
     property int counterDigitalStation: 100
+    property int counterIpStation: 1
     property int counterPDO16: 1
     property int counterPDO16N: 1
     property int counterPDO32: 1
@@ -70,8 +71,10 @@ property color canvasColor: "#F8FACF"
         font.pointSize: 14
         onClicked:
         {
+//            appCore.ipPlus()
             var stationName = ""
             var id = "CID " + counterDigitalStation
+            var ip = counterIpStation
             if (comboBoxListOfDevices.currentIndex == 0)
             {
                 stationName = qsTr("PDO16") + "-" + counterPDO16
@@ -101,8 +104,8 @@ property color canvasColor: "#F8FACF"
                 counterSL1++
             }
             counterDigitalStation++
-
-            appCore.saveStation(stationName, id)
+            counterIpStation++
+            appCore.saveStation(stationName, id, ip)
 
             //Добавил чтобы не ломалось отображение - иммитация клика мышки по текущей строчке
             appCore.sendCurrentIndexOfDigitalStation(

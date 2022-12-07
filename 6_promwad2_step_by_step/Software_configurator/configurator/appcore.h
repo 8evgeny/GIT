@@ -834,7 +834,7 @@ public slots:
      \param nameOfStation Station name
      \param idOfStation ID name
     */
-    void saveStation(const QString &nameOfStation, const QString &idOfStation);
+    void saveStation(const QString &nameOfStation, const QString &idOfStation, const QString &ipOfStation);
 
     /*!
      \brief Delete the station by name.
@@ -1016,7 +1016,7 @@ public slots:
      \param newMaskNetwork Network mask
     */
     void updateStationMaskNetwork(const QString &currentNameOfStation, const QString &newMaskNetwork);
-    void ipPlus(QString ipOld);
+    void ipPlus(qint8 counter);
     /*!
      \brief Get a new gateway for the station.
 

@@ -1098,19 +1098,19 @@ void AppCore::updateStationIp(const QString &currentNameOfStation, const QString
     listOfStations[indexOfStation].ip = newIP;
 }
 
-void AppCore::ipPlus(QString ipOld)
+void AppCore::ipPlus(qint8 counter)
 {
-    qDebug() << ipOld;
-    QStringList ipOldList1 =ipOld.split(QLatin1Char('.'));
+    QStringList ipOldList1 =ipNext.split(QLatin1Char('.'));
     ipOldList1.pop_back();
     QString ipPlus1 = ipOldList1.join(".");
-    QStringList ipOldList2 =ipOld.split(QLatin1Char('.'));
-    ipOldList2.pop_front();
-    ipOldList2.pop_front();
-    ipOldList2.pop_front();
-    QString ipPlus2 = ipOldList2.join("");
-    auto num = ipPlus2.toInt();
-    ipNext = ipPlus1 + "." + QString::number(++num);
+//    QStringList ipOldList2 =ipNext.split(QLatin1Char('.'));
+//    ipOldList2.pop_front();
+//    ipOldList2.pop_front();
+//    ipOldList2.pop_front();
+//    QString ipPlus2 = ipOldList2.join("");
+//    auto num = ipPlus2.toInt();
+//    ipNext = ipPlus1 + "." + QString::number(++num);
+    ipNext = ipPlus1 + "." + QString::number(counter);
     qDebug() << ipNext;
     emit nextIp(ipNext);
 }
