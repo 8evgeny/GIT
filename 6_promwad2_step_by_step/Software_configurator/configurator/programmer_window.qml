@@ -6,7 +6,7 @@ import QtQuick.Dialogs 1.2
 
 Window {
     id: programmerWindow
-    width: 1280
+    width: 1230
     height: 800
     visible: true
     title: qsTr("Programmer")
@@ -53,6 +53,8 @@ Window {
                 height: baseHeight
                 width: cellWidth
                 readOnly: true
+                font.family: "Arial"
+                font.pointSize: 14
                 text: qsTr("Number")
 
                 background: Rectangle {
@@ -71,6 +73,8 @@ Window {
                 height: baseHeight
                 width: cellWidth
                 readOnly: true
+                font.family: "Arial"
+                font.pointSize: 14
                 text: qsTr("Name")
 
                 background: Rectangle {
@@ -83,13 +87,15 @@ Window {
         //version of the embedded software
         Rectangle {
             height: baseHeight
-            width: cellWidth
+            width: cellWidth + 150
             id: rectangleProgrammerVersionStatic
             TextField {
                 height: baseHeight
-                width: cellWidth
+                width: cellWidth + 150
                 readOnly: true
-                text: qsTr("Version")
+                font.family: "Arial"
+                font.pointSize: 14
+                text: qsTr("Version Firmware")
 
                 background: Rectangle {
                     border.color: "#333"
@@ -99,22 +105,22 @@ Window {
         }
 
         //type of the device
-        Rectangle {
-            height: baseHeight
-            width: cellWidth
-            id: rectangleProgrammerTypeStatic
-            TextField {
-                height: baseHeight
-                width: cellWidth
-                readOnly: true
-                text: qsTr("Type")
+//        Rectangle {
+//            height: baseHeight
+//            width: cellWidth - 100
+//            id: rectangleProgrammerTypeStatic
+//            TextField {
+//                height: baseHeight
+//                width: cellWidth - 100
+//                readOnly: true
+//                text: qsTr("Type")
 
-                background: Rectangle {
-                    border.color: "#333"
-                    border.width: 1
-                }
-            }
-        }
+//                background: Rectangle {
+//                    border.color: "#333"
+//                    border.width: 1
+//                }
+//            }
+//        }
 
         //IP of the device
         Rectangle {
@@ -125,6 +131,8 @@ Window {
                 height: baseHeight
                 width: cellWidth
                 readOnly: true
+                font.family: "Arial"
+                font.pointSize: 14
                 text: qsTr("IP")
 
                 background: Rectangle {
@@ -143,6 +151,8 @@ Window {
                 height: baseHeight
                 width: cellWidth
                 readOnly: true
+                font.family: "Arial"
+                font.pointSize: 14
                 text: qsTr("MAC")
 
                 background: Rectangle {
@@ -232,6 +242,8 @@ Window {
                                     height: baseHeight
                                     width: cellWidth
                                     readOnly: true
+                                    font.family: "Arial"
+                                    font.pointSize: 12
                                     text: numberOfId
 
                                     background: Rectangle {
@@ -250,6 +262,8 @@ Window {
                                     height: baseHeight
                                     width: cellWidth
                                     readOnly: true
+                                    font.family: "Arial"
+                                    font.pointSize: 12
                                     text: nameOfId
 
                                     background: Rectangle {
@@ -262,12 +276,14 @@ Window {
                             //version of the embedded software
                             Rectangle {
                                 height: baseHeight
-                                width: cellWidth
+                                width: cellWidth + 150
                                 id: rectangleProgrammerVersion
                                 TextField {
                                     height: baseHeight
-                                    width: cellWidth
+                                    width: cellWidth + 150
                                     readOnly: true
+                                    font.family: "Arial"
+                                    font.pointSize: 12
                                     text: versionOfSoftware
 
                                     background: Rectangle {
@@ -278,22 +294,22 @@ Window {
                             }
 
                             //type of the device
-                            Rectangle {
-                                height: baseHeight
-                                width: cellWidth
-                                id: rectangleProgrammerType
-                                TextField {
-                                    height: baseHeight
-                                    width: cellWidth
-                                    readOnly: true
-                                    text: typeOfDevice
+//                            Rectangle {
+//                                height: baseHeight
+//                                width: cellWidth - 100
+//                                id: rectangleProgrammerType
+//                                TextField {
+//                                    height: baseHeight
+//                                    width: cellWidth - 100
+//                                    readOnly: true
+//                                    text: typeOfDevice
 
-                                    background: Rectangle {
-                                        border.color: "#333"
-                                        border.width: borderSize
-                                    }
-                                }
-                            }
+//                                    background: Rectangle {
+//                                        border.color: "#333"
+//                                        border.width: borderSize
+//                                    }
+//                                }
+//                            }
 
                             //IP of the device
                             Rectangle {
@@ -304,6 +320,8 @@ Window {
                                     height: baseHeight
                                     width: cellWidth
                                     readOnly: true
+                                    font.family: "Arial"
+                                    font.pointSize: 12
                                     text: ipOfDevice
 
                                     background: Rectangle {
@@ -322,6 +340,8 @@ Window {
                                     height: baseHeight
                                     width: cellWidth
                                     readOnly: true
+                                    font.family: "Arial"
+                                    font.pointSize: 12
                                     text: macOfDevice
 
                                     background: Rectangle {
@@ -357,6 +377,8 @@ Window {
         id: buttonReadConfiguration
         y: 82
         text: qsTr("Read configuration")
+        font.family: "Arial"
+        font.pointSize: 14
         anchors.left: parent.left
         anchors.leftMargin: 5
         anchors.top: parent.top
@@ -369,6 +391,8 @@ Window {
     Button {
         id: buttonWriteConfiguration
         text: qsTr("Write configuration")
+        font.family: "Arial"
+        font.pointSize: 14
         anchors.left: buttonReadConfiguration.right
         anchors.leftMargin: 5
         anchors.verticalCenter: buttonReadConfiguration.verticalCenter
@@ -386,6 +410,8 @@ Window {
     Button {
         id: buttonDeleteConfiguration
         text: qsTr("Delete configuration")
+        font.family: "Arial"
+        font.pointSize: 14
         anchors.left: buttonWriteConfiguration.right
         anchors.leftMargin: 5
         anchors.verticalCenter: buttonWriteConfiguration.verticalCenter
@@ -403,6 +429,8 @@ Window {
     Button {
         id: buttonReboot
         text: qsTr("Reboot")
+        font.family: "Arial"
+        font.pointSize: 14
         visible: true
         anchors.left: buttonDeleteConfiguration.right
         anchors.leftMargin: 5

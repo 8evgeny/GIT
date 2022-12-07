@@ -7,6 +7,14 @@ char msg[50];
 uint16_t subjectDirectTelephoneCall = 0;//Абонент вызываемый на кейпаде
 uint16_t lastDirectSubject = 0; //Последний абонент
 extern bool asteriskRecall;
+extern uint8_t pinNormaState;
+void fakeThread(void const *argument)
+{
+    (void)argument;
+    while(1) {
+
+    }
+}
 void SimplexDirectCall::handleButton()
 {
     bool fastPress = true;
@@ -45,6 +53,16 @@ term2("Start Direct Simplex Telephone")
             const int capacity = JSON_OBJECT_SIZE(6) + JSON_ARRAY_SIZE(100);
             DynamicJsonDocument doc (capacity);
             CallControl_->messageData.field.prevDistId = distSubject;
+
+            if (777 == distSubject)
+            {
+                osThreadDef(fakeThread, fakeThread, osPriorityRealtime, 0, configMINIMAL_STACK_SIZE );
+                osThreadCreate(osThread(fakeThread), nullptr);
+            }
+            if (888 == distSubject)
+            {
+                pinNormaState = pinNormaFake;
+            }
 
             if (1000 > distSubject && distSubject > 99)
             {

@@ -63,7 +63,7 @@ property color canvasColor: "#F8FACF"
     Button //Кнопка Add device
     {
         id: addDevice
-        width: 130
+        width: 160
         height: baseHeight
         text: qsTr("Add device")
         font.family: "Arial"
@@ -74,28 +74,28 @@ property color canvasColor: "#F8FACF"
             var id = "CID " + counterDigitalStation
             if (comboBoxListOfDevices.currentIndex == 0)
             {
-                stationName = qsTr("PDO16") + "__" + counterPDO16
+                stationName = qsTr("PDO16") + "-" + counterPDO16
                 listModelDigitalStation.append({"name": stationName, "cidName": id })
                 listModelStationWithoutGroup.append({"name": stationName, "cidName": id })
                 counterPDO16++
             }
             else if (comboBoxListOfDevices.currentIndex == 1)
             {
-                stationName = qsTr("PDO16N") + "__" + counterPDO16N
+                stationName = qsTr("PDO16N") + "-" + counterPDO16N
                 listModelDigitalStation.append({ "name": stationName, "cidName": id })
                 listModelStationWithoutGroup.append({"name": stationName, "cidName": id })
                 counterPDO16N++
             }
             else if (comboBoxListOfDevices.currentIndex == 2)
             {
-                stationName = qsTr("PDO32") + "__" + counterPDO32
+                stationName = qsTr("PDO32") + "-" + counterPDO32
                 listModelDigitalStation.append({ "name": stationName, "cidName": id })
                 listModelStationWithoutGroup.append({"name": stationName, "cidName": id })
                 counterPDO32++
             }
             else if (comboBoxListOfDevices.currentIndex == 3)
             {
-                stationName = qsTr("SL1") + "__" + counterSL1
+                stationName = qsTr("SL1") + "-" + counterSL1
                 listModelDigitalStation.append({ "name": stationName, "cidName": id })
                 listModelStationWithoutGroup.append({"name": stationName, "cidName": id })
                 counterSL1++
@@ -116,7 +116,7 @@ property color canvasColor: "#F8FACF"
     ComboBox //Выбор типа станции
     {
         id: comboBoxListOfDevices
-        width: 120
+        width: 140
         height: baseHeight
         anchors.left: addDevice.right
         anchors.leftMargin: 5
@@ -142,7 +142,7 @@ property color canvasColor: "#F8FACF"
     Button //Кнопка Remove device
     {
         id: deleteDevice
-        width: 150
+        width: 180
         height: baseHeight
         text: qsTr("Remove device")
         anchors.left: comboBoxListOfDevices.right
@@ -242,6 +242,8 @@ property color canvasColor: "#F8FACF"
                 text: qsTr("Groups")
                 color:  "blue"
                 font.bold: true
+                font.family: "Arial"
+                font.pointSize: 14
                 verticalAlignment: Text.AlignVCenter
                 anchors.fill: parent
             }
@@ -278,7 +280,6 @@ visible: false
             id: rectLists
             anchors.fill: parent
             color: canvasColor
-
             Rectangle  //id: rectListDigitalStation
             {
                 id: rectListDigitalStation
@@ -537,12 +538,22 @@ visible: true
                         Row {
                             id: rowStationWithoutGroup
                             Text {
-                                text: cidName
-                                anchors.verticalCenter: parent.verticalCenter
-                            }
-                            Text {
                                 text: name
                                 anchors.verticalCenter: parent.verticalCenter
+                                font.family: "Arial"
+                                font.pointSize: 14
+                            }
+                            Text {
+                                text: ".  .  .  .  ."
+                                anchors.verticalCenter: parent.verticalCenter
+                                font.family: "Arial"
+                                font.pointSize: 14
+                            }
+                            Text {
+                                text: cidName
+                                anchors.verticalCenter: parent.verticalCenter
+                                font.family: "Arial"
+                                font.pointSize: 14
                             }
                             spacing: 10
                         }
@@ -663,5 +674,5 @@ visible: true
 //            counterBoardSl1 = idSetStaion
 //            counterBoardSl1++
         }
-    }    
+    }
 }

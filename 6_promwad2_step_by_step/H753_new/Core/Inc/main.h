@@ -51,7 +51,8 @@ enum
     pinNormaReset = 0,
     pinNormaSet = 1,
     pinNormaBlink = 2,
-    pinNormaBlinkFast = 3
+    pinNormaBlinkFast = 3,
+    pinNormaFake = 4
 };
 enum
 {

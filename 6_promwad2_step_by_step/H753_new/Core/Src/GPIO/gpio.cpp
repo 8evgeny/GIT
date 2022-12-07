@@ -792,7 +792,7 @@ void switchLEDsThread(void const *arg)
         (void)arg;
         GPIO::getInstance()->initLEDS_SC4();
         GPIO::getInstance()->testLed();
-
+        bool pinFake = false;
         while(true)
         {
             uint8_t adr, reg, numON, numOFF;
@@ -815,7 +815,7 @@ void switchLEDsThread(void const *arg)
                     I2C::getInstance()->writeRegister(adr, reg, numOFF, false);
                 }
             }
-            if (pinNormaState != pinNormaBlink)
+            if ((pinNormaState != pinNormaBlink) && (pinNormaState != pinNormaFake))
             {
                 if ((LinkStatus == 1) && (inMcastGroup == 1))
                 {
@@ -828,12 +828,17 @@ void switchLEDsThread(void const *arg)
             }
 
             //Обрабатываем невыход в готовность
-            if (pinNormaState == pinNormaReset)
+            if ((pinNormaState == pinNormaReset) || (pinNormaState == pinNormaFake))
             {
-                if (timeReset + 10000 < HAL_GetTick())
+                if (!pinFake)
+                {
+                    pinFake = true;
+                    timeReset = HAL_GetTick();
+                }
+                if (timeReset + 20000 < HAL_GetTick())
                 {
                     term2("REBOOT")
-//                    HAL_NVIC_SystemReset(); //pev
+                    HAL_NVIC_SystemReset(); //pev
                 }
             }
             osDelay(1);
@@ -867,7 +872,7 @@ void switchLEDsThread(void const *arg)
                     if(i == 1) HAL_GPIO_WritePin(GPIOG, GPIO_PIN_13, GPIO_PIN_SET);
                     if(i == 0) HAL_GPIO_WritePin(GPIOG, GPIO_PIN_14, GPIO_PIN_SET);
                 }
-                if (pinNormaState != pinNormaBlink)
+                if ((pinNormaState != pinNormaBlink) && (pinNormaState != pinNormaFake))
                 {
 
                     if ((LinkStatus == 1) && (inMcastGroup == 1))
@@ -879,6 +884,7 @@ void switchLEDsThread(void const *arg)
                         pinNormaState = pinNormaReset;
                     }
                 }
+
             }
             osDelay(1);
         }
