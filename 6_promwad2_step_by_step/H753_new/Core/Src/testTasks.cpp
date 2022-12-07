@@ -154,12 +154,12 @@ void testLed2()
 }
 void watchDog()
 { //pev
-//    WDTInit();
-//    osThreadDef(StartWdtThread, StartWdtThread, osPriorityHigh, 0, configMINIMAL_STACK_SIZE );
-//    if ((osThreadCreate(osThread(StartWdtThread), nullptr)) == nullptr)
-//    {
-//        RS232::getInstance().term << __FUNCTION__ << " " << __LINE__ << " " << "\n";
-//    }
+    WDTInit();
+    osThreadDef(StartWdtThread, StartWdtThread, osPriorityHigh, 0, configMINIMAL_STACK_SIZE );
+    if ((osThreadCreate(osThread(StartWdtThread), nullptr)) == nullptr)
+    {
+        RS232::getInstance().term << __FUNCTION__ << " " << __LINE__ << " " << "\n";
+    }
 
     osThreadDef(simpleLedTest3_RTOS, simpleLedTest3_RTOS, osPriorityHigh, 0, configMINIMAL_STACK_SIZE );
     if ((osThreadCreate(osThread(simpleLedTest3_RTOS), nullptr)) == nullptr)
@@ -300,6 +300,10 @@ void pinNorma_RTOS(void const *argument)
         }
     }
 
+    if (((boardType == sc4) || (boardType == sl1)) && (pinNormaState == pinNormaFake))
+    {
+        HAL_GPIO_WritePin(GPIOD, GPIO_PIN_6, GPIO_PIN_RESET);
+    }
     if (((boardType == sc4) || (boardType == sl1)) && (pinNormaState == pinNormaReset))
     {
         HAL_GPIO_WritePin(GPIOD, GPIO_PIN_6, GPIO_PIN_RESET);
