@@ -1098,6 +1098,15 @@ void AppCore::updateStationIp(const QString &currentNameOfStation, const QString
     listOfStations[indexOfStation].ip = newIP;
 }
 
+void AppCore::ipPlus(QString ipOld)
+{
+    qDebug() << ipOld;
+    ipNext += QString::number(++ipNext2);
+    qDebug() << ipNext;
+
+}
+
+
 void AppCore::updateStationMaskNetwork(const QString &currentNameOfStation, const QString &newMaskNetwork)
 {
     //for saving an index
