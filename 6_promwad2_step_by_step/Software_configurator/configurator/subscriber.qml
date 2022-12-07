@@ -19,6 +19,7 @@ property color colorKeyProperty: "#F8FACF"
     property string nameError: qsTr("Error")
 
     property string nameOfStation: ""
+    property string ipOfStation: ""
     property int indexOfStation: -1
 
     property color ipBorderColor: "#333"
@@ -717,6 +718,12 @@ property color colorKeyProperty: "#F8FACF"
         {
             resizeFlickableList()
         }
+
+        onNextIp:
+        {
+            ipOfStation = ipNext
+        }
+
         onSendInfoNetworkAboutTheStation: //Это сигнал из C++ кода
 //                          void sendInfoNetworkAboutTheStation(
 //                                            QString nameOfStationMain,
@@ -966,7 +973,7 @@ property color colorKeyProperty: "#F8FACF"
     TextField //IP станции
     {
         id: textFieldIPStation
-        text: ""
+        text: ipOfStation
         font.bold: true
         font.pointSize: 12
         anchors.left: rectangleIPStation.right

@@ -118,7 +118,9 @@ signals:
     */
     void exitFromMenu();
 
-    /*!
+    void nextIp(QString ipNext);
+
+/*!
      \brief Create a status window
 
      \fn createWindowStatus

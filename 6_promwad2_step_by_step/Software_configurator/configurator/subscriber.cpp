@@ -1112,6 +1112,7 @@ void AppCore::ipPlus(QString ipOld)
     auto num = ipPlus2.toInt();
     ipNext = ipPlus1 + "." + QString::number(++num);
     qDebug() << ipNext;
+    emit nextIp(ipNext);
 }
 
 
