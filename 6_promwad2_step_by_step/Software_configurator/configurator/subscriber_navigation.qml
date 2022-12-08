@@ -12,7 +12,9 @@ Rectangle //id: rectangleMain
     //counter - [100-65000]
     property int counterDigitalStation: 100
     property int counterIpStation: 1
-    property string baseIpStation: "192.168."
+    property string baseIpStation: "192."
+    property int ip1: 192
+    property int ip2: 168
     property int ip3: 108
     property int counterPDO16: 1
     property int counterPDO16N: 1
@@ -76,7 +78,7 @@ property color canvasColor: "#F8FACF"
 
             var stationName = ""
             var id = "CID " + counterDigitalStation
-            var ip = baseIpStation + ip3 + "." + counterIpStation
+            var ip = baseIpStation + ip2 + "."+ ip3 + "." + counterIpStation
 //            var ip = ""+IpStation1+"."+IpStation2+"."+IpStation3+"."+counterIpStation
             if (comboBoxListOfDevices.currentIndex == 0)
             {
@@ -619,6 +621,8 @@ visible: true
 
         onNextIp:
         {
+            ip1 = num1
+            ip2 = num2
             ip3 = num3
             counterIpStation = num4 + 1
         }
