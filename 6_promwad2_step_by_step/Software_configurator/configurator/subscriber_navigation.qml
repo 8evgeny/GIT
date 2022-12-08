@@ -123,7 +123,7 @@ property color canvasColor: "#F8FACF"
     ComboBox //Выбор типа станции
     {
         id: comboBoxListOfDevices
-        width: 140
+        width: 150
         height: baseHeight
         anchors.left: addDevice.right
         anchors.leftMargin: 5

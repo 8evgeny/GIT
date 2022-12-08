@@ -911,11 +911,13 @@ property color colorKeyProperty: "#F8FACF"
     TextField //Номер станции
     {
         width: cellWidth
+        readOnly: true
         height: defaultSizeOfHeight
         id: textFieldNumberStation
         text: ""
         font.bold: true
         font.pointSize: 12
+        color: "grey"
 
         anchors.top: rectangleStationInformation.bottom
         anchors.topMargin: defaultSizeOfSpace
@@ -933,19 +935,18 @@ property color colorKeyProperty: "#F8FACF"
         }
         background: Rectangle
         {
-            border.color: "#333"
+            border.color: "#ffffff"
             border.width: 1
         }
     }
     TextField //Имя станции
     {
         property string startEdit: ""
-        readOnly: true
+//        readOnly: true
         id: textFieldNameStation
         text: ""
         font.bold: true
         font.pointSize: 12
-        color: "grey"
 
         anchors.left: rectangleNameStation.right
         anchors.topMargin: defaultSizeOfSpace
