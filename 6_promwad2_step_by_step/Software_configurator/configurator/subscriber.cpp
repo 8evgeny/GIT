@@ -1108,12 +1108,14 @@ void AppCore::saveIP(QString newIpFromQml)
     ipOldList2.pop_front();
     ipOldList2.pop_front();
     QString ipNew2 = ipOldList2.join("");
+    auto num1 = ipOldList1[0].toInt();
+    auto num2 = ipOldList1[1].toInt();
     auto num3 = ipOldList1[2].toInt();
     auto num4 = ipNew2.toInt();
     auto IP = ipNew1 + "." + QString::number(num4);
 
     qDebug() << IP;
-    emit nextIp(num3, num4);
+    emit nextIp(num1, num2, num3, num4);
 }
 
 
