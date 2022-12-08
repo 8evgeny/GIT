@@ -1016,7 +1016,7 @@ public slots:
      \param newMaskNetwork Network mask
     */
     void updateStationMaskNetwork(const QString &currentNameOfStation, const QString &newMaskNetwork);
-    void ipPlus(qint8 counter);
+    void saveIP(QString newIpFromQml);
     /*!
      \brief Get a new gateway for the station.
 
@@ -1427,7 +1427,7 @@ public slots:
     void exitActionFromMenu();
 
 private:
-    QString ipNext = "192.168.108.1";
+    QString ipFromQml = "";
     QList < ListOfMacros > listOfMacros; /*! List of existing macros */
     QList < ListOfStations> listOfStations; /*! List of existing stations */
     QList < ListOfGroups> listOfGroups; /*! List of existing groups */

@@ -71,7 +71,7 @@ property color canvasColor: "#F8FACF"
         font.pointSize: 14
         onClicked:
         {
-//            appCore.ipPlus()
+
             var stationName = ""
             var id = "CID " + counterDigitalStation
             var ip = "192.168.108." + counterIpStation
