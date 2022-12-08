@@ -3,6 +3,7 @@ import QtQuick.Controls 2.12
 import QtQuick.Window 2.12
 import QtQuick.Controls.Styles 1.4
 import RuLang 1.0
+import QtQml 2.15
 
 import "subscriber.js" as Subscriber
 import "main_menu.js" as MainMenu
