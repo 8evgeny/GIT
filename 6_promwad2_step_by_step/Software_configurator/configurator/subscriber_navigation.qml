@@ -360,19 +360,19 @@ visible: false
             }
             Connections //Действие кнопки
             {
-                target: buttonListDigitalStation
-                onClicked:
-                {
-                    if (listDigitalStation) {
-                        buttonListDigitalStation.text = "+"
-                    } else {
-                        buttonListDigitalStation.text = "-"
-                    }
+//                target: buttonListDigitalStation
+//                onClicked:
+//                {
+//                    if (listDigitalStation) {
+//                        buttonListDigitalStation.text = "+"
+//                    } else {
+//                        buttonListDigitalStation.text = "-"
+//                    }
 
-                    listDigitalStation = !listDigitalStation
+//                    listDigitalStation = !listDigitalStation
 
-                    resizeFlick()
-                }
+//                    resizeFlick()
+//                }
             }
             Label //Надпись Digital stations:
             {
@@ -465,18 +465,18 @@ visible: false
             }
             Connections //Действие кнопки
             {
-                target: buttonListBoardSl1
-                onClicked: {
-                    if (listBoardSl1) {
-                        buttonListBoardSl1.text = "+"
-                    } else {
-                        buttonListBoardSl1.text = "-"
-                    }
+//                target: buttonListBoardSl1
+//                onClicked: {
+//                    if (listBoardSl1) {
+//                        buttonListBoardSl1.text = "+"
+//                    } else {
+//                        buttonListBoardSl1.text = "-"
+//                    }
 
-                    listBoardSl1 = !listBoardSl1
+//                    listBoardSl1 = !listBoardSl1
 
-                    resizeFlick()
-                }
+//                    resizeFlick()
+//                }
             }
             Label //Надпись Boards SL1:
             {
