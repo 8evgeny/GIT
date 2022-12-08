@@ -720,10 +720,10 @@ property color colorKeyProperty: "#F8FACF"
             resizeFlickableList()
         }
 
-        onNextIp:
-        {
-            textFieldIPStation.text = ipNext
-        }
+//        onNextIp:
+//        {
+//            textFieldIPStation.text = ipNext
+//        }
 
         onSendInfoNetworkAboutTheStation: //Это сигнал из C++ кода
 //                          void sendInfoNetworkAboutTheStation(
