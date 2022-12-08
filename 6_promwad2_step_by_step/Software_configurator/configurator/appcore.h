@@ -118,7 +118,7 @@ signals:
     */
     void exitFromMenu();
 
-    void nextIp(QString ipNext1, int num, QString ipNext);
+    void nextIp(QString ipNext1, int num);
 
 /*!
      \brief Create a status window
@@ -1427,7 +1427,6 @@ public slots:
     void exitActionFromMenu();
 
 private:
-    QString ipFromQml = "";
     QList < ListOfMacros > listOfMacros; /*! List of existing macros */
     QList < ListOfStations> listOfStations; /*! List of existing stations */
     QList < ListOfGroups> listOfGroups; /*! List of existing groups */
