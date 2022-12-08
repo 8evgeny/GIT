@@ -110,7 +110,7 @@ void AppCore::saveStation(const QString &nameOfStation, const QString &idOfStati
 
     st.nameOfStation = nameOfStation;
     st.nameOfID = idOfStation;
-//    st.ip  = ipOfStation;
+    st.ip  = ipOfStation;
     listOfStations.append(st);
 
     //В зависимости от имени добавляем поля
@@ -174,7 +174,7 @@ void AppCore::saveStation(const QString &nameOfStation, const QString &idOfStati
     }
     listOfStations.last().gateway = "0.0.0.0";
     listOfStations.last().maskNetwork = "255.255.255.0";
-    listOfStations.last().ip = ipNext;
+
 }
 
 void AppCore::deleteStation(const QString &nameOfStation)

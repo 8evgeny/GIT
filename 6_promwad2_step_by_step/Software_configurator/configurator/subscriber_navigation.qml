@@ -74,7 +74,7 @@ property color canvasColor: "#F8FACF"
 //            appCore.ipPlus()
             var stationName = ""
             var id = "CID " + counterDigitalStation
-            var ip = counterIpStation
+            var ip = "192.168.108." + counterIpStation
             if (comboBoxListOfDevices.currentIndex == 0)
             {
                 stationName = qsTr("PDO16") + "-" + counterPDO16
