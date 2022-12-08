@@ -2,7 +2,6 @@ import QtQuick 2.3
 import QtQuick.Window 2.2
 import QtQuick.Controls 2.12
 import QtQuick.Controls.Styles 1.4
-import QtQml 2.15
 
 Rectangle //id: rectangleMain
 {
@@ -356,8 +355,8 @@ visible: false
                 id: buttonListDigitalStation
                 x: 0
                 text: "-"
-                anchors.top: rectangleGroups.bottom
-                anchors.topMargin: 0
+//                anchors.top: rectangleGroups.bottom
+//                anchors.topMargin: 0
             }
             Connections //Действие кнопки
             {

@@ -2,7 +2,6 @@ import QtQuick 2.12
 import QtQuick.Controls 2.12
 import QtQuick.Window 2.12
 import QtQuick.Controls.Styles 1.4
-import QtQml 2.15
 
 Rectangle {
     id: rectangleMain

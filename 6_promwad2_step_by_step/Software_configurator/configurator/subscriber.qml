@@ -1,6 +1,5 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.12
-import QtQml 2.15
 
 Rectangle {
     id: subsribersWindow
@@ -268,7 +267,7 @@ property color colorKeyProperty: "#F8FACF"
         width: parent.width + 5
         height: parent.height
         clip: true
-        ScrollBar.vertical: ScrollBar
+//        ScrollBar.vertical: ScrollBar
         Rectangle //Основное поле абонентов
         {
             anchors.fill: parent
@@ -664,7 +663,7 @@ property color colorKeyProperty: "#F8FACF"
     Connections //Отработка сигналов
     {
         target: appCore
-        onSendListNameOfElements:    //Это сигнал из C++ кода  - update list of stations
+        onSendListNameOfElements:
 //                                     void sendListNameOfElements(QString uidOfKeyAdd,
 //                                                                 QString numberOfKeyAdd,
 //                                                                 QString nameOfKeyAdd,
@@ -1090,7 +1089,7 @@ property color colorKeyProperty: "#F8FACF"
         {
             id: rectKeyMode
             color: colorKeyProperty
-            anchors.top: rectKeyProperty.bottom
+//            anchors.top: rectKeyProperty.bottom
             anchors.topMargin: defaultSizeOfSpace
             width: cellWidth
             height: defaultSizeOfHeight
