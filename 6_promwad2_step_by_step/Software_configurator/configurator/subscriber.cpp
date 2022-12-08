@@ -1112,7 +1112,7 @@ void AppCore::saveIP(QString newIpFromQml)
     ipFromQml = ipNew1 + "." + QString::number(num);
 
     qDebug() << ipFromQml;
-    emit nextIp(ipFromQml);
+    emit nextIp(ipNew1, num, ipFromQml);
 }
 
 

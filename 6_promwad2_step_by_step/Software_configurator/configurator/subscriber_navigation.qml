@@ -613,6 +613,13 @@ visible: true
     {
         target: appCore
 
+
+        onNextIp:
+        {
+//        ipNew1
+            counterIpStation = num + 1
+        }
+
         onSendUpdateListOfStationsFromFile://Сигеал
 //                                           void sendUpdateListOfStationsFromFile(
 //                                               QString nameOfStation,

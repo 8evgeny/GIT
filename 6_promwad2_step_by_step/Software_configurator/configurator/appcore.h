@@ -118,7 +118,7 @@ signals:
     */
     void exitFromMenu();
 
-    void nextIp(QString ipNext);
+    void nextIp(QString ipNext1, int num, QString ipNext);
 
 /*!
      \brief Create a status window
