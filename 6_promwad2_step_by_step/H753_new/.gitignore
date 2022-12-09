@@ -6,3 +6,4 @@ build_qbs_release
 build_qbs_debug
 CMakeLists.txt.use*
 .idea
+cmake-build-debug
