@@ -19,7 +19,8 @@ Window {
     property int baseHeight: 40
     property int typeOfMenu: 0
 
-    Row {
+    Row
+    {//Строка меню
         id: rowListOfSubscribersStatic
         width: parent.width
         height: defaultSizeOfHeight
@@ -123,7 +124,8 @@ Window {
 //        }
 
         //IP of the device
-        Rectangle {
+        Rectangle
+        {
             height: baseHeight
             width: cellWidth
             id: rectangleProgrammerIpStatic
@@ -143,7 +145,8 @@ Window {
         }
 
         //MAC of the device
-        Rectangle {
+        Rectangle
+        {
             height: baseHeight
             width: cellWidth
             id: rectangleProgrammerMacStatic
@@ -162,7 +165,7 @@ Window {
             }
         }
         spacing: -1
-    }
+    } //End ROW - строка меню
 
     Flickable {
         id: flickableProgrammer
@@ -195,7 +198,8 @@ Window {
                         width: flickableProgrammer.width
                         height: defaultSizeOfHeight
 
-                        Row {
+                        Row
+                        {
                             id: rowListOfSubscribers
                             width: parent.width
                             height: parent.height
@@ -351,13 +355,13 @@ Window {
                                 }
                             }
                             spacing: -1
-                        }
+                        }//End Row Delagate
                     }
                     spacing: -1
                 }
             }
         }
-    }
+    }//End Flickable
 
     //Set the center of coordinates
 //    function setCoordinates() {
