@@ -134,6 +134,8 @@ void AppCore::encryptionBinFile(const QUrl &pathFile, const QString &key, const 
     //Read a bin file
     QFile file(pathFile.toLocalFile());
     file.open(QIODevice::ReadOnly);
+    auto aa =  file.fileName();
+    qDebug()<< "fileName: "<< aa;
     bin = file.readAll();
     file.close();
     //Ищем в файле 2 переменные - firmwareVersion_ firmwareSubVersion_
@@ -179,7 +181,7 @@ void AppCore::encryptionBinFile(const QUrl &pathFile, const QString &key, const 
 //    qDebug() << "originCRC: " << originCRC;
     qDebug()<< "DateTime: "<<dateTime;
     dateTime_ = dateTime;
-
+//    nameFirmwareBinFile =
     versionFirmware = firmwareVersion;
     subVersionFirmware = firmwareSubVersion;
     qDebug()<< "firmwareVersion: "<< versionFirmware;
