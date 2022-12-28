@@ -423,7 +423,7 @@ void parsingFirmwareFromJson(JsonDocument &doc)
         {
             pack.fwName[i] = firmwareName[i];
         }
-
+        pack.fwName[firmwareName.size()] = '\0';
 
         osMutexWait(mutexFirmwareRingBufferId, osWaitForever);
         firmwareRingBuffer.push(pack);
