@@ -56,7 +56,7 @@ Window {
                 readOnly: true
                 font.family: "Arial"
                 font.pointSize: 14
-                text: qsTr("Number")
+                text: qsTr("Device number")
 
                 background: Rectangle {
                     border.color: "#333"
@@ -76,7 +76,7 @@ Window {
                 readOnly: true
                 font.family: "Arial"
                 font.pointSize: 14
-                text: qsTr("Name")
+                text: qsTr("Device name")
 
                 background: Rectangle {
                     border.color: "#333"
@@ -96,7 +96,7 @@ Window {
                 readOnly: true
                 font.family: "Arial"
                 font.pointSize: 14
-                text: qsTr("Version Firmware")
+                text: qsTr("Firmware version")
 
                 background: Rectangle {
                     border.color: "#333"
