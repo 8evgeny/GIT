@@ -140,7 +140,6 @@ void AppCore::encryptionBinFile(const QUrl &pathFile, const QString &key, const 
     bin = file.readAll();
     file.close();
     //Ищем в файле 2 переменные - firmwareVersion_ firmwareSubVersion_
-//    auto fwVersion = new QByteArrayMatcher("firmwareVersion_");
     QByteArrayMatcher fwVersion, fwSubVersion;
     fwVersion.setPattern("firmwareVersion_");
     fwSubVersion.setPattern("firmwareSubVersion_");
@@ -149,10 +148,10 @@ void AppCore::encryptionBinFile(const QUrl &pathFile, const QString &key, const 
     qDebug()<< "posFwVersionInBin: "<< posFwVersionInBin;
     qDebug()<< "posFwSubVersionInBin: "<< posFwSubVersionInBin;
     QByteArray tmp = bin;
-    tmp.chop(bin.size() - (posFwVersionInBin + 18));
+    tmp.chop(bin.size() - (posFwVersionInBin + sizeof("firmwareVersion_") + 1));
     QString firmwareVersion = tmp.right(2);
     tmp = bin;
-    tmp.chop(bin.size() - (posFwSubVersionInBin + 21));
+    tmp.chop(bin.size() - (posFwSubVersionInBin + sizeof("firmwareSubVersion_") + 1));
     QString firmwareSubVersion = tmp.right(2);
 
     qDebug()<< "KEY: "<< key;
@@ -182,7 +181,7 @@ void AppCore::encryptionBinFile(const QUrl &pathFile, const QString &key, const 
 //    qDebug() << "originCRC: " << originCRC;
     qDebug()<< "DateTime: "<<dateTime;
     dateTime_ = dateTime;
-//    nameFirmwareBinFile =
+    nameFirmwareBinFile = filename;
     versionFirmware = firmwareVersion;
     subVersionFirmware = firmwareSubVersion;
     qDebug()<< "firmwareVersion: "<< versionFirmware;
