@@ -6,7 +6,7 @@ import QtQuick.Dialogs 1.2
 
 Window {
     id: programmerWindow
-    width: 1460
+    width: 1480
     height: 800
     visible: true
     title: qsTr("Programmer")
@@ -105,33 +105,15 @@ Window {
             }
         }
 
-        //type of the device
-//        Rectangle {
-//            height: baseHeight
-//            width: cellWidth - 100
-//            id: rectangleProgrammerTypeStatic
-//            TextField {
-//                height: baseHeight
-//                width: cellWidth - 100
-//                readOnly: true
-//                text: qsTr("Type")
-
-//                background: Rectangle {
-//                    border.color: "#333"
-//                    border.width: 1
-//                }
-//            }
-//        }
-
         //Name firmware file
         Rectangle
         {
             height: baseHeight
-            width: cellWidth + 30
+            width: cellWidth + 50
             id: rectangleProgrammerNameFware
             TextField {
                 height: baseHeight
-                width: cellWidth + 30
+                width: cellWidth + 50
                 readOnly: true
                 font.family: "Arial"
                 font.pointSize: 14
@@ -319,32 +301,14 @@ Window {
                                 }
                             }
 
-                            //type of the device
-//                            Rectangle {
-//                                height: baseHeight
-//                                width: cellWidth - 100
-//                                id: rectangleProgrammerType
-//                                TextField {
-//                                    height: baseHeight
-//                                    width: cellWidth - 100
-//                                    readOnly: true
-//                                    text: typeOfDevice
-
-//                                    background: Rectangle {
-//                                        border.color: "#333"
-//                                        border.width: borderSize
-//                                    }
-//                                }
-//                            }
-
                             //name fw file
                             Rectangle {
                                 height: baseHeight
-                                width: cellWidth + 30
+                                width: cellWidth + 50
                                 id: rectangleProgrammerFwName
                                 TextField {
                                     height: baseHeight
-                                    width: cellWidth + 30
+                                    width: cellWidth + 50
                                     readOnly: true
                                     font.family: "Arial"
                                     font.pointSize: 12
