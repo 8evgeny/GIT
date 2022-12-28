@@ -27,8 +27,8 @@ extern lfs_t lfs;
 extern lfs_file_t file;
 extern uint32_t lastTimePressed;
 // две переменные добавляем в прошивку для дальнейшего поиска в configurator
-const char* firmwareVersion{"firmwareVersion_14"};
-const char* firmwareSubVersion{"firmwareSubVersion_17"};
+const char* firmwareVersion{"firmwareVersion_01"};
+const char* firmwareSubVersion{"firmwareSubVersion_00"};
 
 #ifdef __cplusplus
 extern "C" {

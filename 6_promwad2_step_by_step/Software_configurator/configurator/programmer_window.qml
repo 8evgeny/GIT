@@ -6,7 +6,7 @@ import QtQuick.Dialogs 1.2
 
 Window {
     id: programmerWindow
-    width: 1430
+    width: 1460
     height: 800
     visible: true
     title: qsTr("Programmer")
@@ -127,11 +127,11 @@ Window {
         Rectangle
         {
             height: baseHeight
-            width: cellWidth
+            width: cellWidth + 30
             id: rectangleProgrammerNameFware
             TextField {
                 height: baseHeight
-                width: cellWidth
+                width: cellWidth + 30
                 readOnly: true
                 font.family: "Arial"
                 font.pointSize: 14
@@ -340,11 +340,11 @@ Window {
                             //name fw file
                             Rectangle {
                                 height: baseHeight
-                                width: cellWidth
+                                width: cellWidth + 30
                                 id: rectangleProgrammerFwName
                                 TextField {
                                     height: baseHeight
-                                    width: cellWidth
+                                    width: cellWidth + 30
                                     readOnly: true
                                     font.family: "Arial"
                                     font.pointSize: 12
