@@ -83,8 +83,8 @@ using FirmwarePackage = struct {
     int current;
     int all;
     std::array<char, SIZE_FIRMWARE_BASE> data;
-    char* dateTime;
-    char* fwName;
+    char dateTime[20];
+    char fwName[50];
 };
 
 static CircularBuffer <FirmwarePackage, 20> firmwareRingBuffer; /*! Ring buffer for JSON packages */
@@ -421,7 +421,7 @@ void parsingFirmwareFromJson(JsonDocument &doc)
         }
         for (uint8_t i = 0; i < firmwareName.size() ;++i)
         {
-            pack.fwName[i] = fwName[i];
+            pack.fwName[i] = firmwareName[i];
         }
 
 

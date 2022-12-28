@@ -579,13 +579,14 @@ term("CallControl::sendInfoAboutStation")
         infoDoc["MAC"] = macAdr;
 
         char fwName[50];
-        lfs_file_open(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, "fwName", LFS_O_RDWR | LFS_O_CREAT);
+        std::fill(fwName, fwName + sizeof (fwName) -1 , 0x00);
+        lfs_file_open(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, "fwareName", LFS_O_RDWR | LFS_O_CREAT);
         lfs_file_read(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, &fwName, sizeof(fwName));
         lfs_file_close(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr);
         std::string fwareName = std::string(fwName);
-        RS232::getInstance().term <<"versionFw: "<< fwareName.c_str() << "\r\n";
+        RS232::getInstance().term <<"fwareName: "<< fwareName.c_str() << "\r\n";
 
-        infoDoc["FWNAME"] = fwareName.c_str();
+        infoDoc["fwName"] = fwareName.c_str();
 
 osDelay(200); //pev
         std::fill(messageData.txBuff, messageData.txBuff + messageData.txBuffSize, 0);
