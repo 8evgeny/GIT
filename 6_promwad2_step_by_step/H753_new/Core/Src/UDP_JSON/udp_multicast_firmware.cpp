@@ -16,7 +16,7 @@
 #include "aes.h"
 #include "stm32h7xx_hal_cryp.h"
 #include <inttypes.h>
-#include "testTasks.h"
+#include "tasks.h"
 void printFlashOptions(FLASH_OBProgramInitTypeDef &OBInit);
 void newFirmwareWrite(uint32_t firmwareSize);
 extern HASH_HandleTypeDef hhash;

@@ -124,7 +124,7 @@ QString calcFileCRC(QByteArray dataBin)
     return strCRC;
 }
 
-void AppCore::encryptionBinFile(const QUrl &pathFile, const QString &key, const QString &dateTime, const qint16 &mainNumber, const qint16 &subNumber)
+void AppCore::encryptionBinFile(const QUrl &pathFile, const QString &key, const QString &dateTime)
 {
     QByteArray bin;
     QByteArray simpleKey;
@@ -136,6 +136,22 @@ void AppCore::encryptionBinFile(const QUrl &pathFile, const QString &key, const 
     file.open(QIODevice::ReadOnly);
     bin = file.readAll();
     file.close();
+    //Ищем в файле 2 переменные - firmwareVersion_ firmwareSubVersion_
+//    auto fwVersion = new QByteArrayMatcher("firmwareVersion_");
+    QByteArrayMatcher fwVersion, fwSubVersion;
+    fwVersion.setPattern("firmwareVersion_");
+    fwSubVersion.setPattern("firmwareSubVersion_");
+    int posFwVersionInBin = fwVersion.indexIn(bin);
+    int posFwSubVersionInBin = fwSubVersion.indexIn(bin);
+    qDebug()<< "posFwVersionInBin: "<< posFwVersionInBin;
+    qDebug()<< "posFwSubVersionInBin: "<< posFwSubVersionInBin;
+    QByteArray tmp = bin;
+    tmp.chop(bin.size() - (posFwVersionInBin + 18));
+    QString firmwareVersion = tmp.right(2);
+    tmp = bin;
+    tmp.chop(bin.size() - (posFwSubVersionInBin + 21));
+    QString firmwareSubVersion = tmp.right(2);
+
     qDebug()<< "KEY: "<< key;
     qDebug()<< "Size bin: "<< bin.size();
     //Вычисляем на сколько нужно дополнить bin
@@ -163,8 +179,12 @@ void AppCore::encryptionBinFile(const QUrl &pathFile, const QString &key, const 
 //    qDebug() << "originCRC: " << originCRC;
     qDebug()<< "DateTime: "<<dateTime;
     dateTime_ = dateTime;
-    versionFirmware = QString::number(mainNumber);
-    subVersionFirmware = QString::number(subNumber);
+
+    versionFirmware = firmwareVersion;
+    subVersionFirmware = firmwareSubVersion;
+    qDebug()<< "firmwareVersion: "<< versionFirmware;
+    qDebug()<< "firmwareSubVersion: "<< subVersionFirmware;
+
     QByteArray hashKeyOriginBin = QCryptographicHash::hash(bin, QCryptographicHash::Md5);
     qDebug() <<"Hash key origin bin: "<<hashKeyOriginBin.toHex();
     qint32 sizeFirmware = bin.size();

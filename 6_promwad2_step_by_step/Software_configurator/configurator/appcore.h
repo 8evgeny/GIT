@@ -1066,7 +1066,7 @@ public slots:
      \param mainNumber Firmware version
      \param subNumber Firmware subversion
     */
-    void encryptionBinFile(const QUrl &pathFile,  const QString &key, const QString &dateTime, const qint16 &mainNumber, const qint16 &subNumber);
+    void encryptionBinFile(const QUrl &pathFile,  const QString &key, const QString &dateTime);
 
     /*!
      \brief Get speed and dev name for the port.
