@@ -6,7 +6,7 @@ import QtQuick.Dialogs 1.2
 
 Window {
     id: programmerWindow
-    width: 1230
+    width: 1430
     height: 800
     visible: true
     title: qsTr("Programmer")
@@ -122,6 +122,28 @@ Window {
 //                }
 //            }
 //        }
+
+        //Name firmware file
+        Rectangle
+        {
+            height: baseHeight
+            width: cellWidth
+            id: rectangleProgrammerNameFware
+            TextField {
+                height: baseHeight
+                width: cellWidth
+                readOnly: true
+                font.family: "Arial"
+                font.pointSize: 14
+                text: qsTr("Firmware name")
+
+                background: Rectangle {
+                    border.color: "#333"
+                    border.width: 1
+                }
+            }
+        }
+
 
         //IP of the device
         Rectangle
@@ -314,6 +336,26 @@ Window {
 //                                    }
 //                                }
 //                            }
+
+                            //name fw file
+                            Rectangle {
+                                height: baseHeight
+                                width: cellWidth
+                                id: rectangleProgrammerFwName
+                                TextField {
+                                    height: baseHeight
+                                    width: cellWidth
+                                    readOnly: true
+                                    font.family: "Arial"
+                                    font.pointSize: 12
+                                    text: ""
+
+                                    background: Rectangle {
+                                        border.color: "#333"
+                                        border.width: borderSize
+                                    }
+                                }
+                            }
 
                             //IP of the device
                             Rectangle {
