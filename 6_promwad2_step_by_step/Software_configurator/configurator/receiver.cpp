@@ -100,7 +100,9 @@ void Receiver::processPendingDatagrams()
 
 //            qint32 ver = result["Version"].toInt();
             QString version = result["Version"].toString();
+            QString fwName = result["fwName"].toString();
             qDebug() << "Version:" << version;
+            qDebug() << "fwName:" << fwName;
 //            qint32 sub = result["Sub"].toInt();
 //            qDebug() << "Sub:" << sub;
 //            QString version = QString::number(ver) +  QString(".") + QString::number(sub);
@@ -119,7 +121,7 @@ void Receiver::processPendingDatagrams()
             qDebug() << "MAC:" << mac;
 
             if (id.toInt() >= MIN_ID)
-                emit statusChangedJson(id, version, mac, ip);
+                emit statusChangedJson(id, version, fwName, mac, ip);
 
             qint32 writeConfigId = result["writeConfigId"].toInt();
             qint32 writeFirmwareId = result["writeFirmwareId"].toInt();

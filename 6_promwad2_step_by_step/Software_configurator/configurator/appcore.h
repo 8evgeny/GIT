@@ -83,6 +83,7 @@ class AppCore : public QObject
         using ListOfStationsStatus =  struct {
         QString colorStation;
         QString version;
+        QString nameFware;
         QString mac;
         QList < ListOfStations> stations; /*! This structure is a object for storing a list */
     };
@@ -670,7 +671,7 @@ signals:
       \param fillMac MAC
       \param fillVersion Version firmware
     */
-    void fillInfoForProgrammerWindowByJson(QString fillNumber, QString fillName, QString fillIp, QString fillColor, QString fillMac, QString fillVersion);
+    void fillInfoForProgrammerWindowByJson(QString fillNumber, QString fillName, QString fillIp, QString fillColor, QString fillMac, QString fillVersion, QString fillNameFware);
 
     /*!
      \brief This method clears the list of stations for status
@@ -1364,7 +1365,7 @@ public slots:
      \param macJson MAC
      \param ipJson IP
     */
-    void statusChangedJson(const QString &idJson, const QString &versionJson, const QString &macJson, const QString &ipJson);
+    void statusChangedJson(const QString &idJson, const QString &versionJson, const QString &fwNameJson, const QString &macJson, const QString &ipJson);
 
     /*!
      \brief Verify Changes Before Saving
