@@ -406,6 +406,8 @@ void AppCore::startLoadFirmware(const QString &stationID, bool state)
             firmware.insert("all",  allPackegs);
             firmware.insert("data", dataStr);
             firmware.insert("dateTime", dateTime_);
+            firmware.insert("nameFwBin", nameFirmwareBinFile);
+
             QJson::Serializer serializer;
 
             bool ok;

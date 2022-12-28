@@ -16,7 +16,7 @@
 #include "aes.h"
 #include "stm32h7xx_hal_cryp.h"
 #include <inttypes.h>
-#include "testTasks.h"
+#include "tasks.h"
 void printFlashOptions(FLASH_OBProgramInitTypeDef &OBInit);
 void newFirmwareWrite(uint32_t firmwareSize);
 extern HASH_HandleTypeDef hhash;
@@ -83,7 +83,8 @@ using FirmwarePackage = struct {
     int current;
     int all;
     std::array<char, SIZE_FIRMWARE_BASE> data;
-    char* dateTime;
+    char dateTime[20];
+    char fwName[50];
 };
 
 static CircularBuffer <FirmwarePackage, 20> firmwareRingBuffer; /*! Ring buffer for JSON packages */
@@ -254,6 +255,14 @@ static char FLASHPath[4]; /*! FLASH logical drive path */
                 if(strncmp((char*)receivedHashKeyBin, (char*)calculatedMd5, 16) == 0)
                 {
                     term2("MD5 OK")
+                    //Запоминаем в EEPROM fwareName
+                    char fwareName[50];
+                    std::fill (fwareName, fwareName + 49, 0x00);
+                    strcpy(fwareName, (char *)pack.fwName);
+                    RS232::getInstance().term <<"fwareName: "<< fwareName << "\r\n";
+                    lfs_file_open(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, "fwareName", LFS_O_RDWR | LFS_O_CREAT);
+                    lfs_file_write(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, &fwareName, sizeof(fwareName));
+                    lfs_file_close(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr);
 
                     //Запоминаем в EEPROM dateTime
                     char dateTimeFirmware[20];
@@ -394,8 +403,10 @@ void parsingFirmwareFromJson(JsonDocument &doc)
         int current = doc["current"];
         int all = doc["all"];
         const char *data =  doc["data"];
-        const char *dateTime =  doc["dateTime"];
+        const char *dateTime = doc["dateTime"];
+        const char *fwName = doc["nameFwBin"];
         std::string dataStr(data);
+        std::string firmwareName(fwName);
         FirmwarePackage pack;
 
         pack.data = strHex(dataStr);
@@ -408,7 +419,11 @@ void parsingFirmwareFromJson(JsonDocument &doc)
         {
             pack.dateTime[i] = dateTime[i];
         }
-
+        for (uint8_t i = 0; i < firmwareName.size() ;++i)
+        {
+            pack.fwName[i] = firmwareName[i];
+        }
+        pack.fwName[firmwareName.size()] = '\0';
 
         osMutexWait(mutexFirmwareRingBufferId, osWaitForever);
         firmwareRingBuffer.push(pack);

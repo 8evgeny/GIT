@@ -6,7 +6,7 @@ import QtQuick.Dialogs 1.2
 
 Window {
     id: programmerWindow
-    width: 1230
+    width: 1460
     height: 800
     visible: true
     title: qsTr("Programmer")
@@ -56,7 +56,7 @@ Window {
                 readOnly: true
                 font.family: "Arial"
                 font.pointSize: 14
-                text: qsTr("Number")
+                text: qsTr("Device number")
 
                 background: Rectangle {
                     border.color: "#333"
@@ -76,7 +76,7 @@ Window {
                 readOnly: true
                 font.family: "Arial"
                 font.pointSize: 14
-                text: qsTr("Name")
+                text: qsTr("Device name")
 
                 background: Rectangle {
                     border.color: "#333"
@@ -96,7 +96,7 @@ Window {
                 readOnly: true
                 font.family: "Arial"
                 font.pointSize: 14
-                text: qsTr("Version Firmware")
+                text: qsTr("Firmware version")
 
                 background: Rectangle {
                     border.color: "#333"
@@ -122,6 +122,28 @@ Window {
 //                }
 //            }
 //        }
+
+        //Name firmware file
+        Rectangle
+        {
+            height: baseHeight
+            width: cellWidth + 30
+            id: rectangleProgrammerNameFware
+            TextField {
+                height: baseHeight
+                width: cellWidth + 30
+                readOnly: true
+                font.family: "Arial"
+                font.pointSize: 14
+                text: qsTr("Firmware name")
+
+                background: Rectangle {
+                    border.color: "#333"
+                    border.width: 1
+                }
+            }
+        }
+
 
         //IP of the device
         Rectangle
@@ -315,6 +337,26 @@ Window {
 //                                }
 //                            }
 
+                            //name fw file
+                            Rectangle {
+                                height: baseHeight
+                                width: cellWidth + 30
+                                id: rectangleProgrammerFwName
+                                TextField {
+                                    height: baseHeight
+                                    width: cellWidth + 30
+                                    readOnly: true
+                                    font.family: "Arial"
+                                    font.pointSize: 12
+                                    text: nameOfSoftware
+
+                                    background: Rectangle {
+                                        border.color: "#333"
+                                        border.width: borderSize
+                                    }
+                                }
+                            }
+
                             //IP of the device
                             Rectangle {
                                 height: baseHeight
@@ -462,7 +504,7 @@ Window {
                                            "numberOfId": fillNumber,
                                            "nameOfId": fillName,
                                            "versionOfSoftware": "",
-                                           "typeOfDevice": "",
+                                           "nameOfSoftware": "",
                                            "ipOfDevice": fillIp,
                                            "macOfDevice": ""
                                        })
@@ -479,7 +521,7 @@ Window {
                                            "numberOfId": fillNumber,
                                            "nameOfId": fillName,
                                            "versionOfSoftware": fillVersion,
-                                           "typeOfDevice": "",
+                                           "nameOfSoftware": fillNameFware,
                                            "ipOfDevice": fillIp,
                                            "macOfDevice": fillMac
                                        })
@@ -506,7 +548,7 @@ Window {
         target: receiver
         onStatusChangedJson :{
 //            void statusChangedJson(QString idJson, QString versionJson, QString macJson, QString ipJson);
-            appCore.statusChangedJson(idJson, versionJson, macJson, ipJson);
+            appCore.statusChangedJson(idJson, versionJson, fwNameJson, macJson, ipJson);
         }
     }
 

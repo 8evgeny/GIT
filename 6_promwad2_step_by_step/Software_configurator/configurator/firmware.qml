@@ -6,8 +6,8 @@ import QtQuick.Dialogs 1.2
 
 Window {
     id: firmwareWindow
-    width: 850
-    height: 800
+    width: 900
+    height: 680
     visible: true
     title: qsTr("Software Update")
 
@@ -110,83 +110,84 @@ Window {
         text: qsTr("Generate Encrypted Firmware")
         anchors.left: parent.left
         anchors.leftMargin: spaceDefault
-        anchors.top: textFieldMainVersion.bottom
+        anchors.top: textFieldKey.bottom
         anchors.topMargin: spaceDefault
 
         onClicked: {
             if ((textFieldKey.text.length === 16)
-                    && (!isNaN(parseInt(textFieldMainVersion.text)))
-                    && (!isNaN(parseInt(textFieldSubVersion.text))))
+//                    && (!isNaN(parseInt(textFieldMainVersion.text)))
+//                    && (!isNaN(parseInt(textFieldSubVersion.text)))
+                    )
             {
                 labelDateTimeCurrent.text = Qt.formatDateTime(
                             new Date(), "dd.MM.yyyy hh:mm:ss")
                 appCore.encryptionBinFile(labelPath.text, textFieldKey.text,
-                                          labelDateTimeCurrent.text,
-                                          parseInt(textFieldMainVersion.text),
-                                          parseInt(textFieldSubVersion.text))
+                                          labelDateTimeCurrent.text)
+//                                          parseInt(textFieldMainVersion.text),
+//                                          parseInt(textFieldSubVersion.text))
             }
         }
     }
 
-    Rectangle {
-        id: rectangleMainVersion
-        height: sizeDefault
-        color: "#ffffff"
-        anchors.right: parent.right
-        anchors.rightMargin: firmwareWindow.width / 2 - 2 * spaceDefault
-        Label {
-            id: labelMainVersion
-            text: qsTr("Firmware Version")
-            anchors.rightMargin: 0
-            anchors.fill: parent
-            verticalAlignment: Text.AlignVCenter
-        }
-        anchors.top: textFieldKey.bottom
-        anchors.topMargin: spaceDefault
-        anchors.leftMargin: spaceDefault
-        anchors.left: parent.left
-    }
+//    Rectangle {
+//        id: rectangleMainVersion
+//        height: sizeDefault
+//        color: "#ffffff"
+//        anchors.right: parent.right
+//        anchors.rightMargin: firmwareWindow.width / 2 - 2 * spaceDefault
+//        Label {
+//            id: labelMainVersion
+//            text: qsTr("Firmware Version")
+//            anchors.rightMargin: 0
+//            anchors.fill: parent
+//            verticalAlignment: Text.AlignVCenter
+//        }
+//        anchors.top: textFieldKey.bottom
+//        anchors.topMargin: spaceDefault
+//        anchors.leftMargin: spaceDefault
+//        anchors.left: parent.left
+//    }
 
-    TextField {
-        id: textFieldMainVersion
-        text: "0"
-        anchors.right: rectangleMainVersion.right
-        anchors.rightMargin: 0
-        anchors.left: parent.left
-        anchors.leftMargin: spaceDefault
-        anchors.top: rectangleMainVersion.bottom
-        anchors.topMargin: spaceDefault
-    }
+//    TextField {
+//        id: textFieldMainVersion
+//        text: "0"
+//        anchors.right: rectangleMainVersion.right
+//        anchors.rightMargin: 0
+//        anchors.left: parent.left
+//        anchors.leftMargin: spaceDefault
+//        anchors.top: rectangleMainVersion.bottom
+//        anchors.topMargin: spaceDefault
+//    }
 
-    Rectangle {
-        id: rectangleSubVersion
-        height: sizeDefault
-        color: "#ffffff"
-        anchors.right: parent.right
-        anchors.rightMargin: spaceDefault
-        Label {
-            id: labelSubVersion
-            text: qsTr("Firmware subVersion")
-            anchors.rightMargin: 0
-            verticalAlignment: Text.AlignVCenter
-            anchors.fill: parent
-        }
-        anchors.top: textFieldKey.bottom
-        anchors.topMargin: spaceDefault
-        anchors.leftMargin: spaceDefault
-        anchors.left: rectangleMainVersion.right
-    }
+//    Rectangle {
+//        id: rectangleSubVersion
+//        height: sizeDefault
+//        color: "#ffffff"
+//        anchors.right: parent.right
+//        anchors.rightMargin: spaceDefault
+//        Label {
+//            id: labelSubVersion
+//            text: qsTr("Firmware subVersion")
+//            anchors.rightMargin: 0
+//            verticalAlignment: Text.AlignVCenter
+//            anchors.fill: parent
+//        }
+//        anchors.top: textFieldKey.bottom
+//        anchors.topMargin: spaceDefault
+//        anchors.leftMargin: spaceDefault
+//        anchors.left: rectangleMainVersion.right
+//    }
 
-    TextField {
-        id: textFieldSubVersion
-        text: "0"
-        anchors.right: rectangleSubVersion.right
-        anchors.rightMargin: 0
-        anchors.left: textFieldMainVersion.right
-        anchors.leftMargin: spaceDefault
-        anchors.top: rectangleSubVersion.bottom
-        anchors.topMargin: spaceDefault
-    }
+//    TextField {
+//        id: textFieldSubVersion
+//        text: "0"
+//        anchors.right: rectangleSubVersion.right
+//        anchors.rightMargin: 0
+//        anchors.left: textFieldMainVersion.right
+//        anchors.leftMargin: spaceDefault
+//        anchors.top: rectangleSubVersion.bottom
+//        anchors.topMargin: spaceDefault
+//    }
 
     Rectangle {
         id: rectangleSizeFile

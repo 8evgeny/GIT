@@ -83,6 +83,7 @@ class AppCore : public QObject
         using ListOfStationsStatus =  struct {
         QString colorStation;
         QString version;
+        QString nameFware;
         QString mac;
         QList < ListOfStations> stations; /*! This structure is a object for storing a list */
     };
@@ -670,7 +671,7 @@ signals:
       \param fillMac MAC
       \param fillVersion Version firmware
     */
-    void fillInfoForProgrammerWindowByJson(QString fillNumber, QString fillName, QString fillIp, QString fillColor, QString fillMac, QString fillVersion);
+    void fillInfoForProgrammerWindowByJson(QString fillNumber, QString fillName, QString fillIp, QString fillColor, QString fillMac, QString fillVersion, QString fillNameFware);
 
     /*!
      \brief This method clears the list of stations for status
@@ -1066,7 +1067,7 @@ public slots:
      \param mainNumber Firmware version
      \param subNumber Firmware subversion
     */
-    void encryptionBinFile(const QUrl &pathFile,  const QString &key, const QString &dateTime, const qint16 &mainNumber, const qint16 &subNumber);
+    void encryptionBinFile(const QUrl &pathFile,  const QString &key, const QString &dateTime);
 
     /*!
      \brief Get speed and dev name for the port.
@@ -1364,7 +1365,7 @@ public slots:
      \param macJson MAC
      \param ipJson IP
     */
-    void statusChangedJson(const QString &idJson, const QString &versionJson, const QString &macJson, const QString &ipJson);
+    void statusChangedJson(const QString &idJson, const QString &versionJson, const QString &fwNameJson, const QString &macJson, const QString &ipJson);
 
     /*!
      \brief Verify Changes Before Saving
@@ -1444,6 +1445,7 @@ private:
     qint32 uartSpeed{}; /*! UART speed 115200 default speed */
     qint32 currentLanguage = 0; /*! Current selected language, 0 - English, 1 - Russian */
     QString dateTime_;
+    QString nameFirmwareBinFile;
     QString portNameUarts; /*! Name of current UART */
     QString versionFirmware; /*! Current version of the firmware */
     QString subVersionFirmware; /*! Current subversion of the firmware  */

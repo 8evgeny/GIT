@@ -578,6 +578,16 @@ term("CallControl::sendInfoAboutStation")
         RS232::getInstance().term << "MACAddr: "<<macAdr <<"\r\n";
         infoDoc["MAC"] = macAdr;
 
+        char fwName[50];
+        std::fill(fwName, fwName + sizeof (fwName) -1 , 0x00);
+        lfs_file_open(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, "fwareName", LFS_O_RDWR | LFS_O_CREAT);
+        lfs_file_read(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, &fwName, sizeof(fwName));
+        lfs_file_close(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr);
+        std::string fwareName = std::string(fwName);
+        RS232::getInstance().term <<"fwareName: "<< fwareName.c_str() << "\r\n";
+
+        infoDoc["fwName"] = fwareName.c_str();
+
 osDelay(200); //pev
         std::fill(messageData.txBuff, messageData.txBuff + messageData.txBuffSize, 0);
         if (serializeJson(infoDoc, messageData.txBuff, capacity) > 0) {
