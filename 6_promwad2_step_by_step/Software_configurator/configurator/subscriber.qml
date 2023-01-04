@@ -1076,6 +1076,8 @@ color: colorSubsribersWindow
             focus = false
         }
     }
+// Чекбокс для номеронабирателя
+// Чекбокса не будет - тип устройства задается при добавлении в выпадающес списке
 
     Rectangle //Текст Keyboard Information
     {
