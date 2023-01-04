@@ -825,7 +825,7 @@ property color colorKeyProperty: "#F8FACF"
     Rectangle //Текст Station Information
     {
         id: rectangleStationInformation
-        width: 360
+        width: 405
         height: defaultSizeOfHeight
         color: "#ffffff"
         anchors.verticalCenter: rectangleWithMargins.verticalCenter
@@ -836,7 +836,11 @@ property color colorKeyProperty: "#F8FACF"
             id: labelStationInformation
             text: qsTr("Station Information")
             verticalAlignment: Text.AlignVCenter
+            horizontalAlignment: Text.AlignHCenter
             anchors.fill: parent
+            font.bold: true
+            color: "red"
+            font.pointSize: 12
         }
     }
     Rectangle //Текст Station Name:
