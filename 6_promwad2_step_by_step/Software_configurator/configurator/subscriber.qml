@@ -9,8 +9,8 @@ color: colorSubsribersWindow
     visible: false
 
     property color defaultColor: "#e1e1e2"
-property color colorSubsribersWindow: "#F8FACF"
-property color colorKeyProperty: "#F8FACF"
+    property color colorSubsribersWindow: "#F8FACF"
+    property color colorKeyProperty: "#FFFFFF"
     property int defaultSizeOfHeight: 40
     property int defaultSizeOfSpace: 5
     property int cellWidth: 200
@@ -834,7 +834,7 @@ property color colorKeyProperty: "#F8FACF"
 
         Label {
             id: labelStationInformation
-            text: qsTr("Station Information")
+            text: qsTr("Station information")
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter
             anchors.fill: parent
@@ -1077,6 +1077,30 @@ property color colorKeyProperty: "#F8FACF"
         }
     }
 
+    Rectangle //Текст Keyboard Information
+    {
+        id: rectangleKeyboardInformation
+        width: 405
+        height: defaultSizeOfHeight
+        color: "#ffffff"
+        anchors.topMargin: 20
+        anchors.top: textFieldGateway.bottom
+        anchors.left: flickableListOfSubscribers.right
+        anchors.leftMargin: defaultSizeOfSpace
+
+        Label {
+            id: labelKeyboardInformation
+            text: qsTr("Key information")
+            verticalAlignment: Text.AlignVCenter
+            horizontalAlignment: Text.AlignHCenter
+            anchors.fill: parent
+            font.bold: true
+            color: "red"
+            font.pointSize: 12
+            visible: listViewListOfSubscribers.currentIndex >= 0 ? true : false
+        }
+    }
+
     Rectangle //Area for property of keys
     {
         id: rectangleKeyProperty
@@ -1084,17 +1108,17 @@ property color colorKeyProperty: "#F8FACF"
         height: defaultSizeOfHeight * 2
         color: colorKeyProperty
         anchors.left: rectangleWithMargins.right
-        anchors.leftMargin: defaultSizeOfSpace
-        anchors.top: textFieldGateway.bottom
-        anchors.topMargin: 50
+        anchors.leftMargin: -45
+        anchors.top: rectangleKeyboardInformation.bottom
+        anchors.topMargin: 20
         visible: listViewListOfSubscribers.currentIndex >= 0 ? true : false
 
         Rectangle  //Text Key Mode:
         {
             id: rectKeyMode
             color: colorKeyProperty
-//            anchors.top: rectKeyProperty.bottom
-            anchors.topMargin: defaultSizeOfSpace
+            anchors.top: rectangleKeyProperty.bottom
+            anchors.topMargin: -95
             width: cellWidth
             height: defaultSizeOfHeight
             Label {
