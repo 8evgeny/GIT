@@ -163,7 +163,7 @@ void AppCore::saveStation(const QString &nameOfStation, const QString &idOfStati
                 else
                 {
                     listOfStations.last().listOfKeys[i].nameOfKey =  "key " + QString::number(j+1);
-                    listOfStations.last().listOfKeys[i].functionOfKey = "6";
+//                    listOfStations.last().listOfKeys[i].functionOfKey = "6";
                 }
 
                 listOfStations.last().listOfKeys[i].modeKey = "2"; //No Fixation
