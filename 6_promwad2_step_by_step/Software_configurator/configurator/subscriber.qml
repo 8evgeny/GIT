@@ -347,6 +347,9 @@ color: colorSubsribersWindow
                                         borderNumberColor = "red"
                                         numberColor = "red"
                                     }
+                                //Номеронабиратель не отображается
+                                var val = parseInt(textFieldNewKeyboardUnit.text)
+                                val < 50 ? rowListOfSubscribers.visible = true : rowListOfSubscribers.visible = false
                                 }
                                 onEditingFinished: {
                                     focus = false
@@ -364,8 +367,12 @@ color: colorSubsribersWindow
                                         borderNumberColor = "red"
                                         numberColor = "red"
                                     }
+
+//                                    val < 50 ? rowListOfSubscribers.visible = true : rowListOfSubscribers.visible = false
                                 }
+
                             }
+
                         }
 
                         Rectangle //rectangleNewKeyName
