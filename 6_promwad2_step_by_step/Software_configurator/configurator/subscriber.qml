@@ -329,7 +329,8 @@ color: colorSubsribersWindow
                                                 listModelListOfSubscribers.get(
                                                     listViewListOfSubscribers.currentIndex).uid)
                                 }
-                                onTextChanged: {
+                                onTextChanged:
+                                {
                                     borderNumberColor = "#333"
                                     numberColor = "#333"
 
@@ -347,9 +348,12 @@ color: colorSubsribersWindow
                                         borderNumberColor = "red"
                                         numberColor = "red"
                                     }
-                                //Номеронабиратель не отображается
-                                var val = parseInt(textFieldNewKeyboardUnit.text)
-                                val < 50 ? rowListOfSubscribers.visible = true : rowListOfSubscribers.visible = false
+
+var val = parseInt(textFieldNewKeyboardUnit.text)
+//Номеронабиратель не отображается
+//val < 51 ? rowListOfSubscribers.visible = true : rowListOfSubscribers.visible = false
+val >= 51 ? textFieldNewKeyboardUnit.color = "green" : textFieldNewKeyboardUnit.color = "black"
+val >= 51 ? textFieldNewKeyboardUnit.enabled = false : textFieldNewKeyboardUnit.enabled = true
                                 }
                                 onEditingFinished: {
                                     focus = false
@@ -367,12 +371,8 @@ color: colorSubsribersWindow
                                         borderNumberColor = "red"
                                         numberColor = "red"
                                     }
-
-//                                    val < 50 ? rowListOfSubscribers.visible = true : rowListOfSubscribers.visible = false
                                 }
-
                             }
-
                         }
 
                         Rectangle //rectangleNewKeyName
@@ -418,6 +418,9 @@ color: colorSubsribersWindow
                                                         listViewListOfSubscribers.currentIndex).uid,
                                                     textFieldNewKeyName.text)
                                     }
+var val = parseInt(textFieldNewKeyboardUnit.text)
+val >= 51 ? textFieldNewKeyName.color = "green" : textFieldNewKeyName.color = "black"
+val >= 51 ? textFieldNewKeyName.enabled = false : textFieldNewKeyName.enabled = true
                                 }
                                 onEditingFinished: {
                                     focus = false
@@ -504,6 +507,10 @@ color: colorSubsribersWindow
                                         buttonNewAppointment.visible = true
                                         textFieldNewAppointment.readOnly = false
                                     }
+var val = parseInt(textFieldNewKeyboardUnit.text)
+val >= 51 ? textFieldNewKeyFunction.color = "green" : textFieldNewKeyFunction.color = "black"
+val >= 51 ? textFieldNewKeyFunction.enabled = false : textFieldNewKeyFunction.enabled = true
+val >= 51 ? buttonNewKeyFunction.visible = false : buttonNewKeyFunction.visible = true
                                 }
                                 onEditingFinished: {
                                     focus = false
@@ -550,6 +557,7 @@ color: colorSubsribersWindow
                                     windowSel.show()
                                 }
                             }
+
                         }//Rectangle //rectangleNewKeyFunction
 
                         Rectangle //rectangleNewAppointment
@@ -609,6 +617,9 @@ color: colorSubsribersWindow
                                         assignedNameColor = "#333"
                                         borderAssignedNameColor = "#333"
                                     }
+var val = parseInt(textFieldNewKeyboardUnit.text)
+val >= 51 ? textFieldNewAppointment.color = "green" : textFieldNewAppointment.color = "black"
+val >= 51 ? rectangleNewAppointment.enabled = false : rectangleNewAppointment.enabled = true
                                 }
                                 onEditingFinished: {
                                     focus = false
