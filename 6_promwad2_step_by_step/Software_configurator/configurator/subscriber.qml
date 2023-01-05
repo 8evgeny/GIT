@@ -573,14 +573,16 @@ val >= 51 ? buttonNewKeyFunction.visible = false : buttonNewKeyFunction.visible 
                                 id: textFieldNewAppointment
                                 text: assignedName
 
-                                background: Rectangle {
+                                background: Rectangle
+                                {
                                     border.color: borderAssignedNameColor
                                     border.width: borderSize
                                 }
 
                                 color: assignedNameColor
 
-                                onPressed: {
+                                onPressed:
+                                {
                                     if (listViewListOfSubscribers.currentIndex >= 0) {
                                         listModelListOfSubscribers.get(
                                                     listViewListOfSubscribers.currentIndex).borderSize = 1
@@ -597,7 +599,6 @@ val >= 51 ? buttonNewKeyFunction.visible = false : buttonNewKeyFunction.visible 
                                 }
                                 onTextChanged:
                                 {
-
                                     assignedNameColor = "#333"
                                     borderAssignedNameColor = "#333"
 
@@ -613,15 +614,15 @@ val >= 51 ? buttonNewKeyFunction.visible = false : buttonNewKeyFunction.visible 
                                     if((getNameOfKeyFunctionNumber(textFieldNewKeyFunction.text) === "4")
                                             ||(getNameOfKeyFunctionNumber(textFieldNewKeyFunction.text) === "3")
                                             ||(getNameOfKeyFunctionNumber(textFieldNewKeyFunction.text) === "5")
-                                            ||(getNameOfKeyFunctionNumber(textFieldNewKeyFunction.text) === "7")){
+                                            ||(getNameOfKeyFunctionNumber(textFieldNewKeyFunction.text) === "7"))
+                                    {
                                         assignedNameColor = "#333"
                                         borderAssignedNameColor = "#333"
                                     }
-var val = parseInt(textFieldNewKeyboardUnit.text)
-val >= 51 ? textFieldNewAppointment.color = "green" : textFieldNewAppointment.color = "black"
-val >= 51 ? rectangleNewAppointment.enabled = false : rectangleNewAppointment.enabled = true
+
                                 }
-                                onEditingFinished: {
+                                onEditingFinished:
+                                {
                                     focus = false
 
                                     var val = textFieldNewAppointment.text
@@ -669,7 +670,10 @@ val >= 51 ? rectangleNewAppointment.enabled = false : rectangleNewAppointment.en
                                     windowSel.show()
                                 }
                             }//Button //buttonNewAppointment
+
                         }    //Rectangle //rectangleNewAppointment
+
+
                     spacing: -1
                     }       //Row
                 }           //delegate: Item
