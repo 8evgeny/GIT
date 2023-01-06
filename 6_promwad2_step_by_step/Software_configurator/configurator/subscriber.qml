@@ -812,6 +812,10 @@ val >= 51 ? buttonNewKeyFunction.visible = false : buttonNewKeyFunction.visible 
         onSendToQmlSubscriber: //Это сигнал из C++ кода
 //            void sendToQmlSubscriber(QString str,
 //                                     qint32 number);
+        {
+            var nameStr = getNameOfKeyFunction(str)
+            listModelListOfSubscribers.get(
+                        listViewListOfSubscribers.currentIndex).functionName = nameStr
 /*  str:
 1 - Direct connection duplex
 2 - Group communication
@@ -820,19 +824,28 @@ val >= 51 ? buttonNewKeyFunction.visible = false : buttonNewKeyFunction.visible 
 5 - Telephone
 6 - Direct connection simplex
 7 - Hung up
-updateKeySubscriberPriorityOfKey
 */
-        {
-            var nameStr = getNameOfKeyFunction(str)
-            listModelListOfSubscribers.get(
-                        listViewListOfSubscribers.currentIndex).functionName = nameStr
-
-appCore.updateKeySubscriberPriorityOfKey(
-      nameOfStation, listModelListOfSubscribers.get(
-      listViewListOfSubscribers.currentIndex).uid, "5")
+//            if (nameStr === 1){appCore.updateKeySubscriberPriorityOfKey(nameOfStation, listModelListOfSubscribers.get(
+//                listViewListOfSubscribers.currentIndex).uid, "2") }
+//            if (nameStr === 2){appCore.updateKeySubscriberPriorityOfKey(nameOfStation, listModelListOfSubscribers.get(
+//                listViewListOfSubscribers.currentIndex).uid, "3") }
+//            if (nameStr === 3){appCore.updateKeySubscriberPriorityOfKey(nameOfStation, listModelListOfSubscribers.get(
+//                listViewListOfSubscribers.currentIndex).uid, "4") }
+//            if (nameStr === 4){appCore.updateKeySubscriberPriorityOfKey(nameOfStation, listModelListOfSubscribers.get(
+//                listViewListOfSubscribers.currentIndex).uid, "5") }
+//            if (nameStr === 5){appCore.updateKeySubscriberPriorityOfKey(nameOfStation, listModelListOfSubscribers.get(
+//                listViewListOfSubscribers.currentIndex).uid, "1") }
+//            if (nameStr === 6){appCore.updateKeySubscriberPriorityOfKey(nameOfStation, listModelListOfSubscribers.get(
+//                listViewListOfSubscribers.currentIndex).uid, "1") }
+//            if (nameStr === 7){appCore.updateKeySubscriberPriorityOfKey(nameOfStation, listModelListOfSubscribers.get(
+//                listViewListOfSubscribers.currentIndex).uid, "1") }
+/*
+1 - fixation
+2 - no fixation
+*/
 appCore.updateKeySubscriberModeOfKey(nameOfStation,
       listModelListOfSubscribers.get(
-      listViewListOfSubscribers.currentIndex).uid, "2")
+      listViewListOfSubscribers.currentIndex).uid, "1")
 
         }
         onSendToQmlSubscriberAssignment: //Это сигнал из C++ кода
