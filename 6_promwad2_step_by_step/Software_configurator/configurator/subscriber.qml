@@ -539,17 +539,16 @@ val >= 51 ? buttonNewKeyFunction.visible = false : buttonNewKeyFunction.visible 
                                 anchors.right: parent.right
                                 anchors.rightMargin: 10
                                 anchors.verticalCenter: parent.verticalCenter
-                                onClicked: {
-
-                                    if (listViewListOfSubscribers.currentIndex >= 0) {
+                                onClicked:
+                                {
+                                    if (listViewListOfSubscribers.currentIndex >= 0)
+                                    {
                                         listModelListOfSubscribers.get(
                                                     listViewListOfSubscribers.currentIndex).borderSize = 1
                                     }
 
-                                    var component = Qt.createComponent(
-                                                "subscriber_window.qml")
-                                    var windowSel = component.createObject(
-                                                rectangleNewKeyFunction)
+                                    var component = Qt.createComponent("subscriber_window.qml")
+                                    var windowSel = component.createObject(rectangleNewKeyFunction)
                                     windowSel.mainText = textFieldNewKeyFunction.text
                                     windowSel.mainNumber = index + 1
                                     listViewListOfSubscribers.currentIndex = index
@@ -661,8 +660,7 @@ val >= 51 ? buttonNewKeyFunction.visible = false : buttonNewKeyFunction.visible 
                                                     listViewListOfSubscribers.currentIndex).borderSize = 1
                                     }
 
-                                    var component = Qt.createComponent(
-                                                "assignment_list.qml")
+                                    var component = Qt.createComponent("assignment_list.qml")
                                     var windowSel = component.createObject(
                                                 rectangleNewAppointment)
                                     listViewListOfSubscribers.currentIndex = index
@@ -814,10 +812,28 @@ val >= 51 ? buttonNewKeyFunction.visible = false : buttonNewKeyFunction.visible 
         onSendToQmlSubscriber: //Это сигнал из C++ кода
 //            void sendToQmlSubscriber(QString str,
 //                                     qint32 number);
+/*  str:
+1 - Direct connection duplex
+2 - Group communication
+3 - Circular
+4 - Conference
+5 - Telephone
+6 - Direct connection simplex
+7 - Hung up
+updateKeySubscriberPriorityOfKey
+*/
         {
             var nameStr = getNameOfKeyFunction(str)
             listModelListOfSubscribers.get(
                         listViewListOfSubscribers.currentIndex).functionName = nameStr
+
+appCore.updateKeySubscriberPriorityOfKey(
+      nameOfStation, listModelListOfSubscribers.get(
+      listViewListOfSubscribers.currentIndex).uid, "5")
+appCore.updateKeySubscriberModeOfKey(nameOfStation,
+      listModelListOfSubscribers.get(
+      listViewListOfSubscribers.currentIndex).uid, "2")
+
         }
         onSendToQmlSubscriberAssignment: //Это сигнал из C++ кода
         {
