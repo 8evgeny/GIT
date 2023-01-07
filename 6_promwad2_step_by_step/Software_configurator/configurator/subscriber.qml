@@ -804,29 +804,52 @@ val >= 51 ? buttonNewKeyFunction.visible = false : buttonNewKeyFunction.visible 
 6 - "Direct connection: simplex"
 7 - "Hung up"
 */
-            if (nameStr === "Direct connection: duplex"){appCore.updateKeySubscriberPriorityOfKey(nameOfStation, listModelListOfSubscribers.get(
-                listViewListOfSubscribers.currentIndex).uid, "2") }
-            if (nameStr === "Group communication"){appCore.updateKeySubscriberPriorityOfKey(nameOfStation, listModelListOfSubscribers.get(
-                listViewListOfSubscribers.currentIndex).uid, "3") }
-            if (nameStr === "Circular bond"){appCore.updateKeySubscriberPriorityOfKey(nameOfStation, listModelListOfSubscribers.get(
-                listViewListOfSubscribers.currentIndex).uid, "4") }
-            if (nameStr === "Conference call"){appCore.updateKeySubscriberPriorityOfKey(nameOfStation, listModelListOfSubscribers.get(
-                listViewListOfSubscribers.currentIndex).uid, "5") }
-            if (nameStr === "Telephone communications"){appCore.updateKeySubscriberPriorityOfKey(nameOfStation, listModelListOfSubscribers.get(
-                listViewListOfSubscribers.currentIndex).uid, "1") }
-            if (nameStr === "Direct connection: simplex"){
-                appCore.updateKeySubscriberPriorityOfKey(nameOfStation, listModelListOfSubscribers.get(
-                listViewListOfSubscribers.currentIndex).uid, "1")
-            }
-            if (nameStr === "Hung up"){appCore.updateKeySubscriberPriorityOfKey(nameOfStation, listModelListOfSubscribers.get(
-                listViewListOfSubscribers.currentIndex).uid, "1") }
 /*
 1 - fixation
 2 - no fixation
 */
-appCore.updateKeySubscriberModeOfKey(nameOfStation,
-      listModelListOfSubscribers.get(
-      listViewListOfSubscribers.currentIndex).uid, "1")
+            if (nameStr === "Direct connection: duplex"){
+                appCore.updateKeySubscriberPriorityOfKey(nameOfStation, listModelListOfSubscribers.get(
+                listViewListOfSubscribers.currentIndex).uid, "2")
+                appCore.updateKeySubscriberModeOfKey(nameOfStation, listModelListOfSubscribers.get(
+                      listViewListOfSubscribers.currentIndex).uid, "1")
+            }
+            if (nameStr === "Group communication"){
+                appCore.updateKeySubscriberPriorityOfKey(nameOfStation, listModelListOfSubscribers.get(
+                listViewListOfSubscribers.currentIndex).uid, "3")
+                appCore.updateKeySubscriberModeOfKey(nameOfStation, listModelListOfSubscribers.get(
+                      listViewListOfSubscribers.currentIndex).uid, "1")
+            }
+            if (nameStr === "Circular bond"){
+                appCore.updateKeySubscriberPriorityOfKey(nameOfStation, listModelListOfSubscribers.get(
+                listViewListOfSubscribers.currentIndex).uid, "4")
+                appCore.updateKeySubscriberModeOfKey(nameOfStation, listModelListOfSubscribers.get(
+                      listViewListOfSubscribers.currentIndex).uid, "2")
+            }
+            if (nameStr === "Conference call"){
+                appCore.updateKeySubscriberPriorityOfKey(nameOfStation, listModelListOfSubscribers.get(
+                listViewListOfSubscribers.currentIndex).uid, "5")
+                appCore.updateKeySubscriberModeOfKey(nameOfStation, listModelListOfSubscribers.get(
+                      listViewListOfSubscribers.currentIndex).uid, "1")
+            }
+            if (nameStr === "Telephone communications"){
+                appCore.updateKeySubscriberPriorityOfKey(nameOfStation, listModelListOfSubscribers.get(
+                listViewListOfSubscribers.currentIndex).uid, "1")
+                appCore.updateKeySubscriberModeOfKey(nameOfStation, listModelListOfSubscribers.get(
+                      listViewListOfSubscribers.currentIndex).uid, "1")
+            }
+            if (nameStr === "Direct connection: simplex"){
+                appCore.updateKeySubscriberPriorityOfKey(nameOfStation, listModelListOfSubscribers.get(
+                listViewListOfSubscribers.currentIndex).uid, "1")
+                appCore.updateKeySubscriberModeOfKey(nameOfStation, listModelListOfSubscribers.get(
+                      listViewListOfSubscribers.currentIndex).uid, "2")
+            }
+            if (nameStr === "Hung up"){
+                appCore.updateKeySubscriberPriorityOfKey(nameOfStation, listModelListOfSubscribers.get(
+                listViewListOfSubscribers.currentIndex).uid, "1")
+                appCore.updateKeySubscriberModeOfKey(nameOfStation, listModelListOfSubscribers.get(
+                      listViewListOfSubscribers.currentIndex).uid, "1")
+            }
 
         }
         onSendToQmlSubscriberAssignment: //Это сигнал из C++ кода
