@@ -42,47 +42,19 @@ color: colorSubsribersWindow
         var nameStr = ""
         if (str === "1")
             nameStr = nameDirectConnectionDuplex
-
         if (str === "2")
             nameStr = nameGroupCommunication
-
         if (str === "3")
             nameStr = nameCircularBond
-
         if (str === "4")
             nameStr = nameConferenceCall
-
         if (str === "5")
             nameStr = nameTelephoneCommunications
-
         if (str === "6")
             nameStr = nameDirectConnectionSimplex
-
         if (str === "7")
             nameStr = nameHungUp
-
         return nameStr
-    }
-
-    function checkAssignment(str1, str2)
-    {
-        var colorStr = "#333"
-
-        if(str1 === ""){
-            colorStr = "red"
-        }
-
-        //can't be assignment
-        if((getNameOfKeyFunctionNumber(str2) === "3")
-                ||(getNameOfKeyFunctionNumber(str2) === "4")
-                ||(getNameOfKeyFunctionNumber(str2) === "5")
-                ||(getNameOfKeyFunctionNumber(str2) === "7")){
-            colorStr = "#333"
-        }
-        else {
-            colorStr = "red"
-        }
-        return colorStr
     }
 
     function getNameOfKeyFunctionNumber(str)
@@ -90,26 +62,34 @@ color: colorSubsribersWindow
         var nameStr = ""
         if (str === nameDirectConnectionDuplex)
             nameStr = "1"
-
         if (str === nameGroupCommunication)
             nameStr = "2"
-
         if (str === nameCircularBond)
             nameStr = "3"
-
         if (str === nameConferenceCall)
             nameStr = "4"
-
         if (str === nameTelephoneCommunications)
             nameStr = "5"
-
         if (str === nameDirectConnectionSimplex)
             nameStr = "6"
-
         if (str === nameHungUp)
             nameStr = "7"
-
         return nameStr
+    }
+
+    function checkAssignment(str1, str2)
+    {
+        var colorStr = "#333"
+        if(str1 === ""){ colorStr = "red" }
+
+        //can't be assignment
+        if((getNameOfKeyFunctionNumber(str2) === "3")
+                ||(getNameOfKeyFunctionNumber(str2) === "4")
+                ||(getNameOfKeyFunctionNumber(str2) === "5")
+                ||(getNameOfKeyFunctionNumber(str2) === "7"))
+        { colorStr = "#333" }
+        else { colorStr = "red" }
+        return colorStr
     }
 
     function resizeFlickableList()
@@ -149,11 +129,9 @@ color: colorSubsribersWindow
                     var index = listViewListOfSubscribers.currentIndex
                     listModelListOfSubscribers.get(
                                 listViewListOfSubscribers.currentIndex).borderSize = 1
-
                     appCore.deleteBlock(
                                 nameOfStation, listModelListOfSubscribers.get(
                                     listViewListOfSubscribers.currentIndex).uid)
-
                     listModelListOfSubscribers.remove(
                                 listViewListOfSubscribers.currentIndex)
                     resizeFlickableList()
@@ -167,7 +145,8 @@ color: colorSubsribersWindow
                 }
             }
         }
-    }
+    } //end Button //Клавиша -
+
     Rectangle // Шапка таблицы
     {
         id: rectangleWithMargins
@@ -817,28 +796,30 @@ val >= 51 ? buttonNewKeyFunction.visible = false : buttonNewKeyFunction.visible 
             listModelListOfSubscribers.get(
                         listViewListOfSubscribers.currentIndex).functionName = nameStr
 /*  str:
-1 - Direct connection duplex
-2 - Group communication
-3 - Circular
-4 - Conference
-5 - Telephone
-6 - Direct connection simplex
-7 - Hung up
+1 - "Direct connection: duplex"
+2 - "Group communication"
+3 - "Circular bond"
+4 - "Conference call"
+5 - "Telephone communications"
+6 - "Direct connection: simplex"
+7 - "Hung up"
 */
-//            if (nameStr === 1){appCore.updateKeySubscriberPriorityOfKey(nameOfStation, listModelListOfSubscribers.get(
-//                listViewListOfSubscribers.currentIndex).uid, "2") }
-//            if (nameStr === 2){appCore.updateKeySubscriberPriorityOfKey(nameOfStation, listModelListOfSubscribers.get(
-//                listViewListOfSubscribers.currentIndex).uid, "3") }
-//            if (nameStr === 3){appCore.updateKeySubscriberPriorityOfKey(nameOfStation, listModelListOfSubscribers.get(
-//                listViewListOfSubscribers.currentIndex).uid, "4") }
-//            if (nameStr === 4){appCore.updateKeySubscriberPriorityOfKey(nameOfStation, listModelListOfSubscribers.get(
-//                listViewListOfSubscribers.currentIndex).uid, "5") }
-//            if (nameStr === 5){appCore.updateKeySubscriberPriorityOfKey(nameOfStation, listModelListOfSubscribers.get(
-//                listViewListOfSubscribers.currentIndex).uid, "1") }
-//            if (nameStr === 6){appCore.updateKeySubscriberPriorityOfKey(nameOfStation, listModelListOfSubscribers.get(
-//                listViewListOfSubscribers.currentIndex).uid, "1") }
-//            if (nameStr === 7){appCore.updateKeySubscriberPriorityOfKey(nameOfStation, listModelListOfSubscribers.get(
-//                listViewListOfSubscribers.currentIndex).uid, "1") }
+            if (nameStr === "Direct connection: duplex"){appCore.updateKeySubscriberPriorityOfKey(nameOfStation, listModelListOfSubscribers.get(
+                listViewListOfSubscribers.currentIndex).uid, "2") }
+            if (nameStr === "Group communication"){appCore.updateKeySubscriberPriorityOfKey(nameOfStation, listModelListOfSubscribers.get(
+                listViewListOfSubscribers.currentIndex).uid, "3") }
+            if (nameStr === "Circular bond"){appCore.updateKeySubscriberPriorityOfKey(nameOfStation, listModelListOfSubscribers.get(
+                listViewListOfSubscribers.currentIndex).uid, "4") }
+            if (nameStr === "Conference call"){appCore.updateKeySubscriberPriorityOfKey(nameOfStation, listModelListOfSubscribers.get(
+                listViewListOfSubscribers.currentIndex).uid, "5") }
+            if (nameStr === "Telephone communications"){appCore.updateKeySubscriberPriorityOfKey(nameOfStation, listModelListOfSubscribers.get(
+                listViewListOfSubscribers.currentIndex).uid, "1") }
+            if (nameStr === "Direct connection: simplex"){
+                appCore.updateKeySubscriberPriorityOfKey(nameOfStation, listModelListOfSubscribers.get(
+                listViewListOfSubscribers.currentIndex).uid, "1")
+            }
+            if (nameStr === "Hung up"){appCore.updateKeySubscriberPriorityOfKey(nameOfStation, listModelListOfSubscribers.get(
+                listViewListOfSubscribers.currentIndex).uid, "1") }
 /*
 1 - fixation
 2 - no fixation
