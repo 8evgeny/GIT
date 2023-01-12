@@ -24,7 +24,7 @@ ApplicationWindow {
 
     visible: true
 
-    title: "GIT"
+    title: "Software configurator (version from 01.2023)"
     visibility: Window.Maximized
 
     Flickable {

@@ -9,8 +9,8 @@ color: colorSubsribersWindow
     visible: false
 
     property color defaultColor: "#e1e1e2"
-property color colorSubsribersWindow: "#F8FACF"
-property color colorKeyProperty: "#F8FACF"
+    property color colorSubsribersWindow: "#F8FACF"
+    property color colorKeyProperty: "#FFFFFF"
     property int defaultSizeOfHeight: 40
     property int defaultSizeOfSpace: 5
     property int cellWidth: 200
@@ -42,47 +42,19 @@ property color colorKeyProperty: "#F8FACF"
         var nameStr = ""
         if (str === "1")
             nameStr = nameDirectConnectionDuplex
-
         if (str === "2")
             nameStr = nameGroupCommunication
-
         if (str === "3")
             nameStr = nameCircularBond
-
         if (str === "4")
             nameStr = nameConferenceCall
-
         if (str === "5")
             nameStr = nameTelephoneCommunications
-
         if (str === "6")
             nameStr = nameDirectConnectionSimplex
-
         if (str === "7")
             nameStr = nameHungUp
-
         return nameStr
-    }
-
-    function checkAssignment(str1, str2)
-    {
-        var colorStr = "#333"
-
-        if(str1 === ""){
-            colorStr = "red"
-        }
-
-        //can't be assignment
-        if((getNameOfKeyFunctionNumber(str2) === "3")
-                ||(getNameOfKeyFunctionNumber(str2) === "4")
-                ||(getNameOfKeyFunctionNumber(str2) === "5")
-                ||(getNameOfKeyFunctionNumber(str2) === "7")){
-            colorStr = "#333"
-        }
-        else {
-            colorStr = "red"
-        }
-        return colorStr
     }
 
     function getNameOfKeyFunctionNumber(str)
@@ -90,26 +62,34 @@ property color colorKeyProperty: "#F8FACF"
         var nameStr = ""
         if (str === nameDirectConnectionDuplex)
             nameStr = "1"
-
         if (str === nameGroupCommunication)
             nameStr = "2"
-
         if (str === nameCircularBond)
             nameStr = "3"
-
         if (str === nameConferenceCall)
             nameStr = "4"
-
         if (str === nameTelephoneCommunications)
             nameStr = "5"
-
         if (str === nameDirectConnectionSimplex)
             nameStr = "6"
-
         if (str === nameHungUp)
             nameStr = "7"
-
         return nameStr
+    }
+
+    function checkAssignment(str1, str2)
+    {
+        var colorStr = "#333"
+        if(str1 === ""){ colorStr = "red" }
+
+        //can't be assignment
+        if((getNameOfKeyFunctionNumber(str2) === "3")
+                ||(getNameOfKeyFunctionNumber(str2) === "4")
+                ||(getNameOfKeyFunctionNumber(str2) === "5")
+                ||(getNameOfKeyFunctionNumber(str2) === "7"))
+        { colorStr = "#333" }
+        else { colorStr = "red" }
+        return colorStr
     }
 
     function resizeFlickableList()
@@ -149,11 +129,9 @@ property color colorKeyProperty: "#F8FACF"
                     var index = listViewListOfSubscribers.currentIndex
                     listModelListOfSubscribers.get(
                                 listViewListOfSubscribers.currentIndex).borderSize = 1
-
                     appCore.deleteBlock(
                                 nameOfStation, listModelListOfSubscribers.get(
                                     listViewListOfSubscribers.currentIndex).uid)
-
                     listModelListOfSubscribers.remove(
                                 listViewListOfSubscribers.currentIndex)
                     resizeFlickableList()
@@ -167,7 +145,8 @@ property color colorKeyProperty: "#F8FACF"
                 }
             }
         }
-    }
+    } //end Button //Клавиша -
+
     Rectangle // Шапка таблицы
     {
         id: rectangleWithMargins
@@ -329,7 +308,8 @@ property color colorKeyProperty: "#F8FACF"
                                                 listModelListOfSubscribers.get(
                                                     listViewListOfSubscribers.currentIndex).uid)
                                 }
-                                onTextChanged: {
+                                onTextChanged:
+                                {
                                     borderNumberColor = "#333"
                                     numberColor = "#333"
 
@@ -347,6 +327,12 @@ property color colorKeyProperty: "#F8FACF"
                                         borderNumberColor = "red"
                                         numberColor = "red"
                                     }
+
+var val = parseInt(textFieldNewKeyboardUnit.text)
+//Номеронабиратель не отображается
+//val < 51 ? rowListOfSubscribers.visible = true : rowListOfSubscribers.visible = false
+val >= 51 ? textFieldNewKeyboardUnit.color = "green" : textFieldNewKeyboardUnit.color = "black"
+val >= 51 ? textFieldNewKeyboardUnit.enabled = false : textFieldNewKeyboardUnit.enabled = true
                                 }
                                 onEditingFinished: {
                                     focus = false
@@ -411,6 +397,9 @@ property color colorKeyProperty: "#F8FACF"
                                                         listViewListOfSubscribers.currentIndex).uid,
                                                     textFieldNewKeyName.text)
                                     }
+var val = parseInt(textFieldNewKeyboardUnit.text)
+val >= 51 ? textFieldNewKeyName.color = "green" : textFieldNewKeyName.color = "black"
+val >= 51 ? textFieldNewKeyName.enabled = false : textFieldNewKeyName.enabled = true
                                 }
                                 onEditingFinished: {
                                     focus = false
@@ -497,6 +486,10 @@ property color colorKeyProperty: "#F8FACF"
                                         buttonNewAppointment.visible = true
                                         textFieldNewAppointment.readOnly = false
                                     }
+var val = parseInt(textFieldNewKeyboardUnit.text)
+val >= 51 ? textFieldNewKeyFunction.color = "green" : textFieldNewKeyFunction.color = "black"
+val >= 51 ? textFieldNewKeyFunction.enabled = false : textFieldNewKeyFunction.enabled = true
+val >= 51 ? buttonNewKeyFunction.visible = false : buttonNewKeyFunction.visible = true
                                 }
                                 onEditingFinished: {
                                     focus = false
@@ -525,17 +518,16 @@ property color colorKeyProperty: "#F8FACF"
                                 anchors.right: parent.right
                                 anchors.rightMargin: 10
                                 anchors.verticalCenter: parent.verticalCenter
-                                onClicked: {
-
-                                    if (listViewListOfSubscribers.currentIndex >= 0) {
+                                onClicked:
+                                {
+                                    if (listViewListOfSubscribers.currentIndex >= 0)
+                                    {
                                         listModelListOfSubscribers.get(
                                                     listViewListOfSubscribers.currentIndex).borderSize = 1
                                     }
 
-                                    var component = Qt.createComponent(
-                                                "subscriber_window.qml")
-                                    var windowSel = component.createObject(
-                                                rectangleNewKeyFunction)
+                                    var component = Qt.createComponent("subscriber_window.qml")
+                                    var windowSel = component.createObject(rectangleNewKeyFunction)
                                     windowSel.mainText = textFieldNewKeyFunction.text
                                     windowSel.mainNumber = index + 1
                                     listViewListOfSubscribers.currentIndex = index
@@ -543,6 +535,7 @@ property color colorKeyProperty: "#F8FACF"
                                     windowSel.show()
                                 }
                             }
+
                         }//Rectangle //rectangleNewKeyFunction
 
                         Rectangle //rectangleNewAppointment
@@ -558,14 +551,16 @@ property color colorKeyProperty: "#F8FACF"
                                 id: textFieldNewAppointment
                                 text: assignedName
 
-                                background: Rectangle {
+                                background: Rectangle
+                                {
                                     border.color: borderAssignedNameColor
                                     border.width: borderSize
                                 }
 
                                 color: assignedNameColor
 
-                                onPressed: {
+                                onPressed:
+                                {
                                     if (listViewListOfSubscribers.currentIndex >= 0) {
                                         listModelListOfSubscribers.get(
                                                     listViewListOfSubscribers.currentIndex).borderSize = 1
@@ -582,7 +577,6 @@ property color colorKeyProperty: "#F8FACF"
                                 }
                                 onTextChanged:
                                 {
-
                                     assignedNameColor = "#333"
                                     borderAssignedNameColor = "#333"
 
@@ -598,12 +592,15 @@ property color colorKeyProperty: "#F8FACF"
                                     if((getNameOfKeyFunctionNumber(textFieldNewKeyFunction.text) === "4")
                                             ||(getNameOfKeyFunctionNumber(textFieldNewKeyFunction.text) === "3")
                                             ||(getNameOfKeyFunctionNumber(textFieldNewKeyFunction.text) === "5")
-                                            ||(getNameOfKeyFunctionNumber(textFieldNewKeyFunction.text) === "7")){
+                                            ||(getNameOfKeyFunctionNumber(textFieldNewKeyFunction.text) === "7"))
+                                    {
                                         assignedNameColor = "#333"
                                         borderAssignedNameColor = "#333"
                                     }
+
                                 }
-                                onEditingFinished: {
+                                onEditingFinished:
+                                {
                                     focus = false
 
                                     var val = textFieldNewAppointment.text
@@ -642,8 +639,7 @@ property color colorKeyProperty: "#F8FACF"
                                                     listViewListOfSubscribers.currentIndex).borderSize = 1
                                     }
 
-                                    var component = Qt.createComponent(
-                                                "assignment_list.qml")
+                                    var component = Qt.createComponent("assignment_list.qml")
                                     var windowSel = component.createObject(
                                                 rectangleNewAppointment)
                                     listViewListOfSubscribers.currentIndex = index
@@ -651,7 +647,10 @@ property color colorKeyProperty: "#F8FACF"
                                     windowSel.show()
                                 }
                             }//Button //buttonNewAppointment
+
                         }    //Rectangle //rectangleNewAppointment
+
+
                     spacing: -1
                     }       //Row
                 }           //delegate: Item
@@ -796,6 +795,62 @@ property color colorKeyProperty: "#F8FACF"
             var nameStr = getNameOfKeyFunction(str)
             listModelListOfSubscribers.get(
                         listViewListOfSubscribers.currentIndex).functionName = nameStr
+/*  str:
+1 - "Direct connection: duplex"
+2 - "Group communication"
+3 - "Circular bond"
+4 - "Conference call"
+5 - "Telephone communications"
+6 - "Direct connection: simplex"
+7 - "Hung up"
+*/
+/*
+1 - fixation
+2 - no fixation
+*/
+            if (nameStr === "Direct connection: duplex"){
+                appCore.updateKeySubscriberPriorityOfKey(nameOfStation, listModelListOfSubscribers.get(
+                listViewListOfSubscribers.currentIndex).uid, "2")
+                appCore.updateKeySubscriberModeOfKey(nameOfStation, listModelListOfSubscribers.get(
+                      listViewListOfSubscribers.currentIndex).uid, "1")
+            }
+            if (nameStr === "Group communication"){
+                appCore.updateKeySubscriberPriorityOfKey(nameOfStation, listModelListOfSubscribers.get(
+                listViewListOfSubscribers.currentIndex).uid, "3")
+                appCore.updateKeySubscriberModeOfKey(nameOfStation, listModelListOfSubscribers.get(
+                      listViewListOfSubscribers.currentIndex).uid, "1")
+            }
+            if (nameStr === "Circular bond"){
+                appCore.updateKeySubscriberPriorityOfKey(nameOfStation, listModelListOfSubscribers.get(
+                listViewListOfSubscribers.currentIndex).uid, "4")
+                appCore.updateKeySubscriberModeOfKey(nameOfStation, listModelListOfSubscribers.get(
+                      listViewListOfSubscribers.currentIndex).uid, "2")
+            }
+            if (nameStr === "Conference call"){
+                appCore.updateKeySubscriberPriorityOfKey(nameOfStation, listModelListOfSubscribers.get(
+                listViewListOfSubscribers.currentIndex).uid, "5")
+                appCore.updateKeySubscriberModeOfKey(nameOfStation, listModelListOfSubscribers.get(
+                      listViewListOfSubscribers.currentIndex).uid, "1")
+            }
+            if (nameStr === "Telephone communications"){
+                appCore.updateKeySubscriberPriorityOfKey(nameOfStation, listModelListOfSubscribers.get(
+                listViewListOfSubscribers.currentIndex).uid, "1")
+                appCore.updateKeySubscriberModeOfKey(nameOfStation, listModelListOfSubscribers.get(
+                      listViewListOfSubscribers.currentIndex).uid, "1")
+            }
+            if (nameStr === "Direct connection: simplex"){
+                appCore.updateKeySubscriberPriorityOfKey(nameOfStation, listModelListOfSubscribers.get(
+                listViewListOfSubscribers.currentIndex).uid, "1")
+                appCore.updateKeySubscriberModeOfKey(nameOfStation, listModelListOfSubscribers.get(
+                      listViewListOfSubscribers.currentIndex).uid, "2")
+            }
+            if (nameStr === "Hung up"){
+                appCore.updateKeySubscriberPriorityOfKey(nameOfStation, listModelListOfSubscribers.get(
+                listViewListOfSubscribers.currentIndex).uid, "1")
+                appCore.updateKeySubscriberModeOfKey(nameOfStation, listModelListOfSubscribers.get(
+                      listViewListOfSubscribers.currentIndex).uid, "1")
+            }
+
         }
         onSendToQmlSubscriberAssignment: //Это сигнал из C++ кода
         {
@@ -825,7 +880,7 @@ property color colorKeyProperty: "#F8FACF"
     Rectangle //Текст Station Information
     {
         id: rectangleStationInformation
-        width: 360
+        width: 405
         height: defaultSizeOfHeight
         color: "#ffffff"
         anchors.verticalCenter: rectangleWithMargins.verticalCenter
@@ -834,9 +889,13 @@ property color colorKeyProperty: "#F8FACF"
 
         Label {
             id: labelStationInformation
-            text: qsTr("Station Information")
+            text: qsTr("Station information")
             verticalAlignment: Text.AlignVCenter
+            horizontalAlignment: Text.AlignHCenter
             anchors.fill: parent
+            font.bold: true
+            color: "red"
+            font.pointSize: 12
         }
     }
     Rectangle //Текст Station Name:
@@ -911,13 +970,13 @@ property color colorKeyProperty: "#F8FACF"
     TextField //Номер станции
     {
         width: cellWidth
-        readOnly: true
+//        readOnly: true
         height: defaultSizeOfHeight
         id: textFieldNumberStation
         text: ""
         font.bold: true
         font.pointSize: 12
-        color: "grey"
+//        color: "grey"
 
         anchors.top: rectangleStationInformation.bottom
         anchors.topMargin: defaultSizeOfSpace
@@ -935,7 +994,7 @@ property color colorKeyProperty: "#F8FACF"
         }
         background: Rectangle
         {
-            border.color: "#ffffff"
+            border.color: "#333"
             border.width: 1
         }
     }
@@ -1072,6 +1131,32 @@ property color colorKeyProperty: "#F8FACF"
             focus = false
         }
     }
+// Чекбокс для номеронабирателя
+// Чекбокса не будет - тип устройства задается при добавлении в выпадающес списке
+
+    Rectangle //Текст Keyboard Information
+    {
+        id: rectangleKeyboardInformation
+        width: 405
+        height: defaultSizeOfHeight
+        color: "#ffffff"
+        anchors.topMargin: 20
+        anchors.top: textFieldGateway.bottom
+        anchors.left: flickableListOfSubscribers.right
+        anchors.leftMargin: defaultSizeOfSpace
+
+        Label {
+            id: labelKeyboardInformation
+            text: qsTr("Key information")
+            verticalAlignment: Text.AlignVCenter
+            horizontalAlignment: Text.AlignHCenter
+            anchors.fill: parent
+            font.bold: true
+            color: "red"
+            font.pointSize: 12
+            visible: listViewListOfSubscribers.currentIndex >= 0 ? true : false
+        }
+    }
 
     Rectangle //Area for property of keys
     {
@@ -1080,17 +1165,17 @@ property color colorKeyProperty: "#F8FACF"
         height: defaultSizeOfHeight * 2
         color: colorKeyProperty
         anchors.left: rectangleWithMargins.right
-        anchors.leftMargin: defaultSizeOfSpace
-        anchors.top: textFieldGateway.bottom
-        anchors.topMargin: 50
+        anchors.leftMargin: -45
+        anchors.top: rectangleKeyboardInformation.bottom
+        anchors.topMargin: 20
         visible: listViewListOfSubscribers.currentIndex >= 0 ? true : false
 
         Rectangle  //Text Key Mode:
         {
             id: rectKeyMode
             color: colorKeyProperty
-//            anchors.top: rectKeyProperty.bottom
-            anchors.topMargin: defaultSizeOfSpace
+            anchors.top: rectangleKeyProperty.bottom
+            anchors.topMargin: -95
             width: cellWidth
             height: defaultSizeOfHeight
             Label {

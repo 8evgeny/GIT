@@ -121,9 +121,9 @@ void AppCore::saveStation(const QString &nameOfStation, const QString &idOfStati
             addNewKeyBlock(idOfStation);
             listOfStations.last().listOfKeys[i].numberOfKey = QString::number(i+1);
             listOfStations.last().listOfKeys[i].nameOfKey =  "input " + QString::number(i+1);
-            listOfStations.last().listOfKeys[i].functionOfKey = "6"; //Direct connection simplex
+//            listOfStations.last().listOfKeys[i].functionOfKey = "6"; //Direct connection simplex
             listOfStations.last().listOfKeys[i].modeKey = "2"; //No Fixation
-            listOfStations.last().listOfKeys[i].prioriryKey = "0";
+            listOfStations.last().listOfKeys[i].prioriryKey = "1";
         }
     }
     else if(nameOfStation.contains("PDO16") && !nameOfStation.contains("N"))
@@ -134,7 +134,7 @@ void AppCore::saveStation(const QString &nameOfStation, const QString &idOfStati
             listOfStations.last().listOfKeys[i].numberOfKey = QString::number(i+1);
             listOfStations.last().listOfKeys[i].nameOfKey =  "key " + QString::number(i+1);
             listOfStations.last().listOfKeys[i].modeKey = "2"; //No Fixation
-            listOfStations.last().listOfKeys[i].prioriryKey = "0";
+            listOfStations.last().listOfKeys[i].prioriryKey = "1";
         }
     }
     else if(nameOfStation.contains("PDO32"))
@@ -145,7 +145,7 @@ void AppCore::saveStation(const QString &nameOfStation, const QString &idOfStati
             listOfStations.last().listOfKeys[i].numberOfKey = QString::number(i+1);
             listOfStations.last().listOfKeys[i].nameOfKey =  "key " + QString::number(i+1);
             listOfStations.last().listOfKeys[i].modeKey = "2"; //No Fixation
-            listOfStations.last().listOfKeys[i].prioriryKey = "0";
+            listOfStations.last().listOfKeys[i].prioriryKey = "1";
         }
     }
     else if(nameOfStation.contains("PDO16N"))
@@ -163,11 +163,11 @@ void AppCore::saveStation(const QString &nameOfStation, const QString &idOfStati
                 else
                 {
                     listOfStations.last().listOfKeys[i].nameOfKey =  "key " + QString::number(j+1);
-                    listOfStations.last().listOfKeys[i].functionOfKey = "6";
+//                    listOfStations.last().listOfKeys[i].functionOfKey = "6";
                 }
 
                 listOfStations.last().listOfKeys[i].modeKey = "2"; //No Fixation
-                listOfStations.last().listOfKeys[i].prioriryKey = "0";
+                listOfStations.last().listOfKeys[i].prioriryKey = "1";
                 if (i == 15)
                     j = 49;
         }
