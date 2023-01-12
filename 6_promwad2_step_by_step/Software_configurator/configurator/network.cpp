@@ -199,12 +199,10 @@ void AppCore::sendConfigJsonToStationByEthernet(const QString &stationID, const 
                 return;
             }
 
-            if (typeFunction == 1) {
-                //duplex
+            if (typeFunction == keyFun::duplex) {
                 key.insert("link", 2);
                 key.insert("function", 1);
-            } else if (typeFunction == 6) {
-                //simplex
+            } else if (typeFunction == keyFun::simplex) {
                 key.insert("link", 1);
                 key.insert("function", 1);
             } else {
@@ -215,11 +213,15 @@ void AppCore::sendConfigJsonToStationByEthernet(const QString &stationID, const 
             QRegExp rx("[, ]"); // match a comma or a space
             QStringList list = listOfKey.assignedKey.split(rx, QString::SkipEmptyParts);
 
-            if ((!(list.size() >= 2)) && ((typeFunction != 3) && (typeFunction != 4) && (typeFunction != 5) && (typeFunction != 7))) {
+            if ((!(list.size() >= 2)) && ((typeFunction != keyFun::circular)
+                                          && (typeFunction != keyFun::conference)
+                                          && (typeFunction != keyFun::telephone)
+                                          && (typeFunction != keyFun::hungup))) {
                 qCritical() << "Something went wrong, CID ID for stations";
                 return;
             } else {
-                if ((typeFunction != 3) && (typeFunction != 4) && (typeFunction != 5) && (typeFunction != 7)) {
+                if ((typeFunction != keyFun::circular) && (typeFunction != keyFun::conference)
+                        && (typeFunction != keyFun::telephone) && (typeFunction != keyFun::hungup)) {
                     const QString &type = list.at(0);
                     const QString &idStr = list.at(1);
 

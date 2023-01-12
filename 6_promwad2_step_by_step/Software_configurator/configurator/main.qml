@@ -137,12 +137,12 @@ ApplicationWindow {
         onStatusFirmwareLoad: {
             //UpdateStatusWindow.createStatusWindowObject(itemMainMenu, "CID " + idDevice, qsTr("Firmware"))
             //UpdateStatusWindow.deleteStatusWindowObject()
-            appCore.getStatusMsg("CID " + idDevice, qsTr("Firmware"))
+            appCore.getStatusMsg("" + idDevice, qsTr("Firmware"))
         }
         onStatusConfigurationLoad : {
             //UpdateStatusWindow.createStatusWindowObject(itemMainMenu, "CID " + idDevice, qsTr("Configuration"))
             //UpdateStatusWindow.deleteStatusWindowObject()
-            appCore.getStatusMsg("CID " + idDevice, qsTr("Configuration"))
+            appCore.getStatusMsg("" + idDevice, qsTr("Configuration"))
         }
     }
 

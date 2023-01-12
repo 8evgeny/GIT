@@ -19,6 +19,16 @@
 #include "RuLang.h"
 #include <QColor>
 
+enum keyFun
+{
+    duplex = 1,
+    groupe,
+    circular,
+    conference,
+    telephone,
+    simplex,
+    hungup
+};
 /*!
  \brief This class contains signals and slots necessary for working with qml part of the software configurator,
         the class contains the necessary constants and methods and is the base object.
