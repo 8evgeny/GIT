@@ -5,7 +5,7 @@ set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
 set(TOOLS_PATH /home/evg/toolchain/gcc-arm-none-eabi-new)
 #set(CMAKE_C_COMPILER ${TOOLS_PATH}/bin/arm-none-eabi-gcc)
 #set(CMAKE_CXX_COMPILER ${TOOLS_PATH}/bin/arm-none-eabi-g++)
-set(CMAKE_CXX_LINKER_LAUNCHER ${TOOLS_PATH}/bin/arm-none-eabi-g++)
+#set(CMAKE_CXX_LINKER_LAUNCHER ${TOOLS_PATH}/bin/arm-none-eabi-g++)
 set(CMAKE_OBJCOPY ${TOOLS_PATH}/bin/arm-none-eabi-objcopy)
 
 project(H753_new C CXX ASM)
@@ -13,6 +13,17 @@ project(H753_new C CXX ASM)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
+
+FILE(READ "versions_IPS" tmp)
+STRING(REGEX MATCHALL "[a-zA-Z0-9_]+[ ]*=[^\n]*(\n|$)" tmp_list "${tmp}")
+FOREACH(tmp_x ${tmp_list})
+        STRING(REGEX REPLACE "([a-zA-Z0-9_]+)[ ]*=[^\n]*(\n|$)" "\\1" tmp_nm "${tmp_x}")
+        STRING(REGEX REPLACE "[a-zA-Z0-9_]+[ ]*=[ ]*([^\n]*)(\n|$)" "\\1" tmp_val "${tmp_x}")
+        STRING(STRIP "${tmp_val}" ${tmp_nm})
+ENDFOREACH()
+
+MESSAGE("VERSION: ${IPS_VERSION}.${PATCH_VERSION}")
+MESSAGE("KEY: ${KEY}")
 
 add_definitions(-DSTM32H753xx)
 add_definitions(-DDATA_IN_D2_SRAM)
@@ -316,4 +327,13 @@ add_custom_command(TARGET ${PROJECT_NAME}.elf POST_BUILD
     COMMAND ${CMAKE_OBJCOPY} -O binary $<TARGET_FILE:${PROJECT_NAME}.elf> ${BIN_FILE}
     COMMENT "Building ${BIN_FILE} ")
 add_custom_command(TARGET ${PROJECT_NAME}.elf POST_BUILD  COMMAND arm-none-eabi-size ${PROJECT_NAME}.elf )
+
+add_custom_command(TARGET ${PROJECT_NAME}.elf POST_BUILD
+    COMMAND echo -n "firmwareVersion_"${IPS_VERSION} >> ${BIN_FILE}
+    COMMENT "add firmware version to ${BIN_FILE} ")
+add_custom_command(TARGET ${PROJECT_NAME}.elf POST_BUILD
+    COMMAND echo -n "patchVersion_"${PATCH_VERSION} >> ${BIN_FILE}
+    COMMENT "add firmware subversion to ${BIN_FILE} ")
+
+
 

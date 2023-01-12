@@ -139,20 +139,20 @@ void AppCore::encryptionBinFile(const QUrl &pathFile, const QString &key, const 
     qDebug()<< "fileName: "<< filename;
     bin = file.readAll();
     file.close();
-    //Ищем в файле 2 переменные - firmwareVersion_ firmwareSubVersion_
+    //Ищем в файле 2 переменные - firmwareVersion_ patchVersion_
     QByteArrayMatcher fwVersion, fwSubVersion;
     fwVersion.setPattern("firmwareVersion_");
-    fwSubVersion.setPattern("firmwareSubVersion_");
+    fwSubVersion.setPattern("patchVersion_");
     int posFwVersionInBin = fwVersion.indexIn(bin);
     int posFwSubVersionInBin = fwSubVersion.indexIn(bin);
     qDebug()<< "posFwVersionInBin: "<< posFwVersionInBin;
     qDebug()<< "posFwSubVersionInBin: "<< posFwSubVersionInBin;
     QByteArray tmp = bin;
-    tmp.chop(bin.size() - (posFwVersionInBin + sizeof("firmwareVersion_") + 1));
+    tmp.chop(bin.size() - (posFwVersionInBin + sizeof("firmwareVersion_") + 2));
     QString firmwareVersion = tmp.right(2);
     tmp = bin;
-    tmp.chop(bin.size() - (posFwSubVersionInBin + sizeof("firmwareSubVersion_") + 1));
-    QString firmwareSubVersion = tmp.right(2);
+    tmp.chop(bin.size() - (posFwSubVersionInBin + sizeof("patchVersion_") + 3));
+    QString patchVersion = tmp.right(2);
 
     qDebug()<< "KEY: "<< key;
     qDebug()<< "Size bin: "<< bin.size();
@@ -183,9 +183,9 @@ void AppCore::encryptionBinFile(const QUrl &pathFile, const QString &key, const 
     dateTime_ = dateTime;
     nameFirmwareBinFile = filename;
     versionFirmware = firmwareVersion;
-    subVersionFirmware = firmwareSubVersion;
+    subVersionFirmware = patchVersion;
     qDebug()<< "firmwareVersion: "<< versionFirmware;
-    qDebug()<< "firmwareSubVersion: "<< subVersionFirmware;
+    qDebug()<< "patchVersion: "<< subVersionFirmware;
 
     QByteArray hashKeyOriginBin = QCryptographicHash::hash(bin, QCryptographicHash::Md5);
     qDebug() <<"Hash key origin bin: "<<hashKeyOriginBin.toHex();
