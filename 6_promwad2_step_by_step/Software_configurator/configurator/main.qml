@@ -23,8 +23,7 @@ ApplicationWindow {
     height: heightDefault
 
     visible: true
-
-    title: "Software configurator (version from 01.2023)"
+//    title: "Software configurator (version from 01.2023)"
     visibility: Window.Maximized
 
     Flickable {

@@ -46,10 +46,27 @@ int main(int argc, char *argv[])
     QQmlApplicationEngine engine;
     AppCore appCore;
 
+    QFile file("../configurator/versions_configurator");
+    file.open(QIODevice::ReadOnly);
+    QByteArray bArr = file.readLine();
+    bArr.append(file.readLine());
+    bArr.append(file.readLine());
+    QString bArrStr = QString(bArr);
+    QRegExp rx("(\\d+)");
+    QStringList list;
+    int pos = 0;
+    while ((pos = rx.indexIn(bArrStr, pos)) != -1) {
+        list << rx.cap(1);
+        pos += rx.matchedLength();
+    }
+    VERSION = list[0] + "." + list[1]+ "." + list[2];
+    qDebug() << "VERSION: " << VERSION;
+
+
     app.setOrganizationName("GIT");
     app.setOrganizationDomain("GIT");
-    app.setApplicationName("GIT");
-
+    app.setApplicationName("Software configurator (version "+VERSION+")");
+    app.setApplicationVersion(VERSION);
     qmlRegisterType<RuLang>("RuLang", 1, 0, "RuLang");
     RuTranslator mTrans(&app);
 
@@ -67,22 +84,6 @@ int main(int argc, char *argv[])
     context->setContextProperty("receiver", &receiver);
 
     engine.load(url);
-
-    QFile file("../configurator/versions_configurator");
-    file.open(QIODevice::ReadOnly);
-    QByteArray bArr = file.readLine();
-    bArr.append(file.readLine());
-    bArr.append(file.readLine());
-    QString bArrStr = QString(bArr);
-    QRegExp rx("(\\d+)");
-    QStringList list;
-    int pos = 0;
-    while ((pos = rx.indexIn(bArrStr, pos)) != -1) {
-        list << rx.cap(1);
-        pos += rx.matchedLength();
-    }
-    VERSION = list[0] + "." + list[1]+ "." + list[2];
-    qDebug() << "VERSION: " << VERSION;
 
     return app.exec();
 }
