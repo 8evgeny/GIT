@@ -33,7 +33,7 @@
 #include <QTest>
 
 #include "receiver.h"
-QString VERSION;
+
 int main(int argc, char *argv[])
 {
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
@@ -45,7 +45,7 @@ int main(int argc, char *argv[])
 
     QQmlApplicationEngine engine;
     AppCore appCore;
-
+    QString VERSION;
     QFile file("../configurator/versions_configurator");
     file.open(QIODevice::ReadOnly);
     QByteArray bArr = file.readLine();
