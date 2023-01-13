@@ -810,7 +810,7 @@ val >= 51 ? buttonNewKeyFunction.visible = false : buttonNewKeyFunction.visible 
 */
             if (nameStr === "Direct connection: duplex"){
                 appCore.updateKeySubscriberPriorityOfKey(nameOfStation, listModelListOfSubscribers.get(
-                listViewListOfSubscribers.currentIndex).uid, "2")
+                listViewListOfSubscribers.currentIndex).uid, "5")
                 appCore.updateKeySubscriberModeOfKey(nameOfStation, listModelListOfSubscribers.get(
                       listViewListOfSubscribers.currentIndex).uid, "1")
             }
@@ -818,11 +818,11 @@ val >= 51 ? buttonNewKeyFunction.visible = false : buttonNewKeyFunction.visible 
                 appCore.updateKeySubscriberPriorityOfKey(nameOfStation, listModelListOfSubscribers.get(
                 listViewListOfSubscribers.currentIndex).uid, "3")
                 appCore.updateKeySubscriberModeOfKey(nameOfStation, listModelListOfSubscribers.get(
-                      listViewListOfSubscribers.currentIndex).uid, "1")
+                      listViewListOfSubscribers.currentIndex).uid, "2")
             }
             if (nameStr === "Circular bond"){
                 appCore.updateKeySubscriberPriorityOfKey(nameOfStation, listModelListOfSubscribers.get(
-                listViewListOfSubscribers.currentIndex).uid, "4")
+                listViewListOfSubscribers.currentIndex).uid, "3")
                 appCore.updateKeySubscriberModeOfKey(nameOfStation, listModelListOfSubscribers.get(
                       listViewListOfSubscribers.currentIndex).uid, "2")
             }
@@ -834,21 +834,21 @@ val >= 51 ? buttonNewKeyFunction.visible = false : buttonNewKeyFunction.visible 
             }
             if (nameStr === "Telephone communications"){
                 appCore.updateKeySubscriberPriorityOfKey(nameOfStation, listModelListOfSubscribers.get(
-                listViewListOfSubscribers.currentIndex).uid, "1")
+                listViewListOfSubscribers.currentIndex).uid, "5")
                 appCore.updateKeySubscriberModeOfKey(nameOfStation, listModelListOfSubscribers.get(
-                      listViewListOfSubscribers.currentIndex).uid, "1")
+                      listViewListOfSubscribers.currentIndex).uid, "2")
             }
             if (nameStr === "Direct connection: simplex"){
                 appCore.updateKeySubscriberPriorityOfKey(nameOfStation, listModelListOfSubscribers.get(
-                listViewListOfSubscribers.currentIndex).uid, "1")
+                listViewListOfSubscribers.currentIndex).uid, "5")
                 appCore.updateKeySubscriberModeOfKey(nameOfStation, listModelListOfSubscribers.get(
                       listViewListOfSubscribers.currentIndex).uid, "2")
             }
             if (nameStr === "Hung up"){
                 appCore.updateKeySubscriberPriorityOfKey(nameOfStation, listModelListOfSubscribers.get(
-                listViewListOfSubscribers.currentIndex).uid, "1")
+                listViewListOfSubscribers.currentIndex).uid, "5")
                 appCore.updateKeySubscriberModeOfKey(nameOfStation, listModelListOfSubscribers.get(
-                      listViewListOfSubscribers.currentIndex).uid, "1")
+                      listViewListOfSubscribers.currentIndex).uid, "2")
             }
 
         }
