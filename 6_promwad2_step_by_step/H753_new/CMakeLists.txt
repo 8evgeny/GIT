@@ -338,3 +338,5 @@ add_custom_command(TARGET ${PROJECT_NAME}.elf POST_BUILD
 #add_custom_command(TARGET ${PROJECT_NAME}.elf POST_BUILD
 #    COMMAND echo -n "firmwareKey_"${KEY} >> ${BIN_FILE}
 #    COMMENT "add key to ${BIN_FILE} ")
+
+
