@@ -20,7 +20,7 @@ extern "C" {
 
 uint16_t pressedKey = 0; /*!< The variable stores a number of the pressed key */
 uint8_t handleClick_count = 0; /*!< The variable is the counter to handle clicks */
-uint8_t legIndicateAsterisk = 0;
+uint8_t ledIndicateAsterisk = 0;
 uint8_t keyMode = 0, /*!< The variable stores a mode of the pressed key */
         func = 0;    /*!< The variable stores a function of the pressed key */
 
@@ -45,10 +45,12 @@ CallControl::CallControl(State *state) : state_(nullptr)
     dynamicStorageIter = dynamicStorage.begin();
 
     busyDynamicStorage.reserve(10);
-    telephoneDynamicStorage.reserve(5);
+    telephoneDynamicStorage.reserve(3);
 //    inputBuff.reserve(10);
 
-    for (uint8_t i = 0; i < sizeof (keypadArray); ++i) {
+    //Инициализация номеронабирателя
+    for (uint8_t i = 0; i < sizeof (keypadArray); ++i)
+    {
         keypadStructArray[i].n = keypadArray[i];
         keypadStructArray[i].i = i;
     }
@@ -109,7 +111,7 @@ bool CallControl::detectSubject(uint16_t subject)
     uint16_t size = getSubjectData(Size);
     for(uint8_t i = 0; i < size; ++i )
     {
-        subjectKey = Json::getInstance()->thisStation.keysBuffer[i];
+        subjectKey = ThisStation_.keysBuffer[i];
         if (subjectKey.assign == subject) {
             return true;
         }
@@ -161,25 +163,25 @@ uint16_t CallControl::getSubjectData(CallControl::SubjectData control, uint8_t i
 
     switch (control) {
     case Key:
-        retVal = Json::getInstance()->thisStation.keysBuffer[i].key;
+        retVal = ThisStation_.keysBuffer[i].key;
         break;
     case Assign:
-        retVal = Json::getInstance()->thisStation.keysBuffer[i].assign;
+        retVal = ThisStation_.keysBuffer[i].assign;
         break;
     case Function:
-        retVal = Json::getInstance()->thisStation.keysBuffer[i].function;
+        retVal = ThisStation_.keysBuffer[i].function;
         break;
     case Priority:
-        retVal = Json::getInstance()->thisStation.keysBuffer[i].priority;
+        retVal = ThisStation_.keysBuffer[i].priority;
         break;
     case Mode:
-        retVal = Json::getInstance()->thisStation.keysBuffer[i].mode;
+        retVal = ThisStation_.keysBuffer[i].mode;
         break;
     case Link:
-        retVal = Json::getInstance()->thisStation.keysBuffer[i].directLinkMode;
+        retVal = ThisStation_.keysBuffer[i].directLinkMode;
         break;
     case Size:
-        retVal = static_cast<uint8_t>(Json::getInstance()->thisStation.keysBuffer.size());
+        retVal = static_cast<uint8_t>(ThisStation_.keysBuffer.size());
         break;
     }
 //    osMutexRelease(mutexKeyBufferId_);
@@ -213,13 +215,13 @@ void CallControl::setCallType()
                     startRingTone(RingToneType::RING_TONE);
                     this->TransitionTo(new DuplexDirectCall);
 
-                    retransmitMessage(UdpJsonExch::getInstance()->recvBuff, strlen(UdpJsonExch::getInstance()->recvBuff), Request::ACK);
-                    copyRecvBuff(messageData.recvMessageBuff, UdpJsonExch::getInstance()->recvBuff);
+                    retransmitMessage(RecvBuff_, strlen(RecvBuff_), Request::ACK);
+                    copyRecvBuff(messageData.recvMessageBuff, RecvBuff_);
 
                 } else if (messageData.field.linkMode == Simplex) {
 
-                    retransmitMessage(UdpJsonExch::getInstance()->recvBuff, strlen(UdpJsonExch::getInstance()->recvBuff), Request::ACK_ANSW);
-                    copyRecvBuff(messageData.recvMessageBuff, UdpJsonExch::getInstance()->recvBuff);
+                    retransmitMessage(RecvBuff_, strlen(RecvBuff_), Request::ACK_ANSW);
+                    copyRecvBuff(messageData.recvMessageBuff, RecvBuff_);
                     createRtp(messageData.field.prevOwnId, Simplex_recv_type);
                     this->TransitionTo(new SimplexDirectCall);
                 }
@@ -230,11 +232,11 @@ void CallControl::setCallType()
                 isIncomingCall = true;
                 messageDataBuff.field.linkMode = messageData.field.linkMode;
 
-                copyRecvBuff(messageData.recvMessageBuff, UdpJsonExch::getInstance()->recvBuff);
+                copyRecvBuff(messageData.recvMessageBuff, RecvBuff_);
 
                 if (messageData.field.linkMode == Duplex) {
 
-                    retransmitMessage(UdpJsonExch::getInstance()->recvBuff, strlen(UdpJsonExch::getInstance()->recvBuff), Request::ACK);
+                    retransmitMessage(RecvBuff_, strlen(RecvBuff_), Request::ACK);
 
                     startRingTone(RingToneType::RING_UNKNOWN_TONE);
                     osTimer.start(osTimer.autoAnsw_timerId, osTimer.autoAnsw_timerStatus, AUTO_ANSW_TIMEOUT);
@@ -242,7 +244,7 @@ void CallControl::setCallType()
 
                 } else if (messageData.field.linkMode == Simplex) {
 
-                    retransmitMessage(UdpJsonExch::getInstance()->recvBuff, strlen(UdpJsonExch::getInstance()->recvBuff), Request::ACK_ANSW);
+                    retransmitMessage(RecvBuff_, strlen(RecvBuff_), Request::ACK_ANSW);
 
                     startRingTone(RingToneType::RING_UNKNOWN_TONE);
                     osTimer.start(osTimer.autoAnsw_timerId, osTimer.autoAnsw_timerStatus, AUTO_ANSW_TIMEOUT);
@@ -265,8 +267,8 @@ void CallControl::setCallType()
                 missedCall.remove(assignedData.key);
                 if (boardType != sl1) switchLed(subjectKey.key, true, 250, 250, 0, GPIO::GREEN);
                 if (boardType == sl1) switchLed(subjectKey.key, true, 0, 0, 0, GPIO::GREEN);
-//                retransmitJsonDoc(UdpJsonExch::getInstance()->recvBuff, strlen(UdpJsonExch::getInstance()->recvBuff), Request::ACK);
-                copyRecvBuff(messageData.recvMessageBuff, UdpJsonExch::getInstance()->recvBuff);
+//                retransmitJsonDoc(RecvBuff_, strlen(RecvBuff_), Request::ACK);
+                copyRecvBuff(messageData.recvMessageBuff, RecvBuff_);
 
                 createRtp(messageData.field.prevOwnId, Simplex_recv_type);
                 this->TransitionTo(new GroupCall);
@@ -276,7 +278,7 @@ void CallControl::setCallType()
                 messageData.field.prevPriority = messageData.field.priority;
                 assignedData.key = 0;
                 isIncomingCall = true;
-                copyRecvBuff(messageData.recvMessageBuff, UdpJsonExch::getInstance()->recvBuff);
+                copyRecvBuff(messageData.recvMessageBuff, RecvBuff_);
                 startRingTone(RingToneType::RING_UNKNOWN_TONE);
                 osTimer.start(osTimer.autoAnsw_timerId, osTimer.autoAnsw_timerStatus, AUTO_ANSW_TIMEOUT);
 //                createRtp(messageData.field.prevOwnId, Simplex_recv_type);
@@ -297,8 +299,8 @@ void CallControl::setCallType()
 //                missedCall.remove(assignedData.key);
                 switchLed(subjectKey.key, true, 250, 250, 0, GPIO::GREEN);//Цвет принимаемый циркулярный вызов
 
-                copyRecvBuff(messageData.recvMessageBuff, UdpJsonExch::getInstance()->recvBuff);
-                retransmitMessage(UdpJsonExch::getInstance()->recvBuff, strlen(UdpJsonExch::getInstance()->recvBuff), Request::ACK_ANSW);
+                copyRecvBuff(messageData.recvMessageBuff, RecvBuff_);
+                retransmitMessage(RecvBuff_, strlen(RecvBuff_), Request::ACK_ANSW);
 
                 createRtp(messageData.field.prevOwnId, Simplex_recv_type);
                 this->TransitionTo(new CircularCall);
@@ -307,8 +309,8 @@ void CallControl::setCallType()
                 messageData.field.prevPriority = messageData.field.priority;
                 assignedData.key = 0;
                 isIncomingCall = true;
-                copyRecvBuff(messageData.recvMessageBuff, UdpJsonExch::getInstance()->recvBuff);
-                retransmitMessage(UdpJsonExch::getInstance()->recvBuff, strlen(UdpJsonExch::getInstance()->recvBuff), Request::ACK_ANSW);
+                copyRecvBuff(messageData.recvMessageBuff, RecvBuff_);
+                retransmitMessage(RecvBuff_, strlen(RecvBuff_), Request::ACK_ANSW);
                 startRingTone(RingToneType::RING_UNKNOWN_TONE);
                 osTimer.start(osTimer.autoAnsw_timerId, osTimer.autoAnsw_timerStatus, AUTO_ANSW_TIMEOUT);
 //                createRtp(messageData.field.prevOwnId, Simplex_recv_type);
@@ -335,9 +337,9 @@ void CallControl::setCallType()
                 switchLed(assignedData.conferenceKey, true, 250, 250, 0, GPIO::GREEN); //Цвет запрос на прием вызова
                 startRingTone(RingToneType::RING_TONE);
 
-                retransmitMessage(UdpJsonExch::getInstance()->recvBuff, strlen(UdpJsonExch::getInstance()->recvBuff), Request::ACK);
-//                memcpy (messageData.field.recvBuffCopy, UdpJsonExch::getInstance()->recvBuff, strlen(UdpJsonExch::getInstance()->recvBuff)+1);
-                copyRecvBuff(messageData.recvMessageBuff, UdpJsonExch::getInstance()->recvBuff);
+                retransmitMessage(RecvBuff_, strlen(RecvBuff_), Request::ACK);
+//                memcpy (messageData.field.recvBuffCopy, RecvBuff_, strlen(RecvBuff_)+1);
+                copyRecvBuff(messageData.recvMessageBuff, RecvBuff_);
                 this->TransitionTo(new ConferenceCall);
             }
         }
@@ -354,19 +356,19 @@ void CallControl::setCallType()
             missedCall.remove(assignedData.key);
             switchLed(assignedData.key, true, 250, 250, 0, GPIO::GREEN);
             control = Control::NONE;
-//            sendUdpMulticast(UdpJsonExch::getInstance()->recvBuff, strlen(UdpJsonExch::getInstance()->recvBuff));
-            copyRecvBuff(messageData.recvMessageBuff, UdpJsonExch::getInstance()->recvBuff);
+//            sendUdpMulticast(RecvBuff_, strlen(RecvBuff_));
+            copyRecvBuff(messageData.recvMessageBuff, RecvBuff_);
             sendRequest(Request::ACK);
-//            memcpy (messageData.field.recvBuffCopy, UdpJsonExch::getInstance()->recvBuff, strlen(UdpJsonExch::getInstance()->recvBuff)+1);
+//            memcpy (messageData.field.recvBuffCopy, RecvBuff_, strlen(RecvBuff_)+1);
 
             for(uint8_t i = 0; i < getSubjectData(Size); ++i ) //Число задействованных клавиш в конфиге
             {
                 if ((getSubjectData(Function, i)) == Telephone) //Определяем какой Led зажигать
                 {
-                    legIndicateAsterisk = getSubjectData(Key, i);
+                    ledIndicateAsterisk = getSubjectData(Key, i);
                 }
             }
-            switchLed(legIndicateAsterisk, true, 250, 250, 0, GPIO::GREEN);
+            switchLed(ledIndicateAsterisk, true, 250, 250, 0, GPIO::GREEN);
             startRingTone(RingToneType::RING_TONE);
             this->TransitionTo(new TelephoneCall);
         }
@@ -425,19 +427,18 @@ bool changeToHash = false;
                 {
                     if ((getSubjectData(Function, i)) == Telephone)
                     {
-                        legIndicateAsterisk = getSubjectData(Key, i);
+                        ledIndicateAsterisk = getSubjectData(Key, i);
                     }
 
                     if ((getSubjectData(Key, i)) == pressedKey)
                     {
-
-                        subjectKey = Json::getInstance()->thisStation.keysBuffer[i];
+                        subjectKey = ThisStation_.keysBuffer[i];
 
 //Добавил переопределение клавиш для возможности принимать телефонный вызовы
                         if (subjectKey.function == Telephone)
                         {
                             changeToAsterisk = true;
-//                            legIndicateAsterisk = subjectKey.key;
+//                            ledIndicateAsterisk = subjectKey.key;
 
                             subjectKey.key = Asterisk;
                         }
@@ -460,7 +461,7 @@ bool changeToHash = false;
                 /*-------------------------------------------------------------------------*/
                 if ((pressedKey == Asterisk )|| changeToAsterisk)
                 {
-                    switchLed(legIndicateAsterisk, true, 0, 0, 0, GPIO::GREEN);
+                    switchLed(ledIndicateAsterisk, true, 0, 0, 0, GPIO::GREEN);
                     subjectKey.key = Asterisk;
                     func = subjectKey.function = Telephone;
                     keyMode = subjectKey.mode = NotFixed;
@@ -470,7 +471,7 @@ bool changeToHash = false;
                     foundKeyFlag_ = true;
                 } else if ((pressedKey == Hash)|| changeToHash)
                 {
-                    switchLed(legIndicateAsterisk, false);
+                    switchLed(ledIndicateAsterisk, false);
                     subjectKey.key = Hash;
                     subjectKey.function = Telephone;
                     subjectKey.mode = Fixed;
@@ -510,30 +511,84 @@ term("CallControl::sendInfoAboutStation")
         const int capacity = JSON_OBJECT_SIZE(6) + JSON_ARRAY_SIZE(6);
         StaticJsonDocument<capacity> infoDoc;
 
-        infoDoc["ID"] = Json::getInstance()->thisStation.id;
-        uint8_t *currentFirmware = reinterpret_cast<uint8_t *>(START_AREA_CURRENT_FIRMWARE);
-        uint8_t *currentSubFirmware = reinterpret_cast<uint8_t *>(START_AREA_CURRENT_FIRMWARE + 1);
-        infoDoc["Version"] = *currentFirmware;
-        infoDoc["Sub"] = *currentSubFirmware;
-        infoDoc["IP"] = Json::getInstance()->thisStation.ip;
+        infoDoc["ID"] = ThisStation_.id;
+        char fwInfo[100];
+        char dt[20];
+        lfs_file_open(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, "dateTime", LFS_O_RDWR | LFS_O_CREAT);
+        lfs_file_read(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, &dt, sizeof(dt));
+        lfs_file_close(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr);
+        std::string dateTimeFw = std::string(dt);
+        RS232::getInstance().term <<"date firmware: "<< dateTimeFw.c_str() << "\r\n";
 
-//        MACAddr[0] = 0x40;
-//        MACAddr[1] = 0x8d;
-//        MACAddr[2] = 0x5c;
-//        MACAddr[3] = 0xba;
-//        MACAddr[4] = 0xf6;
-//        MACAddr[5] = 0x22;
+        char versionFw[4];
+        lfs_file_open(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, "versionFw", LFS_O_RDWR | LFS_O_CREAT);
+        lfs_file_read(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, &versionFw, sizeof(versionFw));
+        lfs_file_close(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr);
+        std::string vFw = std::string(versionFw);
+        RS232::getInstance().term <<"versionFw: "<< vFw.c_str() << "\r\n";
+
+        char subVersionFw[4];
+        lfs_file_open(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, "subVersionFw", LFS_O_RDWR | LFS_O_CREAT);
+        lfs_file_read(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, &versionFw, sizeof(subVersionFw));
+        lfs_file_close(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr);
+        std::string subFw = std::string(versionFw);
+        RS232::getInstance().term <<"subVersionFw: "<< subFw.c_str() << "\r\n";
+
+        size_t k=0;
+        for (size_t i = 0; i < dateTimeFw.size();++i)
+        {
+            fwInfo[k] = dateTimeFw[i];
+            ++k;
+        }
+        fwInfo[k] = ' '; ++k;
+        fwInfo[k] = ' '; ++k;
+        fwInfo[k] = 'v'; ++k;
+        fwInfo[k] = 'e'; ++k;
+        fwInfo[k] = 'r'; ++k;
+        fwInfo[k] = ':'; ++k;
+        fwInfo[k] = ' '; ++k;
+        for (size_t i = 0; i < vFw.size();++i)
+        {
+            fwInfo[k] = vFw[i];
+            ++k;
+        }
+        fwInfo[k] = '.'; ++k;
+        for (size_t i = 0; i < subFw.size();++i)
+        {
+            fwInfo[k] = subFw[i];
+            ++k;
+        }
+        fwInfo[k] = '\0';
+        RS232::getInstance().term <<"fwInfo: " <<fwInfo <<"\r\n";
+        infoDoc["Version"] = fwInfo;
+        infoDoc["IP"] = ThisStation_.ip;
         MACAddr[0] = 0x00;
         MACAddr[1] = 0x80;
         MACAddr[2] = 0xE1;
         MACAddr[3] = 0x00;
         MACAddr[4] = 0x00;
         MACAddr[5] = macAdr5;
+//00:80:e1:00:00:67
+//        for (auto &n : MACAddr) {
+//            infoDoc["MAC"].add(n);
+//        }
+        char macAdr[18];
+        sprintf(macAdr,"%02x:%02x:%02x:%02x:%02x:%02x",
+                MACAddr[0],MACAddr[1],MACAddr[2],MACAddr[3],MACAddr[4],MACAddr[5]);
+        RS232::getInstance().term << "MACAddr: "<<macAdr <<"\r\n";
+        infoDoc["MAC"] = macAdr;
 
-        for (auto &n : MACAddr) {
-            infoDoc["MAC"].add(n);
-        }
+        char fwName[50];
+        std::fill(fwName, fwName + sizeof (fwName) -1 , 0x00);
+        lfs_file_open(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, "fwareName", LFS_O_RDWR | LFS_O_CREAT);
+        lfs_file_read(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, &fwName, sizeof(fwName));
+        lfs_file_close(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr);
+        std::string fwareName = std::string(fwName);
+        RS232::getInstance().term <<"fwareName: "<< fwareName.c_str() << "\r\n";
 
+        infoDoc["fwName"] = fwareName.c_str();
+
+osDelay(200); //pev
         std::fill(messageData.txBuff, messageData.txBuff + messageData.txBuffSize, 0);
         if (serializeJson(infoDoc, messageData.txBuff, capacity) > 0) {
             sendUdpMulticast(messageData.txBuff, strlen(messageData.txBuff));
@@ -627,7 +682,7 @@ term("CallControl::sendMessage")
     const int capacity = JSON_OBJECT_SIZE(6) + JSON_ARRAY_SIZE(100);
     DynamicJsonDocument doc (capacity);
 
-    doc["Own_Id"] = Json::getInstance()->thisStation.id;
+    doc["Own_Id"] = ThisStation_.id;
     doc["Dist_Id"].add(distId);
     doc["Call_Type"] = func;
     doc["Priority"] = assignedData.priority;
@@ -649,7 +704,7 @@ void CallControl::sendMessage(const Request linkData)
     const int capacity = JSON_OBJECT_SIZE(6) + JSON_ARRAY_SIZE(100);
     DynamicJsonDocument doc (capacity);
 
-    doc["Own_Id"] = Json::getInstance()->thisStation.id;
+    doc["Own_Id"] = ThisStation_.id;
     doc["Dist_Id"].add(subjectKey.assign);
     doc["Call_Type"] = subjectKey.function;
     doc["Priority"] = subjectKey.priority;
@@ -670,7 +725,7 @@ void CallControl::sendMessage(const uint16_t arr[], const uint16_t size, const R
     const int capacity = JSON_OBJECT_SIZE(6) + JSON_ARRAY_SIZE(100);
     DynamicJsonDocument doc (capacity);
 
-    doc["Own_Id"] = Json::getInstance()->thisStation.id;
+    doc["Own_Id"] = ThisStation_.id;
     for (uint16_t i = 0; i < size; ++i) {
         doc["Dist_Id"].add(arr[i]);
     }
@@ -788,8 +843,8 @@ void CallControl::sendRequest(uint8_t callType, Request reqType, uint16_t timeou
     break;
     case Group: {
         checkGroupIndex = 0;
-        uint16_t size = Json::getInstance()->thisStation.groupsBuffer[assignedData.id].stSize;
-        sendMessage(Json::getInstance()->thisStation.groupsBuffer[assignedData.id].stantions, size, reqType);
+        uint16_t size = ThisStation_.groupsBuffer[assignedData.id].stSize;
+        sendMessage(ThisStation_.groupsBuffer[assignedData.id].stantions, size, reqType);
     }
     break;
     default:
@@ -811,7 +866,7 @@ void CallControl::sendRequest(Request reqType)
         requestCount++;
         break;
     case Request::ACK:
-        retransmitMessage(UdpJsonExch::getInstance()->recvBuff, strlen(UdpJsonExch::getInstance()->recvBuff), CallControl::Request::ACK);
+        retransmitMessage(RecvBuff_, strlen(RecvBuff_), CallControl::Request::ACK);
         break;
     case Request::ACK_ANSW:
         requestCount = 0;
@@ -824,7 +879,7 @@ void CallControl::sendRequest(Request reqType)
         if (messageData.distIdArrSize == 1) {
             requestCount = 0;
             control = Control::BUSY;
-            retransmitMessage(UdpJsonExch::getInstance()->recvBuff, strlen(UdpJsonExch::getInstance()->recvBuff), messageData.field.distId, CallControl::Request::BUSY);
+            retransmitMessage(RecvBuff_, strlen(RecvBuff_), messageData.field.distId, CallControl::Request::BUSY);
             osTimer.start(osTimer.request_timerId, osTimer.request_timerStatus, TIMEOUT);
             requestCount++;
         }
@@ -894,7 +949,7 @@ bool CallControl::switchToConf()
         TransitionTo(new ConferenceCall);
 
         if (isInterruptConf == InterruptConf::CALLER) {
-            createRtp(Json::getInstance()->thisStation.id, Duplex_type);
+            createRtp(ThisStation_.id, Duplex_type);
         } else if (isInterruptConf == InterruptConf::CALLED_PARTY) {
             createRtp(messageData.field.prevOwnId, Duplex_type);
             control = Control::RETURN_CONF;

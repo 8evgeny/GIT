@@ -70,6 +70,7 @@ int main (int argc, char** argv) {
                 PORT_ResetBits(MDR_PORTB, LED2_REC);
                 PORT_ResetBits(MDR_PORTB, LED1_ERROR);
                 PORT_ResetBits(MDR_PORTB, BUZZER);
+                LCD_set_line(3); LCD_write_string((char*)"                    ");
                 firstScreen();
                 delay_ms(1000);
                 LCD_set_line(4); LCD_write_string((char*)"                    ");

@@ -6,16 +6,16 @@
 
 //extern osTimerId telephone_timerId_;
 //extern osStatus  telephone_timerStatus_;
-extern uint8_t legIndicateAsterisk;
+extern uint8_t ledIndicateAsterisk;
 void TelephoneCall::handleButton()
 {
-
+term2("TelephoneCall::handleButton")
     if (context_->subjectKey.key == CallControl::Hash)
     {
-
         stopRingTone();
         context_->microphone.stop();
-
+//        context_->ordinaryTelephoneCall = false;
+        context_->simplexTelephoneCall = false;
 //switchLed(context_->assignedData.key, false);
 
         if (!context_->telephoneDynamicStorage.empty())
@@ -43,14 +43,35 @@ void TelephoneCall::handleButton()
         } else if (context_->subjectKey.mode == NotFixed) {
             context_->microphone.start();
         }
-    } else {
-        if (context_->rtpStatus != OK_RTP)
+    }
+    else
+    {
+        //старый тлф вызов
+//        if ((context_->rtpStatus != OK_RTP) && context_->ordinaryTelephoneCall)
+//            for (auto& var : context_->keypadStructArray)
+//                if (context_->subjectKey.key == var.n)
+//                {
+//                    if (context_->telephoneDynamicStorage.size() < 3)
+//                    {
+//                        context_->telephoneDynamicStorage.push_back(var.i);
+//                        switchLed(context_->subjectKey.key, true, 0,0,0, GPIO::GREEN);
+//                        context_->osTimer.start(context_->osTimer.telephone_timerId, context_->osTimer.telephone_timerStatus, DIALING_TIMEOUT);
+//                        startDtmfTone(var.i);
+//                        break;
+//                    }
+//                }
+        //Добавил - симплекс тлф
+        if ((context_->rtpStatus != OK_RTP) && context_->simplexTelephoneCall)
             for (auto& var : context_->keypadStructArray)
-                if (context_->subjectKey.key == var.n) {
-                    if (context_->telephoneDynamicStorage.size() < 5) {
+                if (context_->subjectKey.key == var.n)
+                {
+                    if (context_->telephoneDynamicStorage.size() < 3)
+                    {
                         context_->telephoneDynamicStorage.push_back(var.i);
-                        switchLed(context_->subjectKey.key, true, 0,0,0, GPIO::GREEN);
-                        context_->osTimer.start(context_->osTimer.telephone_timerId, context_->osTimer.telephone_timerStatus, DIALING_TIMEOUT);
+                        if (context_->telephoneDynamicStorage.size() < 3)
+                            context_->osTimer.start(context_->osTimer.telephone_timerId, context_->osTimer.telephone_timerStatus,DIALING_TIMEOUT);
+                        else //После последней цифры не ждем
+                            context_->osTimer.start(context_->osTimer.telephone_timerId, context_->osTimer.telephone_timerStatus, 100);
                         startDtmfTone(var.i);
                         break;
                     }
@@ -62,11 +83,11 @@ void TelephoneCall::handleJsonMessage()
 {
     switch (static_cast<CallControl::Request>(context_->messageData.field.linkData)) {
     case CallControl::Request::HANG_UP:
-        if (Json::getInstance()->thisStation.id == context_->messageData.field.distId) {
+        if (ThisStation_.id == context_->messageData.field.distId) {
             if (context_->messageData.field.ownId == context_->messageData.field.prevOwnId) {
 
                 stopRingTone();
-                switchLed(legIndicateAsterisk, false); //Здесь может быть индикация пропущенного вызова
+                switchLed(ledIndicateAsterisk, false); //Здесь может быть индикация пропущенного вызова
 
                 context_->osTimer.stop(context_->osTimer.request_timerId, context_->osTimer.request_timerStatus);
 
@@ -86,7 +107,7 @@ void TelephoneCall::handleJsonMessage()
                 if(!context_->switchToConf())
                     this->context_->TransitionTo(new CallWaiting);
             }
-        } else if (Json::getInstance()->thisStation.id == context_->messageData.field.ownId) {
+        } else if (ThisStation_.id == context_->messageData.field.ownId) {
             if (context_->messageData.field.distId == context_->messageData.field.prevDistId) {
                 stopRingTone();
                 context_->microphone.stop();
@@ -99,7 +120,7 @@ void TelephoneCall::handleJsonMessage()
         }
         break;
     case CallControl::Request::LINK:
-        if (Json::getInstance()->thisStation.id == context_->messageData.field.distId) {
+        if (ThisStation_.id == context_->messageData.field.distId) {
             if (context_->messageData.field.ownId != context_->messageData.field.prevOwnId) {
 //                if ((context_->assignedData.priority > context_->messageData.field.priority || context_->assignedData.priority == 0) &&
 //                        (context_->messageData.field.prevPriority > context_->messageData.field.priority || context_->messageData.field.prevPriority == 0)) {
@@ -116,7 +137,7 @@ void TelephoneCall::handleJsonMessage()
                     if (context_->telephoneDynamicStorage.empty()) {
                         context_->control = CallControl::Control::EXCH_CALL_TYPE;
                         context_->messageDataBuff.field = context_->messageData.field;                  //it is copying incoming json to the buffer
-                        context_->copyRecvBuff(context_->messageDataBuff.recvMessageBuff, UdpJsonExch::getInstance()->recvBuff);
+                        context_->copyRecvBuff(context_->messageDataBuff.recvMessageBuff, RecvBuff_);
 
                         context_->sendRequest(CallControl::Request::HANG_UP);
                         context_->removeRtp();
@@ -147,18 +168,18 @@ void TelephoneCall::handleJsonMessage()
     }
     break;
     case CallControl::Request::ACK_ANSW:
-        if (Json::getInstance()->thisStation.id == context_->messageData.field.ownId) {
+        if (ThisStation_.id == context_->messageData.field.ownId) {
             if (context_->messageData.field.distId == context_->messageData.field.prevDistId) {
                 stopRingTone();
                 context_->sendRequest(CallControl::Request::ACK);
-                context_->createRtp(Json::getInstance()->thisStation.id, CallControl::Duplex_type);
+                context_->createRtp(ThisStation_.id, CallControl::Duplex_type);
                 switchLed(context_->assignedData.key, true, 300, 300, 2, GPIO::GREEN);
                 context_->osTimer.stop(context_->osTimer.request_timerId, context_->osTimer.request_timerStatus);
             }
         }
         break;
     case CallControl::Request::BUSY:
-        if (Json::getInstance()->thisStation.id == context_->messageData.field.ownId) {
+        if (ThisStation_.id == context_->messageData.field.ownId) {
             if (context_->messageData.field.distId == context_->messageData.field.prevDistId) {
                 context_->sendRequest(CallControl::Request::ACK);
                 startRingTone(RingToneType::RING_BACK_BUSY_TONE);
@@ -225,7 +246,7 @@ void TelephoneCall::handleRepeatedRequestCallBack()
             break;
             case CallControl::Control::EXCH_CALL_TYPE: {
                 context_->messageData.field = context_->messageDataBuff.field;
-                std::memcpy(UdpJsonExch::getInstance()->recvBuff, context_->messageDataBuff.recvMessageBuff, std::strlen(context_->messageDataBuff.recvMessageBuff));
+                std::memcpy(RecvBuff_, context_->messageDataBuff.recvMessageBuff, std::strlen(context_->messageDataBuff.recvMessageBuff));
                 context_->resetData();
                 context_->setCallType();
             }
@@ -250,10 +271,10 @@ void TelephoneCall::handleAck()
 {
     switch (context_->control) {
     case CallControl::Control::READY: {
-        if (Json::getInstance()->thisStation.id == context_->messageData.field.ownId) {
+        if (ThisStation_.id == context_->messageData.field.ownId) {
             if (context_->messageData.field.distId == context_->messageData.field.prevDistId) {
                 context_->control = CallControl::Control::NONE;
-                context_->copyRecvBuff(context_->messageData.recvMessageBuff, UdpJsonExch::getInstance()->recvBuff);
+                context_->copyRecvBuff(context_->messageData.recvMessageBuff, RecvBuff_);
 //                switchLed(context_->assignedData.key, true, 0,0,0, GPIO::GREEN);
 //                context_->messageData.field.prevPriority = context_->messageData.field.distPriority;
                 startRingTone(RingToneType::RING_BACK_TONE);
@@ -264,7 +285,7 @@ void TelephoneCall::handleAck()
     }
     break;
     case CallControl::Control::HANG_UP: {
-        if (Json::getInstance()->thisStation.id == context_->messageData.field.distId) {
+        if (ThisStation_.id == context_->messageData.field.distId) {
             if (context_->messageData.field.ownId == context_->messageData.field.prevOwnId) {
                 context_->control = CallControl::Control::NONE;
                 context_->osTimer.stop(context_->osTimer.request_timerId, context_->osTimer.request_timerStatus);
@@ -272,7 +293,7 @@ void TelephoneCall::handleAck()
                 if(!context_->switchToConf())
                     this->context_->TransitionTo(new CallWaiting);
             }
-        } else if (Json::getInstance()->thisStation.id == context_->messageData.field.ownId) {
+        } else if (ThisStation_.id == context_->messageData.field.ownId) {
             if (context_->messageData.field.distId == context_->messageData.field.prevDistId) {
                 context_->control = CallControl::Control::NONE;
                 context_->osTimer.stop(context_->osTimer.request_timerId, context_->osTimer.request_timerStatus);
@@ -284,13 +305,13 @@ void TelephoneCall::handleAck()
     }
     break;
     case CallControl::Control::EXCH_CALL_TYPE: {
-        if ((Json::getInstance()->thisStation.id == context_->messageData.field.ownId && context_->messageData.field.distId == context_->messageData.field.prevDistId)
-                || (Json::getInstance()->thisStation.id == context_->messageData.field.distId && context_->messageData.field.ownId == context_->messageData.field.prevOwnId)) {
+        if ((ThisStation_.id == context_->messageData.field.ownId && context_->messageData.field.distId == context_->messageData.field.prevDistId)
+                || (ThisStation_.id == context_->messageData.field.distId && context_->messageData.field.ownId == context_->messageData.field.prevOwnId)) {
 
             context_->osTimer.stop(context_->osTimer.request_timerId, context_->osTimer.request_timerStatus);
 
             context_->messageData.field = context_->messageDataBuff.field;
-            std::memcpy(UdpJsonExch::getInstance()->recvBuff, context_->messageDataBuff.recvMessageBuff, std::strlen(context_->messageDataBuff.recvMessageBuff));
+            std::memcpy(RecvBuff_, context_->messageDataBuff.recvMessageBuff, std::strlen(context_->messageDataBuff.recvMessageBuff));
             context_->control = CallControl::Control::NONE;
 
             context_->resetData();
@@ -299,7 +320,7 @@ void TelephoneCall::handleAck()
     }
     break;
     case CallControl::Control::BUSY: {
-        if (Json::getInstance()->thisStation.id == context_->messageData.field.distId) {
+        if (ThisStation_.id == context_->messageData.field.distId) {
             context_->control = CallControl::Control::NONE;
             context_->osTimer.stop(context_->osTimer.request_timerId, context_->osTimer.request_timerStatus);
 //            if (context_->serviceData->recvBuffBusyCopy != nullptr) {
@@ -310,7 +331,7 @@ void TelephoneCall::handleAck()
     }
     break;
     case CallControl::Control::ANSWER: {
-        if (Json::getInstance()->thisStation.id == context_->messageData.field.distId) {
+        if (ThisStation_.id == context_->messageData.field.distId) {
             if (context_->messageData.field.ownId == context_->messageData.field.prevOwnId) {
                 context_->control = CallControl::Control::NONE;
                 context_->osTimer.stop(context_->osTimer.request_timerId, context_->osTimer.request_timerStatus);

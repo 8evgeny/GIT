@@ -40,7 +40,6 @@
 void writeFlashFromExtRam(int numBank);
 void eraseFlashBank(int numBank);
 void writeFirmwareFromBank0ToBank1();
-void printMd5(int len);
 enum
 {
     sc2,
@@ -52,7 +51,8 @@ enum
     pinNormaReset = 0,
     pinNormaSet = 1,
     pinNormaBlink = 2,
-    pinNormaBlinkFast = 3
+    pinNormaBlinkFast = 3,
+    pinNormaFake = 4
 };
 enum
 {
@@ -64,7 +64,6 @@ enum
 #ifdef __cplusplus
 extern "C" {
 #endif
-
 #define MII_MOC_Pin GPIO_PIN_1
 #define MII_MOC_GPIO_Port GPIOC
 #define MII_TXD2_Pin GPIO_PIN_2

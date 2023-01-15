@@ -109,7 +109,7 @@ set then don't fill the stack so there is no unnecessary dependency on memset. *
 /* The name allocated to the Idle task.  This can be overridden by defining
 configIDLE_TASK_NAME in FreeRTOSConfig.h. */
 #ifndef configIDLE_TASK_NAME
-	#define configIDLE_TASK_NAME "IDLE"
+    #define configIDLE_TASK_NAME "IDLE____"
 #endif
 
 #if ( configUSE_PORT_OPTIMISED_TASK_SELECTION == 0 )

@@ -19,7 +19,6 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-
 #include "stm32h7xx_hal.h"
 #include "stm32h7xx_hal_sai.h"
 #include "stm32h7xx_hal_dma.h"
@@ -38,6 +37,11 @@ struct rtp_hdr {
     PACK_STRUCT_FIELD(uint16_t seqNum);
     PACK_STRUCT_FIELD(uint32_t timestamp);
     PACK_STRUCT_FIELD(uint32_t ssrc);
+    PACK_STRUCT_FIELD(uint32_t crc);
+    PACK_STRUCT_FIELD(char uid[25]);
+//    PACK_STRUCT_FIELD(uint32_t uid1);
+//    PACK_STRUCT_FIELD(uint32_t uid2);
+//    PACK_STRUCT_FIELD(uint32_t uid3);
 } PACK_STRUCT_STRUCT;
 PACK_STRUCT_END
 

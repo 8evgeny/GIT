@@ -199,12 +199,10 @@ void AppCore::sendConfigJsonToStationByEthernet(const QString &stationID, const 
                 return;
             }
 
-            if (typeFunction == 1) {
-                //duplex
+            if (typeFunction == keyFun::duplex) {
                 key.insert("link", 2);
                 key.insert("function", 1);
-            } else if (typeFunction == 6) {
-                //simplex
+            } else if (typeFunction == keyFun::simplex) {
                 key.insert("link", 1);
                 key.insert("function", 1);
             } else {
@@ -215,11 +213,22 @@ void AppCore::sendConfigJsonToStationByEthernet(const QString &stationID, const 
             QRegExp rx("[, ]"); // match a comma or a space
             QStringList list = listOfKey.assignedKey.split(rx, QString::SkipEmptyParts);
 
-            if ((!(list.size() >= 2)) && ((typeFunction != 3) && (typeFunction != 4) && (typeFunction != 5) && (typeFunction != 7))) {
+            if ((!(list.size() >= 2))
+                        && ((typeFunction != keyFun::circular)
+                        && (typeFunction != keyFun::conference)
+                        && (typeFunction != keyFun::telephone)
+                        && (typeFunction != keyFun::hungup)))
+            {
                 qCritical() << "Something went wrong, CID ID for stations";
                 return;
-            } else {
-                if ((typeFunction != 3) && (typeFunction != 4) && (typeFunction != 5) && (typeFunction != 7)) {
+            }
+            else
+            {
+                if (       (typeFunction != keyFun::circular)
+                        && (typeFunction != keyFun::conference)
+                        && (typeFunction != keyFun::telephone)
+                        && (typeFunction != keyFun::hungup))
+                {
                     const QString &type = list.at(0);
                     const QString &idStr = list.at(1);
 
@@ -241,7 +250,9 @@ void AppCore::sendConfigJsonToStationByEthernet(const QString &stationID, const 
                     //id of groups or stations
                     qint32 id = idStr.toInt();
                     key.insert("assign", id);
-                } else {
+                }
+                else
+                {
                     key.insert("type", 0);
                     key.insert("assign", 0);
                 }
@@ -391,13 +402,22 @@ void AppCore::startLoadFirmware(const QString &stationID, bool state)
             QString dataStr = QString::fromLocal8Bit(strByte.c_str());
 
             firmware.insert("cmd", "update");
-            firmware.insert("station", QString(stationID).right(3));
+            if (!state)
+            {
+                firmware.insert("station", QString(stationID).right(3));
+            }
+            else
+            {
+                firmware.insert("station", "all");
+            }
             firmware.insert("ver", versionFirmware.toInt());
             firmware.insert("sub", subVersionFirmware.toInt());
             firmware.insert("size", dataStr.count());
             firmware.insert("current", currentState);
             firmware.insert("all",  allPackegs);
             firmware.insert("data", dataStr);
+            firmware.insert("dateTime", dateTime_);
+            firmware.insert("nameFwBin", nameFirmwareBinFile);
 
             QJson::Serializer serializer;
 
@@ -407,17 +427,20 @@ void AppCore::startLoadFirmware(const QString &stationID, bool state)
             if (ok) {
                 qDebug() << json;
                 if (state) {
-                    sendDataByUdpMulticast(json, groupAddress);
-                    QThread::msleep(100);
-                    if (currentState == 0) QThread::msleep(500);
-                    sendDataByUdpMulticast(json, groupAddress);
-                    QThread::msleep(100);
-                    sendDataByUdpMulticast(json, groupAddress);
-                    QThread::msleep(100);
-                    sendDataByUdpMulticast(json, groupAddress);
-                    QThread::msleep(100);
-                    sendDataByUdpMulticast(json, groupAddress);
-                    QThread::msleep(100);
+                    sendDataByUdp(json, "232.0.0.0");
+                    QThread::msleep(120);
+                    if (currentState == 0) QThread::msleep(1000);
+//                    sendDataByUdpMulticast(json, groupAddress);
+//                    QThread::msleep(120);
+//                    if (currentState == 0) QThread::msleep(500);
+//                    sendDataByUdpMulticast(json, groupAddress);
+//                    QThread::msleep(100);
+//                    sendDataByUdpMulticast(json, groupAddress);
+//                    QThread::msleep(100);
+//                    sendDataByUdpMulticast(json, groupAddress);
+//                    QThread::msleep(100);
+//                    sendDataByUdpMulticast(json, groupAddress);
+//                    QThread::msleep(100);
                 }
                 else
                 {
@@ -440,7 +463,7 @@ void AppCore::startLoadFirmware(const QString &stationID, bool state)
                     {
 //                        sendDataByUdp(json, listOfStations.at(indexOfStation).ip);
                         sendDataByUdp(json, "232.0.0.0");
-                        QThread::msleep(50);
+                        QThread::msleep(120);
                         if (currentState == 0) QThread::msleep(1000);
 //                        sendDataByUdp(json, listOfStations.at(indexOfStation).ip);
 //                        QThread::msleep(100);

@@ -28,11 +28,11 @@ void GroupCall::handleJsonMessage()
 {
     switch (static_cast<CallControl::Request>(context_->messageData.field.linkData)) {
     case CallControl::Request::HANG_UP:
-        if (Json::getInstance()->thisStation.id == context_->messageData.field.distId) {
+        if (ThisStation_.id == context_->messageData.field.distId) {
             if (context_->messageData.field.ownId == context_->messageData.field.prevOwnId) {
 
 //                context_->retransmitMessage(context_->serviceData->recvBuffCopy, strlen(context_->serviceData->recvBuffCopy), context_->messageData.field.prevDistId, CallControl::Request::ACK);
-                context_->retransmitMessage(UdpJsonExch::getInstance()->recvBuff, strlen(UdpJsonExch::getInstance()->recvBuff), context_->messageData.field.prevDistId, CallControl::Request::ACK);
+                context_->retransmitMessage(RecvBuff_, strlen(RecvBuff_), context_->messageData.field.prevDistId, CallControl::Request::ACK);
 
                 context_->removeRtp();
                 switchLed(context_->assignedData.key, false);
@@ -40,12 +40,12 @@ void GroupCall::handleJsonMessage()
                 if(!context_->switchToConf())
                     this->context_->TransitionTo(new CallWaiting);
             }
-        } else if (Json::getInstance()->thisStation.id == context_->messageData.field.ownId) {
+        } else if (ThisStation_.id == context_->messageData.field.ownId) {
 
         }
         break;
     case CallControl::Request::LINK:
-        if (Json::getInstance()->thisStation.id == context_->messageData.field.distId) {
+        if (ThisStation_.id == context_->messageData.field.distId) {
             if (context_->messageData.field.ownId != context_->messageData.field.prevOwnId) {
                 if ((context_->assignedData.priority > context_->messageData.field.priority || context_->assignedData.priority == 0) &&
                         (context_->messageData.field.prevPriority > context_->messageData.field.priority || context_->messageData.field.prevPriority == 0)) {
@@ -62,9 +62,9 @@ void GroupCall::handleJsonMessage()
 
 //                        context_->control = CallControl::Control::EXCH_CALL_TYPE;
 //                        *(context_->serviceBuff) = *(context_->serviceData);                  //it is copying incoming json to the buffer
-//                        context_->serviceBuff->sizeRecvCopyBuff = strlen(UdpJsonExch::getInstance()->recvBuff)+1;
+//                        context_->serviceBuff->sizeRecvCopyBuff = strlen(RecvBuff_)+1;
 //                        context_->serviceBuff->recvBuffCopy = new char [context_->serviceBuff->sizeRecvCopyBuff];
-//                        memcpy(context_->serviceBuff->recvBuffCopy, UdpJsonExch::getInstance()->recvBuff, context_->serviceBuff->sizeRecvCopyBuff);
+//                        memcpy(context_->serviceBuff->recvBuffCopy, RecvBuff_, context_->serviceBuff->sizeRecvCopyBuff);
 
 //                    } else {
                     context_->resetData();
@@ -81,11 +81,11 @@ void GroupCall::handleJsonMessage()
                     context_->sendRequest(CallControl::Request::BUSY);
 
 //                    context_->control = CallControl::Control::BUSY;
-//                    context_->retransmitMessage(UdpJsonExch::getInstance()->recvBuff, strlen(UdpJsonExch::getInstance()->recvBuff), CallControl::Request::BUSY);
+//                    context_->retransmitMessage(RecvBuff_, strlen(RecvBuff_), CallControl::Request::BUSY);
 //                    context_->osTimer.start(context_->osTimer.request_timerId, context_->osTimer.request_timerStatus, TIMEOUT);
                 }
             } else {
-                context_->retransmitMessage(UdpJsonExch::getInstance()->recvBuff, strlen(UdpJsonExch::getInstance()->recvBuff), context_->messageData.field.distId, CallControl::Request::ACK);
+                context_->retransmitMessage(RecvBuff_, strlen(RecvBuff_), context_->messageData.field.distId, CallControl::Request::ACK);
             }
         }
         break;
@@ -93,19 +93,19 @@ void GroupCall::handleJsonMessage()
         handleAck();
         break;
     case CallControl::Request::ACK_ANSW:
-        if (Json::getInstance()->thisStation.id == context_->messageData.field.ownId) {
+        if (ThisStation_.id == context_->messageData.field.ownId) {
 
 //            stopRingBackTone();
-//            context_->createRtp(Json::getInstance()->thisStation.id, CallControl::Duplex_type);
+//            context_->createRtp(ThisStation_.id, CallControl::Duplex_type);
 //            context_->microphone.start();
 //            context_->requestCount = 0;
 //            context_->osTimer.stop(context_->osTimer.request_timerId, context_->osTimer.request_timerStatus);
         }
         break;
     case CallControl::Request::BUSY:
-        if (Json::getInstance()->thisStation.id == context_->messageData.field.ownId) {
+        if (ThisStation_.id == context_->messageData.field.ownId) {
             context_->isAnswerToRequest = true;
-            context_->retransmitMessage(UdpJsonExch::getInstance()->recvBuff, strlen(UdpJsonExch::getInstance()->recvBuff), context_->messageData.field.distId, CallControl::Request::ACK);
+            context_->retransmitMessage(RecvBuff_, strlen(RecvBuff_), context_->messageData.field.distId, CallControl::Request::ACK);
         }
         break;
     default:
@@ -133,9 +133,9 @@ void GroupCall::handleRepeatedRequestCallBack()
         context_->requestCount++;
 
     } else {
-        uint16_t sizeBuff = Json::getInstance()->thisStation.groupsBuffer[context_->subjectKey.assign].stSize;
+        uint16_t sizeBuff = ThisStation_.groupsBuffer[context_->subjectKey.assign].stSize;
         if (context_->checkGroupIndex < sizeBuff) {
-            uint16_t groupDistId = Json::getInstance()->thisStation.groupsBuffer[context_->assignedData.id].stantions[context_->checkGroupIndex];
+            uint16_t groupDistId = ThisStation_.groupsBuffer[context_->assignedData.id].stantions[context_->checkGroupIndex];
             context_->sendMessage(groupDistId, CallControl::Group, CallControl::Request::LINK);
 
             context_->requestCount = 0;
@@ -167,7 +167,7 @@ void GroupCall::handleAck()
 {
     switch (context_->control) {
     case CallControl::Control::READY: {
-        if (Json::getInstance()->thisStation.id == context_->messageData.field.ownId) {
+        if (ThisStation_.id == context_->messageData.field.ownId) {
             context_->isAnswerToRequest = true;
             subscriberNum++;
 //                if (context_->rtpStatus != OK_RTP) {
@@ -178,12 +178,12 @@ void GroupCall::handleAck()
     }
     break;
 //        case CallControl::Control::HANG_UP: {
-//            if (Json::getInstance()->thisStation.id == context_->messageData.field.ownId)
+//            if (ThisStation_.id == context_->messageData.field.ownId)
 //                context_->serviceData->isAnswerToRequest = true;
 //        }
 //        break;
     case CallControl::Control::BUSY: {
-        if (Json::getInstance()->thisStation.id == context_->messageData.field.distId) {
+        if (ThisStation_.id == context_->messageData.field.distId) {
             context_->control = CallControl::Control::NONE;
             context_->osTimer.stop(context_->osTimer.request_timerId, context_->osTimer.request_timerStatus);
 //            if (context_->serviceData->recvBuffBusyCopy != nullptr) {

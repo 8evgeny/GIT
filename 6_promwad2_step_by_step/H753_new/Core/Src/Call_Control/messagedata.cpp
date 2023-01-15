@@ -15,7 +15,7 @@ term("MessageData ")
     distIdArrSize = doc["Dist_Id"].size();
     if (distIdArrSize > 1) {
         for (uint32_t i = 0; i < distIdArrSize; ++i) {
-            if (Json::getInstance()->thisStation.id == doc["Dist_Id"][i]) {
+            if (ThisStation_.id == doc["Dist_Id"][i]) {
                 field.distId = doc["Dist_Id"][i];
                 break;
             } else field.distId = 0;

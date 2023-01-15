@@ -23,7 +23,13 @@ Receiver::Receiver(QObject *parent)
 
     // Create a new UDP socket and bind it against port 99
     m_udpSocket = new QUdpSocket(this);
-    m_udpSocket->bind(QHostAddress(QHostAddress::AnyIPv4), PORT_JSON, QUdpSocket::ShareAddress);
+//    m_udpSocket->bind(QHostAddress(QHostAddress::AnyIPv4), PORT_JSON, QUdpSocket::ShareAddress);
+
+    if(m_udpSocket->bind(QHostAddress(QHostAddress::AnyIPv4), PORT_JSON, QUdpSocket::ShareAddress))
+        qDebug() << "Bind succesfull to port " << PORT_JSON;
+    else
+        qDebug() << "Bind failed to port " << PORT_JSON;
+
 
     // Tell the UDP socket which multicast group it should join
     m_udpSocket->joinMulticastGroup(m_groupAddress);
@@ -92,25 +98,30 @@ void Receiver::processPendingDatagrams()
             qDebug() << "ID:" << idTmp;
             QString id = QString::number(idTmp);
 
-            qint32 ver = result["Version"].toInt();
-            qDebug() << "Version:" << ver;
-            qint32 sub = result["Sub"].toInt();
-            qDebug() << "Sub:" << sub;
-            QString version = QString::number(ver) +  QString(".") + QString::number(sub);
+//            qint32 ver = result["Version"].toInt();
+            QString version = result["Version"].toString();
+            QString fwName = result["fwName"].toString();
+            qDebug() << "Version:" << version;
+            qDebug() << "fwName:" << fwName;
+//            qint32 sub = result["Sub"].toInt();
+//            qDebug() << "Sub:" << sub;
+//            QString version = QString::number(ver) +  QString(".") + QString::number(sub);
 
             QString ip = QString(result["IP"].toString());
             qDebug() << "IP:" << ip;
 
-            QString mac = "";
-            foreach (QVariant plugin, result["MAC"].toList()) {
-                qint32 tmp = plugin.toInt();
-                qDebug() << " " << tmp;
-                QString valueInHex = QString("%1").arg(tmp, 0, 16);
-                mac += valueInHex;
-            }
+//            QString mac = "";
+//            foreach (QVariant plugin, result["MAC"].toList()) {
+//                qint32 tmp = plugin.toInt();
+//                qDebug() << " " << tmp;
+//                QString valueInHex = QString("%1").arg(tmp, 0, 16);
+//                mac += valueInHex;
+//            }
+            QString mac = QString(result["MAC"].toString());
+            qDebug() << "MAC:" << mac;
 
             if (id.toInt() >= MIN_ID)
-                emit statusChangedJson(id, version, mac, ip);
+                emit statusChangedJson(id, version, fwName, mac, ip);
 
             qint32 writeConfigId = result["writeConfigId"].toInt();
             qint32 writeFirmwareId = result["writeFirmwareId"].toInt();

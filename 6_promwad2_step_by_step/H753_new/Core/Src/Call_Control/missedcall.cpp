@@ -21,7 +21,6 @@ void MissedCall::add(const uint8_t key)
             missedCallData.key = key;
             missedCalls.push_back(missedCallData);
         }
-term2("--1")
         switchLed(key, true, 100, 900, 0, GPIO::RED); //Цвет пропущенный дуплекс
     }
 }
@@ -73,9 +72,9 @@ void missedCallThread (void const *arg)
 {
     (void)arg;
     while(true) {
-        osMutexWait(UdpJsonExch::getInstance()->mutexCallControlId, osWaitForever);
-        UdpJsonExch::getInstance()->callControl->missedCall.handleAutoReset();
-        osMutexRelease(UdpJsonExch::getInstance()->mutexCallControlId);
+        osMutexWait(MutexCallControl_, osWaitForever);
+        CallControl_->missedCall.handleAutoReset();
+        osMutexRelease(MutexCallControl_);
         osDelay(1000);
     }
 

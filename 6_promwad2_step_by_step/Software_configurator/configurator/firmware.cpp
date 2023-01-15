@@ -124,7 +124,7 @@ QString calcFileCRC(QByteArray dataBin)
     return strCRC;
 }
 
-void AppCore::encryptionBinFile(const QUrl &pathFile, const QString &key, const QString &dateTime, const qint16 &mainNumber, const qint16 &subNumber)
+void AppCore::encryptionBinFile(const QUrl &pathFile, const QString &key, const QString &dateTime)
 {
     QByteArray bin;
     QByteArray simpleKey;
@@ -134,115 +134,122 @@ void AppCore::encryptionBinFile(const QUrl &pathFile, const QString &key, const 
     //Read a bin file
     QFile file(pathFile.toLocalFile());
     file.open(QIODevice::ReadOnly);
+
+    auto filename = QFileInfo(file).fileName();
+    qDebug()<< "fileName: "<< filename;
     bin = file.readAll();
     file.close();
+    //Ищем в файле 2 переменные - firmwareVersion_ patchVersion_
+    QByteArrayMatcher fwVersion, fwSubVersion;
+    fwVersion.setPattern("firmwareVersion_");
+    fwSubVersion.setPattern("patchVersion_");
+    int posFwVersionInBin = fwVersion.indexIn(bin);
+    int posFwSubVersionInBin = fwSubVersion.indexIn(bin);
+    qDebug()<< "posFwVersionInBin: "<< posFwVersionInBin;
+    qDebug()<< "posFwSubVersionInBin: "<< posFwSubVersionInBin;
+    QByteArray tmp = bin;
+    tmp.chop(bin.size() - (posFwVersionInBin + sizeof("firmwareVersion_") + 2));
+    QString firmwareVersion = tmp.right(2);
+    tmp = bin;
+    tmp.chop(bin.size() - (posFwSubVersionInBin + sizeof("patchVersion_") + 3));
+    QString patchVersion = tmp.right(2);
+
+    qDebug()<< "KEY: "<< key;
     qDebug()<< "Size bin: "<< bin.size();
-
-    QString strCRC = calcFileCRC(bin);
-    qDebug() << "strCRC: " << strCRC;
-
-    //AES128 - ECB
-//    QAESEncryption encryption(QAESEncryption::AES_128, QAESEncryption::ECB);
+    //Вычисляем на сколько нужно дополнить bin
+    QAESEncryption encryption(QAESEncryption::AES_128, QAESEncryption::ECB);
     //encode the bin file
-//    QByteArray encodedText = encryption.encode(bin, simpleKey);
+    QByteArray encodedBin = encryption.encode(bin, simpleKey);
+    bool binAdded = false;
+    while (bin.size() != encodedBin.size())
+    {
+        qDebug()<< "adding 0 to bin";
+        bin.append('0');
+        encodedBin = encryption.encode(bin, simpleKey);
+        binAdded = true;
+    }
+    if (binAdded)
+    {
+        QFile fileAdded(pathFile.toLocalFile() + ".add");
+        fileAdded.open(QIODevice::WriteOnly);
+        fileAdded.write(bin);
+        fileAdded.close();
+    }
+    qDebug()<< "New size bin: "<< bin.size();
+    qDebug()<< "Size binEnc: "<< encodedBin.size();
+//    QString originCRC = calcFileCRC(bin);
+//    qDebug() << "originCRC: " << originCRC;
+    qDebug()<< "DateTime: "<<dateTime;
+    dateTime_ = dateTime;
+    nameFirmwareBinFile = filename;
+    versionFirmware = firmwareVersion;
+    subVersionFirmware = patchVersion;
+    qDebug()<< "firmwareVersion: "<< versionFirmware;
+    qDebug()<< "patchVersion: "<< subVersionFirmware;
 
-    //decode the bin file
-//    QByteArray decodedText = encryption.decode(encodedText, simpleKey);
-    //get MD5 hash (no encoded file)
-
-//    QByteArray hashKeyEnc = QCryptographicHash::hash(encodedText, QCryptographicHash::Md5);
-
-    QByteArray hashKey = QCryptographicHash::hash(bin, QCryptographicHash::Md5);
-    qDebug() <<"Hash key: "<<hashKey.toHex();
-//    qint32 sizeFirmware = encodedText.size();
+    QByteArray hashKeyOriginBin = QCryptographicHash::hash(bin, QCryptographicHash::Md5);
+    qDebug() <<"Hash key origin bin: "<<hashKeyOriginBin.toHex();
     qint32 sizeFirmware = bin.size();
-//    qint32 countFirmware = encodedText.count();
-//    qDebug() << countFirmware;
+    const QByteArray& byteArrayMd5 = hashKeyOriginBin;
 
-    QByteArray byteArray;
+//    QByteArray byteArray;
 //    QDataStream stream(&byteArray, QIODevice::WriteOnly);
-    byteArray.append(static_cast<char>(mainNumber)); //1
-    byteArray.append(static_cast<char>(subNumber)); //1
-
-//    //New firmware version 2B
+//    byteArray.append(static_cast<char>(mainNumber));
+//    byteArray.append(static_cast<char>(subNumber));
 //    stream << mainNumber;
-//    //Update sequence number 2B
 //    stream << subNumber;
-
-    //to class
 //    versionFirmware =  QString(mainNumber);
 //    subVersionFirmware =  QString(subNumber);
-
-    QByteArray byteArraySize;
-    QDataStream streamSize(&byteArraySize, QIODevice::WriteOnly);
-
-    //Size of new firmware4B
-    streamSize << sizeFirmware; //4
+//    QByteArray byteArraySize;
+//    QDataStream streamSize(&byteArraySize, QIODevice::WriteOnly);
+//    streamSize << sizeFirmware;
 //    byteArraySize.append(sizeFirmware);
 //    byteArraySize.at(subNumber);
-
-    //MD5 16B
-    const QByteArray& byteArrayMd5 = hashKey; //16 //22
-
-    //Time and date of firmware creation 30B
-    QByteArray byteArrayTimeDate;
+//    QByteArray byteArrayTimeDate;
 //    QDataStream streamTimeDate(&byteArrayTimeDate, QIODevice::WriteOnly);
-    byteArrayTimeDate = dateTime.toLocal8Bit();
-
-    int fillNull =  CONST_TIME_HEAD_FIRMWARE - byteArrayTimeDate.size();
-    //Add 0
-    for (int i = 0; i < fillNull; i++) {
-        byteArrayTimeDate.append(static_cast<char>(0));
-    }
-    //52
-
-    //Reserve area (possibly adding new fields in the future) 202B
-    QByteArray byteArrayReserve;
-    byteArrayReserve.fill(0, CONST_RESERV_AREA);
-
-    QByteArray byteArraySizeBare;
-    QDataStream streamSizeBare(&byteArraySizeBare, QIODevice::WriteOnly);
-
-    qint32 sizeFirmwareBare = bin.size();
-    //Size of new firmware4B
-    streamSizeBare << sizeFirmwareBare; //4
-
-    //MD5 16B
-    QByteArray hashKeyBare = QCryptographicHash::hash(bin, QCryptographicHash::Md5);
-    const QByteArray& byteArrayMd5Bare = hashKeyBare; //16 //22
-
+//    byteArrayTimeDate = dateTime.toLocal8Bit();
+//    int fillNull =  CONST_TIME_HEAD_FIRMWARE - byteArrayTimeDate.size();
+//    for (int i = 0; i < fillNull; i++)
+//    { //Add 0
+//        byteArrayTimeDate.append(static_cast<char>(0));
+//    }
+//    QByteArray byteArrayReserve; //Reserve area
+//    byteArrayReserve.fill(0, CONST_RESERV_AREA);
+//    QByteArray byteArraySizeBare;
+//    QDataStream streamSizeBare(&byteArraySizeBare, QIODevice::WriteOnly);
+//    qint32 sizeFirmwareBare = bin.size();
+//    streamSizeBare << sizeFirmwareBare; //Size of new firmware
+//    QByteArray hashKeyBare = QCryptographicHash::hash(bin, QCryptographicHash::Md5);
+//    const QByteArray& byteArrayMd5Bare = hashKeyBare; //16 //22
 
     //Final bin
     QByteArray byteArrayFinalBin;
     QDataStream streamFinalBin(&byteArrayFinalBin, QIODevice::WriteOnly);
 //    byteArrayFinalBin =  byteArray + byteArraySize + byteArrayMd5 + byteArrayTimeDate + byteArraySizeBare + byteArrayMd5Bare + byteArrayReserve + encodedText;
-    byteArrayFinalBin =  bin + hashKey;
-
-
+    byteArrayFinalBin =  encodedBin + hashKeyOriginBin;
     firmwareForDownload = byteArrayFinalBin;
 
 // Only for testing strHex and strHex
-
 //    std::string tmp = hexStr(byteArrayFinalBin);
-
-
-
 //    QString str = QString::fromStdString(tmp.c_str());
 //    QByteArray cmp = strHex(tmp);
-
 //    if(byteArrayFinalBin == cmp){
 //        qCritical() << "Ok";
 //    }
 //    else{
 //        qCritical() << "Error";
 //    }
-
     //qCritical() << str;
     //qCritical() << str.size();
+
+//    QString encrypCRC = calcFileCRC(encodedBin);
+//    qDebug() << "encrypCRC: " << encrypCRC;
+
+
     //Write a bin file
     QFile fileEnc(pathFile.toLocalFile() + ".enc");
     fileEnc.open(QIODevice::WriteOnly);
-    fileEnc.write(byteArrayFinalBin);
+    fileEnc.write(encodedBin);
     fileEnc.close();
 
     emit sendEncFileName("file://" + pathFile.toLocalFile() + ".enc");

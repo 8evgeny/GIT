@@ -625,7 +625,7 @@ std::memcpy(readSramBuff,
         char tmpWriteBuf[SIZE_DEF_BLOCK_UDP] {0};
         std::fill(tmpWriteBuf, tmpWriteBuf + SIZE_DEF_BLOCK_UDP, 0);
 
-        configDoc["writeConfigId"] = Json::getInstance()->thisStation.id;
+        configDoc["writeConfigId"] = ThisStation_.id;
         configDoc["status"].set("ok");
         serializeJson(configDoc, tmpWriteBuf, capacity);
         RS232::getInstance().write(reinterpret_cast<uint8_t *>(tmpWriteBuf), static_cast<uint16_t>(std::strlen(tmpWriteBuf)));

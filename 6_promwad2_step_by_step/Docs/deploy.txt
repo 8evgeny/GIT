@@ -1,0 +1,4 @@
+windeployqt.exe --qmldir C:\Qt5\5.15.2\mingw81_64\qml C:\Users\Professional\Desktop\10\configurator.exe
+
+cd C:\Qt5\5.15.2\mingw81_64\bin 
+windeployqt.exe --qmldir C:\Qt5\5.15.2\mingw81_64\qml C:\Users\Professional\Desktop\11\configurator.exe

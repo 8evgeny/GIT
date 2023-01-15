@@ -13,6 +13,9 @@
 #include <memory>
 #include "os_timers.h"
 
+#define CallControl_ UdpJsonExch::getInstance()->callControl
+#define RecvBuff_ UdpJsonExch::getInstance()->recvBuff
+#define MutexCallControl_ UdpJsonExch::getInstance()->mutexCallControlId
 /*!
  \brief The enumeration that stores key types of the key modes
 
@@ -561,7 +564,8 @@ public:
        54, 55, 56, // 21,22,23,
        57, 58, 59, // 25,26,27,
     };
-
+//    bool ordinaryTelephoneCall = false;
+    bool simplexTelephoneCall = false;
 
     std::array <Keypad, 10> keypadStructArray; /*!< The array that stores Keypad struct elements */
 

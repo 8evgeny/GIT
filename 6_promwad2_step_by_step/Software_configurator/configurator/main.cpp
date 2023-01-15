@@ -45,11 +45,29 @@ int main(int argc, char *argv[])
 
     QQmlApplicationEngine engine;
     AppCore appCore;
+    QString version;
+    QFile file("../configurator/versions_configurator");
+    file.open(QIODevice::ReadOnly);
+    QByteArray ba = file.readLine();
+    ba.append(file.readLine());
+    ba.append(file.readLine());
+    QString baStr = QString(ba);
+    QRegExp rx("(\\d+)");
+    QStringList list;
+    int pos = 0;
+    while ((pos = rx.indexIn(baStr, pos)) != -1)
+    {
+        list << rx.cap(1);
+        pos += rx.matchedLength();
+    }
+    version = list[0] + "." + list[1]+ "." + list[2];
+    qDebug() << "version: " << version;
+
 
     app.setOrganizationName("GIT");
     app.setOrganizationDomain("GIT");
-    app.setApplicationName("GIT");
-
+    app.setApplicationName("Software configurator (version "+version+")");
+    app.setApplicationVersion(version);
     qmlRegisterType<RuLang>("RuLang", 1, 0, "RuLang");
     RuTranslator mTrans(&app);
 

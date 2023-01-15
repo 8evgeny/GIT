@@ -143,11 +143,16 @@ public:
         return HAL_GetUIDw2();
     }
 
+    uint32_t getDevId()
+    {
+        return HAL_GetDEVID();
+    }
+
     /*!
      * \brief Simple test for UID
      * \fn test
      */
-    void test();
+    void getUID();
 };
 
 #endif  // UID_H

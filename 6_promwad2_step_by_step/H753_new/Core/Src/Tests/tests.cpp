@@ -82,7 +82,7 @@ void LittleFsTest::uidTest(Tests *m)
 void UidTest::trngTest(Tests *m)
 {
     RS232::getInstance().term << __FUNCTION__ <<  __LINE__ << "\n";
-    UID::getInstance().test();
+    UID::getInstance().getUID();
     m->setCurrent(new Trng);
     delete this;
 }

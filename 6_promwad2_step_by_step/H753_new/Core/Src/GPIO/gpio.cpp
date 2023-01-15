@@ -26,11 +26,13 @@ bool volUpPressed;
 bool volDownPressed;
 bool sensUpPressed;
 bool sensDownPressed;
+uint32_t lastTimePressed;
 bool signalMaxMin = false;
 extern uint8_t pinNormaState;
-
+uint8_t volatile asteriskPressed = 0;
 extern SAI_HandleTypeDef audioTxSai;
 extern uint8_t boardType;
+bool asteriskReleasedAfterLongTime;
 static const uint16_t ring_length = 5136;
 alignas(4) static uint8_t ring_raw[] = {
 
@@ -642,21 +644,7 @@ struct Aic3254Configs ConfigureDAC_VOL[] {
 };
 
 constexpr static uint32_t I2C_ADDRESS = 49;
-void GPIO::upVolume(void)
-{
-    ConfigureDAC_VOL[8].regVal = GPIO::getInstance()->dacDriverGainValue;
-
-    for (uint32_t i = 0; i < sizeof(ConfigureDAC_VOL) / sizeof(struct Aic3254Configs); i++)
-    {
-        osMutexWait(GPIO::getInstance()->mutexButtons_id, osWaitForever);
-        I2C::getInstance()->writeRegister(I2C_ADDRESS, ConfigureDAC_VOL[i].regOffset, ConfigureDAC_VOL[i].regVal, true);
-        osMutexRelease(GPIO::getInstance()->mutexButtons_id);
-
-        HAL_SAI_Transmit_IT(&audioTxSai, ring_raw, ring_length/2);
-    }
-
-}
-void GPIO::downVolume(void)
+void GPIO::changeVolume(void)
 {
     ConfigureDAC_VOL[8].regVal = GPIO::getInstance()->dacDriverGainValue;
 
@@ -667,21 +655,28 @@ void GPIO::downVolume(void)
         osMutexRelease(GPIO::getInstance()->mutexButtons_id);
         HAL_SAI_Transmit_IT(&audioTxSai, ring_raw, ring_length/2);
     }
-
 }
-void GPIO::upSens(void)
+void GPIO::changeVolumeMute(void)
+{
+    ConfigureDAC_VOL[8].regVal = GPIO::getInstance()->dacDriverGainValue;
+
+    for (uint32_t i = 0; i < sizeof(ConfigureDAC_VOL) / sizeof(struct Aic3254Configs); i++)
+    {
+        osMutexWait(GPIO::getInstance()->mutexButtons_id, osWaitForever);
+        I2C::getInstance()->writeRegister(I2C_ADDRESS, ConfigureDAC_VOL[i].regOffset, ConfigureDAC_VOL[i].regVal, true);
+        osMutexRelease(GPIO::getInstance()->mutexButtons_id);
+    }
+}
+void GPIO::changeSens(void)
 {
     I2C::getInstance()->writeRegister(TLV320AIC3254::I2C_ADDRESS, 0x00, 0x00, true);
     I2C::getInstance()->writeRegister(TLV320AIC3254::I2C_ADDRESS, 0x53, GPIO::getInstance()->dacDriverSensValue, true);
-
     HAL_SAI_Transmit_IT(&audioTxSai, ring_raw, ring_length/2);
 }
-void GPIO::downSens(void)
+void GPIO::changeSensMute(void)
 {
     I2C::getInstance()->writeRegister(TLV320AIC3254::I2C_ADDRESS, 0x00, 0x00, true);
     I2C::getInstance()->writeRegister(TLV320AIC3254::I2C_ADDRESS, 0x53, GPIO::getInstance()->dacDriverSensValue, true);
-
-    HAL_SAI_Transmit_IT(&audioTxSai, ring_raw, ring_length/2);
 }
 void GPIO::signalMaxMin(void)
 {
@@ -793,10 +788,11 @@ void switchLEDsThread(void const *arg)
     }
     if (boardType == sc4)
     {
+        auto timeReset = HAL_GetTick();
         (void)arg;
         GPIO::getInstance()->initLEDS_SC4();
         GPIO::getInstance()->testLed();
-
+        bool pinFake = false;
         while(true)
         {
             uint8_t adr, reg, numON, numOFF;
@@ -819,7 +815,7 @@ void switchLEDsThread(void const *arg)
                     I2C::getInstance()->writeRegister(adr, reg, numOFF, false);
                 }
             }
-            if (pinNormaState != pinNormaBlink)
+            if ((pinNormaState != pinNormaBlink) && (pinNormaState != pinNormaFake))
             {
                 if ((LinkStatus == 1) && (inMcastGroup == 1))
                 {
@@ -828,6 +824,21 @@ void switchLEDsThread(void const *arg)
                 else
                 {
                     pinNormaState = pinNormaReset;
+                }
+            }
+
+            //Обрабатываем невыход в готовность
+            if ((pinNormaState == pinNormaReset) || (pinNormaState == pinNormaFake))
+            {
+                if (!pinFake)
+                {
+                    pinFake = true;
+                    timeReset = HAL_GetTick();
+                }
+                if (timeReset + 20000 < HAL_GetTick())
+                {
+                    term2("REBOOT")
+                    HAL_NVIC_SystemReset(); //pev
                 }
             }
             osDelay(1);
@@ -861,7 +872,7 @@ void switchLEDsThread(void const *arg)
                     if(i == 1) HAL_GPIO_WritePin(GPIOG, GPIO_PIN_13, GPIO_PIN_SET);
                     if(i == 0) HAL_GPIO_WritePin(GPIOG, GPIO_PIN_14, GPIO_PIN_SET);
                 }
-                if (pinNormaState != pinNormaBlink)
+                if ((pinNormaState != pinNormaBlink) && (pinNormaState != pinNormaFake))
                 {
 
                     if ((LinkStatus == 1) && (inMcastGroup == 1))
@@ -873,6 +884,7 @@ void switchLEDsThread(void const *arg)
                         pinNormaState = pinNormaReset;
                     }
                 }
+
             }
             osDelay(1);
         }
@@ -987,7 +999,7 @@ void readButtonThread(void const *arg)
         uint8_t numButton = 0;
         uint32_t tickstart = HAL_GetTick();
         bool keySendingFlag = false;
-
+        auto timePressAsterisk = HAL_GetTick();
         while(true)
         {
             //Повторное нажатие воспринимается
@@ -1017,7 +1029,14 @@ void readButtonThread(void const *arg)
                     if (readBoard != 255)
                     {
                         numButton = GPIO::getInstance()->findTelephoneBUTTONS(readBoard, j);
+                        if (numButton == 61)
+                        {
+                            ++asteriskPressed;
+                            timePressAsterisk = HAL_GetTick();
+                            asteriskReleasedAfterLongTime = false;
+                        }
 
+//term2(numButton)
                     }
                 }
             }//Просканировали клавиши номеронабирателя
@@ -1050,22 +1069,22 @@ void readButtonThread(void const *arg)
 
             if(volDownPressed)
             {
-                GPIO::getInstance()->downVolume();
+                GPIO::getInstance()->changeVolume();
                 volDownPressed = false;
             }
             if(volUpPressed)
             {
-                GPIO::getInstance()->upVolume();
+                GPIO::getInstance()->changeVolume();
                 volUpPressed = false;
             }
             if(sensDownPressed)
             {
-                GPIO::getInstance()->downSens();
+                GPIO::getInstance()->changeSens();
                 sensDownPressed = false;
             }
             if(sensUpPressed)
             {
-                GPIO::getInstance()->upSens();
+                GPIO::getInstance()->changeSens();
                 sensUpPressed = false;
             }
             if(signalMaxMin)
@@ -1075,6 +1094,11 @@ void readButtonThread(void const *arg)
             }
 
              osDelay(50); //Возможно нужно убрать
+
+             if (asteriskPressed + 500 < HAL_GetTick())
+             {
+                 asteriskReleasedAfterLongTime = true;
+             }
 
             osDelay(1);
         }
@@ -1136,7 +1160,6 @@ extern "C" {
     auto timeVolPlus = HAL_GetTick();
     void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
     {
-
         if (GPIO_Pin == GPIO_PIN_5)
         {
             if (HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_5))
@@ -1152,6 +1175,7 @@ extern "C" {
         {
             if (!HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_9) && (timeVolPlus + 300 < HAL_GetTick()))
             {
+                lastTimePressed = HAL_GetTick();
                 RS232Puts("Pressed VOL+ button\r\n");
                 if (GPIO::getInstance()->dacDriverGainValue < GPIO::getInstance()->dacDriverGainValueMax)
                 {
@@ -1164,13 +1188,14 @@ extern "C" {
                     signalMaxMin = true;
                 }
 
-                term2(GPIO::getInstance()->dacDriverGainValue / 2)
+                term2(GPIO::getInstance()->dacDriverGainValue )
             }
         }
         else if (GPIO_Pin == GPIO_PIN_10)
         {
             if (!HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_10))
             {
+                lastTimePressed = HAL_GetTick();
                 RS232Puts("Pressed VOL- button\r\n");
                 if (GPIO::getInstance()->dacDriverGainValue > GPIO::getInstance()->dacDriverGainValueMin)
                 {
@@ -1182,11 +1207,12 @@ extern "C" {
                     signalMaxMin = true;
                 }
 
-                term2(GPIO::getInstance()->dacDriverGainValue / 2 )
+                term2(GPIO::getInstance()->dacDriverGainValue )
             }
         }
         else if (GPIO_Pin == GPIO_PIN_11)
         {
+            lastTimePressed = HAL_GetTick();
             RS232Puts("Pressed SENS+ button\r\n");
             if (GPIO::getInstance()->dacDriverSensValue < GPIO::getInstance()->dacDriverSensValueMax)
             {
@@ -1197,10 +1223,11 @@ extern "C" {
             {
                 signalMaxMin = true;
             }
-                term2(GPIO::getInstance()->dacDriverSensValue / 2 )
+                term2(GPIO::getInstance()->dacDriverSensValue )
         }
         else if (GPIO_Pin == GPIO_PIN_12)
         {
+            lastTimePressed = HAL_GetTick();
             RS232Puts("Pressed SENS- button\r\n");
             if (GPIO::getInstance()->dacDriverSensValue > GPIO::getInstance()->dacDriverSensValueMin)
             {
@@ -1211,7 +1238,7 @@ extern "C" {
             {
                 signalMaxMin = true;
             }
-                term2(GPIO::getInstance()->dacDriverSensValue / 2)
+                term2(GPIO::getInstance()->dacDriverSensValue )
         }
     }
 

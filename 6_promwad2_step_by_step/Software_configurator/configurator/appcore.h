@@ -19,6 +19,16 @@
 #include "RuLang.h"
 #include <QColor>
 
+enum keyFun
+{
+    duplex = 1,
+    groupe,
+    circular,
+    conference,
+    telephone,
+    simplex,
+    hungup
+};
 /*!
  \brief This class contains signals and slots necessary for working with qml part of the software configurator,
         the class contains the necessary constants and methods and is the base object.
@@ -83,6 +93,7 @@ class AppCore : public QObject
         using ListOfStationsStatus =  struct {
         QString colorStation;
         QString version;
+        QString nameFware;
         QString mac;
         QList < ListOfStations> stations; /*! This structure is a object for storing a list */
     };
@@ -118,7 +129,9 @@ signals:
     */
     void exitFromMenu();
 
-    /*!
+    void nextIp(int num1, int num2, int num3, int num4);
+
+/*!
      \brief Create a status window
 
      \fn createWindowStatus
@@ -668,7 +681,7 @@ signals:
       \param fillMac MAC
       \param fillVersion Version firmware
     */
-    void fillInfoForProgrammerWindowByJson(QString fillNumber, QString fillName, QString fillIp, QString fillColor, QString fillMac, QString fillVersion);
+    void fillInfoForProgrammerWindowByJson(QString fillNumber, QString fillName, QString fillIp, QString fillColor, QString fillMac, QString fillVersion, QString fillNameFware);
 
     /*!
      \brief This method clears the list of stations for status
@@ -832,7 +845,7 @@ public slots:
      \param nameOfStation Station name
      \param idOfStation ID name
     */
-    void saveStation(const QString &nameOfStation, const QString &idOfStation);
+    void saveStation(const QString &nameOfStation, const QString &idOfStation, const QString &ipOfStation);
 
     /*!
      \brief Delete the station by name.
@@ -1014,7 +1027,7 @@ public slots:
      \param newMaskNetwork Network mask
     */
     void updateStationMaskNetwork(const QString &currentNameOfStation, const QString &newMaskNetwork);
-
+    void saveIP(QString newIpFromQml);
     /*!
      \brief Get a new gateway for the station.
 
@@ -1064,7 +1077,7 @@ public slots:
      \param mainNumber Firmware version
      \param subNumber Firmware subversion
     */
-    void encryptionBinFile(const QUrl &pathFile,  const QString &key, const QString &dateTime, const qint16 &mainNumber, const qint16 &subNumber);
+    void encryptionBinFile(const QUrl &pathFile,  const QString &key, const QString &dateTime);
 
     /*!
      \brief Get speed and dev name for the port.
@@ -1362,7 +1375,7 @@ public slots:
      \param macJson MAC
      \param ipJson IP
     */
-    void statusChangedJson(const QString &idJson, const QString &versionJson, const QString &macJson, const QString &ipJson);
+    void statusChangedJson(const QString &idJson, const QString &versionJson, const QString &fwNameJson, const QString &macJson, const QString &ipJson);
 
     /*!
      \brief Verify Changes Before Saving
@@ -1425,7 +1438,6 @@ public slots:
     void exitActionFromMenu();
 
 private:
-
     QList < ListOfMacros > listOfMacros; /*! List of existing macros */
     QList < ListOfStations> listOfStations; /*! List of existing stations */
     QList < ListOfGroups> listOfGroups; /*! List of existing groups */
@@ -1442,7 +1454,8 @@ private:
 
     qint32 uartSpeed{}; /*! UART speed 115200 default speed */
     qint32 currentLanguage = 0; /*! Current selected language, 0 - English, 1 - Russian */
-
+    QString dateTime_;
+    QString nameFirmwareBinFile;
     QString portNameUarts; /*! Name of current UART */
     QString versionFirmware; /*! Current version of the firmware */
     QString subVersionFirmware; /*! Current subversion of the firmware  */

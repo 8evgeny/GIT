@@ -6,7 +6,7 @@ import QtQuick.Dialogs 1.2
 
 Window {
     id: programmerWindow
-    width: 1280
+    width: 1480
     height: 800
     visible: true
     title: qsTr("Programmer")
@@ -19,7 +19,8 @@ Window {
     property int baseHeight: 40
     property int typeOfMenu: 0
 
-    Row {
+    Row
+    {//Строка меню
         id: rowListOfSubscribersStatic
         width: parent.width
         height: defaultSizeOfHeight
@@ -53,7 +54,9 @@ Window {
                 height: baseHeight
                 width: cellWidth
                 readOnly: true
-                text: qsTr("Number")
+                font.family: "Arial"
+                font.pointSize: 14
+                text: qsTr("Device number")
 
                 background: Rectangle {
                     border.color: "#333"
@@ -71,7 +74,9 @@ Window {
                 height: baseHeight
                 width: cellWidth
                 readOnly: true
-                text: qsTr("Name")
+                font.family: "Arial"
+                font.pointSize: 14
+                text: qsTr("Device name")
 
                 background: Rectangle {
                     border.color: "#333"
@@ -83,13 +88,15 @@ Window {
         //version of the embedded software
         Rectangle {
             height: baseHeight
-            width: cellWidth
+            width: cellWidth + 150
             id: rectangleProgrammerVersionStatic
             TextField {
                 height: baseHeight
-                width: cellWidth
+                width: cellWidth + 150
                 readOnly: true
-                text: qsTr("Version")
+                font.family: "Arial"
+                font.pointSize: 14
+                text: qsTr("Firmware version")
 
                 background: Rectangle {
                     border.color: "#333"
@@ -98,16 +105,19 @@ Window {
             }
         }
 
-        //type of the device
-        Rectangle {
+        //Name firmware file
+        Rectangle
+        {
             height: baseHeight
-            width: cellWidth
-            id: rectangleProgrammerTypeStatic
+            width: cellWidth + 50
+            id: rectangleProgrammerNameFware
             TextField {
                 height: baseHeight
-                width: cellWidth
+                width: cellWidth + 50
                 readOnly: true
-                text: qsTr("Type")
+                font.family: "Arial"
+                font.pointSize: 14
+                text: qsTr("Firmware name")
 
                 background: Rectangle {
                     border.color: "#333"
@@ -116,8 +126,10 @@ Window {
             }
         }
 
+
         //IP of the device
-        Rectangle {
+        Rectangle
+        {
             height: baseHeight
             width: cellWidth
             id: rectangleProgrammerIpStatic
@@ -125,6 +137,8 @@ Window {
                 height: baseHeight
                 width: cellWidth
                 readOnly: true
+                font.family: "Arial"
+                font.pointSize: 14
                 text: qsTr("IP")
 
                 background: Rectangle {
@@ -135,7 +149,8 @@ Window {
         }
 
         //MAC of the device
-        Rectangle {
+        Rectangle
+        {
             height: baseHeight
             width: cellWidth
             id: rectangleProgrammerMacStatic
@@ -143,6 +158,8 @@ Window {
                 height: baseHeight
                 width: cellWidth
                 readOnly: true
+                font.family: "Arial"
+                font.pointSize: 14
                 text: qsTr("MAC")
 
                 background: Rectangle {
@@ -152,7 +169,7 @@ Window {
             }
         }
         spacing: -1
-    }
+    } //End ROW - строка меню
 
     Flickable {
         id: flickableProgrammer
@@ -185,7 +202,8 @@ Window {
                         width: flickableProgrammer.width
                         height: defaultSizeOfHeight
 
-                        Row {
+                        Row
+                        {
                             id: rowListOfSubscribers
                             width: parent.width
                             height: parent.height
@@ -232,6 +250,8 @@ Window {
                                     height: baseHeight
                                     width: cellWidth
                                     readOnly: true
+                                    font.family: "Arial"
+                                    font.pointSize: 12
                                     text: numberOfId
 
                                     background: Rectangle {
@@ -250,6 +270,8 @@ Window {
                                     height: baseHeight
                                     width: cellWidth
                                     readOnly: true
+                                    font.family: "Arial"
+                                    font.pointSize: 12
                                     text: nameOfId
 
                                     background: Rectangle {
@@ -262,12 +284,14 @@ Window {
                             //version of the embedded software
                             Rectangle {
                                 height: baseHeight
-                                width: cellWidth
+                                width: cellWidth + 150
                                 id: rectangleProgrammerVersion
                                 TextField {
                                     height: baseHeight
-                                    width: cellWidth
+                                    width: cellWidth + 150
                                     readOnly: true
+                                    font.family: "Arial"
+                                    font.pointSize: 12
                                     text: versionOfSoftware
 
                                     background: Rectangle {
@@ -277,16 +301,18 @@ Window {
                                 }
                             }
 
-                            //type of the device
+                            //name fw file
                             Rectangle {
                                 height: baseHeight
-                                width: cellWidth
-                                id: rectangleProgrammerType
+                                width: cellWidth + 50
+                                id: rectangleProgrammerFwName
                                 TextField {
                                     height: baseHeight
-                                    width: cellWidth
+                                    width: cellWidth + 50
                                     readOnly: true
-                                    text: typeOfDevice
+                                    font.family: "Arial"
+                                    font.pointSize: 12
+                                    text: nameOfSoftware
 
                                     background: Rectangle {
                                         border.color: "#333"
@@ -304,6 +330,8 @@ Window {
                                     height: baseHeight
                                     width: cellWidth
                                     readOnly: true
+                                    font.family: "Arial"
+                                    font.pointSize: 12
                                     text: ipOfDevice
 
                                     background: Rectangle {
@@ -322,6 +350,8 @@ Window {
                                     height: baseHeight
                                     width: cellWidth
                                     readOnly: true
+                                    font.family: "Arial"
+                                    font.pointSize: 12
                                     text: macOfDevice
 
                                     background: Rectangle {
@@ -331,13 +361,13 @@ Window {
                                 }
                             }
                             spacing: -1
-                        }
+                        }//End Row Delagate
                     }
                     spacing: -1
                 }
             }
         }
-    }
+    }//End Flickable
 
     //Set the center of coordinates
 //    function setCoordinates() {
@@ -357,6 +387,8 @@ Window {
         id: buttonReadConfiguration
         y: 82
         text: qsTr("Read configuration")
+        font.family: "Arial"
+        font.pointSize: 14
         anchors.left: parent.left
         anchors.leftMargin: 5
         anchors.top: parent.top
@@ -369,6 +401,8 @@ Window {
     Button {
         id: buttonWriteConfiguration
         text: qsTr("Write configuration")
+        font.family: "Arial"
+        font.pointSize: 14
         anchors.left: buttonReadConfiguration.right
         anchors.leftMargin: 5
         anchors.verticalCenter: buttonReadConfiguration.verticalCenter
@@ -386,6 +420,8 @@ Window {
     Button {
         id: buttonDeleteConfiguration
         text: qsTr("Delete configuration")
+        font.family: "Arial"
+        font.pointSize: 14
         anchors.left: buttonWriteConfiguration.right
         anchors.leftMargin: 5
         anchors.verticalCenter: buttonWriteConfiguration.verticalCenter
@@ -403,6 +439,8 @@ Window {
     Button {
         id: buttonReboot
         text: qsTr("Reboot")
+        font.family: "Arial"
+        font.pointSize: 14
         visible: true
         anchors.left: buttonDeleteConfiguration.right
         anchors.leftMargin: 5
@@ -430,7 +468,7 @@ Window {
                                            "numberOfId": fillNumber,
                                            "nameOfId": fillName,
                                            "versionOfSoftware": "",
-                                           "typeOfDevice": "",
+                                           "nameOfSoftware": "",
                                            "ipOfDevice": fillIp,
                                            "macOfDevice": ""
                                        })
@@ -447,7 +485,7 @@ Window {
                                            "numberOfId": fillNumber,
                                            "nameOfId": fillName,
                                            "versionOfSoftware": fillVersion,
-                                           "typeOfDevice": "",
+                                           "nameOfSoftware": fillNameFware,
                                            "ipOfDevice": fillIp,
                                            "macOfDevice": fillMac
                                        })
@@ -474,7 +512,7 @@ Window {
         target: receiver
         onStatusChangedJson :{
 //            void statusChangedJson(QString idJson, QString versionJson, QString macJson, QString ipJson);
-            appCore.statusChangedJson(idJson, versionJson, macJson, ipJson);
+            appCore.statusChangedJson(idJson, versionJson, fwNameJson, macJson, ipJson);
         }
     }
 
