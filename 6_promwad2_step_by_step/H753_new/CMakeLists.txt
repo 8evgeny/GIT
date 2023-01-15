@@ -191,7 +191,7 @@ add_library(LWIP ${LWIP_SRC} )
 add_library(RTT ${SEGGER_RTT_SOURCES})
 add_library(CRYPTO_LIB ${CRYPTO_src})
 
-add_executable(${PROJECT_NAME}.elf
+add_executable(firmware_${IPS_VERSION}.${PATCH_VERSION}.elf
     ${SOURCES_C}
     ${SOURCES_CPP}
     Core/Src/LWIP/App/lwip.c
@@ -231,7 +231,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}\
     -mfloat-abi=hard \
     -mthumb \
     -Xlinker \
-    -Map=${PROJECT_NAME}.map \
+    -Map=firmware_${IPS_VERSION}.${PATCH_VERSION}.map \
     -u_printf_float \
     -fno-exceptions \
     -Wl,--end-group \
@@ -257,7 +257,7 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}\
     -mfloat-abi=hard \
     -mthumb \
     -Xlinker \
-    -Map=${PROJECT_NAME}.map \
+    -Map=firmware_${IPS_VERSION}.${PATCH_VERSION}.map \
     -u_printf_float \
     -fno-exceptions \
     -Wl,--end-group \
@@ -265,7 +265,7 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}\
 #-Wl,-section-start=.rtt=0x20000000 \
 
 
-set_target_properties(${PROJECT_NAME}.elf PROPERTIES LINKER_LANGUAGE CXX)
+set_target_properties(firmware_${IPS_VERSION}.${PATCH_VERSION}.elf PROPERTIES LINKER_LANGUAGE CXX)
 set(LINKER_SCRIPT_FLASH "${CMAKE_SOURCE_DIR}/STM32H753IITX_FLASH.ld")
 #set(LINKER_SCRIPT_RAM "${CMAKE_SOURCE_DIR}/STM32H753IITX_RAM.ld")
 set(LINKER_FLAGS "SHELL: \
@@ -287,9 +287,9 @@ set(LINKER_FLAGS "SHELL: \
     ")
 #    -T${LINKER_SCRIPT_RAM} \
 
-target_link_options(${PROJECT_NAME}.elf PRIVATE ${LINKER_FLAGS})
+target_link_options(firmware_${IPS_VERSION}.${PATCH_VERSION}.elf PRIVATE ${LINKER_FLAGS})
 
-target_link_libraries(${PROJECT_NAME}.elf PUBLIC
+target_link_libraries(firmware_${IPS_VERSION}.${PATCH_VERSION}.elf PUBLIC
     STARTUP
     SRAM_LIB
     STM32H7xx_HAL_Driver
@@ -319,23 +319,23 @@ target_link_libraries(${PROJECT_NAME}.elf PUBLIC
     CRYPTO_LIB
     )
 
-set(HEX_FILE ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.hex)
-set(BIN_FILE ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.bin)
-add_custom_command(TARGET ${PROJECT_NAME}.elf POST_BUILD
-    COMMAND ${CMAKE_OBJCOPY} -O ihex $<TARGET_FILE:${PROJECT_NAME}.elf> ${HEX_FILE}
+set(HEX_FILE ${CMAKE_BINARY_DIR}/firmware_${IPS_VERSION}.${PATCH_VERSION}.hex)
+set(BIN_FILE ${CMAKE_BINARY_DIR}/firmware_${IPS_VERSION}.${PATCH_VERSION}.bin)
+add_custom_command(TARGET firmware_${IPS_VERSION}.${PATCH_VERSION}.elf POST_BUILD
+    COMMAND ${CMAKE_OBJCOPY} -O ihex $<TARGET_FILE:firmware_${IPS_VERSION}.${PATCH_VERSION}.elf> ${HEX_FILE}
     COMMENT "Building ${HEX_FILE} ")
-add_custom_command(TARGET ${PROJECT_NAME}.elf POST_BUILD
-    COMMAND ${CMAKE_OBJCOPY} -O binary $<TARGET_FILE:${PROJECT_NAME}.elf> ${BIN_FILE}
+add_custom_command(TARGET firmware_${IPS_VERSION}.${PATCH_VERSION}.elf POST_BUILD
+    COMMAND ${CMAKE_OBJCOPY} -O binary $<TARGET_FILE:firmware_${IPS_VERSION}.${PATCH_VERSION}.elf> ${BIN_FILE}
     COMMENT "Building ${BIN_FILE} ")
-add_custom_command(TARGET ${PROJECT_NAME}.elf POST_BUILD  COMMAND arm-none-eabi-size ${PROJECT_NAME}.elf )
+add_custom_command(TARGET firmware_${IPS_VERSION}.${PATCH_VERSION}.elf POST_BUILD  COMMAND arm-none-eabi-size firmware_${IPS_VERSION}.${PATCH_VERSION}.elf )
 
-add_custom_command(TARGET ${PROJECT_NAME}.elf POST_BUILD
+add_custom_command(TARGET firmware_${IPS_VERSION}.${PATCH_VERSION}.elf POST_BUILD
     COMMAND echo -n "firmwareVersion_"${IPS_VERSION} >> ${BIN_FILE}
     COMMENT "add firmware version to ${BIN_FILE} ")
-add_custom_command(TARGET ${PROJECT_NAME}.elf POST_BUILD
+add_custom_command(TARGET firmware_${IPS_VERSION}.${PATCH_VERSION}.elf POST_BUILD
     COMMAND echo -n "patchVersion_"${PATCH_VERSION} >> ${BIN_FILE}
     COMMENT "add firmware subversion to ${BIN_FILE} ")
-#add_custom_command(TARGET ${PROJECT_NAME}.elf POST_BUILD
+#add_custom_command(TARGET firmware_${IPS_VERSION}.${PATCH_VERSION}.elf POST_BUILD
 #    COMMAND echo -n "firmwareKey_"${KEY} >> ${BIN_FILE}
 #    COMMENT "add key to ${BIN_FILE} ")
 
