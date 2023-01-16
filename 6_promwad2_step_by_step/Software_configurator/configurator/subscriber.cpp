@@ -520,6 +520,8 @@ void AppCore::saveListOfStationAndGroupsQJson(const QString &nameSave)
         QFile file(nameSave);
         file.open(QIODevice::WriteOnly);
         file.write(json);
+        auto filename = QFileInfo(file).fileName();
+        nameConfigFile = filename;
         file.close();
 
         listOfFiles.push_front(nameSave);
@@ -806,6 +808,10 @@ void AppCore::loadListOfStationAndGroupsQJson(const QString &nameLoad)
     QFile file(nameLoad);
     file.open(QIODevice::ReadOnly);
     json = file.readAll();
+
+    //Нужно из полного имени файла с путем выделить только имя
+    auto filename = QFileInfo(file).fileName();
+    nameConfigFile = filename;
     file.close();
 
 //    //add loaded file

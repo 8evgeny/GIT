@@ -6,7 +6,7 @@ import QtQuick.Dialogs 1.2
 
 Window {
     id: programmerWindow
-    width: 1480
+    width: 1330
     height: 800
     visible: true
     title: qsTr("Programmer")
@@ -48,11 +48,11 @@ Window {
         //number of the device
         Rectangle {
             height: baseHeight
-            width: cellWidth
+            width: cellWidth - 40
             id: rectangleProgrammerIdStatic
             TextField {
                 height: baseHeight
-                width: cellWidth
+                width: cellWidth - 40
                 readOnly: true
                 font.family: "Arial"
                 font.pointSize: 14
@@ -88,11 +88,11 @@ Window {
         //version of the embedded software
         Rectangle {
             height: baseHeight
-            width: cellWidth + 150
+            width: cellWidth + 50
             id: rectangleProgrammerVersionStatic
             TextField {
                 height: baseHeight
-                width: cellWidth + 150
+                width: cellWidth + 50
                 readOnly: true
                 font.family: "Arial"
                 font.pointSize: 14
@@ -109,11 +109,11 @@ Window {
         Rectangle
         {
             height: baseHeight
-            width: cellWidth + 50
+            width: cellWidth - 30
             id: rectangleProgrammerNameFware
             TextField {
                 height: baseHeight
-                width: cellWidth + 50
+                width: cellWidth - 30
                 readOnly: true
                 font.family: "Arial"
                 font.pointSize: 14
@@ -125,17 +125,36 @@ Window {
                 }
             }
         }
+        //Name config file
+        Rectangle
+        {
+            height: baseHeight
+            width: cellWidth - 30
+            id: rectangleProgrammerNameConfig
+            TextField {
+                height: baseHeight
+                width: cellWidth - 30
+                readOnly: true
+                font.family: "Arial"
+                font.pointSize: 14
+                text: qsTr("Config name")
 
+                background: Rectangle {
+                    border.color: "#333"
+                    border.width: 1
+                }
+            }
+        }
 
         //IP of the device
         Rectangle
         {
             height: baseHeight
-            width: cellWidth
+            width: cellWidth - 50
             id: rectangleProgrammerIpStatic
             TextField {
                 height: baseHeight
-                width: cellWidth
+                width: cellWidth - 50
                 readOnly: true
                 font.family: "Arial"
                 font.pointSize: 14
@@ -152,11 +171,11 @@ Window {
         Rectangle
         {
             height: baseHeight
-            width: cellWidth
+            width: cellWidth - 50
             id: rectangleProgrammerMacStatic
             TextField {
                 height: baseHeight
-                width: cellWidth
+                width: cellWidth - 50
                 readOnly: true
                 font.family: "Arial"
                 font.pointSize: 14
@@ -244,11 +263,11 @@ Window {
                             //number of the device
                             Rectangle {
                                 height: baseHeight
-                                width: cellWidth
+                                width: cellWidth - 40
                                 id: rectangleProgrammerId
                                 TextField {
                                     height: baseHeight
-                                    width: cellWidth
+                                    width: cellWidth - 40
                                     readOnly: true
                                     font.family: "Arial"
                                     font.pointSize: 12
@@ -284,11 +303,11 @@ Window {
                             //version of the embedded software
                             Rectangle {
                                 height: baseHeight
-                                width: cellWidth + 150
+                                width: cellWidth + 50
                                 id: rectangleProgrammerVersion
                                 TextField {
                                     height: baseHeight
-                                    width: cellWidth + 150
+                                    width: cellWidth + 50
                                     readOnly: true
                                     font.family: "Arial"
                                     font.pointSize: 12
@@ -304,11 +323,11 @@ Window {
                             //name fw file
                             Rectangle {
                                 height: baseHeight
-                                width: cellWidth + 50
+                                width: cellWidth - 30
                                 id: rectangleProgrammerFwName
                                 TextField {
                                     height: baseHeight
-                                    width: cellWidth + 50
+                                    width: cellWidth - 30
                                     readOnly: true
                                     font.family: "Arial"
                                     font.pointSize: 12
@@ -321,14 +340,34 @@ Window {
                                 }
                             }
 
+                            //name conf file
+                            Rectangle {
+                                height: baseHeight
+                                width: cellWidth - 30
+                                id: rectangleProgrammerConfName
+                                TextField {
+                                    height: baseHeight
+                                    width: cellWidth - 30
+                                    readOnly: true
+                                    font.family: "Arial"
+                                    font.pointSize: 12
+                                    text: nameOfConfig
+
+                                    background: Rectangle {
+                                        border.color: "#333"
+                                        border.width: borderSize
+                                    }
+                                }
+                            }
+
                             //IP of the device
                             Rectangle {
                                 height: baseHeight
-                                width: cellWidth
+                                width: cellWidth - 50
                                 id: rectangleProgrammerIp
                                 TextField {
                                     height: baseHeight
-                                    width: cellWidth
+                                    width: cellWidth - 50
                                     readOnly: true
                                     font.family: "Arial"
                                     font.pointSize: 12
@@ -344,11 +383,11 @@ Window {
                             //MAC of the device
                             Rectangle {
                                 height: baseHeight
-                                width: cellWidth
+                                width: cellWidth - 50
                                 id: rectangleProgrammerMac
                                 TextField {
                                     height: baseHeight
-                                    width: cellWidth
+                                    width: cellWidth - 50
                                     readOnly: true
                                     font.family: "Arial"
                                     font.pointSize: 12
@@ -409,9 +448,10 @@ Window {
         onClicked: {
             var i = 0
             for (; i < listModelProgrammer.count; i++) {
-                if (listModelProgrammer.get(i).checkedStatus) {
-                    appCore.writeConfigMcuByJson(
-                                listModelProgrammer.get(i).numberOfId)
+                if (listModelProgrammer.get(i).checkedStatus)
+                {
+                    appCore.writeConfigNameByJson(listModelProgrammer.get(i).numberOfId)
+                    appCore.writeConfigMcuByJson(listModelProgrammer.get(i).numberOfId)
                 }
             }
         }
@@ -469,6 +509,7 @@ Window {
                                            "nameOfId": fillName,
                                            "versionOfSoftware": "",
                                            "nameOfSoftware": "",
+                                           "nameOfConfig": "",
                                            "ipOfDevice": fillIp,
                                            "macOfDevice": ""
                                        })
@@ -486,6 +527,7 @@ Window {
                                            "nameOfId": fillName,
                                            "versionOfSoftware": fillVersion,
                                            "nameOfSoftware": fillNameFware,
+                                           "nameOfConfig": fillNameConf,
                                            "ipOfDevice": fillIp,
                                            "macOfDevice": fillMac
                                        })
@@ -510,9 +552,9 @@ Window {
 
     Connections {
         target: receiver
-        onStatusChangedJson :{
-//            void statusChangedJson(QString idJson, QString versionJson, QString macJson, QString ipJson);
-            appCore.statusChangedJson(idJson, versionJson, fwNameJson, macJson, ipJson);
+        onStatusChangedJson :
+        {
+            appCore.statusChangedJson(idJson, versionJson, fwNameJson, cfNameJson, macJson, ipJson);
         }
     }
 

@@ -544,3 +544,24 @@ void AppCore::deleteConfigMcuByJson(const QString &nameId)
     }
 }
 
+void AppCore::writeConfigNameByJson(const QString &nameId)
+{
+    QVariantMap cmd;
+    QRegExp rx("[, ]"); // match a comma or a space
+    QStringList list =  nameId.split(rx, QString::SkipEmptyParts);
+
+    const QString &idStr = list.at(1);
+    qint32 id = idStr.toInt();
+
+    cmd.insert("writeConfigNameId", id);
+    cmd.insert("configN", nameConfigFile);
+
+    QJson::Serializer serializer;
+
+    bool ok;
+    QByteArray json = serializer.serialize(cmd, &ok);
+    if (ok) {
+        sendDataByUdpMulticast(json, groupAddress);
+        QThread::msleep(1000);
+    }
+}

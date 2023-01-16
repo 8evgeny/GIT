@@ -35,7 +35,7 @@ add_definitions(-D__FPU_PRESENT)
 
 #Логгирование
 #Полное выключение логов требуется для потока UART и для передачи чистого синуса без прерывистости
-#add_definitions(-DLogsEnable)
+add_definitions(-DLogsEnable)
 #add_definitions(-DLogsEnableToConsole) #более подробные логи через макрос term
 #add_definitions(-DPrintTaskLogs) #Запускает поток с логами задач
 
@@ -334,7 +334,7 @@ add_custom_command(TARGET firmware_${IPS_VERSION}.${PATCH_VERSION}.elf POST_BUIL
     COMMENT "add firmware version to ${BIN_FILE} ")
 add_custom_command(TARGET firmware_${IPS_VERSION}.${PATCH_VERSION}.elf POST_BUILD
     COMMAND echo -n "patchVersion_"${PATCH_VERSION} >> ${BIN_FILE}
-    COMMENT "add firmware subversion to ${BIN_FILE} ")
+    COMMENT "add patch version to ${BIN_FILE} ")
 #add_custom_command(TARGET firmware_${IPS_VERSION}.${PATCH_VERSION}.elf POST_BUILD
 #    COMMAND echo -n "firmwareKey_"${KEY} >> ${BIN_FILE}
 #    COMMENT "add key to ${BIN_FILE} ")

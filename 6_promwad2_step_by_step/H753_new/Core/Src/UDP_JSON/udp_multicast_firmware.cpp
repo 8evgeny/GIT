@@ -547,6 +547,24 @@ term2((uint8_t)commonSizeAllFrames)
     }
 }
 
+void writeConfigNameByJson(JsonDocument &doc)
+{
+    int writeConfigNameId = doc["writeConfigNameId"];
+    if (ThisStation_.id == writeConfigNameId)
+    {
+        const char *configN  = doc["configN"];
+        //Запоминаем в EEPROM configName
+        char configName[50];
+        std::fill (configName, configName + 49, 0x00);
+        strcpy(configName, configN);
+        RS232::getInstance().term <<"configName: "<< configName << "\r\n";
+        lfs_file_open(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, "configName", LFS_O_RDWR | LFS_O_CREAT);
+        lfs_file_write(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, &configName, sizeof(configName));
+        lfs_file_close(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr);
+    }
+
+}
+
 void eraseFlashBank(int numBank)
 {
 //    taskENTER_CRITICAL();

@@ -94,6 +94,7 @@ class AppCore : public QObject
         QString colorStation;
         QString version;
         QString nameFware;
+        QString nameConf;
         QString mac;
         QList < ListOfStations> stations; /*! This structure is a object for storing a list */
     };
@@ -681,7 +682,15 @@ signals:
       \param fillMac MAC
       \param fillVersion Version firmware
     */
-    void fillInfoForProgrammerWindowByJson(QString fillNumber, QString fillName, QString fillIp, QString fillColor, QString fillMac, QString fillVersion, QString fillNameFware);
+    void fillInfoForProgrammerWindowByJson(QString fillNumber,
+                                           QString fillName,
+                                           QString fillIp,
+                                           QString fillColor,
+                                           QString fillMac,
+                                           QString fillVersion,
+                                           QString fillNameFware,
+                                           QString fillNameConf
+                                           );
 
     /*!
      \brief This method clears the list of stations for status
@@ -1375,7 +1384,12 @@ public slots:
      \param macJson MAC
      \param ipJson IP
     */
-    void statusChangedJson(const QString &idJson, const QString &versionJson, const QString &fwNameJson, const QString &macJson, const QString &ipJson);
+    void statusChangedJson(const QString &idJson,
+                           const QString &versionJson,
+                           const QString &fwNameJson,
+                           const QString &cfNameJson,
+                           const QString &macJson,
+                           const QString &ipJson);
 
     /*!
      \brief Verify Changes Before Saving
@@ -1415,6 +1429,9 @@ public slots:
      \param nameId Id station name
     */
     void deleteConfigMcuByJson(const QString& nameId);
+
+    void writeConfigNameByJson(const QString& nameId);
+
     /*!
      \brief Get status message
 
@@ -1456,6 +1473,7 @@ private:
     qint32 currentLanguage = 0; /*! Current selected language, 0 - English, 1 - Russian */
     QString dateTime_;
     QString nameFirmwareBinFile;
+    QString nameConfigFile;
     QString portNameUarts; /*! Name of current UART */
     QString versionFirmware; /*! Current version of the firmware */
     QString subVersionFirmware; /*! Current subversion of the firmware  */

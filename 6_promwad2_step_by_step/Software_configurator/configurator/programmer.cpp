@@ -48,7 +48,12 @@ void AppCore::readStatusFromStations(const QString &nameID)
     }
 }
 
-void AppCore::statusChangedJson(const QString &idJson, const QString &versionJson, const QString &fwNameJson, const QString &macJson, const QString &ipJson)
+void AppCore::statusChangedJson(const QString &idJson,
+                                const QString &versionJson,
+                                const QString &fwNameJson,
+                                const QString &cfNameJson,
+                                const QString &macJson,
+                                const QString &ipJson)
 {
     //clear list
     emit clearListOfStationsStatus();
@@ -65,8 +70,17 @@ void AppCore::statusChangedJson(const QString &idJson, const QString &versionJso
             iter.version =  versionJson;
             iter.mac = macJson;
             iter.nameFware = fwNameJson;
+            iter.nameConf = cfNameJson;
         }
-        emit fillInfoForProgrammerWindowByJson(iter.stations.at(0).nameOfID, iter.stations.at(0).nameOfStation, iter.stations.at(0).ip, iter.colorStation, iter.mac, iter.version, iter.nameFware);
+        emit fillInfoForProgrammerWindowByJson(iter.stations.at(0).nameOfID,
+                                               iter.stations.at(0).nameOfStation,
+                                               iter.stations.at(0).ip,
+                                               iter.colorStation,
+                                               iter.mac,
+                                               iter.version,
+                                               iter.nameFware,
+                                               iter.nameConf
+                                               );
     }
 
     //update list

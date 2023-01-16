@@ -24,7 +24,12 @@ public:
 Q_SIGNALS:
     // The change notification signal of the status property
     void statusChanged();
-    void statusChangedJson(QString idJson, QString versionJson, QString fwNameJson, QString macJson, QString ipJson);
+    void statusChangedJson(QString idJson,
+                           QString versionJson,
+                           QString fwNameJson,
+                           QString cfNameJson,
+                           QString macJson,
+                           QString ipJson);
     void statusFirmwareLoad(QString idDevice);
     void statusConfigurationLoad(QString idDevice);
 
