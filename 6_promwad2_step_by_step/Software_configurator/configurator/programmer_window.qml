@@ -6,7 +6,7 @@ import QtQuick.Dialogs 1.2
 
 Window {
     id: programmerWindow
-    width: 1370
+    width: 1350
     height: 800
     visible: true
     title: qsTr("Programmer")
@@ -48,11 +48,11 @@ Window {
         //number of the device
         Rectangle {
             height: baseHeight
-            width: cellWidth
+            width: cellWidth - 50
             id: rectangleProgrammerIdStatic
             TextField {
                 height: baseHeight
-                width: cellWidth
+                width: cellWidth - 50
                 readOnly: true
                 font.family: "Arial"
                 font.pointSize: 14
@@ -88,11 +88,11 @@ Window {
         //version of the embedded software
         Rectangle {
             height: baseHeight
-            width: cellWidth + 40
+            width: cellWidth + 70
             id: rectangleProgrammerVersionStatic
             TextField {
                 height: baseHeight
-                width: cellWidth + 40
+                width: cellWidth + 70
                 readOnly: true
                 font.family: "Arial"
                 font.pointSize: 14
@@ -244,11 +244,11 @@ Window {
                             //number of the device
                             Rectangle {
                                 height: baseHeight
-                                width: cellWidth
+                                width: cellWidth - 50
                                 id: rectangleProgrammerId
                                 TextField {
                                     height: baseHeight
-                                    width: cellWidth
+                                    width: cellWidth - 50
                                     readOnly: true
                                     font.family: "Arial"
                                     font.pointSize: 12
@@ -284,11 +284,11 @@ Window {
                             //version of the embedded software
                             Rectangle {
                                 height: baseHeight
-                                width: cellWidth + 40
+                                width: cellWidth + 70
                                 id: rectangleProgrammerVersion
                                 TextField {
                                     height: baseHeight
-                                    width: cellWidth + 40
+                                    width: cellWidth + 70
                                     readOnly: true
                                     font.family: "Arial"
                                     font.pointSize: 12
