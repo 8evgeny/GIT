@@ -6,7 +6,7 @@ import QtQuick.Dialogs 1.2
 
 Window {
     id: programmerWindow
-    width: 1160
+    width: 1330
     height: 800
     visible: true
     title: qsTr("Programmer")
@@ -125,7 +125,26 @@ Window {
                 }
             }
         }
+        //Name config file
+        Rectangle
+        {
+            height: baseHeight
+            width: cellWidth - 30
+            id: rectangleProgrammerNameConfig
+            TextField {
+                height: baseHeight
+                width: cellWidth - 30
+                readOnly: true
+                font.family: "Arial"
+                font.pointSize: 14
+                text: qsTr("Config name")
 
+                background: Rectangle {
+                    border.color: "#333"
+                    border.width: 1
+                }
+            }
+        }
 
         //IP of the device
         Rectangle
@@ -306,6 +325,26 @@ Window {
                                 height: baseHeight
                                 width: cellWidth - 30
                                 id: rectangleProgrammerFwName
+                                TextField {
+                                    height: baseHeight
+                                    width: cellWidth - 30
+                                    readOnly: true
+                                    font.family: "Arial"
+                                    font.pointSize: 12
+                                    text: nameOfSoftware
+
+                                    background: Rectangle {
+                                        border.color: "#333"
+                                        border.width: borderSize
+                                    }
+                                }
+                            }
+
+                            //name conf file
+                            Rectangle {
+                                height: baseHeight
+                                width: cellWidth - 30
+                                id: rectangleProgrammerConfName
                                 TextField {
                                     height: baseHeight
                                     width: cellWidth - 30

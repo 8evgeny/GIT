@@ -101,8 +101,10 @@ void Receiver::processPendingDatagrams()
 //            qint32 ver = result["Version"].toInt();
             QString version = result["Version"].toString();
             QString fwName = result["fwName"].toString();
+            QString configName = result["confName"].toString();
             qDebug() << "Version:" << version;
             qDebug() << "fwName:" << fwName;
+            qDebug() << "configName:" << configName;
 //            qint32 sub = result["Sub"].toInt();
 //            qDebug() << "Sub:" << sub;
 //            QString version = QString::number(ver) +  QString(".") + QString::number(sub);
