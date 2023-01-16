@@ -562,6 +562,6 @@ void AppCore::writeConfigNameByJson(const QString &nameId)
     QByteArray json = serializer.serialize(cmd, &ok);
     if (ok) {
         sendDataByUdpMulticast(json, groupAddress);
-        QThread::msleep(100);
+        QThread::msleep(1000);
     }
 }
