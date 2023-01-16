@@ -6,7 +6,7 @@ import QtQuick.Dialogs 1.2
 
 Window {
     id: programmerWindow
-    width: 1480
+    width: 1370
     height: 800
     visible: true
     title: qsTr("Programmer")
@@ -88,11 +88,11 @@ Window {
         //version of the embedded software
         Rectangle {
             height: baseHeight
-            width: cellWidth + 150
+            width: cellWidth + 40
             id: rectangleProgrammerVersionStatic
             TextField {
                 height: baseHeight
-                width: cellWidth + 150
+                width: cellWidth + 40
                 readOnly: true
                 font.family: "Arial"
                 font.pointSize: 14
@@ -284,11 +284,11 @@ Window {
                             //version of the embedded software
                             Rectangle {
                                 height: baseHeight
-                                width: cellWidth + 150
+                                width: cellWidth + 40
                                 id: rectangleProgrammerVersion
                                 TextField {
                                     height: baseHeight
-                                    width: cellWidth + 150
+                                    width: cellWidth + 40
                                     readOnly: true
                                     font.family: "Arial"
                                     font.pointSize: 12
