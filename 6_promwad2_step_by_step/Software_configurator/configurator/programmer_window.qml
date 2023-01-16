@@ -351,7 +351,7 @@ Window {
                                     readOnly: true
                                     font.family: "Arial"
                                     font.pointSize: 12
-                                    text: nameOfSoftware
+                                    text: nameOfConfig
 
                                     background: Rectangle {
                                         border.color: "#333"
@@ -509,6 +509,7 @@ Window {
                                            "nameOfId": fillName,
                                            "versionOfSoftware": "",
                                            "nameOfSoftware": "",
+                                           "nameOfConfig": "",
                                            "ipOfDevice": fillIp,
                                            "macOfDevice": ""
                                        })
@@ -526,6 +527,7 @@ Window {
                                            "nameOfId": fillName,
                                            "versionOfSoftware": fillVersion,
                                            "nameOfSoftware": fillNameFware,
+                                           "nameOfConfig": fillNameConf,
                                            "ipOfDevice": fillIp,
                                            "macOfDevice": fillMac
                                        })
@@ -550,8 +552,8 @@ Window {
 
     Connections {
         target: receiver
-        onStatusChangedJson :{
-//            void statusChangedJson(QString idJson, QString versionJson, QString macJson, QString ipJson);
+        onStatusChangedJson :
+        {
             appCore.statusChangedJson(idJson, versionJson, fwNameJson, cfNameJson, macJson, ipJson);
         }
     }

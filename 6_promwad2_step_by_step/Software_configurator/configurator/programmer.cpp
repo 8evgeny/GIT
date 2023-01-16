@@ -70,8 +70,17 @@ void AppCore::statusChangedJson(const QString &idJson,
             iter.version =  versionJson;
             iter.mac = macJson;
             iter.nameFware = fwNameJson;
+            iter.nameConf = cfNameJson;
         }
-        emit fillInfoForProgrammerWindowByJson(iter.stations.at(0).nameOfID, iter.stations.at(0).nameOfStation, iter.stations.at(0).ip, iter.colorStation, iter.mac, iter.version, iter.nameFware);
+        emit fillInfoForProgrammerWindowByJson(iter.stations.at(0).nameOfID,
+                                               iter.stations.at(0).nameOfStation,
+                                               iter.stations.at(0).ip,
+                                               iter.colorStation,
+                                               iter.mac,
+                                               iter.version,
+                                               iter.nameFware,
+                                               iter.nameConf
+                                               );
     }
 
     //update list

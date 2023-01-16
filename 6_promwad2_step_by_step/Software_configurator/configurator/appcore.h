@@ -94,6 +94,7 @@ class AppCore : public QObject
         QString colorStation;
         QString version;
         QString nameFware;
+        QString nameConf;
         QString mac;
         QList < ListOfStations> stations; /*! This structure is a object for storing a list */
     };
@@ -681,7 +682,15 @@ signals:
       \param fillMac MAC
       \param fillVersion Version firmware
     */
-    void fillInfoForProgrammerWindowByJson(QString fillNumber, QString fillName, QString fillIp, QString fillColor, QString fillMac, QString fillVersion, QString fillNameFware);
+    void fillInfoForProgrammerWindowByJson(QString fillNumber,
+                                           QString fillName,
+                                           QString fillIp,
+                                           QString fillColor,
+                                           QString fillMac,
+                                           QString fillVersion,
+                                           QString fillNameFware,
+                                           QString fillNameConf
+                                           );
 
     /*!
      \brief This method clears the list of stations for status
