@@ -6,7 +6,7 @@ import QtQuick.Dialogs 1.2
 
 Window {
     id: programmerWindow
-    width: 1490
+    width: 1510
     height: 800
     visible: true
     title: qsTr("Programmer")
@@ -171,11 +171,11 @@ Window {
         Rectangle
         {
             height: baseHeight
-            width: cellWidth - 20
+            width: cellWidth
             id: rectangleProgrammerMacStatic
             TextField {
                 height: baseHeight
-                width: cellWidth - 20
+                width: cellWidth
                 readOnly: true
                 font.family: "Arial"
                 font.pointSize: 14
@@ -383,11 +383,11 @@ Window {
                             //MAC of the device
                             Rectangle {
                                 height: baseHeight
-                                width: cellWidth - 20
+                                width: cellWidth
                                 id: rectangleProgrammerMac
                                 TextField {
                                     height: baseHeight
-                                    width: cellWidth - 20
+                                    width: cellWidth
                                     readOnly: true
                                     font.family: "Arial"
                                     font.pointSize: 12
