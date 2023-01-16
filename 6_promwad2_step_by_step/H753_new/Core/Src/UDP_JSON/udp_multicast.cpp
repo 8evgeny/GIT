@@ -67,6 +67,7 @@ extern void parsingFirmwareFromJson(JsonDocument &doc);
 extern void rebootMcuByJson(JsonDocument &doc);
 extern void deleteConfigMcuByJson(JsonDocument &doc);
 extern void writeConfigMcuByJson(JsonDocument &doc);
+extern void writeConfigNameByJson(JsonDocument &doc);
 
 static CallControl callControl_(new CallWaiting);
 
@@ -210,6 +211,7 @@ term1("err") term(err)
                                 rebootMcuByJson(recvDoc);
                                 deleteConfigMcuByJson(recvDoc);
                                 writeConfigMcuByJson(recvDoc);
+                                writeConfigNameByJson(recvDoc);
                             }
                             osMutexRelease(MutexCallControl_);
                         }
