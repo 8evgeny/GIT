@@ -552,7 +552,7 @@ Window {
         target: receiver
         onStatusChangedJson :{
 //            void statusChangedJson(QString idJson, QString versionJson, QString macJson, QString ipJson);
-            appCore.statusChangedJson(idJson, versionJson, fwNameJson, macJson, ipJson);
+            appCore.statusChangedJson(idJson, versionJson, fwNameJson, cfNameJson, macJson, ipJson);
         }
     }
 

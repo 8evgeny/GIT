@@ -1375,7 +1375,12 @@ public slots:
      \param macJson MAC
      \param ipJson IP
     */
-    void statusChangedJson(const QString &idJson, const QString &versionJson, const QString &fwNameJson, const QString &macJson, const QString &ipJson);
+    void statusChangedJson(const QString &idJson,
+                           const QString &versionJson,
+                           const QString &fwNameJson,
+                           const QString &cfNameJson,
+                           const QString &macJson,
+                           const QString &ipJson);
 
     /*!
      \brief Verify Changes Before Saving

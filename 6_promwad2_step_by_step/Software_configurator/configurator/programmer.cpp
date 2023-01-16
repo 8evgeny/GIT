@@ -48,7 +48,12 @@ void AppCore::readStatusFromStations(const QString &nameID)
     }
 }
 
-void AppCore::statusChangedJson(const QString &idJson, const QString &versionJson, const QString &fwNameJson, const QString &macJson, const QString &ipJson)
+void AppCore::statusChangedJson(const QString &idJson,
+                                const QString &versionJson,
+                                const QString &fwNameJson,
+                                const QString &cfNameJson,
+                                const QString &macJson,
+                                const QString &ipJson)
 {
     //clear list
     emit clearListOfStationsStatus();
