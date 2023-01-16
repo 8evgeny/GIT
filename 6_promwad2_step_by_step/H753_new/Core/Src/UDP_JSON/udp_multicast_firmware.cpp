@@ -550,9 +550,9 @@ term2((uint8_t)commonSizeAllFrames)
 void writeConfigNameByJson(JsonDocument &doc)
 {
     int writeConfigNameId = doc["writeConfigNameId"];
-    const char *configN  = doc["configN"];
     if (ThisStation_.id == writeConfigNameId)
     {
+        const char *configN  = doc["configN"];
         //Запоминаем в EEPROM configName
         char configName[50];
         std::fill (configName, configName + 49, 0x00);

@@ -806,6 +806,10 @@ void AppCore::loadListOfStationAndGroupsQJson(const QString &nameLoad)
     QFile file(nameLoad);
     file.open(QIODevice::ReadOnly);
     json = file.readAll();
+
+    //Нужно из полного имени файла с путем выделить только имя
+    auto filename = QFileInfo(file).fileName();
+    nameConfigFile = filename;
     file.close();
 
 //    //add loaded file

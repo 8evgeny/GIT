@@ -409,9 +409,10 @@ Window {
         onClicked: {
             var i = 0
             for (; i < listModelProgrammer.count; i++) {
-                if (listModelProgrammer.get(i).checkedStatus) {
-                    appCore.writeConfigMcuByJson(
-                                listModelProgrammer.get(i).numberOfId)
+                if (listModelProgrammer.get(i).checkedStatus)
+                {
+                    appCore.writeConfigNameByJson(listModelProgrammer.get(i).numberOfId)
+                    appCore.writeConfigMcuByJson(listModelProgrammer.get(i).numberOfId)
                 }
             }
         }
