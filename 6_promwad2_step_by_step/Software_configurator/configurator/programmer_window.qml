@@ -6,7 +6,7 @@ import QtQuick.Dialogs 1.2
 
 Window {
     id: programmerWindow
-    width: 1350
+    width: 1160
     height: 800
     visible: true
     title: qsTr("Programmer")
@@ -48,11 +48,11 @@ Window {
         //number of the device
         Rectangle {
             height: baseHeight
-            width: cellWidth - 50
+            width: cellWidth - 40
             id: rectangleProgrammerIdStatic
             TextField {
                 height: baseHeight
-                width: cellWidth - 50
+                width: cellWidth - 40
                 readOnly: true
                 font.family: "Arial"
                 font.pointSize: 14
@@ -88,11 +88,11 @@ Window {
         //version of the embedded software
         Rectangle {
             height: baseHeight
-            width: cellWidth + 70
+            width: cellWidth + 50
             id: rectangleProgrammerVersionStatic
             TextField {
                 height: baseHeight
-                width: cellWidth + 70
+                width: cellWidth + 50
                 readOnly: true
                 font.family: "Arial"
                 font.pointSize: 14
@@ -109,11 +109,11 @@ Window {
         Rectangle
         {
             height: baseHeight
-            width: cellWidth + 50
+            width: cellWidth - 30
             id: rectangleProgrammerNameFware
             TextField {
                 height: baseHeight
-                width: cellWidth + 50
+                width: cellWidth - 30
                 readOnly: true
                 font.family: "Arial"
                 font.pointSize: 14
@@ -131,11 +131,11 @@ Window {
         Rectangle
         {
             height: baseHeight
-            width: cellWidth
+            width: cellWidth - 50
             id: rectangleProgrammerIpStatic
             TextField {
                 height: baseHeight
-                width: cellWidth
+                width: cellWidth - 50
                 readOnly: true
                 font.family: "Arial"
                 font.pointSize: 14
@@ -152,11 +152,11 @@ Window {
         Rectangle
         {
             height: baseHeight
-            width: cellWidth
+            width: cellWidth - 50
             id: rectangleProgrammerMacStatic
             TextField {
                 height: baseHeight
-                width: cellWidth
+                width: cellWidth - 50
                 readOnly: true
                 font.family: "Arial"
                 font.pointSize: 14
@@ -244,11 +244,11 @@ Window {
                             //number of the device
                             Rectangle {
                                 height: baseHeight
-                                width: cellWidth - 50
+                                width: cellWidth - 40
                                 id: rectangleProgrammerId
                                 TextField {
                                     height: baseHeight
-                                    width: cellWidth - 50
+                                    width: cellWidth - 40
                                     readOnly: true
                                     font.family: "Arial"
                                     font.pointSize: 12
@@ -284,11 +284,11 @@ Window {
                             //version of the embedded software
                             Rectangle {
                                 height: baseHeight
-                                width: cellWidth + 70
+                                width: cellWidth + 50
                                 id: rectangleProgrammerVersion
                                 TextField {
                                     height: baseHeight
-                                    width: cellWidth + 70
+                                    width: cellWidth + 50
                                     readOnly: true
                                     font.family: "Arial"
                                     font.pointSize: 12
@@ -304,11 +304,11 @@ Window {
                             //name fw file
                             Rectangle {
                                 height: baseHeight
-                                width: cellWidth + 50
+                                width: cellWidth - 30
                                 id: rectangleProgrammerFwName
                                 TextField {
                                     height: baseHeight
-                                    width: cellWidth + 50
+                                    width: cellWidth - 30
                                     readOnly: true
                                     font.family: "Arial"
                                     font.pointSize: 12
@@ -324,11 +324,11 @@ Window {
                             //IP of the device
                             Rectangle {
                                 height: baseHeight
-                                width: cellWidth
+                                width: cellWidth - 50
                                 id: rectangleProgrammerIp
                                 TextField {
                                     height: baseHeight
-                                    width: cellWidth
+                                    width: cellWidth - 50
                                     readOnly: true
                                     font.family: "Arial"
                                     font.pointSize: 12
@@ -344,11 +344,11 @@ Window {
                             //MAC of the device
                             Rectangle {
                                 height: baseHeight
-                                width: cellWidth
+                                width: cellWidth - 50
                                 id: rectangleProgrammerMac
                                 TextField {
                                     height: baseHeight
-                                    width: cellWidth
+                                    width: cellWidth - 50
                                     readOnly: true
                                     font.family: "Arial"
                                     font.pointSize: 12
