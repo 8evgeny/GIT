@@ -529,10 +529,10 @@ term("CallControl::sendInfoAboutStation")
 
         char subVersionFw[4];
         lfs_file_open(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, "subVersionFw", LFS_O_RDWR | LFS_O_CREAT);
-        lfs_file_read(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, &versionFw, sizeof(subVersionFw));
+        lfs_file_read(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, &subVersionFw, sizeof(subVersionFw));
         lfs_file_close(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr);
-        std::string subFw = std::string(versionFw);
-        RS232::getInstance().term <<"subVersionFw: "<< subFw.c_str() << "\r\n";
+        std::string subFw = std::string(subVersionFw);
+        RS232::getInstance().term <<"patchVersion: "<< subFw.c_str() << "\r\n";
 
         size_t k=0;
         for (size_t i = 0; i < dateTimeFw.size();++i)
@@ -585,8 +585,17 @@ term("CallControl::sendInfoAboutStation")
         lfs_file_close(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr);
         std::string fwareName = std::string(fwName);
         RS232::getInstance().term <<"fwareName: "<< fwareName.c_str() << "\r\n";
-
         infoDoc["fwName"] = fwareName.c_str();
+
+        char configName[50];
+        std::fill(configName, configName + sizeof (configName) -1 , 0x00);
+        lfs_file_open(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, "configName", LFS_O_RDWR | LFS_O_CREAT);
+        lfs_file_read(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr, &configName, sizeof(configName));
+        lfs_file_close(FsForEeprom::getInstance().lfsPtr, FsForEeprom::getInstance().filePtr);
+        std::string confName = std::string(configName);
+        RS232::getInstance().term <<"configName: "<< confName.c_str() << "\r\n";
+        infoDoc["confName"] = confName.c_str();
+
 
 osDelay(200); //pev
         std::fill(messageData.txBuff, messageData.txBuff + messageData.txBuffSize, 0);
