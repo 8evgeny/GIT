@@ -1136,7 +1136,7 @@ val >= 51 ? buttonNewKeyFunction.visible = false : buttonNewKeyFunction.visible 
     CheckBox {
         id: keyPadCheckBox
         anchors.left: subsribersWindow.right
-        anchors.leftMargin: 210
+        anchors.leftMargin: 215
         anchors.topMargin: defaultSizeOfSpace + 10
         anchors.top: textFieldGateway.bottom
 //        tristate: true
@@ -1144,6 +1144,15 @@ val >= 51 ? buttonNewKeyFunction.visible = false : buttonNewKeyFunction.visible 
 //        font.pointSize: 12
 //        text: qsTr("")
 
+        indicator: Rectangle {
+                    color: keyPadCheckBox.checked ? "#2E8B57" : "#C0C0C0"
+                    y: keyPadCheckBox.height / 2 - height / 2
+                    implicitWidth: 25
+                    implicitHeight: 25
+                }
+//        background: Rectangle {
+//                    color: "#C0C0C0"
+//                }
         onCheckStateChanged: {
                     switch (checkState) {
                         case Qt.Unchecked:
@@ -1159,7 +1168,7 @@ val >= 51 ? buttonNewKeyFunction.visible = false : buttonNewKeyFunction.visible 
                             break;
                     }
                 }
-    }
+    }//CheckBox
     Text {
         id: keyPadCheckBoxState
         font.bold: true
@@ -1168,6 +1177,7 @@ val >= 51 ? buttonNewKeyFunction.visible = false : buttonNewKeyFunction.visible 
         anchors.left: keyPadCheckBox.right
         anchors.top: keyPadCheckBox.top
         anchors.topMargin: 10
+        anchors.leftMargin: 10
         text: qsTr("keypad OFF")
     }
 
