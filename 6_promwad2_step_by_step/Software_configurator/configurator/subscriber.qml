@@ -664,11 +664,11 @@ val >= 51 ? buttonNewKeyFunction.visible = false : buttonNewKeyFunction.visible 
         target: appCore
         onSetCheckBox:
         {
-            keyPadCheckBox.state = true
+            keyPadCheckBox.state = "1"
         }
         onUnsetCheckBox:
         {
-            keyPadCheckBox.state = false
+            keyPadCheckBox.state = "0"
         }
 
         onSendListNameOfElements:
