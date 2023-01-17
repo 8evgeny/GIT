@@ -405,9 +405,9 @@ void AppCore::exitActionFromMenu(){
     emit exitFromMenu();
 }
 
-void AppCore::delateKeyPadFromStation(const QString& nameId)
+void AppCore::deleteKeyPadFromStation(const QString& nameId)
 {
-    qDebug() << "delateKeyPadFromStation";
+    qDebug() << "deleteKeyPadFromStation";
     int i = 0;
     for (; i<listOfStations.size(); ++i )
     {

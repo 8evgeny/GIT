@@ -1454,7 +1454,7 @@ public slots:
     */
     void exitActionFromMenu();
 
-    void delateKeyPadFromStation(const QString& nameId);
+    void deleteKeyPadFromStation(const QString& nameId);
 
     void addKeyPadToStation(const QString& nameId);
 
