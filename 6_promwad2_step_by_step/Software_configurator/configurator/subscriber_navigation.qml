@@ -163,8 +163,7 @@ property color canvasColor: "#F8FACF"
 
             if (currentIndex >= 0)
             {
-                appCore.deleteStation(listModelDigitalStation.get(
-                                          currentIndex).cidName)
+                appCore.deleteStation(listModelDigitalStation.get(currentIndex).cidName)
             }
             if (listModelDigitalStation.count > 0)
             {
