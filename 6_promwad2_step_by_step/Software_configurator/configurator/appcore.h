@@ -741,8 +741,8 @@ signals:
     */
     void sendWrongNameInGroupsId(QString nameOfGroup);
 
-    void setCheckBox(bool val);
-
+    void setCheckBox();
+    void unsetCheckBox();
 
 public slots:
     //! The slot for the receiving of data from the QML-interface

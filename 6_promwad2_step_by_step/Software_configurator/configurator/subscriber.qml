@@ -662,6 +662,15 @@ val >= 51 ? buttonNewKeyFunction.visible = false : buttonNewKeyFunction.visible 
     Connections //Отработка сигналов
     {
         target: appCore
+        onSetCheckBox:
+        {
+            keyPadCheckBox.state = true
+        }
+        onUnsetCheckBox:
+        {
+            keyPadCheckBox.state = false
+        }
+
         onSendListNameOfElements:
 //                                     void sendListNameOfElements(QString uidOfKeyAdd,
 //                                                                 QString numberOfKeyAdd,

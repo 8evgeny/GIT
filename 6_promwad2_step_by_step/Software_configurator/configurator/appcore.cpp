@@ -472,11 +472,11 @@ void AppCore::checkTelButtons(const QString& nameId)
         {
             qDebug() << "CheckBox ON";
             val = true;
-            emit setCheckBox(val);
+            emit setCheckBox();
             return;
         }
     }
     qDebug() << "CheckBox OFF";
-    emit setCheckBox(val);
+    emit unsetCheckBox();
 
 }
