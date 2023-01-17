@@ -421,6 +421,8 @@ void AppCore::delateKeyPadFromStation(const QString& nameId)
         {
             //удаляем данную клавишу
             qDebug() << "delate Key" <<listOfStations.at(i).listOfKeys.at(k).numberOfKey;
+            listOfStations[i].listOfKeys.removeAt(k);
+            --k;
         }
     }
 }
