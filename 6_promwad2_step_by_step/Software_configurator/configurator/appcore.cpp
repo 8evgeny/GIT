@@ -407,22 +407,22 @@ void AppCore::exitActionFromMenu(){
 
 void AppCore::delateKeyPadFromStation(const QString& nameId)
 {
-qDebug() << "delateKeyPadFromStation";
-int i = 0;
-for (; i<listOfStations.size(); ++i )
-{
-   if(listOfStations.at(i).nameOfID == nameId)
-       break;
-}
-//i - индекс нужной станции
-for (int k = 0; k < listOfStations.at(i).listOfKeys.size(); ++k )
-{
-    if (listOfStations.at(i).listOfKeys.at(k).numberOfKey.toInt() >=50)
+    qDebug() << "delateKeyPadFromStation";
+    int i = 0;
+    for (; i<listOfStations.size(); ++i )
     {
-        //удаляем данную клавишу
-        qDebug() << "delate Key" <<listOfStations.at(i).listOfKeys.at(k).numberOfKey;
+        if(listOfStations.at(i).nameOfID == nameId)
+            break;
     }
-}
+    //i - индекс нужной станции
+    for (int k = 0; k < listOfStations.at(i).listOfKeys.size(); ++k )
+    {
+        if (listOfStations.at(i).listOfKeys.at(k).numberOfKey.toInt() >=50)
+        {
+            //удаляем данную клавишу
+            qDebug() << "delate Key" <<listOfStations.at(i).listOfKeys.at(k).numberOfKey;
+        }
+    }
 }
 
 void AppCore::addKeyPadToStation(const QString& nameId)
