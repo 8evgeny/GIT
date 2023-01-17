@@ -1139,6 +1139,7 @@ val >= 51 ? buttonNewKeyFunction.visible = false : buttonNewKeyFunction.visible 
         anchors.leftMargin: 210
         anchors.topMargin: defaultSizeOfSpace + 10
         anchors.top: textFieldGateway.bottom
+//        tristate: true
 //        font.bold: true
 //        font.pointSize: 12
 //        text: qsTr("")
