@@ -425,6 +425,7 @@ void AppCore::deleteKeyPadFromStation(const QString& nameId)
             --k;
         }
     }
+    sendCurrentIndexOfDigitalStation(0,nameId);
 }
 
 void AppCore::addKeyPadToStation(const QString& nameId)
