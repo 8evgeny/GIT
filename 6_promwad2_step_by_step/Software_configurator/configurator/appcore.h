@@ -1454,6 +1454,11 @@ public slots:
     */
     void exitActionFromMenu();
 
+    void delateKeyPadFromStation(const QString& nameId);
+
+    void addKeyPadToStation(const QString& nameId);
+
+
 private:
     QList < ListOfMacros > listOfMacros; /*! List of existing macros */
     QList < ListOfStations> listOfStations; /*! List of existing stations */

@@ -404,3 +404,13 @@ void AppCore::getCurrentIndexInList()
 void AppCore::exitActionFromMenu(){
     emit exitFromMenu();
 }
+
+void AppCore::delateKeyPadFromStation(const QString& nameId)
+{
+qDebug() << "delateKeyPadFromStation";
+}
+
+void AppCore::addKeyPadToStation(const QString& nameId)
+{
+qDebug() << "addKeyPadToStation";
+}

@@ -1157,6 +1157,7 @@ val >= 51 ? buttonNewKeyFunction.visible = false : buttonNewKeyFunction.visible 
                     switch (checkState) {
                         case Qt.Unchecked:
                             console.log("Unchecked");
+                            appCore.delateKeyPadFromStation(nameOfStation)
                             keyPadCheckBoxState.text = "keypad OFF";
                             break;
 //                        case Qt.PartiallyChecked:
@@ -1164,6 +1165,7 @@ val >= 51 ? buttonNewKeyFunction.visible = false : buttonNewKeyFunction.visible 
 //                            break;
                         case Qt.Checked:
                             console.log("Checked");
+                            appCore.addKeyPadToStation(nameOfStation)
                             keyPadCheckBoxState.text = "keypad ON";
                             break;
                         default:
