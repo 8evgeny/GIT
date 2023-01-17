@@ -455,3 +455,28 @@ void AppCore::addKeyPadToStation(const QString& nameId)
     //Обновление вида
     sendCurrentIndexOfDigitalStation(0,nameId);
 }
+
+void AppCore::checkTelButtons(const QString& nameId)
+{
+    bool val = false;
+    int i = 0;
+    for (; i<listOfStations.size(); ++i )
+    {
+        if(listOfStations.at(i).nameOfID == nameId)
+            break;
+    }
+    //i - индекс нужной станции
+    for (int k = 0; k < listOfStations.at(i).listOfKeys.size(); ++k )
+    {
+        if (listOfStations.at(i).listOfKeys.at(k).numberOfKey.toInt() >=50)
+        {
+            qDebug() << "CheckBox ON";
+            val = true;
+            emit setCheckBox(val);
+            return;
+        }
+    }
+    qDebug() << "CheckBox OFF";
+    emit setCheckBox(val);
+
+}

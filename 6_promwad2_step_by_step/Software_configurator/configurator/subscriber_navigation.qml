@@ -569,9 +569,15 @@ visible: false
 
                                 listViewDigitalStation.currentIndex = index
                                 listViewStationWithoutGroup.currentIndex = index
+
+                                //Если есть телефонные клавиши устанавливаем CheckBox
+                                appCore.checkTelButtons(listModelDigitalStation.get(index).cidName);
+
+
                                 appCore.sendCurrentIndexOfDigitalStation(
                                             index, listModelDigitalStation.get(
-                                                index).cidName)
+                                                index).cidName);
+
 
                             }
                         }
