@@ -433,4 +433,25 @@ void AppCore::deleteKeyPadFromStation(const QString& nameId)
 void AppCore::addKeyPadToStation(const QString& nameId)
 {
     qDebug() << "addKeyPadToStation";
+    int m = 0;
+    for (; m<listOfStations.size(); ++m )
+    {
+        if(listOfStations.at(m).nameOfID == nameId)
+            break;
+    }
+    //m - индекс нужной станции
+    for (int i = 51; i<= 60 ; ++i)
+    {
+            addNewKeyBlock(nameId);
+            listOfStations[m].listOfKeys.last().numberOfKey = QString::number(i);
+            if (i < 60)
+                listOfStations[m].listOfKeys.last().nameOfKey = "telephone key " + QString::number(i - 50);
+            if (i == 60)
+                listOfStations[m].listOfKeys.last().nameOfKey = "telephone key " + QString::number(0);
+            listOfStations[m].listOfKeys.last().functionOfKey = "5"; //Telephone
+            listOfStations[m].listOfKeys.last().modeKey = "2"; //No Fixation
+            listOfStations[m].listOfKeys.last().prioriryKey = "1";
+    }
+    //Обновление вида
+    sendCurrentIndexOfDigitalStation(0,nameId);
 }
