@@ -1134,16 +1134,41 @@ val >= 51 ? buttonNewKeyFunction.visible = false : buttonNewKeyFunction.visible 
 // Чекбокс для номеронабирателя
 
     CheckBox {
-        id: testCheckBox
+        id: keyPadCheckBox
         anchors.left: subsribersWindow.right
         anchors.leftMargin: 210
         anchors.topMargin: defaultSizeOfSpace + 10
         anchors.top: textFieldGateway.bottom
+//        font.bold: true
+//        font.pointSize: 12
+//        text: qsTr("")
+
+        onCheckStateChanged: {
+                    switch (checkState) {
+                        case Qt.Unchecked:
+                            keyPadCheckBoxState.text = "keypad OFF";
+                            break;
+//                        case Qt.PartiallyChecked:
+//                            keyPadCheckBoxState.text = "I'm partially checked";
+//                            break;
+                        case Qt.Checked:
+                            keyPadCheckBoxState.text = "keypad ON";
+                            break;
+                        default:
+                            break;
+                    }
+                }
+    }
+    Text {
+        id: keyPadCheckBoxState
         font.bold: true
         font.pointSize: 12
-        text: qsTr("Enable keypad")
+        anchors.centerIn: keyPadCheckBox.Center
+        anchors.left: keyPadCheckBox.right
+        anchors.top: keyPadCheckBox.top
+        anchors.topMargin: 10
+        text: qsTr("keypad OFF")
     }
-
 
 
     Rectangle //Текст Keyboard Information
