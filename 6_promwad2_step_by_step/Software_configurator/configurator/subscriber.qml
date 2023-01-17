@@ -1132,7 +1132,19 @@ val >= 51 ? buttonNewKeyFunction.visible = false : buttonNewKeyFunction.visible 
         }
     }
 // Чекбокс для номеронабирателя
-// Чекбокса не будет - тип устройства задается при добавлении в выпадающес списке
+
+    CheckBox {
+        id: testCheckBox
+        anchors.left: subsribersWindow.right
+        anchors.leftMargin: 210
+        anchors.topMargin: defaultSizeOfSpace + 10
+        anchors.top: textFieldGateway.bottom
+        font.bold: true
+        font.pointSize: 12
+        text: qsTr("Enable keypad")
+    }
+
+
 
     Rectangle //Текст Keyboard Information
     {
@@ -1140,7 +1152,7 @@ val >= 51 ? buttonNewKeyFunction.visible = false : buttonNewKeyFunction.visible 
         width: 405
         height: defaultSizeOfHeight
         color: "#ffffff"
-        anchors.topMargin: 20
+        anchors.topMargin: 60
         anchors.top: textFieldGateway.bottom
         anchors.left: flickableListOfSubscribers.right
         anchors.leftMargin: defaultSizeOfSpace
