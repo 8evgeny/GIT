@@ -456,9 +456,9 @@ void AppCore::addKeyPadToStation(const QString& nameId)
     sendCurrentIndexOfDigitalStation(0,nameId);
 }
 
+//Проверка содержит ли станция телефонные клавиши
 void AppCore::checkTelButtons(const QString& nameId)
 {
-    bool val = false;
     int i = 0;
     for (; i<listOfStations.size(); ++i )
     {
@@ -471,12 +471,10 @@ void AppCore::checkTelButtons(const QString& nameId)
         if (listOfStations.at(i).listOfKeys.at(k).numberOfKey.toInt() >=50)
         {
             qDebug() << "CheckBox ON";
-            val = true;
             emit setCheckBox();
             return;
         }
     }
     qDebug() << "CheckBox OFF";
     emit unsetCheckBox();
-
 }

@@ -664,11 +664,15 @@ val >= 51 ? buttonNewKeyFunction.visible = false : buttonNewKeyFunction.visible 
         target: appCore
         onSetCheckBox:
         {
-            keyPadCheckBox.state = "1"
+            var checkBoxState
+            checkBoxState = 1
+            console.log ("checkBoxState = " + checkBoxState)
         }
         onUnsetCheckBox:
         {
-            keyPadCheckBox.state = "0"
+            var checkBoxState
+            checkBoxState = 0
+            console.log ("checkBoxState = " + checkBoxState)
         }
 
         onSendListNameOfElements:
@@ -1140,59 +1144,111 @@ val >= 51 ? buttonNewKeyFunction.visible = false : buttonNewKeyFunction.visible 
             focus = false
         }
     }
-// Чекбокс для номеронабирателя
 
-    CheckBox {
-        id: keyPadCheckBox
-        anchors.left: subsribersWindow.right
-        anchors.leftMargin: 215
-        anchors.topMargin: defaultSizeOfSpace + 10
-        anchors.top: textFieldGateway.bottom
-//        tristate: true
+    GridView {
+         id: listView
+         anchors.left: subsribersWindow.right
+         anchors.leftMargin: 215
+         anchors.topMargin: defaultSizeOfSpace + 10
+         anchors.top: textFieldGateway.bottom
+         model: ["keyPad1", "keyPad2"]
+         delegate: CheckDelegate
+         {
+            text: modelData
+            onCheckStateChanged: {
+                switch (checkState) {
+                    case Qt.Unchecked:
+                        console.log("Unchecked");
+                        appCore.deleteKeyPadFromStation(nameOfStation)
+                        break;
+                    case Qt.Checked:
+                        console.log("Checked");
+                        appCore.addKeyPadToStation(nameOfStation)
+                        break;
+                    default:
+                        break;
+                }
+            }
+         }
+
+
+    }
+
+
+
+
+//    // Чекбокс для номеронабирателя
+//    CheckBox {
+//        id: keyPadCheckBox
+//        anchors.left: subsribersWindow.right
+//        anchors.leftMargin: 215
+//        anchors.topMargin: defaultSizeOfSpace + 10
+//        anchors.top: textFieldGateway.bottom
+////        tristate: true
+////        font.bold: true
+////        font.pointSize: 12
+////        text: qsTr("")
+
+//        indicator: Rectangle {
+//                    color: keyPadCheckBox.checked ? "#2E8B57" : "#C0C0C0"
+//                    y: keyPadCheckBox.height / 2 - height / 2
+//                    implicitWidth: 25
+//                    implicitHeight: 25
+//                }
+////        background: Rectangle {
+////                    color: "#C0C0C0"
+////                }
+//        onCheckStateChanged: {
+//                    switch (checkState) {
+//                        case Qt.Unchecked:
+//                            console.log("Unchecked");
+//                            appCore.deleteKeyPadFromStation(nameOfStation)
+//                            keyPadCheckBoxState.text = "keypad OFF";
+//                            break;
+////                        case Qt.PartiallyChecked:
+////                            keyPadCheckBoxState.text = "I'm partially checked";
+////                            break;
+//                        case Qt.Checked:
+//                            console.log("Checked");
+//                            appCore.addKeyPadToStation(nameOfStation)
+//                            keyPadCheckBoxState.text = "keypad ON";
+//                            break;
+//                        default:
+//                            break;
+//                    }
+//                }
+//    }//CheckBox
+
+
+//    CheckDelegate {
+//        tristate: false
+//        checkState: checkBoxState = 1 ? Qt.Checked : Qt.Unchecked
+
+//    }
+//     Text {
+//        id: keyPadCheckBoxState
 //        font.bold: true
 //        font.pointSize: 12
-//        text: qsTr("")
+//        anchors.centerIn: keyPadCheckBox.Center
+//        anchors.left: keyPadCheckBox.right
+//        anchors.top: keyPadCheckBox.top
+//        anchors.topMargin: 10
+//        anchors.leftMargin: 10
+//        text: qsTr("keypad OFF")
+//    }
 
-        indicator: Rectangle {
-                    color: keyPadCheckBox.checked ? "#2E8B57" : "#C0C0C0"
-                    y: keyPadCheckBox.height / 2 - height / 2
-                    implicitWidth: 25
-                    implicitHeight: 25
-                }
-//        background: Rectangle {
-//                    color: "#C0C0C0"
-//                }
-        onCheckStateChanged: {
-                    switch (checkState) {
-                        case Qt.Unchecked:
-                            console.log("Unchecked");
-                            appCore.deleteKeyPadFromStation(nameOfStation)
-                            keyPadCheckBoxState.text = "keypad OFF";
-                            break;
-//                        case Qt.PartiallyChecked:
-//                            keyPadCheckBoxState.text = "I'm partially checked";
-//                            break;
-                        case Qt.Checked:
-                            console.log("Checked");
-                            appCore.addKeyPadToStation(nameOfStation)
-                            keyPadCheckBoxState.text = "keypad ON";
-                            break;
-                        default:
-                            break;
-                    }
-                }
-    }//CheckBox
-    Text {
-        id: keyPadCheckBoxState
-        font.bold: true
-        font.pointSize: 12
-        anchors.centerIn: keyPadCheckBox.Center
-        anchors.left: keyPadCheckBox.right
-        anchors.top: keyPadCheckBox.top
-        anchors.topMargin: 10
-        anchors.leftMargin: 10
-        text: qsTr("keypad OFF")
-    }
+//    ListView {
+//        anchors.fill: parent
+//        id: listView
+//        model: 10
+//        delegate: ItemDelegate {
+//            text: modelData
+//            highlighted: ListView.isCurrentItem
+//            onClicked: listView.currentIndex = index
+//        }
+
+
+
 
 
     Rectangle //Текст Keyboard Information
@@ -1201,7 +1257,7 @@ val >= 51 ? buttonNewKeyFunction.visible = false : buttonNewKeyFunction.visible 
         width: 405
         height: defaultSizeOfHeight
         color: "#ffffff"
-        anchors.topMargin: 60
+        anchors.topMargin: 260
         anchors.top: textFieldGateway.bottom
         anchors.left: flickableListOfSubscribers.right
         anchors.leftMargin: defaultSizeOfSpace

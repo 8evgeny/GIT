@@ -188,8 +188,8 @@ property color canvasColor: "#F8FACF"
             {
                 if (listViewDigitalStation.currentIndex >= 0)
                 {
-                    appCore.sendCurrentIndexOfDigitalStation(
-                                listViewDigitalStation.currentIndex, listModelDigitalStation.get(
+                    //Обновление вида
+                    appCore.sendCurrentIndexOfDigitalStation(listViewDigitalStation.currentIndex, listModelDigitalStation.get(
                                     listViewDigitalStation.currentIndex).cidName)
                 }
             }
@@ -571,7 +571,7 @@ visible: false
                                 listViewStationWithoutGroup.currentIndex = index
 
                                 //Если есть телефонные клавиши устанавливаем CheckBox
-                                appCore.checkTelButtons(listModelDigitalStation.get(index).cidName);
+                                appCore.checkTelButtons(listModelDigitalStation.get(index).cidName)
 
 
                                 appCore.sendCurrentIndexOfDigitalStation(
