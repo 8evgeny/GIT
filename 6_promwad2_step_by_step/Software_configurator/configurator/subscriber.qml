@@ -676,7 +676,7 @@ val >= 51 ? buttonNewKeyFunction.visible = false : buttonNewKeyFunction.visible 
             checkBoxState = 1
             console.log ("checkBoxState = " + checkBoxState)
             console.log ("butt state = " + butt.state)
-//            keyPadCheckBox.state = Qt.Checked
+            keyPadCheckBox.state = 2
         }
         onUnsetCheckBox:
         {
@@ -685,6 +685,7 @@ val >= 51 ? buttonNewKeyFunction.visible = false : buttonNewKeyFunction.visible 
             butt.state = false
             console.log ("checkBoxState = " + checkBoxState)
             console.log ("butt state = " + butt.state)
+            keyPadCheckBox.state = 0
         }
 
         onSendListNameOfElements:
@@ -1218,6 +1219,7 @@ val >= 51 ? buttonNewKeyFunction.visible = false : buttonNewKeyFunction.visible 
 //                    color: "#C0C0C0"
 //                }
         onCheckStateChanged: {
+           console.log("STATE - " + keyPadCheckBox.checkState)
                     switch (checkState) {
                         case Qt.Unchecked:
                             console.log("Unchecked");
