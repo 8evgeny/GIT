@@ -1157,97 +1157,99 @@ val >= 51 ? buttonNewKeyFunction.visible = false : buttonNewKeyFunction.visible 
         }
     }
 
-    ListView {
-         id: listView
-         anchors.left: subsribersWindow.right
-         anchors.leftMargin: 215
-         anchors.topMargin: defaultSizeOfSpace + 10
-         anchors.top: textFieldGateway.bottom
-         model: [butt.state]
-         orientation: ListView.Horizontal
-         delegate: CheckDelegate
-         {
-            id: idDelegatedCheckbox
-            checked: model.checked // read from the model when created or recycled
-            text: modelData
-            font.bold: true
-            font.pointSize: 12
-            onCheckStateChanged: {
-                switch (checkState) {
-                    case Qt.Unchecked:
-                        console.log("Unchecked");
-                        appCore.deleteKeyPadFromStation(nameOfStation)
-                        break;
-                    case Qt.Checked:
-                        console.log("Checked");
-                        appCore.addKeyPadToStation(nameOfStation)
-                        break;
-                    default:
-                        break;
-                }
-            }
-         }
-    }//ListView
-
-
-
-
-//    // Чекбокс для номеронабирателя
-//    CheckBox {
-//        id: keyPadCheckBox
-//        anchors.left: subsribersWindow.right
-//        anchors.leftMargin: 215
-//        anchors.topMargin: defaultSizeOfSpace + 10
-//        anchors.top: textFieldGateway.bottom
-////        checked: butt.state = 1 ? true : false
-//        checked: true
-////        tristate: true
-////        font.bold: true
-////        font.pointSize: 12
-////        text: qsTr("")
-
-//        indicator: Rectangle {
-//                    color: keyPadCheckBox.checked ? "#2E8B57" : "#C0C0C0"
-//                    y: keyPadCheckBox.height / 2 - height / 2
-//                    implicitWidth: 25
-//                    implicitHeight: 25
+//    ListView {
+//         id: listView
+//         anchors.left: subsribersWindow.right
+//         anchors.leftMargin: 215
+//         anchors.topMargin: defaultSizeOfSpace + 10
+//         anchors.top: textFieldGateway.bottom
+//         model: [butt]
+//         orientation: ListView.Horizontal
+//         delegate: CheckDelegate
+//         {
+//            id: idDelegatedCheckbox
+//            checked: model.state // read from the model when created or recycled
+//            text: modelData //?"keypad ON" :"keypad OFF"
+//            font.bold: true
+//            font.pointSize: 12
+//            onCheckStateChanged: {
+//                switch (checkState) {
+//                    case Qt.Unchecked:
+//                        console.log("Unchecked");
+//                        appCore.deleteKeyPadFromStation(nameOfStation)
+//                        butt.state = false
+//                        break;
+//                    case Qt.Checked:
+//                        console.log("Checked");
+//                        appCore.addKeyPadToStation(nameOfStation)
+//                        butt.state = true
+//                        break;
+//                    default:
+//                        break;
 //                }
-////        background: Rectangle {
-////                    color: "#C0C0C0"
-////                }
-//        onCheckStateChanged: {
-//                    switch (checkState) {
-//                        case Qt.Unchecked:
-//                            console.log("Unchecked");
-//                            appCore.deleteKeyPadFromStation(nameOfStation)
-//                            keyPadCheckBoxState.text = "keypad OFF";
-//                            break;
-////                        case Qt.PartiallyChecked:
-////                            keyPadCheckBoxState.text = "I'm partially checked";
-////                            break;
-//                        case Qt.Checked:
-//                            console.log("Checked");
-//                            appCore.addKeyPadToStation(nameOfStation)
-//                            keyPadCheckBoxState.text = "keypad ON";
-//                            break;
-//                        default:
-//                            break;
-//                    }
-//                }
-//    }//CheckBox
+//            }
+//         }
+//    }//ListView
 
 
-//     Text {
-//        id: keyPadCheckBoxState
+
+
+    // Чекбокс для номеронабирателя
+    CheckBox {
+        id: keyPadCheckBox
+        anchors.left: subsribersWindow.right
+        anchors.leftMargin: 215
+        anchors.topMargin: defaultSizeOfSpace + 10
+        anchors.top: textFieldGateway.bottom
+//        checked: butt.state = 1 ? true : false
+        checked: true
+//        tristate: true
 //        font.bold: true
 //        font.pointSize: 12
-//        anchors.centerIn: keyPadCheckBox.Center
-//        anchors.left: keyPadCheckBox.right
-//        anchors.top: keyPadCheckBox.top
-//        anchors.topMargin: 10
-//        anchors.leftMargin: 10
-//        text: qsTr("keypad OFF")
-//    }
+//        text: qsTr("")
+
+        indicator: Rectangle {
+                    color: keyPadCheckBox.checked ? "#2E8B57" : "#C0C0C0"
+                    y: keyPadCheckBox.height / 2 - height / 2
+                    implicitWidth: 25
+                    implicitHeight: 25
+                }
+//        background: Rectangle {
+//                    color: "#C0C0C0"
+//                }
+        onCheckStateChanged: {
+                    switch (checkState) {
+                        case Qt.Unchecked:
+                            console.log("Unchecked");
+                            appCore.deleteKeyPadFromStation(nameOfStation)
+                            keyPadCheckBoxState.text = "keypad OFF";
+                            break;
+//                        case Qt.PartiallyChecked:
+//                            keyPadCheckBoxState.text = "I'm partially checked";
+//                            break;
+                        case Qt.Checked:
+                            console.log("Checked");
+                            appCore.addKeyPadToStation(nameOfStation)
+                            keyPadCheckBoxState.text = "keypad ON";
+                            break;
+                        default:
+                            break;
+                    }
+                }
+    }//CheckBox
+
+
+     Text {
+        id: keyPadCheckBoxState
+        font.bold: true
+        font.pointSize: 12
+        anchors.centerIn: keyPadCheckBox.Center
+        anchors.left: keyPadCheckBox.right
+        anchors.top: keyPadCheckBox.top
+        anchors.topMargin: 10
+        anchors.leftMargin: 10
+        text: qsTr("keypad OFF")
+    }
 
 
 
