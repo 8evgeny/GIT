@@ -1199,7 +1199,7 @@ val >= 51 ? buttonNewKeyFunction.visible = false : buttonNewKeyFunction.visible 
         anchors.topMargin: defaultSizeOfSpace + 10
         anchors.top: textFieldGateway.bottom
         property string text
-
+        signal clicked
         color: "lightgray"
         radius: 5
 
@@ -1218,6 +1218,10 @@ val >= 51 ? buttonNewKeyFunction.visible = false : buttonNewKeyFunction.visible 
             //По центру кнопки
             anchors.centerIn: parent
             text: mybutton.text
+        }
+        MouseArea {
+            anchors.fill: parent
+            onClicked: mybutton.clicked()
         }
     }
 
