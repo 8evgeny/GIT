@@ -676,7 +676,7 @@ val >= 51 ? buttonNewKeyFunction.visible = false : buttonNewKeyFunction.visible 
             checkBoxState = 1
             console.log ("checkBoxState = " + checkBoxState)
             console.log ("butt state = " + butt.state)
-            keyPadCheckBox.state = 2
+            mybutton.color = "green"
         }
         onUnsetCheckBox:
         {
@@ -685,7 +685,7 @@ val >= 51 ? buttonNewKeyFunction.visible = false : buttonNewKeyFunction.visible 
             butt.state = false
             console.log ("checkBoxState = " + checkBoxState)
             console.log ("butt state = " + butt.state)
-            keyPadCheckBox.state = 0
+            mybutton.color = "lightgray"
         }
 
         onSendListNameOfElements:
@@ -1200,7 +1200,7 @@ val >= 51 ? buttonNewKeyFunction.visible = false : buttonNewKeyFunction.visible 
         anchors.top: textFieldGateway.bottom
         property string text
         signal clicked
-        color: "lightgray"
+//        color: (butt.state = true) ? "green" : "lightgrey"
         radius: 5
 
         //Ширина и высота кнопки по умолчанию
@@ -1222,6 +1222,11 @@ val >= 51 ? buttonNewKeyFunction.visible = false : buttonNewKeyFunction.visible 
         MouseArea {
             anchors.fill: parent
             onClicked: mybutton.clicked()
+        }
+        onClicked:
+        {
+            butt.state = true
+//            mybutton.color = "green"
         }
     }
 
