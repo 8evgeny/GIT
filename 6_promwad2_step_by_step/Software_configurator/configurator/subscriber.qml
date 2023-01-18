@@ -1203,13 +1203,13 @@ val >= 51 ? buttonNewKeyFunction.visible = false : buttonNewKeyFunction.visible 
         anchors.top: textFieldGateway.bottom
 //        checked: butt.state = 1 ? true : false
         checked: true
-//        tristate: true
-//        font.bold: true
-//        font.pointSize: 12
-//        text: qsTr("")
+        font.bold: true
+        font.pointSize: 12
+        text: qsTr(butt.state)
 
         indicator: Rectangle {
                     color: keyPadCheckBox.checked ? "#2E8B57" : "#C0C0C0"
+//                    color: butt.state = true ? "#2E8B57" : "#C0C0C0"
                     y: keyPadCheckBox.height / 2 - height / 2
                     implicitWidth: 25
                     implicitHeight: 25
