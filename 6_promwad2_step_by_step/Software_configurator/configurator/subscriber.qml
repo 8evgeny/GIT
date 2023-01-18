@@ -666,13 +666,13 @@ val >= 51 ? buttonNewKeyFunction.visible = false : buttonNewKeyFunction.visible 
         onSetCheckBox:
         {
             mybutton.state_ = 1
-            console.log ("butt state = " + mybutton.state_)
+            console.log ("mybutton set " + mybutton.state_)
             mybutton.color = "green"
         }
         onUnsetCheckBox:
         {
             mybutton.state_ = 0
-            console.log ("butt state = " + mybutton.state_)
+            console.log ("mybutton set "  + mybutton.state_)
             mybutton.color = "lightgray"
         }
 
@@ -1218,8 +1218,9 @@ val >= 51 ? buttonNewKeyFunction.visible = false : buttonNewKeyFunction.visible 
                 console.log("Clicked true")
                 mybutton.color = "lightgray";
                 appCore.deleteKeyPadFromStation(nameOfStation)
-                mybutton.state_ = 0;
-                console.log ("butt state = " + mybutton.state_)
+                mybutton.state_ = -1;
+                console.log ("mybutton set "  + mybutton.state_)
+
             }
             if(mybutton.state_ === 0)
             {
@@ -1227,7 +1228,7 @@ val >= 51 ? buttonNewKeyFunction.visible = false : buttonNewKeyFunction.visible 
                 mybutton.color = "green";
                 appCore.addKeyPadToStation(nameOfStation)
                 mybutton.state_ = 1;
-                console.log ("butt state = " + mybutton.state_)
+                console.log ("mybutton set "  + mybutton.state_)
 
             }
 
