@@ -420,7 +420,7 @@ void AppCore::deleteKeyPadFromStation(const QString& nameId)
         if (listOfStations.at(i).listOfKeys.at(k).numberOfKey.toInt() >=50)
         {
             //удаляем найденную клавишу
-            qDebug() << "delete Key" <<listOfStations.at(i).listOfKeys.at(k).numberOfKey;
+//            qDebug() << "delete Key" <<listOfStations.at(i).listOfKeys.at(k).numberOfKey;
             listOfStations[i].listOfKeys.removeAt(k);
             //Нужно, иначе удалится только половина
             --k;
@@ -428,6 +428,7 @@ void AppCore::deleteKeyPadFromStation(const QString& nameId)
     }
     //Обновление вида
     sendCurrentIndexOfDigitalStation(0,nameId);
+    QThread::msleep(100);
 }
 
 void AppCore::addKeyPadToStation(const QString& nameId)
