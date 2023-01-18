@@ -659,32 +659,20 @@ val >= 51 ? buttonNewKeyFunction.visible = false : buttonNewKeyFunction.visible 
         }                   //Rectangle
     }                       //Flickable
 
-    Button {
-    id: butt
-
-    }
-
-
 
     Connections //Отработка сигналов
     {
         target: appCore
         onSetCheckBox:
         {
-            var checkBoxState
-            butt.state = true
-            checkBoxState = 1
-            console.log ("checkBoxState = " + checkBoxState)
-            console.log ("butt state = " + butt.state)
+            mybutton.state_ = 1
+            console.log ("butt state = " + mybutton.state_)
             mybutton.color = "green"
         }
         onUnsetCheckBox:
         {
-            var checkBoxState
-            checkBoxState = 0
-            butt.state = false
-            console.log ("checkBoxState = " + checkBoxState)
-            console.log ("butt state = " + butt.state)
+            mybutton.state_ = 0
+            console.log ("butt state = " + mybutton.state_)
             mybutton.color = "lightgray"
         }
 
@@ -1199,8 +1187,8 @@ val >= 51 ? buttonNewKeyFunction.visible = false : buttonNewKeyFunction.visible 
         anchors.topMargin: defaultSizeOfSpace + 10
         anchors.top: textFieldGateway.bottom
         property string text
+        property int state_
         signal clicked
-//        color: (butt.state = true) ? "green" : "lightgrey"
         radius: 5
 
         //Ширина и высота кнопки по умолчанию
@@ -1225,8 +1213,24 @@ val >= 51 ? buttonNewKeyFunction.visible = false : buttonNewKeyFunction.visible 
         }
         onClicked:
         {
-            butt.state = true
-//            mybutton.color = "green"
+            if(mybutton.state_ === 1)
+            {
+                console.log("Clicked true")
+                mybutton.color = "lightgray";
+                appCore.deleteKeyPadFromStation(nameOfStation)
+                mybutton.state_ = 0;
+                console.log ("butt state = " + mybutton.state_)
+            }
+            if(mybutton.state_ === 0)
+            {
+                console.log("Clicked false")
+                mybutton.color = "green";
+                appCore.addKeyPadToStation(nameOfStation)
+                mybutton.state_ = 1;
+                console.log ("butt state = " + mybutton.state_)
+
+            }
+
         }
     }
 
