@@ -1145,16 +1145,18 @@ val >= 51 ? buttonNewKeyFunction.visible = false : buttonNewKeyFunction.visible 
         }
     }
 
-    GridView {
+    ListView {
          id: listView
          anchors.left: subsribersWindow.right
          anchors.leftMargin: 215
          anchors.topMargin: defaultSizeOfSpace + 10
          anchors.top: textFieldGateway.bottom
-         model: ["keyPad1", "keyPad2"]
+         model: ["keypad", "keyPad2"]
          delegate: CheckDelegate
          {
             text: modelData
+            font.bold: true
+            font.pointSize: 12
             onCheckStateChanged: {
                 switch (checkState) {
                     case Qt.Unchecked:
@@ -1236,18 +1238,6 @@ val >= 51 ? buttonNewKeyFunction.visible = false : buttonNewKeyFunction.visible 
 //        anchors.leftMargin: 10
 //        text: qsTr("keypad OFF")
 //    }
-
-//    ListView {
-//        anchors.fill: parent
-//        id: listView
-//        model: 10
-//        delegate: ItemDelegate {
-//            text: modelData
-//            highlighted: ListView.isCurrentItem
-//            onClicked: listView.currentIndex = index
-//        }
-
-
 
 
 
