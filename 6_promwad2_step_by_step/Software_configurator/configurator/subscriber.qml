@@ -668,12 +668,14 @@ val >= 51 ? buttonNewKeyFunction.visible = false : buttonNewKeyFunction.visible 
             mybutton.state_ = 1
             console.log ("mybutton set " + mybutton.state_)
             mybutton.color = "green"
+            checkBoxText.text = "KeyPad ON"
         }
         onUnsetCheckBox:
         {
             mybutton.state_ = 0
             console.log ("mybutton set "  + mybutton.state_)
             mybutton.color = "lightgray"
+            checkBoxText.text = "KeyPad OFF"
         }
 
         onSendListNameOfElements:
@@ -1222,6 +1224,7 @@ val >= 51 ? buttonNewKeyFunction.visible = false : buttonNewKeyFunction.visible 
                 appCore.deleteKeyPadFromStation(nameOfStation)
                 mybutton.state_ = 0;
                 console.log ("mybutton set "  + mybutton.state_)
+                checkBoxText.text = "KeyPad OFF"
             }
         }
         onClicked2:
@@ -1233,6 +1236,7 @@ val >= 51 ? buttonNewKeyFunction.visible = false : buttonNewKeyFunction.visible 
                 appCore.addKeyPadToStation(nameOfStation)
                 mybutton.state_ = 1;
                 console.log ("mybutton set "  + mybutton.state_)
+                checkBoxText.text = "KeyPad ON"
             }
         }
     }
@@ -1289,17 +1293,17 @@ val >= 51 ? buttonNewKeyFunction.visible = false : buttonNewKeyFunction.visible 
 //    }//CheckBox
 
 
-//     Text {
-//        id: keyPadCheckBoxState
-//        font.bold: true
-//        font.pointSize: 12
-//        anchors.centerIn: keyPadCheckBox.Center
-//        anchors.left: keyPadCheckBox.right
-//        anchors.top: keyPadCheckBox.top
-//        anchors.topMargin: 10
-//        anchors.leftMargin: 10
-//        text: qsTr("keypad OFF")
-//    }
+     Text {
+        id: checkBoxText
+        font.bold: false
+        font.pointSize: 14
+        anchors.centerIn: mybutton.Center
+        anchors.left: mybutton.right
+        anchors.top: mybutton.top
+        anchors.topMargin: 10
+        anchors.leftMargin: 10
+        text: qsTr("")
+    }
 
 
 
