@@ -1192,6 +1192,34 @@ val >= 51 ? buttonNewKeyFunction.visible = false : buttonNewKeyFunction.visible 
 //         }
 //    }//ListView
 
+    Rectangle {
+        id: mybutton
+        anchors.left: subsribersWindow.right
+        anchors.leftMargin: 215
+        anchors.topMargin: defaultSizeOfSpace + 10
+        anchors.top: textFieldGateway.bottom
+        property string text
+
+        color: "lightgray"
+        radius: 5
+
+        //Ширина и высота кнопки по умолчанию
+        implicitWidth: 30
+        implicitHeight: 30
+
+        border {
+            color: "grey"
+            width: 1
+        }
+
+        //Непосредственно элемент, рисующий текст кнопки
+        Text {
+            id: buttonText
+            //По центру кнопки
+            anchors.centerIn: parent
+            text: mybutton.text
+        }
+    }
 
 
 
