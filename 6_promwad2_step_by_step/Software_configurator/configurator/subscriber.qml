@@ -1189,6 +1189,7 @@ val >= 51 ? buttonNewKeyFunction.visible = false : buttonNewKeyFunction.visible 
         property string text
         property int state_
         signal clicked
+        signal clicked2
         radius: 5
 
         //Ширина и высота кнопки по умолчанию
@@ -1210,6 +1211,7 @@ val >= 51 ? buttonNewKeyFunction.visible = false : buttonNewKeyFunction.visible 
         MouseArea {
             anchors.fill: parent
             onClicked: mybutton.clicked()
+            onDoubleClicked: mybutton.clicked2()
         }
         onClicked:
         {
@@ -1218,10 +1220,12 @@ val >= 51 ? buttonNewKeyFunction.visible = false : buttonNewKeyFunction.visible 
                 console.log("Clicked true")
                 mybutton.color = "lightgray";
                 appCore.deleteKeyPadFromStation(nameOfStation)
-                mybutton.state_ = -1;
+                mybutton.state_ = 0;
                 console.log ("mybutton set "  + mybutton.state_)
-
             }
+        }
+        onClicked2:
+        {
             if(mybutton.state_ === 0)
             {
                 console.log("Clicked false")
@@ -1229,9 +1233,7 @@ val >= 51 ? buttonNewKeyFunction.visible = false : buttonNewKeyFunction.visible 
                 appCore.addKeyPadToStation(nameOfStation)
                 mybutton.state_ = 1;
                 console.log ("mybutton set "  + mybutton.state_)
-
             }
-
         }
     }
 
