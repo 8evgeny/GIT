@@ -52,11 +52,22 @@ void AppCore::sendCurrentIndexOfDigitalStation(const qint32 &index, const QStrin
 
     //update list of stations for subscriber.qml
     for (const auto &listOfKey : listOfStations.at(indexOfStation).listOfKeys) {
+        QString assignedKeyTrim = listOfKey.assignedKey;
+        if (assignedKeyTrim != "")
+        {
+            if (assignedKeyTrim[0] != "G")
+            {
+                assignedKeyTrim.remove(0,4);
+            }
+        }
+
         emit sendListNameOfElements(listOfKey.uidOfKey,
                                     listOfKey.numberOfKey,
                                     listOfKey.nameOfKey,
                                     listOfKey.functionOfKey,
-                                    listOfKey.assignedKey);
+                                    listOfKey.assignedKey,
+                                    assignedKeyTrim
+                                    );
     }
 }
 
@@ -95,7 +106,7 @@ void AppCore::addNewKeyBlock(const QString &nameOfID)
     listOfStations[indexOfStation].listOfKeys.append(tmp);
 
     //add to the new element to subscriber.qml
-    emit sendListNameOfElements(tmp.uidOfKey, tmp.numberOfKey, tmp.nameOfKey, tmp.functionOfKey, tmp.assignedKey);
+    emit sendListNameOfElements(tmp.uidOfKey, tmp.numberOfKey, tmp.nameOfKey, tmp.functionOfKey, tmp.assignedKey, "");
 
 }
 

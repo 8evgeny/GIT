@@ -549,7 +549,7 @@ val >= 51 ? buttonNewKeyFunction.visible = false : buttonNewKeyFunction.visible 
                                 width: parent.width
                                 height: parent.height
                                 id: textFieldNewAppointment
-                                text: assignedName
+                                text: assignedNameTrim
 
                                 background: Rectangle
                                 {
@@ -708,6 +708,7 @@ val >= 51 ? buttonNewKeyFunction.visible = false : buttonNewKeyFunction.visible 
                     "functionNameColor": nameStr !== "" ? "#333" : "red",
                     "borderFunctionNameColor": nameStr !== "" ? "#333" : "red",
                     "assignedName": assignedKeyAdd,
+                    "assignedNameTrim": assignedKeyAddTrim,
                     "assignedNameColor": checkAssignment(assignedKeyAdd, nameStr),
                      //!= "" ? "#333" : "red",
                     "borderAssignedNameColor": checkAssignment(assignedKeyAdd, nameStr)//assignedKeyAdd != "" ? "#333" : "red"

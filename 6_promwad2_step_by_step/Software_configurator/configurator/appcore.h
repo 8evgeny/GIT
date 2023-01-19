@@ -209,7 +209,9 @@ signals:
                                 QString numberOfKeyAdd,
                                 QString nameOfKeyAdd,
                                 QString functionOfKeyAdd,
-                                QString assignedKeyAdd);
+                                QString assignedKeyAdd,
+                                QString assignedKeyAddTrim
+                                );
 
     /*!
      \brief Send error message if macro does not exist.
