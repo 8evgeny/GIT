@@ -741,6 +741,9 @@ signals:
     */
     void sendWrongNameInGroupsId(QString nameOfGroup);
 
+    void setCheckBox();
+    void unsetCheckBox();
+
 public slots:
     //! The slot for the receiving of data from the QML-interface
 
@@ -1453,6 +1456,12 @@ public slots:
      \fn exitActionFromMenu
     */
     void exitActionFromMenu();
+
+    void deleteKeyPadFromStation(const QString& nameId);
+
+    void addKeyPadToStation(const QString& nameId);
+
+    void checkTelButtons(const QString& nameId);
 
 private:
     QList < ListOfMacros > listOfMacros; /*! List of existing macros */

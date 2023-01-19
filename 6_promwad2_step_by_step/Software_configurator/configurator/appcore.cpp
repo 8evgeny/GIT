@@ -404,3 +404,78 @@ void AppCore::getCurrentIndexInList()
 void AppCore::exitActionFromMenu(){
     emit exitFromMenu();
 }
+
+void AppCore::deleteKeyPadFromStation(const QString& nameId)
+{
+    qDebug() << "deleteKeyPadFromStation";
+    int i = 0;
+    for (; i<listOfStations.size(); ++i )
+    {
+        if(listOfStations.at(i).nameOfID == nameId)
+            break;
+    }
+    //i - индекс нужной станции
+    for (int k = 0; k < listOfStations.at(i).listOfKeys.size(); ++k )
+    {
+        if (listOfStations.at(i).listOfKeys.at(k).numberOfKey.toInt() >=50)
+        {
+            //удаляем найденную клавишу
+//            qDebug() << "delete Key" <<listOfStations.at(i).listOfKeys.at(k).numberOfKey;
+            listOfStations[i].listOfKeys.removeAt(k);
+            //Нужно, иначе удалится только половина
+            --k;
+        }
+    }
+    //Обновление вида
+    sendCurrentIndexOfDigitalStation(0,nameId);
+    QThread::msleep(100);
+}
+
+void AppCore::addKeyPadToStation(const QString& nameId)
+{
+    qDebug() << "addKeyPadToStation";
+    int m = 0;
+    for (; m<listOfStations.size(); ++m )
+    {
+        if(listOfStations.at(m).nameOfID == nameId)
+            break;
+    }
+    //m - индекс нужной станции
+    for (int i = 51; i<= 60 ; ++i)
+    {
+            addNewKeyBlock(nameId);
+            listOfStations[m].listOfKeys.last().numberOfKey = QString::number(i);
+            if (i < 60)
+                listOfStations[m].listOfKeys.last().nameOfKey = "telephone key " + QString::number(i - 50);
+            if (i == 60)
+                listOfStations[m].listOfKeys.last().nameOfKey = "telephone key " + QString::number(0);
+            listOfStations[m].listOfKeys.last().functionOfKey = "5"; //Telephone
+            listOfStations[m].listOfKeys.last().modeKey = "2"; //No Fixation
+            listOfStations[m].listOfKeys.last().prioriryKey = "1";
+    }
+    //Обновление вида
+    sendCurrentIndexOfDigitalStation(0,nameId);
+}
+
+//Проверка содержит ли станция телефонные клавиши
+void AppCore::checkTelButtons(const QString& nameId)
+{
+    int i = 0;
+    for (; i<listOfStations.size(); ++i )
+    {
+        if(listOfStations.at(i).nameOfID == nameId)
+            break;
+    }
+    //i - индекс нужной станции
+    for (int k = 0; k < listOfStations.at(i).listOfKeys.size(); ++k )
+    {
+        if (listOfStations.at(i).listOfKeys.at(k).numberOfKey.toInt() >=50)
+        {
+            qDebug() << "CheckBox ON";
+            emit setCheckBox();
+            return;
+        }
+    }
+    qDebug() << "CheckBox OFF";
+    emit unsetCheckBox();
+}

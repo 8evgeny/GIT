@@ -163,8 +163,7 @@ property color canvasColor: "#F8FACF"
 
             if (currentIndex >= 0)
             {
-                appCore.deleteStation(listModelDigitalStation.get(
-                                          currentIndex).cidName)
+                appCore.deleteStation(listModelDigitalStation.get(currentIndex).cidName)
             }
             if (listModelDigitalStation.count > 0)
             {
@@ -189,8 +188,8 @@ property color canvasColor: "#F8FACF"
             {
                 if (listViewDigitalStation.currentIndex >= 0)
                 {
-                    appCore.sendCurrentIndexOfDigitalStation(
-                                listViewDigitalStation.currentIndex, listModelDigitalStation.get(
+                    //Обновление вида
+                    appCore.sendCurrentIndexOfDigitalStation(listViewDigitalStation.currentIndex, listModelDigitalStation.get(
                                     listViewDigitalStation.currentIndex).cidName)
                 }
             }
@@ -570,9 +569,15 @@ visible: false
 
                                 listViewDigitalStation.currentIndex = index
                                 listViewStationWithoutGroup.currentIndex = index
+
+                                //Если есть телефонные клавиши устанавливаем CheckBox
+                                appCore.checkTelButtons(listModelDigitalStation.get(index).cidName)
+
+                                //Обновляем вид
                                 appCore.sendCurrentIndexOfDigitalStation(
                                             index, listModelDigitalStation.get(
-                                                index).cidName)
+                                                index).cidName);
+
 
                             }
                         }
