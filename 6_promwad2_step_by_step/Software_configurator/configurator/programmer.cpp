@@ -7,8 +7,11 @@
 
 void AppCore::getInformationForProgrammerWindow()
 {
-    for (const auto &listOfStation : listOfStations) {
-        emit fillInfoForProgrammerWindow(listOfStation.nameOfID, listOfStation.nameOfStation, listOfStation.ip);
+    for (const auto &listOfStation : listOfStations)
+    {
+        QString nameOfStationTrim = listOfStation.nameOfStation;
+        nameOfStationTrim.remove(0,4);
+        emit fillInfoForProgrammerWindow(listOfStation.nameOfID, listOfStation.nameOfStation, listOfStation.ip, nameOfStationTrim);
     }
 }
 

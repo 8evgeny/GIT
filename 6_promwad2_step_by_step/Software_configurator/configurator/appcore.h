@@ -669,7 +669,11 @@ signals:
      \param fillName Name station
      \param fillIpb IP address of the station
     */
-    void fillInfoForProgrammerWindow(QString fillNumber, QString fillName, QString fillIp);
+    void fillInfoForProgrammerWindow(QString fillNumber,
+                                     QString fillName,
+                                     QString fillIp,
+                                     QString fillNameTrim
+                                     );
 
      /*!
       \brief Fill in the fields of the programmer window.
