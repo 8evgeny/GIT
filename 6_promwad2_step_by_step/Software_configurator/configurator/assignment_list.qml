@@ -70,7 +70,7 @@ ApplicationWindow {
                                     height: baseHeight
                                     width: parent.width / 2
                                     readOnly: true
-                                    text: nameOfAssignment
+                                    text: nameOfAssignmentTrim
 
                                     background: Rectangle {
                                         border.color: "#333"
@@ -203,6 +203,7 @@ ApplicationWindow {
             //Add a new item to the current list
             listModelAssignmentList.append({
                                                "nameOfAssignment": itemForAdding,
+                                               "nameOfAssignmentTrim": itemForAddingTrim,
                                                "nameStation" : nameStationAdding,
                                                "borderSize": 1
                                            })

@@ -10,18 +10,24 @@
 void AppCore::getListOfStationsAndGroups()
 {
     for (const auto &listOfStation : listOfStations) {
-        emit listOfStationsAndGroups(listOfStation.nameOfID, listOfStation.nameOfStation);
+        QString itemForAddingTrim = listOfStation.nameOfID;
+        itemForAddingTrim.remove(0,4);
+        emit listOfStationsAndGroups(listOfStation.nameOfID, listOfStation.nameOfStation, itemForAddingTrim);
     }
 
     for (const auto &listOfGroup : listOfGroups) {
-        emit listOfStationsAndGroups(listOfGroup.nameOfID, listOfGroup.nameOfGorup);
+        QString itemForAddingTrim = listOfGroup.nameOfID;
+        itemForAddingTrim.remove(0,4);
+        emit listOfStationsAndGroups(listOfGroup.nameOfID, listOfGroup.nameOfGorup, itemForAddingTrim);
     }
 }
 
 void AppCore::getListOfStationsRs232()
 {
     for (const auto &listOfStation : listOfStations) {
-        emit listOfStationsAndGroups(listOfStation.nameOfID, listOfStation.nameOfStation);
+        QString itemForAddingTrim = listOfStation.nameOfID;
+        itemForAddingTrim.remove(0,4);
+        emit listOfStationsAndGroups(listOfStation.nameOfID, listOfStation.nameOfStation, itemForAddingTrim);
     }
 }
 

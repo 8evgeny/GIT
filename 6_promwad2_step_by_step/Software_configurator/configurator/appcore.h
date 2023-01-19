@@ -478,7 +478,7 @@ signals:
      \param itemForAdding This element is needed to add to the list
      \param nameStationAdding  This element is needed to add to the list
     */
-    void listOfStationsAndGroups(QString itemForAdding, QString nameStationAdding);
+    void listOfStationsAndGroups(QString itemForAdding, QString nameStationAdding, QString itemForAddingTrim);
 
     /*!
      \brief Send the selected name from the list assignment.
