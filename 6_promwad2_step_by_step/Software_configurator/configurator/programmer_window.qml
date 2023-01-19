@@ -505,14 +505,14 @@ Window {
                                            "borderSize": 1,
                                            "checkedStatus": false,
                                            "colorStatus": "grey",
-                                           "numberOfId": fillNumber,
                                            "nameOfId": fillName,
+                                           "numberOfId": fillNumber,
                                            "versionOfSoftware": "",
                                            "nameOfSoftware": "",
                                            "nameOfConfig": "",
                                            "ipOfDevice": fillIp,
                                            "macOfDevice": "",
-                                           "numberOfIdTrim": fillNameTrim
+                                           "numberOfIdTrim": fillNumberTrim
                                        })
             //Resize current list
             resizeFlick()
@@ -524,13 +524,14 @@ Window {
                                            "borderSize": 1,
                                            "checkedStatus": false,
                                            "colorStatus": fillColor,
-                                           "numberOfId": fillNumber,
                                            "nameOfId": fillName,
+                                           "numberOfId": fillNumber,
                                            "versionOfSoftware": fillVersion,
                                            "nameOfSoftware": fillNameFware,
                                            "nameOfConfig": fillNameConf,
                                            "ipOfDevice": fillIp,
-                                           "macOfDevice": fillMac
+                                           "macOfDevice": fillMac,
+                                           "numberOfIdTrim": fillNumberTrim
                                        })
             //Resize current list
             resizeFlick()

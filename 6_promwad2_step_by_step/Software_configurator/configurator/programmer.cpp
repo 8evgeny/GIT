@@ -75,6 +75,8 @@ void AppCore::statusChangedJson(const QString &idJson,
             iter.nameFware = fwNameJson;
             iter.nameConf = cfNameJson;
         }
+        QString noPrefixName = iter.stations.at(0).nameOfID;
+        noPrefixName.remove(0,4);
         emit fillInfoForProgrammerWindowByJson(iter.stations.at(0).nameOfID,
                                                iter.stations.at(0).nameOfStation,
                                                iter.stations.at(0).ip,
@@ -82,7 +84,8 @@ void AppCore::statusChangedJson(const QString &idJson,
                                                iter.mac,
                                                iter.version,
                                                iter.nameFware,
-                                               iter.nameConf
+                                               iter.nameConf,
+                                               noPrefixName
                                                );
     }
 

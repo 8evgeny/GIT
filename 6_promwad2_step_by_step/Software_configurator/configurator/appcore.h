@@ -672,7 +672,7 @@ signals:
     void fillInfoForProgrammerWindow(QString fillNumber,
                                      QString fillName,
                                      QString fillIp,
-                                     QString fillNameTrim
+                                     QString fillNumberTrim
                                      );
 
      /*!
@@ -693,7 +693,8 @@ signals:
                                            QString fillMac,
                                            QString fillVersion,
                                            QString fillNameFware,
-                                           QString fillNameConf
+                                           QString fillNameConf,
+                                           QString fillNumberTrim
                                            );
 
     /*!
