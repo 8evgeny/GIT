@@ -643,7 +643,8 @@ visible: false
                                            })
             listModelStationWithoutGroup.append({
                                                     "name": nameOfStation,
-                                                    "cidName": nameOfId
+                                                    "cidName": nameOfId,
+                                                    "cidNameTrim": noPrefixNameOfID
                                                 })
 
             resizeFlick()

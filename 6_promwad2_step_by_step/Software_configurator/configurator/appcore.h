@@ -360,7 +360,7 @@ signals:
      \param nameOfStation Station name
      \param nameOfId Station ID
     */
-    void sendUpdateListOfStationsFromFile(QString nameOfStation, QString nameOfId);
+    void sendUpdateListOfStationsFromFile(QString nameOfStation, QString nameOfId, QString noPrefixNameOfID);
 
     /*!
      \brief Send a request to clear the station list.

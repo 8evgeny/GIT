@@ -731,7 +731,9 @@ void AppCore::loadListOfStationAndGroupsQJson()
         //update a view of stations
         for (const auto &listOfStation : listOfStations) {
             //add new member to the list
-            emit sendUpdateListOfStationsFromFile(listOfStation.nameOfStation, listOfStation.nameOfID);
+            QString noPrefixNameOfID = listOfStation.nameOfID;
+            noPrefixNameOfID.remove(0,4);
+            emit sendUpdateListOfStationsFromFile(listOfStation.nameOfStation, listOfStation.nameOfID, noPrefixNameOfID);
         }
     }
 
@@ -913,7 +915,9 @@ void AppCore::loadListOfStationAndGroupsQJson(const QString &nameLoad)
         //update a view of stations
         for (const auto &listOfStation : listOfStations) {
             //add new member to the list
-            emit sendUpdateListOfStationsFromFile(listOfStation.nameOfStation, listOfStation.nameOfID);
+            QString noPrefixNameOfID = listOfStation.nameOfID;
+            noPrefixNameOfID.remove(0,4);
+            emit sendUpdateListOfStationsFromFile(listOfStation.nameOfStation, listOfStation.nameOfID, noPrefixNameOfID);
         }
     }
 
@@ -1006,7 +1010,9 @@ void AppCore::updateAllViews()
     //update a view of stations
     for (const auto &listOfStation : listOfStations) {
         //add new member to the list
-        emit sendUpdateListOfStationsFromFile(listOfStation.nameOfStation, listOfStation.nameOfID);
+        QString noPrefixNameOfID = listOfStation.nameOfID;
+        noPrefixNameOfID.remove(0,4);
+        emit sendUpdateListOfStationsFromFile(listOfStation.nameOfStation, listOfStation.nameOfID, noPrefixNameOfID);
     }
 
     //clear current list of groups
