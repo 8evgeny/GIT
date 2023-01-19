@@ -543,7 +543,8 @@ visible: false
                         Row {
                             id: rowStationWithoutGroup
                             Text {
-                                text: name
+//                                text: cidName
+                                text: cidNameTrim
                                 anchors.verticalCenter: parent.verticalCenter
                                 font.family: "Arial"
                                 font.pointSize: 14
@@ -555,8 +556,7 @@ visible: false
                                 font.pointSize: 14
                             }
                             Text {
-//                                text: cidName
-                                text: cidNameTrim
+                                text: name
                                 anchors.verticalCenter: parent.verticalCenter
                                 font.family: "Arial"
                                 font.pointSize: 14
