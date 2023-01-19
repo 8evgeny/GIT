@@ -1206,58 +1206,6 @@ val >= 51 ? buttonNewKeyFunction.visible = false : buttonNewKeyFunction.visible 
         }
     }
 
-
-
-//    // Чекбокс для номеронабирателя
-//    CheckBox {
-//        id: keyPadCheckBox
-//        anchors.left: subsribersWindow.right
-//        anchors.leftMargin: 215
-//        anchors.topMargin: defaultSizeOfSpace + 10
-//        anchors.top: textFieldGateway.bottom
-////        checked: butt.state = 1 ? true : false
-////        checked: true
-//        font.bold: true
-//        font.pointSize: 12
-//        text: qsTr(butt.state)
-
-//        Component.onCompleted: checked = butt.state
-//        onCheckedChanged: butt.state = checked;
-////        onCheckedChanged: Settings.someSetting = checked;
-
-//        indicator: Rectangle {
-//                    color: keyPadCheckBox.checked ? "#2E8B57" : "#C0C0C0"
-////                    color: butt.state = true ? "#2E8B57" : "#C0C0C0"
-//                    y: keyPadCheckBox.height / 2 - height / 2
-//                    implicitWidth: 25
-//                    implicitHeight: 25
-//                }
-////        background: Rectangle {
-////                    color: "#C0C0C0"
-////                }
-//        onCheckStateChanged: {
-//           console.log("STATE - " + keyPadCheckBox.checkState)
-//                    switch (checkState) {
-//                        case Qt.Unchecked:
-//                            console.log("Unchecked");
-//                            appCore.deleteKeyPadFromStation(nameOfStation)
-//                            keyPadCheckBoxState.text = "keypad OFF";
-//                            break;
-////                        case Qt.PartiallyChecked:
-////                            keyPadCheckBoxState.text = "I'm partially checked";
-////                            break;
-//                        case Qt.Checked:
-//                            console.log("Checked");
-//                            appCore.addKeyPadToStation(nameOfStation)
-//                            keyPadCheckBoxState.text = "keypad ON";
-//                            break;
-//                        default:
-//                            break;
-//                    }
-//                }
-//    }//CheckBox
-
-
      Text {
         id: checkBoxText
         font.bold: false
