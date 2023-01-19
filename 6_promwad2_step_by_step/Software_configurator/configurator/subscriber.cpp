@@ -38,14 +38,16 @@ void AppCore::sendCurrentIndexOfDigitalStation(const qint32 &index, const QStrin
         //there is no such station in the list
         return;
     }
-
+    QString noPrefixnameOfID = listOfStations.at(indexOfStation).nameOfID;
+    noPrefixnameOfID.remove(0,4);
     //update information about the station (IP, mask, gateway)
     emit sendInfoNetworkAboutTheStation(
-        listOfStations.at(indexOfStation).nameOfStation,
-        listOfStations.at(indexOfStation).nameOfID,
-        listOfStations.at(indexOfStation).ip,
-        listOfStations.at(indexOfStation).maskNetwork,
-        listOfStations.at(indexOfStation).gateway);
+                listOfStations.at(indexOfStation).nameOfStation,
+//                listOfStations.at(indexOfStation).nameOfID,
+                noPrefixnameOfID,
+                listOfStations.at(indexOfStation).ip,
+                listOfStations.at(indexOfStation).maskNetwork,
+                listOfStations.at(indexOfStation).gateway);
 
 
     //update list of stations for subscriber.qml
@@ -1083,7 +1085,7 @@ void AppCore::updateStationId(const QString &currentNameOfStation, const QString
     }
 
     //update for new number of station
-    listOfStations[indexOfStation].nameOfID = newNameOfId;
+    listOfStations[indexOfStation].nameOfID = "CID " + newNameOfId;
 }
 
 void AppCore::updateStationIp(const QString &currentNameOfStation, const QString &newIP)
