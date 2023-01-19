@@ -669,8 +669,8 @@ signals:
      \param fillName Name station
      \param fillIpb IP address of the station
     */
-    void fillInfoForProgrammerWindow(QString fillNumber,
-                                     QString fillName,
+    void fillInfoForProgrammerWindow(QString fillName,
+                                     QString fillNumber,
                                      QString fillIp,
                                      QString fillNumberTrim
                                      );

@@ -9,9 +9,9 @@ void AppCore::getInformationForProgrammerWindow()
 {
     for (const auto &listOfStation : listOfStations)
     {
-        QString nameOfStationTrim = listOfStation.nameOfStation;
+        QString nameOfStationTrim = listOfStation.nameOfID;
         nameOfStationTrim.remove(0,4);
-        emit fillInfoForProgrammerWindow(listOfStation.nameOfID, listOfStation.nameOfStation, listOfStation.ip, nameOfStationTrim);
+        emit fillInfoForProgrammerWindow(listOfStation.nameOfStation, listOfStation.nameOfID, listOfStation.ip, nameOfStationTrim);
     }
 }
 
