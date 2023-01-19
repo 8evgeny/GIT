@@ -669,6 +669,11 @@ val >= 51 ? buttonNewKeyFunction.visible = false : buttonNewKeyFunction.visible 
             console.log ("mybutton set " + mybutton.state_)
             mybutton.color = "green"
             checkBoxText.text = "KeyPad ON"
+            mybutton2.visible = true
+            checkBoxText2.visible = true
+            mybutton2.state_ = 0
+            mybutton2.color = "lightgray"
+            checkBoxText2.text = "Visible OFF"
         }
         onUnsetCheckBox:
         {
@@ -676,6 +681,8 @@ val >= 51 ? buttonNewKeyFunction.visible = false : buttonNewKeyFunction.visible 
             console.log ("mybutton set "  + mybutton.state_)
             mybutton.color = "lightgray"
             checkBoxText.text = "KeyPad OFF"
+            mybutton2.visible = false
+            checkBoxText2.visible = false
         }
 
         onSendListNameOfElements:
@@ -1189,9 +1196,13 @@ val >= 51 ? buttonNewKeyFunction.visible = false : buttonNewKeyFunction.visible 
                 mybutton.color = "green";
                 appCore.addKeyPadToStation(nameOfStation)
                 mybutton.state_ = 1;
-                mybutton.flagSetOn = true
+                mybutton2.visible = true;
+                mybutton2.text = "Visible OFF"
+                mybutton2.state_ = 0;
+                mybutton.flagSetOn = true;
                 console.log ("mybutton set "  + mybutton.state_)
                 checkBoxText.text = "KeyPad ON"
+                checkBoxText2.visible = true
             }
             if((mybutton.state_ === 1) && !mybutton.flagSetOn)
             {
@@ -1199,8 +1210,11 @@ val >= 51 ? buttonNewKeyFunction.visible = false : buttonNewKeyFunction.visible 
                 mybutton.color = "lightgray";
                 appCore.deleteKeyPadFromStation(nameOfStation)
                 mybutton.state_ = 0;
+                mybutton2.visible = false;
+                mybutton2.text = "        "
                 console.log ("mybutton set "  + mybutton.state_)
                 checkBoxText.text = "KeyPad OFF"
+                checkBoxText2.visible = false
             }
             mybutton.flagSetOn = false
         }
@@ -1226,7 +1240,7 @@ val >= 51 ? buttonNewKeyFunction.visible = false : buttonNewKeyFunction.visible 
         anchors.topMargin: defaultSizeOfSpace + 50
         anchors.top: textFieldGateway.bottom
         property string text
-        property int state_
+        property int state_: 0
         property bool flagSetOn: false
         signal clicked
         radius: 5
@@ -1258,7 +1272,7 @@ val >= 51 ? buttonNewKeyFunction.visible = false : buttonNewKeyFunction.visible 
                 {
                     mybutton2.color = "green";
                     mybutton2.state_ = 1;
-                    flagSetOn = true
+                    mybutton2.flagSetOn = true
                     console.log ("mybutton2 set "  + mybutton2.state_)
                     checkBoxText2.text = "Visible ON"
                 }
