@@ -328,11 +328,11 @@ color: colorSubsribersWindow
                                         numberColor = "red"
                                     }
 
-var val = parseInt(textFieldNewKeyboardUnit.text)
-//Номеронабиратель не отображается
-//val < 51 ? rowListOfSubscribers.visible = true : rowListOfSubscribers.visible = false
-val >= 51 ? textFieldNewKeyboardUnit.color = "green" : textFieldNewKeyboardUnit.color = "black"
-val >= 51 ? textFieldNewKeyboardUnit.enabled = false : textFieldNewKeyboardUnit.enabled = true
+                                    var val = parseInt(textFieldNewKeyboardUnit.text)
+                                    //Номеронабиратель не отображается
+                                    val < 51 ? rowListOfSubscribers.visible = true : rowListOfSubscribers.visible = false
+                                    val >= 51 ? textFieldNewKeyboardUnit.color = "green" : textFieldNewKeyboardUnit.color = "black"
+                                    val >= 51 ? textFieldNewKeyboardUnit.enabled = false : textFieldNewKeyboardUnit.enabled = true
                                 }
                                 onEditingFinished: {
                                     focus = false
@@ -397,9 +397,9 @@ val >= 51 ? textFieldNewKeyboardUnit.enabled = false : textFieldNewKeyboardUnit.
                                                         listViewListOfSubscribers.currentIndex).uid,
                                                     textFieldNewKeyName.text)
                                     }
-var val = parseInt(textFieldNewKeyboardUnit.text)
-val >= 51 ? textFieldNewKeyName.color = "green" : textFieldNewKeyName.color = "black"
-val >= 51 ? textFieldNewKeyName.enabled = false : textFieldNewKeyName.enabled = true
+                                    var val = parseInt(textFieldNewKeyboardUnit.text)
+                                    val >= 51 ? textFieldNewKeyName.color = "green" : textFieldNewKeyName.color = "black"
+                                    val >= 51 ? textFieldNewKeyName.enabled = false : textFieldNewKeyName.enabled = true
                                 }
                                 onEditingFinished: {
                                     focus = false
@@ -669,10 +669,10 @@ val >= 51 ? buttonNewKeyFunction.visible = false : buttonNewKeyFunction.visible 
             console.log ("checkBoxAddRemoveKeyPad set " + checkBoxAddRemoveKeyPad.state_)
             checkBoxAddRemoveKeyPad.color = "green"
             checkBoxText.text = "KeyPad ON"
-            checkBoxVisibleKeyPad.visible = true
+//            checkBoxVisibleKeyPad.visible = true
             checkBoxText2.visible = true
-            checkBoxVisibleKeyPad.state_ = 0
-            checkBoxVisibleKeyPad.color = "lightgray"
+//            checkBoxVisibleKeyPad.state_ = 0
+//            checkBoxVisibleKeyPad.color = "lightgray"
             checkBoxText2.text = "Visible OFF"
         }
         onUnsetCheckBox:
@@ -681,7 +681,7 @@ val >= 51 ? buttonNewKeyFunction.visible = false : buttonNewKeyFunction.visible 
             console.log ("checkBoxAddRemoveKeyPad set "  + checkBoxAddRemoveKeyPad.state_)
             checkBoxAddRemoveKeyPad.color = "lightgray"
             checkBoxText.text = "KeyPad OFF"
-            checkBoxVisibleKeyPad.visible = false
+//            checkBoxVisibleKeyPad.visible = false
             checkBoxText2.visible = false
         }
 
@@ -1194,13 +1194,13 @@ val >= 51 ? buttonNewKeyFunction.visible = false : buttonNewKeyFunction.visible 
                 checkBoxAddRemoveKeyPad.color = "green";
                 appCore.addKeyPadToStation(nameOfStation)
                 checkBoxAddRemoveKeyPad.state_ = 1;
-                checkBoxVisibleKeyPad.visible = true;
-                checkBoxVisibleKeyPad.text = "Visible OFF"
-                checkBoxVisibleKeyPad.state_ = 0;
+//                checkBoxVisibleKeyPad.visible = true;
+//                checkBoxVisibleKeyPad.text = "Visible OFF"
+//                checkBoxVisibleKeyPad.state_ = 0;
                 checkBoxAddRemoveKeyPad.flagSetOn = true;
                 console.log ("checkBoxAddRemoveKeyPad set "  + checkBoxAddRemoveKeyPad.state_)
                 checkBoxText.text = "KeyPad ON"
-                checkBoxText2.visible = true
+//                checkBoxText2.visible = true
             }
             if((checkBoxAddRemoveKeyPad.state_ === 1) && !checkBoxAddRemoveKeyPad.flagSetOn)
             {
@@ -1208,11 +1208,11 @@ val >= 51 ? buttonNewKeyFunction.visible = false : buttonNewKeyFunction.visible 
                 checkBoxAddRemoveKeyPad.color = "lightgray";
                 appCore.deleteKeyPadFromStation(nameOfStation)
                 checkBoxAddRemoveKeyPad.state_ = 0;
-                checkBoxVisibleKeyPad.visible = false;
-                checkBoxVisibleKeyPad.text = "        "
+//                checkBoxVisibleKeyPad.visible = false;
+//                checkBoxVisibleKeyPad.text = ""
                 console.log ("checkBoxAddRemoveKeyPad set "  + checkBoxAddRemoveKeyPad.state_)
                 checkBoxText.text = "KeyPad OFF"
-                checkBoxText2.visible = false
+//                checkBoxText2.visible = false
             }
             checkBoxAddRemoveKeyPad.flagSetOn = false
         }
@@ -1230,75 +1230,75 @@ val >= 51 ? buttonNewKeyFunction.visible = false : buttonNewKeyFunction.visible 
         text: qsTr("")
     }
 
-    //Чекбокс (Вкл/выкл видимость)
-    Rectangle {
-        id: checkBoxVisibleKeyPad
-        anchors.left: subsribersWindow.right
-        anchors.leftMargin: 220
-        anchors.topMargin: defaultSizeOfSpace + 10
-        anchors.top: textFieldGateway.bottom
-        property string text
-        property int state_: 0
-        property bool flagSetOn: false
-        property bool visibleTelephoneKeys: false
-        signal clicked
-        radius: 5
+//    //Чекбокс (Вкл/выкл видимость)
+//    Rectangle {
+//        id: checkBoxVisibleKeyPad
+//        anchors.left: subsribersWindow.right
+//        anchors.leftMargin: 220
+//        anchors.topMargin: defaultSizeOfSpace + 10
+//        anchors.top: textFieldGateway.bottom
+//        property string text
+//        property int state_: 0
+//        property bool flagSetOn: false
+//        property bool visibleTelephoneKeys: false
+//        signal clicked
+//        radius: 5
 
-        //Ширина и высота кнопки по умолчанию
-        implicitWidth: 30
-        implicitHeight: 30
+//        //Ширина и высота кнопки по умолчанию
+//        implicitWidth: 30
+//        implicitHeight: 30
 
-        border {
-            color: "grey"
-            width: 1
-        }
+//        border {
+//            color: "grey"
+//            width: 1
+//        }
 
-        //Непосредственно элемент, рисующий текст кнопки
-        Text {
-            anchors.centerIn: parent
-            text: checkBoxAddRemoveKeyPad.text
-        }
-        MouseArea {
-            anchors.fill: parent
-            onClicked: checkBoxVisibleKeyPad.clicked()
-        }
-        onClicked:
-        {
-            {
-                if(checkBoxVisibleKeyPad.state_ === 0)
-                {
-                    checkBoxVisibleKeyPad.color = "green";
-                    checkBoxVisibleKeyPad.state_ = 1;
-                    checkBoxVisibleKeyPad.flagSetOn = true;
-                    console.log ("checkBoxVisibleKeyPad set "  + checkBoxVisibleKeyPad.state_);
-                    checkBoxText2.text = "Visible ON";
-                    visibleTelephoneKeys = true;
-                }
-                if((checkBoxVisibleKeyPad.state_ === 1) && !checkBoxVisibleKeyPad.flagSetOn)
-                {
-                    checkBoxVisibleKeyPad.color = "lightgray";
-                    checkBoxVisibleKeyPad.state_ = 0;
-                    console.log ("checkBoxVisibleKeyPad set "  + checkBoxVisibleKeyPad.state_);
-                    checkBoxText2.text = "Visible OFF";
-                    visibleTelephoneKeys = false;
-                }
-                checkBoxVisibleKeyPad.flagSetOn = false
-            }
+//        //Непосредственно элемент, рисующий текст кнопки
+//        Text {
+//            anchors.centerIn: parent
+//            text: checkBoxAddRemoveKeyPad.text
+//        }
+//        MouseArea {
+//            anchors.fill: parent
+//            onClicked: checkBoxVisibleKeyPad.clicked()
+//        }
+//        onClicked:
+//        {
+//            {
+//                if(checkBoxVisibleKeyPad.state_ === 0)
+//                {
+//                    checkBoxVisibleKeyPad.color = "green";
+//                    checkBoxVisibleKeyPad.state_ = 1;
+//                    checkBoxVisibleKeyPad.flagSetOn = true;
+//                    console.log ("checkBoxVisibleKeyPad set "  + checkBoxVisibleKeyPad.state_);
+//                    checkBoxText2.text = "Visible ON";
+//                    visibleTelephoneKeys = true;
+//                }
+//                if((checkBoxVisibleKeyPad.state_ === 1) && !checkBoxVisibleKeyPad.flagSetOn)
+//                {
+//                    checkBoxVisibleKeyPad.color = "lightgray";
+//                    checkBoxVisibleKeyPad.state_ = 0;
+//                    console.log ("checkBoxVisibleKeyPad set "  + checkBoxVisibleKeyPad.state_);
+//                    checkBoxText2.text = "Visible OFF";
+//                    visibleTelephoneKeys = false;
+//                }
+//                checkBoxVisibleKeyPad.flagSetOn = false
+//            }
 
-        }
-    }
-    //Текст справа от чекбокса
-    Text {
-        id: checkBoxText2
-        font.bold: false
-        font.pointSize: 14
-        anchors.centerIn: checkBoxVisibleKeyPad.Center
-        anchors.left: checkBoxVisibleKeyPad.right
-        anchors.top: checkBoxVisibleKeyPad.top
-        anchors.topMargin: 10
-        anchors.leftMargin: 10
-        text: qsTr("")
-    }
+//        }
+//    }
+//    //Текст справа от чекбокса
+//    Text {
+//        id: checkBoxText2
+//        font.bold: false
+//        font.pointSize: 14
+//        anchors.centerIn: checkBoxVisibleKeyPad.Center
+//        anchors.left: checkBoxVisibleKeyPad.right
+//        anchors.top: checkBoxVisibleKeyPad.top
+//        anchors.topMargin: 10
+//        anchors.leftMargin: 10
+//        text: qsTr("")
+//    }
 
     //Текст Keyboard Information
     Rectangle
