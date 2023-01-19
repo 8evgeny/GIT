@@ -17,7 +17,6 @@ void AppCore::getListOfStationsAndGroups()
 
     for (const auto &listOfGroup : listOfGroups) {
         QString itemForAddingTrim = listOfGroup.nameOfID;
-        itemForAddingTrim.remove(0,4);
         emit listOfStationsAndGroups(listOfGroup.nameOfID, listOfGroup.nameOfGorup, itemForAddingTrim);
     }
 }
