@@ -673,7 +673,7 @@ val >= 51 ? buttonNewKeyFunction.visible = false : buttonNewKeyFunction.visible 
             checkBoxText2.visible = true
 //            checkBoxVisibleKeyPad.state_ = 0
 //            checkBoxVisibleKeyPad.color = "lightgray"
-            checkBoxText2.text = "Visible OFF"
+//            checkBoxText2.text = "Visible OFF"
         }
         onUnsetCheckBox:
         {
@@ -682,7 +682,7 @@ val >= 51 ? buttonNewKeyFunction.visible = false : buttonNewKeyFunction.visible 
             checkBoxAddRemoveKeyPad.color = "lightgray"
             checkBoxText.text = "KeyPad OFF"
 //            checkBoxVisibleKeyPad.visible = false
-            checkBoxText2.visible = false
+//            checkBoxText2.visible = false
         }
 
         onSendListNameOfElements:
