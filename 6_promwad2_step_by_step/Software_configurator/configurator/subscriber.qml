@@ -1242,6 +1242,7 @@ val >= 51 ? buttonNewKeyFunction.visible = false : buttonNewKeyFunction.visible 
         property string text
         property int state_: 0
         property bool flagSetOn: false
+        property bool visibleRow: false
         signal clicked
         radius: 5
 
@@ -1272,16 +1273,18 @@ val >= 51 ? buttonNewKeyFunction.visible = false : buttonNewKeyFunction.visible 
                 {
                     mybutton2.color = "green";
                     mybutton2.state_ = 1;
-                    mybutton2.flagSetOn = true
-                    console.log ("mybutton2 set "  + mybutton2.state_)
-                    checkBoxText2.text = "Visible ON"
+                    mybutton2.flagSetOn = true;
+                    console.log ("mybutton2 set "  + mybutton2.state_);
+                    checkBoxText2.text = "Visible ON";
+                    visibleRow = true;
                 }
                 if((mybutton2.state_ === 1) && !mybutton2.flagSetOn)
                 {
                     mybutton2.color = "lightgray";
                     mybutton2.state_ = 0;
-                    console.log ("mybutton2 set "  + mybutton2.state_)
-                    checkBoxText2.text = "Visible OFF"
+                    console.log ("mybutton2 set "  + mybutton2.state_);
+                    checkBoxText2.text = "Visible OFF";
+                    visibleRow = false;
                 }
                 mybutton2.flagSetOn = false
             }
