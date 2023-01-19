@@ -1159,7 +1159,7 @@ val >= 51 ? buttonNewKeyFunction.visible = false : buttonNewKeyFunction.visible 
     Rectangle {
         id: mybutton
         anchors.left: subsribersWindow.right
-        anchors.leftMargin: 180
+        anchors.leftMargin: 50
         anchors.topMargin: defaultSizeOfSpace + 10
         anchors.top: textFieldGateway.bottom
         property string text
@@ -1236,7 +1236,7 @@ val >= 51 ? buttonNewKeyFunction.visible = false : buttonNewKeyFunction.visible 
     Rectangle {
         id: mybutton2
         anchors.left: subsribersWindow.right
-        anchors.leftMargin: 350
+        anchors.leftMargin: 220
         anchors.topMargin: defaultSizeOfSpace + 10
         anchors.top: textFieldGateway.bottom
         property string text
