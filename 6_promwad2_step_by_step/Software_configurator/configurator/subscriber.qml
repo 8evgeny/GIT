@@ -1148,40 +1148,7 @@ val >= 51 ? buttonNewKeyFunction.visible = false : buttonNewKeyFunction.visible 
         }
     }
 
-//    ListView {
-//         id: listView
-//         anchors.left: subsribersWindow.right
-//         anchors.leftMargin: 215
-//         anchors.topMargin: defaultSizeOfSpace + 10
-//         anchors.top: textFieldGateway.bottom
-//         model: [butt]
-//         orientation: ListView.Horizontal
-//         delegate: CheckDelegate
-//         {
-//            id: idDelegatedCheckbox
-//            checked: model.state // read from the model when created or recycled
-//            text: modelData //?"keypad ON" :"keypad OFF"
-//            font.bold: true
-//            font.pointSize: 12
-//            onCheckStateChanged: {
-//                switch (checkState) {
-//                    case Qt.Unchecked:
-//                        console.log("Unchecked");
-//                        appCore.deleteKeyPadFromStation(nameOfStation)
-//                        butt.state = false
-//                        break;
-//                    case Qt.Checked:
-//                        console.log("Checked");
-//                        appCore.addKeyPadToStation(nameOfStation)
-//                        butt.state = true
-//                        break;
-//                    default:
-//                        break;
-//                }
-//            }
-//         }
-//    }//ListView
-
+    //Чекбокс
     Rectangle {
         id: mybutton
         anchors.left: subsribersWindow.right
@@ -1190,8 +1157,8 @@ val >= 51 ? buttonNewKeyFunction.visible = false : buttonNewKeyFunction.visible 
         anchors.top: textFieldGateway.bottom
         property string text
         property int state_
+        property bool flagSetOn: false
         signal clicked
-        signal clicked2
         radius: 5
 
         //Ширина и высота кнопки по умолчанию
@@ -1213,11 +1180,20 @@ val >= 51 ? buttonNewKeyFunction.visible = false : buttonNewKeyFunction.visible 
         MouseArea {
             anchors.fill: parent
             onClicked: mybutton.clicked()
-            onDoubleClicked: mybutton.clicked2()
         }
         onClicked:
         {
-            if(mybutton.state_ === 1)
+            if(mybutton.state_ === 0)
+            {
+                console.log("Clicked false")
+                mybutton.color = "green";
+                appCore.addKeyPadToStation(nameOfStation)
+                mybutton.state_ = 1;
+                flagSetOn = true
+                console.log ("mybutton set "  + mybutton.state_)
+                checkBoxText.text = "KeyPad ON"
+            }
+            if((mybutton.state_ === 1) && !flagSetOn)
             {
                 console.log("Clicked true")
                 mybutton.color = "lightgray";
@@ -1226,18 +1202,7 @@ val >= 51 ? buttonNewKeyFunction.visible = false : buttonNewKeyFunction.visible 
                 console.log ("mybutton set "  + mybutton.state_)
                 checkBoxText.text = "KeyPad OFF"
             }
-        }
-        onClicked2:
-        {
-            if(mybutton.state_ === 0)
-            {
-                console.log("Clicked false")
-                mybutton.color = "green";
-                appCore.addKeyPadToStation(nameOfStation)
-                mybutton.state_ = 1;
-                console.log ("mybutton set "  + mybutton.state_)
-                checkBoxText.text = "KeyPad ON"
-            }
+            flagSetOn = false
         }
     }
 

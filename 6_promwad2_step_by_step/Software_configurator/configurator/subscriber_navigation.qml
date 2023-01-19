@@ -573,7 +573,7 @@ visible: false
                                 //Если есть телефонные клавиши устанавливаем CheckBox
                                 appCore.checkTelButtons(listModelDigitalStation.get(index).cidName)
 
-
+                                //Обновляем вид
                                 appCore.sendCurrentIndexOfDigitalStation(
                                             index, listModelDigitalStation.get(
                                                 index).cidName);
