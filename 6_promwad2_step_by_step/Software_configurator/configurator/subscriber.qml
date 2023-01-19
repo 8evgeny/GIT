@@ -9,7 +9,7 @@ color: colorSubsribersWindow
     visible: false
 
     property color defaultColor: "#e1e1e2"
-    property color colorSubsribersWindow: "#F8FACF"
+//    property color colorSubsribersWindow: "#F8FACF"
     property color colorKeyProperty: "#FFFFFF"
     property int defaultSizeOfHeight: 40
     property int defaultSizeOfSpace: 5
