@@ -665,9 +665,9 @@ val >= 51 ? buttonNewKeyFunction.visible = false : buttonNewKeyFunction.visible 
         target: appCore
         onSetCheckBox:
         {
-            mybutton.state_ = 1
-            console.log ("mybutton set " + mybutton.state_)
-            mybutton.color = "green"
+            checkBoxAddRemoveKeyPad.state_ = 1
+            console.log ("checkBoxAddRemoveKeyPad set " + checkBoxAddRemoveKeyPad.state_)
+            checkBoxAddRemoveKeyPad.color = "green"
             checkBoxText.text = "KeyPad ON"
             checkBoxVisibleKeyPad.visible = true
             checkBoxText2.visible = true
@@ -677,9 +677,9 @@ val >= 51 ? buttonNewKeyFunction.visible = false : buttonNewKeyFunction.visible 
         }
         onUnsetCheckBox:
         {
-            mybutton.state_ = 0
-            console.log ("mybutton set "  + mybutton.state_)
-            mybutton.color = "lightgray"
+            checkBoxAddRemoveKeyPad.state_ = 0
+            console.log ("checkBoxAddRemoveKeyPad set "  + checkBoxAddRemoveKeyPad.state_)
+            checkBoxAddRemoveKeyPad.color = "lightgray"
             checkBoxText.text = "KeyPad OFF"
             checkBoxVisibleKeyPad.visible = false
             checkBoxText2.visible = false
@@ -1157,7 +1157,7 @@ val >= 51 ? buttonNewKeyFunction.visible = false : buttonNewKeyFunction.visible 
 
     //Чекбокс (Вкл/выкл телефонные клавиши)
     Rectangle {
-        id: mybutton
+        id: checkBoxAddRemoveKeyPad
         anchors.left: subsribersWindow.right
         anchors.leftMargin: 50
         anchors.topMargin: defaultSizeOfSpace + 10
@@ -1182,41 +1182,41 @@ val >= 51 ? buttonNewKeyFunction.visible = false : buttonNewKeyFunction.visible 
             id: buttonText
             //По центру кнопки
             anchors.centerIn: parent
-            text: mybutton.text
+            text: checkBoxAddRemoveKeyPad.text
         }
         MouseArea {
             anchors.fill: parent
-            onClicked: mybutton.clicked()
+            onClicked: checkBoxAddRemoveKeyPad.clicked()
         }
         onClicked:
         {
-            if(mybutton.state_ === 0)
+            if(checkBoxAddRemoveKeyPad.state_ === 0)
             {
                 console.log("Clicked false")
-                mybutton.color = "green";
+                checkBoxAddRemoveKeyPad.color = "green";
                 appCore.addKeyPadToStation(nameOfStation)
-                mybutton.state_ = 1;
+                checkBoxAddRemoveKeyPad.state_ = 1;
                 checkBoxVisibleKeyPad.visible = true;
                 checkBoxVisibleKeyPad.text = "Visible OFF"
                 checkBoxVisibleKeyPad.state_ = 0;
-                mybutton.flagSetOn = true;
-                console.log ("mybutton set "  + mybutton.state_)
+                checkBoxAddRemoveKeyPad.flagSetOn = true;
+                console.log ("checkBoxAddRemoveKeyPad set "  + checkBoxAddRemoveKeyPad.state_)
                 checkBoxText.text = "KeyPad ON"
                 checkBoxText2.visible = true
             }
-            if((mybutton.state_ === 1) && !mybutton.flagSetOn)
+            if((checkBoxAddRemoveKeyPad.state_ === 1) && !checkBoxAddRemoveKeyPad.flagSetOn)
             {
                 console.log("Clicked true")
-                mybutton.color = "lightgray";
+                checkBoxAddRemoveKeyPad.color = "lightgray";
                 appCore.deleteKeyPadFromStation(nameOfStation)
-                mybutton.state_ = 0;
+                checkBoxAddRemoveKeyPad.state_ = 0;
                 checkBoxVisibleKeyPad.visible = false;
                 checkBoxVisibleKeyPad.text = "        "
-                console.log ("mybutton set "  + mybutton.state_)
+                console.log ("checkBoxAddRemoveKeyPad set "  + checkBoxAddRemoveKeyPad.state_)
                 checkBoxText.text = "KeyPad OFF"
                 checkBoxText2.visible = false
             }
-            mybutton.flagSetOn = false
+            checkBoxAddRemoveKeyPad.flagSetOn = false
         }
     }
     //Текст справа от чекбокса
@@ -1224,9 +1224,9 @@ val >= 51 ? buttonNewKeyFunction.visible = false : buttonNewKeyFunction.visible 
         id: checkBoxText
         font.bold: false
         font.pointSize: 14
-        anchors.centerIn: mybutton.Center
-        anchors.left: mybutton.right
-        anchors.top: mybutton.top
+        anchors.centerIn: checkBoxAddRemoveKeyPad.Center
+        anchors.left: checkBoxAddRemoveKeyPad.right
+        anchors.top: checkBoxAddRemoveKeyPad.top
         anchors.topMargin: 10
         anchors.leftMargin: 10
         text: qsTr("")
@@ -1260,7 +1260,7 @@ val >= 51 ? buttonNewKeyFunction.visible = false : buttonNewKeyFunction.visible 
             id: buttonText2
             //По центру кнопки
             anchors.centerIn: parent
-            text: mybutton.text
+            text: checkBoxAddRemoveKeyPad.text
         }
         MouseArea {
             anchors.fill: parent
