@@ -1179,8 +1179,6 @@ val >= 51 ? buttonNewKeyFunction.visible = false : buttonNewKeyFunction.visible 
 
         //Непосредственно элемент, рисующий текст кнопки
         Text {
-            id: buttonText
-            //По центру кнопки
             anchors.centerIn: parent
             text: checkBoxAddRemoveKeyPad.text
         }
@@ -1257,8 +1255,6 @@ val >= 51 ? buttonNewKeyFunction.visible = false : buttonNewKeyFunction.visible 
 
         //Непосредственно элемент, рисующий текст кнопки
         Text {
-            id: buttonText2
-            //По центру кнопки
             anchors.centerIn: parent
             text: checkBoxAddRemoveKeyPad.text
         }
@@ -1304,10 +1300,8 @@ val >= 51 ? buttonNewKeyFunction.visible = false : buttonNewKeyFunction.visible 
         text: qsTr("")
     }
 
-
-
-
-    Rectangle //Текст Keyboard Information
+    //Текст Keyboard Information
+    Rectangle
     {
         id: rectangleKeyboardInformation
         width: 405
