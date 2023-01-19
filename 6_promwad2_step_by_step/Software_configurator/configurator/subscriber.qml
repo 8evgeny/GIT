@@ -1148,7 +1148,7 @@ val >= 51 ? buttonNewKeyFunction.visible = false : buttonNewKeyFunction.visible 
         }
     }
 
-    //Чекбокс
+    //Чекбокс (Вкл/выкл телефонные клавиши)
     Rectangle {
         id: mybutton
         anchors.left: subsribersWindow.right
@@ -1189,11 +1189,11 @@ val >= 51 ? buttonNewKeyFunction.visible = false : buttonNewKeyFunction.visible 
                 mybutton.color = "green";
                 appCore.addKeyPadToStation(nameOfStation)
                 mybutton.state_ = 1;
-                flagSetOn = true
+                mybutton.flagSetOn = true
                 console.log ("mybutton set "  + mybutton.state_)
                 checkBoxText.text = "KeyPad ON"
             }
-            if((mybutton.state_ === 1) && !flagSetOn)
+            if((mybutton.state_ === 1) && !mybutton.flagSetOn)
             {
                 console.log("Clicked true")
                 mybutton.color = "lightgray";
@@ -1202,11 +1202,11 @@ val >= 51 ? buttonNewKeyFunction.visible = false : buttonNewKeyFunction.visible 
                 console.log ("mybutton set "  + mybutton.state_)
                 checkBoxText.text = "KeyPad OFF"
             }
-            flagSetOn = false
+            mybutton.flagSetOn = false
         }
     }
-
-     Text {
+    //Текст справа от чекбокса
+    Text {
         id: checkBoxText
         font.bold: false
         font.pointSize: 14
@@ -1218,6 +1218,74 @@ val >= 51 ? buttonNewKeyFunction.visible = false : buttonNewKeyFunction.visible 
         text: qsTr("")
     }
 
+    //Чекбокс (Вкл/выкл видимость)
+    Rectangle {
+        id: mybutton2
+        anchors.left: subsribersWindow.right
+        anchors.leftMargin: 215
+        anchors.topMargin: defaultSizeOfSpace + 50
+        anchors.top: textFieldGateway.bottom
+        property string text
+        property int state_
+        property bool flagSetOn: false
+        signal clicked
+        radius: 5
+
+        //Ширина и высота кнопки по умолчанию
+        implicitWidth: 30
+        implicitHeight: 30
+
+        border {
+            color: "grey"
+            width: 1
+        }
+
+        //Непосредственно элемент, рисующий текст кнопки
+        Text {
+            id: buttonText2
+            //По центру кнопки
+            anchors.centerIn: parent
+            text: mybutton.text
+        }
+        MouseArea {
+            anchors.fill: parent
+            onClicked: mybutton2.clicked()
+        }
+        onClicked:
+        {
+            {
+                if(mybutton2.state_ === 0)
+                {
+                    mybutton2.color = "green";
+                    mybutton2.state_ = 1;
+                    flagSetOn = true
+                    console.log ("mybutton2 set "  + mybutton2.state_)
+                    checkBoxText2.text = "Visible ON"
+                }
+                if((mybutton2.state_ === 1) && !mybutton2.flagSetOn)
+                {
+                    mybutton2.color = "lightgray";
+                    mybutton2.state_ = 0;
+                    console.log ("mybutton2 set "  + mybutton2.state_)
+                    checkBoxText2.text = "Visible OFF"
+                }
+                mybutton2.flagSetOn = false
+            }
+
+        }
+    }
+    //Текст справа от чекбокса
+    Text {
+        id: checkBoxText2
+        font.bold: false
+        font.pointSize: 14
+        anchors.centerIn: mybutton2.Center
+        anchors.left: mybutton2.right
+        anchors.top: mybutton2.top
+        anchors.topMargin: 10
+        anchors.leftMargin: 10
+        text: qsTr("")
+    }
 
 
 
