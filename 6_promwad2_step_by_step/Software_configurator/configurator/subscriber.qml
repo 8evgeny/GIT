@@ -669,10 +669,10 @@ val >= 51 ? buttonNewKeyFunction.visible = false : buttonNewKeyFunction.visible 
             console.log ("mybutton set " + mybutton.state_)
             mybutton.color = "green"
             checkBoxText.text = "KeyPad ON"
-            mybutton2.visible = true
+            checkBoxVisibleKeyPad.visible = true
             checkBoxText2.visible = true
-            mybutton2.state_ = 0
-            mybutton2.color = "lightgray"
+            checkBoxVisibleKeyPad.state_ = 0
+            checkBoxVisibleKeyPad.color = "lightgray"
             checkBoxText2.text = "Visible OFF"
         }
         onUnsetCheckBox:
@@ -681,7 +681,7 @@ val >= 51 ? buttonNewKeyFunction.visible = false : buttonNewKeyFunction.visible 
             console.log ("mybutton set "  + mybutton.state_)
             mybutton.color = "lightgray"
             checkBoxText.text = "KeyPad OFF"
-            mybutton2.visible = false
+            checkBoxVisibleKeyPad.visible = false
             checkBoxText2.visible = false
         }
 
@@ -1196,9 +1196,9 @@ val >= 51 ? buttonNewKeyFunction.visible = false : buttonNewKeyFunction.visible 
                 mybutton.color = "green";
                 appCore.addKeyPadToStation(nameOfStation)
                 mybutton.state_ = 1;
-                mybutton2.visible = true;
-                mybutton2.text = "Visible OFF"
-                mybutton2.state_ = 0;
+                checkBoxVisibleKeyPad.visible = true;
+                checkBoxVisibleKeyPad.text = "Visible OFF"
+                checkBoxVisibleKeyPad.state_ = 0;
                 mybutton.flagSetOn = true;
                 console.log ("mybutton set "  + mybutton.state_)
                 checkBoxText.text = "KeyPad ON"
@@ -1210,8 +1210,8 @@ val >= 51 ? buttonNewKeyFunction.visible = false : buttonNewKeyFunction.visible 
                 mybutton.color = "lightgray";
                 appCore.deleteKeyPadFromStation(nameOfStation)
                 mybutton.state_ = 0;
-                mybutton2.visible = false;
-                mybutton2.text = "        "
+                checkBoxVisibleKeyPad.visible = false;
+                checkBoxVisibleKeyPad.text = "        "
                 console.log ("mybutton set "  + mybutton.state_)
                 checkBoxText.text = "KeyPad OFF"
                 checkBoxText2.visible = false
@@ -1234,7 +1234,7 @@ val >= 51 ? buttonNewKeyFunction.visible = false : buttonNewKeyFunction.visible 
 
     //Чекбокс (Вкл/выкл видимость)
     Rectangle {
-        id: mybutton2
+        id: checkBoxVisibleKeyPad
         anchors.left: subsribersWindow.right
         anchors.leftMargin: 220
         anchors.topMargin: defaultSizeOfSpace + 10
@@ -1264,29 +1264,29 @@ val >= 51 ? buttonNewKeyFunction.visible = false : buttonNewKeyFunction.visible 
         }
         MouseArea {
             anchors.fill: parent
-            onClicked: mybutton2.clicked()
+            onClicked: checkBoxVisibleKeyPad.clicked()
         }
         onClicked:
         {
             {
-                if(mybutton2.state_ === 0)
+                if(checkBoxVisibleKeyPad.state_ === 0)
                 {
-                    mybutton2.color = "green";
-                    mybutton2.state_ = 1;
-                    mybutton2.flagSetOn = true;
-                    console.log ("mybutton2 set "  + mybutton2.state_);
+                    checkBoxVisibleKeyPad.color = "green";
+                    checkBoxVisibleKeyPad.state_ = 1;
+                    checkBoxVisibleKeyPad.flagSetOn = true;
+                    console.log ("checkBoxVisibleKeyPad set "  + checkBoxVisibleKeyPad.state_);
                     checkBoxText2.text = "Visible ON";
                     visibleTelephoneKeys = true;
                 }
-                if((mybutton2.state_ === 1) && !mybutton2.flagSetOn)
+                if((checkBoxVisibleKeyPad.state_ === 1) && !checkBoxVisibleKeyPad.flagSetOn)
                 {
-                    mybutton2.color = "lightgray";
-                    mybutton2.state_ = 0;
-                    console.log ("mybutton2 set "  + mybutton2.state_);
+                    checkBoxVisibleKeyPad.color = "lightgray";
+                    checkBoxVisibleKeyPad.state_ = 0;
+                    console.log ("checkBoxVisibleKeyPad set "  + checkBoxVisibleKeyPad.state_);
                     checkBoxText2.text = "Visible OFF";
                     visibleTelephoneKeys = false;
                 }
-                mybutton2.flagSetOn = false
+                checkBoxVisibleKeyPad.flagSetOn = false
             }
 
         }
@@ -1296,9 +1296,9 @@ val >= 51 ? buttonNewKeyFunction.visible = false : buttonNewKeyFunction.visible 
         id: checkBoxText2
         font.bold: false
         font.pointSize: 14
-        anchors.centerIn: mybutton2.Center
-        anchors.left: mybutton2.right
-        anchors.top: mybutton2.top
+        anchors.centerIn: checkBoxVisibleKeyPad.Center
+        anchors.left: checkBoxVisibleKeyPad.right
+        anchors.top: checkBoxVisibleKeyPad.top
         anchors.topMargin: 10
         anchors.leftMargin: 10
         text: qsTr("")
