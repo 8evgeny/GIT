@@ -504,7 +504,7 @@ signals:
      \fn sendToQmlSubscriberAssignmentFirmware
      \param strAssignmentName Assignment name
     */
-    void sendToQmlSubscriberAssignmentFirmware(QString strAssignmentName, QString strAssignmentNameTrim);
+    void sendToQmlSubscriberAssignmentFirmware(QString strAssignmentName);
 
     /*!
      \brief Get a list of current station positions.
