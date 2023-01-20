@@ -24,7 +24,7 @@ ApplicationWindow {
 
     Label {
         id: labelText
-        text: qsTr("Uploaded ") + statusStr + ": " + nameId
+        text: qsTr("Uploaded ") + statusStr + ": " + nameId.replace("CID ","")
         verticalAlignment: Text.AlignVCenter
         horizontalAlignment: Text.AlignHCenter
         anchors.fill: parent
