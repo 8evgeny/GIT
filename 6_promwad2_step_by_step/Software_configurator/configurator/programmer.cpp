@@ -7,8 +7,11 @@
 
 void AppCore::getInformationForProgrammerWindow()
 {
-    for (const auto &listOfStation : listOfStations) {
-        emit fillInfoForProgrammerWindow(listOfStation.nameOfID, listOfStation.nameOfStation, listOfStation.ip);
+    for (const auto &listOfStation : listOfStations)
+    {
+        QString nameOfStationTrim = listOfStation.nameOfID;
+        nameOfStationTrim.remove(0,4);
+        emit fillInfoForProgrammerWindow(listOfStation.nameOfStation, listOfStation.nameOfID, listOfStation.ip, nameOfStationTrim);
     }
 }
 
@@ -72,6 +75,8 @@ void AppCore::statusChangedJson(const QString &idJson,
             iter.nameFware = fwNameJson;
             iter.nameConf = cfNameJson;
         }
+        QString noPrefixName = iter.stations.at(0).nameOfID;
+        noPrefixName.remove(0,4);
         emit fillInfoForProgrammerWindowByJson(iter.stations.at(0).nameOfID,
                                                iter.stations.at(0).nameOfStation,
                                                iter.stations.at(0).ip,
@@ -79,7 +84,8 @@ void AppCore::statusChangedJson(const QString &idJson,
                                                iter.mac,
                                                iter.version,
                                                iter.nameFware,
-                                               iter.nameConf
+                                               iter.nameConf,
+                                               noPrefixName
                                                );
     }
 

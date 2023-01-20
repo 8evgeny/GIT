@@ -260,6 +260,8 @@ void AppCore::encryptionBinFile(const QUrl &pathFile, const QString &key, const 
 void AppCore::getListOfStationsFirmware()
 {
     for (const auto &listOfStation : listOfStations) {
-        emit listOfStationsAndGroups(listOfStation.nameOfID, listOfStation.nameOfStation);
+        QString itemForAddingTrim = listOfStation.nameOfID;
+        itemForAddingTrim.remove(0,4);
+        emit listOfStationsAndGroups(listOfStation.nameOfID, listOfStation.nameOfStation, itemForAddingTrim);
     }
 }

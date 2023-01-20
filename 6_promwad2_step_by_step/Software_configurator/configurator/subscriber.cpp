@@ -38,23 +38,36 @@ void AppCore::sendCurrentIndexOfDigitalStation(const qint32 &index, const QStrin
         //there is no such station in the list
         return;
     }
-
+    QString noPrefixnameOfID = listOfStations.at(indexOfStation).nameOfID;
+    noPrefixnameOfID.remove(0,4);
     //update information about the station (IP, mask, gateway)
     emit sendInfoNetworkAboutTheStation(
-        listOfStations.at(indexOfStation).nameOfStation,
-        listOfStations.at(indexOfStation).nameOfID,
-        listOfStations.at(indexOfStation).ip,
-        listOfStations.at(indexOfStation).maskNetwork,
-        listOfStations.at(indexOfStation).gateway);
+                listOfStations.at(indexOfStation).nameOfStation,
+//                listOfStations.at(indexOfStation).nameOfID,
+                noPrefixnameOfID,
+                listOfStations.at(indexOfStation).ip,
+                listOfStations.at(indexOfStation).maskNetwork,
+                listOfStations.at(indexOfStation).gateway);
 
 
     //update list of stations for subscriber.qml
     for (const auto &listOfKey : listOfStations.at(indexOfStation).listOfKeys) {
+        QString assignedKeyTrim = listOfKey.assignedKey;
+        if (assignedKeyTrim != "")
+        {
+            if (assignedKeyTrim[0] != "G")
+            {
+                assignedKeyTrim.remove(0,4);
+            }
+        }
+
         emit sendListNameOfElements(listOfKey.uidOfKey,
                                     listOfKey.numberOfKey,
                                     listOfKey.nameOfKey,
                                     listOfKey.functionOfKey,
-                                    listOfKey.assignedKey);
+                                    listOfKey.assignedKey,
+                                    assignedKeyTrim
+                                    );
     }
 }
 
@@ -93,7 +106,7 @@ void AppCore::addNewKeyBlock(const QString &nameOfID)
     listOfStations[indexOfStation].listOfKeys.append(tmp);
 
     //add to the new element to subscriber.qml
-    emit sendListNameOfElements(tmp.uidOfKey, tmp.numberOfKey, tmp.nameOfKey, tmp.functionOfKey, tmp.assignedKey);
+    emit sendListNameOfElements(tmp.uidOfKey, tmp.numberOfKey, tmp.nameOfKey, tmp.functionOfKey, tmp.assignedKey, "");
 
 }
 
@@ -731,7 +744,9 @@ void AppCore::loadListOfStationAndGroupsQJson()
         //update a view of stations
         for (const auto &listOfStation : listOfStations) {
             //add new member to the list
-            emit sendUpdateListOfStationsFromFile(listOfStation.nameOfStation, listOfStation.nameOfID);
+            QString noPrefixNameOfID = listOfStation.nameOfID;
+            noPrefixNameOfID.remove(0,4);
+            emit sendUpdateListOfStationsFromFile(listOfStation.nameOfStation, listOfStation.nameOfID, noPrefixNameOfID);
         }
     }
 
@@ -913,7 +928,9 @@ void AppCore::loadListOfStationAndGroupsQJson(const QString &nameLoad)
         //update a view of stations
         for (const auto &listOfStation : listOfStations) {
             //add new member to the list
-            emit sendUpdateListOfStationsFromFile(listOfStation.nameOfStation, listOfStation.nameOfID);
+            QString noPrefixNameOfID = listOfStation.nameOfID;
+            noPrefixNameOfID.remove(0,4);
+            emit sendUpdateListOfStationsFromFile(listOfStation.nameOfStation, listOfStation.nameOfID, noPrefixNameOfID);
         }
     }
 
@@ -1006,7 +1023,9 @@ void AppCore::updateAllViews()
     //update a view of stations
     for (const auto &listOfStation : listOfStations) {
         //add new member to the list
-        emit sendUpdateListOfStationsFromFile(listOfStation.nameOfStation, listOfStation.nameOfID);
+        QString noPrefixNameOfID = listOfStation.nameOfID;
+        noPrefixNameOfID.remove(0,4);
+        emit sendUpdateListOfStationsFromFile(listOfStation.nameOfStation, listOfStation.nameOfID, noPrefixNameOfID);
     }
 
     //clear current list of groups
@@ -1077,7 +1096,7 @@ void AppCore::updateStationId(const QString &currentNameOfStation, const QString
     }
 
     //update for new number of station
-    listOfStations[indexOfStation].nameOfID = newNameOfId;
+    listOfStations[indexOfStation].nameOfID = "CID " + newNameOfId;
 }
 
 void AppCore::updateStationIp(const QString &currentNameOfStation, const QString &newIP)

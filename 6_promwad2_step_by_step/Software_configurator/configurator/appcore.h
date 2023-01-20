@@ -209,7 +209,9 @@ signals:
                                 QString numberOfKeyAdd,
                                 QString nameOfKeyAdd,
                                 QString functionOfKeyAdd,
-                                QString assignedKeyAdd);
+                                QString assignedKeyAdd,
+                                QString assignedKeyAddTrim
+                                );
 
     /*!
      \brief Send error message if macro does not exist.
@@ -360,7 +362,7 @@ signals:
      \param nameOfStation Station name
      \param nameOfId Station ID
     */
-    void sendUpdateListOfStationsFromFile(QString nameOfStation, QString nameOfId);
+    void sendUpdateListOfStationsFromFile(QString nameOfStation, QString nameOfId, QString noPrefixNameOfID);
 
     /*!
      \brief Send a request to clear the station list.
@@ -478,7 +480,7 @@ signals:
      \param itemForAdding This element is needed to add to the list
      \param nameStationAdding  This element is needed to add to the list
     */
-    void listOfStationsAndGroups(QString itemForAdding, QString nameStationAdding);
+    void listOfStationsAndGroups(QString itemForAdding, QString nameStationAdding, QString itemForAddingTrim);
 
     /*!
      \brief Send the selected name from the list assignment.
@@ -486,7 +488,7 @@ signals:
      \fn sendToQmlSubscriberAssignment
      \param strAssignmentName Assignment name
     */
-    void sendToQmlSubscriberAssignment(QString strAssignmentName);
+    void sendToQmlSubscriberAssignment(QString strAssignmentName, QString strAssignmentNameTrim);
 
     /*!
      \brief Send subscriber assignment for RS232 Window.
@@ -494,7 +496,7 @@ signals:
      \fn sendToQmlSubscriberAssignmentRs232
      \param strAssignmentName Assignment name
     */
-    void sendToQmlSubscriberAssignmentRs232(QString strAssignmentName);
+    void sendToQmlSubscriberAssignmentRs232(QString strAssignmentName, QString strAssignmentNameTrim);
 
     /*!
      \brief Send subscriber assignment for Firmware Window.
@@ -669,7 +671,11 @@ signals:
      \param fillName Name station
      \param fillIpb IP address of the station
     */
-    void fillInfoForProgrammerWindow(QString fillNumber, QString fillName, QString fillIp);
+    void fillInfoForProgrammerWindow(QString fillName,
+                                     QString fillNumber,
+                                     QString fillIp,
+                                     QString fillNumberTrim
+                                     );
 
      /*!
       \brief Fill in the fields of the programmer window.
@@ -689,7 +695,8 @@ signals:
                                            QString fillMac,
                                            QString fillVersion,
                                            QString fillNameFware,
-                                           QString fillNameConf
+                                           QString fillNameConf,
+                                           QString fillNumberTrim
                                            );
 
     /*!

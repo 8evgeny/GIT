@@ -77,34 +77,34 @@ property color canvasColor: "#F8FACF"
 
             var stationName = ""
             var id = "CID " + counterDigitalStation
+            var cidNameTrim = "" + counterDigitalStation
             var ip = ip1 + "."+ ip2 + "."+ ip3 + "." + counterIpStation
-//            var ip = ""+IpStation1+"."+IpStation2+"."+IpStation3+"."+counterIpStation
             if (comboBoxListOfDevices.currentIndex == 0)
             {
                 stationName = qsTr("PDO16") + "-" + counterPDO16
                 listModelDigitalStation.append({"name": stationName, "cidName": id })
-                listModelStationWithoutGroup.append({"name": stationName, "cidName": id })
+                listModelStationWithoutGroup.append({"name": stationName, "cidName": id, "cidNameTrim": cidNameTrim })
                 counterPDO16++
             }
             else if (comboBoxListOfDevices.currentIndex == 1)
             {
                 stationName = qsTr("PDO16N") + "-" + counterPDO16N
                 listModelDigitalStation.append({ "name": stationName, "cidName": id })
-                listModelStationWithoutGroup.append({"name": stationName, "cidName": id })
+                listModelStationWithoutGroup.append({"name": stationName, "cidName": id, "cidNameTrim": cidNameTrim })
                 counterPDO16N++
             }
             else if (comboBoxListOfDevices.currentIndex == 2)
             {
                 stationName = qsTr("PDO32") + "-" + counterPDO32
                 listModelDigitalStation.append({ "name": stationName, "cidName": id })
-                listModelStationWithoutGroup.append({"name": stationName, "cidName": id })
+                listModelStationWithoutGroup.append({"name": stationName, "cidName": id, "cidNameTrim": cidNameTrim })
                 counterPDO32++
             }
             else if (comboBoxListOfDevices.currentIndex == 3)
             {
                 stationName = qsTr("SL1") + "-" + counterSL1
                 listModelDigitalStation.append({ "name": stationName, "cidName": id })
-                listModelStationWithoutGroup.append({"name": stationName, "cidName": id })
+                listModelStationWithoutGroup.append({"name": stationName, "cidName": id, "cidNameTrim": cidNameTrim })
                 counterSL1++
             }
             counterDigitalStation++
@@ -543,7 +543,8 @@ visible: false
                         Row {
                             id: rowStationWithoutGroup
                             Text {
-                                text: name
+//                                text: cidName
+                                text: cidNameTrim
                                 anchors.verticalCenter: parent.verticalCenter
                                 font.family: "Arial"
                                 font.pointSize: 14
@@ -555,7 +556,7 @@ visible: false
                                 font.pointSize: 14
                             }
                             Text {
-                                text: cidName
+                                text: name
                                 anchors.verticalCenter: parent.verticalCenter
                                 font.family: "Arial"
                                 font.pointSize: 14
@@ -642,7 +643,8 @@ visible: false
                                            })
             listModelStationWithoutGroup.append({
                                                     "name": nameOfStation,
-                                                    "cidName": nameOfId
+                                                    "cidName": nameOfId,
+                                                    "cidNameTrim": noPrefixNameOfID
                                                 })
 
             resizeFlick()

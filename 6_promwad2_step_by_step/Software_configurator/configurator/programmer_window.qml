@@ -271,7 +271,7 @@ Window {
                                     readOnly: true
                                     font.family: "Arial"
                                     font.pointSize: 12
-                                    text: numberOfId
+                                    text: numberOfIdTrim
 
                                     background: Rectangle {
                                         border.color: "#333"
@@ -511,7 +511,8 @@ Window {
                                            "nameOfSoftware": "",
                                            "nameOfConfig": "",
                                            "ipOfDevice": fillIp,
-                                           "macOfDevice": ""
+                                           "macOfDevice": "",
+                                           "numberOfIdTrim": fillNumberTrim
                                        })
             //Resize current list
             resizeFlick()
@@ -529,7 +530,8 @@ Window {
                                            "nameOfSoftware": fillNameFware,
                                            "nameOfConfig": fillNameConf,
                                            "ipOfDevice": fillIp,
-                                           "macOfDevice": fillMac
+                                           "macOfDevice": fillMac,
+                                           "numberOfIdTrim": fillNumberTrim
                                        })
             //Resize current list
             resizeFlick()
