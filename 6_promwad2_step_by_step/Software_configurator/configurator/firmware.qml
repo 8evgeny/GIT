@@ -341,7 +341,7 @@ Window {
         anchors.topMargin: spaceDefault
         onClicked: {
             //if checkBoxSend.checkState == true sending data by multicast
-            appCore.startLoadFirmware(textFieldIDStation.text,
+            appCore.startLoadFirmware("CID "+ textFieldIDStation.text,
                                       checkBoxSend.checkState)
         }
     }
