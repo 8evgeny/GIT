@@ -69,7 +69,7 @@ ApplicationWindow {
                                     height: baseHeight
                                     width: parent.width / 2
                                     readOnly: true
-                                    text: nameOfAssignment
+                                    text: nameOfAssignmentTrim
 
                                     background: Rectangle {
                                         border.color: "#333"
@@ -80,20 +80,20 @@ ApplicationWindow {
                                         anchors.fill: parent
 
                                         onDoubleClicked: {
-                                            if (listViewAssignmentList.currentIndex >= 0) {
-                                                listModelAssignmentList.get(
-                                                            listViewAssignmentList.currentIndex).borderSize = 1
+                                            if (listViewAssignmentList.currentIndex >= 0)
+                                            {
+                                                listModelAssignmentList.get(listViewAssignmentList.currentIndex).borderSize = 1
                                             }
 
                                             listViewAssignmentList.currentIndex = index
-                                            listModelAssignmentList.get(
-                                                        index).borderSize = 2
+                                            listModelAssignmentList.get(index).borderSize = 2
 
-                                            title = listModelAssignmentList.get(
-                                                        index).nameOfAssignment + " " + listModelAssignmentList.get(
-                                                        index).nameStation
+                                            title = listModelAssignmentList.get(index).nameOfAssignmentTrim +
+                                                    "  " +
+                                                    listModelAssignmentList.get(index).nameStation
 
-                                            if (listViewAssignmentList.currentIndex >= 0) {
+                                            if (listViewAssignmentList.currentIndex >= 0)
+                                            {
                                                 appCore.getCurrentNameOfStationsRs232(
                                                             listModelAssignmentList.get(
                                                                 listViewAssignmentList.currentIndex).nameOfAssignment)
@@ -111,9 +111,9 @@ ApplicationWindow {
                                             listModelAssignmentList.get(
                                                         index).borderSize = 2
 
-                                            title = listModelAssignmentList.get(
-                                                        index).nameOfAssignment + " " + listModelAssignmentList.get(
-                                                        index).nameStation
+                                            title = listModelAssignmentList.get(index).nameOfAssignmentTrim +
+                                                    "  " +
+                                                    listModelAssignmentList.get(index).nameStation
                                         }
                                     }
 
@@ -136,20 +136,21 @@ ApplicationWindow {
                                         anchors.fill: parent
 
                                         onDoubleClicked: {
-                                            if (listViewAssignmentList.currentIndex >= 0) {
-                                                listModelAssignmentList.get(
-                                                            listViewAssignmentList.currentIndex).borderSize = 1
+                                            if (listViewAssignmentList.currentIndex >= 0)
+                                            {
+                                                listModelAssignmentList.get(listViewAssignmentList.currentIndex).borderSize = 1
                                             }
 
                                             listViewAssignmentList.currentIndex = index
                                             listModelAssignmentList.get(
                                                         index).borderSize = 2
 
-                                            title = listModelAssignmentList.get(
-                                                        index).nameOfAssignment + " " + listModelAssignmentList.get(
-                                                        index).nameStation
+                                            title = listModelAssignmentList.get(index).nameOfAssignmentTrim +
+                                                    "  " +
+                                                    listModelAssignmentList.get(index).nameStation
 
-                                            if (listViewAssignmentList.currentIndex >= 0) {
+                                            if (listViewAssignmentList.currentIndex >= 0)
+                                            {
                                                 appCore.getCurrentNameOfStationsRs232(
                                                             listModelAssignmentList.get(
                                                                 listViewAssignmentList.currentIndex).nameOfAssignment)
@@ -167,9 +168,9 @@ ApplicationWindow {
                                             listModelAssignmentList.get(
                                                         index).borderSize = 2
 
-                                            title = listModelAssignmentList.get(
-                                                        index).nameOfAssignment + " " + listModelAssignmentList.get(
-                                                        index).nameStation
+                                            title = listModelAssignmentList.get(index).nameOfAssignmentTrim +
+                                                    "  " +
+                                                    listModelAssignmentList.get(index).nameStation
                                         }
                                     }
                                 }
@@ -202,6 +203,7 @@ ApplicationWindow {
             //Add a new item to the current list
             listModelAssignmentList.append({
                                                "nameOfAssignment": itemForAdding,
+                                               "nameOfAssignmentTrim": itemForAddingTrim,
                                                "nameStation" : nameStationAdding,
                                                "borderSize": 1
                                            })

@@ -101,9 +101,9 @@ void AppCore::sendConfigJsonToStation(const QString &stationID)
     QVariantMap all;
 
     QVariantList stations;
-
+    QString aDDstationID = "CID " + stationID;
     QRegExp rx("[, ]"); // match a comma or a space
-    QStringList list =  stationID.split(rx, QString::SkipEmptyParts);
+    QStringList list =  aDDstationID.split(rx, QString::SkipEmptyParts);
 
     if (!(list.size() >= 2)) {
         qCritical() << "Something went wrong, own ID fail";
@@ -313,7 +313,7 @@ void AppCore::sendConfigJsonToStation(const QString &stationID)
 
                 QVariantMap cmd;
                 QRegExp rx("[, ]"); // match a comma or a space
-                QStringList list =  stationID.split(rx, QString::SkipEmptyParts);
+                QStringList list =  aDDstationID.split(rx, QString::SkipEmptyParts);
 
                 const QString &idStr = list.at(1);
                 qint32 id = idStr.toInt();
@@ -365,7 +365,7 @@ void AppCore::sendConfigJsonToStation(const QString &stationID)
                             QString status = QString(result["status"].toString());
 
                             if ((writeConfigId >= MIN_ID) && (status == QString("ok"))) {
-                                emit createWindowStatus(stationID, QString("Ok"));
+                                emit createWindowStatus(aDDstationID, QString("Ok"));
                             }
                         }
                     }

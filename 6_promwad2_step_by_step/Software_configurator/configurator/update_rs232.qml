@@ -191,7 +191,7 @@ ApplicationWindow {
         }
 
         onSendToQmlSubscriberAssignmentRs232: {
-            textFieldIDStation.text = strAssignmentName
+            textFieldIDStation.text = strAssignmentNameTrim
         }
     }
 
