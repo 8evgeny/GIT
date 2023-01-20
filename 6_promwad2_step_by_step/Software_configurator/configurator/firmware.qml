@@ -361,8 +361,9 @@ Window {
             labelSizeFileCurrent.text = sizeFile
         }
 
-        onSendToQmlSubscriberAssignmentFirmware: {
-            textFieldIDStation.text = strAssignmentName
+        onSendToQmlSubscriberAssignmentFirmware:
+        {
+            textFieldIDStation.text = strAssignmentName.replace("CID ", "")
         }
     }
 
