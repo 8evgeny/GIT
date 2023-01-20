@@ -91,7 +91,7 @@ ApplicationWindow {
                                                         index).borderSize = 2
 
                                             title = listModelAssignmentList.get(
-                                                        index).nameOfAssignment + " " + listModelAssignmentList.get(
+                                                        index).nameOfAssignmentTrim + " " + listModelAssignmentList.get(
                                                         index).nameStation
 
                                             if (listViewAssignmentList.currentIndex >= 0) {
@@ -109,11 +109,10 @@ ApplicationWindow {
                                             }
 
                                             listViewAssignmentList.currentIndex = index
-                                            listModelAssignmentList.get(
-                                                        index).borderSize = 2
+                                            listModelAssignmentList.get(index).borderSize = 2
 
                                             title = listModelAssignmentList.get(
-                                                        index).nameOfAssignment + " " + listModelAssignmentList.get(
+                                                        index).nameOfAssignmentTrim + " " + listModelAssignmentList.get(
                                                         index).nameStation
                                         }
                                     }
@@ -137,23 +136,23 @@ ApplicationWindow {
                                         anchors.fill: parent
 
                                         onDoubleClicked: {
-                                            if (listViewAssignmentList.currentIndex >= 0) {
-                                                listModelAssignmentList.get(
-                                                            listViewAssignmentList.currentIndex).borderSize = 1
+                                            if (listViewAssignmentList.currentIndex >= 0)
+                                            {
+                                                listModelAssignmentList.get(listViewAssignmentList.currentIndex).borderSize = 1
                                             }
 
                                             listViewAssignmentList.currentIndex = index
-                                            listModelAssignmentList.get(
-                                                        index).borderSize = 2
+                                            listModelAssignmentList.get(index).borderSize = 2
 
-                                            title = listModelAssignmentList.get(
-                                                        index).nameOfAssignment + " " + listModelAssignmentList.get(
-                                                        index).nameStation
+                                            title = listModelAssignmentList.get(index).nameOfAssignmentTrim +
+                                                    "   " +
+                                                    listModelAssignmentList.get(index).nameStation
 
-                                            if (listViewAssignmentList.currentIndex >= 0) {
-                                                appCore.getCurrentNameOfStationsAndGroups(
-                                                            listModelAssignmentList.get(
+                                            if (listViewAssignmentList.currentIndex >= 0)
+                                            {
+                                                appCore.getCurrentNameOfStationsAndGroups(listModelAssignmentList.get(
                                                                 listViewAssignmentList.currentIndex).nameOfAssignment)
+                                                console.log("nameOfAssignment: ", nameOfAssignment)
                                             }
                                             assignmentListRoot.close()
                                         }
@@ -169,7 +168,7 @@ ApplicationWindow {
                                                         index).borderSize = 2
 
                                             title = listModelAssignmentList.get(
-                                                        index).nameOfAssignment + " " + listModelAssignmentList.get(
+                                                        index).nameOfAssignmentTrim + " " + listModelAssignmentList.get(
                                                         index).nameStation
                                         }
                                     }

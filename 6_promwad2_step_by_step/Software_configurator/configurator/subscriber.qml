@@ -583,10 +583,8 @@ val >= 51 ? buttonNewKeyFunction.visible = false : buttonNewKeyFunction.visible 
                                     if (listViewListOfSubscribers.currentIndex >= 0) {
                                         appCore.updateKeySubscriberAssignedOfKey(
                                                     nameOfStation,
-                                                    listModelListOfSubscribers.get(
-                                                        listViewListOfSubscribers.currentIndex).uid,
-
-                                                    textFieldNewAppointment.text)
+                                                    listModelListOfSubscribers.get(listViewListOfSubscribers.currentIndex).uid,
+                                                    "CID " + textFieldNewAppointment.text)
                                     }
                                     //can't be assignment
                                     if((getNameOfKeyFunctionNumber(textFieldNewKeyFunction.text) === "4")
@@ -709,7 +707,7 @@ val >= 51 ? buttonNewKeyFunction.visible = false : buttonNewKeyFunction.visible 
                     "borderFunctionNameColor": nameStr !== "" ? "#333" : "red",
                     "assignedName": assignedKeyAdd,
                     "assignedNameTrim": assignedKeyAddTrim,
-                    "assignedNameColor": checkAssignment(assignedKeyAdd, nameStr),
+                    "assignedNameColor": checkAssignment(assignedKeyAddTrim, nameStr),
                      //!= "" ? "#333" : "red",
                     "borderAssignedNameColor": checkAssignment(assignedKeyAdd, nameStr)//assignedKeyAdd != "" ? "#333" : "red"
                     })
@@ -878,8 +876,8 @@ val >= 51 ? buttonNewKeyFunction.visible = false : buttonNewKeyFunction.visible 
         }
         onSendToQmlSubscriberAssignment: //Это сигнал из C++ кода
         {
-            listModelListOfSubscribers.get(
-                        listViewListOfSubscribers.currentIndex).assignedName = strAssignmentName
+            listModelListOfSubscribers.get(listViewListOfSubscribers.currentIndex).assignedName = strAssignmentName
+            listModelListOfSubscribers.get(listViewListOfSubscribers.currentIndex).assignedNameTrim = strAssignmentNameTrim
         }
     }
 

@@ -488,7 +488,7 @@ signals:
      \fn sendToQmlSubscriberAssignment
      \param strAssignmentName Assignment name
     */
-    void sendToQmlSubscriberAssignment(QString strAssignmentName);
+    void sendToQmlSubscriberAssignment(QString strAssignmentName, QString strAssignmentNameTrim);
 
     /*!
      \brief Send subscriber assignment for RS232 Window.
