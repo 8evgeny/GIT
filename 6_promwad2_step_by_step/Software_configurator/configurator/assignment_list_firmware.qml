@@ -70,7 +70,7 @@ ApplicationWindow {
                                     height: baseHeight
                                     width: parent.width / 2
                                     readOnly: true
-                                    text: nameOfAssignment
+                                    text: nameOfAssignmentTrim
 
                                     background: Rectangle {
                                         border.color: "#333"
@@ -91,7 +91,7 @@ ApplicationWindow {
                                                         index).borderSize = 2
 
                                             title = listModelAssignmentList.get(
-                                                        index).nameOfAssignment + " " + listModelAssignmentList.get(
+                                                        index).nameOfAssignmentTrim + " " + listModelAssignmentList.get(
                                                         index).nameStation
 
                                             if (listViewAssignmentList.currentIndex >= 0) {
@@ -113,7 +113,7 @@ ApplicationWindow {
                                                         index).borderSize = 2
 
                                             title = listModelAssignmentList.get(
-                                                        index).nameOfAssignment + " " + listModelAssignmentList.get(
+                                                        index).nameOfAssignmentTrim + "  " + listModelAssignmentList.get(
                                                         index).nameStation
                                         }
                                     }
@@ -145,7 +145,7 @@ ApplicationWindow {
                                                         index).borderSize = 2
 
                                             title = listModelAssignmentList.get(
-                                                        index).nameOfAssignment + " " + listModelAssignmentList.get(
+                                                        index).nameOfAssignmentTrim + "  " + listModelAssignmentList.get(
                                                         index).nameStation
 
                                             if (listViewAssignmentList.currentIndex >= 0) {
@@ -167,7 +167,7 @@ ApplicationWindow {
                                                         index).borderSize = 2
 
                                             title = listModelAssignmentList.get(
-                                                        index).nameOfAssignment + " " + listModelAssignmentList.get(
+                                                        index).nameOfAssignmentTrim + " " + listModelAssignmentList.get(
                                                         index).nameStation
                                         }
                                     }
@@ -201,6 +201,7 @@ ApplicationWindow {
             //Add a new item to the current list
             listModelAssignmentList.append({
                                                "nameOfAssignment": itemForAdding,
+                                               "nameOfAssignmentTrim": itemForAddingTrim,
                                                "nameStation" : nameStationAdding,
                                                "borderSize": 1
                                            })

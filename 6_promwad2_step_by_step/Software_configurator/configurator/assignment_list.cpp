@@ -39,5 +39,7 @@ void AppCore::getCurrentNameOfStationsAndGroups(const QString &nameItem)
 
 void AppCore::getCurrentNameOfStationsRs232(const QString &nameItem)
 {
-    emit sendToQmlSubscriberAssignmentRs232(nameItem);
+    QString noPrefixnameItem = nameItem;
+    noPrefixnameItem.remove(0,4);
+    emit sendToQmlSubscriberAssignmentRs232(nameItem, noPrefixnameItem);
 }

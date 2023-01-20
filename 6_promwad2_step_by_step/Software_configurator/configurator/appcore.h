@@ -496,7 +496,7 @@ signals:
      \fn sendToQmlSubscriberAssignmentRs232
      \param strAssignmentName Assignment name
     */
-    void sendToQmlSubscriberAssignmentRs232(QString strAssignmentName);
+    void sendToQmlSubscriberAssignmentRs232(QString strAssignmentName, QString strAssignmentNameTrim);
 
     /*!
      \brief Send subscriber assignment for Firmware Window.
@@ -504,7 +504,7 @@ signals:
      \fn sendToQmlSubscriberAssignmentFirmware
      \param strAssignmentName Assignment name
     */
-    void sendToQmlSubscriberAssignmentFirmware(QString strAssignmentName);
+    void sendToQmlSubscriberAssignmentFirmware(QString strAssignmentName, QString strAssignmentNameTrim);
 
     /*!
      \brief Get a list of current station positions.
