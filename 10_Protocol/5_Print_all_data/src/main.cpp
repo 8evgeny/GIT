@@ -35,7 +35,7 @@ int main(int argc, char **argv)
         int i = sizeof(struct iphdr); // print the payload
 
         for(; i < sizeof(packet); i++) {
-            printf("%02X ", (unsigned char) packet[i]);
+            printf("%02X", (unsigned char) packet[i]);
         }
 
         printf("\n");
