@@ -11,9 +11,11 @@ int main(int argc, char **argv)
 {
  int s;
  struct sockaddr_in src_addr;
- char packet[50];
+ char packet[40];
 
- if ((s = socket(AF_INET, SOCK_RAW, IPPROTO_RAW)) < 0) {
+ if ((s = socket(AF_INET, SOCK_RAW, IPPROTO_RAW)) < 0)
+// if ((s = socket(AF_INET, SOCK_RAW, IPPROTO_SCTP)) < 0)
+ {
   perror("error:");
   exit(EXIT_FAILURE);
  }
