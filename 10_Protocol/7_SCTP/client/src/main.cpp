@@ -18,7 +18,7 @@ int main(int argc, char **argv)
 
  int s;
  struct sockaddr_in dst_addr;
- char packet[40];
+ char packet[50];
 
  struct iphdr *ip = (struct iphdr *)packet;
 
@@ -50,7 +50,7 @@ int main(int argc, char **argv)
 
  while(42)
  {
-     for (int i = 1;i<256;++i)
+     for (int i = 1; i<256; ++i)
      {
          memset(packet, i, sizeof(packet));
          ip->ihl = 5;
