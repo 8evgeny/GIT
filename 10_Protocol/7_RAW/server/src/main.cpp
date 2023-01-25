@@ -33,7 +33,7 @@ int main(int argc, char **argv)
   int i = 0;
   for(; i < sizeof(packet); i++)
   {
-   printf("%X", packet[i]);
+   printf("%02X", packet[i]);
   }
   printf("\n");
  }

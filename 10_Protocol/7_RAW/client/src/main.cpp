@@ -8,8 +8,9 @@
 #include <chrono>
 #include <thread>
 
-#define DEST "127.0.0.1"
-#define REMOTE_PORT 1001
+//#define DEST "127.0.0.1"
+#define DEST "192.168.108.108"
+#define REMOTE_PORT 3001
 using std::chrono::system_clock;
 
 int main(int argc, char **argv)
@@ -21,7 +22,7 @@ int main(int argc, char **argv)
 
  struct iphdr *ip = (struct iphdr *)packet;
 
- if((s = socket(AF_INET, SOCK_RAW, IPPROTO_RAW)) < 0)
+ if((s = socket(AF_INET, SOCK_RAW, IPPROTO_SCTP)) < 0)
 // if((s = socket(AF_INET, SOCK_RAW, IPPROTO_SCTP)) < 0)
  {
   perror("error:");
@@ -30,7 +31,7 @@ int main(int argc, char **argv)
 
  dst_addr.sin_family = AF_INET;
  dst_addr.sin_port = htons(REMOTE_PORT);
- dst_addr.sin_port = 0;
+// dst_addr.sin_port = 0;
  inet_pton(AF_INET, DEST, (struct in_addr *)&dst_addr.sin_addr.s_addr);
  memset(dst_addr.sin_zero, 0, sizeof(dst_addr.sin_zero));
 
