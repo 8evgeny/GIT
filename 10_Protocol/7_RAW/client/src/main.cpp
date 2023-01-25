@@ -22,7 +22,7 @@ int main(int argc, char **argv)
 
  struct iphdr *ip = (struct iphdr *)packet;
 
- if((s = socket(AF_INET, SOCK_RAW, IPPROTO_SCTP)) < 0)
+ if((s = socket(AF_INET, SOCK_STREAM, IPPROTO_SCTP)) < 0)
 // if((s = socket(AF_INET, SOCK_RAW, IPPROTO_SCTP)) < 0)
  {
   perror("error:");
@@ -57,9 +57,9 @@ int main(int argc, char **argv)
          ip->version = 4;
          ip->tos = 0;
          ip->tot_len = htons(40);
-         ip->frag_off = 0;  /* NF */
+         ip->frag_off = 0;
          ip->ttl = 64;
-         ip->protocol = IPPROTO_RAW; /* this has to be IPPROTO_RAW */
+         ip->protocol = IPPROTO_SCTP;
          ip->check = 0;
          ip->saddr = dst_addr.sin_addr.s_addr;
          ip->daddr = dst_addr.sin_addr.s_addr;
