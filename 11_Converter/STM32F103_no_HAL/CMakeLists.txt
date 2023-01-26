@@ -2,6 +2,9 @@ SET(CMAKE_SYSTEM_NAME Generic)
 SET(CMAKE_SYSTEM_VERSION 1)
 cmake_minimum_required(VERSION 3.7)
 
+PROJECT(11_Converter C CXX ASM)
+set(CMAKE_CXX_STANDARD 11)
+
 # specify cross compilers and tools
 SET(CMAKE_C_COMPILER_WORKS 1)
 SET(CMAKE_C_COMPILER arm-none-eabi-gcc)
@@ -13,12 +16,7 @@ set(CMAKE_OBJCOPY arm-none-eabi-objcopy)
 set(CMAKE_OBJDUMP arm-none-eabi-objdump)
 set(SIZE arm-none-eabi-size)
 
-#SET(LINKER_SCRIPT ${CMAKE_SOURCE_DIR}/STM32F103C8TX_FLASH.ld)
-
-#SET(LINKER_SCRIPT ${CMAKE_SOURCE_DIR}/stm32f103r8t6.ld)
 SET(LINKER_SCRIPT ${CMAKE_SOURCE_DIR}/stm32f103rct6.ld)
-#SET(LINKER_SCRIPT ${CMAKE_SOURCE_DIR}/STM32F105XC_FLASH.ld)
-#SET(LINKER_SCRIPT ${CMAKE_SOURCE_DIR}/new_script.ld)
 
 #Uncomment for hardware floating point
 #SET(FPU_FLAGS "-mfloat-abi=hard -mfpu=fpv4-sp-d16")
@@ -57,9 +55,6 @@ SET(CMAKE_EXE_LINKER_FLAGS_INIT " \
     -Wl,-gc-sections,--print-memory-usage \
     -T ${LINKER_SCRIPT} \
     ")
-
-PROJECT(5_stm32f103rc6 C CXX ASM)
-set(CMAKE_CXX_STANDARD 11)
 
 set(I2C_version 2)
 
