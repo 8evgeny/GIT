@@ -1,4 +1,4 @@
-#include "main.h"
+﻿#include "main.h"
 
 void delay()
 {
@@ -23,20 +23,16 @@ int main()
 {
     gpio_setup();
 
-//    xTaskCreate(testTask1, "TestSignalls", 50, NULL, configMAX_PRIORITIES - 1, NULL);
-//    vTaskStartScheduler();
-//    for (;;)
-//    {};
+    xTaskCreate(testTask1, "TestSignalls", 100, NULL, configMAX_PRIORITIES - 1, NULL);
+    vTaskStartScheduler();
+    for (;;)
+    {};
 
     while(1)
     {
-        gpio_set(GPIOC,GPIO13);
+        gpio_set(GPIOD,GPIO2);
         delay();
-        delay();
-        delay();
-        gpio_clear(GPIOC,GPIO13);
-        delay();
-        delay();
+        gpio_clear(GPIOD,GPIO2);
         delay();
     }
 

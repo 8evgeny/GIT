@@ -4,28 +4,24 @@ void testTask1(void *args __attribute((unused)))
 {
     for (;;)
     {
-        gpio_set(GPIOC,GPIO13);
+        gpio_set(GPIOD,GPIO2);
         delay();
-        delay();
-        delay();
-        gpio_clear(GPIOC,GPIO13);
-        delay();
-        delay();
+        gpio_clear(GPIOD,GPIO2);
         delay();
 
         vTaskDelay(pdMS_TO_TICKS(1));
 
     }
 }
-
+void setTestLed2(bool set);
 
 void testTask2(void *args __attribute((unused)))
 {
     for (;;)
     {
-//        setTestLed2(true);
-//        vTaskDelay(pdMS_TO_TICKS(100));
-//        setTestLed2(false);
+        setTestLed2(true);
+        vTaskDelay(pdMS_TO_TICKS(100));
+        setTestLed2(false);
         vTaskDelay(pdMS_TO_TICKS(1));
     }
 }
