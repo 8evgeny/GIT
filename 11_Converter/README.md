@@ -1,6 +1,8 @@
 Конвертер ISDN
 
-STM32F103_ADC 
+STM32F103_CUBE_MX_HAL
 - Генерация кода - CUBE MX
 - STM32CUBEIDE - собралось без ошибок
-- Добавлен CMake 
+
+STM32F103_no_HAL
+
