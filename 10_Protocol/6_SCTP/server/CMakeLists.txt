@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.6)
 set(CMAKE_CXX_STANDARD 20)
-project(6_client_SCTP)
+project(6_server_SCTP)
 
 #include(${CMAKE_SOURCE_DIR}/conanbuildinfo.cmake)
 #conan_basic_setup()
