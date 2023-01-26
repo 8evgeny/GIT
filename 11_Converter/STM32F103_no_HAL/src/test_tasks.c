@@ -4,50 +4,16 @@ void testTask1(void *args __attribute((unused)))
 {
     for (;;)
     {
-//        setTestLed1(true);
-//        vTaskDelay(pdMS_TO_TICKS(700));
-//        setTestLed1(false);
+        gpio_set(GPIOC,GPIO13);
+        delay();
+        delay();
+        delay();
+        gpio_clear(GPIOC,GPIO13);
+        delay();
+        delay();
+        delay();
 
-        setLedOverheatOut(0);
-        setLedOvercutOut(0);
-        setLedShortOut(0);
-        setLedBreakOut(0);
-        setErrorRele(0);
-
-//Реле и Led
-        setReleLine1(0);
-        setRele24V(0);
-        setReleLine2(0);
-        setReleLine3(0);
-        setReleLine4(0);
-        setReleTr1(0);
-        setReleTr2(0);
-        setReleTr3(0);
-        setReleTr4(0);
-        setReadyLed(0);
-        setFan(0);
-vTaskDelay(pdMS_TO_TICKS(5000));
-
-        setLedOverheatOut(1);
-        setLedOvercutOut(1);
-        setLedShortOut(1);
-        setLedBreakOut(1);
-        setErrorRele(1);
-
-//Реле и Led
-        setReleLine1(1);
-        setRele24V(1);
-        setReleLine2(1);
-        setReleLine3(1);
-        setReleLine4(1);
-        setReleTr1(1);
-        setReleTr2(1);
-        setReleTr3(1);
-        setReleTr4(1);
-        setReadyLed(1);
-        setFan(1);
-
-        vTaskDelay(pdMS_TO_TICKS(5000));
+        vTaskDelay(pdMS_TO_TICKS(1));
 
     }
 }
@@ -57,10 +23,10 @@ void testTask2(void *args __attribute((unused)))
 {
     for (;;)
     {
-        setTestLed2(true);
-        vTaskDelay(pdMS_TO_TICKS(100));
-        setTestLed2(false);
-        vTaskDelay(pdMS_TO_TICKS(100));
+//        setTestLed2(true);
+//        vTaskDelay(pdMS_TO_TICKS(100));
+//        setTestLed2(false);
+        vTaskDelay(pdMS_TO_TICKS(1));
     }
 }
 
@@ -68,10 +34,10 @@ void testTask3(void *args __attribute((unused)))
 {
     for (;;)
     {
-        setTestLed3(true);
-        vTaskDelay(pdMS_TO_TICKS(500));
-        setTestLed3(false);
-        vTaskDelay(pdMS_TO_TICKS(500));
+//        setTestLed3(true);
+//        vTaskDelay(pdMS_TO_TICKS(500));
+//        setTestLed3(false);
+        vTaskDelay(pdMS_TO_TICKS(1));
     }
 }
 
