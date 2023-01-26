@@ -13,7 +13,12 @@ set(CMAKE_OBJCOPY arm-none-eabi-objcopy)
 set(CMAKE_OBJDUMP arm-none-eabi-objdump)
 set(SIZE arm-none-eabi-size)
 
+#SET(LINKER_SCRIPT ${CMAKE_SOURCE_DIR}/STM32F103C8TX_FLASH.ld)
+
+#SET(LINKER_SCRIPT ${CMAKE_SOURCE_DIR}/stm32f103r8t6.ld)
 SET(LINKER_SCRIPT ${CMAKE_SOURCE_DIR}/stm32f103rct6.ld)
+#SET(LINKER_SCRIPT ${CMAKE_SOURCE_DIR}/STM32F105XC_FLASH.ld)
+#SET(LINKER_SCRIPT ${CMAKE_SOURCE_DIR}/new_script.ld)
 
 #Uncomment for hardware floating point
 #SET(FPU_FLAGS "-mfloat-abi=hard -mfpu=fpv4-sp-d16")
@@ -53,7 +58,7 @@ SET(CMAKE_EXE_LINKER_FLAGS_INIT " \
     -T ${LINKER_SCRIPT} \
     ")
 
-PROJECT(11_converter C CXX ASM)
+PROJECT(11_Converter C CXX ASM)
 set(CMAKE_CXX_STANDARD 11)
 
 set(I2C_version 2)
@@ -123,7 +128,7 @@ if(${MainLIB} STREQUAL libopencm3)
 
         include_directories(
             inc
-            libopencm3/include/
+            libopencm3/include
             libopencm3/stm32/common
             rtos
             ./
