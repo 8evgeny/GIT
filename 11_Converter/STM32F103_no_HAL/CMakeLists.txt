@@ -2,9 +2,6 @@ SET(CMAKE_SYSTEM_NAME Generic)
 SET(CMAKE_SYSTEM_VERSION 1)
 cmake_minimum_required(VERSION 3.7)
 
-PROJECT(11_Converter C CXX ASM)
-set(CMAKE_CXX_STANDARD 11)
-
 # specify cross compilers and tools
 SET(CMAKE_C_COMPILER_WORKS 1)
 SET(CMAKE_C_COMPILER arm-none-eabi-gcc)
@@ -55,6 +52,9 @@ SET(CMAKE_EXE_LINKER_FLAGS_INIT " \
     -Wl,-gc-sections,--print-memory-usage \
     -T ${LINKER_SCRIPT} \
     ")
+
+PROJECT(11_converter C CXX ASM)
+set(CMAKE_CXX_STANDARD 11)
 
 set(I2C_version 2)
 
