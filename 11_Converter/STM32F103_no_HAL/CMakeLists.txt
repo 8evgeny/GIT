@@ -123,7 +123,7 @@ if(${MainLIB} STREQUAL libopencm3)
 
         include_directories(
             inc
-            libopencm3/include
+            libopencm3/include/
             libopencm3/stm32/common
             rtos
             ./
