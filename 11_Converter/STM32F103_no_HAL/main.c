@@ -25,9 +25,9 @@ task1(void *args __attribute((unused))) {
 
 	for (;;) {
         gpio_set(GPIOD,GPIO2);
-        vTaskDelay(pdMS_TO_TICKS(100));
+        vTaskDelay(pdMS_TO_TICKS(20));
         gpio_clear(GPIOD,GPIO2);
-        vTaskDelay(pdMS_TO_TICKS(2000));
+        vTaskDelay(pdMS_TO_TICKS(1500));
 	}
 }
 
