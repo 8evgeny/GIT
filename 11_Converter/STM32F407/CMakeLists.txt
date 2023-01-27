@@ -8,16 +8,16 @@ set(CMAKE_CXX_COMPILER ${TOOLS_PATH}/bin/arm-none-eabi-g++)
 set(CMAKE_CXX_LINKER_LAUNCHER ${TOOLS_PATH}/bin/arm-none-eabi-g++)
 set(CMAKE_OBJCOPY ${TOOLS_PATH}/bin/arm-none-eabi-objcopy)
 
-project(Example_1 C CXX ASM)
+project(11_Converter C CXX ASM)
 
 #set(CMAKE_BUILD_TYPE debug)
 #set(CMAKE_BUILD_TYPE release)
 
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}\
-    -mcpu=cortex-m7 \
+    -mcpu=cortex-m4 \
     -std=gnu11 \
     -DUSE_HAL_DRIVER \
-    -DSTM32H753xx \
+    -DSTM32F407xx \
     -Os \
     -ffunction-sections \
     -fdata-sections \
@@ -33,44 +33,29 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}\
     ")
 #    --specs=nano.specs \
 
-include_directories( Inc
-    Middlewares/Third_Party/LwIP/src/include
-    Middlewares/Third_Party/LwIP/system
-    STM32H7xx_HAL_Driver/Inc
-    CMSIS/Device/ST/STM32H7xx/Include
-    CMSIS/Include
-    STM32H7xx_Nucleo
-    Components/lan8742)
-file (GLOB SOURCES_C Src/*.c
-    STM32CubeIDE/Application/User/*.c
-    CMSIS/Device/ST/STM32H7xx/Source/Templates/gcc/startup_stm32h753xx.s
-    Middlewares/Third_Party/LwIP/src/core/*.c
-    STM32H7xx_HAL_Driver/Src/Legacy/*.c
-#    STM32H7xx_HAL_Driver/Src/*.c
-    STM32H7xx_HAL_Driver/Src/stm32h7xx_hal.c
-    STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_cortex.c
-    STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_eth.c
-    STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_gpio.c
-    STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_rcc.c
-    Middlewares/Third_Party/LwIP/src/core/ipv4/*.c
-    Middlewares/Third_Party/LwIP/src/netif/*.c
-    STM32H7xx_Nucleo/stm32h7xx_nucleo.c
-    STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_pwr_ex.c
+include_directories(
+    Core/Inc
+    Drivers/CMSIS/Device/ST/STM32F4xx/Include
+    Drivers/STM32F4xx_HAL_Driver/Inc
+    Drivers/CMSIS/Core/Include
+    USB_HOST/App
+    )
+file (GLOB SOURCES_C
+    Core/Src/*.c
+    Drivers/CMSIS/Device/ST/STM32F4xx/Source/Templates/gcc/startup_stm32f407xx.s
     )
 
 
 add_executable(${PROJECT_NAME}.elf
     ${SOURCES_C}
-    Components/lan8742/lan8742.c
-    STM32CubeIDE/STM32H723ZGTX_FLASH.ld
     )
 
 set_target_properties(${PROJECT_NAME}.elf PROPERTIES LINKER_LANGUAGE C)
-
-set(LINKER_SCRIPT_FLASH "${CMAKE_SOURCE_DIR}/CMSIS/Device/ST/STM32H7xx/Source/Templates/gcc/linker/stm32h755xx_flash_CM4.ld")
+#Скрипт линкера от другого проекта
+set(LINKER_SCRIPT_FLASH "${CMAKE_SOURCE_DIR}/STM32F407VGTX_FLASH.ld")
 set(LINKER_FLAGS "SHELL: \
     -T${LINKER_SCRIPT_FLASH} \
-    -mcpu=cortex-m7 \
+    -mcpu=cortex-m4 \
     --specs=nosys.specs \
     -Wl,--gc-sections \
     -static \
