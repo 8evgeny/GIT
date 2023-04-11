@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<history>
+   <processor signature="arm-none-eabi-gcc noversion nomachine -mcpu=cortex-m3 -mthumb -Wall -ffunction-sections -g -Os -flto -fno-builtin -c -DSTM32F100RB -DSTM32F10X_MD_VL -DUSE_STDPERIPH_DRIVER -D__ASSEMBLY__ -ID:\DEVELOPMENT\web_discovery+w5500_sd\Ethernet\W5500 -ID:\DEVELOPMENT\web_discovery+w5500_sd\stm_lib\inc -ID:\DEVELOPMENT\web_discovery+w5500_sd\ff -ID:\DEVELOPMENT\web_discovery+w5500_sd\Ethernet -ID:\ -ID:\DEVELOPMENT\web_discovery+w5500_sd\cmsis -ID:\DEVELOPMENT\web_discovery+w5500_sd -ID:\DEVELOPMENT -ID:\DEVELOPMENT\web_discovery+w5500_sd\cmsis_boot -ID:\DEVELOPMENT\web_discovery+w5500_sd\stm_lib">
+      <target file="startup_stm32f10x_md_vl.o" lastModified="14844c7deaa">
+         <source file="..\..\..\cmsis_boot\startup\startup_stm32f10x_md_vl.c" lastModified="144061cf6a7"/>
+      </target>
+      <target file="stm32f10x_pwr.o" lastModified="14844c7df75">
+         <source file="..\..\..\stm_lib\src\stm32f10x_pwr.c" lastModified="144061d0131"/>
+      </target>
+      <target file="syscalls.o" lastModified="14844c7e4ad">
+         <source file="..\..\..\syscalls\syscalls.c" lastModified="1483a52b61e"/>
+      </target>
+      <target file="w5500.o" lastModified="14844c7e45a">
+         <source file="..\..\..\Ethernet\W5500\w5500.c" lastModified="14835531c00"/>
+      </target>
+      <target file="wizchip_conf.o" lastModified="14844c7e2eb">
+         <source file="..\..\..\Ethernet\wizchip_conf.c" lastModified="14835531be2"/>
+      </target>
+      <target file="stm32f10x_tim.o" lastModified="14844c7de66">
+         <source file="..\..\..\stm_lib\src\stm32f10x_tim.c" lastModified="144061d2855"/>
+      </target>
+      <target file="system_stm32f10x.o" lastModified="14844c7df0e">
+         <source file="..\..\..\cmsis_boot\system_stm32f10x.c" lastModified="144061cf6e3"/>
+      </target>
+      <target file="stm32f10x_spi.o" lastModified="14844c7e8ed">
+         <source file="..\..\..\stm_lib\src\stm32f10x_spi.c" lastModified="144061d1c6b"/>
+      </target>
+      <target file="socket.o" lastModified="14844c7dc04">
+         <source file="..\..\..\Ethernet\socket.c" lastModified="14835531bc4"/>
+      </target>
+      <target file="main.o" lastModified="14844c7e1f5">
+         <source file="..\..\..\main.c" lastModified="14844c7d5f5"/>
+      </target>
+      <target file="ff.o" lastModified="14844c7e7ca">
+         <source file="..\..\..\ff\ff.c" lastModified="12d8965c400"/>
+      </target>
+      <target file="stm32f10x_gpio.o" lastModified="14844c7e01a">
+         <source file="..\..\..\stm_lib\src\stm32f10x_gpio.c" lastModified="144061d06c7"/>
+      </target>
+      <target file="mmc.o" lastModified="14844c7e11d">
+         <source file="..\..\..\mmc.c" lastModified="13e64687f10"/>
+      </target>
+      <target file="spi.o" lastModified="14844c7dc61">
+         <source file="..\..\..\spi.c" lastModified="1483a5017d7"/>
+      </target>
+      <target file="stm32f10x_rcc.o" lastModified="14844c7e3c6">
+         <source file="..\..\..\stm_lib\src\stm32f10x_rcc.c" lastModified="144061cf66b"/>
+      </target>
+      <target file="stm32f10x_bkp.o" lastModified="14844c7e95d">
+         <source file="..\..\..\stm_lib\src\stm32f10x_bkp.c" lastModified="144061d016d"/>
+      </target>
+      <target file="misc.o" lastModified="14844c7e831">
+         <source file="..\..\..\stm_lib\src\misc.c" lastModified="144061d359d"/>
+      </target>
+   </processor>
+</history>

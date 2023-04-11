@@ -1,0 +1,472 @@
+Archive member included because of file (symbol)
+
+c:/program files/gnu tools arm embedded/4.7 2013q3/bin/../lib/gcc/arm-none-eabi/4.7.4/../../../../arm-none-eabi/lib/armv7-m\libg.a(lib_a-memcmp.o)
+                              ..\obj\main.o (symbol from plugin) (memcmp)
+c:/program files/gnu tools arm embedded/4.7 2013q3/bin/../lib/gcc/arm-none-eabi/4.7.4/../../../../arm-none-eabi/lib/armv7-m\libg.a(lib_a-strcat.o)
+                              ..\obj\main.o (symbol from plugin) (strcat)
+c:/program files/gnu tools arm embedded/4.7 2013q3/bin/../lib/gcc/arm-none-eabi/4.7.4/../../../../arm-none-eabi/lib/armv7-m\libg.a(lib_a-strchr.o)
+                              ..\obj\main.o (symbol from plugin) (strchr)
+c:/program files/gnu tools arm embedded/4.7 2013q3/bin/../lib/gcc/arm-none-eabi/4.7.4/../../../../arm-none-eabi/lib/armv7-m\libg.a(lib_a-strcmp.o)
+                              ..\obj\main.o (symbol from plugin) (strcmp)
+c:/program files/gnu tools arm embedded/4.7 2013q3/bin/../lib/gcc/arm-none-eabi/4.7.4/../../../../arm-none-eabi/lib/armv7-m\libg.a(lib_a-strcpy.o)
+                              ..\obj\main.o (symbol from plugin) (strcpy)
+c:/program files/gnu tools arm embedded/4.7 2013q3/bin/../lib/gcc/arm-none-eabi/4.7.4/../../../../arm-none-eabi/lib/armv7-m\libg.a(lib_a-strlen.o)
+                              ..\obj\main.o (symbol from plugin) (strlen)
+c:/program files/gnu tools arm embedded/4.7 2013q3/bin/../lib/gcc/arm-none-eabi/4.7.4/../../../../arm-none-eabi/lib/armv7-m\libg.a(lib_a-strlwr.o)
+                              ..\obj\main.o (symbol from plugin) (strlwr)
+c:/program files/gnu tools arm embedded/4.7 2013q3/bin/../lib/gcc/arm-none-eabi/4.7.4/../../../../arm-none-eabi/lib/armv7-m\libg.a(lib_a-strrchr.o)
+                              ..\obj\main.o (symbol from plugin) (strrchr)
+c:/program files/gnu tools arm embedded/4.7 2013q3/bin/../lib/gcc/arm-none-eabi/4.7.4/../../../../arm-none-eabi/lib/armv7-m\libg.a(lib_a-ctype_.o)
+                              c:/program files/gnu tools arm embedded/4.7 2013q3/bin/../lib/gcc/arm-none-eabi/4.7.4/../../../../arm-none-eabi/lib/armv7-m\libg.a(lib_a-strlwr.o) (__ctype_ptr__)
+
+Allocating common symbols
+Common symbol       size              file
+
+ff                  0x230             ..\obj\mmc.o (symbol from plugin)
+fs                  0x120             ..\obj\main.o (symbol from plugin)
+http_state          0x8               ..\obj\main.o (symbol from plugin)
+sentsize            0x20              ..\obj\main.o (symbol from plugin)
+
+Discarded input sections
+
+ .text          0x00000000        0x0 ..\obj\socket.o (symbol from plugin)
+ .text          0x00000000        0x0 C:\Users\cgusevy\AppData\Local\Temp\ccRFL7eV.ltrans0.ltrans.o
+ .data          0x00000000        0x0 C:\Users\cgusevy\AppData\Local\Temp\ccRFL7eV.ltrans1.ltrans.o
+ .bss           0x00000000        0x0 C:\Users\cgusevy\AppData\Local\Temp\ccRFL7eV.ltrans1.ltrans.o
+ .bss           0x00000000        0x0 C:\Users\cgusevy\AppData\Local\Temp\ccRFL7eV.ltrans2.ltrans.o
+ .data          0x00000000        0x0 C:\Users\cgusevy\AppData\Local\Temp\ccRFL7eV.ltrans3.ltrans.o
+ .text          0x00000000        0x0 ..\obj\spi.o (symbol from plugin)
+ .text          0x00000000        0x0 ..\obj\stm32f10x_tim.o (symbol from plugin)
+ .text          0x00000000        0x0 ..\obj\startup_stm32f10x_md_vl.o (symbol from plugin)
+ .text          0x00000000        0x0 ..\obj\system_stm32f10x.o (symbol from plugin)
+ .text          0x00000000        0x0 ..\obj\stm32f10x_pwr.o (symbol from plugin)
+ .text          0x00000000        0x0 ..\obj\stm32f10x_gpio.o (symbol from plugin)
+ .text          0x00000000        0x0 ..\obj\mmc.o (symbol from plugin)
+ .text          0x00000000        0x0 ..\obj\main.o (symbol from plugin)
+ .text          0x00000000        0x0 ..\obj\wizchip_conf.o (symbol from plugin)
+ .text          0x00000000        0x0 ..\obj\stm32f10x_rcc.o (symbol from plugin)
+ .text          0x00000000        0x0 ..\obj\w5500.o (symbol from plugin)
+ .text          0x00000000        0x0 ..\obj\syscalls.o (symbol from plugin)
+ .text          0x00000000        0x0 ..\obj\ff.o (symbol from plugin)
+ .text          0x00000000        0x0 ..\obj\misc.o (symbol from plugin)
+ .text          0x00000000        0x0 ..\obj\stm32f10x_spi.o (symbol from plugin)
+ .text          0x00000000        0x0 ..\obj\stm32f10x_bkp.o (symbol from plugin)
+ .text          0x00000000        0x0 c:/program files/gnu tools arm embedded/4.7 2013q3/bin/../lib/gcc/arm-none-eabi/4.7.4/../../../../arm-none-eabi/lib/armv7-m\libg.a(lib_a-memcmp.o)
+ .data          0x00000000        0x0 c:/program files/gnu tools arm embedded/4.7 2013q3/bin/../lib/gcc/arm-none-eabi/4.7.4/../../../../arm-none-eabi/lib/armv7-m\libg.a(lib_a-memcmp.o)
+ .bss           0x00000000        0x0 c:/program files/gnu tools arm embedded/4.7 2013q3/bin/../lib/gcc/arm-none-eabi/4.7.4/../../../../arm-none-eabi/lib/armv7-m\libg.a(lib_a-memcmp.o)
+ .text          0x00000000        0x0 c:/program files/gnu tools arm embedded/4.7 2013q3/bin/../lib/gcc/arm-none-eabi/4.7.4/../../../../arm-none-eabi/lib/armv7-m\libg.a(lib_a-strcat.o)
+ .data          0x00000000        0x0 c:/program files/gnu tools arm embedded/4.7 2013q3/bin/../lib/gcc/arm-none-eabi/4.7.4/../../../../arm-none-eabi/lib/armv7-m\libg.a(lib_a-strcat.o)
+ .bss           0x00000000        0x0 c:/program files/gnu tools arm embedded/4.7 2013q3/bin/../lib/gcc/arm-none-eabi/4.7.4/../../../../arm-none-eabi/lib/armv7-m\libg.a(lib_a-strcat.o)
+ .text          0x00000000        0x0 c:/program files/gnu tools arm embedded/4.7 2013q3/bin/../lib/gcc/arm-none-eabi/4.7.4/../../../../arm-none-eabi/lib/armv7-m\libg.a(lib_a-strchr.o)
+ .data          0x00000000        0x0 c:/program files/gnu tools arm embedded/4.7 2013q3/bin/../lib/gcc/arm-none-eabi/4.7.4/../../../../arm-none-eabi/lib/armv7-m\libg.a(lib_a-strchr.o)
+ .bss           0x00000000        0x0 c:/program files/gnu tools arm embedded/4.7 2013q3/bin/../lib/gcc/arm-none-eabi/4.7.4/../../../../arm-none-eabi/lib/armv7-m\libg.a(lib_a-strchr.o)
+ .text          0x00000000        0x0 c:/program files/gnu tools arm embedded/4.7 2013q3/bin/../lib/gcc/arm-none-eabi/4.7.4/../../../../arm-none-eabi/lib/armv7-m\libg.a(lib_a-strcmp.o)
+ .data          0x00000000        0x0 c:/program files/gnu tools arm embedded/4.7 2013q3/bin/../lib/gcc/arm-none-eabi/4.7.4/../../../../arm-none-eabi/lib/armv7-m\libg.a(lib_a-strcmp.o)
+ .bss           0x00000000        0x0 c:/program files/gnu tools arm embedded/4.7 2013q3/bin/../lib/gcc/arm-none-eabi/4.7.4/../../../../arm-none-eabi/lib/armv7-m\libg.a(lib_a-strcmp.o)
+ .text          0x00000000        0x0 c:/program files/gnu tools arm embedded/4.7 2013q3/bin/../lib/gcc/arm-none-eabi/4.7.4/../../../../arm-none-eabi/lib/armv7-m\libg.a(lib_a-strcpy.o)
+ .data          0x00000000        0x0 c:/program files/gnu tools arm embedded/4.7 2013q3/bin/../lib/gcc/arm-none-eabi/4.7.4/../../../../arm-none-eabi/lib/armv7-m\libg.a(lib_a-strcpy.o)
+ .bss           0x00000000        0x0 c:/program files/gnu tools arm embedded/4.7 2013q3/bin/../lib/gcc/arm-none-eabi/4.7.4/../../../../arm-none-eabi/lib/armv7-m\libg.a(lib_a-strcpy.o)
+ .text          0x00000000        0x0 c:/program files/gnu tools arm embedded/4.7 2013q3/bin/../lib/gcc/arm-none-eabi/4.7.4/../../../../arm-none-eabi/lib/armv7-m\libg.a(lib_a-strlen.o)
+ .data          0x00000000        0x0 c:/program files/gnu tools arm embedded/4.7 2013q3/bin/../lib/gcc/arm-none-eabi/4.7.4/../../../../arm-none-eabi/lib/armv7-m\libg.a(lib_a-strlen.o)
+ .bss           0x00000000        0x0 c:/program files/gnu tools arm embedded/4.7 2013q3/bin/../lib/gcc/arm-none-eabi/4.7.4/../../../../arm-none-eabi/lib/armv7-m\libg.a(lib_a-strlen.o)
+ .text          0x00000000        0x0 c:/program files/gnu tools arm embedded/4.7 2013q3/bin/../lib/gcc/arm-none-eabi/4.7.4/../../../../arm-none-eabi/lib/armv7-m\libg.a(lib_a-strlwr.o)
+ .data          0x00000000        0x0 c:/program files/gnu tools arm embedded/4.7 2013q3/bin/../lib/gcc/arm-none-eabi/4.7.4/../../../../arm-none-eabi/lib/armv7-m\libg.a(lib_a-strlwr.o)
+ .bss           0x00000000        0x0 c:/program files/gnu tools arm embedded/4.7 2013q3/bin/../lib/gcc/arm-none-eabi/4.7.4/../../../../arm-none-eabi/lib/armv7-m\libg.a(lib_a-strlwr.o)
+ .text          0x00000000        0x0 c:/program files/gnu tools arm embedded/4.7 2013q3/bin/../lib/gcc/arm-none-eabi/4.7.4/../../../../arm-none-eabi/lib/armv7-m\libg.a(lib_a-strrchr.o)
+ .data          0x00000000        0x0 c:/program files/gnu tools arm embedded/4.7 2013q3/bin/../lib/gcc/arm-none-eabi/4.7.4/../../../../arm-none-eabi/lib/armv7-m\libg.a(lib_a-strrchr.o)
+ .bss           0x00000000        0x0 c:/program files/gnu tools arm embedded/4.7 2013q3/bin/../lib/gcc/arm-none-eabi/4.7.4/../../../../arm-none-eabi/lib/armv7-m\libg.a(lib_a-strrchr.o)
+ .text          0x00000000        0x0 c:/program files/gnu tools arm embedded/4.7 2013q3/bin/../lib/gcc/arm-none-eabi/4.7.4/../../../../arm-none-eabi/lib/armv7-m\libg.a(lib_a-ctype_.o)
+ .data          0x00000000        0x0 c:/program files/gnu tools arm embedded/4.7 2013q3/bin/../lib/gcc/arm-none-eabi/4.7.4/../../../../arm-none-eabi/lib/armv7-m\libg.a(lib_a-ctype_.o)
+ .bss           0x00000000        0x0 c:/program files/gnu tools arm embedded/4.7 2013q3/bin/../lib/gcc/arm-none-eabi/4.7.4/../../../../arm-none-eabi/lib/armv7-m\libg.a(lib_a-ctype_.o)
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+rom              0x08000000         0x00020000         xr
+ram              0x20000000         0x00002000         xrw
+*default*        0x00000000         0xffffffff
+
+Linker script and memory map
+
+                0x20002000                _eram = 0x20002000
+
+.text           0x08000000     0x2b74
+ *(.isr_vector)
+ .isr_vector    0x08000000      0x124 C:\Users\cgusevy\AppData\Local\Temp\ccRFL7eV.ltrans3.ltrans.o
+                0x08000000                g_pfnVectors
+ *(.text*)
+ .text.startup  0x08000124      0xd9c C:\Users\cgusevy\AppData\Local\Temp\ccRFL7eV.ltrans0.ltrans.o
+                0x08000124                main
+ .text          0x08000ec0      0x9c8 C:\Users\cgusevy\AppData\Local\Temp\ccRFL7eV.ltrans1.ltrans.o
+                0x08000f9c                mmc_init
+                0x080011e4                disk_read
+                0x08001290                move_window.5872
+                0x08001302                f_sync
+                0x08001448                put_fat
+                0x0800153a                get_fat
+                0x08001602                dir_next.5966
+                0x08001798                dir_sdi.5941.constprop.18
+                0x08001802                check_fs.5889
+ .text          0x08001888      0x944 C:\Users\cgusevy\AppData\Local\Temp\ccRFL7eV.ltrans2.ltrans.o
+                0x080018ac                wizchip_read
+                0x080018b2                wizchip_write
+                0x080018b6                wizchip_select
+                0x080018c4                wizchip_deselect
+                0x080018d0                wizchip_spi_writebyte
+                0x080018d2                wizchip_spi_readbyte
+                0x080018d6                wizchip_bus_writebyte
+                0x080018da                wizchip_bus_readbyte
+                0x080018de                wizchip_cs_deselect
+                0x080018e0                wizchip_cs_select
+                0x080018e2                wizchip_cris_exit
+                0x080018e4                wizchip_cris_enter
+                0x080018e6                mmc_send
+                0x08001908                mmc_command
+                0x080019bc                mmc_release
+                0x080019cc                SPI_Init
+                0x08001a0a                clust2sect
+                0x08001a22                WIZCHIP_WRITE_BUF
+                0x08001a70                WIZCHIP_READ_BUF
+                0x08001abc                WIZCHIP_WRITE
+                0x08001afc                wizchip_clrinterrupt
+                0x08001b18                WIZCHIP_READ
+                0x08001b54                getSn_RX_RSR
+                0x08001b98                getSn_TX_FSR
+                0x08001bdc                wizchip_sw_reset
+                0x08001c50                wizchip_init
+                0x08001cc8                close
+                0x08001d34                send.constprop.27
+                0x08001eb0                disconnect
+                0x08001f38                wizphy_reset
+                0x08001f66                wizphy_setphypmode
+                0x08001fb8                wizphy_setphyconf
+                0x08002000                wizchip_getinterrupt
+                0x08002022                wizchip_getinterruptmask
+                0x0800203e                wizphy_getphyconf
+                0x080020a0                Delay_ms
+                0x08002128                GPIO_Init
+                0x080021c8                I2C1_EV_IRQHandler
+                0x080021c8                DMA1_Channel4_IRQHandler
+                0x080021c8                DMA1_Channel7_IRQHandler
+                0x080021c8                DMA1_Channel6_IRQHandler
+                0x080021c8                TIM3_IRQHandler
+                0x080021c8                TIM1_UP_TIM16_IRQHandler
+                0x080021c8                UsageFault_Handler
+                0x080021c8                TIM4_IRQHandler
+                0x080021c8                I2C2_EV_IRQHandler
+                0x080021c8                CEC_IRQHandler
+                0x080021c8                EXTI15_10_IRQHandler
+                0x080021c8                TIM7_IRQHandler
+                0x080021c8                EXTI0_IRQHandler
+                0x080021c8                EXTI9_5_IRQHandler
+                0x080021c8                RTC_IRQHandler
+                0x080021c8                SPI2_IRQHandler
+                0x080021c8                MemManage_Handler
+                0x080021c8                USART3_IRQHandler
+                0x080021c8                DMA1_Channel1_IRQHandler
+                0x080021c8                TAMPER_IRQHandler
+                0x080021c8                DMA1_Channel5_IRQHandler
+                0x080021c8                EXTI4_IRQHandler
+                0x080021c8                EXTI3_IRQHandler
+                0x080021c8                TIM1_TRG_COM_TIM17_IRQHandler
+                0x080021c8                NMI_Handler
+                0x080021c8                PendSV_Handler
+                0x080021c8                DMA1_Channel3_IRQHandler
+                0x080021c8                PVD_IRQHandler
+                0x080021c8                WWDG_IRQHandler
+                0x080021c8                TIM2_IRQHandler
+                0x080021c8                SysTick_Handler
+                0x080021c8                HardFault_Handler
+                0x080021c8                SPI1_IRQHandler
+                0x080021c8                EXTI1_IRQHandler
+                0x080021c8                ADC1_IRQHandler
+                0x080021c8                RTCAlarm_IRQHandler
+                0x080021c8                TIM1_CC_IRQHandler
+                0x080021c8                USART2_IRQHandler
+                0x080021c8                TIM6_DAC_IRQHandler
+                0x080021c8                I2C2_ER_IRQHandler
+                0x080021c8                DMA1_Channel2_IRQHandler
+                0x080021c8                FLASH_IRQHandler
+                0x080021c8                BusFault_Handler
+                0x080021c8                USART1_IRQHandler
+                0x080021c8                I2C1_ER_IRQHandler
+                0x080021c8                SVC_Handler
+                0x080021c8                DebugMon_Handler
+                0x080021c8                EXTI2_IRQHandler
+                0x080021c8                RCC_IRQHandler
+                0x080021c8                TIM1_BRK_TIM15_IRQHandler
+ .text          0x080021cc      0x15c C:\Users\cgusevy\AppData\Local\Temp\ccRFL7eV.ltrans3.ltrans.o
+                0x080021cc                abort
+                0x080021ce                _write
+                0x080021d2                _read
+                0x080021d6                _lseek
+                0x080021da                _isatty
+                0x080021de                _fstat
+                0x080021e8                _close
+                0x080021ee                link
+                0x080021f4                _sbrk
+                0x08002210                Reset_Handler
+ .text.memcmp   0x08002328       0xb8 c:/program files/gnu tools arm embedded/4.7 2013q3/bin/../lib/gcc/arm-none-eabi/4.7.4/../../../../arm-none-eabi/lib/armv7-m\libg.a(lib_a-memcmp.o)
+                0x08002328                memcmp
+ .text.strcat   0x080023e0       0x4c c:/program files/gnu tools arm embedded/4.7 2013q3/bin/../lib/gcc/arm-none-eabi/4.7.4/../../../../arm-none-eabi/lib/armv7-m\libg.a(lib_a-strcat.o)
+                0x080023e0                strcat
+ .text.strchr   0x0800242c       0xfc c:/program files/gnu tools arm embedded/4.7 2013q3/bin/../lib/gcc/arm-none-eabi/4.7.4/../../../../arm-none-eabi/lib/armv7-m\libg.a(lib_a-strchr.o)
+                0x0800242c                strchr
+ .text.strcmp   0x08002528       0x80 c:/program files/gnu tools arm embedded/4.7 2013q3/bin/../lib/gcc/arm-none-eabi/4.7.4/../../../../arm-none-eabi/lib/armv7-m\libg.a(lib_a-strcmp.o)
+                0x08002528                strcmp
+ .text.strcmp_unaligned
+                0x080025a8      0x15c c:/program files/gnu tools arm embedded/4.7 2013q3/bin/../lib/gcc/arm-none-eabi/4.7.4/../../../../arm-none-eabi/lib/armv7-m\libg.a(lib_a-strcmp.o)
+ .text.strcpy   0x08002704       0xbc c:/program files/gnu tools arm embedded/4.7 2013q3/bin/../lib/gcc/arm-none-eabi/4.7.4/../../../../arm-none-eabi/lib/armv7-m\libg.a(lib_a-strcpy.o)
+                0x08002704                strcpy
+ .text.strlen   0x080027c0       0x60 c:/program files/gnu tools arm embedded/4.7 2013q3/bin/../lib/gcc/arm-none-eabi/4.7.4/../../../../arm-none-eabi/lib/armv7-m\libg.a(lib_a-strlen.o)
+                0x080027c0                strlen
+ .text.strlwr   0x08002820       0x30 c:/program files/gnu tools arm embedded/4.7 2013q3/bin/../lib/gcc/arm-none-eabi/4.7.4/../../../../arm-none-eabi/lib/armv7-m\libg.a(lib_a-strlwr.o)
+                0x08002820                strlwr
+ .text.strrchr  0x08002850       0x28 c:/program files/gnu tools arm embedded/4.7 2013q3/bin/../lib/gcc/arm-none-eabi/4.7.4/../../../../arm-none-eabi/lib/armv7-m\libg.a(lib_a-strrchr.o)
+                0x08002850                strrchr
+ *(.init)
+ *(.fini)
+ *crtbegin.o(.ctors)
+ *crtbegin?.o(.ctors)
+ *(EXCLUDE_FILE(*crtend.o *crtend?.o) .ctors)
+ *(SORT(.ctors.*))
+ *(.ctors)
+ *crtbegin.o(.dtors)
+ *crtbegin?.o(.dtors)
+ *(EXCLUDE_FILE(*crtend.o *crtend?.o) .dtors)
+ *(SORT(.dtors.*))
+ *(.dtors)
+ *(.rodata*)
+ .rodata        0x08002878      0x1b4 C:\Users\cgusevy\AppData\Local\Temp\ccRFL7eV.ltrans0.ltrans.o
+ .rodata.str1.1
+                0x08002a2c       0x43 C:\Users\cgusevy\AppData\Local\Temp\ccRFL7eV.ltrans0.ltrans.o
+ *fill*         0x08002a6f        0x1 00
+ .rodata._ctype_
+                0x08002a70      0x104 c:/program files/gnu tools arm embedded/4.7 2013q3/bin/../lib/gcc/arm-none-eabi/4.7.4/../../../../arm-none-eabi/lib/armv7-m\libg.a(lib_a-ctype_.o)
+                0x08002a70                _ctype_
+ *(.eh_fram e*)
+
+.glue_7         0x08002b74        0x0
+ .glue_7        0x00000000        0x0 linker stubs
+
+.glue_7t        0x08002b74        0x0
+ .glue_7t       0x00000000        0x0 linker stubs
+
+.vfp11_veneer   0x08002b74        0x0
+ .vfp11_veneer  0x00000000        0x0 linker stubs
+
+.v4_bx          0x08002b74        0x0
+ .v4_bx         0x00000000        0x0 linker stubs
+
+.iplt           0x08002b74        0x0
+ .iplt          0x00000000        0x0 c:/program files/gnu tools arm embedded/4.7 2013q3/bin/../lib/gcc/arm-none-eabi/4.7.4/../../../../arm-none-eabi/lib/armv7-m\libg.a(lib_a-memcmp.o)
+
+.rel.dyn        0x08002b74        0x0
+ .rel.iplt      0x00000000        0x0 c:/program files/gnu tools arm embedded/4.7 2013q3/bin/../lib/gcc/arm-none-eabi/4.7.4/../../../../arm-none-eabi/lib/armv7-m\libg.a(lib_a-memcmp.o)
+
+.ARM.extab
+ *(.ARM.extab* .gnu.linkonce.armextab.*)
+                0x08002b74                __exidx_start = .
+
+.ARM.exidx
+ *(.ARM.exidx* .gnu.linkonce.armexidx.*)
+                0x08002b74                __exidx_end = .
+                0x08002b74                __etext = .
+                0x08002b74                _sidata = __etext
+
+.data           0x20000000       0x6c load address 0x08002b74
+                0x20000000                __data_start__ = .
+                0x20000000                _sdata = __data_start__
+ *(vtable)
+ *(.data*)
+ .data          0x20000000       0x44 C:\Users\cgusevy\AppData\Local\Temp\ccRFL7eV.ltrans0.ltrans.o
+                0x2000000c                WIZCHIP
+ .data          0x20000044       0x24 C:\Users\cgusevy\AppData\Local\Temp\ccRFL7eV.ltrans2.ltrans.o
+ .data.__ctype_ptr__
+                0x20000068        0x4 c:/program files/gnu tools arm embedded/4.7 2013q3/bin/../lib/gcc/arm-none-eabi/4.7.4/../../../../arm-none-eabi/lib/armv7-m\libg.a(lib_a-ctype_.o)
+                0x20000068                __ctype_ptr__
+                0x2000006c                . = ALIGN (0x4)
+                0x2000006c                PROVIDE (__preinit_array_start, .)
+ *(.preinit_array)
+                0x2000006c                PROVIDE (__preinit_array_end, .)
+                0x2000006c                . = ALIGN (0x4)
+                0x2000006c                PROVIDE (__init_array_start, .)
+ *(SORT(.init_array.*))
+ *(.init_array)
+                0x2000006c                PROVIDE (__init_array_end, .)
+                0x2000006c                . = ALIGN (0x4)
+                0x2000006c                PROVIDE (__fini_array_start, .)
+ *(SORT(.fini_array.*))
+ *(.fini_array)
+                0x2000006c                PROVIDE (__fini_array_end, .)
+ *(.jcr*)
+                0x2000006c                . = ALIGN (0x4)
+                0x2000006c                __data_end__ = .
+                0x2000006c                _edata = __data_end__
+
+.igot.plt       0x2000006c        0x0 load address 0x08002be0
+ .igot.plt      0x00000000        0x0 c:/program files/gnu tools arm embedded/4.7 2013q3/bin/../lib/gcc/arm-none-eabi/4.7.4/../../../../arm-none-eabi/lib/armv7-m\libg.a(lib_a-memcmp.o)
+
+.bss            0x2000006c      0xbac load address 0x08002be0
+                0x2000006c                . = ALIGN (0x4)
+                0x2000006c                __bss_start__ = .
+                0x2000006c                _sbss = __bss_start__
+ *(.bss*)
+ .bss           0x2000006c      0xba8 C:\Users\cgusevy\AppData\Local\Temp\ccRFL7eV.ltrans0.ltrans.o
+                0x2000006c                gDATABUF
+                0x20000aa8                card_type
+                0x20000ad4                sock_io_mode.4089
+                0x20000bfa                sock_is_sending.4085
+                0x20000bfc                sock_remained_size.4086
+                0x20000c0c                sock_pack_info.4087
+ .bss           0x20000c14        0x4 C:\Users\cgusevy\AppData\Local\Temp\ccRFL7eV.ltrans3.ltrans.o
+ *(COMMON)
+                0x20000c18                . = ALIGN (0x4)
+                0x20000c18                __bss_end__ = .
+                0x20000c18                _ebss = __bss_end__
+
+.heap           0x20000c18        0x0
+                0x20000c18                __end__ = .
+                0x20000c18                _end = __end__
+                0x20000c18                end = __end__
+ *(.heap*)
+                0x20000c18                __HeapLimit = .
+
+.co_stack       0x20000c18      0x400 load address 0x0800378c
+                0x20000c18                . = ALIGN (0x8)
+ *(.co_stack .co_stack.*)
+ .co_stack      0x20000c18      0x400 C:\Users\cgusevy\AppData\Local\Temp\ccRFL7eV.ltrans3.ltrans.o
+                0x20002000                __StackTop = (ORIGIN (ram) + 0x2000)
+                0x20001c00                __StackLimit = (__StackTop - SIZEOF (.co_stack))
+                0x20002000                PROVIDE (__stack, __StackTop)
+                0x00000001                ASSERT ((__StackLimit >= __HeapLimit), region ram  overflowed with stack)
+LOAD ..\obj\socket.o
+LOAD C:\Users\cgusevy\AppData\Local\Temp\ccRFL7eV.ltrans0.ltrans.o
+LOAD C:\Users\cgusevy\AppData\Local\Temp\ccRFL7eV.ltrans1.ltrans.o
+LOAD C:\Users\cgusevy\AppData\Local\Temp\ccRFL7eV.ltrans2.ltrans.o
+LOAD C:\Users\cgusevy\AppData\Local\Temp\ccRFL7eV.ltrans3.ltrans.o
+LOAD c:/program files/gnu tools arm embedded/4.7 2013q3/bin/../lib/gcc/arm-none-eabi/4.7.4/armv7-m\libgcc.a
+LOAD c:/program files/gnu tools arm embedded/4.7 2013q3/bin/../lib/gcc/arm-none-eabi/4.7.4/../../../../arm-none-eabi/lib/armv7-m\libg.a
+LOAD c:/program files/gnu tools arm embedded/4.7 2013q3/bin/../lib/gcc/arm-none-eabi/4.7.4/../../../../arm-none-eabi/lib/armv7-m\libc.a
+LOAD ..\obj\spi.o
+LOAD ..\obj\stm32f10x_tim.o
+LOAD ..\obj\startup_stm32f10x_md_vl.o
+LOAD ..\obj\system_stm32f10x.o
+LOAD ..\obj\stm32f10x_pwr.o
+LOAD ..\obj\stm32f10x_gpio.o
+LOAD ..\obj\mmc.o
+LOAD ..\obj\main.o
+LOAD ..\obj\wizchip_conf.o
+LOAD ..\obj\stm32f10x_rcc.o
+LOAD ..\obj\w5500.o
+LOAD ..\obj\syscalls.o
+LOAD ..\obj\ff.o
+LOAD ..\obj\misc.o
+LOAD ..\obj\stm32f10x_spi.o
+LOAD ..\obj\stm32f10x_bkp.o
+START GROUP
+LOAD c:/program files/gnu tools arm embedded/4.7 2013q3/bin/../lib/gcc/arm-none-eabi/4.7.4/armv7-m\libgcc.a
+LOAD c:/program files/gnu tools arm embedded/4.7 2013q3/bin/../lib/gcc/arm-none-eabi/4.7.4/../../../../arm-none-eabi/lib/armv7-m\libg.a
+LOAD c:/program files/gnu tools arm embedded/4.7 2013q3/bin/../lib/gcc/arm-none-eabi/4.7.4/../../../../arm-none-eabi/lib/armv7-m\libc.a
+END GROUP
+OUTPUT(web_discovery_sd.elf elf32-littlearm)
+
+.debug_info     0x00000000     0x72cd
+ .debug_info    0x00000000     0x3250 C:\Users\cgusevy\AppData\Local\Temp\ccRFL7eV.ltrans0.ltrans.o
+ .debug_info    0x00003250     0x1d0c C:\Users\cgusevy\AppData\Local\Temp\ccRFL7eV.ltrans1.ltrans.o
+ .debug_info    0x00004f5c     0x1e00 C:\Users\cgusevy\AppData\Local\Temp\ccRFL7eV.ltrans2.ltrans.o
+ .debug_info    0x00006d5c      0x571 C:\Users\cgusevy\AppData\Local\Temp\ccRFL7eV.ltrans3.ltrans.o
+
+.debug_abbrev   0x00000000     0x10bd
+ .debug_abbrev  0x00000000      0x4d3 C:\Users\cgusevy\AppData\Local\Temp\ccRFL7eV.ltrans0.ltrans.o
+ .debug_abbrev  0x000004d3      0x45a C:\Users\cgusevy\AppData\Local\Temp\ccRFL7eV.ltrans1.ltrans.o
+ .debug_abbrev  0x0000092d      0x5db C:\Users\cgusevy\AppData\Local\Temp\ccRFL7eV.ltrans2.ltrans.o
+ .debug_abbrev  0x00000f08      0x1b5 C:\Users\cgusevy\AppData\Local\Temp\ccRFL7eV.ltrans3.ltrans.o
+
+.debug_loc      0x00000000     0x39c8
+ .debug_loc     0x00000000     0x152f C:\Users\cgusevy\AppData\Local\Temp\ccRFL7eV.ltrans0.ltrans.o
+ .debug_loc     0x0000152f     0x1172 C:\Users\cgusevy\AppData\Local\Temp\ccRFL7eV.ltrans1.ltrans.o
+ .debug_loc     0x000026a1     0x11b5 C:\Users\cgusevy\AppData\Local\Temp\ccRFL7eV.ltrans2.ltrans.o
+ .debug_loc     0x00003856      0x172 C:\Users\cgusevy\AppData\Local\Temp\ccRFL7eV.ltrans3.ltrans.o
+
+.debug_aranges  0x00000000       0x80
+ .debug_aranges
+                0x00000000       0x20 C:\Users\cgusevy\AppData\Local\Temp\ccRFL7eV.ltrans0.ltrans.o
+ .debug_aranges
+                0x00000020       0x20 C:\Users\cgusevy\AppData\Local\Temp\ccRFL7eV.ltrans1.ltrans.o
+ .debug_aranges
+                0x00000040       0x20 C:\Users\cgusevy\AppData\Local\Temp\ccRFL7eV.ltrans2.ltrans.o
+ .debug_aranges
+                0x00000060       0x20 C:\Users\cgusevy\AppData\Local\Temp\ccRFL7eV.ltrans3.ltrans.o
+
+.debug_ranges   0x00000000      0x910
+ .debug_ranges  0x00000000      0x620 C:\Users\cgusevy\AppData\Local\Temp\ccRFL7eV.ltrans0.ltrans.o
+ .debug_ranges  0x00000620      0x218 C:\Users\cgusevy\AppData\Local\Temp\ccRFL7eV.ltrans1.ltrans.o
+ .debug_ranges  0x00000838       0x90 C:\Users\cgusevy\AppData\Local\Temp\ccRFL7eV.ltrans2.ltrans.o
+ .debug_ranges  0x000008c8       0x48 C:\Users\cgusevy\AppData\Local\Temp\ccRFL7eV.ltrans3.ltrans.o
+
+.debug_line     0x00000000     0x15ca
+ .debug_line    0x00000000      0x767 C:\Users\cgusevy\AppData\Local\Temp\ccRFL7eV.ltrans0.ltrans.o
+ .debug_line    0x00000767      0x54c C:\Users\cgusevy\AppData\Local\Temp\ccRFL7eV.ltrans1.ltrans.o
+ .debug_line    0x00000cb3      0x6d0 C:\Users\cgusevy\AppData\Local\Temp\ccRFL7eV.ltrans2.ltrans.o
+ .debug_line    0x00001383      0x247 C:\Users\cgusevy\AppData\Local\Temp\ccRFL7eV.ltrans3.ltrans.o
+
+.debug_str      0x00000000     0x17c4
+ .debug_str     0x00000000     0x102e C:\Users\cgusevy\AppData\Local\Temp\ccRFL7eV.ltrans0.ltrans.o
+                               0x10e2 (size before relaxing)
+ .debug_str     0x0000102e      0x224 C:\Users\cgusevy\AppData\Local\Temp\ccRFL7eV.ltrans1.ltrans.o
+                                0x8e7 (size before relaxing)
+ .debug_str     0x00001252      0x3b4 C:\Users\cgusevy\AppData\Local\Temp\ccRFL7eV.ltrans2.ltrans.o
+                                0xa3b (size before relaxing)
+ .debug_str     0x00001606      0x1be C:\Users\cgusevy\AppData\Local\Temp\ccRFL7eV.ltrans3.ltrans.o
+                                0x2c7 (size before relaxing)
+
+.comment        0x00000000       0x70
+ .comment       0x00000000       0x70 C:\Users\cgusevy\AppData\Local\Temp\ccRFL7eV.ltrans0.ltrans.o
+                                 0x71 (size before relaxing)
+ .comment       0x00000000       0x71 C:\Users\cgusevy\AppData\Local\Temp\ccRFL7eV.ltrans1.ltrans.o
+ .comment       0x00000000       0x71 C:\Users\cgusevy\AppData\Local\Temp\ccRFL7eV.ltrans2.ltrans.o
+ .comment       0x00000000       0x71 C:\Users\cgusevy\AppData\Local\Temp\ccRFL7eV.ltrans3.ltrans.o
+
+.ARM.attributes
+                0x00000000       0x33
+ .ARM.attributes
+                0x00000000       0x31 C:\Users\cgusevy\AppData\Local\Temp\ccRFL7eV.ltrans0.ltrans.o
+ .ARM.attributes
+                0x00000031       0x31 C:\Users\cgusevy\AppData\Local\Temp\ccRFL7eV.ltrans1.ltrans.o
+ .ARM.attributes
+                0x00000062       0x31 C:\Users\cgusevy\AppData\Local\Temp\ccRFL7eV.ltrans2.ltrans.o
+ .ARM.attributes
+                0x00000093       0x31 C:\Users\cgusevy\AppData\Local\Temp\ccRFL7eV.ltrans3.ltrans.o
+ .ARM.attributes
+                0x000000c4       0x2d c:/program files/gnu tools arm embedded/4.7 2013q3/bin/../lib/gcc/arm-none-eabi/4.7.4/../../../../arm-none-eabi/lib/armv7-m\libg.a(lib_a-memcmp.o)
+ .ARM.attributes
+                0x000000f1       0x2d c:/program files/gnu tools arm embedded/4.7 2013q3/bin/../lib/gcc/arm-none-eabi/4.7.4/../../../../arm-none-eabi/lib/armv7-m\libg.a(lib_a-strcat.o)
+ .ARM.attributes
+                0x0000011e       0x2d c:/program files/gnu tools arm embedded/4.7 2013q3/bin/../lib/gcc/arm-none-eabi/4.7.4/../../../../arm-none-eabi/lib/armv7-m\libg.a(lib_a-strchr.o)
+ .ARM.attributes
+                0x0000014b       0x2d c:/program files/gnu tools arm embedded/4.7 2013q3/bin/../lib/gcc/arm-none-eabi/4.7.4/../../../../arm-none-eabi/lib/armv7-m\libg.a(lib_a-strcmp.o)
+ .ARM.attributes
+                0x00000178       0x2d c:/program files/gnu tools arm embedded/4.7 2013q3/bin/../lib/gcc/arm-none-eabi/4.7.4/../../../../arm-none-eabi/lib/armv7-m\libg.a(lib_a-strcpy.o)
+ .ARM.attributes
+                0x000001a5       0x2d c:/program files/gnu tools arm embedded/4.7 2013q3/bin/../lib/gcc/arm-none-eabi/4.7.4/../../../../arm-none-eabi/lib/armv7-m\libg.a(lib_a-strlen.o)
+ .ARM.attributes
+                0x000001d2       0x2d c:/program files/gnu tools arm embedded/4.7 2013q3/bin/../lib/gcc/arm-none-eabi/4.7.4/../../../../arm-none-eabi/lib/armv7-m\libg.a(lib_a-strlwr.o)
+ .ARM.attributes
+                0x000001ff       0x2d c:/program files/gnu tools arm embedded/4.7 2013q3/bin/../lib/gcc/arm-none-eabi/4.7.4/../../../../arm-none-eabi/lib/armv7-m\libg.a(lib_a-strrchr.o)
+ .ARM.attributes
+                0x0000022c       0x2d c:/program files/gnu tools arm embedded/4.7 2013q3/bin/../lib/gcc/arm-none-eabi/4.7.4/../../../../arm-none-eabi/lib/armv7-m\libg.a(lib_a-ctype_.o)
+
+.debug_frame    0x00000000      0x72c
+ .debug_frame   0x00000000       0x2c C:\Users\cgusevy\AppData\Local\Temp\ccRFL7eV.ltrans0.ltrans.o
+ .debug_frame   0x0000002c      0x164 C:\Users\cgusevy\AppData\Local\Temp\ccRFL7eV.ltrans1.ltrans.o
+ .debug_frame   0x00000190      0x398 C:\Users\cgusevy\AppData\Local\Temp\ccRFL7eV.ltrans2.ltrans.o
+ .debug_frame   0x00000528       0xbc C:\Users\cgusevy\AppData\Local\Temp\ccRFL7eV.ltrans3.ltrans.o
+ .debug_frame   0x000005e4       0x2c c:/program files/gnu tools arm embedded/4.7 2013q3/bin/../lib/gcc/arm-none-eabi/4.7.4/../../../../arm-none-eabi/lib/armv7-m\libg.a(lib_a-memcmp.o)
+ .debug_frame   0x00000610       0x2c c:/program files/gnu tools arm embedded/4.7 2013q3/bin/../lib/gcc/arm-none-eabi/4.7.4/../../../../arm-none-eabi/lib/armv7-m\libg.a(lib_a-strcat.o)
+ .debug_frame   0x0000063c       0x2c c:/program files/gnu tools arm embedded/4.7 2013q3/bin/../lib/gcc/arm-none-eabi/4.7.4/../../../../arm-none-eabi/lib/armv7-m\libg.a(lib_a-strchr.o)
+ .debug_frame   0x00000668       0x30 c:/program files/gnu tools arm embedded/4.7 2013q3/bin/../lib/gcc/arm-none-eabi/4.7.4/../../../../arm-none-eabi/lib/armv7-m\libg.a(lib_a-strcmp.o)
+ .debug_frame   0x00000698       0x20 c:/program files/gnu tools arm embedded/4.7 2013q3/bin/../lib/gcc/arm-none-eabi/4.7.4/../../../../arm-none-eabi/lib/armv7-m\libg.a(lib_a-strcpy.o)
+ .debug_frame   0x000006b8       0x20 c:/program files/gnu tools arm embedded/4.7 2013q3/bin/../lib/gcc/arm-none-eabi/4.7.4/../../../../arm-none-eabi/lib/armv7-m\libg.a(lib_a-strlen.o)
+ .debug_frame   0x000006d8       0x28 c:/program files/gnu tools arm embedded/4.7 2013q3/bin/../lib/gcc/arm-none-eabi/4.7.4/../../../../arm-none-eabi/lib/armv7-m\libg.a(lib_a-strlwr.o)
+ .debug_frame   0x00000700       0x2c c:/program files/gnu tools arm embedded/4.7 2013q3/bin/../lib/gcc/arm-none-eabi/4.7.4/../../../../arm-none-eabi/lib/armv7-m\libg.a(lib_a-strrchr.o)
