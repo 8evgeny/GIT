@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<history>
+   <processor signature="4.7.4 -mcpu=cortex-m3 -mthumb -g -nostartfiles -flto -Map=web_discovery_sd.map -Os --gc-sections --entry=main -LC:\CooCox\CoIDE\configuration\ProgramData\web_discovery_sd -TC:\CooCox\CoIDE\configuration\ProgramData\web_discovery_sd/arm-gcc-link.ld -g">
+      <target file="web_discovery_sd.elf" lastModified="14844c7efcc">
+         <source file="..\obj\socket.o" lastModified="14844c7dc04"/>
+         <source file="..\obj\spi.o" lastModified="14844c7dc61"/>
+         <source file="..\obj\stm32f10x_tim.o" lastModified="14844c7de66"/>
+         <source file="..\obj\startup_stm32f10x_md_vl.o" lastModified="14844c7deaa"/>
+         <source file="..\obj\system_stm32f10x.o" lastModified="14844c7df0e"/>
+         <source file="..\obj\stm32f10x_pwr.o" lastModified="14844c7df75"/>
+         <source file="..\obj\stm32f10x_gpio.o" lastModified="14844c7e01a"/>
+         <source file="..\obj\mmc.o" lastModified="14844c7e11d"/>
+         <source file="..\obj\main.o" lastModified="14844c7e1f5"/>
+         <source file="..\obj\wizchip_conf.o" lastModified="14844c7e2eb"/>
+         <source file="..\obj\stm32f10x_rcc.o" lastModified="14844c7e3c6"/>
+         <source file="..\obj\w5500.o" lastModified="14844c7e45a"/>
+         <source file="..\obj\syscalls.o" lastModified="14844c7e4ad"/>
+         <source file="..\obj\ff.o" lastModified="14844c7e7ca"/>
+         <source file="..\obj\misc.o" lastModified="14844c7e831"/>
+         <source file="..\obj\stm32f10x_spi.o" lastModified="14844c7e8ed"/>
+         <source file="..\obj\stm32f10x_bkp.o" lastModified="14844c7e95d"/>
+      </target>
+   </processor>
+</history>

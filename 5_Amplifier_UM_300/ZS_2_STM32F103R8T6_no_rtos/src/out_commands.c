@@ -32,6 +32,6 @@ void setRele24V(bool set) { if(set) gpio_clear(GPIOC, GPIO9);  else gpio_set(GPI
 
 //Тестовые задачи
 void setTestLed1(bool set) { if(set) gpio_clear(GPIOC, GPIO15);  else gpio_set(GPIOC, GPIO15);}
-void setTestLed2(bool set) { if(set) gpio_clear(GPIOC, GPIO14);  else gpio_set(GPIOC, GPIO14);}
+void setTestLed2(bool set) { if(set) gpio_clear(GPIOD, GPIO2);  else gpio_set(GPIOD, GPIO2);}
 void setTestLed3(bool set) { if(set) gpio_clear(GPIOC, GPIO5);  else gpio_set(GPIOC, GPIO5);}
 

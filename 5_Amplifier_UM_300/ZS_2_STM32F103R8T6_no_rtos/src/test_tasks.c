@@ -58,9 +58,9 @@ void testTask2(void *args __attribute((unused)))
     for (;;)
     {
         setTestLed2(true);
-        vTaskDelay(pdMS_TO_TICKS(100));
+        vTaskDelay(pdMS_TO_TICKS(1000));
         setTestLed2(false);
-        vTaskDelay(pdMS_TO_TICKS(100));
+        vTaskDelay(pdMS_TO_TICKS(1000));
     }
 }
 
