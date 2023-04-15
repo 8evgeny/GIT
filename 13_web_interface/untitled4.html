@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Hello...</title>
+<style>
+.highlight {
+font-family: "Arial";
+padding: 30px;
+}
+.summer {
+font-size: 64px;
+color: #0099FF;
+}
+</style>
+</head>
+<body>
+<h1 id="bigMessage" class="highlight summer">What's happening?</h1>
+<script>
+	let headingElement = document.querySelector("#bigMessage");
+	headingElement.textContent = "Oppa Gangnam Style!";
+	console.log(headingElement.getAttribute("id")); // bigMessage
+</script>
+</body>
+</html>
