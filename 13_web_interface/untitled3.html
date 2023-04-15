@@ -25,18 +25,19 @@
 	let counter = 0;
 	function doSomething(e) 
 	{
-		counter++;
-		console.log("Button clicked " + counter + " times!");
-	
-		if (counter == 3) 
+		let words = ["Where", "do", "you", "want", "to", "go", "today?"];
+		let phrase = words.reduce(function (total, current, index) 
 		{
-			showMore();
-		}
-		function showMore() 
-		{
-			console.warn("This is a warning!");
-			console.error("This is an error!");
-		}
+			if (index == 0) 
+			{
+			return current;
+			} 
+			else 
+			{
+				return total + " " + current;
+			}
+		}, "");
+		console.log(phrase);
 	}
 </script> </body>
 </html>
