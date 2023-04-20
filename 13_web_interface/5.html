@@ -1,0 +1,32 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>Листинг 7.4</title>
+</head>
+<body><h3>Листинг 7.4</h3><hr>
+<b>Выполнение команд.</b><br>
+<!-- Начало сценария -->
+<script type="text/javascript">
+// Оператор цикла:
+while(window.confirm("Готовы ввести коман?"))
+{
+	var res
+	// Отображение окна с полем ввода:
+	res=window.prompt("Введите команду")
+	if(res!=null)
+	{
+		// Отображение результата выполнения команды:
+		document.write(res+" = "+eval(res)+"<br>")
+	}
+	else
+	{
+		// Завершение while
+		break
+	}
+}
+// Отоюражение сообщения:
+window.alert("Выполнение сценария завершено")
+</script>
+<!-- Завершение сценария -->
+</body>
+</html>
