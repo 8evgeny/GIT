@@ -38,24 +38,58 @@
 
 <script>
 
-function sendFunction1() {
-	  let x = document.getElementById("frm1").elements[0].value;
+function sendFunction1() 
+{
+	let x = document.getElementById("frm1").elements[0].value;
   if (x == "") 
   {
-    alert("Name must be filled out");
+  	document.getElementById("demo").innerHTML = "Name must be filled out";
     return false;
   }
- 	document.getElementById("frm1").submit();
+  const xhttp = new XMLHttpRequest();
+  xhttp.open("GET", 1+x);
+  xhttp.send();
 }
-function sendFunction2() {
-  document.getElementById("frm2").submit();
+
+function sendFunction2() 
+{
+	let x = document.getElementById("frm2").elements[0].value;
+  if (x == "") 
+  {
+  	document.getElementById("demo").innerHTML = "Name must be filled out";
+    return false;
+  }
+  const xhttp = new XMLHttpRequest();
+  xhttp.open("GET", 2+x);
+  xhttp.send();
 }
-function sendFunction3() {
-  document.getElementById("frm3").submit();
+
+function sendFunction3() 
+{
+	let x = document.getElementById("frm3").elements[0].value;
+  if (x == "") 
+  {
+  	document.getElementById("demo").innerHTML = "Name must be filled out";
+    return false;
+  }
+  const xhttp = new XMLHttpRequest();
+  xhttp.open("GET", 3+x);
+  xhttp.send();
 }
-function sendFunction4() {
-  document.getElementById("frm4").submit();
+
+function sendFunction4() 
+{
+	let x = document.getElementById("frm4").elements[0].value;
+  if (x == "") 
+  {
+  	document.getElementById("demo").innerHTML = "Name must be filled out";
+    return false;
+  }
+  const xhttp = new XMLHttpRequest();
+  xhttp.open("GET", 4+x);
+  xhttp.send();
 }
+
 </script>
 </body> 
 </html>
