@@ -12,20 +12,23 @@
  	 	<label for="host_ip">host_ip:&nbsp;&nbsp;</label> 
  	 	<input type="text" id="host_ip" name="host_ip" value="192.168.1.198">
  	 	<br>
-
+	</form> 
+	<form id="frm2" >
  	 	<label for="mask">mask:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
  	 	<input type="text" id="mask" name="mask" value="255.255.255.0">
  	 	<br>
-
+	</form> 
+	<form id="frm3" >
  	 	<label for="gateway">gateway:</label>
  	 	<input type="text" id="gateway" name="gateway" value="192.168.1.1">
  	 	<br>
-
+	</form> 
+	<form id="frm4" >
  	 	<label for="dest_ip">dest_ip:&nbsp;&nbsp;</label>
  	 	<input type="text" id="dest_ip" name="dest_ip" value="192.168.1.197">
  	 	<br>
-		<button type="submit">send</button>
 	</form> 
+
 <button onclick="sendFunction1()">Change host_ip</button>
 <button onclick="sendFunction2()">Change mask</button>
 <button onclick="sendFunction3()">Change gateway</button>
@@ -36,32 +39,16 @@
 <script>
 
 function sendFunction1() {
-  var x = document.getElementById("frm1");
-  var text = "";
-  text += x.elements[0].value + "<br>";
-  document.getElementById("demo").innerHTML = text;
   document.getElementById("frm1").submit();
 }
 function sendFunction2() {
-  var x = document.getElementById("frm1");
-  var text = "";
-  text += x.elements[1].value + "<br>";
-  document.getElementById("demo").innerHTML = text;
-  document.getElementById("frm1").submit();
+  document.getElementById("frm2").submit();
 }
 function sendFunction3() {
-  var x = document.getElementById("frm1");
-  var text = "";
-  text += x.elements[2].value + "<br>";
-  document.getElementById("demo").innerHTML = text;
-  document.getElementById("frm1").submit();
+  document.getElementById("frm3").submit();
 }
 function sendFunction4() {
-  var x = document.getElementById("frm1");
-  var text = "";
-  text += x.elements[3].value + "<br>";
-  document.getElementById("demo").innerHTML = text;
-  document.getElementById("frm1").submit();
+  document.getElementById("frm4").submit();
 }
 </script>
 </body> 
