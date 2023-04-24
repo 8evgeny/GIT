@@ -39,6 +39,12 @@
 <script>
 
 function sendFunction1() {
+	  let x = document.getElementById("frm1").elements[0].value;
+  if (x == "") 
+  {
+    alert("Name must be filled out");
+    return false;
+  }
  	document.getElementById("frm1").submit();
 }
 function sendFunction2() {
