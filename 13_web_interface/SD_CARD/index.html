@@ -1,0 +1,95 @@
+<!DOCTYPE html> 
+<html>
+	<head> 
+	<title>Git-holding. Bridge IDSN<->IP</title>
+
+	</style> 
+	</head>
+	<body> 
+	<h3>Setup IP bridge:</h3>	
+
+	<form id="frm1" >
+ 	 	<label for="host_ip">host_ip:&nbsp;&nbsp;</label> 
+ 	 	<input type="text" id="host_ip" name="host_ip" value="192.168.1.198">
+ 	 	<br>
+	</form> 
+	<form id="frm2" >
+ 	 	<label for="mask">mask:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+ 	 	<input type="text" id="mask" name="mask" value="255.255.255.0">
+ 	 	<br>
+	</form> 
+	<form id="frm3" >
+ 	 	<label for="gateway">gateway:</label>
+ 	 	<input type="text" id="gateway" name="gateway" value="192.168.1.1">
+ 	 	<br>
+	</form> 
+	<form id="frm4" >
+ 	 	<label for="dest_ip">dest_ip:&nbsp;&nbsp;</label>
+ 	 	<input type="text" id="dest_ip" name="dest_ip" value="192.168.1.197">
+ 	 	<br>
+	</form> 
+
+<button onclick="sendFunction1()">Change host_ip</button>
+<button onclick="sendFunction2()">Change mask</button>
+<button onclick="sendFunction3()">Change gateway</button>
+<button onclick="sendFunction4()">Change dest_ip</button>
+
+<p id="demo"></p>
+
+<script>
+
+function sendFunction1() 
+{
+	let x = document.getElementById("frm1").elements[0].value;
+  if (x == "") 
+  {
+  	document.getElementById("demo").innerHTML = "Name must be filled out";
+    return false;
+  }
+  const xhttp = new XMLHttpRequest();
+  xhttp.open("GET", 1+x);
+  xhttp.send();
+}
+
+function sendFunction2() 
+{
+	let x = document.getElementById("frm2").elements[0].value;
+  if (x == "") 
+  {
+  	document.getElementById("demo").innerHTML = "Name must be filled out";
+    return false;
+  }
+  const xhttp = new XMLHttpRequest();
+  xhttp.open("GET", 2+x);
+  xhttp.send();
+}
+
+function sendFunction3() 
+{
+	let x = document.getElementById("frm3").elements[0].value;
+  if (x == "") 
+  {
+  	document.getElementById("demo").innerHTML = "Name must be filled out";
+    return false;
+  }
+  const xhttp = new XMLHttpRequest();
+  xhttp.open("GET", 3+x);
+  xhttp.send();
+}
+
+function sendFunction4() 
+{
+	let x = document.getElementById("frm4").elements[0].value;
+  if (x == "") 
+  {
+  	document.getElementById("demo").innerHTML = "Name must be filled out";
+    return false;
+  }
+  const xhttp = new XMLHttpRequest();
+  xhttp.open("GET", 4+x);
+  xhttp.send();
+}
+
+</script>
+</body> 
+</html>
