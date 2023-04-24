@@ -28,37 +28,67 @@
 	<form id="frm1" >
  	 	<label for="host_ip">host_ip:&nbsp;&nbsp;</label> 
  	 	<input type="text" id="host_ip" name="host_ip" value="192.168.1.198">
- 	 	<input type="submit" id="submit_host_ip" value="Изменить"><br>
+ 	 	<!-- <input type="submit" id="submit_host_ip" value="Изменить" onclick="sendFunction1()"> -->
+ 	 	<br>
 
  	 	<label for="mask">mask:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
  	 	<input type="text" id="mask" name="mask" value="255.255.255.0">
- 	 	<input type="submit" id="submit_mask" value="Изменить"><br>
+ 	 	<!-- <input type="submit" id="submit_mask" value="Изменить" onclick="sendFunction2()"> -->
+ 	 	<br>
 
  	 	<label for="gateway">gateway:</label>
  	 	<input type="text" id="gateway" name="gateway" value="192.168.1.1">
- 	 	<input type="submit" id="submit_gateway" value="Изменить"><br>
+ 	 	<!-- <input type="submit" id="submit_gateway" value="Изменить" onclick="sendFunction3()"> -->
+ 	 	<br>
 
  	 	<label for="dest_ip">dest_ip:&nbsp;&nbsp;</label>
  	 	<input type="text" id="dest_ip" name="dest_ip" value="192.168.1.197">
- 	 	<input type="submit" id="submit_dest_ip" value="Изменить"><br>
+ 	 	<!-- <input type="submit" id="submit_dest_ip" value="Изменить" onclick="sendFunction4()"> -->
+ 	 	<br>
 
 	</form> 
-<button onclick="sendFunction()">Try it</button>
+<!-- <button onclick="sendFunction()">Try it</button> -->
+<button onclick="sendFunction1()">Изменить host_ip</button>
+<button onclick="sendFunction2()">Изменить mask</button>
+<button onclick="sendFunction3()">Изменить gateway</button>
+<button onclick="sendFunction4()">Изменить dest_ip</button>
+
 <p id="demo"></p>
-<h3>The window.location object</h3>
-<p id="demo1"></p>
+
 <script>
-function sendFunction() {
+// function sendFunction() {
+//   var x = document.getElementById("frm1");
+//   var text = "";
+//   var i;
+//   for (i = 0; i < x.length ;i=i+2) {
+//     text += x.elements[i].value + "<br>";
+//   }
+//   document.getElementById("demo").innerHTML = text;
+// }
+
+function sendFunction1() {
   var x = document.getElementById("frm1");
   var text = "";
-  var i;
-  for (i = 0; i < x.length ;i=i+2) {
-    text += x.elements[i].value + "<br>";
-  }
+  text += x.elements[0].value + "<br>";
   document.getElementById("demo").innerHTML = text;
 }
-
-document.getElementById("demo1").innerHTML = 
-"The full URL of this page is:<br>" + window.location.href;
+function sendFunction2() {
+  var x = document.getElementById("frm1");
+  var text = "";
+  text += x.elements[1].value + "<br>";
+  document.getElementById("demo").innerHTML = text;
+}
+function sendFunction3() {
+  var x = document.getElementById("frm1");
+  var text = "";
+  text += x.elements[2].value + "<br>";
+  document.getElementById("demo").innerHTML = text;
+}
+function sendFunction4() {
+  var x = document.getElementById("frm1");
+  var text = "";
+  text += x.elements[3].value + "<br>";
+  document.getElementById("demo").innerHTML = text;
+}
 </script>
 </html>
