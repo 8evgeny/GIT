@@ -38,11 +38,8 @@
   client.open('GET', '/host_IP');
   client.onreadystatechange = function() 
   {
-    document.getElementById("frm1").elements[0].value=
-    client.responseText.toString().substring(0, 2) + '.' +
-    client.responseText.toString().substring(3, 5) + '.' +
-    client.responseText.toString().substring(6, 8) + '.' +
-    client.responseText.toString().substring(9, 11);
+    document.getElementById("frm1").elements[0].value=client.responseText.toString().substring(0, 3)+"."
+    +client.responseText.toString().substring(4, 8);
   }
   client.send();
   
