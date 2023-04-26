@@ -1,42 +1,56 @@
 <!DOCTYPE html> 
 <html>
-	<head> 
-	<title>Git-holding. Bridge IDSN<->IP</title>
-
-	</style> 
-	</head>
-	<body> 
-	<h3>Setup IP bridge:</h3>	
-
-	<form id="frm1" >
- 	 	<label for="host_ip">host_ip:&nbsp;&nbsp;</label> 
- 	 	<input type="text" id="host_ip" name="host_ip" value="192.168.1.198">
- 	 	<br>
-	</form> 
-	<form id="frm2" >
- 	 	<label for="mask">mask:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
- 	 	<input type="text" id="mask" name="mask" value="255.255.255.0">
- 	 	<br>
-	</form> 
-	<form id="frm3" >
- 	 	<label for="gateway">gateway:</label>
- 	 	<input type="text" id="gateway" name="gateway" value="192.168.1.1">
- 	 	<br>
-	</form> 
-	<form id="frm4" >
- 	 	<label for="dest_ip">dest_ip:&nbsp;&nbsp;</label>
- 	 	<input type="text" id="dest_ip" name="dest_ip" value="192.168.1.197">
- 	 	<br>
-	</form> 
+  <head> 
+  <title>Git-holding. Bridge IDSN<->IP</title>
+  </style> 
+  </head>
+  <body> 
+  <h3>Setup IP bridge:</h3> 
+  <form id="frm1" >
+    <label for="host_ip">host_ip:&nbsp;&nbsp;</label> 
+    <input type="text" id="host_ip" name="host_ip" value="192.168.1.198"><br>
+  </form> 
+  <form id="frm2" >
+    <label for="mask">mask:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+    <input type="text" id="mask" name="mask" value="255.255.255.0"><br>
+  </form> 
+  <form id="frm3" >
+    <label for="gateway">gateway:</label>
+    <input type="text" id="gateway" name="gateway" value="192.168.1.1"><br>
+  </form> 
+  <form id="frm4" >
+    <label for="dest_ip">dest_ip:&nbsp;&nbsp;</label>
+    <input type="text" id="dest_ip" name="dest_ip" value="192.168.1.197"><br>
+  </form> 
 
 <button onclick="sendFunction1()">Change host_ip</button>
 <button onclick="sendFunction2()">Change mask</button>
 <button onclick="sendFunction3()">Change gateway</button>
 <button onclick="sendFunction4()">Change dest_ip</button>
 
-<p id="demo"></p>
+<p id="demo1"></p>
+<p id="demo2"></p>
+<p id="demo3"></p>
+<p id="demo4"></p>
 
 <script>
+  // var client = new XMLHttpRequest();
+  // client.open('GET', '/host_IP');
+  // client.onreadystatechange = function() 
+  // {
+  //   // alert(client.responseText);
+  //   var tmp = client.responseText;
+  //   let a1 = tmp.substr(0, 2);
+  //   let a2 = tmp.substr(4, 6);
+  //   let a3 = tmp.substr(8, 10);
+  //   let a4 = tmp.substr(12, 14);
+  //   // document.getElementById("frm1").elements[0].value=a1+'.'+a2+'.'+a3+'.'+a4;
+  //   document.getElementById("frm1").elements[0].value=tmp;
+  // }
+  // client.send();
+
+  
+
 function ValidateIPaddress(ipaddress) 
 {  
   if (/^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(ipaddress)) {  
@@ -47,17 +61,17 @@ function ValidateIPaddress(ipaddress)
 } 
 function sendFunction1() 
 {
-	let x1 = document.getElementById("frm1").elements[0].value;
+  let x1 = document.getElementById("frm1").elements[0].value;
   if(ValidateIPaddress(x1))
   {
     const xhttp = new XMLHttpRequest();
     xhttp.open("GET", 1+x1);
     xhttp.send();
-    document.getElementById("demo").innerHTML = x1;
+    document.getElementById("demo1").innerHTML = x1;
   }
   else
   {
-      document.getElementById("demo").innerHTML = "Invalid host IP";
+      document.getElementById("demo1").innerHTML = "Invalid host IP";
       document.getElementById("frm1").elements[0].value = "";
       return false;
   }
@@ -71,11 +85,11 @@ function sendFunction2()
     const xhttp = new XMLHttpRequest();
     xhttp.open("GET", 2+x2);
     xhttp.send();
-    document.getElementById("demo").innerHTML = x2;
+    document.getElementById("demo1").innerHTML = x2;
   }
     else
   {
-      document.getElementById("demo").innerHTML = "Invalid mask IP";
+      document.getElementById("demo1").innerHTML = "Invalid mask IP";
       document.getElementById("frm2").elements[0].value = "";
       return false;
   }
@@ -92,7 +106,7 @@ function sendFunction3()
   }
      else
   {
-      document.getElementById("demo").innerHTML = "Invalid gate IP";
+      document.getElementById("demo1").innerHTML = "Invalid gate IP";
       document.getElementById("frm3").elements[0].value = "";
       return false;
   }
@@ -109,7 +123,7 @@ function sendFunction4()
   }
        else
   {
-      document.getElementById("demo").innerHTML = "Invalid dest IP";
+      document.getElementById("demo1").innerHTML = "Invalid dest IP";
       document.getElementById("frm4").elements[0].value = "";
       return false;
   }
