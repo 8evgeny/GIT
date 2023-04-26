@@ -47,6 +47,15 @@
   client.send();
   
 
+function sleep(milliseconds) 
+{
+  const date = Date.now();
+  let currentDate = null;
+  do {
+    currentDate = Date.now();
+  } while (currentDate - date < milliseconds);
+}
+
 function ValidateIPaddress(ipaddress) 
 {  
   if (/^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(ipaddress)) {  
@@ -71,6 +80,16 @@ function sendFunction1()
       document.getElementById("frm1").elements[0].value = "";
       return false;
   }
+
+  sleep(1000);
+  if(ValidateIPaddress(x1))
+  {
+    const xhttp = new XMLHttpRequest();
+    xhttp.open("GET", 1+x1);
+    xhttp.send();
+    document.getElementById("demo1").innerHTML = x1;
+  }
+
 }
 
 function sendFunction2() 
