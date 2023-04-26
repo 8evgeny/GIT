@@ -8,7 +8,7 @@
   <h3>Setup IP bridge:</h3> 
   <form id="frm1" >
     <label for="host_ip">host_ip:&nbsp;&nbsp;</label> 
-    <input type="text" id="host_ip" name="host_ip" value=""><br>
+    <input type="text" id="host_ip" name="host_ip" value="192.168.1.198"><br>
   </form> 
   <form id="frm2" >
     <label for="mask">mask:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
@@ -38,8 +38,11 @@
   client.open('GET', '/host_IP');
   client.onreadystatechange = function() 
   {
-    document.getElementById("frm1").elements[0].value=client.responseText.toString().substring(0, 3)+"."
-    +client.responseText.toString().substring(4, 8);
+  var one=client.responseText.toString().substring(0, 3)+"."+client.responseText.toString().substring(5,8)+".";
+  var two=client.responseText.toString().substring(10, 13)+".";
+  var tree=client.responseText.toString().substring(15, 18);
+  var text = one + two;
+    document.getElementById("frm1").elements[0].value=text + tree;
   }
   client.send();
   
