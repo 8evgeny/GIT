@@ -8,7 +8,7 @@
   <h3>Setup IP bridge:</h3> 
   <form id="frm1" >
     <label for="host_ip">host_ip:&nbsp;&nbsp;</label> 
-    <input type="text" id="host_ip" name="host_ip" value="192.168.1.198"><br>
+    <input type="text" id="host_ip" name="host_ip" value=""><br>
   </form> 
   <form id="frm2" >
     <label for="mask">mask:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
@@ -34,21 +34,14 @@
 <p id="demo4"></p>
 
 <script>
-  // var client = new XMLHttpRequest();
-  // client.open('GET', '/host_IP');
-  // client.onreadystatechange = function() 
-  // {
-  //   // alert(client.responseText);
-  //   var tmp = client.responseText;
-  //   let a1 = tmp.substr(0, 2);
-  //   let a2 = tmp.substr(4, 6);
-  //   let a3 = tmp.substr(8, 10);
-  //   let a4 = tmp.substr(12, 14);
-  //   // document.getElementById("frm1").elements[0].value=a1+'.'+a2+'.'+a3+'.'+a4;
-  //   document.getElementById("frm1").elements[0].value=tmp;
-  // }
-  // client.send();
-
+  var client = new XMLHttpRequest();
+  client.open('GET', '/host_IP_full');
+  client.onreadystatechange = function() 
+  {
+    var tmp = client.responseText;
+    document.getElementById("frm1").elements[0].value=tmp;
+  }
+  client.send();
   
 
 function ValidateIPaddress(ipaddress) 
