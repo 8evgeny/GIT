@@ -35,11 +35,14 @@
 
 <script>
   var client = new XMLHttpRequest();
-  client.open('GET', '/host_IP_full');
+  client.open('GET', '/host_IP');
   client.onreadystatechange = function() 
   {
-    var tmp = client.responseText;
-    document.getElementById("frm1").elements[0].value=tmp;
+    document.getElementById("frm1").elements[0].value=
+    client.responseText.toString().substring(0, 2) + '.' +
+    client.responseText.toString().substring(3, 5) + '.' +
+    client.responseText.toString().substring(6, 8) + '.' +
+    client.responseText.toString().substring(9, 11);
   }
   client.send();
   
