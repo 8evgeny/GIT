@@ -20,7 +20,7 @@
   </form> 
   <form id="frm4" >
     <label for="dest_ip">dest_ip:&nbsp;&nbsp;</label>
-    <input type="text" id="dest_ip" name="dest_ip" value="192.168.1.197"><br>
+    <input type="text" id="dest_ip" name="dest_ip" value=""><br>
   </form> 
 
 <button onclick="send()">Change </button>
@@ -35,13 +35,27 @@
   host.open('GET', '/host_IP');
   host.onreadystatechange = function() 
   {
-  var one=host.responseText.toString().substring(0, 3)+"."+host.responseText.toString().substring(5,8)+".";
-  var two=host.responseText.toString().substring(10, 13)+".";
-  var tree=host.responseText.toString().substring(15, 18);
-  var text = one + two;
-    document.getElementById("frm1").elements[0].value=text + tree;
+  var a1=host.responseText.toString().substring(0, 3)+"."+host.responseText.toString().substring(5,8)+".";
+  var a2=host.responseText.toString().substring(10, 13)+".";
+  var a3=host.responseText.toString().substring(15, 18);
+  var text1 = a1 + a2;
+  document.getElementById("frm1").elements[0].value=text1 + a3;
   }
+
+  let dest = new XMLHttpRequest();
+  dest.open('GET', '/dest_IP');
+  dest.onreadystatechange = function() 
+  {
+  var b1=dest.responseText.toString().substring(0, 3)+"."+dest.responseText.toString().substring(5,8)+".";
+  var b2=dest.responseText.toString().substring(10, 13)+".";
+  var b3=dest.responseText.toString().substring(15, 18);
+  var text2 = b1 + b2;
+  document.getElementById("frm4").elements[0].value=text2 + b3;
+  }
+
   host.send();
+  sleep(400);
+  dest.send();
   
 function sleep(milliseconds) 
 {
