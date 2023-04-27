@@ -23,10 +23,10 @@
     <input type="text" id="dest_ip" name="dest_ip" value="192.168.1.197"><br>
   </form> 
 
-<button onclick="send_host()">Change host_ip</button>
-<button onclick="send_mask()">Change mask</button>
+<button onclick="send()">Change </button>
+<!-- <button onclick="send_mask()">Change mask</button>
 <button onclick="send_gate()">Change gateway</button>
-<button onclick="send_dest()">Change dest_ip</button>
+<button onclick="send_dest()">Change dest_ip</button> -->
 
 <p id="demo1"></p>
 <p id="demo2"></p>
@@ -44,7 +44,6 @@
   var text = one + two;
     document.getElementById("frm1").elements[0].value=text + tree;
   }
-  sleep(1000);
   host.send();
   
 function sleep(milliseconds) 
@@ -55,6 +54,7 @@ function sleep(milliseconds)
     currentDate = Date.now();
   } while (currentDate - date < milliseconds);
 }
+
 function ValidateIPaddress(ipaddress) 
 {  
   if (/^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(ipaddress)) {  
@@ -63,7 +63,8 @@ function ValidateIPaddress(ipaddress)
   //alert("You have entered an invalid IP address!")  
   return (false)  
 } 
-function send_host() 
+
+function send() 
 {
   let x1 = document.getElementById("frm1").elements[0].value;
   if(ValidateIPaddress(x1))
@@ -83,10 +84,7 @@ function send_host()
   let xhttp1 = new XMLHttpRequest();
   xhttp1.open("GET", 1+x1);
   xhttp1.send();
-}
 
-function send_mask() 
-{
   let x2 = document.getElementById("frm2").elements[0].value;
   if(ValidateIPaddress(x2))
   {
@@ -101,10 +99,7 @@ function send_mask()
       document.getElementById("frm2").elements[0].value = "";
       return false;
   }
-}
 
-function send_gate() 
-{
   let x3 = document.getElementById("frm3").elements[0].value;
   if(ValidateIPaddress(x3))
   {
@@ -119,10 +114,7 @@ function send_gate()
       document.getElementById("frm3").elements[0].value = "";
       return false;
   }
-}
 
-function send_dest() 
-{
   let x4 = document.getElementById("frm3").elements[0].value;
   if(ValidateIPaddress(x4))
   {
