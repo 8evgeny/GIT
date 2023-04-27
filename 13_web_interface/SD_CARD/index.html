@@ -30,6 +30,7 @@
 
 <p id="demo" value=""></p>
 
+
 <script>
   let host = new XMLHttpRequest();
   host.open('GET', '/host_IP');
@@ -64,13 +65,12 @@
   document.getElementById("frm3").elements[0].value=text4 + d3;
   }
 
-
+  sleep(100);
   host.send();
-  sleep(700);
+  sleep(100);
   dest.send();
-  sleep(700);
+  sleep(100);
   gate.send();
-
   
 function sleep(milliseconds) 
 {
@@ -160,7 +160,18 @@ function send()
   document.getElementById("demo").innerHTML = "Bridge setup OK";
 
 }
-
+</script>
+<script>
+  let mask = new XMLHttpRequest();
+  mask.open('GET', '/mask_IP');
+  mask.onreadystatechange = function() 
+  {
+  let c1=mask.responseText.toString().substring(0, 3)+"."+mask.responseText.toString().substring(5,8)+".";
+  let c2=mask.responseText.toString().substring(10, 13)+".";
+  let c3=mask.responseText.toString().substring(15, 18);
+  let text3 = c1 + c2;
+  document.getElementById("frm2").elements[0].value=text3 + c3;
+  mask.send();
 </script>
 </body> 
 </html>
