@@ -12,7 +12,7 @@
   </form> 
   <form id="frm2" >
     <label for="mask">mask:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-    <input type="text" id="mask" name="mask" value="255.255.255.0"><br>
+    <input type="text" id="mask" name="mask" value=""><br>
   </form> 
   <form id="frm3" >
     <label for="gateway">gateway:</label>
@@ -53,9 +53,24 @@
   document.getElementById("frm4").elements[0].value=text2 + b3;
   }
 
+  let mask = new XMLHttpRequest();
+  mask.open('GET', '/mask_IP');
+  mask.onreadystatechange = function() 
+  {
+  var c1=mask.responseText.toString().substring(0, 3)+"."+mask.responseText.toString().substring(5,8)+".";
+  var c2=mask.responseText.toString().substring(10, 13)+".";
+  var c3=mask.responseText.toString().substring(15, 18);
+  var text3 = c1 + c2;
+  document.getElementById("frm2").elements[0].value=text3 + c3;
+  }
+
   host.send();
-  sleep(400);
+  sleep(700);
   dest.send();
+  sleep(700);
+  mask.send();
+
+
   
 function sleep(milliseconds) 
 {
