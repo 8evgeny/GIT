@@ -66,25 +66,6 @@ function ValidateIPaddress(ipaddress)
 
 function send() 
 {
-  let x1 = document.getElementById("frm1").elements[0].value;
-  if(ValidateIPaddress(x1))
-  {
-    let xhttp0 = new XMLHttpRequest();
-    xhttp0.open("GET", 1+x1);
-    xhttp0.send();
-    document.getElementById("demo1").innerHTML = x1;
-  }
-  else
-  {
-      document.getElementById("demo1").innerHTML = "Invalid host IP";
-      document.getElementById("frm1").elements[0].value = "";
-      return false;
-  }
-  sleep(1000);
-  let xhttp1 = new XMLHttpRequest();
-  xhttp1.open("GET", 1+x1);
-  xhttp1.send();
-
   let x2 = document.getElementById("frm2").elements[0].value;
   if(ValidateIPaddress(x2))
   {
@@ -95,7 +76,7 @@ function send()
   }
     else
   {
-      document.getElementById("demo1").innerHTML = "Invalid mask IP";
+      document.getElementById("demo2").innerHTML = "Invalid mask IP";
       document.getElementById("frm2").elements[0].value = "";
       return false;
   }
@@ -115,7 +96,7 @@ function send()
       return false;
   }
 
-  let x4 = document.getElementById("frm3").elements[0].value;
+  let x4 = document.getElementById("frm4").elements[0].value;
   if(ValidateIPaddress(x4))
   {
     let xhttp4 = new XMLHttpRequest();
@@ -129,6 +110,26 @@ function send()
       document.getElementById("frm4").elements[0].value = "";
       return false;
   }
+
+  let x1 = document.getElementById("frm1").elements[0].value;
+  if(ValidateIPaddress(x1))
+  {
+    let xhttp0 = new XMLHttpRequest();
+    xhttp0.open("GET", 1+x1);
+    xhttp0.send();
+    document.getElementById("demo1").innerHTML = x1;
+  }
+  else
+  {
+      document.getElementById("demo1").innerHTML = "Invalid host IP";
+      document.getElementById("frm1").elements[0].value = "";
+      return false;
+  }
+  sleep(1000);
+  let xhttp1 = new XMLHttpRequest();
+  xhttp1.open("GET", 1+x1);
+  xhttp1.send();
+
 }
 
 </script>
