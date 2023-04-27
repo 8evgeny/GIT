@@ -44,6 +44,7 @@
   var text = one + two;
     document.getElementById("frm1").elements[0].value=text + tree;
   }
+  sleep(100);
   host.send();
   
 function sleep(milliseconds) 
@@ -66,13 +67,40 @@ function ValidateIPaddress(ipaddress)
 
 function send() 
 {
+  let x1 = document.getElementById("frm1").elements[0].value;
+  let xhttp1 = new XMLHttpRequest();
+  xhttp1.open("GET", 1+x1);
+
   let x2 = document.getElementById("frm2").elements[0].value;
+  let xhttp2 = new XMLHttpRequest();
+  xhttp2.open("GET", 2+x2);
+
+  let x3 = document.getElementById("frm3").elements[0].value;
+  let xhttp3 = new XMLHttpRequest();
+  xhttp3.open("GET", 3+x3);
+
+  let x4 = document.getElementById("frm4").elements[0].value;
+  let xhttp4 = new XMLHttpRequest();
+  xhttp4.open("GET", 4+x4);
+
+  if(ValidateIPaddress(x1))
+  {
+    xhttp1.send();
+    document.getElementById("demo1").innerHTML = x1;
+    sleep(3000);
+  }
+  else
+  {
+      document.getElementById("demo1").innerHTML = "Invalid host IP";
+      document.getElementById("frm1").elements[0].value = "";
+      return false;
+  }
+
   if(ValidateIPaddress(x2))
   {
-    let xhttp2 = new XMLHttpRequest();
-    xhttp2.open("GET", 2+x2);
     xhttp2.send();
     document.getElementById("demo2").innerHTML = x2;
+    sleep(3000);
   }
     else
   {
@@ -81,13 +109,12 @@ function send()
       return false;
   }
 
-  let x3 = document.getElementById("frm3").elements[0].value;
+
   if(ValidateIPaddress(x3))
   {
-    let xhttp3 = new XMLHttpRequest();
-    xhttp3.open("GET", 3+x3);
     xhttp3.send();
     document.getElementById("demo3").innerHTML = x3;
+    sleep(3000);
   }
      else
   {
@@ -96,13 +123,11 @@ function send()
       return false;
   }
 
-  let x4 = document.getElementById("frm4").elements[0].value;
   if(ValidateIPaddress(x4))
   {
-    let xhttp4 = new XMLHttpRequest();
-    xhttp4.open("GET", 4+x4);
     xhttp4.send();
     document.getElementById("demo4").innerHTML = x4;
+    sleep(3000);
   }
      else
   {
@@ -110,25 +135,6 @@ function send()
       document.getElementById("frm4").elements[0].value = "";
       return false;
   }
-
-  let x1 = document.getElementById("frm1").elements[0].value;
-  if(ValidateIPaddress(x1))
-  {
-    let xhttp0 = new XMLHttpRequest();
-    xhttp0.open("GET", 1+x1);
-    xhttp0.send();
-    document.getElementById("demo1").innerHTML = x1;
-  }
-  else
-  {
-      document.getElementById("demo1").innerHTML = "Invalid host IP";
-      document.getElementById("frm1").elements[0].value = "";
-      return false;
-  }
-  sleep(1000);
-  let xhttp1 = new XMLHttpRequest();
-  xhttp1.open("GET", 1+x1);
-  xhttp1.send();
 
 }
 
