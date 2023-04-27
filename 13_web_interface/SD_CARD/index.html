@@ -28,7 +28,7 @@
 <button onclick="send_gate()">Change gateway</button>
 <button onclick="send_dest()">Change dest_ip</button> -->
 
-<p id="demo"></p>
+<p id="demo" value=""></p>
 
 <script>
   let host = new XMLHttpRequest();
@@ -142,7 +142,7 @@ function send()
       return false;
   }
 
-  document.getElementById("demo").innerHTML = "OK";
+  document.getElementById("demo").innerHTML = "Bridge setup OK";
 
 }
 
