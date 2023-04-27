@@ -28,10 +28,7 @@
 <button onclick="send_gate()">Change gateway</button>
 <button onclick="send_dest()">Change dest_ip</button> -->
 
-<p id="demo1"></p>
-<p id="demo2"></p>
-<p id="demo3"></p>
-<p id="demo4"></p>
+<p id="demo"></p>
 
 <script>
   let host = new XMLHttpRequest();
@@ -44,7 +41,6 @@
   var text = one + two;
     document.getElementById("frm1").elements[0].value=text + tree;
   }
-  sleep(100);
   host.send();
   
 function sleep(milliseconds) 
@@ -86,12 +82,11 @@ function send()
   if(ValidateIPaddress(x1))
   {
     xhttp1.send();
-    document.getElementById("demo1").innerHTML = x1;
-    sleep(3000);
+    sleep(2000);
   }
   else
   {
-      document.getElementById("demo1").innerHTML = "Invalid host IP";
+      document.getElementById("demo").innerHTML = "Invalid host IP";
       document.getElementById("frm1").elements[0].value = "";
       return false;
   }
@@ -99,12 +94,11 @@ function send()
   if(ValidateIPaddress(x2))
   {
     xhttp2.send();
-    document.getElementById("demo2").innerHTML = x2;
-    sleep(3000);
+    sleep(2000);
   }
     else
   {
-      document.getElementById("demo2").innerHTML = "Invalid mask IP";
+      document.getElementById("demo").innerHTML = "Invalid mask IP";
       document.getElementById("frm2").elements[0].value = "";
       return false;
   }
@@ -113,12 +107,11 @@ function send()
   if(ValidateIPaddress(x3))
   {
     xhttp3.send();
-    document.getElementById("demo3").innerHTML = x3;
-    sleep(3000);
+    sleep(2000);
   }
      else
   {
-      document.getElementById("demo3").innerHTML = "Invalid gate IP";
+      document.getElementById("demo").innerHTML = "Invalid gate IP";
       document.getElementById("frm3").elements[0].value = "";
       return false;
   }
@@ -126,15 +119,16 @@ function send()
   if(ValidateIPaddress(x4))
   {
     xhttp4.send();
-    document.getElementById("demo4").innerHTML = x4;
-    sleep(3000);
+    sleep(2000);
   }
      else
   {
-      document.getElementById("demo4").innerHTML = "Invalid dest IP";
+      document.getElementById("demo").innerHTML = "Invalid dest IP";
       document.getElementById("frm4").elements[0].value = "";
       return false;
   }
+
+  document.getElementById("demo").innerHTML = "OK";
 
 }
 
