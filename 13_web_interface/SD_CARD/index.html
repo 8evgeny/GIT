@@ -16,6 +16,9 @@
 
 <button onclick="send()">Enter</button>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/core.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/md5.js"></script>
+
 <script>
 function sleep(milliseconds) 
 {
@@ -34,7 +37,10 @@ function send()
 
   let x2 = document.getElementById("password").value;
   let step2 = new XMLHttpRequest();
-  step2.open("GET", 'p'+x2);
+
+  var hash = CryptoJS.MD5(x2);
+
+  step2.open("GET", 'p'+hash);
 
   let step3 = new XMLHttpRequest();
   step3.open("GET", "/ ");
