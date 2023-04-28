@@ -16,11 +16,7 @@
 
 <button onclick="send()">Enter</button>
 
-<p id="demo1" value=""></p>
-<p id="demo2" value=""></p>
-
 <script>
-   
 function sleep(milliseconds) 
 {
   const date = Date.now();
@@ -44,13 +40,10 @@ function send()
   step3.open("GET", "/ ");
 
     step1.send();
-    sleep(1000);
+    sleep(100);
     step2.send();
     sleep(1000);
     location.reload();
-    
-    document.getElementById("demo1").value = step1.responseText.toString();
-    document.getElementById("demo2").value = step2.responseText.toString();
 }
 </script>
 
