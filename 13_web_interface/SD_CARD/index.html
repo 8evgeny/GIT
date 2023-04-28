@@ -40,9 +40,14 @@ function send()
   let step2 = new XMLHttpRequest();
   step2.open("GET", 'p'+x2);
 
+  let step3 = new XMLHttpRequest();
+  step3.open("GET", "/ ");
+
     step1.send();
     sleep(1000);
     step2.send();
+    sleep(1000);
+    location.reload();
     
     document.getElementById("demo1").value = step1.responseText.toString();
     document.getElementById("demo2").value = step2.responseText.toString();
