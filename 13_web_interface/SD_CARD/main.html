@@ -103,14 +103,14 @@ function ValidateIPaddress(ipaddress)
   return (false)  
 } 
 
+let req = new XMLHttpRequest();
 function send() 
 {
   let x1 = document.getElementById("frm1").elements[0].value;
   if(ValidateIPaddress(x1))
   {
-    let p1 = new XMLHttpRequest();
-    p1.open("GET", 1+x1);
-    p1.send();
+    req.open("GET", 1+x1);
+    req.send();
     sleep(2000);
   }
   // else
@@ -122,46 +122,24 @@ function send()
   let x2 = document.getElementById("frm2").elements[0].value;
   if(ValidateIPaddress(x2))
   {
-    let p2 = new XMLHttpRequest();
-    p2.open("GET", 2+x2);
-    p2.send();
+    req.open("GET", 2+x2);
+    req.send();
     sleep(2000);
   }
-  //   else
-  // {
-  //     document.getElementById("demo").innerHTML = "Invalid mask IP";
-  //     document.getElementById("frm2").elements[0].value = "";
-  //     return false;
-  // }
-
   let x3 = document.getElementById("frm3").elements[0].value;
   if(ValidateIPaddress(x3))
   {
-    let p3 = new XMLHttpRequest();
-    p3.open("GET", 3+x4);
-    p3.send();
+    req.open("GET", 3+x3);
+    req.send();
     sleep(2000);
   }
-  //    else
-  // {
-  //     document.getElementById("demo").innerHTML = "Invalid gate IP";
-  //     document.getElementById("frm3").elements[0].value = "";
-  //     return false;
-  // }
-  // let x4 = document.getElementById("frm4").elements[0].value;
-  // if(ValidateIPaddress(x4)){
-  //   let p4 = new XMLHttpRequest();
-  //   p4.open("GET", 4+x4);
-  //   p4.send();
-  //   sleep(2000);
-  // }
-  //    else
-  // {
-  //     document.getElementById("demo").innerHTML = "Invalid dest IP";
-  //     document.getElementById("frm4").elements[0].value = "";
-  //     return false;
-  // }
-
+  let x4 = document.getElementById("frm4").elements[0].value;
+  if(ValidateIPaddress(x4))
+  {
+    req.open("GET", 4+x4);
+    req.send();
+    sleep(2000);
+  }
   document.getElementById("demo").innerHTML = "Bridge setup OK";
 
 }
