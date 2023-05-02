@@ -99,7 +99,7 @@ function ValidateIPaddress(ipaddress)
   if (/^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(ipaddress)) {  
     return (true)  
 }  
-  //alert("You have entered an invalid IP address!")  
+  alert("You have entered an invalid IP address!")  
   return (false)  
 } 
 
@@ -112,6 +112,7 @@ function send()
     req.open("GET", 1+x1);
     req.send();
     sleep(2000);
+    alert("host_IP ok") 
   }
   // else
   // {
@@ -125,6 +126,7 @@ function send()
     req.open("GET", 2+x2);
     req.send();
     sleep(2000);
+    alert("mask_IP ok")
   }
   let x3 = document.getElementById("frm3").elements[0].value;
   if(ValidateIPaddress(x3))
@@ -132,6 +134,7 @@ function send()
     req.open("GET", 3+x3);
     req.send();
     sleep(2000);
+    alert("gate_IP ok")
   }
   let x4 = document.getElementById("frm4").elements[0].value;
   if(ValidateIPaddress(x4))
@@ -139,8 +142,9 @@ function send()
     req.open("GET", 4+x4);
     req.send();
     sleep(2000);
+    alert("dest_IP ok")
   }
-  document.getElementById("demo").innerHTML = "Bridge setup OK";
+  // document.getElementById("demo").innerHTML = "Bridge setup OK";
 
 }
 </script>
