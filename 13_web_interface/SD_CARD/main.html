@@ -112,7 +112,7 @@ function send()
     req.open("GET", 1+x1);
     req.send();
     sleep(2000);
-    alert("host_IP ok") 
+    alert("IP HOST write ok") 
   }
   // else
   // {
@@ -126,7 +126,7 @@ function send()
     req.open("GET", 2+x2);
     req.send();
     sleep(2000);
-    alert("mask_IP ok")
+    alert("MASK write ok")
   }
   let x3 = document.getElementById("frm3").elements[0].value;
   if(ValidateIPaddress(x3))
@@ -134,7 +134,7 @@ function send()
     req.open("GET", 3+x3);
     req.send();
     sleep(2000);
-    alert("gate_IP ok")
+    alert("GATE write ok")
   }
   let x4 = document.getElementById("frm4").elements[0].value;
   if(ValidateIPaddress(x4))
@@ -142,7 +142,7 @@ function send()
     req.open("GET", 4+x4);
     req.send();
     sleep(2000);
-    alert("dest_IP ok")
+    alert("IP destination write ok")
   }
   // document.getElementById("demo").innerHTML = "Bridge setup OK";
 
