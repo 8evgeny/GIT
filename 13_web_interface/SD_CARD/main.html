@@ -8,25 +8,25 @@
   <body> 
   <h3>Настройка моста:</h3> 
   <form id="frm1" >
-    <label for="host_ip" >ip адрес хоста:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label> 
+    <label for="host_ip" >IP адрес хоста:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label> 
     <input type="text" id="host_ip" name="host_ip" value="" style="width: 110px;">
     <input type="button" onclick="send1()" value="обновить" style="
     width: 80px;">
   </form><br>
   <form id="frm2" >
-    <label for="mask" style=>маска сети:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+    <label for="mask" style=>Маска сети:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
     <input type="text" id="mask" name="mask" value="" style="width: 110px;">
     <input type="button" onclick="send2()" value="обновить" style="
     width: 80px;">
   </form><br> 
   <form id="frm3" >
-    <label for="gateway" >ip адрес шлюза:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+    <label for="gateway" >IP адрес шлюза:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
     <input type="text" id="gateway" name="gateway" value="" style="width: 110px;">
     <input type="button" onclick="send3()" value="обновить" style="
     width: 80px;">
   </form><br> 
   <form id="frm4" >
-    <label for="dest_ip" >ip адрес получателя:</label>
+    <label for="dest_ip" >IP адрес получателя:</label>
     <input type="text" id="dest_ip" name="dest_ip" value="" style="width: 110px;">
     <input type="button" onclick="send4()" value="обновить" style="
     width: 80px;">
@@ -85,8 +85,8 @@
   mask.send();
   function sleep(milliseconds) 
   {
-    const date = Date.now();
     //................................
+    const date = Date.now();
     let currentDate = null;
     do {
       currentDate = Date.now();
@@ -110,11 +110,11 @@
       req.open("GET", 1+x1);
       req.send();
       sleep(2000);
-      document.getElementById("demo").innerHTML = "change IP host: OK";
+      document.getElementById("demo").innerHTML = "IP адрес хоста обновлен";
     }
     else
     {
-      document.getElementById("demo").innerHTML = "Invalid host IP";
+      document.getElementById("demo").innerHTML = "Некоррекнтый IP адрес";
       document.getElementById("frm1").elements[0].value = "";
       return false;
     }
@@ -127,11 +127,11 @@
       req.open("GET", 2+x2);
       req.send();
       sleep(2000);
-      document.getElementById("demo").innerHTML = "change IP mask: OK";
+      document.getElementById("demo").innerHTML = "Маска сети обновлена";
     }
     else
     {
-      document.getElementById("demo").innerHTML = "Invalid mask IP";
+      document.getElementById("demo").innerHTML = "Некорректная маска";
       document.getElementById("frm2").elements[0].value = "";
       return false;
     }
@@ -144,29 +144,30 @@
       req.open("GET", 3+x3);
       req.send();
       sleep(2000);
-      document.getElementById("demo").innerHTML = "change IP gate: OK";
+      document.getElementById("demo").innerHTML = "IP адрес шлюза обновлен";
     }
     else
     {
-      document.getElementById("demo").innerHTML = "Invalid gate IP";
+      document.getElementById("demo").innerHTML = "Hекоррекнтый IP адрес";
       document.getElementById("frm3").elements[0].value = "";
       return false;
+//.......................................................
     }
   }
+  
   function send4() 
   {
     let x4 = document.getElementById("frm4").elements[0].value;
     if(ValidateIPaddress(x4))
     {
-//.......................................................
       req.open("GET", 4+x4);
       req.send();
       sleep(2000);
-      document.getElementById("demo").innerHTML = "change IP dest: OK";
+      document.getElementById("demo").innerHTML = "IP адрес получателя обновлен";
     }
     else
     {
-      document.getElementById("demo").innerHTML = "Invalid dest IP";
+      document.getElementById("demo").innerHTML = "Некоррекнтый IP адрес";
       document.getElementById("frm4").elements[0].value = "";
       return false;
     }
@@ -176,7 +177,7 @@
       req.open("GET", 5);
       req.send();
       sleep(2000);
-      document.getElementById("demo").innerHTML = "reboot host: OK";
+      document.getElementById("demo").innerHTML = "Хост перезагружен";
   }
 </script>
 </html>
