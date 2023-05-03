@@ -1,36 +1,37 @@
 <!DOCTYPE html> 
-<html>
+<html lang="ru">
   <head> 
-  <title>Git-holding. Bridge IDSN<->IP</title>
+  <meta charset="utf-8">
+  <title>Мост IDSN<->IP</title>
   </style> 
   </head>
   <body> 
-  <h3>Setup IP bridge:</h3> 
+  <h3>Настройка моста:</h3> 
   <form id="frm1" >
-    <label for="host_ip">host_ip:&nbsp;&nbsp;</label> 
+    <label for="host_ip" >ip адрес хоста:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label> 
     <input type="text" id="host_ip" name="host_ip" value="" style="width: 110px;">
-    <input type="button" onclick="send1()" value="write IP host" style="
-    width: 96px;">
+    <input type="button" onclick="send1()" value="обновить" style="
+    width: 80px;">
   </form><br>
   <form id="frm2" >
-    <label for="mask">mask:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+    <label for="mask" style=>маска сети:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
     <input type="text" id="mask" name="mask" value="" style="width: 110px;">
-    <input type="button" onclick="send2()" value="write IP mask" style="
-    width: 96px;">
+    <input type="button" onclick="send2()" value="обновить" style="
+    width: 80px;">
   </form><br> 
   <form id="frm3" >
-    <label for="gateway">gateway:</label>
+    <label for="gateway" >ip адрес шлюза:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
     <input type="text" id="gateway" name="gateway" value="" style="width: 110px;">
-    <input type="button" onclick="send3()" value="write IP gate" style="
-    width: 96px;">
+    <input type="button" onclick="send3()" value="обновить" style="
+    width: 80px;">
   </form><br> 
   <form id="frm4" >
-    <label for="dest_ip">dest_ip:&nbsp;&nbsp;</label>
+    <label for="dest_ip" >ip адрес получателя:</label>
     <input type="text" id="dest_ip" name="dest_ip" value="" style="width: 110px;">
-    <input type="button" onclick="send4()" value="write IP dest" style="
-    width: 96px;">
+    <input type="button" onclick="send4()" value="обновить" style="
+    width: 80px;">
   </form><br>
-<button onclick="reboot()" style="border-left-width: 2px;border-left-style: solid;margin-left: 185px;">reboot host </button>
+<button onclick="reboot()" style="border-left-width: 2px;border-left-style: solid;margin-left: 138px;">Перезагруза хоста</button>
 <p id="demo" value=""></p>
 <script>
   let host = new XMLHttpRequest();
@@ -85,6 +86,7 @@
   function sleep(milliseconds) 
   {
     const date = Date.now();
+    //................................
     let currentDate = null;
     do {
       currentDate = Date.now();
@@ -92,7 +94,6 @@
   }
   function ValidateIPaddress(ipaddress) 
   {  
-    //..............................................................................................................................................................................................
     if (/^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(ipaddress)) {  
       return (true)  
   }  
@@ -157,9 +158,9 @@
     let x4 = document.getElementById("frm4").elements[0].value;
     if(ValidateIPaddress(x4))
     {
+//.......................................................
       req.open("GET", 4+x4);
       req.send();
-      //..............................................................................................................................................................................................
       sleep(2000);
       document.getElementById("demo").innerHTML = "change IP dest: OK";
     }
