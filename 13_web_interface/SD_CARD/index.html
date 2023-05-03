@@ -1,19 +1,20 @@
 <!DOCTYPE html> 
-<html>
+<html lang="ru">
   <head> 
-  <title>Git-holding. login password</title>
+  <meta charset="utf-8">
+  <title>Авторизация</title>
   </head>
   <body> 
-  <form id="frm1" >
-    <label for="login">login:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label> 
+  <br><form id="frm1" >
+    <label for="login">Логин:&nbsp;&nbsp;&nbsp;</label> 
     <input type="text" id="login" name="login" value=""><br>
-  </form> 
+  </form><br>
   <form id="frm2" >
-    <label for="password">password:</label>
+    <label for="password">Пароль:&nbsp;</label>
     <input type="password" id="password" name="password" value=""><br>
-  </form> 
+  </form> <br>
 
-<button onclick="send()">Enter</button>
+<button onclick="send()">Вход</button>
 
 <script>
 function sleep(milliseconds) 
@@ -124,8 +125,8 @@ var md5 = function (str) {
       a = md5_ff(a, b, c, d, x[i + 12], 7, 1804603682);
       d = md5_ff(d, a, b, c, x[i + 13], 12, -40341101);
       c = md5_ff(c, d, a, b, x[i + 14], 17, -1502002290);
+      //.....................................................................
       b = md5_ff(b, c, d, a, x[i + 15], 22, 1236535329);
-//................................
       a = md5_gg(a, b, c, d, x[i + 1], 5, -165796510);
       d = md5_gg(d, a, b, c, x[i + 6], 9, -1069501632);
       c = md5_gg(c, d, a, b, x[i + 11], 14, 643717713);
@@ -163,8 +164,8 @@ var md5 = function (str) {
       a = md5_ii(a, b, c, d, x[i], 6, -198630844);
       d = md5_ii(d, a, b, c, x[i + 7], 10, 1126891415);
       c = md5_ii(c, d, a, b, x[i + 14], 15, -1416354905);
+      //.....................................................................
       b = md5_ii(b, c, d, a, x[i + 5], 21, -57434055);
-      //......................................................
       a = md5_ii(a, b, c, d, x[i + 12], 6, 1700485571);
       d = md5_ii(d, a, b, c, x[i + 3], 10, -1894986606);
       c = md5_ii(c, d, a, b, x[i + 10], 15, -1051523);
@@ -230,10 +231,9 @@ var md5 = function (str) {
     }
     return output;
   }
-
+//.............................................................
   return function (str) {
     str = unescape(encodeURIComponent(str))
-    //.............................................................
     str = binl_md5(rstr2binl(str), str.length * 8)
     str = binl2rstr(str)
     return rstr2hex(str)
