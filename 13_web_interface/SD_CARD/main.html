@@ -8,27 +8,30 @@
   <h3>Setup IP bridge:</h3> 
   <form id="frm1" >
     <label for="host_ip">host_ip:&nbsp;&nbsp;</label> 
-    <input type="text" id="host_ip" name="host_ip" value="">
-    <input type="button" onclick="send1()" value="write IP host" >
-  </form> 
+    <input type="text" id="host_ip" name="host_ip" value="" style="width: 110px;">
+    <input type="button" onclick="send1()" value="write IP host" style="
+    width: 96px;">
+  </form><br>
   <form id="frm2" >
     <label for="mask">mask:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-    <input type="text" id="mask" name="mask" value=""><br>
-  </form> 
+    <input type="text" id="mask" name="mask" value="" style="width: 110px;">
+    <input type="button" onclick="send2()" value="write IP mask" style="
+    width: 96px;">
+  </form><br> 
   <form id="frm3" >
     <label for="gateway">gateway:</label>
-    <input type="text" id="gateway" name="gateway" value=""><br>
-  </form> 
+    <input type="text" id="gateway" name="gateway" value="" style="width: 110px;">
+    <input type="button" onclick="send3()" value="write IP gate" style="
+    width: 96px;">
+  </form><br> 
   <form id="frm4" >
     <label for="dest_ip">dest_ip:&nbsp;&nbsp;</label>
-    <input type="text" id="dest_ip" name="dest_ip" value=""><br>
-  </form> 
-
-<button onclick="send()">Change </button>
-
+    <input type="text" id="dest_ip" name="dest_ip" value="" style="width: 110px;">
+    <input type="button" onclick="send4()" value="write IP dest" style="
+    width: 96px;">
+  </form><br>
+<button onclick="reboot()" style="border-left-width: 2px;border-left-style: solid;margin-left: 185px;">reboot host </button>
 <p id="demo" value=""></p>
-
-
 <script>
   let host = new XMLHttpRequest();
   host.open('GET', '/host_IP');
@@ -51,7 +54,6 @@
   var text2 = b1 + b2;
   document.getElementById("frm4").elements[0].value=text2 + b3;
   }
-
   let gate = new XMLHttpRequest();
   gate.open('GET', '/gate_IP');
   gate.onreadystatechange = function() 
@@ -62,7 +64,6 @@
   var text4 = d1 + d2;
   document.getElementById("frm3").elements[0].value=text4 + d3;
   }
-
   let mask = new XMLHttpRequest();
   mask.open('GET', '/mask_IP');
   mask.onreadystatechange = function() 
@@ -73,7 +74,6 @@
   var text3 = c1 + c2;
   document.getElementById("frm2").elements[0].value=text3 + c3;
   }
-
   sleep(100);
   host.send();
   sleep(100);
@@ -82,81 +82,100 @@
   gate.send();
   sleep(100);
   mask.send();
-  
-function sleep(milliseconds) 
-{
-  const date = Date.now();
-  let currentDate = null;
-  do {
-    currentDate = Date.now();
-  } while (currentDate - date < milliseconds);
-}
-
-function ValidateIPaddress(ipaddress) 
-{  
-  if (/^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(ipaddress)) {  
-    return (true)  
-}  
-  alert("You have entered an invalid IP address!")  
+  function sleep(milliseconds) 
+  {
+    const date = Date.now();
+    let currentDate = null;
+    do {
+      currentDate = Date.now();
+    } while (currentDate - date < milliseconds);
+  }
+  function ValidateIPaddress(ipaddress) 
+  {  
+    //..............................................................................................................................................................................................
+    if (/^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(ipaddress)) {  
+      return (true)  
+  }  
   return (false)  
-} 
+  } 
 
-let req = new XMLHttpRequest();
-function send() 
-{
-  let x1 = document.getElementById("frm1").elements[0].value;
-  if(ValidateIPaddress(x1))
+  let req = new XMLHttpRequest();
+  function send1() 
   {
-    req.open("GET", 1+x1);
-    req.send();
-    sleep(2000);
- //..................................... 
-    alert("IP HOST write ok")
-  }
-  // else
-  // {
-  //     document.getElementById("demo").innerHTML = "Invalid host IP";
-  //     document.getElementById("frm1").elements[0].value = "";
-  //     return false;
-  // }
-  let x2 = document.getElementById("frm2").elements[0].value;
-  if(ValidateIPaddress(x2))
+    let x1 = document.getElementById("frm1").elements[0].value;
+    if(ValidateIPaddress(x1))
+    {
+      //позиция 3542 - битый символ
+      req.open("GET", 1+x1);
+      req.send();
+      sleep(2000);
+      document.getElementById("demo").innerHTML = "change IP host: OK";
+    }
+    else
+    {
+      document.getElementById("demo").innerHTML = "Invalid host IP";
+      document.getElementById("frm1").elements[0].value = "";
+      return false;
+    }
+  }                                               
+  function send2() 
   {
-    req.open("GET", 2+x2);
-    req.send();
-    sleep(2000);
-    alert("MASK write ok")
+    let x2 = document.getElementById("frm2").elements[0].value;
+    if(ValidateIPaddress(x2))
+    {
+      req.open("GET", 2+x2);
+      req.send();
+      sleep(2000);
+      document.getElementById("demo").innerHTML = "change IP mask: OK";
+    }
+    else
+    {
+      document.getElementById("demo").innerHTML = "Invalid mask IP";
+      document.getElementById("frm2").elements[0].value = "";
+      return false;
+    }
   }
-  let x3 = document.getElementById("frm3").elements[0].value;
-  if(ValidateIPaddress(x3))
+  function send3() 
   {
-    req.open("GET", 3+x3);
-    req.send();
-    sleep(2000);
-    alert("GATE write ok")
+    let x3 = document.getElementById("frm3").elements[0].value;
+    if(ValidateIPaddress(x3))
+    {
+      req.open("GET", 3+x3);
+      req.send();
+      sleep(2000);
+      document.getElementById("demo").innerHTML = "change IP gate: OK";
+    }
+    else
+    {
+      document.getElementById("demo").innerHTML = "Invalid gate IP";
+      document.getElementById("frm3").elements[0].value = "";
+      return false;
+    }
   }
-  let x4 = document.getElementById("frm4").elements[0].value;
-  if(ValidateIPaddress(x4))
+  function send4() 
   {
-    req.open("GET", 4+x4);
-    req.send();
-    sleep(2000);
-    alert("IP destination write ok")
+    let x4 = document.getElementById("frm4").elements[0].value;
+    if(ValidateIPaddress(x4))
+    {
+      req.open("GET", 4+x4);
+      req.send();
+      //..............................................................................................................................................................................................
+      sleep(2000);
+      document.getElementById("demo").innerHTML = "change IP dest: OK";
+    }
+    else
+    {
+      document.getElementById("demo").innerHTML = "Invalid dest IP";
+      document.getElementById("frm4").elements[0].value = "";
+      return false;
+    }
   }
-  // document.getElementById("demo").innerHTML = "Bridge setup OK";
-
-}
-
-function send1() 
-{
-  let x1 = document.getElementById("frm1").elements[0].value;
-  if(ValidateIPaddress(x1))
+  function reboot() 
   {
-    req.open("GET", 1+x1);
-    req.send();
-    sleep(2000);
-    alert("IP HOST write ok")
+      req.open("GET", 5);
+      req.send();
+      sleep(2000);
+      document.getElementById("demo").innerHTML = "reboot host: OK";
   }
-}
 </script>
 </html>
