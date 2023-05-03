@@ -8,7 +8,8 @@
   <h3>Setup IP bridge:</h3> 
   <form id="frm1" >
     <label for="host_ip">host_ip:&nbsp;&nbsp;</label> 
-    <input type="text" id="host_ip" name="host_ip" value=""><br>
+    <input type="text" id="host_ip" name="host_ip" value="">
+    <input type="button" onclick="send1()" value="write IP host" >
   </form> 
   <form id="frm2" >
     <label for="mask">mask:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
@@ -24,9 +25,6 @@
   </form> 
 
 <button onclick="send()">Change </button>
-<!-- <button onclick="send_mask()">Change mask</button>
-<button onclick="send_gate()">Change gateway</button>
-<button onclick="send_dest()">Change dest_ip</button> -->
 
 <p id="demo" value=""></p>
 
@@ -147,6 +145,18 @@ function send()
   }
   // document.getElementById("demo").innerHTML = "Bridge setup OK";
 
+}
+
+function send1() 
+{
+  let x1 = document.getElementById("frm1").elements[0].value;
+  if(ValidateIPaddress(x1))
+  {
+    req.open("GET", 1+x1);
+    req.send();
+    sleep(2000);
+    alert("IP HOST write ok")
+  }
 }
 </script>
 </html>
