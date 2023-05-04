@@ -2,11 +2,11 @@
 <html lang="ru">
   <head> 
   <meta charset="utf-8">
+  <h2 align="center">GIT - Группа индустриальных технологий</h2> 
   <title>Мост IDSN<->IP</title>
-  </style> 
   </head>
   <body> 
-  <h3>Настройка моста:</h3> 
+  <h3>Настройка моста ISDN - IP</h3> 
   <form id="frm1" >
     <label for="host_ip" >IP адрес хоста:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label> 
     <input type="text" id="host_ip" name="host_ip" value="" style="width: 110px;">
@@ -32,7 +32,7 @@
     width: 80px;">
   </form><br>
 <button onclick="reboot()" style="border-left-width: 2px;border-left-style: solid;margin-left: 138px;">Перезагруза хоста</button>
-<p id="demo" value=""></p>
+<p id="demo" value="  "></p>
 <script>
   let host = new XMLHttpRequest();
   host.open('GET', '/host_IP');
@@ -80,12 +80,12 @@
   sleep(100);
   dest.send();
   sleep(100);
+  //................................
   gate.send();
   sleep(100);
   mask.send();
   function sleep(milliseconds) 
   {
-    //................................
     const date = Date.now();
     let currentDate = null;
     do {
@@ -148,10 +148,10 @@
     }
     else
     {
+      //.......................................................
       document.getElementById("demo").innerHTML = "Hекоррекнтый IP адрес";
       document.getElementById("frm3").elements[0].value = "";
       return false;
-//.......................................................
     }
   }
   
@@ -180,4 +180,14 @@
       document.getElementById("demo").innerHTML = "Хост перезагружен";
   }
 </script>
+    <style>
+      footer {
+        padding: 10px 20px;
+        background: #666;
+        color: white;
+      }
+    </style>
+   <footer>
+      <p>Компания © GIT. Все права защищены.  +7 495 223-07-25   119571 Москва,  проспект Вернадского, д.94, корп.5</p>
+    </footer>
 </html>
