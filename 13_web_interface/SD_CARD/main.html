@@ -178,16 +178,6 @@
       sleep(2000);
       document.getElementById("demo").innerHTML = "Хост перезагружен";
   }
-  function change_pass() 
-  {
-    let newpass = document.getElementById("frm5").elements[0].value;
-    let md5_newpass = md5(newpass);
-
-      req.open("GET", 6+md5_newpass);
-      req.send();
-      sleep(2000);
-      document.getElementById("demo").innerHTML = "Пароль установлен";
-  }
 
 var md5 = function (str) {
   /*
@@ -276,9 +266,9 @@ var md5 = function (str) {
       c = md5_gg(c, d, a, b, x[i + 15], 14, -660478335);
       b = md5_gg(b, c, d, a, x[i + 4], 20, -405537848);
       a = md5_gg(a, b, c, d, x[i + 9], 5, 568446438);
-      //...............................................................................................................................................................................................................................................................................
       d = md5_gg(d, a, b, c, x[i + 14], 9, -1019803690);
       c = md5_gg(c, d, a, b, x[i + 3], 14, -187363961);
+      //...............................................................................................................................................................................................................................................................................
       b = md5_gg(b, c, d, a, x[i + 8], 20, 1163531501);
       a = md5_gg(a, b, c, d, x[i + 13], 5, -1444681467);
       d = md5_gg(d, a, b, c, x[i + 2], 9, -51403784);
@@ -309,12 +299,12 @@ var md5 = function (str) {
       c = md5_ii(c, d, a, b, x[i + 10], 15, -1051523);
       b = md5_ii(b, c, d, a, x[i + 1], 21, -2054922799);
       a = md5_ii(a, b, c, d, x[i + 8], 6, 1873313359);
-      //................................
       d = md5_ii(d, a, b, c, x[i + 15], 10, -30611744);
       c = md5_ii(c, d, a, b, x[i + 6], 15, -1560198380);
       b = md5_ii(b, c, d, a, x[i + 13], 21, 1309151649);
       a = md5_ii(a, b, c, d, x[i + 4], 6, -145523070);
       d = md5_ii(d, a, b, c, x[i + 11], 10, -1120210379);
+      //...................................................................................
       c = md5_ii(c, d, a, b, x[i + 2], 15, 718787259);
       b = md5_ii(b, c, d, a, x[i + 9], 21, -343485551);
       a = safe_add(a, olda);
@@ -377,10 +367,24 @@ var md5 = function (str) {
   }
 }()
 
-
+  function change_pass() 
+  {
+    // let input = prompt("Введите пароль", "");
+    // if (input != null)
+    // {
+      let newpass = document.getElementById("frm5").elements[0].value;
+      let md5_newpass = md5(newpass);
+      req.open("GET", 6+md5_newpass);
+      req.send();
+      sleep(2000);
+      document.getElementById("demo").innerHTML = "Пароль установлен";
+    // }
+    
+  }
+//....................................................................................................
 </script>
   <form id="frm5" >
-    <label for="newpass" >Смена пароля&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+   <label for="newpass" >Смена пароля&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
     <input type="text" id="newpass" name="newpass" value="" style="width: 110px;">
     <input type="button" onclick="change_pass()" value="установить" style="width: 80px;">
   </form><br> 
