@@ -369,25 +369,24 @@ var md5 = function (str) {
 
   function change_pass() 
   {
-    // let input = prompt("Введите пароль", "");
-    // if (input != null)
-    // {
-      let newpass = document.getElementById("frm5").elements[0].value;
-      let md5_newpass = md5(newpass);
-      req.open("GET", 6+md5_newpass);
-      req.send();
-      sleep(2000);
-      document.getElementById("demo").innerHTML = "Пароль установлен";
-    // }
+    var input1 = prompt("Введите пароль", "");
+    if (input1 != null)
+    {
+      var input2 = prompt("Подтвердите пароль", "");
+      if (input1 == input2)
+      {
+        let md5_newpass = md5(input1);
+        req.open("GET", 6+md5_newpass);
+        req.send();
+        sleep(2000);
+        document.getElementById("demo").innerHTML = "Пароль установлен";
+      }
+    }
     
   }
 //....................................................................................................
 </script>
-  <form id="frm5" >
-   <label for="newpass" >Смена пароля&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-    <input type="text" id="newpass" name="newpass" value="" style="width: 110px;">
-    <input type="button" onclick="change_pass()" value="установить" style="width: 80px;">
-  </form><br> 
+   <button  onclick="change_pass()" style="border-left-width: 2px;border-left-style: solid;margin-left: 138px;">Сменить пароль</button>
     <style>
       footer {
         padding: 10px 20px;
