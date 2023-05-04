@@ -106,7 +106,6 @@
     let x1 = document.getElementById("frm1").elements[0].value;
     if(ValidateIPaddress(x1))
     {
-      //позиция 3542 - битый символ
       req.open("GET", 1+x1);
       req.send();
       sleep(2000);
@@ -148,8 +147,8 @@
     }
     else
     {
-      //.......................................................
       document.getElementById("demo").innerHTML = "Hекоррекнтый IP адрес";
+      //.....................................................
       document.getElementById("frm3").elements[0].value = "";
       return false;
     }
@@ -179,7 +178,15 @@
       sleep(2000);
       document.getElementById("demo").innerHTML = "Хост перезагружен";
   }
+  function change_pass() 
+  {
+      req.open("GET", 6);
+      req.send();
+      sleep(2000);
+      document.getElementById("demo").innerHTML = "Хост перезагружен";
+  }
 </script>
+<button onclick="change_pass()" style="border-left-width: 2px;border-left-style: solid;margin-left: 138px;">Смена пароля</button>
     <style>
       footer {
         padding: 10px 20px;
