@@ -7,25 +7,25 @@
   </head>
   <body> 
   <h3>Настройка моста ISDN - IP</h3> 
-  <form id="frm1" >
+  <form onsubmit="return false;" id="frm1" >
     <label for="host_ip" >IP адрес хоста:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label> 
     <input type="text" id="host_ip" name="host_ip" value="" style="width: 110px;">
     <input type="button" onclick="send1()" value="обновить" style="
     width: 80px;">
   </form><br>
-  <form id="frm2" >
+  <form onsubmit="return false;" id="frm2" >
     <label for="mask" style=>Маска сети:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
     <input type="text" id="mask" name="mask" value="" style="width: 110px;">
     <input type="button" onclick="send2()" value="обновить" style="
     width: 80px;">
   </form><br> 
-  <form id="frm3" >
+  <form onsubmit="return false;" id="frm3" >
     <label for="gateway" >IP адрес шлюза:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
     <input type="text" id="gateway" name="gateway" value="" style="width: 110px;">
     <input type="button" onclick="send3()" value="обновить" style="
     width: 80px;">
   </form><br> 
-  <form id="frm4" >
+  <form onsubmit="return false;" id="frm4" >
     <label for="dest_ip" >IP адрес получателя:</label>
     <input type="text" id="dest_ip" name="dest_ip" value="" style="width: 110px;">
     <input type="button" onclick="send4()" value="обновить" style="
@@ -73,6 +73,7 @@
   var c2=mask.responseText.toString().substring(10, 13)+".";
   var c3=mask.responseText.toString().substring(15, 18);
   var text3 = c1 + c2;
+  //....................................................................
   document.getElementById("frm2").elements[0].value=text3 + c3;
   }
   sleep(100);
@@ -80,7 +81,6 @@
   sleep(100);
   dest.send();
   sleep(100);
-  //................................
   gate.send();
   sleep(100);
   mask.send();
@@ -144,11 +144,11 @@
       req.send();
       sleep(2000);
       document.getElementById("demo").innerHTML = "IP адрес шлюза обновлен";
+    //.....................................................  
     }
     else
     {
       document.getElementById("demo").innerHTML = "Hекоррекнтый IP адрес";
-      //.....................................................
       document.getElementById("frm3").elements[0].value = "";
       return false;
     }
@@ -213,14 +213,13 @@ var md5 = function (str) {
   }
 
   function md5_hh(a, b, c, d, x, s, t) {
-    //....................................
-    return md5_cmn(b ^ c ^ d, a, b, x, s, t);
+     return md5_cmn(b ^ c ^ d, a, b, x, s, t);
   }
 
   function md5_ii(a, b, c, d, x, s, t) {
     return md5_cmn(c ^ (b | (~d)), a, b, x, s, t);
   }
-
+//....................................
   /*
    * Calculate the MD5 of an array of little-endian words, and a bit length.
    */
@@ -266,9 +265,9 @@ var md5 = function (str) {
       c = md5_gg(c, d, a, b, x[i + 15], 14, -660478335);
       b = md5_gg(b, c, d, a, x[i + 4], 20, -405537848);
       a = md5_gg(a, b, c, d, x[i + 9], 5, 568446438);
+      //...............................................................................................................................................................................................................................................................................
       d = md5_gg(d, a, b, c, x[i + 14], 9, -1019803690);
       c = md5_gg(c, d, a, b, x[i + 3], 14, -187363961);
-      //...............................................................................................................................................................................................................................................................................
       b = md5_gg(b, c, d, a, x[i + 8], 20, 1163531501);
       a = md5_gg(a, b, c, d, x[i + 13], 5, -1444681467);
       d = md5_gg(d, a, b, c, x[i + 2], 9, -51403784);
@@ -302,9 +301,9 @@ var md5 = function (str) {
       d = md5_ii(d, a, b, c, x[i + 15], 10, -30611744);
       c = md5_ii(c, d, a, b, x[i + 6], 15, -1560198380);
       b = md5_ii(b, c, d, a, x[i + 13], 21, 1309151649);
+      //...................................................................................
       a = md5_ii(a, b, c, d, x[i + 4], 6, -145523070);
       d = md5_ii(d, a, b, c, x[i + 11], 10, -1120210379);
-      //...................................................................................
       c = md5_ii(c, d, a, b, x[i + 2], 15, 718787259);
       b = md5_ii(b, c, d, a, x[i + 9], 21, -343485551);
       a = safe_add(a, olda);
@@ -377,6 +376,7 @@ var md5 = function (str) {
       {
         let md5_newpass = md5(input1);
         req.open("GET", 6+md5_newpass);
+  //....................................................................................................
         req.send();
         sleep(2000);
         document.getElementById("demo").innerHTML = "Пароль установлен";
@@ -384,7 +384,7 @@ var md5 = function (str) {
     }
     
   }
-//....................................................................................................
+
 </script>
    <button  onclick="change_pass()" style="border-left-width: 2px;border-left-style: solid;margin-left: 138px; width: 130px">Сменить пароль</button>
     <style>
