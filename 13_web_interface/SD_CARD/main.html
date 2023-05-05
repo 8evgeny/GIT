@@ -73,7 +73,6 @@
   var c2=mask.responseText.toString().substring(10, 13)+".";
   var c3=mask.responseText.toString().substring(15, 18);
   var text3 = c1 + c2;
-  //....................................................................
   document.getElementById("frm2").elements[0].value=text3 + c3;
   }
   sleep(100);
@@ -144,7 +143,6 @@
       req.send();
       sleep(2000);
       document.getElementById("demo").innerHTML = "IP адрес шлюза обновлен";
-    //.....................................................  
     }
     else
     {
@@ -219,7 +217,6 @@ var md5 = function (str) {
   function md5_ii(a, b, c, d, x, s, t) {
     return md5_cmn(c ^ (b | (~d)), a, b, x, s, t);
   }
-//....................................
   /*
    * Calculate the MD5 of an array of little-endian words, and a bit length.
    */
@@ -265,7 +262,6 @@ var md5 = function (str) {
       c = md5_gg(c, d, a, b, x[i + 15], 14, -660478335);
       b = md5_gg(b, c, d, a, x[i + 4], 20, -405537848);
       a = md5_gg(a, b, c, d, x[i + 9], 5, 568446438);
-      //...............................................................................................................................................................................................................................................................................
       d = md5_gg(d, a, b, c, x[i + 14], 9, -1019803690);
       c = md5_gg(c, d, a, b, x[i + 3], 14, -187363961);
       b = md5_gg(b, c, d, a, x[i + 8], 20, 1163531501);
@@ -301,7 +297,6 @@ var md5 = function (str) {
       d = md5_ii(d, a, b, c, x[i + 15], 10, -30611744);
       c = md5_ii(c, d, a, b, x[i + 6], 15, -1560198380);
       b = md5_ii(b, c, d, a, x[i + 13], 21, 1309151649);
-      //...................................................................................
       a = md5_ii(a, b, c, d, x[i + 4], 6, -145523070);
       d = md5_ii(d, a, b, c, x[i + 11], 10, -1120210379);
       c = md5_ii(c, d, a, b, x[i + 2], 15, 718787259);
@@ -376,7 +371,6 @@ var md5 = function (str) {
       {
         let md5_newpass = md5(input1);
         req.open("GET", 6+md5_newpass);
-  //....................................................................................................
         req.send();
         sleep(2000);
         document.getElementById("demo").innerHTML = "Пароль установлен";
