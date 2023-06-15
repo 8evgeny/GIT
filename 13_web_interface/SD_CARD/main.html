@@ -40,11 +40,8 @@
   request1.send();
   request1.onreadystatechange = function() 
   {
-  var a1=request1.responseText.toString().substring(0, 3)+"."+request1.responseText.toString().substring(5,8)+".";
-  var a2=request1.responseText.toString().substring(10, 13)+".";
-  var a3=request1.responseText.toString().substring(15, 18);
-  var text1 = a1 + a2;
-  document.getElementById("frm1").elements[0].value=text1 + a3;
+  var a1=request1.responseText.toString().substring(0, 15);
+  document.getElementById("frm1").elements[0].value=a1;
   }
   sleep(500);
   let request2 = new XMLHttpRequest();
@@ -52,11 +49,8 @@
   request2.send();
   request2.onreadystatechange = function() 
   {
-  var b1=request2.responseText.toString().substring(0, 3)+"."+request2.responseText.toString().substring(5,8)+".";
-  var b2=request2.responseText.toString().substring(10, 13)+".";
-  var b3=request2.responseText.toString().substring(15, 18);
-  var text2 = b1 + b2;
-  document.getElementById("frm4").elements[0].value=text2 + b3;
+  var b1=request2.responseText.toString().substring(0, 15);
+  document.getElementById("frm4").elements[0].value=b1;
   }
   sleep(500);
   let request3 = new XMLHttpRequest();
@@ -64,11 +58,8 @@
   request3.send();
   request3.onreadystatechange = function() 
   {
-  var d1=request3.responseText.toString().substring(0, 3)+"."+request3.responseText.toString().substring(5,8)+".";
-  var d2=request3.responseText.toString().substring(10, 13)+".";
-  var d3=request3.responseText.toString().substring(15, 18);
-  var text4 = d1 + d2;
-  document.getElementById("frm3").elements[0].value=text4 + d3;
+  var d1=request3.responseText.toString().substring(0, 15);
+  document.getElementById("frm3").elements[0].value=d1;
   }
   sleep(500);
   let request4 = new XMLHttpRequest();
@@ -76,11 +67,8 @@
   request4.send();
   request4.onreadystatechange = function() 
   {
-  var c1=request4.responseText.toString().substring(0, 3)+"."+request4.responseText.toString().substring(5,8)+".";
-  var c2=request4.responseText.toString().substring(10, 13)+".";
-  var c3=request4.responseText.toString().substring(15, 18);
-  var text3 = c1 + c2;
-  document.getElementById("frm2").elements[0].value=text3 + c3;
+  var c1=request4.responseText.toString().substring(0, 15);
+  document.getElementById("frm2").elements[0].value=c1;
   }
 
   function sleep(milliseconds) 
