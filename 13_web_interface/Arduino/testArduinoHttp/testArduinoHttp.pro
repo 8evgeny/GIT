@@ -32,7 +32,7 @@ INCLUDEPATH += $$ARDUINO_DIR/Functional-Vlpp/src
 INCLUDEPATH += $$ARDUINO_DIR/EthernetWebServer_SSL/Packages_Patches/realtek/hardware/AmebaD/3.0.10/cores/arduino/avr
 INCLUDEPATH += $$ARDUINO_DIR/Ethernet_Generic/Packages_Patches/arduino/hardware/samd/1.8.8/cores
 INCLUDEPATH +=$$TOOLS_PATH/arm-none-eabi/include
-
+INCLUDEPATH += /usr/include/newlib/c++/9.2.1
 #Компилятор C и его ключи
 QMAKE_CC = $$TOOLS_PATH/bin/arm-none-eabi-gcc
 QMAKE_CFLAGS += -mcpu=cortex-m4- std=gnu11 -DUSE_HAL_DRIVER -DSTM32F407xx -c -Os -ffunction-sections -fdata-sections
