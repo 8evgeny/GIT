@@ -225,10 +225,10 @@ var md5 = function (str) {
     return output;
   }
   return function (str) {
-    str = unescape(encodeURIComponent(str))
-    str = binl_md5(rstr2binl(str), str.length * 8)
-    str = binl2rstr(str)
-    return rstr2hex(str)
+    str = unescape(encodeURIComponent(str));
+    str = binl_md5(rstr2binl(str), str.length * 8);
+    str = binl2rstr(str);
+    return rstr2hex(str);
   }
 }()
 
