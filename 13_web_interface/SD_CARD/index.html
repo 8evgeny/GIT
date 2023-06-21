@@ -1,19 +1,19 @@
 <!DOCTYPE html> 
-<html lang="ru">
+<html lang='ru'>
   <head> 
-  <meta charset="utf-8">
+  <meta charset='utf-8'>
   <title>Авторизация</title>
   </head>
   <body> 
-  <br><form onsubmit="return false;" id="frm1" >
-    <label for="login">Логин:&nbsp;&nbsp;&nbsp;</label> 
-    <input type="text" id="login" name="login" value=""><br>
+  <br><form onsubmit='return false;' id='frm1' >
+    <label for='login'>Логин:&nbsp;&nbsp;&nbsp;</label> 
+    <input type='text' id='login' name='login' value=''><br>
   </form><br>
-  <form onsubmit="return false;" id="frm2" >
-    <label for="password">Пароль:&nbsp;</label>
-    <input type="password" id="password" name="password" value=""><br>
+  <form onsubmit='return false;' id='frm2' >
+    <label for='password'>Пароль:&nbsp;</label>
+    <input type='password' id='password' name='password' value=''><br>
   </form> <br>
-<button onclick="send()">Вход</button>
+<button onclick='send()'>Вход</button>
 <script>
 function sleep(milliseconds) 
 {
@@ -26,21 +26,21 @@ function sleep(milliseconds)
 
 function send() 
 {
-  let x1 = document.getElementById("login").value;
+  let x1 = document.getElementById('login').value;
   let step1 = new XMLHttpRequest();
-  step1.open("GET", 'l'+x1);
+  step1.open('GET', 'l'+x1);
   step1.send();
   sleep(300);
 
-  let x2 = document.getElementById("password").value;
+  let x2 = document.getElementById('password').value;
   let step2 = new XMLHttpRequest();
   var hash = md5(x2);
-  step2.open("GET", 'p'+hash);
+  step2.open('GET', 'p'+hash);
   step2.send();
   sleep(300);
 
   let step3 = new XMLHttpRequest();
-  step3.open("GET", "/ ");
+  step3.open('GET', '/ ');
   location.reload();
 }
 
