@@ -159,7 +159,8 @@
   }
   function reboot() 
   {
-      req.open('GET', 5);
+    let command = 'REBOOT'
+      req.open('GET', command);
       req.send();
       sleep(2000);
       document.getElementById('demo').innerHTML = 'Хост перезагружен';
@@ -358,7 +359,8 @@ var md5 = function (str) {
       if (input1 == input2)
       {
         let md5_newpass = md5(input1);
-        req.open('GET', 6+md5_newpass);
+        let command = 'SET_PASSWORD';
+        req.open('GET', command+md5_newpass);
         req.send();
         sleep(2000);
         document.getElementById('demo').innerHTML = 'Пароль установлен';
