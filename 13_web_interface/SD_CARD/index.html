@@ -23,7 +23,6 @@ function sleep(milliseconds)
     currentDate = Date.now();
   } while (currentDate - date < milliseconds);
 }
-
 function send() 
 {
   let x1 = document.getElementById('login').value;
@@ -43,7 +42,6 @@ function send()
   step3.open('GET', '/ ');
   location.reload();
 }
-
 var md5 = function (str) {
   /*
    * Add integers, wrapping at 2^32. This uses 16-bit operations internally
@@ -54,37 +52,30 @@ var md5 = function (str) {
       msw = (x >> 16) + (y >> 16) + (lsw >> 16);
     return (msw << 16) | (lsw & 0xFFFF);
   }
-
   /*
    * Bitwise rotate a 32-bit number to the left.
    */
   function bit_rol(num, cnt) {
     return (num << cnt) | (num >>> (32 - cnt));
   }
-
   /*
    * These functions implement the four basic operations the algorithm uses.
    */
   function md5_cmn(q, a, b, x, s, t) {
     return safe_add(bit_rol(safe_add(safe_add(a, q), safe_add(x, t)), s), b);
   }
-
   function md5_ff(a, b, c, d, x, s, t) {
     return md5_cmn((b & c) | ((~b) & d), a, b, x, s, t);
   }
-
   function md5_gg(a, b, c, d, x, s, t) {
     return md5_cmn((b & d) | (c & (~d)), a, b, x, s, t);
   }
-
   function md5_hh(a, b, c, d, x, s, t) {
     return md5_cmn(b ^ c ^ d, a, b, x, s, t);
   }
-
   function md5_ii(a, b, c, d, x, s, t) {
     return md5_cmn(c ^ (b | (~d)), a, b, x, s, t);
   }
-
   /*
    * Calculate the MD5 of an array of little-endian words, and a bit length.
    */
@@ -92,19 +83,16 @@ var md5 = function (str) {
     /* append padding */
     x[len >> 5] |= 0x80 << ((len) % 32);
     x[(((len + 64) >>> 9) << 4) + 14] = len;
-
     var i, olda, oldb, oldc, oldd,
       a = 1732584193,
       b = -271733879,
       c = -1732584194,
       d = 271733878;
-
     for (i = 0; i < x.length; i += 16) {
       olda = a;
       oldb = b;
       oldc = c;
       oldd = d;
-
       a = md5_ff(a, b, c, d, x[i], 7, -680876936);
       d = md5_ff(d, a, b, c, x[i + 1], 12, -389564586);
       c = md5_ff(c, d, a, b, x[i + 2], 17, 606105819);
@@ -137,7 +125,6 @@ var md5 = function (str) {
       d = md5_gg(d, a, b, c, x[i + 2], 9, -51403784);
       c = md5_gg(c, d, a, b, x[i + 7], 14, 1735328473);
       b = md5_gg(b, c, d, a, x[i + 12], 20, -1926607734);
-
       a = md5_hh(a, b, c, d, x[i + 5], 4, -378558);
       d = md5_hh(d, a, b, c, x[i + 8], 11, -2022574463);
       c = md5_hh(c, d, a, b, x[i + 11], 16, 1839030562);
@@ -154,7 +141,6 @@ var md5 = function (str) {
       d = md5_hh(d, a, b, c, x[i + 12], 11, -421815835);
       c = md5_hh(c, d, a, b, x[i + 15], 16, 530742520);
       b = md5_hh(b, c, d, a, x[i + 2], 23, -995338651);
-
       a = md5_ii(a, b, c, d, x[i], 6, -198630844);
       d = md5_ii(d, a, b, c, x[i + 7], 10, 1126891415);
       c = md5_ii(c, d, a, b, x[i + 14], 15, -1416354905);
@@ -171,7 +157,6 @@ var md5 = function (str) {
       d = md5_ii(d, a, b, c, x[i + 11], 10, -1120210379);
       c = md5_ii(c, d, a, b, x[i + 2], 15, 718787259);
       b = md5_ii(b, c, d, a, x[i + 9], 21, -343485551);
-
       a = safe_add(a, olda);
       b = safe_add(b, oldb);
       c = safe_add(c, oldc);
@@ -179,7 +164,6 @@ var md5 = function (str) {
     }
     return [a, b, c, d];
   }
-
   /*
    * Convert a raw string to an array of little-endian words
    * Characters >255 have their high-byte silently ignored.
@@ -196,7 +180,6 @@ var md5 = function (str) {
     }
     return output;
   }
-
   /*
    * Convert an array of little-endian words to a string
    */
@@ -208,7 +191,6 @@ var md5 = function (str) {
     }
     return output;
   }
-
   /*
    * Convert a raw string to a hex string
    */
@@ -231,9 +213,4 @@ var md5 = function (str) {
     return rstr2hex(str);
   }
 }()
-
-
-</script>
-
-</body> 
-</html>
+</script></body></html>
