@@ -30,14 +30,14 @@ function send()
   let step1 = new XMLHttpRequest();
   step1.open('GET', 'LOGIN'+x1);
   step1.send();
-  sleep(300);
+  sleep(500);
 
   let x2 = document.getElementById('password').value;
   let step2 = new XMLHttpRequest();
   var hash = md5(x2);
   step2.open('GET', 'PASSWORD'+hash);
   step2.send();
-  sleep(300);
+  sleep(500);
 
   let step3 = new XMLHttpRequest();
   step3.open('GET', '/ ');
