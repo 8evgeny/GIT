@@ -1,38 +1,4 @@
-<!DOCTYPE html> 
-<html lang='ru'>
-  <head> 
-  <meta charset='utf-8'>
-  <h2 align='center'>GIT - Группа индустриальных технологий</h2> 
-  <title>Мост IDSN<->IP</title>
-  </head>
-  <body> 
-  <h3>Настройка моста ISDN - IP</h3> 
-  <form onsubmit='return false;' id='frm1' >
-    <label for='host_ip' >IP адрес хоста:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label> 
-    <input type='text' id='host_ip' name='host_ip' value='' style='width: 110px;'>
-    <input type='button' onclick='send1()' value='обновить' style='
-    width: 80px;'>
-  </form><br>
-  <form onsubmit='return false;' id='frm2' >
-    <label for='mask' style=>Маска сети:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-    <input type='text' id='mask' name='mask' value='' style='width: 110px;'>
-    <input type='button' onclick='send2()' value='обновить' style='
-    width: 80px;'>
-  </form><br> 
-  <form onsubmit='return false;' id='frm3' >
-    <label for='gateway' >IP адрес шлюза:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-    <input type='text' id='gateway' name='gateway' value='' style='width: 110px;'>
-    <input type='button' onclick='send3()' value='обновить' style='
-    width: 80px;'>
-  </form><br> 
-  <form onsubmit='return false;' id='frm4' >
-    <label for='dest_ip' >IP адрес получателя:</label>
-    <input type='text' id='dest_ip' name='dest_ip' value='' style='width: 110px;'>
-    <input type='button' onclick='send4()' value='обновить' style='
-    width: 80px;'>
-  </form><br>
-<button onclick='reboot()' style='border-left-width: 2px;border-left-style: solid;margin-left: 138px;'>Перезагруза хоста</button>
-<p id='demo' value='  '></p>
+<!DOCTYPE html> <html lang='ru'>  <head>   <meta charset='utf-8'>  <h2 align='center'>GIT - Группа индустриальных технологий</h2>   <title>Мост IDSN<->IP</title>  </head>  <body>   <h3>Настройка моста ISDN - IP</h3>   <form onsubmit='return false;' id='frm1' >    <label for='host_ip' >IP адрес хоста:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>     <input type='text' id='host_ip' name='host_ip' value='' style='width: 110px;'>    <input type='button' onclick='send1()' value='обновить' style='    width: 80px;'>  </form><br>  <form onsubmit='return false;' id='frm2' >    <label for='mask' style=>Маска сети:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>    <input type='text' id='mask' name='mask' value='' style='width: 110px;'>    <input type='button' onclick='send2()' value='обновить' style='    width: 80px;'>  </form><br>   <form onsubmit='return false;' id='frm3' >    <label for='gateway' >IP адрес шлюза:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>    <input type='text' id='gateway' name='gateway' value='' style='width: 110px;'>    <input type='button' onclick='send3()' value='обновить' style='    width: 80px;'>  </form><br>   <form onsubmit='return false;' id='frm4' >    <label for='dest_ip' >IP адрес получателя:</label>    <input type='text' id='dest_ip' name='dest_ip' value='' style='width: 110px;'>    <input type='button' onclick='send4()' value='обновить' style='    width: 80px;'>  </form><br><button onclick='reboot()' style='border-left-width: 2px;border-left-style: solid;margin-left: 138px;'>Перезагруза хоста</button><p id='demo' value='  '></p>
 <script>
   sleep(500);
   let request1 = new XMLHttpRequest();
@@ -170,24 +136,14 @@
       document.getElementById('demo').innerHTML = 'Хост перезагружен';
   }
 var md5 = function (str) {
-  /*
-   * Add integers, wrapping at 2^32. This uses 16-bit operations internally
-   * to work around bugs in some JS interpreters.
-   */
   function safe_add(x, y) {
     var lsw = (x & 0xFFFF) + (y & 0xFFFF),
       msw = (x >> 16) + (y >> 16) + (lsw >> 16);
     return (msw << 16) | (lsw & 0xFFFF);
   }
-  /*
-   * Bitwise rotate a 32-bit number to the left.
-   */
   function bit_rol(num, cnt) {
     return (num << cnt) | (num >>> (32 - cnt));
   }
-  /*
-   * These functions implement the four basic operations the algorithm uses.
-   */
   function md5_cmn(q, a, b, x, s, t) {
     return safe_add(bit_rol(safe_add(safe_add(a, q), safe_add(x, t)), s), b);
   }
@@ -203,11 +159,7 @@ var md5 = function (str) {
   function md5_ii(a, b, c, d, x, s, t) {
     return md5_cmn(c ^ (b | (~d)), a, b, x, s, t);
   }
-  /*
-   * Calculate the MD5 of an array of little-endian words, and a bit length.
-   */
   function binl_md5(x, len) {
-    /* append padding */
     x[len >> 5] |= 0x80 << ((len) % 32);
     x[(((len + 64) >>> 9) << 4) + 14] = len;
     var i, olda, oldb, oldc, oldd,
@@ -291,10 +243,6 @@ var md5 = function (str) {
     }
     return [a, b, c, d];
   }
-  /*
-   * Convert a raw string to an array of little-endian words
-   * Characters >255 have their high-byte silently ignored.
-   */
   function rstr2binl(input) {
     var i, output = [];
     output[(input.length >> 2) - 1] = undefined;
@@ -306,9 +254,6 @@ var md5 = function (str) {
     }
     return output;
   }
-  /*
-   * Convert an array of little-endian words to a string
-   */
   function binl2rstr(input) {
     var i, output = '';
     for (i = 0; i < input.length * 32; i += 8) {
@@ -316,9 +261,6 @@ var md5 = function (str) {
     }
     return output;
   }
-  /*
-   * Convert a raw string to a hex string
-   */
   function rstr2hex(input) {
     var hex_tab = '0123456789abcdef',
       output = '',
@@ -356,15 +298,4 @@ var md5 = function (str) {
     }
    }
 </script>
-   <button  onclick='change_pass()' style='border-left-width: 2px;border-left-style: solid;margin-left: 138px; width: 130px'>Сменить пароль</button>
-    <style>
-      footer {
-        padding: 10px 20px;
-        background: #666;
-        color: white;
-      }
-    </style>
-   <footer>
-      <p>Компания © GIT. Все права защищены.  +7 495 223-07-25   119571 Москва,  проспект Вернадского, д.94, корп.5</p>
-    </footer>
-</html>
+   <button  onclick='change_pass()' style='border-left-width: 2px;border-left-style: solid;margin-left: 138px; width: 130px'>Сменить пароль</button>    <style>      footer {        padding: 10px 20px;        background: #666;        color: white;      }    </style>   <footer>      <p>Компания © GIT. Все права защищены.  +7 495 223-07-25   119571 Москва,  проспект Вернадского, д.94, корп.5</p>    </footer></html>
