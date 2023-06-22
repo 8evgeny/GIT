@@ -90,10 +90,11 @@
   let req = new XMLHttpRequest();
   function send1() 
   {
+    let command = 'SET_HOST_IP'
     let x1 = document.getElementById('frm1').elements[0].value;
     if(ValidateIPaddress(x1))
     {
-      req.open('GET', 1+x1);
+      req.open('GET', command+x1);
       req.send();
       sleep(2000);
       document.getElementById('demo').innerHTML = 'IP адрес хоста обновлен';
@@ -107,10 +108,11 @@
   }                                               
   function send2() 
   {
+    let command = 'SET_MASK_IP'
     let x2 = document.getElementById('frm2').elements[0].value;
     if(ValidateIPaddress(x2))
     {
-      req.open('GET', 2+x2);
+      req.open('GET', command+x2);
       req.send();
       sleep(2000);
       document.getElementById('demo').innerHTML = 'Маска сети обновлена';
@@ -124,10 +126,11 @@
   }
   function send3() 
   {
+    let command = 'SET_GATE_IP'
     let x3 = document.getElementById('frm3').elements[0].value;
     if(ValidateIPaddress(x3))
     {
-      req.open('GET', 3+x3);
+      req.open('GET', command+x3);
       req.send();
       sleep(2000);
       document.getElementById('demo').innerHTML = 'IP адрес шлюза обновлен';
@@ -142,10 +145,11 @@
   
   function send4() 
   {
+    let command = 'SET_DEST_IP'
     let x4 = document.getElementById('frm4').elements[0].value;
     if(ValidateIPaddress(x4))
     {
-      req.open('GET', 4+x4);
+      req.open('GET', command+x4);
       req.send();
       sleep(2000);
       document.getElementById('demo').innerHTML = 'IP адрес получателя обновлен';
