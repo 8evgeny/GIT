@@ -82,15 +82,15 @@
   function ValidateIPaddress(ipaddress) 
   {  
     if (/^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(ipaddress)) {  
-      return (true)  
+      return (true); 
   }  
-  return (false)  
+  return (false);  
   } 
 
   let req = new XMLHttpRequest();
   function send1() 
   {
-    let command = 'SET_HOST_IP'
+    let command = 'SET_HOST_IP';
     let x1 = document.getElementById('frm1').elements[0].value;
     if(ValidateIPaddress(x1))
     {
@@ -108,7 +108,7 @@
   }                                               
   function send2() 
   {
-    let command = 'SET_MASK_IP'
+    let command = 'SET_MASK_IP';
     let x2 = document.getElementById('frm2').elements[0].value;
     if(ValidateIPaddress(x2))
     {
@@ -126,7 +126,7 @@
   }
   function send3() 
   {
-    let command = 'SET_GATE_IP'
+    let command = 'SET_GATE_IP';
     let x3 = document.getElementById('frm3').elements[0].value;
     if(ValidateIPaddress(x3))
     {
@@ -145,7 +145,7 @@
   
   function send4() 
   {
-    let command = 'SET_DEST_IP'
+    let command = 'SET_DEST_IP';
     let x4 = document.getElementById('frm4').elements[0].value;
     if(ValidateIPaddress(x4))
     {
@@ -163,7 +163,7 @@
   }
   function reboot() 
   {
-    let command = 'REBOOT'
+    let command = 'REBOOT';
       req.open('GET', command);
       req.send();
       sleep(2000);
@@ -307,8 +307,7 @@ var md5 = function (str) {
    * Characters >255 have their high-byte silently ignored.
    */
   function rstr2binl(input) {
-    var i,
-      output = [];
+    var i, output = [];
     output[(input.length >> 2) - 1] = undefined;
     for (i = 0; i < output.length; i += 1) {
       output[i] = 0;
@@ -323,8 +322,7 @@ var md5 = function (str) {
    * Convert an array of little-endian words to a string
    */
   function binl2rstr(input) {
-    var i,
-      output = '';
+    var i, output = '';
     for (i = 0; i < input.length * 32; i += 8) {
       output += String.fromCharCode((input[i >> 5] >>> (i % 32)) & 0xFF);
     }
@@ -347,10 +345,10 @@ var md5 = function (str) {
     return output;
   }
   return function (str) {
-    str = unescape(encodeURIComponent(str))
-    str = binl_md5(rstr2binl(str), str.length * 8)
-    str = binl2rstr(str)
-    return rstr2hex(str)
+    str = unescape(encodeURIComponent(str));
+    str = binl_md5(rstr2binl(str), str.length * 8);
+    str = binl2rstr(str);
+    return rstr2hex(str);
   }
 }()
 
