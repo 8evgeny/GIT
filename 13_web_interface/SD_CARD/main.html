@@ -31,8 +31,8 @@
     <input type='button' onclick='send4()' value='обновить' style='
     width: 80px; margin-left: 20px;'>
   </form>
-  <form onsubmit='return false;' id='frm5' >
-    <label for='mac'>MAC адрес:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+  <form onsubmit='return false;' id='frm5' style='visibility:hidden'>
+    <label for='mac'>MAC адрес:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
     <input type='text' id='mac' name='mac' value='' style='width: 110px;'>
   </form><br>
 <button onclick='reboot()' style='border-left-width: 2px;border-left-style: solid;margin-left: 20px;'>Перезагруза хоста</button><button  onclick='change_pass()' style='border-left-width: 2px;border-left-style: solid;margin-left: 600px; width: 130px'>Сменить пароль</button>
@@ -85,6 +85,16 @@
   {
     document.getElementById('frm2').elements[0].value=request4.responseText.toString().substring(0, 15);
     document.getElementById('frm2').style.visibility = 'visible';
+  };
+  let request5 = new XMLHttpRequest();
+  sleep(100);
+  request5.open('GET', '/mac_adr');
+  request5.send();
+  sleep(100);
+  request5.onreadystatechange = function() 
+  {
+    document.getElementById('frm5').elements[0].value=request4.responseText.toString().substring(0, 15);
+    document.getElementById('frm5').style.visibility = 'visible';
   };
   function ValidateIPaddress(ipaddress) 
   {  
