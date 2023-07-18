@@ -162,7 +162,7 @@ set(LINKER_FLAGS "SHELL: \
     -T${LINKER_SCRIPT_FLASH} \
     -mcpu=cortex-m7 \
     --specs=nosys.specs \
-    -Wl,--gc-sections \
+    -Wl,--gc-sections,--print-memory-usage \
     -static \
     --specs=nano.specs \
     -mfpu=fpv5-d16 \
