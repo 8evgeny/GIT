@@ -1,0 +1,87 @@
+VERSION
+8
+
+COMMSETTINGS
+0
+COM9
+COM2
+115200
+2
+0
+4
+0
+0
+
+COMMDISPLAY
+0
+
+SEND
+0
+Check Communication
+AB CD 00 01 88
+0
+5
+
+SEND
+1
+Measure Line 1 on 80 Hz
+AB CD 01 02 00 00
+0
+5
+
+SEND
+2
+Measure Line 2 on 80 Hz
+AB CD 01 02 01 00
+0
+5
+
+SEND
+3
+Measure Line 3 on 80 Hz
+AB CD 01 02 02 00
+0
+5
+
+SEND
+4
+Measure Line 4 on 80 Hz
+AB CD 01 02 03 00
+0
+5
+
+SEND
+5
+Measure Line 5 on 80 Hz
+AB CD 01 02 04 00
+0
+5
+
+SEND
+6
+Measure Line 6 on 80 Hz
+AB CD 01 02 05 00
+0
+5
+
+SEND
+7
+Measure Line 1 on 1 kHz
+AB CD 01 02 00 01
+0
+5
+
+SEND
+8
+Output Control
+AB CD 03 06 01 01 01 01 01 01
+0
+5
+
+SEND
+9
+Line Control
+AB CD 04 06 01 00 00 00 00 00
+0
+5
+

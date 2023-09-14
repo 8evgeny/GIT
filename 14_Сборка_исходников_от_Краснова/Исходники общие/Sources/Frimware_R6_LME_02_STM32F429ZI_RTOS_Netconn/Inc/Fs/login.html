@@ -1,0 +1,85 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv='Content-Type' content='text/html; charset=windows-1251'>
+<link rel="icon" href="/favicon.ico" type="image/x-icon">
+<title>Авторизация</title>
+</head>
+<script src="/mchp.js" type="text/javascript"></script>
+<body>
+<a href="\">
+<img src="logo.png"  width="185" height="45">
+</a>
+<h3>Авторизация</h3>
+</td></tr>
+
+<tr><td>
+  <form id='auth' method="get">
+      <input type="hidden" name="remote_addr" value="192.168.10.100">
+      <input type="hidden" name="key" value="ae0ed4a179cd7739b100187d5f3e843500322cef">		
+<table >
+
+  <tr>
+          <td>Логин:</td>
+          <td><input type="text" name="login" id="login" size="30" /></td>
+  </tr>
+  <tr>
+          <td>Пароль:</td>
+          <td><input type="password" name="pass" id="pass" size="30"/></td>
+  </tr>
+  <tr>
+          <td></td>
+          <td><input type="submit" id="enter" value="Войти"/></td>							
+  </tr>              
+</table>
+  </form>
+
+<script language="javascript">
+var loginpassword;
+
+function checkLoginHandler(xmlData) {
+// Check if a timeout occurred
+	if(!xmlData)
+	{
+		alert("Ошибка! Устройство LME не отвечает.\nПроверьте подключение.");
+		return;
+	} else {
+		if (getXMLValue(xmlData, 'result') == "OK") {
+			writeCookie("sid", btoa(loginpassword), 3);
+			window.location.href = '/';
+		} else if (getXMLValue(xmlData, 'result') == "ERR") {
+			alert("Неверный логин или пароль!");
+		} else {
+			alert("Неверный формат XML!");
+		}
+	}
+}
+
+function onClickEnter(e) {
+	var str;
+	
+	if (e.preventDefault) e.preventDefault();
+	
+	loginpassword = "";
+	loginpassword += document.getElementById("login").value;
+	loginpassword += ":";
+	loginpassword += document.getElementById("pass").value;
+	
+	str = "check_credentials\n";
+	str += starter + 'sid' + divider + btoa(loginpassword) + ender;
+	
+	newAJAXCommand('check_credentials.xml', checkLoginHandler, false, str);
+}
+
+var form2 = document.getElementById('auth');
+// перехват нажатия "submit", сначала идет проверка валидности паттернов, затем только вызывается onClickEnter
+if (form2.attachEvent) {
+    form2.attachEvent("submit", onClickEnter);
+} else {
+    form2.addEventListener("submit", onClickEnter);
+}
+
+</script>
+
+</body>
+</html>
