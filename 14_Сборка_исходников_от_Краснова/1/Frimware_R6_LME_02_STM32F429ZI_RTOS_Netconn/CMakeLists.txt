@@ -90,6 +90,11 @@ add_library(hal_LIB ${hal_src})
 
 file (GLOB src Src/*.c
     startup_stm32f429zitx.s
+    Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/*.c
+    Middlewares/Third_Party/FreeRTOS/Source/*.c
+    Middlewares/Third_Party/LwIP/src/apps/http/fs.c
+    Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F/port.c
+#    Middlewares/Third_Party/FreeRTOS/Source/portable/MemMang/*.c
     )
 add_executable(${PROJECT_NAME}.elf ${src})
 
