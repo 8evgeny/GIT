@@ -24,7 +24,6 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}\
     -O0 \
     -ffunction-sections \
     -fdata-sections \
-    -Wall \
     -fstack-usage \
     --specs=nano.specs \
     -mfpu=fpv4-sp-d16 \
@@ -32,6 +31,7 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}\
     -mthumb \
     -Xlinker -Map=${PROJECT_NAME}.map \
     ")
+#-Wall
 
 include_directories(
     Inc
@@ -58,9 +58,15 @@ include_directories(
     Drivers/CMSIS/Device/ST/STM32F4xx/Include
     Drivers/STM32F4xx_HAL_Driver/Inc
     Drivers/CMSIS/Core/Include
+    Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F
     )
 
 file (GLOB hal_src Drivers/STM32F4xx_HAL_Driver/Src/*.c)
+list(REMOVE_ITEM hal_src
+    ${CMAKE_HOME_DIRECTORY}/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rtc.c
+    ${CMAKE_HOME_DIRECTORY}/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_timebase_rtc_alarm_template.c
+    ${CMAKE_HOME_DIRECTORY}/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_timebase_rtc_wakeup_template.c
+    )
 add_library(hal_LIB ${hal_src})
 
 file (GLOB src Src/*.c
