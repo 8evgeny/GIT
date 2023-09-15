@@ -42,7 +42,9 @@ include_directories(
 file (GLOB hal_src Drivers/STM32F4xx_HAL_Driver/Src/*.c)
 add_library(hal_LIB ${hal_src})
 
-file (GLOB src Core/Src/*.c Core/Startup/startup_stm32f407vgtx.s Middlewares/Third_Party/littlefs/eeprom.c)
+file (GLOB src Src/*.c
+    startup_stm32f407vgtx.s
+    )
 add_executable(${PROJECT_NAME}.elf ${src})
 
 set_target_properties(${PROJECT_NAME}.elf PROPERTIES LINKER_LANGUAGE CXX)
