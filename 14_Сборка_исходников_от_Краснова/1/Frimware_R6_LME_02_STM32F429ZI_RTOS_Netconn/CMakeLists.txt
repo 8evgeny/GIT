@@ -99,6 +99,8 @@ file (GLOB src Src/*.c
     Middlewares/Third_Party/LwIP/system/OS/*.c
     Middlewares/Third_Party/LwIP/src/core/*.c
     Middlewares/Third_Party/LwIP/src/core/ipv4/*.c
+#    Middlewares/Third_Party/LwIP/src/apps/http/*.c
+    Middlewares/Third_Party/LwIP/src/netif/*.c
     )
 add_executable(${PROJECT_NAME}.elf ${src})
 
