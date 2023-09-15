@@ -8,38 +8,35 @@ set(TOOLS_PATH /home/evg/toolchain/gcc-arm-none-eabi-new)
 #set(CMAKE_CXX_LINKER_LAUNCHER ${TOOLS_PATH}/bin/arm-none-eabi-g++)
 set(CMAKE_OBJCOPY ${TOOLS_PATH}/bin/arm-none-eabi-objcopy)
 
-project(14_Build_code_Krasnov1 C CXX ASM)
+project(14_Build_code_Krasnov2 C CXX ASM)
 #set(CMAKE_BUILD_TYPE debug)
 #set(CMAKE_BUILD_TYPE release)
 
-set(CMAKE_ASM_FLAGS "${CMAKE_ASM_FLAGS} \
-    -mcpu=cortex-m4 \
-    -g3 \
-    -DDEBUG \
-    -c \
-    -x assembler-with-cpp \
-    --specs=nano.specs \
-    -mfpu=fpv4-sp-d16 \
-    -mfloat-abi=hard \
-    -mthumb \
-    ")
+#set(CMAKE_ASM_FLAGS "${CMAKE_ASM_FLAGS} \
+#    -mcpu=cortex-m3 \
+#    -g3 \
+#    -c \
+#    -x assembler-with-cpp \
+#    --specs=nano.specs \
+#    -mfloat-abi=soft \
+#    -mthumb \
+#    ")
 
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} \
-    -mcpu=cortex-m4 \
+    -mcpu=cortex-m3 \
     -std=gnu11 \
     -g3 \
     -DDEBUG \
     -DUSE_FULL_LL_DRIVER \
     -DUSE_HAL_DRIVER \
-    -DSTM32F429xx \
+    -DSTM32L151xB \
     -c \
-    -O0 \
+    -O3 \
     -ffunction-sections \
     -fdata-sections \
     -fstack-usage \
     --specs=nano.specs \
-    -mfpu=fpv4-sp-d16 \
-    -mfloat-abi=hard \
+    -mfloat-abi=soft \
     -mthumb \
     -Xlinker -Map=${PROJECT_NAME}.map \
     ")
@@ -54,6 +51,7 @@ endforeach()
 
 include_directories(
     Inc
+    Src
     Middlewares/Third_Party/LwIP/src/include
     Middlewares/Third_Party/LwIP/system
     Middlewares/Third_Party/FreeRTOS/Source/include
@@ -72,15 +70,16 @@ include_directories(
     Middlewares/Third_Party/LwIP/src/include/compat/posix/sys
     Middlewares/Third_Party/LwIP/src/include/compat/stdc
     Middlewares/Third_Party/LwIP/system/arch
-    Drivers/STM32F4xx_HAL_Driver/Inc/Legacy
+    Drivers/STM32L1xx_HAL_Driver/Inc/Legacy
     Drivers/CMSIS/Include
-    Drivers/CMSIS/Device/ST/STM32F4xx/Include
-    Drivers/STM32F4xx_HAL_Driver/Inc
+    Drivers/CMSIS/Device/ST/STM32L1xx/Include
     Drivers/CMSIS/Core/Include
     Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F
+    Drivers/STM32L1xx_HAL_Driver/Inc
+    App_user
     )
 
-file (GLOB hal_src Drivers/STM32F4xx_HAL_Driver/Src/*.c)
+file (GLOB hal_src Drivers/STM32L1xx_HAL_Driver/Src/*.c)
 list(REMOVE_ITEM hal_src
     ${CMAKE_HOME_DIRECTORY}/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rtc.c
     ${CMAKE_HOME_DIRECTORY}/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_timebase_rtc_alarm_template.c
@@ -88,31 +87,33 @@ list(REMOVE_ITEM hal_src
     )
 add_library(hal_LIB ${hal_src})
 
-file (GLOB src Src/*.c
-    startup_stm32f429zitx.s
+file (GLOB src
+    Src/*.c
+    App_user/*.c
+    startup_stm32l151c8tx.s
     )
 add_executable(${PROJECT_NAME}.elf ${src})
 
 set_target_properties(${PROJECT_NAME}.elf PROPERTIES LINKER_LANGUAGE CXX)
-set(LINKER_SCRIPT_FLASH "${CMAKE_SOURCE_DIR}/STM32F429ZITX_FLASH.ld")
+set(LINKER_SCRIPT_FLASH "${CMAKE_SOURCE_DIR}/STM32L151C8TX_FLASH.ld")
 set(LINKER_FLAGS "SHELL: \
     -T${LINKER_SCRIPT_FLASH} \
-    -mcpu=cortex-m4 \
+    -mcpu=cortex-m3 \
     --specs=nosys.specs \
     -Wl,-Map=${PROJECT_NAME}.map \
     -Wl,--gc-sections \
     -static \
     --specs=nano.specs \
     -Wl,--gc-sections,--print-memory-usage \
-    -mfpu=fpv5-d16 \
-    -mfloat-abi=hard \
-    -mthumb
+    -mfloat-abi=soft \
+    -mthumb \
     -Wl,--start-group \
     -lc \
     -lm \
     -Wl,--end-group \
     ")
 
+#--library_type=microlib
 target_link_options(${PROJECT_NAME}.elf PRIVATE ${LINKER_FLAGS})
 
 target_link_libraries(${PROJECT_NAME}.elf PUBLIC
