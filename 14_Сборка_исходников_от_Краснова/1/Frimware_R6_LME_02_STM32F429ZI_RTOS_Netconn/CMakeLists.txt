@@ -94,7 +94,11 @@ file (GLOB src Src/*.c
     Middlewares/Third_Party/FreeRTOS/Source/*.c
     Middlewares/Third_Party/LwIP/src/apps/http/fs.c
     Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F/port.c
-#    Middlewares/Third_Party/FreeRTOS/Source/portable/MemMang/*.c
+    Middlewares/Third_Party/FreeRTOS/Source/portable/MemMang/heap_4.c
+    Middlewares/Third_Party/LwIP/src/api/*.c
+    Middlewares/Third_Party/LwIP/system/OS/*.c
+    Middlewares/Third_Party/LwIP/src/core/*.c
+    Middlewares/Third_Party/LwIP/src/core/ipv4/*.c
     )
 add_executable(${PROJECT_NAME}.elf ${src})
 
