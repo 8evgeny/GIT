@@ -12,7 +12,19 @@ project(14_Build_code_Krasnov1 C CXX ASM)
 #set(CMAKE_BUILD_TYPE debug)
 #set(CMAKE_BUILD_TYPE release)
 
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}\
+set(CMAKE_ASM_FLAGS "${CMAKE_ASM_FLAGS} \
+    -mcpu=cortex-m4 \
+    -g3 \
+    -DDEBUG \
+    -c \
+    -x assembler-with-cpp \
+    --specs=nano.specs \
+    -mfpu=fpv4-sp-d16 \
+    -mfloat-abi=hard \
+    -mthumb \
+    ")
+
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} \
     -mcpu=cortex-m4 \
     -std=gnu11 \
     -g3 \
@@ -32,6 +44,13 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}\
     -Xlinker -Map=${PROJECT_NAME}.map \
     ")
 #-Wall
+
+get_cmake_property(_variableNames VARIABLES)
+list (SORT _variableNames)
+foreach (_variableName ${_variableNames})
+    message(STATUS "${_variableName}=${${_variableName}}")
+endforeach()
+
 
 include_directories(
     Inc
