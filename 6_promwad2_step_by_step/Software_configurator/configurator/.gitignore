@@ -1,2 +1,4 @@
 *.pro.user.*
 /configurator.pro.user
+cmake-build-debug
+.idea
