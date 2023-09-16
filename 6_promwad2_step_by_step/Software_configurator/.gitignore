@@ -1,3 +1,4 @@
 build/
 build_win
 build*
+build_debug
