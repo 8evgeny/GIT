@@ -374,6 +374,7 @@ MenuBar {
     Connections {
         target: appCore
         onHistoryOfFiles: {
+//        function onHistoryOfFiles() {
             onepRecent1Action.text = file1
             onepRecent2Action.text = file2
             onepRecent3Action.text = file3
