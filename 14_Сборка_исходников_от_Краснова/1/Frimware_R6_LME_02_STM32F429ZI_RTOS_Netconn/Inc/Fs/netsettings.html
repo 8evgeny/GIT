@@ -1,0 +1,157 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv='Content-Type' content='text/html; charset=windows-1251'>
+<link rel="icon" href="/favicon.ico" type="image/x-icon">
+<title>Сетевые настройки</title>
+</head>
+<script src="/mchp.js" type="text/javascript"></script>
+<body onLoad="loadNetSettings()">
+
+<script language="javascript">
+if (readCookie("sid") == '') window.location = 'login.html';
+</script>
+
+<a href="\">
+<img src="logo.png"  width="185" height="45">
+</a>
+<h3>Сетевые настройки</h3>
+<p><a href="/login.html" onClick="logOff()">Выход</a><a>&nbsp;&nbsp;&nbsp;</a><a href="mainpage.html">На главную</a></p>
+
+<script language="JavaScript">
+		//top.frames[1].location = top.frames[1].location;
+function check_dhcp(obj)
+{
+	if(obj.checked == true) {
+		document.getElementById("loc_ip").disabled=true;
+		document.getElementById("net_mask").disabled=true;
+		document.getElementById("net_gate").disabled=true;
+	} else {
+		document.getElementById("loc_ip").disabled=false;
+		document.getElementById("net_mask").disabled=false;
+		document.getElementById("net_gate").disabled=false;	
+	}
+
+}
+function saveRespHandler(xmlData) {
+	if(!xmlData)
+	{
+		alert("Ошибка! Запись закончилась неудачей.\nПроверьте подключение.");
+		return;
+	} else {
+		document.getElementById('result').innerHTML = "Успешно записано!";
+		setTimeout("hideResult()", 3000);
+	}
+}
+function onSubmitSave(e) {
+	if (e.preventDefault) e.preventDefault();
+	
+	str = "save_netsettings\n";
+
+	addToStrNameAndValue("loc_ip");
+	addToStrNameAndValue("net_mask");
+	addToStrNameAndValue("net_gate");
+	addToStrNameAndValue("dhcp_en");
+	
+	newAJAXCommand('save_netsettings.xml', saveRespHandler, false, str);
+}
+function loadNetSettings() {
+	verbose = false;
+	newAJAXCommand('netsettings.xml', loadNetSettingsHandler, false);
+}
+function parseNetsettingsXML(xmlData) {
+	var i, el, chbox, lbox, index;
+	document.getElementById('loc_ip').value = getXMLValue(xmlData, 'loc_ip');
+	document.getElementById('net_mask').value = getXMLValue(xmlData, 'net_mask');
+	document.getElementById('net_gate').value = getXMLValue(xmlData, 'net_gate');
+	
+	chbox = document.getElementById('dhcp_en');
+	if (getXMLValue(xmlData, 'dhcp_en') == '1') {
+		chbox.checked = true;
+	} else {
+		chbox.checked = false;
+	}
+}
+function loadNetSettingsHandler(xmlData) {
+// Check if a timeout occurred
+	if(!xmlData)
+	{
+		alert("Ошибка! Устройство LME не отвечает.\nПроверьте подключение.");
+		return;
+	} else {		
+		parseNetsettingsXML(xmlData); // заполняем все поля страницы данными из XML
+		
+		if (verbose == true) {
+			document.getElementById('result').innerHTML = "Успешно прочитано!";
+			setTimeout("hideResult()", 3000);		
+		}
+	}
+}
+</script>
+
+<form id='my-form' method="get">
+
+	<TABLE>
+	<TR>
+	<TD>Локальный адрес</TD>
+	<TD>
+		<input type="text" name="loc_ip" id="loc_ip" size="30"
+ pattern="\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}" title="Формат: 0-255.0-255.0-255.0-255"required=""
+		
+		>
+	</TD>
+	</TR>
+	<TR>
+	<TD>Маска сети</TD>
+	<TD>
+		<input type="text" name="net_mask" id="net_mask" size="30"
+ pattern="\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}" title="Формат: 0-255.0-255.0-255.0-255"required=""
+		
+		>
+	</TD>
+	</TR>
+	<TR>
+	<TD>Основной шлюз</TD>
+	<TD><input type="text" name="net_gate" id="net_gate" size="30" pattern="\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}" title="Формат: 0-255.0-255.0-255.0-255" required
+		
+		>		
+	</TD>
+	</TR>
+	<TR>
+	<TD></TD>
+	<TD>
+		
+        <input name="dhcp_en" type="checkbox" id="dhcp_en" value="true"/><a>использовать DHCP</a><br />
+
+<script language="JavaScript">		
+		check_dhcp(document.getElementById("dhcp_check"));
+</script>
+
+	</TD>
+	</TR>
+	<TD><br/></TD>
+	
+	<TR>
+	<TD>          
+        <input type="submit" name="butSaveToDevice" id="butSaveToDevice" value="Сохранить" style="width:220px">
+    </TD>
+	</TR>
+	</TABLE>
+</form>
+
+<div id="result">&nbsp;</div>
+
+<script language="javascript">
+
+var form = document.getElementById('my-form');
+// перехват нажатия "submit", сначала идет проверка валидности паттернов, затем только вызывается onSubmitSave
+if (form.attachEvent) {
+    form.attachEvent("submit", onSubmitSave);
+} else {
+    form.addEventListener("submit", onSubmitSave);
+}
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,12 @@
+syntax: glob
+**nbproject*
+**CMSIS**
+MDK-ARM/ObjectFiles/**
+MDK-ARM/DebugConfig/**
+**.uvguix.**
+*.uvprojx
+*.uvoptx
+*.scvd
+*.sct
+*.exe
+*.bat
