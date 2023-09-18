@@ -77,7 +77,7 @@ include_directories(
     Drivers/CMSIS/Device/ST/STM32F4xx/Include
     Drivers/STM32F4xx_HAL_Driver/Inc
     Drivers/CMSIS/Core/Include
-    Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F
+#    Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F #эти файлы нужны при сборке Keil
     )
 
 file (GLOB hal_src Drivers/STM32F4xx_HAL_Driver/Src/*.c)
@@ -93,7 +93,7 @@ file (GLOB src Src/*.c
     Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/*.c
     Middlewares/Third_Party/FreeRTOS/Source/*.c
     Middlewares/Third_Party/LwIP/src/apps/http/fs.c
-    Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F/port.c
+    Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.c
     Middlewares/Third_Party/FreeRTOS/Source/portable/MemMang/heap_4.c
     Middlewares/Third_Party/LwIP/src/api/*.c
     Middlewares/Third_Party/LwIP/system/OS/*.c
