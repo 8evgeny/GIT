@@ -11,7 +11,8 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-set(COMPILE_OPTIONS "-Wpedantic;-Wall;-Wextra;-finput-charset=UTF8")
+set(COMPILE_OPTIONS "-Wpedantic;-Wall;-Wextra")
+#;-finput-charset=UTF8")
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}  -pthread -fcoroutines")
 
 find_package(QT NAMES Qt5 COMPONENTS Core REQUIRED)
