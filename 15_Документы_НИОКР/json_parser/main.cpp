@@ -16,26 +16,35 @@
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
-
-    QString val;
-    QFile file;
+    // Step 1: Read the JSON file into a QByteArray.
+    QFile file("../index.json");
     file.setFileName("../index.json");
-    file.open(QIODevice::ReadOnly | QIODevice::Text);
-    val = file.readAll();
-    file.seek(0);
-    QByteArray data = file.readAll();
+    file.open(QIODevice::ReadOnly);
+    QByteArray jsonData = file.readAll();
     file.close();
 
-    QJsonDocument jsonDocument(QJsonDocument::fromJson(QString(data)));
-    QJsonDocument doc = QJsonDocument::fromJson(val.toUtf8());
- QJsonObject json1 = jsonDocument.object();
-    QJsonObject json = doc.object();
+    // Step 2: Create a QJsonDocument using the QByteArray.
+    QJsonDocument jsonDocument = QJsonDocument::fromJson(jsonData);
+
+    // Step 3: Extract the QJsonObject from the QJsonDocument.
+    QJsonObject jsonObject = jsonDocument.object();
+
+    // Access the values in the QJsonObject.
+    QString name = jsonObject["Наименовани"].toString();
+    int age = jsonObject["age"].toInt();
+    QString city = jsonObject["city"].toString();
 
 
-    QString  naim = "Наименовани";
-    QString NaimenovanieIzdeliya = json[naim].toString();
-    int numberPages = json["Общее количество листов документа"].toInt();
-    qDebug() << NaimenovanieIzdeliya;
-    qDebug() << numberPages;
+
+//    QJsonDocument doc = QJsonDocument::fromJson(val.toUtf8());
+// QJsonObject json1 = jsonDocument.object();
+//    QJsonObject json = doc.object();
+
+
+//    QString  naim = "Наименовани";
+//    QString NaimenovanieIzdeliya = json[naim].toString();
+//    int numberPages = json["Общее количество листов документа"].toInt();
+//    qDebug() << NaimenovanieIzdeliya;
+//    qDebug() << numberPages;
     return a.exec();
 }
