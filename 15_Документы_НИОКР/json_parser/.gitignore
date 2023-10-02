@@ -71,4 +71,6 @@ Thumbs.db
 *.dll
 *.exe
 build
+cmake-build-debug
+.idea
 /CMakeLists.txt.user
