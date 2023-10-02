@@ -18,6 +18,12 @@ int main(int argc, char *argv[])
     QString jsonData = file.readAll();
     file.close();
 
+    std::string NaimenovanieIzdeliya{""};
+    std::string NaimenovanieDokumenta{""};
+    std::string OboznachenieIkodDokumenta{""};
+
+
+
     Document document;
     if (!document.Parse(jsonData.toStdString().c_str()).HasParseError())
     {
@@ -28,13 +34,16 @@ int main(int argc, char *argv[])
                 qDebug() << "Реквизиты документа по ГОСТ 2.104";
                 const   Value & a = document["Реквизиты документа по ГОСТ 2.104"];
                 if (a.HasMember("Наименование изделия")){
-                    qDebug() << "\tНаименование изделия: " << a["Наименование изделия"].GetString();
+                    NaimenovanieIzdeliya = a["Наименование изделия"].GetString();
+                    qDebug() << "\tНаименование изделия: " << NaimenovanieIzdeliya.c_str();
                 }
                 if (a.HasMember("Наименование документа")){
-                    qDebug() << "\tНаименование документа:" << a["Наименование документа"].GetString();
+                    NaimenovanieDokumenta = a["Наименование документа"].GetString();
+                    qDebug() << "\tНаименование документа:" << NaimenovanieDokumenta.c_str();
                 }
                 if (a.HasMember("Обозначение и код документа")){
-                    qDebug() << "\tОбозначение и код документа:" << a["Обозначение и код документа"].GetString();
+                    OboznachenieIkodDokumenta = a["Обозначение и код документа"].GetString();
+                    qDebug() << "\tОбозначение и код документа:" << OboznachenieIkodDokumenta.c_str();
                 }
                 if (a.HasMember("Общее количество листов документа")){
                     qDebug() << "\tОбщее количество листов документа:" << a["Общее количество листов документа"].GetInt();
