@@ -15,6 +15,8 @@ set(COMPILE_OPTIONS "-Wpedantic;-Wall;-Wextra")
 #;-finput-charset=UTF8")
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}  -pthread -fcoroutines")
 
+include_directories(rapidjson/include)
+
 find_package(QT NAMES Qt5 COMPONENTS Core REQUIRED)
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Core REQUIRED)
 
@@ -24,3 +26,4 @@ add_executable(json_parser
 target_link_libraries(json_parser
     Qt${QT_VERSION_MAJOR}::Core
     )
+add_subdirectory(rapidjson)
