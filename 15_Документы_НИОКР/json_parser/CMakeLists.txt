@@ -22,6 +22,7 @@ find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Core REQUIRED)
 
 add_executable(json_parser
   main.cpp
+  jsonParser.cpp
 )
 target_link_libraries(json_parser
     Qt${QT_VERSION_MAJOR}::Core
