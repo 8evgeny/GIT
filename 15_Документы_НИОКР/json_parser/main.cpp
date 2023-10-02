@@ -1,8 +1,5 @@
 ﻿#include <QCoreApplication>
 #include <QFile>
-#include <QJsonObject>
-#include <QJsonDocument>
-#include <QJsonArray>
 #include <QDebug>
 #include "rapidjson/document.h"
 #include "rapidjson/error/en.h"
@@ -21,7 +18,9 @@ int main(int argc, char *argv[])
     std::string NaimenovanieIzdeliya{""};
     std::string NaimenovanieDokumenta{""};
     std::string OboznachenieIkodDokumenta{""};
-
+    int NumberSheets{0};
+    std::string Company{""};
+    std::string Creater{""};
 
 
     Document document;
@@ -46,16 +45,19 @@ int main(int argc, char *argv[])
                     qDebug() << "\tОбозначение и код документа:" << OboznachenieIkodDokumenta.c_str();
                 }
                 if (a.HasMember("Общее количество листов документа")){
-                    qDebug() << "\tОбщее количество листов документа:" << a["Общее количество листов документа"].GetInt();
+                    NumberSheets = a["Общее количество листов документа"].GetInt();
+                    qDebug() << "\tОбщее количество листов документа:" << NumberSheets;
                 }
                 if (a.HasMember("Наименование или код организации")){
-                    qDebug() << "\tНаименование или код организации:" << a["Наименование или код организации"].GetString();
+                    Company = a["Наименование или код организации"].GetString();
+                    qDebug() << "\tНаименование или код организации:" << Company.c_str();
                 }
                 if (a.HasMember("Сведения о подписании документа")){
                     qDebug() << "\tСведения о подписании документа:";
                     const   Value & b = a["Сведения о подписании документа"];
                     if (b.HasMember("Разработал")){
-                        qDebug() << "\t\tРазработал:" << b["Разработал"].GetString();
+                        Creater = b["Разработал"].GetString();
+                        qDebug() << "\t\tРазработал:" << Creater.c_str();
                     }
                     if (b.HasMember("Дата")){
                         qDebug() << "\t\tДата:" << b["Дата"].GetString();
