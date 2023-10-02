@@ -7,7 +7,7 @@ int main(int argc, char *argv[])
     QString jsonData = file.readAll();
     file.close();
     parseJSON(jsonData);
-
+    cout <<"\n";
     file.setFileName("../index1.json");
     file.open(QIODevice::ReadOnly);
     QString jsonData1 = file.readAll();

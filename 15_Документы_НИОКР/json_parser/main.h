@@ -1,5 +1,4 @@
 #pragma once
-#include <QCoreApplication>
 #include <QFile>
 #include "rapidjson/document.h"
 #include "rapidjson/error/en.h"
