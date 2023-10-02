@@ -1,6 +1,5 @@
 ﻿#include <QCoreApplication>
 #include <QFile>
-#include <QDebug>
 #include "rapidjson/document.h"
 #include "rapidjson/error/en.h"
 #include <chrono>
@@ -32,15 +31,31 @@ int main(int argc, char *argv[])
     std::string naimenovanieIzdeliya{""};
     std::string naimenovanieDokumenta{""};
     std::string oboznachenieIkodDokumenta{""};
-    int numberSheets{0};
+    int numberSheets{-1};
     std::string company{""};
     std::string creater{""};
-    std::tm tm = {};
     auto createdData = std::chrono::system_clock::now();
     std::string createdDataStr{""};
     std::string infoOrderList{""};
-
+    int changeNum{-1};
+    std::string changeNotificationNum{""};
+    auto notificationData = std::chrono::system_clock::now();
+    std::string notificationDataStr{""};
+    std::string inventoryNumOriginal{""};
+    auto storageData = std::chrono::system_clock::now();
+    std::string storageDataStr{""};
     std::string litera{""};
+    int dokumentCode{-1};
+    int version{-1};
+    std::string algorithm{""};
+    std::string contromSummOrigin{""};
+    std::string contromSummParts{""};
+    std::string software{""};
+    int volumeInSheets{-1};
+    bool isValid{false};
+    std::string tags{""};
+
+
 
     Document document;
     if (!document.Parse(jsonData.toStdString().c_str()).HasParseError())
@@ -49,109 +64,135 @@ int main(int argc, char *argv[])
         {
             if (document.HasMember("Реквизиты документа по ГОСТ 2.104"))
             {
-                qDebug() << "Реквизиты документа по ГОСТ 2.104";
+                cout << "Реквизиты документа по ГОСТ 2.104:\n";
                 const   Value & requisites = document["Реквизиты документа по ГОСТ 2.104"];
                 if (requisites.HasMember("Наименование изделия")){
                     naimenovanieIzdeliya = requisites["Наименование изделия"].GetString();
-                    qDebug() << "\tНаименование изделия: " << naimenovanieIzdeliya.c_str();
+                    cout << "\tНаименование изделия: " << naimenovanieIzdeliya << "\n";
                 }
                 if (requisites.HasMember("Наименование документа")){
                     naimenovanieDokumenta = requisites["Наименование документа"].GetString();
-                    qDebug() << "\tНаименование документа:" << naimenovanieDokumenta.c_str();
+                    cout << "\tНаименование документа:" << naimenovanieDokumenta << "\n";
                 }
                 if (requisites.HasMember("Обозначение и код документа")){
                     oboznachenieIkodDokumenta = requisites["Обозначение и код документа"].GetString();
-                    qDebug() << "\tОбозначение и код документа:" << oboznachenieIkodDokumenta.c_str();
+                    cout << "\tОбозначение и код документа:" << oboznachenieIkodDokumenta << "\n";
                 }
                 if (requisites.HasMember("Общее количество листов документа")){
                     numberSheets = requisites["Общее количество листов документа"].GetInt();
-                    qDebug() << "\tОбщее количество листов документа:" << numberSheets;
+                    cout << "\tОбщее количество листов документа:" << numberSheets << "\n";
                 }
                 if (requisites.HasMember("Наименование или код организации")){
                     company = requisites["Наименование или код организации"].GetString();
-                    qDebug() << "\tНаименование или код организации:" << company.c_str();
+                    cout << "\tНаименование или код организации:" << company << "\n";
                 }
                 if (requisites.HasMember("Сведения о подписании документа")){
-                    qDebug() << "\tСведения о подписании документа:";
+                    cout << "\tСведения о подписании документа:\n";
                     const   Value & infoAboutSigning = requisites["Сведения о подписании документа"];
                     if (infoAboutSigning.HasMember("Разработал")){
                         creater = infoAboutSigning["Разработал"].GetString();
-                        qDebug() << "\t\tРазработал:" << creater.c_str();
+                        cout << "\t\tРазработал: " << creater << "\n";
                     }
                     if (infoAboutSigning.HasMember("Дата")){
                         createdDataStr = infoAboutSigning["Дата"].GetString();
                         std::stringstream ss(createdDataStr);
+                        std::tm tm = {};
                         ss >> std::get_time(&tm, "%Y-%m-%d");
                         createdData = std::chrono::system_clock::from_time_t(std::mktime(&tm));
-                        cout << "Дата разработки:"<< createdData <<"\n";
-                        qDebug() << "\t\tДата:" << createdDataStr.c_str();
+                        cout << "\t\tДата: " << createdData << "\n";
                     }
                     if (infoAboutSigning.HasMember("Информационно-удостоверяющий лист")){
                         infoOrderList = infoAboutSigning["Информационно-удостоверяющий лист"].GetString();
-                        qDebug() << "\t\tИнформационно-удостоверяющий лист:" << infoOrderList.c_str();
+                        cout << "\t\tИнформационно-удостоверяющий лист: " << infoOrderList << "\n";
                     }
                 }
                 if (requisites.HasMember("Номер изменения")){
-                    qDebug() << "\tНомер изменения:" << requisites["Номер изменения"].GetInt();
+                    changeNum = requisites["Номер изменения"].GetInt();
+                    cout << "\tНомер изменения: " << changeNum << "\n";
                 }
                 if (requisites.HasMember("Номер извещения об изменении")){
-                    qDebug() << "\tНомер извещения об изменении:" << requisites["Номер извещения об изменении"].GetString();
+                    changeNotificationNum = requisites["Номер извещения об изменении"].GetString();
+                    cout << "\tНомер извещения об изменении: " << changeNotificationNum << "\n";
                 }
                 if (requisites.HasMember("Дата извещения об изменении")){
-                    qDebug() << "\tДата извещения об изменении:" << requisites["Дата извещения об изменении"].GetString();
+                    notificationDataStr = requisites["Дата извещения об изменении"].GetString();
+                    std::stringstream ss(notificationDataStr);
+                    std::tm tm = {};
+                    ss >> std::get_time(&tm, "%Y-%m-%d");
+                    notificationData = std::chrono::system_clock::from_time_t(std::mktime(&tm));
+                    cout << "\tДата извещения об изменении: " << notificationData << "\n";
                 }
                 if (requisites.HasMember("Инвентарный номер подлинника")){
-                    qDebug() << "\tИнвентарный номер подлинника:" << requisites["Инвентарный номер подлинника"].GetString();
+                    inventoryNumOriginal = requisites["Инвентарный номер подлинника"].GetString();
+                    cout << "\tИнвентарный номер подлинника: " << inventoryNumOriginal << "\n";
                 }
                 if (requisites.HasMember("Дата приемки на хранение")){
-                    qDebug() << "\tДата приемки на хранение:" << requisites["Дата приемки на хранение"].GetString();
+                    storageDataStr = requisites["Дата приемки на хранение"].GetString();
+                    std::stringstream ss(storageDataStr);
+                    std::tm tm = {};
+                    ss >> std::get_time(&tm, "%Y-%m-%d");
+                    storageData = std::chrono::system_clock::from_time_t(std::mktime(&tm));
+                    cout << "\tДата приемки на хранение: " << storageData << "\n";
                 }
                 if (requisites.HasMember("Литера")){
                     litera = requisites["Литера"].GetString();
                     if (litera == "")
-                        qDebug() << "\tЛитера:" << "\"\"";
+                        cout << "\tЛитера: " << "\"\"" << "\n";
                     else
-                        qDebug() << "\tЛитера:" << litera.c_str();
+                        cout << "\tЛитера: " << litera << "\n";
                 }
                 if (requisites.HasMember("Код документа в зависимости от характера использования")){
-                    qDebug() << "\tКод документа в зависимости от характера использования:" << requisites["Код документа в зависимости от характера использования"].GetInt();
+                    dokumentCode = requisites["Код документа в зависимости от характера использования"].GetInt();
+                    cout << "\tКод документа в зависимости от характера использования: " << dokumentCode << "\n";
                 }
-            }
+            }//Реквизиты документа
+
             if (document.HasMember("Сервисные данные")){
-                qDebug() << "Сервисные данные:";
+                cout << "Сервисные данные:\n";
                 const   Value & serviceData = document["Сервисные данные"];
                 if (serviceData.HasMember("Версия формата реквизитной части")){
-                    qDebug() << "\tВерсия формата реквизитной части: " << serviceData["Версия формата реквизитной части"].GetInt();
+                    version = serviceData["Версия формата реквизитной части"].GetInt();
+                    cout << "\tВерсия формата реквизитной части: " << version << "\n";
                 }
                 if (serviceData.HasMember("Алгоритм расчета контрольной суммы")){
-                    qDebug() << "\tАлгоритм расчета контрольной суммы: " << serviceData["Алгоритм расчета контрольной суммы"].GetString();
+                    algorithm = serviceData["Алгоритм расчета контрольной суммы"].GetString();
+                    cout << "\tАлгоритм расчета контрольной суммы: " << algorithm << "\n";
                 }
                 if (serviceData.HasMember("Значение контрольной суммы подлинника")){
-                    qDebug() << "\tЗначение контрольной суммы подлинника: " << serviceData["Значение контрольной суммы подлинника"].GetString();
+                    contromSummOrigin = serviceData["Значение контрольной суммы подлинника"].GetString();
+                    cout << "\tЗначение контрольной суммы подлинника: " << contromSummOrigin << "\n";
                 }
                 if (serviceData.HasMember("Значение контрольной суммы содержательных частей")){
-                    qDebug() << "\tЗначение контрольной суммы содержательных частей: " << serviceData["Значение контрольной суммы содержательных частей"].GetString();
+                    contromSummParts = serviceData["Значение контрольной суммы содержательных частей"].GetString();
+                    cout << "\tЗначение контрольной суммы содержательных частей: " << contromSummParts << "\n";
                 }
                 if (serviceData.HasMember("Программное обеспечение для редактирования исходных данных")){
-                    qDebug() << "\tПрограммное обеспечение для редактирования исходных данных: " << serviceData["Программное обеспечение для редактирования исходных данных"].GetString();
+                    software = serviceData["Программное обеспечение для редактирования исходных данных"].GetString();
+                    cout << "\tПрограммное обеспечение для редактирования исходных данных: " << software << "\n";
                 }
                 if (serviceData.HasMember("Объем в листах А4")){
-                    qDebug() << "\tОбъем в листах А4: " << serviceData["Объем в листах А4"].GetInt();
+                    volumeInSheets = serviceData["Объем в листах А4"].GetInt();
+                    cout << "\tОбъем в листах А4: " << volumeInSheets << "\n";
                 }
                 if (serviceData.HasMember("Документ действителен")){
-                    qDebug() << "\tДокумент действителен: " << serviceData["Документ действителен"].GetBool();
+                    isValid = serviceData["Документ действителен"].GetBool();
+                    cout << "\tДокумент действителен: " << boolalpha << isValid << "\n";
                 }
                 if (serviceData.HasMember("Теги")){
-                    qDebug() << "\tТеги: " << serviceData["Теги"].GetString();
+                    tags = serviceData["Теги"].GetString();
+                    if (tags == "")
+                        cout << "\tТеги: " << "\"\"" << "\n";
+                    else
+                        cout << "\tТеги: " << tags << "\n";
                 }
-            }
-        }
-    }
+            } //Сервисные данные
+        }//document.IsObject()
+    }//Parse
 
 
 
 
-//    if (!document.Parse(jsonData.toStdString().c_str()).HasParseError())
+//    if (!document.Parse(jsonData.toStdString()).HasParseError())
 //        {
 //            if (document.IsObject())
 //            {
@@ -162,7 +203,7 @@ int main(int argc, char *argv[])
 //                        Value::Array ds =  document["array"].GetArray();
 //                        for (Value::ConstValueIterator itr = ds.Begin(); itr != ds.End(); ++itr) {
 //                            const Value& attribute = *itr;
-//                            qDebug() << attribute.GetInt();
+//                            cout << attribute.GetInt();
 //                        }
 //                    }
 //                }
@@ -170,28 +211,28 @@ int main(int argc, char *argv[])
 //                {
 //                    if (document["boolean"].IsBool())
 //                    {
-//                        qDebug() <<  document["boolean"].GetBool();
+//                        cout <<  document["boolean"].GetBool();
 //                    }
 //                }
 //                if (document.HasMember("Наименование_изделия")) // Получаем данные из Наименование изделия
 //                {
 //                    if (document["Наименование_изделия"].IsString())
 //                    {
-//                        qDebug() <<  document["Наименование_изделия"].GetString();
+//                        cout <<  document["Наименование_изделия"].GetString();
 //                    }
 //                }
 //                if (document.HasMember("null")) // Получаем данные из null
 //                {
 //                    if (document["null"].IsNull())
 //                    {
-//                        qDebug() <<  document["null"].GetType();
+//                        cout <<  document["null"].GetType();
 //                    }
 //                }
 //                if (document.HasMember("number")) // Получаем данные из number
 //                {
 //                    if (document["number"].IsInt())
 //                    {
-//                        qDebug() <<  document["number"].GetInt();
+//                        cout <<  document["number"].GetInt();
 //                    }
 //                }
 //                if (document.HasMember("object")) // Получаем данные из object
@@ -199,18 +240,18 @@ int main(int argc, char *argv[])
 //                    const   Value & a = document["object"];
 //                    if (a.HasMember("a")) // Получаем данные из object a
 //                    {
-//                        qDebug() << a["a"].GetString();
+//                        cout << a["a"].GetString();
 //                    }
 //                    if (a.HasMember("c")) // Получаем данные из object c
 //                    {
-//                        qDebug() << a["c"].GetString();
+//                        cout << a["c"].GetString();
 //                    }
 //                }
 //                if (document.HasMember("string")) // Получаем данные из string
 //                {
 //                    if (document["string"].IsString())
 //                    {
-//                        qDebug() <<  document["string"].GetString();
+//                        cout <<  document["string"].GetString();
 //                    }
 //                }
 //                if (document.HasMember("Test1")) // Получаем данные из Test1
@@ -223,7 +264,7 @@ int main(int argc, char *argv[])
 //                            Value::Array ds =  a["T"].GetArray();
 //                            for (Value::ConstValueIterator itr = ds.Begin(); itr != ds.End(); ++itr) {
 //                                const Value& attribute = *itr;
-//                                qDebug() << attribute.GetString();
+//                                cout << attribute.GetString();
 //                            }
 //                        }
 //                    }
@@ -231,15 +272,15 @@ int main(int argc, char *argv[])
 //                    {
 //                        if (a["int"].IsInt())
 //                        {
-//                            qDebug() <<  a["int"].GetInt();
+//                            cout <<  a["int"].GetInt();
 //                        }
 //                    }
 //                }
 //            }
 //        }
 //        else {
-//            qDebug() <<  document.GetErrorOffset();
-//            qDebug() <<  GetParseError_En(document.GetParseError());
+//            cout <<  document.GetErrorOffset();
+//            cout <<  GetParseError_En(document.GetParseError());
 //        }
 
 
@@ -249,6 +290,6 @@ int main(int argc, char *argv[])
 //    QJsonDocument jsonDocument = QJsonDocument::fromJson(ba);
 //    QJsonObject jsonObject = jsonDocument.object();
 //    QString FirstName = jsonObject["FirstName"].toString();
-//    qDebug() << FirstName;
+//    cout << FirstName;
 
 }
