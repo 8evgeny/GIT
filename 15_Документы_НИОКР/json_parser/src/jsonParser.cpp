@@ -20,7 +20,8 @@ bool parseJSON(string & patchToFile){
     std::string naimenovanieIzdeliya{""};
     std::string naimenovanieDokumenta{""};
     std::string oboznachenieIkodDokumenta{""};
-    quint32 crc32_; //СКС32 PDF файла
+    quint32 crc32; //СКС32 PDF файла
+    quint32 crc32Contents; //СКС32 папки Contents
     int numberSheets{-1};
     std::string company{""};
     std::string creater{""};
@@ -64,14 +65,20 @@ bool parseJSON(string & patchToFile){
                 }
                 if (requisites.HasMember("Обозначение и код документа")){
                     oboznachenieIkodDokumenta = requisites["Обозначение и код документа"].GetString();
-      //вычисляем CRC32
+      //вычисляем CRC32 PDF файла
       std::string appPdf = oboznachenieIkodDokumenta;
       std::string chopped = patchToFile;
       QString namePDF = QString::fromStdString(chopped).chopped(10)+QString("/Contents/")+QString::fromStdString(appPdf.append(".PDF"));
-      crc32_ = CRC32(namePDF);
+      crc32 = CRC32(namePDF);
       cout << "\tОбозначение и код документа: " << oboznachenieIkodDokumenta ;
-      printf("                      (посчитан CRC32: %X)\n", crc32_);
+      printf("                      (посчитан CRC32: %X)\n", crc32);
 
+
+      //вычисляем CRC32 папки Contents
+      std::string chopped1 = patchToFile;
+      QString nameDirectory = QString::fromStdString(chopped1).chopped(10)+QString("Contents");
+      crc32Contents = CRC32Contents(nameDirectory);
+      printf("CRC32Contens: %X\n", crc32Contents);
 
                 }
                 if (requisites.HasMember("Общее количество листов документа")){
@@ -158,7 +165,7 @@ bool parseJSON(string & patchToFile){
                     contromSummOrigin = serviceData["Значение контрольной суммы подлинника"].GetString();
     //Сравниваем с расчитанным CRC32
     char buf[20];
-    sprintf (buf,"%X\n", crc32_);
+    sprintf (buf,"%X\n", crc32);
     std::string calculateCRC32{buf};
     qint32 crc1 = atoll(contromSummOrigin.c_str());
     qint32 crc2 = atoll(calculateCRC32.c_str());
@@ -283,13 +290,48 @@ quint32 CRC32(QString fileName)
     qint64 n, i;
     char *buf = new char [BUFSIZE];
 
-    while((n = file.read(buf, BUFSIZE)) > 0)
+    while((n = file.read(buf, BUFSIZE)) > 0){
         for (i = 0; i < n; i++)
             CRC32 = (CRC32 >> 8) ^ CRC32Table[(CRC32 ^ buf[i]) & 0xff];
-
+    }
     CRC32 ^= 0xffffffff;
     delete[] buf;
     file.close();
 
     return CRC32;
+}
+
+quint32 CRC32Contents(QString DirectoryPatch){
+    vector<string> allFiles; //Тут пути ко всем файлам
+    auto iterator = recursive_directory_iterator{ DirectoryPatch.toStdString(), directory_options::skip_permission_denied };
+    for(const auto& entry : iterator) {
+        try {
+          if(!entry.is_regular_file())
+            continue;
+          ifstream file{ entry.path() };
+          string patch = entry.path().string();
+          allFiles.push_back(patch);
+        } catch(const exception& e) {
+          cerr << "Error reading " << entry.path().string() << ": " << e.what() << endl;
+        }
+    }
+    QFile file;
+    quint32 CRC32 = 0xffffffff;
+    qint64 n, i;
+    char *buf = new char [BUFSIZE];
+for (auto patchFile:allFiles){
+//    cout<<patchFile<<endl;
+    file.setFileName(QString::fromStdString(patchFile));
+    file.open(QIODevice::ReadOnly);
+    while((n = file.read(buf, BUFSIZE)) > 0){
+        for (i = 0; i < n; i++)
+            CRC32 = (CRC32 >> 8) ^ CRC32Table[(CRC32 ^ buf[i]) & 0xff];
+    }
+    file.close();
+//    cout<<CRC32<<endl;
+}
+    CRC32 ^= 0xffffffff;
+    delete[] buf;
+
+return CRC32;
 }
