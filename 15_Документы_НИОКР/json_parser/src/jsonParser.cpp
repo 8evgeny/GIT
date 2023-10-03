@@ -1,4 +1,3 @@
-#pragma once
 #include "main.h"
 
 ostream& operator<<(ostream &os, const chrono::time_point<chrono::system_clock> &t){
