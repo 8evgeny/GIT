@@ -20,7 +20,7 @@ bool parseJSON(string & patchToFile){
     std::string naimenovanieIzdeliya{""};
     std::string naimenovanieDokumenta{""};
     std::string oboznachenieIkodDokumenta{""};
-    quint32 crc32; //СКС32 PDF файла
+    quint32 crc32_; //СКС32 PDF файла
     int numberSheets{-1};
     std::string company{""};
     std::string creater{""};
@@ -60,7 +60,7 @@ bool parseJSON(string & patchToFile){
                 }
                 if (requisites.HasMember("Наименование документа")){
                     naimenovanieDokumenta = requisites["Наименование документа"].GetString();
-                    cout << "\tНаименование документа:" << naimenovanieDokumenta << "\n";
+                    cout << "\tНаименование документа: " << naimenovanieDokumenta << "\n";
                 }
                 if (requisites.HasMember("Обозначение и код документа")){
                     oboznachenieIkodDokumenta = requisites["Обозначение и код документа"].GetString();
@@ -68,18 +68,19 @@ bool parseJSON(string & patchToFile){
       std::string appPdf = oboznachenieIkodDokumenta;
       std::string chopped = patchToFile;
       QString namePDF = QString::fromStdString(chopped).chopped(10)+QString("/Contents/")+QString::fromStdString(appPdf.append(".PDF"));
-      crc32 = CRC32(namePDF);
+      crc32_ = CRC32(namePDF);
       cout << "\tОбозначение и код документа:" << oboznachenieIkodDokumenta ;
-      printf("                      (посчитан CRC32: %X)\n", crc32);
+      printf("                      (посчитан CRC32: %X)\n", crc32_);
+
 
                 }
                 if (requisites.HasMember("Общее количество листов документа")){
                     numberSheets = requisites["Общее количество листов документа"].GetInt();
-                    cout << "\tОбщее количество листов документа:" << numberSheets << "\n";
+                    cout << "\tОбщее количество листов документа: " << numberSheets << "\n";
                 }
                 if (requisites.HasMember("Наименование или код организации")){
                     company = requisites["Наименование или код организации"].GetString();
-                    cout << "\tНаименование или код организации:" << company << "\n";
+                    cout << "\tНаименование или код организации: " << company << "\n";
                 }
                 if (requisites.HasMember("Сведения о подписании документа")){
                     cout << "\tСведения о подписании документа:\n";
@@ -155,7 +156,20 @@ bool parseJSON(string & patchToFile){
                 }
                 if (serviceData.HasMember("Значение контрольной суммы подлинника")){
                     contromSummOrigin = serviceData["Значение контрольной суммы подлинника"].GetString();
-                    cout << "\tЗначение контрольной суммы подлинника: " << contromSummOrigin << "\n";
+    //Сравниваем с расчитанным CRC32
+    char buf[20];
+    sprintf (buf,"%X\n", crc32_);
+    std::string calculateCRC32{buf};
+    qint32 crc1 = atoll(contromSummOrigin.c_str());
+    qint32 crc2 = atoll(calculateCRC32.c_str());
+                    cout << "\tЗначение контрольной суммы подлинника: " << contromSummOrigin ;
+                    if(crc1 == crc2) {
+                        cout << "                  (Контрольные суммы совпадают)"<<endl;
+                    }
+                    else {
+                        cout << "                  (Контрольные суммы не совпадают !!!)"<<endl;
+                    }
+
                 }
                 if (serviceData.HasMember("Значение контрольной суммы содержательных частей")){
                     contromSummParts = serviceData["Значение контрольной суммы содержательных частей"].GetString();
