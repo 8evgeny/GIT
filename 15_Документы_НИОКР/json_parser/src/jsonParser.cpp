@@ -315,23 +315,24 @@ quint32 CRC32Contents(QString DirectoryPatch){
           cerr << "Error reading " << entry.path().string() << ": " << e.what() << endl;
         }
     }
-    QFile file;
+
+    QByteArray all{};
     quint32 CRC32 = 0xffffffff;
-    qint64 n, i;
-    char *buf = new char [BUFSIZE];
+
 for (auto patchFile:allFiles){
 //    cout<<patchFile<<endl;
-    file.setFileName(QString::fromStdString(patchFile));
-    file.open(QIODevice::ReadOnly);
-    while((n = file.read(buf, BUFSIZE)) > 0){
-        for (i = 0; i < n; i++)
-            CRC32 = (CRC32 >> 8) ^ CRC32Table[(CRC32 ^ buf[i]) & 0xff];
-    }
+    QFile file(QString::fromStdString(patchFile));
+    file.open(QIODevice::ReadOnly );
+    QByteArray ba =  file.readAll();
+    all.append(ba);
     file.close();
-//    cout<<CRC32<<endl;
 }
-    CRC32 ^= 0xffffffff;
-    delete[] buf;
+QString sss{all};
+string ssss = sss.toStdString();
 
+        for (qint64 i = 0; i < ssss.size(); i++)
+            CRC32 = (CRC32 >> 8) ^ CRC32Table[(CRC32 ^ ssss.at(i)) & 0xff];
+
+    CRC32 ^= 0xffffffff;
 return CRC32;
 }
