@@ -6,8 +6,12 @@
 #include <iomanip>
 #include <iostream>
 #include <sstream>
+#include <filesystem>
+#include <fstream>
+#include <unordered_set>
 using namespace rapidjson;
 using namespace std;
 using namespace chrono_literals;
+using namespace std::filesystem;
 
-void parseJSON(QString & jsonData);
+void parseJSON(string & patchToFile);

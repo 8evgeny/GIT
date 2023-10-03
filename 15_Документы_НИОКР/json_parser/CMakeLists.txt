@@ -26,5 +26,6 @@ add_executable(json_parser
 )
 target_link_libraries(json_parser
     Qt${QT_VERSION_MAJOR}::Core
+    stdc++fs
     )
 add_subdirectory(rapidjson)
