@@ -14,4 +14,4 @@ using namespace std;
 using namespace chrono_literals;
 using namespace std::filesystem;
 
-void parseJSON(string & patchToFile);
+bool parseJSON(string & patchToFile);

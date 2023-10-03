@@ -11,7 +11,7 @@ constexpr days operator ""_days(unsigned long long d){
     return days{d};
 }
 
-void parseJSON(string & patchToFile){
+bool parseJSON(string & patchToFile){
     QFile file(QString::fromStdString(patchToFile));
     file.open(QIODevice::ReadOnly);
     QString jsonData = file.readAll();
@@ -176,5 +176,10 @@ void parseJSON(string & patchToFile){
             } //Сервисные данные
         }//document.IsObject()
     }//Parse
-
+    else
+    {
+        //ошибка парсинга
+        return false;
+    }
+return true;
 }

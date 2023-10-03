@@ -7,6 +7,7 @@ int main(int argc, char *argv[])
     const unordered_set<string> pe_extensions{ ".json" };
     cout << endl <<"Patch for json search: "<<archiv_path << endl <<endl;
     vector<string> vectorJsonPatch;
+    vector<string> errorJsonPatch;
 
     auto iterator = recursive_directory_iterator{ archiv_path, directory_options::skip_permission_denied };
     for(const auto& entry : iterator) {
@@ -24,15 +25,26 @@ int main(int argc, char *argv[])
         cerr << "Error reading " << entry.path().string() << ": " << e.what() << endl;
       }
     }
-
+    int error = 0;
     if (vectorJsonPatch.size()>0)
     {
         int num = 0;
         for (auto & patchJson : vectorJsonPatch){
             ++num;
             cout << endl<< num << ": "<< patchJson << endl;
-            parseJSON(patchJson);
+            if(!parseJSON(patchJson))
+            {
+                cout << "ОШИБКА JSON ФАЙЛА" << endl;
+                ++error;
+                errorJsonPatch.push_back(patchJson);
+            }
         }
     }
+
+    cout<< endl<< "Всего разобрано json файлов: " << vectorJsonPatch.size()
+       << endl << "Ошибок разбора: " << error<< endl;
+    for (auto & patchJsonError : errorJsonPatch)
+        cout <<  patchJsonError << endl;
+
 
 }
