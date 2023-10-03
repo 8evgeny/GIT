@@ -63,14 +63,12 @@ bool parseJSON(string & patchToFile){
                 }
                 if (requisites.HasMember("Обозначение и код документа")){
                     oboznachenieIkodDokumenta = requisites["Обозначение и код документа"].GetString();
-                    std::string appPdf = oboznachenieIkodDokumenta.append(".PDF");
+      //вычисляем CRC32
+      std::string appPdf = oboznachenieIkodDokumenta.append(".PDF");
+      QString namePDF = QString::fromStdString(patchToFile).chopped(10)+QString("/Contents/")+QString::fromStdString(appPdf);
+      quint32 crc32 = CRC32(namePDF);
+      cout << "\tОбозначение и код документа:" << oboznachenieIkodDokumenta <<"     (посчитан CRC32: "<< hex << uppercase <<crc32<<")"<<endl;
 
-                    //вычисляем СКС32
-                    QString namePDF = QString::fromStdString(patchToFile).chopped(10)+
-                            QString("/Contents/")+QString::fromStdString(appPdf);
-                    quint32 crc32 = CRC32(namePDF);
-                    cout << "\tОбозначение и код документа:" << oboznachenieIkodDokumenta
-                        <<"     (посчитан CRC32: "<< hex << uppercase <<crc32<<")"<<endl;
                 }
                 if (requisites.HasMember("Общее количество листов документа")){
                     numberSheets = requisites["Общее количество листов документа"].GetInt();
