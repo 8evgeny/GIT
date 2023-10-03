@@ -9,9 +9,13 @@
 #include <filesystem>
 #include <fstream>
 #include <unordered_set>
+
+#define BUFSIZE 300000
+
 using namespace rapidjson;
 using namespace std;
 using namespace chrono_literals;
 using namespace std::filesystem;
 
 bool parseJSON(string & patchToFile);
+quint32 CRC32(QString fileName);
