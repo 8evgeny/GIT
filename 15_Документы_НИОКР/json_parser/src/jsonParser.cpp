@@ -69,7 +69,7 @@ bool parseJSON(string & patchToFile){
       std::string chopped = patchToFile;
       QString namePDF = QString::fromStdString(chopped).chopped(10)+QString("/Contents/")+QString::fromStdString(appPdf.append(".PDF"));
       crc32_ = CRC32(namePDF);
-      cout << "\tОбозначение и код документа:" << oboznachenieIkodDokumenta ;
+      cout << "\tОбозначение и код документа: " << oboznachenieIkodDokumenta ;
       printf("                      (посчитан CRC32: %X)\n", crc32_);
 
 
