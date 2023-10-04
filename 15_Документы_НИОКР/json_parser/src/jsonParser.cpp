@@ -46,6 +46,10 @@ bool parseJSON(string & patchToFile){
     bool isValid{false};
     std::string tags{""};
 
+QRegExp rx("*");
+QRegExp blankStr("^$");//пустая строка
+rx.setPatternSyntax(QRegExp::Wildcard);
+
     Document document;
     if (!document.Parse(jsonData.toStdString().c_str()).HasParseError())
     {
@@ -57,14 +61,17 @@ bool parseJSON(string & patchToFile){
                 const   Value & requisites = document["Реквизиты документа по ГОСТ 2.104"];
                 if (requisites.HasMember("Наименование изделия")){
                     naimenovanieIzdeliya = requisites["Наименование изделия"].GetString();
+if(!blankStr.indexIn(QString::fromStdString(naimenovanieIzdeliya))) return false;
                     cout << "\tНаименование изделия: " << naimenovanieIzdeliya << "\n";
                 }
                 if (requisites.HasMember("Наименование документа")){
                     naimenovanieDokumenta = requisites["Наименование документа"].GetString();
+if(!blankStr.indexIn(QString::fromStdString(naimenovanieDokumenta))) return false;
                     cout << "\tНаименование документа: " << naimenovanieDokumenta << "\n";
                 }else return false;
                 if (requisites.HasMember("Обозначение и код документа")){
                     oboznachenieIkodDokumenta = requisites["Обозначение и код документа"].GetString();
+if(!blankStr.indexIn(QString::fromStdString(oboznachenieIkodDokumenta))) return false;
       //вычисляем CRC32 PDF файла
       std::string appPdf = oboznachenieIkodDokumenta;
       std::string chopped = patchToFile;
@@ -83,10 +90,12 @@ bool parseJSON(string & patchToFile){
                 }else return false;
                 if (requisites.HasMember("Общее количество листов документа")){
                     numberSheets = requisites["Общее количество листов документа"].GetInt();
+if(numberSheets < 1) return false;
                     cout << "\tОбщее количество листов документа: " << numberSheets << "\n";
                 }else return false;
                 if (requisites.HasMember("Наименование или код организации")){
                     company = requisites["Наименование или код организации"].GetString();
+if(company != "ООО «Группа индустриальных технологий»") return false;
                     cout << "\tНаименование или код организации: " << company << "\n";
                 }else return false;
                 if (requisites.HasMember("Сведения о подписании документа")){
@@ -94,6 +103,7 @@ bool parseJSON(string & patchToFile){
                     const   Value & infoAboutSigning = requisites["Сведения о подписании документа"];
                     if (infoAboutSigning.HasMember("Разработал")){
                         creater = infoAboutSigning["Разработал"].GetString();
+if(!blankStr.indexIn(QString::fromStdString(creater))) return false;
                         cout << "\t\tРазработал: " << creater << "\n";
                     }else return false;
                     if (infoAboutSigning.HasMember("Дата")){
