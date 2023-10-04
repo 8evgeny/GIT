@@ -165,12 +165,10 @@ bool parseJSON(string & patchToFile){
                     contromSummOrigin = serviceData["Значение контрольной суммы подлинника"].GetString();
     //Сравниваем с расчитанным CRC32
     char buf[20];
-    sprintf (buf,"%X\n", crc32);
+    sprintf (buf,"%X", crc32);
     std::string calculateCRC32{buf};
-//    qint32 crc1 = atoll(contromSummOrigin.c_str());
-//    qint32 crc2 = atoll(calculateCRC32.c_str());
                     cout << "\tЗначение контрольной суммы подлинника: " << contromSummOrigin ;
-                    if((contromSummOrigin+'\n') == calculateCRC32) {
+                    if((contromSummOrigin) == calculateCRC32) {
                         cout << "                  (Контрольные суммы совпадают)"<<endl;
                     }
                     else {
