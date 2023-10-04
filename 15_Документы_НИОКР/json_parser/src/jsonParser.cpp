@@ -71,14 +71,14 @@ bool parseJSON(string & patchToFile){
       QString namePDF = QString::fromStdString(chopped).chopped(10)+QString("Contents/")+QString::fromStdString(appPdf.append(".PDF"));
       crc32 = CRC32(namePDF);
       cout << "\tОбозначение и код документа: " << oboznachenieIkodDokumenta ;
-      printf("                      (посчитан CRC32: %X)\n", crc32);
+      printf("                      \t(посчитан CRC32: %X)", crc32);
 
 
       //вычисляем CRC32 папки Contents
       std::string chopped1 = patchToFile;
       QString nameDirectory = QString::fromStdString(chopped1).chopped(10)+QString("Contents");
       crc32Contents = CRC32Contents(nameDirectory);
-      printf("CRC32Contens: %X\n", crc32Contents);
+      printf("\t\t\t\t\t\t\t\t\t\t\tCRC32Contens: %X\n", crc32Contents);
 
                 }
                 if (requisites.HasMember("Общее количество листов документа")){
@@ -165,14 +165,14 @@ bool parseJSON(string & patchToFile){
                     contromSummOrigin = serviceData["Значение контрольной суммы подлинника"].GetString();
     //Сравниваем с расчитанным CRC32
     char buf[20];
-    sprintf (buf,"%X", crc32);
+    sprintf (buf,"%8X", crc32);
     std::string calculateCRC32{buf};
                     cout << "\tЗначение контрольной суммы подлинника: " << contromSummOrigin ;
-                    if((contromSummOrigin) == calculateCRC32) {
-                        cout << "                  (Контрольные суммы совпадают)"<<endl;
+                    if(QString::fromStdString(contromSummOrigin).toInt() == QString::fromStdString(calculateCRC32).toInt()) {
+                        cout << "                  \t(Контрольные суммы совпадают)"<<endl;
                     }
                     else {
-                        cout << "                  (Контрольные суммы не совпадают !!!)"<<endl;
+                        cout << "                  \t(Контрольные суммы не совпадают !!!)"<<endl;
                     }
 
                 }
@@ -329,15 +329,12 @@ quint32 CRC32Contents(QString DirectoryPatch){
 
     auto patch = "/home/evg/SOFT/Github/GIT/15_Документы_НИОКР/json_parser/build/tempCRC32";
     ofstream  ofs( patch, std::ios_base::binary );
-    cout<<endl;
     for (auto patchFile:allFiles){
-        cout<<patchFile<<"        (CRC32: "<<hex<<std::uppercase<<CRC32(QString{patchFile.c_str()})<<")";
-
         QFile file(QString::fromStdString(patchFile));
         file.open(QIODevice::ReadOnly );
         QByteArray ba =  file.readAll();
-        cout<<"  len: "<<ba.size()<<endl;
-    //    ofs.write(ba.toStdString().c_str(), ba.size());
+//        cout<<patchFile<<"        (CRC32: "<<hex<<std::uppercase<<CRC32(QString{patchFile.c_str()})<<")";
+//        cout<<"  len: "<<ba.size()<<endl;
         ofs << ba.toStdString();
         file.close();
     }
