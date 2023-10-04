@@ -62,7 +62,7 @@ bool parseJSON(string & patchToFile){
                 if (requisites.HasMember("Наименование документа")){
                     naimenovanieDokumenta = requisites["Наименование документа"].GetString();
                     cout << "\tНаименование документа: " << naimenovanieDokumenta << "\n";
-                }
+                }else return false;
                 if (requisites.HasMember("Обозначение и код документа")){
                     oboznachenieIkodDokumenta = requisites["Обозначение и код документа"].GetString();
       //вычисляем CRC32 PDF файла
@@ -80,22 +80,22 @@ bool parseJSON(string & patchToFile){
       crc32Contents = CRC32Contents(nameDirectory);
       printf("\t\t\t\t\t\t\t\t\t\t\tCRC32Contens: %X\n", crc32Contents);
 
-                }
+                }else return false;
                 if (requisites.HasMember("Общее количество листов документа")){
                     numberSheets = requisites["Общее количество листов документа"].GetInt();
                     cout << "\tОбщее количество листов документа: " << numberSheets << "\n";
-                }
+                }else return false;
                 if (requisites.HasMember("Наименование или код организации")){
                     company = requisites["Наименование или код организации"].GetString();
                     cout << "\tНаименование или код организации: " << company << "\n";
-                }
+                }else return false;
                 if (requisites.HasMember("Сведения о подписании документа")){
                     cout << "\tСведения о подписании документа:\n";
                     const   Value & infoAboutSigning = requisites["Сведения о подписании документа"];
                     if (infoAboutSigning.HasMember("Разработал")){
                         creater = infoAboutSigning["Разработал"].GetString();
                         cout << "\t\tРазработал: " << creater << "\n";
-                    }
+                    }else return false;
                     if (infoAboutSigning.HasMember("Дата")){
                         createdDataStr = infoAboutSigning["Дата"].GetString();
                         std::stringstream ss(createdDataStr);
@@ -103,20 +103,20 @@ bool parseJSON(string & patchToFile){
                         ss >> std::get_time(&tm, "%Y-%m-%d");
                         createdData = std::chrono::system_clock::from_time_t(std::mktime(&tm));
                         cout << "\t\tДата: " << createdData << "\n";
-                    }
+                    }else return false;
                     if (infoAboutSigning.HasMember("Информационно-удостоверяющий лист")){
                         infoOrderList = infoAboutSigning["Информационно-удостоверяющий лист"].GetString();
                         cout << "\t\tИнформационно-удостоверяющий лист: " << infoOrderList << "\n";
-                    }
-                }
+                    }else return false;
+                }else return false;
                 if (requisites.HasMember("Номер изменения")){
                     changeNum = requisites["Номер изменения"].GetInt();
                     cout << "\tНомер изменения: " << changeNum << "\n";
-                }
+                }else return false;
                 if (requisites.HasMember("Номер извещения об изменении")){
                     changeNotificationNum = requisites["Номер извещения об изменении"].GetString();
                     cout << "\tНомер извещения об изменении: " << changeNotificationNum << "\n";
-                }
+                }else return false;
                 if (requisites.HasMember("Дата извещения об изменении")){
                     notificationDataStr = requisites["Дата извещения об изменении"].GetString();
                     std::stringstream ss(notificationDataStr);
@@ -124,11 +124,11 @@ bool parseJSON(string & patchToFile){
                     ss >> std::get_time(&tm, "%Y-%m-%d");
                     notificationData = std::chrono::system_clock::from_time_t(std::mktime(&tm));
                     cout << "\tДата извещения об изменении: " << notificationData << "\n";
-                }
+                }else return false;
                 if (requisites.HasMember("Инвентарный номер подлинника")){
                     inventoryNumOriginal = requisites["Инвентарный номер подлинника"].GetString();
                     cout << "\tИнвентарный номер подлинника: " << inventoryNumOriginal << "\n";
-                }
+                }else return false;
                 if (requisites.HasMember("Дата приемки на хранение")){
                     storageDataStr = requisites["Дата приемки на хранение"].GetString();
                     std::stringstream ss(storageDataStr);
@@ -136,19 +136,20 @@ bool parseJSON(string & patchToFile){
                     ss >> std::get_time(&tm, "%Y-%m-%d");
                     storageData = std::chrono::system_clock::from_time_t(std::mktime(&tm));
                     cout << "\tДата приемки на хранение: " << storageData << "\n";
-                }
+                }else return false;
                 if (requisites.HasMember("Литера")){
                     litera = requisites["Литера"].GetString();
                     if (litera == "")
                         cout << "\tЛитера: " << "\"\"" << "\n";
                     else
                         cout << "\tЛитера: " << litera << "\n";
-                }
+                }else return false;
                 if (requisites.HasMember("Код документа в зависимости от характера использования")){
                     dokumentCode = requisites["Код документа в зависимости от характера использования"].GetInt();
                     cout << "\tКод документа в зависимости от характера использования: " << dokumentCode << "\n";
                 }
             }//Реквизиты документа
+            else return false;
 
             if (document.HasMember("Сервисные данные")){
                 cout << "   Сервисные данные:\n";
@@ -156,11 +157,11 @@ bool parseJSON(string & patchToFile){
                 if (serviceData.HasMember("Версия формата реквизитной части")){
                     version = serviceData["Версия формата реквизитной части"].GetInt();
                     cout << "\tВерсия формата реквизитной части: " << version << "\n";
-                }
+                }else return false;
                 if (serviceData.HasMember("Алгоритм расчета контрольной суммы")){
                     algorithm = serviceData["Алгоритм расчета контрольной суммы"].GetString();
                     cout << "\tАлгоритм расчета контрольной суммы: " << algorithm << "\n";
-                }
+                }else return false;
                 if (serviceData.HasMember("Значение контрольной суммы подлинника")){
                     contromSummOrigin = serviceData["Значение контрольной суммы подлинника"].GetString();
     //Сравниваем с расчитанным CRC32
@@ -175,31 +176,31 @@ bool parseJSON(string & patchToFile){
                         cout << "                  \t(Контрольные суммы не совпадают !!!)"<<endl;
                     }
 
-                }
+                }else return false;
                 if (serviceData.HasMember("Значение контрольной суммы содержательных частей")){
                     contromSummParts = serviceData["Значение контрольной суммы содержательных частей"].GetString();
                     cout << "\tЗначение контрольной суммы содержательных частей: " << contromSummParts << "\n";
-                }
+                }else return false;
                 if (serviceData.HasMember("Программное обеспечение для редактирования исходных данных")){
                     software = serviceData["Программное обеспечение для редактирования исходных данных"].GetString();
                     cout << "\tПрограммное обеспечение для редактирования исходных данных: " << software << "\n";
-                }
+                }else return false;
                 if (serviceData.HasMember("Объем в листах А4")){
                     volumeInSheets = serviceData["Объем в листах А4"].GetInt();
                     cout << "\tОбъем в листах А4: " << volumeInSheets << "\n";
-                }
+                }else return false;
                 if (serviceData.HasMember("Документ действителен")){
                     isValid = serviceData["Документ действителен"].GetBool();
                     cout << "\tДокумент действителен: " << boolalpha << isValid << "\n";
-                }
+                }else return false;
                 if (serviceData.HasMember("Теги")){
                     tags = serviceData["Теги"].GetString();
                     if (tags == "")
                         cout << "\tТеги: " << "\"\"" << "\n";
                     else
                         cout << "\tТеги: " << tags << "\n\n";
-                }
-            } //Сервисные данные
+                }else return false;
+            } else return false;//Сервисные данные
         }//document.IsObject()
     }//Parse
     else
