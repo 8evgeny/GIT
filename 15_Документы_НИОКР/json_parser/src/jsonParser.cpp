@@ -317,8 +317,6 @@ quint32 CRC32Contents(QString DirectoryPatch){
     }
 
     QByteArray all{};
-    quint32 CRC32 = 0xffffffff;
-
 for (auto patchFile:allFiles){
 //    cout<<patchFile<<endl;
     QFile file(QString::fromStdString(patchFile));
@@ -327,12 +325,11 @@ for (auto patchFile:allFiles){
     all.append(ba);
     file.close();
 }
-QString sss{all};
-string ssss = sss.toStdString();
+auto patch = "/home/evg/SOFT/Github/GIT/15_Документы_НИОКР/json_parser/build/tempCRC32";
+QFile file(patch);
+file.open(QIODevice::WriteOnly);
+file.write(all);
+file.close();
 
-        for (qint64 i = 0; i < ssss.size(); i++)
-            CRC32 = (CRC32 >> 8) ^ CRC32Table[(CRC32 ^ ssss.at(i)) & 0xff];
-
-    CRC32 ^= 0xffffffff;
-return CRC32;
+return CRC32(QString{patch});
 }
