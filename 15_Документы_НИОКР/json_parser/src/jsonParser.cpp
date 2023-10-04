@@ -329,21 +329,23 @@ quint32 CRC32Contents(QString DirectoryPatch){
 
     auto patch = "/home/evg/SOFT/Github/GIT/15_Документы_НИОКР/json_parser/build/tempCRC32";
     ofstream  ofs( patch, std::ios_base::binary );
+    cout<<endl;
+    for (auto patchFile:allFiles){
+        cout<<patchFile<<"        (CRC32: "<<hex<<std::uppercase<<CRC32(QString{patchFile.c_str()})<<")";
 
-for (auto patchFile:allFiles){
-    cout<<patchFile<<endl;
-    QFile file(QString::fromStdString(patchFile));
-    file.open(QIODevice::ReadOnly );
-    QByteArray ba =  file.readAll();
-//    ofs.write(ba.toStdString().c_str(), ba.size());
-    ofs << ba.toStdString();
-    file.close();
-}
-auto result = CRC32(QString{patch});
+        QFile file(QString::fromStdString(patchFile));
+        file.open(QIODevice::ReadOnly );
+        QByteArray ba =  file.readAll();
+        cout<<"  len: "<<ba.size()<<endl;
+    //    ofs.write(ba.toStdString().c_str(), ba.size());
+        ofs << ba.toStdString();
+        file.close();
+    }
+    auto result = CRC32(QString{patch});
 
-ofs.clear();
-ofs.close();
-
+    ofs.clear();
+    ofs.close();
+    cout<<endl;
 return result;
 }
 
