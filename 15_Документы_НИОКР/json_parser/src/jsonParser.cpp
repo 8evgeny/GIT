@@ -167,10 +167,10 @@ bool parseJSON(string & patchToFile){
     char buf[20];
     sprintf (buf,"%X\n", crc32);
     std::string calculateCRC32{buf};
-    qint32 crc1 = atoll(contromSummOrigin.c_str());
-    qint32 crc2 = atoll(calculateCRC32.c_str());
+//    qint32 crc1 = atoll(contromSummOrigin.c_str());
+//    qint32 crc2 = atoll(calculateCRC32.c_str());
                     cout << "\tЗначение контрольной суммы подлинника: " << contromSummOrigin ;
-                    if(crc1 == crc2) {
+                    if((contromSummOrigin+'\n') == calculateCRC32) {
                         cout << "                  (Контрольные суммы совпадают)"<<endl;
                     }
                     else {
@@ -313,6 +313,7 @@ quint32 CRC32(QString fileName)
 }
 
 quint32 CRC32Contents(QString DirectoryPatch){
+
     vector<string> allFiles; //Тут пути ко всем файлам
     auto iterator = recursive_directory_iterator{ DirectoryPatch.toStdString(), directory_options::skip_permission_denied };
     for(const auto& entry : iterator) {
@@ -327,20 +328,20 @@ quint32 CRC32Contents(QString DirectoryPatch){
         }
     }
 
-    QByteArray all{};
+    auto patch = "/home/evg/SOFT/Github/GIT/15_Документы_НИОКР/json_parser/build/tempCRC32";
+    QFile fileALL(patch);
+    fileALL.open(QIODevice::WriteOnly | QIODevice::Text| QIODevice::Append);
+    fileALL.flush();
+
 for (auto patchFile:allFiles){
 //    cout<<patchFile<<endl;
     QFile file(QString::fromStdString(patchFile));
-    file.open(QIODevice::ReadOnly );
+    file.open(QIODevice::ReadOnly | QIODevice::Text);
     QByteArray ba =  file.readAll();
-    all.append(ba);
+    fileALL.write(ba);
     file.close();
 }
-auto patch = "/home/evg/SOFT/Github/GIT/15_Документы_НИОКР/json_parser/build/tempCRC32";
-QFile file(patch);
-file.open(QIODevice::WriteOnly);
-file.write(all);
-file.close();
+fileALL.close();
 
 return CRC32(QString{patch});
 }
