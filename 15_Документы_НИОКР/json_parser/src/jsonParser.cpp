@@ -46,9 +46,10 @@ bool parseJSON(string & patchToFile){
     bool isValid{false};
     std::string tags{""};
 
-QRegExp rx("*");
+
 QRegExp blankStr("^$");//пустая строка
-rx.setPatternSyntax(QRegExp::Wildcard);
+QRegExp dataStr("^20\\d{2}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$");
+
 
     Document document;
     if (!document.Parse(jsonData.toStdString().c_str()).HasParseError())
@@ -63,7 +64,7 @@ rx.setPatternSyntax(QRegExp::Wildcard);
                     naimenovanieIzdeliya = requisites["Наименование изделия"].GetString();
 if(!blankStr.indexIn(QString::fromStdString(naimenovanieIzdeliya))) return false;
                     cout << "\tНаименование изделия: " << naimenovanieIzdeliya << "\n";
-                }
+                }else return false;
                 if (requisites.HasMember("Наименование документа")){
                     naimenovanieDokumenta = requisites["Наименование документа"].GetString();
 if(!blankStr.indexIn(QString::fromStdString(naimenovanieDokumenta))) return false;
@@ -108,6 +109,7 @@ if(!blankStr.indexIn(QString::fromStdString(creater))) return false;
                     }else return false;
                     if (infoAboutSigning.HasMember("Дата")){
                         createdDataStr = infoAboutSigning["Дата"].GetString();
+if(dataStr.indexIn(QString::fromStdString(createdDataStr))) return false;
                         std::stringstream ss(createdDataStr);
                         std::tm tm = {};
                         ss >> std::get_time(&tm, "%Y-%m-%d");
@@ -129,6 +131,7 @@ if(!blankStr.indexIn(QString::fromStdString(creater))) return false;
                 }else return false;
                 if (requisites.HasMember("Дата извещения об изменении")){
                     notificationDataStr = requisites["Дата извещения об изменении"].GetString();
+if(dataStr.indexIn(QString::fromStdString(notificationDataStr))) return false;
                     std::stringstream ss(notificationDataStr);
                     std::tm tm = {};
                     ss >> std::get_time(&tm, "%Y-%m-%d");
@@ -141,6 +144,7 @@ if(!blankStr.indexIn(QString::fromStdString(creater))) return false;
                 }else return false;
                 if (requisites.HasMember("Дата приемки на хранение")){
                     storageDataStr = requisites["Дата приемки на хранение"].GetString();
+if(dataStr.indexIn(QString::fromStdString(storageDataStr))) return false;
                     std::stringstream ss(storageDataStr);
                     std::tm tm = {};
                     ss >> std::get_time(&tm, "%Y-%m-%d");
