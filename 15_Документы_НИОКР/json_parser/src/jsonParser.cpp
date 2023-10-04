@@ -310,6 +310,22 @@ quint32 CRC32(QString fileName)
     return CRC32;
 }
 
+#include <boost/crc.hpp>
+#include <cstdlib>    // for EXIT_SUCCESS, EXIT_FAILURE
+#include <exception>  // for std::exception
+#include <fstream>    // for std::ifstream
+#include <ios>        // for std::ios_base, etc.
+#include <iostream>   // for std::cerr, std::cout
+#include <ostream>    // for std::endl
+
+// Redefine this to change to processing buffer size
+#ifndef PRIVATE_BUFFER_SIZE
+#define PRIVATE_BUFFER_SIZE  1024
+#endif
+
+// Global objects
+std::streamsize const  buffer_size = PRIVATE_BUFFER_SIZE;
+
 quint32 CRC32Contents(QString DirectoryPatch){
 
     vector<string> allFiles; //Тут пути ко всем файлам
@@ -327,20 +343,22 @@ quint32 CRC32Contents(QString DirectoryPatch){
     }
 
     auto patch = "/home/evg/SOFT/Github/GIT/15_Документы_НИОКР/json_parser/build/tempCRC32";
-    QFile fileALL(patch);
-    fileALL.open(QIODevice::WriteOnly | QIODevice::Append);
-    fileALL.flush();
+    ofstream  ofs( patch, std::ios_base::binary );
+
 
 for (auto patchFile:allFiles){
     cout<<patchFile<<endl;
     QFile file(QString::fromStdString(patchFile));
     file.open(QIODevice::ReadOnly );
     QByteArray ba =  file.readAll();
-    fileALL.write(ba);
+//    ofs.write(ba.toStdString().c_str(), ba.size());
+    ofs << ba.toStdString();
     file.close();
 }
 auto result = CRC32(QString{patch});
-fileALL.remove();
+
+ofs.clear();
+ofs.close();
 
 return result;
 }
