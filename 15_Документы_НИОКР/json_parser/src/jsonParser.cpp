@@ -76,7 +76,7 @@ bool parseJSON(string & patchToFile){
 
       //вычисляем CRC32 папки Contents
       std::string chopped1 = patchToFile;
-      QString nameDirectory = QString::fromStdString(chopped1).chopped(10)+QString("Contents/Source");
+      QString nameDirectory = QString::fromStdString(chopped1).chopped(10)+QString("Contents");
       crc32Contents = CRC32Contents(nameDirectory);
       printf("CRC32Contens: %X\n", crc32Contents);
 
@@ -328,18 +328,19 @@ quint32 CRC32Contents(QString DirectoryPatch){
 
     auto patch = "/home/evg/SOFT/Github/GIT/15_Документы_НИОКР/json_parser/build/tempCRC32";
     QFile fileALL(patch);
-    fileALL.open(QIODevice::WriteOnly | QIODevice::Text| QIODevice::Append);
+    fileALL.open(QIODevice::WriteOnly | QIODevice::Append);
     fileALL.flush();
 
 for (auto patchFile:allFiles){
-//    cout<<patchFile<<endl;
+    cout<<patchFile<<endl;
     QFile file(QString::fromStdString(patchFile));
-    file.open(QIODevice::ReadOnly | QIODevice::Text);
+    file.open(QIODevice::ReadOnly );
     QByteArray ba =  file.readAll();
     fileALL.write(ba);
     file.close();
 }
-fileALL.close();
+auto result = CRC32(QString{patch});
+fileALL.remove();
 
-return CRC32(QString{patch});
+return result;
 }
