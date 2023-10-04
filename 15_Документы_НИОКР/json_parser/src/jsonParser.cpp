@@ -68,7 +68,7 @@ bool parseJSON(string & patchToFile){
       //вычисляем CRC32 PDF файла
       std::string appPdf = oboznachenieIkodDokumenta;
       std::string chopped = patchToFile;
-      QString namePDF = QString::fromStdString(chopped).chopped(10)+QString("/Contents/")+QString::fromStdString(appPdf.append(".PDF"));
+      QString namePDF = QString::fromStdString(chopped).chopped(10)+QString("Contents/")+QString::fromStdString(appPdf.append(".PDF"));
       crc32 = CRC32(namePDF);
       cout << "\tОбозначение и код документа: " << oboznachenieIkodDokumenta ;
       printf("                      (посчитан CRC32: %X)\n", crc32);
@@ -76,7 +76,7 @@ bool parseJSON(string & patchToFile){
 
       //вычисляем CRC32 папки Contents
       std::string chopped1 = patchToFile;
-      QString nameDirectory = QString::fromStdString(chopped1).chopped(10)+QString("Contents");
+      QString nameDirectory = QString::fromStdString(chopped1).chopped(10)+QString("Contents/Source");
       crc32Contents = CRC32Contents(nameDirectory);
       printf("CRC32Contens: %X\n", crc32Contents);
 
@@ -284,7 +284,18 @@ const quint32 CRC32Table[256] =
 quint32 CRC32(QString fileName)
 {
     QFile file(fileName);
-    if(!file.open(QIODevice::ReadOnly)) return 0;
+    if(!file.open(QIODevice::ReadOnly))
+    {
+       if(fileName.endsWith("PDF"))
+       {
+          fileName.chop(3);
+          fileName.append("pdf");
+          file.setFileName(fileName);
+          if(!file.open(QIODevice::ReadOnly))
+              return -1;
+       }
+
+    }
 
     quint32 CRC32 = 0xffffffff;
     qint64 n, i;
