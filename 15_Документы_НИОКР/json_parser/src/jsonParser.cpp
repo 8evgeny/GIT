@@ -62,17 +62,17 @@ QRegExp dataStr("^20\\d{2}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$");
                 const   Value & requisites = document["Реквизиты документа по ГОСТ 2.104"];
                 if (requisites.HasMember("Наименование изделия")){
                     naimenovanieIzdeliya = requisites["Наименование изделия"].GetString();
-if(!blankStr.indexIn(QString::fromStdString(naimenovanieIzdeliya))) return false;
+if(blankStr.exactMatch(QString::fromStdString(naimenovanieIzdeliya))) return false;
                     cout << "\tНаименование изделия: " << naimenovanieIzdeliya << "\n";
                 }else return false;
                 if (requisites.HasMember("Наименование документа")){
                     naimenovanieDokumenta = requisites["Наименование документа"].GetString();
-if(!blankStr.indexIn(QString::fromStdString(naimenovanieDokumenta))) return false;
+if(blankStr.exactMatch(QString::fromStdString(naimenovanieDokumenta))) return false;
                     cout << "\tНаименование документа: " << naimenovanieDokumenta << "\n";
                 }else return false;
                 if (requisites.HasMember("Обозначение и код документа")){
                     oboznachenieIkodDokumenta = requisites["Обозначение и код документа"].GetString();
-if(!blankStr.indexIn(QString::fromStdString(oboznachenieIkodDokumenta))) return false;
+if(blankStr.exactMatch(QString::fromStdString(oboznachenieIkodDokumenta))) return false;
       //вычисляем CRC32 PDF файла
       std::string appPdf = oboznachenieIkodDokumenta;
       std::string chopped = patchToFile;
@@ -104,12 +104,12 @@ if(company != "ООО «Группа индустриальных техноло
                     const   Value & infoAboutSigning = requisites["Сведения о подписании документа"];
                     if (infoAboutSigning.HasMember("Разработал")){
                         creater = infoAboutSigning["Разработал"].GetString();
-if(!blankStr.indexIn(QString::fromStdString(creater))) return false;
+if(blankStr.exactMatch(QString::fromStdString(creater))) return false;
                         cout << "\t\tРазработал: " << creater << "\n";
                     }else return false;
                     if (infoAboutSigning.HasMember("Дата")){
                         createdDataStr = infoAboutSigning["Дата"].GetString();
-if(dataStr.indexIn(QString::fromStdString(createdDataStr))) return false;
+if(!dataStr.exactMatch(QString::fromStdString(createdDataStr))) return false;
                         std::stringstream ss(createdDataStr);
                         std::tm tm = {};
                         ss >> std::get_time(&tm, "%Y-%m-%d");
@@ -131,7 +131,7 @@ if(dataStr.indexIn(QString::fromStdString(createdDataStr))) return false;
                 }else return false;
                 if (requisites.HasMember("Дата извещения об изменении")){
                     notificationDataStr = requisites["Дата извещения об изменении"].GetString();
-if(dataStr.indexIn(QString::fromStdString(notificationDataStr))) return false;
+if(!dataStr.exactMatch(QString::fromStdString(notificationDataStr))) return false;
                     std::stringstream ss(notificationDataStr);
                     std::tm tm = {};
                     ss >> std::get_time(&tm, "%Y-%m-%d");
@@ -144,7 +144,7 @@ if(dataStr.indexIn(QString::fromStdString(notificationDataStr))) return false;
                 }else return false;
                 if (requisites.HasMember("Дата приемки на хранение")){
                     storageDataStr = requisites["Дата приемки на хранение"].GetString();
-if(dataStr.indexIn(QString::fromStdString(storageDataStr))) return false;
+if(!dataStr.exactMatch(QString::fromStdString(storageDataStr))) return false;
                     std::stringstream ss(storageDataStr);
                     std::tm tm = {};
                     ss >> std::get_time(&tm, "%Y-%m-%d");
