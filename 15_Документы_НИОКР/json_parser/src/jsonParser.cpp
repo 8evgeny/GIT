@@ -395,47 +395,24 @@ quint32 CRC32Contents(QString DirectoryPatch){
 return result;
 }
 
+//boost пока не работает
 //#include <boost/crc.hpp>
-//#include <cstdlib>    // for EXIT_SUCCESS, EXIT_FAILURE
-//#include <exception>  // for exception
-//#include <fstream>    // for ifstream
-//#include <ios>        // for ios_base, etc.
-//#include <iostream>   // for cerr, cout
-//#include <ostream>    // for endl
-
-//// Redefine this to change to processing buffer size
-//#ifndef PRIVATE_BUFFER_SIZE
-//#define PRIVATE_BUFFER_SIZE  1024
-//#endif
-
-//// Global objects
-//streamsize const  buffer_size = PRIVATE_BUFFER_SIZE;
-//quint32 CRC32Contents(QString DirectoryPatch){
-//    vector<string> allFiles; //Тут пути ко всем файлам
-//    auto iterator = recursive_directory_iterator{ DirectoryPatch.toStdString(), directory_options::skip_permission_denied };
-//    for(const auto& entry : iterator) {
-//        try {
-//          if(!entry.is_regular_file())
-//            continue;
-//          ifstream file{ entry.path() };
-//          string patch = entry.path().string();
-//          allFiles.push_back(patch);
-//        } catch(const exception& e) {
-//          cerr << "Error reading " << entry.path().string() << ": " << e.what() << endl;
+//quint32 CRC32(QString fileName){
+//    QFile file(fileName);
+//    if(!file.open(QIODevice::ReadOnly))    {
+//        if(fileName.endsWith("PDF")){
+//            fileName.chop(3);
+//            fileName.append("pdf");
+//            file.setFileName(fileName);
+//            if(!file.open(QIODevice::ReadOnly))
+//                return -1;
 //        }
 //    }
-//    boost::crc_32_type  result;
-//for (auto patchFile:allFiles){
-//    cout<<patchFile<<endl;
-//    ifstream  ifs( patchFile, ios_base::binary );
-//    do
-//    {
-//        char  buffer[ buffer_size ];
-
-//        ifs.read( buffer, buffer_size );
-//        result.process_bytes( buffer, ifs.gcount() );
-//    } while ( ifs );
-//}
-//cout << hex << uppercase << result.checksum() << endl;
-//return result.checksum();
+//    QByteArray ba = file.readAll();
+//    string str = QString(ba).toStdString();
+//    boost::crc_optimal<32, 0x04c11db7, 0xffffffff, 0xffffffff, true, true> crc;
+//    const char* data = str.c_str();
+//    std::size_t data_length = std::strlen(data);
+//    crc.process_bytes(data, data_length);
+//    return crc.checksum();
 //}
