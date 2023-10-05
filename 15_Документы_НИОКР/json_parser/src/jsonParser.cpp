@@ -2,7 +2,7 @@
 
 ostream& operator<<(ostream &os, const chrono::time_point<chrono::system_clock> &t){
     const auto tt   (chrono::system_clock::to_time_t(t));
-    const auto loct (std::localtime(&tt));
+    const auto loct (localtime(&tt));
     return os << put_time(loct, "%Y-%m-%d");//%c
 }
 using days = chrono::duration<chrono::hours::rep, ratio_multiply<chrono::hours::period, ratio<24>>>;
@@ -17,34 +17,35 @@ bool parseJSON(string & patchToFile){
     file.close();
 
     //Переменные
-    std::string naimenovanieIzdeliya{""};
-    std::string naimenovanieDokumenta{""};
-    std::string oboznachenieIkodDokumenta{""};
+    string naimenovanieIzdeliya{""};
+    string naimenovanieDokumenta{""};
+    string oboznachenieIkodDokumenta{""};
     quint32 crc32; //СКС32 PDF файла
     quint32 crc32Contents; //СКС32 папки Contents
     int numberSheets{-1};
-    std::string company{""};
-    std::string creater{""};
-    auto createdData = std::chrono::system_clock::now();
-    std::string createdDataStr{""};
-    std::string infoOrderList{""};
+
+    string company{""};
+    string creater{""};
+    auto createdData = chrono::system_clock::now();
+    string createdDataStr{""};
+    string infoOrderList{""};
     int changeNum{-1};
-    std::string changeNotificationNum{""};
-    auto notificationData = std::chrono::system_clock::now();
-    std::string notificationDataStr{""};
-    std::string inventoryNumOriginal{""};
-    auto storageData = std::chrono::system_clock::now();
-    std::string storageDataStr{""};
-    std::string litera{""};
+    string changeNotificationNum{""};
+    auto notificationData = chrono::system_clock::now();
+    string notificationDataStr{""};
+    string inventoryNumOriginal{""};
+    auto storageData = chrono::system_clock::now();
+    string storageDataStr{""};
+    string litera{""};
     int dokumentCode{-1};
     int version{-1};
-    std::string algorithm{""};
-    std::string contromSummOrigin{""};
-    std::string contromSummParts{""};
-    std::string software{""};
+    string algorithm{""};
+    string contromSummOrigin{""};
+    string contromSummParts{""};
+    string software{""};
     int volumeInSheets{-1};
     bool isValid{false};
-    std::string tags{""};
+    string tags{""};
 
 
 QRegExp blankStr("^$");//пустая строка
@@ -74,8 +75,8 @@ if(blankStr.exactMatch(QString::fromStdString(naimenovanieDokumenta))) return fa
                     oboznachenieIkodDokumenta = requisites["Обозначение и код документа"].GetString();
 if(blankStr.exactMatch(QString::fromStdString(oboznachenieIkodDokumenta))) return false;
       //вычисляем CRC32 PDF файла
-      std::string appPdf = oboznachenieIkodDokumenta;
-      std::string chopped = patchToFile;
+      string appPdf = oboznachenieIkodDokumenta;
+      string chopped = patchToFile;
       QString namePDF = QString::fromStdString(chopped).chopped(10)+QString("Contents/")+QString::fromStdString(appPdf.append(".PDF"));
       crc32 = CRC32(namePDF);
       cout << "\tОбозначение и код документа: " << oboznachenieIkodDokumenta ;
@@ -83,7 +84,7 @@ if(blankStr.exactMatch(QString::fromStdString(oboznachenieIkodDokumenta))) retur
 
 
       //вычисляем CRC32 папки Contents
-      std::string chopped1 = patchToFile;
+      string chopped1 = patchToFile;
       QString nameDirectory = QString::fromStdString(chopped1).chopped(10)+QString("Contents");
       crc32Contents = CRC32Contents(nameDirectory);
       printf("\t\t\t\t\t\t\t\t\t\t\tCRC32Contens: %X\n", crc32Contents);
@@ -110,10 +111,10 @@ if(blankStr.exactMatch(QString::fromStdString(creater))) return false;
                     if (infoAboutSigning.HasMember("Дата")){
                         createdDataStr = infoAboutSigning["Дата"].GetString();
 if(!dataStr.exactMatch(QString::fromStdString(createdDataStr))) return false;
-                        std::stringstream ss(createdDataStr);
-                        std::tm tm = {};
-                        ss >> std::get_time(&tm, "%Y-%m-%d");
-                        createdData = std::chrono::system_clock::from_time_t(std::mktime(&tm));
+                        stringstream ss(createdDataStr);
+                        tm tm = {};
+                        ss >> get_time(&tm, "%Y-%m-%d");
+                        createdData = chrono::system_clock::from_time_t(mktime(&tm));
                         cout << "\t\tДата: " << createdData << "\n";
                     }else return false;
                     if (infoAboutSigning.HasMember("Информационно-удостоверяющий лист")){
@@ -132,10 +133,10 @@ if(!dataStr.exactMatch(QString::fromStdString(createdDataStr))) return false;
                 if (requisites.HasMember("Дата извещения об изменении")){
                     notificationDataStr = requisites["Дата извещения об изменении"].GetString();
 if(!dataStr.exactMatch(QString::fromStdString(notificationDataStr))) return false;
-                    std::stringstream ss(notificationDataStr);
-                    std::tm tm = {};
-                    ss >> std::get_time(&tm, "%Y-%m-%d");
-                    notificationData = std::chrono::system_clock::from_time_t(std::mktime(&tm));
+                    stringstream ss(notificationDataStr);
+                    tm tm = {};
+                    ss >> get_time(&tm, "%Y-%m-%d");
+                    notificationData = chrono::system_clock::from_time_t(mktime(&tm));
                     cout << "\tДата извещения об изменении: " << notificationData << "\n";
                 }else return false;
                 if (requisites.HasMember("Инвентарный номер подлинника")){
@@ -145,10 +146,10 @@ if(!dataStr.exactMatch(QString::fromStdString(notificationDataStr))) return fals
                 if (requisites.HasMember("Дата приемки на хранение")){
                     storageDataStr = requisites["Дата приемки на хранение"].GetString();
 if(!dataStr.exactMatch(QString::fromStdString(storageDataStr))) return false;
-                    std::stringstream ss(storageDataStr);
-                    std::tm tm = {};
-                    ss >> std::get_time(&tm, "%Y-%m-%d");
-                    storageData = std::chrono::system_clock::from_time_t(std::mktime(&tm));
+                    stringstream ss(storageDataStr);
+                    tm tm = {};
+                    ss >> get_time(&tm, "%Y-%m-%d");
+                    storageData = chrono::system_clock::from_time_t(mktime(&tm));
                     cout << "\tДата приемки на хранение: " << storageData << "\n";
                 }else return false;
                 if (requisites.HasMember("Литера")){
@@ -181,7 +182,7 @@ if(!dataStr.exactMatch(QString::fromStdString(storageDataStr))) return false;
     //Сравниваем с расчитанным CRC32
     char buf[20];
     sprintf (buf,"%8X", crc32);
-    std::string calculateCRC32{buf};
+    string calculateCRC32{buf};
                     cout << "\tЗначение контрольной суммы подлинника: " << contromSummOrigin ;
                     if(QString::fromStdString(contromSummOrigin).toInt() == QString::fromStdString(calculateCRC32).toInt()) {
                         cout << "                  \t(Контрольные суммы совпадают)"<<endl;
@@ -343,12 +344,12 @@ quint32 CRC32Contents(QString DirectoryPatch){
     }
 
     auto patch = "/home/evg/SOFT/Github/GIT/15_Документы_НИОКР/json_parser/build/tempCRC32";
-    ofstream  ofs( patch, std::ios_base::binary );
+    ofstream  ofs( patch, ios_base::binary );
     for (auto patchFile:allFiles){
         QFile file(QString::fromStdString(patchFile));
         file.open(QIODevice::ReadOnly );
         QByteArray ba =  file.readAll();
-//        cout<<patchFile<<"        (CRC32: "<<hex<<std::uppercase<<CRC32(QString{patchFile.c_str()})<<")";
+//        cout<<patchFile<<"        (CRC32: "<<hex<<uppercase<<CRC32(QString{patchFile.c_str()})<<")";
 //        cout<<"  len: "<<ba.size()<<endl;
         ofs << ba.toStdString();
         file.close();
@@ -364,11 +365,11 @@ return result;
 
 //#include <boost/crc.hpp>
 //#include <cstdlib>    // for EXIT_SUCCESS, EXIT_FAILURE
-//#include <exception>  // for std::exception
-//#include <fstream>    // for std::ifstream
-//#include <ios>        // for std::ios_base, etc.
-//#include <iostream>   // for std::cerr, std::cout
-//#include <ostream>    // for std::endl
+//#include <exception>  // for exception
+//#include <fstream>    // for ifstream
+//#include <ios>        // for ios_base, etc.
+//#include <iostream>   // for cerr, cout
+//#include <ostream>    // for endl
 
 //// Redefine this to change to processing buffer size
 //#ifndef PRIVATE_BUFFER_SIZE
@@ -376,7 +377,7 @@ return result;
 //#endif
 
 //// Global objects
-//std::streamsize const  buffer_size = PRIVATE_BUFFER_SIZE;
+//streamsize const  buffer_size = PRIVATE_BUFFER_SIZE;
 //quint32 CRC32Contents(QString DirectoryPatch){
 //    vector<string> allFiles; //Тут пути ко всем файлам
 //    auto iterator = recursive_directory_iterator{ DirectoryPatch.toStdString(), directory_options::skip_permission_denied };
@@ -394,7 +395,7 @@ return result;
 //    boost::crc_32_type  result;
 //for (auto patchFile:allFiles){
 //    cout<<patchFile<<endl;
-//    ifstream  ifs( patchFile, std::ios_base::binary );
+//    ifstream  ifs( patchFile, ios_base::binary );
 //    do
 //    {
 //        char  buffer[ buffer_size ];
@@ -403,6 +404,6 @@ return result;
 //        result.process_bytes( buffer, ifs.gcount() );
 //    } while ( ifs );
 //}
-//std::cout << std::hex << std::uppercase << result.checksum() << std::endl;
+//cout << hex << uppercase << result.checksum() << endl;
 //return result.checksum();
 //}
