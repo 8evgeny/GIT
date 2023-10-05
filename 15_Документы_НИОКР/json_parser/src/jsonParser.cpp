@@ -184,8 +184,12 @@ if(!number2dig.exactMatch(QString::number(dokumentCode))) return false;
                 cout << "   Сервисные данные:\n";
                 const   Value & serviceData = document["Сервисные данные"];
                 if (serviceData.HasMember("Версия формата реквизитной части")){
-                    version = serviceData["Версия формата реквизитной части"].GetInt();
-//if(!number2dig.exactMatch(QString::number(version))) return false;
+                    auto type = serviceData["Версия формата реквизитной части"].GetType();
+                    if (type == rapidjson::kStringType)
+                        version =  atoi(serviceData["Версия формата реквизитной части"].GetString());
+                    if (type == rapidjson::kNumberType)
+                        version =  serviceData["Версия формата реквизитной части"].GetInt();
+if(!number2dig.exactMatch(QString::number(version))) return false;
                     cout << "\tВерсия формата реквизитной части: " << version << "\n";
                 }else return false;
                 if (serviceData.HasMember("Алгоритм расчета контрольной суммы")){
@@ -216,8 +220,12 @@ if(!number2dig.exactMatch(QString::number(dokumentCode))) return false;
                     cout << "\tПрограммное обеспечение для редактирования исходных данных: " << software << "\n";
                 }else return false;
                 if (serviceData.HasMember("Объем в листах А4")){
-                    volumeInSheets = serviceData["Объем в листах А4"].GetInt();
-//if(!number3dig.exactMatch(QString::number(volumeInSheets))) return false;
+                    auto type = serviceData["Объем в листах А4"].GetType();
+                    if (type == rapidjson::kStringType)
+                        volumeInSheets =  atoi(serviceData["Объем в листах А4"].GetString());
+                    if (type == rapidjson::kNumberType)
+                        volumeInSheets =  serviceData["Объем в листах А4"].GetInt();
+if(!number3dig.exactMatch(QString::number(volumeInSheets))) return false;
                     cout << "\tОбъем в листах А4: " << volumeInSheets << "\n";
                 }else return false;
                 if (serviceData.HasMember("Документ действителен")){
