@@ -50,6 +50,7 @@ bool parseJSON(string & patchToFile){
 QRegExp blankStr("^$");//пустая строка
 QRegExp dataStr("^20\\d{2}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$");
 QRegExp numberStr("^\\d{1,2}$");
+QRegExp volumeStr("^\\d{1,3}$");
 
     Document document;
     if (!document.Parse(jsonData.toStdString().c_str()).HasParseError())
@@ -123,6 +124,7 @@ if(!dataStr.exactMatch(QString::fromStdString(createdDataStr))) return false;
                 }else return false;
                 if (requisites.HasMember("Номер изменения")){
                     changeNum = requisites["Номер изменения"].GetInt();
+if(!numberStr.exactMatch(QString::number(changeNum))) return false;
                     cout << "\tНомер изменения: " << changeNum << "\n";
                 }else return false;
                 if (requisites.HasMember("Номер извещения об изменении")){
@@ -160,6 +162,7 @@ if(!dataStr.exactMatch(QString::fromStdString(storageDataStr))) return false;
                 }else return false;
                 if (requisites.HasMember("Код документа в зависимости от характера использования")){
                     dokumentCode = requisites["Код документа в зависимости от характера использования"].GetInt();
+if(!numberStr.exactMatch(QString::number(dokumentCode))) return false;
                     cout << "\tКод документа в зависимости от характера использования: " << dokumentCode << "\n";
                 }
             }//Реквизиты документа
@@ -170,6 +173,7 @@ if(!dataStr.exactMatch(QString::fromStdString(storageDataStr))) return false;
                 const   Value & serviceData = document["Сервисные данные"];
                 if (serviceData.HasMember("Версия формата реквизитной части")){
                     version = serviceData["Версия формата реквизитной части"].GetInt();
+if(!numberStr.exactMatch(QString::number(version))) return false;
                     cout << "\tВерсия формата реквизитной части: " << version << "\n";
                 }else return false;
                 if (serviceData.HasMember("Алгоритм расчета контрольной суммы")){
@@ -201,6 +205,7 @@ if(!dataStr.exactMatch(QString::fromStdString(storageDataStr))) return false;
                 }else return false;
                 if (serviceData.HasMember("Объем в листах А4")){
                     volumeInSheets = serviceData["Объем в листах А4"].GetInt();
+if(!volumeStr.exactMatch(QString::number(volumeInSheets))) return false;
                     cout << "\tОбъем в листах А4: " << volumeInSheets << "\n";
                 }else return false;
                 if (serviceData.HasMember("Документ действителен")){
