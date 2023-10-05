@@ -51,6 +51,7 @@ QRegExp blankStr("^$");//пустая строка
 QRegExp dataStr("^20\\d{2}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$");
 QRegExp number2dig("^[0-9]{1}[0-9]?$");
 QRegExp number3dig("^[1-9]{1}[0-9]{0,2}$");
+QRegExp crc32Str("^[0-9ABCDEF]{8}$");
 
     Document document;
     if (!document.Parse(jsonData.toStdString().c_str()).HasParseError())
@@ -123,6 +124,7 @@ if(!dataStr.exactMatch(QString::fromStdString(createdDataStr))) return false;
                     }else return false;
                     if (infoAboutSigning.HasMember("Информационно-удостоверяющий лист")){
                         infoOrderList = infoAboutSigning["Информационно-удостоверяющий лист"].GetString();
+if(blankStr.exactMatch(QString::fromStdString(infoOrderList))) return false;
                         cout << "\t\tИнформационно-удостоверяющий лист: " << infoOrderList << "\n";
                     }else return false;
                 }else return false;
@@ -137,6 +139,7 @@ if(!number2dig.exactMatch(QString::number(changeNum))) return false;
                 }else return false;
                 if (requisites.HasMember("Номер извещения об изменении")){
                     changeNotificationNum = requisites["Номер извещения об изменении"].GetString();
+if(blankStr.exactMatch(QString::fromStdString(changeNotificationNum))) return false;
                     cout << "\tНомер извещения об изменении: " << changeNotificationNum << "\n";
                 }else return false;
                 if (requisites.HasMember("Дата извещения об изменении")){
@@ -150,6 +153,7 @@ if(!dataStr.exactMatch(QString::fromStdString(notificationDataStr))) return fals
                 }else return false;
                 if (requisites.HasMember("Инвентарный номер подлинника")){
                     inventoryNumOriginal = requisites["Инвентарный номер подлинника"].GetString();
+if(blankStr.exactMatch(QString::fromStdString(inventoryNumOriginal))) return false;
                     cout << "\tИнвентарный номер подлинника: " << inventoryNumOriginal << "\n";
                 }else return false;
                 if (requisites.HasMember("Дата приемки на хранение")){
@@ -194,10 +198,14 @@ if(!number2dig.exactMatch(QString::number(version))) return false;
                 }else return false;
                 if (serviceData.HasMember("Алгоритм расчета контрольной суммы")){
                     algorithm = serviceData["Алгоритм расчета контрольной суммы"].GetString();
+if(blankStr.exactMatch(QString::fromStdString(algorithm))) return false;
                     cout << "\tАлгоритм расчета контрольной суммы: " << algorithm << "\n";
                 }else return false;
                 if (serviceData.HasMember("Значение контрольной суммы подлинника")){
                     contromSummOrigin = serviceData["Значение контрольной суммы подлинника"].GetString();
+
+if(!crc32Str.exactMatch(QString::fromStdString(contromSummOrigin))) return false;
+
     //Сравниваем с расчитанным CRC32
     char buf[20];
     sprintf (buf,"%8X", crc32);
@@ -213,10 +221,14 @@ if(!number2dig.exactMatch(QString::number(version))) return false;
                 }else return false;
                 if (serviceData.HasMember("Значение контрольной суммы содержательных частей")){
                     contromSummParts = serviceData["Значение контрольной суммы содержательных частей"].GetString();
+
+if(!crc32Str.exactMatch(QString::fromStdString(contromSummParts))) return false;
+
                     cout << "\tЗначение контрольной суммы содержательных частей: " << contromSummParts << "\n";
                 }else return false;
                 if (serviceData.HasMember("Программное обеспечение для редактирования исходных данных")){
                     software = serviceData["Программное обеспечение для редактирования исходных данных"].GetString();
+if(blankStr.exactMatch(QString::fromStdString(software))) return false;
                     cout << "\tПрограммное обеспечение для редактирования исходных данных: " << software << "\n";
                 }else return false;
                 if (serviceData.HasMember("Объем в листах А4")){
@@ -230,6 +242,7 @@ if(!number3dig.exactMatch(QString::number(volumeInSheets))) return false;
                 }else return false;
                 if (serviceData.HasMember("Документ действителен")){
                     isValid = serviceData["Документ действителен"].GetBool();
+
                     cout << "\tДокумент действителен: " << boolalpha << isValid << "\n";
                 }else return false;
                 if (serviceData.HasMember("Теги")){
