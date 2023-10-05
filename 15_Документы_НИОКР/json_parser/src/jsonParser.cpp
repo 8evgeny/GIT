@@ -49,8 +49,8 @@ bool parseJSON(string & patchToFile){
 
 QRegExp blankStr("^$");//пустая строка
 QRegExp dataStr("^20\\d{2}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$");
-QRegExp numberStr("^\\d{1,2}$");
-QRegExp volumeStr("^\\d{1,3}$");
+QRegExp number2dig("^[0-9]{1}[0-9]?$");
+QRegExp number3dig("^[1-9]{1}[0-9]{0,2}$");
 
     Document document;
     if (!document.Parse(jsonData.toStdString().c_str()).HasParseError())
@@ -91,8 +91,12 @@ if(blankStr.exactMatch(QString::fromStdString(oboznachenieIkodDokumenta))) retur
 
                 }else return false;
                 if (requisites.HasMember("Общее количество листов документа")){
-                    numberSheets = requisites["Общее количество листов документа"].GetInt();
-if(!numberStr.exactMatch(QString::number(numberSheets))) return false;
+                   auto type = requisites["Общее количество листов документа"].GetType();
+                   if (type == rapidjson::kStringType)
+                       numberSheets =  atoi(requisites["Общее количество листов документа"].GetString());
+                   if (type == rapidjson::kNumberType)
+                       numberSheets =  requisites["Общее количество листов документа"].GetInt();
+if(!number3dig.exactMatch(QString::number(numberSheets))) return false;
                     cout << "\tОбщее количество листов документа: " << numberSheets << "\n";
                 }else return false;
                 if (requisites.HasMember("Наименование или код организации")){
@@ -123,8 +127,12 @@ if(!dataStr.exactMatch(QString::fromStdString(createdDataStr))) return false;
                     }else return false;
                 }else return false;
                 if (requisites.HasMember("Номер изменения")){
-                    changeNum = requisites["Номер изменения"].GetInt();
-if(!numberStr.exactMatch(QString::number(changeNum))) return false;
+                    auto type = requisites["Номер изменения"].GetType();
+                    if (type == rapidjson::kStringType)
+                        changeNum =  atoi(requisites["Номер изменения"].GetString());
+                    if (type == rapidjson::kNumberType)
+                        changeNum =  requisites["Номер изменения"].GetInt();
+if(!number2dig.exactMatch(QString::number(changeNum))) return false;
                     cout << "\tНомер изменения: " << changeNum << "\n";
                 }else return false;
                 if (requisites.HasMember("Номер извещения об изменении")){
@@ -161,8 +169,12 @@ if(!dataStr.exactMatch(QString::fromStdString(storageDataStr))) return false;
                         cout << "\tЛитера: " << litera << "\n";
                 }else return false;
                 if (requisites.HasMember("Код документа в зависимости от характера использования")){
-                    dokumentCode = requisites["Код документа в зависимости от характера использования"].GetInt();
-if(!numberStr.exactMatch(QString::number(dokumentCode))) return false;
+                    auto type = requisites["Код документа в зависимости от характера использования"].GetType();
+                    if (type == rapidjson::kStringType)
+                        dokumentCode =  atoi(requisites["Код документа в зависимости от характера использования"].GetString());
+                    if (type == rapidjson::kNumberType)
+                        dokumentCode =  requisites["Код документа в зависимости от характера использования"].GetInt();
+if(!number2dig.exactMatch(QString::number(dokumentCode))) return false;
                     cout << "\tКод документа в зависимости от характера использования: " << dokumentCode << "\n";
                 }
             }//Реквизиты документа
@@ -173,7 +185,7 @@ if(!numberStr.exactMatch(QString::number(dokumentCode))) return false;
                 const   Value & serviceData = document["Сервисные данные"];
                 if (serviceData.HasMember("Версия формата реквизитной части")){
                     version = serviceData["Версия формата реквизитной части"].GetInt();
-if(!numberStr.exactMatch(QString::number(version))) return false;
+//if(!number2dig.exactMatch(QString::number(version))) return false;
                     cout << "\tВерсия формата реквизитной части: " << version << "\n";
                 }else return false;
                 if (serviceData.HasMember("Алгоритм расчета контрольной суммы")){
@@ -205,7 +217,7 @@ if(!numberStr.exactMatch(QString::number(version))) return false;
                 }else return false;
                 if (serviceData.HasMember("Объем в листах А4")){
                     volumeInSheets = serviceData["Объем в листах А4"].GetInt();
-if(!volumeStr.exactMatch(QString::number(volumeInSheets))) return false;
+//if(!number3dig.exactMatch(QString::number(volumeInSheets))) return false;
                     cout << "\tОбъем в листах А4: " << volumeInSheets << "\n";
                 }else return false;
                 if (serviceData.HasMember("Документ действителен")){
