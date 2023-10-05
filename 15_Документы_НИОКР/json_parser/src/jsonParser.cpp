@@ -81,6 +81,11 @@ if(blankStr.exactMatch(QString::fromStdString(oboznachenieIkodDokumenta))) retur
       QString namePDF = QString::fromStdString(chopped).chopped(10)+QString("Contents/")+QString::fromStdString(appPdf.append(".PDF"));
       crc32 = CRC32(namePDF);
       cout << "\tОбозначение и код документа: " << oboznachenieIkodDokumenta ;
+      if(crc32 == -1)
+      {
+          printf("                      \tОтсутствует PDF файл  %s.PDF !!!\n", oboznachenieIkodDokumenta.c_str());
+          return false;
+      }
       printf("                      \t(посчитан CRC32: %X)", crc32);
 
 
