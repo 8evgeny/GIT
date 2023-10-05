@@ -216,12 +216,10 @@ if(!crc32Str.exactMatch(QString::fromStdString(contromSummOrigin))) return false
     sprintf (buf,"%8X", crc32);
     string calculateCRC32{buf};
                     cout << "\tЗначение контрольной суммы подлинника: " << contromSummOrigin ;
-                    if(QString::fromStdString(contromSummOrigin).toInt() == QString::fromStdString(calculateCRC32).toInt()) {
-                        cout << "                  \t(Контрольные суммы совпадают)"<<endl;
-                    }
-                    else {
-                        cout << "                  \t(Контрольные суммы не совпадают !!!)"<<endl;
-                    }
+                    if(contromSummOrigin == calculateCRC32) {
+                        cout << "                  \t(Контрольные суммы совпадают)"<<endl; }
+                    else { cout << "                  \t(Контрольные суммы не совпадают !!!)"<<endl;
+                        return false;}
 
                 }else return false;
                 if (serviceData.HasMember("Значение контрольной суммы содержательных частей")){
