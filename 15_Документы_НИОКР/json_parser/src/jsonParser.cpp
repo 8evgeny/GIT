@@ -64,17 +64,17 @@ QRegExp crc32Str("^[0-9ABCDEF]{8}$");
                 const   Value & requisites = document["Реквизиты документа по ГОСТ 2.104"];
                 if (requisites.HasMember("Наименование изделия")){
                     naimenovanieIzdeliya = requisites["Наименование изделия"].GetString();
-if(blankStr.exactMatch(QString::fromStdString(naimenovanieIzdeliya))) return false;
+                    if(blankStr.exactMatch(QString::fromStdString(naimenovanieIzdeliya))) return false;
                     cout << "\tНаименование изделия: " << naimenovanieIzdeliya << "\n";
                 }else return false;
                 if (requisites.HasMember("Наименование документа")){
                     naimenovanieDokumenta = requisites["Наименование документа"].GetString();
-if(blankStr.exactMatch(QString::fromStdString(naimenovanieDokumenta))) return false;
+                    if(blankStr.exactMatch(QString::fromStdString(naimenovanieDokumenta))) return false;
                     cout << "\tНаименование документа: " << naimenovanieDokumenta << "\n";
                 }else return false;
                 if (requisites.HasMember("Обозначение и код документа")){
                     oboznachenieIkodDokumenta = requisites["Обозначение и код документа"].GetString();
-if(blankStr.exactMatch(QString::fromStdString(oboznachenieIkodDokumenta))) return false;
+                    if(blankStr.exactMatch(QString::fromStdString(oboznachenieIkodDokumenta))) return false;
       //вычисляем CRC32 PDF файла
       string appPdf = oboznachenieIkodDokumenta;
       string chopped = patchToFile;
@@ -97,17 +97,17 @@ if(blankStr.exactMatch(QString::fromStdString(oboznachenieIkodDokumenta))) retur
 
                 }else return false;
                 if (requisites.HasMember("Общее количество листов документа")){
-                   auto type = requisites["Общее количество листов документа"].GetType();
-                   if (type == rapidjson::kStringType)
+                    auto type = requisites["Общее количество листов документа"].GetType();
+                    if (type == rapidjson::kStringType)
                        numberSheets =  atoi(requisites["Общее количество листов документа"].GetString());
-                   if (type == rapidjson::kNumberType)
+                    if (type == rapidjson::kNumberType)
                        numberSheets =  requisites["Общее количество листов документа"].GetInt();
-if(!number3dig.exactMatch(QString::number(numberSheets))) return false;
+                    if(!number3dig.exactMatch(QString::number(numberSheets))) return false;
                     cout << "\tОбщее количество листов документа: " << numberSheets << "\n";
                 }else return false;
                 if (requisites.HasMember("Наименование или код организации")){
                     company = requisites["Наименование или код организации"].GetString();
-if(company != "ООО «Группа индустриальных технологий»") return false;
+                    if(company != "ООО «Группа индустриальных технологий»") return false;
                     cout << "\tНаименование или код организации: " << company << "\n";
                 }else return false;
                 if (requisites.HasMember("Сведения о подписании документа")){
@@ -115,12 +115,12 @@ if(company != "ООО «Группа индустриальных техноло
                     const   Value & infoAboutSigning = requisites["Сведения о подписании документа"];
                     if (infoAboutSigning.HasMember("Разработал")){
                         creater = infoAboutSigning["Разработал"].GetString();
-if(blankStr.exactMatch(QString::fromStdString(creater))) return false;
+                        if(blankStr.exactMatch(QString::fromStdString(creater))) return false;
                         cout << "\t\tРазработал: " << creater << "\n";
                     }else return false;
                     if (infoAboutSigning.HasMember("Дата")){
                         createdDataStr = infoAboutSigning["Дата"].GetString();
-if(!dataStr.exactMatch(QString::fromStdString(createdDataStr))) return false;
+                        if(!dataStr.exactMatch(QString::fromStdString(createdDataStr))) return false;
                         stringstream ss(createdDataStr);
                         tm tm = {};
                         ss >> get_time(&tm, "%Y-%m-%d");
@@ -129,7 +129,7 @@ if(!dataStr.exactMatch(QString::fromStdString(createdDataStr))) return false;
                     }else return false;
                     if (infoAboutSigning.HasMember("Информационно-удостоверяющий лист")){
                         infoOrderList = infoAboutSigning["Информационно-удостоверяющий лист"].GetString();
-if(blankStr.exactMatch(QString::fromStdString(infoOrderList))) return false;
+                        if(blankStr.exactMatch(QString::fromStdString(infoOrderList))) return false;
                         cout << "\t\tИнформационно-удостоверяющий лист: " << infoOrderList << "\n";
                     }else return false;
                 }else return false;
@@ -139,17 +139,17 @@ if(blankStr.exactMatch(QString::fromStdString(infoOrderList))) return false;
                         changeNum =  atoi(requisites["Номер изменения"].GetString());
                     if (type == rapidjson::kNumberType)
                         changeNum =  requisites["Номер изменения"].GetInt();
-if(!number2dig.exactMatch(QString::number(changeNum))) return false;
+                        if(!number2dig.exactMatch(QString::number(changeNum))) return false;
                     cout << "\tНомер изменения: " << changeNum << "\n";
                 }else return false;
                 if (requisites.HasMember("Номер извещения об изменении")){
                     changeNotificationNum = requisites["Номер извещения об изменении"].GetString();
-if(blankStr.exactMatch(QString::fromStdString(changeNotificationNum))) return false;
+                    if(blankStr.exactMatch(QString::fromStdString(changeNotificationNum))) return false;
                     cout << "\tНомер извещения об изменении: " << changeNotificationNum << "\n";
                 }else return false;
                 if (requisites.HasMember("Дата извещения об изменении")){
                     notificationDataStr = requisites["Дата извещения об изменении"].GetString();
-if(!dataStr.exactMatch(QString::fromStdString(notificationDataStr))) return false;
+                    if(!dataStr.exactMatch(QString::fromStdString(notificationDataStr))) return false;
                     stringstream ss(notificationDataStr);
                     tm tm = {};
                     ss >> get_time(&tm, "%Y-%m-%d");
@@ -158,12 +158,12 @@ if(!dataStr.exactMatch(QString::fromStdString(notificationDataStr))) return fals
                 }else return false;
                 if (requisites.HasMember("Инвентарный номер подлинника")){
                     inventoryNumOriginal = requisites["Инвентарный номер подлинника"].GetString();
-if(blankStr.exactMatch(QString::fromStdString(inventoryNumOriginal))) return false;
+                    if(blankStr.exactMatch(QString::fromStdString(inventoryNumOriginal))) return false;
                     cout << "\tИнвентарный номер подлинника: " << inventoryNumOriginal << "\n";
                 }else return false;
                 if (requisites.HasMember("Дата приемки на хранение")){
                     storageDataStr = requisites["Дата приемки на хранение"].GetString();
-if(!dataStr.exactMatch(QString::fromStdString(storageDataStr))) return false;
+                    if(!dataStr.exactMatch(QString::fromStdString(storageDataStr))) return false;
                     stringstream ss(storageDataStr);
                     tm tm = {};
                     ss >> get_time(&tm, "%Y-%m-%d");
@@ -183,7 +183,7 @@ if(!dataStr.exactMatch(QString::fromStdString(storageDataStr))) return false;
                         dokumentCode =  atoi(requisites["Код документа в зависимости от характера использования"].GetString());
                     if (type == rapidjson::kNumberType)
                         dokumentCode =  requisites["Код документа в зависимости от характера использования"].GetInt();
-if(!number2dig.exactMatch(QString::number(dokumentCode))) return false;
+                    if(!number2dig.exactMatch(QString::number(dokumentCode))) return false;
                     cout << "\tКод документа в зависимости от характера использования: " << dokumentCode << "\n";
                 }
             }//Реквизиты документа
@@ -198,18 +198,17 @@ if(!number2dig.exactMatch(QString::number(dokumentCode))) return false;
                         version =  atoi(serviceData["Версия формата реквизитной части"].GetString());
                     if (type == rapidjson::kNumberType)
                         version =  serviceData["Версия формата реквизитной части"].GetInt();
-if(!number2dig.exactMatch(QString::number(version))) return false;
+                    if(!number2dig.exactMatch(QString::number(version))) return false;
                     cout << "\tВерсия формата реквизитной части: " << version << "\n";
                 }else return false;
                 if (serviceData.HasMember("Алгоритм расчета контрольной суммы")){
                     algorithm = serviceData["Алгоритм расчета контрольной суммы"].GetString();
-if(blankStr.exactMatch(QString::fromStdString(algorithm))) return false;
+                    if(blankStr.exactMatch(QString::fromStdString(algorithm))) return false;
                     cout << "\tАлгоритм расчета контрольной суммы: " << algorithm << "\n";
                 }else return false;
                 if (serviceData.HasMember("Значение контрольной суммы подлинника")){
                     contromSummOrigin = serviceData["Значение контрольной суммы подлинника"].GetString();
-
-if(!crc32Str.exactMatch(QString::fromStdString(contromSummOrigin))) return false;
+                if(!crc32Str.exactMatch(QString::fromStdString(contromSummOrigin))) return false;
 
     //Сравниваем с расчитанным CRC32
     char buf[20];
@@ -224,14 +223,12 @@ if(!crc32Str.exactMatch(QString::fromStdString(contromSummOrigin))) return false
                 }else return false;
                 if (serviceData.HasMember("Значение контрольной суммы содержательных частей")){
                     contromSummParts = serviceData["Значение контрольной суммы содержательных частей"].GetString();
-
-if(!crc32Str.exactMatch(QString::fromStdString(contromSummParts))) return false;
-
+                    if(!crc32Str.exactMatch(QString::fromStdString(contromSummParts))) return false;
                     cout << "\tЗначение контрольной суммы содержательных частей: " << contromSummParts << "\n";
                 }else return false;
                 if (serviceData.HasMember("Программное обеспечение для редактирования исходных данных")){
                     software = serviceData["Программное обеспечение для редактирования исходных данных"].GetString();
-if(blankStr.exactMatch(QString::fromStdString(software))) return false;
+                    if(blankStr.exactMatch(QString::fromStdString(software))) return false;
                     cout << "\tПрограммное обеспечение для редактирования исходных данных: " << software << "\n";
                 }else return false;
                 if (serviceData.HasMember("Объем в листах А4")){
@@ -240,7 +237,7 @@ if(blankStr.exactMatch(QString::fromStdString(software))) return false;
                         volumeInSheets =  atoi(serviceData["Объем в листах А4"].GetString());
                     if (type == rapidjson::kNumberType)
                         volumeInSheets =  serviceData["Объем в листах А4"].GetInt();
-if(!number3dig.exactMatch(QString::number(volumeInSheets))) return false;
+                    if(!number3dig.exactMatch(QString::number(volumeInSheets))) return false;
                     cout << "\tОбъем в листах А4: " << volumeInSheets << "\n";
                 }else return false;
                 if (serviceData.HasMember("Документ действителен")){
@@ -362,6 +359,7 @@ quint32 CRC32(QString fileName)
     return CRC32;
 }
 
+//Пока не работает
 quint32 CRC32Contents(QString DirectoryPatch){
 
     vector<string> allFiles; //Тут пути ко всем файлам
@@ -396,7 +394,6 @@ quint32 CRC32Contents(QString DirectoryPatch){
     cout<<endl;
 return result;
 }
-
 
 //#include <boost/crc.hpp>
 //#include <cstdlib>    // for EXIT_SUCCESS, EXIT_FAILURE
