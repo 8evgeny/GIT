@@ -246,8 +246,10 @@ if(!number3dig.exactMatch(QString::number(volumeInSheets))) return false;
                     cout << "\tОбъем в листах А4: " << volumeInSheets << "\n";
                 }else return false;
                 if (serviceData.HasMember("Документ действителен")){
-                    isValid = serviceData["Документ действителен"].GetBool();
-
+                    auto type = serviceData["Документ действителен"].GetType();
+                    if (type == rapidjson::kTrueType || rapidjson::kFalseType)
+                       isValid = serviceData["Документ действителен"].GetBool();
+                    else return false;
                     cout << "\tДокумент действителен: " << boolalpha << isValid << "\n";
                 }else return false;
                 if (serviceData.HasMember("Теги")){
@@ -340,23 +342,18 @@ const quint32 CRC32Table[256] =
 quint32 CRC32(QString fileName)
 {
     QFile file(fileName);
-    if(!file.open(QIODevice::ReadOnly))
-    {
-       if(fileName.endsWith("PDF"))
-       {
+    if(!file.open(QIODevice::ReadOnly)){
+       if(fileName.endsWith("PDF")){
           fileName.chop(3);
           fileName.append("pdf");
           file.setFileName(fileName);
           if(!file.open(QIODevice::ReadOnly))
               return -1;
        }
-
     }
-
     quint32 CRC32 = 0xffffffff;
     qint64 n, i;
     char *buf = new char [BUFSIZE];
-
     while((n = file.read(buf, BUFSIZE)) > 0){
         for (i = 0; i < n; i++)
             CRC32 = (CRC32 >> 8) ^ CRC32Table[(CRC32 ^ buf[i]) & 0xff];
@@ -364,10 +361,8 @@ quint32 CRC32(QString fileName)
     CRC32 ^= 0xffffffff;
     delete[] buf;
     file.close();
-
     return CRC32;
 }
-
 
 quint32 CRC32Contents(QString DirectoryPatch){
 
