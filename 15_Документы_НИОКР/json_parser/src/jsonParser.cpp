@@ -23,7 +23,6 @@ bool parseJSON(string & patchToFile){
     quint32 crc32; //СКС32 PDF файла
     quint32 crc32Contents; //СКС32 папки Contents
     int numberSheets{-1};
-
     string company{""};
     string creater{""};
     auto createdData = chrono::system_clock::now();
@@ -92,7 +91,7 @@ if(blankStr.exactMatch(QString::fromStdString(oboznachenieIkodDokumenta))) retur
                 }else return false;
                 if (requisites.HasMember("Общее количество листов документа")){
                     numberSheets = requisites["Общее количество листов документа"].GetInt();
-if(numberSheets < 1) return false;
+if(!numberStr.exactMatch(QString::number(numberSheets))) return false;
                     cout << "\tОбщее количество листов документа: " << numberSheets << "\n";
                 }else return false;
                 if (requisites.HasMember("Наименование или код организации")){
