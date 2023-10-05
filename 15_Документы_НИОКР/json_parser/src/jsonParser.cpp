@@ -86,14 +86,14 @@ if(blankStr.exactMatch(QString::fromStdString(oboznachenieIkodDokumenta))) retur
           printf("                      \tОтсутствует PDF файл  %s.PDF !!!\n", oboznachenieIkodDokumenta.c_str());
           return false;
       }
-      printf("                      \t(посчитан CRC32: %X)", crc32);
+      printf("                      \t(посчитан CRC32: %X)\n", crc32);
 
 
       //вычисляем CRC32 папки Contents
-      string chopped1 = patchToFile;
-      QString nameDirectory = QString::fromStdString(chopped1).chopped(10)+QString("Contents");
-      crc32Contents = CRC32Contents(nameDirectory);
-      printf("\t\t\t\t\t\t\t\t\t\t\tCRC32Contens: %X\n", crc32Contents);
+//      string chopped1 = patchToFile;
+//      QString nameDirectory = QString::fromStdString(chopped1).chopped(10)+QString("Contents");
+//      crc32Contents = CRC32Contents(nameDirectory);
+//      printf("\t\t\t\t\t\t\t\t\t\t\tCRC32Contens: %X\n", crc32Contents);
 
                 }else return false;
                 if (requisites.HasMember("Общее количество листов документа")){
