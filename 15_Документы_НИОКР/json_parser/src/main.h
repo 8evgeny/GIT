@@ -19,4 +19,4 @@ using namespace std::filesystem;
 
 bool parseJSON(string & patchToFile);
 quint32 CRC32(QString fileName);
-quint32 CRC32Contents(QString DirectoryPatch);
+string CRC32Contents(QString DirectoryPatch);

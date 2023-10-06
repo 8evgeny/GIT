@@ -90,9 +90,11 @@ QRegExp crc32Str("^[0-9ABCDEF]{8}$");
 
 
       //вычисляем CRC32 папки Contents
-//      string chopped1 = patchToFile;
-//      QString nameDirectory = QString::fromStdString(chopped1).chopped(10)+QString("Contents");
-//      crc32Contents = CRC32Contents(nameDirectory);
+      string chopped1 = patchToFile;
+      QString nameDirectory = QString::fromStdString(chopped1).chopped(10)+QString("Contents");
+      string CRC32_All = CRC32Contents(nameDirectory);
+//      tmp.substr(8,12);
+      cout<< CRC32_All<<endl;
 //      printf("\t\t\t\t\t\t\t\t\t\t\tCRC32Contens: %X\n", crc32Contents);
 
                 }else return false;
@@ -265,7 +267,6 @@ QRegExp crc32Str("^[0-9ABCDEF]{8}$");
 return true;
 }
 
-
 const quint32 CRC32Table[256] =
 {
     0x00000000, 0x77073096, 0xee0e612c, 0x990951ba,
@@ -360,59 +361,25 @@ quint32 CRC32(QString fileName)
 }
 
 //Пока не работает
-quint32 CRC32Contents(QString DirectoryPatch){
+string CRC32Contents(QString DirectoryPatch){
 
-    vector<string> allFiles; //Тут пути ко всем файлам
-    auto iterator = recursive_directory_iterator{ DirectoryPatch.toStdString(), directory_options::skip_permission_denied };
-    for(const auto& entry : iterator) {
-        try {
-          if(!entry.is_regular_file())
-            continue;
-          ifstream file{ entry.path() };
-          string patch = entry.path().string();
-          allFiles.push_back(patch);
-        } catch(const exception& e) {
-          cerr << "Error reading " << entry.path().string() << ": " << e.what() << endl;
-        }
-    }
+    string CMD1 = "7z h -scrc ";
+    string CMD2 = DirectoryPatch.toStdString();
+    string CMD3 = " | grep \"CRC32  for data:\"";
+    string CMD = CMD1 + CMD2 + CMD3;
+    char buf[BUFSIZ];
+    FILE *ptr;
 
-    auto patch = "/home/evg/SOFT/Github/GIT/15_Документы_НИОКР/json_parser/build/tempCRC32";
-    ofstream  ofs( patch, ios_base::binary );
-    for (auto patchFile:allFiles){
-        QFile file(QString::fromStdString(patchFile));
-        file.open(QIODevice::ReadOnly );
-        QByteArray ba =  file.readAll();
-//        cout<<patchFile<<"        (CRC32: "<<hex<<uppercase<<CRC32(QString{patchFile.c_str()})<<")";
-//        cout<<"  len: "<<ba.size()<<endl;
-        ofs << ba.toStdString();
-        file.close();
-    }
-    auto result = CRC32(QString{patch});
+    if ((ptr = popen(CMD.c_str(), "r")) != NULL)
+            while (fgets(buf, BUFSIZ, ptr) != NULL)
+                    (void) printf("%s", buf);
+                (void) pclose(ptr);
+    string tmp{buf};
+    string result = tmp.substr(29, 9);
 
-    ofs.clear();
-    ofs.close();
-    cout<<endl;
-return result;
+return   result;
+
+
 }
 
-//boost пока не работает
-//#include <boost/crc.hpp>
-//quint32 CRC32(QString fileName){
-//    QFile file(fileName);
-//    if(!file.open(QIODevice::ReadOnly))    {
-//        if(fileName.endsWith("PDF")){
-//            fileName.chop(3);
-//            fileName.append("pdf");
-//            file.setFileName(fileName);
-//            if(!file.open(QIODevice::ReadOnly))
-//                return -1;
-//        }
-//    }
-//    QByteArray ba = file.readAll();
-//    string str = QString(ba).toStdString();
-//    boost::crc_optimal<32, 0x04c11db7, 0xffffffff, 0xffffffff, true, true> crc;
-//    const char* data = str.c_str();
-//    std::size_t data_length = std::strlen(data);
-//    crc.process_bytes(data, data_length);
-//    return crc.checksum();
-//}
+
