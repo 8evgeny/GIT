@@ -50,9 +50,16 @@ bool parseJSON(string & patchToFile){
 QRegExp blankStr("^$");//пустая строка
 QRegExp dataStr("^20\\d{2}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$");
 QRegExp number2dig("^[0-9]{1}[0-9]?$");
-QRegExp number3dig("^[1-9]{1}[0-9]{0,2}$");
+QRegExp number3dig("^[0-9]{0,3}$");
 QRegExp crc32Str("^[0-9ABCDEF]{8}$");
-
+QRegExp softStr("^"
+                "(Solidworks Professional 2018 x64 Edition SP3.0)|"
+                "(КОМПАС-3D 21.0.0.1158 /(64-разрядная версия/))|"
+                "(Altium Designer 20.0.12 (Build 288))|"
+                "(Libre Office Writer 7.5.3.2)|"
+                "(Inkscape 1.2)|"
+                "(NanoCAD 23.0.6169.4115 (Сборка 6276))"
+                "$");
     Document document;
     if (!document.Parse(jsonData.toStdString().c_str()).HasParseError())
     {
@@ -222,20 +229,18 @@ QRegExp crc32Str("^[0-9ABCDEF]{8}$");
 
                 }else return false;
                 if (serviceData.HasMember("Значение контрольной суммы содержательных частей")){
-    contromSummParts = serviceData["Значение контрольной суммы содержательных частей"].GetString();
-    if(!crc32Str.exactMatch(QString::fromStdString(contromSummParts))) return false;
-    cout << "\tЗначение контрольной суммы содержательных частей: " << contromSummParts ;
-
-
-    if(contromSummParts == crc32Contents) {
-        cout << "  \t\t(Контрольные суммы содержательных частей совпадают)"<<endl; }
-    else { cout << "  \t\t(Контрольные суммы содержательных частей не совпадают !!!)"<<endl;
-        return false;}
+                contromSummParts = serviceData["Значение контрольной суммы содержательных частей"].GetString();
+                if(!crc32Str.exactMatch(QString::fromStdString(contromSummParts))) return false;
+                cout << "\tЗначение контрольной суммы содержательных частей: " << contromSummParts ;
+                if(contromSummParts == crc32Contents) {
+                    cout << "  \t\t(Контрольные суммы содержательных частей совпадают)"<<endl; }
+                else { cout << "  \t\t(Контрольные суммы содержательных частей не совпадают !!!)"<<endl;
+                    return false;}
 
                 }else return false;
                 if (serviceData.HasMember("Программное обеспечение для редактирования исходных данных")){
                     software = serviceData["Программное обеспечение для редактирования исходных данных"].GetString();
-                    if(blankStr.exactMatch(QString::fromStdString(software))) return false;
+                    if(!softStr.exactMatch(QString::fromStdString(software))) return false;
                     cout << "\tПрограммное обеспечение для редактирования исходных данных: " << software << "\n";
                 }else return false;
                 if (serviceData.HasMember("Объем в листах А4")){
@@ -365,7 +370,6 @@ quint32 CRC32(QString fileName)
     return CRC32;
 }
 
-//Пока не работает
 string CRC32Contents(QString DirectoryPatch){
 
     string CMD1 = "7z h -scrc ";
@@ -382,10 +386,7 @@ string CRC32Contents(QString DirectoryPatch){
                 (void) pclose(ptr);
     string tmp{buf};
     string result = tmp.substr(30, 8);
-
 return   result;
-
-
 }
 
 
