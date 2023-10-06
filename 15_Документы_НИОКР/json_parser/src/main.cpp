@@ -2,9 +2,7 @@
 
 int main(int argc, char *argv[])
 {
-    const path archiv_path{ R"(/home/evg/SOFT/Github/GIT/15_Документы_НИОКР/temp_arсhive)" };
-//    const path archiv_path{ R"(/home/evg/Desktop/temp_arсhive)" };
-//    const path archiv_path{ R"(C:\Users\Professional\Documents\GIT1\15_Документы_НИОКР\temp_arсhive)" };
+    const path archiv_path{ argv[1] };
     const unordered_set<string> pe_extensions{ ".json" };
     cout << endl <<"Patch for json search: "<<archiv_path << endl;
     vector<string> vectorJsonFiles;
