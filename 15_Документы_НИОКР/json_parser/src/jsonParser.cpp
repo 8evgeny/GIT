@@ -21,7 +21,7 @@ bool parseJSON(string & patchToFile){
     string naimenovanieDokumenta{""};
     string oboznachenieIkodDokumenta{""};
     quint32 crc32; //СКС32 PDF файла
-    quint32 crc32Contents; //СКС32 папки Contents
+    string crc32Contents; //СКС32 папки Contents
     int numberSheets{-1};
     string company{""};
     string creater{""};
@@ -92,10 +92,8 @@ QRegExp crc32Str("^[0-9ABCDEF]{8}$");
       //вычисляем CRC32 папки Contents
       string chopped1 = patchToFile;
       QString nameDirectory = QString::fromStdString(chopped1).chopped(10)+QString("Contents");
-      string CRC32_All = CRC32Contents(nameDirectory);
-//      tmp.substr(8,12);
-      cout<< CRC32_All<<endl;
-//      printf("\t\t\t\t\t\t\t\t\t\t\tCRC32Contens: %X\n", crc32Contents);
+      crc32Contents = CRC32Contents(nameDirectory);
+      printf("                      \t\t\t\t\t\t\t\t(посчитан CRC32 папки Contents: %s)\n", crc32Contents.c_str());
 
                 }else return false;
                 if (requisites.HasMember("Общее количество листов документа")){
@@ -226,7 +224,12 @@ QRegExp crc32Str("^[0-9ABCDEF]{8}$");
                 if (serviceData.HasMember("Значение контрольной суммы содержательных частей")){
                     contromSummParts = serviceData["Значение контрольной суммы содержательных частей"].GetString();
                     if(!crc32Str.exactMatch(QString::fromStdString(contromSummParts))) return false;
-                    cout << "\tЗначение контрольной суммы содержательных частей: " << contromSummParts << "\n";
+                    cout << "\tЗначение контрольной суммы содержательных частей: " << contromSummParts ;
+                    if(atoi(contromSummParts.c_str()) == atoi(crc32Contents.c_str())) {
+                        cout << "  \t\t(Контрольные суммы содержательных частей совпадают)"<<endl; }
+                    else { cout << "  \t\t(Контрольные суммы содержательных частей не совпадают !!!)"<<endl;
+                        return false;}
+
                 }else return false;
                 if (serviceData.HasMember("Программное обеспечение для редактирования исходных данных")){
                     software = serviceData["Программное обеспечение для редактирования исходных данных"].GetString();
@@ -367,12 +370,13 @@ string CRC32Contents(QString DirectoryPatch){
     string CMD2 = DirectoryPatch.toStdString();
     string CMD3 = " | grep \"CRC32  for data:\"";
     string CMD = CMD1 + CMD2 + CMD3;
-    char buf[BUFSIZ];
+//    char buf[BUFSIZ];
+    char buf[40];
     FILE *ptr;
 
     if ((ptr = popen(CMD.c_str(), "r")) != NULL)
-            while (fgets(buf, BUFSIZ, ptr) != NULL)
-                    (void) printf("%s", buf);
+            while (fgets(buf, 40, ptr) != NULL){}
+//                    (void) printf("%s", buf);
                 (void) pclose(ptr);
     string tmp{buf};
     string result = tmp.substr(29, 9);
