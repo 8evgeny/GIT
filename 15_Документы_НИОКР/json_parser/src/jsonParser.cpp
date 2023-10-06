@@ -210,10 +210,10 @@ QRegExp crc32Str("^[0-9ABCDEF]{8}$");
                     contromSummOrigin = serviceData["Значение контрольной суммы подлинника"].GetString();
                 if(!crc32Str.exactMatch(QString::fromStdString(contromSummOrigin))) return false;
 
-    //Сравниваем с расчитанным CRC32
-    char buf[20];
-    sprintf (buf,"%.8X", crc32);
-    string calculateCRC32{buf};
+                    //Сравниваем с расчитанным CRC32
+                    char buf[20];
+                    sprintf (buf,"%.8X", crc32);
+                    string calculateCRC32{buf};
                     cout << "\tЗначение контрольной суммы подлинника: " << contromSummOrigin ;
                     if(contromSummOrigin == calculateCRC32) {
                         cout << "                  \t(Контрольные суммы совпадают)"<<endl; }
@@ -222,13 +222,15 @@ QRegExp crc32Str("^[0-9ABCDEF]{8}$");
 
                 }else return false;
                 if (serviceData.HasMember("Значение контрольной суммы содержательных частей")){
-                    contromSummParts = serviceData["Значение контрольной суммы содержательных частей"].GetString();
-                    if(!crc32Str.exactMatch(QString::fromStdString(contromSummParts))) return false;
-                    cout << "\tЗначение контрольной суммы содержательных частей: " << contromSummParts ;
-                    if(atoi(contromSummParts.c_str()) == atoi(crc32Contents.c_str())) {
-                        cout << "  \t\t(Контрольные суммы содержательных частей совпадают)"<<endl; }
-                    else { cout << "  \t\t(Контрольные суммы содержательных частей не совпадают !!!)"<<endl;
-                        return false;}
+    contromSummParts = serviceData["Значение контрольной суммы содержательных частей"].GetString();
+    if(!crc32Str.exactMatch(QString::fromStdString(contromSummParts))) return false;
+    cout << "\tЗначение контрольной суммы содержательных частей: " << contromSummParts ;
+
+
+    if(contromSummParts == crc32Contents) {
+        cout << "  \t\t(Контрольные суммы содержательных частей совпадают)"<<endl; }
+    else { cout << "  \t\t(Контрольные суммы содержательных частей не совпадают !!!)"<<endl;
+        return false;}
 
                 }else return false;
                 if (serviceData.HasMember("Программное обеспечение для редактирования исходных данных")){
@@ -379,7 +381,7 @@ string CRC32Contents(QString DirectoryPatch){
 //                    (void) printf("%s", buf);
                 (void) pclose(ptr);
     string tmp{buf};
-    string result = tmp.substr(29, 9);
+    string result = tmp.substr(30, 8);
 
 return   result;
 
