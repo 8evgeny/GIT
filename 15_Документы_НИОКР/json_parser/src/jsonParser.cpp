@@ -86,7 +86,7 @@ QRegExp crc32Str("^[0-9ABCDEF]{8}$");
           printf("                      \tОтсутствует PDF файл  %s.PDF !!!\n", oboznachenieIkodDokumenta.c_str());
           return false;
       }
-      printf("                      \t(посчитан CRC32: %X)\n", crc32);
+      printf("                      \t(посчитан CRC32: %.8X)\n", crc32);
 
 
       //вычисляем CRC32 папки Contents
@@ -212,7 +212,7 @@ QRegExp crc32Str("^[0-9ABCDEF]{8}$");
 
     //Сравниваем с расчитанным CRC32
     char buf[20];
-    sprintf (buf,"%8X", crc32);
+    sprintf (buf,"%.8X", crc32);
     string calculateCRC32{buf};
                     cout << "\tЗначение контрольной суммы подлинника: " << contromSummOrigin ;
                     if(contromSummOrigin == calculateCRC32) {
