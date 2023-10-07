@@ -372,6 +372,31 @@ quint32 CRC32(QString fileName)
 
 string CRC32Contents(QString DirectoryPatch){
 
+#ifdef WIN32
+    char buf1[2048];
+    std::size_t bufsize = 2048;
+    int e = getenv_s(&bufsize,buf1,bufsize,"PATH");
+    if (e) {
+        std::cerr << "`getenv_s` failed, returned " << e << '\n';
+        exit(EXIT_FAILURE);
+    }
+    std::string env_path = buf1;
+//    std::cout << "In main process, `PATH`=" << env_path << std::endl;
+    env_path += ";C:\\Program Files\\7-Zip";
+    e = _putenv_s("PATH",env_path.c_str());
+    if (e) {
+        std::cerr << "`_putenv_s` failed, returned " << e << std::endl;
+        exit(EXIT_FAILURE);
+    }
+    std::cout << std::endl;
+//    e = std::system("echo \"In child process `PATH`=%PATH%\"");
+    if (e) {
+        std::cerr << "`std::system` failed, returned " << e << std::endl;
+        exit(EXIT_FAILURE);
+    }
+#endif
+
+
     string CMD1 = "7z h -scrc ";
     string CMD2 = DirectoryPatch.toStdString();
     string CMD3 = " | grep \"CRC32  for data:\"";
