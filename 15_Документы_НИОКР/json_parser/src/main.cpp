@@ -3,6 +3,9 @@
 Деплой windows
 cd C:\Qt5\5.15.2\mingw81_64\bin
 windeployqt.exe C:\Users\Professional\Desktop\j_parser\json_parser.exe
+cd C:\Users\Professional\Desktop\j_parser
+json_parser.exe C:\Users\Professional\Desktop\temp_arсhive
+Прописать путь   C:\w64devkit-master\w64devkit\bin  (содержит grep)
  #endif
 int main(int argc, char *argv[])
 {
