@@ -378,8 +378,9 @@ quint32 CRC32(QString fileName)
 string CRC32Contents(QString DirectoryPatch){
 
 #ifdef WIN32
-    char buf1[2048];
-    std::size_t bufsize = 2048;
+    char buf1[BUFSIZ*20]; //160кб
+    std::size_t bufsize = BUFSIZ*20;
+
     int e = getenv_s(&bufsize,buf1,bufsize,"PATH");
     if (e) {
         std::cerr << "`getenv_s` failed, returned " << e << '\n';
