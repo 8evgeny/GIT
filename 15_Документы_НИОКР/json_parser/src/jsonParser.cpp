@@ -60,6 +60,11 @@ QRegExp softStr("^"
                 "(Inkscape 1.2)|"
                 "(NanoCAD 23.0.6169.4115 (Сборка 6276))"
                 "$");
+QRegExp iulStr("^"
+               "(ГРЛМ.[0-9]{6}.[0-9]{3}[А-Я][А-Я0-9]+)-УЛ|"
+               "(ГРЛМ.[0-9]{6}.[0-9]{3}УЛ)|"
+               "(ГРЛМ.[0-9]{6}.[0-9]{3}-[0-9]{2,3}[А-Я][А-Я0-9]+)-УЛ|"
+               "$");
     Document document;
     if (!document.Parse(jsonData.toStdString().c_str()).HasParseError())
     {
@@ -136,7 +141,7 @@ QRegExp softStr("^"
                     }else return false;
                     if (infoAboutSigning.HasMember("Информационно-удостоверяющий лист")){
                         infoOrderList = infoAboutSigning["Информационно-удостоверяющий лист"].GetString();
-                        if(blankStr.exactMatch(QString::fromStdString(infoOrderList))) return false;
+                        if(!iulStr.exactMatch(QString::fromStdString(infoOrderList))) return false;
                         cout << "\t\tИнформационно-удостоверяющий лист: " << infoOrderList << "\n";
                     }else return false;
                 }else return false;
