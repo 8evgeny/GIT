@@ -5,7 +5,10 @@ cd C:\Qt5\5.15.2\mingw81_64\bin
 windeployqt.exe C:\Users\Professional\Desktop\j_parser\json_parser.exe
 cd C:\Users\Professional\Desktop\j_parser
 json_parser.exe C:\Users\Professional\Desktop\temp_arсhive
-Прописать путь   C:\w64devkit-master\w64devkit\bin  (содержит grep)
+Скопировать в папку с exe 2 файла   busybox.exe    grep.exe  из папки bin пакета  w64devkit-master или прописать путь
+C:\w64devkit-master\w64devkit\bin  в path
+Скопировать в папку с exe 2 файла  7z.exe  7z.dll
+Или прописать путь к 7z
  #endif
 int main(int argc, char *argv[])
 {
