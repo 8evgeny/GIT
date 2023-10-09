@@ -1,5 +1,9 @@
 ﻿#include "main.h"
-
+#if 0
+Деплой windows
+cd C:\Qt5\5.15.2\mingw81_64\bin
+windeployqt.exe C:\Users\Professional\Desktop\j_parser\json_parser.exe
+ #endif
 int main(int argc, char *argv[])
 {
     const path archiv_path{ argv[1] };
