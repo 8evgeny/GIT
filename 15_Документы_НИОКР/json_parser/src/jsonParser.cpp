@@ -12,8 +12,14 @@ constexpr days operator ""_days(unsigned long long d){
 
 void createQR(string nameQR, string originText)
 {
+#ifdef WIN32
+    string CMD1 = "qrcodecon -s 6 -l M -o ";
+    string CMD2 = nameQR+".png";
+#else
     string CMD1 = "qrencode -s 6 -l M -o ";
     string CMD2 = nameQR;
+#endif
+
     string CMD3 = originText;
     string CMD = CMD1 +  CMD2 + " " + CMD3;
     system (CMD.c_str());
