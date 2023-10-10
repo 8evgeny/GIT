@@ -32,7 +32,7 @@ string createStringForQr (string oboznachenieIkodDokumenta,
                           string storageDataStr,
                           string litera,
                           string controlSummOrigin,
-                          string contromSummParts
+                          string controlSummParts
                           )
 {
 //    ГРЛМ.741138.003 | изм.0 | К.001-2023 | 2023-05-29 | Лит.нет | CRC-32.pdf=1F349207 | CRC-32.zip\Contents=3C3DE8F8
@@ -50,7 +50,7 @@ string createStringForQr (string oboznachenieIkodDokumenta,
             storageDataStr  + separator +
             LiteraQr + separator+
             "CRC-32.pdf="+controlSummOrigin + separator +
-            "CRC-32.zip\\Contents=" + contromSummParts;
+            "CRC-32.zip\\Contents=" + controlSummParts;
 //    cout<<result<<endl;
     return result;
 }
@@ -86,7 +86,7 @@ bool parseJSON(string & patchToFile){
     int version{-1};
     string algorithm{""};
     string controlSummOrigin{""};                               //6
-    string contromSummParts{""};                                //7
+    string controlSummParts{""};                                //7
     string software{""};
     int volumeInSheets{-1};
     bool isValid{false};
@@ -281,10 +281,10 @@ QRegExp iulStr("^"
 
                 }else return false;
                 if (serviceData.HasMember("Значение контрольной суммы содержательных частей")){
-                contromSummParts = serviceData["Значение контрольной суммы содержательных частей"].GetString();
-                if(!crc32Str.exactMatch(QString::fromStdString(contromSummParts))) return false;
-                cout << "\tЗначение контрольной суммы содержательных частей: " << contromSummParts ;
-                if(contromSummParts == crc32Contents) {
+                controlSummParts = serviceData["Значение контрольной суммы содержательных частей"].GetString();
+                if(!crc32Str.exactMatch(QString::fromStdString(controlSummParts))) return false;
+                cout << "\tЗначение контрольной суммы содержательных частей: " << controlSummParts ;
+                if(controlSummParts == crc32Contents) {
                     cout << "  \t\t(Контрольные суммы содержательных частей совпадают)"<<endl; }
                 else { cout << "  \t\t(Контрольные суммы содержательных частей не совпадают !!!)"<<endl;
                     return false;}
@@ -333,7 +333,7 @@ string stringForQr = createStringForQr (oboznachenieIkodDokumenta,
                                         storageDataStr,
                                         litera,
                                         controlSummOrigin,
-                                        contromSummParts
+                                        controlSummParts
                                         );
 
 createQR(oboznachenieIkodDokumenta, stringForQr);
