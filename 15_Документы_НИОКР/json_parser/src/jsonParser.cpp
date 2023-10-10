@@ -36,7 +36,11 @@ string createStringForQr (string oboznachenieIkodDokumenta,
                           )
 {
 //    ГРЛМ.741138.003 | изм.0 | К.001-2023 | 2023-05-29 | Лит.нет | CRC-32.pdf=1F349207 | CRC-32.zip\Contents=3C3DE8F8
+#ifdef WIN32
+    string separator = "__";
+#else
     string separator = "\\ \\|\\ ";
+#endif
     string LiteraQr{"Лит."};
     if (litera == "")
         LiteraQr.append("нет");
