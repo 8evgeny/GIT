@@ -10,6 +10,30 @@ constexpr days operator ""_days(unsigned long long d){
     return days{d};
 }
 
+void createQR(string nameQR, string originText)
+{
+    string CMD1 = "qrencode -s 6 -l M -o ";
+    string CMD2 = nameQR;
+    string CMD3 = originText;
+    string CMD = CMD1 +  CMD2 + " " + CMD3;
+    system (CMD.c_str());
+}
+
+
+string createStringForQr (string oboznachenieIkodDokumenta,
+                          string changeNumStr,
+                          string changeNotificationNum,
+                          string storageDataStr,
+                          string litera,
+                          string contromSummOrigin,
+                          string contromSummParts
+                          )
+{
+//    ГРЛМ.741138.003 | изм.0 | К.001-2023 | 2023-05-29 | Лит.нет | CRC-32.pdf=1F349207 | CRC-32.zip\Contents=3C3DE8F8
+
+    return oboznachenieIkodDokumenta+changeNumStr+changeNotificationNum+storageDataStr+litera+contromSummOrigin+contromSummParts;
+}
+
 bool parseJSON(string & patchToFile){
     QFile file(QString::fromStdString(patchToFile));
     file.open(QIODevice::ReadOnly);
@@ -19,7 +43,7 @@ bool parseJSON(string & patchToFile){
     //Переменные
     string naimenovanieIzdeliya{""};
     string naimenovanieDokumenta{""};
-    string oboznachenieIkodDokumenta{""};
+    string oboznachenieIkodDokumenta{""};                     //1
     quint32 crc32; //СКС32 PDF файла
     string crc32Contents; //СКС32 папки Contents
     int numberSheets{-1};
@@ -29,18 +53,19 @@ bool parseJSON(string & patchToFile){
     string createdDataStr{""};
     string infoOrderList{""};
     int changeNum{-1};
-    string changeNotificationNum{""};
+    string changeNumStr{""};                                   //2
+    string changeNotificationNum{""};                          //3
     auto notificationData = chrono::system_clock::now();
     string notificationDataStr{""};
     string inventoryNumOriginal{""};
     auto storageData = chrono::system_clock::now();
-    string storageDataStr{""};
-    string litera{""};
+    string storageDataStr{""};                                 //4
+    string litera{""};                                         //5
     int dokumentCode{-1};
     int version{-1};
     string algorithm{""};
-    string contromSummOrigin{""};
-    string contromSummParts{""};
+    string contromSummOrigin{""};                               //6
+    string contromSummParts{""};                                //7
     string software{""};
     int volumeInSheets{-1};
     bool isValid{false};
@@ -279,8 +304,23 @@ QRegExp iulStr("^"
         //ошибка парсинга
         return false;
     }
+
+string stringForQr = createStringForQr (oboznachenieIkodDokumenta,
+                                        changeNumStr,
+                                        changeNotificationNum,
+                                        storageDataStr,
+                                        litera,
+                                        contromSummOrigin,
+                                        contromSummParts
+                                        );
+
+createQR(oboznachenieIkodDokumenta, stringForQr);
+
 return true;
 }
+
+
+
 
 const quint32 CRC32Table[256] =
 {
