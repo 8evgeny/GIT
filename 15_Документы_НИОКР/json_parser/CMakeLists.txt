@@ -15,12 +15,13 @@ set(COMPILE_OPTIONS "-Wpedantic;-Wall;-Wextra")
 #;-finput-charset=UTF8")
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}  -pthread -fcoroutines")
 
+include_directories(rapidjson/include src)
 find_package(QT NAMES Qt5 COMPONENTS Core REQUIRED)
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Core REQUIRED)
+file(GLOB src src/*.cpp)
+add_executable(json_parser ${src})
+add_executable(qr_creater src_qr_codes/main.cpp)
+target_link_libraries(json_parser Qt${QT_VERSION_MAJOR}::Core )
+target_link_libraries(qr_creater Qt${QT_VERSION_MAJOR}::Core )
+add_subdirectory(rapidjson)
 
-add_executable(json_parser
-  main.cpp
-)
-target_link_libraries(json_parser
-    Qt${QT_VERSION_MAJOR}::Core
-    )
