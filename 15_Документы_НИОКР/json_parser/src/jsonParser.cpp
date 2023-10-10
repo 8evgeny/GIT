@@ -31,16 +31,13 @@ string createStringForQr (string oboznachenieIkodDokumenta,
                           string changeNotificationNum,
                           string storageDataStr,
                           string litera,
-                          string contromSummOrigin,
+                          string controlSummOrigin,
                           string contromSummParts
                           )
 {
 //    ГРЛМ.741138.003 | изм.0 | К.001-2023 | 2023-05-29 | Лит.нет | CRC-32.pdf=1F349207 | CRC-32.zip\Contents=3C3DE8F8
-#ifdef WIN32
-    string separator = "__";
-#else
-    string separator = "\\ \\|\\ ";
-#endif
+
+    string separator = "\" | \"";
     string LiteraQr{"Лит."};
     if (litera == "")
         LiteraQr.append("нет");
@@ -52,7 +49,7 @@ string createStringForQr (string oboznachenieIkodDokumenta,
             changeNotificationNum + separator +
             storageDataStr  + separator +
             LiteraQr + separator+
-            "CRC-32.pdf="+contromSummOrigin + separator +
+            "CRC-32.pdf="+controlSummOrigin + separator +
             "CRC-32.zip\\Contents=" + contromSummParts;
 //    cout<<result<<endl;
     return result;
@@ -88,7 +85,7 @@ bool parseJSON(string & patchToFile){
     int dokumentCode{-1};
     int version{-1};
     string algorithm{""};
-    string contromSummOrigin{""};                               //6
+    string controlSummOrigin{""};                               //6
     string contromSummParts{""};                                //7
     string software{""};
     int volumeInSheets{-1};
@@ -269,15 +266,15 @@ QRegExp iulStr("^"
                     cout << "\tАлгоритм расчета контрольной суммы: " << algorithm << "\n";
                 }else return false;
                 if (serviceData.HasMember("Значение контрольной суммы подлинника")){
-                    contromSummOrigin = serviceData["Значение контрольной суммы подлинника"].GetString();
-                if(!crc32Str.exactMatch(QString::fromStdString(contromSummOrigin))) return false;
+                    controlSummOrigin = serviceData["Значение контрольной суммы подлинника"].GetString();
+                if(!crc32Str.exactMatch(QString::fromStdString(controlSummOrigin))) return false;
 
                     //Сравниваем с расчитанным CRC32
                     char buf[20];
                     sprintf (buf,"%.8X", crc32);
                     string calculateCRC32{buf};
-                    cout << "\tЗначение контрольной суммы подлинника: " << contromSummOrigin ;
-                    if(contromSummOrigin == calculateCRC32) {
+                    cout << "\tЗначение контрольной суммы подлинника: " << controlSummOrigin ;
+                    if(controlSummOrigin == calculateCRC32) {
                         cout << "                  \t(Контрольные суммы совпадают)"<<endl; }
                     else { cout << "                  \t(Контрольные суммы не совпадают !!!)"<<endl;
                         return false;}
@@ -335,7 +332,7 @@ string stringForQr = createStringForQr (oboznachenieIkodDokumenta,
                                         changeNotificationNum,
                                         storageDataStr,
                                         litera,
-                                        contromSummOrigin,
+                                        controlSummOrigin,
                                         contromSummParts
                                         );
 
