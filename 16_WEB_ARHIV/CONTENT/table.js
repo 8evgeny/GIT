@@ -1,4 +1,11 @@
-
+function sleep(milliseconds) 
+{
+  const date = Date.now();
+  let currentDate = null;
+  do {
+    currentDate = Date.now();
+  } while (currentDate - date < milliseconds);
+};
 function tableCreate() {
     const body = document.body,
           // tbl = document.createElement('table');
@@ -53,5 +60,27 @@ function tableCreate() {
     }
     body.appendChild(tbl);
   }
+
+  var htReq = ('v' == '\v') ? new ActiveXObject ('Microsoft.XMLHTTP') : new XMLHttpRequest ();
+  function sendReq (filePath)
+  {
+  htReq.open ('get', filePath);
+  htReq.onreadystatechange = getReq;
+  htReq.send (null);
+
+  }
+   function getReq ()
+  {
+  if (htReq.readyState == 4) 
+  {
+    var jsonText = htReq.responseText;
+    console.log (jsonText); 
+  }
+  }
+
+  tableCreate();
+
+  sendReq ('index1');
+  sendReq ('index2');
   tableCreate();
 
