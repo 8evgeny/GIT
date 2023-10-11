@@ -338,27 +338,25 @@ string stringForQr = createStringForQr (oboznachenieIkodDokumenta,
 
 createQR(oboznachenieIkodDokumenta, stringForQr);
 //Формирую строку с контентом для сайта
-//vector <string> content;
-//content.push_back(oboznachenieIkodDokumenta);
-//content.push_back(naimenovanieIzdeliya);
-//content.push_back(naimenovanieDokumenta);
-//content.push_back(changeNumStr);
-//content.push_back(notificationDataStr);
-//content.push_back(controlSummOrigin);
-//content.push_back(infoOrderList);
+vector <string> content;
+content.push_back(oboznachenieIkodDokumenta);
+content.push_back(naimenovanieIzdeliya);
+content.push_back(naimenovanieDokumenta);
+content.push_back(changeNumStr);
+content.push_back(notificationDataStr);
+content.push_back(controlSummOrigin);
+content.push_back(infoOrderList);
 
-
-//QString nameFileToContent = QString::fromStdString(patchToFile).chopped(10);
-//QFile fout(nameFileToContent);
-//file.open(QIODevice::WriteOnly);
-//QByteArray ba;
-//for (int i = 0; i<content.size(); ++i)
-//{
-//    ba.append(QString::fromStdString(content[i]));
-//    ba.append("@@");
-//}
-//fout.write(ba);
-//fout.close();
+QFile fout(oboznachenieIkodDokumenta.c_str());
+fout.open(QIODevice::WriteOnly);
+QByteArray ba;
+for (int i = 0; i<content.size(); ++i)
+{
+    ba.append(QString::fromStdString(content[i]));
+    ba.append("@@");
+}
+fout.write(ba);
+fout.close();
 
 return true;
 }
