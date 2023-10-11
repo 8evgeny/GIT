@@ -3,43 +3,34 @@
 <head>
   <meta charset="utf-8">
   <title>Архив документации НИОКР</title>
-
-  <script type="text/javascript">
-
-    var reader = new XMLHttpRequest() || new ActiveXObject('MSXML2.XMLHTTP');
-     function loadFile(path) {
-        reader.open('get', path, true); 
-        reader.onreadystatechange = displayContents;
-        reader.send(null);
-    }
-    function displayContents() {
-        if(reader.readyState==4) {
-            var el = document.getElementById('main');
-            el.innerHTML = reader.responseText;
-        }
-    }
-//     const processTextByLine = text => {
-//     const arr = text.split(/\r?\n/gm)
-//     arr.map(line => console.log(line))
-// }
-
-// let reader = new FileReader();
-// reader.open('get', 'Summary_list_documents', true); 
-// reader.readAsText;    
-    </script>
-
-
-
-
-
-</head>
-<body>
-  <h2 align="center" style="color:Red"> Архив конструкторской документации</h2>
-
-  <h3 div id="container"  align="center" style="color:black" > <script>loadFile('1_Summary_list_documents');</script> <div id="main"></div></div></h3>
-
   
+ 
+</head>
 
+<body>
 
+  <h2 align="center" style="color:Red"> Архив конструкторской документации</h2>
+  <script src="text_from_file.js" ></script>
+  <h3 div id="container"  align="center" style="color:black" > <script>loadFile('1_Summary_list_documents');</script> <div id="main"></div></div></h3>
+<!-- <table id="table">
+	<tr>
+		<td>1</td>
+		<td>2</td>
+		<td>3</td>
+	</tr>
+	<tr>
+		<td>4</td>
+		<td>5</td>
+		<td>6</td>
+	</tr>
+	<tr>
+		<td>7</td>
+		<td>8</td>
+		<td>9</td>
+	</tr>
+</table> -->
+<table id="table"></table>
+<script src="table.js" ></script>
 </body>
+
 </html>
