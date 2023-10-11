@@ -8,7 +8,7 @@ function sleep(milliseconds)
 };
 function tableCreate() {
     const body = document.body,
-          // tbl = document.createElement('table');
+//           tbl = document.createElement('table');
     tbl = document.getElementById('table');
     tbl.style.margin = 'auto';
     tbl.style.width = '1800px';
@@ -82,5 +82,5 @@ function tableCreate() {
 
   sendReq ('index1');
   sendReq ('index2');
-  tableCreate();
+
 

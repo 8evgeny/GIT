@@ -1,5 +1,5 @@
 #include "main.h"
-
+uint numFolderForWebContent{1};
 ostream& operator<<(ostream &os, const chrono::time_point<chrono::system_clock> &t){
     const auto tt   (chrono::system_clock::to_time_t(t));
     const auto loct (localtime(&tt));
@@ -17,9 +17,8 @@ void createQR(string nameQR, string originText)
     string CMD2 = nameQR+".png";
 #else
     string CMD1 = "qrencode -s 6 -l M -o ";
-    string CMD2 = nameQR;
+    string CMD2 = "../../CONTENT/content_for_web/" + to_string(numFolderForWebContent) + "/" + nameQR;
 #endif
-
     string CMD3 = originText;
     string CMD = CMD1 +  CMD2 + " " + CMD3;
     system (CMD.c_str());
@@ -326,6 +325,11 @@ QRegExp iulStr("^"
         //ошибка парсинга
         return false;
     }
+//Создаем папки для web контента
+    string cmd1 = "mkdir ";
+    string cmd2 = "../../CONTENT/content_for_web/" + to_string(numFolderForWebContent);
+    string cmd = cmd1 + cmd2;
+    system(cmd.c_str());
 
 string stringForQr = createStringForQr (oboznachenieIkodDokumenta,
                                         changeNumStr,
@@ -347,17 +351,17 @@ content.push_back(notificationDataStr);
 content.push_back(controlSummOrigin);
 content.push_back(infoOrderList);
 
-QFile fout(oboznachenieIkodDokumenta.c_str());
+QFile fout(("../../CONTENT/content_for_web/" + to_string(numFolderForWebContent) + "/" + oboznachenieIkodDokumenta + "_").c_str());
 fout.open(QIODevice::WriteOnly);
 QByteArray ba;
 for (int i = 0; i<content.size(); ++i)
 {
     ba.append(QString::fromStdString(content[i]));
-    ba.append("@@");
+    ba.append('\n');
 }
 fout.write(ba);
 fout.close();
-
+++numFolderForWebContent;
 return true;
 }
 
