@@ -3,10 +3,11 @@
 <head>
   <meta charset="utf-8">
   <title>Архив документации НИОКР</title>
+
   <script type="text/javascript">
+
     var reader = new XMLHttpRequest() || new ActiveXObject('MSXML2.XMLHTTP');
-    
-    function loadFile() {
+     function loadFile() {
         reader.open('get', 'Summary_list_documents', true); 
         reader.onreadystatechange = displayContents;
         reader.send(null);
@@ -17,7 +18,14 @@
             el.innerHTML = reader.responseText;
         }
     }
+//     const processTextByLine = text => {
+//     const arr = text.split(/\r?\n/gm)
+//     arr.map(line => console.log(line))
+// }
 
+// let reader = new FileReader();
+// reader.open('get', 'Summary_list_documents', true); 
+// reader.readAsText;    
     </script>
 
 
@@ -32,6 +40,8 @@
     <script>loadFile();</script>
     <div id="main"></div>
   </div></h3>
+
+  
 
 
 </body>
