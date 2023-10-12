@@ -17,7 +17,7 @@ void createQR(string nameQR, string originText)
     string CMD2 = nameQR+".png";
 #else
     string CMD1 = "qrencode -s 6 -l M -o ";
-    string CMD2 = "../../CONTENT/content_for_web/" + to_string(numFolderForWebContent) + "/" + nameQR;
+    string CMD2 = "../../CONTENT/content_for_web/" + to_string(numFolderForWebContent) + "/" + nameQR+".png";
 #endif
     string CMD3 = originText;
     string CMD = CMD1 +  CMD2 + " " + CMD3;
@@ -326,10 +326,13 @@ QRegExp iulStr("^"
         return false;
     }
 //Создаем папки для web контента
-    string cmd1 = "mkdir ";
-    string cmd2 = "../../CONTENT/content_for_web/" + to_string(numFolderForWebContent);
-    string cmd = cmd1 + cmd2;
-    system(cmd.c_str());
+
+    // сначала удаляем старый контент
+    string removeContentFolder = "rm -rf ../../CONTENT/content_for_web/" + to_string(numFolderForWebContent);
+    system(removeContentFolder.c_str());
+    // создаем папку для нового контента
+    string createContentFolder = "mkdir ../../CONTENT/content_for_web/" + to_string(numFolderForWebContent);
+    system(createContentFolder.c_str());
 
 string stringForQr = createStringForQr (oboznachenieIkodDokumenta,
                                         changeNumStr,
@@ -351,7 +354,7 @@ content.push_back(notificationDataStr);
 content.push_back(controlSummOrigin);
 content.push_back(infoOrderList);
 
-QFile fout(("../../CONTENT/content_for_web/" + to_string(numFolderForWebContent) + "/" + oboznachenieIkodDokumenta + "_").c_str());
+QFile fout(("../../CONTENT/content_for_web/" + to_string(numFolderForWebContent) + "/" + oboznachenieIkodDokumenta).c_str());
 fout.open(QIODevice::WriteOnly);
 QByteArray ba;
 for (int i = 0; i<content.size(); ++i)

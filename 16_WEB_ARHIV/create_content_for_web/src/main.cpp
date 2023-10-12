@@ -2,6 +2,11 @@
 
 int main(int argc, char *argv[])
 {
+    if (argc != 2)
+    {
+        cout << "Для работы приложения требуется параметр (путь к папке с архивом)"<< endl;
+        return 0;
+    }
     const path archiv_path{ argv[1] };
     const unordered_set<string> pe_extensions{ ".json" };
     cout << endl <<"Patch for json search: "<<archiv_path << endl;
