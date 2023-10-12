@@ -8,9 +8,10 @@ int main(int argc, char *argv[])
         return 0;
     }
     const path archiv_path_zip{ argv[1] };
-    const path archiv_path_extracted{"/home/evg/SOFT/Github/GIT/16_WEB_ARHIV/EXTRACT"};
-//Разархивирование исходного контента
     string pathToExtractDirectory{"/home/evg/SOFT/Github/GIT/16_WEB_ARHIV/EXTRACT"};
+    const path archiv_path_extracted{pathToExtractDirectory};
+
+//Разархивирование исходного контента
 //Очищаем директорию для извлечения
     string eraseDir = " rm -rf ";
     eraseDir.append(archiv_path_extracted);
@@ -31,7 +32,6 @@ int main(int argc, char *argv[])
         const auto is_zip = zip_extensions.find(extension) != zip_extensions.end();
         if(!is_zip)
           continue;
-//        ifstream file{ entry.path() };
         string patch = entry.path().string();
         //тут пробел нужно заменить на "\"
         auto posBlank = patch.find(" ");
@@ -68,11 +68,7 @@ int main(int argc, char *argv[])
     for (auto & zipError : errorZipExtract)
         cout <<  zipError << endl;
 
-
-
-
 //Разбор разархивированной директории
-
     vector<string> vectorJsonFilesPath;
     vector<string> errorJsonPatch;
     const unordered_set<string> json_extensions{ ".json" };
@@ -86,7 +82,6 @@ int main(int argc, char *argv[])
         const auto is_json = json_extensions.find(extension) != json_extensions.end();
         if(!is_json)
           continue;
-//        ifstream file{ entry.path() };
         string patch = entry.path().string();
         vectorJsonFilesPath.push_back(patch);
       } catch(const exception& e) {
