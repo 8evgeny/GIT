@@ -18,7 +18,7 @@ void createQR(string nameQR, string originText)
     string CMD2 = nameQR+".png";
 #else
     string CMD1 = "qrencode -s 6 -l M -o ";
-    string CMD2 = "../../CONTENT/content_for_web/" + to_string(numFolderForWebContent) + "/" + nameQR+".png";
+    string CMD2 = WEB_content + to_string(numFolderForWebContent) + "/" + nameQR+".png";
 #endif
     string CMD3 = originText;
     string CMD = CMD1 +  CMD2 + " " + CMD3;
@@ -328,11 +328,8 @@ QRegExp iulStr("^"
     }
 //Создаем папки для web контента
 
-    // сначала удаляем старый контент
-    string removeContentFolder = "rm -rf ../../CONTENT/content_for_web/" + to_string(numFolderForWebContent);
-    system(removeContentFolder.c_str());
     // создаем папку для нового контента
-    string createContentFolder = "mkdir ../../CONTENT/content_for_web/" + to_string(numFolderForWebContent);
+    string createContentFolder = "mkdir " + WEB_content + to_string(numFolderForWebContent);
     system(createContentFolder.c_str());
 
 string stringForQr = createStringForQr (oboznachenieIkodDokumenta,

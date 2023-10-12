@@ -9,9 +9,8 @@ int main(int argc, char *argv[])
         return 0;
     }
     const path archiv_path_zip{ argv[1] };
-    string pathToExtractDirectory = "EXTRACT";
+    string pathToExtractDirectory = "EXTRACT"; //в папке build
     const path archiv_path_extracted{pathToExtractDirectory};
-    const path webContent{WEB_content};
 //Разархивирование исходного контента
 //Очищаем директорию для извлечения
     string eraseDir = " rm -rf ";
@@ -21,16 +20,14 @@ int main(int argc, char *argv[])
 
 //Очищаем директорию web контента
     string eraseWebDir = " rm -rf ";
-    eraseWebDir.append(webContent);
-    eraseWebDir.append("/");
+    eraseWebDir.append(WEB_content);
     system(eraseWebDir.c_str());
     string createWebContentDir = "mkdir ";
-    createWebContentDir.append(webContent);
+    createWebContentDir.append(WEB_content);
     system(createWebContentDir.c_str());
 
     vector<string> vectorZipFilesPath;
     vector<string> vectorZipFilesName;
-    vector<string> errorZipExtract;
     cout << "Patch for zip search: "<<archiv_path_zip << endl;
     const unordered_set<string> zip_extensions{ ".zip" };
     auto iteratorZip = recursive_directory_iterator{ archiv_path_zip, directory_options::skip_permission_denied };
@@ -57,26 +54,17 @@ int main(int argc, char *argv[])
         cerr << "Error reading " << entry.path().string() << ": " << e.what() << endl;
       }
     }
-    int errorExtractZip = 0;
+
     if (vectorZipFilesPath.size()>0)
     {
         int num = 0;
         for (auto i = 0; i < vectorZipFilesPath.size();++i ){
             ++num;
             cout << endl<< num << ": "<< vectorZipFilesPath[i] << endl;
-            if(!extractZip(vectorZipFilesPath[i], vectorZipFilesName[i], pathToExtractDirectory)) //распаковка одного zip файла
-         //пока всегда true
-            {
-                cout << "ОШИБКА ZIP" << endl;
-                ++errorExtractZip;
-                errorZipExtract.push_back(vectorZipFilesPath[i]);
-            }
+            extractZip(vectorZipFilesPath[i], vectorZipFilesName[i], pathToExtractDirectory); //распаковка одного zip файла
         }
     }
-    cout<< endl<< "Всего разархивировано zip файлов: " << vectorZipFilesPath.size()
-       << endl << "Ошибок разбора: " << errorExtractZip<< endl;
-    for (auto & zipError : errorZipExtract)
-        cout <<  zipError << endl;
+    cout<< endl<< "Всего разархивировано zip файлов: " << vectorZipFilesPath.size()<< endl;
 
 //Разбор разархивированной директории
     vector<string> vectorJsonFilesPath;
