@@ -41,8 +41,8 @@ function sleep(milliseconds)
         {
         if (row.readyState == 4) 
             {
-              let text = row.responseText.toString();
-              console.log(text);
+              let text = row.responseText.toString().split('\n');
+              console.log(text[1]);
             }
         }
            if (i != 0 )
