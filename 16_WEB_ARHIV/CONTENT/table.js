@@ -5,7 +5,7 @@ function sleep(milliseconds) {
         currentDate = Date.now();
     } while (currentDate - date < milliseconds);
 };
-
+const dataTable = [];
 let reqTableSize = new XMLHttpRequest();
 
 reqTableSize.open('get', 'content_for_web/numDoc');
@@ -37,8 +37,16 @@ function createTable() {
             function fillRow() {
                 if (row.readyState == 4) {
                     let text = row.responseText.toString().split('\n');
-                    console.log(text[1]);
+                    // console.log(text[1]);
+                    dataTable.push(text[0]);
+                    dataTable.push(text[1]);
+                    dataTable.push(text[2]);
+                    dataTable.push(text[3]);
+                    dataTable.push(text[4]);
+                    dataTable.push(text[5]);
+                    dataTable.push(text[6]);
                     console.log(`${i}`);
+                    console.log(dataTable);
 
                 }
             }
