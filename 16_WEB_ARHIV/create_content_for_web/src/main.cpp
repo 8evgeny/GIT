@@ -1,4 +1,5 @@
 ﻿#include "main.h"
+string WEB_content{"../../CONTENT/content_for_web/"};
 
 int main(int argc, char *argv[])
 {
@@ -10,7 +11,7 @@ int main(int argc, char *argv[])
     const path archiv_path_zip{ argv[1] };
     string pathToExtractDirectory = "EXTRACT";
     const path archiv_path_extracted{pathToExtractDirectory};
-    const path webContent{"../../CONTENT/content_for_web"};
+    const path webContent{WEB_content};
 //Разархивирование исходного контента
 //Очищаем директорию для извлечения
     string eraseDir = " rm -rf ";

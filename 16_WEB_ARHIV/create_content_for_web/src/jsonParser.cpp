@@ -1,4 +1,5 @@
 #include "main.h"
+extern string WEB_content;
 uint numFolderForWebContent{1};
 ostream& operator<<(ostream &os, const chrono::time_point<chrono::system_clock> &t){
     const auto tt   (chrono::system_clock::to_time_t(t));
@@ -354,7 +355,7 @@ content.push_back(notificationDataStr);
 content.push_back(controlSummOrigin);
 content.push_back(infoOrderList);
 
-QFile fout(("../../CONTENT/content_for_web/" + to_string(numFolderForWebContent) + "/" + oboznachenieIkodDokumenta).c_str());
+QFile fout((WEB_content + to_string(numFolderForWebContent) + "/" + oboznachenieIkodDokumenta).c_str());
 fout.open(QIODevice::WriteOnly);
 QByteArray ba;
 for (int i = 0; i<content.size(); ++i)
