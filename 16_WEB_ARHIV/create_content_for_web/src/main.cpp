@@ -8,9 +8,9 @@ int main(int argc, char *argv[])
         return 0;
     }
     const path archiv_path_zip{ argv[1] };
-    string pathToExtractDirectory{"/home/evg/SOFT/Github/GIT/16_WEB_ARHIV/EXTRACT"};
+    string pathToExtractDirectory = "EXTRACT";
     const path archiv_path_extracted{pathToExtractDirectory};
-    const path webContent{"/home/evg/SOFT/Github/GIT/16_WEB_ARHIV/CONTENT/content_for_web"};
+    const path webContent{"../../CONTENT/content_for_web"};
 //Разархивирование исходного контента
 //Очищаем директорию для извлечения
     string eraseDir = " rm -rf ";
