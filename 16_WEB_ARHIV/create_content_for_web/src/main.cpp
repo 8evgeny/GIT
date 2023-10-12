@@ -7,6 +7,9 @@ int main(int argc, char *argv[])
         cout << "Для работы приложения требуется параметр (путь к папке с архивом)"<< endl;
         return 0;
     }
+
+// 7z x ~/SOFT/Github/GIT/16_WEB_ARHIV/Ниокр-Актуальные\ документы/ГРЛМ.301122.007.zip -y -o"/home/evg/SOFT/Github/GIT/16_WEB_ARHIV/EXTRACT"
+
     const path archiv_path{ argv[1] };
     const unordered_set<string> pe_extensions{ ".json" };
     cout << endl <<"Patch for json search: "<<archiv_path << endl;
