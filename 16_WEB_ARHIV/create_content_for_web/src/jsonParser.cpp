@@ -342,6 +342,7 @@ string stringForQr = createStringForQr (oboznachenieIkodDokumenta,
                                         );
 
 createQR(oboznachenieIkodDokumenta, stringForQr);
+
 //Формирую строку с контентом для сайта
 vector <string> content;
 content.push_back(oboznachenieIkodDokumenta);
@@ -352,7 +353,7 @@ content.push_back(notificationDataStr);
 content.push_back(controlSummOrigin);
 content.push_back(infoOrderList);
 
-QFile fout((WEB_content + to_string(numFolderForWebContent) + "/" + oboznachenieIkodDokumenta).c_str());
+QFile fout((WEB_content + to_string(numFolderForWebContent) + "/" + to_string(numFolderForWebContent)).c_str());
 fout.open(QIODevice::WriteOnly);
 QByteArray ba;
 for (int i = 0; i<content.size(); ++i)

@@ -45,7 +45,7 @@ int main(int argc, char *argv[])
         patch.insert(posBlank,"\\");
         string name = entry.path().filename();
         vectorZipFilesPath.push_back(patch);
-        name.pop_back();
+        name.pop_back();//убираем .zip
         name.pop_back();
         name.pop_back();
         name.pop_back();
