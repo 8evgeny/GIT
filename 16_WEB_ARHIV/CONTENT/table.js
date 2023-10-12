@@ -7,41 +7,18 @@ function sleep(milliseconds)
   } while (currentDate - date < milliseconds);
 };
 
-// var htReq = ('v' == '\v') ? new ActiveXObject ('Microsoft.XMLHTTP') : new XMLHttpRequest ();
-// function sendReq (filePath)
-// {
-// htReq.open ('get', filePath);
-// htReq.onreadystatechange = getReq;
-// htReq.send (null);
-// htReq.responseText.toString()
-// }
-// var numberDoc;
-//  function getReq ()
-// {
-// if (htReq.readyState == 4) 
-// {
-//   numberDoc = htReq.responseText.toString();
-//   console.log (numberDoc); 
-// }
-// }
-// sendReq ('content_for_web/numDoc');
-
-
-
-
-  var htReq = ('v' == '\v') ? new ActiveXObject ('Microsoft.XMLHTTP') : new XMLHttpRequest ();
-  function sendReq (filePath)
+  var tableSize = new XMLHttpRequest ();
+  function sendReqTableSize (filePath)
   {
-    htReq.open ('get', filePath);
-    htReq.onreadystatechange = getReq;
-    htReq.send (null);
-    htReq.responseText.toString()
+    tableSize.open ('get', filePath);
+    tableSize.onreadystatechange = createTable;
+    tableSize.send (null);
   }
-  function getReq ()
+  function createTable ()
   {
-    if (htReq.readyState == 4) 
+    if (tableSize.readyState == 4) 
     {
-      let numberDoc = htReq.responseText.toString();
+      let numberDoc = tableSize.responseText.toString();
       function tableCreate() {
         const body = document.body,
         tbl = document.getElementById('table');
@@ -96,7 +73,7 @@ function sleep(milliseconds)
     }
 
   }
-  sendReq ('content_for_web/numDoc');
+  sendReqTableSize ('content_for_web/numDoc');
 
   console.log ("Done"); 
 
