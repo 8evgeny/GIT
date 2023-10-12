@@ -369,7 +369,11 @@ return true;
 }
 
 
+bool extractZip(string & patchToFile)
+{
 
+
+}
 
 const quint32 CRC32Table[256] =
 {
