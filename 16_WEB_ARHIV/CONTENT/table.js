@@ -7,19 +7,18 @@ function sleep(milliseconds)
   } while (currentDate - date < milliseconds);
 };
 
-  var tableSize = new XMLHttpRequest ();
+  var reqTableSize = new XMLHttpRequest ();
   function sendReqTableSize (filePath)
   {
-    tableSize.open ('get', filePath);
-    tableSize.onreadystatechange = createTable;
-    tableSize.send (null);
+    reqTableSize.open ('get', filePath);
+    reqTableSize.onreadystatechange = createTable;
+    reqTableSize.send (null);
   }
   function createTable ()
   {
-    if (tableSize.readyState == 4) 
+    if (reqTableSize.readyState == 4) 
     {
-      let numberDoc = tableSize.responseText.toString();
-      function tableCreate() {
+      let numberDoc = reqTableSize.responseText.toString();
         const body = document.body,
         tbl = document.getElementById('table');
         tbl.style.margin = 'auto';
@@ -68,8 +67,6 @@ function sleep(milliseconds)
           }
         }
         body.appendChild(tbl);
-      }
-      tableCreate();
     }
 
   }
