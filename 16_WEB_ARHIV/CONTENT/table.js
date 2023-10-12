@@ -6,13 +6,11 @@ function sleep(milliseconds) {
     } while (currentDate - date < milliseconds);
 };
 
-var reqTableSize = new XMLHttpRequest();
+let reqTableSize = new XMLHttpRequest();
 
-function sendReqTableSize(filePath) {
-    reqTableSize.open('get', filePath);
-    reqTableSize.onreadystatechange = createTable;
-    reqTableSize.send(null);
-}
+reqTableSize.open('get', 'content_for_web/numDoc');
+reqTableSize.onreadystatechange = createTable;
+reqTableSize.send(null);
 
 function createTable() {
     if (reqTableSize.readyState == 4) {
@@ -29,8 +27,8 @@ function createTable() {
             //Здесь получаем файл 'content_for_web/i/i  для заполнения ряда
             let row = new XMLHttpRequest();
 
-            function sendReqRow(filePath) {
-                row.open('get', filePath);
+            if (i != 0) {
+                row.open('get', 'content_for_web/' + `${i}` + '/' + `${i}`);
                 row.onreadystatechange = fillRow;
                 row.send(null);
             }
@@ -41,8 +39,7 @@ function createTable() {
                     console.log(text[1]);
                 }
             }
-            if (i != 0)
-                sendReqRow('content_for_web/' + `${i}` + '/' + `${i}`);
+
             const tr = tbl.insertRow();
             for (let j = 0; j < 8; j++) {
                 if (i == 0) {
@@ -92,6 +89,7 @@ function createTable() {
                         const td = tr.insertCell();
                         td.style.border = '1px solid black';
                         td.style.textAlign = "center";
+                        console.log(j);
                         switch (j) {
                             case 1:
                                 td.appendChild(document.createTextNode(`Обозначение и код документа`));
@@ -128,6 +126,8 @@ function createTable() {
     }
 
 } //function createTable()
-sendReqTableSize('content_for_web/numDoc');
+
+
+
 
 // console.log ("Done");
