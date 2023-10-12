@@ -24,7 +24,29 @@ function sleep(milliseconds)
         tbl.style.margin = 'auto';
         tbl.style.width = '1800px';
         tbl.style.border = '1px solid black';
+
+        
+        
         for (let i = 0; i <= numberDoc ; i++) {
+        //Здесь получаем файл 'content_for_web/i/i  для заполнения ряда
+        let row = new XMLHttpRequest ();
+        // const sendReqRow = `row${i}`;
+        function sendReqRow (filePath)
+        {
+          row.open ('get', filePath);
+          row.onreadystatechange = fillRow;
+          row.send (null);
+        }
+        function fillRow ()
+        {
+        if (row.readyState == 4) 
+            {
+              let text = row.responseText.toString();
+              console.log(text);
+            }
+        }
+           if (i != 0 )
+           sendReqRow('content_for_web/' + `${i}` + '/' + `${i}`);
           const tr = tbl.insertRow();
           for (let j = 0; j < 8; j++) {
             if (i==0)
@@ -56,29 +78,6 @@ function sleep(milliseconds)
               }
               else
               {
-                //Здесь получаем файл 'content_for_web/i/i  для заполнения ряда
-                var row = new XMLHttpRequest ();
-                // const sendReqRow = `row${i}`;
-                function sendReqRow (filePath)
-                {
-                  row.open ('get', filePath);
-                  row.onreadystatechange = fillRow;
-                  row.send (null);
-                }
-                function fillRow ()
-                {
-                if (row.readyState == 4) 
-                    {
-                      let text = row.responseText.toString();
-                      console.log(text);
-                    }
-                }
-                sendReqRow('content_for_web/' + `${i}` + '/' + `${i}`);
-
-
-
-
-
 
 
                 const td = tr.insertCell();
@@ -97,7 +96,7 @@ function sleep(milliseconds)
   }
   sendReqTableSize ('content_for_web/numDoc');
 
-  console.log ("Done"); 
+  // console.log ("Done"); 
 
 
 
