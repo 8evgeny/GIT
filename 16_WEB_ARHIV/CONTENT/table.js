@@ -8,7 +8,7 @@ function sleep(milliseconds) {
 const dataTable = [];
 let reqTableSize = new XMLHttpRequest();
 
-reqTableSize.open('get', 'content_for_web/numDoc');
+reqTableSize.open('get', 'content_for_web/numDoc', false);
 reqTableSize.onreadystatechange = createTable;
 reqTableSize.send(null);
 
@@ -28,7 +28,7 @@ function createTable() {
             let row = new XMLHttpRequest();
 
             if (i != 0) {
-                row.open('get', 'content_for_web/' + `${i}` + '/' + `${i}`);
+                row.open('get', 'content_for_web/' + `${i}` + '/' + `${i}`, false);
                 // row.onreadystatechange = fillRow;
                 row.onloadend = fillRow;
                 row.send(null);
@@ -38,15 +38,15 @@ function createTable() {
                 if (row.readyState == 4) {
                     let text = row.responseText.toString().split('\n');
                     // console.log(text[1]);
-                    dataTable.push(text[0]);
-                    dataTable.push(text[1]);
-                    dataTable.push(text[2]);
-                    dataTable.push(text[3]);
-                    dataTable.push(text[4]);
-                    dataTable.push(text[5]);
-                    dataTable.push(text[6]);
-                    console.log(`${i}`);
-                    console.log(dataTable);
+                    dataTable[0] = text[0];
+                    dataTable[1] = text[1];
+                    dataTable[2] = text[2];
+                    dataTable[3] = text[3];
+                    dataTable[4] = text[4];
+                    dataTable[5] = text[5];
+                    dataTable[6] = text[6];
+                    // console.log(`${i}`);
+                    // console.log(dataTable);
 
                 }
             }
@@ -103,25 +103,25 @@ function createTable() {
                         // console.log(j);
                         switch (j) {
                             case 1:
-                                td.appendChild(document.createTextNode(`Обозначение и код документа`));
+                                td.appendChild(document.createTextNode(`${dataTable[0]}`));
                                 break;
                             case 2:
-                                td.appendChild(document.createTextNode(`Наименование изделия`));
+                                td.appendChild(document.createTextNode(`${dataTable[1]}`));
                                 break;
                             case 3:
-                                td.appendChild(document.createTextNode(`Наименование документа`));
+                                td.appendChild(document.createTextNode(`${dataTable[2]}`));
                                 break;
                             case 4:
-                                td.appendChild(document.createTextNode(`Номер изменения`));
+                                td.appendChild(document.createTextNode(`${dataTable[3]}`));
                                 break;
                             case 5:
-                                td.appendChild(document.createTextNode(`Дата извещения об изменении`));
+                                td.appendChild(document.createTextNode(`${dataTable[4]}`));
                                 break;
                             case 6:
-                                td.appendChild(document.createTextNode(`Значение контрольной суммы подлинника`));
+                                td.appendChild(document.createTextNode(`${dataTable[5]}`));
                                 break;
                             case 7:
-                                td.appendChild(document.createTextNode(`Информационно-удостоверяющий лист`));
+                                td.appendChild(document.createTextNode(`${dataTable[6]}`));
                                 break;
 
                         }
@@ -132,6 +132,7 @@ function createTable() {
 
                 }
             } //Заполнение столбцов  for (let j = 0; j < 8; j++)
+
         } //Строки
         body.appendChild(tbl);
     }
