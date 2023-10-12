@@ -8,12 +8,11 @@ int main(int argc, char *argv[])
         return 0;
     }
 
-// 7z x ~/SOFT/Github/GIT/16_WEB_ARHIV/Ниокр-Актуальные\ документы/ГРЛМ.301122.007.zip -y -o"/home/evg/SOFT/Github/GIT/16_WEB_ARHIV/EXTRACT"
-
-
 //Разархивирование исходного контента
     const path archiv_path_zip{ argv[1] };
+    string pathToExtractDirectory{"/home/evg/SOFT/Github/GIT/16_WEB_ARHIV/EXTRACT"};
     vector<string> vectorZipFilesPath;
+    vector<string> vectorZipFilesName;
     vector<string> errorZipExtract;
     cout << "Patch for zip search: "<<archiv_path_zip << endl;
     const unordered_set<string> zip_extensions{ ".zip" };
@@ -26,9 +25,18 @@ int main(int argc, char *argv[])
         const auto is_zip = zip_extensions.find(extension) != zip_extensions.end();
         if(!is_zip)
           continue;
-        ifstream file{ entry.path() };
+//        ifstream file{ entry.path() };
         string patch = entry.path().string();
+        //тут пробел нужно заменить на "\"
+        auto posBlank = patch.find(" ");
+        patch.insert(posBlank,"\\");
+        string name = entry.path().filename();
         vectorZipFilesPath.push_back(patch);
+        name.pop_back();
+        name.pop_back();
+        name.pop_back();
+        name.pop_back();
+        vectorZipFilesName.push_back(name);
       } catch(const exception& e) {
         cerr << "Error reading " << entry.path().string() << ": " << e.what() << endl;
       }
@@ -37,14 +45,15 @@ int main(int argc, char *argv[])
     if (vectorZipFilesPath.size()>0)
     {
         int num = 0;
-        for (auto & vectorZipFilesPath : vectorZipFilesPath){
+        for (auto i = 0; i < vectorZipFilesPath.size();++i ){
             ++num;
-            cout << endl<< num << ": "<< vectorZipFilesPath << endl;
-            if(!extractZip(vectorZipFilesPath)) //распаковка одного zip файла
+            cout << endl<< num << ": "<< vectorZipFilesPath[i] << endl;
+            if(!extractZip(vectorZipFilesPath[i], vectorZipFilesName[i], pathToExtractDirectory)) //распаковка одного zip файла
+         //пока всегда true
             {
                 cout << "ОШИБКА ZIP" << endl;
                 ++errorExtractZip;
-                errorZipExtract.push_back(vectorZipFilesPath);
+                errorZipExtract.push_back(vectorZipFilesPath[i]);
             }
         }
     }
@@ -71,7 +80,7 @@ int main(int argc, char *argv[])
         const auto is_json = json_extensions.find(extension) != json_extensions.end();
         if(!is_json)
           continue;
-        ifstream file{ entry.path() };
+//        ifstream file{ entry.path() };
         string patch = entry.path().string();
         vectorJsonFilesPath.push_back(patch);
       } catch(const exception& e) {
