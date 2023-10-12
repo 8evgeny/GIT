@@ -10,13 +10,22 @@ int main(int argc, char *argv[])
     const path archiv_path_zip{ argv[1] };
     string pathToExtractDirectory{"/home/evg/SOFT/Github/GIT/16_WEB_ARHIV/EXTRACT"};
     const path archiv_path_extracted{pathToExtractDirectory};
-
+    const path webContent{"/home/evg/SOFT/Github/GIT/16_WEB_ARHIV/CONTENT/content_for_web"};
 //Разархивирование исходного контента
 //Очищаем директорию для извлечения
     string eraseDir = " rm -rf ";
     eraseDir.append(archiv_path_extracted);
     eraseDir.append("/");
     system(eraseDir.c_str());
+
+//Очищаем директорию web контента
+    string eraseWebDir = " rm -rf ";
+    eraseWebDir.append(webContent);
+    eraseWebDir.append("/");
+    system(eraseWebDir.c_str());
+    string createWebContentDir = "mkdir ";
+    createWebContentDir.append(webContent);
+    system(createWebContentDir.c_str());
 
     vector<string> vectorZipFilesPath;
     vector<string> vectorZipFilesName;
