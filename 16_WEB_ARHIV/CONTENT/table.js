@@ -77,7 +77,9 @@ function createTable() {
                             td.appendChild(document.createTextNode(`Порядковый номер`));
                             break;
                     }
-                }
+                } // Шапка таблицы  if (i == 0)
+
+
                 if (i != 0) {
                     if (j == 0) {
                         const td = tr.insertCell();
@@ -120,8 +122,8 @@ function createTable() {
 
 
                 }
-            }
-        }
+            } //Заполнение столбцов  for (let j = 0; j < 8; j++)
+        } //Строки
         body.appendChild(tbl);
     }
 
