@@ -56,6 +56,31 @@ function sleep(milliseconds)
               }
               else
               {
+                //Здесь получаем файл 'content_for_web/i/i  для заполнения ряда
+                var row = new XMLHttpRequest ();
+                // const sendReqRow = `row${i}`;
+                function sendReqRow (filePath)
+                {
+                  row.open ('get', filePath);
+                  row.onreadystatechange = fillRow;
+                  row.send (null);
+                }
+                function fillRow ()
+                {
+                if (row.readyState == 4) 
+                    {
+                      let text = row.responseText.toString();
+                      console.log(text);
+                    }
+                }
+                sendReqRow('content_for_web/' + `${i}` + '/' + `${i}`);
+
+
+
+
+
+
+
                 const td = tr.insertCell();
                 td.appendChild(document.createTextNode(`Cell I${i}/J${j}`));
                 td.style.border = '1px solid black';
