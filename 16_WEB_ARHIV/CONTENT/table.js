@@ -29,7 +29,8 @@ function createTable() {
 
             if (i != 0) {
                 row.open('get', 'content_for_web/' + `${i}` + '/' + `${i}`);
-                row.onreadystatechange = fillRow;
+                // row.onreadystatechange = fillRow;
+                row.onloadend = fillRow;
                 row.send(null);
             }
 
