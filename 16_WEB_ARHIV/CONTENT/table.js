@@ -37,6 +37,8 @@ function createTable() {
                 if (row.readyState == 4) {
                     let text = row.responseText.toString().split('\n');
                     console.log(text[1]);
+                    console.log(`${i}`);
+
                 }
             }
 
@@ -77,7 +79,7 @@ function createTable() {
                 } // Шапка таблицы  if (i == 0)
 
 
-                if (i != 0) {
+                if (i != 0) { //Номера по порядку
                     if (j == 0) {
                         const td = tr.insertCell();
                         td.appendChild(document.createTextNode(i));
@@ -89,7 +91,7 @@ function createTable() {
                         const td = tr.insertCell();
                         td.style.border = '1px solid black';
                         td.style.textAlign = "center";
-                        console.log(j);
+                        // console.log(j);
                         switch (j) {
                             case 1:
                                 td.appendChild(document.createTextNode(`Обозначение и код документа`));
