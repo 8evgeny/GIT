@@ -7,10 +7,16 @@ int main(int argc, char *argv[])
         cout << "Для работы приложения требуется параметр (путь к папке с архивом)"<< endl;
         return 0;
     }
-
-//Разархивирование исходного контента
     const path archiv_path_zip{ argv[1] };
+    const path archiv_path_extracted{"/home/evg/SOFT/Github/GIT/16_WEB_ARHIV/EXTRACT"};
+//Разархивирование исходного контента
     string pathToExtractDirectory{"/home/evg/SOFT/Github/GIT/16_WEB_ARHIV/EXTRACT"};
+//Очищаем директорию для извлечения
+    string eraseDir = " rm -rf ";
+    eraseDir.append(archiv_path_extracted);
+    eraseDir.append("/");
+    system(eraseDir.c_str());
+
     vector<string> vectorZipFilesPath;
     vector<string> vectorZipFilesName;
     vector<string> errorZipExtract;
@@ -66,7 +72,7 @@ int main(int argc, char *argv[])
 
 
 //Разбор разархивированной директории
-    const path archiv_path_extracted{""};
+
     vector<string> vectorJsonFilesPath;
     vector<string> errorJsonPatch;
     const unordered_set<string> json_extensions{ ".json" };
