@@ -1,6 +1,6 @@
 ﻿#include "main.h"
 string WEB_content{"../../CONTENT/content_for_web/"};
-
+uint numContent{0};
 int main(int argc, char *argv[])
 {
     if (argc != 2)
@@ -57,14 +57,13 @@ int main(int argc, char *argv[])
 
     if (vectorZipFilesPath.size()>0)
     {
-        int num = 0;
         for (auto i = 0; i < vectorZipFilesPath.size();++i ){
-            ++num;
-            cout << endl<< num << ": "<< vectorZipFilesPath[i] << endl;
+            ++numContent;
+            cout << endl<< numContent << ": "<< vectorZipFilesPath[i] << endl;
             extractZip(vectorZipFilesPath[i], vectorZipFilesName[i], pathToExtractDirectory); //распаковка одного zip файла
         }
     }
-    cout<< endl<< "Всего разархивировано zip файлов: " << vectorZipFilesPath.size()<< endl;
+    cout<< endl<< "Всего разархивировано zip файлов: " << numContent<< endl;
 
 //Разбор разархивированной директории
     vector<string> vectorJsonFilesPath;

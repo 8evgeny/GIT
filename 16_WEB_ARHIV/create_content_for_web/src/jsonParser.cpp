@@ -1,5 +1,6 @@
 #include "main.h"
 extern string WEB_content;
+extern uint numContent;
 uint numFolderForWebContent{1};
 ostream& operator<<(ostream &os, const chrono::time_point<chrono::system_clock> &t){
     const auto tt   (chrono::system_clock::to_time_t(t));
@@ -364,6 +365,14 @@ for (int i = 0; i<content.size(); ++i)
 fout.write(ba);
 fout.close();
 ++numFolderForWebContent;
+if (numContent == numFolderForWebContent)
+{
+    //Все папки с контентом сформированы - формируем файл count
+    QFile fservice((WEB_content + "/" + "numDoc").c_str());
+    fservice.open(QIODevice::WriteOnly);
+    fservice.write(to_string(numFolderForWebContent).c_str());
+    fservice.close();
+}
 return true;
 }
 
