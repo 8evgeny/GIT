@@ -28,7 +28,7 @@ function createTable() {
         for (let i = 0; i <= numberDoc; i++) {
             //Здесь получаем файл 'content_for_web/i/i  для заполнения ряда
             let row = new XMLHttpRequest();
-            // const sendReqRow = `row${i}`;
+
             function sendReqRow(filePath) {
                 row.open('get', filePath);
                 row.onreadystatechange = fillRow;
@@ -127,7 +127,7 @@ function createTable() {
         body.appendChild(tbl);
     }
 
-}
+} //function createTable()
 sendReqTableSize('content_for_web/numDoc');
 
 // console.log ("Done");
