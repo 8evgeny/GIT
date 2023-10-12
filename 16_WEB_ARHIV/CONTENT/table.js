@@ -13,7 +13,7 @@ function tableCreate() {
     tbl.style.margin = 'auto';
     tbl.style.width = '1800px';
     tbl.style.border = '1px solid black';
-    for (let i = 0; i < 100; i++) {
+    for (let i = 0; i < 33; i++) {
       const tr = tbl.insertRow();
       for (let j = 0; j < 8; j++) {
         // if (i === 1 && j === 0) {
