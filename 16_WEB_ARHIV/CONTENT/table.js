@@ -82,7 +82,7 @@ function createTable() {
                             td.appendChild(document.createTextNode(`Информационно-удостоверяющий лист`));
                             break;
                         case 0:
-                            td.appendChild(document.createTextNode(`Порядковый номер`));
+                            td.appendChild(document.createTextNode(`Номер п/п`));
                             break;
                     }
                 } // Шапка таблицы  if (i == 0)
@@ -92,6 +92,7 @@ function createTable() {
                     if (j == 0) {
                         const td = tr.insertCell();
                         td.appendChild(document.createTextNode(i));
+                        td.style.fontWeight = 'bold';
                         td.style.border = '1px solid black';
                         td.style.textAlign = "center";
                     } else {
@@ -99,7 +100,7 @@ function createTable() {
 
                         const td = tr.insertCell();
                         td.style.border = '1px solid black';
-                        td.style.textAlign = "center";
+                        if (j==4 || j==5 || j==6)td.style.textAlign = "center";
                         // console.log(j);
                         switch (j) {
                             case 1:

@@ -12,6 +12,15 @@ constexpr days operator ""_days(unsigned long long d){
     return days{d};
 }
 
+    string currentDateTime() {
+    std::time_t t = std::time(nullptr);
+    std::tm* now = std::localtime(&t);
+
+    char buffer[128];
+    strftime(buffer, sizeof(buffer), "%d-%m-%Y %X", now);
+    return buffer;
+}
+
 void createQR(string nameQR, string originText)
 {
 #ifdef WIN32
@@ -368,10 +377,18 @@ fout.close();
 if (numContent == numFolderForWebContent)
 {
     //Все папки с контентом сформированы - формируем файл count
-    QFile fservice((WEB_content + "/" + "numDoc").c_str());
-    fservice.open(QIODevice::WriteOnly);
-    fservice.write(to_string(numFolderForWebContent).c_str());
-    fservice.close();
+    QFile frow((WEB_content + "/" + "numDoc").c_str());
+    frow.open(QIODevice::WriteOnly);
+    frow.write(to_string(numFolderForWebContent).c_str());
+    frow.close();
+
+    //Формируем строку с датой: Сводный перечень документов на хранении по состоянию на ____
+    QFile fdate((WEB_content + "/" + "date").c_str());
+    fdate.open(QIODevice::WriteOnly);
+    string date = "Сводный перечень документов на хранении по состоянию на ";
+    date.append(currentDateTime());
+    fdate.write(date.c_str());
+    fdate.close();
 }
 return true;
 }
