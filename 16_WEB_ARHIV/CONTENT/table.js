@@ -24,12 +24,11 @@ function createTable() {
 
 
         for (let i = 0; i <= numberDoc; i++) {
-            //Здесь получаем файл 'content_for_web/i/i  для заполнения ряда
+            //Здесь получаем файл 'content_for_web/i/rowContent  для заполнения ряда
             let row = new XMLHttpRequest();
 
             if (i != 0) {
                 row.open('get', 'content_for_web/' + `${i}` + '/' + "rowContent", false);
-                // row.onreadystatechange = fillRow;
                 row.onloadend = fillRow;
                 row.send(null);
             }
@@ -37,7 +36,6 @@ function createTable() {
             function fillRow() {
                 if (row.readyState == 4) {
                     let text = row.responseText.toString().split('\n');
-                    // console.log(text[1]);
                     dataTable[0] = text[0];
                     dataTable[1] = text[1];
                     dataTable[2] = text[2];
@@ -45,19 +43,20 @@ function createTable() {
                     dataTable[4] = text[4];
                     dataTable[5] = text[5];
                     dataTable[6] = text[6];
-                    // console.log(`${i}`);
-                    // console.log(dataTable);
 
                 }
             }
 
             const tr = tbl.insertRow();
-            tr.style.height='40px';
+            if (i!=0) tr.style.height='40px';
+            else tr.style.height='80px';
             for (let j = 0; j < 8; j++) {
                 if (i == 0) {
                     const td = tr.insertCell();
                     td.style.border = '1px solid black';
                     td.style.fontWeight = 'bold';
+                    td.style.fontFamily = 'Arial';
+                    td.style.fontSize = '18px';
                     td.style.textAlign = "center";
                     td.style.fontStyle = "italic";
                     switch (j) {
@@ -80,10 +79,10 @@ function createTable() {
                             td.appendChild(document.createTextNode(`Значение контрольной суммы подлинника`));
                             break;
                         case 7:
-                            td.appendChild(document.createTextNode(`Информационно-удостоверяющий лист`));
+                            td.appendChild(document.createTextNode(`Информационно - удостоверяющий лист`));
                             break;
                         case 0:
-                            td.appendChild(document.createTextNode(`Номер п/п`));
+                            td.appendChild(document.createTextNode(" Номер "));
                             break;
                     }
                 } // Шапка таблицы  if (i == 0)
@@ -96,33 +95,41 @@ function createTable() {
                         td.style.fontWeight = 'bold';
                         td.style.border = '1px solid black';
                         td.style.textAlign = "center";
+                        td.style.width = '80px';
                     } else {
-
+                        // if (j == 7)
+                        // {td.style.width = '200px';}
 
                         const td = tr.insertCell();
                         td.style.border = '1px solid black';
-                        if (j==4 || j==5 || j==6)td.style.textAlign = "center";
+                        if (j==4 || j==5 || j==6 || j ==7)td.style.textAlign = "center";
                         // console.log(j);
                         switch (j) {
                             case 1:
+                                td.style.width = '200px';
                                 td.appendChild(document.createTextNode(`${dataTable[0]}`));
                                 break;
                             case 2:
                                 td.appendChild(document.createTextNode(`${dataTable[1]}`));
                                 break;
                             case 3:
+                                td.style.width = '230px';
                                 td.appendChild(document.createTextNode(`${dataTable[2]}`));
                                 break;
                             case 4:
+                                td.style.width = '120px';
                                 td.appendChild(document.createTextNode(`${dataTable[3]}`));
                                 break;
                             case 5:
+                                td.style.width = '200px';
                                 td.appendChild(document.createTextNode(`${dataTable[4]}`));
                                 break;
                             case 6:
+                                td.style.width = '190px';
                                 td.appendChild(document.createTextNode(`${dataTable[5]}`));
                                 break;
                             case 7:
+                                td.style.width = '250px';
                                 td.appendChild(document.createTextNode(`${dataTable[6]}`));
                                 break;
 
