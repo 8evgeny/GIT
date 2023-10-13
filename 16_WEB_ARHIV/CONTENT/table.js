@@ -52,6 +52,7 @@ function createTable() {
             }
 
             const tr = tbl.insertRow();
+            tr.style.height='40px';
             for (let j = 0; j < 8; j++) {
                 if (i == 0) {
                     const td = tr.insertCell();
