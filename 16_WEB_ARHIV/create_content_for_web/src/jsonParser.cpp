@@ -64,7 +64,7 @@ string createStringForQr (string oboznachenieIkodDokumenta,
 //    cout<<result<<endl;
     return result;
 }
-
+QString namePDF;
 bool parseJSON(string & patchToFile){
     QFile file(QString::fromStdString(patchToFile));
     file.open(QIODevice::ReadOnly);
@@ -146,7 +146,7 @@ QRegExp iulStr("^"
       //вычисляем CRC32 PDF файла
       string appPdf = oboznachenieIkodDokumenta;
       string chopped = patchToFile;
-      QString namePDF = QString::fromStdString(chopped).chopped(10)+QString("Contents/")+QString::fromStdString(appPdf.append(".PDF"));
+      namePDF = QString::fromStdString(chopped).chopped(10)+QString("Contents/")+QString::fromStdString(appPdf.append(".PDF"));
       crc32 = CRC32(namePDF);
       cout << "\tОбозначение и код документа: " << oboznachenieIkodDokumenta ;
       if(crc32 == -1)
@@ -338,41 +338,46 @@ QRegExp iulStr("^"
     }
 //Создаем папки для web контента
 
-    // создаем папку для нового контента
+// создаем папку для нового контента
     string createContentFolder = "mkdir " + WEB_content + to_string(numFolderForWebContent);
     system(createContentFolder.c_str());
-
-string stringForQr = createStringForQr (oboznachenieIkodDokumenta,
-                                        changeNumStr,
-                                        changeNotificationNum,
-                                        storageDataStr,
-                                        litera,
-                                        controlSummOrigin,
-                                        controlSummParts
-                                        );
-
-createQR(oboznachenieIkodDokumenta, stringForQr);
-
 //Формирую строку с контентом для сайта
-vector <string> content;
-content.push_back(oboznachenieIkodDokumenta);
-content.push_back(naimenovanieIzdeliya);
-content.push_back(naimenovanieDokumenta);
-content.push_back(changeNumStr);
-content.push_back(notificationDataStr);
-content.push_back(controlSummOrigin);
-content.push_back(infoOrderList);
+    string stringForQr = createStringForQr (oboznachenieIkodDokumenta,
+                                            changeNumStr,
+                                            changeNotificationNum,
+                                            storageDataStr,
+                                            litera,
+                                            controlSummOrigin,
+                                            controlSummParts
+                                            );
+    createQR(oboznachenieIkodDokumenta, stringForQr);
 
-QFile fout((WEB_content + to_string(numFolderForWebContent) + "/rowContent").c_str());
-fout.open(QIODevice::WriteOnly);
-QByteArray ba;
-for (int i = 0; i<content.size(); ++i)
-{
-    ba.append(QString::fromStdString(content[i]));
-    ba.append('\n');
-}
-fout.write(ba);
-fout.close();
+    vector <string> content;
+    content.push_back(oboznachenieIkodDokumenta);
+    content.push_back(naimenovanieIzdeliya);
+    content.push_back(naimenovanieDokumenta);
+    content.push_back(changeNumStr);
+    content.push_back(notificationDataStr);
+    content.push_back(controlSummOrigin);
+    content.push_back(infoOrderList);
+    QFile fout((WEB_content + to_string(numFolderForWebContent) + "/rowContent").c_str());
+    fout.open(QIODevice::WriteOnly);
+    QByteArray ba;
+    for (int i = 0; i<content.size(); ++i){
+        ba.append(QString::fromStdString(content[i]));
+        ba.append('\n');
+    }
+    fout.write(ba);
+    fout.close();
+//Копирую в папку для web-контента pdf файл и переименовываю его в номер папки
+   // cp опции /путь/к/файлу/источнику /путь/к/директории/назначения
+    string nPDF = namePDF.toStdString();
+    string npdf = namePDF.chopped(3).toStdString().append("pdf");
+    string copyPDF = "cp " + nPDF + " " + WEB_content + to_string(numFolderForWebContent) + " 2> /dev/null";
+    string copypdf = "cp " + npdf + " " + WEB_content + to_string(numFolderForWebContent) + " 2> /dev/null";
+    system(copyPDF.c_str());
+    system(copypdf.c_str());
+
 ++numFolderForWebContent;
 if (numContent == numFolderForWebContent)
 {
