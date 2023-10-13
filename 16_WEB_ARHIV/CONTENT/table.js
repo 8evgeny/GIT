@@ -48,6 +48,7 @@ function createTable() {
             }
 
             const tr = tbl.insertRow();
+
             if (i!=0) tr.style.height='40px';
             else tr.style.height='80px';
             for (let j = 0; j < 8; j++) {
@@ -102,34 +103,38 @@ function createTable() {
 
                         const td = tr.insertCell();
                         td.style.border = '1px solid black';
-                        if (j==4 || j==5 || j==6 || j ==7)td.style.textAlign = "center";
-                        // console.log(j);
                         switch (j) {
                             case 1:
+                                td.style.padding = '10px';
                                 td.style.width = '200px';
                                 td.appendChild(document.createTextNode(`${dataTable[0]}`));
                                 break;
                             case 2:
-                                td.style.margin = '10px';
+                                td.style.padding = '10px';
                                 td.appendChild(document.createTextNode(`${dataTable[1]}`));
                                 break;
                             case 3:
+                                td.style.padding = '10px';
                                 td.style.width = '230px';
                                 td.appendChild(document.createTextNode(`${dataTable[2]}`));
                                 break;
                             case 4:
+                                td.style.textAlign = "center";
                                 td.style.width = '120px';
                                 td.appendChild(document.createTextNode(`${dataTable[3]}`));
                                 break;
                             case 5:
+                                td.style.textAlign = "center";
                                 td.style.width = '200px';
                                 td.appendChild(document.createTextNode(`${dataTable[4]}`));
                                 break;
                             case 6:
+                                td.style.textAlign = "center";
                                 td.style.width = '190px';
                                 td.appendChild(document.createTextNode(`${dataTable[5]}`));
                                 break;
                             case 7:
+                                td.style.textAlign = "center";
                                 td.style.width = '250px';
                                 td.appendChild(document.createTextNode(`${dataTable[6]}`));
                                 break;
