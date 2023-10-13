@@ -1,6 +1,7 @@
 ﻿#include "main.h"
 string WEB_content{"../../CONTENT/content_for_web/"};
 uint numContent{0};
+
 int main(int argc, char *argv[])
 {
     if (argc != 2)
@@ -92,7 +93,7 @@ int main(int argc, char *argv[])
         for (auto & patchJsonFile : vectorJsonFilesPath){
             ++num;
             cout << endl<< num << ": "<< patchJsonFile << endl;
-            if(!parseJSON(patchJsonFile)) //парсинг одного файла JSON
+            if(!parseJSON(patchJsonFile, archiv_path_zip)) //парсинг одного файла JSON
             {
                 cout << "ОШИБКА JSON ФАЙЛА" << endl;
                 ++errorParsingJson;

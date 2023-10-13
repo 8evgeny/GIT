@@ -65,7 +65,7 @@ string createStringForQr (string oboznachenieIkodDokumenta,
     return result;
 }
 QString namePDF;
-bool parseJSON(string & patchToFile){
+bool parseJSON(string & patchToFile, const path & archiv_path_zip){
     QFile file(QString::fromStdString(patchToFile));
     file.open(QIODevice::ReadOnly);
     QString jsonData = file.readAll();
@@ -381,6 +381,26 @@ QRegExp iulStr("^"
             WEB_content + to_string(numFolderForWebContent) + "/" + oboznachenieIkodDokumenta + ".PDF"+ " 2> /dev/null";
     system(renamePDF.c_str());
 
+//Пока не работает    //Копируем ИУЛ из папки Ниокр-Документы по обозначениям
+    string path_to_IUL = archiv_path_zip;
+//Борьба с пробелом
+    auto posBlank = path_to_IUL.find(" ");
+    path_to_IUL.insert(posBlank,"\\");
+
+    path_to_IUL.append("/../");
+    path_to_IUL.append("Ниокр-Документы\\ по\\ обозначениям");
+    cout <<path_to_IUL<<endl;
+    string nIULPDF = path_to_IUL + "/" + infoOrderList + ".PDF";
+    string nIULpdf = path_to_IUL + "/" + infoOrderList + ".pdf";
+    string copyIULPDF = "cp " + nIULPDF + " " + WEB_content + to_string(numFolderForWebContent) + " 2> /dev/null";
+    string copyIULpdf = "cp " + nIULpdf + " " + WEB_content + to_string(numFolderForWebContent) + " 2> /dev/null";
+    system(copyIULPDF.c_str());
+    system(copyIULpdf.c_str());
+//    string renameIULPDF = "mv " + WEB_content + to_string(numFolderForWebContent) + "/" + oboznachenieIkodDokumenta + ".pdf " +
+//            WEB_content + to_string(numFolderForWebContent) + "/" + oboznachenieIkodDokumenta + ".PDF"+ " 2> /dev/null";
+//    system(renamePDF.c_str());
+
+
 ++numFolderForWebContent;
 if (numContent == numFolderForWebContent)
 {
@@ -397,6 +417,7 @@ if (numContent == numFolderForWebContent)
     date.append(currentDateTime());
     fdate.write(date.c_str());
     fdate.close();
+
 }
 return true;
 }
