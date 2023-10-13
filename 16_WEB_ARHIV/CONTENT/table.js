@@ -110,6 +110,7 @@ function createTable() {
                                 td.appendChild(document.createTextNode(`${dataTable[0]}`));
                                 break;
                             case 2:
+                                td.style.margin = '10px';
                                 td.appendChild(document.createTextNode(`${dataTable[1]}`));
                                 break;
                             case 3:
