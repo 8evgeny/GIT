@@ -115,10 +115,13 @@ function createTable() {
                             case 1:
                                 td.style.padding = '10px';
                                 td.style.width = '200px';
-                                td.appendChild(document.createTextNode(`${rowData[0]}`));
+                                // td.appendChild(document.createTextNode(`${rowData[0]}` ));
+                                var msg = document.createElement('span');
+                                var text = 'content_for_web/' + `${i}` + '/' + `${rowData[0]}`+ '.PDF';
+                                msg.innerHTML = `${rowData[0]}` + '<a href="' + text + '"> файл</a>'
+                                td.appendChild(msg);
+            //    download('content_for_web/'+`${i}`+'/' + `${rowData[0]}` + '.PDF',`${rowData[0]}`+ '.pdf');
 
-               download('content_for_web/'+`${i}`+'/' + `${rowData[0]}` + '.PDF',`${rowData[0]}`+ '.pdf');
-               
                                 break;
                             case 2:
                                 td.style.padding = '10px';
