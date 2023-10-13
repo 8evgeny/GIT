@@ -30,7 +30,7 @@ reqTableSize.send(null);
 
 function createTable() {
 
-    if (reqTableSize.readyState == 4) {
+    if (reqTableSize.readyState === 4) {
         let numberDoc = reqTableSize.responseText.toString();
         const body = document.body,
             tbl = document.getElementById('table');
@@ -44,24 +44,24 @@ function createTable() {
             //Здесь получаем файл 'content_for_web/i/rowContent  для заполнения ряда
             let row = new XMLHttpRequest();
 
-            if (i != 0) {
+            if (i !== 0) {
                 row.open('get', 'content_for_web/' + `${i}` + '/' + "rowContent", false);
                 row.onloadend = fillRow;
                 row.send(null);
             }
 
             function fillRow() {
-                if (row.readyState == 4) {
+                if (row.readyState === 4) {
                     rowData = row.responseText.toString().split('\n');
                 }
             }
 
             const tr = tbl.insertRow();
 
-            if (i != 0) tr.style.height = '40px';
+            if (i !== 0) tr.style.height = '40px';
             else tr.style.height = '80px';
             for (let j = 0; j < 8; j++) {
-                if (i == 0) {
+                if (i === 0) {
                     const td = tr.insertCell();
                     td.style.border = '1px solid black';
                     td.style.fontWeight = 'bold';
@@ -98,8 +98,8 @@ function createTable() {
                 } // Шапка таблицы  if (i == 0)
 
 
-                if (i != 0) { //Номера по порядку
-                    if (j == 0) {
+                if (i !== 0) { //Номера по порядку
+                    if (j === 0) {
                         const td = tr.insertCell();
                         td.appendChild(document.createTextNode(i));
                         td.style.fontWeight = 'bold';
@@ -124,8 +124,8 @@ function createTable() {
                                 oboznIkodDoc.title = rowData[0];
                                 oboznIkodDoc.href = 'content_for_web/' + `${i}` + '/' + `${rowData[0]}` + '.PDF';
                                 td.appendChild(oboznIkodDoc);
-                                //    download('content_for_web/'+`${i}`+'/' + `${rowData[0]}` + '.PDF',`${rowData[0]}`+ '.pdf');
-
+                                //Загрузка контента как файла                              
+                                //download('content_for_web/'+`${i}`+'/' + `${rowData[0]}` + '.PDF',`${rowData[0]}`+ '.pdf');
                                 break;
                             case 2:
                                 td.style.padding = '10px';
@@ -135,12 +135,8 @@ function createTable() {
                                 naimenovanieIzd.style.textDecoration = "none";
                                 naimenovanieIzd.appendChild(linkNaimen);
                                 naimenovanieIzd.title = rowData[1];
-                                naimenovanieIzd.href = 'content_for_web/' + `${i}` + '/' + "Карточка_документа";
+                                naimenovanieIzd.href = 'content_for_web/' + `${i}` + '/' + "document.html";
                                 td.appendChild(naimenovanieIzd);
-
-
-
-                                // td.appendChild(document.createTextNode(`${rowData[1]}`));
                                 break;
                             case 3:
                                 td.style.padding = '10px';
@@ -168,9 +164,15 @@ function createTable() {
                                 break;
                             case 7:
                                 td.style.textAlign = "center";
-                                td.style.width = '250px';
+                                td.style.width = '270px';
                                 td.style.fontSize = '18px';
-                                td.appendChild(document.createTextNode(`${rowData[6]}`));
+                                let orderList = document.createElement('a');
+                                let linkOrder = document.createTextNode(rowData[6]);
+                                orderList.style.textDecoration = "none";
+                                orderList.appendChild(linkOrder);
+                                orderList.title = rowData[6];
+                                orderList.href = 'content_for_web/' + `${i}` + '/' + `${rowData[6]}` + '.PDF';
+                                td.appendChild(orderList);
                                 break;
 
                         }
