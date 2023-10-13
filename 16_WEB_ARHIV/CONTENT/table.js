@@ -116,43 +116,60 @@ function createTable() {
                             case 1:
                                 td.style.padding = '10px';
                                 td.style.width = '200px';
-                                var a = document.createElement('a');
-                                var linkText = document.createTextNode(rowData[0]);
-                                a.style.textDecoration = "none";
-                                a.appendChild(linkText);
-                                a.title = rowData[0];
-                                a.href = 'content_for_web/' + `${i}` + '/' + `${rowData[0]}` + '.PDF';
-                                td.appendChild(a);
+                                td.style.fontSize = '18px';
+                                let oboznIkodDoc = document.createElement('a');
+                                let linkObozn = document.createTextNode(rowData[0]);
+                                oboznIkodDoc.style.textDecoration = "none";
+                                oboznIkodDoc.appendChild(linkObozn);
+                                oboznIkodDoc.title = rowData[0];
+                                oboznIkodDoc.href = 'content_for_web/' + `${i}` + '/' + `${rowData[0]}` + '.PDF';
+                                td.appendChild(oboznIkodDoc);
                                 //    download('content_for_web/'+`${i}`+'/' + `${rowData[0]}` + '.PDF',`${rowData[0]}`+ '.pdf');
 
                                 break;
                             case 2:
                                 td.style.padding = '10px';
-                                td.appendChild(document.createTextNode(`${rowData[1]}`));
+                                td.style.fontSize = '20px';
+                                let naimenovanieIzd = document.createElement('a');
+                                let linkNaimen = document.createTextNode(rowData[1]);
+                                naimenovanieIzd.style.textDecoration = "none";
+                                naimenovanieIzd.appendChild(linkNaimen);
+                                naimenovanieIzd.title = rowData[1];
+                                naimenovanieIzd.href = 'content_for_web/' + `${i}` + '/' + "Карточка_документа";
+                                td.appendChild(naimenovanieIzd);
+
+
+
+                                // td.appendChild(document.createTextNode(`${rowData[1]}`));
                                 break;
                             case 3:
                                 td.style.padding = '10px';
                                 td.style.width = '240px';
+                                td.style.fontSize = '18px';
                                 td.appendChild(document.createTextNode(`${rowData[2]}`));
                                 break;
                             case 4:
                                 td.style.textAlign = "center";
                                 td.style.width = '120px';
+                                td.style.fontSize = '18px';
                                 td.appendChild(document.createTextNode(`${rowData[3]}`));
                                 break;
                             case 5:
                                 td.style.textAlign = "center";
                                 td.style.width = '200px';
+                                td.style.fontSize = '18px';
                                 td.appendChild(document.createTextNode(`${rowData[4]}`));
                                 break;
                             case 6:
                                 td.style.textAlign = "center";
                                 td.style.width = '190px';
+                                td.style.fontSize = '18px';
                                 td.appendChild(document.createTextNode(`${rowData[5]}`));
                                 break;
                             case 7:
                                 td.style.textAlign = "center";
                                 td.style.width = '250px';
+                                td.style.fontSize = '18px';
                                 td.appendChild(document.createTextNode(`${rowData[6]}`));
                                 break;
 
