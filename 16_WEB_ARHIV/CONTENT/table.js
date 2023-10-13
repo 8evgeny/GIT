@@ -118,6 +118,7 @@ function createTable() {
                                 td.style.width = '200px';
                                 var a = document.createElement('a');
                                 var linkText = document.createTextNode(rowData[0]);
+                                a.style.textDecoration = "none";
                                 a.appendChild(linkText);
                                 a.title = rowData[0];
                                 a.href = 'content_for_web/' + `${i}` + '/' + `${rowData[0]}` + '.PDF';
