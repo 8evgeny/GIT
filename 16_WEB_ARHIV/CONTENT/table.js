@@ -5,7 +5,7 @@ function sleep(milliseconds) {
         currentDate = Date.now();
     } while (currentDate - date < milliseconds);
 };
-const dataTable = [];
+var text;
 let reqTableSize = new XMLHttpRequest();
 
 reqTableSize.open('get', 'content_for_web/numDoc', false);
@@ -35,15 +35,7 @@ function createTable() {
 
             function fillRow() {
                 if (row.readyState == 4) {
-                    let text = row.responseText.toString().split('\n');
-                    dataTable[0] = text[0];
-                    dataTable[1] = text[1];
-                    dataTable[2] = text[2];
-                    dataTable[3] = text[3];
-                    dataTable[4] = text[4];
-                    dataTable[5] = text[5];
-                    dataTable[6] = text[6];
-
+                    text = row.responseText.toString().split('\n');
                 }
             }
 
@@ -107,36 +99,36 @@ function createTable() {
                             case 1:
                                 td.style.padding = '10px';
                                 td.style.width = '200px';
-                                td.appendChild(document.createTextNode(`${dataTable[0]}`));
+                                td.appendChild(document.createTextNode(`${text[0]}`));
                                 break;
                             case 2:
                                 td.style.padding = '10px';
-                                td.appendChild(document.createTextNode(`${dataTable[1]}`));
+                                td.appendChild(document.createTextNode(`${text[1]}`));
                                 break;
                             case 3:
                                 td.style.padding = '10px';
                                 td.style.width = '240px';
-                                td.appendChild(document.createTextNode(`${dataTable[2]}`));
+                                td.appendChild(document.createTextNode(`${text[2]}`));
                                 break;
                             case 4:
                                 td.style.textAlign = "center";
                                 td.style.width = '120px';
-                                td.appendChild(document.createTextNode(`${dataTable[3]}`));
+                                td.appendChild(document.createTextNode(`${text[3]}`));
                                 break;
                             case 5:
                                 td.style.textAlign = "center";
                                 td.style.width = '200px';
-                                td.appendChild(document.createTextNode(`${dataTable[4]}`));
+                                td.appendChild(document.createTextNode(`${text[4]}`));
                                 break;
                             case 6:
                                 td.style.textAlign = "center";
                                 td.style.width = '190px';
-                                td.appendChild(document.createTextNode(`${dataTable[5]}`));
+                                td.appendChild(document.createTextNode(`${text[5]}`));
                                 break;
                             case 7:
                                 td.style.textAlign = "center";
                                 td.style.width = '250px';
-                                td.appendChild(document.createTextNode(`${dataTable[6]}`));
+                                td.appendChild(document.createTextNode(`${text[6]}`));
                                 break;
 
                         }
