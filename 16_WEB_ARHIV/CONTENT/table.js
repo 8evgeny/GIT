@@ -115,7 +115,7 @@ function createTable() {
                                 break;
                             case 3:
                                 td.style.padding = '10px';
-                                td.style.width = '230px';
+                                td.style.width = '240px';
                                 td.appendChild(document.createTextNode(`${dataTable[2]}`));
                                 break;
                             case 4:
