@@ -28,7 +28,7 @@ function createTable() {
             let row = new XMLHttpRequest();
 
             if (i != 0) {
-                row.open('get', 'content_for_web/' + `${i}` + '/' + `${i}`, false);
+                row.open('get', 'content_for_web/' + `${i}` + '/' + "rowContent", false);
                 // row.onreadystatechange = fillRow;
                 row.onloadend = fillRow;
                 row.send(null);
