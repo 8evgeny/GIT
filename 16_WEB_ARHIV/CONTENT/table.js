@@ -1,3 +1,18 @@
+const download = (path, filename) => {
+    // Create a new link
+    const anchor = document.createElement('a');
+    anchor.href = path;
+    anchor.download = filename;
+
+    // Append to the DOM
+    document.body.appendChild(anchor);
+
+    // Trigger `click` event
+    anchor.click();
+
+    // Remove element from DOM
+    document.body.removeChild(anchor);
+}; 
 function sleep(milliseconds) {
     const date = Date.now();
     let currentDate = null;
@@ -5,7 +20,7 @@ function sleep(milliseconds) {
         currentDate = Date.now();
     } while (currentDate - date < milliseconds);
 };
-var text;
+var rowData;
 let reqTableSize = new XMLHttpRequest();
 
 reqTableSize.open('get', 'content_for_web/numDoc', false);
@@ -13,6 +28,7 @@ reqTableSize.onreadystatechange = createTable;
 reqTableSize.send(null);
 
 function createTable() {
+    
     if (reqTableSize.readyState == 4) {
         let numberDoc = reqTableSize.responseText.toString();
         const body = document.body,
@@ -35,7 +51,7 @@ function createTable() {
 
             function fillRow() {
                 if (row.readyState == 4) {
-                    text = row.responseText.toString().split('\n');
+                    rowData = row.responseText.toString().split('\n');
                 }
             }
 
@@ -99,36 +115,39 @@ function createTable() {
                             case 1:
                                 td.style.padding = '10px';
                                 td.style.width = '200px';
-                                td.appendChild(document.createTextNode(`${text[0]}`));
+                                td.appendChild(document.createTextNode(`${rowData[0]}`));
+
+               download('content_for_web/'+`${i}`+'/' + `${rowData[0]}` + '.PDF',`${rowData[0]}`+ '.pdf');
+               
                                 break;
                             case 2:
                                 td.style.padding = '10px';
-                                td.appendChild(document.createTextNode(`${text[1]}`));
+                                td.appendChild(document.createTextNode(`${rowData[1]}`));
                                 break;
                             case 3:
                                 td.style.padding = '10px';
                                 td.style.width = '240px';
-                                td.appendChild(document.createTextNode(`${text[2]}`));
+                                td.appendChild(document.createTextNode(`${rowData[2]}`));
                                 break;
                             case 4:
                                 td.style.textAlign = "center";
                                 td.style.width = '120px';
-                                td.appendChild(document.createTextNode(`${text[3]}`));
+                                td.appendChild(document.createTextNode(`${rowData[3]}`));
                                 break;
                             case 5:
                                 td.style.textAlign = "center";
                                 td.style.width = '200px';
-                                td.appendChild(document.createTextNode(`${text[4]}`));
+                                td.appendChild(document.createTextNode(`${rowData[4]}`));
                                 break;
                             case 6:
                                 td.style.textAlign = "center";
                                 td.style.width = '190px';
-                                td.appendChild(document.createTextNode(`${text[5]}`));
+                                td.appendChild(document.createTextNode(`${rowData[5]}`));
                                 break;
                             case 7:
                                 td.style.textAlign = "center";
                                 td.style.width = '250px';
-                                td.appendChild(document.createTextNode(`${text[6]}`));
+                                td.appendChild(document.createTextNode(`${rowData[6]}`));
                                 break;
 
                         }
@@ -143,7 +162,7 @@ function createTable() {
         } //Строки
         body.appendChild(tbl);
     }
-
+    
 } //function createTable()
 
 
