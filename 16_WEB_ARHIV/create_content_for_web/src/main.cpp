@@ -104,6 +104,7 @@ int main(int argc, char *argv[])
        << endl << "Ошибок разбора: " << errorParsingJson<< endl;
     for (auto & patchJsonError : errorJsonPatch)
         cout <<  patchJsonError << endl;
-
-
+//Запускаем web-server
+    string webStart = "docker run -it --rm -d -p 8080:80 --name web -v ~/SOFT/Github/GIT/16_WEB_ARHIV/CONTENT:/usr/share/nginx/html nginx 2>/dev/null";
+    system(webStart.c_str());
 }
