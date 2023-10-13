@@ -12,7 +12,8 @@ const download = (path, filename) => {
 
     // Remove element from DOM
     document.body.removeChild(anchor);
-}; 
+};
+
 function sleep(milliseconds) {
     const date = Date.now();
     let currentDate = null;
@@ -28,7 +29,7 @@ reqTableSize.onreadystatechange = createTable;
 reqTableSize.send(null);
 
 function createTable() {
-    
+
     if (reqTableSize.readyState == 4) {
         let numberDoc = reqTableSize.responseText.toString();
         const body = document.body,
@@ -57,8 +58,8 @@ function createTable() {
 
             const tr = tbl.insertRow();
 
-            if (i!=0) tr.style.height='40px';
-            else tr.style.height='80px';
+            if (i != 0) tr.style.height = '40px';
+            else tr.style.height = '80px';
             for (let j = 0; j < 8; j++) {
                 if (i == 0) {
                     const td = tr.insertCell();
@@ -115,12 +116,13 @@ function createTable() {
                             case 1:
                                 td.style.padding = '10px';
                                 td.style.width = '200px';
-                                // td.appendChild(document.createTextNode(`${rowData[0]}` ));
-                                var msg = document.createElement('span');
-                                var text = 'content_for_web/' + `${i}` + '/' + `${rowData[0]}`+ '.PDF';
-                                msg.innerHTML = `${rowData[0]}` + '<a href="' + text + '"> файл</a>'
-                                td.appendChild(msg);
-            //    download('content_for_web/'+`${i}`+'/' + `${rowData[0]}` + '.PDF',`${rowData[0]}`+ '.pdf');
+                                var a = document.createElement('a');
+                                var linkText = document.createTextNode(rowData[0]);
+                                a.appendChild(linkText);
+                                a.title = rowData[0];
+                                a.href = 'content_for_web/' + `${i}` + '/' + `${rowData[0]}` + '.PDF';
+                                td.appendChild(a);
+                                //    download('content_for_web/'+`${i}`+'/' + `${rowData[0]}` + '.PDF',`${rowData[0]}`+ '.pdf');
 
                                 break;
                             case 2:
@@ -165,7 +167,7 @@ function createTable() {
         } //Строки
         body.appendChild(tbl);
     }
-    
+
 } //function createTable()
 
 
