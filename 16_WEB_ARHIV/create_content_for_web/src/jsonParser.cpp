@@ -377,6 +377,12 @@ QRegExp iulStr("^"
     string copypdf = "cp " + npdf + " " + WEB_content + to_string(numFolderForWebContent) + " 2> /dev/null";
     system(copyPDF.c_str());
     system(copypdf.c_str());
+    string renamePDF = "mv " + WEB_content + to_string(numFolderForWebContent) + "/" + oboznachenieIkodDokumenta + ".PDF " +
+            WEB_content + to_string(numFolderForWebContent) + "/" + to_string(numFolderForWebContent) + ".PDF"+ " 2> /dev/null";
+    string renamepdf = "mv " + WEB_content + to_string(numFolderForWebContent) + "/" + oboznachenieIkodDokumenta + ".pdf " +
+            WEB_content + to_string(numFolderForWebContent) + "/" + to_string(numFolderForWebContent) + ".PDF"+ " 2> /dev/null";
+    system(renamePDF.c_str());
+    system(renamepdf.c_str());
 
 ++numFolderForWebContent;
 if (numContent == numFolderForWebContent)
