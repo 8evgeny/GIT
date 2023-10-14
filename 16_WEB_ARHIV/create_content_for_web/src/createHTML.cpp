@@ -2,13 +2,27 @@
 
 string createHTML(vector <string> & content)
 {
-//    content.push_back(oboznachenieIkodDokumenta);
-//    content.push_back(naimenovanieIzdeliya);
-//    content.push_back(naimenovanieDokumenta);
-//    content.push_back(changeNumStr);
-//    content.push_back(notificationDataStr);
-//    content.push_back(controlSummOrigin);
-//    content.push_back(infoOrderList);
+//    content.push_back(oboznachenieIkodDokumenta); 0
+//    content.push_back(naimenovanieIzdeliya);      1
+//    content.push_back(naimenovanieDokumenta);     2
+//    content.push_back(changeNumStr);              3
+//    content.push_back(notificationDataStr);       4
+//    content.push_back(controlSummOrigin);         5
+//    content.push_back(infoOrderList);             6
+//    content.push_back(inventoryNumOriginal);      7
+
+//    content.push_back(inventoryNumOriginal);      8
+//    content.push_back(storageDataStr);            9
+//    content.push_back(creater);                   10
+//    content.push_back(crc32Main);                 11
+//    content.push_back(crc32Contents);             12
+//    if (litera == "")                             13
+//        content.push_back("нет");
+//    if (litera != "")
+//        content.push_back(litera);
+
+
+
     QString izdelie = QString::fromStdString(content[1]);
 
 string html =

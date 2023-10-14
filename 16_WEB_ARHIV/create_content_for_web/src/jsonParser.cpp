@@ -26,6 +26,7 @@ bool parseJSON(string & patchToFile, const path & archiv_path_zip){ //archiv_pat
     string naimenovanieDokumenta{""};
     string oboznachenieIkodDokumenta{""};                     //1
     quint32 crc32; //СКС32 PDF файла
+    string crc32Main;
     string crc32Contents; //СКС32 папки Contents
     int numberSheets{-1};
     string company{""};
@@ -104,9 +105,12 @@ bool parseJSON(string & patchToFile, const path & archiv_path_zip){ //archiv_pat
           return false;
       }
       printf("                      \t(посчитан CRC32: %.8X)\n", crc32);
+      char buf[20];
+      sprintf(buf,"%.8X\n", crc32);
+      string tmp{buf};
+      crc32Main = tmp;
 
-
-      //вычисляем CRC32 папки Contents
+          //вычисляем CRC32 папки Contents
       string chopped1 = patchToFile;
       QString nameDirectory = QString::fromStdString(chopped1).chopped(10)+QString("Contents");
       crc32Contents = CRC32Contents(nameDirectory);
@@ -313,10 +317,22 @@ bool parseJSON(string & patchToFile, const path & archiv_path_zip){ //archiv_pat
     content.push_back(notificationDataStr);
     content.push_back(controlSummOrigin);
     content.push_back(infoOrderList);
+
+    content.push_back(inventoryNumOriginal);//Дальнейшие данные для карточки документа
+    content.push_back(storageDataStr);
+    content.push_back(creater);
+    content.push_back(crc32Main);
+    content.push_back(crc32Contents);
+    if (litera == "")
+        content.push_back("нет");
+    if (litera != "")
+        content.push_back(litera);
+
+
     QFile fout((WEB_content + to_string(numFolderForWebContent) + "/rowContent").c_str());
     fout.open(QIODevice::WriteOnly);
     QByteArray ba;
-    for (int i = 0; i < content.size(); ++i){
+    for (int i = 0; i < 7; ++i){//берем из content только первые 7 значений
         ba.append(QString::fromStdString(content[i]));
         ba.append('\n');
     }
