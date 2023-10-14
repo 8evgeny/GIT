@@ -366,7 +366,6 @@ bool parseJSON(string & patchToFile, const path & archiv_path_zip){ //archiv_pat
     path_to_IUL.insert(posBlank,"\\");
     path_to_IUL.append("/../");
     path_to_IUL.append("Ниокр-Документы\\ по\\ обозначениям");
-    cout <<path_to_IUL<<endl;
     string nIULPDF = path_to_IUL + "/" + infoOrderList + ".PDF";
     string nIULpdf = path_to_IUL + "/" + infoOrderList + ".pdf";
     string copyIULPDF = "cp " + nIULPDF + " " + WEB_content + to_string(numFolderForWebContent) + " 2> /dev/null";
