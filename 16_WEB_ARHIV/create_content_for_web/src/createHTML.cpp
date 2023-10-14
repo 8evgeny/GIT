@@ -20,6 +20,8 @@ string html =
         "</head>"
         "<body>"
         "<h1 align='center' style='color:blue'>" + izdelie.toUpper().toStdString() + "</h1>"
+        "<h2 >" + content[2] + "</h2>"
+        "<h2 ><a href=\""+content[0]+".PDF\" style = \"text-decoration: none;\">"+content[0]+"</a></h2>"
 
 
         "</body>"
