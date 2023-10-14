@@ -9,15 +9,17 @@ string createHTML(vector <string> & content)
 //    content.push_back(notificationDataStr);
 //    content.push_back(controlSummOrigin);
 //    content.push_back(infoOrderList);
+    QString izdelie = QString::fromStdString(content[1]);
+
 string html =
         "<!doctype html>"
         "<html lang='ru'>"
         "<head>"
         "<meta charset='utf-8'>"
-        "<title>Изделие " + content[1] + "</title>"
+        "<title>Карточка изделия</title>"
         "</head>"
         "<body>"
-        "<h1 align='center' style='color:blue'>НАИМЕНОВАНИЕ ИЗДЕЛИЯ</h1>"
+        "<h1 align='center' style='color:blue'>" + izdelie.toUpper().toStdString() + "</h1>"
 
 
         "</body>"
