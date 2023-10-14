@@ -318,7 +318,12 @@ bool parseJSON(string & patchToFile, const path & archiv_path_zip){ //archiv_pat
     content.push_back(controlSummOrigin);
     content.push_back(infoOrderList);
 
-    content.push_back(inventoryNumOriginal);//Дальнейшие данные для карточки документа
+    //Дальнейшие данные для карточки документа
+    if (isValid)
+        content.push_back("Действующий");
+    if (!isValid)
+        content.push_back("Недействующий");
+    content.push_back(inventoryNumOriginal);
     content.push_back(storageDataStr);
     content.push_back(creater);
     content.push_back(crc32Main);
@@ -327,7 +332,11 @@ bool parseJSON(string & patchToFile, const path & archiv_path_zip){ //archiv_pat
         content.push_back("нет");
     if (litera != "")
         content.push_back(litera);
-
+    content.push_back(software);
+    if (tags == "")
+        content.push_back("нет");
+    if (tags != "")
+        content.push_back(tags);
 
     QFile fout((WEB_content + to_string(numFolderForWebContent) + "/rowContent").c_str());
     fout.open(QIODevice::WriteOnly);
