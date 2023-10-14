@@ -284,10 +284,12 @@ bool parseJSON(string & patchToFile, const path & archiv_path_zip){
     {
         //ошибка парсинга
         return false;
-    }
+    } //Конец парсинга JSON
+//Чтобы не терять контекст - все следующие действия тут же
+
 //Создаем папки для web контента
 
-// создаем папку для нового контента
+//Создаю папку для нового контента
     string createContentFolder = "mkdir " + WEB_content + to_string(numFolderForWebContent);
     system(createContentFolder.c_str());
 
@@ -302,6 +304,7 @@ bool parseJSON(string & patchToFile, const path & archiv_path_zip){
                                             );
     createQR(oboznachenieIkodDokumenta, stringForQr);
 
+//Создаю файл  rowContent - одна строка сайта
     vector <string> content;
     content.push_back(oboznachenieIkodDokumenta);
     content.push_back(naimenovanieIzdeliya);
@@ -313,13 +316,14 @@ bool parseJSON(string & patchToFile, const path & archiv_path_zip){
     QFile fout((WEB_content + to_string(numFolderForWebContent) + "/rowContent").c_str());
     fout.open(QIODevice::WriteOnly);
     QByteArray ba;
-    for (int i = 0; i<content.size(); ++i){
+    for (int i = 0; i < content.size(); ++i){
         ba.append(QString::fromStdString(content[i]));
         ba.append('\n');
     }
     fout.write(ba);
     fout.close();
-//Копирую в папку для web-контента pdf файл и переименовываю его в номер папки
+
+//Копирую в папку для web-контента pdf файл и переименовываю pdf в PDF
    // cp опции /путь/к/файлу/источнику /путь/к/директории/назначения
     string nPDF = namePDF.toStdString();
     string npdf = namePDF.chopped(3).toStdString().append("pdf");
@@ -331,10 +335,9 @@ bool parseJSON(string & patchToFile, const path & archiv_path_zip){
             WEB_content + to_string(numFolderForWebContent) + "/" + oboznachenieIkodDokumenta + ".PDF"+ " 2> /dev/null";
     system(renamePDF.c_str());
 
-//Копируем и переименовываем ИУЛ из папки Ниокр-Документы по обозначениям
+//Копирую  ИУЛ из папки Ниокр-Документы по обозначениям и переименовываю pdf в PDF
     string path_to_IUL = archiv_path_zip;
-//Борьба с пробелом
-    auto posBlank = path_to_IUL.find(" ");
+    auto posBlank = path_to_IUL.find(" ");//Борьба с пробелом
     path_to_IUL.insert(posBlank,"\\");
     path_to_IUL.append("/../");
     path_to_IUL.append("Ниокр-Документы\\ по\\ обозначениям");
@@ -355,20 +358,19 @@ bool parseJSON(string & patchToFile, const path & archiv_path_zip){
     ++numFolderForWebContent;
     if (numContent == numFolderForWebContent)
     {
-        //Все папки с контентом сформированы - формируем файл count
+//Все папки с контентом сформированы - формирую файл numDoc
         QFile frow((WEB_content + "/" + "numDoc").c_str());
         frow.open(QIODevice::WriteOnly);
         frow.write(to_string(numFolderForWebContent).c_str());
         frow.close();
 
-        //Формируем строку с датой: Сводный перечень документов на хранении по состоянию на ____
+//Формирую строку с датой: Сводный перечень документов на хранении по состоянию на ____
         QFile fdate((WEB_content + "/" + "date").c_str());
         fdate.open(QIODevice::WriteOnly);
         string date = "Сводный перечень документов на хранении по состоянию на ";
         date.append(currentDateTime());
         fdate.write(date.c_str());
         fdate.close();
-
     }
 return true;
 }

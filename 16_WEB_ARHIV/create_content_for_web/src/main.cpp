@@ -41,8 +41,7 @@ int main(int argc, char *argv[])
         if(!is_zip)
           continue;
         string patch = entry.path().string();
-        //тут пробел нужно заменить на "\"
-        auto posBlank = patch.find(" ");
+        auto posBlank = patch.find(" "); //Борьба с пробелом
         patch.insert(posBlank,"\\");
         string name = entry.path().filename();
         vectorZipFilesPath.push_back(patch);
