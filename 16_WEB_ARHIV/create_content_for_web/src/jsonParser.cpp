@@ -15,7 +15,7 @@ QString namePDF;
         return days{d};
     }
 
-bool parseJSON(string & patchToFile, const path & archiv_path_zip){
+bool parseJSON(string & patchToFile, const path & archiv_path_zip){ //archiv_path_zip передаю чтобы получить через нее доступ к папке с ИУЛами
     QFile file(QString::fromStdString(patchToFile));
     file.open(QIODevice::ReadOnly);
     QString jsonData = file.readAll();
@@ -352,8 +352,14 @@ bool parseJSON(string & patchToFile, const path & archiv_path_zip){
             WEB_content + to_string(numFolderForWebContent) + "/" + infoOrderList + ".PDF" + " 2> /dev/null";
     system(renameIULPDF.c_str());
 
-//Создаем HTML документ
-    createHTML(content);
+//Создаем HTML документ и сохраняем его в папке
+    string html = createHTML(content);
+    QFile fhtml((WEB_content + to_string(numFolderForWebContent) + "/document.html").c_str());
+    fhtml.open(QIODevice::WriteOnly);
+    fhtml.write(html.c_str());
+    fhtml.close();
+
+//Все действия в контексте текущей папки веб контента завершены
 
     ++numFolderForWebContent;
     if (numContent == numFolderForWebContent)
