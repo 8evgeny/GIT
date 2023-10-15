@@ -33,12 +33,10 @@ function createTable() {
     if (reqTableSize.readyState === 4) {
         let numberDoc = reqTableSize.responseText.toString();
         const body = document.body,
-            tbl = document.getElementById('table');
+        tbl = document.getElementById('table');
         tbl.style.margin = 'auto';
         tbl.style.width = '1800px';
         tbl.style.border = '1px solid black';
-
-
 
         for (let i = 0; i <= numberDoc; i++) {
             //Здесь получаем файл 'content_for_web/i/rowContent  для заполнения ряда
@@ -46,7 +44,11 @@ function createTable() {
 
             if (i !== 0) {
                 row.open('get', 'content_for_web/' + `${i}` + '/' + "rowContent", false);
-                row.onloadend = fillRow;
+                row.onloadend = function () {
+                    if (row.readyState === 4) {
+                        rowData = row.responseText.toString().split('\n');
+                    }
+                }
                 row.send(null);
             }
 

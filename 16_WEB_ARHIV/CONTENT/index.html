@@ -2,20 +2,31 @@
 <html lang="ru">
 <head>
   <meta charset="utf-8">
-  <title>Архив документации НИОКР</title>
-  
- 
+    <title>Архив документации НИОКР</title>
 </head>
-
+    <style type="text/css">
+    table thead {background: #333; color: #fff;}
+    /*head scrolling for long tables*/
+    table.headscroll {
+    display: none;
+    position: fixed;
+    top: 0;
+    margin: 0;
+    z-index: 1;
+    }
+    /*end head scrolling for long tables*/
+    </style>
 <body>
 <h1 align="center" style="color:black"> АРХИВ КОНСТРУКТОРСКОЙ ДОКУМЕНТАЦИИ</h1>
   <script src="text_from_file.js" ></script>
   <h2 div id="container"  align="center" style="color:black" >
 	<script>loadFile('content_for_web/date');</script> 
 	<div id="main"></div></div></h2>
-<div style="text-align: center;">
+<div class="container"  style="text-align: center;">
 <iframe id="my_iframe" style="display:none;"></iframe>	
-<table id="table"></table></div>
+
+<table id="table" ></table></div>
+
 <script src="table.js" ></script>
 </body>
 </html>
