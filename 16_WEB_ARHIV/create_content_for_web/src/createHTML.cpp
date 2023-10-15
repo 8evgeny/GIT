@@ -85,7 +85,7 @@ string html =
        "</tr>"
        "<tr>"
          "<td><h3 align='left'>Информационно-удостоверяющий лист</h3></td>"
-         "<td><h3 align='center'>"+ content[6] + "</h3></td>"
+         "<td><h3 align='center'><a href='" + content[6] + ".PDF'>" + content[6] + "</a></h3></td>"
        "</tr>"
        "<tr>"
          "<td><h3 align='left'>Контрольная сумма подлинника</h3></td>"
