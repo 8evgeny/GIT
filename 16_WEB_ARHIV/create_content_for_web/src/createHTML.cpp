@@ -47,6 +47,12 @@ string html =
     "a, u {"
       "text-decoration: none;"
     "}"
+    "body {"
+      "padding: 30px;"
+    "}"
+    "td {"
+      "padding-left: 20px; padding-right: 20px;"
+    "}"
     "</style>"
     "<body>"
     "<h1 align='center' style='color:black'>" + izdelie.toUpper().toStdString() + "</h1>"
@@ -54,7 +60,7 @@ string html =
     "<h2 align='center'><a href=" + content[0] + ".PDF>" + content[0] + "</a></h2>"
 
     "<table style='width: 40%;'>"
-        "<tr><thead><h2 align='left'>Учетные данные</h2></thead>"
+        "<tr><thead><h1 align='left'>Учетные данные</h1></thead>"
         "<tr>"
             "<td><h2 align='left'>Статус документа</h2></td>"
             "<td><h2 align='center'>" + content[7] + "</h2></td>"
@@ -71,7 +77,7 @@ string html =
     "<br>"
 
     "<table style='width: 40%;'>"
-       "<tr><thead><h2 align='left'>Сведения о документе</h2></thead>"
+       "<tr><thead><h1 align='left'>Сведения о документе</h1></thead>"
        "<tr>"
            "<td><h2 align='left'>Разработчик</h2></td>"
            "<td><h2 align='center'>" + content[10] + "</h2></td>"
@@ -105,7 +111,7 @@ string html =
 
 
     "<table style='width: 60%;'>"
-        "<tr><thead><h2 align='left'>Сведения об изменениях документа</h2></thead>"
+        "<tr><thead><h1 align='left'>Сведения об изменениях документа</h1></thead>"
             "<th><h2 align='center'>Номер изменения</h2></th>"
             "<th><h2 align='center'>Извещение об изменении</h2></th>"
             "<th width='20%'><h2 align='center'>Дата</h2></th>"
