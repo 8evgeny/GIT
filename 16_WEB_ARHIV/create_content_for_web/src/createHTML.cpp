@@ -50,7 +50,7 @@ string html =
     "</style>"
     "<body>"
     "<h1 align='center' style='color:black'>" + izdelie.toUpper().toStdString() + "</h1>"
-    "<h1 align='center'>" + content[2] + "</h1>"
+    "<h2 align='center'>" + content[2] + "</h2>"
     "<h2 align='center'><a href=" + content[0] + ".PDF>" + content[0] + "</a></h2>"
 
     "<table style='width: 40%;'>"
