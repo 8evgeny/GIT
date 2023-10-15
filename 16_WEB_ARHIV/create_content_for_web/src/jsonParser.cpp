@@ -337,6 +337,8 @@ bool parseJSON(string & patchToFile, const path & archiv_path_zip){ //archiv_pat
         content.push_back("нет");
     if (tags != "")
         content.push_back(tags);
+    content.push_back(changeNotificationNum);
+    content.push_back(notificationDataStr);
 
     QFile fout((WEB_content + to_string(numFolderForWebContent) + "/rowContent").c_str());
     fout.open(QIODevice::WriteOnly);
