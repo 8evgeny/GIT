@@ -364,8 +364,8 @@ bool parseJSON(string & patchToFile, const path & archiv_path_zip){ //archiv_pat
 
 //Копирую  ИУЛ из папки Ниокр-Документы по обозначениям и переименовываю pdf в PDF
     string path_to_IUL = archiv_path_zip;
-    auto posBlank = path_to_IUL.find(" ");//Борьба с пробелом
-    path_to_IUL.insert(posBlank,"\\");
+    auto posBlank1 = path_to_IUL.find(" ");//Борьба с пробелом
+    path_to_IUL.insert(posBlank1,"\\");
     path_to_IUL.append("/../");
     path_to_IUL.append("Ниокр-Документы\\ по\\ обозначениям");
     string nIULPDF = path_to_IUL + "/" + infoOrderList + ".PDF";
@@ -384,6 +384,22 @@ bool parseJSON(string & patchToFile, const path & archiv_path_zip){ //archiv_pat
     fhtml.open(QIODevice::WriteOnly);
     fhtml.write(html.c_str());
     fhtml.close();
+
+//Копирую  файл извещения об изменении из папки Ниокр-Извещения об изменении и переименовываю pdf в PDF
+    string path_to_IZM = archiv_path_zip;
+    auto posBlank2 = path_to_IZM.find(" ");//Борьба с пробелом
+    path_to_IZM.insert(posBlank2,"\\");
+    path_to_IZM.append("/../");
+    path_to_IZM.append("Ниокр-Извещения\\ об\\ изменении");
+    string nIZMPDF = path_to_IZM + "/" + changeNotificationNum + ".PDF";
+    string nIZMpdf = path_to_IZM + "/" + changeNotificationNum + ".pdf";
+    string copyIZMPDF = "cp " + nIZMPDF + " " + WEB_content + to_string(numFolderForWebContent) + " 2> /dev/null";
+    string copyIZMpdf = "cp " + nIZMpdf + " " + WEB_content + to_string(numFolderForWebContent) + " 2> /dev/null";
+    system(copyIZMPDF.c_str());
+    system(copyIZMpdf.c_str());
+    string renameIZMPDF = "mv " + WEB_content + to_string(numFolderForWebContent) + "/" + changeNotificationNum + ".pdf " +
+            WEB_content + to_string(numFolderForWebContent) + "/" + changeNotificationNum + ".PDF" + " 2> /dev/null";
+    system(renameIZMPDF.c_str());
 
 //Все действия в контексте текущей папки веб контента завершены
 
