@@ -58,7 +58,6 @@ string html =
     "<h1 align='center' style='color:black'>" + izdelie.toUpper().toStdString() + "</h1>"
     "<h2 align='center'>" + content[2] + "</h2>"
     "<h2 align='center'><a href=" + content[0] + ".PDF>" + content[0] + "</a></h2>"
-
     "<table style='width: 40%;'>"
         "<tr><thead><h1 align='left'>Учетные данные</h1></thead>"
         "<tr>"
@@ -75,7 +74,6 @@ string html =
         "</tr>"
     "</table>"
     "<br>"
-
     "<table style='width: 40%;'>"
        "<tr><thead><h1 align='left'>Сведения о документе</h1></thead>"
        "<tr>"
@@ -108,8 +106,6 @@ string html =
        "</tr>"
     "</table>"
     "<br>"
-
-
     "<table style='width: 60%;'>"
         "<tr><thead><h1 align='left'>Сведения об изменениях документа</h1></thead>"
             "<th><h2 align='center'>Номер изменения</h2></th>"
@@ -124,9 +120,6 @@ string html =
           "<td><h2 align='center'><a href='" + content[16] + ".PDF'>" + content[16] + "</a></h2></td>"
         "</tr>"
     "</table>"
-
-
-
     "</body>"
     "</html>"
 ;
