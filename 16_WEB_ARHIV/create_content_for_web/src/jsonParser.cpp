@@ -410,6 +410,15 @@ for (auto i = 0; i < changeNum; ++i )
     string fileZIP = directoryOLD + "/" + oboznachenieIkodDokumenta + ".изм" + to_string(i) + ".zip";
     string copyZIP = "cp " + fileZIP + " " + WEB_content + to_string(numFolderForWebContent);
     system(copyZIP.c_str());
+
+//Разворачиваю zip
+        string patchToFile = WEB_content + to_string(numFolderForWebContent);
+        string fileName = oboznachenieIkodDokumenta + ".изм" + to_string(i) + ".zip";
+        string patchToExtractDirectory = WEB_content + to_string(numFolderForWebContent) + "/" + oboznachenieIkodDokumenta + ".изм" + to_string(i);
+        extractZip(patchToFile, fileName ,patchToExtractDirectory);
+
+
+
 }
 
 
