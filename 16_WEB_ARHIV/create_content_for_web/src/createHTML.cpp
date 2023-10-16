@@ -134,7 +134,7 @@ string html =
                     "<td><h3 align='center'>" + content[3] + "</h3></td>"
                     "<td><h3 align='center'><a href='" + content[16] + ".PDF'>" + content[16] + "</a></h3></td>"
                     "<td><h3 align='center'>" + content[17] + "</h3></td>"
-                    "<td></td>"
+                    "<td><h3 align='center'><a href='" + content[0] + ".изм" + content[3] + ".zip'>" + content[0] + ".изм" + content[3] +  ".zip</a></a></h3></td>"
                 "</tr>"
         ;
         for (auto i = oldZipData.size(); i > 0; --i)

@@ -302,6 +302,10 @@ bool parseJSON(string & patchToFile, const path & archiv_path_zip){ //archiv_pat
     fileCurrentZIP.append("/" + oboznachenieIkodDokumenta  + ".zip");
     string copyCurrentZIP = "cp " + fileCurrentZIP + " " + WEB_content + to_string(numFolderForWebContent);
     system(copyCurrentZIP.c_str());
+//Переименовываю актуальный zip файл
+    string renameCurrentZip = "mv " + WEB_content + to_string(numFolderForWebContent) + "/" + oboznachenieIkodDokumenta + ".zip " +
+                                      WEB_content + to_string(numFolderForWebContent) + "/" + oboznachenieIkodDokumenta + ".изм" + changeNumStr + ".zip";
+    system(renameCurrentZip.c_str());
 
 //Копирую все файлы zip старых версий в текущую папку Имя файла oboznachenieIkodDokumenta Число файлов =   changeNum
     vector<pair<string,string>> oldZipData;
