@@ -129,7 +129,7 @@ string html =
         tmp =
                 "<tr>"
                     "<td><h3 align='center'>" + to_string(i - 1) + "</h3></td>"
-                    "<td><h3 align='center'>" + oldZipData[i - 1].first + "</h3></td>"
+                    "<td><h3 align='center'><a href='" + oldZipData[i - 1].first + ".PDF'>" + oldZipData[i - 1].first + "</a></h3></td>"
                     "<td><h3 align='center'>" + oldZipData[i - 1].second + "</h3></td>"
                     "<td><h3 align='center'><a href='" + content[0] + ".изм" + to_string(i-1) + ".zip'>" + content[0] + ".изм" + to_string(i-1) + ".zip</a></h3></td>"
                 "</tr>"
