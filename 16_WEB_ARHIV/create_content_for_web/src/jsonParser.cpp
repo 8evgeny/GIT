@@ -334,7 +334,22 @@ bool parseJSON(string & patchToFile, const path & archiv_path_zip){ //archiv_pat
             const   Value & requisitesZIP = documentZIP["Реквизиты документа по ГОСТ 2.104"];
             string changeNotificationNumZIP = requisitesZIP["Номер извещения об изменении"].GetString();
             string notificationDataStrZIP = requisitesZIP["Дата извещения об изменении"].GetString();
+    //Сохраняю данные для карточки
             oldZipData.push_back(make_pair(changeNotificationNumZIP, notificationDataStrZIP));
+
+    //Копирую  файл извещения об изменении из папки Ниокр-Извещения_об_изменении и переименовываю pdf в PDF
+            string path_to_IZV = archiv_path_zip;
+            path_to_IZV.append("/../");
+            path_to_IZV.append("Ниокр-Извещения_об_изменении");
+            string nIZM_old_PDF = path_to_IZV + "/" + changeNotificationNumZIP + ".PDF";
+            string nIZM_old_pdf = path_to_IZV + "/" + changeNotificationNumZIP + ".pdf";
+            string copyIZM_old_PDF = "cp " + nIZM_old_PDF + " " + WEB_content + to_string(numFolderForWebContent) + " 2> /dev/null";
+            string copyIZM_old_pdf = "cp " + nIZM_old_pdf + " " + WEB_content + to_string(numFolderForWebContent) + " 2> /dev/null";
+            system(copyIZM_old_PDF.c_str());
+            system(copyIZM_old_pdf.c_str());
+            string renameIZM_old_PDF = "mv " + WEB_content + to_string(numFolderForWebContent) + "/" + changeNotificationNumZIP + ".pdf " +
+                    WEB_content + to_string(numFolderForWebContent) + "/" + changeNotificationNumZIP + ".PDF";// + " 2> /dev/null";
+            system(renameIZM_old_PDF.c_str());
     }
 
 
@@ -359,7 +374,7 @@ bool parseJSON(string & patchToFile, const path & archiv_path_zip){ //archiv_pat
     content.push_back(controlSummOrigin);
     content.push_back(infoOrderList);
 
-    //Дальнейшие данные для карточки документа
+//Дальнейшие данные для карточки документа
     content.push_back("Подлинник");
     content.push_back(inventoryNumOriginal);
     content.push_back(storageDataStr);
