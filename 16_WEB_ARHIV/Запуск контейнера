@@ -1,7 +1,6 @@
 docker build -t createwebcontent ~/SOFT/Github/GIT/16_WEB_ARHIV
 docker image rm createwebcontent
 
-docker run -it --rm -d --name createwebcontent -v SOFT/Github/GIT/16_WEB_ARHIV/Ниокр-Актуальные\ документы:/app/Ниокр-Актуальные\ документы  createwebcontent
+docker run -it --name createwebcontent -v ~/SOFT/Github/GIT/16_WEB_ARHIV/Ниокр-Актуальные_документы:/app/Ниокр-Актуальные_документы -v ~/SOFT/Github/GIT/16_WEB_ARHIV/Ниокр-Документы_по_обозначениям:/app/Ниокр-Документы_по_обозначениям -v ~/SOFT/Github/GIT/16_WEB_ARHIV/Ниокр-Извещения_об_изменении:/app/Ниокр-Извещения_об_изменении -v ~/SOFT/Github/GIT/16_WEB_ARHIV/Ниокр-Неактуальные_документы:/app/Ниокр-Неактуальные_документы createwebcontent
 
 
-docker run -it --rm -d --name createwebcontent -v SOFT/Github/GIT/16_WEB_ARHIV/Ниокр-Актуальные\ документы:/app/Ниокр-Актуальные\ документы createwebcontent /app/Ниокр-Актуальные\ документы
