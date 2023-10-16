@@ -362,12 +362,12 @@ bool parseJSON(string & patchToFile, const path & archiv_path_zip){ //archiv_pat
             WEB_content + to_string(numFolderForWebContent) + "/" + oboznachenieIkodDokumenta + ".PDF"+ " 2> /dev/null";
     system(renamePDF.c_str());
 
-//Копирую  ИУЛ из папки Ниокр-Документы по обозначениям и переименовываю pdf в PDF
+//Копирую  ИУЛ из папки Ниокр-Документы_по_обозначениям и переименовываю pdf в PDF
     string path_to_IUL = archiv_path_zip;
-    auto posBlank1 = path_to_IUL.find(" ");//Борьба с пробелом
-    path_to_IUL.insert(posBlank1,"\\");
+//    auto posBlank1 = path_to_IUL.find(" ");//Борьба с пробелом (Пути файлов уже не содержат пробелов)
+//    path_to_IUL.insert(posBlank1,"\\");
     path_to_IUL.append("/../");
-    path_to_IUL.append("Ниокр-Документы\\ по\\ обозначениям");
+    path_to_IUL.append("Ниокр-Документы_по_обозначениям");
     string nIULPDF = path_to_IUL + "/" + infoOrderList + ".PDF";
     string nIULpdf = path_to_IUL + "/" + infoOrderList + ".pdf";
     string copyIULPDF = "cp " + nIULPDF + " " + WEB_content + to_string(numFolderForWebContent) + " 2> /dev/null";
@@ -385,12 +385,12 @@ bool parseJSON(string & patchToFile, const path & archiv_path_zip){ //archiv_pat
     fhtml.write(html.c_str());
     fhtml.close();
 
-//Копирую  файл извещения об изменении из папки Ниокр-Извещения об изменении и переименовываю pdf в PDF
+//Копирую  файл извещения об изменении из папки Ниокр-Извещения_об_изменении и переименовываю pdf в PDF
     string path_to_IZM = archiv_path_zip;
-    auto posBlank2 = path_to_IZM.find(" ");//Борьба с пробелом
-    path_to_IZM.insert(posBlank2,"\\");
+//    auto posBlank2 = path_to_IZM.find(" ");//Борьба с пробелом (Пути файлов уже не содержат пробелов)
+//    path_to_IZM.insert(posBlank2,"\\");
     path_to_IZM.append("/../");
-    path_to_IZM.append("Ниокр-Извещения\\ об\\ изменении");
+    path_to_IZM.append("Ниокр-Извещения_об_изменении");
     string nIZMPDF = path_to_IZM + "/" + changeNotificationNum + ".PDF";
     string nIZMpdf = path_to_IZM + "/" + changeNotificationNum + ".pdf";
     string copyIZMPDF = "cp " + nIZMPDF + " " + WEB_content + to_string(numFolderForWebContent) + " 2> /dev/null";

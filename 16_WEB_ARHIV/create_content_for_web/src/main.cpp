@@ -4,12 +4,16 @@ uint numContent{0};
 
 int main(int argc, char *argv[])
 {
+    path archiv_path_zip{"../../Ниокр-Актуальные_документы"};
     if (argc != 2)
     {
-        cout << "Для работы приложения требуется параметр (путь к папке с архивом)"<< endl;
-        return 0;
+        cout << "Передается в качестве параметра путь ../../Ниокр-Актуальные_документы"<< endl;
     }
-    const path archiv_path_zip{ argv[1] };
+    else
+    {
+        archiv_path_zip= argv[1];
+    }
+
     string pathToExtractDirectory = "EXTRACT"; //в папке build
     const path archiv_path_extracted{pathToExtractDirectory};
 //Разархивирование исходного контента
@@ -41,8 +45,8 @@ int main(int argc, char *argv[])
         if(!is_zip)
           continue;
         string patch = entry.path().string();
-        auto posBlank = patch.find(" "); //Борьба с пробелом
-        patch.insert(posBlank,"\\");
+//        auto posBlank = patch.find(" "); //Борьба с пробелом (Пути файлов уже не содержат пробелов)
+//        patch.insert(posBlank,"\\");
         string name = entry.path().filename();
         vectorZipFilesPath.push_back(patch);
         name.pop_back();//убираем .zip
