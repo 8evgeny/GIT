@@ -1,0 +1,5 @@
+docker build -t createwebcontent ~/SOFT/Github/GIT/16_WEB_ARHIV
+docker run -it --rm -d --name createwebcontent -v SOFT/Github/GIT/16_WEB_ARHIV/Ниокр-Актуальные\ документы:/app/Ниокр-Актуальные\ документы  createwebcontent
+
+
+docker run -it --rm -d --name createwebcontent -v SOFT/Github/GIT/16_WEB_ARHIV/Ниокр-Актуальные\ документы:/app/Ниокр-Актуальные\ документы createwebcontent /app/Ниокр-Актуальные\ документы
