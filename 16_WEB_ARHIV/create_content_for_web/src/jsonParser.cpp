@@ -297,6 +297,37 @@ bool parseJSON(string & patchToFile, const path & archiv_path_zip){ //archiv_pat
     string createContentFolder = "mkdir " + WEB_content + to_string(numFolderForWebContent);
     system(createContentFolder.c_str());
 
+//Копирую все файлы zip старых версий в текущую папку Имя файла oboznachenieIkodDokumenta Число файлов =   changeNum
+    vector<pair<string,string>> oldZipData;
+    for (auto i = 0; i < changeNum; ++i ) {
+        string directoryOLD = archiv_path_zip;
+        directoryOLD.append("/../");
+        directoryOLD.append("Ниокр-Неактуальные_документы");
+        string fileZIP = directoryOLD + "/" + oboznachenieIkodDokumenta + ".изм" + to_string(i) + ".zip";
+        string copyZIP = "cp " + fileZIP + " " + WEB_content + to_string(numFolderForWebContent);
+        system(copyZIP.c_str());
+    //Разворачиваю zip
+            string patchToFile = WEB_content + to_string(numFolderForWebContent);
+            string fileName = oboznachenieIkodDokumenta + ".изм" + to_string(i) + ".zip";
+            string patchToExtractDirectory = WEB_content + to_string(numFolderForWebContent) + "/" + oboznachenieIkodDokumenta + ".изм" + to_string(i);
+            extractZip(patchToFile, fileName ,patchToExtractDirectory);
+    //открываю JSON из папки zip
+            string patchToZIPJSON = WEB_content + to_string(numFolderForWebContent)
+                    + "/" + oboznachenieIkodDokumenta + ".изм" + to_string(i)
+                    + "/" + oboznachenieIkodDokumenta + ".изм" + to_string(i) + ".zip/index.json";
+            QFile fileZIPJSON(QString::fromStdString(patchToZIPJSON));
+            fileZIPJSON.open(QIODevice::ReadOnly);
+            QString jsonZIPData = fileZIPJSON.readAll();
+            fileZIPJSON.close();
+            Document documentZIP;
+            documentZIP.Parse(jsonZIPData.toStdString().c_str());
+            const   Value & requisitesZIP = documentZIP["Реквизиты документа по ГОСТ 2.104"];
+            string changeNotificationNumZIP = requisitesZIP["Номер извещения об изменении"].GetString();
+            string notificationDataStrZIP = requisitesZIP["Дата извещения об изменении"].GetString();
+            oldZipData.push_back(make_pair(changeNotificationNumZIP, notificationDataStrZIP));
+    }
+
+
 //Формирую строку с контентом для QR и сам QR
     string stringForQr = createStringForQr (oboznachenieIkodDokumenta,
                                             changeNumStr,
@@ -376,7 +407,7 @@ bool parseJSON(string & patchToFile, const path & archiv_path_zip){ //archiv_pat
     system(renameIULPDF.c_str());
 
 //Создаем HTML документ и сохраняем его в папке
-    string html = createHTML(content);
+    string html = createHTML(content, oldZipData);
     QFile fhtml((WEB_content + to_string(numFolderForWebContent) + "/document.html").c_str());
     fhtml.open(QIODevice::WriteOnly);
     fhtml.write(html.c_str());
@@ -398,28 +429,6 @@ bool parseJSON(string & patchToFile, const path & archiv_path_zip){ //archiv_pat
             WEB_content + to_string(numFolderForWebContent) + "/" + changeNotificationNum + ".PDF" + " 2> /dev/null";
     system(renameIZMPDF.c_str());
 
-//Копирую все файлы zip старых версий в текущую папку
-//Имя файла oboznachenieIkodDokumenta
-//Число файлов скопировать =   changeNum
-
-for (auto i = 0; i < changeNum; ++i )
-{
-    string directoryOLD = archiv_path_zip;
-    directoryOLD.append("/../");
-    directoryOLD.append("Ниокр-Неактуальные_документы");
-    string fileZIP = directoryOLD + "/" + oboznachenieIkodDokumenta + ".изм" + to_string(i) + ".zip";
-    string copyZIP = "cp " + fileZIP + " " + WEB_content + to_string(numFolderForWebContent);
-    system(copyZIP.c_str());
-
-//Разворачиваю zip
-        string patchToFile = WEB_content + to_string(numFolderForWebContent);
-        string fileName = oboznachenieIkodDokumenta + ".изм" + to_string(i) + ".zip";
-        string patchToExtractDirectory = WEB_content + to_string(numFolderForWebContent) + "/" + oboznachenieIkodDokumenta + ".изм" + to_string(i);
-        extractZip(patchToFile, fileName ,patchToExtractDirectory);
-
-
-
-}
 
 
 //Все действия в контексте текущей папки веб контента завершены

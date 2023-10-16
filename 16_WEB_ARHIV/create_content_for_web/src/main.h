@@ -23,7 +23,7 @@ bool extractZip(string & patchToFile, string & fileName, string & patchToExtract
 
 quint32 CRC32(QString fileName);
 string CRC32Contents(QString DirectoryPatch);
-string createHTML(vector <string> & content );
+string createHTML(vector <string> & content, vector<pair<string,string>> & oldZipData);
 void createQR(string nameQR, string originText);
 string currentDateTime();
 string createStringForQr (string oboznachenieIkodDokumenta,

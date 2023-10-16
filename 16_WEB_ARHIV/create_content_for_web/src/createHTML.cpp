@@ -1,6 +1,6 @@
 #include "main.h"
 
-string createHTML(vector <string> & content)
+string createHTML(vector <string> & content, vector<pair<string,string>> & oldZipData)
 {
 //    content.push_back(oboznachenieIkodDokumenta); 0
 //    content.push_back(naimenovanieIzdeliya);      1
@@ -137,13 +137,13 @@ string html =
                     "<td></td>"
                 "</tr>"
         ;
-        for (auto i = numIzm; i > 0; --i)
+        for (auto i = oldZipData.size(); i > 0; --i)
         {
             tmp =
                     "<tr>"
                         "<td><h3 align='center'>" + to_string(i - 1) + "</h3></td>"
-                        "<td></td>"
-                        "<td></td>"
+                        "<td><h3 align='center'>" + oldZipData[i - 1].first + "</h3></td>"
+                        "<td><h3 align='center'>" + oldZipData[i - 1].second + "</h3></td>"
                         "<td><h3 align='center'><a href='" + content[0] + ".изм" + to_string(i-1) + ".zip'>" + content[0] + ".изм" + to_string(i-1) + ".zip</a></h3></td>"
                     "</tr>"
                     ;
