@@ -1,5 +1,5 @@
 #include "main.h"
-
+#include <QDebug>
 const quint32 CRC32Table[256] =
 {
     0x00000000, 0x77073096, 0xee0e612c, 0x990951ba,
@@ -70,15 +70,21 @@ const quint32 CRC32Table[256] =
 
 quint32 CRC32(QString fileName)
 {
+    cout<<fileName.toStdString()<<endl;
     QFile file(fileName);
-    if(!file.open(QIODevice::ReadOnly)){
-       if(fileName.endsWith("PDF")){
-          fileName.chop(3);
-          fileName.append("pdf");
-          file.setFileName(fileName);
-          if(!file.open(QIODevice::ReadOnly))
-              return -1;
-       }
+    QString errMsg;
+    QFileDevice::FileError err = QFileDevice::NoError;
+     if(!file.open(QIODevice::ReadOnly)){
+         errMsg = file.errorString();
+         err = file.error();
+         qDebug()<<errMsg;
+           if(fileName.endsWith("PDF")){
+              fileName.chop(3);
+              fileName.append("pdf");
+              file.setFileName(fileName);
+              if(!file.open(QIODevice::ReadOnly))
+                  return -1;
+           }
     }
     quint32 CRC32 = 0xffffffff;
     qint64 n, i;

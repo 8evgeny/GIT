@@ -9,11 +9,7 @@ string createHTML(vector <string> & content)
 //    content.push_back(notificationDataStr);       4
 //    content.push_back(controlSummOrigin);         5
 //    content.push_back(infoOrderList);             6
-
-//    if (isValid)                                  7
-//        content.push_back("Действующий");
-//    if (!isValid)
-//        content.push_back("Недействующий");
+//    content.push_back("Действующий");             7
 //    content.push_back(inventoryNumOriginal);      8
 //    content.push_back(storageDataStr);            9
 //    content.push_back(creater);                   10
@@ -118,7 +114,7 @@ string html =
         "</tr>"
         "<tr>"
           "<td><h3 align='center'>" + content[3] + "</h3></td>"
-          "<td><h3 align='center'>" + content[16] + "</h3></td>"
+          "<td><h3 align='center'><a href='" + content[16] + ".PDF'>" + content[16] + "</a></h3></td>"
           "<td><h3 align='center'>" + content[17] + "</h3></td>"
           "<td><h3 align='center'><a href='" + content[16] + ".PDF'>" + content[16] + "</a></h3></td>"
         "</tr>"

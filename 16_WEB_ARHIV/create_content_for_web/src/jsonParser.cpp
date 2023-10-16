@@ -319,10 +319,7 @@ bool parseJSON(string & patchToFile, const path & archiv_path_zip){ //archiv_pat
     content.push_back(infoOrderList);
 
     //Дальнейшие данные для карточки документа
-    if (isValid)
-        content.push_back("Действующий");
-    if (!isValid)
-        content.push_back("Недействующий");
+    content.push_back("Подлинник");
     content.push_back(inventoryNumOriginal);
     content.push_back(storageDataStr);
     content.push_back(creater);
