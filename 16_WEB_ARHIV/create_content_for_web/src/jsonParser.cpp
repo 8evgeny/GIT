@@ -398,6 +398,21 @@ bool parseJSON(string & patchToFile, const path & archiv_path_zip){ //archiv_pat
             WEB_content + to_string(numFolderForWebContent) + "/" + changeNotificationNum + ".PDF" + " 2> /dev/null";
     system(renameIZMPDF.c_str());
 
+//Копирую все файлы zip старых версий в текущую папку
+//Имя файла oboznachenieIkodDokumenta
+//Число файлов скопировать =   changeNum
+
+for (auto i = 0; i < changeNum; ++i )
+{
+    string directoryOLD = archiv_path_zip;
+    directoryOLD.append("/../");
+    directoryOLD.append("Ниокр-Неактуальные_документы");
+    string fileZIP = directoryOLD + "/" + oboznachenieIkodDokumenta + ".изм" + to_string(i) + ".zip";
+    string copyZIP = "cp " + fileZIP + " " + WEB_content + to_string(numFolderForWebContent);
+    system(copyZIP.c_str());
+}
+
+
 //Все действия в контексте текущей папки веб контента завершены
 
     ++numFolderForWebContent;

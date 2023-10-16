@@ -112,15 +112,49 @@ string html =
             "<th width='20%'><h3 align='center'>Дата</h3></th>"
             "<th width='30%'><h3 align='center'>Ссылка на документ соответствующего номера изменения</h3></th>"
         "</tr>"
-        "<tr>"
-          "<td><h3 align='center'>" + content[3] + "</h3></td>"
-          "<td><h3 align='center'><a href='" + content[16] + ".PDF'>" + content[16] + "</a></h3></td>"
-          "<td><h3 align='center'>" + content[17] + "</h3></td>"
-          "<td><h3 align='center'><a href='" + content[16] + ".PDF'>" + content[16] + "</a></h3></td>"
-        "</tr>"
-    "</table>"
-    "</body>"
-    "</html>"
-;
-        return html;
+        ;
+    uint numIzm = atoi(content[3].c_str()); //Номер изма
+    string html2 = "";
+    string tmp = "";
+    if (numIzm == 0) //Только один изм
+    {
+        html2 =
+                "<tr>"
+                    "<td><h3 align='center'>" + content[3] + "</h3></td>"
+                    "<td><h3 align='center'><a href='" + content[16] + ".PDF'>" + content[16] + "</a></h3></td>"
+                    "<td><h3 align='center'>" + content[17] + "</h3></td>"
+                    "<td></td>"
+                "</tr>"
+        ;
+    }
+    else //в цикле добавляем numIzmAll-1 строк
+    {
+        html2 =
+                "<tr>"
+                    "<td><h3 align='center'>" + content[3] + "</h3></td>"
+                    "<td><h3 align='center'><a href='" + content[16] + ".PDF'>" + content[16] + "</a></h3></td>"
+                    "<td><h3 align='center'>" + content[17] + "</h3></td>"
+                    "<td></td>"
+                "</tr>"
+        ;
+        for (auto i = numIzm; i > 0; --i)
+        {
+            tmp =
+                    "<tr>"
+                        "<td><h3 align='center'>" + to_string(i - 1) + "</h3></td>"
+                        "<td></td>"
+                        "<td></td>"
+                        "<td><h3 align='center'><a href='" + content[0] + ".изм" + to_string(i-1) + ".zip'>" + content[0] + ".изм" + to_string(i-1) + ".zip</a></h3></td>"
+                    "</tr>"
+                    ;
+            html2.append(tmp);
+        }
+
+    }
+
+    string html3 = "</table></body></html>";
+    html.append(html2);
+    html.append(html3);
+return html;
 }
+
