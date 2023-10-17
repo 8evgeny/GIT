@@ -97,6 +97,9 @@ bool parseJSON(string & patchToFile, const path & archiv_path_zip){ //archiv_pat
       string appPdf = oboznachenieIkodDokumenta;
       string chopped = patchToFile;
       namePDF = QString::fromStdString(chopped).chopped(10)+QString("Contents/")+QString::fromStdString(appPdf.append(".PDF"));
+      QString directoryPDF = QString::fromStdString(chopped).chopped(10)+QString("Contents/");
+      string printDir = "ls -l " + directoryPDF.toStdString();
+      system(printDir.c_str());
       crc32 = CRC32(namePDF);
       cout << "\tОбозначение и код документа: " << oboznachenieIkodDokumenta ;
       if(crc32 == -1)
