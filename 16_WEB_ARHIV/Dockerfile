@@ -6,13 +6,12 @@ ENV LANGUAGE ru_RU.UTF-8
 ENV LANG ru_RU.UTF-8
 ENV LC_ALL ru_RU.UTF-8
 RUN locale-gen ru_RU.UTF-8 && dpkg-reconfigure locales
-COPY ./CONTENT /app/CONTENT
 COPY ./create_content_for_web /app/create_content_for_web
+#COPY ./CONTENT /app/CONTENT
 #COPY ./Ниокр-Актуальные_документы /app/Ниокр-Актуальные_документы
 #COPY ./Ниокр-Документы_по_обозначениям /app/Ниокр-Документы_по_обозначениям
 #COPY ./Ниокр-Извещения_об_изменении /app/Ниокр-Извещения_об_изменении
 #COPY ./Ниокр-Неактуальные_документы /app/Ниокр-Неактуальные_документы
-WORKDIR /app
-RUN cd /app/create_content_for_web/build && rm CMakeCache.txt && cmake -DCMAKE_BUILD_TYPE=Release .. && make -j8 all
 WORKDIR /app/create_content_for_web/build
+RUN rm CMakeCache.txt && cmake -DCMAKE_BUILD_TYPE=Release .. && make -j8 all
 CMD ["./createWebContent"]

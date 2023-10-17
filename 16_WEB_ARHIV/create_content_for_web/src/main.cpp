@@ -1,4 +1,13 @@
 ﻿#include "main.h"
+#if 0
+docker run -it --rm -d -p 8080:80 --name web -v ~/SOFT/Github/GIT/16_WEB_ARHIV/CONTENT:/usr/share/nginx/html nginx
+docker build -t  createwebcontent ~/SOFT/Github/GIT/16_WEB_ARHIV
+docker run --name=createwebcontent --rm -v ~/SOFT/Github/GIT/16_WEB_ARHIV/CONTENT:/app/CONTENT -v ~/SOFT/Github/GIT/16_WEB_ARHIV/Ниокр-Актуальные_документы:/app/Ниокр-Актуальные_документы -v ~/SOFT/Github/GIT/16_WEB_ARHIV/Ниокр-Документы_по_обозначениям:/app/Ниокр-Документы_по_обозначениям -v ~/SOFT/Github/GIT/16_WEB_ARHIV/Ниокр-Извещения_об_изменении:/app/Ниокр-Извещения_об_изменении -v ~/SOFT/Github/GIT/16_WEB_ARHIV/Ниокр-Неактуальные_документы:/app/Ниокр-Неактуальные_документы createwebcontent
+
+docker rm -v $(docker ps -aq -f status=exited)
+docker rm -v $(docker ps -aq -f status=created)
+docker image rm --force createwebcontent
+#endif
 string WEB_content{"../../CONTENT/content_for_web/"};
 uint numContent{0};
 
