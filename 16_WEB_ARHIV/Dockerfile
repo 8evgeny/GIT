@@ -1,4 +1,11 @@
-FROM gcc:latest
+FROM ubuntu:latest
+#не задавать вопросов
+ENV DEBIAN_FRONTEND noninteractive.
+RUN apt-get update && apt-get upgrade -y && apt-get install -y language-pack-ru qtbase5-dev cmake p7zip-full build-essential qrencode
+ENV LANGUAGE ru_RU.UTF-8
+ENV LANG ru_RU.UTF-8
+ENV LC_ALL ru_RU.UTF-8
+RUN locale-gen ru_RU.UTF-8 && dpkg-reconfigure locales
 COPY ./CONTENT /app/CONTENT
 COPY ./create_content_for_web /app/create_content_for_web
 #COPY ./Ниокр-Актуальные_документы /app/Ниокр-Актуальные_документы
@@ -6,6 +13,6 @@ COPY ./create_content_for_web /app/create_content_for_web
 #COPY ./Ниокр-Извещения_об_изменении /app/Ниокр-Извещения_об_изменении
 #COPY ./Ниокр-Неактуальные_документы /app/Ниокр-Неактуальные_документы
 WORKDIR /app
-RUN apt-get update && apt-get install -y qtbase5-dev cmake p7zip-full gdb && cd /app/create_content_for_web/build && rm CMakeCache.txt && cmake -DCMAKE_BUILD_TYPE=Release .. && make -j8 all
+RUN cd /app/create_content_for_web/build && rm CMakeCache.txt && cmake -DCMAKE_BUILD_TYPE=Release .. && make -j8 all
 WORKDIR /app/create_content_for_web/build
 CMD ["./createWebContent"]
