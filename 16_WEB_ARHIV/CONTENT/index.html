@@ -5,16 +5,46 @@
     <title>Архив документации НИОКР</title>
 </head>
     <style type="text/css">
-    table thead {background: #333; color: #fff;}
-    /*head scrolling for long tables*/
-    table.headscroll {
-    display: none;
-    position: fixed;
-    top: 0;
-    margin: 0;
-    z-index: 1;
+    * {
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
     }
-    /*end head scrolling for long tables*/
+
+    .table-fixed-head {
+      width: 100%;
+      table-layout: fixed;
+      border-collapse: collapse;
+      height: 100vh;
+    }
+
+    .table-fixed-head th,
+    .table-fixed-head td {
+      padding: 5px;
+      text-align: center;
+      width: 33.333vw;
+    }
+
+    .table-fixed-head thead {
+      background-color: #333;
+      color: #FDFDFD;
+    }
+
+    .table-fixed-head thead tr {
+      display: block;
+      position: relative;
+    }
+
+    .table-fixed-head tbody {
+      display: block;
+      overflow: auto;
+      width: 100%;
+      height: calc(100vh - 30px);
+    }
+
+    .table-fixed-head tbody tr:nth-child(even) {
+      background-color: #DDD;
+    }
     </style>
 <body>
 <h1 align="center" style="color:black"> АРХИВ КОНСТРУКТОРСКОЙ ДОКУМЕНТАЦИИ</h1>
@@ -25,7 +55,7 @@
 <div class="container"  style="text-align: center;">
 <iframe id="my_iframe" style="display:none;"></iframe>	
 
-<table id="table" ></table></div>
+<table id="table" class="table-fixed-head"></table></div>
 
 <script src="table.js" ></script>
 </body>
