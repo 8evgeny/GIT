@@ -9,11 +9,6 @@ RUN locale-gen ru_RU.UTF-8 && dpkg-reconfigure locales && rm -rf /etc/localtime 
 RUN groupadd -r evg && useradd -r -g evg evg
 USER evg
 COPY --chown=evg:evg ./create_content_for_web /home/evg/create_content_for_web
-#COPY ./CONTENT /app/CONTENT
-#COPY ./Ниокр-Актуальные_документы /app/Ниокр-Актуальные_документы
-#COPY ./Ниокр-Документы_по_обозначениям /app/Ниокр-Документы_по_обозначениям
-#COPY ./Ниокр-Извещения_об_изменении /app/Ниокр-Извещения_об_изменении
-#COPY ./Ниокр-Неактуальные_документы /app/Ниокр-Неактуальные_документы
 WORKDIR /home/evg/create_content_for_web/build
 RUN rm CMakeCache.txt && cmake -DCMAKE_BUILD_TYPE=Release .. && make -j8 all
 CMD ["./createWebContent"]
