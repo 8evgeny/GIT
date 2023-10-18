@@ -25,7 +25,6 @@ void createQR(string nameQR, string originText)
     system (CMD.c_str());
 }
 
-
 string createStringForQr (string oboznachenieIkodDokumenta,
                           string changeNumStr,
                           string changeNotificationNum,
@@ -340,9 +339,6 @@ createQR(oboznachenieIkodDokumenta, stringForQr);
 
 return true;
 }
-
-
-
 
 const quint32 CRC32Table[256] =
 {
