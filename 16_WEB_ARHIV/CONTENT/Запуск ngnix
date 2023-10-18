@@ -1,0 +1,8 @@
+https://www.docker.com/blog/how-to-use-the-official-nginx-docker-image/
+docker run -it --rm -d -p 8080:80 --name web nginx
+http://localhost:8080
+
+By default, Nginx looks in the /usr/share/nginx/html directory inside of the container for files to serve. We need to get our html files into this directory. A fairly simple way to do this is use a mounted volume. With mounted volumes, we are able to link a directory on our local machine and map that directory into our running container.
+Let’s create a custom html page and then serve that using the nginx image.
+
+docker run -it --rm -d -p 8080:80 --name web -v ~/SOFT/Github/GIT/16_WEB_ARHIV/CONTENT:/usr/share/nginx/html nginx
