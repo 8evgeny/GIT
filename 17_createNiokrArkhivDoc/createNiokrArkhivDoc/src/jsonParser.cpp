@@ -1,5 +1,5 @@
 #include "main.h"
-
+extern map<string,string> allData;
 ostream& operator<<(ostream &os, const chrono::time_point<chrono::system_clock> &t){
     const auto tt   (chrono::system_clock::to_time_t(t));
     const auto loct (localtime(&tt));
@@ -131,6 +131,7 @@ QRegExp iulStr("^"
                 }else return false;
                 if (requisites.HasMember("Обозначение и код документа")){
                     oboznachenieIkodDokumenta = requisites["Обозначение и код документа"].GetString();
+                    allData["oboznachenieIkodDokumenta"] = oboznachenieIkodDokumenta;
                     if(blankStr.exactMatch(QString::fromStdString(oboznachenieIkodDokumenta))) return false;
       //вычисляем CRC32 PDF файла
       string appPdf = oboznachenieIkodDokumenta;

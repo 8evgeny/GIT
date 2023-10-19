@@ -1,4 +1,10 @@
 ﻿#include "main.h"
+#include <curses.h>
+#include <stdio.h>
+#include <sys/select.h>
+#include <termios.h>
+#include <stropts.h>
+#include <unistd.h>
 #if 0
 Деплой windows
 cd C:\Qt5\5.15.2\mingw81_64\bin
@@ -10,6 +16,10 @@ C:\w64devkit-master\w64devkit\bin  в path
 Скопировать в папку с exe 2 файла  7z.exe  7z.dll
 Или прописать путь к 7z
  #endif
+map<string,string> allData{};
+
+
+
 int main(int argc, char *argv[])
 {
     if (argc == 2) {
@@ -59,7 +69,14 @@ int main(int argc, char *argv[])
             }
         }
     }
+//Тут второй этап - ответы на вопросы
+    cout << "в ИУЛ в графе Обозначение документа содержится надпись " << allData["oboznachenieIkodDokumenta"] << " ? . . . . . " ;
+
+ initscr();
+char s;
+int c = getch();
 
 
+return 0;
 
 }
