@@ -101,7 +101,7 @@ function createTable() {
                             td.appendChild(document.createTextNode(`Значение контрольной суммы подлинника`));
                             break;
                         case 7:
-                            td.style.width = '250px';
+                            td.style.width = '270px';
                             td.appendChild(document.createTextNode(`Информационно - удостоверяющий лист`));
                             break;
                     }
@@ -163,7 +163,7 @@ function createTable() {
                             td.appendChild(document.createTextNode(`${rowData[5]}`));
                             break;
                         case 7:
-                            td.style.width = '250px';
+                            td.style.width = '270px';
                             td.style.textAlign = "left";
                             let orderList = document.createElement('a');
                             let linkOrder = document.createTextNode(rowData[6]);
