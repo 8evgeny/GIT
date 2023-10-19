@@ -1,12 +1,6 @@
 ﻿#include "main.h"
 #include <curses.h>
 #include <ncursesw/ncurses.h>
-#include <iconv.h>
-#include <stdio.h>
-#include <sys/select.h>
-#include <termios.h>
-#include <stropts.h>
-#include <unistd.h>
 #if 0
 Деплой windows
 cd C:\Qt5\5.15.2\mingw81_64\bin
