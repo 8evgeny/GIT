@@ -289,6 +289,12 @@ QRegExp iulStr("^"
                 else { cout << "  \t\t(Контрольные суммы содержательных частей не совпадают !!!)"<<endl;
                     return false;}
 
+                //Проверяем непустое содержимое папки Source (если пусто то контрольные суммы - одинаковые)
+                if (controlSummOrigin == controlSummParts){
+                    cout << "Отсутствуют файлы в папке Source!!! "<<endl;
+                    return false;
+                }
+
                 }else return false;
                 if (serviceData.HasMember("Программное обеспечение для редактирования исходных данных")){
                     software = serviceData["Программное обеспечение для редактирования исходных данных"].GetString();
