@@ -13,7 +13,7 @@ C:\w64devkit-master\w64devkit\bin  в path
 int main(int argc, char *argv[])
 {
     if (argc == 2) {
-        cout << string{"Передается в качестве параметра путь: "}.append(argv[1]) << endl;
+        cout << string{"Передается в качестве параметра путь к папке: "}.append(argv[1]) << endl<< endl;
     }
     else {
         cout << "Ошибка запуска. Необходимо передать путь к папке с одной единицей хранения!" << endl;
@@ -21,9 +21,8 @@ int main(int argc, char *argv[])
     }
     const path archiv_path{ argv[1] };
     const unordered_set<string> pe_extensions{ ".json" };
-    cout << endl <<"Patch for json search: "<<archiv_path << endl;
+//    cout << endl <<"Patch for json search: "<<archiv_path << endl;
     vector<string> vectorJsonFiles;
-    vector<string> errorJsonPatch;
 
     auto iterator = recursive_directory_iterator{ archiv_path, directory_options::skip_permission_denied };
     for(const auto& entry : iterator) {
@@ -44,23 +43,23 @@ int main(int argc, char *argv[])
     int error = 0;
     if (vectorJsonFiles.size()>0)
     {
+        if (vectorJsonFiles.size()>1)
+        {
+            cout << "ОШИБКА - в переданной папке более одного json файла!!!" << endl;
+            return 0;
+        }
         int num = 0;
         for (auto & patchJsonFile : vectorJsonFiles){
             ++num;
-            cout << endl<< num << ": "<< patchJsonFile << endl;
+//            cout << endl<< num << ": "<< patchJsonFile << endl;
             if(!parseJSON(patchJsonFile)) //парсинг одного файла JSON
             {
                 cout << "ОШИБКА JSON ФАЙЛА" << endl;
-                ++error;
-                errorJsonPatch.push_back(patchJsonFile);
+                return 0;
             }
         }
     }
 
-    cout<< endl<< "Всего разобрано json файлов: " << vectorJsonFiles.size()
-       << endl << "Ошибок разбора: " << error<< endl;
-    for (auto & patchJsonError : errorJsonPatch)
-        cout <<  patchJsonError << endl;
 
 
 }

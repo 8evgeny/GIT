@@ -117,17 +117,17 @@ QRegExp iulStr("^"
         {
             if (document.HasMember("Реквизиты документа по ГОСТ 2.104"))
             {
-                cout << "   Реквизиты документа по ГОСТ 2.104:\n";
+//                cout << "   Реквизиты документа по ГОСТ 2.104:\n";
                 const   Value & requisites = document["Реквизиты документа по ГОСТ 2.104"];
                 if (requisites.HasMember("Наименование изделия")){
                     naimenovanieIzdeliya = requisites["Наименование изделия"].GetString();
                     if(blankStr.exactMatch(QString::fromStdString(naimenovanieIzdeliya))) return false;
-                    cout << "\tНаименование изделия: " << naimenovanieIzdeliya << "\n";
+//                    cout << "\tНаименование изделия: " << naimenovanieIzdeliya << "\n";
                 }else return false;
                 if (requisites.HasMember("Наименование документа")){
                     naimenovanieDokumenta = requisites["Наименование документа"].GetString();
                     if(blankStr.exactMatch(QString::fromStdString(naimenovanieDokumenta))) return false;
-                    cout << "\tНаименование документа: " << naimenovanieDokumenta << "\n";
+//                    cout << "\tНаименование документа: " << naimenovanieDokumenta << "\n";
                 }else return false;
                 if (requisites.HasMember("Обозначение и код документа")){
                     oboznachenieIkodDokumenta = requisites["Обозначение и код документа"].GetString();
@@ -137,20 +137,20 @@ QRegExp iulStr("^"
       string chopped = patchToFile;
       QString namePDF = QString::fromStdString(chopped).chopped(10)+QString("Contents/")+QString::fromStdString(appPdf.append(".PDF"));
       crc32 = CRC32(namePDF);
-      cout << "\tОбозначение и код документа: " << oboznachenieIkodDokumenta ;
+//      cout << "\tОбозначение и код документа: " << oboznachenieIkodDokumenta ;
       if(crc32 == -1)
       {
           printf("                      \tОтсутствует PDF файл  %s.PDF !!!\n", oboznachenieIkodDokumenta.c_str());
           return false;
       }
-      printf("                      \t(посчитан CRC32: %.8X)\n", crc32);
+//      printf("                      \t(посчитан CRC32: %.8X)\n", crc32);
 
 
       //вычисляем CRC32 папки Contents
       string chopped1 = patchToFile;
       QString nameDirectory = QString::fromStdString(chopped1).chopped(10)+QString("Contents");
       crc32Contents = CRC32Contents(nameDirectory);
-      printf("                      \t\t\t\t\t\t\t\t(посчитан CRC32 папки Contents: %s)\n", crc32Contents.c_str());
+//      printf("                      \t\t\t\t\t\t\t\t(посчитан CRC32 папки Contents: %s)\n", crc32Contents.c_str());
 
                 }else return false;
                 if (requisites.HasMember("Общее количество листов документа")){
@@ -160,20 +160,20 @@ QRegExp iulStr("^"
                     if (type == rapidjson::kNumberType)
                        numberSheets =  requisites["Общее количество листов документа"].GetInt();
                     if(!number3dig.exactMatch(QString::number(numberSheets))) return false;
-                    cout << "\tОбщее количество листов документа: " << numberSheets << "\n";
+//                    cout << "\tОбщее количество листов документа: " << numberSheets << "\n";
                 }else return false;
                 if (requisites.HasMember("Наименование или код организации")){
                     company = requisites["Наименование или код организации"].GetString();
                     if(company != "ООО «Группа индустриальных технологий»") return false;
-                    cout << "\tНаименование или код организации: " << company << "\n";
+//                    cout << "\tНаименование или код организации: " << company << "\n";
                 }else return false;
                 if (requisites.HasMember("Сведения о подписании документа")){
-                    cout << "\tСведения о подписании документа:\n";
+//                    cout << "\tСведения о подписании документа:\n";
                     const   Value & infoAboutSigning = requisites["Сведения о подписании документа"];
                     if (infoAboutSigning.HasMember("Разработал")){
                         creater = infoAboutSigning["Разработал"].GetString();
                         if(blankStr.exactMatch(QString::fromStdString(creater))) return false;
-                        cout << "\t\tРазработал: " << creater << "\n";
+//                        cout << "\t\tРазработал: " << creater << "\n";
                     }else return false;
                     if (infoAboutSigning.HasMember("Дата")){
                         createdDataStr = infoAboutSigning["Дата"].GetString();
@@ -182,12 +182,12 @@ QRegExp iulStr("^"
                         tm tm = {};
                         ss >> get_time(&tm, "%Y-%m-%d");
                         createdData = chrono::system_clock::from_time_t(mktime(&tm));
-                        cout << "\t\tДата: " << createdData << "\n";
+//                        cout << "\t\tДата: " << createdData << "\n";
                     }else return false;
                     if (infoAboutSigning.HasMember("Информационно-удостоверяющий лист")){
                         infoOrderList = infoAboutSigning["Информационно-удостоверяющий лист"].GetString();
                         if(!iulStr.exactMatch(QString::fromStdString(infoOrderList))) return false;
-                        cout << "\t\tИнформационно-удостоверяющий лист: " << infoOrderList << "\n";
+//                        cout << "\t\tИнформационно-удостоверяющий лист: " << infoOrderList << "\n";
                     }else return false;
                 }else return false;
                 if (requisites.HasMember("Номер изменения")){
@@ -197,13 +197,13 @@ QRegExp iulStr("^"
                     if (type == rapidjson::kNumberType)
                         changeNum =  requisites["Номер изменения"].GetInt();
                         if(!number2dig.exactMatch(QString::number(changeNum))) return false;
-                    cout << "\tНомер изменения: " << changeNum << "\n";
+//                    cout << "\tНомер изменения: " << changeNum << "\n";
                     changeNumStr = to_string(changeNum);
                 }else return false;
                 if (requisites.HasMember("Номер извещения об изменении")){
                     changeNotificationNum = requisites["Номер извещения об изменении"].GetString();
                     if(blankStr.exactMatch(QString::fromStdString(changeNotificationNum))) return false;
-                    cout << "\tНомер извещения об изменении: " << changeNotificationNum << "\n";
+//                    cout << "\tНомер извещения об изменении: " << changeNotificationNum << "\n";
                 }else return false;
                 if (requisites.HasMember("Дата извещения об изменении")){
                     notificationDataStr = requisites["Дата извещения об изменении"].GetString();
@@ -212,12 +212,12 @@ QRegExp iulStr("^"
                     tm tm = {};
                     ss >> get_time(&tm, "%Y-%m-%d");
                     notificationData = chrono::system_clock::from_time_t(mktime(&tm));
-                    cout << "\tДата извещения об изменении: " << notificationData << "\n";
+//                    cout << "\tДата извещения об изменении: " << notificationData << "\n";
                 }else return false;
                 if (requisites.HasMember("Инвентарный номер подлинника")){
                     inventoryNumOriginal = requisites["Инвентарный номер подлинника"].GetString();
                     if(blankStr.exactMatch(QString::fromStdString(inventoryNumOriginal))) return false;
-                    cout << "\tИнвентарный номер подлинника: " << inventoryNumOriginal << "\n";
+//                    cout << "\tИнвентарный номер подлинника: " << inventoryNumOriginal << "\n";
                 }else return false;
                 if (requisites.HasMember("Дата приемки на хранение")){
                     storageDataStr = requisites["Дата приемки на хранение"].GetString();
@@ -226,14 +226,14 @@ QRegExp iulStr("^"
                     tm tm = {};
                     ss >> get_time(&tm, "%Y-%m-%d");
                     storageData = chrono::system_clock::from_time_t(mktime(&tm));
-                    cout << "\tДата приемки на хранение: " << storageData << "\n";
+//                    cout << "\tДата приемки на хранение: " << storageData << "\n";
                 }else return false;
                 if (requisites.HasMember("Литера")){
                     litera = requisites["Литера"].GetString();
-                    if (litera == "")
-                        cout << "\tЛитера: " << "\"\"" << "\n";
-                    else
-                        cout << "\tЛитера: " << litera << "\n";
+//                    if (litera == "")
+//                        cout << "\tЛитера: " << "\"\"" << "\n";
+//                    else
+//                        cout << "\tЛитера: " << litera << "\n";
                 }else return false;
                 if (requisites.HasMember("Код документа в зависимости от характера использования")){
                     auto type = requisites["Код документа в зависимости от характера использования"].GetType();
@@ -242,13 +242,13 @@ QRegExp iulStr("^"
                     if (type == rapidjson::kNumberType)
                         dokumentCode =  requisites["Код документа в зависимости от характера использования"].GetInt();
                     if(!number2dig.exactMatch(QString::number(dokumentCode))) return false;
-                    cout << "\tКод документа в зависимости от характера использования: " << dokumentCode << "\n";
+//                    cout << "\tКод документа в зависимости от характера использования: " << dokumentCode << "\n";
                 }
             }//Реквизиты документа
             else return false;
 
             if (document.HasMember("Сервисные данные")){
-                cout << "   Сервисные данные:\n";
+//                cout << "   Сервисные данные:\n";
                 const   Value & serviceData = document["Сервисные данные"];
                 if (serviceData.HasMember("Версия формата реквизитной части")){
                     auto type = serviceData["Версия формата реквизитной части"].GetType();
@@ -257,12 +257,12 @@ QRegExp iulStr("^"
                     if (type == rapidjson::kNumberType)
                         version =  serviceData["Версия формата реквизитной части"].GetInt();
                     if(!number2dig.exactMatch(QString::number(version))) return false;
-                    cout << "\tВерсия формата реквизитной части: " << version << "\n";
+//                    cout << "\tВерсия формата реквизитной части: " << version << "\n";
                 }else return false;
                 if (serviceData.HasMember("Алгоритм расчета контрольной суммы")){
                     algorithm = serviceData["Алгоритм расчета контрольной суммы"].GetString();
                     if(blankStr.exactMatch(QString::fromStdString(algorithm))) return false;
-                    cout << "\tАлгоритм расчета контрольной суммы: " << algorithm << "\n";
+//                    cout << "\tАлгоритм расчета контрольной суммы: " << algorithm << "\n";
                 }else return false;
                 if (serviceData.HasMember("Значение контрольной суммы подлинника")){
                     controlSummOrigin = serviceData["Значение контрольной суммы подлинника"].GetString();
@@ -272,27 +272,35 @@ QRegExp iulStr("^"
                     char buf[20];
                     sprintf (buf,"%.8X", crc32);
                     string calculateCRC32{buf};
-                    cout << "\tЗначение контрольной суммы подлинника: " << controlSummOrigin ;
+//                    cout << "\tЗначение контрольной суммы подлинника: " << controlSummOrigin ;
                     if(controlSummOrigin == calculateCRC32) {
-                        cout << "                  \t(Контрольные суммы совпадают)"<<endl; }
-                    else { cout << "                  \t(Контрольные суммы не совпадают !!!)"<<endl;
-                        return false;}
+//                        cout << "                  \t(Контрольные суммы совпадают)"<<endl;
+                    }
+                    else {
+//                        cout << "                  \t(Контрольные суммы не совпадают !!!)"<<endl;
+                        return false;
+                    }
 
                 }else return false;
                 if (serviceData.HasMember("Значение контрольной суммы содержательных частей")){
                 controlSummParts = serviceData["Значение контрольной суммы содержательных частей"].GetString();
                 if(!crc32Str.exactMatch(QString::fromStdString(controlSummParts))) return false;
-                cout << "\tЗначение контрольной суммы содержательных частей: " << controlSummParts ;
+//                cout << "\tЗначение контрольной суммы содержательных частей: " << controlSummParts ;
                 if(controlSummParts == crc32Contents) {
-                    cout << "  \t\t(Контрольные суммы содержательных частей совпадают)"<<endl; }
-                else { cout << "  \t\t(Контрольные суммы содержательных частей не совпадают !!!)"<<endl;
+//                    cout << "  \t\t(Контрольные суммы содержательных частей совпадают)"<<endl;
+                }
+                else {
+//                    cout << "  \t\t(Контрольные суммы содержательных частей не совпадают !!!)"<<endl;
                     return false;}
+
+                if (controlSummOrigin == controlSummParts) //(проверка Sources на пустоту)
+                    return false;
 
                 }else return false;
                 if (serviceData.HasMember("Программное обеспечение для редактирования исходных данных")){
                     software = serviceData["Программное обеспечение для редактирования исходных данных"].GetString();
                     if(!softStr.exactMatch(QString::fromStdString(software))) return false;
-                    cout << "\tПрограммное обеспечение для редактирования исходных данных: " << software << "\n";
+//                    cout << "\tПрограммное обеспечение для редактирования исходных данных: " << software << "\n";
                 }else return false;
                 if (serviceData.HasMember("Объем в листах А4")){
                     auto type = serviceData["Объем в листах А4"].GetType();
@@ -301,21 +309,21 @@ QRegExp iulStr("^"
                     if (type == rapidjson::kNumberType)
                         volumeInSheets =  serviceData["Объем в листах А4"].GetInt();
                     if(!number3dig.exactMatch(QString::number(volumeInSheets))) return false;
-                    cout << "\tОбъем в листах А4: " << volumeInSheets << "\n";
+//                    cout << "\tОбъем в листах А4: " << volumeInSheets << "\n";
                 }else return false;
                 if (serviceData.HasMember("Документ действителен")){
                     auto type = serviceData["Документ действителен"].GetType();
                     if (type == rapidjson::kTrueType || rapidjson::kFalseType)
                        isValid = serviceData["Документ действителен"].GetBool();
                     else return false;
-                    cout << "\tДокумент действителен: " << boolalpha << isValid << "\n";
+//                    cout << "\tДокумент действителен: " << boolalpha << isValid << "\n";
                 }else return false;
                 if (serviceData.HasMember("Теги")){
                     tags = serviceData["Теги"].GetString();
-                    if (tags == "")
-                        cout << "\tТеги: " << "\"\"" << "\n";
-                    else
-                        cout << "\tТеги: " << tags << "\n\n";
+//                    if (tags == "")
+//                        cout << "\tТеги: " << "\"\"" << "\n";
+//                    else
+//                        cout << "\tТеги: " << tags << "\n\n";
                 }else return false;
             } else return false;//Сервисные данные
         }//document.IsObject()
@@ -336,7 +344,7 @@ string stringForQr = createStringForQr (oboznachenieIkodDokumenta,
                                         );
 
 createQR(oboznachenieIkodDokumenta, stringForQr);
-
+cout<< "Проверка json файла ... OK" <<endl;
 return true;
 }
 
