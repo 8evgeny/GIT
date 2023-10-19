@@ -5,20 +5,27 @@
     <title>Архив документации НИОКР</title>
 </head>
     <style type="text/css">
-
+    .sticky {
+        position: sticky;
+        top: 0;
+    }
 
 
 
     </style>
 <body>
+<section class="sticky">
     <h1 align="center"> АРХИВ КОНСТРУКТОРСКОЙ ДОКУМЕНТАЦИИ</h1>
       <script src="text_from_file.js" ></script>
       <h2 align="center"><script>loadFile('content_for_web/date');</script><div id="main"></div></h2>
-    <div>
+</section>
+<section>
+    <div >
         <table id="table" class="table-fixed-head"></table>
     </div>
 
     <script src="table.js" ></script>
+</section>
 </body>
 </html>
 
