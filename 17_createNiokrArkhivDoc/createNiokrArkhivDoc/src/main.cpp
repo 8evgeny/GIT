@@ -15,7 +15,7 @@ C:\w64devkit-master\w64devkit\bin  в path
 ncurses
 sudo apt-get install libncurses5-dev libncursesw5-dev
 https://code-live.ru/post/terminal-mode-management-ncurses/
-
+https://ru.stackoverflow.com/questions/1263580/ncurses-ввод-и-вывод-русского-символа-на-экран
  #endif
 map<string,string> allData{};
 
@@ -31,40 +31,51 @@ bool enter(string qw)
 
     bool ret = true;
     bool ex = false;
+    wint_t c;
     while ( !ex )
     {
-        int ch = getch();
 
-        switch ( ch )
-        {
-        case ERR:
-            printw("Нажмитет уже наконец y  или  n !!!\n");
-            break;
-        case 'y':
+        int rc = get_wch(&c);
+        if (rc==OK) {
+          mvprintw(1, 0, "Ответ: %lc\n", c);
+        }
+
+        if ((c == L'д')||(c == 'y')){
             ex = true;
-            break;
-        case 'n':
+            ret = true;
+        }
+        if (c == 'n'){
             ex = true;
             ret = false;
-            break;
-        default:  //Если всё нормально, выводим код нажатой клавиши
-            printw("Введите y  или  n !!!\n");
-            break;
-//Тут задержку поставить
         }
+
+
+    }
 
         refresh(); //Выводим на настоящий экран
 
-    }
        endwin();
  return ret;
+}
+
+bool answers(){
+    if (!enter(string("1. В ИУЛ в графе Обозначение документа содержится надпись ").append(allData["oboznachenieIkodDokumenta"]).append(" ? \n")))
+        return false;
+     if (!enter(string("2. В ИУЛ в графе Наименование изделия содержится надпись ").append(allData["naimenovanieIzdeliya"]).append(" ? \n")))
+        return false;
+    if (!enter(string("3. В ИУЛ в графе Наименование документа содержится надпись ").append(allData["naimenovanieDokumenta"]).append(" ? \n")))
+        return false;
+     if (!enter(string("4. В ИУЛ в графе Номер последнего изменения указан номер ").append(allData["changeNumStr"]).append(" ? \n")))
+        return false;
+     return true;
 }
 
 int main(int argc, char *argv[])
 {
     setlocale (LC_ALL,""); //для ncurses
+    system("clear");
     if (argc == 2) {
-        cout << string{"Передается в качестве параметра путь к папке: "}.append(argv[1]) << endl<< endl;
+        cout << string{"Передан в качестве параметра путь к папке: "}.append(argv[1]) << endl<< endl;
     }
     else {
         cout << "Ошибка запуска. Необходимо передать путь к папке с одной единицей хранения!" << endl;
@@ -111,23 +122,14 @@ int main(int argc, char *argv[])
         }
     }
 //Тут второй этап - ответы на вопросы
+    if (!answers()){
+        cout << "\nИсправьте ИУЛ !!!\n" <<endl;
+        return 0;
+    }
+//Сохраняем лог ответов
 
-    if (!enter(string("1. В ИУЛ в графе Обозначение документа содержится надпись ").append(allData["oboznachenieIkodDokumenta"]).append(" ? \n"))) {
-        cout << "\nИсправьте ИУЛ !!!\n" <<endl;
-        return -1;
-    }
-    if (!enter(string("2. В ИУЛ в графе Наименование изделия содержится надпись ").append(allData["naimenovanieIzdeliya"]).append(" ? \n"))) {
-        cout << "\nИсправьте ИУЛ !!!\n" <<endl;
-        return -1;
-    }
-    if (!enter(string("3. В ИУЛ в графе Наименование документа содержится надпись ").append(allData["naimenovanieDokumenta"]).append(" ? \n"))) {
-        cout << "\nИсправьте ИУЛ !!!\n" <<endl;
-        return -1;
-    }
-    if (!enter(string("4. В ИУЛ в графе Номер последнего изменения указан номер ").append(allData["changeNumStr"]).append(" ? \n"))) {
-        cout << "\nИсправьте ИУЛ !!!\n" <<endl;
-        return -1;
-    }
+
+
 
 return 0;
 
