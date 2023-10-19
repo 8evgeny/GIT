@@ -27,7 +27,6 @@ string createHTML(vector <string> & content, vector<pair<string,string>> & oldZi
 //    content.push_back(changeNotificationNum);     16
 //    content.push_back(notificationDataStr);       17
 
-    QString izdelie = QString::fromStdString(content[1]);
 
 string html =
     "<!doctype html>"
@@ -54,7 +53,7 @@ string html =
     "}"
     "</style>"
     "<body>"
-    "<h2 align='center' style='color:black'>" + izdelie.toUpper().toStdString() + "</h2>"
+    "<h2 align='center' style='color:black'>" + QString::fromStdString(content[1]).toUpper().toStdString() + "</h2>"
     "<h3 align='center'>" + content[2] + "</h3>"
     "<h3 align='center'><a href=" + content[0] + ".PDF>" + content[0] + "</a></h3>"
     "<table width='40%'>"                                          //cellpadding='4' cellspacing='0'
