@@ -20,6 +20,6 @@ find_package(QT NAMES Qt5 COMPONENTS Core REQUIRED)
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Core REQUIRED)
 file(GLOB src src/*.cpp)
 add_executable(${PROJECT_NAME} ${src})
-target_link_libraries(${PROJECT_NAME} Qt${QT_VERSION_MAJOR}::Core -lncurses)
+target_link_libraries(${PROJECT_NAME} Qt${QT_VERSION_MAJOR}::Core -lncursesw)
 add_subdirectory(rapidjson)
 

@@ -121,11 +121,13 @@ QRegExp iulStr("^"
                 const   Value & requisites = document["Реквизиты документа по ГОСТ 2.104"];
                 if (requisites.HasMember("Наименование изделия")){
                     naimenovanieIzdeliya = requisites["Наименование изделия"].GetString();
+                    allData["naimenovanieIzdeliya"] = naimenovanieIzdeliya;
                     if(blankStr.exactMatch(QString::fromStdString(naimenovanieIzdeliya))) return false;
 //                    cout << "\tНаименование изделия: " << naimenovanieIzdeliya << "\n";
                 }else return false;
                 if (requisites.HasMember("Наименование документа")){
                     naimenovanieDokumenta = requisites["Наименование документа"].GetString();
+                    allData["naimenovanieDokumenta"] = naimenovanieDokumenta;
                     if(blankStr.exactMatch(QString::fromStdString(naimenovanieDokumenta))) return false;
 //                    cout << "\tНаименование документа: " << naimenovanieDokumenta << "\n";
                 }else return false;
@@ -200,6 +202,7 @@ QRegExp iulStr("^"
                         if(!number2dig.exactMatch(QString::number(changeNum))) return false;
 //                    cout << "\tНомер изменения: " << changeNum << "\n";
                     changeNumStr = to_string(changeNum);
+                    allData["changeNumStr"] = changeNumStr;
                 }else return false;
                 if (requisites.HasMember("Номер извещения об изменении")){
                     changeNotificationNum = requisites["Номер извещения об изменении"].GetString();

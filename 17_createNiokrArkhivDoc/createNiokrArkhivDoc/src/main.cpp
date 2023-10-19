@@ -1,5 +1,7 @@
 ﻿#include "main.h"
 #include <curses.h>
+#include <ncursesw/ncurses.h>
+#include <iconv.h>
 #include <stdio.h>
 #include <sys/select.h>
 #include <termios.h>
@@ -15,13 +17,58 @@ createNiokrArkhivDoc.exe C:\Users\Professional\Desktop\temp_arсhive
 C:\w64devkit-master\w64devkit\bin  в path
 Скопировать в папку с exe 2 файла  7z.exe  7z.dll
 Или прописать путь к 7z
+
+ncurses
+sudo apt-get install libncurses5-dev libncursesw5-dev
+https://code-live.ru/post/terminal-mode-management-ncurses/
+
  #endif
 map<string,string> allData{};
 
+bool enter(string qw)
+{
+    initscr();
+    printw(qw.c_str());
+    initscr();
+    noecho();
+//    printw("Введите y  или  n !!!\n");
 
+    halfdelay(100);         //Устанавливаем ограничение по времени ожидания getch() в 10 сек
+
+    bool ret = true;
+    bool ex = false;
+    while ( !ex )
+    {
+        int ch = getch();
+
+        switch ( ch )
+        {
+        case ERR:
+            printw("Нажмитет уже наконец y  или  n !!!\n");
+            break;
+        case 'y':
+            ex = true;
+            break;
+        case 'n':
+            ex = true;
+            ret = false;
+            break;
+        default:  //Если всё нормально, выводим код нажатой клавиши
+            printw("Введите y  или  n !!!\n");
+            break;
+//Тут задержку поставить
+        }
+
+        refresh(); //Выводим на настоящий экран
+
+    }
+       endwin();
+ return ret;
+}
 
 int main(int argc, char *argv[])
 {
+    setlocale (LC_ALL,""); //для ncurses
     if (argc == 2) {
         cout << string{"Передается в качестве параметра путь к папке: "}.append(argv[1]) << endl<< endl;
     }
@@ -70,12 +117,23 @@ int main(int argc, char *argv[])
         }
     }
 //Тут второй этап - ответы на вопросы
-    cout << "в ИУЛ в графе Обозначение документа содержится надпись " << allData["oboznachenieIkodDokumenta"] << " ? . . . . . " ;
 
- initscr();
-char s;
-int c = getch();
-
+    if (!enter(string("1. В ИУЛ в графе Обозначение документа содержится надпись ").append(allData["oboznachenieIkodDokumenta"]).append(" ? \n"))) {
+        cout << "\nИсправьте ИУЛ !!!\n" <<endl;
+        return -1;
+    }
+    if (!enter(string("2. В ИУЛ в графе Наименование изделия содержится надпись ").append(allData["naimenovanieIzdeliya"]).append(" ? \n"))) {
+        cout << "\nИсправьте ИУЛ !!!\n" <<endl;
+        return -1;
+    }
+    if (!enter(string("3. В ИУЛ в графе Наименование документа содержится надпись ").append(allData["naimenovanieDokumenta"]).append(" ? \n"))) {
+        cout << "\nИсправьте ИУЛ !!!\n" <<endl;
+        return -1;
+    }
+    if (!enter(string("4. В ИУЛ в графе Номер последнего изменения указан номер ").append(allData["changeNumStr"]).append(" ? \n"))) {
+        cout << "\nИсправьте ИУЛ !!!\n" <<endl;
+        return -1;
+    }
 
 return 0;
 
