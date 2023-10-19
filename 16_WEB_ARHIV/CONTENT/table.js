@@ -60,41 +60,48 @@ function createTable() {
 
             const tr = tbl.insertRow();
 
-            if (i !== 0) tr.style.height = '40px';
-            else tr.style.height = '80px';
             for (let j = 0; j < 8; j++) {
-                if (i === 0) {
+                if (i === 0) { // Шапка таблицы
                     const td = tr.insertCell();
+                    tr.style.height = '80px';
                     td.style.border = '1px solid black';
                     td.style.fontWeight = 'bold';
                     td.style.fontFamily = 'Arial';
-                    td.style.fontSize = '18px';
+                    td.style.fontSize = '20px';
                     td.style.textAlign = "center";
                     td.style.fontStyle = "italic";
+                    td.style.padding = '10px';
 
                     switch (j) {
                         case 0:
+                            td.style.width = '40px';
                             td.appendChild(document.createTextNode(" Номер "));
                             break;
                         case 1:
+                            td.style.width = '200px';
                             td.appendChild(document.createTextNode(`Обозначение и код документа`));
                             break;
                         case 2:
                             td.appendChild(document.createTextNode(`Наименование изделия`));
                             break;
                         case 3:
+                            td.style.width = '240px';
                             td.appendChild(document.createTextNode(`Наименование документа`));
                             break;
                         case 4:
+                            td.style.width = '60px';
                             td.appendChild(document.createTextNode(`Номер изменения`));
                             break;
                         case 5:
+                            td.style.width = '220px';
                             td.appendChild(document.createTextNode(`Дата извещения об изменении`));
                             break;
                         case 6:
+                            td.style.width = '220px';
                             td.appendChild(document.createTextNode(`Значение контрольной суммы подлинника`));
                             break;
                         case 7:
+                            td.style.width = '250px';
                             td.appendChild(document.createTextNode(`Информационно - удостоверяющий лист`));
                             break;
                     }
@@ -103,18 +110,18 @@ function createTable() {
                 if (i !== 0) { //Остальная таблица
                     const td = tr.insertCell();
                     td.style.border = '1px solid black';
+                    td.style.padding = '10px';
+                    td.style.fontSize = '18px';
                     switch (j) {
                         case 0:
                             td.appendChild(document.createTextNode(i));
                             td.style.fontWeight = 'bold';
-                            td.style.border = '1px solid black';
                             td.style.textAlign = "center";
-                            td.style.width = '80px';
+                            td.style.width = '40px';
                             break;
                         case 1:
-                            td.style.padding = '10px';
                             td.style.width = '200px';
-                            td.style.fontSize = '18px';
+                            td.style.textAlign = "left";
                             let oboznIkodDoc = document.createElement('a');
                             let linkObozn = document.createTextNode(rowData[0]);
                             oboznIkodDoc.style.textDecoration = "none";
@@ -126,8 +133,7 @@ function createTable() {
                             //download('content_for_web/'+`${i}`+'/' + `${rowData[0]}` + '.PDF',`${rowData[0]}`+ '.pdf');
                             break;
                         case 2:
-                            td.style.padding = '10px';
-                            td.style.fontSize = '20px';
+                            td.style.textAlign = "left";
                             let naimenovanieIzd = document.createElement('a');
                             let linkNaimen = document.createTextNode(rowData[1]);
                             naimenovanieIzd.style.textDecoration = "none";
@@ -137,33 +143,28 @@ function createTable() {
                             td.appendChild(naimenovanieIzd);
                             break;
                         case 3:
-                            td.style.padding = '10px';
                             td.style.width = '240px';
-                            td.style.fontSize = '18px';
+                            td.style.textAlign = "left";
                             td.appendChild(document.createTextNode(`${rowData[2]}`));
                             break;
                         case 4:
+                            td.style.width = '60px';
                             td.style.textAlign = "center";
-                            td.style.width = '120px';
-                            td.style.fontSize = '18px';
                             td.appendChild(document.createTextNode(`${rowData[3]}`));
                             break;
                         case 5:
+                            td.style.width = '220px';
                             td.style.textAlign = "center";
-                            td.style.width = '200px';
-                            td.style.fontSize = '18px';
                             td.appendChild(document.createTextNode(`${rowData[4]}`));
                             break;
                         case 6:
+                            td.style.width = '220px';
                             td.style.textAlign = "center";
-                            td.style.width = '190px';
-                            td.style.fontSize = '18px';
                             td.appendChild(document.createTextNode(`${rowData[5]}`));
                             break;
                         case 7:
-                            td.style.textAlign = "center";
-                            td.style.width = '270px';
-                            td.style.fontSize = '18px';
+                            td.style.width = '250px';
+                            td.style.textAlign = "left";
                             let orderList = document.createElement('a');
                             let linkOrder = document.createTextNode(rowData[6]);
                             orderList.style.textDecoration = "none";
