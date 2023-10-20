@@ -19,11 +19,30 @@ https://ru.stackoverflow.com/questions/1263580/ncurses-ввод-и-вывод-р
  #endif
 map<string,string> allData{};
 
-bool enter(uint num, string qw)
+void mainQw(uint num, vector<string> & qw)
 {
+    mvprintw(num*2-2, 0, qw[1].c_str());
+    attron(COLOR_PAIR(1));
+    printw(qw[2].c_str());
+    attron(COLOR_PAIR(3));
+    printw(qw[3].c_str());
+    attron(COLOR_PAIR(2));
+    printw(qw[4].c_str());
+    attron(COLOR_PAIR(3));
+    printw(qw[5].c_str());
+}
+
+bool enter(uint num, string qw1, string qw2, string qw3, string qw4, string qw5)
+{
+    vector<string>qw{qw1, qw2, qw3, qw4, qw5};
     initscr();
-    mvprintw(num*2-2, 0, qw.c_str());
-    initscr();
+    start_color();
+    init_pair(1, COLOR_RED, COLOR_BLACK);
+    init_pair(2, COLOR_GREEN, COLOR_BLACK);
+    init_pair(3, COLOR_YELLOW, COLOR_BLACK);
+    attron(COLOR_PAIR(3));
+    mainQw(num, qw);
+
     noecho();
     halfdelay(100);         //Устанавливаем ограничение по времени ожидания getch() в 10 сек
     bool ret = true;
@@ -42,12 +61,12 @@ bool enter(uint num, string qw)
         case 1:
             c1 = tmp;
             if ((c1 != L'д') && (c1 != L'н')){
-            mvprintw(num*2-2, 0, qw.c_str());
+            mainQw(num, qw);
             mvprintw(num*2-1, 0, "Введите да  или  нет");
             numCharEntered = 0;
             }
             if ((c1 == L'д') || (c1 == L'н')){
-            mvprintw(num*2-2, 0, qw.c_str());
+            mainQw(num, qw);
             mvprintw(num*2-1, 0, "                    \b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b");
             if (c1 == L'д')
                 mvprintw(num*2-1, 0, "д");
@@ -63,7 +82,7 @@ bool enter(uint num, string qw)
             ex = true;
             }
             if ((c1 == L'д') && (c2 != L'а')){
-            mvprintw(num*2-2, 0, qw.c_str());
+            mainQw(num, qw);
             mvprintw(num*2-1, 0, "Введите да  или  нет");
             numCharEntered = 0;
             }
@@ -78,12 +97,12 @@ bool enter(uint num, string qw)
             ret = false;
             }
             if ((c1 == L'н') && (c2 != L'e')){
-            mvprintw(num*2-2, 0, qw.c_str());
+            mainQw(num, qw);
             mvprintw(num*2-1, 0, "Введите да  или  нет");
             numCharEntered = 0;
             }
             if ((c1 == L'н') && (c2 == L'e') && (c3 != L'т')){
-            mvprintw(num*2-2, 0, qw.c_str());
+            mainQw(num, qw);
             mvprintw(num*2-1, 0, "Введите да  или  нет");
             numCharEntered = 0;
             }
@@ -98,14 +117,14 @@ bool enter(uint num, string qw)
 }
 
 bool answers(){
-    if (!enter(1, string("1. В ИУЛ в графе Обозначение документа содержится надпись ").append(allData["oboznachenieIkodDokumenta"]).append(" ? \n")))
+    if (!enter(1, "1. В ИУЛ в графе ", "Обозначение документа", " содержится надпись ", allData["oboznachenieIkodDokumenta"], " ? \n"))
         return false;
-    if (!enter(2, string("2. В ИУЛ в графе Наименование изделия содержится надпись ").append(allData["naimenovanieIzdeliya"]).append(" ? \n")))
-        return false;
-    if (!enter(3, string("3. В ИУЛ в графе Наименование документа содержится надпись ").append(allData["naimenovanieDokumenta"]).append(" ? \n")))
-        return false;
-    if (!enter(4, string("4. В ИУЛ в графе Номер последнего изменения указан номер ").append(allData["changeNumStr"]).append(" ? \n")))
-        return false;
+//    if (!enter(2, string("2. В ИУЛ в графе Наименование изделия содержится надпись ").append(allData["naimenovanieIzdeliya"]).append(" ? \n")))
+//        return false;
+//    if (!enter(3, string("3. В ИУЛ в графе Наименование документа содержится надпись ").append(allData["naimenovanieDokumenta"]).append(" ? \n")))
+//        return false;
+//    if (!enter(4, string("4. В ИУЛ в графе Номер последнего изменения указан номер ").append(allData["changeNumStr"]).append(" ? \n")))
+//        return false;
      return true;
 }
 
