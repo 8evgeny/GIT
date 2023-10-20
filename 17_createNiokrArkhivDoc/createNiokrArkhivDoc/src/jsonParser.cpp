@@ -55,6 +55,7 @@ string createStringForQr (string oboznachenieIkodDokumenta,
 }
 
 bool parseJSON(string & patchToFile){
+
     QFile file(QString::fromStdString(patchToFile));
     file.open(QIODevice::ReadOnly);
     QString jsonData = file.readAll();

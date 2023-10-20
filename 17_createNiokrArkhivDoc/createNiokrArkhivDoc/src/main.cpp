@@ -20,7 +20,6 @@ https://code-live.ru/post/terminal-mode-management-ncurses/
 https://ru.stackoverflow.com/questions/1263580/ncurses-ввод-и-вывод-русского-символа-на-экран
  #endif
 map<string,string> allData{};
-map<string, string> config{};
 
 void mainQw(uint num, vector<string> & qw)
 {
@@ -149,16 +148,14 @@ bool answers(){
 }
 
 map<string, string> readConfig(const char* conf_file) {
+    map<string, string> config{};
     cout<<"reading config.ini file\n"<<endl;
     po::variables_map vm;
     po::options_description patches("patchesToDirectories");
     patches.add_options()
           ("patchesToDirectories.niokrActualDocs", po::value<string>(), "")
           ("patchesToDirectories.niokrPoOboznacheniyam", po::value<string>(), "")
-          ("patchesToDirectories.niokrIzvesheniya", po::value<string>(), "")
           ("patchesToDirectories.niokrOldDocs", po::value<string>(), "");
-
-
   po::options_description desc("Allowed options");
   desc.add(patches);
   try {
@@ -168,15 +165,13 @@ map<string, string> readConfig(const char* conf_file) {
     std::cout << "Error: " << e.what() << std::endl;
   }
   po::notify(vm);
-
   config["niokrActualDocs"] = vm["patchesToDirectories.niokrActualDocs"].as<string>();
   config["niokrPoOboznacheniyam"] = vm["patchesToDirectories.niokrPoOboznacheniyam"].as<string>();
-  config["niokrIzvesheniya"] = vm["patchesToDirectories.niokrIzvesheniya"].as<string>();
   config["niokrOldDocs"] = vm["patchesToDirectories.niokrOldDocs"].as<string>();
   cout << "niokrActualDocs:       \t" << config["niokrActualDocs"] << endl;
   cout << "niokrPoOboznacheniyam: \t" << config["niokrPoOboznacheniyam"] << endl;
-  cout << "niokrIzvesheniya:      \t" << config["niokrIzvesheniya"] << endl;
   cout << "niokrOldDocs:          \t" << config["niokrOldDocs"] << endl<<endl;
+  return config;
 }
 
 int main(int argc, char *argv[])
@@ -237,16 +232,42 @@ int main(int argc, char *argv[])
         return 0;
     }
     cout<< "Ответы на вопросы ... OK" <<endl;
-//Читаем конфиг
-    readConfig("../config.ini");
-    if (allData["changeNumStr"] == "0"){
-        cout<<"Архивируется папка " << argv[1] << endl;
-//7z a -tzip -mx7 -bsp0 -bso0 ~/SOFT/Github/GIT/17_createNiokrArkhivDoc/Ниокр-Актуальные_документы/11.zip ~/SOFT/Github/GIT/17_createNiokrArkhivDoc/createNiokrArkhivDoc/ГРЛМ.301122.007СБ/*
+
+//Операции с файлами
+    auto config = readConfig("../config.ini"); //Читаем конфиг
+    if (allData["changeNumStr"] == "0"){  //Новый документ
+
+//Архивируем в папку актуальные 7z a -tzip -mx7 -bsp0 -bso0 ~/SOFT/Github/GIT/17_createNiokrArkhivDoc/Ниокр-Актуальные_документы/11.zip ~/SOFT/Github/GIT/17_createNiokrArkhivDoc/createNiokrArkhivDoc/ГРЛМ.301122.007СБ/*
+    cout<<"Архивируется папка " << argv[1] << endl;
     string cmd7zip{"7z a -tzip -mx7 -bsp0 -bso0 "};
     cmd7zip.append(config["niokrActualDocs"]).append("/").append(allData["oboznachenieIkodDokumenta"]).append(".zip");
     cmd7zip.append(" ");
     cmd7zip.append(string(argv[1]).append("/*"));
     system(cmd7zip.c_str());
+//Копируем подлинник PDF в папку Ниокр-Документы_по_обозначениям
+    cout<<"Копируется подлинник PDF в папку " << config["niokrPoOboznacheniyam"] << endl;
+
+    }
+    else //Изм не 0
+    {
+//Копируем заменяемый zip из папки актуальных документов в папку tmp
+
+
+//Разархивируем заменяемый zip
+
+
+//В json меняем true на false
+
+
+//Архивируем в папку неактуальные , добавляя в конце изм номер
+
+
+//Удаляем старый подлинник из папки Ниокр-Документы_по_обозначениям
+
+
+//Копируем подлинник PDF в папку Ниокр-Документы_по_обозначениям
+
+
     }
 
 return 0;
