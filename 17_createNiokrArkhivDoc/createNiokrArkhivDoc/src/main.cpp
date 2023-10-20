@@ -232,20 +232,20 @@ int main(int argc, char *argv[])
     }
 //Тут второй этап - ответы на вопросы
 
-//    if (!answers()){
-//        cout << "\nИсправьте ИУЛ !!!\n" <<endl;
-//        return 0;
-//    }
+    if (!answers()){
+        cout << "\nИсправьте ИУЛ !!!\n" <<endl;
+        return 0;
+    }
     cout<< "Ответы на вопросы ... OK" <<endl;
 //Читаем конфиг
     readConfig("../config.ini");
     if (allData["changeNumStr"] == "0"){
         cout<<"Архивируется папка " << argv[1] << endl;
-   //7z a -tzip -mx7 -bsp0 -bso0 ~/SOFT/Github/GIT/17_createNiokrArkhivDoc/Ниокр-Актуальные_документы/11.zip ~/SOFT/Github/GIT/17_createNiokrArkhivDoc/createNiokrArkhivDoc/ГРЛМ.301122.007СБ/*
+//7z a -tzip -mx7 -bsp0 -bso0 ~/SOFT/Github/GIT/17_createNiokrArkhivDoc/Ниокр-Актуальные_документы/11.zip ~/SOFT/Github/GIT/17_createNiokrArkhivDoc/createNiokrArkhivDoc/ГРЛМ.301122.007СБ/*
     string cmd7zip{"7z a -tzip -mx7 -bsp0 -bso0 "};
     cmd7zip.append(config["niokrActualDocs"]).append("/").append(allData["oboznachenieIkodDokumenta"]).append(".zip");
     cmd7zip.append(" ");
-    cmd7zip.append(string(argv[1]).append("/* &>/dev/null"));
+    cmd7zip.append(string(argv[1]).append("/*"));
     system(cmd7zip.c_str());
     }
 
