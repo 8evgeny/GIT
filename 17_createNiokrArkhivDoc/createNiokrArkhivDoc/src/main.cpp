@@ -3,10 +3,6 @@
 #include <ncursesw/ncurses.h>
 #include <boost/program_options.hpp>
 namespace po = boost::program_options;
-string niokrActualDocs{};
-string niokrPoOboznacheniyam{};
-string niokrIzvesheniya{};
-string niokrOldDocs{};
 #if 0
 Деплой windows
 cd C:\Qt5\5.15.2\mingw81_64\bin
@@ -23,8 +19,8 @@ sudo apt-get install libncurses5-dev libncursesw5-dev
 https://code-live.ru/post/terminal-mode-management-ncurses/
 https://ru.stackoverflow.com/questions/1263580/ncurses-ввод-и-вывод-русского-символа-на-экран
  #endif
-
 map<string,string> allData{};
+map<string, string> config{};
 
 void mainQw(uint num, vector<string> & qw)
 {
@@ -152,7 +148,7 @@ bool answers(){
      return true;
 }
 
-void readConfig(const char* conf_file) {
+map<string, string> readConfig(const char* conf_file) {
     cout<<"reading config.ini file\n"<<endl;
     po::variables_map vm;
     po::options_description patches("patchesToDirectories");
@@ -173,23 +169,22 @@ void readConfig(const char* conf_file) {
   }
   po::notify(vm);
 
-  niokrActualDocs = vm["patchesToDirectories.niokrActualDocs"].as<string>();
-  niokrPoOboznacheniyam = vm["patchesToDirectories.niokrPoOboznacheniyam"].as<string>();
-  niokrIzvesheniya = vm["patchesToDirectories.niokrIzvesheniya"].as<string>();
-  niokrOldDocs = vm["patchesToDirectories.niokrOldDocs"].as<string>();
-  cout << "niokrActualDocs:       \t" << niokrActualDocs << endl;
-  cout << "niokrPoOboznacheniyam: \t" << niokrPoOboznacheniyam << endl;
-  cout << "niokrIzvesheniya:      \t" << niokrIzvesheniya << endl;
-  cout << "niokrOldDocs:          \t" << niokrOldDocs << endl<<endl;
+  config["niokrActualDocs"] = vm["patchesToDirectories.niokrActualDocs"].as<string>();
+  config["niokrPoOboznacheniyam"] = vm["patchesToDirectories.niokrPoOboznacheniyam"].as<string>();
+  config["niokrIzvesheniya"] = vm["patchesToDirectories.niokrIzvesheniya"].as<string>();
+  config["niokrOldDocs"] = vm["patchesToDirectories.niokrOldDocs"].as<string>();
+  cout << "niokrActualDocs:       \t" << config["niokrActualDocs"] << endl;
+  cout << "niokrPoOboznacheniyam: \t" << config["niokrPoOboznacheniyam"] << endl;
+  cout << "niokrIzvesheniya:      \t" << config["niokrIzvesheniya"] << endl;
+  cout << "niokrOldDocs:          \t" << config["niokrOldDocs"] << endl<<endl;
 }
 
 int main(int argc, char *argv[])
 {
-
     setlocale (LC_ALL,""); //для ncurses
     system("clear");
     if (argc == 2) {
-        cout << string{"Передан в качестве параметра путь к папке: "}.append(argv[1]) << endl<< endl;
+//        cout << string{"Передан в качестве параметра путь к папке: "}.append(argv[1]) << endl<< endl;
     }
     else {
         cout << "Ошибка запуска. Необходимо передать путь к папке с одной единицей хранения!" << endl;
@@ -242,13 +237,17 @@ int main(int argc, char *argv[])
 //        return 0;
 //    }
     cout<< "Ответы на вопросы ... OK" <<endl;
-    //Читаем конфиг
-
-     readConfig("../config.ini");
-
-
-
-
+//Читаем конфиг
+    readConfig("../config.ini");
+    if (allData["changeNumStr"] == "0"){
+        cout<<"Архивируется папка " << argv[1] << endl;
+   //7z a -tzip -mx7 -bsp0 -bso0 ~/SOFT/Github/GIT/17_createNiokrArkhivDoc/Ниокр-Актуальные_документы/11.zip ~/SOFT/Github/GIT/17_createNiokrArkhivDoc/createNiokrArkhivDoc/ГРЛМ.301122.007СБ/*
+    string cmd7zip{"7z a -tzip -mx7 -bsp0 -bso0 "};
+    cmd7zip.append(config["niokrActualDocs"]).append("/").append(allData["oboznachenieIkodDokumenta"]).append(".zip");
+    cmd7zip.append(" ");
+    cmd7zip.append(string(argv[1]).append("/* &>/dev/null"));
+    system(cmd7zip.c_str());
+    }
 
 return 0;
 
