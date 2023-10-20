@@ -37,7 +37,7 @@ bool enter(uint num, string qw1, string qw2, string qw3, string qw4, string qw5)
     vector<string>qw{qw1, qw2, qw3, qw4, qw5};
     initscr();
     start_color();
-    init_pair(1, COLOR_RED, COLOR_BLACK);
+    init_pair(1, COLOR_CYAN, COLOR_BLACK);
     init_pair(2, COLOR_GREEN, COLOR_BLACK);
     init_pair(3, COLOR_WHITE, COLOR_BLACK);
     attron(COLOR_PAIR(3));
@@ -125,7 +125,16 @@ bool answers(){
         return false;
     if (!enter(4, "4. В ИУЛ в графе ", "Номер последнего изменения", " указан номер ", allData["changeNumStr"], " ? \n"))
         return false;
-
+    if (!enter(5, "5. В ИУЛ в графе ", "Подлинник", " Указано имя ", string(allData["oboznachenieIkodDokumenta"]).append(".pdf "), " ? \n"))//может быть zip !!!
+        return false;
+    if (!enter(6, "6. В ИУЛ в графе ", "Содержательные части", " содержится надпись ", string(allData["oboznachenieIkodDokumenta"]).append(".zip\\Contents"), " ? \n"))
+        return false;
+    if (!enter(7, "7. В ИУЛ в графе ", "CRC32 Подлинника", " указано значение ", allData["controlSummOrigin"], " ? \n"))
+        return false;
+    if (!enter(8, "8. В ИУЛ в графе ", "CRC32 Содержательных частей", " указано значение ", allData["controlSummParts"], " ? \n"))
+        return false;
+    if (!enter(9, "9. В ИУЛ в графе ", "Информационно-удостоверяющий лист", " содержится надпись ", allData["infoOrderList"], " ? \n"))
+        return false;
      return true;
 }
 
@@ -185,6 +194,7 @@ int main(int argc, char *argv[])
         cout << "\nИсправьте ИУЛ !!!\n" <<endl;
         return 0;
     }
+    cout<< "Ответы на вопросы ... OK" <<endl;
 //Сохраняем лог ответов
 
 

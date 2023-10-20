@@ -189,6 +189,7 @@ QRegExp iulStr("^"
                     }else return false;
                     if (infoAboutSigning.HasMember("Информационно-удостоверяющий лист")){
                         infoOrderList = infoAboutSigning["Информационно-удостоверяющий лист"].GetString();
+                        allData["infoOrderList"] = infoOrderList;
                         if(!iulStr.exactMatch(QString::fromStdString(infoOrderList))) return false;
 //                        cout << "\t\tИнформационно-удостоверяющий лист: " << infoOrderList << "\n";
                     }else return false;
@@ -270,6 +271,7 @@ QRegExp iulStr("^"
                 }else return false;
                 if (serviceData.HasMember("Значение контрольной суммы подлинника")){
                     controlSummOrigin = serviceData["Значение контрольной суммы подлинника"].GetString();
+                    allData["controlSummOrigin"] = controlSummOrigin;
                 if(!crc32Str.exactMatch(QString::fromStdString(controlSummOrigin))) return false;
 
                     //Сравниваем с расчитанным CRC32
@@ -288,6 +290,7 @@ QRegExp iulStr("^"
                 }else return false;
                 if (serviceData.HasMember("Значение контрольной суммы содержательных частей")){
                 controlSummParts = serviceData["Значение контрольной суммы содержательных частей"].GetString();
+                allData["controlSummParts"] = controlSummParts;
                 if(!crc32Str.exactMatch(QString::fromStdString(controlSummParts))) return false;
 //                cout << "\tЗначение контрольной суммы содержательных частей: " << controlSummParts ;
                 if(controlSummParts == crc32Contents) {
