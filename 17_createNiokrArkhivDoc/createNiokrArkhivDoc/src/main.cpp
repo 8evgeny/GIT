@@ -32,7 +32,7 @@ void mainQw(uint num, vector<string> & qw)
     printw(qw[4].c_str());
 }
 
-bool enter(uint num, string qw1, string qw2, string qw3, string qw4, string qw5)
+bool workInConsole(uint num, string qw1, string qw2, string qw3, string qw4, string qw5)
 {
     vector<string>qw{qw1, qw2, qw3, qw4, qw5};
     initscr();
@@ -117,23 +117,24 @@ bool enter(uint num, string qw1, string qw2, string qw3, string qw4, string qw5)
 }
 
 bool answers(){
-    if (!enter(1, "1. В ИУЛ в графе ", "Обозначение документа", " содержится надпись ", allData["oboznachenieIkodDokumenta"], " ? \n"))
+    if (!workInConsole(1, "1. В ИУЛ в графе ", "Обозначение документа", " содержится надпись ", allData["oboznachenieIkodDokumenta"], " ? \n"))
         return false;
-    if (!enter(2, "2. В ИУЛ в графе ", "Наименование изделия", " содержится надпись ", allData["naimenovanieIzdeliya"], " ? \n"))
+
+    if (!workInConsole(2, "2. В ИУЛ в графе ", "Наименование изделия", " содержится надпись ", allData["naimenovanieIzdeliya"], " ? \n"))
         return false;
-    if (!enter(3, "3. В ИУЛ в графе ", "Наименование документа", " содержится надпись ", allData["naimenovanieDokumenta"], " ? \n"))
+    if (!workInConsole(3, "3. В ИУЛ в графе ", "Наименование документа", " содержится надпись ", allData["naimenovanieDokumenta"], " ? \n"))
         return false;
-    if (!enter(4, "4. В ИУЛ в графе ", "Номер последнего изменения", " указан номер ", allData["changeNumStr"], " ? \n"))
+    if (!workInConsole(4, "4. В ИУЛ в графе ", "Номер последнего изменения", " указан номер ", allData["changeNumStr"], " ? \n"))
         return false;
-    if (!enter(5, "5. В ИУЛ в графе ", "Подлинник", " Указано имя ", string(allData["oboznachenieIkodDokumenta"]).append(".pdf "), " ? \n"))//может быть zip !!!
+    if (!workInConsole(5, "5. В ИУЛ в графе ", "Подлинник", " Указано имя ", string(allData["oboznachenieIkodDokumenta"]).append(".pdf "), " ? \n"))//может быть zip !!!
         return false;
-    if (!enter(6, "6. В ИУЛ в графе ", "Содержательные части", " содержится надпись ", string(allData["oboznachenieIkodDokumenta"]).append(".zip\\Contents"), " ? \n"))
+    if (!workInConsole(6, "6. В ИУЛ в графе ", "Содержательные части", " содержится надпись ", string(allData["oboznachenieIkodDokumenta"]).append(".zip\\Contents"), " ? \n"))
         return false;
-    if (!enter(7, "7. В ИУЛ в графе ", "CRC32 Подлинника", " указано значение ", allData["controlSummOrigin"], " ? \n"))
+    if (!workInConsole(7, "7. В ИУЛ в графе ", "CRC32 Подлинника", " указано значение ", allData["controlSummOrigin"], " ? \n"))
         return false;
-    if (!enter(8, "8. В ИУЛ в графе ", "CRC32 Содержательных частей", " указано значение ", allData["controlSummParts"], " ? \n"))
+    if (!workInConsole(8, "8. В ИУЛ в графе ", "CRC32 Содержательных частей", " указано значение ", allData["controlSummParts"], " ? \n"))
         return false;
-    if (!enter(9, "9. В ИУЛ в графе ", "Информационно-удостоверяющий лист", " содержится надпись ", allData["infoOrderList"], " ? \n"))
+    if (!workInConsole(9, "9. В ИУЛ в графе ", "Информационно-удостоверяющий лист", " содержится надпись ", allData["infoOrderList"], " ? \n"))
         return false;
      return true;
 }
