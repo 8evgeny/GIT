@@ -1,6 +1,12 @@
 ﻿#include "main.h"
 #include <curses.h>
 #include <ncursesw/ncurses.h>
+#include <boost/program_options.hpp>
+namespace po = boost::program_options;
+string niokrActualDocs{};
+string niokrPoOboznacheniyam{};
+string niokrIzvesheniya{};
+string niokrOldDocs{};
 #if 0
 Деплой windows
 cd C:\Qt5\5.15.2\mingw81_64\bin
@@ -17,6 +23,7 @@ sudo apt-get install libncurses5-dev libncursesw5-dev
 https://code-live.ru/post/terminal-mode-management-ncurses/
 https://ru.stackoverflow.com/questions/1263580/ncurses-ввод-и-вывод-русского-символа-на-экран
  #endif
+
 map<string,string> allData{};
 
 void mainQw(uint num, vector<string> & qw)
@@ -32,12 +39,17 @@ void mainQw(uint num, vector<string> & qw)
     printw(qw[4].c_str());
 }
 
+void logging()
+{
+
+}
+
 bool workInConsole(uint num, string qw1, string qw2, string qw3, string qw4, string qw5)
 {
     vector<string>qw{qw1, qw2, qw3, qw4, qw5};
     initscr();
     start_color();
-    init_pair(1, COLOR_CYAN, COLOR_BLACK);
+    init_pair(1, COLOR_YELLOW, COLOR_BLACK);
     init_pair(2, COLOR_GREEN, COLOR_BLACK);
     init_pair(3, COLOR_WHITE, COLOR_BLACK);
     attron(COLOR_PAIR(3));
@@ -113,13 +125,14 @@ bool workInConsole(uint num, string qw1, string qw2, string qw3, string qw4, str
     }
     refresh(); //Выводим на настоящий экран
     endwin();
+//Логгирование ответов
+    logging();
  return ret;
 }
 
 bool answers(){
     if (!workInConsole(1, "1. В ИУЛ в графе ", "Обозначение документа", " содержится надпись ", allData["oboznachenieIkodDokumenta"], " ? \n"))
         return false;
-
     if (!workInConsole(2, "2. В ИУЛ в графе ", "Наименование изделия", " содержится надпись ", allData["naimenovanieIzdeliya"], " ? \n"))
         return false;
     if (!workInConsole(3, "3. В ИУЛ в графе ", "Наименование документа", " содержится надпись ", allData["naimenovanieDokumenta"], " ? \n"))
@@ -139,8 +152,40 @@ bool answers(){
      return true;
 }
 
+void readConfig(const char* conf_file) {
+    cout<<"reading config.ini file\n"<<endl;
+    po::variables_map vm;
+    po::options_description patches("patchesToDirectories");
+    patches.add_options()
+          ("patchesToDirectories.niokrActualDocs", po::value<string>(), "")
+          ("patchesToDirectories.niokrPoOboznacheniyam", po::value<string>(), "")
+          ("patchesToDirectories.niokrIzvesheniya", po::value<string>(), "")
+          ("patchesToDirectories.niokrOldDocs", po::value<string>(), "");
+
+
+  po::options_description desc("Allowed options");
+  desc.add(patches);
+  try {
+    po::parsed_options parsed = po::parse_config_file<char>(conf_file, desc, true);  //флаг true разрешает незарегистрированные опции !
+    po::store(parsed, vm);
+  } catch (const po::reading_file& e) {
+    std::cout << "Error: " << e.what() << std::endl;
+  }
+  po::notify(vm);
+
+  niokrActualDocs = vm["patchesToDirectories.niokrActualDocs"].as<string>();
+  niokrPoOboznacheniyam = vm["patchesToDirectories.niokrPoOboznacheniyam"].as<string>();
+  niokrIzvesheniya = vm["patchesToDirectories.niokrIzvesheniya"].as<string>();
+  niokrOldDocs = vm["patchesToDirectories.niokrOldDocs"].as<string>();
+  cout << "niokrActualDocs:       \t" << niokrActualDocs << endl;
+  cout << "niokrPoOboznacheniyam: \t" << niokrPoOboznacheniyam << endl;
+  cout << "niokrIzvesheniya:      \t" << niokrIzvesheniya << endl;
+  cout << "niokrOldDocs:          \t" << niokrOldDocs << endl<<endl;
+}
+
 int main(int argc, char *argv[])
 {
+
     setlocale (LC_ALL,""); //для ncurses
     system("clear");
     if (argc == 2) {
@@ -191,12 +236,16 @@ int main(int argc, char *argv[])
         }
     }
 //Тут второй этап - ответы на вопросы
-    if (!answers()){
-        cout << "\nИсправьте ИУЛ !!!\n" <<endl;
-        return 0;
-    }
+
+//    if (!answers()){
+//        cout << "\nИсправьте ИУЛ !!!\n" <<endl;
+//        return 0;
+//    }
     cout<< "Ответы на вопросы ... OK" <<endl;
-//Сохраняем лог ответов
+    //Читаем конфиг
+
+     readConfig("../config.ini");
+
 
 
 
