@@ -17,6 +17,6 @@ using namespace std;
 using namespace chrono_literals;
 using namespace std::filesystem;
 
-bool parseJSON(string & patchToFile);
+bool parseJSON(string & patchToFile, map<string,string> & allData);
 quint32 CRC32(QString fileName);
 string CRC32Contents(QString DirectoryPatch);

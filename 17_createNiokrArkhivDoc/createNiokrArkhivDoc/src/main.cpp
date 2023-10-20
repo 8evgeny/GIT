@@ -19,7 +19,6 @@ sudo apt-get install libncurses5-dev libncursesw5-dev
 https://code-live.ru/post/terminal-mode-management-ncurses/
 https://ru.stackoverflow.com/questions/1263580/ncurses-ввод-и-вывод-русского-символа-на-экран
  #endif
-map<string,string> allData{};
 
 void mainQw(uint num, vector<string> & qw)
 {
@@ -125,7 +124,7 @@ bool workInConsole(uint num, string qw1, string qw2, string qw3, string qw4, str
  return ret;
 }
 
-bool answers(){
+bool answers(map<string,string> & allData){
     if (!workInConsole(1, "1. В ИУЛ в графе ", "Обозначение документа", " содержится надпись ", allData["oboznachenieIkodDokumenta"], " ? \n"))
         return false;
     if (!workInConsole(2, "2. В ИУЛ в графе ", "Наименование изделия", " содержится надпись ", allData["naimenovanieIzdeliya"], " ? \n"))
@@ -207,6 +206,7 @@ int main(int argc, char *argv[])
       }
     }
     int error = 0;
+    map<string,string> allData{};
     if (vectorJsonFiles.size()>0)
     {
         if (vectorJsonFiles.size()>1)
@@ -218,7 +218,7 @@ int main(int argc, char *argv[])
         for (auto & patchJsonFile : vectorJsonFiles){
             ++num;
 //            cout << endl<< num << ": "<< patchJsonFile << endl;
-            if(!parseJSON(patchJsonFile)) //парсинг одного файла JSON
+            if(!parseJSON(patchJsonFile, allData)) //парсинг одного файла JSON
             {
                 cout << "ОШИБКА JSON ФАЙЛА" << endl;
                 return 0;
@@ -227,7 +227,7 @@ int main(int argc, char *argv[])
     }
 //Тут второй этап - ответы на вопросы
 
-    if (!answers()){
+    if (!answers(allData)){
         cout << "\nИсправьте ИУЛ !!!\n" <<endl;
         return 0;
     }

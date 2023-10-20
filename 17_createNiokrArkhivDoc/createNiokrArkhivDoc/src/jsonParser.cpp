@@ -1,5 +1,5 @@
 #include "main.h"
-extern map<string,string> allData;
+
 ostream& operator<<(ostream &os, const chrono::time_point<chrono::system_clock> &t){
     const auto tt   (chrono::system_clock::to_time_t(t));
     const auto loct (localtime(&tt));
@@ -54,7 +54,7 @@ string createStringForQr (string oboznachenieIkodDokumenta,
     return result;
 }
 
-bool parseJSON(string & patchToFile){
+bool parseJSON(string & patchToFile, map<string,string> & allData){
 
     QFile file(QString::fromStdString(patchToFile));
     file.open(QIODevice::ReadOnly);
