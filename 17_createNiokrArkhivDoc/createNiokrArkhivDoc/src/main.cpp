@@ -227,22 +227,15 @@ int main(int argc, char *argv[])
     }
 //Тут второй этап - ответы на вопросы
 
-    if (!answers(allData)){
-        cout << "\nИсправьте ИУЛ !!!\n" <<endl;
-        return 0;
-    }
+//    if (!answers(allData)){
+//        cout << "\nИсправьте ИУЛ !!!\n" <<endl;
+//        return 0;
+//    }
     cout<< "Ответы на вопросы ... OK" <<endl;
 
 //Операции с файлами
     auto config = readConfig("../config.ini"); //Читаем конфиг
     if (allData["changeNumStr"] == "0"){  //Новый документ
-//Архивируем в папку актуальные 7z a -tzip -mx7 -bsp0 -bso0 ~/SOFT/Github/GIT/17_createNiokrArkhivDoc/Ниокр-Актуальные_документы/11.zip ~/SOFT/Github/GIT/17_createNiokrArkhivDoc/createNiokrArkhivDoc/ГРЛМ.301122.007СБ/*
-        cout<<"Архивируется папка " << argv[1] << endl;
-        string cmd7zip{"7z a -tzip -mx7 -bsp0 -bso0 "};
-        cmd7zip.append(config["niokrActualDocs"]).append("/").append(allData["oboznachenieIkodDokumenta"]).append(".zip");
-        cmd7zip.append(" ");
-        cmd7zip.append(string(argv[1]).append("/*"));
-        system(cmd7zip.c_str());
 //Удаляем старый подлинник с таким-же именем (если есть) Переименовываем pdf в PDF и копируем подлинник PDF в папку Ниокр-Документы_по_обозначениям
         cout<<"Копируется подлинник PDF в папку " << config["niokrPoOboznacheniyam"] << endl;
         string cmdDelateOriginPDF{"rm -f "};
@@ -261,6 +254,7 @@ int main(int argc, char *argv[])
     else //Изм не 0
     {
 //Копируем заменяемый zip из папки актуальных документов в папку tmp
+cout<<"Копируем заменяемый zip из папки актуальных документов в папку tmp"<<endl;
 
 
 //Разархивируем заменяемый zip
@@ -272,12 +266,31 @@ int main(int argc, char *argv[])
 //Архивируем в папку неактуальные , добавляя в конце изм номер
 
 
-//Удаляем старый подлинник из папки Ниокр-Документы_по_обозначениям
 
+//Архивируем в папку актуальные 7z a -tzip -mx7 -bsp0 -bso0 ~/SOFT/Github/GIT/17_createNiokrArkhivDoc/Ниокр-Актуальные_документы/11.zip ~/SOFT/Github/GIT/17_createNiokrArkhivDoc/createNiokrArkhivDoc/ГРЛМ.301122.007СБ/*
 
-//Копируем подлинник PDF в папку Ниокр-Документы_по_обозначениям
+        //        cout<<"Архивируется папка " << argv[1] << endl;
+//        string cmd7zip{"7z a -tzip -mx7 -bsp0 -bso0 "};
+//        cmd7zip.append(config["niokrActualDocs"]).append("/").append(allData["oboznachenieIkodDokumenta"]).append(".zip");
+//        cmd7zip.append(" ");
+//        cmd7zip.append(string(argv[1]).append("/*"));
+//        system(cmd7zip.c_str());
 
+//Удаляем старый подлинник с таким-же именем (если есть) Переименовываем pdf в PDF и копируем подлинник PDF в папку Ниокр-Документы_по_обозначениям
 
+        //        cout<<"Копируется подлинник PDF в папку " << config["niokrPoOboznacheniyam"] << endl;
+//        string cmdDelateOriginPDF{"rm -f "};
+//        string cmdDelateOriginpdf{"rm -f "};
+//        cmdDelateOriginPDF.append(config["niokrPoOboznacheniyam"]).append("/").append(allData["oboznachenieIkodDokumenta"]).append(".PDF 2> /dev/null");
+//        cmdDelateOriginpdf.append(config["niokrPoOboznacheniyam"]).append("/").append(allData["oboznachenieIkodDokumenta"]).append(".pdf 2> /dev/null");
+//        system(cmdDelateOriginPDF.c_str());
+//        system(cmdDelateOriginpdf.c_str());
+//        string remaneOriginpdfToPDF{"mv "};
+//        remaneOriginpdfToPDF.append(archiv_path).append("/Contents/").append(allData["oboznachenieIkodDokumenta"]).append(".pdf ").append(archiv_path).append("/Contents/").append(allData["oboznachenieIkodDokumenta"]).append(".PDF 2> /dev/null");
+//        system(remaneOriginpdfToPDF.c_str());
+//        string copyOriginPDF{"cp "};
+//        copyOriginPDF.append(archiv_path).append("/Contents/").append(allData["oboznachenieIkodDokumenta"]).append(".PDF ").append(config["niokrPoOboznacheniyam"]);
+//        system(copyOriginPDF.c_str());
     }
 
 return 0;
