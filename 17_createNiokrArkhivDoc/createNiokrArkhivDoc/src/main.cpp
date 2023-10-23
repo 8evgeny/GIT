@@ -263,8 +263,7 @@ int main(int argc, char *argv[])
         }
         int izmCurrent = atoi(allData["changeNumStr"].c_str());
         int izmOld = atoi(tmpData["changeNumStr"].c_str());
-        if (izmCurrent - izmOld != 1)
-        {
+        if (izmCurrent - izmOld != 1) {
             cout << "ОШИБКА! Номер изменения отличается больше чем на единицу" << endl;
             return 0;
         }
@@ -279,7 +278,10 @@ int main(int argc, char *argv[])
         system(replaceBool.c_str());
 
 //Архивируем в папку неактуальные , добавляя в конце изм номер
-
+        string cmd7zip{"7z a -tzip -mx7 -bsp0 -bso0 "};
+        cmd7zip.append(config["niokrOldDocs"]).append("/").append(allData["oboznachenieIkodDokumenta"]).append(".изм.").append(tmpData["changeNumStr"]).append(".zip");
+        cmd7zip.append(" ./tmpDir/tmp/*");
+        system(cmd7zip.c_str());
 
     }
 //Если изм 0 то попадаем сразу сюда
