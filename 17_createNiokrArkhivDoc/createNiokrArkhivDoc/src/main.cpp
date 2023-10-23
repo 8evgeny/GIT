@@ -253,10 +253,14 @@ int main(int argc, char *argv[])
         }
     else //Изм не 0
     {
-//Копируем заменяемый zip из папки актуальных документов в папку tmp
-cout<<"Копируем заменяемый zip из папки актуальных документов в папку tmp"<<endl;
-
-
+//Перемещаем заменяемый zip из папки актуальных документов в папку tmp
+        string createTmpDir{"mkdir tmpDir 2>/dev/null"};
+        system(createTmpDir.c_str());
+        string clearTmpDir{"cd tmpDir && rm -rf * 2>/dev/null"};
+        system(clearTmpDir.c_str());
+        string moveZipToTmpDir{"mv "};
+        moveZipToTmpDir.append(config["niokrActualDocs"]).append("/").append(allData["oboznachenieIkodDokumenta"]).append(".zip").append(" tmpDir");
+        system(moveZipToTmpDir.c_str());
 //Разархивируем заменяемый zip
 
 
