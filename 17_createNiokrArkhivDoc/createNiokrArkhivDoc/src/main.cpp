@@ -227,10 +227,10 @@ int main(int argc, char *argv[])
     }
 //Тут второй этап - ответы на вопросы
 
-//    if (!answers(allData)){
-//        cout << "\nИсправьте ИУЛ !!!\n" <<endl;
-//        return 0;
-//    }
+    if (!answers(allData)){
+        cout << "\nИсправьте ИУЛ !!!\n" <<endl;
+        return 0;
+    }
     cout<< "Ответы на вопросы ... OK" <<endl;
 
 //Операции с файлами
