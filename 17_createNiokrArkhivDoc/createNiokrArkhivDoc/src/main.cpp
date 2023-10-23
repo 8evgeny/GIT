@@ -236,49 +236,44 @@ int main(int argc, char *argv[])
 //Операции с файлами
     auto config = readConfig("../config.ini"); //Читаем конфиг
 
-//Удаляем старый подлинник с таким-же именем (если есть) Переименовываем pdf в PDF и копируем подлинник PDF в папку Ниокр-Документы_по_обозначениям
-    cout<<"Копируется подлинник PDF в папку " << config["niokrPoOboznacheniyam"] << endl;
-    string cmdDelateOriginPDF{"rm -f "};
-    string cmdDelateOriginpdf{"rm -f "};
-    cmdDelateOriginPDF.append(config["niokrPoOboznacheniyam"]).append("/").append(allData["oboznachenieIkodDokumenta"]).append(".PDF 2> /dev/null");
-    cmdDelateOriginpdf.append(config["niokrPoOboznacheniyam"]).append("/").append(allData["oboznachenieIkodDokumenta"]).append(".pdf 2> /dev/null");
-    system(cmdDelateOriginPDF.c_str());
-    system(cmdDelateOriginpdf.c_str());
-    string remaneOriginpdfToPDF{"mv "};
-    remaneOriginpdfToPDF.append(archiv_path).append("/Contents/").append(allData["oboznachenieIkodDokumenta"]).append(".pdf ").append(archiv_path).append("/Contents/").append(allData["oboznachenieIkodDokumenta"]).append(".PDF 2> /dev/null");
-    system(remaneOriginpdfToPDF.c_str());
-    string copyOriginPDF{"cp "};
-    copyOriginPDF.append(archiv_path).append("/Contents/").append(allData["oboznachenieIkodDokumenta"]).append(".PDF ").append(config["niokrPoOboznacheniyam"]);
-    system(copyOriginPDF.c_str());
-
-    if (allData["changeNumStr"] == "0"){
-//Новый документ
-//Архивируем в папку актуальные 7z a -tzip -mx7 -bsp0 -bso0 ~/SOFT/Github/GIT/17_createNiokrArkhivDoc/Ниокр-Актуальные_документы/11.zip ~/SOFT/Github/GIT/17_createNiokrArkhivDoc/createNiokrArkhivDoc/ГРЛМ.301122.007СБ/*
-        cout<<"Архивируется папка " << argv[1] << endl;
-        string cmd7zip{"7z a -tzip -mx7 -bsp0 -bso0 "};
-        cmd7zip.append(config["niokrActualDocs"]).append("/").append(allData["oboznachenieIkodDokumenta"]).append(".zip");
-        cmd7zip.append(" ");
-        cmd7zip.append(string(argv[1]).append("/*"));
-        system(cmd7zip.c_str());
-        }
-    else //Изм не 0
-    {
+    if (allData["changeNumStr"] != "0"){//Изм не 0
 //Заменяем неактуальный документ
-//Перемещаем заменяемый zip из папки актуальных документов в папку tmp
+//Копируем заменяемый zip из папки актуальных документов в папку tmp
         string createTmpDir{"mkdir tmpDir 2>/dev/null"};
         system(createTmpDir.c_str());
         string clearTmpDir{"cd tmpDir && rm -rf * 2>/dev/null"};
         system(clearTmpDir.c_str());
-        string moveZipToTmpDir{"mv "};
+        string moveZipToTmpDir{"cp "};
         moveZipToTmpDir.append(config["niokrActualDocs"]).append("/").append(allData["oboznachenieIkodDokumenta"]).append(".zip").append(" tmpDir");
         system(moveZipToTmpDir.c_str());
-//Разархивируем и удаляем заменяемый zip
+
+//Разархивируем в папку tmpDir/tmp и удаляем заменяемый zip
         string exteractZip{"cd tmpDir && 7z x -bsp0 -bso0 "};
         exteractZip.append(allData["oboznachenieIkodDokumenta"]).append(".zip -o'tmp'");
         system(exteractZip.c_str());
         string deleteZip{"rm  "};
         deleteZip.append(" tmpDir/").append(allData["oboznachenieIkodDokumenta"]).append(".zip");
         system(deleteZip.c_str());
+//Проверяем что номер изм  на 1 меньше текущего
+        map<string,string> tmpData{};
+        string jsonPath{"tmpDir/tmp/index.json"};
+        if(!parseJSON(jsonPath, tmpData)) {
+            cout << "json error" << endl;
+            return 0;
+        }
+        int izmCurrent = atoi(allData["changeNumStr"].c_str());
+        int izmOld = atoi(tmpData["changeNumStr"].c_str());
+        if (izmCurrent - izmOld != 1)
+        {
+            cout << "ОШИБКА! Номер изменения отличается больше чем на единицу" << endl;
+            return 0;
+        }
+        cout << "Проверка номера изм. ... OK" << endl;
+//Удаляем zip из папки актуальных документов
+        string deleteOldZip{"rm "};
+        deleteOldZip.append(config["niokrActualDocs"]).append("/").append(allData["oboznachenieIkodDokumenta"]).append(".zip");
+        system(deleteOldZip.c_str());
+
 //В json меняем true на false
 
 
@@ -286,6 +281,31 @@ int main(int argc, char *argv[])
 
 
     }
+//Если изм 0 то попадаем сразу сюда
+//Архивируем в папку актуальные 7z a -tzip -mx7 -bsp0 -bso0 ~/SOFT/Github/GIT/17_createNiokrArkhivDoc/Ниокр-Актуальные_документы/11.zip ~/SOFT/Github/GIT/17_createNiokrArkhivDoc/createNiokrArkhivDoc/ГРЛМ.301122.007СБ/*
+
+//    cout<<"Архивируется папка " << argv[1] << endl;
+//    string cmd7zip{"7z a -tzip -mx7 -bsp0 -bso0 "};
+//    cmd7zip.append(config["niokrActualDocs"]).append("/").append(allData["oboznachenieIkodDokumenta"]).append(".zip");
+//    cmd7zip.append(" ");
+//    cmd7zip.append(string(argv[1]).append("/*"));
+//    system(cmd7zip.c_str());
+
+//Удаляем старый подлинник с таким-же именем (если есть) Переименовываем pdf в PDF и копируем подлинник PDF в папку Ниокр-Документы_по_обозначениям
+
+    //    cout<<"Копируется подлинник PDF в папку " << config["niokrPoOboznacheniyam"] << endl;
+//    string cmdDelateOriginPDF{"rm -f "};
+//    string cmdDelateOriginpdf{"rm -f "};
+//    cmdDelateOriginPDF.append(config["niokrPoOboznacheniyam"]).append("/").append(allData["oboznachenieIkodDokumenta"]).append(".PDF 2> /dev/null");
+//    cmdDelateOriginpdf.append(config["niokrPoOboznacheniyam"]).append("/").append(allData["oboznachenieIkodDokumenta"]).append(".pdf 2> /dev/null");
+//    system(cmdDelateOriginPDF.c_str());
+//    system(cmdDelateOriginpdf.c_str());
+//    string remaneOriginpdfToPDF{"mv "};
+//    remaneOriginpdfToPDF.append(archiv_path).append("/Contents/").append(allData["oboznachenieIkodDokumenta"]).append(".pdf ").append(archiv_path).append("/Contents/").append(allData["oboznachenieIkodDokumenta"]).append(".PDF 2> /dev/null");
+//    system(remaneOriginpdfToPDF.c_str());
+//    string copyOriginPDF{"cp "};
+//    copyOriginPDF.append(archiv_path).append("/Contents/").append(allData["oboznachenieIkodDokumenta"]).append(".PDF ").append(config["niokrPoOboznacheniyam"]);
+//    system(copyOriginPDF.c_str());
 
 return 0;
 
