@@ -275,7 +275,8 @@ int main(int argc, char *argv[])
         system(deleteOldZip.c_str());
 
 //В json меняем true на false
-
+        string replaceBool{"cd tmpDir/tmp && sed -i 's/true/false/' index.json"};
+        system(replaceBool.c_str());
 
 //Архивируем в папку неактуальные , добавляя в конце изм номер
 
