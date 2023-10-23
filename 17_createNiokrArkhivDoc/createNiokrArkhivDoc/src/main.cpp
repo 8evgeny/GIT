@@ -278,6 +278,7 @@ int main(int argc, char *argv[])
         system(replaceBool.c_str());
 
 //Архивируем в папку неактуальные , добавляя в конце изм номер
+        cout<<"В папке Ниокр-Неактуальные_документы  создан новый документ: "  << allData["oboznachenieIkodDokumenta"] <<".изм."<< tmpData["changeNumStr"]<<".zip" << endl;
         string cmd7zip{"7z a -tzip -mx7 -bsp0 -bso0 "};
         cmd7zip.append(config["niokrOldDocs"]).append("/").append(allData["oboznachenieIkodDokumenta"]).append(".изм.").append(tmpData["changeNumStr"]).append(".zip");
         cmd7zip.append(" ./tmpDir/tmp/*");
@@ -286,29 +287,27 @@ int main(int argc, char *argv[])
     }
 //Если изм 0 то попадаем сразу сюда
 //Архивируем в папку актуальные 7z a -tzip -mx7 -bsp0 -bso0 ~/SOFT/Github/GIT/17_createNiokrArkhivDoc/Ниокр-Актуальные_документы/11.zip ~/SOFT/Github/GIT/17_createNiokrArkhivDoc/createNiokrArkhivDoc/ГРЛМ.301122.007СБ/*
-
-//    cout<<"Архивируется папка " << argv[1] << endl;
-//    string cmd7zip{"7z a -tzip -mx7 -bsp0 -bso0 "};
-//    cmd7zip.append(config["niokrActualDocs"]).append("/").append(allData["oboznachenieIkodDokumenta"]).append(".zip");
-//    cmd7zip.append(" ");
-//    cmd7zip.append(string(argv[1]).append("/*"));
-//    system(cmd7zip.c_str());
+    cout<<"В папке Ниокр-Актуальные_документы  создан новый документ: "  << allData["oboznachenieIkodDokumenta"] <<".zip" << endl;
+    string cmd7zip{"7z a -tzip -mx7 -bsp0 -bso0 "};
+    cmd7zip.append(config["niokrActualDocs"]).append("/").append(allData["oboznachenieIkodDokumenta"]).append(".zip");
+    cmd7zip.append(" ");
+    cmd7zip.append(string(argv[1]).append("/*"));
+    system(cmd7zip.c_str());
 
 //Удаляем старый подлинник с таким-же именем (если есть) Переименовываем pdf в PDF и копируем подлинник PDF в папку Ниокр-Документы_по_обозначениям
-
-    //    cout<<"Копируется подлинник PDF в папку " << config["niokrPoOboznacheniyam"] << endl;
-//    string cmdDelateOriginPDF{"rm -f "};
-//    string cmdDelateOriginpdf{"rm -f "};
-//    cmdDelateOriginPDF.append(config["niokrPoOboznacheniyam"]).append("/").append(allData["oboznachenieIkodDokumenta"]).append(".PDF 2> /dev/null");
-//    cmdDelateOriginpdf.append(config["niokrPoOboznacheniyam"]).append("/").append(allData["oboznachenieIkodDokumenta"]).append(".pdf 2> /dev/null");
-//    system(cmdDelateOriginPDF.c_str());
-//    system(cmdDelateOriginpdf.c_str());
-//    string remaneOriginpdfToPDF{"mv "};
-//    remaneOriginpdfToPDF.append(archiv_path).append("/Contents/").append(allData["oboznachenieIkodDokumenta"]).append(".pdf ").append(archiv_path).append("/Contents/").append(allData["oboznachenieIkodDokumenta"]).append(".PDF 2> /dev/null");
-//    system(remaneOriginpdfToPDF.c_str());
-//    string copyOriginPDF{"cp "};
-//    copyOriginPDF.append(archiv_path).append("/Contents/").append(allData["oboznachenieIkodDokumenta"]).append(".PDF ").append(config["niokrPoOboznacheniyam"]);
-//    system(copyOriginPDF.c_str());
+    cout<<"В папку Ниокр-Документы_по_обозначениям скопирован подлинник: " <<  allData["oboznachenieIkodDokumenta"]<<".PDF" <<  endl;
+    string cmdDelateOriginPDF{"rm -f "};
+    string cmdDelateOriginpdf{"rm -f "};
+    cmdDelateOriginPDF.append(config["niokrPoOboznacheniyam"]).append("/").append(allData["oboznachenieIkodDokumenta"]).append(".PDF 2> /dev/null");
+    cmdDelateOriginpdf.append(config["niokrPoOboznacheniyam"]).append("/").append(allData["oboznachenieIkodDokumenta"]).append(".pdf 2> /dev/null");
+    system(cmdDelateOriginPDF.c_str());
+    system(cmdDelateOriginpdf.c_str());
+    string remaneOriginpdfToPDF{"mv "};
+    remaneOriginpdfToPDF.append(archiv_path).append("/Contents/").append(allData["oboznachenieIkodDokumenta"]).append(".pdf ").append(archiv_path).append("/Contents/").append(allData["oboznachenieIkodDokumenta"]).append(".PDF 2> /dev/null");
+    system(remaneOriginpdfToPDF.c_str());
+    string copyOriginPDF{"cp "};
+    copyOriginPDF.append(archiv_path).append("/Contents/").append(allData["oboznachenieIkodDokumenta"]).append(".PDF ").append(config["niokrPoOboznacheniyam"]);
+    system(copyOriginPDF.c_str());
 
 return 0;
 
