@@ -20,7 +20,7 @@ https://code-live.ru/post/terminal-mode-management-ncurses/
 https://ru.stackoverflow.com/questions/1263580/ncurses-ввод-и-вывод-русского-символа-на-экран
  #endif
 
-void mainQw(uint num, vector<string> & qw)
+void colorMsg(uint num, vector<string> & qw)
 {
     mvprintw(num*2-2, 0, qw[0].c_str());
     attron(COLOR_PAIR(1));
@@ -47,7 +47,7 @@ bool workInConsole(uint num, string qw1, string qw2, string qw3, string qw4, str
     init_pair(2, COLOR_GREEN, COLOR_BLACK);
     init_pair(3, COLOR_WHITE, COLOR_BLACK);
     attron(COLOR_PAIR(3));
-    mainQw(num, qw);
+    colorMsg(num, qw);
 
     noecho();
     halfdelay(100);         //Устанавливаем ограничение по времени ожидания getch() в 10 сек
@@ -67,12 +67,12 @@ bool workInConsole(uint num, string qw1, string qw2, string qw3, string qw4, str
         case 1:
             c1 = tmp;
             if ((c1 != L'д') && (c1 != L'н')){
-            mainQw(num, qw);
+            colorMsg(num, qw);
             mvprintw(num*2-1, 0, "Введите да  или  нет");
             numCharEntered = 0;
             }
             if ((c1 == L'д') || (c1 == L'н')){
-            mainQw(num, qw);
+            colorMsg(num, qw);
             mvprintw(num*2-1, 0, "                    \b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b");
             if (c1 == L'д')
                 mvprintw(num*2-1, 0, "д");
@@ -88,7 +88,7 @@ bool workInConsole(uint num, string qw1, string qw2, string qw3, string qw4, str
             ex = true;
             }
             if ((c1 == L'д') && (c2 != L'а')){
-            mainQw(num, qw);
+            colorMsg(num, qw);
             mvprintw(num*2-1, 0, "Введите да  или  нет");
             numCharEntered = 0;
             }
@@ -103,12 +103,12 @@ bool workInConsole(uint num, string qw1, string qw2, string qw3, string qw4, str
             ret = false;
             }
             if ((c1 == L'н') && (c2 != L'e')){
-            mainQw(num, qw);
+            colorMsg(num, qw);
             mvprintw(num*2-1, 0, "Введите да  или  нет");
             numCharEntered = 0;
             }
             if ((c1 == L'н') && (c2 == L'e') && (c3 != L'т')){
-            mainQw(num, qw);
+            colorMsg(num, qw);
             mvprintw(num*2-1, 0, "Введите да  или  нет");
             numCharEntered = 0;
             }
