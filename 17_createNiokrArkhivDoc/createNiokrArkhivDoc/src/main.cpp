@@ -244,9 +244,17 @@ int main(int argc, char *argv[])
     cmd7zip.append(" ");
     cmd7zip.append(string(argv[1]).append("/*"));
     system(cmd7zip.c_str());
-//Копируем подлинник PDF в папку Ниокр-Документы_по_обозначениям
+//Удаляем старый подлинник с таким-же именем (если есть) и копируем подлинник PDF в папку Ниокр-Документы_по_обозначениям
     cout<<"Копируется подлинник PDF в папку " << config["niokrPoOboznacheniyam"] << endl;
-
+    string cmdDelateOriginPDF{"rm -f "};
+    string cmdDelateOriginpdf{"rm -f "};
+    cmdDelateOriginPDF.append(config["niokrPoOboznacheniyam"]).append("/").append(allData["oboznachenieIkodDokumenta"]).append(".PDF 2> /dev/null");
+    cmdDelateOriginpdf.append(config["niokrPoOboznacheniyam"]).append("/").append(allData["oboznachenieIkodDokumenta"]).append(".pdf 2> /dev/null");
+    system(cmdDelateOriginPDF.c_str());
+    system(cmdDelateOriginpdf.c_str());
+    string copyOriginPDF{"cp "};
+    copyOriginPDF.append(archiv_path).append("/Contents/").append(allData["oboznachenieIkodDokumenta"]).append(".PDF ").append(config["niokrPoOboznacheniyam"]);
+    system(copyOriginPDF.c_str());
     }
     else //Изм не 0
     {
