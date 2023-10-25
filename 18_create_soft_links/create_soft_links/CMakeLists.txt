@@ -28,8 +28,12 @@ foreach (_variableName ${_variableNames})
     message(STATUS "${_variableName}=${${_variableName}}")
 endforeach()
 
-add_executable(${PROJECT_NAME} ${src})
+qt5_add_resources(QT_RESOURCES  qml.qrc)
+add_executable(${PROJECT_NAME} ${src} ${QT_RESOURCES})
 target_link_libraries(${PROJECT_NAME}
     Qt${QT_VERSION_MAJOR}::Core
     ${Boost_LIBRARIES}
+    Qt5::Widgets
+    Qt5::Qml
+    Qt5::Quick
     )

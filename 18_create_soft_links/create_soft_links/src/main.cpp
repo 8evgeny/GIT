@@ -1,5 +1,7 @@
 ﻿#include "main.h"
 #include <boost/program_options.hpp>
+#include <QGuiApplication>
+#include <QQmlApplicationEngine>
 namespace po = boost::program_options;
 #if 0
 
@@ -29,6 +31,18 @@ map<string, string> readConfig(const char* conf_file) {
 
 int main(int argc, char *argv[])
 {
+    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+    QGuiApplication app(argc, argv);
+    QQmlApplicationEngine engine;
+    engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
+    if (engine.rootObjects().isEmpty())
+        return -1;
+
+
+
+
+
+
     auto config = readConfig("../config.ini");
     cout << "niokrPoOboznacheniyam: \t" << config["niokrPoOboznacheniyam"] << endl;
     cout << "niokrFoldersToSoftLinks: \t" << config["niokrFoldersToSoftLinks"] << endl<<endl;
@@ -36,6 +50,5 @@ int main(int argc, char *argv[])
 
 
 
-
-return 0;
+return app.exec();
 }
