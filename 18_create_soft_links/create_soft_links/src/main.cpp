@@ -1,24 +1,56 @@
 ﻿#include "main.h"
+#include "widget.h"
 #if 0
 
  #endif
+#include <QApplication>
+#include <QListWidget>
+
+//static const QStringList LIST_ITEMS =
+//    QStringList() << "C++" << "Python" << "Java" << "C#" << "PHP" << "Ruby" << "JavaScript";
+
+//// Класс-обработчик сигналов от виджета списка
+//class ListController : public QObject {
+//    Q_OBJECT
+//public slots:
+//    void onListDoubleClicked( const QModelIndex& index ) {
+//        if( !index.isValid() ) {
+//            return;
+//        }
+
+//        if( QListWidget* listWgt = dynamic_cast< QListWidget* >( sender() ) ) {
+//            if( QListWidgetItem* item = listWgt->takeItem( index.row() ) ) {
+//                delete item;
+//            }
+//        }
+//    }
+//};
+
 
 int main(int argc, char *argv[])
 {
-    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-    QGuiApplication app(argc, argv);
-    AppCore appCore;
-    QQmlApplicationEngine engine;
-    const QUrl url(QStringLiteral("qrc:/main.qml"));
-    QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
-    &app, [url](QObject * obj, const QUrl & objUrl) {
-        if (!obj && url == objUrl)
-            QCoreApplication::exit(-1);
-    }, Qt::QueuedConnection);
-//    QQmlContext *context = engine.rootContext();
+    QApplication app( argc, argv );
 
-    appCore.readConfig("../config.ini");
+    Widget w;
+    w.show();
 
-    engine.load(url);
+//    QListWidget listWgt;
+//    listWgt.addItems( LIST_ITEMS );
+//    listWgt.resize( 300, 300 );
+//    listWgt.show();
+
+//    ListController listController;
+//    QObject::connect(
+//        &listWgt,
+//        SIGNAL( doubleClicked( QModelIndex ) ),
+//        &listController,
+//        SLOT( onListDoubleClicked( QModelIndex ) )
+//    );
+
+
+
+//AppCore appCore;
+//    appCore.readConfig("../config.ini");
+
 return app.exec();
 }

@@ -9,8 +9,8 @@
 #include <unordered_set>
 #include <boost/program_options.hpp>
 #include <QGuiApplication>
-#include <QQmlApplicationEngine>
-#include "appcore.h"
+//#include <QQmlApplicationEngine>
+//#include "appcore.h"
 
 using namespace std;
 using namespace chrono_literals;
