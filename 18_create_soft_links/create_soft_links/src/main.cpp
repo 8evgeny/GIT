@@ -5,11 +5,6 @@ namespace po = boost::program_options;
 
  #endif
 
-void logging()
-{
-
-}
-
 map<string, string> readConfig(const char* conf_file) {
     map<string, string> config{};
     cout<<"reading config.ini file\n"<<endl;
@@ -34,11 +29,10 @@ map<string, string> readConfig(const char* conf_file) {
 
 int main(int argc, char *argv[])
 {
-
     auto config = readConfig("../config.ini");
     cout << "niokrPoOboznacheniyam: \t" << config["niokrPoOboznacheniyam"] << endl;
     cout << "niokrFoldersToSoftLinks: \t" << config["niokrFoldersToSoftLinks"] << endl<<endl;
-
+//QML перечень директорий
 
 
 
