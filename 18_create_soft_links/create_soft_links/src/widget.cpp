@@ -3,6 +3,10 @@
 
 Widget::Widget(QWidget *parent) : QWidget(parent) , ui(new Ui::Widget) {
   ui->setupUi(this);
+
+    readConfig("../config.ini");
+
+
 }
 
 Widget::~Widget() {

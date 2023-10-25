@@ -20,6 +20,9 @@
       <widget class="QListWidget" name="listWidget"/>
      </item>
      <item>
+      <widget class="QListWidget" name="listWidget_2"/>
+     </item>
+     <item>
       <layout class="QVBoxLayout" name="verticalLayout_2">
        <item>
         <widget class="QPushButton" name="pushButton">
