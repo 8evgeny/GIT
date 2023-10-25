@@ -16,6 +16,8 @@ public:
     Widget(QWidget *parent = nullptr);
     ~Widget();
 
+    void readConfig(const char* conf_file);
+
 private slots:
     void on_pushButton_clicked();
     void on_pushButton_2_clicked();
@@ -39,5 +41,6 @@ private slots:
 private:
     Ui::Widget *ui;
     QString previousText;
+    std::map <std::string, std::string> config{};
 };
 #endif // WIDGET_H

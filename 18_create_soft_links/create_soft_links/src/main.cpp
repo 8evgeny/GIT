@@ -32,6 +32,7 @@ int main(int argc, char *argv[])
     QApplication app( argc, argv );
 
     Widget w;
+    w.setWindowTitle("Создание комплекта документов на изделие");
     w.show();
 
 //    QListWidget listWgt;
