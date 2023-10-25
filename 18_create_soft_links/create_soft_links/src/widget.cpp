@@ -41,7 +41,7 @@ void Widget::readConfig(const char* conf_file) {
 void Widget::parseInFolder()
 {
     const path path{config["niokrPoOboznacheniyam"]};
-    const unordered_set<string> pe_extensions{ ".PDF" };
+    const unordered_set<string> pe_extensions{ ".PDF", ".pdf" };
     cout << endl <<"Patch for PDF search: "<< path << endl;
 
     auto iterator = recursive_directory_iterator{ path, directory_options::skip_permission_denied };
@@ -68,8 +68,8 @@ void Widget::addPdfItemsToList()
 {
     for (auto & i:vectorPDF)
     {
-        new QListWidgetItem(tr(i.c_str()),ui->listWidget);
-        QString item2Title ("Элемент 2");
+//        new QListWidgetItem(tr(i.c_str()),ui->listWidget);
+//        QString item2Title ("Элемент 2");
         QListWidgetItem *item = new QListWidgetItem;
         item->setText(tr(i.c_str()));
 //        item->setIcon(QIcon(":/images/new.png"));
