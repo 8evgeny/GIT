@@ -6,6 +6,8 @@ Widget::Widget(QWidget *parent) : QWidget(parent) , ui(new Ui::Widget) {
   ui->setupUi(this);
 
     readConfig("../config.ini");
+    parseInFolder();
+    addPdfItemsToList();
 
 
 }
@@ -36,7 +38,48 @@ void Widget::readConfig(const char* conf_file) {
   cout << "niokrFoldersToSoftLinks: \t" << config["niokrFoldersToSoftLinks"] << endl<<endl;
 }
 
+void Widget::parseInFolder()
+{
+    const path path{config["niokrPoOboznacheniyam"]};
+    const unordered_set<string> pe_extensions{ ".PDF" };
+    cout << endl <<"Patch for PDF search: "<< path << endl;
 
+    auto iterator = recursive_directory_iterator{ path, directory_options::skip_permission_denied };
+    for(const auto& entry : iterator) {
+      try {
+        if(!entry.is_regular_file())
+          continue;
+        const auto& extension = entry.path().extension().string();
+        const auto is_pe = pe_extensions.find(extension) != pe_extensions.end();
+        if(!is_pe)
+          continue;
+        ifstream file{ entry.path() };
+        string patch = entry.path().string();
+        vectorPDF.push_back(patch);
+      } catch(const exception& e) {
+        cerr << "Error reading " << entry.path().string() << ": " << e.what() << endl;
+      }
+    }
+    cout<<"PDF документов в папке: " << vectorPDF.size()<<endl;
+
+}
+
+void Widget::addPdfItemsToList()
+{
+    for (auto & i:vectorPDF)
+    {
+        new QListWidgetItem(tr(i.c_str()),ui->listWidget);
+        QString item2Title ("Элемент 2");
+        QListWidgetItem *item = new QListWidgetItem;
+        item->setText(tr(i.c_str()));
+//        item->setIcon(QIcon(":/images/new.png"));
+        item->setToolTip("Всплывающая подсказка");
+        item->setStatusTip("Сообщение в строку статуса");
+        item->setWhatsThis("Подсказка \"Что это?\"");
+        ui->listWidget->addItem(item);
+    }
+
+}
 
 void Widget::on_pushButton_clicked() {
  new QListWidgetItem(tr("Элемент 1"),ui->listWidget);

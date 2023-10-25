@@ -17,6 +17,8 @@ public:
     ~Widget();
 
     void readConfig(const char* conf_file);
+    void parseInFolder();
+    void addPdfItemsToList();
 
 private slots:
     void on_pushButton_clicked();
@@ -42,5 +44,6 @@ private:
     Ui::Widget *ui;
     QString previousText;
     std::map <std::string, std::string> config{};
+    std::vector<std::string> vectorPDF;
 };
 #endif // WIDGET_H
