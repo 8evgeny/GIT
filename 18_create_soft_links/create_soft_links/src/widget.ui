@@ -17,72 +17,35 @@
    <item row="0" column="0">
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
-      <widget class="QPushButton" name="pushButton_10">
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButton_Load">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
        <property name="text">
-        <string>загрузить</string>
+        <string>Загрузить комплект </string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton_9">
-       <property name="text">
-        <string>сохранить</string>
+      <widget class="QPushButton" name="pushButton_Save">
+       <property name="enabled">
+        <bool>true</bool>
        </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="pushButton_8">
        <property name="text">
-        <string>выбрано</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="pushButton_7">
-       <property name="text">
-        <string>режим</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="pushButton_6">
-       <property name="text">
-        <string>удал_все</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="pushButton_5">
-       <property name="text">
-        <string>удалить</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="pushButton_4">
-       <property name="text">
-        <string>редакт</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="pushButton_2">
-       <property name="text">
-        <string>сорт</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="pushButton">
-       <property name="text">
-        <string>добавить</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="pushButton_3">
-       <property name="text">
-        <string>элемент</string>
+        <string>Сохранить комплект и выйти</string>
        </property>
       </widget>
      </item>
@@ -108,8 +71,8 @@
    </item>
    <item row="3" column="0">
     <layout class="QGridLayout" name="gridLayout_2">
-     <item row="0" column="1">
-      <widget class="QListWidget" name="listWidget_2"/>
+     <item row="0" column="2">
+      <layout class="QVBoxLayout" name="verticalLayout_2"/>
      </item>
      <item row="0" column="0">
       <widget class="QListWidget" name="listWidget">
@@ -121,8 +84,8 @@
        </property>
       </widget>
      </item>
-     <item row="0" column="2">
-      <layout class="QVBoxLayout" name="verticalLayout_2"/>
+     <item row="0" column="1">
+      <widget class="QListWidget" name="listWidget_2"/>
      </item>
     </layout>
    </item>
