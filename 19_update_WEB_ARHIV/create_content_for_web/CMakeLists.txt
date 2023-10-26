@@ -12,8 +12,13 @@ set(COMPILE_OPTIONS "-Wpedantic;-Wall;-Wextra")
 include_directories(rapidjson/include src)
 find_package(QT NAMES Qt5 COMPONENTS Core REQUIRED)
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Core REQUIRED)
+find_package (Boost REQUIRED COMPONENTS
+    system
+    filesystem
+    program_options
+    )
 file(GLOB src src/*.cpp)
 add_executable(createWebContent ${src})
-target_link_libraries(createWebContent Qt${QT_VERSION_MAJOR}::Core )
+target_link_libraries(createWebContent Qt${QT_VERSION_MAJOR}::Core ${Boost_LIBRARIES})
 add_subdirectory(rapidjson)
 

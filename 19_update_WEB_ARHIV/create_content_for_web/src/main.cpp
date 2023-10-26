@@ -1,7 +1,7 @@
 ﻿#include "main.h"
 #if 0
 
-docker run -it --rm -d -p 8080:80 --name web -v ~/SOFT/Github/GIT/16_WEB_ARHIV/CONTENT:/usr/share/nginx/html nginx
+docker run -it --rm -d -p 8081:80 --name web -v ~/SOFT/Github/GIT/19_update_WEB_ARHIV/CONTENT:/usr/share/nginx/html nginx
                                     или
 docker run -it --rm -d -p 8080:80 --name web2 -v ~/SOFT/Github/GIT/16_WEB_ARHIV/CONTENT:/usr/local/apache2/htdocs/ httpd:2.4
 docker build -t  createwebcontent ~/SOFT/Github/GIT/16_WEB_ARHIV
@@ -21,15 +21,57 @@ uint numContent{0};
 
 int main(int argc, char *argv[])
 {
-    path archiv_path_zip{"../../Ниокр-Актуальные_документы"};
-    if (argc != 2)
-    {
-        cout << "Передается в качестве параметра путь ../../Ниокр-Актуальные_документы"<< endl;
-    }
-    else
-    {
-        archiv_path_zip= argv[1];
-    }
+    auto config = readConfig("../config.ini");
+    createMainWebContent(config);
+
+//Тут формирую дополнительный контент (по изделиям)
+
+
+
+
+
+//Запускаем web-server
+    string webStart = "docker run -it --rm -d -p 8080:80 --name web -v ~/SOFT/Github/GIT/16_WEB_ARHIV/CONTENT:/usr/share/nginx/html nginx 2>/dev/null";
+    system(webStart.c_str());
+}
+
+map<string, string> readConfig(const char* conf_file) {
+    map<string, string> config{};
+    cout<<"reading config.ini file\n"<<endl;
+    po::variables_map vm;
+    po::options_description patches("patchesToDirectories");
+    patches.add_options()
+          ("patchesToDirectories.niokrActualDocs", po::value<string>(), "")
+          ("patchesToDirectories.niokrPoOboznacheniyam", po::value<string>(), "")
+          ("patchesToDirectories.niokrIzvesheniya", po::value<string>(), "")
+          ("patchesToDirectories.niokrOldDocs", po::value<string>(), "")
+          ("patchesToDirectories.niokrFoldersByDevices", po::value<string>(), "");
+  po::options_description desc("Allowed options");
+  desc.add(patches);
+  try {
+    po::parsed_options parsed = po::parse_config_file<char>(conf_file, desc, true);  //флаг true разрешает незарегистрированные опции !
+    po::store(parsed, vm);
+  } catch (const po::reading_file& e) {
+    std::cout << "Error: " << e.what() << std::endl;
+  }
+  po::notify(vm);
+  config["niokrActualDocs"] = vm["patchesToDirectories.niokrActualDocs"].as<string>();
+  config["niokrPoOboznacheniyam"] = vm["patchesToDirectories.niokrPoOboznacheniyam"].as<string>();
+  config["niokrIzvesheniya"] = vm["patchesToDirectories.niokrIzvesheniya"].as<string>();
+  config["niokrOldDocs"] = vm["patchesToDirectories.niokrOldDocs"].as<string>();
+  config["niokrFoldersByDevices"] = vm["patchesToDirectories.niokrFoldersByDevices"].as<string>();
+  cout << "niokrActualDocs:       \t" << config["niokrActualDocs"] << endl;
+  cout << "niokrPoOboznacheniyam: \t" << config["niokrPoOboznacheniyam"] << endl;
+  cout << "niokrIzvesheniya:      \t" << config["niokrIzvesheniya"] << endl;
+  cout << "niokrOldDocs:         \t" << config["niokrOldDocs"] << endl;
+  cout << "niokrFoldersByDevices:  \t" << config["niokrFoldersByDevices"] << endl << endl;
+
+  return config;
+}
+
+void createMainWebContent(map<string, string> &config){
+
+    path archiv_path_zip{config["niokrActualDocs"]};
 
     string pathToExtractDirectory = "EXTRACT"; //в папке build
     const path archiv_path_extracted{pathToExtractDirectory};
@@ -50,7 +92,6 @@ int main(int argc, char *argv[])
 
     vector<string> vectorZipFilesPath;
     vector<string> vectorZipFilesName;
-    cout << "Patch for zip search: "<<archiv_path_zip << endl;
     const unordered_set<string> zip_extensions{ ".zip" };
     auto iteratorZip = recursive_directory_iterator{ archiv_path_zip, directory_options::skip_permission_denied };
     for(const auto& entry : iteratorZip) {
@@ -125,7 +166,4 @@ int main(int argc, char *argv[])
        << endl << "Ошибок разбора: " << errorParsingJson<< endl;
     for (auto & patchJsonError : errorJsonPatch)
         cout <<  patchJsonError << endl;
-//Запускаем web-server
-    string webStart = "docker run -it --rm -d -p 8080:80 --name web -v ~/SOFT/Github/GIT/16_WEB_ARHIV/CONTENT:/usr/share/nginx/html nginx 2>/dev/null";
-    system(webStart.c_str());
 }
