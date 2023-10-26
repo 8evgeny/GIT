@@ -72,7 +72,7 @@ void Widget::addPdfItemsToList()
         ++numDoc;
         QListWidgetItem *item = new QListWidgetItem;
         auto pos = i.find_last_of('/');
-        string name = to_string(numDoc).append(". ").append(i.substr(pos + 1, i.size() - pos - 5));
+        string name = to_string(numDoc).append(".  ").append(i.substr(pos + 1, i.size() - pos - 5));
         item->setText(tr(name.c_str()));
         item->setToolTip(i.c_str());
 //        item->setStatusTip("Сообщение в строку статуса");
