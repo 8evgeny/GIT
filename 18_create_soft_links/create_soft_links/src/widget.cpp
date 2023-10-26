@@ -7,6 +7,11 @@ Widget::Widget(QWidget *parent) : QWidget(parent) , ui(new Ui::Widget) {
     readConfig("../config.ini");
     parseInFolder();
     addPdfItemsToList();
+    string nameDoc{config["niokrFoldersToSoftLinks"]};
+    auto pos = nameDoc.find_last_of('/');
+    string tmp = "Комплект документов формируется для: ";
+    tmp.append(nameDoc.substr(pos+1));
+    ui->nameDoc->setText(QString::fromStdString(tmp));
 }
 
 Widget::~Widget() {
