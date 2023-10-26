@@ -85,7 +85,7 @@ void Widget::on_listWidget_itemDoubleClicked(QListWidgetItem *item) {
     itemList2->setText(nameDoc.c_str());
     ui->listWidget_2->addItem(itemList2);
 
-    createSimLink(nameDoc);
+//    createSimLink(nameDoc);
 }
 
 void Widget::createSimLink(string nameDoc)
@@ -98,9 +98,11 @@ void Widget::createSimLink(string nameDoc)
     QFile file(tmp.c_str());
     if (file.exists()) {
         pathOrigin.append(".PDF ");
+        nameDoc.append(".PDF");
     }
     else {
         pathOrigin.append(".pdf ");
+        nameDoc.append(".pdf");
     }
 
     string cmd = "cd ";
@@ -115,6 +117,10 @@ void Widget::on_listWidget_2_itemDoubleClicked(QListWidgetItem *item) {
 }
 
 void Widget::on_pushButton_Save_clicked() {
+    //Очищаем директорию
+    string cmd = "rm -rf ";
+    cmd.append(config["niokrFoldersToSoftLinks"]).append("/*");
+    system(cmd.c_str());
     QString path{config["niokrFoldersToSoftLinks"].c_str()};
     path.append("/.documents");
     QFile file(path);
@@ -126,6 +132,7 @@ void Widget::on_pushButton_Save_clicked() {
         QListWidgetItem *item = ui->listWidget_2->item(row);
         QTextStream out(&file);
         out << item->text() << "\n";
+        createSimLink(item->text().toStdString());
     }
     file.close();
     close();
