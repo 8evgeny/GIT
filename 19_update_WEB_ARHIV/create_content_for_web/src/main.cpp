@@ -22,22 +22,38 @@ uint numContent{0};
 int main(int argc, char *argv[])
 {
     auto config = readConfig("../config.ini");
-    createMainWebContent(config);
+//    createMainWebContent(config);
 
 //Тут формирую дополнительный контент (по изделиям)
+//Сканирую директорию Ниокр-Папки_по_изделиям (Собираю поддиректории)
+    vector<string> vectorFolders{};
+    auto iteratorFolders = recursive_directory_iterator{ config["niokrFoldersByDevices"], directory_options::skip_permission_denied };
+    for(const auto& entry : iteratorFolders) {
+      try {
+        if(!entry.is_directory())
+          continue;
+        string patch = entry.path().string();
+        vectorFolders.push_back(patch);
+      } catch(const exception& e) {
+        cerr << "Error reading " << entry.path().string() << ": " << e.what() << endl;
+      }
+    }
+    cout<< "Директории с софтлинками:\n";
+    for (auto i:vectorFolders)
+      cout<<i<<endl;
 
 
 
 
 
 //Запускаем web-server
-    string webStart = "docker run -it --rm -d -p 8080:80 --name web -v ~/SOFT/Github/GIT/16_WEB_ARHIV/CONTENT:/usr/share/nginx/html nginx 2>/dev/null";
+    string webStart = "docker run -it --rm -d -p 8081:80 --name web -v ~/SOFT/Github/GIT/19_update_WEB_ARHIV/CONTENT:/usr/share/nginx/html nginx 2>/dev/null";
     system(webStart.c_str());
 }
 
 map<string, string> readConfig(const char* conf_file) {
     map<string, string> config{};
-    cout<<"reading config.ini file\n"<<endl;
+    cout<<"Читаем config.ini "<<endl;
     po::variables_map vm;
     po::options_description patches("patchesToDirectories");
     patches.add_options()
