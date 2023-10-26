@@ -25,7 +25,7 @@ private slots:
     void on_pushButton_Load_clicked();
     void on_listWidget_itemDoubleClicked(QListWidgetItem *item);
     void on_listWidget_2_itemDoubleClicked(QListWidgetItem *item);
-    void createSimLink(std::string pathOrigin, std::string nameSimLink);
+    void createSimLink(std::string nameDoc);
 
 private:
     Ui::Widget *ui;

@@ -74,7 +74,6 @@ void Widget::addPdfItemsToList()
         item->setToolTip(i.c_str());
         ui->listWidget->addItem(item);
     }
-
 }
 
 void Widget::on_listWidget_itemDoubleClicked(QListWidgetItem *item) {
@@ -86,6 +85,11 @@ void Widget::on_listWidget_itemDoubleClicked(QListWidgetItem *item) {
     itemList2->setText(nameDoc.c_str());
     ui->listWidget_2->addItem(itemList2);
 
+    createSimLink(nameDoc);
+}
+
+void Widget::createSimLink(string nameDoc)
+{
     string tmp = config["niokrPoOboznacheniyam"];
     tmp.append("/").append(nameDoc).append(".PDF");
     string pathOrigin{};
@@ -98,13 +102,9 @@ void Widget::on_listWidget_itemDoubleClicked(QListWidgetItem *item) {
     else {
         pathOrigin.append(".pdf ");
     }
-    createSimLink(pathOrigin, nameDoc);
-}
 
-void Widget::createSimLink(string pathOrigin, string nameSimLink)
-{
     string cmd = "cd ";
-    cmd.append(config["niokrFoldersToSoftLinks"]).append(" && ln -s -f ").append(pathOrigin).append(nameSimLink);
+    cmd.append(config["niokrFoldersToSoftLinks"]).append(" && ln -s -f ").append(pathOrigin).append(nameDoc);
     system(cmd.c_str());
 }
 
