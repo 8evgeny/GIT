@@ -89,15 +89,14 @@ void Widget::on_listWidget_itemDoubleClicked(QListWidgetItem *item) {
     string tmp = config["niokrPoOboznacheniyam"];
     tmp.append("/").append(nameDoc).append(".PDF");
     string pathOrigin{};
-    //Проверяем есть ли такой файл
+    pathOrigin.append(config["niokrPoOboznacheniyam"]).append("/").append(nameDoc);
+    //Проверяем PDF или pdf
     QFile file(tmp.c_str());
-    if (file.exists())
-    {
-        pathOrigin.append(config["niokrPoOboznacheniyam"]).append("/").append(nameDoc).append(".PDF ");
+    if (file.exists()) {
+        pathOrigin.append(".PDF ");
     }
-    else //Меняем на pdf
-    {
-        pathOrigin.append(config["niokrPoOboznacheniyam"]).append("/").append(nameDoc).append(".pdf ");
+    else {
+        pathOrigin.append(".pdf ");
     }
     createSimLink(pathOrigin, nameDoc);
 }
