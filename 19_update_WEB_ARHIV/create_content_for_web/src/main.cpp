@@ -1,6 +1,6 @@
 ﻿#include "main.h"
 #if 0
-
+https://htmlbook.ru/content/svoystva-ssylok
 docker run -it --rm -d -p 8081:80 --name web -v ~/SOFT/Github/GIT/19_update_WEB_ARHIV/CONTENT:/usr/share/nginx/html nginx
                                     или
 docker run -it --rm -d -p 8080:80 --name web2 -v ~/SOFT/Github/GIT/16_WEB_ARHIV/CONTENT:/usr/local/apache2/htdocs/ httpd:2.4
