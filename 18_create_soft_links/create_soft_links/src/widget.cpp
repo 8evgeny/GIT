@@ -4,7 +4,6 @@
 
 Widget::Widget(QWidget *parent) : QWidget(parent) , ui(new Ui::Widget) {
   ui->setupUi(this);
-
     readConfig("../config.ini");
     parseInFolder();
     addPdfItemsToList();
@@ -85,6 +84,12 @@ void Widget::on_listWidget_itemDoubleClicked(QListWidgetItem *item) {
     QListWidgetItem *itemList2 = new QListWidgetItem;
      itemList2->setText(tr(textItem.substr(pos + 3).c_str()));
     ui->listWidget_2->addItem(itemList2);
+
+//    pathOrigin =
+//    createSimLink(pathOrigin, nameSimLink);
+
+
+
 }
 
 void Widget::on_listWidget_2_itemDoubleClicked(QListWidgetItem *item) {
@@ -93,8 +98,15 @@ void Widget::on_listWidget_2_itemDoubleClicked(QListWidgetItem *item) {
     qDebug()<<"delete Item"<<textItem.c_str();
 }
 
+void Widget::createSimLink(string pathOrigin, string nameSimLink)
+{
+
+}
+
 void Widget::on_pushButton_Save_clicked() {
-    QFile file("data.txt");
+    QString path{config["niokrFoldersToSoftLinks"].c_str()};
+    path.append("/.documents");
+    QFile file(path);
     if (!file.open(QFile::WriteOnly | QIODevice::Text)) {
         QMessageBox::critical(this,tr("Ошибка"),tr("Не могу записать в data.txt"));
         return;
@@ -109,8 +121,10 @@ void Widget::on_pushButton_Save_clicked() {
 }
 
 void Widget::on_pushButton_Load_clicked() {
+    QString path{config["niokrFoldersToSoftLinks"].c_str()};
+    path.append("/.documents");
     ui->listWidget_2->clear();//Сперва очищаем
-    QFile file("data.txt");
+    QFile file(path);
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
         QMessageBox::critical(this,tr("Ошибка"),tr("Не могу прочитать data.txt"));
         return;
