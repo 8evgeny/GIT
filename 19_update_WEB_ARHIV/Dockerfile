@@ -1,0 +1,14 @@
+FROM ubuntu:latest
+#не задавать вопросов
+ENV DEBIAN_FRONTEND noninteractive.
+RUN apt-get update && apt-get upgrade -y && apt-get install -y language-pack-ru qtbase5-dev cmake p7zip-full build-essential qrencode tzdata
+ENV LANGUAGE ru_RU.UTF-8
+ENV LANG ru_RU.UTF-8
+ENV LC_ALL ru_RU.UTF-8
+RUN locale-gen ru_RU.UTF-8 && dpkg-reconfigure locales
+RUN groupadd -r evg && useradd -r -g evg evg
+USER evg
+COPY --chown=evg:evg ./create_content_for_web /home/evg/create_content_for_web
+WORKDIR /home/evg/create_content_for_web/build
+RUN rm CMakeCache.txt && cmake -DCMAKE_BUILD_TYPE=Release .. && make -j8 all
+CMD ["./createWebContent"]
