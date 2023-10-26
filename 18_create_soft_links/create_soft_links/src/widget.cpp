@@ -9,9 +9,9 @@ Widget::Widget(QWidget *parent) : QWidget(parent) , ui(new Ui::Widget) {
     addPdfItemsToList();
     string nameDoc{config["niokrFoldersToSoftLinks"]};
     auto pos = nameDoc.find_last_of('/');
-    string tmp = "Комплект документов формируется для: ";
+    string tmp = "Комплект документов :  ";
     tmp.append(nameDoc.substr(pos+1));
-    ui->nameDoc->setText(QString::fromStdString(tmp));
+    ui->label->setText(QString::fromStdString(tmp));
 }
 
 Widget::~Widget() {
