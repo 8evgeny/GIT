@@ -82,25 +82,37 @@ void Widget::on_listWidget_itemDoubleClicked(QListWidgetItem *item) {
     auto pos = textItem.find_first_of('.');
     qDebug()<<"add Item   "<<textItem.substr(pos + 3).c_str();
     QListWidgetItem *itemList2 = new QListWidgetItem;
-     itemList2->setText(tr(textItem.substr(pos + 3).c_str()));
+    string nameDoc = textItem.substr(pos + 3);
+    itemList2->setText(nameDoc.c_str());
     ui->listWidget_2->addItem(itemList2);
 
-//    pathOrigin =
-//    createSimLink(pathOrigin, nameSimLink);
+    string tmp = config["niokrPoOboznacheniyam"];
+    tmp.append("/").append(nameDoc).append(".PDF");
+    string pathOrigin{};
+    //Проверяем есть ли такой файл
+    QFile file(tmp.c_str());
+    if (file.exists())
+    {
+        pathOrigin.append(config["niokrPoOboznacheniyam"]).append("/").append(nameDoc).append(".PDF ");
+    }
+    else //Меняем на pdf
+    {
+        pathOrigin.append(config["niokrPoOboznacheniyam"]).append("/").append(nameDoc).append(".pdf ");
+    }
+    createSimLink(pathOrigin, nameDoc);
+}
 
-
-
+void Widget::createSimLink(string pathOrigin, string nameSimLink)
+{
+    string cmd = "cd ";
+    cmd.append(config["niokrFoldersToSoftLinks"]).append(" && ln -s -f ").append(pathOrigin).append(nameSimLink);
+    system(cmd.c_str());
 }
 
 void Widget::on_listWidget_2_itemDoubleClicked(QListWidgetItem *item) {
     string textItem = item->text().toStdString().substr();
     ui->listWidget_2->takeItem (ui->listWidget_2->currentRow());
     qDebug()<<"delete Item"<<textItem.c_str();
-}
-
-void Widget::createSimLink(string pathOrigin, string nameSimLink)
-{
-
 }
 
 void Widget::on_pushButton_Save_clicked() {
