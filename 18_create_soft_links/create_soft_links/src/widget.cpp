@@ -8,8 +8,6 @@ Widget::Widget(QWidget *parent) : QWidget(parent) , ui(new Ui::Widget) {
     readConfig("../config.ini");
     parseInFolder();
     addPdfItemsToList();
-
-
 }
 
 Widget::~Widget() {
@@ -23,19 +21,19 @@ void Widget::readConfig(const char* conf_file) {
     patches.add_options()
           ("patchesToDirectories.niokrPoOboznacheniyam", po::value<string>(), "")
           ("patchesToDirectories.niokrFoldersToSoftLinks", po::value<string>(), "");
-  po::options_description desc("Allowed options");
-  desc.add(patches);
-  try {
-    po::parsed_options parsed = po::parse_config_file<char>(conf_file, desc, true);  //флаг true разрешает незарегистрированные опции !
-    po::store(parsed, vm);
-  } catch (const po::reading_file& e) {
-    std::cout << "Error: " << e.what() << std::endl;
-  }
-  po::notify(vm);
-  config["niokrPoOboznacheniyam"] = vm["patchesToDirectories.niokrPoOboznacheniyam"].as<string>();
-  config["niokrFoldersToSoftLinks"] = vm["patchesToDirectories.niokrFoldersToSoftLinks"].as<string>();
-  cout << "niokrPoOboznacheniyam: \t" << config["niokrPoOboznacheniyam"] << endl;
-  cout << "niokrFoldersToSoftLinks: \t" << config["niokrFoldersToSoftLinks"] << endl<<endl;
+    po::options_description desc("Allowed options");
+    desc.add(patches);
+    try {
+        po::parsed_options parsed = po::parse_config_file<char>(conf_file, desc, true);  //флаг true разрешает незарегистрированные опции !
+        po::store(parsed, vm);
+    } catch (const po::reading_file& e) {
+        std::cout << "Error: " << e.what() << std::endl;
+    }
+    po::notify(vm);
+    config["niokrPoOboznacheniyam"] = vm["patchesToDirectories.niokrPoOboznacheniyam"].as<string>();
+    config["niokrFoldersToSoftLinks"] = vm["patchesToDirectories.niokrFoldersToSoftLinks"].as<string>();
+    cout << "niokrPoOboznacheniyam: \t" << config["niokrPoOboznacheniyam"] << endl;
+    cout << "niokrFoldersToSoftLinks: \t" << config["niokrFoldersToSoftLinks"] << endl<<endl;
 }
 
 void Widget::parseInFolder()
@@ -75,8 +73,6 @@ void Widget::addPdfItemsToList()
         string name = to_string(numDoc).append(".  ").append(i.substr(pos + 1, i.size() - pos - 5));
         item->setText(tr(name.c_str()));
         item->setToolTip(i.c_str());
-//        item->setStatusTip("Сообщение в строку статуса");
-//        item->setWhatsThis("Подсказка \"Что это?\"");
         ui->listWidget->addItem(item);
     }
 
@@ -92,135 +88,41 @@ void Widget::on_listWidget_itemDoubleClicked(QListWidgetItem *item) {
 }
 
 void Widget::on_listWidget_2_itemDoubleClicked(QListWidgetItem *item) {
-//    QListWidgetItem *item = ui->listWidget->item(ui->listWidget->currentRow());
     string textItem = item->text().toStdString().substr();
     ui->listWidget_2->takeItem (ui->listWidget_2->currentRow());
     qDebug()<<"delete Item"<<textItem.c_str();
 }
 
-
 void Widget::on_pushButton_Save_clicked() {
     QFile file("data.txt");
     if (!file.open(QFile::WriteOnly | QIODevice::Text)) {
-    QMessageBox::critical(this,tr("Ошибка"),tr("Не могу записать в data.txt"));
-    return;
+        QMessageBox::critical(this,tr("Ошибка"),tr("Не могу записать в data.txt"));
+        return;
     }
     for (int row = 0; row < ui->listWidget_2->count(); row++) {
-    QListWidgetItem *item = ui->listWidget_2->item(row);
-    QTextStream out(&file);
-    out << item->text() << "\n";
+        QListWidgetItem *item = ui->listWidget_2->item(row);
+        QTextStream out(&file);
+        out << item->text() << "\n";
     }
     file.close();
     close();
 }
 
 void Widget::on_pushButton_Load_clicked() {
-    //Сперва очищаем
-    ui->listWidget_2->clear();
+    ui->listWidget_2->clear();//Сперва очищаем
     QFile file("data.txt");
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-    QMessageBox::critical(this,tr("Ошибка"),tr("Не могу прочитать data.txt"));
-    return;
+        QMessageBox::critical(this,tr("Ошибка"),tr("Не могу прочитать data.txt"));
+        return;
     }
     QTextStream in(&file);
     while (!in.atEnd()) {
-    QString line = in.readLine();
-    QListWidgetItem *item = new QListWidgetItem;
-    item->setText(line);
-    ui->listWidget_2->addItem(item);
+        QString line = in.readLine();
+        QListWidgetItem *item = new QListWidgetItem;
+        item->setText(line);
+        ui->listWidget_2->addItem(item);
     }
     file.close();
 }
 
-//void Widget::on_pushButton_clicked() { //Добавить
-// new QListWidgetItem(tr("Элемент 1"),ui->listWidget);
-// QString item2Title ("Элемент 2");
-// QListWidgetItem *item2 = new QListWidgetItem;
-// item2->setText(item2Title);
-// item2->setIcon(QIcon(":/images/new.png"));
-// item2->setToolTip("Всплывающая подсказка");
-// item2->setStatusTip("Сообщение в строку статуса");
-// item2->setWhatsThis("Подсказка \"Что это?\"");
-// ui->listWidget->addItem(item2);
-//}
-
-//void Widget::on_pushButton_2_clicked() {//Сортировка
-// static Qt::SortOrder order = Qt::AscendingOrder;
-// ui->listWidget->sortItems(order);
-// if (order == Qt::AscendingOrder) order = Qt::DescendingOrder;
-// else order = Qt::AscendingOrder;
-//}
-
-//void Widget::on_pushButton_3_clicked() {//Получить текущий элемент
-// QListWidgetItem *item = ui->listWidget->currentItem(); //получить текущий
-// if (!item) {
-//  QMessageBox::information(this,tr("Не могу получить currentItem"),"NULL");
-// }
-// else {
-//  QMessageBox::information(this,tr("Получение currentItem"),item->text());
-// }
-// QListWidgetItem *item2 = ui->listWidget->item(ui->listWidget->currentRow()); //получить по индексу
-// if (!item2) {
-//  QMessageBox::information(this,tr("Не могу получить элемент по индексу"),"NULL");
-// }
-// else {
-//  QMessageBox::information(this,tr("Получение по индексу"),item->text());
-// }
-//}
-
-//void Widget::on_pushButton_4_clicked() {//Редактирование
-// QListWidgetItem *item = ui->listWidget->currentItem();
-// if (!item) {
-//  QMessageBox::information(this,tr("Ошибка"),tr("Не выбран элемент в списке"));
-//  return;
-// }
-// item->setFlags (item->flags () | Qt::ItemIsEditable);
-//}
-
-//void Widget::on_listWidget_itemChanged(QListWidgetItem *item) {
-// if (!item) return;
-// QString text = item->text();
-// ui->listWidget->blockSignals(true);
-// if (text.contains(QRegExp("^[\\w\\s]+$"))) item->setText(text);
-//  //Только алфафитно-цифровые или разделители
-// else item->setText(this->previousText);
-// ui->listWidget->blockSignals(false);
-//}
-
-//void Widget::on_listWidget_itemDoubleClicked(QListWidgetItem *item) {
-// if (item) this->previousText = item->text();
-//}
-
-//void Widget::on_pushButton_5_clicked() {//Удаление
-// QListWidgetItem *item = ui->listWidget->item(ui->listWidget->currentRow());
-// if (!item) {
-//  QMessageBox::information(this,tr("Ошибка"),tr("Не выбран элемент в списке"));
-//  return;
-// }
-// ui->listWidget->takeItem (ui->listWidget->currentRow());
-//}
-
-//void Widget::on_pushButton_6_clicked() {//Удалить все
-// ui->listWidget->clear();
-//}
-
-//void Widget::on_pushButton_7_clicked() {//Режим
-// static QAbstractItemView::SelectionMode mode = QAbstractItemView::SingleSelection;
-// if (mode == QAbstractItemView::SingleSelection) mode = QAbstractItemView::MultiSelection;
-// else mode = QAbstractItemView::SingleSelection;
-// ui->listWidget->setSelectionMode(mode);
-//}
-
-//void Widget::on_pushButton_8_clicked() {//Выбраные элементы
-// QList <QListWidgetItem *> selected = ui->listWidget->selectedItems();
-// if (selected.size()==0)  {
-//  QMessageBox::information(this,tr("Ошибка"),tr("Нет выбранных элементов"));
-//  return;
-// }
-// QString str("");
-// foreach(QListWidgetItem *item, selected) {
-//  str += item->text() + "\n";
-// }
-// QMessageBox::information(this,tr("Выбранные элементы"),str);
-//}
 
