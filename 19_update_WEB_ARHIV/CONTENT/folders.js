@@ -41,7 +41,8 @@ function createTable() {
     const body = document.body;
     tbl = document.getElementById('table');
     tbl.style.margin = 'auto';
-    tbl.style.width = '1800px';
+    // tbl.style.width = '400px';
+
     tbl.style.border = '1px solid black';
 
     for (let i = 0; i <= numFolders; i++)
@@ -64,12 +65,13 @@ function createTable() {
                 switch (j)
                 {
                     case 0:
-                        td.style.width = '40px';
+                        // td.style.width = '40px';
                         td.appendChild(document.createTextNode(" Номер "));
                         break;
                     case 1:
-                        td.style.width = '200px';
-                        td.appendChild(document.createTextNode(`Наименование изделия`));
+                        td.style.paddingLeft = '100px';
+                        td.style.paddingRight = '100px';
+                        td.appendChild(document.createTextNode(`ИЗДЕЛИЕ`));
                         break;
                 }
             } // Шапка таблицы  if (i == 0)
@@ -85,9 +87,10 @@ function createTable() {
                         td.appendChild(document.createTextNode(i));
                         td.style.fontWeight = 'bold';
                         td.style.textAlign = "center";
-                        td.style.width = '40px';
+                        // td.style.width = '40px';
                         break;
                     case 1:
+                        td.style.fontWeight = 'bold';
                         td.style.width = '200px';
                         td.style.textAlign = "left";
                         let oboznIkodDoc = document.createElement('a');
