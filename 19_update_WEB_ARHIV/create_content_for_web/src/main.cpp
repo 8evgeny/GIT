@@ -24,7 +24,7 @@ int main(int argc, char *argv[])
 {
     auto config = readConfig("../config.ini");
 
-//    createMainWebContent(config);
+    createMainWebContent(config);
 
 //Тут формирую дополнительный контент (по изделиям)
 //Вначале удаляю папку Ниокр-Папки_по_изделиям из web контента
