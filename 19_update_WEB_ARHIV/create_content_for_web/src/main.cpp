@@ -29,7 +29,8 @@ int main(int argc, char *argv[])
 //Тут формирую дополнительный контент (по изделиям)
 //Вначале удаляю папку Ниокр-Папки_по_изделиям из web контента
     string cmdDel = "rm -rf ";
-    cmdDel.append(WEB_content).append(nameFromPath(config["niokrFoldersByDevices"]));
+    cmdDel.append(WEB_content);
+    cmdDel.append(nameFromPath(config["niokrFoldersByDevices"]));
     system(cmdDel.c_str());
 //Копирую папку Ниокр-Папки_по_изделиям в папку CONTENT/content_for_web (не линки а уже реальные файлы)
     string cmdCopy = "cp -r -L "; //-L, --dereference - копировать не символические ссылки, а то, на что они указывают
@@ -40,7 +41,8 @@ int main(int argc, char *argv[])
     vector<string> vectorPathFolders{};
     vector<string> vectorNameFolders{};
 
-    string foldersDevesesForWeb = WEB_content.append(nameFromPath(config["niokrFoldersByDevices"]));
+    string foldersDevesesForWeb = WEB_content;
+    foldersDevesesForWeb.append(nameFromPath(config["niokrFoldersByDevices"]));
     auto iteratorFolders = recursive_directory_iterator{foldersDevesesForWeb, directory_options::skip_permission_denied };
     for(const auto& entry : iteratorFolders) {
       try {
@@ -60,7 +62,9 @@ int main(int argc, char *argv[])
     }
 
 //Список путей директорий сохраняем в файле pathFoldersList
-    QFile f1((foldersDevesesForWeb  + "/pathFoldersList").c_str());
+    string pathF1 = WEB_content;
+    pathF1.append("pathFoldersList");
+    QFile f1(pathF1.c_str());
     f1.open(QIODevice::WriteOnly);
     QByteArray ba1;
     cout<< "Пути к директориям с софтлинками:\n";
@@ -72,7 +76,9 @@ int main(int argc, char *argv[])
     f1.write(ba1);
     f1.close();
 //Имена изделий сохраняем в файле nameFoldersList
-        QFile f2((foldersDevesesForWeb  + "/nameFoldersList").c_str());
+        string pathF2 = WEB_content;
+        pathF2.append("nameFoldersList");
+        QFile f2(pathF2.c_str());
         f2.open(QIODevice::WriteOnly);
         QByteArray ba2;
         cout<< "Имена папок с софтлинками:\n";
