@@ -57,7 +57,7 @@ int main(int argc, char *argv[])
 //Сортируем вектор
     sort(vectorPathFolders.begin(), vectorPathFolders.end());
 //из пути получаем имя
-    for (auto i:vectorPathFolders){
+    for (auto & i:vectorPathFolders){
         vectorNameFolders.push_back(nameFromPath(i));
     }
 
@@ -68,7 +68,7 @@ int main(int argc, char *argv[])
     f1.open(QIODevice::WriteOnly);
     QByteArray ba1;
     cout<< "Пути к директориям с софтлинками:\n";
-        for (auto i:vectorPathFolders) {
+        for (auto & i:vectorPathFolders) {
         ba1.append(QString::fromStdString(i));
         ba1.append('\n');
         cout<<i<<endl;
@@ -82,7 +82,7 @@ int main(int argc, char *argv[])
         f2.open(QIODevice::WriteOnly);
         QByteArray ba2;
         cout<< "Имена папок с софтлинками:\n";
-            for (auto i:vectorNameFolders) {
+            for (auto & i:vectorNameFolders) {
             ba2.append(QString::fromStdString(i));
             ba2.append('\n');
             cout<<i<<endl;
