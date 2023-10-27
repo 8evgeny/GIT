@@ -1,4 +1,5 @@
 ﻿#include "main.h"
+#include <algorithm>
 #if 0
 https://htmlbook.ru/content/svoystva-ssylok
 docker run -it --rm -d -p 8081:80 --name web -v ~/SOFT/Github/GIT/19_update_WEB_ARHIV/CONTENT:/usr/share/nginx/html nginx
@@ -38,9 +39,28 @@ int main(int argc, char *argv[])
         cerr << "Error reading " << entry.path().string() << ": " << e.what() << endl;
       }
     }
+//Сортируем вектор
+    sort(vectorFolders.begin(), vectorFolders.end());
+
     cout<< "Директории с софтлинками:\n";
-    for (auto i:vectorFolders)
-      cout<<i<<endl;
+//Список директорий сохраняем в файле foldersList
+    QFile ffold((config["niokrFoldersByDevices"]  + "/foldersList").c_str());
+    ffold.open(QIODevice::WriteOnly);
+    QByteArray ba;
+        for (auto i:vectorFolders) {
+
+
+        ba.append(QString::fromStdString(i));
+        ba.append('\n');
+        cout<<i<<endl;
+    }
+    ffold.write(ba);
+    ffold.close();
+
+
+
+
+
 
 
 
