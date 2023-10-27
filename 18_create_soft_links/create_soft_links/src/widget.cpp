@@ -111,7 +111,18 @@ void Widget::createSimLink(string nameDoc)
     }
 
     string cmd = "cd ";
-    cmd.append(config["niokrFoldersToSoftLinks"]).append(" && ln -s -f ").append(pathOrigin).append(nameDoc);
+    if (config["niokrFoldersToSoftLinks"].find(' ') == string::npos)
+    {
+        cmd.append(config["niokrFoldersToSoftLinks"]).append(" && ln -s -f ").append(pathOrigin).append(nameDoc);
+    }
+    else //Имя папки содержит пробелы и их нужно экранировать
+    {
+        string newName = config["niokrFoldersToSoftLinks"];
+        auto pos = newName.find_last_of(' ');
+        newName.insert(pos ,"\\");
+        cmd.append(newName).append(" && ln -s -f ").append(pathOrigin).append(nameDoc);
+    }
+
     system(cmd.c_str());
 }
 
@@ -124,7 +135,17 @@ void Widget::on_listWidget_2_itemDoubleClicked(QListWidgetItem *item) {
 void Widget::on_pushButton_Save_clicked() {
     //Очищаем директорию
     string cmd = "rm -rf ";
-    cmd.append(config["niokrFoldersToSoftLinks"]).append("/*");
+    if (config["niokrFoldersToSoftLinks"].find(' ') == string::npos)
+    {
+        cmd.append(config["niokrFoldersToSoftLinks"]).append("/*");
+    }
+    else //Имя папки содержит пробелы и их нужно экранировать
+    {
+        string newName = config["niokrFoldersToSoftLinks"];
+        auto pos = newName.find_last_of(' ');
+        newName.insert(pos ,"\\");
+        cmd.append(newName).append("/*");
+    }
     system(cmd.c_str());
     QString path{config["niokrFoldersToSoftLinks"].c_str()};
     path.append("/.documents");
