@@ -8,7 +8,8 @@
 
         if(reader.readyState==4) {
             var el = document.getElementById('main');
-            el.innerHTML = reader.responseText;
+            let dateTime = reader.responseText;
+            el.innerHTML = 'АРХИВ КОНСТРУКТОРСКОЙ ДОКУМЕНТАЦИИ НИОКР   ' + dateTime;
         }
     }
 

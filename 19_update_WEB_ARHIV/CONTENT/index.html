@@ -4,21 +4,23 @@
   <meta charset="utf-8">
     <title>Архив документации НИОКР</title>
 </head>
-    <style type="text/css">
+    <style>
     A:link {text-decoration: none; } /* Убирает подчеркивание для ссылок */
     A:visited { text-decoration: none; } 
     A:active { text-decoration: none; }
     A:hover {
     text-decoration: underline; /* Делает ссылку подчеркнутой при наведении на нее курсора */
     color: red; /* Цвет ссылки */
-    } 
+    }
+    div {
+        white-space: pre;
+    }
     </style>
 <body>
-    <h1 align="center"> АРХИВ КОНСТРУКТОРСКОЙ ДОКУМЕНТАЦИИ  (ТЕСТОВАЯ ВЕРСИЯ)</h1>
-      <script src="text_from_file.js" ></script>
-      <h2 align="center"><script>loadFile('content_for_web/date');</script><div id="main"></div></h2>
+    <h1 align="center"><script src="text_from_file.js" ></script>
+      <script>loadFile('content_for_web/date');</script><div id="main"></div></h1>
     <ul>
-        <h2><li><a href="mainContent.html">ВСЕ АРХИВНЫЕ ДОКУМЕНТЫ</a></li></h2>
+        <h2><li><a href="mainContent.html">ОБЩИЙ ПЕРЕЧЕНЬ АРХИВНЫХ ДОКУМЕНТОВ</a></li></h2>
         <h2><li><a href="toFolders.html">ДОКУМЕНТЫ, СГРУППИРОВАННЫЕ ПО СБОРОЧНЫМ ЕДИНИЦАМ</a></li></h2>
     </ul>
 </body>

@@ -470,10 +470,10 @@ bool parseJSON(string & patchToFile, const path & archiv_path_zip){ //archiv_pat
         frow.write(to_string(numFolderForWebContent).c_str());
         frow.close();
 
-//Формирую строку с датой: Сводный перечень документов на хранении по состоянию на ____
+//Формирую строку с датой:
         QFile fdate((WEB_content + "/" + "date").c_str());
         fdate.open(QIODevice::WriteOnly);
-        string date = "Сводный перечень документов на хранении по состоянию на ";
+        string date = "на   ";
         date.append(currentDateTime());
         fdate.write(date.c_str());
         fdate.close();
