@@ -37,3 +37,4 @@ string createStringForQr (string oboznachenieIkodDokumenta,
                           );
 map<string, string> readConfig(const char* conf_file);
 void createMainWebContent(map<string, string> &config);
+string nameFromPath(string path);

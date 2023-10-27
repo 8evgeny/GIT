@@ -23,31 +23,25 @@ uint numContent{0};
 int main(int argc, char *argv[])
 {
     auto config = readConfig("../config.ini");
-//    createMainWebContent(config);
+
+    createMainWebContent(config);
 
 //Тут формирую дополнительный контент (по изделиям)
-//Копирую папку Ниокр-Папки_по_изделиям в папку CONTENT/content_for_web для дальнейшего ее наполнения
-//Вначале удаляю папку Ниокр-Папки_по_изделиям
+//Вначале удаляю папку Ниокр-Папки_по_изделиям из web контента
     string cmdDel = "rm -rf ";
-//Получаю имя папки Ниокр-Папки_по_изделиям
-    string maneForDel = config["niokrFoldersByDevices"];
-    auto pos1 = config["niokrFoldersByDevices"].find_last_of('/');
-    maneForDel = maneForDel.substr(pos1+1);
-    cmdDel.append(WEB_content).append(maneForDel);
+    cmdDel.append(WEB_content).append(nameFromPath(config["niokrFoldersByDevices"]));
     system(cmdDel.c_str());
+//Копирую папку Ниокр-Папки_по_изделиям в папку CONTENT/content_for_web (не линки а уже реальные файлы)
     string cmdCopy = "cp -r -L "; //-L, --dereference - копировать не символические ссылки, а то, на что они указывают
     cmdCopy.append(config["niokrFoldersByDevices"]).append(" ").append(WEB_content);
     system(cmdCopy.c_str());
 
-
-
-
-
-
 //Сканирую директорию Ниокр-Папки_по_изделиям (Собираю поддиректории)
     vector<string> vectorPathFolders{};
     vector<string> vectorNameFolders{};
-    auto iteratorFolders = recursive_directory_iterator{ config["niokrFoldersByDevices"], directory_options::skip_permission_denied };
+
+    string foldersDevesesForWeb = WEB_content.append(nameFromPath(config["niokrFoldersByDevices"]));
+    auto iteratorFolders = recursive_directory_iterator{foldersDevesesForWeb, directory_options::skip_permission_denied };
     for(const auto& entry : iteratorFolders) {
       try {
         if(!entry.is_directory())
@@ -62,13 +56,11 @@ int main(int argc, char *argv[])
     sort(vectorPathFolders.begin(), vectorPathFolders.end());
 //из пути получаем имя
     for (auto i:vectorPathFolders){
-        auto pos = i.find_last_of('/');
-        string name = i.substr(pos+1);
-        vectorNameFolders.push_back(name);
+        vectorNameFolders.push_back(nameFromPath(i));
     }
 
 //Список путей директорий сохраняем в файле pathFoldersList
-    QFile f1((config["niokrFoldersByDevices"]  + "/pathFoldersList").c_str());
+    QFile f1((foldersDevesesForWeb  + "/pathFoldersList").c_str());
     f1.open(QIODevice::WriteOnly);
     QByteArray ba1;
     cout<< "Пути к директориям с софтлинками:\n";
@@ -80,7 +72,7 @@ int main(int argc, char *argv[])
     f1.write(ba1);
     f1.close();
 //Имена изделий сохраняем в файле nameFoldersList
-        QFile f2((config["niokrFoldersByDevices"]  + "/nameFoldersList").c_str());
+        QFile f2((foldersDevesesForWeb  + "/nameFoldersList").c_str());
         f2.open(QIODevice::WriteOnly);
         QByteArray ba2;
         cout<< "Имена папок с софтлинками:\n";
@@ -91,18 +83,17 @@ int main(int argc, char *argv[])
         }
         f2.write(ba2);
         f2.close();
-
-
-
-
-
-
-
+//Далее работа JS
 
 
 //Запускаем web-server
     string webStart = "docker run -it --rm -d -p 8081:80 --name web -v ~/SOFT/Github/GIT/19_update_WEB_ARHIV/CONTENT:/usr/share/nginx/html nginx 2>/dev/null";
     system(webStart.c_str());
+}
+
+string nameFromPath(string path){
+    auto pos = path.find_last_of('/');
+    return path.substr(pos+1);
 }
 
 map<string, string> readConfig(const char* conf_file) {
