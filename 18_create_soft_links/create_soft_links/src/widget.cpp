@@ -117,9 +117,8 @@ void Widget::createSimLink(string nameDoc)
     }
     else //Имя папки содержит пробелы и их нужно экранировать
     {
-        string newName = config["niokrFoldersToSoftLinks"];
-        auto pos = newName.find_last_of(' ');
-        newName.insert(pos ,"\\");
+        bool exit = false;
+        string newName = escapingSpaces(config["niokrFoldersToSoftLinks"]);
         cmd.append(newName).append(" && ln -s -f ").append(pathOrigin).append(nameDoc);
     }
 
@@ -141,9 +140,7 @@ void Widget::on_pushButton_Save_clicked() {
     }
     else //Имя папки содержит пробелы и их нужно экранировать
     {
-        string newName = config["niokrFoldersToSoftLinks"];
-        auto pos = newName.find_last_of(' ');
-        newName.insert(pos ,"\\");
+        string newName = escapingSpaces(config["niokrFoldersToSoftLinks"]);
         cmd.append(newName).append("/*");
     }
     system(cmd.c_str());
@@ -183,4 +180,17 @@ void Widget::on_pushButton_Load_clicked() {
     file.close();
 }
 
-
+string Widget::escapingSpaces(string name) {
+    bool exit = false;
+    while(!exit)
+    {
+        auto pos = name.find_last_of(' ');
+        if(pos!=string::npos)
+        {
+            name.insert(pos ,"\\");
+        }
+        else
+            exit =true;
+    }
+    return name;
+}

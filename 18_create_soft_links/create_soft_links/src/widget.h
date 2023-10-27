@@ -19,7 +19,7 @@ public:
     void readConfig(const char* conf_file);
     void parseInFolder();
     void addPdfItemsToList();
-
+    std::string escapingSpaces(std::string name);
 private slots:
     void on_pushButton_Save_clicked();
     void on_pushButton_Load_clicked();
