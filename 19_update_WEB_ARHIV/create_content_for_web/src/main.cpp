@@ -26,6 +26,24 @@ int main(int argc, char *argv[])
 //    createMainWebContent(config);
 
 //Тут формирую дополнительный контент (по изделиям)
+//Копирую папку Ниокр-Папки_по_изделиям в папку CONTENT/content_for_web для дальнейшего ее наполнения
+//Вначале удаляю папку Ниокр-Папки_по_изделиям
+    string cmdDel = "rm -rf ";
+//Получаю имя папки Ниокр-Папки_по_изделиям
+    string maneForDel = config["niokrFoldersByDevices"];
+    auto pos1 = config["niokrFoldersByDevices"].find_last_of('/');
+    maneForDel = maneForDel.substr(pos1+1);
+    cmdDel.append(WEB_content).append(maneForDel);
+    system(cmdDel.c_str());
+    string cmdCopy = "cp -r -L "; //-L, --dereference - копировать не символические ссылки, а то, на что они указывают
+    cmdCopy.append(config["niokrFoldersByDevices"]).append(" ").append(WEB_content);
+    system(cmdCopy.c_str());
+
+
+
+
+
+
 //Сканирую директорию Ниокр-Папки_по_изделиям (Собираю поддиректории)
     vector<string> vectorPathFolders{};
     vector<string> vectorNameFolders{};
