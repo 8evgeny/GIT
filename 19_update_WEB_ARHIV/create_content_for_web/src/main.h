@@ -38,3 +38,4 @@ string createStringForQr (string oboznachenieIkodDokumenta,
 map<string, string> readConfig(const char* conf_file);
 void createMainWebContent(map<string, string> &config);
 string nameFromPath(string path);
+std::string replaceAll( std::string const& name, std::string const& before, std::string const& after );

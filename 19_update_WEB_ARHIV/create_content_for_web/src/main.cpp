@@ -24,17 +24,20 @@ int main(int argc, char *argv[])
 {
     auto config = readConfig("../config.ini");
 
-    createMainWebContent(config);
+//    createMainWebContent(config);
 
 //Тут формирую дополнительный контент (по изделиям)
 //Вначале удаляю папку Ниокр-Папки_по_изделиям из web контента
     string cmdDel = "rm -rf ";
     cmdDel.append(WEB_content);
-    cmdDel.append(nameFromPath(config["niokrFoldersByDevices"]));
+    string newNameRm = replaceAll(config["niokrFoldersByDevices"], " ", "\\ ");
+    cmdDel.append(nameFromPath(newNameRm));
     system(cmdDel.c_str());
 //Копирую папку Ниокр-Папки_по_изделиям в папку CONTENT/content_for_web (не линки а уже реальные файлы)
     string cmdCopy = "cp -r -L "; //-L, --dereference - копировать не символические ссылки, а то, на что они указывают
-    cmdCopy.append(config["niokrFoldersByDevices"]).append(" ").append(WEB_content);
+
+    string newNameCp = replaceAll(config["niokrFoldersByDevices"], " ", "\\ ");
+    cmdCopy.append(newNameCp).append(" ").append(WEB_content);
     system(cmdCopy.c_str());
 
 //Сканирую директорию Ниокр-Папки_по_изделиям (Собираю поддиректории)
@@ -101,6 +104,24 @@ string nameFromPath(string path){
     auto pos = path.find_last_of('/');
     return path.substr(pos+1);
 }
+
+std::string replaceAll( std::string const& name, std::string const& before, std::string const& after ){
+    std::string retval;
+    std::string::const_iterator end     = name.end();
+    std::string::const_iterator current = name.begin();
+    std::string::const_iterator next    =
+            std::search( current, end, before.begin(), before.end() );
+    while ( next != end ) {
+        retval.append( current, next );
+        retval.append( after );
+        current = next + before.size();
+        next = std::search( current, end, before.begin(), before.end() );
+    }
+    retval.append( current, next );
+    return retval;
+}
+
+
 
 map<string, string> readConfig(const char* conf_file) {
     map<string, string> config{};
