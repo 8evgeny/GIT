@@ -118,7 +118,7 @@ void Widget::createSimLink(string nameDoc)
     else //Имя папки содержит пробелы и их нужно экранировать
     {
         bool exit = false;
-        string newName = escapingSpaces(config["niokrFoldersToSoftLinks"]);
+        string newName = replaceAll( config["niokrFoldersToSoftLinks"]," ","\\ ");
         cmd.append(newName).append(" && ln -s -f ").append(pathOrigin).append(nameDoc);
     }
 
@@ -140,7 +140,7 @@ void Widget::on_pushButton_Save_clicked() {
     }
     else //Имя папки содержит пробелы и их нужно экранировать
     {
-        string newName = escapingSpaces(config["niokrFoldersToSoftLinks"]);
+        string newName = replaceAll( config["niokrFoldersToSoftLinks"]," ","\\ ");
         cmd.append(newName).append("/*");
     }
     system(cmd.c_str());
@@ -180,17 +180,23 @@ void Widget::on_pushButton_Load_clicked() {
     file.close();
 }
 
-string Widget::escapingSpaces(string name) {
-    bool exit = false;
-    while(!exit)
-    {
-        auto pos = name.find_last_of(' ');
-        if(pos!=string::npos)
-        {
-            name.insert(pos ,"\\");
-        }
-        else
-            exit =true;
+std::string
+Widget::replaceAll( std::string const& name,
+            std::string const& before,
+            std::string const& after )
+{
+    std::string retval;
+    std::string::const_iterator end     = name.end();
+    std::string::const_iterator current = name.begin();
+    std::string::const_iterator next    =
+            std::search( current, end, before.begin(), before.end() );
+    while ( next != end ) {
+        retval.append( current, next );
+        retval.append( after );
+        current = next + before.size();
+        next = std::search( current, end, before.begin(), before.end() );
     }
-    return name;
+    retval.append( current, next );
+    return retval;
 }
+
