@@ -27,36 +27,52 @@ int main(int argc, char *argv[])
 
 //Тут формирую дополнительный контент (по изделиям)
 //Сканирую директорию Ниокр-Папки_по_изделиям (Собираю поддиректории)
-    vector<string> vectorFolders{};
+    vector<string> vectorPathFolders{};
+    vector<string> vectorNameFolders{};
     auto iteratorFolders = recursive_directory_iterator{ config["niokrFoldersByDevices"], directory_options::skip_permission_denied };
     for(const auto& entry : iteratorFolders) {
       try {
         if(!entry.is_directory())
           continue;
         string patch = entry.path().string();
-        vectorFolders.push_back(patch);
+        vectorPathFolders.push_back(patch);
       } catch(const exception& e) {
         cerr << "Error reading " << entry.path().string() << ": " << e.what() << endl;
       }
     }
 //Сортируем вектор
-    sort(vectorFolders.begin(), vectorFolders.end());
+    sort(vectorPathFolders.begin(), vectorPathFolders.end());
+//из пути получаем имя
+    for (auto i:vectorPathFolders){
+        auto pos = i.find_last_of('/');
+        string name = i.substr(pos+1);
+        vectorNameFolders.push_back(name);
+    }
 
-    cout<< "Директории с софтлинками:\n";
-//Список директорий сохраняем в файле foldersList
-    QFile ffold((config["niokrFoldersByDevices"]  + "/foldersList").c_str());
-    ffold.open(QIODevice::WriteOnly);
-    QByteArray ba;
-        for (auto i:vectorFolders) {
-
-
-        ba.append(QString::fromStdString(i));
-        ba.append('\n');
+//Список путей директорий сохраняем в файле pathFoldersList
+    QFile f1((config["niokrFoldersByDevices"]  + "/pathFoldersList").c_str());
+    f1.open(QIODevice::WriteOnly);
+    QByteArray ba1;
+    cout<< "Пути к директориям с софтлинками:\n";
+        for (auto i:vectorPathFolders) {
+        ba1.append(QString::fromStdString(i));
+        ba1.append('\n');
         cout<<i<<endl;
     }
-    ffold.write(ba);
-    ffold.close();
-
+    f1.write(ba1);
+    f1.close();
+//Имена изделий сохраняем в файле nameFoldersList
+        QFile f2((config["niokrFoldersByDevices"]  + "/nameFoldersList").c_str());
+        f2.open(QIODevice::WriteOnly);
+        QByteArray ba2;
+        cout<< "Имена папок с софтлинками:\n";
+            for (auto i:vectorNameFolders) {
+            ba2.append(QString::fromStdString(i));
+            ba2.append('\n');
+            cout<<i<<endl;
+        }
+        f2.write(ba2);
+        f2.close();
 
 
 
