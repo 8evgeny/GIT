@@ -3,8 +3,8 @@
 [GENERAL]
   aATEModuleSel[24] = 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
   ConnectMode = 0
-  CurrentFile = "/home/evg/Stm32CubeIDE/STM32F407-DISCOVERY_W5500_INTRON/build_debug/11_Converter_F407_INTRON_DT.hex"
-  DataFileSAddr = 0x00000000
+  CurrentFile = "/home/evg/Stm32CubeIDE/STM32F407-DISCOVERY_W5500_INTRON/build/11_Converter_F407_INTRON_DT.bin"
+  DataFileSAddr = 0x08000000
   GUIMode = 0
   HostName = ""
   TargetIF = 1
