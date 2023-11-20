@@ -1,4 +1,4 @@
---cpu=Cortex-M4.fp
+--cpu=Cortex-M4.fp.sp
 ".\objectfiles\startup_stm32f429xx.o"
 ".\objectfiles\st-bus_sai_in_out.o"
 ".\objectfiles\hdlc_rx_low_level.o"
