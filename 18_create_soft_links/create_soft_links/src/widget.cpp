@@ -111,7 +111,17 @@ void Widget::createSimLink(string nameDoc)
     }
 
     string cmd = "cd ";
-    cmd.append(config["niokrFoldersToSoftLinks"]).append(" && ln -s -f ").append(pathOrigin).append(nameDoc);
+    if (config["niokrFoldersToSoftLinks"].find(' ') == string::npos)
+    {
+        cmd.append(config["niokrFoldersToSoftLinks"]).append(" && ln -s -f ").append(pathOrigin).append(nameDoc);
+    }
+    else //Имя папки содержит пробелы и их нужно экранировать
+    {
+        bool exit = false;
+        string newName = replaceAll( config["niokrFoldersToSoftLinks"]," ","\\ ");
+        cmd.append(newName).append(" && ln -s -f ").append(pathOrigin).append(nameDoc);
+    }
+
     system(cmd.c_str());
 }
 
@@ -124,7 +134,15 @@ void Widget::on_listWidget_2_itemDoubleClicked(QListWidgetItem *item) {
 void Widget::on_pushButton_Save_clicked() {
     //Очищаем директорию
     string cmd = "rm -rf ";
-    cmd.append(config["niokrFoldersToSoftLinks"]).append("/*");
+    if (config["niokrFoldersToSoftLinks"].find(' ') == string::npos)
+    {
+        cmd.append(config["niokrFoldersToSoftLinks"]).append("/*");
+    }
+    else //Имя папки содержит пробелы и их нужно экранировать
+    {
+        string newName = replaceAll( config["niokrFoldersToSoftLinks"]," ","\\ ");
+        cmd.append(newName).append("/*");
+    }
     system(cmd.c_str());
     QString path{config["niokrFoldersToSoftLinks"].c_str()};
     path.append("/.documents");
@@ -162,4 +180,23 @@ void Widget::on_pushButton_Load_clicked() {
     file.close();
 }
 
+std::string
+Widget::replaceAll( std::string const& name,
+            std::string const& before,
+            std::string const& after )
+{
+    std::string retval;
+    std::string::const_iterator end     = name.end();
+    std::string::const_iterator current = name.begin();
+    std::string::const_iterator next    =
+            std::search( current, end, before.begin(), before.end() );
+    while ( next != end ) {
+        retval.append( current, next );
+        retval.append( after );
+        current = next + before.size();
+        next = std::search( current, end, before.begin(), before.end() );
+    }
+    retval.append( current, next );
+    return retval;
+}
 
