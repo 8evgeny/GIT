@@ -530,7 +530,7 @@ void doRegistration(void) {
   if (prev_step != reg_step) {
     prev_step = reg_step;
     puts("\r===============================");
-    printf("reg_step = %u\r", (uint)reg_step);
+    printf("reg_step = %u\r", reg_step);
     puts("===============================\r");
   }
   
@@ -899,6 +899,6 @@ void sendTelegram(char header, char* dst_addr, char* payload, uint8_t payload_le
 // '2' - установлено PA/TW-соединение
 void sendTelegramKeepAlive(void) {
   char str[8];
-  sprintf(str, "%1u", (uint)abonent_status);
+  sprintf(str, "%1u", abonent_status);
   sendTelegram('A', "##", str, 1);
 }

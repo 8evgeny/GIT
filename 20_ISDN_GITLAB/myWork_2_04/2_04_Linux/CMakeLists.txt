@@ -63,12 +63,12 @@ list(REMOVE_ITEM hal_src
 add_library(hal_LIB ${hal_src})
 
 file (GLOB src Src/*.c
-    startup_stm32f429zitx.s
+    startup_stm32f429zgtx.s
     )
 add_executable(${PROJECT_NAME}.elf ${src})
 
 set_target_properties(${PROJECT_NAME}.elf PROPERTIES LINKER_LANGUAGE CXX)
-set(LINKER_SCRIPT_FLASH "${CMAKE_SOURCE_DIR}/STM32F429ZITX_FLASH.ld")
+set(LINKER_SCRIPT_FLASH "${CMAKE_SOURCE_DIR}/STM32F429ZGTX_FLASH.ld")
 set(LINKER_FLAGS "SHELL: \
     -T${LINKER_SCRIPT_FLASH} \
     -mcpu=cortex-m4 \
