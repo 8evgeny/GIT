@@ -1,17 +1,10 @@
 cmake_minimum_required(VERSION 3.15)
 set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
 
-# Set ARM compiler
 set(TOOLS_PATH /home/evg/toolchain/gcc-arm-none-eabi-new)
-#set(CMAKE_C_COMPILER ${TOOLS_PATH}/bin/arm-none-eabi-gcc)
-#set(CMAKE_CXX_COMPILER ${TOOLS_PATH}/bin/arm-none-eabi-g++)
-#set(CMAKE_CXX_LINKER_LAUNCHER ${TOOLS_PATH}/bin/arm-none-eabi-gcc)
 set(CMAKE_OBJCOPY ${TOOLS_PATH}/bin/arm-none-eabi-objcopy)
-SET(CMAKE_C_LINK_EXECUTABLE "${TOOLS_PATH}/bin/arm-none-eabi-g++")
 
 project(20_Build_code_Krasnov C CXX ASM)
-#set(CMAKE_BUILD_TYPE debug)
-#set(CMAKE_BUILD_TYPE release)
 
 set(CMAKE_ASM_FLAGS "${CMAKE_ASM_FLAGS} \
     -mcpu=cortex-m4 \
@@ -71,17 +64,6 @@ add_library(hal_LIB ${hal_src})
 
 file (GLOB src Src/*.c
     startup_stm32f429zitx.s
-    #Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/*.c
-    #Middlewares/Third_Party/FreeRTOS/Source/*.c
-    #Middlewares/Third_Party/LwIP/src/apps/http/fs.c
-    #Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.c
-    #Middlewares/Third_Party/FreeRTOS/Source/portable/MemMang/heap_4.c
-    #Middlewares/Third_Party/LwIP/src/api/*.c
-    #Middlewares/Third_Party/LwIP/system/OS/*.c
-    #Middlewares/Third_Party/LwIP/src/core/*.c
-    #Middlewares/Third_Party/LwIP/src/core/ipv4/*.c
-#    Middlewares/Third_Party/LwIP/src/apps/http/*.c
-    #Middlewares/Third_Party/LwIP/src/netif/*.c
     )
 add_executable(${PROJECT_NAME}.elf ${src})
 
@@ -121,10 +103,6 @@ add_custom_command(TARGET ${PROJECT_NAME}.elf POST_BUILD
 add_custom_command(TARGET ${PROJECT_NAME}.elf POST_BUILD
     COMMAND ${CMAKE_OBJCOPY} -O binary $<TARGET_FILE:${PROJECT_NAME}.elf> ${BIN_FILE}
     COMMENT "Building ${BIN_FILE} ")
-
-#add_custom_command(TARGET ${PROJECT_NAME}.elf POST_BUILD
-#    COMMAND st-flash erase
-#    COMMENT "Erasing . . .")
 
 #add_custom_command(TARGET ${PROJECT_NAME}.elf POST_BUILD
 #    COMMAND st-flash --reset write ${BIN_FILE} 0x8000000
