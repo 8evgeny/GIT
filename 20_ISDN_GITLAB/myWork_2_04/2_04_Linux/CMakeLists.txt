@@ -38,7 +38,6 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} \
     -ffunction-sections \
     -fdata-sections \
     -fstack-usage \
-    -Wall \
     --specs=nano.specs \
     -mfpu=fpv4-sp-d16 \
     -mfloat-abi=hard \

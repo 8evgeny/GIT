@@ -21,8 +21,8 @@
 #include "ST-BUS_SAI_in_out.h"
 #include "HDLC_Rx_low_level.h"
 #include "HDLC_Tx.h"
-#include "HDLC_Tx_low_level.h"
-#include "dbg_uart.h"
+//#include "HDLC_Tx_low_level.h"
+//#include "dbg_uart.h"
 #include "tastature.h"
 #include "g711.h"
 #include "volume_control.h"
@@ -530,7 +530,7 @@ void doRegistration(void) {
   if (prev_step != reg_step) {
     prev_step = reg_step;
     puts("\r===============================");
-    printf("reg_step = %u\r", reg_step);
+    printf("reg_step = %u\r", (uint)reg_step);
     puts("===============================\r");
   }
   
@@ -655,7 +655,7 @@ void doRegistration(void) {
             printf("volume control group. ");
             sscanf(&telegram_string[5], "H%2sV%iPZ-", &vcr_grp_addr[0], &vcr_att_dB);
             vcr_att = powf(10, (float)vcr_att_dB/20);
-            printf("group addr = %02s, vol. change = %i dB = %5f\r", vcr_grp_addr, vcr_att_dB, vcr_att);
+            printf("group addr = %02s, vol. change = %i dB = %5f\r", vcr_grp_addr, (int)vcr_att_dB, vcr_att);
           } else {
             puts("unknown programming telegram");
           }
@@ -899,6 +899,6 @@ void sendTelegram(char header, char* dst_addr, char* payload, uint8_t payload_le
 // '2' - установлено PA/TW-соединение
 void sendTelegramKeepAlive(void) {
   char str[8];
-  sprintf(str, "%1u", (uint32_t)abonent_status);
+  sprintf(str, "%1u", (uint)abonent_status);
   sendTelegram('A', "##", str, 1);
 }

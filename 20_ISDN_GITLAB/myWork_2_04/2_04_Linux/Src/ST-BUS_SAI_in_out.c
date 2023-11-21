@@ -174,7 +174,7 @@ void HAL_SAI_ErrorCallback(SAI_HandleTypeDef *hsai) {
 //#define HAL_SAI_ERROR_WCKCFG  0x00000020U  /*!< Wrong clock configuration                   */
 //#define HAL_SAI_ERROR_TIMEOUT 0x00000040U  /*!< Timeout error                               */
 //#define HAL_SAI_ERROR_DMA     0x00000080U  /*!< DMA error                                   */
-	sprintf(str, "SAI error: %x\r", HAL_SAI_GetError(hsai));
+    sprintf(str, "SAI error: %x\r", (uint8_t)HAL_SAI_GetError(hsai));
 	puts(str);
 
 	SAI_DMA_Init();
