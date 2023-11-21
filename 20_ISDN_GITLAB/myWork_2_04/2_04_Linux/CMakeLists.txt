@@ -5,8 +5,9 @@ set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
 set(TOOLS_PATH /home/evg/toolchain/gcc-arm-none-eabi-new)
 #set(CMAKE_C_COMPILER ${TOOLS_PATH}/bin/arm-none-eabi-gcc)
 #set(CMAKE_CXX_COMPILER ${TOOLS_PATH}/bin/arm-none-eabi-g++)
-#set(CMAKE_CXX_LINKER_LAUNCHER ${TOOLS_PATH}/bin/arm-none-eabi-g++)
+#set(CMAKE_CXX_LINKER_LAUNCHER ${TOOLS_PATH}/bin/arm-none-eabi-gcc)
 set(CMAKE_OBJCOPY ${TOOLS_PATH}/bin/arm-none-eabi-objcopy)
+SET(CMAKE_C_LINK_EXECUTABLE "${TOOLS_PATH}/bin/arm-none-eabi-g++")
 
 project(20_Build_code_Krasnov C CXX ASM)
 #set(CMAKE_BUILD_TYPE debug)
@@ -37,6 +38,7 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} \
     -ffunction-sections \
     -fdata-sections \
     -fstack-usage \
+    -Wall \
     --specs=nano.specs \
     -mfpu=fpv4-sp-d16 \
     -mfloat-abi=hard \
@@ -50,7 +52,6 @@ list (SORT _variableNames)
 foreach (_variableName ${_variableNames})
     message(STATUS "${_variableName}=${${_variableName}}")
 endforeach()
-
 
 include_directories(
     Inc
