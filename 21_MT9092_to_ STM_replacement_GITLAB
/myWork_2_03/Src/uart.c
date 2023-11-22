@@ -1,0 +1,142 @@
+﻿/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+/* 
+ * File:   uart.c
+ * Author: roman.ganaza
+ * 
+ * Created on December 15, 2020
+ */
+
+#include "uart.h"
+#include "FIFO.h"
+#include <string.h>
+#include <stdio.h>
+#include "main.h"
+
+#define uart	USART1
+
+#define RX_BLINK_PERIOD		100 // мс - подмигивание желтым по приему байт от BT модуля
+
+FIFO(1024) uart_tx_fifo;
+FIFO(128) uart_rx_fifo;
+
+static uint16_t blink_counter = 0;
+
+void blink(void) {
+//	R_LED_ON();
+	blink_counter = RX_BLINK_PERIOD;
+}
+
+void doRxBlink(void) {
+	if (blink_counter > 0) {
+		blink_counter--;
+		if (blink_counter == 0) {
+//			R_LED_OFF();
+		}
+	}
+}
+
+void uartReceiveStart(void) {
+	volatile char dummy;
+//	dummy = uart->RDR; // чистим флаг
+	dummy = uart->DR; // чистим флаг
+	FIFO_FLUSH(uart_rx_fifo);
+	LL_USART_EnableIT_RXNE(uart);
+}
+
+void uartReceiveStop(void) {
+	LL_USART_DisableIT_RXNE(uart);
+}
+
+void uartPutchar(char c) {
+	FIFO_PUSH(uart_tx_fifo, c);
+	LL_USART_EnableIT_TXE(uart);
+}
+
+void uartPuts(char* str) {
+	while (*str) {
+		uartPutchar(*str);
+		str++;
+	}
+}
+
+void uartPutsN(char* data, unsigned short n) {
+	while (n) {
+		uartPutchar(*data);
+		data++;
+		n--;
+	}
+}
+
+unsigned short uartBytesReceived(void) {
+	return FIFO_COUNT(uart_rx_fifo);
+}
+
+char uartGetchar(void) {
+	return FIFO_POP(uart_rx_fifo);
+}
+
+void uartISR(void) { // поместить в прерывание по USART
+	unsigned char c;
+	if ((LL_USART_IsActiveFlag_RXNE(uart))&&(LL_USART_IsEnabledIT_RXNE(uart))) {
+
+		if (!LL_USART_IsActiveFlag_FE(uart)) {
+			c = LL_USART_ReceiveData8(uart);
+			FIFO_PUSH(uart_rx_fifo, c);
+			blink();
+		}
+	}
+	if ((LL_USART_IsActiveFlag_TXE(uart))&&(LL_USART_IsEnabledIT_TXE(uart))) {
+		if (FIFO_COUNT(uart_tx_fifo)) {
+			LL_USART_TransmitData8(uart, FIFO_POP(uart_tx_fifo));
+		} else {
+			LL_USART_DisableIT_TXE(uart);
+		}
+	}
+	LL_USART_ClearFlag_ORE(uart); // сброс флага OverRun
+	LL_USART_ClearFlag_FE(uart); // сброс флага ошибки фрейма
+	LL_USART_ClearFlag_NE(uart); // Clear Noise Error detected Flag
+	LL_USART_ClearFlag_PE(uart); // Clear Parity Error Flag
+}
+
+void uartPutsBitArray(unsigned char* mem, unsigned short n) {
+	unsigned short i, j;
+	char str[16];
+	
+	uartPuts("\r");
+	for(i = 0; i < n; i+=8) {
+		for(j = 0; (j < 8)&&((i+j)<n); j++) {
+			if (mem[i+j]> 1) {
+				uartPuts("\rError in uartPutsBitArray(): number greater then 1 in bit sequence!\r");
+				return;
+			}
+			str[j] = mem[i+j] + '0';
+		}
+		str[j] = '\0';
+		uartPuts(str);
+		uartPuts(" ");
+	}
+	uartPuts("\r");
+}
+
+void HexToChar(char *s, unsigned char b) {
+	const char lut[] = "0123456789ABCDEF";
+	
+	s[0] = lut[b >> 4];
+	s[1] = lut[b & 0x0F];
+	s[2] = '\0';
+}
+
+void Hex16ToChar(char *s, unsigned char b) {
+	const char lut[] = "0123456789ABCDEF";
+	
+	s[0] = lut[(b >> 12) & 0x0F];
+	s[1] = lut[(b >> 8) & 0x0F];
+	s[2] = lut[(b >> 4) & 0x0F];
+	s[3] = lut[(b >> 0) & 0x0F];
+	s[4] = '\0';
+}
