@@ -1,0 +1,409 @@
+PCAD Importer Log
+Project : M_Rpl_9092_r1__.PrjPcb
+
+Section : Z:\GIT\21_MT9092_to_STM_GITLAB\GITLAB\mt9092-stm-Firmware_R_6_DSX_04M_STM32F429_r98_v2.03\M_Rpl_9092\Pcad\Topor\M_Rpl_9092_r1__.pcb
+    Section : Load Messages
+        Warning - 1 : Skipping Token defaultPinDes On Line 9614
+        Warning - 1 : Skipping Token defaultPinDes On Line 9615
+        Warning - 1 : Skipping Token defaultPinDes On Line 9616
+        Warning - 1 : Skipping Token defaultPinDes On Line 9617
+        Warning - 1 : Skipping Token defaultPinDes On Line 9618
+        Warning - 1 : Skipping Token defaultPinDes On Line 9620
+        Warning - 1 : Skipping Token defaultPinDes On Line 9621
+        Warning - 1 : Skipping Token defaultPinDes On Line 9622
+        Warning - 1 : Skipping Token defaultPinDes On Line 9623
+        Warning - 1 : Skipping Token defaultPinDes On Line 9624
+        Warning - 1 : Skipping Token defaultPinDes On Line 9625
+        Warning - 1 : Skipping Token defaultPinDes On Line 9626
+        Warning - 1 : Skipping Token defaultPinDes On Line 9627
+        Warning - 1 : Skipping Token defaultPinDes On Line 9628
+        Warning - 1 : Skipping Token defaultPinDes On Line 9629
+        Warning - 1 : Skipping Token defaultPinDes On Line 9630
+        Warning - 1 : Skipping Token defaultPinDes On Line 9631
+        Warning - 1 : Skipping Token defaultPinDes On Line 9632
+        Warning - 1 : Skipping Token defaultPinDes On Line 9633
+        Warning - 1 : Skipping Token defaultPinDes On Line 9634
+        Warning - 1 : Skipping Token defaultPinDes On Line 9635
+        Warning - 1 : Skipping Token defaultPinDes On Line 9636
+        Warning - 1 : Skipping Token defaultPinDes On Line 9637
+        Warning - 1 : Skipping Token defaultPinDes On Line 9638
+        Warning - 1 : Skipping Token defaultPinDes On Line 9639
+        Warning - 1 : Skipping Token defaultPinDes On Line 9640
+        Warning - 1 : Skipping Token defaultPinDes On Line 9642
+        Warning - 1 : Skipping Token defaultPinDes On Line 9643
+        Warning - 1 : Skipping Token defaultPinDes On Line 9644
+        Warning - 1 : Skipping Token defaultPinDes On Line 9645
+        Warning - 1 : Skipping Token defaultPinDes On Line 9646
+        Warning - 1 : Skipping Token defaultPinDes On Line 9647
+        Warning - 1 : Skipping Token defaultPinDes On Line 9648
+        Warning - 1 : Skipping Token defaultPinDes On Line 9649
+        Warning - 1 : Skipping Token defaultPinDes On Line 9650
+        Warning - 1 : Skipping Token defaultPinDes On Line 9651
+        Warning - 1 : Skipping Token defaultPinDes On Line 9652
+        Warning - 1 : Skipping Token defaultPinDes On Line 9653
+        Warning - 1 : Skipping Token defaultPinDes On Line 9654
+        Warning - 1 : Skipping Token defaultPinDes On Line 9655
+        Warning - 1 : Skipping Token defaultPinDes On Line 9656
+        Warning - 1 : Skipping Token defaultPinDes On Line 9657
+        Warning - 1 : Skipping Token defaultPinDes On Line 9658
+        Warning - 1 : Skipping Token defaultPinDes On Line 9659
+        Warning - 1 : Skipping Token defaultPinDes On Line 9660
+        Warning - 1 : Skipping Token defaultPinDes On Line 9661
+        Warning - 1 : Skipping Token defaultPinDes On Line 9662
+        Warning - 1 : Skipping Token defaultPinDes On Line 9663
+        Warning - 1 : Skipping Token defaultPinDes On Line 9664
+        Warning - 1 : Skipping Token defaultPinDes On Line 9665
+        Warning - 1 : Skipping Token defaultPinDes On Line 9666
+        Warning - 1 : Skipping Token defaultPinDes On Line 9667
+        Warning - 1 : Skipping Token defaultPinDes On Line 9668
+        Warning - 1 : Skipping Token defaultPinDes On Line 9669
+        Warning - 1 : Skipping Token defaultPinDes On Line 9670
+        Warning - 1 : Skipping Token defaultPinDes On Line 9671
+        Warning - 1 : Skipping Token defaultPinDes On Line 9672
+        Warning - 1 : Skipping Token defaultPinDes On Line 9673
+        Warning - 1 : Skipping Token defaultPinDes On Line 9674
+        Warning - 1 : Skipping Token defaultPinDes On Line 9675
+        Warning - 1 : Skipping Token defaultPinDes On Line 9704
+        Warning - 1 : Skipping Token defaultPinDes On Line 9705
+        Warning - 1 : Skipping Token defaultPinDes On Line 9706
+        Warning - 1 : Skipping Token defaultPinDes On Line 9707
+        Warning - 1 : Skipping Token defaultPinDes On Line 9708
+        Warning - 1 : Skipping Token defaultPinDes On Line 9709
+        Warning - 1 : Skipping Token defaultPinDes On Line 9710
+        Warning - 1 : Skipping Token defaultPinDes On Line 9711
+        Warning - 1 : Skipping Token defaultPinDes On Line 9712
+        Warning - 1 : Skipping Token defaultPinDes On Line 9713
+        Warning - 1 : Skipping Token defaultPinDes On Line 9714
+        Warning - 1 : Skipping Token defaultPinDes On Line 9715
+        Warning - 1 : Skipping Token defaultPinDes On Line 9716
+        Warning - 1 : Skipping Token defaultPinDes On Line 9717
+        Warning - 1 : Skipping Token defaultPinDes On Line 9718
+        Warning - 1 : Skipping Token defaultPinDes On Line 9719
+        Warning - 1 : Skipping Token defaultPinDes On Line 9720
+        Warning - 1 : Skipping Token defaultPinDes On Line 9721
+        Warning - 1 : Skipping Token defaultPinDes On Line 9722
+        Warning - 1 : Skipping Token defaultPinDes On Line 9723
+        Warning - 1 : Skipping Token defaultPinDes On Line 9724
+        Warning - 1 : Skipping Token defaultPinDes On Line 9725
+        Warning - 1 : Skipping Token defaultPinDes On Line 9726
+        Warning - 1 : Skipping Token defaultPinDes On Line 9727
+        Warning - 1 : Skipping Token defaultPinDes On Line 9728
+        Warning - 1 : Skipping Token defaultPinDes On Line 9729
+        Warning - 1 : Skipping Token defaultPinDes On Line 9730
+        Warning - 1 : Skipping Token defaultPinDes On Line 9731
+        Warning - 1 : Skipping Token defaultPinDes On Line 9732
+        Warning - 1 : Skipping Token defaultPinDes On Line 9733
+        Warning - 1 : Skipping Token defaultPinDes On Line 9734
+        Warning - 1 : Skipping Token defaultPinDes On Line 9735
+        Warning - 1 : Skipping Token defaultPinDes On Line 9758
+        Warning - 1 : Skipping Token defaultPinDes On Line 9759
+        Warning - 1 : Skipping Token defaultPinDes On Line 9760
+        Warning - 1 : Skipping Token defaultPinDes On Line 9761
+        Warning - 1 : Skipping Token defaultPinDes On Line 9762
+        Warning - 1 : Skipping Token defaultPinDes On Line 9763
+        Warning - 1 : Skipping Token defaultPinDes On Line 9764
+        Warning - 1 : Skipping Token defaultPinDes On Line 9765
+        Warning - 1 : Skipping Token defaultPinDes On Line 9766
+        Warning - 1 : Skipping Token defaultPinDes On Line 9767
+        Warning - 1 : Skipping Token defaultPinDes On Line 9768
+        Warning - 1 : Skipping Token defaultPinDes On Line 9769
+        Warning - 1 : Skipping Token defaultPinDes On Line 9770
+        Warning - 1 : Skipping Token defaultPinDes On Line 9771
+        Warning - 1 : Skipping Token defaultPinDes On Line 9772
+        Warning - 1 : Skipping Token defaultPinDes On Line 9773
+        Warning - 1 : Skipping Token defaultPinDes On Line 9774
+        Warning - 1 : Skipping Token defaultPinDes On Line 9775
+        Warning - 1 : Skipping Token defaultPinDes On Line 9776
+        Warning - 1 : Skipping Token defaultPinDes On Line 9777
+        Warning - 1 : Skipping Token defaultPinDes On Line 9778
+        Warning - 1 : Skipping Token defaultPinDes On Line 9779
+        Warning - 1 : Skipping Token defaultPinDes On Line 9780
+        Warning - 1 : Skipping Token defaultPinDes On Line 9781
+        Warning - 1 : Skipping Token defaultPinDes On Line 9782
+        Warning - 1 : Skipping Token defaultPinDes On Line 9783
+        Warning - 1 : Skipping Token defaultPinDes On Line 9784
+        Warning - 1 : Skipping Token defaultPinDes On Line 9785
+        Warning - 1 : Skipping Token defaultPinDes On Line 9786
+        Warning - 1 : Skipping Token defaultPinDes On Line 9787
+        Warning - 1 : Skipping Token defaultPinDes On Line 9788
+        Warning - 1 : Skipping Token defaultPinDes On Line 9789
+        Warning - 1 : Skipping Token defaultPinDes On Line 9790
+        Warning - 1 : Skipping Token defaultPinDes On Line 9791
+        Warning - 1 : Skipping Token defaultPinDes On Line 9792
+        Warning - 1 : Skipping Token defaultPinDes On Line 9793
+        Warning - 1 : Skipping Token defaultPinDes On Line 9794
+        Warning - 1 : Skipping Token defaultPinDes On Line 9795
+        Warning - 1 : Skipping Token defaultPinDes On Line 9796
+        Warning - 1 : Skipping Token defaultPinDes On Line 9797
+        Warning - 1 : Skipping Token defaultPinDes On Line 9798
+        Warning - 1 : Skipping Token defaultPinDes On Line 9799
+        Warning - 1 : Skipping Token defaultPinDes On Line 9800
+        Warning - 1 : Skipping Token defaultPinDes On Line 9801
+        Warning - 1 : Skipping Token defaultPinDes On Line 9802
+        Warning - 1 : Skipping Token defaultPinDes On Line 9803
+        Warning - 1 : Skipping Token defaultPinDes On Line 9804
+        Warning - 1 : Skipping Token defaultPinDes On Line 9805
+        Warning - 1 : Skipping Token defaultPinDes On Line 9806
+        Warning - 1 : Skipping Token defaultPinDes On Line 9807
+        Warning - 1 : Skipping Token defaultPinDes On Line 9808
+        Warning - 1 : Skipping Token defaultPinDes On Line 9809
+        Warning - 1 : Skipping Token defaultPinDes On Line 9810
+        Warning - 1 : Skipping Token defaultPinDes On Line 9811
+        Warning - 1 : Skipping Token defaultPinDes On Line 9812
+        Warning - 1 : Skipping Token defaultPinDes On Line 9813
+        Warning - 1 : Skipping Token defaultPinDes On Line 9814
+        Warning - 1 : Skipping Token defaultPinDes On Line 9815
+        Warning - 1 : Skipping Token defaultPinDes On Line 9816
+        Warning - 1 : Skipping Token defaultPinDes On Line 9817
+        Warning - 1 : Skipping Token defaultPinDes On Line 9818
+        Warning - 1 : Skipping Token defaultPinDes On Line 9819
+        Warning - 1 : Skipping Token defaultPinDes On Line 9820
+        Warning - 1 : Skipping Token defaultPinDes On Line 9821
+        Warning - 1 : Skipping Token defaultPinDes On Line 9822
+        Warning - 1 : Skipping Token defaultPinDes On Line 9823
+        Warning - 1 : Skipping Token defaultPinDes On Line 9824
+        Warning - 1 : Skipping Token defaultPinDes On Line 9825
+        Warning - 1 : Skipping Token defaultPinDes On Line 9826
+        Warning - 1 : Skipping Token defaultPinDes On Line 9827
+        Warning - 1 : Skipping Token defaultPinDes On Line 9828
+        Warning - 1 : Skipping Token defaultPinDes On Line 9829
+        Warning - 1 : Skipping Token defaultPinDes On Line 9830
+        Warning - 1 : Skipping Token defaultPinDes On Line 9831
+        Warning - 1 : Skipping Token defaultPinDes On Line 9832
+        Warning - 1 : Skipping Token defaultPinDes On Line 9833
+        Warning - 1 : Skipping Token defaultPinDes On Line 9834
+        Warning - 1 : Skipping Token defaultPinDes On Line 9835
+        Warning - 1 : Skipping Token defaultPinDes On Line 9836
+        Warning - 1 : Skipping Token defaultPinDes On Line 9837
+        Warning - 1 : Skipping Token defaultPinDes On Line 9838
+        Warning - 1 : Skipping Token defaultPinDes On Line 9839
+        Warning - 1 : Skipping Token defaultPinDes On Line 9840
+        Warning - 1 : Skipping Token defaultPinDes On Line 9841
+        Warning - 1 : Skipping Token defaultPinDes On Line 9842
+        Warning - 1 : Skipping Token defaultPinDes On Line 9843
+        Warning - 1 : Skipping Token defaultPinDes On Line 9844
+        Warning - 1 : Skipping Token defaultPinDes On Line 9845
+        Warning - 1 : Skipping Token defaultPinDes On Line 9846
+        Warning - 1 : Skipping Token defaultPinDes On Line 9847
+        Warning - 1 : Skipping Token defaultPinDes On Line 9848
+        Warning - 1 : Skipping Token defaultPinDes On Line 9849
+        Warning - 1 : Skipping Token defaultPinDes On Line 9850
+        Warning - 1 : Skipping Token defaultPinDes On Line 9851
+        Warning - 1 : Skipping Token defaultPinDes On Line 9852
+        Warning - 1 : Skipping Token defaultPinDes On Line 9853
+        Warning - 1 : Skipping Token defaultPinDes On Line 9854
+        Warning - 1 : Skipping Token defaultPinDes On Line 9855
+        Warning - 1 : Skipping Token defaultPinDes On Line 9856
+        Warning - 1 : Skipping Token defaultPinDes On Line 9857
+        Warning - 1 : Skipping Token defaultPinDes On Line 9879
+        Warning - 1 : Skipping Token defaultPinDes On Line 9880
+        Warning - 1 : Skipping Token defaultPinDes On Line 9927
+        Warning - 1 : Skipping Token defaultPinDes On Line 9928
+        Warning - 1 : Skipping Token defaultPinDes On Line 10001
+        Warning - 1 : Skipping Token defaultPinDes On Line 10002
+        Warning - 1 : Skipping Token defaultPinDes On Line 10003
+        Warning - 1 : Skipping Token defaultPinDes On Line 10004
+        Warning - 1 : Skipping Token defaultPinDes On Line 10025
+        Warning - 1 : Skipping Token defaultPinDes On Line 10026
+        Warning - 1 : Skipping Token defaultPinDes On Line 10027
+        Warning - 1 : Skipping Token defaultPinDes On Line 10028
+        Warning - 1 : Skipping Token defaultPinDes On Line 10029
+        Warning - 1 : Skipping Token defaultPinDes On Line 10030
+        Warning - 1 : Skipping Token defaultPinDes On Line 10073
+        Warning - 1 : Skipping Token defaultPinDes On Line 10074
+        Warning - 1 : Skipping Token defaultPinDes On Line 10075
+        Warning - 1 : Skipping Token attachedSymbol On Line 10099
+        Warning - 1 : Skipping Token attachedSymbol On Line 10151
+        Warning - 1 : Skipping Token attachedSymbol On Line 10208
+        Warning - 1 : Skipping Token attachedSymbol On Line 10246
+        Warning - 1 : Skipping Token attachedSymbol On Line 10247
+        Warning - 1 : Skipping Token attachedSymbol On Line 10248
+        Warning - 1 : Skipping Token attachedSymbol On Line 10249
+        Warning - 1 : Skipping Token attachedSymbol On Line 10250
+        Warning - 1 : Skipping Token attachedSymbol On Line 10251
+        Warning - 1 : Skipping Token attachedSymbol On Line 10285
+        Warning - 1 : Skipping Token attachedSymbol On Line 10404
+        Warning - 1 : Skipping Token attachedSymbol On Line 10582
+        Warning - 1 : Skipping Token attachedSymbol On Line 10665
+        Warning - 1 : Skipping Token attachedSymbol On Line 10691
+        Warning - 1 : Skipping Token attachedSymbol On Line 10715
+        Warning - 1 : Skipping Token attachedSymbol On Line 10737
+        Warning - 1 : Skipping Token attachedSymbol On Line 10761
+        Warning - 1 : Skipping Token attachedSymbol On Line 10783
+        Warning - 1 : Skipping Token attachedSymbol On Line 10805
+        Warning - 1 : Skipping Token attachedSymbol On Line 10840
+        Warning - 1 : Skipping Token attachedSymbol On Line 10841
+        Warning - 1 : Skipping Token refPointSize On Line 11430
+        Warning - 1 : Skipping Token infoPointSize On Line 11431
+        Warning - 1 : Skipping Token gluePointSize On Line 11432
+        Warning - 1 : Skipping Token pickPointSize On Line 11433
+        Warning - 1 : Skipping Token testPointSize On Line 11434
+        Warning - 1 : Skipping Token refPointSizePrint On Line 11435
+        Warning - 1 : Skipping Token infoPointSizePrint On Line 11436
+        Warning - 1 : Skipping Token gluePointSizePrint On Line 11437
+        Warning - 1 : Skipping Token pickPointSizePrint On Line 11438
+        Warning - 1 : Skipping Token testPointSizePrint On Line 11439
+        Warning - 1 : Skipping Token solderFlowDirection On Line 11440
+        Warning - 1 : Skipping Token globalCopperPourCutoutBackoffFlag On Line 11441
+        Warning - 1 : Skipping Token useLegacyBackoffAlgorithm On Line 11442
+        Warning - 1 : Skipping Token useLegacyCupourIslandGenerationAlgorithm On Line 11443
+        Warning - 1 : Skipping Token isFixed On Line 11527
+        Warning - 1 : Skipping Token isFixed On Line 11539
+        Warning - 1 : Skipping Token isFixed On Line 11553
+        Warning - 1 : Skipping Token isFixed On Line 11554
+        Warning - 1 : Skipping Token isFixed On Line 11563
+        Warning - 1 : Skipping Token isFixed On Line 11566
+        Warning - 1 : Skipping Token isFixed On Line 11568
+        Warning - 1 : Skipping Token isFixed On Line 11569
+        Warning - 1 : Skipping Token isFixed On Line 11580
+        Warning - 1 : Skipping Token isFixed On Line 11583
+        Warning - 1 : Skipping Token isFixed On Line 11584
+        Warning - 1 : Skipping Token isFixed On Line 11589
+        Warning - 1 : Skipping Token isFixed On Line 11591
+        Warning - 1 : Skipping Token isFixed On Line 11594
+        Warning - 1 : Skipping Token isFixed On Line 11595
+        Warning - 1 : Skipping Token isFixed On Line 11597
+        Warning - 1 : Skipping Token isFixed On Line 11598
+        Warning - 1 : Skipping Token isFixed On Line 11599
+        Warning - 1 : Skipping Token isFixed On Line 11644
+        Warning - 1 : Skipping Token isFixed On Line 11645
+        Warning - 1 : Skipping Token isFixed On Line 11697
+        Warning - 1 : Skipping Token isFixed On Line 11699
+        Warning - 1 : Skipping Token isFixed On Line 11701
+        Warning - 1 : Skipping Token isFixed On Line 11932
+        Warning - 1 : Skipping Token netNameRef On Line 12163
+        Warning - 1 : Skipping Token island On Line 12165
+        Warning - 1 : Skipping Token island On Line 12961
+        Warning - 1 : Skipping Token isFixed On Line 13238
+        Warning - 1 : Skipping Token printDrawOrder On Line 14445
+        Warning - 1 : Skipping Token printDrawOrder On Line 14828
+        Warning - 1 : Skipping Token printDrawOrder On Line 15216
+        Warning - 1 : Skipping Token drillSymSettings On Line 15587
+        Warning - 1 : Skipping Token gerberSettings On Line 15594
+        Warning - 1 : Skipping Token ncDrillSettings On Line 16087
+        Warning - 1 : Skipping Token programState On Line 16116
+        Warning - 1 : Skipping Token displayDrawOrder On Line 16158
+        Warning - 1 : Skipping Token reportSettings On Line 16401
+        Warning - 1 : Skipping Token odbSettings On Line 17247
+    EndSection
+
+    Section : Import Messages
+        Warning : No Connect Pad Converted To Rounded Pad
+        Warning : No Connect Pad Converted To Rounded Pad
+        Warning : No Connect Pad Converted To Rounded Pad
+        Warning : No Connect Pad Converted To Rounded Pad
+        Warning - 0 : PCAD Pattern Graphics [SMD0805][Primary] associated with PCAD Component [C_0805] has been renamed to PCB FootPrint [SMD0805_C_0805(Primary)].
+        Warning : No Connect Pad Converted To Rounded Pad
+        Warning : No Connect Pad Converted To Rounded Pad
+        Warning : No Connect Pad Converted To Rounded Pad
+        Warning : No Connect Pad Converted To Rounded Pad
+        Warning : No Connect Pad Converted To Rounded Pad
+        Warning : No Connect Pad Converted To Rounded Pad
+        Warning : No Connect Pad Converted To Rounded Pad
+        Warning : No Connect Pad Converted To Rounded Pad
+        Warning - 0 : PCAD Pattern Graphics [SMD0805][Primary] associated with PCAD Component [C_0805] has been renamed to PCB FootPrint [SMD0805_C_0805(Primary)].
+        Warning : No Connect Pad Converted To Rounded Pad
+        Warning : No Connect Pad Converted To Rounded Pad
+        Warning : No Connect Pad Converted To Rounded Pad
+        Warning : No Connect Pad Converted To Rounded Pad
+        Warning : No Connect Pad Converted To Rounded Pad
+        Warning : No Connect Pad Converted To Rounded Pad
+        Warning : No Connect Pad Converted To Rounded Pad
+        Warning : No Connect Pad Converted To Rounded Pad
+        Warning : No Connect Pad Converted To Rounded Pad
+        Warning : No Connect Pad Converted To Rounded Pad
+        Warning : No Connect Pad Converted To Rounded Pad
+        Warning : No Connect Pad Converted To Rounded Pad
+        Warning : No Connect Pad Converted To Rounded Pad
+        Warning : No Connect Pad Converted To Rounded Pad
+        Warning : No Connect Pad Converted To Rounded Pad
+        Warning : No Connect Pad Converted To Rounded Pad
+        Warning : No Connect Pad Converted To Rounded Pad
+        Warning : No Connect Pad Converted To Rounded Pad
+        Warning : No Connect Pad Converted To Rounded Pad
+        Warning : No Connect Pad Converted To Rounded Pad
+        Warning : No Connect Pad Converted To Rounded Pad
+        Warning : No Connect Pad Converted To Rounded Pad
+        Warning : No Connect Pad Converted To Rounded Pad
+        Warning : No Connect Pad Converted To Rounded Pad
+        Warning - 0 : PCAD Pattern Graphics [SMD0805][Primary] associated with PCAD Component [C_0805] has been renamed to PCB FootPrint [SMD0805_C_0805(Primary)].
+        Warning : No Connect Pad Converted To Rounded Pad
+        Warning : No Connect Pad Converted To Rounded Pad
+        Warning : No Connect Pad Converted To Rounded Pad
+        Warning : No Connect Pad Converted To Rounded Pad
+        Warning - 0 : PCAD Pattern Graphics [SMD0805][Primary] associated with PCAD Component [C_0805] has been renamed to PCB FootPrint [SMD0805_C_0805(Primary)].
+        Warning : No Connect Pad Converted To Rounded Pad
+        Warning : No Connect Pad Converted To Rounded Pad
+        Warning : No Connect Pad Converted To Rounded Pad
+        Warning : No Connect Pad Converted To Rounded Pad
+        Warning - 0 : PCAD Pattern Graphics [SMD0805][Primary] associated with PCAD Component [C_0805] has been renamed to PCB FootPrint [SMD0805_C_0805(Primary)].
+        Warning : No Connect Pad Converted To Rounded Pad
+        Warning : No Connect Pad Converted To Rounded Pad
+        Warning : No Connect Pad Converted To Rounded Pad
+        Warning : No Connect Pad Converted To Rounded Pad
+        Warning : No Connect Pad Converted To Rounded Pad
+        Warning : No Connect Pad Converted To Rounded Pad
+        Warning : No Connect Pad Converted To Rounded Pad
+        Warning : No Connect Pad Converted To Rounded Pad
+        Warning : Rectangle solder shape converted to solid region
+        Warning : Rectangle solder shape converted to solid region
+        Warning : No Connect Pad Converted To Rounded Pad
+        Warning : No Connect Pad Converted To Rounded Pad
+        Warning : No Connect Pad Converted To Rounded Pad
+        Warning : No Connect Pad Converted To Rounded Pad
+        Warning - 0 : PCAD Pattern Graphics [SMD0805][Primary] associated with PCAD Component [C_0805] has been renamed to PCB FootPrint [SMD0805_C_0805(Primary)].
+        Warning : Mounting Hole Pad Converted To Rounded Pad
+        Warning : Mounting Hole Pad Converted To Rounded Pad
+        Warning : Mounting Hole Pad Converted To Rounded Pad
+        Warning : No Connect Pad Converted To Rounded Pad
+        Warning : No Connect Pad Converted To Rounded Pad
+        Warning : No Connect Pad Converted To Rounded Pad
+        Warning : No Connect Pad Converted To Rounded Pad
+        Warning : Rectangle solder shape converted to solid region
+        Warning : Rectangle solder shape converted to solid region
+        Warning : Rectangle solder shape converted to solid region
+        Warning : Rectangle solder shape converted to solid region
+        Warning : No Connect Pad Converted To Rounded Pad
+        Warning : No Connect Pad Converted To Rounded Pad
+        Warning : No Connect Pad Converted To Rounded Pad
+        Warning : No Connect Pad Converted To Rounded Pad
+        Warning - 0 : PCAD Pattern Graphics [SMD0805][Primary] associated with PCAD Component [C_0805] has been renamed to PCB FootPrint [SMD0805_C_0805(Primary)].
+        Warning : No Connect Pad Converted To Rounded Pad
+        Warning : No Connect Pad Converted To Rounded Pad
+        Warning : No Connect Pad Converted To Rounded Pad
+        Warning : No Connect Pad Converted To Rounded Pad
+        Warning - 0 : PCAD Pattern Graphics [SMD0805][Primary] associated with PCAD Component [C_0805] has been renamed to PCB FootPrint [SMD0805_C_0805(Primary)].
+        Warning : No Connect Pad Converted To Rounded Pad
+        Warning : No Connect Pad Converted To Rounded Pad
+        Warning : No Connect Pad Converted To Rounded Pad
+        Warning : No Connect Pad Converted To Rounded Pad
+        Warning - 0 : PCAD Pattern Graphics [SMD0805][Primary] associated with PCAD Component [C_0805] has been renamed to PCB FootPrint [SMD0805_C_0805(Primary)].
+        Warning : Rectangle solder shape converted to solid region
+        Warning : Rectangle solder shape converted to solid region
+        Warning : No Connect Pad Converted To Rounded Pad
+        Warning : No Connect Pad Converted To Rounded Pad
+        Warning : No Connect Pad Converted To Rounded Pad
+        Warning : No Connect Pad Converted To Rounded Pad
+        Warning - 0 : PCAD Pattern Graphics [SMD0805][Primary] associated with PCAD Component [C_0805] has been renamed to PCB FootPrint [SMD0805_C_0805(Primary)].
+        Warning : No Connect Pad Converted To Rounded Pad
+        Warning : No Connect Pad Converted To Rounded Pad
+        Warning : No Connect Pad Converted To Rounded Pad
+        Warning : No Connect Pad Converted To Rounded Pad
+        Warning : No Connect Pad Converted To Rounded Pad
+        Warning : No Connect Pad Converted To Rounded Pad
+        Warning : No Connect Pad Converted To Rounded Pad
+        Warning : No Connect Pad Converted To Rounded Pad
+        Warning - 0 : PCAD Pattern Graphics [SMD0805][Primary] associated with PCAD Component [C_0805] has been renamed to PCB FootPrint [SMD0805_C_0805(Primary)].
+        Warning : No Connect Pad Converted To Rounded Pad
+        Warning : No Connect Pad Converted To Rounded Pad
+        Warning : No Connect Pad Converted To Rounded Pad
+        Warning : No Connect Pad Converted To Rounded Pad
+        Warning - 0 : PCAD Pattern Graphics [SMD0805][Primary] associated with PCAD Component [C_0805] has been renamed to PCB FootPrint [SMD0805_C_0805(Primary)].
+        Warning : Mounting Hole Pad Converted To Rounded Pad
+        Warning : Mounting Hole Pad Converted To Rounded Pad
+        Warning : Mounting Hole Pad Converted To Rounded Pad
+        Warning : Mounting Hole Pad Converted To Rounded Pad
+        Warning : Mounting Hole Pad Converted To Rounded Pad
+        Warning : Mounting Hole Pad Converted To Rounded Pad
+    EndSection
+EndSection
