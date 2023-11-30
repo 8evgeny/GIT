@@ -4,7 +4,7 @@ set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
 set(TOOLS_PATH /home/evg/toolchain/gcc-arm-none-eabi-new)
 set(CMAKE_OBJCOPY ${TOOLS_PATH}/bin/arm-none-eabi-objcopy)
 
-project(21_Build_code_Krasnov C CXX ASM)
+project(Firmware_DX C CXX ASM)
 
 set(CMAKE_ASM_FLAGS "${CMAKE_ASM_FLAGS} \
     -mcpu=cortex-m4 \
