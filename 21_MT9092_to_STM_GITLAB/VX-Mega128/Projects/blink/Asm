@@ -1,1 +1,16 @@
 avr-gcc -S main.c
+
+avr-objdump -S --disassemble ATmega128_blink > ATmega128_blink.dump
+
+
+1)  avr-g++ -S main.cpp
+2)  avr-g++ -S main.cpp -O2     Компактный вид
+
+3)  avr-g++ -g main.cpp -o main
+    avr-objdump -S --disassemble main > main.dump
+
+4)  avr-c++ -S -fverbose-asm -g -O2 main.cpp -o main.s
+    avr-as -alhnd main.s > main.lst
+
+    
+avr-objdump -S --disassemble ATmega128_blink > ATmega128_blink.dump    
