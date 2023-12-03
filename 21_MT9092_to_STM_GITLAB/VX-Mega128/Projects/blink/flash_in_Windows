@@ -1,0 +1,4 @@
+avrdude.exe -p m128 -c Usbasp -B 4 -P usb -U flash:w:"Z:\GIT\21_MT9092_to_STM_GITLAB\VX-Mega128\Projects\blink\build\ATmega128_blink.hex":a
+
+
+
