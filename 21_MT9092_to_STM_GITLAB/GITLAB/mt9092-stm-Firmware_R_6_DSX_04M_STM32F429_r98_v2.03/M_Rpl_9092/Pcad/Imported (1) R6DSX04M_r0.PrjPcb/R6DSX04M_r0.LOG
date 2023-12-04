@@ -1,0 +1,34 @@
+PCAD Importer Log
+Project : R6DSX04M_r0.PrjPcb
+
+Section : Z:\GIT\21_MT9092_to_STM_GITLAB\GITLAB\mt9092-stm-Firmware_R_6_DSX_04M_STM32F429_r98_v2.03\M_Rpl_9092\Pcad\R6DSX04M_r0.pcb
+    Section : Load Messages
+        Warning - 1 : Skipping Token refPointSize On Line 2475
+        Warning - 1 : Skipping Token infoPointSize On Line 2476
+        Warning - 1 : Skipping Token gluePointSize On Line 2477
+        Warning - 1 : Skipping Token pickPointSize On Line 2478
+        Warning - 1 : Skipping Token testPointSize On Line 2479
+        Warning - 1 : Skipping Token refPointSizePrint On Line 2480
+        Warning - 1 : Skipping Token infoPointSizePrint On Line 2481
+        Warning - 1 : Skipping Token gluePointSizePrint On Line 2482
+        Warning - 1 : Skipping Token pickPointSizePrint On Line 2483
+        Warning - 1 : Skipping Token testPointSizePrint On Line 2484
+        Warning - 1 : Skipping Token solderFlowDirection On Line 2485
+        Warning - 1 : Skipping Token globalCopperPourCutoutBackoffFlag On Line 2486
+        Warning - 1 : Skipping Token useLegacyBackoffAlgorithm On Line 2487
+        Warning - 1 : Skipping Token useLegacyCupourIslandGenerationAlgorithm On Line 2488
+        Warning - 1 : Skipping Token printDrawOrder On Line 4117
+        Warning - 1 : Skipping Token printDrawOrder On Line 4506
+        Warning - 1 : Skipping Token drillSymSettings On Line 4877
+        Warning - 1 : Skipping Token gerberSettings On Line 4884
+        Warning - 1 : Skipping Token ncDrillSettings On Line 5377
+        Warning - 1 : Skipping Token programState On Line 5416
+        Warning - 1 : Skipping Token displayDrawOrder On Line 5457
+        Warning - 1 : Skipping Token reportSettings On Line 5700
+        Warning - 1 : Skipping Token odbSettings On Line 6546
+    EndSection
+
+    Section : Import Messages
+        Warning - 0 : PCAD Pattern Graphics [Connector 15EDGVM-3.81-10P][Primary] associated with PCAD Component [Connector_15EDGVM-3.81-10P] has been renamed to PCB FootPrint [Connector 15EDGVM-3.81-10P_Connector_15EDGVM-3.81-10P(Primary)].
+    EndSection
+EndSection
