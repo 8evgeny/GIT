@@ -4,7 +4,7 @@ set(CMAKE_OBJCOPY /usr/bin/avr-objcopy)
 
 
 project(ATmega128 LANGUAGES C)
-add_definitions(-D__AVR_ATmega64__)
+add_definitions(-D__AVR_ATmega128__)
 
 set(nameFirmware ATmega128_blink)
 
