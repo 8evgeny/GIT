@@ -106,13 +106,13 @@ void spi_begin_restart(void) { // стартует сброс всей сист�
 	spi_disable();
 	flag_spi_restart = 1;
 	spi_restart_timer = SPI_RESTART_DELAY;
-	uartPuts("SPI restart begins...\r");
+    uartPuts("SPI restart begins...\r\n");
 }
 
 
 void spi_end_restart(void) { // заканчивает сброс всей системы SPI, включает SPI по-новой
 	HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
-	uartPuts("SPI restart ends.\r");
+    uartPuts("SPI restart ends.\r\n");
 	flag_spi_restart = 0;
 }
 
@@ -157,6 +157,7 @@ void SPI_2linesRxISR_8BIT_Fast(struct __SPI_HandleTypeDef *hspi) {
 		#endif
 					str[16] = '\0';
 					uartPuts(str);
+                    uartPuts("\r\n");
 				} else {
 					//HAL_GPIO_TogglePin(LED3_GPIO_Port, LED3_Pin);
 				}
@@ -177,6 +178,7 @@ void SPI_2linesRxISR_8BIT_Fast(struct __SPI_HandleTypeDef *hspi) {
 					str[7] = ' ';
 					str[8] = '\0';
 					uartPuts(str);
+//                    uartPuts("\r\n");
 				}
 	#endif
 			}
@@ -207,6 +209,7 @@ void SPI_2linesRxISR_8BIT_Fast(struct __SPI_HandleTypeDef *hspi) {
 						str[4] = '\r';
 						str[5] = '\0';
 						uartPuts(str);
+                        uartPuts("\r\n");
 					}
 #endif
 					if (mt9092ProcessWriteCommand(reg_addr, spi_in_buf[1]) != 0) { // обрабатывем команду на запись
@@ -222,7 +225,7 @@ void SPI_2linesRxISR_8BIT_Fast(struct __SPI_HandleTypeDef *hspi) {
 			uartPuts("Error: REC_MORE_THEN_TWO_BYTES. Last byte:");
 			HexToChar(&str[0], spi_dummy_in[0]);
 			uartPuts(str);
-			uartPuts("\r");
+            uartPuts("\r\n");
 			break;
 	}
 }
@@ -248,6 +251,7 @@ void DBG_SPI_RxISR_8BIT_Fast(struct __SPI_HandleTypeDef *hspi) { // прием �
 		str[8] = '\r';
 		str[9] = '\0';
 		uartPuts(str);
+        uartPuts("\r\n");
 #endif
 	}
 
@@ -273,7 +277,7 @@ void doCsTimeout(void) {
 			HAL_NVIC_DisableIRQ(EXTI15_10_IRQn); // чтобы не было коллизии
 			if (HAL_GPIO_ReadPin(SPI2_nCS_GPIO_Port, SPI2_nCS_Pin) == GPIO_PIN_RESET) { // если CS всё ещё активен
 				uartPuts("Error: nCS Timeout! ");
-				uartPuts("Restart SPI.\r");
+                uartPuts("Restart SPI.\r\n");
 				// пересбрасываем SPI
 				spi_disable();
 				spi_enable();
@@ -298,7 +302,7 @@ void doCsTimeout(void) {
  * @retval None
  */
 void HAL_SPI_ErrorCallback(SPI_HandleTypeDef *hspi) {
-  sprintf(str, "SPI error: %u\r", hspi->ErrorCode);
+  sprintf(str, "SPI error: %u\r\n", hspi->ErrorCode);
   uartPuts(str);
 
   spiSetErrLed();

@@ -48,7 +48,7 @@ void writeHdlcTxFifo(unsigned char data) {
 			CLEAR_BIT(mt9092_reg[HDLC_STATUS_REGISTER], TXSTAT2);
 			CLEAR_BIT(mt9092_reg[HDLC_STATUS_REGISTER], TXSTAT1);
 		}
-	}	else uartPuts("\rError: HDLC Tx FIFO overflow!\r");
+    }	else uartPuts("\rError: HDLC Tx FIFO overflow!\r\n");
 }
 
 void startHdlcTransmition(void) {
@@ -70,7 +70,7 @@ void startHdlcTransmition(void) {
 	
 	uartPuts("\r<-HDLC Tx: ");
 	for (i = 0; i < len; i++) uartPutchar(hdlc_packet_data[i]);
-	uartPuts("\r");
+    uartPuts("\r\n");
 	
 	createHdlcBitStream(hdlc_packet_data, i);
 }

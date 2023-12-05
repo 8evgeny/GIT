@@ -42,7 +42,7 @@ void BitRingInit(void) {
 	current_index = 0;
 	start_flag_index = 0;
 	start_flag_received = 0;
-	uartPuts("\r\rBit ring init\r");
+    uartPuts("\r\rBit ring init\r\n");
 }
 void debug(void) {
 //	int i, j;
@@ -164,7 +164,7 @@ void processHdlcFrame(void) {
 					n_bits--; // суммарное количество элементов уменьшилось на 1
 					i--; // чтобы учесть элемент, помещенный на место удаленного нуля
 				} else { // больше 5 единиц подряд быть не должно
-					uartPuts("\r\r> 5 ones contiguous!\r"); // по идее, такие ситуации фильтруются ещё в BitRingProcessBit()
+                    uartPuts("\r\r> 5 ones contiguous!\r\n"); // по идее, такие ситуации фильтруются ещё в BitRingProcessBit()
 					flag_hdlc_frame_received = 0; // сбрасываем флаг
 					return;
 				}
@@ -179,7 +179,7 @@ void processHdlcFrame(void) {
 		
 		if ((n_bits % 8) != 0) { // содержимое кадра HDLC должно быть кратно 8 битам
 #ifdef DEBUG_INFO
-			uartPuts("\rNot / 8!\r");
+            uartPuts("\rNot / 8!\r\n");
 #endif
 			
 		} else {
@@ -220,24 +220,24 @@ void processHdlcFrame(void) {
 			if (calc_crc == rec_crc) crc_ok = 1; else crc_ok = 0;
 			
 			if (crc_ok) {
-				uartPuts("\r");
+                uartPuts("\r\n");
 				if (tel_len < TELEGRAM_LENGTH - 1) {
 					memcpy(telegram_string, hdlc_frame_bytes, tel_len); // без CRC
 					telegram_string[tel_len] = '\0';
 					uartPuts("->HDLC Rx: ");
 					uartPutsN(telegram_string, tel_len);
-					uartPuts("\r");
+                    uartPuts("\r\n");
 					processHdlcTelegram(telegram_string, tel_len);
 				} else {
-					uartPuts("Telegram is too long!\r");
+                    uartPuts("Telegram is too long!\r\n");
 				}
 				#ifdef DEBUG_INFO
 				uartPuts("   ");
-				uartPuts("CRC OK\r");
+                uartPuts("CRC OK\r\n");
 				#endif
 			} else {
 				#ifdef DEBUG_INFO
-				uartPuts("CRC Not OK\r");
+                uartPuts("CRC Not OK\r\n");
 				#endif
 			}
 		}

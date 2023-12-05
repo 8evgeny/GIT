@@ -5,6 +5,7 @@ FlashExt=.hex
 EEpromExt=.eep
 FlashMode=2
 EEpromMode=2
+ListBox=0
 
 [CPU]
 CPUname=MEGA128

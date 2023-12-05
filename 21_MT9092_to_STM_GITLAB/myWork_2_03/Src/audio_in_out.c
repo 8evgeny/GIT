@@ -62,8 +62,8 @@ void AudioInOutInit(void) {
 
   codec_err = codecInit();
   
-  if (codec_err != 0) uartPuts("codecInit ERROR!\r");
-  else uartPuts("codecInit OK!\r");
+  if (codec_err != 0) uartPuts("codecInit ERROR!\r\n");
+  else uartPuts("codecInit OK!\r\n");
   
   // по-умолчанию, в MT9092 всё выключено
   selectMic(0);
@@ -96,8 +96,8 @@ void AudioInOutInit(void) {
     flag_audio_OK = 1;
   }
   
-  if (hal_err == HAL_OK) uartPuts("OK\r");
-  else uartPuts("ERROR!\r");
+  if (hal_err == HAL_OK) uartPuts("OK\r\n");
+  else uartPuts("ERROR!\r\n");
 }
 
 // кладем сэмпл в FIFO для последующего вывода через ЦАП кодека
@@ -107,6 +107,7 @@ void AudioOutPush(int16_t sample) {
     FIFO_PUSH(audio_out_fifo, sample);
   } else {
     uartPuts("Error: audio_out_fifo overflow!");
+    uartPuts("\r\n");
   }
 }
 
@@ -119,6 +120,7 @@ int16_t AudioInPop(void) {
     return FIFO_POP(audio_in_fifo);
   } else {
     uartPuts("Error: audio_in_fifo underflow!");
+    uartPuts("\r\n");
     return 0;
   }
 }
@@ -145,6 +147,7 @@ void HAL_I2SEx_TxRxHalfCpltCallback(I2S_HandleTypeDef *hi2s) {
     } else {
       audio_out_DMA_Buffer[0] = 0;
       uartPuts("Error: audio_out_fifo underflow!");
+      uartPuts("\r\n");
     }
   }
 }
@@ -164,6 +167,7 @@ void HAL_I2SEx_TxRxCpltAltCallback(I2S_HandleTypeDef *hi2s) { // альтерн�
     //      FIFO_PUSH(audio_in_fifo, sinebuf1[i]); // синус
   } else {
     uartPuts("Error: audio_in_fifo overflow!");
+    uartPuts("\r\n");
   }
 
   // AUDIO OUT - правый канал кодека
@@ -184,5 +188,5 @@ void I2SEx_TxRxDMACpltAlt(DMA_HandleTypeDef *hdma) { // альтернативн
 
 
 void HAL_I2S_ErrorCallback(I2S_HandleTypeDef *hi2s){
-	uartPuts("Error: HAL_I2S_ErrorCallback\r");
+    uartPuts("Error: HAL_I2S_ErrorCallback\r\n");
 }
