@@ -14,7 +14,7 @@ int main(void)
 //    DDRC |= ( 1 << 6 );
 //    DDRC |= ( 1 << 5 );
     DDRC = 0b11111111; //Можно и так
-
+_SEI(); /* set global interrupt enable */
      while (1)
      {
          PORTC = 0b01010100;
