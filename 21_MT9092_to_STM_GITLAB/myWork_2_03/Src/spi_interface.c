@@ -126,10 +126,11 @@ void SPI_2linesRxISR_8BIT_Fast(struct __SPI_HandleTypeDef *hspi) {
 		
 		case REC_ADDR_COMM:
 			spi_in_buf[0] = *((__IO uint8_t *) & hspi->Instance->DR);
-
+// if (spi_in_buf[0] != 0x29)
+//     uartPutchar(spi_in_buf[0]);
 			reg_addr = spi_in_buf[0] >> 1;
 
-			if (spi_in_buf[0] & 0x01) { // на чтение
+            if (spi_in_buf[0] & 0x01) { // на чтение 19 стр Даташит 9092
 				// у нас прием идет по спаду, а передача по нарастанию, поэтому приходится
 				// менять фазу в случае запроса на чтение от Меги
 				__HAL_SPI_DISABLE(&hspi2);
