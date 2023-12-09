@@ -27,7 +27,7 @@ add_custom_command(TARGET ${nameFirmware} POST_BUILD
     COMMENT "Building ${BIN_FILE} ")
 
 add_custom_command(TARGET ${nameFirmware} POST_BUILD
-    COMMAND avrdude -p m128 -c Usbasp -B 4 -P usb -U flash:w:"/home/evg/SOFT/Github/GIT/21_MT9092_to_STM_GITLAB/VX-Mega128/Projects/test1/build/${nameFirmware}.hex":a
+    COMMAND avrdude -p m128 -c Usbasp -B 4 -P usb -U flash:w:"/home/evg/SOFT/Github/GIT/21_MT9092_to_STM_GITLAB/VX-Mega128/Projects/test_gpio/build/${nameFirmware}.hex":a
     COMMENT "Write Flash ")
 
 
