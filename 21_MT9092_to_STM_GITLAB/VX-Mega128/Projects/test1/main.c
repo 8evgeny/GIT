@@ -16,19 +16,19 @@ int main(void)
 //    DDRB = 0b00000011; //Можно и так
      while (1)
      {
-         if( ~(PINB | ~0x04) )//PB2 нажата
+         if( ~(PINB | ~0x04) )//PB2 нажата   срабатывает с задержкой  пока не кончится цикл _delay_ms(2000) нужно прерывание
          {
              PORTB = 0b00000011;
              _delay_ms(10);
              PORTB = 0b00000000;
-             _delay_ms(1009);
+             _delay_ms(100);
          }
          else
          {
              PORTB = 0b00000011;
              _delay_ms(10);
              PORTB = 0b00000000;
-             _delay_ms(200);
+             _delay_ms(2000);
          }
      }
 }
