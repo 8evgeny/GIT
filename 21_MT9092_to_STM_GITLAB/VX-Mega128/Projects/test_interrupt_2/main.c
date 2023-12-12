@@ -27,11 +27,19 @@ ISR (TIMER1_OVF_vect, ISR_BLOCK){
     //Далее идет код, который будет работать каждую секунду.
     //Желательно, чтобы этот код был короче.
     PORTB = 0b00000011;
-    _delay_ms(100);
+    _delay_ms(50);
     PORTB = 0b00000000;
-    _delay_ms(100);
+    _delay_ms(50);
 
 }
+
+//ISR(INT0_vect)
+//{
+//    PORTB = 0b00000011;
+//    _delay_ms(100);
+//    PORTB = 0b00000000;
+//    _delay_ms(100);
+//}
 
 int main(void)
 {
