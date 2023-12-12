@@ -20,11 +20,11 @@ int main(void)
          PORTC = 0b01010100;
 //         for (volatile uint32_t i = 0; i<100000000; )
 //         {++i;}
-         _delay_ms(3000);
+         _delay_ms(500);
          PORTC = 0b10101000;
 //         for (volatile uint32_t i = 0; i<100000000; )
 //         {++i;}
-         _delay_ms(3000);
+         _delay_ms(500);
      }
 
 }

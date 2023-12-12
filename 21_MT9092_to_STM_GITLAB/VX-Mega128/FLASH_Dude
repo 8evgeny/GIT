@@ -10,7 +10,7 @@ avrdude -p m128 -c jtagmkII -B 4 -P usb -U efuse:r:m -U hfuse:r:m -U lfuse:r:m
 Макетная плата  avrdude -p m128 -c jtagmkII -B 4 -P usb -U efuse:w:0xFF:m -U hfuse:w:0x18:m -U lfuse:w:0xFF:m
 
                                                    было     Заработала
-плата DX    EXT     FF                              FD         FD
+плата DX    EXT     FD                              FD         FD
             HIGH    18                              5F         18
-            LOW     D3  (Внутренный 4Мгц)           FF         D3
+            LOW     FC (Внешний 4МГц)               FF         D3 (Внутренный 4Мгц)
 
