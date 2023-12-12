@@ -1,6 +1,6 @@
 #include <avr/io.h>
 #include <avr/iom128.h>
-#define F_CPU 1000000UL
+#define F_CPU 14745600UL
 #include <util/delay.h>
 //avrdude -p m128 -c Usbasp -B 4 -P usb -U flash:w:"/home/evg/SOFT/Github/GIT/21_MT9092_to_STM_GITLAB/VX-Mega128/Projects/blink/build/ATmega128_blink.hex":a
 #include <avr/interrupt.h>

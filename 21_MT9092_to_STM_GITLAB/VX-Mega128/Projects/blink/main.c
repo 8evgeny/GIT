@@ -18,9 +18,13 @@ int main(void)
      while (1)
      {
          PORTC = 0b01010100;
-         _delay_ms(1000);
+//         for (volatile uint32_t i = 0; i<100000000; )
+//         {++i;}
+         _delay_ms(3000);
          PORTC = 0b10101000;
-         _delay_ms(1000);
+//         for (volatile uint32_t i = 0; i<100000000; )
+//         {++i;}
+         _delay_ms(3000);
      }
 
 }
