@@ -13,14 +13,14 @@ int main(void)
 //    DDRC |= ( 1 << 4 );
 //    DDRC |= ( 1 << 6 );
 //    DDRC |= ( 1 << 5 );
-    DDRC = 0b11111111; //Можно и так
-_SEI(); /* set global interrupt enable */
+    DDRC = 0b11111100; //Можно и так
+
      while (1)
      {
          PORTC = 0b01010100;
-         _delay_ms(500);
+         _delay_ms(1000);
          PORTC = 0b10101000;
-         _delay_ms(500);
+         _delay_ms(1000);
      }
 
 }

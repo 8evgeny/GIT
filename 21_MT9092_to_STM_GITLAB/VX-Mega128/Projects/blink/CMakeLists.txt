@@ -6,7 +6,7 @@ set(CMAKE_OBJCOPY /usr/bin/avr-objcopy)
 project(ATmega128 LANGUAGES C)
 add_definitions(-D__AVR_ATmega128__)
 
-set(nameFirmware ATmega128_blink)
+set(nameFirmware ATmega128_test_LED)
 
 add_executable(${nameFirmware} main.c)
 

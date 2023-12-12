@@ -26,9 +26,9 @@ int main(void)
          else
          {
              PORTB = 0b00000011;
-             _delay_ms(10);
+             _delay_ms(100);
              PORTB = 0b00000000;
-             _delay_ms(2000);
+             _delay_ms(1000);
          }
      }
 }

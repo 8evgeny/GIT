@@ -13,21 +13,21 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}\
     ")
 #-x c -DDEBUG -DBOARD=STK600_MEGA  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.2.150\include" -I"../src/ASF/common/boards" -I"../src/ASF/mega/utils/preprocessor" -I"../src/ASF/mega/utils" -I"../src/ASF/common/utils" -I"../src" -I"../src/config"  -O1 -fdata-sections -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -mrelax -g3 -Wall -mmcu=atmega128 -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.2.150\gcc\dev\atmega128" -c -std=gnu99 -fno-strict-aliasing -Wstrict-prototypes -Wmissing-prototypes -Werror-implicit-function-declaration -Wpointer-arith -mrelax -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"
 
-add_executable(${nameFirmware} main.c)
+add_executable(${nameFirmware}.elf main.c)
 
 set(HEX_FILE ${CMAKE_BINARY_DIR}/${nameFirmware}.hex)
 set(BIN_FILE ${CMAKE_BINARY_DIR}/${nameFirmware}.bin)
 
-add_custom_command(TARGET ${nameFirmware} POST_BUILD
-    COMMAND ${CMAKE_OBJCOPY} -O ihex $<TARGET_FILE:${nameFirmware}> ${HEX_FILE}
-    COMMENT "Building ${HEX_FILE} ")
+#add_custom_command(TARGET ${nameFirmware} POST_BUILD
+#    COMMAND ${CMAKE_OBJCOPY} -O ihex $<TARGET_FILE:${nameFirmware}> ${HEX_FILE}
+#    COMMENT "Building ${HEX_FILE} ")
 
-add_custom_command(TARGET ${nameFirmware} POST_BUILD
-    COMMAND ${CMAKE_OBJCOPY} -O binary $<TARGET_FILE:${nameFirmware}> ${BIN_FILE}
-    COMMENT "Building ${BIN_FILE} ")
+#add_custom_command(TARGET ${nameFirmware} POST_BUILD
+#    COMMAND ${CMAKE_OBJCOPY} -O binary $<TARGET_FILE:${nameFirmware}> ${BIN_FILE}
+#    COMMENT "Building ${BIN_FILE} ")
 
-add_custom_command(TARGET ${nameFirmware} POST_BUILD
-    COMMAND avrdude -p m128 -c Usbasp -B 4 -P usb -U flash:w:"/home/evg/SOFT/Github/GIT/21_MT9092_to_STM_GITLAB/VX-Mega128/Projects/test_gpio/build/${nameFirmware}.hex":a
-    COMMENT "Write Flash ")
+#add_custom_command(TARGET ${nameFirmware} POST_BUILD
+#    COMMAND avrdude -p m128 -c Usbasp -B 4 -P usb -U flash:w:"/home/evg/SOFT/Github/GIT/21_MT9092_to_STM_GITLAB/VX-Mega128/Projects/test_gpio/build/${nameFirmware}.hex":a
+#    COMMENT "Write Flash ")
 
 
