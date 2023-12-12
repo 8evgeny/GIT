@@ -1,37 +1,64 @@
 #include <avr/io.h>
-//#include <avr/iom128.h>
-#define F_CPU 1000000UL
+#define F_CPU 14745600UL
 #include <util/delay.h>
-//avrdude -p m128 -c Usbasp -B 4 -P usb -U flash:w:"/home/evg/SOFT/Github/GIT/21_MT9092_to_STM_GITLAB/VX-Mega128/Projects/blink/build/ATmega128_blink.hex":a
 #include <avr/interrupt.h>
 
 #define PIN_INT0 PB2
+#define LED1 		4
+#define LED2		5
+#define LED_PORT 	PORTD
+#define LED_DDR		DDRD
 volatile unsigned char flagInt0 = 0;
+static void SetupTIMER1 (void);
+
+void SetupTIMER1 (void){
+   //На частоте тактов 16 МГц прерывание переполнения T/C1
+   // произойдет через (счет до 65535):
+   // 1 << CS10 4096 mkS (нет прескалера Fclk)
+   // 1 << CS11 32.768 mS (Fclk/8)
+   // (1 << CS11)|(1 << CS10) 262.144 mS (Fclk/64)
+   // 1 << CS12 1048.576 mS (Fclk/256)
+   TCCR1B = (1 << CS12);
+   TCNT1 = 65536-62439;        //коррекция счетчика, чтобы время было ровно 1 секунда
+
+   /* Разрешение прерывания overflow таймера 1. */
+   TIMSK = (1 << TOIE1);
+}
+
+ISR (TIMER1_OVF_vect, ISR_BLOCK){
+
+    //теперь прерывание будет происходить через 62439 тиков
+    // таймера 1, что на частоте 16 МГц составит 1 сек.
+    TCNT1 = 65536-62439;
+    //Далее идет код, который будет работать каждую секунду.
+    //Желательно, чтобы этот код был короче.
+    PORTB = 0b00000011;
+    _delay_ms(100);
+    PORTB = 0b00000000;
+    _delay_ms(100);
+
+}
+
+
+//ISR(INT0_vect)
+//{
+//    PORTB = 0b00000011;
+//    _delay_ms(100);
+//    PORTB = 0b00000000;
+//    _delay_ms(100);
+//}
 
 int main(void)
 {
-    //настраиваем вывод на вход
-    DDRB &= ~(1<<PIN_INT0);
-    //включаем подтягивающий резистор
-    PORTB |= (1<<PIN_INT0);
-    //разрешаем внешнее прерывание на int0
-//    GICR |= (1<<INT0);
 
-     while (1)
-     {
-         if( ~(PINB | ~0x04) )//PB2 нажата   срабатывает с задержкой  пока не кончится цикл _delay_ms(2000) нужно прерывание
-         {
-             PORTB = 0b00000011;
-             _delay_ms(10);
-             PORTB = 0b00000000;
-             _delay_ms(100);
-         }
-         else
-         {
-             PORTB = 0b00000011;
-             _delay_ms(10);
-             PORTB = 0b00000000;
-             _delay_ms(2000);
-         }
-     }
+    DDRB |= ( 1 << 0 );     //PB0 PB1  как выходы
+    DDRB |= ( 1 << 1 );
+    DDRB &= ~( 1 << 2 );    //PB2  как вход
+    SetupTIMER1();
+    sei();
+
+    while (1)
+    {
+
+    }
 }
