@@ -9,6 +9,7 @@ uint8_t flagButton;
 //Добавляем прерывания от кнопки
 //Добавляем 4 кнопки - чтобы выбрать кнопки нужно PC2 - PC7 в 1  PG0 - 1  PG1  в 0
 //Добавляю UART
+//Добавляю SPI
 void SetupTIMER1 (void);
 void SetupTIMER3 (void);
 void SetupInt0 (void);
@@ -30,31 +31,31 @@ int main(void) {
 
     while (1) {
         if (!(PINA & 0b00010000)) { //Button 1
-            PORTB = 0b00000011;
+            PORTB = 0b00010001;
         }
         if (!(PINA & 0b00100000)) { //Button 2
-            PORTB = 0b00000011;
+            PORTB = 0b00010001;
         }
         if (!(PINA & 0b01000000)) { //Button 3
-            PORTB = 0b00000011;
+            PORTB = 0b00010001;
         }
         if (!(PINA & 0b10000000)) { //Button 4
-            PORTB = 0b00000011;
+            PORTB = 0b00010001;
         }
         USART_sendLine("Test USART0\r\n");
     }
 }
 
 void SetupGPIO (void) {
-    DDRB |= ( 1 << 0 );     //PB0 PB1  как выходы
-    DDRB |= ( 1 << 1 );
+    DDRB |= ( 1 << 0 );     //PB0 PB4  как выходы
+    DDRB |= ( 1 << 4 );
     DDRD &= ~(1<<PIN_INT0);    //PD0  как вход
     DDRA &= ~(1 << 4);    //как входы
     DDRA &= ~(1 << 5);
     DDRA &= ~(1 << 6);
     DDRA &= ~(1 << 7);
     PORTA = 0b11110000;  //Подтяжка к 1
-    PORTB = 0b00000011;
+    PORTB = 0b00010001;
     DDRC = 0b11111111;     //PC0 - PC7  как выходы
     PORTC = 0b11111111;    // в 1
 //PG0 - 1  PG1  в 0
@@ -83,7 +84,7 @@ void SetupInt0 (void) {
 ISR (TIMER1_OVF_vect) {
     TCNT1 = 25000;          //Чем число ближе к 65535  тем быстрее сработает таймер 1 (LED ON)
     PORTB |= 0b00000001;
-    PORTB &= ~0b00000010;
+    PORTB &= ~0b00010000;
     TCNT3 = 65000;          //Чем число ближе к 65535  тем быстрее сработает таймер 3 (LED OFF)
 }
 
@@ -93,9 +94,9 @@ ISR (TIMER3_OVF_vect) {
 
 ISR (INT0_vect) {
     switch (flagButton) {
-    case 0: flagButton = 1; PORTB |= 0b00000010;
+    case 0: flagButton = 1; PORTB |= 0b00010000;
         break;
-    case 1: flagButton = 0; PORTB &= 0b11111101;
+    case 1: flagButton = 0; PORTB &= 0b11101111;
         break;
     default:
         break;
