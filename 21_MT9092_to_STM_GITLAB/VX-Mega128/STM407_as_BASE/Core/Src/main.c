@@ -98,15 +98,24 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   char timeString[12];
+
   while (1)
   {
+      char tmp[50]="                                                  ";
+      char bufSPI[50]="                                                  ";
+      HAL_SPI_Receive(&hspi1,(uint8_t*)tmp, 20, 5000);
+      sprintf(bufSPI, "%.48s\r\n", tmp);
+      HAL_UART_Transmit(&huart6,(uint8_t*)bufSPI, 50 , 1000);
+
       uint32_t time = HAL_GetTick();
-      sprintf(timeString,"%.10d\r\n",time);
-      HAL_UART_Transmit(&huart6,(uint8_t*)timeString, sizeof(timeString) , 1000);
+      sprintf(timeString,"%.9d\r\n",time);
+      HAL_UART_Transmit(&huart6,(uint8_t*)timeString, sizeof(timeString)-1  , 1000);
       HAL_Delay(time%8000);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+
+
   }
   /* USER CODE END 3 */
 }
