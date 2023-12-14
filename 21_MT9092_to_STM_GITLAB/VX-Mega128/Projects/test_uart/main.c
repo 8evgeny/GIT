@@ -15,70 +15,14 @@ void SetupTIMER1 (void);
 void SetupTIMER3 (void);
 void SetupInt0 (void);
 void SetupGPIO (void);
-
 void USART0_Init(void);
 void USART0_Transmit( unsigned char data );
 unsigned char USART0_Receive(void);
+void USART_sendChar(char character);
+void USART_sendLine(char *string);
+char USART_receiveChar(void);
 
-//void USART_sendChar(char character);
-//void USART_sendHex(uint8_t number);
-//void USART_sendByteHex(uint8_t number);
-//void USART_sendLine(char *string);
-//char USART_receiveChar(void);
 
-#if 0
-// Отправка ASCII символа
-void USART_sendChar(char character)
-{
-    while( !((UCSR0A >> UDRE0) & 1) ) ;	// ожидаем очистки буфера передачи
-    UDR0 = character; 			// помещаем данные в буфер для отправки
-}
-// Отправка единичного HEX символа
-void USART_sendHex(uint8_t number)
-{
-    if ( number < 10 )
-        USART_sendChar(48 + (number & 15)); // отправка [0-9]
-    else if	( number < 16 )
-        USART_sendChar(55 + (number & 15)); // отправка [A-F]
-}
-// Отправка байта в HEX формате
-void USART_sendByteHex(uint8_t number)
-{
-    USART_sendHex(number >> 4); // старшие 4 бита
-    USART_sendHex(number & 15); // младшие 4 бита
-}
-// Отправка строки
-void USART_sendLine(char *string)
-{
-    while ( *string )
-    {
-        USART_sendChar(*string); // посимвольно отправляем строку
-        string++;
-    }
-}
-// Приём символа
-char USART_receiveChar(void)
-{
-    return ( (UCSR0A >> RXC) & 1 ) ? UDR0 : 0;  // возвращаем значение буфера приёма
-}
-#endif
-
-void USART0_Init() {
-    uint16_t ubrr;
-    ubrr = F_CPU/115200/16-1;           // скорость обмена 115200 бит/с
-    UBRR0H = (unsigned char)(ubrr>>8);
-    UBRR0L = (unsigned char)ubrr;
-    UCSR0B = (1<<RXEN0)|(1<<TXEN0);     // включаем приёмник и передатчик
-    UCSR0C = (1<<USBS0)|(3<<UCSZ00);    // асинхронный режим, размер посылки 8 бит, проверка чётности отключена, 1 стоп-бит
-}
-void USART0_Transmit( unsigned char data ) {
-    while ( !( UCSR0A & (1<<UDRE0)));   //Wait for empty transmit buffer
-    UDR0 = data;                        //Put data into buffer, sends the data
-}
-unsigned char USART0_Receive( void ) {
-    while ( !(UCSR0A & (1<<RXC0)));         //Wait for data to be received
-    return UDR0;                            //Get and return received data from buffer
-}
 
 int main(void) {
     SetupGPIO();
@@ -101,12 +45,7 @@ int main(void) {
         if (!(PINA & 0b10000000)) { //Button 4
             PORTB = 0b00000011;
         }
-        USART0_Transmit('T');
-        USART0_Transmit('e');
-        USART0_Transmit('s');
-        USART0_Transmit('t');
-        USART0_Transmit('\r');
-        USART0_Transmit('\n');
+        USART_sendLine("Test USART0\r\n");
     }
 }
 
@@ -165,4 +104,57 @@ ISR (INT0_vect) {
     default:
         break;
     }
+}
+
+// Отправка ASCII символа
+void USART_sendChar(char character)
+{
+    while ( !( UCSR0A & (1<<UDRE0)));   //Wait for empty transmit buffer
+    UDR0 = character;                        //Put data into buffer, sends the data
+}
+#if 0
+// Отправка единичного HEX символа
+void USART_sendHex(uint8_t number)
+{
+    if ( number < 10 )
+        USART_sendChar(48 + (number & 15)); // отправка [0-9]
+    else if	( number < 16 )
+        USART_sendChar(55 + (number & 15)); // отправка [A-F]
+}
+// Отправка байта в HEX формате
+void USART_sendByteHex(uint8_t number)
+{
+    USART_sendHex(number >> 4); // старшие 4 бита
+    USART_sendHex(number & 15); // младшие 4 бита
+}
+#endif
+
+void USART_sendLine(char *string) {
+    while ( *string ) {
+        USART_sendChar(*string); // посимвольно отправляем строку
+        string++;
+    }
+}
+
+char USART_receiveChar(void) {
+    return ( (UCSR0A >> RXC0) & 1 ) ? UDR0 : 0;  // возвращаем значение буфера приёма
+}
+
+void USART0_Init() {
+    uint16_t ubrr;
+    ubrr = F_CPU/115200/16-1;           // скорость обмена 115200 бит/с
+    UBRR0H = (unsigned char)(ubrr>>8);
+    UBRR0L = (unsigned char)ubrr;
+    UCSR0B = (1<<RXEN0)|(1<<TXEN0);     // включаем приёмник и передатчик
+    UCSR0C = (1<<USBS0)|(3<<UCSZ00);    // асинхронный режим, размер посылки 8 бит, проверка чётности отключена, 1 стоп-бит
+}
+
+void USART0_Transmit( unsigned char data ) {
+    while ( !( UCSR0A & (1<<UDRE0)));   //Wait for empty transmit buffer
+    UDR0 = data;                        //Put data into buffer, sends the data
+}
+
+unsigned char USART0_Receive( void ) {
+    while ( !(UCSR0A & (1<<RXC0)));         //Wait for data to be received
+    return UDR0;                            //Get and return received data from buffer
 }
