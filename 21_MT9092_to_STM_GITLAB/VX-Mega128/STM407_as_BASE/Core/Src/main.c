@@ -110,7 +110,7 @@ int main(void)
       uint32_t time = HAL_GetTick();
       sprintf(timeString,"%.9d\r\n",time);
       HAL_UART_Transmit(&huart6,(uint8_t*)timeString, sizeof(timeString)-1  , 1000);
-      HAL_Delay(time%8000);
+      HAL_Delay(time%2000);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
