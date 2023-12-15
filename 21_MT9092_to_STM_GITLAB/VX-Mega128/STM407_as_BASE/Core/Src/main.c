@@ -101,11 +101,17 @@ int main(void)
 
   while (1)
   {
-      char tmp[50]="                                                  ";
-      char bufSPI[50]="                                                  ";
-      HAL_SPI_Receive(&hspi1,(uint8_t*)tmp, 20, 5000);
-      sprintf(bufSPI, "%.48s\r\n", tmp);
-      HAL_UART_Transmit(&huart6,(uint8_t*)bufSPI, 50 , 1000);
+      char tmp[4]="";
+//      char bufSPI[16]="";
+      HAL_StatusTypeDef result =  HAL_SPI_Receive(&hspi1,(uint8_t*)tmp, 4, 0xFFFFFFFF);
+      if (result == HAL_OK)
+      {
+//          tmp[16] = '\r';
+//          tmp[17] = '\n';
+//          sprintf(bufSPI, "%.64s", tmp);
+          HAL_UART_Transmit(&huart6,(uint8_t*)tmp, 4 , 1000);
+      }
+
 
 //      uint32_t time = HAL_GetTick();
 //      sprintf(timeString,"%.9d\r\n",time);
@@ -179,9 +185,9 @@ static void MX_SPI1_Init(void)
   hspi1.Init.Mode = SPI_MODE_SLAVE;
   hspi1.Init.Direction = SPI_DIRECTION_2LINES;
   hspi1.Init.DataSize = SPI_DATASIZE_8BIT;
-  hspi1.Init.CLKPolarity = SPI_POLARITY_LOW;
+  hspi1.Init.CLKPolarity = SPI_POLARITY_HIGH;
   hspi1.Init.CLKPhase = SPI_PHASE_1EDGE;
-  hspi1.Init.NSS = SPI_NSS_SOFT;
+  hspi1.Init.NSS = SPI_NSS_HARD_INPUT;
   hspi1.Init.FirstBit = SPI_FIRSTBIT_MSB;
   hspi1.Init.TIMode = SPI_TIMODE_DISABLE;
   hspi1.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;

@@ -40,7 +40,10 @@ int main(void) {
     USART0_Init();
     SPI_Init();
 
-    uint8_t bufSPI[10] = {11, 12, 13, 14, 15, 16, 17, 18, 19, 0x00};
+//    uint8_t bufSPI[16] = {0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58};
+//    uint8_t bufSPI[16] = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+    uint8_t bufSPI[8] = {0x80, 0x80, 0x80, 0x80 };
+
     while (1) {
         if (!(PINA & 0b00010000)) { //Button 1
             PORTD = 0b00000110;
@@ -54,9 +57,10 @@ int main(void) {
         if (!(PINA & 0b10000000)) { //Button 4
             PORTD = 0b00000110;
         }
-        USART_sendLine("Test USART0\r\n");
-//        SPI_WriteArray(10, bufSPI);
-//        SPI_WriteByte(0x11);
+//        USART_sendLine("Test USART0\r\n");
+        SPI_WriteArray(4, bufSPI);
+        _delay_ms(5);
+//        SPI_WriteByte(0x00);
     }
 }
 
