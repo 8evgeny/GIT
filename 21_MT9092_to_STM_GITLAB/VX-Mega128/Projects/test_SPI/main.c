@@ -60,6 +60,8 @@ int main(void) {
 //        USART_sendLine("Test USART0\r\n");
 
         SPI_WriteByte(0x58);
+        SPI_WriteByte(0x59);
+        SPI_WriteByte(0x5A);
     }
 }
 
