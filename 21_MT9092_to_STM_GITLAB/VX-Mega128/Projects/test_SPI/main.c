@@ -182,8 +182,7 @@ void SPI_Init(void) {
    PORTB |= (1<<SPI_MOSI)|(1<<SPI_SCK)|(1<<SPI_SS)|(1<<SPI_MISO);
 
    /*разрешение spi,старший бит вперед, мастер, режим 0*/
-   SPCR = (1<<SPE)|(0<<DORD)|(1<<MSTR)|(0<<CPOL)|(0<<CPHA);
-   SPCR |= (1<<SPR1)|(1<<SPR0);  //Fosc/128
+   SPCR = (1<<SPE)|(0<<DORD)|(1<<MSTR)|(0<<CPOL)|(0<<CPHA)|(0<<SPR1)|(0<<SPR0); //Fclk/4
    SPSR &= ~(1<<SPI2X);
 }
 
@@ -193,7 +192,7 @@ void SPI_WriteByte(uint8_t data) {
    SPDR = data;
    while(!(SPSR & (1<<SPIF)));
    PORTB |= (1<<SPI_SS);
-   _delay_us(30);
+   _delay_us(20);
 }
 
 //Передача и прием одного байта данных по SPI
