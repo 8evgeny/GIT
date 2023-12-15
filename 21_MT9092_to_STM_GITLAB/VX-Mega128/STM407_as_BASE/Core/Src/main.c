@@ -107,10 +107,10 @@ int main(void)
       sprintf(bufSPI, "%.48s\r\n", tmp);
       HAL_UART_Transmit(&huart6,(uint8_t*)bufSPI, 50 , 1000);
 
-      uint32_t time = HAL_GetTick();
-      sprintf(timeString,"%.9d\r\n",time);
-      HAL_UART_Transmit(&huart6,(uint8_t*)timeString, sizeof(timeString)-1  , 1000);
-      HAL_Delay(time%2000);
+//      uint32_t time = HAL_GetTick();
+//      sprintf(timeString,"%.9d\r\n",time);
+//      HAL_UART_Transmit(&huart6,(uint8_t*)timeString, sizeof(timeString)-1  , 1000);
+//      HAL_Delay(time%2000);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
