@@ -42,7 +42,7 @@ int main(void) {
 
 //    uint8_t bufSPI[16] = {0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58};
 //    uint8_t bufSPI[16] = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
-    uint8_t bufSPI[8] = {0x80, 0x80, 0x80, 0x80 };
+    uint8_t bufSPI[8] = {0x81, 0x81, 0x81, 0x81 };
 
     while (1) {
         if (!(PINA & 0b00010000)) { //Button 1
@@ -58,9 +58,9 @@ int main(void) {
             PORTD = 0b00000110;
         }
 //        USART_sendLine("Test USART0\r\n");
-        SPI_WriteArray(4, bufSPI);
-        _delay_ms(5);
-//        SPI_WriteByte(0x00);
+//        SPI_WriteArray(4, bufSPI);
+
+        SPI_WriteByte(0x58);
     }
 }
 
@@ -181,9 +181,10 @@ void SPI_Init(void) {
    DDRB |= (1<<SPI_MOSI)|(1<<SPI_SCK)|(1<<SPI_SS)|(0<<SPI_MISO);
    PORTB |= (1<<SPI_MOSI)|(1<<SPI_SCK)|(1<<SPI_SS)|(1<<SPI_MISO);
 
-   /*разрешение spi,старший бит вперед,мастер, режим 0*/
-   SPCR = (1<<SPE)|(0<<DORD)|(1<<MSTR)|(0<<CPOL)|(0<<CPHA)|(1<<SPR1)|(0<<SPR0);
-   SPSR = (0<<SPI2X);
+   /*разрешение spi,старший бит вперед, мастер, режим 0*/
+   SPCR = (1<<SPE)|(0<<DORD)|(1<<MSTR)|(0<<CPOL)|(0<<CPHA);
+   SPCR |= (1<<SPR1)|(1<<SPR0);  //Fosc/128
+   SPSR &= ~(1<<SPI2X);
 }
 
 //Передача одного байта данных по SPI
@@ -192,6 +193,7 @@ void SPI_WriteByte(uint8_t data) {
    SPDR = data;
    while(!(SPSR & (1<<SPIF)));
    PORTB |= (1<<SPI_SS);
+   _delay_us(30);
 }
 
 //Передача и прием одного байта данных по SPI
