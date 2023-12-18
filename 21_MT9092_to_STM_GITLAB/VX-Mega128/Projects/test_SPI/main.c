@@ -60,9 +60,12 @@ int main(void) {
         }
 //        USART_sendLine("Test USART0\r\n");
 
-        SPI_WriteByte(0x58);
-        SPI_WriteByte(0x59);
-        SPI_WriteByte(0x5A);
+        SPI_WriteByte(0x00);
+         _delay_ms(10);
+//        SPI_WriteByte(0x59);
+//         _delay_ms(10);
+//        SPI_WriteByte(0x5A);
+//        _delay_ms(10);
 
     }
 }
@@ -192,10 +195,12 @@ void SPI_Init(void) {
 //Передача одного байта данных по SPI
 void SPI_WriteByte(uint8_t data) {
    PORTB &= ~(1<<SPI_SS);
+   _delay_us(2);
    SPDR = data;
    while(!(SPSR & (1<<SPIF)));
+   _delay_us(2);
    PORTB |= (1<<SPI_SS);
-   _delay_us(10);
+
 }
 
 //Передача и прием одного байта данных по SPI
