@@ -104,10 +104,10 @@ int main(void)
 HAL_UART_Transmit(&huart6,(uint8_t*)"Test_UART\r\n", sizeof ("Test_UART\r\n") -1 , 1000);
   while (1)
   {
-      char tmp[16]="";
+      char tmp[100]="";
 //      char bufSPI[16]="";
 //      while (HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_4) == GPIO_PIN_SET ){} //Ожидаем PSI_SS
-      HAL_StatusTypeDef result =  HAL_SPI_Receive(&hspi1,(uint8_t*)tmp, 8, 0xFFFFFFFF);
+      HAL_StatusTypeDef result =  HAL_SPI_Receive(&hspi1,(uint8_t*)tmp, 100, 0xFFFFFFFF);
       if (result == HAL_OK)
       {
 //          tmp[16] = '\r';
@@ -116,7 +116,7 @@ HAL_UART_Transmit(&huart6,(uint8_t*)"Test_UART\r\n", sizeof ("Test_UART\r\n") -1
 
 //          if (flagDmaSend == 1) {
 //      while (HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_4) == GPIO_PIN_RESET){}
-              HAL_UART_Transmit(&huart6,(uint8_t*)tmp, 8, 1000);
+              HAL_UART_Transmit(&huart6,(uint8_t*)tmp, 100, 1000);
 //              flagDmaSend = 0;
 //          }
       }
@@ -194,7 +194,7 @@ static void MX_SPI1_Init(void)
   hspi1.Init.Mode = SPI_MODE_SLAVE;
   hspi1.Init.Direction = SPI_DIRECTION_2LINES;
   hspi1.Init.DataSize = SPI_DATASIZE_8BIT;
-  hspi1.Init.CLKPolarity = SPI_POLARITY_LOW;
+  hspi1.Init.CLKPolarity = SPI_POLARITY_HIGH;
   hspi1.Init.CLKPhase = SPI_PHASE_1EDGE;
   hspi1.Init.NSS = SPI_NSS_HARD_INPUT;
   hspi1.Init.FirstBit = SPI_FIRSTBIT_MSB;
