@@ -42,6 +42,7 @@
 SPI_HandleTypeDef hspi1;
 
 UART_HandleTypeDef huart6;
+DMA_HandleTypeDef hdma_usart6_tx;
 
 /* USER CODE BEGIN PV */
 
@@ -51,6 +52,7 @@ UART_HandleTypeDef huart6;
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_USART6_UART_Init(void);
+static void MX_DMA_Init(void);
 static void MX_SPI1_Init(void);
 /* USER CODE BEGIN PFP */
 
@@ -90,6 +92,7 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_USART6_UART_Init();
+  MX_DMA_Init();
   MX_SPI1_Init();
   /* USER CODE BEGIN 2 */
 
@@ -98,18 +101,19 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   char timeString[12];
-
+HAL_UART_Transmit(&huart6,(uint8_t*)"Test_UART\r\n", sizeof ("Test_UART\r\n") -1 , 1000);
   while (1)
   {
       char tmp[4]="";
 //      char bufSPI[16]="";
-      HAL_StatusTypeDef result =  HAL_SPI_Receive(&hspi1,(uint8_t*)tmp, 4, 0xFFFFFFFF);
+      HAL_StatusTypeDef result =  HAL_SPI_Receive(&hspi1,(uint8_t*)tmp, 16, 0xFFFFFFFF);
       if (result == HAL_OK)
       {
 //          tmp[16] = '\r';
 //          tmp[17] = '\n';
 //          sprintf(bufSPI, "%.64s", tmp);
-          HAL_UART_Transmit(&huart6,(uint8_t*)tmp, 4 , 1000);
+
+          HAL_UART_Transmit(&huart6,(uint8_t*)tmp, 16 , 1000);
       }
 
 
@@ -232,6 +236,22 @@ static void MX_USART6_UART_Init(void)
   /* USER CODE BEGIN USART6_Init 2 */
 
   /* USER CODE END USART6_Init 2 */
+
+}
+
+/**
+  * Enable DMA controller clock
+  */
+static void MX_DMA_Init(void)
+{
+
+  /* DMA controller clock enable */
+  __HAL_RCC_DMA2_CLK_ENABLE();
+
+  /* DMA interrupt init */
+  /* DMA2_Stream6_IRQn interrupt configuration */
+  HAL_NVIC_SetPriority(DMA2_Stream6_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(DMA2_Stream6_IRQn);
 
 }
 

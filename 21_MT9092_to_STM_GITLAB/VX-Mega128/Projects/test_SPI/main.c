@@ -29,7 +29,7 @@ char USART_receiveChar(void);
 void SPI_Init(void);
 void SPI_WriteByte(uint8_t data);
 //uint8_t SPI_WriteReadByte(uint8_t data);
-//void SPI_WriteArray(uint8_t num, uint8_t *data);
+void SPI_WriteArray(uint8_t num, uint8_t *data);
 //void SPI_ReadArray(uint8_t num, uint8_t *data);
 
 int main(void) {
@@ -61,10 +61,9 @@ int main(void) {
 //        USART_sendLine("Test USART0\r\n");
 
         SPI_WriteByte(0x58);
-        _delay_us(100);
         SPI_WriteByte(0x59);
-        _delay_us(100);
         SPI_WriteByte(0x5A);
+
     }
 }
 
@@ -196,7 +195,7 @@ void SPI_WriteByte(uint8_t data) {
    SPDR = data;
    while(!(SPSR & (1<<SPIF)));
    PORTB |= (1<<SPI_SS);
-   _delay_us(20);
+   _delay_us(10);
 }
 
 //Передача и прием одного байта данных по SPI
@@ -211,14 +210,14 @@ void SPI_WriteByte(uint8_t data) {
 //}
 
 //Передача нескольких байтов данных по SPI *data – указатель на массив передаваемых данных, а num – размерность массива
-//void SPI_WriteArray(uint8_t num, uint8_t *data) {
-//   PORTB &= ~(1<<SPI_SS);
-//   while(num--){
-//      SPDR = *data++;
-//      while(!(SPSR & (1<<SPIF)));
-//   }
-//   PORTB |= (1<<SPI_SS);
-//}
+void SPI_WriteArray(uint8_t num, uint8_t *data) {
+   PORTB &= ~(1<<SPI_SS);
+   while(num--){
+      SPDR = *data++;
+      while(!(SPSR & (1<<SPIF)));
+   }
+   PORTB |= (1<<SPI_SS);
+}
 
 //Передачи и прием нескольких байтов данных по SPI *data – указатель на массив передаваемых данных, а num – размерность массива.
 //Принятые данные будут сохраняться в том же массиве.
