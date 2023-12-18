@@ -11,6 +11,7 @@
 #define SPI_SS 0
 
 uint8_t flagButton;
+uint8_t flagSPI = 1;
 //Процессор полностью свободен - прерывания от двух таймеров
 //Добавляем прерывания от кнопки
 //Добавляем 4 кнопки - чтобы выбрать кнопки нужно PC2 - PC7 в 1  PG0 - 1  PG1  в 0
@@ -29,6 +30,7 @@ char USART_receiveChar(void);
 void SPI_Init(void);
 void SPI_WriteByte(uint8_t data);
 void SPI_WriteChar(char data);
+void SPI_WriteChar_IT(char data);
 //uint8_t SPI_WriteReadByte(uint8_t data);
 void SPI_WriteArray(uint8_t num, uint8_t *data);
 //void SPI_ReadArray(uint8_t num, uint8_t *data);
@@ -62,13 +64,13 @@ int main(void) {
 //        USART_sendLine("Test USART0\r\n");
 
 
-        SPI_WriteChar('X');
+        SPI_WriteChar_IT('X');
         _delay_ms(1);
-        SPI_WriteChar('Y');
+        SPI_WriteChar_IT('Y');
         _delay_ms(1);
-        SPI_WriteChar('Z');
+        SPI_WriteChar_IT('Z');
         _delay_ms(1);
-        SPI_WriteChar('\n');
+        SPI_WriteChar_IT('\n');
          _delay_ms(1);
 
 
@@ -132,6 +134,15 @@ ISR (INT0_vect) {
     }
 }
 
+ISR (SPI_STC_vect) {
+        PORTB |= (1<<SPI_SS);
+        _delay_us(2);
+        flagSPI = 1;
+    }
+
+
+
+
 // Отправка ASCII символа
 void USART_sendChar(char character)
 {
@@ -192,8 +203,8 @@ void SPI_Init(void) {
    DDRB |= (1<<SPI_MOSI)|(1<<SPI_SCK)|(1<<SPI_SS)|(0<<SPI_MISO);
 //   PORTB |= (1<<SPI_MOSI)|(1<<SPI_SCK)|(1<<SPI_SS)|(1<<SPI_MISO);
 
-   /*разрешение spi,старший бит вперед, мастер, режим 0*/
-   SPCR = (1<<SPE)|(0<<DORD)|(1<<MSTR)|(1<<CPOL)|(0<<CPHA)|(1<<SPR1)|(1<<SPR0); //Fclk/4
+   /*разрешение прерываний и spi,старший бит вперед, мастер, режим 0*/
+   SPCR = (1<<SPIE)|(1<<SPE)|(0<<DORD)|(1<<MSTR)|(1<<CPOL)|(0<<CPHA)|(1<<SPR1)|(1<<SPR0); //Fclk/4
    SPSR |= 1<<SPI2X;
 
 }
@@ -217,9 +228,16 @@ void SPI_WriteChar(char data) {
     _delay_us(2);
     PORTB |= (1<<SPI_SS);
     _delay_us(5);
-
-
 }
+
+void SPI_WriteChar_IT(char data) {
+    while (flagSPI == 0);
+    flagSPI = 0;
+    PORTB &= ~(1<<SPI_SS);
+    _delay_us(2);
+    SPDR = data;
+}
+
 
 //Передача и прием одного байта данных по SPI
 //uint8_t SPI_WriteReadByte(uint8_t data) {
