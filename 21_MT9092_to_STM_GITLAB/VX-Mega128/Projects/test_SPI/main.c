@@ -213,7 +213,7 @@ void SPI_WriteChar(char data) {
     PORTB &= ~(1<<SPI_SS);
     _delay_us(2);
     SPDR = data;
-    while(!(SPSR & (1<<SPIF)));
+    while(!(SPSR & (1<<SPIF))); //подождем пока данные передадутся
     _delay_us(2);
     PORTB |= (1<<SPI_SS);
     _delay_us(5);
