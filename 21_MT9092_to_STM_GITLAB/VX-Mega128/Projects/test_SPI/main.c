@@ -61,16 +61,16 @@ int main(void) {
         }
 //        USART_sendLine("Test USART0\r\n");
 
-//        SPI_WriteByte(0x58);
-//        SPI_WriteByte(0x59);
-//        SPI_WriteByte(0x5A);
-        SPI_WriteChar('q');
-//        SPI_WriteArray(8 ,bufSPI);
 
-//        SPI_WriteByte(0x59);
-//         _delay_ms(10);
-//        SPI_WriteByte(0x5A);
-//        _delay_ms(10);
+        SPI_WriteChar('X');
+        _delay_ms(1);
+        SPI_WriteChar('Y');
+        _delay_ms(1);
+        SPI_WriteChar('Z');
+        _delay_ms(1);
+        SPI_WriteChar('\n');
+         _delay_ms(1);
+
 
     }
 }
@@ -190,11 +190,12 @@ void SPI_Init(void) {
    /*настройка портов ввода-вывода
    все выводы, кроме MISO выходы*/
    DDRB |= (1<<SPI_MOSI)|(1<<SPI_SCK)|(1<<SPI_SS)|(0<<SPI_MISO);
-   PORTB |= (1<<SPI_MOSI)|(1<<SPI_SCK)|(1<<SPI_SS)|(1<<SPI_MISO);
+//   PORTB |= (1<<SPI_MOSI)|(1<<SPI_SCK)|(1<<SPI_SS)|(1<<SPI_MISO);
 
    /*разрешение spi,старший бит вперед, мастер, режим 0*/
-   SPCR = (1<<SPE)|(0<<DORD)|(1<<MSTR)|(1<<CPOL)|(0<<CPHA)|(0<<SPR1)|(1<<SPR0); //Fclk/4
+   SPCR = (1<<SPE)|(0<<DORD)|(1<<MSTR)|(1<<CPOL)|(0<<CPHA)|(1<<SPR1)|(1<<SPR0); //Fclk/4
    SPSR |= 1<<SPI2X;
+
 }
 
 //Передача одного байта данных по SPI

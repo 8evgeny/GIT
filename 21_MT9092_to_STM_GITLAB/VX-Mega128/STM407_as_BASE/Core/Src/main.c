@@ -104,10 +104,10 @@ int main(void)
 HAL_UART_Transmit(&huart6,(uint8_t*)"Test_UART\r\n", sizeof ("Test_UART\r\n") -1 , 1000);
   while (1)
   {
-      char tmp[100]="";
+      char tmp[1]="";
 //      char bufSPI[16]="";
 //      while (HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_4) == GPIO_PIN_SET ){} //Ожидаем PSI_SS
-      HAL_StatusTypeDef result =  HAL_SPI_Receive(&hspi1,(uint8_t*)tmp, 100, 0xFFFFFFFF);
+      HAL_StatusTypeDef result =  HAL_SPI_Receive(&hspi1,(uint8_t*)tmp, 1, 0x100);
       if (result == HAL_OK)
       {
 //          tmp[16] = '\r';
@@ -116,7 +116,7 @@ HAL_UART_Transmit(&huart6,(uint8_t*)"Test_UART\r\n", sizeof ("Test_UART\r\n") -1
 
 //          if (flagDmaSend == 1) {
 //      while (HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_4) == GPIO_PIN_RESET){}
-              HAL_UART_Transmit(&huart6,(uint8_t*)tmp, 100, 1000);
+              HAL_UART_Transmit(&huart6,(uint8_t*)tmp, 1, 1000);
 //              flagDmaSend = 0;
 //          }
       }
