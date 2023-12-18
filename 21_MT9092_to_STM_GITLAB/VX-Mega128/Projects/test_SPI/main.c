@@ -1,5 +1,6 @@
 #include <avr/io.h>
-#define F_CPU 14745600UL
+//#define F_CPU 14745600UL
+#define F_CPU 8000000UL
 #include <util/delay.h>
 #include <avr/interrupt.h>
 #define PIN_INT0 PD0
@@ -60,7 +61,9 @@ int main(void) {
 //        USART_sendLine("Test USART0\r\n");
 
         SPI_WriteByte(0x58);
+        _delay_us(100);
         SPI_WriteByte(0x59);
+        _delay_us(100);
         SPI_WriteByte(0x5A);
     }
 }
@@ -183,8 +186,8 @@ void SPI_Init(void) {
    PORTB |= (1<<SPI_MOSI)|(1<<SPI_SCK)|(1<<SPI_SS)|(1<<SPI_MISO);
 
    /*разрешение spi,старший бит вперед, мастер, режим 0*/
-   SPCR = (1<<SPE)|(0<<DORD)|(1<<MSTR)|(0<<CPOL)|(0<<CPHA)|(0<<SPR1)|(0<<SPR0); //Fclk/4
-   SPSR &= ~(1<<SPI2X);
+   SPCR = (1<<SPE)|(0<<DORD)|(1<<MSTR)|(0<<CPOL)|(0<<CPHA)|(0<<SPR1)|(1<<SPR0); //Fclk/4
+   SPSR |= 1<<SPI2X;
 }
 
 //Передача одного байта данных по SPI
