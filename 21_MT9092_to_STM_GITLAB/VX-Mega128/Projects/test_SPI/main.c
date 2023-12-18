@@ -189,7 +189,7 @@ void SPI_Init(void) {
    PORTB |= (1<<SPI_MOSI)|(1<<SPI_SCK)|(1<<SPI_SS)|(1<<SPI_MISO);
 
    /*разрешение spi,старший бит вперед, мастер, режим 0*/
-   SPCR = (1<<SPE)|(0<<DORD)|(1<<MSTR)|(0<<CPOL)|(0<<CPHA)|(0<<SPR1)|(1<<SPR0); //Fclk/4
+   SPCR = (1<<SPE)|(0<<DORD)|(1<<MSTR)|(1<<CPOL)|(0<<CPHA)|(0<<SPR1)|(1<<SPR0); //Fclk/4
    SPSR |= 1<<SPI2X;
 }
 
