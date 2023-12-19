@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.5)
 
 set(CMAKE_OBJCOPY /usr/bin/avr-objcopy)
 
-set(nameFirmware test_mega128_spi)
+set(nameFirmware test_mega128_spi_read)
 project(${nameFirmware} LANGUAGES C)
 add_definitions(-D__AVR_ATmega128__)
 
@@ -27,7 +27,7 @@ add_custom_command(TARGET ${nameFirmware} POST_BUILD
     COMMENT "Building ${BIN_FILE} ")
 
 add_custom_command(TARGET ${nameFirmware} POST_BUILD
-    COMMAND avrdude -p m128 -c jtagmkII -B 4 -P usb -U flash:w:"/home/evg/SOFT/Github/GIT/21_MT9092_to_STM_GITLAB/VX-Mega128/Projects/test_SPI/build/${nameFirmware}.hex":a
+    COMMAND avrdude -p m128 -c jtagmkII -B 4 -P usb -U flash:w:"/home/evg/SOFT/Github/GIT/21_MT9092_to_STM_GITLAB/VX-Mega128/Projects/test_SPI_read/build/${nameFirmware}.hex":a
     COMMENT "Write Flash ")
 
 

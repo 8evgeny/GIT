@@ -10,7 +10,7 @@ set(toolchain /home/evg/toolchain/arm-gnu-toolchain-13.2.Rel1-x86_64-arm-none-ea
 #set(CMAKE_OBJCOPY ${toolchain}/bin/arm-none-eabi-objcopy)
 set(CMAKE_OBJCOPY ${toolchain}/bin/arm-none-eabi-objcopy)
 
-project(407_as_BASE C CXX ASM)
+project(407_as_BASE_SLAVE_SEND C CXX ASM)
 
 add_definitions(${MYCOMPILE_FLAGS})
 add_definitions("-DUSE_FULL_LL_DRIVER")
