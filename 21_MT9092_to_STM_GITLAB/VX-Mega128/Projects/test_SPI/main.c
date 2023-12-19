@@ -73,7 +73,7 @@ int main(void) {
 //        SPI_WriteChar('_');
 //        SPI_WriteChar('\r');
 //        SPI_WriteChar('\n');
-         _delay_ms(1);
+         _delay_ms(10);
 
 
     }

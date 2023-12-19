@@ -35,7 +35,7 @@
 
 /* Private macro -------------------------------------------------------------*/
 /* USER CODE BEGIN PM */
-#define USART_BUFF_SIZE 1024
+#define USART_BUFF_SIZE 10
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
