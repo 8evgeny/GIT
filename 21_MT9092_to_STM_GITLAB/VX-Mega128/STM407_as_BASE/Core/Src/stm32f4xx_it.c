@@ -22,7 +22,7 @@
 #include "stm32f4xx_it.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-extern uint8_t flagDmaSend;
+extern uint8_t flagUSARTSend;
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -56,7 +56,6 @@ extern uint8_t flagDmaSend;
 /* USER CODE END 0 */
 
 /* External variables --------------------------------------------------------*/
-extern DMA_HandleTypeDef hdma_usart6_tx;
 extern UART_HandleTypeDef huart6;
 /* USER CODE BEGIN EV */
 
@@ -201,30 +200,16 @@ void SysTick_Handler(void)
 /******************************************************************************/
 
 /**
-  * @brief This function handles DMA2 stream6 global interrupt.
-  */
-void DMA2_Stream6_IRQHandler(void)
-{
-  /* USER CODE BEGIN DMA2_Stream6_IRQn 0 */
-HAL_UART_Transmit(&huart6,(uint8_t*)"DMA2_Stream6_IRQHandler", sizeof ("DMA2_Stream6_IRQHandler") - 1,100);
-  /* USER CODE END DMA2_Stream6_IRQn 0 */
-  HAL_DMA_IRQHandler(&hdma_usart6_tx);
-  /* USER CODE BEGIN DMA2_Stream6_IRQn 1 */
-    flagDmaSend = 1;
-  /* USER CODE END DMA2_Stream6_IRQn 1 */
-}
-
-/**
   * @brief This function handles USART6 global interrupt.
   */
 void USART6_IRQHandler(void)
 {
   /* USER CODE BEGIN USART6_IRQn 0 */
-HAL_UART_Transmit(&huart6,(uint8_t*)"USART6_IRQHandler", sizeof ("USART6_IRQHandler") - 1,100);
+//HAL_UART_Transmit(&huart6,(uint8_t*)"USART6_IRQHandler", sizeof ("USART6_IRQHandler") - 1,100);
   /* USER CODE END USART6_IRQn 0 */
   HAL_UART_IRQHandler(&huart6);
   /* USER CODE BEGIN USART6_IRQn 1 */
-
+flagUSARTSend = 1;
   /* USER CODE END USART6_IRQn 1 */
 }
 

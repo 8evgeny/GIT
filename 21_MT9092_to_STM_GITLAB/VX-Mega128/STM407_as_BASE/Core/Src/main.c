@@ -35,24 +35,22 @@
 
 /* Private macro -------------------------------------------------------------*/
 /* USER CODE BEGIN PM */
-
+#define USART_BUFF_SIZE 128
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
 SPI_HandleTypeDef hspi1;
 
 UART_HandleTypeDef huart6;
-DMA_HandleTypeDef hdma_usart6_tx;
 
 /* USER CODE BEGIN PV */
-uint8_t flagDmaSend = 1;
+uint8_t flagUSARTSend = 1;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_USART6_UART_Init(void);
-static void MX_DMA_Init(void);
 static void MX_SPI1_Init(void);
 /* USER CODE BEGIN PFP */
 
@@ -60,7 +58,15 @@ static void MX_SPI1_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart)
+{
+   if(huart->Instance == USART6)
+   {
 
+        flagUSARTSend = 1;
+   }
+
+}
 /* USER CODE END 0 */
 
 /**
@@ -92,7 +98,6 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_USART6_UART_Init();
-  MX_DMA_Init();
   MX_SPI1_Init();
   /* USER CODE BEGIN 2 */
 
@@ -104,15 +109,22 @@ int main(void)
 HAL_UART_Transmit(&huart6,(uint8_t*)"Test_UART\r\n", sizeof ("Test_UART\r\n") -1 , 1000);
   while (1)
   {
-      char tmp[4]="";
+      char tmp[USART_BUFF_SIZE]="";
+      char toUSART[USART_BUFF_SIZE]="";
 //      char bufSPI[16]="";
 //      while (HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_4) == GPIO_PIN_SET ){} //Ожидаем PSI_SS
-      HAL_StatusTypeDef result =  HAL_SPI_Receive(&hspi1,(uint8_t*)tmp, 4, 0x100);
+      HAL_StatusTypeDef result =  HAL_SPI_Receive(&hspi1,(uint8_t*)tmp, USART_BUFF_SIZE, 0x100);
       if (result == HAL_OK)
       {
-//          HAL_UART_Transmit(&huart6,(uint8_t*)"1", 1,100);
-              if (flagDmaSend == 1) HAL_UART_Transmit_DMA(&huart6,(uint8_t*)tmp, 4);
-              flagDmaSend = 0;
+
+              if (flagUSARTSend == 1)
+              {
+                  strncpy(toUSART, tmp, USART_BUFF_SIZE);
+                  flagUSARTSend = 0;
+                  HAL_UART_Transmit_IT(&huart6,(uint8_t*)toUSART, USART_BUFF_SIZE);
+
+              }
+              while(flagUSARTSend == 0){}
       }
 
 
@@ -235,22 +247,6 @@ static void MX_USART6_UART_Init(void)
   /* USER CODE BEGIN USART6_Init 2 */
 
   /* USER CODE END USART6_Init 2 */
-
-}
-
-/**
-  * Enable DMA controller clock
-  */
-static void MX_DMA_Init(void)
-{
-
-  /* DMA controller clock enable */
-  __HAL_RCC_DMA2_CLK_ENABLE();
-
-  /* DMA interrupt init */
-  /* DMA2_Stream6_IRQn interrupt configuration */
-  HAL_NVIC_SetPriority(DMA2_Stream6_IRQn, 0, 0);
-  HAL_NVIC_EnableIRQ(DMA2_Stream6_IRQn);
 
 }
 
