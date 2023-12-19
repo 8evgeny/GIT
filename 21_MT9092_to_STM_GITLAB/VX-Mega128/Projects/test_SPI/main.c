@@ -64,13 +64,11 @@ int main(void) {
 //        USART_sendLine("Test USART0\r\n");
 
 
-        SPI_WriteChar_IT('X');
-        _delay_ms(1);
-        SPI_WriteChar_IT('Y');
-        _delay_ms(1);
-        SPI_WriteChar_IT('Z');
-        _delay_ms(1);
-        SPI_WriteChar_IT('\n');
+        SPI_WriteChar('X');
+        SPI_WriteChar('Y');
+        SPI_WriteChar('Z');
+        SPI_WriteChar('\r');
+        SPI_WriteChar('\n');
          _delay_ms(1);
 
 
@@ -136,7 +134,8 @@ ISR (INT0_vect) {
 
 ISR (SPI_STC_vect) {
         PORTB |= (1<<SPI_SS);
-        _delay_us(2);
+        _delay_us(50);
+
         flagSPI = 1;
     }
 
@@ -204,7 +203,7 @@ void SPI_Init(void) {
 //   PORTB |= (1<<SPI_MOSI)|(1<<SPI_SCK)|(1<<SPI_SS)|(1<<SPI_MISO);
 
    /*разрешение прерываний и spi,старший бит вперед, мастер, режим 0*/
-   SPCR = (1<<SPIE)|(1<<SPE)|(0<<DORD)|(1<<MSTR)|(1<<CPOL)|(0<<CPHA)|(1<<SPR1)|(1<<SPR0); //Fclk/4
+   SPCR = /*(1<<SPIE)|*/(1<<SPE)|(0<<DORD)|(1<<MSTR)|(1<<CPOL)|(0<<CPHA)|(1<<SPR1)|(1<<SPR0); //Fclk/4
    SPSR |= 1<<SPI2X;
 
 }
@@ -234,7 +233,7 @@ void SPI_WriteChar_IT(char data) {
     while (flagSPI == 0);
     flagSPI = 0;
     PORTB &= ~(1<<SPI_SS);
-    _delay_us(2);
+    _delay_us(50);
     SPDR = data;
 }
 
