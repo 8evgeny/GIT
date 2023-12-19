@@ -64,7 +64,7 @@ char tmpBuf[100];
         if (!(PINA & 0b10000000)) { //Button 4
             PORTD = 0b00000110;
         }
-        USART_sendLine("Test USART0\r\n");
+//        USART_sendLine("Test USART0\r\n");
 
 //        SPI_WriteString("Test_SPI\r\n");
 
@@ -77,7 +77,7 @@ char tmpBuf[100];
 //        SPI_WriteChar('\n');
 
         uint8_t tmp = SPI_WriteReadByte(0x33);
-        sprintf(tmpBuf,"Receive: %d\r\n", tmp);
+        sprintf(tmpBuf,"%c", tmp);
         USART_sendLine(tmpBuf);
          _delay_ms(10);
 

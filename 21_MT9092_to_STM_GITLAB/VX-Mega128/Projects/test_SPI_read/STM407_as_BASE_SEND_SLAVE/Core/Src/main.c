@@ -109,14 +109,18 @@ int main(void)
 HAL_UART_Transmit(&huart6,(uint8_t*)"Test_UART\r\n", sizeof ("Test_UART\r\n") -1 , 1000);
   while (1)
   {
-      char tmp[USART_BUFF_SIZE]="";
+      char tmpReceive[USART_BUFF_SIZE]="";
+      char tmpTransmit[USART_BUFF_SIZE]= {'R','e','c','e','i','v','e','.','\r','\n'};
       char toUSART[USART_BUFF_SIZE]="";
-//      char bufSPI[16]="";
-//      while (HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_4) == GPIO_PIN_SET ){} //Ожидаем PSI_SS
-      HAL_StatusTypeDef result =  HAL_SPI_Receive(&hspi1,(uint8_t*)tmp, USART_BUFF_SIZE, 0x100);
+
+      HAL_StatusTypeDef result =
+              HAL_SPI_TransmitReceive(&hspi1,(uint8_t*)tmpTransmit,
+                                      (uint8_t*)tmpReceive,
+                                      USART_BUFF_SIZE,
+                                      0x100);
       if (result == HAL_OK)
       {
-            strncpy(toUSART, tmp, USART_BUFF_SIZE);
+            strncpy(toUSART, tmpReceive, USART_BUFF_SIZE);
             HAL_UART_Transmit_IT(&huart6,(uint8_t*)toUSART, USART_BUFF_SIZE);
             while( HAL_UART_GetState (&huart6) == HAL_UART_STATE_BUSY_TX ) ;
       }
