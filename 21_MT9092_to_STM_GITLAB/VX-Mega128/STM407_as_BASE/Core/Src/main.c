@@ -35,7 +35,7 @@
 
 /* Private macro -------------------------------------------------------------*/
 /* USER CODE BEGIN PM */
-#define USART_BUFF_SIZE 128
+#define USART_BUFF_SIZE 1024
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
@@ -44,7 +44,7 @@ SPI_HandleTypeDef hspi1;
 UART_HandleTypeDef huart6;
 
 /* USER CODE BEGIN PV */
-uint8_t flagUSARTSend = 1;
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -63,7 +63,7 @@ void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart)
    if(huart->Instance == USART6)
    {
 
-        flagUSARTSend = 1;
+//        flagUSARTSend = 1;
    }
 
 }
@@ -116,15 +116,9 @@ HAL_UART_Transmit(&huart6,(uint8_t*)"Test_UART\r\n", sizeof ("Test_UART\r\n") -1
       HAL_StatusTypeDef result =  HAL_SPI_Receive(&hspi1,(uint8_t*)tmp, USART_BUFF_SIZE, 0x100);
       if (result == HAL_OK)
       {
-
-              if (flagUSARTSend == 1)
-              {
-                  strncpy(toUSART, tmp, USART_BUFF_SIZE);
-                  flagUSARTSend = 0;
-                  HAL_UART_Transmit_IT(&huart6,(uint8_t*)toUSART, USART_BUFF_SIZE);
-
-              }
-              while(flagUSARTSend == 0){}
+            strncpy(toUSART, tmp, USART_BUFF_SIZE);
+            HAL_UART_Transmit_IT(&huart6,(uint8_t*)toUSART, USART_BUFF_SIZE);
+            while( HAL_UART_GetState (&huart6) == HAL_UART_STATE_BUSY_TX ) ;
       }
 
 
