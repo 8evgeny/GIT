@@ -29,6 +29,7 @@ void USART_sendLine(char *string);
 char USART_receiveChar(void);
 void SPI_Init(void);
 void SPI_WriteByte(uint8_t data);
+void SPI_WriteString(char *string);
 void SPI_WriteChar(char data);
 void SPI_WriteChar_IT(char data);
 //uint8_t SPI_WriteReadByte(uint8_t data);
@@ -61,14 +62,17 @@ int main(void) {
         if (!(PINA & 0b10000000)) { //Button 4
             PORTD = 0b00000110;
         }
-//        USART_sendLine("Test USART0\r\n");
+        USART_sendLine("Test USART0\r\n");
 
+        SPI_WriteString("Test_SPI\r\n");
 
-        SPI_WriteChar('X');
-        SPI_WriteChar('Y');
-        SPI_WriteChar('Z');
-        SPI_WriteChar('\r');
-        SPI_WriteChar('\n');
+//        SPI_WriteChar('T');
+//        SPI_WriteChar('e');
+//        SPI_WriteChar('s');
+//        SPI_WriteChar('t');
+//        SPI_WriteChar('_');
+//        SPI_WriteChar('\r');
+//        SPI_WriteChar('\n');
          _delay_ms(1);
 
 
@@ -218,6 +222,14 @@ void SPI_WriteByte(uint8_t data) {
     PORTB |= (1<<SPI_SS);
     _delay_us(5);
 }
+
+void SPI_WriteString(char *string) {
+    while ( *string ) {
+        SPI_WriteByte(*string); // посимвольно отправляем строку
+        string++;
+    }
+}
+
 
 void SPI_WriteChar(char data) {
     PORTB &= ~(1<<SPI_SS);
