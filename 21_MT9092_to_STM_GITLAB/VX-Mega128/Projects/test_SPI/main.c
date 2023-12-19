@@ -1,6 +1,6 @@
 #include <avr/io.h>
-//#define F_CPU 14745600UL
-#define F_CPU 8000000UL
+#define F_CPU 14745600UL
+//#define F_CPU 8000000UL
 #include <util/delay.h>
 #include <avr/interrupt.h>
 #define PIN_INT0 PD0
