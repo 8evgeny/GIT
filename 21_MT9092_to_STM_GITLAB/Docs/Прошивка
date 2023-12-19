@@ -1,0 +1,14 @@
+
+Вход в терминальный режим
+avrdude -p m128 -c jtag2isp -P usb -t
+
+Читать фьюзы
+avrdude -p m128 -c jtag2isp -P usb  -U lfuse:r:m -U hfuse:r:m -U efuse:r:m -U lock:r:m
+
+Читать прошивку
+avrdude -p m128 -B 4 -c jtag2isp -P usb  -U flash:r:/home/evg/SOFT/Github/GIT/21_MT9092_to_STM_GITLAB/Docs/123.hex:a
+
+Записать прошивку  (-B 50 пишет )
+avrdude -p m128 -B 4 -c jtag2isp -P usb  -U flash:w:/home/evg/SOFT/Github/GIT/21_MT9092_to_STM_GITLAB/Docs/Origin_firmware.hex:a
+
+avrdude -p m128 -B 10 -c jtag2isp -P usb  -U flash:w:/home/evg/SOFT/Github/GIT/21_MT9092_to_STM_GITLAB/Docs/123.hex:a
