@@ -3,6 +3,8 @@
 //#define F_CPU 8000000UL
 #include <util/delay.h>
 #include <avr/interrupt.h>
+#include <stdio.h>
+
 #define PIN_INT0 PD0
 
 #define SPI_MISO 3
@@ -32,7 +34,7 @@ void SPI_WriteByte(uint8_t data);
 void SPI_WriteString(char *string);
 void SPI_WriteChar(char data);
 void SPI_WriteChar_IT(char data);
-//uint8_t SPI_WriteReadByte(uint8_t data);
+uint8_t SPI_WriteReadByte(uint8_t data);
 void SPI_WriteArray(uint8_t num, uint8_t *data);
 //void SPI_ReadArray(uint8_t num, uint8_t *data);
 
@@ -48,7 +50,7 @@ int main(void) {
 //    uint8_t bufSPI[16] = {0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58};
     uint8_t bufSPI[8] = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
 //    uint8_t bufSPI[8] = {0x81, 0x81, 0x81, 0x81 };
-
+char tmpBuf[100];
     while (1) {
         if (!(PINA & 0b00010000)) { //Button 1
             PORTD = 0b00000110;
@@ -64,7 +66,7 @@ int main(void) {
         }
         USART_sendLine("Test USART0\r\n");
 
-        SPI_WriteString("Test_SPI\r\n");
+//        SPI_WriteString("Test_SPI\r\n");
 
 //        SPI_WriteChar('T');
 //        SPI_WriteChar('e');
@@ -73,6 +75,10 @@ int main(void) {
 //        SPI_WriteChar('_');
 //        SPI_WriteChar('\r');
 //        SPI_WriteChar('\n');
+
+        uint8_t tmp = SPI_WriteReadByte(0x33);
+        sprintf(tmpBuf,"Receive: %d\r\n", tmp);
+        USART_sendLine(tmpBuf);
          _delay_ms(10);
 
 
@@ -251,15 +257,15 @@ void SPI_WriteChar_IT(char data) {
 
 
 //Передача и прием одного байта данных по SPI
-//uint8_t SPI_WriteReadByte(uint8_t data) {
-//   uint8_t report;
-//   PORTB &= ~(1<<SPI_SS);
-//   SPDR = data;
-//   while(!(SPSR & (1<<SPIF)));
-//   report = SPDR;
-//   PORTB |= (1<<SPI_SS);
-//   return report;
-//}
+uint8_t SPI_WriteReadByte(uint8_t data) {
+   uint8_t report;
+   PORTB &= ~(1<<SPI_SS);
+   SPDR = data;
+   while(!(SPSR & (1<<SPIF)));
+   report = SPDR;
+   PORTB |= (1<<SPI_SS);
+   return report;
+}
 
 //Передача нескольких байтов данных по SPI *data – указатель на массив передаваемых данных, а num – размерность массива
 void SPI_WriteArray(uint8_t num, uint8_t *data) {
