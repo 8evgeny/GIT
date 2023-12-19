@@ -104,21 +104,15 @@ int main(void)
 HAL_UART_Transmit(&huart6,(uint8_t*)"Test_UART\r\n", sizeof ("Test_UART\r\n") -1 , 1000);
   while (1)
   {
-      char tmp[128]="";
+      char tmp[4]="";
 //      char bufSPI[16]="";
 //      while (HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_4) == GPIO_PIN_SET ){} //Ожидаем PSI_SS
-      HAL_StatusTypeDef result =  HAL_SPI_Receive(&hspi1,(uint8_t*)tmp, 128, 0x100);
+      HAL_StatusTypeDef result =  HAL_SPI_Receive(&hspi1,(uint8_t*)tmp, 4, 0x100);
       if (result == HAL_OK)
       {
-//          tmp[16] = '\r';
-//          tmp[17] = '\n';
-//          sprintf(bufSPI, "%.64s", tmp);
-
-//          if (flagDmaSend == 1) {
-//      while (HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_4) == GPIO_PIN_RESET){}
-              HAL_UART_Transmit(&huart6,(uint8_t*)tmp, 128, 1000);
-//              flagDmaSend = 0;
-//          }
+//          HAL_UART_Transmit(&huart6,(uint8_t*)"1", 1,100);
+              if (flagDmaSend == 1) HAL_UART_Transmit_DMA(&huart6,(uint8_t*)tmp, 4);
+              flagDmaSend = 0;
       }
 
 

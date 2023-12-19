@@ -206,7 +206,7 @@ void SysTick_Handler(void)
 void DMA2_Stream6_IRQHandler(void)
 {
   /* USER CODE BEGIN DMA2_Stream6_IRQn 0 */
-
+HAL_UART_Transmit(&huart6,(uint8_t*)"DMA2_Stream6_IRQHandler", sizeof ("DMA2_Stream6_IRQHandler") - 1,100);
   /* USER CODE END DMA2_Stream6_IRQn 0 */
   HAL_DMA_IRQHandler(&hdma_usart6_tx);
   /* USER CODE BEGIN DMA2_Stream6_IRQn 1 */
@@ -220,7 +220,7 @@ void DMA2_Stream6_IRQHandler(void)
 void USART6_IRQHandler(void)
 {
   /* USER CODE BEGIN USART6_IRQn 0 */
-
+HAL_UART_Transmit(&huart6,(uint8_t*)"USART6_IRQHandler", sizeof ("USART6_IRQHandler") - 1,100);
   /* USER CODE END USART6_IRQn 0 */
   HAL_UART_IRQHandler(&huart6);
   /* USER CODE BEGIN USART6_IRQn 1 */
