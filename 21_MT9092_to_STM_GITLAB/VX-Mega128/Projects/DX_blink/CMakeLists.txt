@@ -26,7 +26,7 @@ add_custom_command(TARGET ${nameFirmware} POST_BUILD
     COMMENT "Building ${BIN_FILE} ")
 
 add_custom_command(TARGET ${nameFirmware} POST_BUILD
-    COMMAND avrdude -p m128 -B 20 -c jtag2isp -P usb -U flash:w:"/home/evg/SOFT/Github/GIT/21_MT9092_to_STM_GITLAB/VX-Mega128/Projects/Replace_FW/build/${nameFirmware}.hex":a
+    COMMAND avrdude -p m128 -B 20 -c jtag2isp -P usb -U flash:w:"/home/evg/SOFT/Github/GIT/21_MT9092_to_STM_GITLAB/VX-Mega128/Projects/DX_blink/build/${nameFirmware}.hex":a
     COMMENT "Write Flash ")
 
 
