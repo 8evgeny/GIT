@@ -12,6 +12,6 @@ int main(void)
          PORTC = 0b01111111;
          _delay_ms(10);
          PORTC = 0b11111111;
-         _delay_ms(3000);
+         _delay_ms(1000);
      }
 }

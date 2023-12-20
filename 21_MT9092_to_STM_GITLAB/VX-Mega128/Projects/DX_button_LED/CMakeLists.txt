@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.5)
 
 set(CMAKE_OBJCOPY /usr/bin/avr-objcopy)
 
-set(nameFirmware DX_blink)
+set(nameFirmware DX_button_LED)
 project(${nameFirmware} LANGUAGES C)
 add_definitions(-D__AVR_ATmega128__)
 
@@ -26,7 +26,7 @@ add_custom_command(TARGET ${nameFirmware} POST_BUILD
     COMMENT "Building ${BIN_FILE} ")
 
 add_custom_command(TARGET ${nameFirmware} POST_BUILD
-    COMMAND avrdude -p m128 -B 20 -c jtag2isp -P usb -U flash:w:"/home/evg/SOFT/Github/GIT/21_MT9092_to_STM_GITLAB/VX-Mega128/Projects/DX_blink/build/${nameFirmware}.hex":a
+    COMMAND avrdude -p m128 -B 20 -c jtag2isp -P usb -U flash:w:"/home/evg/SOFT/Github/GIT/21_MT9092_to_STM_GITLAB/VX-Mega128/Projects/DX_button_LED/build/${nameFirmware}.hex":a
     COMMENT "Write Flash ")
 
 
