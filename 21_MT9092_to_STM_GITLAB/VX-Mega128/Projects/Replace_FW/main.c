@@ -9,9 +9,9 @@ int main(void)
     DDRC = 0b11111100;
      while (1)
      {
-         PORTC = 0b01010100;
-         _delay_ms(200);
-         PORTC = 0b10101000;
-         _delay_ms(200);
+         PORTC = 0b01111111;
+         _delay_ms(10);
+         PORTC = 0b11111111;
+         _delay_ms(2000);
      }
 }
