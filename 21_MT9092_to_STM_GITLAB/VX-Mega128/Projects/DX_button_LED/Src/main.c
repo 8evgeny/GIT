@@ -49,21 +49,30 @@ bool checkLever(int num){ //1 - 6
             return true;
         }
        else return false;
+        break;
     case 2:
-        if (!(PINF & 0b00001000)) return true;
+        if (!(PINF & 0b00001000)) {
+            USART_sendLine("lever 2 pressed\r\n");
+            return true;
+        }
         else return false;
+        break;
     case 3:
         if (!(PINF & 0b00010000)) return true;
         else return false;
+        break;
     case 4:
         if (!(PINF & 0b00100000)) return true;
         else return false;
+        break;
     case 5:
         if (!(PINF & 0b01000000)) return true;
         else return false;
+        break;
     case 6:
         if (!(PINF & 0b10000000)) return true;
         else return false;
+        break;
     default :
         break;
     }
