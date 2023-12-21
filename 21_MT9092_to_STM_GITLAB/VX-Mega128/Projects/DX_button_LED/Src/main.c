@@ -1,10 +1,5 @@
 #include "main.h"
-void SetupGPIO(void);
-bool checkLever(int num);
-void setLed(int num);
-void resetLed(int num);
-void SetupTIMER1 (void);
-void SetupTIMER3 (void);
+
 int numLedAlive = 5;
 bool led1;
 bool led2;
@@ -14,7 +9,8 @@ bool led5;
 bool led6;
 
 int main() {
-    SetupGPIO();
+    GPIO_Init();
+    USART0_Init();
 
 //    SetupTIMER1(); не работает
 //    SetupTIMER3();
@@ -22,36 +18,29 @@ int main() {
 
     while (1) {
         for (int i = 1; i <= 6; ++i) {
+            setLed(i);
+            _delay_ms(10);
+            resetLed(i);
 
-        setLed(i);
-        _delay_ms(10);
-        resetLed(i);
+            if (Levers[i-1]) {
+                if (checkLever(i)) setLed(i);
+                else resetLed(i);
+            }
 
-        if (Levers[i-1])
-        {
-            if (checkLever(i)) setLed(i);
-            else resetLed(i);
+            _delay_ms(20);
+            USART_sendLine("Test USART0\r\n");
         }
-
-        _delay_ms(100);
-
-
-        }
-
-
-
-    }
+    }//while
 }
 
 
-void SetupGPIO()
+void GPIO_Init()
 {
     DDRC = 0b11111100;  //6 светодиодов  PC2 - PC7 инверсия (1 - не горит)
     DDRF = 0b0000000;   //6 рычагов  PF2 - PF7 (предположительно нулем )
     PORTF = 0b11111100; //Подтяжка к 1
     PORTC = 0b11111111;
 }
-
 bool checkLever(int num){ //1 - 6
     switch(num) {
     case 1:
@@ -77,7 +66,6 @@ bool checkLever(int num){ //1 - 6
     }
     return false;
 }
-
 void setLed(int num)
 {
     switch(num) {
@@ -109,7 +97,6 @@ void setLed(int num)
             break;
     }
 }
-
 void resetLed(int num)
 {
     switch(num) {
@@ -141,8 +128,7 @@ void resetLed(int num)
             break;
     }
 }
-
-void SetupTIMER1 (void){
+void TIMER1_Init (void){
 #if 0
 CSn2 CSn1 CSn0 Description
 0 0 0 No clock source. (Timer/Counter stopped)
@@ -161,23 +147,45 @@ CSn2 CSn1 CSn0 Description
     TCNT1 = 45535; //Первое срабатывание сразу
     TIMSK |= (1 << TOIE1);   // Разрешение прерывания overflow таймера 1
 }
-
-void SetupTIMER3 (void){
+void TIMER3_Init (void){
     TCCR3B &= ~(1 << CS32);  //CSn2
     TCCR3B |= (1 << CS31); //CSn1
     TCCR3B |= (1 << CS30); //CSn0
     ETIMSK |= (1 << TOIE3);  // Разрешение прерывания overflow таймера 3
 }
-
 ISR (TIMER1_OVF_vect){
     TCNT1 = 0;          //Чем число ближе к 65535  тем быстрее сработает таймер 1 (LED ON)
     setLed(numLedAlive);
     TCNT3 = 0;          //Чем число ближе к 65535  тем быстрее сработает таймер 3 (LED OFF)
 }
-
 ISR (TIMER3_OVF_vect) {
     resetLed(numLedAlive);
     ++numLedAlive;
     if (numLedAlive == 7)
         numLedAlive = 1;
+}
+void USART0_Init() {
+    UBRR0H = (unsigned char) (BRC >> 8);  // порт UART0, скорость = BUAD
+    UBRR0L = (unsigned char)  BRC;
+
+    UCSR0B |= (1 << TXEN); //разрешение передачи
+    UCSR0C |= (1 << UCSZ1) | (1 << UCSZ0); //8 бит
+}
+unsigned char USART0_Receive( void ) {
+    while ( !(UCSR0A & (1<<RXC0)));         //Wait for data to be received
+    return UDR0;                            //Get and return received data from buffer
+}
+void USART_sendLine(char *string) {
+    while ( *string ) {
+        USART_sendChar(*string); // посимвольно отправляем строку
+        string++;
+    }
+}
+char USART_receiveChar(void) {
+    return ( (UCSR0A >> RXC0) & 1 ) ? UDR0 : 0;  // возвращаем значение буфера приёма
+}
+// Отправка ASCII символа
+void USART_sendChar(char character) {
+    while ( !( UCSR0A & (1<<UDRE0)));   //Wait for empty transmit buffer
+    UDR0 = character;                        //Put data into buffer, sends the data
 }
