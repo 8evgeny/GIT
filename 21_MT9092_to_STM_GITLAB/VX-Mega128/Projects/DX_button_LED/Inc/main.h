@@ -6,3 +6,11 @@
 #include <avr/interrupt.h>
 #include <stdbool.h>
 
+bool Levers[6] = {
+    true,   //1 рычаг существует
+    true,   //2 рычаг существует
+    true,   //3 рычаг существует
+    true,   //4 рычаг существует
+    true,   //5 рычаг существует
+    true    //6 рычаг существует
+};
