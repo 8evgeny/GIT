@@ -5,4 +5,4 @@
 #include <util/delay.h>
 #include <avr/interrupt.h>
 
-void SetupGPIO(void);
+

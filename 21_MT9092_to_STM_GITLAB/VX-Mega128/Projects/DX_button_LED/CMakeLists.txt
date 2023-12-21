@@ -7,7 +7,7 @@ project(${nameFirmware} LANGUAGES C)
 add_definitions(-D__AVR_ATmega128__)
 
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}\
-    -mmcu=atmega128 -DDEBUG -O1 -fdata-sections -ffunction-sections -fpack-struct -fshort-enums \
+    -mmcu=atmega128 -DDEBUG -O3 -fdata-sections -ffunction-sections -fpack-struct -fshort-enums \
     -Wmissing-prototypes -Werror-implicit-function-declaration -Wpointer-arith  \
     -g3 -Wall -std=gnu99 -mrelax  -fno-strict-aliasing -Wstrict-prototypes \
     ")
