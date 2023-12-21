@@ -1,23 +1,16 @@
 #include "main.h"
 void SetupGPIO(void);
 bool checkLever(int num);
-
+void setLed(int num);
+void resetLed(int num);
 
 int main() {
     SetupGPIO();
 
     while (1) {
-        if (checkLever(6)){ //Button 6  загорается  - нулем
-            PORTC &= 0b01111111;
-        }
-        else { //Button 6  гаснет  - единицей
-            PORTC |= 0b10000000;
-        }
-        if (checkLever(5)){ //Button 5
-            PORTC &= 0b10111111;
-        }
-        else {
-            PORTC |= 0b01000000;
+        for (int i = 1; i <= 6; ++i) {
+            if (checkLever(i)) setLed(i);
+            else resetLed(i);
         }
     }
 }
@@ -40,10 +33,10 @@ bool checkLever(int num){ //1 - 6
         if (!(PINF & 0b00001000)) return true;
         else return false;
     case 3:
-        if (!(PINF & 0b00001000)) return true;
+        if (!(PINF & 0b00010000)) return true;
         else return false;
     case 4:
-        if (!(PINF & 0b0010000)) return true;
+        if (!(PINF & 0b00100000)) return true;
         else return false;
     case 5:
         if (!(PINF & 0b01000000)) return true;
@@ -55,4 +48,56 @@ bool checkLever(int num){ //1 - 6
         break;
     }
     return false;
+}
+
+void setLed(int num)
+{
+    switch(num) {
+        case 1:
+            PORTC &= 0b11111011;
+            break;
+        case 2:
+            PORTC &= 0b11110111;
+            break;
+        case 3:
+            PORTC &= 0b11101111;
+            break;
+        case 4:
+            PORTC &= 0b11011111;
+            break;
+        case 5:
+            PORTC &= 0b10111111;
+            break;
+        case 6:
+            PORTC &= 0b01111111;
+            break;
+        default :
+            break;
+    }
+}
+
+void resetLed(int num)
+{
+    switch(num) {
+        case 1:
+            PORTC |= 0b00000100;
+            break;
+        case 2:
+            PORTC |= 0b00001000;
+            break;
+        case 3:
+            PORTC |= 0b00010000;
+            break;
+        case 4:
+            PORTC |= 0b00100000;
+            break;
+        case 5:
+            PORTC |= 0b01000000;
+            break;
+        case 6:
+            PORTC |= 0b10000000;
+            break;
+        default :
+            break;
+    }
 }
