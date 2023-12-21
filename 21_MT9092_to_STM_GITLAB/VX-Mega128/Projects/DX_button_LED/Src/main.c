@@ -8,6 +8,13 @@ bool led4;
 bool led5;
 bool led6;
 
+bool but1ON;
+bool but2ON;
+bool but3ON;
+bool but4ON;
+bool but5ON;
+bool but6ON;
+
 int main() {
     GPIO_Init();
     USART0_Init();
@@ -21,14 +28,37 @@ int main() {
 //            setLed(i);
 //            _delay_ms(5);
 //            resetLed(i);
-
-            if (Levers[i-1]) {
-                if (checkLever(i)) setLed(i);
-                else resetLed(i);
+            if (Buttons[i-1]) {
+                if (checkButton(i))
+                    setLed(i);
+                else
+                    resetLed(i);
             }
-
-            _delay_ms(5);
-//            USART_sendLine("Test USART0\r\n");
+        }
+        _delay_ms(5);
+        if (but1ON) {
+            USART_sendLine("Button 1 pressed\r\n");
+            but1ON = 0;
+        }
+        if (but2ON) {
+            USART_sendLine("Button 2 pressed\r\n");
+            but2ON = 0;
+        }
+        if (but3ON) {
+            USART_sendLine("Button 3 pressed\r\n");
+            but3ON = 0;
+        }
+        if (but4ON) {
+            USART_sendLine("Button 4 pressed\r\n");
+            but4ON = 0;
+        }
+        if (but5ON) {
+            USART_sendLine("Button 5 pressed\r\n");
+            but5ON = 0;
+        }
+        if (but6ON) {
+            USART_sendLine("Button 6 pressed\r\n");
+            but6ON = 0;
         }
     }//while
 }
@@ -41,37 +71,55 @@ void GPIO_Init()
     PORTF = 0b11111100; //Подтяжка к 1
     PORTC = 0b11111111;
 }
-bool checkLever(int num){ //1 - 6
+bool checkButton(int num){ //1 - 6
     switch(num) {
     case 1:
         if (!(PINF & 0b00000100)) {
-            USART_sendLine("lever 1 pressed\r\n");
+            but1ON = true;
             return true;
         }
-       else return false;
+       else
+            return false;
         break;
     case 2:
         if (!(PINF & 0b00001000)) {
-            USART_sendLine("lever 2 pressed\r\n");
+            but2ON = true;
             return true;
         }
-        else return false;
+        else
+            return false;
         break;
     case 3:
-        if (!(PINF & 0b00010000)) return true;
-        else return false;
+        if (!(PINF & 0b00010000)) {
+            but3ON = true;
+            return true;
+        }
+        else
+            return false;
         break;
     case 4:
-        if (!(PINF & 0b00100000)) return true;
-        else return false;
+        if (!(PINF & 0b00100000)) {
+            but4ON = true;
+            return true;
+        }
+        else
+            return false;
         break;
     case 5:
-        if (!(PINF & 0b01000000)) return true;
-        else return false;
+        if (!(PINF & 0b01000000)) {
+            but5ON = true;
+            return true;
+        }
+        else
+            return false;
         break;
     case 6:
-        if (!(PINF & 0b10000000)) return true;
-        else return false;
+        if (!(PINF & 0b10000000)) {
+            but6ON = true;
+            return true;
+        }
+        else
+            return false;
         break;
     default :
         break;

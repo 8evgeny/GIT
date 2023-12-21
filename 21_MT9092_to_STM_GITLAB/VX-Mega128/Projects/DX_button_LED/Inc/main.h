@@ -8,7 +8,7 @@
 #include <avr/interrupt.h>
 #include <stdbool.h>
 
-bool Levers[6] = {
+bool Buttons[6] = {
     true,   //1 рычаг существует
     true,   //2 рычаг существует
     true,   //3 рычаг существует
@@ -19,7 +19,7 @@ bool Levers[6] = {
 
 void GPIO_Init(void);
 void USART0_Init(void);
-bool checkLever(int num);
+bool checkButton(int num);
 void setLed(int num);
 void resetLed(int num);
 void TIMER1_Init (void);
