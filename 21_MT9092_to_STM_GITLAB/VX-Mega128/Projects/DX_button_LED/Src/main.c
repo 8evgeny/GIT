@@ -15,9 +15,10 @@ bool led6;
 
 int main() {
     SetupGPIO();
-    SetupTIMER1();
-    SetupTIMER3();
-    sei();
+
+//    SetupTIMER1(); не работает
+//    SetupTIMER3();
+//    sei();
 
     while (1) {
         for (int i = 1; i <= 6; ++i) {
