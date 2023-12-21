@@ -89,3 +89,7 @@
 *.user
 
 21_MT9092_to_STM_GITLAB/VX-Mega128/STM407_as_BASE/.settings/stm32cubeide.project.prefs
+
+*.dwl
+
+*.dwl2
