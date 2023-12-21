@@ -18,9 +18,9 @@ int main() {
 
     while (1) {
         for (int i = 1; i <= 6; ++i) {
-            setLed(i);
-            _delay_ms(5);
-            resetLed(i);
+//            setLed(i);
+//            _delay_ms(5);
+//            resetLed(i);
 
             if (Levers[i-1]) {
                 if (checkLever(i)) setLed(i);
