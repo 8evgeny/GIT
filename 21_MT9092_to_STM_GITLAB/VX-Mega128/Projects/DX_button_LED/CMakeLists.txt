@@ -11,8 +11,9 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}\
     -Wmissing-prototypes -Werror-implicit-function-declaration -Wpointer-arith  \
     -g3 -Wall -std=gnu99 -mrelax  -fno-strict-aliasing -Wstrict-prototypes \
     ")
-
-add_executable(${nameFirmware} main.c)
+include_directories(Inc)
+file(GLOB Src Src/*.c)
+add_executable(${nameFirmware} ${Src})
 
 set(HEX_FILE ${CMAKE_BINARY_DIR}/${nameFirmware}.hex)
 set(BIN_FILE ${CMAKE_BINARY_DIR}/${nameFirmware}.bin)
