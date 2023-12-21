@@ -3,16 +3,16 @@ cmake_minimum_required(VERSION 3.5)
 set(CMAKE_OBJCOPY /usr/bin/avr-objcopy)
 
 set(nameFirmware DX_button_LED)
-project(${nameFirmware} LANGUAGES CXX)
+project(${nameFirmware} LANGUAGES C)
 add_definitions(-D__AVR_ATmega128__)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}\
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}\
     -mmcu=atmega128 -DDEBUG -O3 -fdata-sections -ffunction-sections -fpack-struct -fshort-enums \
     -Wmissing-prototypes -Werror-implicit-function-declaration -Wpointer-arith  \
     -g3 -Wall -std=gnu99 -mrelax  -fno-strict-aliasing -Wstrict-prototypes \
     ")
 include_directories(Inc)
-file(GLOB Src Src/*.cpp)
+file(GLOB Src Src/*.c)
 add_executable(${nameFirmware} ${Src})
 
 set(HEX_FILE ${CMAKE_BINARY_DIR}/${nameFirmware}.hex)
