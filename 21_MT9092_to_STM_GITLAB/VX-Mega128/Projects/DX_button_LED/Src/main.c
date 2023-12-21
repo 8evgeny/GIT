@@ -19,7 +19,7 @@ int main() {
     while (1) {
         for (int i = 1; i <= 6; ++i) {
             setLed(i);
-            _delay_ms(10);
+            _delay_ms(5);
             resetLed(i);
 
             if (Levers[i-1]) {
@@ -27,8 +27,8 @@ int main() {
                 else resetLed(i);
             }
 
-            _delay_ms(20);
-            USART_sendLine("Test USART0\r\n");
+            _delay_ms(5);
+//            USART_sendLine("Test USART0\r\n");
         }
     }//while
 }
@@ -44,8 +44,11 @@ void GPIO_Init()
 bool checkLever(int num){ //1 - 6
     switch(num) {
     case 1:
-        if (!(PINF & 0b00000100)) return true;
-        else return false;
+        if (!(PINF & 0b00000100)) {
+            USART_sendLine("lever 1 pressed\r\n");
+            return true;
+        }
+       else return false;
     case 2:
         if (!(PINF & 0b00001000)) return true;
         else return false;
