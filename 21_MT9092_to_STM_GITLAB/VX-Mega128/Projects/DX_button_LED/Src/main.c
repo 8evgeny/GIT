@@ -8,12 +8,19 @@ bool led4;
 bool led5;
 bool led6;
 
-bool but1ON;
-bool but2ON;
-bool but3ON;
-bool but4ON;
-bool but5ON;
-bool but6ON;
+bool but1ON = 0;
+bool but2ON = 0;
+bool but3ON = 0;
+bool but4ON = 0;
+bool but5ON = 0;
+bool but6ON = 0;
+
+bool but1OFF = 1;
+bool but2OFF = 1;
+bool but3OFF = 1;
+bool but4OFF = 1;
+bool but5OFF = 1;
+bool but6OFF = 1;
 
 int main() {
     GPIO_Init();
@@ -36,30 +43,36 @@ int main() {
             }
         }
         _delay_ms(5);
-        if (but1ON) {
+        if (but1ON && but1OFF) {
             USART_sendLine("Button 1 pressed\r\n");
-            but1ON = 0;
+//Тут сигнал одиночный о нажатии 1 рычага
+            but1OFF = 0;
         }
-        if (but2ON) {
+        if (but2ON && but2OFF) {
             USART_sendLine("Button 2 pressed\r\n");
-            but2ON = 0;
+//Тут сигнал одиночный о нажатии 2 рычага
+            but2OFF = 0;
         }
-        if (but3ON) {
+        if (but3ON && but3OFF) {
             USART_sendLine("Button 3 pressed\r\n");
-            but3ON = 0;
+//Тут сигнал одиночный о нажатии 3 рычага
+            but3OFF = 0;
         }
-        if (but4ON) {
+        if (but4ON && but4OFF) {
             USART_sendLine("Button 4 pressed\r\n");
-            but4ON = 0;
+//Тут сигнал одиночный о нажатии 4 рычага
+            but4OFF = 0;
         }
-        if (but5ON) {
-            USART_sendLine("Button 5 pressed\r\n");
-            but5ON = 0;
-        }
-        if (but6ON) {
-            USART_sendLine("Button 6 pressed\r\n");
-            but6ON = 0;
-        }
+//        if (but5ON && but5OFF) {
+//            USART_sendLine("Button 5 pressed\r\n");
+////Тут сигнал одиночный о нажатии 5 рычага
+//            but5ON = 0;
+//        }
+//        if (but6ON && but6OFF) {
+//            USART_sendLine("Button 6 pressed\r\n");
+////Тут сигнал одиночный о нажатии 6 рычага
+//            but6ON = 0;
+//        }
     }//while
 }
 
@@ -78,48 +91,60 @@ bool checkButton(int num){ //1 - 6
             but1ON = true;
             return true;
         }
-       else
+        else {
+            but1OFF = true; but1ON = false;
             return false;
+        }
         break;
     case 2:
         if (!(PINF & 0b00001000)) {
             but2ON = true;
             return true;
         }
-        else
+        else {
+            but2OFF = true; but2ON = false;
             return false;
+        }
         break;
     case 3:
         if (!(PINF & 0b00010000)) {
             but3ON = true;
             return true;
         }
-        else
+        else {
+            but3OFF = true; but3ON = false;
             return false;
+        }
         break;
     case 4:
         if (!(PINF & 0b00100000)) {
             but4ON = true;
             return true;
         }
-        else
+        else {
+            but4OFF = true; but4ON = false;
             return false;
+        }
         break;
     case 5:
         if (!(PINF & 0b01000000)) {
             but5ON = true;
             return true;
         }
-        else
+        else {
+            but5OFF = true; but5ON = false;
             return false;
+        }
         break;
     case 6:
         if (!(PINF & 0b10000000)) {
             but6ON = true;
             return true;
         }
-        else
+        else {
+            but6OFF = true; but6ON = false;
             return false;
+        }
         break;
     default :
         break;
