@@ -42,6 +42,8 @@ int main() {
                     resetLed(i);
             }
         }
+
+
         _delay_ms(5);
         if (but1ON && but1OFF) {
             USART_sendLine("Button 1 pressed\r\n");
@@ -63,16 +65,16 @@ int main() {
 //Тут сигнал одиночный о нажатии 4 рычага
             but4OFF = 0;
         }
-//        if (but5ON && but5OFF) {
-//            USART_sendLine("Button 5 pressed\r\n");
-////Тут сигнал одиночный о нажатии 5 рычага
-//            but5ON = 0;
-//        }
-//        if (but6ON && but6OFF) {
+        if (but5ON && but5OFF) {
+            USART_sendLine("Button 5 pressed\r\n");
+//Тут сигнал одиночный о нажатии 5 рычага
+            but5OFF = 0;
+        }
+//        if (but6ON && but6OFF ) {
 //            USART_sendLine("Button 6 pressed\r\n");
-////Тут сигнал одиночный о нажатии 6 рычага
-//            but6ON = 0;
-//        }
+//            but6OFF = 0;
+//         }
+
     }//while
 }
 
