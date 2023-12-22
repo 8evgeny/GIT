@@ -12,8 +12,8 @@ static FILE mystdout = FDEV_SETUP_STREAM(
 // функция вывода символа
 static int uart_putchar(char c, FILE *stream)
 {
-    //    if (c == '\n')
-    //        uart_putchar('\r', stream); //Если раскомментировать ничего не работает
+//        if (c == '\n')
+//            uart_putchar('\r', stream); //Если раскомментировать ничего не работает
     loop_until_bit_is_set(UCSR0A, UDRE0);
     UDR0 = c;
 //    special_output_port = c; //ХЗ
@@ -43,22 +43,22 @@ bool led6;
 bool butON[6];
 bool butOFF[6];
 
-//static int _write(int fd, char *str, int len) {
-//    for(int i=0; i<len; i++)
-//    {
-//        uart_putchar(str[i], stdout);
-//    }
-//    return len;
-//}
+static int _write(int fd, char *str, int len) {
+    for(int i=0; i<len; i++)
+    {
+        uart_putchar(str[i], stdout);
+    }
+    return len;
+}
 
-//void Printf(const char* fmt, ...) {
-//    char buff[512];
-//    va_list args;
-//    va_start(args, fmt);
-//    vsnprintf_P(buff, sizeof(buff), fmt, args);
-//    USART_sendLine(buff);
-//    va_end(args);
-//}
+void Printf(const char* fmt, ...) {
+    char buff[512];
+    va_list args;
+    va_start(args, fmt);
+    vsnprintf_P(buff, sizeof(buff), fmt, args);
+    USART_sendLine(buff);
+    va_end(args);
+}
 
 
 int main() {
@@ -98,9 +98,9 @@ int main() {
         _delay_ms(5);
         char tmp[50];
         for (uint8_t i = 0; i < 6; ++i) {
-//            sprintf((char *)tmp, "Button  pressed\r\n");
+//            sprintf(tmp, "Button %d pressed\r\n", i);
             if (butON[i] && butOFF[i]) {
-                USART_sendLine("Button pressed\r\n");
+                USART_sendLine("Button %d pressed\r\n");
     //Тут сигнал одиночный о нажатии  рычага
                 butOFF[i] = 0;
             }

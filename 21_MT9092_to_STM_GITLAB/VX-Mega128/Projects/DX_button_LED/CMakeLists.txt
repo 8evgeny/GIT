@@ -9,8 +9,9 @@ add_definitions(-D__AVR_ATmega128__)
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}\
     -mmcu=atmega128 -DDEBUG -O3 -fdata-sections -ffunction-sections -fpack-struct -fshort-enums \
     -Wmissing-prototypes -Werror-implicit-function-declaration -Wpointer-arith  \
-    -g3 -Wall -std=gnu99 -mrelax  -fno-strict-aliasing -Wstrict-prototypes \
+    -g3 -Wall -std=gnu99 -mrelax  -fno-strict-aliasing -Wstrict-prototypes -Wl,-u,vfprintf -lprintf_flt -lm \
     ")
+
 include_directories(Inc)
 file(GLOB Src Src/*.c)
 add_executable(${nameFirmware} ${Src})
