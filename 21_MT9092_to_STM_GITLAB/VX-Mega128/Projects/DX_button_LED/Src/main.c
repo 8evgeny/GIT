@@ -12,8 +12,8 @@ static FILE mystdout = FDEV_SETUP_STREAM(
 // функция вывода символа
 static int uart_putchar(char c, FILE *stream)
 {
-//        if (c == '\n')
-//            uart_putchar('\r', stream); //Если раскомментировать ничего не работает
+        if (c == '\n')
+            uart_putchar('\r', stream); //Если раскомментировать ничего не работает
     loop_until_bit_is_set(UCSR0A, UDRE0);
     UDR0 = c;
 //    special_output_port = c; //ХЗ
@@ -55,7 +55,7 @@ void Printf(const char* fmt, ...) {
     char buff[512];
     va_list args;
     va_start(args, fmt);
-    vsnprintf_P(buff, sizeof(buff), fmt, args);
+    vsnprintf(buff, sizeof(buff), fmt, args);
     USART_sendLine(buff);
     va_end(args);
 }
@@ -100,7 +100,7 @@ int main() {
         for (int i = 0; i < 6; ++i) {
 //            sprintf_P(tmp, "Button %d pressed\r\n", i);
             if (butON[i] && butOFF[i]) {
-                USART_sendLine("Button %d pressed\r\n");
+                Printf("Button pressed\r\n");
     //Тут сигнал одиночный о нажатии  рычага
                 butOFF[i] = 0;
             }
