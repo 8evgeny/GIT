@@ -66,7 +66,7 @@ int main() {
     USART0_Init();
     stdout = &mystdout;
 //    Printf("Hello, world!\n"); //Непонятное поведение
-//    printf("Hello, world!\n"); //Непонятное поведение
+    printf("Hello, world!\n"); //Непонятное поведение
 
     // инициализируем стандартный дескриптор
     stdout = &mystdout;

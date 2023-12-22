@@ -16,6 +16,19 @@ include_directories(Inc)
 file(GLOB Src Src/*.c)
 add_executable(${nameFirmware} ${Src})
 
+
+set_target_properties(${nameFirmware} PROPERTIES LINKER_LANGUAGE CXX)
+#set(LINKER_SCRIPT_FLASH "${CMAKE_SOURCE_DIR}/STM32F407VGTX_FLASH.ld")
+#-T${LINKER_SCRIPT_FLASH} \
+set(LINKER_FLAGS "SHELL: \
+    -mmcu=atmega128 \
+    -Wl,-u,vfprintf -lprintf_flt -lm \
+    ")
+
+target_link_options(${nameFirmware} PRIVATE ${LINKER_FLAGS})
+
+
+
 set(HEX_FILE ${CMAKE_BINARY_DIR}/${nameFirmware}.hex)
 set(BIN_FILE ${CMAKE_BINARY_DIR}/${nameFirmware}.bin)
 
