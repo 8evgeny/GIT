@@ -1,5 +1,37 @@
 #include "main.h"
 
+// прототип функции вывода символа
+static int uart_putchar(char c, FILE *stream);
+// определяем дескриптор для стандартного вывода
+static FILE mystdout = FDEV_SETUP_STREAM(
+    uart_putchar,     // функция вывода символа
+    NULL,           // функция ввода символа, нам сейчас не нужна
+    _FDEV_SETUP_WRITE // флаги потока - только вывод
+    );
+
+// функция вывода символа
+static int uart_putchar(char c, FILE *stream)
+{
+    //    if (c == '\n')
+    //        uart_putchar('\r', stream); //Если раскомментировать ничего не работает
+    loop_until_bit_is_set(UCSR0A, UDRE0);
+    UDR0 = c;
+//    special_output_port = c; //ХЗ
+    return 0;
+}
+
+//// форматная строка во flash
+//PROGMEM char str1[] ="Format str from flash\nlong = %15ld\nFlash string = %10S\n";
+//// просто строка во flash
+//PROGMEM char str2[] = "string form flash";
+
+//__attribute((OS_main))
+
+
+
+
+
+
 int numLedAlive = 5;
 bool led1;
 bool led2;
@@ -11,10 +43,39 @@ bool led6;
 bool butON[6];
 bool butOFF[6];
 
+//static int _write(int fd, char *str, int len) {
+//    for(int i=0; i<len; i++)
+//    {
+//        uart_putchar(str[i], stdout);
+//    }
+//    return len;
+//}
+
+//void Printf(const char* fmt, ...) {
+//    char buff[512];
+//    va_list args;
+//    va_start(args, fmt);
+//    vsnprintf_P(buff, sizeof(buff), fmt, args);
+//    USART_sendLine(buff);
+//    va_end(args);
+//}
+
 
 int main() {
     GPIO_Init();
     USART0_Init();
+    stdout = &mystdout;
+//    Printf("Hello, world!\n"); //Непонятное поведение
+//    printf("Hello, world!\n"); //Непонятное поведение
+
+    // инициализируем стандартный дескриптор
+    stdout = &mystdout;
+    // форматная строка в RAM и выводим строку из RAM
+//    printf("Format str from ram\nlong = %15ld\nRam string = %10s\n", 1234567890l , "string from RAM");
+    // форматная строка в flash и выводим строку из flash
+//    printf_P(str1, 1234567890l , str2);
+
+
 
 //    SetupTIMER1(); не работает
 //    SetupTIMER3();
@@ -35,8 +96,9 @@ int main() {
 
 
         _delay_ms(5);
-
-        for (int i = 0; i < 6; ++i) {
+        char tmp[50];
+        for (uint8_t i = 0; i < 6; ++i) {
+//            sprintf((char *)tmp, "Button  pressed\r\n");
             if (butON[i] && butOFF[i]) {
                 USART_sendLine("Button pressed\r\n");
     //Тут сигнал одиночный о нажатии  рычага
@@ -232,7 +294,8 @@ unsigned char USART0_Receive( void ) {
 }
 void USART_sendLine(char *string) {
     while ( *string ) {
-        USART_sendChar(*string); // посимвольно отправляем строку
+        uart_putchar(*string, stdout);
+//        USART_sendChar(*string); // посимвольно отправляем строку
         string++;
     }
 }
@@ -241,6 +304,7 @@ char USART_receiveChar(void) {
 }
 // Отправка ASCII символа
 void USART_sendChar(char character) {
-    while ( !( UCSR0A & (1<<UDRE0)));   //Wait for empty transmit buffer
+    loop_until_bit_is_set(UCSR0A, UDRE0);
+//    while ( !( UCSR0A & (1<<UDRE0)));   //Wait for empty transmit buffer
     UDR0 = character;                        //Put data into buffer, sends the data
 }

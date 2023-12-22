@@ -7,6 +7,11 @@
 #include <util/delay.h>
 #include <avr/interrupt.h>
 #include <stdbool.h>
+#include <avr/pgmspace.h>
+#include "stdio.h"
+// порт для отладочного вывода - определен в параметрах запуска симулятора
+#define special_output_port (*((volatile char *)0x24))
+
 
 bool Buttons[6] = {
     true,   //1 рычаг существует
@@ -28,3 +33,4 @@ unsigned char USART0_Receive(void);
 void USART_sendChar(char character);
 void USART_sendLine(char *string);
 char USART_receiveChar(void);
+void Printf(const char* fmt, ...);
