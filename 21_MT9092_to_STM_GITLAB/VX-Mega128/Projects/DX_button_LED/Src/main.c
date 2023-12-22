@@ -98,7 +98,7 @@ int main() {
         _delay_ms(5);
         char tmp[50];
         for (int i = 0; i < 6; ++i) {
-//            sprintf(tmp, "Button %d pressed\r\n", i);
+//            sprintf_P(tmp, "Button %d pressed\r\n", i);
             if (butON[i] && butOFF[i]) {
                 USART_sendLine("Button %d pressed\r\n");
     //Тут сигнал одиночный о нажатии  рычага
