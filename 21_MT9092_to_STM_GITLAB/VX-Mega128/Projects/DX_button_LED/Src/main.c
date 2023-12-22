@@ -66,7 +66,7 @@ int main() {
     USART0_Init();
     stdout = &mystdout;
 //    Printf("Hello, world!\n"); //Непонятное поведение
-    printf("Hello, world!\n"); //Непонятное поведение
+//    printf("Hello, world!\n"); //Непонятное поведение
 
     // инициализируем стандартный дескриптор
     stdout = &mystdout;
@@ -97,7 +97,7 @@ int main() {
 
         _delay_ms(5);
         char tmp[50];
-        for (uint8_t i = 0; i < 6; ++i) {
+        for (int i = 0; i < 6; ++i) {
 //            sprintf(tmp, "Button %d pressed\r\n", i);
             if (butON[i] && butOFF[i]) {
                 USART_sendLine("Button %d pressed\r\n");

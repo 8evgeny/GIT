@@ -17,7 +17,7 @@ file(GLOB Src Src/*.c)
 add_executable(${nameFirmware} ${Src})
 
 
-set_target_properties(${nameFirmware} PROPERTIES LINKER_LANGUAGE CXX)
+set_target_properties(${nameFirmware} PROPERTIES LINKER_LANGUAGE C)
 #set(LINKER_SCRIPT_FLASH "${CMAKE_SOURCE_DIR}/STM32F407VGTX_FLASH.ld")
 #-T${LINKER_SCRIPT_FLASH} \
 set(LINKER_FLAGS "SHELL: \
