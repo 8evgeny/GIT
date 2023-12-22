@@ -5,7 +5,7 @@ set(CMAKE_OBJCOPY /usr/bin/avr-objcopy)
 set(nameFirmware DX_button_LED)
 project(${nameFirmware} LANGUAGES C)
 add_definitions(-D__AVR_ATmega128__)
-
+#INCLUDE(generic-gcc-avr.cmake)
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}\
     -mmcu=atmega128 -DDEBUG -O3 -fdata-sections -ffunction-sections -fpack-struct -fshort-enums \
     -Wmissing-prototypes -Werror-implicit-function-declaration -Wpointer-arith  \
@@ -14,13 +14,18 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}\
 
 include_directories(Inc)
 file(GLOB Src Src/*.c)
-add_executable(${nameFirmware} ${Src})
+add_executable(${PROJECT_NAME} ${Src})
+
+#find_library(C_LIB c)
+#message(STATUS "avr-libc: ${C_LIB}")
+#target_link_libraries(${PROJECT_NAME} ${C_LIB})
 
 
-set_target_properties(${nameFirmware} PROPERTIES LINKER_LANGUAGE C)
+set_target_properties(${PROJECT_NAME} PROPERTIES LINKER_LANGUAGE C)
 #set(LINKER_SCRIPT_FLASH "${CMAKE_SOURCE_DIR}/STM32F407VGTX_FLASH.ld")
 #-T${LINKER_SCRIPT_FLASH} \
 set(LINKER_FLAGS "SHELL: \
+    -Wl,-Map=\"${PROJECT_NAME}.map\"
     -mmcu=atmega128 \
     -Wl,-u,vfprintf -lprintf_flt -lm \
     ")
@@ -29,8 +34,8 @@ target_link_options(${nameFirmware} PRIVATE ${LINKER_FLAGS})
 
 
 
-set(HEX_FILE ${CMAKE_BINARY_DIR}/${nameFirmware}.hex)
-set(BIN_FILE ${CMAKE_BINARY_DIR}/${nameFirmware}.bin)
+set(HEX_FILE ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.hex)
+set(BIN_FILE ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.bin)
 
 add_custom_command(TARGET ${nameFirmware} POST_BUILD
     COMMAND ${CMAKE_OBJCOPY} -O ihex $<TARGET_FILE:${nameFirmware}> ${HEX_FILE}
