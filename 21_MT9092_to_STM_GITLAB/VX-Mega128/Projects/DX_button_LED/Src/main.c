@@ -36,6 +36,7 @@ int numLedAlive = 5;
 bool led[6];
 bool butON[6];
 bool butOFF[6];
+bool signalPressed[6];
 
 static int _write(int fd, char *str, int len) {
     for(int i=0; i<len; i++)
@@ -92,37 +93,82 @@ int main() {
                     setLed(i);
                 else
                     resetLed(i);
+
                 if (butON[i] && butOFF[i]) {
                     switch (i) {
                         case 0: {
                             USART_sendLine("Button 1 pressed\r\n");
                             //Тут сигнал одиночный о нажатии 1 рычага
+                            signalPressed[i] = 1;
                         }
                         break;
                         case 1: {
                             USART_sendLine("Button 2 pressed\r\n");
+                            signalPressed[i] = 1;
                         }
                         break;
                         case 2: {
                             USART_sendLine("Button 3 pressed\r\n");
+                            signalPressed[i] = 1;
                         }
                         break;
                         case 3: {
                             USART_sendLine("Button 4 pressed\r\n");
+                            signalPressed[i] = 1;
                         }
                         break;
                         case 4: {
                             USART_sendLine("Button 5 pressed\r\n");
+                            signalPressed[i] = 1;
                         }
                         break;
                         case 5: {
                             USART_sendLine("Button 6 pressed\r\n");
+                            signalPressed[i] = 1;
                         }
                         break;
                     }
                     butOFF[i] = 0;
-                }
-            }
+                }//Сигнал о нажатии рычага
+
+                if (signalPressed[i] && !butON[i]) {
+                    switch (i) {
+                    case 0: {
+                        USART_sendLine("Button 1 relesed\r\n");
+                        signalPressed[i] = 0;
+                    }
+                    break;
+//                    case 1: {
+//                        USART_sendLine("Button 2 relesed\r\n");
+//                        signalPressed[i] = 0;
+//                    }
+                    break;
+//                    case 2: {
+//                        USART_sendLine("Button 3 relesed\r\n");
+//                        signalPressed[i] = 0;
+//                    }
+//                    break;
+//                    case 3: {
+//                        USART_sendLine("Button 4 relesed\r\n");
+//                        signalPressed[i] = 0;
+//                    }
+//                    break;
+//                    case 4: {
+//                        USART_sendLine("Button 5 relesed\r\n");
+//                        signalPressed[i] = 0;
+//                    }
+//                    break;
+//                    case 5: {
+//                        USART_sendLine("Button 6 relesed\r\n");
+//                        signalPressed[i] = 0;
+//                    }
+//                    break;
+                    }
+                }//Сигнал об отпускании рычага
+
+
+
+            }//Если рычаг существует
         }
     }//while
 }
