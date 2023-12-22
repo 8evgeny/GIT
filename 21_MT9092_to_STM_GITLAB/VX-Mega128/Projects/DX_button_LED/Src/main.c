@@ -91,27 +91,20 @@ int main() {
 //    sei();
 
     while (1) {
-        for (int i = 1; i <= 6; ++i) {
-//            setLed(i);
-//            _delay_ms(5);
-//            resetLed(i);
-            if (Buttons[i-1]) {
+        _delay_ms(5);
+        for (int i = 0; i < 6; ++i) {
+            if (Buttons[i]) {
                 if (checkButton(i))
                     setLed(i);
                 else
                     resetLed(i);
             }
-        }
 
-
-        _delay_ms(5);
-        char tmp[50];
-        for (int i = 0; i < 6; ++i) {
-//            sprintf_P(tmp, "Button %d pressed\r\n", i);
             if (butON[i] && butOFF[i]) {
                 switch (i) {
                     case 0: {
                         USART_sendLine("Button 1 pressed\r\n");
+                        //Тут сигнал одиночный о нажатии 1 рычага
                     }
                     break;
                     case 1: {
@@ -135,7 +128,6 @@ int main() {
                     }
                     break;
                 }
-    //Тут сигнал одиночный о нажатии  рычага
                 butOFF[i] = 0;
             }
         }
@@ -150,65 +142,65 @@ void GPIO_Init()
     PORTF = 0b11111100; //Подтяжка к 1
     PORTC = 0b11111111;
 }
-bool checkButton(int num){ //1 - 6
+bool checkButton(int num){ //0 - 5
     switch(num) {
-    case 1:
+    case 0:
         if (!(PINF & 0b00000100)) {
-            butON[num -1] = true;
+            butON[num] = true;
             return true;
         }
         else {
-            butOFF[num -1] = true; butON[num -1] = false;
+            butOFF[num] = true; butON[num] = false;
+            return false;
+        }
+        break;
+    case 1:
+        if (!(PINF & 0b00001000)) {
+            butON[num] = true;
+            return true;
+        }
+        else {
+            butOFF[num] = true; butON[num] = false;
             return false;
         }
         break;
     case 2:
-        if (!(PINF & 0b00001000)) {
-            butON[num -1] = true;
+        if (!(PINF & 0b00010000)) {
+            butON[num] = true;
             return true;
         }
         else {
-            butOFF[num -1] = true; butON[num -1] = false;
+            butOFF[num] = true; butON[num] = false;
             return false;
         }
         break;
     case 3:
-        if (!(PINF & 0b00010000)) {
-            butON[num -1] = true;
+        if (!(PINF & 0b00100000)) {
+            butON[num] = true;
             return true;
         }
         else {
-            butOFF[num -1] = true; butON[num -1] = false;
+            butOFF[num] = true; butON[num] = false;
             return false;
         }
         break;
     case 4:
-        if (!(PINF & 0b00100000)) {
-            butON[num -1] = true;
+        if (!(PINF & 0b01000000)) {
+            butON[num] = true;
             return true;
         }
         else {
-            butOFF[num -1] = true; butON[num -1] = false;
+            butOFF[num] = true; butON[num] = false;
             return false;
         }
         break;
     case 5:
-        if (!(PINF & 0b01000000)) {
-            butON[num -1] = true;
-            return true;
-        }
-        else {
-            butOFF[num -1] = true; butON[num -1] = false;
-            return false;
-        }
-        break;
-    case 6:
         if (!(PINF & 0b10000000)) {
-            butON[num -1] = true;
+            butON[num] = true;
             return true;
         }
         else {
-            butOFF[num -1] = true; butON[num -1] = false;
+            butOFF[num] = true; butON[num] = false;
             return false;
         }
         break;
@@ -220,27 +212,27 @@ bool checkButton(int num){ //1 - 6
 void setLed(int num)
 {
     switch(num) {
-        case 1:
+        case 0:
             PORTC &= 0b11111011;
             led1 = true;
             break;
-        case 2:
+        case 1:
             PORTC &= 0b11110111;
             led2 = true;
             break;
-        case 3:
+        case 2:
             PORTC &= 0b11101111;
             led3 = true;
             break;
-        case 4:
+        case 3:
             PORTC &= 0b11011111;
             led4 = true;
             break;
-        case 5:
+        case 4:
             PORTC &= 0b10111111;
             led5 = true;
             break;
-        case 6:
+        case 5:
             PORTC &= 0b01111111;
             led6 = true;
             break;
@@ -251,27 +243,27 @@ void setLed(int num)
 void resetLed(int num)
 {
     switch(num) {
-        case 1:
+        case 0:
             PORTC |= 0b00000100;
             led1 = false;
             break;
-        case 2:
+        case 1:
             PORTC |= 0b00001000;
             led2 = false;
             break;
-        case 3:
+        case 2:
             PORTC |= 0b00010000;
             led3 = false;
             break;
-        case 4:
+        case 3:
             PORTC |= 0b00100000;
             led4 = false;
             break;
-        case 5:
+        case 4:
             PORTC |= 0b01000000;
             led5 = false;
             break;
-        case 6:
+        case 5:
             PORTC |= 0b10000000;
             led6 = false;
             break;
@@ -279,6 +271,7 @@ void resetLed(int num)
             break;
     }
 }
+
 void TIMER1_Init (void){
 #if 0
 CSn2 CSn1 CSn0 Description
