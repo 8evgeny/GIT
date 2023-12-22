@@ -12,14 +12,14 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}\
     -g3 -Wall -std=gnu99 -mrelax  -fno-strict-aliasing -Wstrict-prototypes -Wl,-u,vfprintf -lprintf_flt -lm \
     ")
 
-include_directories(Inc)
+include_directories(Inc /usr/lib/avr/lib)
 file(GLOB Src Src/*.c)
 add_executable(${PROJECT_NAME} ${Src})
 
 #find_library(C_LIB c)
 #message(STATUS "avr-libc: ${C_LIB}")
 #target_link_libraries(${PROJECT_NAME} ${C_LIB})
-
+target_link_libraries(${PROJECT_NAME} -L/usr/lib/avr/lib/printf_min)
 
 set_target_properties(${PROJECT_NAME} PROPERTIES LINKER_LANGUAGE C)
 #set(LINKER_SCRIPT_FLASH "${CMAKE_SOURCE_DIR}/STM32F407VGTX_FLASH.ld")
@@ -27,7 +27,7 @@ set_target_properties(${PROJECT_NAME} PROPERTIES LINKER_LANGUAGE C)
 set(LINKER_FLAGS "SHELL: \
     -Wl,-Map=\"${PROJECT_NAME}.map\"
     -mmcu=atmega128 \
-    -Wl,-u,vfprintf -lprintf_flt -lm \
+    -Wl,-u,vfprintf -lprintf_min -lscanf_min -lc -lm \
     ")
 
 target_link_options(${nameFirmware} PRIVATE ${LINKER_FLAGS})

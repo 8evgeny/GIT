@@ -12,8 +12,8 @@ static FILE mystdout = FDEV_SETUP_STREAM(
 // функция вывода символа
 static int uart_putchar(char c, FILE *stream)
 {
-        if (c == '\n')
-            uart_putchar('\r', stream); //Если раскомментировать ничего не работает
+    if (c == '\n')
+        uart_putchar('\r', stream); //Если раскомментировать ничего не работает
     loop_until_bit_is_set(UCSR0A, UDRE0);
     UDR0 = c;
 //    special_output_port = c; //ХЗ
@@ -51,13 +51,22 @@ static int _write(int fd, char *str, int len) {
     return len;
 }
 
+//void Printf(const char* fmt, ...) {
+//    char buff[512];
+//    va_list args;
+//    va_start(args, fmt);
+//    vsprintf(buff, fmt, args);
+//    USART_sendLine(buff);
+//    va_end(args);
+//}
+
 void Printf(const char* fmt, ...) {
-    char buff[512];
-    va_list args;
-    va_start(args, fmt);
-    vsnprintf(buff, sizeof(buff), fmt, args);
-    USART_sendLine(buff);
-    va_end(args);
+        char buff[512];
+        va_list args;
+        va_start(args, fmt);
+        sprintf(buff, fmt, args);
+        USART_sendLine(buff);
+        va_end(args);
 }
 
 
@@ -100,7 +109,32 @@ int main() {
         for (int i = 0; i < 6; ++i) {
 //            sprintf_P(tmp, "Button %d pressed\r\n", i);
             if (butON[i] && butOFF[i]) {
-                Printf("Button pressed\r\n");
+                switch (i) {
+                    case 0: {
+                        USART_sendLine("Button 1 pressed\r\n");
+                    }
+                    break;
+                    case 1: {
+                        USART_sendLine("Button 2 pressed\r\n");
+                    }
+                    break;
+                    case 2: {
+                        USART_sendLine("Button 3 pressed\r\n");
+                    }
+                    break;
+                    case 3: {
+                        USART_sendLine("Button 4 pressed\r\n");
+                    }
+                    break;
+                    case 4: {
+                        USART_sendLine("Button 5 pressed\r\n");
+                    }
+                    break;
+                    case 5: {
+                        USART_sendLine("Button 6 pressed\r\n");
+                    }
+                    break;
+                }
     //Тут сигнал одиночный о нажатии  рычага
                 butOFF[i] = 0;
             }
@@ -294,8 +328,8 @@ unsigned char USART0_Receive( void ) {
 }
 void USART_sendLine(char *string) {
     while ( *string ) {
-        uart_putchar(*string, stdout);
-//        USART_sendChar(*string); // посимвольно отправляем строку
+//        uart_putchar(*string, stdout);
+        USART_sendChar(*string); // посимвольно отправляем строку
         string++;
     }
 }
