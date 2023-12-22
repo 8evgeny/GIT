@@ -33,7 +33,7 @@ static int uart_putchar(char c, FILE *stream)
 
 
 int numLedAlive = 5;
-bool led[6];
+bool led [6];
 bool butON[6];
 bool butOFF[6];
 bool signalPressed[6];
