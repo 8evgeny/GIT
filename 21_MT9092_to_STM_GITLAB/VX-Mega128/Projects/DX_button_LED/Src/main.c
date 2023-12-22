@@ -33,13 +33,7 @@ static int uart_putchar(char c, FILE *stream)
 
 
 int numLedAlive = 5;
-bool led1;
-bool led2;
-bool led3;
-bool led4;
-bool led5;
-bool led6;
-
+bool led[6];
 bool butON[6];
 bool butOFF[6];
 
@@ -93,42 +87,41 @@ int main() {
     while (1) {
         _delay_ms(5);
         for (int i = 0; i < 6; ++i) {
-            if (Buttons[i]) {
+            if (Buttons[i]) { //Если рычаг существует
                 if (checkButton(i))
                     setLed(i);
                 else
                     resetLed(i);
-            }
-
-            if (butON[i] && butOFF[i]) {
-                switch (i) {
-                    case 0: {
-                        USART_sendLine("Button 1 pressed\r\n");
-                        //Тут сигнал одиночный о нажатии 1 рычага
+                if (butON[i] && butOFF[i]) {
+                    switch (i) {
+                        case 0: {
+                            USART_sendLine("Button 1 pressed\r\n");
+                            //Тут сигнал одиночный о нажатии 1 рычага
+                        }
+                        break;
+                        case 1: {
+                            USART_sendLine("Button 2 pressed\r\n");
+                        }
+                        break;
+                        case 2: {
+                            USART_sendLine("Button 3 pressed\r\n");
+                        }
+                        break;
+                        case 3: {
+                            USART_sendLine("Button 4 pressed\r\n");
+                        }
+                        break;
+                        case 4: {
+                            USART_sendLine("Button 5 pressed\r\n");
+                        }
+                        break;
+                        case 5: {
+                            USART_sendLine("Button 6 pressed\r\n");
+                        }
+                        break;
                     }
-                    break;
-                    case 1: {
-                        USART_sendLine("Button 2 pressed\r\n");
-                    }
-                    break;
-                    case 2: {
-                        USART_sendLine("Button 3 pressed\r\n");
-                    }
-                    break;
-                    case 3: {
-                        USART_sendLine("Button 4 pressed\r\n");
-                    }
-                    break;
-                    case 4: {
-                        USART_sendLine("Button 5 pressed\r\n");
-                    }
-                    break;
-                    case 5: {
-                        USART_sendLine("Button 6 pressed\r\n");
-                    }
-                    break;
+                    butOFF[i] = 0;
                 }
-                butOFF[i] = 0;
             }
         }
     }//while
@@ -214,27 +207,27 @@ void setLed(int num)
     switch(num) {
         case 0:
             PORTC &= 0b11111011;
-            led1 = true;
+            led[num] = true;
             break;
         case 1:
             PORTC &= 0b11110111;
-            led2 = true;
+            led[num] = true;
             break;
         case 2:
             PORTC &= 0b11101111;
-            led3 = true;
+            led[num] = true;
             break;
         case 3:
             PORTC &= 0b11011111;
-            led4 = true;
+            led[num] = true;
             break;
         case 4:
             PORTC &= 0b10111111;
-            led5 = true;
+            led[num] = true;
             break;
         case 5:
             PORTC &= 0b01111111;
-            led6 = true;
+            led[num] = true;
             break;
         default :
             break;
@@ -245,27 +238,27 @@ void resetLed(int num)
     switch(num) {
         case 0:
             PORTC |= 0b00000100;
-            led1 = false;
+            led[num] = false;
             break;
         case 1:
             PORTC |= 0b00001000;
-            led2 = false;
+            led[num] = false;
             break;
         case 2:
             PORTC |= 0b00010000;
-            led3 = false;
+            led[num] = false;
             break;
         case 3:
             PORTC |= 0b00100000;
-            led4 = false;
+            led[num] = false;
             break;
         case 4:
             PORTC |= 0b01000000;
-            led5 = false;
+            led[num] = false;
             break;
         case 5:
             PORTC |= 0b10000000;
-            led6 = false;
+            led[num] = false;
             break;
         default :
             break;
