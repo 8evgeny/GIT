@@ -10,6 +10,12 @@
 #define BUAD  9600
 #define BRC   ((F_CPU/16/BUAD) - 1)
 
+#define PIN_INT0 PD0 //SPI
+#define SPI_MISO 3
+#define SPI_MOSI 2
+#define SPI_SCK 1
+#define SPI_SS 0
+
 static bool Buttons[6] = {
     true,   //1 рычаг существует
     true,   //2 рычаг существует
@@ -32,6 +38,11 @@ static void resetLed(int num);
 static void TIMER1_Init (void);
 static void TIMER3_Init (void);
 static unsigned char USART0_Receive(void);
+void SPI_Init(void);
+void SPI_WriteByte(uint8_t data);
+void SPI_WriteString(char *string);
+
+
 static void USART_sendChar(char character);
 static void USART_sendLine(char *string);
 static char USART_receiveChar(void);

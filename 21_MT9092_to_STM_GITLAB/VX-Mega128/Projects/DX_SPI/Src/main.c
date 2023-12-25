@@ -1,21 +1,4 @@
 #include "main.h"
-typedef struct __file FILE;
-typedef long long fpos_t;
-
-
-
-
-
-// функция вывода символа
-static int uart_putchar(char c, FILE *stream)
-{
-//    if (c == '\n')
-//        uart_putchar('\r', stream);
-    loop_until_bit_is_set(UCSR0A, UDRE0);
-    UDR0 = c;
-    return 0;
-}
-
 
 static int numLedAlive = 5;
 static bool led [6];
@@ -23,10 +6,10 @@ static bool butON[6];
 static bool butOFF[6];
 static bool signalPressed[6];
 
-
 int main() {
     GPIO_Init();
     USART0_Init();
+    SPI_Init();
     stdout = &mystdout;
 
 //    SetupTIMER1(); не работает
@@ -34,9 +17,9 @@ int main() {
 //    sei();
 
     while (1) {
-        _delay_ms(5);
+        _delay_ms(10);
         checkButtons();
-
+        SPI_WriteString("55");
     }//while
 }
 
@@ -323,3 +306,37 @@ static void checkButtons(){
         }//Если рычаг существует
     }
 }
+static int uart_putchar(char c, FILE *stream)
+{
+    //    if (c == '\n')
+    //        uart_putchar('\r', stream);
+    loop_until_bit_is_set(UCSR0A, UDRE0);
+    UDR0 = c;
+    return 0;
+}
+
+void SPI_Init(void) {/*инициализация SPI модуля в режиме master*/
+    /*настройка портов ввода-вывода
+   все выводы, кроме MISO выходы*/
+    DDRB |= (1<<SPI_MOSI)|(1<<SPI_SCK)|(1<<SPI_SS)|(0<<SPI_MISO);
+    //   PORTB |= (1<<SPI_MOSI)|(1<<SPI_SCK)|(1<<SPI_SS)|(1<<SPI_MISO);
+    /*разрешение прерываний и spi,старший бит вперед, мастер, режим 0*/
+    SPCR = /*(1<<SPIE)|*/(1<<SPE)|(0<<DORD)|(1<<MSTR)|(1<<CPOL)|(0<<CPHA)|(0<<SPR1)|(0<<SPR0); //Fclk/4
+    SPSR &= ~(1<<SPI2X);
+}
+void SPI_WriteByte(uint8_t data) {//Передача одного байта данных по SPI
+    PORTB &= ~(1<<SPI_SS);
+    _delay_us(2);
+    SPDR = data;
+    while(!(SPSR & (1<<SPIF)));
+    _delay_us(2);
+    PORTB |= (1<<SPI_SS);
+    _delay_us(5);
+}
+void SPI_WriteString(char *string) {
+    while ( *string ) {
+        SPI_WriteByte(*string); // посимвольно отправляем строку
+        string++;
+    }
+}
+
