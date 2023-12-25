@@ -28,6 +28,7 @@ set(LINKER_FLAGS "SHELL: \
     -Wl,-Map=\"${PROJECT_NAME}.map\"
     -mmcu=atmega128 \
     -lc -lm \
+    -Wl,--gc-sections,--print-memory-usage \
     ")
 #    -Wl,-u,vfprintf \
 #-lprintf_min -lscanf_min \
