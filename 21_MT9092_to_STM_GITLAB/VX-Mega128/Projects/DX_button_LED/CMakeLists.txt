@@ -19,7 +19,7 @@ add_executable(${PROJECT_NAME} ${Src})
 #find_library(C_LIB c)
 #message(STATUS "avr-libc: ${C_LIB}")
 #target_link_libraries(${PROJECT_NAME} ${C_LIB})
-target_link_libraries(${PROJECT_NAME} -L/usr/lib/avr/lib/avr51/libprintf_min.a)
+#target_link_libraries(${PROJECT_NAME} -L/usr/lib/avr/lib/avr51/libprintf_min.a)
 
 set_target_properties(${PROJECT_NAME} PROPERTIES LINKER_LANGUAGE C)
 #set(LINKER_SCRIPT_FLASH "${CMAKE_SOURCE_DIR}/STM32F407VGTX_FLASH.ld")
@@ -27,9 +27,10 @@ set_target_properties(${PROJECT_NAME} PROPERTIES LINKER_LANGUAGE C)
 set(LINKER_FLAGS "SHELL: \
     -Wl,-Map=\"${PROJECT_NAME}.map\"
     -mmcu=atmega128 \
-    -Wl,-u,vfprintf -lprintf_min -lscanf_min -lc -lm \
+    -lc -lm \
     ")
-
+#    -Wl,-u,vfprintf \
+#-lprintf_min -lscanf_min \
 target_link_options(${nameFirmware} PRIVATE ${LINKER_FLAGS})
 
 

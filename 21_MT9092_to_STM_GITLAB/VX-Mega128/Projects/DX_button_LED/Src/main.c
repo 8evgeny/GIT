@@ -1,5 +1,6 @@
 #include "main.h"
-
+typedef struct __file FILE;
+typedef long long fpos_t;
 // прототип функции вывода символа
 static int uart_putchar(char c, FILE *stream);
 // определяем дескриптор для стандартного вывода
@@ -12,8 +13,8 @@ static FILE mystdout = FDEV_SETUP_STREAM(
 // функция вывода символа
 static int uart_putchar(char c, FILE *stream)
 {
-    if (c == '\n')
-        uart_putchar('\r', stream); //Если раскомментировать ничего не работает
+//    if (c == '\n')
+//        uart_putchar('\r', stream);
     loop_until_bit_is_set(UCSR0A, UDRE0);
     UDR0 = c;
 //    special_output_port = c; //ХЗ
@@ -38,15 +39,15 @@ static bool butON[6];
 static bool butOFF[6];
 static bool signalPressed[6];
 
-static int _write(int fd, char *str, int len) {
-    for(int i=0; i<len; i++)
-    {
-        uart_putchar(str[i], stdout);
-    }
-    return len;
-}
+//static int _write(int fd, char *str, int len) {
+//    for(int i=0; i<len; i++)
+//    {
+//        uart_putchar(str[i], stdout);
+//    }
+//    return len;
+//}
 
-//void Printf(const char* fmt, ...) {
+//static void Printf(const char* fmt, ...) {
 //    char buff[512];
 //    va_list args;
 //    va_start(args, fmt);
@@ -55,14 +56,14 @@ static int _write(int fd, char *str, int len) {
 //    va_end(args);
 //}
 
-static void Printf(const char* fmt, ...) {
-        char buff[512];
-        va_list args;
-        va_start(args, fmt);
-        sprintf(buff, fmt, args);
-        USART_sendLine(buff);
-        va_end(args);
-}
+//static void Printf(const char* fmt, ...) {
+//        char buff[512];
+//        va_list args;
+//        va_start(args, fmt);
+//        sprintf(buff, fmt, args);
+//        USART_sendLine(buff);
+//        va_end(args);
+//}
 
 
 int main() {
@@ -70,7 +71,7 @@ int main() {
     USART0_Init();
     stdout = &mystdout;
 //    Printf("Hello, world!\n"); //Непонятное поведение
-//    printf("Hello, world!\n"); //Непонятное поведение
+//    printf("Zello, world!\n"); //Непонятное поведение
 
     // инициализируем стандартный дескриптор
     stdout = &mystdout;
@@ -87,89 +88,8 @@ int main() {
 
     while (1) {
         _delay_ms(5);
-        for (int i = 0; i < 6; ++i) {
-            if (Buttons[i]) { //Если рычаг существует
-                if (checkButton(i))
-                    setLed(i);
-                else
-                    resetLed(i);
+        checkButtons();
 
-                if (butON[i] && butOFF[i]) {
-                    switch (i) {
-                        case 0: {
-                            USART_sendLine("Button 1 pressed\r\n");
-                            //Тут сигнал одиночный о нажатии 1 рычага
-                            signalPressed[i] = 1;
-                        }
-                        break;
-                        case 1: {
-                            USART_sendLine("Button 2 pressed\r\n");
-                            signalPressed[i] = 1;
-                        }
-                        break;
-                        case 2: {
-                            USART_sendLine("Button 3 pressed\r\n");
-                            signalPressed[i] = 1;
-                        }
-                        break;
-                        case 3: {
-                            USART_sendLine("Button 4 pressed\r\n");
-                            signalPressed[i] = 1;
-                        }
-                        break;
-                        case 4: {
-                            USART_sendLine("Button 5 pressed\r\n");
-                            signalPressed[i] = 1;
-                        }
-                        break;
-                        case 5: {
-                            USART_sendLine("Button 6 pressed\r\n");
-                            signalPressed[i] = 1;
-                        }
-                        break;
-                    }
-                    butOFF[i] = 0;
-                }//Сигнал о нажатии рычага
-
-                if (signalPressed[i] && !butON[i]) {
-                    switch (i) {
-                    case 0: {
-                        USART_sendLine("Button 1 relesed\r\n");
-                        signalPressed[i] = 0;
-                    }
-                    break;
-                    case 1: {
-                        USART_sendLine("Button 2 relesed\r\n");
-                        signalPressed[i] = 0;
-                    }
-                    break;
-                    case 2: {
-                        USART_sendLine("Button 3 relesed\r\n");
-                        signalPressed[i] = 0;
-                    }
-                    break;
-                    case 3: {
-                        USART_sendLine("Button 4 relesed\r\n");
-                        signalPressed[i] = 0;
-                    }
-                    break;
-                    case 4: {
-                        USART_sendLine("Button 5 relesed\r\n");
-                        signalPressed[i] = 0;
-                    }
-                    break;
-                    case 5: {
-                        USART_sendLine("Button 6 relesed\r\n");
-                        signalPressed[i] = 0;
-                    }
-                    break;
-                    }
-                }//Сигнал об отпускании рычага
-
-
-
-            }//Если рычаг существует
-        }
     }//while
 }
 
@@ -373,4 +293,90 @@ static void USART_sendChar(char character) {
     loop_until_bit_is_set(UCSR0A, UDRE0);
 //    while ( !( UCSR0A & (1<<UDRE0)));   //Wait for empty transmit buffer
     UDR0 = character;                        //Put data into buffer, sends the data
+}
+
+static void checkButtons(){
+    for (int i = 0; i < 6; ++i) {
+        if (Buttons[i]) { //Если рычаг существует
+            if (checkButton(i))
+                setLed(i);
+            else
+                resetLed(i);
+
+            if (butON[i] && butOFF[i]) {
+                switch (i) {
+                case 0: {
+                    USART_sendLine("Button 1 pressed\r\n");
+                    //Тут сигнал одиночный о нажатии 1 рычага
+                    signalPressed[i] = 1;
+                }
+                break;
+                case 1: {
+                    USART_sendLine("Button 2 pressed\r\n");
+                    signalPressed[i] = 1;
+                }
+                break;
+                case 2: {
+                    USART_sendLine("Button 3 pressed\r\n");
+                    signalPressed[i] = 1;
+                }
+                break;
+                case 3: {
+                    USART_sendLine("Button 4 pressed\r\n");
+                    signalPressed[i] = 1;
+                }
+                break;
+                case 4: {
+                    USART_sendLine("Button 5 pressed\r\n");
+                    signalPressed[i] = 1;
+                }
+                break;
+                case 5: {
+                    USART_sendLine("Button 6 pressed\r\n");
+                    signalPressed[i] = 1;
+                }
+                break;
+                }
+                butOFF[i] = 0;
+            }//Сигналы о нажатии рычага
+
+            if (signalPressed[i] && !butON[i]) {
+                switch (i) {
+                case 0: {
+                    USART_sendLine("Button 1 relesed\r\n");
+                    signalPressed[i] = 0;
+                }
+                break;
+                case 1: {
+                    USART_sendLine("Button 2 relesed\r\n");
+                    signalPressed[i] = 0;
+                }
+                break;
+                case 2: {
+                    USART_sendLine("Button 3 relesed\r\n");
+                    signalPressed[i] = 0;
+                }
+                break;
+                case 3: {
+                    USART_sendLine("Button 4 relesed\r\n");
+                    signalPressed[i] = 0;
+                }
+                break;
+                case 4: {
+                    USART_sendLine("Button 5 relesed\r\n");
+                    signalPressed[i] = 0;
+                }
+                break;
+                case 5: {
+                    USART_sendLine("Button 6 relesed\r\n");
+                    signalPressed[i] = 0;
+                }
+                break;
+                }
+            }//Сигналы об отпускании рычага
+
+
+
+        }//Если рычаг существует
+    }
 }
