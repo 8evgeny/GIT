@@ -22,15 +22,15 @@ bool Buttons[6] = {
     true    //6 рычаг существует
 };
 
-void GPIO_Init(void);
-void USART0_Init(void);
-bool checkButton(int num);
-void setLed(int num);
-void resetLed(int num);
-void TIMER1_Init (void);
-void TIMER3_Init (void);
-unsigned char USART0_Receive(void);
-void USART_sendChar(char character);
-void USART_sendLine(char *string);
-char USART_receiveChar(void);
-void Printf(const char* fmt, ...);
+static void GPIO_Init(void);
+static void USART0_Init(void);
+static bool checkButton(int num);
+static void setLed(int num);
+static void resetLed(int num);
+static void TIMER1_Init (void);
+static void TIMER3_Init (void);
+static unsigned char USART0_Receive(void);
+static void USART_sendChar(char character);
+static void USART_sendLine(char *string);
+static char USART_receiveChar(void);
+static void Printf(const char* fmt, ...);

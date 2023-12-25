@@ -32,11 +32,11 @@ static int uart_putchar(char c, FILE *stream)
 
 
 
-int numLedAlive = 5;
-bool led [6];
-bool butON[6];
-bool butOFF[6];
-bool signalPressed[6];
+static int numLedAlive = 5;
+static bool led [6];
+static bool butON[6];
+static bool butOFF[6];
+static bool signalPressed[6];
 
 static int _write(int fd, char *str, int len) {
     for(int i=0; i<len; i++)
@@ -55,7 +55,7 @@ static int _write(int fd, char *str, int len) {
 //    va_end(args);
 //}
 
-void Printf(const char* fmt, ...) {
+static void Printf(const char* fmt, ...) {
         char buff[512];
         va_list args;
         va_start(args, fmt);
@@ -138,31 +138,31 @@ int main() {
                         signalPressed[i] = 0;
                     }
                     break;
-//                    case 1: {
-//                        USART_sendLine("Button 2 relesed\r\n");
-//                        signalPressed[i] = 0;
-//                    }
+                    case 1: {
+                        USART_sendLine("Button 2 relesed\r\n");
+                        signalPressed[i] = 0;
+                    }
                     break;
-//                    case 2: {
-//                        USART_sendLine("Button 3 relesed\r\n");
-//                        signalPressed[i] = 0;
-//                    }
-//                    break;
-//                    case 3: {
-//                        USART_sendLine("Button 4 relesed\r\n");
-//                        signalPressed[i] = 0;
-//                    }
-//                    break;
-//                    case 4: {
-//                        USART_sendLine("Button 5 relesed\r\n");
-//                        signalPressed[i] = 0;
-//                    }
-//                    break;
-//                    case 5: {
-//                        USART_sendLine("Button 6 relesed\r\n");
-//                        signalPressed[i] = 0;
-//                    }
-//                    break;
+                    case 2: {
+                        USART_sendLine("Button 3 relesed\r\n");
+                        signalPressed[i] = 0;
+                    }
+                    break;
+                    case 3: {
+                        USART_sendLine("Button 4 relesed\r\n");
+                        signalPressed[i] = 0;
+                    }
+                    break;
+                    case 4: {
+                        USART_sendLine("Button 5 relesed\r\n");
+                        signalPressed[i] = 0;
+                    }
+                    break;
+                    case 5: {
+                        USART_sendLine("Button 6 relesed\r\n");
+                        signalPressed[i] = 0;
+                    }
+                    break;
                     }
                 }//Сигнал об отпускании рычага
 
@@ -174,14 +174,14 @@ int main() {
 }
 
 
-void GPIO_Init()
+static void GPIO_Init()
 {
     DDRC = 0b11111100;  //6 светодиодов  PC2 - PC7 инверсия (1 - не горит)
     DDRF = 0b0000000;   //6 рычагов  PF2 - PF7 (предположительно нулем )
     PORTF = 0b11111100; //Подтяжка к 1
     PORTC = 0b11111111;
 }
-bool checkButton(int num){ //0 - 5
+static bool checkButton(int num){ //0 - 5
     switch(num) {
     case 0:
         if (!(PINF & 0b00000100)) {
@@ -248,7 +248,7 @@ bool checkButton(int num){ //0 - 5
     }
     return false;
 }
-void setLed(int num)
+static void setLed(int num)
 {
     switch(num) {
         case 0:
@@ -279,7 +279,7 @@ void setLed(int num)
             break;
     }
 }
-void resetLed(int num)
+static void resetLed(int num)
 {
     switch(num) {
         case 0:
@@ -311,7 +311,7 @@ void resetLed(int num)
     }
 }
 
-void TIMER1_Init (void){
+static void TIMER1_Init (void){
 #if 0
 CSn2 CSn1 CSn0 Description
 0 0 0 No clock source. (Timer/Counter stopped)
@@ -330,46 +330,46 @@ CSn2 CSn1 CSn0 Description
     TCNT1 = 45535; //Первое срабатывание сразу
     TIMSK |= (1 << TOIE1);   // Разрешение прерывания overflow таймера 1
 }
-void TIMER3_Init (void){
+static void TIMER3_Init (void){
     TCCR3B &= ~(1 << CS32);  //CSn2
     TCCR3B |= (1 << CS31); //CSn1
     TCCR3B |= (1 << CS30); //CSn0
     ETIMSK |= (1 << TOIE3);  // Разрешение прерывания overflow таймера 3
 }
-ISR (TIMER1_OVF_vect){
+static ISR (TIMER1_OVF_vect){
     TCNT1 = 0;          //Чем число ближе к 65535  тем быстрее сработает таймер 1 (LED ON)
     setLed(numLedAlive);
     TCNT3 = 0;          //Чем число ближе к 65535  тем быстрее сработает таймер 3 (LED OFF)
 }
-ISR (TIMER3_OVF_vect) {
+static ISR (TIMER3_OVF_vect) {
     resetLed(numLedAlive);
     ++numLedAlive;
     if (numLedAlive == 7)
         numLedAlive = 1;
 }
-void USART0_Init() {
+static void USART0_Init() {
     UBRR0H = (unsigned char) (BRC >> 8);  // порт UART0, скорость = BUAD
     UBRR0L = (unsigned char)  BRC;
 
     UCSR0B |= (1 << TXEN); //разрешение передачи
     UCSR0C |= (1 << UCSZ1) | (1 << UCSZ0); //8 бит
 }
-unsigned char USART0_Receive( void ) {
+static unsigned char USART0_Receive( void ) {
     while ( !(UCSR0A & (1<<RXC0)));         //Wait for data to be received
     return UDR0;                            //Get and return received data from buffer
 }
-void USART_sendLine(char *string) {
+static void USART_sendLine(char *string) {
     while ( *string ) {
 //        uart_putchar(*string, stdout);
         USART_sendChar(*string); // посимвольно отправляем строку
         string++;
     }
 }
-char USART_receiveChar(void) {
+static char USART_receiveChar(void) {
     return ( (UCSR0A >> RXC0) & 1 ) ? UDR0 : 0;  // возвращаем значение буфера приёма
 }
 // Отправка ASCII символа
-void USART_sendChar(char character) {
+static void USART_sendChar(char character) {
     loop_until_bit_is_set(UCSR0A, UDRE0);
 //    while ( !( UCSR0A & (1<<UDRE0)));   //Wait for empty transmit buffer
     UDR0 = character;                        //Put data into buffer, sends the data
