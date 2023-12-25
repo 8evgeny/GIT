@@ -41,7 +41,7 @@ static unsigned char USART0_Receive(void);
 void SPI_Init(void);
 void SPI_WriteByte(uint8_t data);
 void SPI_WriteString(char *string);
-
+void SPI_WriteChar(char data);
 
 static void USART_sendChar(char character);
 static void USART_sendLine(char *string);

@@ -19,7 +19,9 @@ int main() {
     while (1) {
         _delay_ms(10);
         checkButtons();
-        SPI_WriteString("55");
+        SPI_WriteString("Test");
+//        SPI_WriteChar('0');
+//        SPI_WriteChar('0');
     }//while
 }
 
@@ -338,5 +340,14 @@ void SPI_WriteString(char *string) {
         SPI_WriteByte(*string); // посимвольно отправляем строку
         string++;
     }
+}
+void SPI_WriteChar(char data) {
+    PORTB &= ~(1<<SPI_SS);
+    _delay_us(2);
+    SPDR = data;
+    while(!(SPSR & (1<<SPIF))); //подождем пока данные передадутся
+    _delay_us(2);
+    PORTB |= (1<<SPI_SS);
+    _delay_us(5);
 }
 
