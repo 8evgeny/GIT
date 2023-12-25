@@ -320,8 +320,8 @@ void SPI_Init(void) {/*инициализация SPI модуля в режим
    все выводы, кроме MISO выходы*/
     DDRB |= (1<<SPI_MOSI)|(1<<SPI_SCK)|(1<<SPI_SS)|(0<<SPI_MISO);
     //   PORTB |= (1<<SPI_MOSI)|(1<<SPI_SCK)|(1<<SPI_SS)|(1<<SPI_MISO);
-    /*разрешение прерываний и spi,старший бит вперед, мастер, режим 0*/
-    SPCR = /*(1<<SPIE)|*/(1<<SPE)|(0<<DORD)|(1<<MSTR)|(1<<CPOL)|(0<<CPHA)|(0<<SPR1)|(0<<SPR0); //Fclk/4
+    /*разрешение прерываний и spi, LSB, мастер, режим 0*/
+    SPCR = /*(1<<SPIE)|*/(1<<SPE)|(1<<DORD)|(1<<MSTR)|(1<<CPOL)|(0<<CPHA)|(0<<SPR1)|(0<<SPR0); //Fclk/4
     SPSR &= ~(1<<SPI2X);
 }
 void SPI_WriteByte(uint8_t data) {//Передача одного байта данных по SPI
