@@ -9,45 +9,6 @@
 #define F_CPU 4000000UL
 #define BUAD  9600
 #define BRC   ((F_CPU/16/BUAD) - 1)
-#define stdin (__iob[0])
-#define stdout (__iob[1])
-#define stderr (__iob[2])
-#define EOF (-1)
-#define fdev_set_udata(stream, u) do { (stream)->udata = u; } while(0)
-#define fdev_get_udata(stream)   ((stream)->udata)
-#define fdev_setup_stream(stream, put, get, rwflag)
-//#define _FDEV_SETUP_READ __SRD
-//#define _FDEV_SETUP_WRITE __SWR
-//#define _FDEV_SETUP_RW (__SRD|__SWR)
-//#define _FDEV_ERR (-1)
-//#define _FDEV_EOF (-2)
-//#define FDEV_SETUP_STREAM(put, get, rwflag)
-//#define fdev_close()
-//#define putc(__c, __stream) fputc(__c, __stream)
-//#define putchar(__c) fputc(__c, stdout)
-//#define getc(__stream) fgetc(__stream)
-//#define getchar() fgetc(stdin)
-//#define BUFSIZ 1024
-//#define _IONBF 0
-//#define fdev_get_udata ( stream )  ((stream)->udata)
-//#define fdev_set_udata ( stream,
-//                         u
-//                       ) do { (stream)->udata = u; } while(0)
-//#define fdev_setup_stream ( stream,
-//                            put,
-//                            get,
-//                            rwflag
-//                          )
-//#define FDEV_SETUP_STREAM  ( put,
-//                             get,
-//                             rwflag
-//                           )
-//*#define getc ( __stream ) fgetc(__stream)
-//#define getchar ( void ) fgetc(st*/din)
-//#define putc ( __c,
-//               __stream
-//             ) fputc(__c, __stream)
-//#define putchar ( __c ) fputc(__c, stdout)
 
 static bool Buttons[6] = {
     true,   //1 рычаг существует
@@ -57,7 +18,12 @@ static bool Buttons[6] = {
     true,   //5 рычаг существует
     true    //6 рычаг существует
 };
-
+static int uart_putchar(char c, FILE *stream);
+static FILE mystdout = FDEV_SETUP_STREAM(
+    uart_putchar,     // функция вывода символа
+    NULL,           // функция ввода символа, нам сейчас не нужна
+    _FDEV_SETUP_WRITE // флаги потока - только вывод
+    );
 static void GPIO_Init(void);
 static void USART0_Init(void);
 static bool checkButton(int num);
