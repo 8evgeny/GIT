@@ -10,6 +10,8 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}\
     -mmcu=atmega128 -DDEBUG -O3 -fdata-sections -ffunction-sections -fpack-struct -fshort-enums \
     -Wmissing-prototypes -Werror-implicit-function-declaration -Wpointer-arith  \
     -g3 -Wall -std=gnu99 -mrelax  -fno-strict-aliasing -Wstrict-prototypes -Wl,-u,vfprintf -lprintf_flt -lm \
+    -Wno-unused-function \
+    -Wno-attributes \
     ")
 
 include_directories(Inc /usr/lib/avr/lib)

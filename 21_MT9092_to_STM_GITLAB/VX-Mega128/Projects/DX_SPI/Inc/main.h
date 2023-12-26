@@ -44,9 +44,9 @@ void SPI_WriteByte(uint8_t data);
 void SPI_WriteString(char *string);
 void SPI_WriteChar(char data);
 uint8_t SPI_WriteReadByte(uint8_t writeData);
-
+int main(void);
 static void USART_sendChar(char character);
 static void USART_sendLine(char *string);
 static char USART_receiveChar(void);
-static void Printf(const char* fmt, ...);
-static void checkButtons();
+//static void Printf(const char* fmt, ...);
+static void checkButtons(void);

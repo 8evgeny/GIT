@@ -18,6 +18,7 @@ int main() {
     _delay_ms(7000);
     while (1) {
         checkButtons();
+        //Пытаюсь воспроизвести начальную последовательность байт
         SPI_WriteByte(0x1E);    _delay_us(18);
         SPI_WriteByte(0x80);    _delay_us(148);
         SPI_WriteByte(0x1E);    _delay_us(18);
