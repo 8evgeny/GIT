@@ -15,13 +15,18 @@ int main() {
 //    SetupTIMER1(); не работает
 //    SetupTIMER3();
 //    sei();
-
+    _delay_ms(7000);
     while (1) {
-        _delay_ms(10);
         checkButtons();
-        SPI_WriteString("Test");
-//        SPI_WriteChar('0');
-//        SPI_WriteChar('0');
+        SPI_WriteByte(0x1E);    _delay_us(18);
+        SPI_WriteByte(0x80);    _delay_us(148);
+        SPI_WriteByte(0x1E);    _delay_us(18);
+        SPI_WriteByte(0x00);    _delay_us(336);
+        SPI_WriteByte(0x1E);    _delay_us(18);
+        SPI_WriteByte(0x40);    _delay_us(38);
+        SPI_WriteByte(0x1F);    _delay_us(19);
+        SPI_WriteByte(0x00);    _delay_us(650);
+        _delay_ms(1000);
     }//while
 }
 
@@ -350,4 +355,14 @@ void SPI_WriteChar(char data) {
     PORTB |= (1<<SPI_SS);
     _delay_us(5);
 }
+uint8_t SPI_WriteReadByte(uint8_t writeData) {//Передача и прием одного байта данных по SPI
+    uint8_t readData;
+    PORTB &= ~(1<<SPI_SS);
+    SPDR = writeData;
+    while(!(SPSR & (1<<SPIF)));
+    readData = SPDR;
+    PORTB |= (1<<SPI_SS);
+    return readData;
+}
+
 

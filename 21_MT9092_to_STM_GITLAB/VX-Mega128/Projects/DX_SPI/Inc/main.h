@@ -1,4 +1,5 @@
 #pragma once
+#define F_CPU 4000000UL //должно быть раньше #include <util/delay.h>
 #include <avr/io.h>
 #include <avr/iom128.h>
 #include <util/delay.h>
@@ -6,7 +7,7 @@
 #include <stdbool.h>
 #include <avr/pgmspace.h>
 #include "stdio.h"
-#define F_CPU 4000000UL
+
 #define BUAD  9600
 #define BRC   ((F_CPU/16/BUAD) - 1)
 
@@ -42,6 +43,7 @@ void SPI_Init(void);
 void SPI_WriteByte(uint8_t data);
 void SPI_WriteString(char *string);
 void SPI_WriteChar(char data);
+uint8_t SPI_WriteReadByte(uint8_t writeData);
 
 static void USART_sendChar(char character);
 static void USART_sendLine(char *string);
