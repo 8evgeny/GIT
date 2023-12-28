@@ -1,6 +1,8 @@
 ; Светодиодная мигалка на микроконтроллере ATmega8
 ; https://ph0en1x.net
 
+;.include "m128def.inc"
+
 ;.INCLUDEPATH "/usr/share/avra/" ; путь для подгрузки INC файлов
 .INCLUDE "/usr/share/avra/m128def.inc"            ; загрузка предопределений для ATmega128
 .LIST                           ; включить генерацию листинга
