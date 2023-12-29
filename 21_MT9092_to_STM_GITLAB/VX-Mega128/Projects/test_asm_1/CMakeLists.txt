@@ -23,7 +23,8 @@ add_custom_command(TARGET fake_c POST_BUILD
     COMMENT "Building ${HEX_FILE} ")
 
 add_custom_command(TARGET fake_c POST_BUILD
-    COMMAND avra ${CMAKE_BINARY_DIR}/blink.asm
+#    COMMAND avra ${CMAKE_BINARY_DIR}/blink.asm
+    COMMAND ${CMAKE_SOURCE_DIR}/../gavrasm_lin_x86_64/gavrasm ${CMAKE_BINARY_DIR}/blink.asm
     COMMENT "Building ${HEX_FILE} ")
 
 add_custom_command(TARGET fake_c POST_BUILD
