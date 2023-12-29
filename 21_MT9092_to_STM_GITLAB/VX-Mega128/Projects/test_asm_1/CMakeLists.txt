@@ -19,17 +19,17 @@ add_executable(fake_c ${src})
 
 
 add_custom_command(TARGET fake_c POST_BUILD
-    COMMAND cp ${CMAKE_SOURCE_DIR}/blink.asm ${CMAKE_BINARY_DIR}/blink.asm
+    COMMAND cp ${CMAKE_SOURCE_DIR}/${nameFirmware}.asm ${CMAKE_BINARY_DIR}/${nameFirmware}.asm
     COMMENT "Building ${HEX_FILE} ")
 
 add_custom_command(TARGET fake_c POST_BUILD
-#    COMMAND avra ${CMAKE_BINARY_DIR}/blink.asm
-    COMMAND ${CMAKE_SOURCE_DIR}/../gavrasm_lin_x86_64/gavrasm ${CMAKE_BINARY_DIR}/blink.asm
+#    COMMAND avra ${CMAKE_BINARY_DIR}/${nameFirmware}.asm
+    COMMAND ${CMAKE_SOURCE_DIR}/../gavrasm_lin_x86_64/gavrasm ${CMAKE_BINARY_DIR}/${nameFirmware}.asm
     COMMENT "Building ${HEX_FILE} ")
 
-add_custom_command(TARGET fake_c POST_BUILD
-    COMMAND avrdude -p m128 -c usbasp -B 4 -P usb -U flash:w:"${CMAKE_BINARY_DIR}/blink.hex":a
-    COMMENT "Write Flash ")
+#add_custom_command(TARGET fake_c POST_BUILD
+#    COMMAND avrdude -p m128 -c usbasp -B 4 -P usb -U flash:w:"${CMAKE_BINARY_DIR}/${nameFirmware}.hex":a
+#    COMMENT "Write Flash ")
 
 
 
