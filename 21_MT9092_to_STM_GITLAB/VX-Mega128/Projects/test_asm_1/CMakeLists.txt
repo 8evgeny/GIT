@@ -17,28 +17,17 @@ include_directories(/usr/share/avra)
 file(GLOB  src  *.c)
 add_executable(fake_c ${src})
 
-#set(HEX_FILE ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.hex)
-#set(BIN_FILE ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.bin)
 
 add_custom_command(TARGET fake_c POST_BUILD
-    COMMAND avra ${CMAKE_SOURCE_DIR}/blink.asm
+    COMMAND cp ${CMAKE_SOURCE_DIR}/blink.asm ${CMAKE_BINARY_DIR}/blink.asm
     COMMENT "Building ${HEX_FILE} ")
 
-#add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-#    COMMAND ${CMAKE_OBJCOPY} -O ihex $<TARGET_FILE:${PROJECT_NAME}> ${HEX_FILE}
-#    COMMENT "Building ${HEX_FILE} ")
-
-
-#add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-#    COMMAND ${CMAKE_OBJCOPY} -O ihex $<TARGET_FILE:${PROJECT_NAME}> ${HEX_FILE}
-#    COMMENT "Building ${HEX_FILE} ")
-
-#add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-#    COMMAND ${CMAKE_OBJCOPY} -O binary $<TARGET_FILE:${PROJECT_NAME}> ${BIN_FILE}
-#    COMMENT "Building ${BIN_FILE} ")
+add_custom_command(TARGET fake_c POST_BUILD
+    COMMAND avra ${CMAKE_BINARY_DIR}/blink.asm
+    COMMENT "Building ${HEX_FILE} ")
 
 add_custom_command(TARGET fake_c POST_BUILD
-    COMMAND avrdude -p m128 -c usbasp -B 4 -P usb -U flash:w:"/home/evg/SOFT/Github/GIT/21_MT9092_to_STM_GITLAB/VX-Mega128/Projects/test_asm_1/blink.hex":a
+    COMMAND avrdude -p m128 -c usbasp -B 4 -P usb -U flash:w:"${CMAKE_BINARY_DIR}/blink.hex":a
     COMMENT "Write Flash ")
 
 
