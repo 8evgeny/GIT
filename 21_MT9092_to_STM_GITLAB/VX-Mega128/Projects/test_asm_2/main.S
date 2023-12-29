@@ -6,9 +6,9 @@
 ; |                       Think-Cell Operations GmbH                        |
 ; +-------------------------------------------------------------------------+
 ;
-; Input SHA256 : 437728C9C9044BC1EB70657C3EEE7C1FC845E4DF13B69D9D9EADCE2F4D0B5408
-; Input MD5    : 486A6A77E0C4B8238E516AC8457D364B
-; Input CRC32  : 7AB99EBA
+; Input SHA256 : 6DC30967B9F07335ACD19D073F09075CBAF70762D65409B3574E3DA21FA33E74
+; Input MD5    : B4A453B89D3FA0D51F2A594DA2CCACE4
+; Input CRC32  : 3F767566
 
 ; File Name   : Z:\GIT\21_MT9092_to_STM_GITLAB\VX-Mega128\Projects\Simple_for_IDA_PRO\build\test_IDA.hex
 ; Format      : Intel Hex Object Format
@@ -25,7 +25,7 @@
 ; ===========================================================================
 
 ; Segment type: Pure code
-.CSEG ; ROM
+;.CSEG ; ROM
                 .org 0                  ; CODE XREF: SPM_READY↓j
 
 ; =============== S U B R O U T I N E =======================================
@@ -35,145 +35,6 @@ SPM_READY_0:
                 rjmp    __RESET         ; External Pin, Power-on Reset, Brown-out Reset, Watchdog Reset, and JTAG AVR Reset
 ; End of function SPM_READY_0
 
-; ---------------------------------------------------------------------------
-                nop
-                .org 2
-                rjmp    SPM_READY       ; Store Program Memory Ready
-; ---------------------------------------------------------------------------
-                nop
-                .org 4
-                rjmp    SPM_READY       ; Store Program Memory Ready
-; ---------------------------------------------------------------------------
-                nop
-                .org 6
-                rjmp    SPM_READY       ; Store Program Memory Ready
-; ---------------------------------------------------------------------------
-                nop
-                .org 8
-                rjmp    SPM_READY       ; Store Program Memory Ready
-; ---------------------------------------------------------------------------
-                nop
-                .org 0xA
-                rjmp    SPM_READY       ; Store Program Memory Ready
-; ---------------------------------------------------------------------------
-                nop
-                .org 0xC
-                rjmp    SPM_READY       ; Store Program Memory Ready
-; ---------------------------------------------------------------------------
-                nop
-                .org 0xE
-                rjmp    SPM_READY       ; Store Program Memory Ready
-; ---------------------------------------------------------------------------
-                nop
-                .org 0x10
-                rjmp    SPM_READY       ; Store Program Memory Ready
-; ---------------------------------------------------------------------------
-                nop
-                .org 0x12
-                rjmp    SPM_READY       ; Store Program Memory Ready
-; ---------------------------------------------------------------------------
-                nop
-                .org 0x14
-                rjmp    SPM_READY       ; Store Program Memory Ready
-; ---------------------------------------------------------------------------
-                nop
-                .org 0x16
-                rjmp    SPM_READY       ; Store Program Memory Ready
-; ---------------------------------------------------------------------------
-                nop
-                .org 0x18
-                rjmp    SPM_READY       ; Store Program Memory Ready
-; ---------------------------------------------------------------------------
-                nop
-                .org 0x1A
-                rjmp    SPM_READY       ; Store Program Memory Ready
-; ---------------------------------------------------------------------------
-                nop
-                .org 0x1C
-                rjmp    SPM_READY       ; Store Program Memory Ready
-; ---------------------------------------------------------------------------
-                nop
-                .org 0x1E
-                rjmp    SPM_READY       ; Store Program Memory Ready
-; ---------------------------------------------------------------------------
-                nop
-                .org 0x20
-                rjmp    SPM_READY       ; Store Program Memory Ready
-; ---------------------------------------------------------------------------
-                nop
-                .org 0x22
-                rjmp    SPM_READY       ; Store Program Memory Ready
-; ---------------------------------------------------------------------------
-                nop
-                .org 0x24
-                rjmp    SPM_READY       ; Store Program Memory Ready
-; ---------------------------------------------------------------------------
-                nop
-                .org 0x26
-                rjmp    SPM_READY       ; Store Program Memory Ready
-; ---------------------------------------------------------------------------
-                nop
-                .org 0x28
-                rjmp    SPM_READY       ; Store Program Memory Ready
-; ---------------------------------------------------------------------------
-                nop
-                .org 0x2A
-                rjmp    SPM_READY       ; Store Program Memory Ready
-; ---------------------------------------------------------------------------
-                nop
-                .org 0x2C
-                rjmp    SPM_READY       ; Store Program Memory Ready
-; ---------------------------------------------------------------------------
-                nop
-                .org 0x2E
-                rjmp    SPM_READY       ; Store Program Memory Ready
-; ---------------------------------------------------------------------------
-                nop
-                .org 0x30
-                rjmp    SPM_READY       ; Store Program Memory Ready
-; ---------------------------------------------------------------------------
-                nop
-                .org 0x32
-                rjmp    SPM_READY       ; Store Program Memory Ready
-; ---------------------------------------------------------------------------
-                nop
-                .org 0x34
-                rjmp    SPM_READY       ; Store Program Memory Ready
-; ---------------------------------------------------------------------------
-                nop
-                .org 0x36
-                rjmp    SPM_READY       ; Store Program Memory Ready
-; ---------------------------------------------------------------------------
-                nop
-                .org 0x38
-                rjmp    SPM_READY       ; Store Program Memory Ready
-; ---------------------------------------------------------------------------
-                nop
-                .org 0x3A
-                rjmp    SPM_READY       ; Store Program Memory Ready
-; ---------------------------------------------------------------------------
-                nop
-                .org 0x3C
-                rjmp    SPM_READY       ; Store Program Memory Ready
-; ---------------------------------------------------------------------------
-                nop
-                .org 0x3E
-                rjmp    SPM_READY       ; Store Program Memory Ready
-; ---------------------------------------------------------------------------
-                nop
-                .org 0x40
-                rjmp    SPM_READY       ; Store Program Memory Ready
-; ---------------------------------------------------------------------------
-                nop
-                .org 0x42
-                rjmp    SPM_READY       ; Store Program Memory Ready
-; ---------------------------------------------------------------------------
-                nop
-                .org 0x44
-                rjmp    SPM_READY       ; Store Program Memory Ready
-; ---------------------------------------------------------------------------
-                nop
-
 ; =============== S U B R O U T I N E =======================================
 
 ; External Pin, Power-on Reset, Brown-out Reset, Watchdog Reset, and JTAG AVR Reset
@@ -181,7 +42,7 @@ SPM_READY_0:
                 ; public __RESET
 __RESET:                                ; CODE XREF: SPM_READY_0↑j
 
-; FUNCTION CHUNK AT 0083 SIZE 00000002 BYTES
+; FUNCTION CHUNK AT ROM:0063 SIZE 00000002 BYTES
 
                 clr     r1
                 out     SREG, r1        ; Status Register
@@ -189,8 +50,8 @@ __RESET:                                ; CODE XREF: SPM_READY_0↑j
                 ldi     YH, 0x10
                 out     SPH, YH         ; Stack Pointer Register High
                 out     SPL, YL         ; Stack Pointer Register Low
-                rcall   sub_4F
-                rjmp    loc_83
+                rcall   main
+                rjmp    loc_63
 ; End of function __RESET
 
 ; [00000001 BYTES: COLLAPSED FUNCTION SPM_READY. PRESS CTRL-NUMPAD+ TO EXPAND]
@@ -198,97 +59,84 @@ __RESET:                                ; CODE XREF: SPM_READY_0↑j
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_4F:                                 ; CODE XREF: __RESET+6↑p
-                sbi     DDRD, DDD1      ; Port D Data Direction Register
-                sbi     DDRD, DDD2      ; Port D Data Direction Register
-                cbi     DDRD, DDD0      ; Port D Data Direction Register
-                ldi     r18, 6
+; int __cdecl main(int argc, const char **argv, const char **envp)
+main:                                   ; CODE XREF: __RESET+6↑p
+                ldi     r24, 6
+                out     DDRD, r24       ; Port D Data Direction Register
 
-loc_53:                                 ; CODE XREF: sub_4F+1E↓j
-                                        ; sub_4F+33↓j
-                in      r24, PIND       ; Port D Input Pins Address
-                ldi     r25, 0
-                ori     r24, 0xFE
-                ori     r25, 0xFF
-                adiw    r24:r25, 1
-                breq    loc_6E
-                out     PORTD, r18      ; Port D Data Register
-                ser     r24
-                ldi     r25, 0x7F
-                ldi     r19, 4
+loc_51:                                 ; CODE XREF: main+13↓j
+                out     PORTD, r24      ; Port D Data Register
+                ser     ZL
+                ldi     ZH, 0x8F
 
-loc_5D:                                 ; CODE XREF: sub_4F+11↓j
-                subi    r24, 1
-                sbci    r25, 0
-                sbci    r19, 0
-                brne    loc_5D
-                rjmp    loc_62
+loc_54:                                 ; CODE XREF: main+6↓j
+                sbiw    Z, 1
+                brne    loc_54
+                rjmp    loc_57
 ; ---------------------------------------------------------------------------
 
-loc_62:                                 ; CODE XREF: sub_4F+12↑j
+loc_57:                                 ; CODE XREF: main+7↑j
                 nop
                 out     PORTD, r1       ; Port D Data Register
-                ser     r24
-                ldi     r25, 0x7F
-                ldi     r19, 0x16
+                ser     ZH
+                ser     r18
+                ldi     r19, 0x59 ; 'Y'
 
-loc_67:                                 ; CODE XREF: sub_4F+1B↓j
-                subi    r24, 1
-                sbci    r25, 0
+loc_5C:                                 ; CODE XREF: main+10↓j
+                subi    ZH, 1
+                sbci    r18, 0
                 sbci    r19, 0
-                brne    loc_67
-                rjmp    loc_6C
+                brne    loc_5C
+                rjmp    loc_61
 ; ---------------------------------------------------------------------------
 
-loc_6C:                                 ; CODE XREF: sub_4F+1C↑j
+loc_61:                                 ; CODE XREF: main+11↑j
                 nop
-                rjmp    loc_53
-; ---------------------------------------------------------------------------
-
-loc_6E:                                 ; CODE XREF: sub_4F+9↑j
-                out     PORTD, r18      ; Port D Data Register
-                ser     r24
-                ldi     r25, 0x7F
-                ldi     r19, 4
-
-loc_72:                                 ; CODE XREF: sub_4F+26↓j
-                subi    r24, 1
-                sbci    r25, 0
-                sbci    r19, 0
-                brne    loc_72
-                rjmp    loc_77
-; ---------------------------------------------------------------------------
-
-loc_77:                                 ; CODE XREF: sub_4F+27↑j
-                nop
-                out     PORTD, r1       ; Port D Data Register
-                ser     r24
-                ldi     r25, 0x7F
-                ldi     r19, 4
-
-loc_7C:                                 ; CODE XREF: sub_4F+30↓j
-                subi    r24, 1
-                sbci    r25, 0
-                sbci    r19, 0
-                brne    loc_7C
-                rjmp    loc_81
-; ---------------------------------------------------------------------------
-
-loc_81:                                 ; CODE XREF: sub_4F+31↑j
-                nop
-                rjmp    loc_53
-; End of function sub_4F
+                rjmp    loc_51
+; End of function main
 
 ; ---------------------------------------------------------------------------
 ; START OF FUNCTION CHUNK FOR __RESET
 
-loc_83:                                 ; CODE XREF: __RESET+7↑j
+loc_63:                                 ; CODE XREF: __RESET+7↑j
                 cli
 
-loc_84:                                 ; CODE XREF: __RESET:loc_84↓j
-                rjmp    loc_84
+loc_64:                                 ; CODE XREF: __RESET:loc_64↓j
+                rjmp    loc_64
 ; END OF FUNCTION CHUNK FOR __RESET
 ; ---------------------------------------------------------------------------
+                .byte 1
+                .byte 1
+                .byte 1
+                .byte 1
+                .byte 1
+                .byte 1
+                .byte 1
+                .byte 1
+                .byte 1
+                .byte 1
+                .byte 1
+                .byte 1
+                .byte 1
+                .byte 1
+                .byte 1
+                .byte 1
+                .byte 1
+                .byte 1
+                .byte 1
+                .byte 1
+                .byte 1
+                .byte 1
+                .byte 1
+                .byte 1
+                .byte 1
+                .byte 1
+                .byte 1
+                .byte 1
+                .byte 1
+                .byte 1
+                .byte 1
+                .byte 1
                 .byte 1
                 .byte 1
                 .byte 1
@@ -65696,7 +65544,7 @@ loc_84:                                 ; CODE XREF: __RESET:loc_84↓j
 ; ===========================================================================
 
 ; Segment type: Pure data
-.DSEG ; RAM
+;.DSEG ; RAM
 r0:             .byte 1
 r1:             .byte 1
 r2:             .byte 1
@@ -65745,13 +65593,11 @@ UDR0:           .byte 1                 ; USART I/O Data Register
 SPCR:           .byte 1                 ; SPI Control Register
 SPSR:           .byte 1                 ; SPI Status Register
 SPDR:           .byte 1                 ; SPI Data Register
-PIND:           .byte 1                 ; DATA XREF: sub_4F:loc_53↑r
-                                        ; Port D Input Pins Address
-DDRD:           .byte 1                 ; DATA XREF: sub_4F↑r
-                                        ; sub_4F+1↑r ...
+PIND:           .byte 1                 ; Port D Input Pins Address
+DDRD:           .byte 1                 ; DATA XREF: main+1↑r
                                         ; Port D Data Direction Register
-PORTD:          .byte 1                 ; DATA XREF: sub_4F+A↑r
-                                        ; sub_4F+14↑r ...
+PORTD:          .byte 1                 ; DATA XREF: main:loc_51↑r
+                                        ; main+9↑r
                                         ; Port D Data Register
 PINC:           .byte 1                 ; Port C Input Pins Address
 DDRC:           .byte 1                 ; Port C Data Direction Register
@@ -69802,3 +69648,4 @@ SREG:           .byte 1                 ; DATA XREF: __RESET+1↑r
                 .byte 1
                 .byte 1
 
+;                .exit ;

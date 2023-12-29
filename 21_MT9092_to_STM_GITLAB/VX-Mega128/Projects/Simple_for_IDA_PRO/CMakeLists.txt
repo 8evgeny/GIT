@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.5)
 
 set(CMAKE_OBJCOPY /usr/bin/avr-objcopy)
-
+set(CMAKE_OBJDUMP /usr/bin/avr-objdump)
 set(nameFirmware test_IDA)
 project(${nameFirmware} LANGUAGES C)
 add_definitions(-D__AVR_ATmega128__)
@@ -27,7 +27,24 @@ add_custom_command(TARGET ${nameFirmware} POST_BUILD
     COMMENT "Building ${BIN_FILE} ")
 
 add_custom_command(TARGET ${nameFirmware} POST_BUILD
+    COMMAND ${CMAKE_OBJDUMP} -m avr:51 -d $<TARGET_FILE:${nameFirmware}> > ${nameFirmware}.dis
+    COMMENT "Disassembling executable section ")
+
+add_custom_command(TARGET ${nameFirmware} POST_BUILD
+    COMMAND ${CMAKE_OBJDUMP} -m avr:51 -D $<TARGET_FILE:${nameFirmware}> > ${nameFirmware}.dis_all
+    COMMENT "Disassembling all section ")
+
+add_custom_command(TARGET ${nameFirmware} POST_BUILD
+    COMMAND ${CMAKE_OBJDUMP} -m avr:51 -s $<TARGET_FILE:${nameFirmware}> > ${nameFirmware}.full_content
+    COMMENT "Display the full contents of all sections ")
+
+add_custom_command(TARGET ${nameFirmware} POST_BUILD
+    COMMAND ${CMAKE_OBJDUMP} -m avr:51 -t $<TARGET_FILE:${nameFirmware}> > ${nameFirmware}.symb_tabs
+    COMMENT "Display the contents of the symbol table(s) ")
+
+add_custom_command(TARGET ${nameFirmware} POST_BUILD
     COMMAND avrdude -p m128 -c usbasp -B 10 -P usb -U flash:w:"/home/evg/SOFT/Github/GIT/21_MT9092_to_STM_GITLAB/VX-Mega128/Projects/Simple_for_IDA_PRO/build/${nameFirmware}.hex":a
     COMMENT "Write Flash ")
 
-#Usbasp
+#avr-objdump -m avr:51 -D test_IDA.hex
+

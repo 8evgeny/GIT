@@ -20,14 +20,20 @@ add_executable(${PROJECT_NAME} ${src})
 include_directories(src)
 
 set(HEX_FILE ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.hex)
+set(HEX_FILE_ASM ${CMAKE_BINARY_DIR}/main.hex)
 set(BIN_FILE ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.bin)
 
 add_custom_command(TARGET ${PROJECT_NAME} PRE_BUILD
-    COMMAND avr-as -mmcu=atmega128 src/main.S
-    COMMENT "Write Flash ")
+    COMMAND avr-as -mmcu=atmega128 ${CMAKE_SOURCE_DIR}/main.S -o ${CMAKE_BINARY_DIR}/main
+#    COMMAND avra ${CMAKE_SOURCE_DIR}/main.S
+    COMMENT "Assembler ")
 
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
     COMMAND ${CMAKE_OBJCOPY} -O ihex $<TARGET_FILE:${PROJECT_NAME}> ${HEX_FILE}
+    COMMENT "Building ${HEX_FILE} ")
+
+add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+    COMMAND ${CMAKE_OBJCOPY} -O ihex /home/evg/SOFT/Github/GIT/21_MT9092_to_STM_GITLAB/VX-Mega128/Projects/test_asm_2/build/main ${HEX_FILE_ASM}
     COMMENT "Building ${HEX_FILE} ")
 
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
@@ -35,9 +41,11 @@ add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
     COMMENT "Building ${BIN_FILE} ")
 
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-    COMMAND avrdude -p m128 -c usbasp -B 4 -P usb -U flash:w:"/home/evg/SOFT/Github/GIT/21_MT9092_to_STM_GITLAB/VX-Mega128/Projects/test_SPI/build/${nameFirmware}.hex":a
+    COMMAND avrdude -p m128 -c usbasp -B 4 -P usb -U flash:w:"/home/evg/SOFT/Github/GIT/21_MT9092_to_STM_GITLAB/VX-Mega128/Projects/test_asm_2/build/${nameFirmware}.hex":a
     COMMENT "Write Flash ")
 
-
+#add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+#    COMMAND avrdude -p m128 -c usbasp -B 4 -P usb -U flash:w:"/home/evg/SOFT/Github/GIT/21_MT9092_to_STM_GITLAB/VX-Mega128/Projects/test_asm_2/build/main.hex":a
+#    COMMENT "Write Flash ")
 #avr-as -mmcu=attiny13a -o Temp\00.o Source\00.asm
 
