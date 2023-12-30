@@ -1,3 +1,4 @@
+#Светодиодная мигалка  макроассемблер  avra  или gavrasm
 cmake_minimum_required(VERSION 3.5)
 
 set(CMAKE_OBJCOPY /usr/bin/avr-objcopy)
