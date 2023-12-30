@@ -4,7 +4,7 @@
 ;.include "m128def.inc"
 
 ;.INCLUDEPATH "/usr/share/avra/" ; путь для подгрузки INC файлов
-.include "/usr/share/avra/m128def.inc"            ; загрузка предопределений для ATmega128
+.include "/usr/share/avra/m128def.inc"
 .list                          ; включить генерацию листинга
 
 .cseg                           ; начало сегмента кода

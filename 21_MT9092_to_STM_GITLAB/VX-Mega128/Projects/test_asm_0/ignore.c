@@ -1,3 +1,4 @@
+//Нех из asm  файла  - см CMake
 #include <avr/io.h>
 #include <avr/iom128.h>
 #define F_CPU 14745600UL

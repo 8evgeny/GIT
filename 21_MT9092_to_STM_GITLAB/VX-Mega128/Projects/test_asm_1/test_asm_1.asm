@@ -15,14 +15,13 @@
 
 ; Processor       : AVR [ATmega128_L]
 ; Target assembler: AVR Assembler
-.equ XL = 26
-.equ XH = 27
-.equ YL = 28
-.equ YH = 29
-.equ ZL = 30
-.equ ZH = 31
+.equ XL, 26
+.equ XH, 27
+.equ YL, 28
+.equ YH, 29
+.equ ZL, 30
+.equ ZH, 31
 
-.include "/usr/share/avra/m128def.inc"            ; загрузка предопределений для ATmega128
 ;.MACRO SUBI16 ; Start macro definition
 ;subi @1,low(@0) ; Subtract low byte
 ;sbci @2,high(@0) ; Subtract high byte
@@ -33,7 +32,7 @@
 ; ===========================================================================
 
 ; Segment type: Pure code
-.CSEG ; ROM
+;.CSEG ; ROM
                 .org 0                  ; CODE XREF: SPM_READY↓j
 
 ; =============== S U B R O U T I N E =======================================
@@ -253,4 +252,4 @@ loc_64:                                 ; CODE XREF: __RESET:loc_64↓j
 ; END OF FUNCTION CHUNK FOR __RESET
 ; ---------------------------------------------------------------------------
 
-                .exit ;
+;                .exit ;
