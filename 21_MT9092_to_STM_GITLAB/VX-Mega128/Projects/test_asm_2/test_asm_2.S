@@ -4,9 +4,19 @@
 .equ	PD1, 1
 .equ	PD2, 2
 
+.equ XL, 26
+.equ XH, 27
+.equ YL, 28
+.equ YH, 29
+.equ ZL, 30
+.equ ZH, 31
+.equ SPL, 0x3D
+.equ SPH, 0x3E
+.equ SREG, 0x3F
+
 .org 0x00 ; начало
 #include <avr/io.h>
-vectors:
+interrupt:
         rjmp	reset   	; 0x8c <__ctors_end>
         nop
         rjmp	interrupt    	; 0x9c <__bad_interrupt>
@@ -86,9 +96,6 @@ reset:
         out	0x3d, r28	; 61
         rcall	main     	; 0x9e <main>
         rjmp	exit     	; 0xe0 <_exit>
-
-interrupt:
-        rjmp	vectors    	; 0x0 <__vectors>
 
 main:
         sbi     _SFR_IO_ADDR(DDRD), PD1;   порт PD1,2 на передачу
