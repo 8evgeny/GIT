@@ -6,8 +6,8 @@ LD=avr-ld
 SIZE=avr-size
 CFLAGS=-mmcu=$(MCU) -Wall
 LDFLAGS=-g -mavr51
-OBJ=main.o
-TARGET=blink
+OBJ=test_asm_2.o
+TARGET=test_asm_2
 .PHONY: all clean
 
 %.o:	%.S
@@ -19,4 +19,5 @@ all:	$(OBJ)
 install:
 		avrdude -p m128 -c usbasp -B 4 -P usb -U flash:w:"$(TARGET).hex":a
 clean:
-		@rm -v $(TARGET).elf $(TARGET).hex $(OBJ)
+		@rm -v $(TARGET).elf $(OBJ)
+#		@rm -v $(TARGET).hex

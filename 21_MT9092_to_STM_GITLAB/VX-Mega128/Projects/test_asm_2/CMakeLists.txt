@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 3.5)
 
 set(CMAKE_OBJCOPY /usr/bin/avr-objcopy)
 set(CMAKE_OBJDUMP /usr/bin/avr-objdump)
-set(nameFirmware main)
+set(nameFirmware test_asm_2)
 project(${nameFirmware} LANGUAGES C ASM)
 
 #SET(ASM_OPTIONS "-x assembler-with-cpp")
@@ -20,6 +20,7 @@ file(GLOB  src  *.c)
 add_executable(${PROJECT_NAME} ${src})
 
 set(DISASS_FILE ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.disass)
+set(DISASS_FILE_ASM ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.dis)
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
     COMMAND ${CMAKE_OBJDUMP} -d $<TARGET_FILE:${PROJECT_NAME}> > ${DISASS_FILE}
     COMMENT "Disassemling c to avr-gcc asm ${HEX_FILE} ")
@@ -30,9 +31,12 @@ add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD COMMAND cp ${CMAKE_SOURCE_D
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD COMMAND make all
     COMMENT "make all")
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+    COMMAND ${CMAKE_OBJDUMP} -m avr -D ${CMAKE_BINARY_DIR}/${nameFirmware}.hex > ${DISASS_FILE_ASM}
+    COMMENT "Disassemling control ")
+add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
     COMMAND make install
     COMMENT "make install ")
-#add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-#    COMMAND make clean
-#    COMMENT "make clean ")
+add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+    COMMAND make clean
+    COMMENT "make clean ")
 
