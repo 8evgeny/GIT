@@ -4,6 +4,7 @@
 #include <util/delay.h>
 //#include <avr/interrupt.h>
 
+void sleep(void);
 int main(void)
 {
 //    DDRD |= ( 1 << 1 );
@@ -23,11 +24,16 @@ int main(void)
 //         else
 //         {
              PORTD = 0b00000110;
-             _delay_ms(10);
+             sleep();
              PORTD = 0b00000000;
-             _delay_ms(2000);
+             sleep();;
 //         }
 
      }
 //    PORTD = 0b00000100;
+}
+
+void sleep(void)
+{
+    _delay_ms(1000);
 }
