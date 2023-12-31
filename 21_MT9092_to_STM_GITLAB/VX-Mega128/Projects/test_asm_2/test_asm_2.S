@@ -89,11 +89,11 @@ interrupt:
 
 reset:
         eor	r1, r1
-        out	0x3f, r1	; 63 /* 0x3F SREG */
+        out	_SFR_IO_ADDR(SREG), r1	; 63 /* 0x3F SREG */
         ldi	r28, 0xFF	; 255
         ldi	r29, 0x10	; 16
-        out	0x3e, r29	; 62 /* 0x3D..0x3E SP */
-        out	0x3d, r28	; 61
+        out	_SFR_IO_ADDR(SPH), r29	; 62 /* 0x3D..0x3E SP */
+        out	_SFR_IO_ADDR(SPL), r28	; 61
         rcall	main     	; 0x9e <main>
         rjmp	exit     	; 0xe0 <_exit>
 
@@ -106,8 +106,20 @@ main:
         out     _SFR_IO_ADDR(PORTD), r24;  PORTD=r25
         ldi     r18, 0x3F;   r18=0x3F
         ldi     r19, 0x0D;   r19=0x0D
-        ldi     r24, 0x13;   r24=0x03 Тут основная задержка
-sleep:
+        ldi     r24, 0x13;   Тут основная задержка
+
+;Код IDA
+;        sbi     DDRD, DDD1      ; Port D Data Direction Register
+;        sbi     DDRD, DDD2      ; Port D Data Direction Register
+;        ldi     r25, 6
+;        in      r24, PORTD      ; Port D Data Register
+;        eor     r24, r25
+;        out     PORTD, r24      ; Port D Data Register
+;        ldi     r18, 0x3F ; '?'
+;        ldi     r19, 0xD
+;        ldi     r24, 0x13
+
+sleep: ;Код IDA  такой-же
         subi    r18, 0x01;  (r18r19r24)-1  вычитание трехбайтного целого числа
         sbci    r19, 0x00
         sbci    r24, 0x00
