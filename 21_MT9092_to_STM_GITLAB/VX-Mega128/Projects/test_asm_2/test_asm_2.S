@@ -79,10 +79,10 @@ vectors:
 
 reset:
         eor	r1, r1
-        out	0x3f, r1	; 63
+        out	0x3f, r1	; 63 /* 0x3F SREG */
         ldi	r28, 0xFF	; 255
         ldi	r29, 0x10	; 16
-        out	0x3e, r29	; 62
+        out	0x3e, r29	; 62 /* 0x3D..0x3E SP */
         out	0x3d, r28	; 61
         rcall	main     	; 0x9e <main>
         rjmp	exit     	; 0xe0 <_exit>
