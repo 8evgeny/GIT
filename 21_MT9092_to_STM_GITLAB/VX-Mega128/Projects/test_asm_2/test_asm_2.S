@@ -7,75 +7,75 @@
 .org 0x00 ; начало
 #include <avr/io.h>
 vectors:
-rjmp	reset   	; 0x8c <__ctors_end>
-nop
-rjmp	.+150    	; 0x9c <__bad_interrupt>
-nop
-rjmp	.+146    	; 0x9c <__bad_interrupt>
-nop
-rjmp	.+142    	; 0x9c <__bad_interrupt>
-nop
-rjmp	.+138    	; 0x9c <__bad_interrupt>
-nop
-rjmp	.+134    	; 0x9c <__bad_interrupt>
-nop
-rjmp	.+130    	; 0x9c <__bad_interrupt>
-nop
-rjmp	.+126    	; 0x9c <__bad_interrupt>
-nop
-rjmp	.+122    	; 0x9c <__bad_interrupt>
-nop
-rjmp	.+118    	; 0x9c <__bad_interrupt>
-nop
-rjmp	.+114    	; 0x9c <__bad_interrupt>
-nop
-rjmp	.+110    	; 0x9c <__bad_interrupt>
-nop
-rjmp	.+106    	; 0x9c <__bad_interrupt>
-nop
-rjmp	.+102    	; 0x9c <__bad_interrupt>
-nop
-rjmp	.+98     	; 0x9c <__bad_interrupt>
-nop
-rjmp	.+94     	; 0x9c <__bad_interrupt>
-nop
-rjmp	.+90     	; 0x9c <__bad_interrupt>
-nop
-rjmp	.+86     	; 0x9c <__bad_interrupt>
-nop
-rjmp	.+82     	; 0x9c <__bad_interrupt>
-nop
-rjmp	.+78     	; 0x9c <__bad_interrupt>
-nop
-rjmp	.+74     	; 0x9c <__bad_interrupt>
-nop
-rjmp	.+70     	; 0x9c <__bad_interrupt>
-nop
-rjmp	.+66     	; 0x9c <__bad_interrupt>
-nop
-rjmp	.+62     	; 0x9c <__bad_interrupt>
-nop
-rjmp	.+58     	; 0x9c <__bad_interrupt>
-nop
-rjmp	.+54     	; 0x9c <__bad_interrupt>
-nop
-rjmp	.+50     	; 0x9c <__bad_interrupt>
-nop
-rjmp	.+46     	; 0x9c <__bad_interrupt>
-nop
-rjmp	.+42     	; 0x9c <__bad_interrupt>
-nop
-rjmp	.+38     	; 0x9c <__bad_interrupt>
-nop
-rjmp	.+34     	; 0x9c <__bad_interrupt>
-nop
-rjmp	.+30     	; 0x9c <__bad_interrupt>
-nop
-rjmp	.+26     	; 0x9c <__bad_interrupt>
-nop
-rjmp	.+22     	; 0x9c <__bad_interrupt>
-nop
-rjmp	.+18     	; 0x9c <__bad_interrupt>
+        rjmp	reset   	; 0x8c <__ctors_end>
+        nop
+        rjmp	interrupt    	; 0x9c <__bad_interrupt>
+        nop
+        rjmp	interrupt    	; 0x9c <__bad_interrupt>
+        nop
+        rjmp	interrupt    	; 0x9c <__bad_interrupt>
+        nop
+        rjmp	interrupt    	; 0x9c <__bad_interrupt>
+        nop
+        rjmp	interrupt   	; 0x9c <__bad_interrupt>
+        nop
+        rjmp	interrupt    	; 0x9c <__bad_interrupt>
+        nop
+        rjmp	interrupt    	; 0x9c <__bad_interrupt>
+        nop
+        rjmp	interrupt    	; 0x9c <__bad_interrupt>
+        nop
+        rjmp	interrupt    	; 0x9c <__bad_interrupt>
+        nop
+        rjmp	interrupt    	; 0x9c <__bad_interrupt>
+        nop
+        rjmp	interrupt    	; 0x9c <__bad_interrupt>
+        nop
+        rjmp	interrupt    	; 0x9c <__bad_interrupt>
+        nop
+        rjmp	interrupt    	; 0x9c <__bad_interrupt>
+        nop
+        rjmp	interrupt     	; 0x9c <__bad_interrupt>
+        nop
+        rjmp	interrupt     	; 0x9c <__bad_interrupt>
+        nop
+        rjmp	interrupt     	; 0x9c <__bad_interrupt>
+        nop
+        rjmp	interrupt     	; 0x9c <__bad_interrupt>
+        nop
+        rjmp	interrupt     	; 0x9c <__bad_interrupt>
+        nop
+        rjmp	interrupt     	; 0x9c <__bad_interrupt>
+        nop
+        rjmp	interrupt     	; 0x9c <__bad_interrupt>
+        nop
+        rjmp	interrupt     	; 0x9c <__bad_interrupt>
+        nop
+        rjmp	interrupt     	; 0x9c <__bad_interrupt>
+        nop
+        rjmp	interrupt     	; 0x9c <__bad_interrupt>
+        nop
+        rjmp	interrupt     	; 0x9c <__bad_interrupt>
+        nop
+        rjmp	interrupt     	; 0x9c <__bad_interrupt>
+        nop
+        rjmp	interrupt     	; 0x9c <__bad_interrupt>
+        nop
+        rjmp	interrupt     	; 0x9c <__bad_interrupt>
+        nop
+        rjmp	interrupt    	; 0x9c <__bad_interrupt>
+        nop
+        rjmp	interrupt     	; 0x9c <__bad_interrupt>
+        nop
+        rjmp	interrupt     	; 0x9c <__bad_interrupt>
+        nop
+        rjmp	interrupt     	; 0x9c <__bad_interrupt>
+        nop
+        rjmp	interrupt     	; 0x9c <__bad_interrupt>
+        nop
+        rjmp	interrupt     	; 0x9c <__bad_interrupt>
+        nop
+        rjmp	interrupt     	; 0x9c <__bad_interrupt>
 
 reset:
         eor	r1, r1
@@ -99,7 +99,7 @@ main:
         out     _SFR_IO_ADDR(PORTD), r24;  PORTD=r25
         ldi     r18, 0x3F;   r18=0x3F
         ldi     r19, 0x0D;   r19=0x0D
-        ldi     r24, 0x33;   r24=0x03 Тут основная задержка
+        ldi     r24, 0x13;   r24=0x03 Тут основная задержка
 sleep:
         subi    r18, 0x01;  (r18r19r24)-1  вычитание трехбайтного целого числа
         sbci    r19, 0x00
