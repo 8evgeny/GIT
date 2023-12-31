@@ -27,14 +27,15 @@ add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
     COMMAND cp ${CMAKE_SOURCE_DIR}/${nameFirmware}.s ${CMAKE_BINARY_DIR}/${nameFirmware}.s
     COMMENT "Copy asm to Build ${HEX_FILE} ")
+
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
     COMMAND avr-as -mmcu=atmega128 -o ${CMAKE_BINARY_DIR}/${nameFirmware}.o ${CMAKE_BINARY_DIR}/${nameFirmware}.s
     COMMENT "Assembling ")
-#add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-#    COMMAND avr-ld -o ${CMAKE_BINARY_DIR}/${nameFirmware}.elf ${CMAKE_BINARY_DIR}/${nameFirmware}.o
-#    COMMENT "Linking ")
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-    COMMAND avr-objcopy --output-target=ihex ${CMAKE_BINARY_DIR}/${nameFirmware}.o ${CMAKE_BINARY_DIR}/${nameFirmware}.hex
+    COMMAND avr-ld -o ${CMAKE_BINARY_DIR}/${nameFirmware}.elf ${CMAKE_BINARY_DIR}/${nameFirmware}.o -g -mavr51
+    COMMENT "Linking ")
+add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+    COMMAND avr-objcopy --output-target=ihex ${CMAKE_BINARY_DIR}/${nameFirmware}.elf ${CMAKE_BINARY_DIR}/${nameFirmware}.hex
     COMMENT "Create HEX ")
 
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
