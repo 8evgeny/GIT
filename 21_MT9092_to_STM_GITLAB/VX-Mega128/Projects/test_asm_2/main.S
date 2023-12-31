@@ -1,5 +1,5 @@
-#Светодиодная мигалка  ассемблер  gnu  avr-as  https://count-zero.ru/2014/blink_asm/
-#Сборка через Makefile
+#Светодиодная мигалка  ассемблер  gnu  avr-as
+#Сборка через Makefile  https://count-zero.ru/2018/gnu_assembler/
 
 .equ    DDRD, 0x11
 .equ	PD1, 1
