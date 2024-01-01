@@ -94,11 +94,11 @@ interrupt:
 
 reset:
         eor	r1, r1
-        out	0x3F, r1	; 63 /* 0x3F SREG */
+        out	_SFR_IO_ADDR(SREG), r1	; 63 /* 0x3F SREG */
         ldi	r28, 0xFF	; 255
         ldi	r29, 0x10	; 16
-        out	0x3E, r29	; 62 /* 0x3D..0x3E SP */
-        out	0x3D, r28	; 61
+        out	_SFR_IO_ADDR(SPH), r29	; 62 /* 0x3D..0x3E SP */
+        out	_SFR_IO_ADDR(SPL), r28	; 61
         rcall	main     	; 0x9e <main>
         rjmp	exit     	; 0xe0 <_exit>
 
@@ -108,7 +108,7 @@ main:
         ldi     r25, 0b00000110;
         in      r24, 0x12;  r24=PORTD
         eor     r24, r25;    r24 = r24 xor r25
-        out     0x11, r24;  PORTD=r25
+        out     0x12, r24;  PORTD=r25
         ldi     r18, 0x3F;   r18=0x3F
         ldi     r19, 0x0D;   r19=0x0D
         ldi     r24, 0x13;   Тут основная задержка
@@ -122,4 +122,6 @@ sleep: ;Код IDA  такой-же
 
 exit:
         cli
+
+
 
