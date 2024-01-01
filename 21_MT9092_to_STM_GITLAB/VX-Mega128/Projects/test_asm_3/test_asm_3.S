@@ -5,6 +5,12 @@
 .equ SPL, 0x3D
 .equ SPH, 0x3E
 .equ SREG, 0x3F
+.equ TCCR1B, 0x2E
+.equ TCNT1, 0x2C
+.equ TIMSK, 0x37
+.equ TCCR3B, 0x8A
+.equ ETIMSK, 0x7D
+.equ TCNT3, 0x88
 
 .org 0x00 ; начало
 #include <avr/io.h>
