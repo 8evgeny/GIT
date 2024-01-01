@@ -131,7 +131,7 @@ ret
 vector_14:
 push	r1
 push	r0
-in	r0, 0x3f	; 63
+in	r0, _SFR_IO_ADDR(SREG)	; 63
 push	r0
 eor	r1, r1
 push	r24
@@ -150,7 +150,7 @@ sts	0x0088, r24	; 0x800088 <__TEXT_REGION_LENGTH__+0x7e0088>
 pop	r25
 pop	r24
 pop	r0
-out	0x3f, r0	; 63
+out	_SFR_IO_ADDR(SREG), r0	; 63
 pop	r0
 pop	r1
 reti
@@ -159,7 +159,7 @@ reti
 vector_29:
 push	r1
 push	r0
-in	r0, 0x3f	; 63
+in	r0, _SFR_IO_ADDR(SREG)	; 63
 push	r0
 eor	r1, r1
 push	r24
@@ -168,7 +168,7 @@ andi	r24, 0xF9	; 249
 out	0x12, r24	; 18
 pop	r24
 pop	r0
-out	0x3f, r0	; 63
+out	_SFR_IO_ADDR(SREG), r0	; 63
 pop	r0
 pop	r1
 reti
