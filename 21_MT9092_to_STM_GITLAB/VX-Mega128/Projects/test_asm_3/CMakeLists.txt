@@ -21,11 +21,21 @@ include_directories(/usr/share/avra)
 file(GLOB  src  *.c)
 add_executable(${PROJECT_NAME} ${src})
 
-set(DISASS_FILE ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.disass)
-set(DISASS_FILE_ASM ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.dis)
+set(DISASS_FILE ${CMAKE_BINARY_DIR}/${PROJECT_NAME}_C.dis)
+set(DISASS_FILE_ASM ${CMAKE_BINARY_DIR}/${PROJECT_NAME}_ASM.dis)
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
     COMMAND ${CMAKE_OBJDUMP} -d $<TARGET_FILE:${PROJECT_NAME}> > ${DISASS_FILE}
     COMMENT "Disassemling c to avr-gcc asm ${HEX_FILE} ")
+
+#Формирование С_hex файла и прошивка (тестовая - раскомментировать а 49-51 строки закомментировать)
+set(HEX_FILE ${CMAKE_BINARY_DIR}/${nameFirmware}_C.hex)
+add_custom_command(TARGET ${nameFirmware} POST_BUILD
+    COMMAND ${CMAKE_OBJCOPY} -O ihex $<TARGET_FILE:${nameFirmware}> ${HEX_FILE}
+    COMMENT "Building С hex ${HEX_FILE} ")
+#add_custom_command(TARGET ${nameFirmware} POST_BUILD
+#    COMMAND avrdude -p m128 -c usbasp -B 4 -P usb -U flash:w:"${CMAKE_BINARY_DIR}/${nameFirmware}_C.hex":a
+#    COMMENT "Write Origin_C Flash ")
+
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD COMMAND cp ${CMAKE_SOURCE_DIR}/Makefile ${CMAKE_BINARY_DIR}/Makefile
     COMMENT "replace Makefile")
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD COMMAND cp ${CMAKE_SOURCE_DIR}/${nameFirmware}.S ${CMAKE_BINARY_DIR}/${nameFirmware}.S
