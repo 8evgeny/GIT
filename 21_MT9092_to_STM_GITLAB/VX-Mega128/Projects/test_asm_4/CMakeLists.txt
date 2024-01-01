@@ -1,14 +1,11 @@
 #Светодиодная мигалка  ассемблер  gnu -  avr-as  Сборка CMAKE
 #https://count-zero.ru/2018/gnu_assembler/
-#Прерывания
-
 cmake_minimum_required(VERSION 3.5)
 
 set(CMAKE_OBJCOPY /usr/bin/avr-objcopy)
 set(CMAKE_OBJDUMP /usr/bin/avr-objdump)
 set(nameFirmware test_asm_4)
 project(${nameFirmware} LANGUAGES C ASM)
-set(CMAKE_CXX_CLANG_TIDY "${CLANGTIDY};-extra-arg=-Wno-unknown-warning-option;-header-filter=${CMAKE_SOURCE_DIR}/src/*")
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}\
     -mmcu=atmega128 -D__AVR_ATmega128__ -DDEBUG -O1 -fdata-sections -ffunction-sections -fpack-struct -fshort-enums \
     -Wmissing-prototypes -Werror-implicit-function-declaration -Wpointer-arith  \
@@ -17,7 +14,6 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}\
 include_directories(/usr/lib/avr/include)
 file(GLOB  src  *.s)
 set_property(SOURCE ${src} APPEND PROPERTY COMPILE_OPTIONS "-x" "assembler-with-cpp")
-#SET(CMAKE_ASM_FLAGS "${CMAKE_C_FLAGS} -x assembler-with-cpp")
 add_executable(${PROJECT_NAME} ${src})
 
 set(HEX_FILE ${CMAKE_BINARY_DIR}/${nameFirmware}.hex)
