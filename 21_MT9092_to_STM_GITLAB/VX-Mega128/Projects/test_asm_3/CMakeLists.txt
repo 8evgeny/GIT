@@ -1,5 +1,7 @@
 #Светодиодная мигалка  ассемблер  gnu -  avr-as  Сборка через Makefile
 #https://count-zero.ru/2018/gnu_assembler/
+#Прерывания
+
 cmake_minimum_required(VERSION 3.5)
 
 set(CMAKE_OBJCOPY /usr/bin/avr-objcopy)

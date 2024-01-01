@@ -26,9 +26,9 @@ add_custom_command(TARGET ${nameFirmware} POST_BUILD
     COMMAND ${CMAKE_OBJCOPY} -O binary $<TARGET_FILE:${nameFirmware}> ${BIN_FILE}
     COMMENT "Building ${BIN_FILE} ")
 
-add_custom_command(TARGET ${nameFirmware} POST_BUILD
-    COMMAND avrdude -p m128 -c jtagmkII -B 4 -P usb -U flash:w:"/home/evg/SOFT/Github/GIT/21_MT9092_to_STM_GITLAB/VX-Mega128/Projects/test_interrupt_3/build/${nameFirmware}.hex":a
-    COMMENT "Write Flash ")
+#add_custom_command(TARGET ${nameFirmware} POST_BUILD
+#    COMMAND avrdude -p m128 -c jtagmkII -B 4 -P usb -U flash:w:"/home/evg/SOFT/Github/GIT/21_MT9092_to_STM_GITLAB/VX-Mega128/Projects/test_interrupt_3/build/${nameFirmware}.hex":a
+#    COMMENT "Write Flash ")
 
 add_custom_command(TARGET ${nameFirmware} POST_BUILD
     COMMAND avrdude -p m128 -c usbasp -P usb -U flash:w:"/home/evg/SOFT/Github/GIT/21_MT9092_to_STM_GITLAB/VX-Mega128/Projects/test_interrupt_3/build/${nameFirmware}.hex":a

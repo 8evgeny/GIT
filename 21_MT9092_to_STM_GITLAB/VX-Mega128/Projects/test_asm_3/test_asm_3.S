@@ -1,5 +1,6 @@
 #Светодиодная мигалка  ассемблер  gnu  avr-as
 #Сборка через Makefile  https://count-zero.ru/2018/gnu_assembler/
+#Прерывания
 
 .equ	PD1, 1
 .equ	PD2, 2
