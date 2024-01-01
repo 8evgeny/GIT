@@ -2,8 +2,12 @@
 ;Сборка через Makefile  https://count-zero.ru/2018/gnu_assembler/
 ;Прерывания
 
+.equ SPL, 0x3D
+.equ SPH, 0x3E
+.equ SREG, 0x3F
 
 .org 0x00 ; начало
+#include <avr/io.h>
 ;00000000 <__vectors>:
 vectors:
 rjmp		ctors_end	; 0x8c <__ctors_end>
@@ -80,11 +84,11 @@ rjmp		bad_interrupt	; 0x9c <__bad_interrupt>
 ;0000008c <__ctors_end>:
 ctors_end:
 eor	r1, r1
-out	0x3f, r1	; 63
+out	_SFR_IO_ADDR(SREG), r1	; 63
 ldi	r28, 0xFF	; 255
 ldi	r29, 0x10	; 16
-out	0x3e, r29	; 62
-out	0x3d, r28	; 61
+out	_SFR_IO_ADDR(SPH), r29	; 62
+out	_SFR_IO_ADDR(SPL), r28	; 61
 rcall		main	; 0x136 <main>
 rjmp		exit	; 0x146 <_exit>
 
@@ -120,18 +124,6 @@ ldi	r30, 0x7D	; 125
 ldi	r31, 0x00	; 0
 ld	r24, Z
 ori	r24, 0x04	; 4
-st	Z, r24
-ret
-
-;000000d0 <SetupInt0>:
-SetupInt0:
-in	r24, 0x39	; 57
-ori	r24, 0x01	; 1
-out	0x39, r24	; 57
-ldi	r30, 0x6A	; 106
-ldi	r31, 0x00	; 0
-ld	r24, Z
-ori	r24, 0x02	; 2
 st	Z, r24
 ret
 
