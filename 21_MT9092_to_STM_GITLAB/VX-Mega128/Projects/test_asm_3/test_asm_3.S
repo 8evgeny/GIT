@@ -104,19 +104,19 @@ bad_interrupt:
 
 ;0000009e <SetupTIMER1>:
 SetupTIMER1:
-        in	r24, 0x2e	; 46
+        in	r24, _SFR_IO_ADDR(TCCR1B)	; 46
         ori	r24, 0x04	; 4
-        out	0x2e, r24	; 46
-        in	r24, 0x2e	; 46
+        out	_SFR_IO_ADDR(TCCR1B), r24	; 46
+        in	r24, _SFR_IO_ADDR(TCCR1B)	; 46
         ori	r24, 0x01	; 1
-        out	0x2e, r24	; 46
+        out	_SFR_IO_ADDR(TCCR1B), r24	; 46
         ldi	r24, 0xFF	; 255
         ldi	r25, 0xFF	; 255
-        out	0x2d, r25	; 45
-        out	0x2c, r24	; 44
-        in	r24, 0x37	; 55
+        out	_SFR_IO_ADDR(TCNT1H), r25	; 45
+        out	_SFR_IO_ADDR(TCNT1L), r24	; 44
+        in	r24, _SFR_IO_ADDR(TIMSK)	; 55
         ori	r24, 0x04	; 4
-        out	0x37, r24	; 55
+        out	_SFR_IO_ADDR(TIMSK), r24	; 55
         ret
 
 ;000000ba <SetupTIMER3>:
