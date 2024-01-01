@@ -103,12 +103,12 @@ reset:
         rjmp	exit     	; 0xe0 <_exit>
 
 main:
-        sbi     0x11, PD1;   порт PD1,2 на передачу
-        sbi     0x11, PD2
+        sbi     DDRD, PD1;   порт PD1,2 на передачу
+        sbi     DDRD, PD2
         ldi     r25, 0b00000110;
-        in      r24, 0x12;  r24=PORTD
+        in      r24, PORTD;  r24=PORTD
         eor     r24, r25;    r24 = r24 xor r25
-        out     0x12, r24;  PORTD=r25
+        out     PORTD, r24;  PORTD=r25
         ldi     r18, 0x3F;   r18=0x3F
         ldi     r19, 0x0D;   r19=0x0D
         ldi     r24, 0x13;   Тут основная задержка
