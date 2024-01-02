@@ -5,7 +5,6 @@
 .equ SPH, 0x3E
 .equ SREG, 0x3F
 .equ TCCR1B, 0x2E
-.equ TCNT1, 0x2C
 .equ TIMSK, 0x37
 .equ TCCR3B, 0x8A
 .equ ETIMSK, 0x7D
@@ -93,11 +92,11 @@ vectors:
 ;0000008c <__ctors_end>:
 ctors_end:
         eor	r1, r1
-        out	0x3f, r1          ; 63
+        out	SREG, r1          ; 63
         ldi	r28, 0xFF                       ; 255
         ldi	r29, 0x10                       ; 16
-        out	0x3e, r29          ; 62
-        out	0x3d, r28          ; 61
+        out	SPH, r29          ; 62
+        out	SPL, r28          ; 61
         rcall		main                    ; 0x136 <main>
         rjmp		exit                    ; 0x146 <_exit>
 
@@ -107,19 +106,19 @@ bad_interrupt:
 
 ;0000009e <SetupTIMER1>:
 SetupTIMER1:
-        in	r24, 0x2e	; 46
+        in	r24, TCCR1B	; 46
         ori	r24, 0x04                       ; 4
-        out	0x2e, r24	; 46
-        in	r24, 0x2e
+        out	TCCR1B, r24	; 46
+        in	r24, TCCR1B
         ori	r24, 0x01                       ; 1
-        out	0x2e, r24	; 46
+        out	TCCR1B, r24	; 46
         ldi	r24, 0xFF                       ; 255
         ldi	r25, 0xFF                       ; 255
-        out	0x2d, r25	; 45
-        out	0x2c, r24	; 44
-        in	r24, 0x37	; 55
+        out	TCNT1H, r25	; 45
+        out	TCNT1L, r24	; 44
+        in	r24, TIMSK	; 55
         ori	r24, 0x04                       ; 4
-        out	0x37, r24	; 55
+        out	TIMSK, r24	; 55
         ret
 
 ;000000ba <SetupTIMER3>:
@@ -140,18 +139,18 @@ SetupTIMER3:
 vector_14:
         push	r1
         push	r0
-        in	r0, 0x3f          ; 63
+        in	r0, SREG          ; 63
         push	r0
         eor	r1, r1
         push	r24
         push	r25
         ldi	r24, 0xC8                       ; 200
         ldi	r25, 0xAF                       ; 175
-        out	0x2d, r25	; 45
-        out	0x2c, r24	; 44
-        in	r24, 0x12                       ; 18
+        out	TCNT1H, r25	; 45
+        out	TCNT1L, r24	; 44
+        in	r24, PORTD                       ; 18
         ori	r24, 0x06                       ; 6
-        out	0x12, r24	; 18
+        out	PORTD, r24	; 18
         ldi	r24, 0xE8                       ; 232
         ldi	r25, 0xFD                       ; 253
         sts	0x0089, r25                     ; 0x800089 <__TEXT_REGION_LENGTH__+0x7e0089>
@@ -159,7 +158,7 @@ vector_14:
         pop	r25
         pop	r24
         pop	r0
-        out	0x3f, r0          ; 63
+        out	SREG, r0          ; 63
         pop	r0
         pop	r1
         reti
@@ -168,28 +167,28 @@ vector_14:
 vector_29:
         push	r1
         push	r0
-        in	r0, 0x3f          ; 63
+        in	r0, SREG          ; 63
         push	r0
         eor	r1, r1
         push	r24
-        in	r24, 0x12	; 18
+        in	r24, PORTD	; 18
         andi	r24, 0xF9                       ; 249
-        out	0x12, r24	; 18
+        out	PORTD, r24	; 18
         pop	r24
         pop	r0
-        out	0x3f, r0          ; 63
+        out	SREG, r0          ; 63
         pop	r0
         pop	r1
         reti
 
 ;00000136 <main>:
 main:
-        sbi	0x11, 1                         ; 17
-        sbi	0x11, 2                         ; 17
+        sbi	DDRD, 1                         ; 17
+        sbi	DDRD, 2                         ; 17
         rcall   SetupTIMER1                     ; 0x9e <SetupTIMER1>
         rcall   SetupTIMER3                     ; 0xba <SetupTIMER3>
         ldi	r24, 0x06                       ; 6
-        out	0x12, r24	; 18
+        out	PORTD, r24	; 18
         sei
 
 main_end:
