@@ -35,7 +35,7 @@ vectors:
         nop
         rjmp		bad_interrupt	; 0x9c <__bad_interrupt>
         nop
-        rjmp		vector_14	; 0xe2 <__vector_14>
+        rjmp		TIMER1_OVF_vect	; 0xe2 <__vector_14>
         nop
         rjmp		bad_interrupt	; 0x9c <__bad_interrupt>
         nop
@@ -65,7 +65,7 @@ vectors:
         nop
         rjmp		bad_interrupt	; 0x9c <__bad_interrupt>
         nop
-        rjmp		vector_29	; 0x118 <__vector_29>
+        rjmp		TIMER3_OVF_vect	; 0x118 <__vector_29>
         nop
         rjmp		bad_interrupt	; 0x9c <__bad_interrupt>
         nop
@@ -124,7 +124,7 @@ SetupTIMER3:
         ret
 
 ;000000e2 <__vector_14>:
-vector_14:
+TIMER1_OVF_vect:
         push	r1
         push	r0
         in	r0, SREG                ; 63
@@ -140,7 +140,7 @@ vector_14:
         ori	r24, 0x06               ; 6
         out	PORTD, r24              ; 18
         ldi	r24, 0xE8               ; 232
-        ldi	r25, 0xFD               ; 253
+        ldi	r25, 0x8D               ; 253  Чем больше число тем раньше срабатывает таймер 3
         sts	0x0089, r25             ; 0x800089 <__TEXT_REGION_LENGTH__+0x7e0089>
         sts	0x0088, r24             ; 0x800088 <__TEXT_REGION_LENGTH__+0x7e0088>
         pop	r25
@@ -152,7 +152,7 @@ vector_14:
         reti
 
 ;00000118 <__vector_29>:
-vector_29:
+TIMER3_OVF_vect:
         push	r1
         push	r0
         in	r0, SREG                ; 63
