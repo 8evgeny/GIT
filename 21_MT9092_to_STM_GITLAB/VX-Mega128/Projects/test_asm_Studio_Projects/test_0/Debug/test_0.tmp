@@ -1,0 +1,37 @@
+<ASSEMBLER_INFO>
+ <VERSION>2.2.7</VERSION>
+ <DEVICE>"ATmega128"</DEVICE>
+ <WORKING_DIR>Z:\GIT\21_MT9092_to_STM_GITLAB\VX-Mega128\Projects\test_asm_Studio_Projects\test_0\Debug</WORKING_DIR>
+ <INCLUDE_PATH>
+  <DIR>C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.2.150\avrasm\inc</DIR>
+  <DIR>C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avrassembler\Include</DIR>
+  <DIR>C:\Program Files (x86)\Atmel\AVR Tools\AvrAssembler2\Appnotes</DIR>
+ </INCLUDE_PATH>
+ <SOURCE_FILE>Z:\GIT\21_MT9092_to_STM_GITLAB\VX-Mega128\Projects\test_asm_Studio_Projects\test_0\main.asm</SOURCE_FILE>
+ <INCLUDED_FILES>
+  <FILE>C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.2.150\avrasm\inc\m128def.inc</FILE>
+ </INCLUDED_FILES>
+ <OBJECT_FILES>
+  <FILE>Z:\GIT\21_MT9092_to_STM_GITLAB\VX-Mega128\Projects\test_asm_Studio_Projects\test_0\Debug\test_0.obj</FILE>
+ </OBJECT_FILES>
+ <HEX_FILES>
+  <FILE>test_0.hex</FILE>
+ </HEX_FILES>
+ <OUTPUT_FILES>
+  <FILE>test_0.map</FILE>
+  <FILE>test_0.lss</FILE>
+ </OUTPUT_FILES>
+ <LABELS>
+  <vectors><FILE>Z:\GIT\21_MT9092_to_STM_GITLAB\VX-Mega128\Projects\test_asm_Studio_Projects\test_0\main.asm</FILE><LINE>6</LINE></vectors>
+  <ctors_end><FILE>Z:\GIT\21_MT9092_to_STM_GITLAB\VX-Mega128\Projects\test_asm_Studio_Projects\test_0\main.asm</FILE><LINE>78</LINE></ctors_end>
+  <bad_interrupt><FILE>Z:\GIT\21_MT9092_to_STM_GITLAB\VX-Mega128\Projects\test_asm_Studio_Projects\test_0\main.asm</FILE><LINE>89</LINE></bad_interrupt>
+  <TIMER1_OVF_vect><FILE>Z:\GIT\21_MT9092_to_STM_GITLAB\VX-Mega128\Projects\test_asm_Studio_Projects\test_0\main.asm</FILE><LINE>124</LINE></TIMER1_OVF_vect>
+  <TIMER3_OVF_vect><FILE>Z:\GIT\21_MT9092_to_STM_GITLAB\VX-Mega128\Projects\test_asm_Studio_Projects\test_0\main.asm</FILE><LINE>152</LINE></TIMER3_OVF_vect>
+  <main><FILE>Z:\GIT\21_MT9092_to_STM_GITLAB\VX-Mega128\Projects\test_asm_Studio_Projects\test_0\main.asm</FILE><LINE>170</LINE></main>
+  <exit><FILE>Z:\GIT\21_MT9092_to_STM_GITLAB\VX-Mega128\Projects\test_asm_Studio_Projects\test_0\main.asm</FILE><LINE>183</LINE></exit>
+  <SetupTIMER1><FILE>Z:\GIT\21_MT9092_to_STM_GITLAB\VX-Mega128\Projects\test_asm_Studio_Projects\test_0\main.asm</FILE><LINE>93</LINE></SetupTIMER1>
+  <SetupTIMER3><FILE>Z:\GIT\21_MT9092_to_STM_GITLAB\VX-Mega128\Projects\test_asm_Studio_Projects\test_0\main.asm</FILE><LINE>110</LINE></SetupTIMER3>
+  <main_end><FILE>Z:\GIT\21_MT9092_to_STM_GITLAB\VX-Mega128\Projects\test_asm_Studio_Projects\test_0\main.asm</FILE><LINE>179</LINE></main_end>
+  <stop_program><FILE>Z:\GIT\21_MT9092_to_STM_GITLAB\VX-Mega128\Projects\test_asm_Studio_Projects\test_0\main.asm</FILE><LINE>187</LINE></stop_program>
+ </LABELS>
+</ASSEMBLER_INFO>

@@ -1,3 +1,0 @@
-https://zhevak.wordpress.com/2013/08/12/как-приручить-avr-gnu-assembler/
-
-avr-as -mmcu=attiny13 blink.S -o blink.elf
