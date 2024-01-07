@@ -1,5 +1,5 @@
 ;Светодиодная мигалка  Studio 7
-
+.CSEG ; ROM
 .org 0x00 ; начало
 
 ;00000000 <__vectors>:
@@ -137,7 +137,7 @@ TIMER1_OVF_vect:
         ori	r24, 0x06               ; 6
         out	PORTD, r24              ; 18
         ldi	r24, 0xE8               ; 232
-        ldi	r25, 0xFD               ; 253  Чем больше число тем раньше срабатывает таймер 3
+        ldi	r25, 0xDD               ; 253  Чем больше число тем раньше срабатывает таймер 3
         sts	0x0089, r25             ; 0x800089 <__TEXT_REGION_LENGTH__+0x7e0089>
         sts	0x0088, r24             ; 0x800088 <__TEXT_REGION_LENGTH__+0x7e0088>
         pop	r25

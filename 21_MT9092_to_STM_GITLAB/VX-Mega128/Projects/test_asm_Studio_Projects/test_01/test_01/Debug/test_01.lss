@@ -1,10 +1,10 @@
 
-AVRASM ver. 2.2.7  Z:\GIT\21_MT9092_to_STM_GITLAB\VX-Mega128\Projects\test_asm_Studio_Projects\test_0\main.asm Fri Jan 05 18:00:42 2024
+AVRASM ver. 2.2.7  Z:\GIT\21_MT9092_to_STM_GITLAB\VX-Mega128\Projects\test_asm_Studio_Projects\test_01\test_01\main.asm Fri Jan 05 18:16:18 2024
 
 [builtin](2): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.2.150\avrasm\inc\m128def.inc'
 [builtin](2): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.2.150\avrasm\inc\m128def.inc'
                                  
-                                 ;Светодиодная мигалка  Studio 7
+                                 ;???????????? ???????  Studio 7
                                  
                                  ;***** Created: 2011-02-09 12:03 ******* Source: ATmega128.xml ***********
                                  ;*************************************************************************
@@ -1224,7 +1224,7 @@ AVRASM ver. 2.2.7  Z:\GIT\21_MT9092_to_STM_GITLAB\VX-Mega128\Projects\test_asm_S
                                  ; ***** END OF FILE ******************************************************
                                  
                                  .CSEG ; ROM
-                                 .org 0x00 ; начало
+                                 .org 0x00 ; ??????
                                  
                                  ;00000000 <__vectors>:
                                  vectors:
@@ -1361,7 +1361,7 @@ AVRASM ver. 2.2.7  Z:\GIT\21_MT9092_to_STM_GITLAB\VX-Mega128\Projects\test_asm_S
 000073 6086                              ori	r24, 0x06               ; 6
 000074 bb82                              out	PORTD, r24              ; 18
 000075 ee88                              ldi	r24, 0xE8               ; 232
-000076 ed9d                              ldi	r25, 0xDD               ; 253  Чем больше число тем раньше срабатывает таймер 3
+000076 ed9d                              ldi	r25, 0xDD               ; 253  ??? ?????? ????? ??? ?????? ??????????? ?????? 3
 000077 9390 0089                         sts	0x0089, r25             ; 0x800089 <__TEXT_REGION_LENGTH__+0x7e0089>
 000079 9380 0088                         sts	0x0088, r24             ; 0x800088 <__TEXT_REGION_LENGTH__+0x7e0088>
 00007b 919f                              pop	r25
