@@ -30,4 +30,7 @@ add_custom_command(TARGET ${nameFirmware} POST_BUILD
     COMMAND avrdude -p m64 -c usbasp -B 4 -P usb -U flash:w:"${CMAKE_BINARY_DIR}/${nameFirmware}.hex":a
     COMMENT "Write Flash ")
 
-
+#JTAG не работает - пробую в винде
+#add_custom_command(TARGET ${nameFirmware} POST_BUILD
+#    COMMAND avrdude -p m64 -c jtag1 -B 4 -P usb -U flash:w:"${CMAKE_BINARY_DIR}/${nameFirmware}.hex":a
+#    COMMENT "Write Flash ")

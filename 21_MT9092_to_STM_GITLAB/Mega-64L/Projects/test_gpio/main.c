@@ -14,12 +14,12 @@ int main(void)
      while (1)
      {
              PORTE = 0b00010000;
-             _delay_ms(100);
+             _delay_ms(500);
              PORTE = 0b00100000;
-             _delay_ms(200);
+             _delay_ms(500);
              PORTE = 0b01000000;
-             _delay_ms(300);
+             _delay_ms(500);
              PORTE = 0b10000000;
-             _delay_ms(400);
+             _delay_ms(500);
      }
 }
