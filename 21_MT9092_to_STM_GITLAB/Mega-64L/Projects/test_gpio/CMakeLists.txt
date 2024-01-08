@@ -26,11 +26,10 @@ add_custom_command(TARGET ${nameFirmware} POST_BUILD
     COMMAND ${CMAKE_OBJCOPY} -O binary $<TARGET_FILE:${nameFirmware}> ${BIN_FILE}
     COMMENT "Building ${BIN_FILE} ")
 
-add_custom_command(TARGET ${nameFirmware} POST_BUILD
-    COMMAND avrdude -p m64 -c usbasp -B 4 -P usb -U flash:w:"${CMAKE_BINARY_DIR}/${nameFirmware}.hex":a
-    COMMENT "Write Flash ")
-
-#JTAG не работает - пробую в винде
 #add_custom_command(TARGET ${nameFirmware} POST_BUILD
-#    COMMAND avrdude -p m64 -c jtag1 -B 4 -P usb -U flash:w:"${CMAKE_BINARY_DIR}/${nameFirmware}.hex":a
+#    COMMAND avrdude -p m64 -c usbasp -B 4 -P usb -U flash:w:"${CMAKE_BINARY_DIR}/${nameFirmware}.hex":a
 #    COMMENT "Write Flash ")
+
+add_custom_command(TARGET ${nameFirmware} POST_BUILD
+    COMMAND avrdude -p m64 -c jtag1 -B 4 -P /dev/ttyUSB0 -U flash:w:"${CMAKE_BINARY_DIR}/${nameFirmware}.hex":a
+    COMMENT "Write Flash ")
