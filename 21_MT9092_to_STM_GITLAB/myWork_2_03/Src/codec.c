@@ -68,7 +68,7 @@ void selectHeadsetMic(void) { // включаем микрофон на IN3R (г
 }
 
 void headsetSpeakerOn(void) { // включает выход на наушники (гарнитуру) (HPR/HPL driver)
-	uartPuts("headsetSpeakerOn\r");
+    uartPuts("headsetSpeakerOn\r\n");
   //# Select Page 1
   writeReg(0x00, 0x01);
 	//# Unmute HPL/HPR driver, 1dB Gain
@@ -77,7 +77,7 @@ void headsetSpeakerOn(void) { // включает выход на наушник
 }
 
 void headsetSpeakerOff(void) { // выключает выход на наушники (гарнитуру) (HPR/HPL driver)
-	uartPuts("headsetSpeakerOff\r");
+    uartPuts("headsetSpeakerOff\r\n");
   //# Select Page 1
   writeReg(0x00, 0x01);
 	//# Mute HPL/HPR driver
@@ -86,7 +86,7 @@ void headsetSpeakerOff(void) { // выключает выход на наушн�
 }
 
 void lineOutSpeakerOn(void) { // включает линейный выход (LOL/LOR Driver)
-  uartPuts("lineOutSpeakerOn\r");
+  uartPuts("lineOutSpeakerOn\r\n");
   //# Select Page 1
   writeReg(0x00, 0x01);
   //# Unmute LOL/LOR driver
@@ -95,7 +95,7 @@ void lineOutSpeakerOn(void) { // включает линейный выход (L
 }
 
 void lineOutSpeakerOff(void) { // выключает линейный выход (LOL/LOR Driver)
-  uartPuts("lineOutSpeakerOff\r");
+  uartPuts("lineOutSpeakerOff\r\n");
   //# Select Page 1
   writeReg(0x00, 0x01);
   //# Mute LOL/LOR driver
@@ -110,7 +110,7 @@ void selectMic(uint8_t mic) {
 
   switch(mic) {
     case 0:
-      uartPuts("selectHeadsetMic\r");
+      uartPuts("selectHeadsetMic\r\n");
       //# Select Page 1
       writeReg(0x00, 0x01);
       //# Route IN3R to RIGHT_P with 10K input impedance
@@ -123,7 +123,7 @@ void selectMic(uint8_t mic) {
       writeReg(0x3c, HEADSET_MIC_PGA_GAIN * 2); // усиление микрофонного усилиителя
       break;
     case 1:
-      uartPuts("selectLoudspeakerMic\r");
+      uartPuts("selectLoudspeakerMic\r\n");
       //# Select Page 1
       writeReg(0x00, 0x01);  
       //# Route IN1R to RIGHT_P with 10K input impedance
@@ -139,7 +139,7 @@ void selectMic(uint8_t mic) {
 }
 // включает микрофон
 void micOn(void) {
-  uartPuts("Mic On\r");
+  uartPuts("Mic On\r\n");
   
   //# Select Page 0
   writeReg(0x00, 0x00);
@@ -149,7 +149,7 @@ void micOn(void) {
 }
 // выключает микрофон
 void micOff(void) {
-  uartPuts("Mic Off\r");
+  uartPuts("Mic Off\r\n");
   
   //# Select Page 0
   writeReg(0x00, 0x00);

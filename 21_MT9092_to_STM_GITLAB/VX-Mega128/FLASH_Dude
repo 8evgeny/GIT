@@ -1,0 +1,18 @@
+
+avrdude -p m128 -c jtagmkII -B 4 -P usb -U flash:w:"/home/evg/SOFT/Github/GIT/21_MT9092_to_STM_GITLAB/VX-Mega128/Projects/test_gpio/build/test_mega128_gpio.hex":a
+
+Фьюзы  
+http://homes-smart.ru/fusecalc/?prog=avrstudio&part=ATmega128
+
+avrdude -p m128 -c jtagmkII -B 4 -P usb -U efuse:w:0xFF:m -U hfuse:w:0x19:m -U lfuse:w:0xFF:m
+avrdude -p m128 -c jtagmkII -B 4 -P usb -U efuse:r:m -U hfuse:r:m -U lfuse:r:m
+
+Макетная плата  avrdude -p m128 -c jtagmkII -B 4 -P usb -U efuse:w:0xFF:m -U hfuse:w:0x18:m -U lfuse:w:0xFF:m      работает
+
+                                                   было     Заработала
+плата DX    EXT     FD                              FD         FD
+            HIGH    18                              5F         18
+            LOW     FC (Внешний 4МГц)               FF         D3 (Внутренный 4Мгц)
+
+Прошивка Макетки
+avrdude -p m128 -c jtagmkII -B 4 -P usb -U efuse:w:0xFF:m -U hfuse:w:0x18:m -U lfuse:w:0xC4:m     работает  - внутренний  8 Мгц

@@ -123,7 +123,7 @@ int main(void)
   MX_I2S3_Init();
   MX_SPI1_Init();
   /* USER CODE BEGIN 2 */
-	uartPuts("\rFirmware version: "FIRMWARE_VERSION"\r");
+    uartPuts("\rFirmware version: "FIRMWARE_VERSION"\r\n");
 	DV_port_input_Init();
 	mt9092LogicInit();
 	spi_interface_Init();

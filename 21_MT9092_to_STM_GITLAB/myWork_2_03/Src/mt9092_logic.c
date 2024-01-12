@@ -41,19 +41,19 @@ void mt9092Reset(void) {
 void mt9092IrqOn(void) { // активирует ногу прерывания IRQ (active Low)
 	SET_BIT(mt9092_reg[HDLC_STATUS_REGISTER], INTGEN);
 	IRQ_PIN_RESET();
-	//uartPuts("IRQ On\r");
+    //uartPuts("IRQ On\r\n");
 }
 
 void mt9092IrqOff(void) { // деактивирует ногу прерывания IRQ
 	CLEAR_BIT(mt9092_reg[HDLC_STATUS_REGISTER], INTGEN);
 	IRQ_PIN_SET();
-	//uartPuts("IRQ Off\r");
+    //uartPuts("IRQ Off\r\n");
 }
 
 // обрабатывает команду на запись по SPI от Меги, возвращает 0, если команда корректна
 int32_t mt9092ProcessWriteCommand(unsigned char reg_addr, unsigned char data) {
 	if (reg_addr > MT9092_MAX_REG_ADDR) {
-		uartPuts("\r\rError: attempt to write too big reg addr\r\r");
+        uartPuts("\r\rError: attempt to write too big reg addr\r\n");
 		return -1;
 	}
 	
@@ -97,7 +97,7 @@ int32_t mt9092ProcessWriteCommand(unsigned char reg_addr, unsigned char data) {
 			if ((reg_addr == 0x08) || (reg_addr == 0x09) || (reg_addr == 0x0c) || (reg_addr == 0x0d) ||
 					(reg_addr == 0x10) || ((reg_addr >= 0x17)&&(reg_addr <= 0x1c)) || (reg_addr == 0x1F) ||
 					(reg_addr == 0x22) || (reg_addr == 0x25) || ((reg_addr >= 0x27)&&(reg_addr <= 0x3f))) {
-				uartPuts("\r\rError: attempt to write reserved registers\r\r");
+                uartPuts("\r\rError: attempt to write reserved registers\r\n");
 				return -1;
 			} else {
 				mt9092_reg[reg_addr] = data;
@@ -113,7 +113,7 @@ int32_t mt9092ProcessReadCommand(unsigned char reg_addr, unsigned char *data) {
 	unsigned char t;
 	
 	if (reg_addr > MT9092_MAX_REG_ADDR) {
-		uartPuts("\r\rError: attempt to read too big reg addr\r\r");
+        uartPuts("\r\rError: attempt to read too big reg addr\r\n");
 		*data = 0;
 		return -1;
 	}
@@ -138,7 +138,7 @@ int32_t mt9092ProcessReadCommand(unsigned char reg_addr, unsigned char *data) {
 			if ((reg_addr == 0x08) || (reg_addr == 0x09) || (reg_addr == 0x0c) || (reg_addr == 0x0d) ||
 					(reg_addr == 0x10) || ((reg_addr >= 0x17)&&(reg_addr <= 0x1c)) || (reg_addr == 0x1F) ||
 					(reg_addr == 0x22) || (reg_addr == 0x25) || ((reg_addr >= 0x27)&&(reg_addr <= 0x3f))) {
-				uartPuts("\r\rError: attempt to  read reserved registers\r\r");
+                uartPuts("\r\rError: attempt to  read reserved registers\r\n");
 				return -1;
 			} else {
 				*data = mt9092_reg[reg_addr];

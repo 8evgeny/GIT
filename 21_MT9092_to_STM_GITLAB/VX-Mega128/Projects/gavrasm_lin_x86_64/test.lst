@@ -1,0 +1,240 @@
+gavrasm Gerd's AVR assembler version 3.0 (C)2011 by DG4FAC
+----------------------------------------------------------
+Source file: test.asm
+Hex file:    test.hex
+Eeprom file: test.eep
+Compiled:    29.12.2023, 17:28:36
+Pass:        2
+     1: ;
+     2: ; Complete instruction set
+     3: ; test file for gavrasm compiler
+     4: ;
+     5: ; If testhigh is 0 the lower range of values is tested,
+     6: ; if testhigh is 1 the upper range of values is tested
+     7: ;
+     8: .EQU testhigh=0
+     9: ;
+    10: .IF testhigh==0 ; Lower range of values
+    11: .DEF r = R0
+    12: .DEF rh = R16
+    13: .DEF rd = R24
+    14: .DEF rf = R16
+    15: .DEF rm = R0
+    16: .EQU p = 0
+    17: .EQU pl = 0
+    18: .EQU b = 0
+    19: .EQU k63 = 0
+    20: .EQU k127 = 0
+    21: .EQU k255 = 0
+    22: .EQU k4095 = 0
+    23: .EQU k65535 = 0
+    24: .EQU k4M = 0
+    25: .ELSE ; Upper range of values
+    26: .DEF r = R31
+    27: .DEF rh = R31
+    28: .DEF rd = R30
+    29: .DEF rf = R23
+    30: .DEF rm = R30
+    31: .EQU p = 63
+    32: .EQU pl = 31
+    33: .EQU b = 7
+    34: .EQU k63 = 63
+    35: .EQU k127 = -63
+    36: .EQU k255 = 255
+    37: .EQU k4095 = -2048
+    38: .EQU k65535 = 65535
+    39: .EQU k4M = 4194303
+    40: .ENDIF
+    41: ;
+    42: instruct:
+    43: 000000   1C00  adc r,r
+    44: 000001   0C00  add r,r
+    45: 000002   9600  adiw rd,k63
+    46: 000003   2000  and r,r
+    47: 000004   7000  andi rh,k255
+    48: 000005   9405  asr r
+    49: 000006   9488  bclr b
+    50: 000007   F800  bld r,b
+    51: .IF testhigh==0
+    52: 000008   F600  brbc b,-64
+    53: 000009   F200  brbs b,-64
+    54: 00000A   F600  brcc -64
+    55: 00000B   F200  brcs -64
+    56: .ELSE
+    57: 	brbc b,+63
+    58: 	brbs b,+63
+    59: 	brcc +63
+    60: 	brcs +63
+    61: .ENDIF
+    62: 00000C   9598  break
+    63: .IF testhigh==0
+    64: 00000D   F201  breq -64
+    65: 00000E   F604  brge -64
+    66: 00000F   F605  brhc -64
+    67: 000010   F205  brhs -64
+    68: 000011   F607  brid -64
+    69: 000012   F207  brie -64
+    70: 000013   F200  brlo -64
+    71: 000014   F204  brlt -64
+    72: 000015   F202  brmi -64
+    73: 000016   F601  brne -64
+    74: 000017   F602  brpl -64
+    75: 000018   F600  brsh -64
+    76: 000019   F606  brtc -64
+    77: 00001A   F206  brts -64
+    78: 00001B   F603  brvc -64
+    79: 00001C   F203  brvs -64
+    80: .ELSE
+    81: 	breq +63
+    82: 	brge +63
+    83: 	brhc +63
+    84: 	brhs +63
+    85: 	brid +63
+    86: 	brie +63
+    87: 	brlo +63
+    88: 	brlt +63
+    89: 	brmi +63
+    90: 	brne +63
+    91: 	brpl +63
+    92: 	brsh +63
+    93: 	brtc +63
+    94: 	brts +63
+    95: 	brvc +63
+    96: 	brvs +63
+    97: .ENDIF
+    98: 00001D   9408  bset b
+    99: 00001E   FA00  bst r,b
+   100: 00001F   940E  call k4M
+        000020   0000
+   101: 000021   9800  cbi pl,b
+   102: 000022   7F0F  cbr rh,k255
+   103: 000023   9488  clc
+   104: 000024   94D8  clh
+   105: 000025   94F8  cli
+   106: 000026   94A8  cln
+   107: 000027   2400  clr r
+   108: 000028   94C8  cls
+   109: 000029   94E8  clt
+   110: 00002A   94B8  clv
+   111: 00002B   9498  clz
+   112: 00002C   9400  com r
+   113: 00002D   1400  cp r,r
+   114: 00002E   0400  cpc r,r
+   115: 00002F   3000  cpi rh,k255
+   116: 000030   1000  cpse r,r
+   117: 000031   940A  dec r
+   118: 000032   948B  des 8
+   119: 000033   9519  eicall
+   120: 000034   9419  eijmp
+   121: 000035   95D8  elpm
+   122: 000036   9006  elpm r,Z
+   123: 000037   9007  elpm r,Z+
+   124: 000038   2400  eor r,r
+   125: 000039   0308  fmul rf,rf
+   126: 00003A   0380  fmuls rf,rf
+   127: 00003B   0388  fmulsu rf,rf
+   128: 00003C   9509  icall
+   129: 00003D   9409  ijmp
+   130: 00003E   B000  in r,p
+   131: 00003F   9403  inc r
+   132: 000040   940C  jmp k4M
+        000041   0000
+   133: 000042   9206  lac Z,r
+   134: 000043   9205  las Z,r
+   135: 000044   9207  lat Z,r
+   136: 000045   900C  ld r,X
+   137: 000046   900D  ld r,X+
+   138: 000047   900E  ld r,-X
+   139: 000048   8008  ld r,Y
+   140: 000049   9009  ld r,Y+
+   141: 00004A   900A  ld r,-Y
+   142: 00004B   8000  ld r,Z
+   143: 00004C   9001  ld r,Z+
+   144: 00004D   9002  ld r,-Z
+   145: 00004E   8008  ldd r,Y+k63
+   146: 00004F   8000  ldd r,Z+k63
+   147: 000050   E000  ldi rh,k255
+   148: 000051   9000  lds r,k65535
+        000052   0000
+   149: 000053   95C8  lpm
+   150: 000054   9004  lpm r,Z
+   151: 000055   9005  lpm r,Z+
+   152: 000056   0C00  lsl r
+   153: 000057   9406  lsr r
+   154: 000058   2C00  mov r,r
+   155: 000059   0100  movw rm,rm
+   156: 00005A   9C00  mul r,r
+   157: 00005B   0200  muls rh,rh
+   158: 00005C   9401  neg r
+   159: 00005D   0000  nop
+   160: 00005E   2800  or r,r
+   161: 00005F   6000  ori rh,k255
+   162: 000060   B800  out p,r
+   163: 000061   900F  pop r
+   164: 000062   920F  push r
+   165: .IF testhigh==0
+   166: 000063   D800  rcall -2048
+   167: .ELSE
+   168: 	rcall +2047
+   169: .ENDIF
+   170: 000064   9508  ret
+   171: 000065   9518  reti
+   172: .IF testhigh==0
+   173: 000066   C800  rjmp -2048
+   174: .ELSE
+   175: 	rcall +2047
+   176: .ENDIF
+   177: 000067   1C00  rol r
+   178: 000068   9407  ror r
+   179: 000069   0800  sbc r,r
+   180: 00006A   4000  sbci rh,k255
+   181: 00006B   9A00  sbi pl,b
+   182: 00006C   9900  sbic pl,b
+   183: 00006D   9B00  sbis pl,b
+   184: 00006E   9700  sbiw rd,k63
+   185: 00006F   6000  sbr rh,k255
+   186: 000070   FC00  sbrc r,b
+   187: 000071   FE00  sbrs r,b
+   188: 000072   9408  sec
+   189: 000073   9458  seh
+   190: 000074   9478  sei
+   191: 000075   9428  sen
+   192: 000076   EF0F  ser rh
+   193: 000077   9448  ses
+   194: 000078   9468  set
+   195: 000079   9438  sev
+   196: 00007A   9418  sez
+   197: 00007B   9588  sleep
+   198: 00007C   95E8  spm
+   199: 00007D   95F8  spm Z+
+   200: 00007E   920C  st X,r
+   201: 00007F   920D  st X+,r
+   202: 000080   920E  st -X,r
+   203: 000081   8208  st Y,r
+   204: 000082   9209  st Y+,r
+   205: 000083   920A  st -Y,r
+   206: 000084   8200  st Z,r
+   207: 000085   9201  st Z+,r
+   208: 000086   9202  st -Z,r
+   209: 000087   8208  std Y+k63,r
+   210: 000088   8200  std Z+k63,r
+   211: 000089   9200  sts k65535,r
+        00008A   0000
+   212: 00008B   1800  sub r,r
+   213: 00008C   5000  subi rh,k255
+   214: 00008D   9402  swap r
+   215: 00008E   2000  tst r
+   216: 00008F   95A8  wdr
+   217: 000090   9204  xch Z,r
+   218: .EXIT
+ -> Warning 006: No device defined, no syntax checking!
+ -> Warning 010: Instruction set unclear, no documentation!
+ -> Warning 001: 3 symbol(s) defined, but not used!
+
+Program             :      145 words.
+Constants           :        0 words.
+Total program memory:      145 words.
+Eeprom space        :        0 bytes.
+Data segment        :        0 bytes.
+Compilation completed, no errors.
+Compilation endet 29.12.2023, 17:28:36

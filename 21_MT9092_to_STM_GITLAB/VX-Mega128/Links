@@ -1,0 +1,17 @@
+https://habr.com/ru/articles/373677/
+https://easyelectronics.ru/avr-uchebnyj-kurs-programmirovanie-na-si-chast-3.html
+https://easyelectronics.ru/avr-uchebnyj-kurs-tajmery.html                            ассемблер
+https://www.nongnu.org/avr-libc/user-manual/FAQ.html#faq_reg_usage        !!!!
+
+JTAG
+http://xgu.ru/wiki/%D0%9F%D1%80%D0%BE%D0%B3%D1%80%D0%B0%D0%BC%D0%BC%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5_atmega16_%D1%87%D0%B5%D1%80%D0%B5%D0%B7_JTAG_%D0%B2_Linux
+
+avarice -j /dev/ttyUSB0 -B 125KHz --erase
+avarice -j /dev/ttyUSB0 -B 125KHz --file test_atmega16.o --program
+http://avr.ru/tools/linux/dev
+http://avr.ru/tools/linux/debug
+
+avarice -j /dev/ttyUSB0 -B 1000 -P atmega64 -d localhost:1201
+Waiting for connection on port 1201.    Далее запускаем avr-gdb  
+
+

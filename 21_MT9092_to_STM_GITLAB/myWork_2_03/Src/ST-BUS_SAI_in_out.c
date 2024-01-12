@@ -42,7 +42,7 @@ static char str[64];
 void SAI_DMA_Init(void) {
 	HAL_SAI_Receive_DMA(&hsai_BlockB1, SAI_DMA_input_buffer, DV_INPUT_BUFFER_SIZE / 2); // делим на 2, у нас 16 битный прием/передача
 	HAL_SAI_Transmit_DMA(&hsai_BlockA1, SAI_DMA_output_buffer, DV_INPUT_BUFFER_SIZE / 2); // делим на 2, у нас 16 битный прием/передача
-	uartPuts("SAI init\r");
+    uartPuts("SAI init\r\n");
 }
 
 void SAI_reset(void) {
@@ -94,6 +94,7 @@ void HAL_SAI_RxCpltCallback(SAI_HandleTypeDef *hsai) {
 		str[13] = '\r';
 		str[14] = '\0';
 		uartPuts(str);
+        uartPuts("\r\n");
 		prev_in_c_channel = filtered_c_channel;
 		prev_sync_bit = sync_bit;
 	}
@@ -130,6 +131,7 @@ void HAL_SAI_RxCpltCallback(SAI_HandleTypeDef *hsai) {
 			str[14] = '\r';
 			str[15] = '\0';
 			uartPuts(str);
+            uartPuts("\r\n");
 			prev_out_c_channel = C_channel_out;
 		}
 	} else {
@@ -177,6 +179,7 @@ void HAL_SAI_ErrorCallback(SAI_HandleTypeDef *hsai) {
 //#define HAL_SAI_ERROR_DMA     0x00000080U  /*!< DMA error                                   */
 	sprintf(str, "SAI error: %x\r", HAL_SAI_GetError(hsai));
 	uartPuts(str);
+    uartPuts("\r\n");
 	HAL_GPIO_TogglePin(LED3_GPIO_Port, LED3_Pin);
 
 	SAI_DMA_Init();

@@ -1,0 +1,4 @@
+По умолчанию
+avrdude -p m128 -c Usbasp -B 200 -P usb  -U lfuse:w:225:m -U hfuse:w:153:m -U efuse:w:253:m -U lock:w:255:m
+E1   99   FD
+Fuses OK (E:FD, H:99, L:E1)

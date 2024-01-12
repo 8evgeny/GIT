@@ -26,7 +26,7 @@ void processHdlcTelegram(char * tel, unsigned char tel_len) {
 	while(tel_len != 0) {
 		if (!(FIFO_IS_FULL(rx_fifo))) FIFO_PUSH(rx_fifo, *tel);
 		else { // таких длинных пакетов быть не должно - игнорируем
-			uartPuts("\rError: HDLC Rx FIFO overflow!\r");
+            uartPuts("\rError: HDLC Rx FIFO overflow!\r\n");
 			resetHdlcRxFifo();
 			return;
 		}
