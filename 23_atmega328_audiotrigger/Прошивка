@@ -1,0 +1,26 @@
+Фьюзы  
+http://homes-smart.ru/fusecalc/?prog=avrstudio&part=ATmega328P
+
+читать фьюзы
+avrdude -p m328p -c usbasp -B 4 -P usb -U efuse:r:m -U hfuse:r:m -U lfuse:r:m
+Fuses OK (E:FF, H:D9, L:EF)
+
+писать фьюзы
+avrdude -p m328p -c usbasp -B 4 -P usb -U efuse:w:0xFF:m -U hfuse:w:0xD9:m -U lfuse:w:0xEF:m
+
+
+
+
+
+
+
+
+
+ПРОШИВКА
+писать
+avrdude -p m328p -c usbasp -B 4 -P usb -U flash:w:"/home/evg/SOFT/Github/GIT/_____":a
+
+читать
+avrdude -p m328p -c usbasp -B 4 -P usb -U flash:r:"/home/evg/SOFT/Github/GIT/23_atmega328_audiotrigger/legasy.hex":i
+
+
