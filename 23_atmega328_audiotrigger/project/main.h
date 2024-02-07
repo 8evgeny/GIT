@@ -7,10 +7,20 @@
 #include <avr/interrupt.h>
 #define led1 PORTC4
 #define led2 PORTC5
+
 static void GPIO_Init(void);
 static void pinON(int);
 static void pinOFF(int);
 static void blink(void);
-
+typedef struct encoder{
+    int in;
+    int out0;
+    int out1;
+    int out2;
+    int out3
+}ENCODER;
+static void initEncoder(ENCODER * enc, int in, int out0, int out1, int out2, int out3);
+static void init(void);
+static uint8_t readEncoder(ENCODER * enc);
 
 #endif
