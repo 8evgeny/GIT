@@ -11,6 +11,9 @@ int main(void) {
     GPIO_Init();
     blink(); //Индикация при включении попеременно моргаем индикаторами
     init(); //Инициализируем энкодеры
+    read(); //Читаем энкодеры
+
+
 
 }
 
@@ -64,10 +67,25 @@ static void initEncoder(ENCODER * enc, int in, int out0, int out1, int out2, int
 static void init(void){
     initEncoder(&Delay_1, PORTB4, PORTB0, PORTB1, PORTB2, PORTB3);
     initEncoder(&Hold_1, PORTB5, PORTB0, PORTB1, PORTB2, PORTB3);
+
     initEncoder(&Delay_2, PORTD3, PORTD4, PORTD5, PORTD6, PORTD7);
     initEncoder(&Hold_2, PORTD2, PORTD4, PORTD5, PORTD6, PORTD7);
 }
-//static uint8_t readEncoder(ENCODER * enc){
-//    uint8_t tmp =
-
-//}
+static void read(void){
+    del_1 = readEncoder(&Delay_1);
+    del_2 = readEncoder(&Delay_2);
+    hold_1 = readEncoder(&Hold_1);
+    hold_2 = readEncoder(&Hold_2);
+}
+static uint8_t readEncoder(ENCODER * enc){
+    uint8_t tmp = 0;
+    if ((enc == &Delay_1) || (enc == &Hold_1)){
+        PORTB &= ~(1 << enc->in);
+        tmp = PINB & 0b00001111;
+    }
+    if ((enc == &Delay_2) || (enc == &Hold_2)){
+        PORTD &= ~(1 << enc->in);
+        tmp = (PIND >> 4) & 0b00001111;
+    }
+        return tmp;
+}

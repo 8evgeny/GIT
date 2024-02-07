@@ -22,5 +22,5 @@ typedef struct encoder{
 static void initEncoder(ENCODER * enc, int in, int out0, int out1, int out2, int out3);
 static void init(void);
 static uint8_t readEncoder(ENCODER * enc);
-
+static void read(void);
 #endif
