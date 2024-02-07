@@ -23,4 +23,7 @@ static void initEncoder(ENCODER * enc, int in, int out0, int out1, int out2, int
 static void init(void);
 static uint8_t readEncoder(ENCODER * enc);
 static void read(void);
+static void initComparator(void);
+
+
 #endif

@@ -12,7 +12,7 @@ int main(void) {
     blink(); //Индикация при включении попеременно моргаем индикаторами
     init(); //Инициализируем энкодеры
     read(); //Читаем энкодеры
-
+    initComparator();
 
 
 }
@@ -88,4 +88,7 @@ static uint8_t readEncoder(ENCODER * enc){
         tmp = (PIND >> 4) & 0b00001111;
     }
         return tmp;
+}
+static void initComparator(void){
+
 }
