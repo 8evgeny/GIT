@@ -73,7 +73,7 @@ static void readEncoders(void){
     readEncoderDel1();
     readEncoderDel2();
 
-    sprintf(tmp, "delay_1 %d\r\nhold_1  %d\r\ndelay_2 %d\r\nhold_2  %d\r\n", del_1, hold_1, del_2, hold_2);
+    sprintf(tmp, "1 channel: delay %d\thold %d\r\n2 channel: delay %d\thold %d\r\n", del_1, hold_1, del_2, hold_2);
     USART_sendLine(tmp);
     USART_sendLine("\r\n");
 }
