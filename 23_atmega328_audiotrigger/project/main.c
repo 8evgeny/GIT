@@ -1,4 +1,5 @@
 #include "main.h"
+#include <stdio.h>
     ENCODER Delay_1;
     ENCODER Delay_2;
     ENCODER Hold_1;
@@ -7,16 +8,23 @@
     uint8_t del_2;
     uint8_t hold_1;
     uint8_t hold_2;
+    char tmp[100];
+    uint8_t tmp2 = 0;
 int main(void) {
     GPIO_Init();
     USART0_Init();
     blink(); //Индикация при включении попеременно моргаем индикаторами
     init(); //Инициализируем энкодеры
     read(); //Читаем энкодеры
-    initComparator();
+    initADC(1);
+    initADC(2);
+    initADC(3);
+    initADC(4);
+
     while (1) {
-        USART_sendLine("Test UART\r\n");
+//        USART_sendLine("Test UART\r\n");
         _delay_ms(3000);
+        read();
     }
 }
 
@@ -71,31 +79,48 @@ static void initEncoder(ENCODER * enc, int in, int out0, int out1, int out2, int
 static void init(void){
     initEncoder(&Delay_1, PORTB4, PORTB0, PORTB1, PORTB2, PORTB3);
     initEncoder(&Hold_1, PORTB5, PORTB0, PORTB1, PORTB2, PORTB3);
-
     initEncoder(&Delay_2, PORTD3, PORTD4, PORTD5, PORTD6, PORTD7);
     initEncoder(&Hold_2, PORTD2, PORTD4, PORTD5, PORTD6, PORTD7);
 }
 static void read(void){
-    del_1 = readEncoder(&Delay_1);
-    del_2 = readEncoder(&Delay_2);
-    hold_1 = readEncoder(&Hold_1);
-    hold_2 = readEncoder(&Hold_2);
-}
-static uint8_t readEncoder(ENCODER * enc){
-    uint8_t tmp = 0;
-    if ((enc == &Delay_1) || (enc == &Hold_1)){
-        PORTB &= ~(1 << enc->in);
-        tmp = PINB & 0b00001111;
-    }
-    if ((enc == &Delay_2) || (enc == &Hold_2)){
-        PORTD &= ~(1 << enc->in);
-        tmp = (PIND >> 4) & 0b00001111;
-    }
-        return tmp;
-}
-static void initComparator(void){
 
+    readEncoderDel1();
+    readEncoderDel2();
+    readEncoderHold1();
+    readEncoderHold2();
+    sprintf(tmp, "del1:\t%d\r\nhold1:\t%d\r\ndel2:\t%d\r\nhold2:\t%d\r\n", del_1, hold_1, del_2, hold_2);
+    USART_sendLine(tmp);
+    USART_sendLine("\r\n");
 }
+static void readEncoderDel1(){
+    PORTB &= ~(1 << PORTB4);
+    _delay_ms(100);
+    del_1 = (~PINB) & 0b00001111;
+    _delay_ms(100);
+    PORTB |= (1 << PORTB4);
+}
+static void readEncoderHold1(){
+    PORTB &= ~(1 << PORTB5);
+    _delay_ms(100);
+    hold_1 = (~PINB) & 0b00001111;
+    _delay_ms(100);
+    PORTB |= (1 << PORTB5);
+}
+static void readEncoderDel2(){
+    PORTD &= ~(1 << PORTD3);
+    _delay_ms(100);
+    del_2 = ((~PIND) & 0b11110000) >> 4 ;
+    _delay_ms(100);
+    PORTD |= (1 << PORTD3);
+}
+static void readEncoderHold2(){
+    PORTD &= ~(1 << PORTD2);
+    _delay_ms(100);
+    hold_1 = ((~PIND) & 0b11110000) >> 4 ;
+    _delay_ms(100);
+    PORTD |= (1 << PORTD2);
+}
+
 void USART0_Init() {
     uint16_t ubrr;
     ubrr = F_CPU/9600/16-1;           // скорость обмена 115200 бит/с
@@ -124,4 +149,8 @@ void USART0_Transmit( unsigned char data ) {
 unsigned char USART0_Receive( void ) {
     while ( !(UCSR0A & (1<<RXC0)));         //Wait for data to be received
     return UDR0;                            //Get and return received data from buffer
+}
+static void initADC(int num){
+
+
 }

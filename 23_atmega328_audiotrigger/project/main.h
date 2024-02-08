@@ -21,7 +21,11 @@ typedef struct encoder{
 }ENCODER;
 static void initEncoder(ENCODER * enc, int in, int out0, int out1, int out2, int out3);
 static void init(void);
-static uint8_t readEncoder(ENCODER * enc);
+//static uint8_t readEncoder(ENCODER * enc);
+static void readEncoderDel1(void);
+static void readEncoderDel2(void);
+static void readEncoderHold1(void);
+static void readEncoderHold2(void);
 static void read(void);
 static void initComparator(void);
 void USART0_Init(void);
@@ -30,5 +34,5 @@ unsigned char USART0_Receive(void);
 void USART_sendChar(char character);
 void USART_sendLine(char *string);
 char USART_receiveChar(void);
-static void testBlink(void);
+static void initADC(int num);
 #endif
