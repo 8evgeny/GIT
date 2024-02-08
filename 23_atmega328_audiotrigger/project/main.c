@@ -22,7 +22,7 @@ int main(void) {
 
     while (1) {
 //        USART_sendLine("Test UART\r\n");
-        _delay_ms(5000);
+//        _delay_ms(5000);
         adc0 = ADC_convert(ADC0);
         adc1 = ADC_convert(ADC1);
         adc2 = ADC_convert(ADC2);
@@ -30,7 +30,7 @@ int main(void) {
         printADC();
         readEncoders();
         printEncoders();
-        blink();
+//        blink();
     }
 }
 
