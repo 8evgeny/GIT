@@ -24,6 +24,11 @@ static void init(void);
 static uint8_t readEncoder(ENCODER * enc);
 static void read(void);
 static void initComparator(void);
-
-
+void USART0_Init(void);
+void USART0_Transmit( unsigned char data );
+unsigned char USART0_Receive(void);
+void USART_sendChar(char character);
+void USART_sendLine(char *string);
+char USART_receiveChar(void);
+static void testBlink(void);
 #endif

@@ -9,12 +9,15 @@
     uint8_t hold_2;
 int main(void) {
     GPIO_Init();
+    USART0_Init();
     blink(); //Индикация при включении попеременно моргаем индикаторами
     init(); //Инициализируем энкодеры
     read(); //Читаем энкодеры
     initComparator();
-
-
+    while (1) {
+        USART_sendLine("Test UART\r\n");
+        _delay_ms(3000);
+    }
 }
 
 static void GPIO_Init() {
@@ -57,6 +60,7 @@ static void blink(void){
     pinOFF(led2);
     _delay_ms(300);
 }
+
 static void initEncoder(ENCODER * enc, int in, int out0, int out1, int out2, int out3){
     enc->in = in;
     enc->out0 = out0;
@@ -91,4 +95,33 @@ static uint8_t readEncoder(ENCODER * enc){
 }
 static void initComparator(void){
 
+}
+void USART0_Init() {
+    uint16_t ubrr;
+    ubrr = F_CPU/9600/16-1;           // скорость обмена 115200 бит/с
+    UBRR0H = (unsigned char)(ubrr>>8);
+    UBRR0L = (unsigned char)ubrr;
+    UCSR0B = (1<<RXEN0)|(1<<TXEN0);     // включаем приёмник и передатчик
+    UCSR0C = (1<<USBS0)|(3<<UCSZ00);    // асинхронный режим, размер посылки 8 бит, проверка чётности отключена, 1 стоп-бит
+}
+void USART_sendChar(char character){
+    while ( !( UCSR0A & (1<<UDRE0)));   //Wait for empty transmit buffer
+    UDR0 = character;                        //Put data into buffer, sends the data
+}
+void USART_sendLine(char *string) {
+    while ( *string ) {
+        USART_sendChar(*string); // посимвольно отправляем строку
+        string++;
+    }
+}
+char USART_receiveChar(void) {
+    return ( (UCSR0A >> RXC0) & 1 ) ? UDR0 : 0;  // возвращаем значение буфера приёма
+}
+void USART0_Transmit( unsigned char data ) {
+    while ( !( UCSR0A & (1<<UDRE0)));   //Wait for empty transmit buffer
+    UDR0 = data;                        //Put data into buffer, sends the data
+}
+unsigned char USART0_Receive( void ) {
+    while ( !(UCSR0A & (1<<RXC0)));         //Wait for data to be received
+    return UDR0;                            //Get and return received data from buffer
 }
