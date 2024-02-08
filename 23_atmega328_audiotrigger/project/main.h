@@ -12,15 +12,15 @@ static void GPIO_Init(void);
 static void pinON(int);
 static void pinOFF(int);
 static void blink(void);
-typedef struct encoder{
-    int in;
-    int out0;
-    int out1;
-    int out2;
-    int out3
-}ENCODER;
-static void initEncoder(ENCODER * enc, int in, int out0, int out1, int out2, int out3);
-static void init(void);
+//typedef struct encoder{
+//    int in;
+//    int out0;
+//    int out1;
+//    int out2;
+//    int out3
+//}ENCODER;
+//static void initEncoder(ENCODER * enc, int in, int out0, int out1, int out2, int out3);
+//static void init(void);
 //static uint8_t readEncoder(ENCODER * enc);
 static void readEncoderDel1(void);
 static void readEncoderDel2(void);
