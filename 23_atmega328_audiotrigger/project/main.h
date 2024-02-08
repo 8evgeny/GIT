@@ -25,7 +25,11 @@ static void readEncoderHold2(void);
 static void readEncoders(void);
 static void printEncoders(void);
 static void printADC(void);
-
-
+enum adc{
+    ADC0,
+    ADC1,
+    ADC2,
+    ADC3
+};
 
 #endif

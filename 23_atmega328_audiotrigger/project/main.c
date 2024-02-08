@@ -6,7 +6,10 @@
     uint8_t hold_2;
     char tmp[100];
     uint8_t tmp2 = 0;
-    unsigned int adc_value;
+    unsigned int adc0;
+    unsigned int adc1;
+    unsigned int adc2;
+    unsigned int adc3;
 int main(void) {
 
     GPIO_Init();
@@ -19,8 +22,11 @@ int main(void) {
 
     while (1) {
 //        USART_sendLine("Test UART\r\n");
-        _delay_ms(1000);
-        adc_value = ADC_convert(); //Вызовем преобразование
+        _delay_ms(5000);
+        adc0 = ADC_convert(ADC0);
+        adc1 = ADC_convert(ADC1);
+        adc2 = ADC_convert(ADC2);
+        adc3 = ADC_convert(ADC3);
         printADC();
         readEncoders();
         printEncoders();
@@ -141,6 +147,6 @@ static unsigned char USART0_Receive( void ) {
     return UDR0;                            //Get and return received data from buffer
 }
 static void printADC(void){
-    sprintf(tmp, "ADC: %d\r\n", adc_value);
+    sprintf(tmp, "ADC0: %d\r\nADC1: %d\r\nADC2: %d\r\nADC3: %d\r\n", adc0,adc1,adc2,adc3);
     USART_sendLine(tmp);
 }
