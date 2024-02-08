@@ -4,6 +4,7 @@ http://homes-smart.ru/fusecalc/?prog=avrstudio&part=ATmega328P
 читать фьюзы
 avrdude -p m328p -c usbasp -B 4 -P usb -U efuse:r:m -U hfuse:r:m -U lfuse:r:m
 Fuses OK (E:FF, H:D9, L:EF)
+Fuses OK (E:FD, H:DE, L:FF) UNO
 
 писать фьюзы
 avrdude -p m328p -c usbasp -B 4 -P usb -U efuse:w:0xFF:m -U hfuse:w:0xD9:m -U lfuse:w:0xEF:m

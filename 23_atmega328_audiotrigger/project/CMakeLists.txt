@@ -12,7 +12,10 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}\
     -g3 -Wall -std=gnu99 -mrelax  -fno-strict-aliasing -Wstrict-prototypes \
     ")
 
-add_executable(${nameFirmware} main.c)
+add_executable(${nameFirmware}
+    main.c
+    adc.c
+    )
 
 set_target_properties(${PROJECT_NAME} PROPERTIES LINKER_LANGUAGE C)
 set(LINKER_FLAGS "SHELL: \

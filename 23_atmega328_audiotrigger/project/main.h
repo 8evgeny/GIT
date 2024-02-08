@@ -4,6 +4,7 @@
 #define F_CPU 16000000UL
 #include <util/delay.h>
 #include <avr/interrupt.h>
+#include "adc.h"
 #define led1 PORTC4
 #define led2 PORTC5
 
@@ -22,9 +23,8 @@ static void readEncoderDel2(void);
 static void readEncoderHold1(void);
 static void readEncoderHold2(void);
 static void readEncoders(void);
-static void initADC(int num);
-
-
+static void printEncoders(void);
+static void printADC(void);
 
 
 
