@@ -92,28 +92,24 @@ void readEncoderDel1(){
     PORTB &= ~(1 << PORTB4);
     _delay_ms(1);
     del_1 = (~PINB) & 0b00001111;
-    _delay_ms(1);
     PORTB |= (1 << PORTB4);
 }
 void readEncoderHold1(){
     PORTB &= ~(1 << PORTB5);
     _delay_ms(1);
     hold_1 = (~PINB) & 0b00001111;
-    _delay_ms(1);
     PORTB |= (1 << PORTB5);
 }
 void readEncoderDel2(){
     PORTD &= ~(1 << PORTD3);
     _delay_ms(1);
     del_2 = ((~PIND) & 0b11110000) >> 4 ;
-    _delay_ms(1);
     PORTD |= (1 << PORTD3);
 }
 void readEncoderHold2(){
     PORTD &= ~(1 << PORTD2);
     _delay_ms(1);
     hold_2 = ((~PIND) & 0b11110000) >> 4 ;
-    _delay_ms(1);
     PORTD |= (1 << PORTD2);
 }
 void USART0_Init() {
