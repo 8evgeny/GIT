@@ -6,10 +6,10 @@
     uint8_t hold_2;
     char tmp[100];
     uint8_t tmp2 = 0;
-    unsigned int adc0;
     unsigned int adc1;
+    unsigned int adc1_base;
     unsigned int adc2;
-    unsigned int adc3;
+    unsigned int adc2_base;
 int main(void) {
 
     GPIO_Init();
@@ -23,13 +23,23 @@ int main(void) {
 
     while (1) {
         _delay_ms(2000);
-        adc0 = ADC_convert(ADC0);
-        adc1 = ADC_convert(ADC1);
+        adc1 = ADC_convert(ADC0);
+        adc1_base = ADC_convert(ADC1);
         adc2 = ADC_convert(ADC2);
-        adc3 = ADC_convert(ADC3);
-        printADC();
+        adc2_base = ADC_convert(ADC3);
+        if (adc1 > adc1_base){
+            pinON(led1);
+        } else {
+            pinOFF(led1);
+        }
+        if (adc2 > adc2_base){
+            pinON(led1);
+        } else {
+            pinOFF(led2);
+        }
+//        printADC();
         readEncoders();
-        printEncoders();
+//        printEncoders();
 //        blink();
     }
 }
@@ -144,6 +154,6 @@ unsigned char USART0_Receive( void ) {
 }
 #endif
 void printADC(void){
-    sprintf(tmp, "1 channel: input: %d\tbase %d\r\n2 channel: input %d\tbase %d\r\n", adc0,adc1,adc2,adc3);
+    sprintf(tmp, "1 channel: input: %d\tbase %d\r\n2 channel: input %d\tbase %d\r\n", adc1,adc1_base,adc2,adc2_base);
     USART_sendLine(tmp);
 }
