@@ -8,23 +8,26 @@
 #define led1 PORTC4
 #define led2 PORTC5
 
-static void GPIO_Init(void);
-static void USART0_Init(void);
-static void USART0_Transmit( unsigned char data );
-static unsigned char USART0_Receive(void);
-static void USART_sendChar(char character);
-static void USART_sendLine(char *string);
-static char USART_receiveChar(void);
-static void pinON(int);
-static void pinOFF(int);
-static void blink(void);
-static void readEncoderDel1(void);
-static void readEncoderDel2(void);
-static void readEncoderHold1(void);
-static void readEncoderHold2(void);
-static void readEncoders(void);
-static void printEncoders(void);
-static void printADC(void);
+void GPIO_Init(void);
+void USART0_Init(void);
+#if 0
+char USART_receiveChar(void);
+void USART0_Transmit( unsigned char data );
+unsigned char USART0_Receive(void);
+#endif
+void USART_sendChar(char character);
+void USART_sendLine(char *string);
+
+void pinON(int);
+void pinOFF(int);
+void blink(void);
+void readEncoderDel1(void);
+void readEncoderDel2(void);
+void readEncoderHold1(void);
+void readEncoderHold2(void);
+void readEncoders(void);
+void printEncoders(void);
+void printADC(void);
 enum adc{
     ADC0,
     ADC1,

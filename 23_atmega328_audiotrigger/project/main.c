@@ -14,14 +14,14 @@ int main(void) {
 
     GPIO_Init();
     USART0_Init();
+    USART_sendLine("Git audiokonverter\r\nFirmware version: 01_00");
     blink();
     ADC_Init(); //Инициализируем АЦП
-
+    readEncoders();
     _delay_ms(1000);
     readEncoders();
 
     while (1) {
-//        USART_sendLine("Test UART\r\n");
 //        _delay_ms(5000);
         adc0 = ADC_convert(ADC0);
         adc1 = ADC_convert(ADC1);
@@ -34,7 +34,7 @@ int main(void) {
     }
 }
 
-static void GPIO_Init() {
+void GPIO_Init() {
     DDRB &= ~(1 << PORTB0); //PB0 PB1 PB2 PB3  входы
     DDRB &= ~(1 << PORTB1);
     DDRB &= ~(1 << PORTB2);
@@ -60,13 +60,13 @@ static void GPIO_Init() {
     PORTD |= (1 << PORTD6);
     PORTD |= (1 << PORTD7);
 }
-static void pinON(int num) {
+void pinON(int num) {
     PORTC |= (1 << num);
 }
-static void pinOFF(int num) {
+void pinOFF(int num) {
     PORTC &= ~(1 << num);
 }
-static void blink(void){
+void blink(void){
     pinON(led1);
     _delay_ms(50);
     pinOFF(led1);
@@ -76,77 +76,78 @@ static void blink(void){
     pinOFF(led2);
     _delay_ms(50);
 }
-static void readEncoders(void){
+void readEncoders(void){
 
     readEncoderHold1();
     readEncoderHold2();
     readEncoderDel1();
     readEncoderDel2();
 }
-static void printEncoders(void){
-
+void printEncoders(void){
     sprintf(tmp, "1 channel: delay %d\thold %d\r\n2 channel: delay %d\thold %d\r\n", del_1, hold_1, del_2, hold_2);
     USART_sendLine(tmp);
     USART_sendLine("\r\n");
 }
-static void readEncoderDel1(){
+void readEncoderDel1(){
     PORTB &= ~(1 << PORTB4);
-    _delay_ms(10);
+    _delay_ms(1);
     del_1 = (~PINB) & 0b00001111;
-    _delay_ms(10);
+    _delay_ms(1);
     PORTB |= (1 << PORTB4);
 }
-static void readEncoderHold1(){
+void readEncoderHold1(){
     PORTB &= ~(1 << PORTB5);
-    _delay_ms(10);
+    _delay_ms(1);
     hold_1 = (~PINB) & 0b00001111;
-    _delay_ms(10);
+    _delay_ms(1);
     PORTB |= (1 << PORTB5);
 }
-static void readEncoderDel2(){
+void readEncoderDel2(){
     PORTD &= ~(1 << PORTD3);
-    _delay_ms(10);
+    _delay_ms(1);
     del_2 = ((~PIND) & 0b11110000) >> 4 ;
-    _delay_ms(10);
+    _delay_ms(1);
     PORTD |= (1 << PORTD3);
 }
-static void readEncoderHold2(){
+void readEncoderHold2(){
     PORTD &= ~(1 << PORTD2);
-    _delay_ms(10);
+    _delay_ms(1);
     hold_2 = ((~PIND) & 0b11110000) >> 4 ;
-    _delay_ms(10);
+    _delay_ms(1);
     PORTD |= (1 << PORTD2);
 }
-static void USART0_Init() {
+void USART0_Init() {
     uint16_t ubrr;
-    ubrr = F_CPU/9600/16-1;           // скорость обмена 115200 бит/с
+    ubrr = F_CPU/14200/16-1;           // скорость обмена 14200 бит/с
     UBRR0H = (unsigned char)(ubrr>>8);
     UBRR0L = (unsigned char)ubrr;
     UCSR0B = (1<<RXEN0)|(1<<TXEN0);     // включаем приёмник и передатчик
     UCSR0C = (1<<USBS0)|(3<<UCSZ00);    // асинхронный режим, размер посылки 8 бит, проверка чётности отключена, 1 стоп-бит
 }
-static void USART_sendChar(char character){
+void USART_sendChar(char character){
     while ( !( UCSR0A & (1<<UDRE0)));   //Wait for empty transmit buffer
     UDR0 = character;                        //Put data into buffer, sends the data
 }
-static void USART_sendLine(char *string) {
+void USART_sendLine(char *string) {
     while ( *string ) {
         USART_sendChar(*string); // посимвольно отправляем строку
         string++;
     }
 }
-static char USART_receiveChar(void) {
+#if 0
+char USART_receiveChar(void) {
     return ( (UCSR0A >> RXC0) & 1 ) ? UDR0 : 0;  // возвращаем значение буфера приёма
 }
-static void USART0_Transmit( unsigned char data ) {
+void USART0_Transmit( unsigned char data ) {
     while ( !( UCSR0A & (1<<UDRE0)));   //Wait for empty transmit buffer
     UDR0 = data;                        //Put data into buffer, sends the data
 }
-static unsigned char USART0_Receive( void ) {
+unsigned char USART0_Receive( void ) {
     while ( !(UCSR0A & (1<<RXC0)));         //Wait for data to be received
     return UDR0;                            //Get and return received data from buffer
 }
-static void printADC(void){
+#endif
+void printADC(void){
     sprintf(tmp, "ADC0: %d\r\nADC1: %d\r\nADC2: %d\r\nADC3: %d\r\n", adc0,adc1,adc2,adc3);
     USART_sendLine(tmp);
 }
