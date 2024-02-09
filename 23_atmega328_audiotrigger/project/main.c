@@ -22,7 +22,7 @@ int main(void) {
     readEncoders();
 
     while (1) {
-//        _delay_ms(5000);
+        _delay_ms(2000);
         adc0 = ADC_convert(ADC0);
         adc1 = ADC_convert(ADC1);
         adc2 = ADC_convert(ADC2);
@@ -118,7 +118,7 @@ void readEncoderHold2(){
 }
 void USART0_Init() {
     uint16_t ubrr;
-    ubrr = F_CPU/14200/16-1;           // скорость обмена 14200 бит/с
+    ubrr = F_CPU/57600/16-1;           // скорость обмена 57600 бит/с
     UBRR0H = (unsigned char)(ubrr>>8);
     UBRR0L = (unsigned char)ubrr;
     UCSR0B = (1<<RXEN0)|(1<<TXEN0);     // включаем приёмник и передатчик
