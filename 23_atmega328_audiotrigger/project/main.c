@@ -148,6 +148,6 @@ unsigned char USART0_Receive( void ) {
 }
 #endif
 void printADC(void){
-    sprintf(tmp, "ADC0: %d\r\nADC1: %d\r\nADC2: %d\r\nADC3: %d\r\n", adc0,adc1,adc2,adc3);
+    sprintf(tmp, "1 channel: input: %d\tbase %d\r\n2 channel: input %d\tbase %d\r\n", adc0,adc1,adc2,adc3);
     USART_sendLine(tmp);
 }
