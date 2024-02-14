@@ -1,0 +1,5 @@
+List SMB Shares
+smbclient -L //fs01.git-holding.ru -U evgeniy.parubets@git-holding.ru 
+Qwerty123Qwerty123
+
+smbclient //fs01.git-holding.ru/git -U evgeniy.parubets@git-holding.ru
