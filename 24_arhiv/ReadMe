@@ -1,10 +1,2 @@
 Перенос ранее созданного на виртуалку
-ssh asoldatov@172.17.4.40
-8B&987b*&^5c*V&^%
-
-sudo sshfs asoldatov@172.17.4.40:/home/asoldatov/ /home/evg/SOFT/Github/GIT/24_arhiv/asoldatov
-
-
-
-Установить докер
-развернуть ngnix
+все описание в файле Docker
