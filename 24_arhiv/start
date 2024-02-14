@@ -1,0 +1,4 @@
+#!/usr/bin/bash
+docker run --name=createwebcontent -v /etc/timezone:/etc/timezone:ro -v /etc/localtime:/etc/localtime:ro 8evgeny/createwebcontent
+docker cp createwebcontent:/home/evg/SOFT/Github/GIT/16_WEB_ARHIV /home/evg/16_WEB_ARHIV
+docker rm  createwebcontent

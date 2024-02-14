@@ -16,15 +16,15 @@ docker system prune
 cd ~/SOFT/Github/GIT/16_WEB_ARHIV && docker save createwebcontent > createwebcontent.tar
 cd ~/SOFT/Github/GIT/16_WEB_ARHIV && docker load -i createwebcontent.tar
 #endif
-string WEB_content{"../../CONTENT/content_for_web/"};
+string WEB_content{"/home/evg/SOFT/Github/GIT/16_WEB_ARHIV/CONTENT/content_for_web/"};
 uint numContent{0};
 
 int main(int argc, char *argv[])
 {
-    path archiv_path_zip{"../../Ниокр-Актуальные_документы"};
+    path archiv_path_zip{"/home/evg/SOFT/Github/GIT/16_WEB_ARHIV/Ниокр-Актуальные_документы"};
     if (argc != 2)
     {
-        cout << "Передается в качестве параметра путь ../../Ниокр-Актуальные_документы"<< endl;
+        cout << "Передается в качестве параметра путь /home/evg/SOFT/Github/GIT/16_WEB_ARHIV/Ниокр-Актуальные_документы"<< endl;
     }
     else
     {
