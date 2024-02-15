@@ -65,7 +65,7 @@ bool parseJSON(string & patchToFile, const path & archiv_path_zip){ //archiv_pat
                     "(Libre Office Writer 7.5.3.2)|"
                     "(Inkscape 1.2)|"
                     "(NanoCAD 23.0.6169.4115 /(Сборка 6276/))|"
-                    "(Altium Designer Version 19.0.15 /(BUILD 446/))|"
+                    "(Altium Designer.*)|"
                     "(Microsoft Word.*)"
                     "$");
     QRegExp iulStr("^"
