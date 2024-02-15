@@ -61,10 +61,11 @@ bool parseJSON(string & patchToFile, const path & archiv_path_zip){ //archiv_pat
     QRegExp softStr("^"
                     "(Solidworks Professional 2018 x64 Edition SP3.0)|"
                     "(КОМПАС-3D 21.0.0.1158 /(64-разрядная версия/))|"
-                    "(Altium Designer 20.0.12 (Build 288))|"
+                    "(Altium Designer 20.0.12 /(Build 288/))|"
                     "(Libre Office Writer 7.5.3.2)|"
                     "(Inkscape 1.2)|"
-                    "(NanoCAD 23.0.6169.4115 (Сборка 6276))|"
+                    "(NanoCAD 23.0.6169.4115 /(Сборка 6276/))|"
+                    "Altium Designer Version 19.0.15 /(BUILD 446/)|"
                     "(Microsoft Word)"
                     "$");
     QRegExp iulStr("^"
