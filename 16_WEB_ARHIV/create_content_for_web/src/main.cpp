@@ -21,10 +21,10 @@ uint numContent{0};
 
 int main(int argc, char *argv[])
 {
-    path archiv_path_zip{"/home/evg/SOFT/Github/GIT/16_WEB_ARHIV/Ниокр-Актуальные_документы"};
+//    path archiv_path_zip{"/home/evg/SOFT/Github/GIT/16_WEB_ARHIV/Ниокр-Актуальные_документы"};
 //    path archiv_path_zip{"/home/evg/SOFT/Github/GIT/16_WEB_ARHIV/_ERRORS"};
 //    path archiv_path_zip{"/home/evg/SOFT/Github/GIT/16_WEB_ARHIV/_BAD"};
-//    path archiv_path_zip{"/home/evg/SOFT/Github/GIT/16_WEB_ARHIV/_TEST"};
+    path archiv_path_zip{"/home/evg/SOFT/Github/GIT/16_WEB_ARHIV/_TEST"};
     if (argc != 2)
     {
 //        cout << "Передается в качестве параметра путь: "<< archiv_path_zip << endl;
@@ -127,9 +127,14 @@ int main(int argc, char *argv[])
        << endl << "Ошибок разбора: " << errorParsingJson<< endl;
     for (auto & patchJsonError : errorJsonPatch)
         cout <<  patchJsonError << endl;
-//Запускаем web-server
-    string webStart = "docker run -it --rm -d -p 8080:80 --name web -v ~/SOFT/Github/GIT/16_WEB_ARHIV/CONTENT:/usr/share/nginx/html nginx 2>/dev/null";
-    system(webStart.c_str());
+
+    cout <<  "start docker servises" << endl;
+//    string webStart = "docker run -it --rm -d -p 8080:80 --name web -v ~/SOFT/Github/GIT/16_WEB_ARHIV/CONTENT:/usr/share/nginx/html nginx 2>/dev/null";
+//    system(webStart.c_str());
+
+//Запускаем docker сервисы (docker-compose.yml)
+    string dockerStart = "docker-compose up -d";
+    system(dockerStart.c_str());
 }
 
 string nameFromPath(path Patch){
