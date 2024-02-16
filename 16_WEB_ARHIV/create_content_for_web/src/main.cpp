@@ -21,13 +21,13 @@ uint numContent{0};
 
 int main(int argc, char *argv[])
 {
-    path archiv_path_zip{"/home/evg/SOFT/Github/GIT/16_WEB_ARHIV/Ниокр-Актуальные_документы"};
+//    path archiv_path_zip{"/home/evg/SOFT/Github/GIT/16_WEB_ARHIV/Ниокр-Актуальные_документы"};
 //    path archiv_path_zip{"/home/evg/SOFT/Github/GIT/16_WEB_ARHIV/_ERRORS"};
 //    path archiv_path_zip{"/home/evg/SOFT/Github/GIT/16_WEB_ARHIV/_BAD"};
-//    path archiv_path_zip{"/home/evg/SOFT/Github/GIT/16_WEB_ARHIV/_TEST"};
+    path archiv_path_zip{"/home/evg/SOFT/Github/GIT/16_WEB_ARHIV/_TEST"};
     if (argc != 2)
     {
-        cout << "Передается в качестве параметра путь /home/evg/SOFT/Github/GIT/16_WEB_ARHIV/Ниокр-Актуальные_документы"<< endl;
+        cout << "Передается в качестве параметра путь: "<< archiv_path_zip << endl;
     }
     else
     {
