@@ -70,22 +70,33 @@ const quint32 CRC32Table[256] =
 
 quint32 CRC32(QString fileName)
 {
-    cout<<fileName.toStdString()<<endl;
     QFile file(fileName);
     QString errMsg;
     QFileDevice::FileError err = QFileDevice::NoError;
      if(!file.open(QIODevice::ReadOnly)){
          errMsg = file.errorString();
          err = file.error();
-         qDebug()<<errMsg;
+#ifdef printJson
+//         qDebug()<<errMsg;
+         cout<<"file suffix change PDF->pdf "<<endl;
+#endif
            if(fileName.endsWith("PDF")){
               fileName.chop(3);
               fileName.append("pdf");
               file.setFileName(fileName);
+#ifdef printJson
+              cout<<"calculate CRC32 for "<<fileName.toStdString()<<endl;
+#endif
               if(!file.open(QIODevice::ReadOnly))
                   return -1;
            }
     }
+        else
+     {
+#ifdef printJson
+         cout<<"calculate CRC32 for "<<fileName.toStdString()<<endl;
+#endif
+     }
     quint32 CRC32 = 0xffffffff;
     qint64 n, i;
     char *buf = new char [BUFSIZE];

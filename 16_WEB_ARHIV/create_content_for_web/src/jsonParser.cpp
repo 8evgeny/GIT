@@ -80,17 +80,23 @@ bool parseJSON(string & patchToFile, const path & archiv_path_zip){ //archiv_pat
         {
             if (document.HasMember("Реквизиты документа по ГОСТ 2.104"))
             {
+#ifdef printJson
                 cout << "   Реквизиты документа по ГОСТ 2.104:\n";
+#endif
                 const   Value & requisites = document["Реквизиты документа по ГОСТ 2.104"];
                 if (requisites.HasMember("Наименование изделия")){
                     naimenovanieIzdeliya = requisites["Наименование изделия"].GetString();
                     if(blankStr.exactMatch(QString::fromStdString(naimenovanieIzdeliya))) return false;
+#ifdef printJson
                     cout << "\tНаименование изделия: " << naimenovanieIzdeliya << "\n";
+#endif
                 }else return false;
                 if (requisites.HasMember("Наименование документа")){
                     naimenovanieDokumenta = requisites["Наименование документа"].GetString();
                     if(blankStr.exactMatch(QString::fromStdString(naimenovanieDokumenta))) return false;
+#ifdef printJson
                     cout << "\tНаименование документа: " << naimenovanieDokumenta << "\n";
+#endif
                 }else return false;
                 if (requisites.HasMember("Обозначение и код документа")){
                     oboznachenieIkodDokumenta = requisites["Обозначение и код документа"].GetString();
@@ -99,17 +105,23 @@ bool parseJSON(string & patchToFile, const path & archiv_path_zip){ //archiv_pat
       string appPdf = oboznachenieIkodDokumenta;
       string chopped = patchToFile;
       namePDF = QString::fromStdString(chopped).chopped(10)+QString("Contents/")+QString::fromStdString(appPdf.append(".PDF"));
+#ifdef printJson
       QString directoryPDF = QString::fromStdString(chopped).chopped(10)+QString("Contents/");
       string printDir = "ls -l " + directoryPDF.toStdString();
       system(printDir.c_str());
+#endif
       crc32 = CRC32(namePDF);
+#ifdef printJson
       cout << "\tОбозначение и код документа: " << oboznachenieIkodDokumenta ;
+#endif
       if(crc32 == -1)
       {
           printf("                      \tОтсутствует PDF файл  %s.PDF !!!\n", oboznachenieIkodDokumenta.c_str());
           return false;
       }
+#ifdef printJson
       printf("                      \t(посчитан CRC32: %.8X)\n", crc32);
+#endif
       char buf[20];
       sprintf(buf,"%.8X\n", crc32);
       string tmp{buf};
@@ -119,8 +131,9 @@ bool parseJSON(string & patchToFile, const path & archiv_path_zip){ //archiv_pat
       string chopped1 = patchToFile;
       QString nameDirectory = QString::fromStdString(chopped1).chopped(10)+QString("Contents");
       crc32Contents = CRC32Contents(nameDirectory);
+#ifdef printJson
       printf("                      \t\t\t\t\t\t\t\t(посчитан CRC32 папки Contents: %s)\n", crc32Contents.c_str());
-
+#endif
                 }else return false;
                 if (requisites.HasMember("Общее количество листов документа")){
                     auto type = requisites["Общее количество листов документа"].GetType();
@@ -129,20 +142,28 @@ bool parseJSON(string & patchToFile, const path & archiv_path_zip){ //archiv_pat
                     if (type == rapidjson::kNumberType)
                        numberSheets =  requisites["Общее количество листов документа"].GetInt();
                     if(!number3dig.exactMatch(QString::number(numberSheets))) return false;
+#ifdef printJson
                     cout << "\tОбщее количество листов документа: " << numberSheets << "\n";
+#endif
                 }else return false;
                 if (requisites.HasMember("Наименование или код организации")){
                     company = requisites["Наименование или код организации"].GetString();
                     if(company != "ООО «Группа индустриальных технологий»") return false;
+#ifdef printJson
                     cout << "\tНаименование или код организации: " << company << "\n";
+#endif
                 }else return false;
                 if (requisites.HasMember("Сведения о подписании документа")){
+#ifdef printJson
                     cout << "\tСведения о подписании документа:\n";
+#endif
                     const   Value & infoAboutSigning = requisites["Сведения о подписании документа"];
                     if (infoAboutSigning.HasMember("Разработал")){
                         creater = infoAboutSigning["Разработал"].GetString();
                         if(blankStr.exactMatch(QString::fromStdString(creater))) return false;
+#ifdef printJson
                         cout << "\t\tРазработал: " << creater << "\n";
+#endif
                     }else return false;
                     if (infoAboutSigning.HasMember("Дата")){
                         createdDataStr = infoAboutSigning["Дата"].GetString();
@@ -151,12 +172,16 @@ bool parseJSON(string & patchToFile, const path & archiv_path_zip){ //archiv_pat
                         tm tm = {};
                         ss >> get_time(&tm, "%Y-%m-%d");
                         createdData = chrono::system_clock::from_time_t(mktime(&tm));
+#ifdef printJson
                         cout << "\t\tДата: " << createdData << "\n";
+#endif
                     }else return false;
                     if (infoAboutSigning.HasMember("Информационно-удостоверяющий лист")){
                         infoOrderList = infoAboutSigning["Информационно-удостоверяющий лист"].GetString();
                         if(!iulStr.exactMatch(QString::fromStdString(infoOrderList))) return false;
+#ifdef printJson
                         cout << "\t\tИнформационно-удостоверяющий лист: " << infoOrderList << "\n";
+#endif
                     }else return false;
                 }else return false;
                 if (requisites.HasMember("Номер изменения")){
@@ -166,13 +191,17 @@ bool parseJSON(string & patchToFile, const path & archiv_path_zip){ //archiv_pat
                     if (type == rapidjson::kNumberType)
                         changeNum =  requisites["Номер изменения"].GetInt();
                         if(!number2dig.exactMatch(QString::number(changeNum))) return false;
+#ifdef printJson
                     cout << "\tНомер изменения: " << changeNum << "\n";
+#endif
                     changeNumStr = to_string(changeNum);
                 }else return false;
                 if (requisites.HasMember("Номер извещения об изменении")){
                     changeNotificationNum = requisites["Номер извещения об изменении"].GetString();
                     if(blankStr.exactMatch(QString::fromStdString(changeNotificationNum))) return false;
+#ifdef printJson
                     cout << "\tНомер извещения об изменении: " << changeNotificationNum << "\n";
+#endif
                 }else return false;
                 if (requisites.HasMember("Дата извещения об изменении")){
                     notificationDataStr = requisites["Дата извещения об изменении"].GetString();
@@ -181,12 +210,16 @@ bool parseJSON(string & patchToFile, const path & archiv_path_zip){ //archiv_pat
                     tm tm = {};
                     ss >> get_time(&tm, "%Y-%m-%d");
                     notificationData = chrono::system_clock::from_time_t(mktime(&tm));
+#ifdef printJson
                     cout << "\tДата извещения об изменении: " << notificationData << "\n";
+#endif
                 }else return false;
                 if (requisites.HasMember("Инвентарный номер подлинника")){
                     inventoryNumOriginal = requisites["Инвентарный номер подлинника"].GetString();
                     if(blankStr.exactMatch(QString::fromStdString(inventoryNumOriginal))) return false;
+#ifdef printJson
                     cout << "\tИнвентарный номер подлинника: " << inventoryNumOriginal << "\n";
+#endif
                 }else return false;
                 if (requisites.HasMember("Дата приемки на хранение")){
                     storageDataStr = requisites["Дата приемки на хранение"].GetString();
@@ -195,14 +228,22 @@ bool parseJSON(string & patchToFile, const path & archiv_path_zip){ //archiv_pat
                     tm tm = {};
                     ss >> get_time(&tm, "%Y-%m-%d");
                     storageData = chrono::system_clock::from_time_t(mktime(&tm));
+#ifdef printJson
                     cout << "\tДата приемки на хранение: " << storageData << "\n";
+#endif
                 }else return false;
                 if (requisites.HasMember("Литера")){
                     litera = requisites["Литера"].GetString();
-                    if (litera == "")
+                             if (litera == ""){
+#ifdef printJson
                         cout << "\tЛитера: " << "\"\"" << "\n";
-                    else
+#endif
+                             }
+                             else {
+#ifdef printJson
                         cout << "\tЛитера: " << litera << "\n";
+#endif
+                             }
                 }else return false;
                 if (requisites.HasMember("Код документа в зависимости от характера использования")){
                     auto type = requisites["Код документа в зависимости от характера использования"].GetType();
@@ -211,13 +252,17 @@ bool parseJSON(string & patchToFile, const path & archiv_path_zip){ //archiv_pat
                     if (type == rapidjson::kNumberType)
                         dokumentCode =  requisites["Код документа в зависимости от характера использования"].GetInt();
                     if(!number2dig.exactMatch(QString::number(dokumentCode))) return false;
+#ifdef printJson
                     cout << "\tКод документа в зависимости от характера использования: " << dokumentCode << "\n";
+#endif
                 }
             }//Реквизиты документа
             else return false;
 
             if (document.HasMember("Сервисные данные")){
+#ifdef printJson
                 cout << "   Сервисные данные:\n";
+#endif
                 const   Value & serviceData = document["Сервисные данные"];
                 if (serviceData.HasMember("Версия формата реквизитной части")){
                     auto type = serviceData["Версия формата реквизитной части"].GetType();
@@ -226,12 +271,16 @@ bool parseJSON(string & patchToFile, const path & archiv_path_zip){ //archiv_pat
                     if (type == rapidjson::kNumberType)
                         version =  serviceData["Версия формата реквизитной части"].GetInt();
                     if(!number2dig.exactMatch(QString::number(version))) return false;
+#ifdef printJson
                     cout << "\tВерсия формата реквизитной части: " << version << "\n";
+#endif
                 }else return false;
                 if (serviceData.HasMember("Алгоритм расчета контрольной суммы")){
                     algorithm = serviceData["Алгоритм расчета контрольной суммы"].GetString();
                     if(blankStr.exactMatch(QString::fromStdString(algorithm))) return false;
+#ifdef printJson
                     cout << "\tАлгоритм расчета контрольной суммы: " << algorithm << "\n";
+#endif
                 }else return false;
                 if (serviceData.HasMember("Значение контрольной суммы подлинника")){
                     controlSummOrigin = serviceData["Значение контрольной суммы подлинника"].GetString();
@@ -241,27 +290,45 @@ bool parseJSON(string & patchToFile, const path & archiv_path_zip){ //archiv_pat
                     char buf[20];
                     sprintf (buf,"%.8X", crc32);
                     string calculateCRC32{buf};
+#ifdef printJson
                     cout << "\tЗначение контрольной суммы подлинника: " << controlSummOrigin ;
+#endif
                     if(controlSummOrigin == calculateCRC32) {
-                        cout << "                  \t(Контрольные суммы совпадают)"<<endl; }
-                    else { cout << "                  \t(Контрольные суммы не совпадают !!!)"<<endl;
+#ifdef printJson
+                        cout << "                  \t(Контрольные суммы совпадают)"<<endl;
+#endif
+                    }
+                    else {
+#ifdef printJson
+                        cout << "                  \t(Контрольные суммы не совпадают !!!)"<<endl;
+#endif
                         return false;}
 
                 }else return false;
                 if (serviceData.HasMember("Значение контрольной суммы содержательных частей")){
                 controlSummParts = serviceData["Значение контрольной суммы содержательных частей"].GetString();
                 if(!crc32Str.exactMatch(QString::fromStdString(controlSummParts))) return false;
+#ifdef printJson
                 cout << "\tЗначение контрольной суммы содержательных частей: " << controlSummParts ;
+#endif
                 if(controlSummParts == crc32Contents) {
-                    cout << "  \t\t(Контрольные суммы содержательных частей совпадают)"<<endl; }
-                else { cout << "  \t\t(Контрольные суммы содержательных частей не совпадают !!!)"<<endl;
+#ifdef printJson
+                    cout << "  \t\t(Контрольные суммы содержательных частей совпадают)"<<endl;
+#endif
+                }
+                else {
+#ifdef printJson
+                    cout << "  \t\t(Контрольные суммы содержательных частей не совпадают !!!)"<<endl;
+#endif
                     return false;}
 
                 }else return false;
                 if (serviceData.HasMember("Программное обеспечение для редактирования исходных данных")){
                     software = serviceData["Программное обеспечение для редактирования исходных данных"].GetString();
                     if(!softStr.exactMatch(QString::fromStdString(software))) return false;
+#ifdef printJson
                     cout << "\tПрограммное обеспечение для редактирования исходных данных: " << software << "\n";
+#endif
                 }else return false;
                 if (serviceData.HasMember("Объем в листах А4")){
                     auto type = serviceData["Объем в листах А4"].GetType();
@@ -270,21 +337,32 @@ bool parseJSON(string & patchToFile, const path & archiv_path_zip){ //archiv_pat
                     if (type == rapidjson::kNumberType)
                         volumeInSheets =  serviceData["Объем в листах А4"].GetInt();
                     if(!number3dig.exactMatch(QString::number(volumeInSheets))) return false;
+#ifdef printJson
                     cout << "\tОбъем в листах А4: " << volumeInSheets << "\n";
+#endif
+
                 }else return false;
                 if (serviceData.HasMember("Документ действителен")){
                     auto type = serviceData["Документ действителен"].GetType();
                     if (type == rapidjson::kTrueType || rapidjson::kFalseType)
                        isValid = serviceData["Документ действителен"].GetBool();
                     else return false;
+#ifdef printJson
                     cout << "\tДокумент действителен: " << boolalpha << isValid << "\n";
+#endif
                 }else return false;
                 if (serviceData.HasMember("Теги")){
                     tags = serviceData["Теги"].GetString();
-                    if (tags == "")
+                           if (tags == ""){
+#ifdef printJson
                         cout << "\tТеги: " << "\"\"" << "\n";
-                    else
+#endif
+                           }
+                           else {
+#ifdef printJson
                         cout << "\tТеги: " << tags << "\n\n";
+#endif
+                           }
                 }else return false;
             } else return false;//Сервисные данные
         }//document.IsObject()
@@ -300,6 +378,7 @@ bool parseJSON(string & patchToFile, const path & archiv_path_zip){ //archiv_pat
 
 //Создаю папку для нового контента
     string createContentFolder = "mkdir " + WEB_content + to_string(numFolderForWebContent);
+    cout << "Create folder mumber " << to_string(numFolderForWebContent) << endl;
     system(createContentFolder.c_str());
 
 //Копирую актуальный zip файл
@@ -459,7 +538,7 @@ bool parseJSON(string & patchToFile, const path & archiv_path_zip){ //archiv_pat
             WEB_content + to_string(numFolderForWebContent) + "/" + changeNotificationNum + ".PDF" + " 2> /dev/null";
     system(renameIZMPDF.c_str());
 
-
+cout << "Copy content to folder " << to_string(numFolderForWebContent) << endl;
 
 //Все действия в контексте текущей папки веб контента завершены
 

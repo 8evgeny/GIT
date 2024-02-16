@@ -26,6 +26,7 @@ string CRC32Contents(QString DirectoryPatch);
 string createHTML(vector <string> & content, vector<pair<string,string>> & oldZipData);
 void createQR(string nameQR, string originText);
 string currentDateTime();
+string nameFromPath(path);
 string createStringForQr (string oboznachenieIkodDokumenta,
                           string changeNumStr,
                           string changeNotificationNum,

@@ -21,13 +21,13 @@ uint numContent{0};
 
 int main(int argc, char *argv[])
 {
-//    path archiv_path_zip{"/home/evg/SOFT/Github/GIT/16_WEB_ARHIV/Ниокр-Актуальные_документы"};
+    path archiv_path_zip{"/home/evg/SOFT/Github/GIT/16_WEB_ARHIV/Ниокр-Актуальные_документы"};
 //    path archiv_path_zip{"/home/evg/SOFT/Github/GIT/16_WEB_ARHIV/_ERRORS"};
 //    path archiv_path_zip{"/home/evg/SOFT/Github/GIT/16_WEB_ARHIV/_BAD"};
-    path archiv_path_zip{"/home/evg/SOFT/Github/GIT/16_WEB_ARHIV/_TEST"};
+//    path archiv_path_zip{"/home/evg/SOFT/Github/GIT/16_WEB_ARHIV/_TEST"};
     if (argc != 2)
     {
-        cout << "Передается в качестве параметра путь: "<< archiv_path_zip << endl;
+//        cout << "Передается в качестве параметра путь: "<< archiv_path_zip << endl;
     }
     else
     {
@@ -83,17 +83,16 @@ int main(int argc, char *argv[])
     {
         for (auto i = 0; i < vectorZipFilesPath.size();++i ){
             ++numContent;
-            cout << endl<<"doc_"<< numContent << ": "<< vectorZipFilesPath[i] << endl;
+            cout <<"Extract "<< numContent << ": "<< nameFromPath(vectorZipFilesPath[i]) << endl;
             extractZip(vectorZipFilesPath[i], vectorZipFilesName[i], pathToExtractDirectory); //распаковка одного zip файла
         }
     }
-    cout<< endl<< "Всего разархивировано zip файлов: " << numContent<< endl;
-
+    cout<< "Всего разархивировано zip файлов: " << numContent<< endl;
+    cout<< "Начинаем разбор разархивированных директорий." << endl;
 //Разбор разархивированной директории
     vector<string> vectorJsonFilesPath;
     vector<string> errorJsonPatch;
     const unordered_set<string> json_extensions{ ".json" };
-    cout << endl <<"Patch for json search: "<<archiv_path_extracted << endl;
     auto iteratorJson = recursive_directory_iterator{ archiv_path_extracted, directory_options::skip_permission_denied };
     for(const auto& entry : iteratorJson) {
       try {
@@ -115,7 +114,7 @@ int main(int argc, char *argv[])
         int num = 0;
         for (auto & patchJsonFile : vectorJsonFilesPath){
             ++num;
-            cout << endl<< num << ": "<< patchJsonFile << endl;
+            cout <<endl<<"Seaching json "<< num << ": "<< patchJsonFile << endl;
             if(!parseJSON(patchJsonFile, archiv_path_zip)) //парсинг одного файла JSON
             {
                 cout << "ОШИБКА JSON ФАЙЛА" << endl;
@@ -131,4 +130,8 @@ int main(int argc, char *argv[])
 //Запускаем web-server
     string webStart = "docker run -it --rm -d -p 8080:80 --name web -v ~/SOFT/Github/GIT/16_WEB_ARHIV/CONTENT:/usr/share/nginx/html nginx 2>/dev/null";
     system(webStart.c_str());
+}
+
+string nameFromPath(path Patch){
+    return Patch.filename();
 }
