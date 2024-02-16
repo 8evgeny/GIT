@@ -83,7 +83,7 @@ int main(int argc, char *argv[])
     {
         for (auto i = 0; i < vectorZipFilesPath.size();++i ){
             ++numContent;
-            cout << endl<< numContent << ": "<< vectorZipFilesPath[i] << endl;
+            cout << endl<<"doc_"<< numContent << ": "<< vectorZipFilesPath[i] << endl;
             extractZip(vectorZipFilesPath[i], vectorZipFilesName[i], pathToExtractDirectory); //распаковка одного zip файла
         }
     }
