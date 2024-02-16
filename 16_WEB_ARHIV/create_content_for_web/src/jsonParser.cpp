@@ -71,7 +71,7 @@ bool parseJSON(string & patchToFile, const path & archiv_path_zip){ //archiv_pat
     QRegExp iulStr("^"
                    "(ГРЛМ.[0-9]{6}.[0-9]{3}[А-Я][А-Я0-9]+)-УЛ|"
                    "(ГРЛМ.[0-9]{6}.[0-9]{3}УЛ)|"
-                   "(ГРЛМ.[0-9]{6}.[0-9]{3}-[0-9]{2,3}[А-Я][А-Я0-9]+)-УЛ|"
+                   "((ГРЛМ.[0-9]{6}.[0-9]{3}-[0-9]{2,3}[А-Я][А-Я0-9]+)-УЛ)|"
                    "$");
     Document document;
     if (!document.Parse(jsonData.toStdString().c_str()).HasParseError())
