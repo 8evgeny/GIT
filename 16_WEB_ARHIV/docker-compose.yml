@@ -5,9 +5,12 @@ services:
     container_name:  niokr_archiv_PSQL_13.3
     environment:
       POSTGRES_DB: "niokrDB"
-      POSTGRES_USER: "evg"
-      POSTGRES_PASSWORD: "123"
-    #volumes:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+    volumes:
+      - ./postgresql:/var/lib/postgresql
+      - ./db_init_scripts:/docker-entrypoint-initdb.d
+#      - ~/SOFT/Github/GIT/16_WEB_ARHIV/init_scripts:/docker-entrypoint-initdb.d postgres
     #- postgres_data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
