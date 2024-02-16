@@ -16,5 +16,5 @@ file(GLOB src src/*.cpp)
 add_executable(createWebContent ${src})
 target_link_libraries(createWebContent Qt${QT_VERSION_MAJOR}::Core )
 add_subdirectory(rapidjson)
-#add_definitions(-DprintJson)
+add_definitions(-DprintJson)
 
