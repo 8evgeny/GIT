@@ -36,7 +36,7 @@ int main(int argc, char *argv[])
     cout <<  "start docker servises" << endl;
     string dockerStart = "docker-compose up -d 2>/dev/null";
     system(dockerStart.c_str());
-    QThread::currentThread()->msleep(1500);
+    QThread::currentThread()->msleep(2000);
     create_table("test");
 
 
