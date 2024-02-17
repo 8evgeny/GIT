@@ -140,3 +140,21 @@ int main(int argc, char *argv[])
 string nameFromPath(path Patch){
     return Patch.filename();
 }
+
+void create_table(QString table_name) {
+  CONNECT_TO_DB
+  string create = "DROP TABLE IF EXISTS " + table_name.toStdString() +
+                " CASCADE"
+                ";";
+  auto res = work.exec(create);
+  cout << "create_table: " << table_name.toStdString() << endl;
+}
+
+void drop_table(QString table_name) {
+  CONNECT_TO_DB
+  string drop = "DROP TABLE IF EXISTS " + table_name.toStdString() +
+                " CASCADE"
+                ";";
+  auto res = work.exec(drop);
+  cout << "drop_table: " << table_name.toStdString() << endl;
+}
