@@ -39,8 +39,6 @@ int main(int argc, char *argv[])
     create_table("abcd");
     create_table("sssss");
 
-//    create_table("33");
-
 //    try
 //     {
 //       pqxx::connection conn;

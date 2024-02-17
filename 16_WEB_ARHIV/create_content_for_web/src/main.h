@@ -25,7 +25,7 @@ using namespace pqxx;
     " user=" + user.toStdString() + \
     " password=" + password.toStdString(); \
   pqxx::connection connect(connections_to_db); \
-  pqxx::nontransaction work(connect);
+  pqxx::transaction work(connect);
 
 bool parseJSON(string & patchToFile, const path & archiv_path_zip);
 bool extractZip(string & patchToFile, string & fileName, string & patchToExtractDirectory);
