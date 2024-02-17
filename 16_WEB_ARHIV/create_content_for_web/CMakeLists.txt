@@ -14,7 +14,7 @@ find_package(QT NAMES Qt5 COMPONENTS Core REQUIRED)
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Core REQUIRED)
 file(GLOB src src/*.cpp)
 add_executable(createWebContent ${src})
-target_link_libraries(createWebContent Qt${QT_VERSION_MAJOR}::Core )
+target_link_libraries(createWebContent Qt${QT_VERSION_MAJOR}::Core -lpqxx)
 add_subdirectory(rapidjson)
 #add_definitions(-DprintJson)
 
