@@ -47,3 +47,4 @@ string createStringForQr (string oboznachenieIkodDokumenta,
                           );
 void create_table(QString table_name);
 void drop_table(QString table_name);
+void workPSQL();
