@@ -18,6 +18,7 @@ using namespace std;
 using namespace chrono_literals;
 using namespace std::filesystem;
 using namespace pqxx;
+
 #define CONNECT_TO_DB \
     string connections_to_db = \
     "host=" + host.toStdString() + \
