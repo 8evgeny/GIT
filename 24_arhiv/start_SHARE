@@ -1,0 +1,3 @@
+#!/usr/bin/bash
+sudo mount.cifs //fs01.git-holding.ru/git/TRANSFER /home/evg/TRANSFER -o username=evgeniy.parubets@git-holding.ru,password=Qwerty123Qwerty123,vers=1.0
+sudo mount.cifs //fs01.git-holding.ru/git/Рабочие\ группы /home/evg/WG -o username=evgeniy.parubets@git-holding.ru,password=Qwerty123Qwerty123,vers=1.0
