@@ -194,17 +194,17 @@ void workPSQL(){
           W.commit();
 
 //Заполняем таблицу
-          sql = "INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY) "
-             "VALUES (1, 'Pratds', 32, 'California', 40000.00 ); "
-             "INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY) "
-             "VALUES (2, 'Alks', 25, 'Texas', 25000.00 ); "
-             "INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY)"
-             "VALUES (3, 'Tedh', 23, 'Norway', 19000.00 );"
-             "INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY)"
-             "VALUES (4, 'Rahj', 25, 'Rich-Mond ', 95000.00 );";
-          work W2(C);/* Create a transactional object. */
-          W2.exec( sql ); /* Execute SQL query */
-          W2.commit();
+//          sql = "INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY) "
+//             "VALUES (1, 'Pratds', 32, 'California', 40000.00 ); "
+//             "INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY) "
+//             "VALUES (2, 'Alks', 25, 'Texas', 25000.00 ); "
+//             "INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY)"
+//             "VALUES (3, 'Tedh', 23, 'Norway', 19000.00 );"
+//             "INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY)"
+//             "VALUES (4, 'Rahj', 25, 'Rich-Mond ', 95000.00 );";
+//          work W2(C);/* Create a transactional object. */
+//          W2.exec( sql ); /* Execute SQL query */
+//          W2.commit();
 
 //Удаляем запись
           work W3(C);
