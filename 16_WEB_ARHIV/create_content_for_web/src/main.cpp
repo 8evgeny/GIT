@@ -1,4 +1,5 @@
 ﻿#include "main.h"
+
 #if 0
 
 docker run -it --rm -d -p 8080:80 --name web -v ~/SOFT/Github/GIT/16_WEB_ARHIV/CONTENT:/usr/share/nginx/html nginx
@@ -18,7 +19,11 @@ cd ~/SOFT/Github/GIT/16_WEB_ARHIV && docker load -i createwebcontent.tar
 #endif
 string WEB_content{"/home/evg/SOFT/Github/GIT/16_WEB_ARHIV/CONTENT/content_for_web/"};
 uint numContent{0};
-
+QString host;
+QString host_remote;
+QString database;
+QString dumpDB;
+QString user;
 int main(int argc, char *argv[])
 {
     cout <<  "start docker servises" << endl;
