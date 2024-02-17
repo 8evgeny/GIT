@@ -42,3 +42,4 @@ string createStringForQr (string oboznachenieIkodDokumenta,
                           string controlSummOrigin,
                           string controlSummParts
                           );
+void create_table(QString table_name);
