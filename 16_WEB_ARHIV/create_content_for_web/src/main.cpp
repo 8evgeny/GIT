@@ -43,7 +43,7 @@ int main(int argc, char *argv[])
     char * sql;
 
     try {
-          connection C("dbname = postgres user = postgres password = postgres hostaddr = 127.0.0.1 port = 5432");
+          connection C("dbname = niokrDB user = postgres password = postgres hostaddr = 127.0.0.1 port = 5432");
           if (C.is_open()) {
              cout << "Opened database successfully: " << C.dbname() << endl;
           } else {
@@ -51,23 +51,32 @@ int main(int argc, char *argv[])
              return 1;
           }
 
-
-
-          /* Create SQL statement */
-          sql = "INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY) "
-             "VALUES (1, 'Pratds', 32, 'California', 40000.00 ); "
-             "INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY) "
-             "VALUES (2, 'Alks', 25, 'Texas', 25000.00 ); "
-             "INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY)"
-             "VALUES (3, 'Tedh', 23, 'Norway', 19000.00 );"
-             "INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY)"
-             "VALUES (4, 'Rahj', 25, 'Rich-Mond ', 95000.00 );";
+          sql = "CREATE TABLE IF NOT EXISTS COMPANY("
+          "ID INT PRIMARY KEY     NOT NULL,"
+          "NAME           TEXT    NOT NULL,"
+          "AGE            INT     NOT NULL,"
+          "ADDRESS        CHAR(50),"
+          "SALARY         REAL );";
 
           work W(C);/* Create a transactional object. */
           W.exec( sql ); /* Execute SQL query */
           W.commit();
 
-          cout << "Records created successfully" << endl;
+
+          sql = "INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY) "
+             "VALUES (5, 'Pratds', 32, 'California', 40000.00 ); "
+             "INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY) "
+             "VALUES (6, 'Alks', 25, 'Texas', 25000.00 ); "
+             "INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY)"
+             "VALUES (7, 'Tedh', 23, 'Norway', 19000.00 );"
+             "INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY)"
+             "VALUES (8, 'Rahj', 25, 'Rich-Mond ', 95000.00 );";
+
+          work W2(C);/* Create a transactional object. */
+          W2.exec( sql ); /* Execute SQL query */
+          W2.commit();
+
+          cout << "Database operation successfully" << endl;
           C.disconnect ();
 
        } catch (const std::exception &e) {
