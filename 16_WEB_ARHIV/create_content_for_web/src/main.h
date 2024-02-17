@@ -18,11 +18,13 @@ using namespace std;
 using namespace chrono_literals;
 using namespace std::filesystem;
 using namespace pqxx;
-#define CONNECT_TO_DB                                              \
-  string connections_to_db = "host=" + host.toStdString() +        \
-                             " dbname=" + database.toStdString() + \
-                             " user=" + user.toStdString();        \
-  pqxx::connection connect(connections_to_db);                     \
+#define CONNECT_TO_DB \
+    string connections_to_db = \
+    "host=" + host.toStdString() + \
+    " dbname=" + database.toStdString() + \
+    " user=" + user.toStdString() + \
+    " password=" + password.toStdString(); \
+  pqxx::connection connect(connections_to_db); \
   pqxx::nontransaction work(connect);
 
 bool parseJSON(string & patchToFile, const path & archiv_path_zip);
@@ -43,3 +45,4 @@ string createStringForQr (string oboznachenieIkodDokumenta,
                           string controlSummParts
                           );
 void create_table(QString table_name);
+void drop_table(QString table_name);
