@@ -1,0 +1,26 @@
+-- снятие дампа с любой машины
+pg_dump -U user db_ti_2 -h 192.168.77.247 > dump_from_host
+
+-- получаем три исходные таблицы
+pg_dump -U user db_ti_2  -t  trajectories  -h 192.168.77.247 > tabl_trajectories
+pg_dump -U user db_ti_2  -t  trajectory_points  -h 192.168.77.247 > tabl_trajectory_points
+pg_dump -U user db_ti_2  -t  sensor  -h 192.168.77.247 > tabl_sensor
+-- пишем их в локальную бд
+psql user db_ti_2 -t trajectories < tabl_trajectories
+psql user db_ti_2 -t trajectory_points < tabl_trajectory_points
+psql user db_ti_2 -t sensor < tabl_sensor
+-- на локальной машине создаем таблицы
+table_stop_points
+table_trajectories_stops
+table_trajectories_violations
+table_point_attribute_stop
+table_point_attribute_sensor
+table_point_attribute_waffle_violation
+
+-- запись результатов 
+psql -h 192.168.77.247 -U user  db_ti_2  -t stop_points  <  table_stop_points
+psql -h 192.168.77.247 -U user  db_ti_2  -t trajectories_stops  <  table_trajectories_stops
+psql -h 192.168.77.247 -U user  db_ti_2  -t trajectories_violations  <  table_trajectories_violations
+psql -h 192.168.77.247 -U user  db_ti_2  -t point_attribute_stop  <  table_point_attribute_stop
+psql -h 192.168.77.247 -U user  db_ti_2  -t point_attribute_sensor  <  table_point_attribute_sensor
+psql -h 192.168.77.247 -U user  db_ti_2  -t point_attribute_waffle_violations  <  table_point_attribute_waffle_violations
