@@ -1,6 +1,7 @@
 ﻿#include "main.h"
 #include <pqxx/connection>
 #include <pqxx/transaction>
+#include <QThread>
 #if 0
 
 docker run -it --rm -d -p 8080:80 --name web -v ~/SOFT/Github/GIT/16_WEB_ARHIV/CONTENT:/usr/share/nginx/html nginx
@@ -33,11 +34,13 @@ int main(int argc, char *argv[])
     user="postgres";
     password="postgres";
     cout <<  "start docker servises" << endl;
-    string dockerStart = "docker-compose up -d";
+    string dockerStart = "docker-compose up -d 2>/dev/null";
     system(dockerStart.c_str());
-    //При первом старте падает
-    create_table("abcd");
-    create_table("sssss");
+    cout<<flush;
+    QThread::currentThread()->msleep(1500);
+
+    create_table("test");
+
 
 //    try
 //     {
@@ -232,3 +235,48 @@ void drop_table(QString table_name) {
   auto res = work.exec(drop);
   cout << "drop_table: " << table_name.toStdString() << endl;
 }
+
+//void receeveTrajectories() {
+//  //функция получает номера траекторий в вектор
+//  trajectories.clear();
+//  CONNECT_TO_DB
+//  string request = "SELECT * FROM " + table_trajectory.toStdString() + " ; ";
+//  auto res = work.exec(request);
+//  for (const auto& track : res) {
+//    trajectories.push_back(track[0].as<int>());  // номер траектории
+
+//    //    cout << track[0].as<int>() << endl;
+//    //        if (track[0].as<int>() == 11 | track[0].as<int>() == 12 ) {
+//    //          trajectories.push_back(track[0].as<int>());  //  отладка
+//    //          cout << track[0].as<int>() << endl;
+//    //        }
+//  }
+//  zab.number_tracks=trajectories.size();
+//}
+
+
+//string create6 = "CREATE TABLE " + table_violation_events.toStdString() +
+//                 " (trj_violation_id SERIAL NOT NULL PRIMARY KEY, "
+//                 " trj_id integer, "
+//                 " trj_violation_num_internal integer, "
+//                 " violation_begin bigint, "
+//                 " violation_end bigint, "
+//                 " green_on bigint, "
+//                 " start_violation_survey1_x  double precision, "
+//                 " start_violation_survey1_y  double precision, "
+//                 " end_violation_survey1_x  double precision, "
+//                 " end_violation_survey1_y  double precision, "
+//                 " start_violation_survey2_x  double precision, "
+//                 " start_violation_survey2_y  double precision, "
+//                 " end_violation_survey2_x  double precision, "
+//                 " end_violation_survey2_y  double precision, "
+//                 " start_violation_recog_x  double precision, "
+//                 " start_violation_recog_y  double precision, "
+//                 " end_violation_recog_x  double precision, "
+//                 " end_violation_recog_y  double precision, "
+//                 " w  double precision, "
+//                 " h  double precision); ";
+//auto res12 = work.exec(create6);
+
+//}
+
