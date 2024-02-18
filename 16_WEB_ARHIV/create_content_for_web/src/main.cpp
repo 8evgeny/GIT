@@ -143,7 +143,6 @@ string nameFromPath(path Patch){
 }
 
 void workPSQL(){
-
     string sql;
     try {
 //Соединяемся
@@ -151,7 +150,6 @@ void workPSQL(){
 //Удаляем таблицу
           sql = "DROP TABLE IF EXISTS COMPANY;";
           transactionToDB(C, sql);
-
 //Создаем таблицу
           sql = "CREATE TABLE IF NOT EXISTS COMPANY("
           "ID INT PRIMARY KEY     NOT NULL,"
@@ -160,7 +158,6 @@ void workPSQL(){
           "ADDRESS        CHAR(50),"
           "SALARY         REAL );";
           transactionToDB(C, sql);
-
 //Заполняем таблицу
           sql = "INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY) "
              "VALUES (1, 'Pratds', 32, 'California', 40000.00 ); "
@@ -171,23 +168,19 @@ void workPSQL(){
              "INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY)"
              "VALUES (4, 'Rahj', 25, 'Rich-Mond ', 95000.00 );";
            transactionToDB(C, sql);
-
 //Удаляем запись
           sql = "DELETE from COMPANY where ID = 2";
           transactionToDB(C, sql);
           cout << "Records deleted successfully" << endl;
-
 //Изменяем запись
           sql = "UPDATE COMPANY set SALARY = 250000.00 where ID=1";
           transactionToDB(C, sql);
           cout << "Records updated successfully" << endl;
-
 //Извлекаем данные
            sql = "SELECT * from COMPANY";
-           nontransaction N(*C); /* Create a non-transactional object. */
-           result R( N.exec( sql ));/* Execute SQL query */
+           result data = nontransactionToDB(C, sql);
            /* List down all the records */
-           for (result::const_iterator c = R.begin(); c != R.end(); ++c) {
+           for (result::const_iterator c = data.begin(); c != data.end(); ++c) {
               cout << "ID = " << c[0].as<int>() << endl;
               cout << "Name = " << c[1].as<string>() << endl;
               cout << "Age = " << c[2].as<int>() << endl;
@@ -195,14 +188,12 @@ void workPSQL(){
               cout << "Salary = " << c[4].as<float>() << endl;
            }
           cout << "Database operation successfully" << endl<< endl;
-
 //Отсоединяемся
           disconnectFromDB(C);
 
        } catch (const std::exception &e) {
           cerr << e.what() << std::endl;
        }
-
 }
 
 connection* connectToDB(string dbname, string user, string password, string hostaddr, string port){
@@ -224,14 +215,17 @@ connection* connectToDB(string dbname, string user, string password, string host
     }
     return Connection;
 }
-
 void disconnectFromDB(connection* Connection){
     Connection->disconnect ();
     delete Connection;
 }
-
 void transactionToDB(connection* conn, string req){
     work W(*conn);
     W.exec(req);
     W.commit();
+}
+result nontransactionToDB(connection* conn, string req){
+    nontransaction N(*conn); /* Create a non-transactional object. */
+    result R( N.exec( req ));/* Execute SQL query */
+    return R;
 }
