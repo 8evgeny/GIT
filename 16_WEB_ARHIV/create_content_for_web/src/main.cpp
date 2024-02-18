@@ -21,15 +21,16 @@ cd ~/SOFT/Github/GIT/16_WEB_ARHIV && docker load -i createwebcontent.tar
 #endif
 string WEB_content{"/home/evg/SOFT/Github/GIT/16_WEB_ARHIV/CONTENT/content_for_web/"};
 uint numContent{0};
-
+connection* ConnectionToDB;
 int main(int argc, char *argv[])
 {
     cout <<  "start docker servises" << endl;
     string dockerStart = "docker-compose up -d 2>/dev/null";
     system(dockerStart.c_str());
     QThread::currentThread()->msleep(2000);
+    ConnectionToDB = connectToDB("niokrDB", "postgres", "postgres", "127.0.0.1", "5432");
 
-    workPSQL();
+    testPSQL();
 
 //    path archiv_path_zip{"/home/evg/SOFT/Github/GIT/16_WEB_ARHIV/Ниокр-Актуальные_документы"};
 //    path archiv_path_zip{"/home/evg/SOFT/Github/GIT/16_WEB_ARHIV/_ERRORS"};
@@ -136,20 +137,18 @@ int main(int argc, char *argv[])
     for (auto & patchJsonError : errorJsonPatch)
         cout <<  patchJsonError << endl;
 
+    disconnectFromDB(ConnectionToDB);
 }
 
 string nameFromPath(path Patch){
     return Patch.filename();
 }
-
-void workPSQL(){
+void testPSQL(){
     string sql;
     try {
-//Соединяемся
-        connection* C = connectToDB("niokrDB", "postgres", "postgres", "127.0.0.1", "5432");
 //Удаляем таблицу
           sql = "DROP TABLE IF EXISTS COMPANY;";
-          transactionToDB(C, sql);
+          transactionToDB(ConnectionToDB, sql);
 //Создаем таблицу
           sql = "CREATE TABLE IF NOT EXISTS COMPANY("
           "ID INT PRIMARY KEY     NOT NULL,"
@@ -157,7 +156,7 @@ void workPSQL(){
           "AGE            INT     NOT NULL,"
           "ADDRESS        CHAR(50),"
           "SALARY         REAL );";
-          transactionToDB(C, sql);
+          transactionToDB(ConnectionToDB, sql);
 //Заполняем таблицу
           sql = "INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY) "
              "VALUES (1, 'Pratds', 32, 'California', 40000.00 ); "
@@ -167,18 +166,18 @@ void workPSQL(){
              "VALUES (3, 'Tedh', 23, 'Norway', 19000.00 );"
              "INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY)"
              "VALUES (4, 'Rahj', 25, 'Rich-Mond ', 95000.00 );";
-           transactionToDB(C, sql);
+           transactionToDB(ConnectionToDB, sql);
 //Удаляем запись
           sql = "DELETE from COMPANY where ID = 2";
-          transactionToDB(C, sql);
+          transactionToDB(ConnectionToDB, sql);
           cout << "Records deleted successfully" << endl;
 //Изменяем запись
           sql = "UPDATE COMPANY set SALARY = 250000.00 where ID=1";
-          transactionToDB(C, sql);
+          transactionToDB(ConnectionToDB, sql);
           cout << "Records updated successfully" << endl;
 //Извлекаем данные
            sql = "SELECT * from COMPANY";
-           result data = nontransactionToDB(C, sql);
+           result data = nontransactionToDB(ConnectionToDB, sql);
            /* List down all the records */
            for (result::const_iterator c = data.begin(); c != data.end(); ++c) {
               cout << "ID = " << c[0].as<int>() << endl;
@@ -188,14 +187,11 @@ void workPSQL(){
               cout << "Salary = " << c[4].as<float>() << endl;
            }
           cout << "Database operation successfully" << endl<< endl;
-//Отсоединяемся
-          disconnectFromDB(C);
 
        } catch (const std::exception &e) {
           cerr << e.what() << std::endl;
        }
 }
-
 connection* connectToDB(string dbname, string user, string password, string hostaddr, string port){
     const string connect =
                 " dbname = " + dbname +
@@ -216,8 +212,10 @@ connection* connectToDB(string dbname, string user, string password, string host
     return Connection;
 }
 void disconnectFromDB(connection* Connection){
+    string name = Connection->dbname();
     Connection->disconnect ();
     delete Connection;
+    cout << "disconnect from database " << name << endl;
 }
 void transactionToDB(connection* conn, string req){
     work W(*conn);
