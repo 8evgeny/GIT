@@ -2,6 +2,23 @@
 #include <pqxx/connection>
 #include <pqxx/transaction>
 #include <QThread>
+#include "Poco/Data/Session.h"
+#include "Poco/Data/PostgreSQL/Connector.h"
+#include <vector>
+#include <iostream>
+
+#include <Poco/ActiveRecord/Context.h>
+#include <Poco/Data/PostgreSQL/PostgreSQLException.h>
+using namespace Poco::Data::Keywords;
+using Poco::Data::Session;
+using Poco::Data::Statement;
+struct Person
+{
+    std::string name;
+    std::string address;
+    int         age;
+};
+
 #if 0
 
 docker run -it --rm -d -p 8080:80 --name web -v ~/SOFT/Github/GIT/16_WEB_ARHIV/CONTENT:/usr/share/nginx/html nginx
@@ -24,13 +41,13 @@ uint numContent{0};
 connection* ConnectionToDB;
 int main(int argc, char *argv[])
 {
-    cout <<  "start docker servises" << endl;
+    cout <<  "start docker servises" << endl<< endl;
     string dockerStart = "docker-compose up -d 2>/dev/null";
     system(dockerStart.c_str());
     QThread::currentThread()->msleep(2000);
-    ConnectionToDB = connectToDB("niokrDB", "postgres", "postgres", "127.0.0.1", "5432");
 
-    testPSQL();
+    testPQXX();
+    testPOCO_Psql();
 
 //    path archiv_path_zip{"/home/evg/SOFT/Github/GIT/16_WEB_ARHIV/Ниокр-Актуальные_документы"};
 //    path archiv_path_zip{"/home/evg/SOFT/Github/GIT/16_WEB_ARHIV/_ERRORS"};
@@ -60,8 +77,8 @@ int main(int argc, char *argv[])
     createWebContentDir.append(WEB_content);
     system(createWebContentDir.c_str());
 
-    vector<string> vectorZipFilesPath;
-    vector<string> vectorZipFilesName;
+    std::vector<string> vectorZipFilesPath;
+    std::vector<string> vectorZipFilesName;
     cout << "Patch for zip search: "<<archiv_path_zip << endl;
     const unordered_set<string> zip_extensions{ ".zip" };
     auto iteratorZip = recursive_directory_iterator{ archiv_path_zip, directory_options::skip_permission_denied };
@@ -99,8 +116,8 @@ int main(int argc, char *argv[])
     cout<< "Всего разархивировано zip файлов: " << numContent<< endl;
     cout<< "Начинаем разбор разархивированных директорий." << endl;
 //Разбор разархивированной директории
-    vector<string> vectorJsonFilesPath;
-    vector<string> errorJsonPatch;
+    std::vector<string> vectorJsonFilesPath;
+    std::vector<string> errorJsonPatch;
     const unordered_set<string> json_extensions{ ".json" };
     auto iteratorJson = recursive_directory_iterator{ archiv_path_extracted, directory_options::skip_permission_denied };
     for(const auto& entry : iteratorJson) {
@@ -137,13 +154,15 @@ int main(int argc, char *argv[])
     for (auto & patchJsonError : errorJsonPatch)
         cout <<  patchJsonError << endl;
 
-    disconnectFromDB(ConnectionToDB);
+
 }
 
 string nameFromPath(path Patch){
     return Patch.filename();
 }
-void testPSQL(){
+void testPQXX(){
+    cout << "testPQXX " << endl;
+    ConnectionToDB = connectToDB("niokrDB", "postgres", "postgres", "127.0.0.1", "5432");
     string sql;
     try {
 //Удаляем таблицу
@@ -186,11 +205,12 @@ void testPSQL(){
               cout << "Address = " << c[3].as<string>() << endl;
               cout << "Salary = " << c[4].as<float>() << endl;
            }
-          cout << "Database operation successfully" << endl<< endl;
+          cout << "Database operation successfully" << endl;
 
        } catch (const std::exception &e) {
           cerr << e.what() << std::endl;
        }
+    disconnectFromDB(ConnectionToDB);
 }
 connection* connectToDB(string dbname, string user, string password, string hostaddr, string port){
     const string connect =
@@ -215,7 +235,7 @@ void disconnectFromDB(connection* Connection){
     string name = Connection->dbname();
     Connection->disconnect ();
     delete Connection;
-    cout << "disconnect from database " << name << endl;
+    cout << "disconnect from database " << name << endl<< endl;
 }
 void transactionToDB(connection* conn, string req){
     work W(*conn);
@@ -226,4 +246,54 @@ result nontransactionToDB(connection* conn, string req){
     nontransaction N(*conn); /* Create a non-transactional object. */
     result R( N.exec( req ));/* Execute SQL query */
     return R;
+}
+void testPOCO_Psql(){
+    cout << "testPOCO_Psql " << endl;
+    // register PostgreSQL connector
+    Poco::Data::PostgreSQL::Connector::registerConnector();
+    // create a session
+    Poco::Data::Session session(Poco::Data::PostgreSQL::Connector::KEY, "host=127.0.0.1 user=postgres password=postgres dbname=niokrDB port=5432");
+    try {
+        session << "DROP TABLE IF EXISTS Person", now;
+        // (re)create table
+        session << "CREATE TABLE Person (Name VARCHAR(30), Address VARCHAR, Age INTEGER)", now;
+
+        // insert some rows
+        Person person =
+        {
+            "Bart Simpson",
+            "Springfield",
+            12
+        };
+
+        Statement insert(session);
+        insert << "INSERT INTO Person VALUES($1, $2, $3)",
+            use(person.name),
+            use(person.address),
+            use(person.age);
+        insert.execute();
+
+        person.name    = "Lisa Simpson";
+        person.address = "Springfield";
+        person.age     = 10;
+
+        insert.execute();
+
+    //     a simple query
+        Statement select(session);
+        select << "SELECT Name, Address, Age FROM Person",
+            into(person.name),
+            into(person.address),
+            into(person.age),
+            range(0, 1); //  iterate over result set one row at a time
+
+        while (!select.done())
+        {
+            select.execute();
+            std::cout << person.name << " " << person.address << " " << person.age << std::endl;
+        }
+        std::cout << std::endl;
+    } catch (Poco::Data::PostgreSQL::StatementException &e) {
+                std::cout << e.displayText()  << std::endl;
+        }
 }

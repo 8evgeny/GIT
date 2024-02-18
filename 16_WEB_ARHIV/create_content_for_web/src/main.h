@@ -38,7 +38,8 @@ string createStringForQr (string oboznachenieIkodDokumenta,
                           );
 void create_table(QString table_name);
 void drop_table(QString table_name);
-void testPSQL();
+void testPQXX();
+void testPOCO_Psql();
 connection* connectToDB(string dbname, string user, string password, string hostaddr, string port);
 void disconnectFromDB(connection* Connection);
 void transactionToDB(connection* conn, string req);
