@@ -170,10 +170,9 @@ void drop_table(QString table_name) {
 void workPSQL(){
     QThread::currentThread()->msleep(2000);
 //    create_table("test");
-    char * sql;
-
+//    char * sql;
+    string sql;
     try {
-
 //Соединяемся
           connection C("dbname = niokrDB user = postgres password = postgres hostaddr = 127.0.0.1 port = 5432");
           if (C.is_open()) {
@@ -181,6 +180,11 @@ void workPSQL(){
           } else {
              cout << "Can't open database" << endl;
           }
+//Удаляем таблицу
+          sql = "DROP TABLE IF EXISTS COMPANY;";
+          work drop(C);/* Create a transactional object. */
+          drop.exec( sql ); /* Execute SQL query */
+          drop.commit();
 
 //Создаем таблицу
           sql = "CREATE TABLE IF NOT EXISTS COMPANY("
@@ -189,36 +193,36 @@ void workPSQL(){
           "AGE            INT     NOT NULL,"
           "ADDRESS        CHAR(50),"
           "SALARY         REAL );";
-          work W(C);/* Create a transactional object. */
-          W.exec( sql ); /* Execute SQL query */
-          W.commit();
+          work create(C);/* Create a transactional object. */
+          create.exec( sql ); /* Execute SQL query */
+          create.commit();
 
 //Заполняем таблицу
-//          sql = "INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY) "
-//             "VALUES (1, 'Pratds', 32, 'California', 40000.00 ); "
-//             "INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY) "
-//             "VALUES (2, 'Alks', 25, 'Texas', 25000.00 ); "
-//             "INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY)"
-//             "VALUES (3, 'Tedh', 23, 'Norway', 19000.00 );"
-//             "INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY)"
-//             "VALUES (4, 'Rahj', 25, 'Rich-Mond ', 95000.00 );";
-//          work W2(C);/* Create a transactional object. */
-//          W2.exec( sql ); /* Execute SQL query */
-//          W2.commit();
+          sql = "INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY) "
+             "VALUES (1, 'Pratds', 32, 'California', 40000.00 ); "
+             "INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY) "
+             "VALUES (2, 'Alks', 25, 'Texas', 25000.00 ); "
+             "INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY)"
+             "VALUES (3, 'Tedh', 23, 'Norway', 19000.00 );"
+             "INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY)"
+             "VALUES (4, 'Rahj', 25, 'Rich-Mond ', 95000.00 );";
+          work fill(C);/* Create a transactional object. */
+          fill.exec( sql ); /* Execute SQL query */
+          fill.commit();
 
 //Удаляем запись
-          work W3(C);
+          work del(C);
           sql = "DELETE from COMPANY where ID = 2";
-          W3.exec( sql );
-          W3.commit();
+          del.exec( sql );
+          del.commit();
           cout << "Records deleted successfully" << endl;
 
 //Изменяем запись
-          work W4(C);
+          work update(C);
           sql = "UPDATE COMPANY set SALARY = 250000.00 where ID=1";
           /* Execute SQL query */
-          W4.exec( sql );
-          W4.commit();
+          update.exec( sql );
+          update.commit();
           cout << "Records updated successfully" << endl;
 
 //Извлекаем данные
