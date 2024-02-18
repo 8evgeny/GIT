@@ -150,9 +150,7 @@ void workPSQL(){
         connection* C = connectToDB("niokrDB", "postgres", "postgres", "127.0.0.1", "5432");
 //Удаляем таблицу
           sql = "DROP TABLE IF EXISTS COMPANY;";
-          work drop(*C);/* Create a transactional object. */
-          drop.exec( sql ); /* Execute SQL query */
-          drop.commit();
+          transactionToDB(C, sql);
 
 //Создаем таблицу
           sql = "CREATE TABLE IF NOT EXISTS COMPANY("
@@ -161,9 +159,7 @@ void workPSQL(){
           "AGE            INT     NOT NULL,"
           "ADDRESS        CHAR(50),"
           "SALARY         REAL );";
-          work create(*C);/* Create a transactional object. */
-          create.exec( sql ); /* Execute SQL query */
-          create.commit();
+          transactionToDB(C, sql);
 
 //Заполняем таблицу
           sql = "INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY) "
@@ -174,23 +170,16 @@ void workPSQL(){
              "VALUES (3, 'Tedh', 23, 'Norway', 19000.00 );"
              "INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY)"
              "VALUES (4, 'Rahj', 25, 'Rich-Mond ', 95000.00 );";
-          work fill(*C);/* Create a transactional object. */
-          fill.exec( sql ); /* Execute SQL query */
-          fill.commit();
+           transactionToDB(C, sql);
 
 //Удаляем запись
-          work del(*C);
           sql = "DELETE from COMPANY where ID = 2";
-          del.exec( sql );
-          del.commit();
+          transactionToDB(C, sql);
           cout << "Records deleted successfully" << endl;
 
 //Изменяем запись
-          work update(*C);
           sql = "UPDATE COMPANY set SALARY = 250000.00 where ID=1";
-          /* Execute SQL query */
-          update.exec( sql );
-          update.commit();
+          transactionToDB(C, sql);
           cout << "Records updated successfully" << endl;
 
 //Извлекаем данные
@@ -239,4 +228,10 @@ connection* connectToDB(string dbname, string user, string password, string host
 void disconnectFromDB(connection* Connection){
     Connection->disconnect ();
     delete Connection;
+}
+
+void transactionToDB(connection* conn, string req){
+    work W(*conn);
+    W.exec(req);
+    W.commit();
 }
