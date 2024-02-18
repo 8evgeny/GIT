@@ -40,3 +40,4 @@ void create_table(QString table_name);
 void drop_table(QString table_name);
 void workPSQL();
 connection* connectToDB(string dbname, string user, string password, string hostaddr, string port);
+void disconnectFromDB(connection* Connection);

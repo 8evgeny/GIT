@@ -147,7 +147,7 @@ void workPSQL(){
     string sql;
     try {
 //Соединяемся
-connection* C = connectToDB("niokrDB", "postgres", "postgres", "127.0.0.1", "5432");
+        connection* C = connectToDB("niokrDB", "postgres", "postgres", "127.0.0.1", "5432");
 //Удаляем таблицу
           sql = "DROP TABLE IF EXISTS COMPANY;";
           work drop(*C);/* Create a transactional object. */
@@ -205,9 +205,10 @@ connection* C = connectToDB("niokrDB", "postgres", "postgres", "127.0.0.1", "543
               cout << "Address = " << c[3].as<string>() << endl;
               cout << "Salary = " << c[4].as<float>() << endl;
            }
-
           cout << "Database operation successfully" << endl<< endl;
-          C->disconnect ();
+
+//Отсоединяемся
+          disconnectFromDB(C);
 
        } catch (const std::exception &e) {
           cerr << e.what() << std::endl;
@@ -233,4 +234,9 @@ connection* connectToDB(string dbname, string user, string password, string host
        cerr << e.what() << std::endl;
     }
     return Connection;
+}
+
+void disconnectFromDB(connection* Connection){
+    Connection->disconnect ();
+    delete Connection;
 }
