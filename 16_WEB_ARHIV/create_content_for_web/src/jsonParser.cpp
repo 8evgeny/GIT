@@ -389,7 +389,7 @@ bool parseJSON(string & patchToFile, const path & archiv_path_zip){ //archiv_pat
     auto pos1 = tmp1.find_last_of("/");
     tmp1.insert(pos1 + 1,"\"");
     tmp1.append("\"");//Борьба с пробелом в имени
-    string copyCurrentZIP = "cp " + fileCurrentZIP + " " + WEB_content + to_string(numFolderForWebContent);
+    string copyCurrentZIP = "cp " + tmp1 + " " + WEB_content + to_string(numFolderForWebContent);
     system(copyCurrentZIP.c_str());
 //Переименовываю актуальный zip файл
     string renameCurrentZip = "mv " + WEB_content + to_string(numFolderForWebContent) + "/" + oboznachenieIkodDokumenta + ".zip " +
