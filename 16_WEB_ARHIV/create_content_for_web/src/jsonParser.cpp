@@ -508,14 +508,14 @@ bool parseJSON(string & patchToFile, const path & archiv_path_zip){ //archiv_pat
 
 //8. Копирую в папку для web-контента pdf файл и переименовываю pdf в PDF
    // cp опции /путь/к/файлу/источнику /путь/к/директории/назначения
-    string tmp4 = oboznachenieIkodDokumenta;
+    string tmp4 = "\"" + oboznachenieIkodDokumenta ;
     string tmp5 = patchToFile;
     QString tmp6;
     if (namePDF.toStdString().ends_with("pdf")){
-        tmp6 = QString::fromStdString(tmp5).chopped(11)+"\""+QString("/Contents/")+QString::fromStdString(tmp4.append(".pdf"));
+        tmp6 = QString::fromStdString(tmp5).chopped(11)+"\""+QString("/Contents/")+QString::fromStdString(tmp4.append(".pdf\""));
     }
     if (namePDF.toStdString().ends_with("PDF")){
-        tmp6 = QString::fromStdString(tmp5).chopped(11)+"\""+QString("/Contents/")+QString::fromStdString(tmp4.append(".PDF"));
+        tmp6 = QString::fromStdString(tmp5).chopped(11)+"\""+QString("/Contents/")+QString::fromStdString(tmp4.append(".PDF\""));
     }
     string tmp7 = tmp6.toStdString();
     tmp7.insert(11,"\"");
