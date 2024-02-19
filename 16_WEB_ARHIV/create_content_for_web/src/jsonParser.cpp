@@ -505,15 +505,13 @@ bool parseJSON(string & patchToFile, const path & archiv_path_zip){ //archiv_pat
 
 //8. Копирую в папку для web-контента pdf файл и переименовываю pdf в PDF
    // cp опции /путь/к/файлу/источнику /путь/к/директории/назначения
-    string nPDF = namePDF.toStdString();
-    string npdf = namePDF.chopped(3).toStdString().append("pdf");
-    string copyPDF = "cp " + nPDF + " " + WEB_content + to_string(numFolderForWebContent) + " 2> /dev/null";
-    string copypdf = "cp " + npdf + " " + WEB_content + to_string(numFolderForWebContent) + " 2> /dev/null";
+    string copyPDF = "cp " + namePDF.toStdString() + " " + WEB_content + to_string(numFolderForWebContent);
     system(copyPDF.c_str());
-    system(copypdf.c_str());
-    string renamePDF = "mv " + WEB_content + to_string(numFolderForWebContent) + "/" + oboznachenieIkodDokumenta + ".pdf " +
-            WEB_content + to_string(numFolderForWebContent) + "/" + oboznachenieIkodDokumenta + ".PDF"+ " 2> /dev/null";
-    system(renamePDF.c_str());
+    if (namePDF.toStdString().ends_with("pdf")){
+        string rename = "mv " + WEB_content + to_string(numFolderForWebContent) + "/" + oboznachenieIkodDokumenta + ".pdf " +
+            WEB_content + to_string(numFolderForWebContent) + "/" + oboznachenieIkodDokumenta + ".PDF";
+        system(rename.c_str());
+    }
 
 //Копирую  ИУЛ из папки Ниокр-Документы_по_обозначениям и переименовываю pdf в PDF
     string path_to_IUL = archiv_path_zip;
