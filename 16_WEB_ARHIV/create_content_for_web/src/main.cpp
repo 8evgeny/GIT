@@ -42,10 +42,10 @@ connection* ConnectionToDB;
 int main(int argc, char *argv[])
 {
     cout <<  "start docker servises" << endl<< endl;
-    string dockerStart = "docker-compose up -d 2>/dev/null";
-//    string dockerStart = "docker-compose up -d";
-//    system(dockerStart.c_str());
-//    QThread::currentThread()->msleep(2000);
+//    string dockerStart = "docker-compose up -d 2>/dev/null";
+    string dockerStart = "docker-compose up -d";
+    system(dockerStart.c_str());
+    QThread::currentThread()->msleep(2000);
 
 //    testPQXX();
 //    testPOCO_Psql();

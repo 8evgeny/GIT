@@ -16,26 +16,26 @@ services:
     restart:
       always
 
-#  nginx:
-#    image: nginx
-#    container_name: web_server
-#    hostname: niokr
-#    #build: ./volumes/build/nginx
-#    volumes:
-#      - ~/SOFT/Github/GIT/16_WEB_ARHIV/CONTENT:/usr/share/nginx/html
-#      #- ./var/log/nginx:/var/log/nginx #log файлы.
-#      #- ./volumes/etc/nginx/nginx.conf:/etc/nginx/nginx.conf:ro #Конфигурация nginx.
-#      #- ./volumes/etc/nginx/sites-enabled:/etc/nginx/sites-enabled:ro #Конфигурация площадок.
-#      #- ./volumes/etc/nginx/ssl:/etc/nginx/ssl:ro #сертификаты
-#      #- /var/www/DOMAIN_NAME:/var/www/DOMAIN_NAME #Домашняя директория
-#    ports:
-#      - "80:80"
-#      - "443:443"
-#    #links:
-#      #- php-fpm
-#    restart:
-#      always
-#    #networks:
-#      #default:
-#        #ipv4_address: 172.16.1.4
-#        #ipv4_address: localhost
+  nginx:
+    image: nginx
+    container_name: web_server
+    hostname: niokr
+    #build: ./volumes/build/nginx
+    volumes:
+      - ~/SOFT/Github/GIT/16_WEB_ARHIV/CONTENT:/usr/share/nginx/html
+      #- ./var/log/nginx:/var/log/nginx #log файлы.
+      #- ./volumes/etc/nginx/nginx.conf:/etc/nginx/nginx.conf:ro #Конфигурация nginx.
+      #- ./volumes/etc/nginx/sites-enabled:/etc/nginx/sites-enabled:ro #Конфигурация площадок.
+      #- ./volumes/etc/nginx/ssl:/etc/nginx/ssl:ro #сертификаты
+      #- /var/www/DOMAIN_NAME:/var/www/DOMAIN_NAME #Домашняя директория
+    ports:
+      - "8080:80"
+      - "443:443"
+    #links:
+      #- php-fpm
+    restart:
+      always
+    #networks:
+      #default:
+        #ipv4_address: 172.16.1.4
+        #ipv4_address: localhost
