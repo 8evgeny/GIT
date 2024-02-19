@@ -39,8 +39,13 @@ cd ~/SOFT/Github/GIT/16_WEB_ARHIV && docker load -i createwebcontent.tar
 string WEB_content{"/home/evg/SOFT/Github/GIT/16_WEB_ARHIV/CONTENT/content_for_web/"};
 uint numContent{0};
 connection* ConnectionToDB;
+bool printDebug=false;
+
 int main(int argc, char *argv[])
 {
+#ifdef printDebugInfo
+    printDebug=true;
+#endif
     cout <<  "start docker servises" << endl<< endl;
 //    string dockerStart = "docker-compose up -d 2>/dev/null";
 //    string dockerStart = "docker-compose up -d";
@@ -54,10 +59,8 @@ int main(int argc, char *argv[])
 //    path archiv_path_zip{"/home/evg/SOFT/Github/GIT/16_WEB_ARHIV/_ERRORS"};
 //    path archiv_path_zip{"/home/evg/SOFT/Github/GIT/16_WEB_ARHIV/_BAD"};
     path archiv_path_zip{"/home/evg/SOFT/Github/GIT/16_WEB_ARHIV/_TEST"};
-    if (argc != 2){
-//        cout << "Передается в качестве параметра путь: "<< archiv_path_zip << endl;
-    }
-    else{
+    if (argc == 2){
+        cout << "Передается в качестве параметра путь: "<< archiv_path_zip << endl;
         archiv_path_zip= argv[1];
     }
 

@@ -4,6 +4,7 @@ extern uint numContent;
 uint numFolderForWebContent{1};
 QString namePDF;
 bool namePDFlettersBig = true;
+extern bool printDebug;
     ostream& operator<<(ostream &os, const chrono::time_point<chrono::system_clock> &t){
         const auto tt   (chrono::system_clock::to_time_t(t));
         const auto loct (localtime(&tt));
@@ -378,11 +379,13 @@ bool parseJSON(string & patchToFile, const path & archiv_path_zip){ //archiv_pat
 //Создаем папки для web контента
 
 //1. Создаю папку для нового контента
+if (printDebug) cout<<"1"<<endl;
     string createContentFolder = "mkdir " + WEB_content + to_string(numFolderForWebContent);
     cout << "Create folder mumber " << to_string(numFolderForWebContent) << endl;
     system(createContentFolder.c_str());
 
 //2. Копирую актуальный zip файл
+if (printDebug) cout<<"2"<<endl;
     string fileCurrentZIP = archiv_path_zip;
     fileCurrentZIP.append("/" + oboznachenieIkodDokumenta  + ".zip");
     string tmp1 = fileCurrentZIP;
@@ -393,6 +396,7 @@ bool parseJSON(string & patchToFile, const path & archiv_path_zip){ //archiv_pat
     system(copyCurrentZIP.c_str());
 
 //3. Переименовываю актуальный zip файл
+if (printDebug) cout<<"3"<<endl;
     string tmp2 = oboznachenieIkodDokumenta + ".zip";
     tmp2 = addDoubleQuotesToName(tmp2);
     string tmp3 = oboznachenieIkodDokumenta + ".изм" + changeNumStr + ".zip";
@@ -405,6 +409,7 @@ bool parseJSON(string & patchToFile, const path & archiv_path_zip){ //archiv_pat
 //Сделать для изм > 0 с пробелом в имени !!
 //*******************************************************************
 //4. Копирую все файлы zip старых версий в текущую папку Имя файла oboznachenieIkodDokumenta Число файлов =   changeNum
+if (printDebug) cout<<"4"<<endl;
     vector<pair<string,string>> oldZipData;
     for (auto i = 0; i < changeNum; ++i ) {
         string directoryOLD = archiv_path_zip;
@@ -454,6 +459,7 @@ bool parseJSON(string & patchToFile, const path & archiv_path_zip){ //archiv_pat
 
 
 //5. Формирую строку с контентом для QR и сам QR
+if (printDebug) cout<<"5"<<endl;
     string stringForQr = createStringForQr (oboznachenieIkodDokumenta,
                                             changeNumStr,
                                             changeNotificationNum,
@@ -465,6 +471,7 @@ bool parseJSON(string & patchToFile, const path & archiv_path_zip){ //archiv_pat
     createQR(oboznachenieIkodDokumenta, stringForQr);
 
 //6. Создаю файл  rowContent - одна строка сайта
+if (printDebug) cout<<"6"<<endl;
     vector <string> content;
     content.push_back(oboznachenieIkodDokumenta);
     content.push_back(naimenovanieIzdeliya);
@@ -475,6 +482,7 @@ bool parseJSON(string & patchToFile, const path & archiv_path_zip){ //archiv_pat
     content.push_back(infoOrderList);
 
 //7. Дальнейшие данные для карточки документа
+if (printDebug) cout<<"7"<<endl;
     content.push_back("Подлинник");
     content.push_back(inventoryNumOriginal);
     content.push_back(storageDataStr);
@@ -504,6 +512,7 @@ bool parseJSON(string & patchToFile, const path & archiv_path_zip){ //archiv_pat
     fout.close();
 
 //8. Копирую в папку для web-контента pdf файл и переименовываю pdf в PDF
+if (printDebug) cout<<"8"<<endl;
    // cp опции /путь/к/файлу/источнику /путь/к/директории/назначения
     string tmp4 = "\"" + oboznachenieIkodDokumenta ;
     string tmp5 = patchToFile;
@@ -526,6 +535,7 @@ bool parseJSON(string & patchToFile, const path & archiv_path_zip){ //archiv_pat
     }
 
 //9. Копирую  ИУЛ из папки Ниокр-Документы_по_обозначениям и переименовываю pdf в PDF
+if (printDebug) cout<<"9"<<endl;
     string path_to_IUL = archiv_path_zip;
 //    auto posBlank1 = path_to_IUL.find(" ");//Борьба с пробелом (Пути файлов уже не содержат пробелов)
 //    path_to_IUL.insert(posBlank1,"\\");
@@ -547,6 +557,7 @@ bool parseJSON(string & patchToFile, const path & archiv_path_zip){ //archiv_pat
     }
 
 //10. Создаем HTML документ и сохраняем его в папке
+if (printDebug) cout<<"10"<<endl;
     string html = createHTML(content, oldZipData);
     QFile fhtml((WEB_content + to_string(numFolderForWebContent) + "/document.html").c_str());
     fhtml.open(QIODevice::WriteOnly);
@@ -554,6 +565,7 @@ bool parseJSON(string & patchToFile, const path & archiv_path_zip){ //archiv_pat
     fhtml.close();
 
 //11. Копирую  файл извещения об изменении из папки Ниокр-Извещения_об_изменении и переименовываю pdf в PDF
+if (printDebug) cout<<"11"<<endl;
     string path_to_IZM = archiv_path_zip;
 //    auto posBlank2 = path_to_IZM.find(" ");//Борьба с пробелом (Пути файлов уже не содержат пробелов)
 //    path_to_IZM.insert(posBlank2,"\\");

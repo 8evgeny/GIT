@@ -19,4 +19,4 @@ add_executable(${PROJECT_NAME} ${src})
 target_link_libraries(${PROJECT_NAME} Qt${QT_VERSION_MAJOR}::Core -lpqxx ${CONAN_LIBS} )
 add_subdirectory(rapidjson)
 #add_definitions(-DprintJson)
-
+#add_definitions(-DprintDebugInfo)
