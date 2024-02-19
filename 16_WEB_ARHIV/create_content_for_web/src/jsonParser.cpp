@@ -523,14 +523,14 @@ bool parseJSON(string & patchToFile, const path & archiv_path_zip){ //archiv_pat
     system(copyPDF.c_str());
 
     if (namePDF.toStdString().ends_with("pdf")){
-        string rename = "mv " + WEB_content + to_string(numFolderForWebContent) + "/" + oboznachenieIkodDokumenta + ".pdf " +
-            WEB_content + to_string(numFolderForWebContent) + "/" + oboznachenieIkodDokumenta + ".PDF";
+        string rename = "mv " + WEB_content + to_string(numFolderForWebContent) + "/\"" + oboznachenieIkodDokumenta + ".pdf\" " +
+            WEB_content + to_string(numFolderForWebContent) + "/\"" + oboznachenieIkodDokumenta + ".PDF\"";
         system(rename.c_str());
     }
 
 
 
-//Копирую  ИУЛ из папки Ниокр-Документы_по_обозначениям и переименовываю pdf в PDF
+//9. Копирую  ИУЛ из папки Ниокр-Документы_по_обозначениям и переименовываю pdf в PDF
     string path_to_IUL = archiv_path_zip;
 //    auto posBlank1 = path_to_IUL.find(" ");//Борьба с пробелом (Пути файлов уже не содержат пробелов)
 //    path_to_IUL.insert(posBlank1,"\\");
