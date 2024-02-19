@@ -503,9 +503,16 @@ bool parseJSON(string & patchToFile, const path & archiv_path_zip){ //archiv_pat
     fout.write(ba);
     fout.close();
 
+//    patchToFile.insert(11,"\"");
+//    auto pos = patchToFile.find_last_of("/");
+//    patchToFile.insert(pos,"\"");
+
 //8. Копирую в папку для web-контента pdf файл и переименовываю pdf в PDF
    // cp опции /путь/к/файлу/источнику /путь/к/директории/назначения
-    string copyPDF = "cp " + namePDF.toStdString() + " " + WEB_content + to_string(numFolderForWebContent);
+    string tmp4 = oboznachenieIkodDokumenta;
+    string tmp5 = patchToFile;
+    QString tmp6 = QString::fromStdString(tmp5).chopped(10)+QString("Contents/")+QString::fromStdString(tmp4.append(".PDF"));
+    string copyPDF = "cp " + tmp6.toStdString() + " " + WEB_content + to_string(numFolderForWebContent);
     system(copyPDF.c_str());
     if (namePDF.toStdString().ends_with("pdf")){
         string rename = "mv " + WEB_content + to_string(numFolderForWebContent) + "/" + oboznachenieIkodDokumenta + ".pdf " +
