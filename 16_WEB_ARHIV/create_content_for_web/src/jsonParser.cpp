@@ -546,30 +546,34 @@ bool parseJSON(string & patchToFile, const path & archiv_path_zip){ //archiv_pat
         system(renameIULPDF.c_str());
     }
 
-//Создаем HTML документ и сохраняем его в папке
+//10. Создаем HTML документ и сохраняем его в папке
     string html = createHTML(content, oldZipData);
     QFile fhtml((WEB_content + to_string(numFolderForWebContent) + "/document.html").c_str());
     fhtml.open(QIODevice::WriteOnly);
     fhtml.write(html.c_str());
     fhtml.close();
 
-//Копирую  файл извещения об изменении из папки Ниокр-Извещения_об_изменении и переименовываю pdf в PDF
+//11. Копирую  файл извещения об изменении из папки Ниокр-Извещения_об_изменении и переименовываю pdf в PDF
     string path_to_IZM = archiv_path_zip;
 //    auto posBlank2 = path_to_IZM.find(" ");//Борьба с пробелом (Пути файлов уже не содержат пробелов)
 //    path_to_IZM.insert(posBlank2,"\\");
     path_to_IZM.append("/../");
     path_to_IZM.append("Ниокр-Извещения_об_изменении");
-    string nIZMPDF = path_to_IZM + "/" + changeNotificationNum + ".PDF";
-    string nIZMpdf = path_to_IZM + "/" + changeNotificationNum + ".pdf";
+    string nIZMPDF;
+    if (namePDFlettersBig){
+        nIZMPDF = path_to_IZM + "/" + changeNotificationNum + ".PDF";
+    }
+    else{
+        nIZMPDF = path_to_IZM + "/" + changeNotificationNum + ".pdf";
+    }
     string copyIZMPDF = "cp " + nIZMPDF + " " + WEB_content + to_string(numFolderForWebContent);
-    string copyIZMpdf = "cp " + nIZMpdf + " " + WEB_content + to_string(numFolderForWebContent);
     system(copyIZMPDF.c_str());
-    system(copyIZMpdf.c_str());
-    string renameIZMPDF = "mv " + WEB_content + to_string(numFolderForWebContent) + "/" + changeNotificationNum + ".pdf " +
-            WEB_content + to_string(numFolderForWebContent) + "/" + changeNotificationNum + ".PDF";
-    system(renameIZMPDF.c_str());
-
-cout << "Copy content to folder " << to_string(numFolderForWebContent) << endl;
+    if (!namePDFlettersBig){
+        string renameIZMPDF = "mv " + WEB_content + to_string(numFolderForWebContent) + "/" + changeNotificationNum + ".pdf " +
+                WEB_content + to_string(numFolderForWebContent) + "/" + changeNotificationNum + ".PDF";
+        system(renameIZMPDF.c_str());
+    }
+    cout << "Copy content to folder " << to_string(numFolderForWebContent) << endl;
 
 //Все действия в контексте текущей папки веб контента завершены
 
