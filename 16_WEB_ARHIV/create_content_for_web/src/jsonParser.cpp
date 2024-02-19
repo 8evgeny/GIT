@@ -129,7 +129,8 @@ bool parseJSON(string & patchToFile, const path & archiv_path_zip){ //archiv_pat
 
           //вычисляем CRC32 папки Contents
       string chopped1 = patchToFile;
-      QString nameDirectory = QString::fromStdString(chopped1).chopped(10)+QString("Contents");
+      chopped1.insert(11,"\"");
+      QString nameDirectory = QString::fromStdString(chopped1).chopped(11)+"\""+QString("/Contents");
       crc32Contents = CRC32Contents(nameDirectory);
 #ifdef printJson
       printf("                      \t\t\t\t\t\t\t\t(посчитан CRC32 папки Contents: %s)\n", crc32Contents.c_str());
