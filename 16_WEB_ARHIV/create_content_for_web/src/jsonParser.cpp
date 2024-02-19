@@ -377,12 +377,12 @@ bool parseJSON(string & patchToFile, const path & archiv_path_zip){ //archiv_pat
 
 //Создаем папки для web контента
 
-//Создаю папку для нового контента
+//1. Создаю папку для нового контента
     string createContentFolder = "mkdir " + WEB_content + to_string(numFolderForWebContent);
     cout << "Create folder mumber " << to_string(numFolderForWebContent) << endl;
     system(createContentFolder.c_str());
 
-//Копирую актуальный zip файл
+//2. Копирую актуальный zip файл
     string fileCurrentZIP = archiv_path_zip;
     fileCurrentZIP.append("/" + oboznachenieIkodDokumenta  + ".zip");
     string tmp1 = fileCurrentZIP;
@@ -391,12 +391,20 @@ bool parseJSON(string & patchToFile, const path & archiv_path_zip){ //archiv_pat
     tmp1.append("\"");//Борьба с пробелом в имени
     string copyCurrentZIP = "cp " + tmp1 + " " + WEB_content + to_string(numFolderForWebContent);
     system(copyCurrentZIP.c_str());
-//Переименовываю актуальный zip файл
-    string renameCurrentZip = "mv " + WEB_content + to_string(numFolderForWebContent) + "/" + oboznachenieIkodDokumenta + ".zip " +
-                                      WEB_content + to_string(numFolderForWebContent) + "/" + oboznachenieIkodDokumenta + ".изм" + changeNumStr + ".zip";
+
+//3. Переименовываю актуальный zip файл
+    string tmp2 = oboznachenieIkodDokumenta + ".zip";
+    tmp2 = addDoubleQuotesToName(tmp2);
+    string tmp3 = oboznachenieIkodDokumenta + ".изм" + changeNumStr + ".zip";
+    tmp3 = addDoubleQuotesToName(tmp3);
+    string renameCurrentZip = "mv " + WEB_content + to_string(numFolderForWebContent) + "/" + tmp2 + " " +
+                                      WEB_content + to_string(numFolderForWebContent) + "/" + tmp3;
     system(renameCurrentZip.c_str());
 
-//Копирую все файлы zip старых версий в текущую папку Имя файла oboznachenieIkodDokumenta Число файлов =   changeNum
+//*******************************************************************
+//Сделать для изм > 0 с пробелом в имени !!
+//*******************************************************************
+//4. Копирую все файлы zip старых версий в текущую папку Имя файла oboznachenieIkodDokumenta Число файлов =   changeNum
     vector<pair<string,string>> oldZipData;
     for (auto i = 0; i < changeNum; ++i ) {
         string directoryOLD = archiv_path_zip;
@@ -440,9 +448,12 @@ bool parseJSON(string & patchToFile, const path & archiv_path_zip){ //archiv_pat
                     WEB_content + to_string(numFolderForWebContent) + "/" + changeNotificationNumZIP + ".PDF";// + " 2> /dev/null";
             system(renameIZM_old_PDF.c_str());
     }
+//*******************************************************************
+//Сделать для изм > 0 с пробелом в имени !!
+//*******************************************************************
 
 
-//Формирую строку с контентом для QR и сам QR
+//5. Формирую строку с контентом для QR и сам QR
     string stringForQr = createStringForQr (oboznachenieIkodDokumenta,
                                             changeNumStr,
                                             changeNotificationNum,
@@ -453,7 +464,7 @@ bool parseJSON(string & patchToFile, const path & archiv_path_zip){ //archiv_pat
                                             );
     createQR(oboznachenieIkodDokumenta, stringForQr);
 
-//Создаю файл  rowContent - одна строка сайта
+//6. Создаю файл  rowContent - одна строка сайта
     vector <string> content;
     content.push_back(oboznachenieIkodDokumenta);
     content.push_back(naimenovanieIzdeliya);
@@ -463,7 +474,7 @@ bool parseJSON(string & patchToFile, const path & archiv_path_zip){ //archiv_pat
     content.push_back(controlSummOrigin);
     content.push_back(infoOrderList);
 
-//Дальнейшие данные для карточки документа
+//7. Дальнейшие данные для карточки документа
     content.push_back("Подлинник");
     content.push_back(inventoryNumOriginal);
     content.push_back(storageDataStr);
@@ -492,7 +503,7 @@ bool parseJSON(string & patchToFile, const path & archiv_path_zip){ //archiv_pat
     fout.write(ba);
     fout.close();
 
-//Копирую в папку для web-контента pdf файл и переименовываю pdf в PDF
+//8. Копирую в папку для web-контента pdf файл и переименовываю pdf в PDF
    // cp опции /путь/к/файлу/источнику /путь/к/директории/назначения
     string nPDF = namePDF.toStdString();
     string npdf = namePDF.chopped(3).toStdString().append("pdf");
