@@ -3,6 +3,7 @@ extern string WEB_content;
 extern uint numContent;
 uint numFolderForWebContent{1};
 QString namePDF;
+bool namePDFlettersBig = true;
     ostream& operator<<(ostream &os, const chrono::time_point<chrono::system_clock> &t){
         const auto tt   (chrono::system_clock::to_time_t(t));
         const auto loct (localtime(&tt));
@@ -439,12 +440,12 @@ bool parseJSON(string & patchToFile, const path & archiv_path_zip){ //archiv_pat
             path_to_IZV.append("Ниокр-Извещения_об_изменении");
             string nIZM_old_PDF = path_to_IZV + "/" + changeNotificationNumZIP + ".PDF";
             string nIZM_old_pdf = path_to_IZV + "/" + changeNotificationNumZIP + ".pdf";
-            string copyIZM_old_PDF = "cp " + nIZM_old_PDF + " " + WEB_content + to_string(numFolderForWebContent) + " 2> /dev/null";
-            string copyIZM_old_pdf = "cp " + nIZM_old_pdf + " " + WEB_content + to_string(numFolderForWebContent) + " 2> /dev/null";
+            string copyIZM_old_PDF = "cp " + nIZM_old_PDF + " " + WEB_content + to_string(numFolderForWebContent);
+            string copyIZM_old_pdf = "cp " + nIZM_old_pdf + " " + WEB_content + to_string(numFolderForWebContent);
             system(copyIZM_old_PDF.c_str());
             system(copyIZM_old_pdf.c_str());
             string renameIZM_old_PDF = "mv " + WEB_content + to_string(numFolderForWebContent) + "/" + changeNotificationNumZIP + ".pdf " +
-                    WEB_content + to_string(numFolderForWebContent) + "/" + changeNotificationNumZIP + ".PDF";// + " 2> /dev/null";
+                    WEB_content + to_string(numFolderForWebContent) + "/" + changeNotificationNumZIP + ".PDF";
             system(renameIZM_old_PDF.c_str());
     }
 //*******************************************************************
@@ -502,10 +503,6 @@ bool parseJSON(string & patchToFile, const path & archiv_path_zip){ //archiv_pat
     fout.write(ba);
     fout.close();
 
-//    patchToFile.insert(11,"\"");
-//    auto pos = patchToFile.find_last_of("/");
-//    patchToFile.insert(pos,"\"");
-
 //8. Копирую в папку для web-контента pdf файл и переименовываю pdf в PDF
    // cp опции /путь/к/файлу/источнику /путь/к/директории/назначения
     string tmp4 = "\"" + oboznachenieIkodDokumenta ;
@@ -528,23 +525,26 @@ bool parseJSON(string & patchToFile, const path & archiv_path_zip){ //archiv_pat
         system(rename.c_str());
     }
 
-
-
 //9. Копирую  ИУЛ из папки Ниокр-Документы_по_обозначениям и переименовываю pdf в PDF
     string path_to_IUL = archiv_path_zip;
 //    auto posBlank1 = path_to_IUL.find(" ");//Борьба с пробелом (Пути файлов уже не содержат пробелов)
 //    path_to_IUL.insert(posBlank1,"\\");
     path_to_IUL.append("/../");
     path_to_IUL.append("Ниокр-Документы_по_обозначениям");
-    string nIULPDF = path_to_IUL + "/" + infoOrderList + ".PDF";
-    string nIULpdf = path_to_IUL + "/" + infoOrderList + ".pdf";
-    string copyIULPDF = "cp " + nIULPDF + " " + WEB_content + to_string(numFolderForWebContent) + " 2> /dev/null";
-    string copyIULpdf = "cp " + nIULpdf + " " + WEB_content + to_string(numFolderForWebContent) + " 2> /dev/null";
-    system(copyIULPDF.c_str());
-    system(copyIULpdf.c_str());
-    string renameIULPDF = "mv " + WEB_content + to_string(numFolderForWebContent) + "/" + infoOrderList + ".pdf " +
-            WEB_content + to_string(numFolderForWebContent) + "/" + infoOrderList + ".PDF" + " 2> /dev/null";
-    system(renameIULPDF.c_str());
+    string nameIulPDF;
+    if (namePDFlettersBig){
+        nameIulPDF = path_to_IUL + "/" + infoOrderList + ".PDF";
+    }
+    else{
+        nameIulPDF = path_to_IUL + "/" + infoOrderList + ".pdf";
+    }
+    string copyIulPDF = "cp " + nameIulPDF + " " + WEB_content + to_string(numFolderForWebContent);
+    system(copyIulPDF.c_str());
+    if (!namePDFlettersBig){
+        string renameIULPDF = "mv " + WEB_content + to_string(numFolderForWebContent) + "/" + infoOrderList + ".pdf " +
+                WEB_content + to_string(numFolderForWebContent) + "/" + infoOrderList + ".PDF";
+        system(renameIULPDF.c_str());
+    }
 
 //Создаем HTML документ и сохраняем его в папке
     string html = createHTML(content, oldZipData);
@@ -561,12 +561,12 @@ bool parseJSON(string & patchToFile, const path & archiv_path_zip){ //archiv_pat
     path_to_IZM.append("Ниокр-Извещения_об_изменении");
     string nIZMPDF = path_to_IZM + "/" + changeNotificationNum + ".PDF";
     string nIZMpdf = path_to_IZM + "/" + changeNotificationNum + ".pdf";
-    string copyIZMPDF = "cp " + nIZMPDF + " " + WEB_content + to_string(numFolderForWebContent) + " 2> /dev/null";
-    string copyIZMpdf = "cp " + nIZMpdf + " " + WEB_content + to_string(numFolderForWebContent) + " 2> /dev/null";
+    string copyIZMPDF = "cp " + nIZMPDF + " " + WEB_content + to_string(numFolderForWebContent);
+    string copyIZMpdf = "cp " + nIZMpdf + " " + WEB_content + to_string(numFolderForWebContent);
     system(copyIZMPDF.c_str());
     system(copyIZMpdf.c_str());
     string renameIZMPDF = "mv " + WEB_content + to_string(numFolderForWebContent) + "/" + changeNotificationNum + ".pdf " +
-            WEB_content + to_string(numFolderForWebContent) + "/" + changeNotificationNum + ".PDF" + " 2> /dev/null";
+            WEB_content + to_string(numFolderForWebContent) + "/" + changeNotificationNum + ".PDF";
     system(renameIZMPDF.c_str());
 
 cout << "Copy content to folder " << to_string(numFolderForWebContent) << endl;
