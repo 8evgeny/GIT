@@ -1,8 +1,8 @@
 [settings]
     arch=x86_64
-    build_type=Debug
+    build_type=Release
     compiler=gcc
-    compiler.libcxx=libstdc++11
+    compiler.libcxx=libstdc++
     compiler.version=11
     os=Linux
 
@@ -15,25 +15,25 @@
 [full_settings]
     arch=x86_64
     arch_build=x86_64
-    build_type=Debug
+    build_type=Release
     compiler=gcc
-    compiler.libcxx=libstdc++11
+    compiler.libcxx=libstdc++
     compiler.version=11
     os=Linux
     os_build=Linux
 
 [full_requires]
-    bzip2/1.0.8:76bd63d0cd275bc555bda09b7f93740254ba3515
-    expat/2.5.0:3242ee86fec793e7767fb97cb42848d950351d05
-    libmysqlclient/8.1.0:115f50b9523222bd26797bf642ac98a7f251efa5
-    libpq/15.4:be27726f9885116da1158027505be62e913cd585
-    lz4/1.9.4:be27726f9885116da1158027505be62e913cd585
-    openssl/3.1.1:ea45daa7db3dac72b5ae25271b378c1b20061dea
-    pcre2/10.42:5b399045313d700fec29aea700e1ff40adf0f94f
-    poco/1.13.1:ac5892a8aba9b52187819152ef148d4cb14edafc
-    sqlite3/3.45.0:0a79a8c00509ac94d8a0a57b7da1df9f2a301aef
-    zlib/1.2.13:be27726f9885116da1158027505be62e913cd585
-    zstd/1.5.5:16ab3f2bcc214437d6f0330ca82a1bbbe3065d67
+    bzip2/1.0.8:c32092bf4d4bb47cf962af898e02823f499b017e
+    expat/2.5.0:2bf99ee01cda593d5986afc64acf262ad576354f
+    libmysqlclient/8.1.0:205d2942419054ef9d523bb0f9f8cf3ea0ff426d
+    libpq/15.4:dfbe50feef7f3c6223a476cd5aeadb687084a646
+    lz4/1.9.4:dfbe50feef7f3c6223a476cd5aeadb687084a646
+    openssl/3.2.1:b900de75da67bf5b70e2c8e014077a01158ca4e4
+    pcre2/10.42:1dfef2d0e403379e1d4f34660b435fba4caeec11
+    poco/1.13.1:e8b84f69ebeeb34a86b5fe472d60e642450420b7
+    sqlite3/3.45.0:8fc930bdbf940331d9f322f454eac3dd06fd27e8
+    zlib/1.2.13:dfbe50feef7f3c6223a476cd5aeadb687084a646
+    zstd/1.5.5:8016f3759d698995d987efa4b9ff23d4a4f30799
 
 [full_options]
     bzip2:build_executable=True
@@ -52,11 +52,14 @@
     lz4:fPIC=True
     lz4:shared=False
     openssl:386=False
+    openssl:enable_trace=False
     openssl:enable_weak_ssl_ciphers=False
     openssl:fPIC=True
+    openssl:no_apps=False
     openssl:no_aria=False
     openssl:no_asm=False
     openssl:no_async=False
+    openssl:no_autoload_config=False
     openssl:no_bf=False
     openssl:no_blake2=False
     openssl:no_camellia=False
@@ -109,6 +112,7 @@
     openssl:no_zlib=False
     openssl:openssldir=None
     openssl:shared=False
+    openssl:tls_security_level=2
     pcre2:build_pcre2_16=True
     pcre2:build_pcre2_32=True
     pcre2:build_pcre2_8=True
@@ -180,6 +184,7 @@
     sqlite3:use_uri=False
     zlib:fPIC=True
     zlib:shared=False
+    zstd:build_programs=True
     zstd:fPIC=True
     zstd:shared=False
     zstd:threading=True
