@@ -60,7 +60,7 @@ bool parseJSON(string & patchToFile, const path & archiv_path_zip){ //archiv_pat
     QRegExp crc32Str("^[0-9ABCDEF]{8}$");
     QRegExp softStr("^"
                     "(Solidworks Professional 2018 x64 Edition SP3.0)|"
-                    "(КОМПАС-3D 21.0.0.1158 /(64-разрядная версия/))|"
+                    "(КОМПАС.*)|"
                     "(Altium Designer 20.0.12 /(Build 288/))|"
                     "(Libre Office Writer 7.5.3.2)|"
                     "(Inkscape 1.2)|"
@@ -129,7 +129,7 @@ bool parseJSON(string & patchToFile, const path & archiv_path_zip){ //archiv_pat
 
           //вычисляем CRC32 папки Contents
       string chopped1 = patchToFile;
-      chopped1.insert(11,"\"");
+      chopped1.insert(11,"\""); //Борьба с пробелом имени
       QString nameDirectory = QString::fromStdString(chopped1).chopped(11)+"\""+QString("/Contents");
       crc32Contents = CRC32Contents(nameDirectory);
 #ifdef printJson
@@ -179,7 +179,7 @@ bool parseJSON(string & patchToFile, const path & archiv_path_zip){ //archiv_pat
                     }else return false;
                     if (infoAboutSigning.HasMember("Информационно-удостоверяющий лист")){
                         infoOrderList = infoAboutSigning["Информационно-удостоверяющий лист"].GetString();
-                        if(!iulStr.exactMatch(QString::fromStdString(infoOrderList))) return false;
+//                        if(!iulStr.exactMatch(QString::fromStdString(infoOrderList))) return false;
 #ifdef printJson
                         cout << "\t\tИнформационно-удостоверяющий лист: " << infoOrderList << "\n";
 #endif
