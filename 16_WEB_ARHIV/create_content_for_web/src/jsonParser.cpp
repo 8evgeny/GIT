@@ -385,6 +385,10 @@ bool parseJSON(string & patchToFile, const path & archiv_path_zip){ //archiv_pat
 //Копирую актуальный zip файл
     string fileCurrentZIP = archiv_path_zip;
     fileCurrentZIP.append("/" + oboznachenieIkodDokumenta  + ".zip");
+    string tmp1 = fileCurrentZIP;
+    auto pos1 = tmp1.find_last_of("/");
+    tmp1.insert(pos1 + 1,"\"");
+    tmp1.append("\"");//Борьба с пробелом в имени
     string copyCurrentZIP = "cp " + fileCurrentZIP + " " + WEB_content + to_string(numFolderForWebContent);
     system(copyCurrentZIP.c_str());
 //Переименовываю актуальный zip файл
@@ -563,4 +567,10 @@ cout << "Copy content to folder " << to_string(numFolderForWebContent) << endl;
 return true;
 }
 
-
+string addDoubleQuotesToName(string & name){
+    string tmp = name;
+    auto pos = tmp.find_last_of("/");
+    tmp.insert(pos + 1,"\"");
+    tmp += "\"";
+    return tmp;
+}
