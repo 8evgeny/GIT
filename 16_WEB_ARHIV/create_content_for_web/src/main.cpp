@@ -61,7 +61,7 @@ int main(int argc, char *argv[])
         archiv_path_zip= argv[1];
     }
 
-    string pathToExtractDirectory = "EXTRACT"; //в папке build
+    string pathToExtractDirectory = "../EXTRACT"; //в папке build
     const path archiv_path_extracted{pathToExtractDirectory};
 //Разархивирование исходного контента
 //Очищаем директорию для извлечения
