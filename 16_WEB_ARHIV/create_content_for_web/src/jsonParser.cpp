@@ -3,7 +3,6 @@ extern string WEB_content;
 extern uint numContent;
 uint numFolderForWebContent{1};
 QString namePDF;
-
     ostream& operator<<(ostream &os, const chrono::time_point<chrono::system_clock> &t){
         const auto tt   (chrono::system_clock::to_time_t(t));
         const auto loct (localtime(&tt));
@@ -511,14 +510,25 @@ bool parseJSON(string & patchToFile, const path & archiv_path_zip){ //archiv_pat
    // cp опции /путь/к/файлу/источнику /путь/к/директории/назначения
     string tmp4 = oboznachenieIkodDokumenta;
     string tmp5 = patchToFile;
-    QString tmp6 = QString::fromStdString(tmp5).chopped(10)+QString("Contents/")+QString::fromStdString(tmp4.append(".PDF"));
-    string copyPDF = "cp " + tmp6.toStdString() + " " + WEB_content + to_string(numFolderForWebContent);
+    QString tmp6;
+    if (namePDF.toStdString().ends_with("pdf")){
+        tmp6 = QString::fromStdString(tmp5).chopped(11)+"\""+QString("/Contents/")+QString::fromStdString(tmp4.append(".pdf"));
+    }
+    if (namePDF.toStdString().ends_with("PDF")){
+        tmp6 = QString::fromStdString(tmp5).chopped(11)+"\""+QString("/Contents/")+QString::fromStdString(tmp4.append(".PDF"));
+    }
+    string tmp7 = tmp6.toStdString();
+    tmp7.insert(11,"\"");
+    string copyPDF = "cp " + tmp7 + " " + WEB_content + to_string(numFolderForWebContent);
     system(copyPDF.c_str());
+
     if (namePDF.toStdString().ends_with("pdf")){
         string rename = "mv " + WEB_content + to_string(numFolderForWebContent) + "/" + oboznachenieIkodDokumenta + ".pdf " +
             WEB_content + to_string(numFolderForWebContent) + "/" + oboznachenieIkodDokumenta + ".PDF";
         system(rename.c_str());
     }
+
+
 
 //Копирую  ИУЛ из папки Ниокр-Документы_по_обозначениям и переименовываю pdf в PDF
     string path_to_IUL = archiv_path_zip;
