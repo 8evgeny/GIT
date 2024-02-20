@@ -546,13 +546,13 @@ if (printDebug) cout<<"9"<<endl;
         nameIulPDF = path_to_IUL + "/" + infoOrderList + ".PDF";
     }
     else{
-        nameIulPDF = path_to_IUL + "/" + infoOrderList + ".pdf";
+        nameIulPDF = path_to_IUL + "/\"" + infoOrderList + ".pdf\"";
     }
     string copyIulPDF = "cp " + nameIulPDF + " " + WEB_content + to_string(numFolderForWebContent);
     system(copyIulPDF.c_str());
     if (!namePDFlettersBig){
-        string renameIULPDF = "mv " + WEB_content + to_string(numFolderForWebContent) + "/" + infoOrderList + ".pdf " +
-                WEB_content + to_string(numFolderForWebContent) + "/" + infoOrderList + ".PDF";
+        string renameIULPDF = "mv " + WEB_content + to_string(numFolderForWebContent) + "/\"" + infoOrderList + ".pdf\" " +
+                WEB_content + to_string(numFolderForWebContent) + "/\"" + infoOrderList + ".PDF\"";
         system(renameIULPDF.c_str());
     }
 
