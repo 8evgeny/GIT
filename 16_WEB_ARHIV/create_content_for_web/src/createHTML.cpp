@@ -2,6 +2,7 @@
 
 string createHTML(vector <string> & content, vector<pair<string,string>> & oldZipData)
 {
+    string tmp1 = "\"" + content[0] + ".PDF\"";
 //    content.push_back(oboznachenieIkodDokumenta); 0
 //    content.push_back(naimenovanieIzdeliya);      1
 //    content.push_back(naimenovanieDokumenta);     2
@@ -55,7 +56,7 @@ string html =
     "<body>"
     "<h2 align='center' style='color:black'>" + QString::fromStdString(content[1]).toUpper().toStdString() + "</h2>"
     "<h3 align='center'>" + content[2] + "</h3>"
-    "<h3 align='center'><a href=" + content[0] + ".PDF>" + content[0] + "</a></h3>"
+    "<h3 align='center'><a href=" + tmp1 + ">" + content[0] + "</a></h3>"
     "<table width='40%'>"                                          //cellpadding='4' cellspacing='0'
         "<tr><thead ><h2 align='left'>Учетные данные</h2></thead>"
         "<tr>"
