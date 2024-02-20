@@ -9,7 +9,7 @@
 #include <filesystem>
 #include <fstream>
 #include <unordered_set>
-#include <pqxx/pqxx>
+//#include <pqxx/pqxx>
 
 #define BUFSIZE 300000
 
@@ -17,7 +17,7 @@ using namespace rapidjson;
 using namespace std;
 using namespace chrono_literals;
 using namespace std::filesystem;
-using namespace pqxx;
+//using namespace pqxx;
 
 bool parseJSON(string & patchToFile, const path & archiv_path_zip);
 bool extractZip(string & patchToFile, string & fileName, string & patchToExtractDirectory);
