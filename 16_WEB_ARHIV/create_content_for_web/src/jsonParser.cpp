@@ -6,7 +6,7 @@ QString namePDF;
 bool namePDFlettersBig = true;
 extern bool printDebug;
 extern int errorParsingJson;
-
+extern string nameFileForDeleteIfJsonNoGood;
     ostream& operator<<(ostream &os, const chrono::time_point<chrono::system_clock> &t){
         const auto tt   (chrono::system_clock::to_time_t(t));
         const auto loct (localtime(&tt));
@@ -103,6 +103,7 @@ bool parseJSON(string & patchToFile, const path & archiv_path_zip){ //archiv_pat
                 }else return false;
                 if (requisites.HasMember("Обозначение и код документа")){
                     oboznachenieIkodDokumenta = requisites["Обозначение и код документа"].GetString();
+                    nameFileForDeleteIfJsonNoGood = oboznachenieIkodDokumenta;
                     if(blankStr.exactMatch(QString::fromStdString(oboznachenieIkodDokumenta))) return false;
       //вычисляем CRC32 PDF файла
       string appPdf = oboznachenieIkodDokumenta;

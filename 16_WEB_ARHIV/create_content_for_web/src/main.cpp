@@ -42,6 +42,7 @@ uint numZipFiles{0};
 bool printDebug=false;
 uint errorParsingJson{0};
 uint numFolderForWebContent{1};
+string nameFileForDeleteIfJsonNoGood;
 
 int main(int argc, char *argv[])
 {
@@ -56,8 +57,8 @@ int main(int argc, char *argv[])
 //    testPQXX();
 //    testPOCO_Psql();
 
-//    path archiv_path_zip{"/home/evg/Desktop/NIOKR_aktual_DOC"};
-    path archiv_path_zip{"/home/evg/SOFT/Github/GIT/16_WEB_ARHIV/NIOKR_aktual_DOC"};
+    path archiv_path_zip{"/home/evg/Desktop/NIOKR_aktual_DOC"};
+//    path archiv_path_zip{"/home/evg/SOFT/Github/GIT/16_WEB_ARHIV/NIOKR_aktual_DOC"};
 //    path archiv_path_zip{"/home/evg/SOFT/Github/GIT/16_WEB_ARHIV/_TEST"};
 
     if (argc == 2){
@@ -148,6 +149,9 @@ int main(int argc, char *argv[])
             cout <<endl<<"Seaching json "<< num << ": "<< patchJsonFile << endl;
             if(!parseJSON(patchJsonFile, archiv_path_zip)) //парсинг одного файла JSON
             {
+      //Удаляем папку с контентом nameFileForDeleteIfJsonNoGood
+                string remove = "rm -rf ../EXTRACT/" + nameFileForDeleteIfJsonNoGood;
+                system(remove.c_str());
                 cout << "ОШИБКА JSON ФАЙЛА" << endl;
                 ++errorParsingJson;
                 errorJsonPatch.push_back(patchJsonFile);
@@ -159,7 +163,7 @@ int main(int argc, char *argv[])
     for (auto & patchJsonError : errorJsonPatch)
         cout <<  patchJsonError << endl;
 
-//Удаляем папку EXTRACT
+//Удаляем папку EXTRACT (если там что осталось)
     string remove = "rm -rf ../EXTRACT/";
     system(remove.c_str());
 
