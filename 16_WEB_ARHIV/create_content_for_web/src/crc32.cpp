@@ -72,6 +72,14 @@ const quint32 CRC32Table[256] =
 
 quint32 CRC32(QString fileName)
 {
+    auto pos = fileName.indexOf(" ");
+    if (pos > 0){
+//        fileName.insert(pos,"\\");
+    }
+    auto pos1 = fileName.indexOf(" ", pos+2);
+    if (pos1 > 0){
+//        fileName.insert(pos1,"\\");
+    }
     QFile file(fileName);
     QString errMsg;
     QFileDevice::FileError err = QFileDevice::NoError;
