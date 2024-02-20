@@ -7,10 +7,10 @@
 /home/evg/.conan/data/libmysqlclient/8.1.0/_/_/package/115f50b9523222bd26797bf642ac98a7f251efa5/include
 /home/evg/.conan/data/libmysqlclient/8.1.0/_/_/package/115f50b9523222bd26797bf642ac98a7f251efa5/include/mysql
 /home/evg/.conan/data/bzip2/1.0.8/_/_/package/76bd63d0cd275bc555bda09b7f93740254ba3515/include
-/home/evg/.conan/data/openssl/3.2.1/_/_/package/5d6713c52b5a7831adeccf764ad4bc639d5f5fba/include
-/home/evg/.conan/data/zstd/1.5.5/_/_/package/2177ebad8f53eadc62cd13ac2535f24587cb3ca5/include
+/home/evg/.conan/data/openssl/3.1.1/_/_/package/ea45daa7db3dac72b5ae25271b378c1b20061dea/include
+/home/evg/.conan/data/zstd/1.5.5/_/_/package/16ab3f2bcc214437d6f0330ca82a1bbbe3065d67/include
 /home/evg/.conan/data/lz4/1.9.4/_/_/package/be27726f9885116da1158027505be62e913cd585/include
-/home/evg/.conan/data/zlib/1.3.1/_/_/package/be27726f9885116da1158027505be62e913cd585/include
+/home/evg/.conan/data/zlib/1.2.13/_/_/package/be27726f9885116da1158027505be62e913cd585/include
 
 [libdirs]
 /home/evg/.conan/data/poco/1.13.1/_/_/package/ac5892a8aba9b52187819152ef148d4cb14edafc/lib
@@ -20,10 +20,10 @@
 /home/evg/.conan/data/libpq/15.4/_/_/package/be27726f9885116da1158027505be62e913cd585/lib
 /home/evg/.conan/data/libmysqlclient/8.1.0/_/_/package/115f50b9523222bd26797bf642ac98a7f251efa5/lib
 /home/evg/.conan/data/bzip2/1.0.8/_/_/package/76bd63d0cd275bc555bda09b7f93740254ba3515/lib
-/home/evg/.conan/data/openssl/3.2.1/_/_/package/5d6713c52b5a7831adeccf764ad4bc639d5f5fba/lib
-/home/evg/.conan/data/zstd/1.5.5/_/_/package/2177ebad8f53eadc62cd13ac2535f24587cb3ca5/lib
+/home/evg/.conan/data/openssl/3.1.1/_/_/package/ea45daa7db3dac72b5ae25271b378c1b20061dea/lib
+/home/evg/.conan/data/zstd/1.5.5/_/_/package/16ab3f2bcc214437d6f0330ca82a1bbbe3065d67/lib
 /home/evg/.conan/data/lz4/1.9.4/_/_/package/be27726f9885116da1158027505be62e913cd585/lib
-/home/evg/.conan/data/zlib/1.3.1/_/_/package/be27726f9885116da1158027505be62e913cd585/lib
+/home/evg/.conan/data/zlib/1.2.13/_/_/package/be27726f9885116da1158027505be62e913cd585/lib
 
 [bindirs]
 /home/evg/.conan/data/pcre2/10.42/_/_/package/5b399045313d700fec29aea700e1ff40adf0f94f/bin
@@ -31,8 +31,7 @@
 /home/evg/.conan/data/libpq/15.4/_/_/package/be27726f9885116da1158027505be62e913cd585/bin
 /home/evg/.conan/data/libmysqlclient/8.1.0/_/_/package/115f50b9523222bd26797bf642ac98a7f251efa5/bin
 /home/evg/.conan/data/bzip2/1.0.8/_/_/package/76bd63d0cd275bc555bda09b7f93740254ba3515/bin
-/home/evg/.conan/data/openssl/3.2.1/_/_/package/5d6713c52b5a7831adeccf764ad4bc639d5f5fba/bin
-/home/evg/.conan/data/zstd/1.5.5/_/_/package/2177ebad8f53eadc62cd13ac2535f24587cb3ca5/bin
+/home/evg/.conan/data/openssl/3.1.1/_/_/package/ea45daa7db3dac72b5ae25271b378c1b20061dea/bin
 
 [resdirs]
 
@@ -41,9 +40,9 @@
 /home/evg/.conan/data/expat/2.5.0/_/_/package/3242ee86fec793e7767fb97cb42848d950351d05/
 /home/evg/.conan/data/libmysqlclient/8.1.0/_/_/package/115f50b9523222bd26797bf642ac98a7f251efa5/
 /home/evg/.conan/data/bzip2/1.0.8/_/_/package/76bd63d0cd275bc555bda09b7f93740254ba3515/
-/home/evg/.conan/data/openssl/3.2.1/_/_/package/5d6713c52b5a7831adeccf764ad4bc639d5f5fba/lib/cmake
+/home/evg/.conan/data/openssl/3.1.1/_/_/package/ea45daa7db3dac72b5ae25271b378c1b20061dea/lib/cmake
 /home/evg/.conan/data/lz4/1.9.4/_/_/package/be27726f9885116da1158027505be62e913cd585/
-/home/evg/.conan/data/zlib/1.3.1/_/_/package/be27726f9885116da1158027505be62e913cd585/
+/home/evg/.conan/data/zlib/1.2.13/_/_/package/be27726f9885116da1158027505be62e913cd585/
 
 [libs]
 PocoDataMySQLd
@@ -611,19 +610,19 @@ cmake_find_package_multi=BZip2
 
 
 [includedirs_openssl]
-/home/evg/.conan/data/openssl/3.2.1/_/_/package/5d6713c52b5a7831adeccf764ad4bc639d5f5fba/include
+/home/evg/.conan/data/openssl/3.1.1/_/_/package/ea45daa7db3dac72b5ae25271b378c1b20061dea/include
 
 [libdirs_openssl]
-/home/evg/.conan/data/openssl/3.2.1/_/_/package/5d6713c52b5a7831adeccf764ad4bc639d5f5fba/lib
+/home/evg/.conan/data/openssl/3.1.1/_/_/package/ea45daa7db3dac72b5ae25271b378c1b20061dea/lib
 
 [bindirs_openssl]
-/home/evg/.conan/data/openssl/3.2.1/_/_/package/5d6713c52b5a7831adeccf764ad4bc639d5f5fba/bin
+/home/evg/.conan/data/openssl/3.1.1/_/_/package/ea45daa7db3dac72b5ae25271b378c1b20061dea/bin
 
 [resdirs_openssl]
 
 
 [builddirs_openssl]
-/home/evg/.conan/data/openssl/3.2.1/_/_/package/5d6713c52b5a7831adeccf764ad4bc639d5f5fba/lib/cmake
+/home/evg/.conan/data/openssl/3.1.1/_/_/package/ea45daa7db3dac72b5ae25271b378c1b20061dea/lib/cmake
 
 [libs_openssl]
 ssl
@@ -662,13 +661,13 @@ rt
 
 
 [rootpath_openssl]
-/home/evg/.conan/data/openssl/3.2.1/_/_/package/5d6713c52b5a7831adeccf764ad4bc639d5f5fba
+/home/evg/.conan/data/openssl/3.1.1/_/_/package/ea45daa7db3dac72b5ae25271b378c1b20061dea
 
 [name_openssl]
 openssl
 
 [version_openssl]
-3.2.1
+3.1.1
 
 [generatornames_openssl]
 cmake_find_package=OpenSSL
@@ -679,13 +678,13 @@ cmake_find_package_multi=OpenSSL
 
 
 [includedirs_zstd]
-/home/evg/.conan/data/zstd/1.5.5/_/_/package/2177ebad8f53eadc62cd13ac2535f24587cb3ca5/include
+/home/evg/.conan/data/zstd/1.5.5/_/_/package/16ab3f2bcc214437d6f0330ca82a1bbbe3065d67/include
 
 [libdirs_zstd]
-/home/evg/.conan/data/zstd/1.5.5/_/_/package/2177ebad8f53eadc62cd13ac2535f24587cb3ca5/lib
+/home/evg/.conan/data/zstd/1.5.5/_/_/package/16ab3f2bcc214437d6f0330ca82a1bbbe3065d67/lib
 
 [bindirs_zstd]
-/home/evg/.conan/data/zstd/1.5.5/_/_/package/2177ebad8f53eadc62cd13ac2535f24587cb3ca5/bin
+
 
 [resdirs_zstd]
 
@@ -727,7 +726,7 @@ pthread
 
 
 [rootpath_zstd]
-/home/evg/.conan/data/zstd/1.5.5/_/_/package/2177ebad8f53eadc62cd13ac2535f24587cb3ca5
+/home/evg/.conan/data/zstd/1.5.5/_/_/package/16ab3f2bcc214437d6f0330ca82a1bbbe3065d67
 
 [name_zstd]
 zstd
@@ -807,10 +806,10 @@ pkg_config=liblz4
 
 
 [includedirs_zlib]
-/home/evg/.conan/data/zlib/1.3.1/_/_/package/be27726f9885116da1158027505be62e913cd585/include
+/home/evg/.conan/data/zlib/1.2.13/_/_/package/be27726f9885116da1158027505be62e913cd585/include
 
 [libdirs_zlib]
-/home/evg/.conan/data/zlib/1.3.1/_/_/package/be27726f9885116da1158027505be62e913cd585/lib
+/home/evg/.conan/data/zlib/1.2.13/_/_/package/be27726f9885116da1158027505be62e913cd585/lib
 
 [bindirs_zlib]
 
@@ -819,7 +818,7 @@ pkg_config=liblz4
 
 
 [builddirs_zlib]
-/home/evg/.conan/data/zlib/1.3.1/_/_/package/be27726f9885116da1158027505be62e913cd585/
+/home/evg/.conan/data/zlib/1.2.13/_/_/package/be27726f9885116da1158027505be62e913cd585/
 
 [libs_zlib]
 z
@@ -855,13 +854,13 @@ z
 
 
 [rootpath_zlib]
-/home/evg/.conan/data/zlib/1.3.1/_/_/package/be27726f9885116da1158027505be62e913cd585
+/home/evg/.conan/data/zlib/1.2.13/_/_/package/be27726f9885116da1158027505be62e913cd585
 
 [name_zlib]
 zlib
 
 [version_zlib]
-1.3.1
+1.2.13
 
 [generatornames_zlib]
 cmake_find_package=ZLIB
@@ -894,8 +893,7 @@ PostgreSQL_ROOT=/home/evg/.conan/data/libpq/15.4/_/_/package/be27726f9885116da11
 [ENV_bzip2]
 PATH=["/home/evg/.conan/data/bzip2/1.0.8/_/_/package/76bd63d0cd275bc555bda09b7f93740254ba3515/bin"]
 [ENV_openssl]
-OPENSSL_MODULES=/home/evg/.conan/data/openssl/3.2.1/_/_/package/5d6713c52b5a7831adeccf764ad4bc639d5f5fba/lib/ossl-modules
+OPENSSL_MODULES=/home/evg/.conan/data/openssl/3.1.1/_/_/package/ea45daa7db3dac72b5ae25271b378c1b20061dea/lib/ossl-modules
 [ENV_zstd]
-PATH=["/home/evg/.conan/data/zstd/1.5.5/_/_/package/2177ebad8f53eadc62cd13ac2535f24587cb3ca5/bin"]
 [ENV_lz4]
 [ENV_zlib]

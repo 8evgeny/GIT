@@ -46,14 +46,13 @@ int main(int argc, char *argv[])
 #ifdef printDebugInfo
     printDebug=true;
 #endif
-    cout <<  "start docker servises" << endl<< endl;
-    string dockerStart = "docker-compose up -d 2>/dev/null";
-//    string dockerStart = "docker-compose up -d";
-    system(dockerStart.c_str());
-    QThread::currentThread()->msleep(2000);
 
-    testPQXX();
-    testPOCO_Psql();
+//    cout <<  "start docker servises" << endl<< endl;
+//    string dockerStart = "docker-compose up -d 2>/dev/null";
+//    system(dockerStart.c_str());
+//    QThread::currentThread()->msleep(2000);
+//    testPQXX();
+//    testPOCO_Psql();
 
 //    path archiv_path_zip{"/home/evg/SOFT/Github/GIT/16_WEB_ARHIV/Ниокр-Актуальные_документы"};
 //    path archiv_path_zip{"/home/evg/SOFT/Github/GIT/16_WEB_ARHIV/_ERRORS"};

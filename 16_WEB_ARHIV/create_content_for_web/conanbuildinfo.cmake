@@ -307,13 +307,13 @@ set(CONAN_LIBS_BZIP2 ${CONAN_PKG_LIBS_BZIP2} ${CONAN_SYSTEM_LIBS_BZIP2} ${CONAN_
 #################
 ###  OPENSSL
 #################
-set(CONAN_OPENSSL_ROOT "/home/evg/.conan/data/openssl/3.2.1/_/_/package/5d6713c52b5a7831adeccf764ad4bc639d5f5fba")
-set(CONAN_INCLUDE_DIRS_OPENSSL "/home/evg/.conan/data/openssl/3.2.1/_/_/package/5d6713c52b5a7831adeccf764ad4bc639d5f5fba/include")
-set(CONAN_LIB_DIRS_OPENSSL "/home/evg/.conan/data/openssl/3.2.1/_/_/package/5d6713c52b5a7831adeccf764ad4bc639d5f5fba/lib")
-set(CONAN_BIN_DIRS_OPENSSL "/home/evg/.conan/data/openssl/3.2.1/_/_/package/5d6713c52b5a7831adeccf764ad4bc639d5f5fba/bin")
+set(CONAN_OPENSSL_ROOT "/home/evg/.conan/data/openssl/3.1.1/_/_/package/ea45daa7db3dac72b5ae25271b378c1b20061dea")
+set(CONAN_INCLUDE_DIRS_OPENSSL "/home/evg/.conan/data/openssl/3.1.1/_/_/package/ea45daa7db3dac72b5ae25271b378c1b20061dea/include")
+set(CONAN_LIB_DIRS_OPENSSL "/home/evg/.conan/data/openssl/3.1.1/_/_/package/ea45daa7db3dac72b5ae25271b378c1b20061dea/lib")
+set(CONAN_BIN_DIRS_OPENSSL "/home/evg/.conan/data/openssl/3.1.1/_/_/package/ea45daa7db3dac72b5ae25271b378c1b20061dea/bin")
 set(CONAN_RES_DIRS_OPENSSL )
 set(CONAN_SRC_DIRS_OPENSSL )
-set(CONAN_BUILD_DIRS_OPENSSL "/home/evg/.conan/data/openssl/3.2.1/_/_/package/5d6713c52b5a7831adeccf764ad4bc639d5f5fba/lib/cmake")
+set(CONAN_BUILD_DIRS_OPENSSL "/home/evg/.conan/data/openssl/3.1.1/_/_/package/ea45daa7db3dac72b5ae25271b378c1b20061dea/lib/cmake")
 set(CONAN_FRAMEWORK_DIRS_OPENSSL )
 set(CONAN_LIBS_OPENSSL ssl crypto)
 set(CONAN_PKG_LIBS_OPENSSL ssl crypto)
@@ -345,10 +345,10 @@ set(CONAN_LIBS_OPENSSL ${CONAN_PKG_LIBS_OPENSSL} ${CONAN_SYSTEM_LIBS_OPENSSL} ${
 #################
 ###  ZSTD
 #################
-set(CONAN_ZSTD_ROOT "/home/evg/.conan/data/zstd/1.5.5/_/_/package/2177ebad8f53eadc62cd13ac2535f24587cb3ca5")
-set(CONAN_INCLUDE_DIRS_ZSTD "/home/evg/.conan/data/zstd/1.5.5/_/_/package/2177ebad8f53eadc62cd13ac2535f24587cb3ca5/include")
-set(CONAN_LIB_DIRS_ZSTD "/home/evg/.conan/data/zstd/1.5.5/_/_/package/2177ebad8f53eadc62cd13ac2535f24587cb3ca5/lib")
-set(CONAN_BIN_DIRS_ZSTD "/home/evg/.conan/data/zstd/1.5.5/_/_/package/2177ebad8f53eadc62cd13ac2535f24587cb3ca5/bin")
+set(CONAN_ZSTD_ROOT "/home/evg/.conan/data/zstd/1.5.5/_/_/package/16ab3f2bcc214437d6f0330ca82a1bbbe3065d67")
+set(CONAN_INCLUDE_DIRS_ZSTD "/home/evg/.conan/data/zstd/1.5.5/_/_/package/16ab3f2bcc214437d6f0330ca82a1bbbe3065d67/include")
+set(CONAN_LIB_DIRS_ZSTD "/home/evg/.conan/data/zstd/1.5.5/_/_/package/16ab3f2bcc214437d6f0330ca82a1bbbe3065d67/lib")
+set(CONAN_BIN_DIRS_ZSTD )
 set(CONAN_RES_DIRS_ZSTD )
 set(CONAN_SRC_DIRS_ZSTD )
 set(CONAN_BUILD_DIRS_ZSTD )
@@ -421,13 +421,13 @@ set(CONAN_LIBS_LZ4 ${CONAN_PKG_LIBS_LZ4} ${CONAN_SYSTEM_LIBS_LZ4} ${CONAN_FRAMEW
 #################
 ###  ZLIB
 #################
-set(CONAN_ZLIB_ROOT "/home/evg/.conan/data/zlib/1.3.1/_/_/package/be27726f9885116da1158027505be62e913cd585")
-set(CONAN_INCLUDE_DIRS_ZLIB "/home/evg/.conan/data/zlib/1.3.1/_/_/package/be27726f9885116da1158027505be62e913cd585/include")
-set(CONAN_LIB_DIRS_ZLIB "/home/evg/.conan/data/zlib/1.3.1/_/_/package/be27726f9885116da1158027505be62e913cd585/lib")
+set(CONAN_ZLIB_ROOT "/home/evg/.conan/data/zlib/1.2.13/_/_/package/be27726f9885116da1158027505be62e913cd585")
+set(CONAN_INCLUDE_DIRS_ZLIB "/home/evg/.conan/data/zlib/1.2.13/_/_/package/be27726f9885116da1158027505be62e913cd585/include")
+set(CONAN_LIB_DIRS_ZLIB "/home/evg/.conan/data/zlib/1.2.13/_/_/package/be27726f9885116da1158027505be62e913cd585/lib")
 set(CONAN_BIN_DIRS_ZLIB )
 set(CONAN_RES_DIRS_ZLIB )
 set(CONAN_SRC_DIRS_ZLIB )
-set(CONAN_BUILD_DIRS_ZLIB "/home/evg/.conan/data/zlib/1.3.1/_/_/package/be27726f9885116da1158027505be62e913cd585/")
+set(CONAN_BUILD_DIRS_ZLIB "/home/evg/.conan/data/zlib/1.2.13/_/_/package/be27726f9885116da1158027505be62e913cd585/")
 set(CONAN_FRAMEWORK_DIRS_ZLIB )
 set(CONAN_LIBS_ZLIB z)
 set(CONAN_PKG_LIBS_ZLIB z)
@@ -486,10 +486,10 @@ set(CONAN_INCLUDE_DIRS "/home/evg/.conan/data/poco/1.13.1/_/_/package/ac5892a8ab
 			"/home/evg/.conan/data/libmysqlclient/8.1.0/_/_/package/115f50b9523222bd26797bf642ac98a7f251efa5/include"
 			"/home/evg/.conan/data/libmysqlclient/8.1.0/_/_/package/115f50b9523222bd26797bf642ac98a7f251efa5/include/mysql"
 			"/home/evg/.conan/data/bzip2/1.0.8/_/_/package/76bd63d0cd275bc555bda09b7f93740254ba3515/include"
-			"/home/evg/.conan/data/openssl/3.2.1/_/_/package/5d6713c52b5a7831adeccf764ad4bc639d5f5fba/include"
-			"/home/evg/.conan/data/zstd/1.5.5/_/_/package/2177ebad8f53eadc62cd13ac2535f24587cb3ca5/include"
+			"/home/evg/.conan/data/openssl/3.1.1/_/_/package/ea45daa7db3dac72b5ae25271b378c1b20061dea/include"
+			"/home/evg/.conan/data/zstd/1.5.5/_/_/package/16ab3f2bcc214437d6f0330ca82a1bbbe3065d67/include"
 			"/home/evg/.conan/data/lz4/1.9.4/_/_/package/be27726f9885116da1158027505be62e913cd585/include"
-			"/home/evg/.conan/data/zlib/1.3.1/_/_/package/be27726f9885116da1158027505be62e913cd585/include" ${CONAN_INCLUDE_DIRS})
+			"/home/evg/.conan/data/zlib/1.2.13/_/_/package/be27726f9885116da1158027505be62e913cd585/include" ${CONAN_INCLUDE_DIRS})
 set(CONAN_LIB_DIRS "/home/evg/.conan/data/poco/1.13.1/_/_/package/ac5892a8aba9b52187819152ef148d4cb14edafc/lib"
 			"/home/evg/.conan/data/pcre2/10.42/_/_/package/5b399045313d700fec29aea700e1ff40adf0f94f/lib"
 			"/home/evg/.conan/data/expat/2.5.0/_/_/package/3242ee86fec793e7767fb97cb42848d950351d05/lib"
@@ -497,17 +497,16 @@ set(CONAN_LIB_DIRS "/home/evg/.conan/data/poco/1.13.1/_/_/package/ac5892a8aba9b5
 			"/home/evg/.conan/data/libpq/15.4/_/_/package/be27726f9885116da1158027505be62e913cd585/lib"
 			"/home/evg/.conan/data/libmysqlclient/8.1.0/_/_/package/115f50b9523222bd26797bf642ac98a7f251efa5/lib"
 			"/home/evg/.conan/data/bzip2/1.0.8/_/_/package/76bd63d0cd275bc555bda09b7f93740254ba3515/lib"
-			"/home/evg/.conan/data/openssl/3.2.1/_/_/package/5d6713c52b5a7831adeccf764ad4bc639d5f5fba/lib"
-			"/home/evg/.conan/data/zstd/1.5.5/_/_/package/2177ebad8f53eadc62cd13ac2535f24587cb3ca5/lib"
+			"/home/evg/.conan/data/openssl/3.1.1/_/_/package/ea45daa7db3dac72b5ae25271b378c1b20061dea/lib"
+			"/home/evg/.conan/data/zstd/1.5.5/_/_/package/16ab3f2bcc214437d6f0330ca82a1bbbe3065d67/lib"
 			"/home/evg/.conan/data/lz4/1.9.4/_/_/package/be27726f9885116da1158027505be62e913cd585/lib"
-			"/home/evg/.conan/data/zlib/1.3.1/_/_/package/be27726f9885116da1158027505be62e913cd585/lib" ${CONAN_LIB_DIRS})
+			"/home/evg/.conan/data/zlib/1.2.13/_/_/package/be27726f9885116da1158027505be62e913cd585/lib" ${CONAN_LIB_DIRS})
 set(CONAN_BIN_DIRS "/home/evg/.conan/data/pcre2/10.42/_/_/package/5b399045313d700fec29aea700e1ff40adf0f94f/bin"
 			"/home/evg/.conan/data/sqlite3/3.45.0/_/_/package/0a79a8c00509ac94d8a0a57b7da1df9f2a301aef/bin"
 			"/home/evg/.conan/data/libpq/15.4/_/_/package/be27726f9885116da1158027505be62e913cd585/bin"
 			"/home/evg/.conan/data/libmysqlclient/8.1.0/_/_/package/115f50b9523222bd26797bf642ac98a7f251efa5/bin"
 			"/home/evg/.conan/data/bzip2/1.0.8/_/_/package/76bd63d0cd275bc555bda09b7f93740254ba3515/bin"
-			"/home/evg/.conan/data/openssl/3.2.1/_/_/package/5d6713c52b5a7831adeccf764ad4bc639d5f5fba/bin"
-			"/home/evg/.conan/data/zstd/1.5.5/_/_/package/2177ebad8f53eadc62cd13ac2535f24587cb3ca5/bin" ${CONAN_BIN_DIRS})
+			"/home/evg/.conan/data/openssl/3.1.1/_/_/package/ea45daa7db3dac72b5ae25271b378c1b20061dea/bin" ${CONAN_BIN_DIRS})
 set(CONAN_RES_DIRS  ${CONAN_RES_DIRS})
 set(CONAN_FRAMEWORK_DIRS  ${CONAN_FRAMEWORK_DIRS})
 set(CONAN_LIBS PocoDataMySQLd PocoDataPostgreSQLd PocoDataSQLited PocoEncodingsd PocoJWTd PocoMongoDBd PocoNetSSLd PocoCryptod PocoRedisd PocoNetd PocoZipd PocoUtild PocoJSONd PocoXMLd PocoActiveRecordd PocoDatad PocoFoundationd pcre2-posix pcre2-8 pcre2-16 pcre2-32 expat sqlite3 pq pgcommon pgcommon_shlib pgport pgport_shlib mysqlclient bz2 ssl crypto zstd lz4 z ${CONAN_LIBS})
@@ -523,9 +522,9 @@ set(CONAN_BUILD_MODULES_PATHS  ${CONAN_BUILD_MODULES_PATHS})
 set(CONAN_CMAKE_MODULE_PATH "/home/evg/.conan/data/expat/2.5.0/_/_/package/3242ee86fec793e7767fb97cb42848d950351d05/"
 			"/home/evg/.conan/data/libmysqlclient/8.1.0/_/_/package/115f50b9523222bd26797bf642ac98a7f251efa5/"
 			"/home/evg/.conan/data/bzip2/1.0.8/_/_/package/76bd63d0cd275bc555bda09b7f93740254ba3515/"
-			"/home/evg/.conan/data/openssl/3.2.1/_/_/package/5d6713c52b5a7831adeccf764ad4bc639d5f5fba/lib/cmake"
+			"/home/evg/.conan/data/openssl/3.1.1/_/_/package/ea45daa7db3dac72b5ae25271b378c1b20061dea/lib/cmake"
 			"/home/evg/.conan/data/lz4/1.9.4/_/_/package/be27726f9885116da1158027505be62e913cd585/"
-			"/home/evg/.conan/data/zlib/1.3.1/_/_/package/be27726f9885116da1158027505be62e913cd585/" ${CONAN_CMAKE_MODULE_PATH})
+			"/home/evg/.conan/data/zlib/1.2.13/_/_/package/be27726f9885116da1158027505be62e913cd585/" ${CONAN_CMAKE_MODULE_PATH})
 
 set(CONAN_CXX_FLAGS " ${CONAN_CXX_FLAGS}")
 set(CONAN_SHARED_LINKER_FLAGS " ${CONAN_SHARED_LINKER_FLAGS}")
