@@ -159,21 +159,23 @@ int main(int argc, char *argv[])
     for (auto & patchJsonError : errorJsonPatch)
         cout <<  patchJsonError << endl;
 
+//Удаляем папку EXTRACT
+    string remove = "rm -rf ../EXTRACT/";
+    system(remove.c_str());
 
-        //Все папки с контентом сформированы - формирую файл numDoc
-        QFile frow((WEB_content + "/" + "numDoc").c_str());
-        frow.open(QIODevice::WriteOnly);
-        frow.write(to_string(numZipFiles - errorParsingJson).c_str());
-        frow.close();
+//Все папки с контентом сформированы - формирую файл numDoc
+    QFile frow((WEB_content + "/" + "numDoc").c_str());
+    frow.open(QIODevice::WriteOnly);
+    frow.write(to_string(numZipFiles - errorParsingJson).c_str());
+    frow.close();
 
-        //Формирую строку с датой: Сводный перечень документов на хранении по состоянию на ____
-        QFile fdate((WEB_content + "/" + "date").c_str());
-        fdate.open(QIODevice::WriteOnly);
-        string date = "Сводный перечень документов на хранении по состоянию на ";
-        date.append(currentDateTime());
-        fdate.write(date.c_str());
-        fdate.close();
-
+//Формирую строку с датой: Сводный перечень документов на хранении по состоянию на ____
+    QFile fdate((WEB_content + "/" + "date").c_str());
+    fdate.open(QIODevice::WriteOnly);
+    string date = "Сводный перечень документов на хранении по состоянию на ";
+    date.append(currentDateTime());
+    fdate.write(date.c_str());
+    fdate.close();
 }
 
 string nameFromPath(path Patch){

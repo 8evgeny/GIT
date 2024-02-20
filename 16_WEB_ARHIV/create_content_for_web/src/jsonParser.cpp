@@ -6,7 +6,7 @@ QString namePDF;
 bool namePDFlettersBig = true;
 extern bool printDebug;
 extern int errorParsingJson;
-extern string currentExtractDir;
+
     ostream& operator<<(ostream &os, const chrono::time_point<chrono::system_clock> &t){
         const auto tt   (chrono::system_clock::to_time_t(t));
         const auto loct (localtime(&tt));
@@ -589,12 +589,12 @@ if (printDebug) cout<<"11"<<endl;
     }
     cout << "Copy content to folder " << to_string(numFolderForWebContent) << endl;
 
-//Удаляем из папки EXTRACT
-//удаляем currentExtractDir
-    string remove = "rm -rf ../EXTRACT/" + currentExtractDir;
-
 //Все действия в контексте текущей папки веб контента завершены
     ++numFolderForWebContent;
+
+//Тут можно удалить исходную папку откуда копировали
+    string remove = "rm -rf ../EXTRACT/" + oboznachenieIkodDokumenta;
+    system(remove.c_str());
 
 return true;
 }
