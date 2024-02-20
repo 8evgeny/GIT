@@ -415,7 +415,7 @@ if (printDebug) cout<<"4"<<endl;
     for (auto i = 0; i < changeNum; ++i ) {
         string directoryOLD = archiv_path_zip;
         directoryOLD.append("/../");
-        directoryOLD.append("Ниокр-Неактуальные_документы");
+        directoryOLD.append("NIOKR_old_DOC");
         string fileZIP = directoryOLD + "/" + oboznachenieIkodDokumenta + ".изм" + to_string(i) + ".zip";
         string copyZIP = "cp " + fileZIP + " " + WEB_content + to_string(numFolderForWebContent);
         system(copyZIP.c_str());
@@ -440,10 +440,10 @@ if (printDebug) cout<<"4"<<endl;
     //Сохраняю данные для карточки
             oldZipData.push_back(make_pair(changeNotificationNumZIP, notificationDataStrZIP));
 
-    //Копирую  файл извещения об изменении из папки Ниокр-Извещения_об_изменении и переименовываю pdf в PDF
+    //Копирую  файл извещения об изменении из папки NIOKR_messages и переименовываю pdf в PDF
             string path_to_IZV = archiv_path_zip;
             path_to_IZV.append("/../");
-            path_to_IZV.append("Ниокр-Извещения_об_изменении");
+            path_to_IZV.append("NIOKR_messages");
             string nIZM_old_PDF = path_to_IZV + "/" + changeNotificationNumZIP + ".PDF";
             string nIZM_old_pdf = path_to_IZV + "/" + changeNotificationNumZIP + ".pdf";
             string copyIZM_old_PDF = "cp " + nIZM_old_PDF + " " + WEB_content + to_string(numFolderForWebContent);
@@ -535,13 +535,13 @@ if (printDebug) cout<<"8"<<endl;
         system(rename.c_str());
     }
 
-//9. Копирую  ИУЛ из папки Ниокр-Документы_по_обозначениям и переименовываю pdf в PDF
+//9. Копирую  ИУЛ из папки NIOKR_IUL и переименовываю pdf в PDF
 if (printDebug) cout<<"9"<<endl;
     string path_to_IUL = archiv_path_zip;
 //    auto posBlank1 = path_to_IUL.find(" ");//Борьба с пробелом (Пути файлов уже не содержат пробелов)
 //    path_to_IUL.insert(posBlank1,"\\");
     path_to_IUL.append("/../");
-    path_to_IUL.append("Ниокр-Документы_по_обозначениям");
+    path_to_IUL.append("NIOKR_IUL");
     string nameIulPDF;
     if (namePDFlettersBig){
         nameIulPDF = path_to_IUL + "/" + infoOrderList + ".PDF";
@@ -565,13 +565,13 @@ if (printDebug) cout<<"10"<<endl;
     fhtml.write(html.c_str());
     fhtml.close();
 
-//11. Копирую  файл извещения об изменении из папки Ниокр-Извещения_об_изменении и переименовываю pdf в PDF
+//11. Копирую  файл извещения об изменении из папки NIOKR_messages и переименовываю pdf в PDF
 if (printDebug) cout<<"11"<<endl;
     string path_to_IZM = archiv_path_zip;
 //    auto posBlank2 = path_to_IZM.find(" ");//Борьба с пробелом (Пути файлов уже не содержат пробелов)
 //    path_to_IZM.insert(posBlank2,"\\");
     path_to_IZM.append("/../");
-    path_to_IZM.append("Ниокр-Извещения_об_изменении");
+    path_to_IZM.append("NIOKR_messages");
     string nIZMPDF;
     if (namePDFlettersBig){
         nIZMPDF = path_to_IZM + "/" + changeNotificationNum + ".PDF";

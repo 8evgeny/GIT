@@ -11,9 +11,9 @@ WORKDIR /home/evg/SOFT/Github/GIT
 RUN mkdir -p /home/evg/SOFT/Github/GIT/16_WEB_ARHIV
 COPY --chown=evg:evg ./CONTENT /home/evg/SOFT/Github/GIT/16_WEB_ARHIV/CONTENT
 COPY --chown=evg:evg ./create_content_for_web /home/evg/SOFT/Github/GIT/16_WEB_ARHIV/create_content_for_web
-COPY --chown=evg:evg ./Ниокр-Актуальные_документы /home/evg/SOFT/Github/GIT/16_WEB_ARHIV/Ниокр-Актуальные_документы
-COPY --chown=evg:evg ./Ниокр-Документы_по_обозначениям /home/evg/SOFT/Github/GIT/16_WEB_ARHIV/Ниокр-Документы_по_обозначениям
-COPY --chown=evg:evg ./Ниокр-Извещения_об_изменении /home/evg/SOFT/Github/GIT/16_WEB_ARHIV/Ниокр-Извещения_об_изменении
-COPY --chown=evg:evg ./Ниокр-Неактуальные_документы /home/evg/SOFT/Github/GIT/16_WEB_ARHIV/Ниокр-Неактуальные_документы
+COPY --chown=evg:evg ./NIOKR_aktual_DOC /home/evg/SOFT/Github/GIT/16_WEB_ARHIV/NIOKR_aktual_DOC
+COPY --chown=evg:evg ./NIOKR_IUL /home/evg/SOFT/Github/GIT/16_WEB_ARHIV/NIOKR_IUL
+COPY --chown=evg:evg ./NIOKR_messages /home/evg/SOFT/Github/GIT/16_WEB_ARHIV/NIOKR_messages
+COPY --chown=evg:evg ./NIOKR_old_DOC /home/evg/SOFT/Github/GIT/16_WEB_ARHIV/NIOKR_old_DOC
 RUN cd ./16_WEB_ARHIV/create_content_for_web/build && rm CMakeCache.txt && cmake -DCMAKE_BUILD_TYPE=Release .. && make -j8 all
-CMD ["16_WEB_ARHIV/create_content_for_web/build/createWebContent"]
+CMD ["16_WEB_ARHIV/create_content_for_web/build/bin/creater_web_content"]
