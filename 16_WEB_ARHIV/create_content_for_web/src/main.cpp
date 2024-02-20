@@ -18,7 +18,7 @@
 //    std::string address;
 //    int         age;
 //};
-
+//connection* ConnectionToDB;
 #if 0
 
 docker run -it --rm -d -p 8080:80 --name web -v ~/SOFT/Github/GIT/16_WEB_ARHIV/CONTENT:/usr/share/nginx/html nginx
@@ -38,7 +38,7 @@ cd ~/SOFT/Github/GIT/16_WEB_ARHIV && docker load -i createwebcontent.tar
 #endif
 string WEB_content{"/home/evg/SOFT/Github/GIT/16_WEB_ARHIV/CONTENT/content_for_web/"};
 uint numZipFiles{0};
-connection* ConnectionToDB;
+
 bool printDebug=false;
 uint errorParsingJson{0};
 uint numFolderForWebContent{1};
