@@ -1,10 +1,11 @@
 #include "main.h"
 extern string WEB_content;
-extern uint numContent;
-uint numFolderForWebContent{1};
+extern uint numZipFiles;
+extern uint numFolderForWebContent;
 QString namePDF;
 bool namePDFlettersBig = true;
 extern bool printDebug;
+extern int errorParsingJson;
     ostream& operator<<(ostream &os, const chrono::time_point<chrono::system_clock> &t){
         const auto tt   (chrono::system_clock::to_time_t(t));
         const auto loct (localtime(&tt));
@@ -588,24 +589,8 @@ if (printDebug) cout<<"11"<<endl;
     cout << "Copy content to folder " << to_string(numFolderForWebContent) << endl;
 
 //Все действия в контексте текущей папки веб контента завершены
-
     ++numFolderForWebContent;
-    if (numContent == numFolderForWebContent)
-    {
-//Все папки с контентом сформированы - формирую файл numDoc
-        QFile frow((WEB_content + "/" + "numDoc").c_str());
-        frow.open(QIODevice::WriteOnly);
-        frow.write(to_string(numFolderForWebContent).c_str());
-        frow.close();
 
-//Формирую строку с датой: Сводный перечень документов на хранении по состоянию на ____
-        QFile fdate((WEB_content + "/" + "date").c_str());
-        fdate.open(QIODevice::WriteOnly);
-        string date = "Сводный перечень документов на хранении по состоянию на ";
-        date.append(currentDateTime());
-        fdate.write(date.c_str());
-        fdate.close();
-    }
 return true;
 }
 

@@ -37,9 +37,11 @@ cd ~/SOFT/Github/GIT/16_WEB_ARHIV && docker save createwebcontent > createwebcon
 cd ~/SOFT/Github/GIT/16_WEB_ARHIV && docker load -i createwebcontent.tar
 #endif
 string WEB_content{"/home/evg/SOFT/Github/GIT/16_WEB_ARHIV/CONTENT/content_for_web/"};
-uint numContent{0};
+uint numZipFiles{0};
 connection* ConnectionToDB;
 bool printDebug=false;
+uint errorParsingJson{0};
+uint numFolderForWebContent{1};
 
 int main(int argc, char *argv[])
 {
@@ -54,10 +56,9 @@ int main(int argc, char *argv[])
 //    testPQXX();
 //    testPOCO_Psql();
 
-//    path archiv_path_zip{"/home/evg/SOFT/Github/GIT/16_WEB_ARHIV/Ниокр-Актуальные_документы"};
-//    path archiv_path_zip{"/home/evg/SOFT/Github/GIT/16_WEB_ARHIV/_ERRORS"};
-//    path archiv_path_zip{"/home/evg/SOFT/Github/GIT/16_WEB_ARHIV/_BAD"};
-    path archiv_path_zip{"/home/evg/SOFT/Github/GIT/16_WEB_ARHIV/_TEST"};
+    path archiv_path_zip{"/home/evg/SOFT/Github/GIT/16_WEB_ARHIV/Ниокр-Актуальные_документы"};
+//    path archiv_path_zip{"/home/evg/SOFT/Github/GIT/16_WEB_ARHIV/_TEST"};
+
     if (argc == 2){
         cout << "Передается в качестве параметра путь: "<< archiv_path_zip << endl;
         archiv_path_zip= argv[1];
@@ -111,12 +112,12 @@ int main(int argc, char *argv[])
     if (vectorZipFilesPath.size()>0)
     {
         for (auto i = 0; i < vectorZipFilesPath.size();++i ){
-            ++numContent;
-            cout <<"Extract "<< numContent << ": "<< nameFromPath(vectorZipFilesPath[i]) << endl;
+            ++numZipFiles;
+            cout <<"Extract "<< numZipFiles << ": "<< nameFromPath(vectorZipFilesPath[i]) << endl;
             extractZip(vectorZipFilesPath[i], vectorZipFilesName[i], pathToExtractDirectory); //распаковка одного zip файла
         }
     }
-    cout<< "Всего разархивировано zip файлов: " << numContent<< endl;
+    cout<< "Всего разархивировано zip файлов: " << numZipFiles<< endl;
     cout<< "Начинаем разбор разархивированных директорий." << endl;
 //Разбор разархивированной директории
     std::vector<string> vectorJsonFilesPath;
@@ -137,7 +138,7 @@ int main(int argc, char *argv[])
         cerr << "Error reading " << entry.path().string() << ": " << e.what() << endl;
       }
     }
-    int errorParsingJson = 0;
+
     if (vectorJsonFilesPath.size()>0)
     {
         int num = 0;
@@ -157,6 +158,20 @@ int main(int argc, char *argv[])
     for (auto & patchJsonError : errorJsonPatch)
         cout <<  patchJsonError << endl;
 
+
+        //Все папки с контентом сформированы - формирую файл numDoc
+        QFile frow((WEB_content + "/" + "numDoc").c_str());
+        frow.open(QIODevice::WriteOnly);
+        frow.write(to_string(numZipFiles - errorParsingJson).c_str());
+        frow.close();
+
+        //Формирую строку с датой: Сводный перечень документов на хранении по состоянию на ____
+        QFile fdate((WEB_content + "/" + "date").c_str());
+        fdate.open(QIODevice::WriteOnly);
+        string date = "Сводный перечень документов на хранении по состоянию на ";
+        date.append(currentDateTime());
+        fdate.write(date.c_str());
+        fdate.close();
 
 }
 
