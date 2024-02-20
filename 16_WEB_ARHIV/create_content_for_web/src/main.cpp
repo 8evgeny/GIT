@@ -57,8 +57,8 @@ int main(int argc, char *argv[])
 //    testPQXX();
 //    testPOCO_Psql();
 
-    path archiv_path_zip{"/home/evg/Desktop/NIOKR_aktual_DOC"};
-//    path archiv_path_zip{"/home/evg/SOFT/Github/GIT/16_WEB_ARHIV/NIOKR_aktual_DOC"};
+//    path archiv_path_zip{"/home/evg/Desktop/NIOKR_aktual_DOC"};
+    path archiv_path_zip{"/home/evg/SOFT/Github/GIT/16_WEB_ARHIV/NIOKR_aktual_DOC"};
 //    path archiv_path_zip{"/home/evg/SOFT/Github/GIT/16_WEB_ARHIV/_TEST"};
 
     if (argc == 2){

@@ -1,5 +1,6 @@
 #!/usr/bin/bash
-docker run --name=createwebcontent -v /etc/timezone:/etc/timezone:ro -v /etc/localtime:/etc/localtime:ro -v /home/evg/WG/Ниокр-Актуальные\ документы:/home/evg/SOFT/Github/GIT/16_WEB_ARHIV/NIOKR_aktual_DOC 8evgeny/createwebcontent
+docker run --name=createwebcontent -v /etc/timezone:/etc/timezone:ro -v /etc/localtime:/etc/localtime:ro -v /home/evg/WG/Ниокр-Актуальные\ документы:/home/evg/Desktop/NIOKR_aktual_DOC 8evgeny/createwebcontent
+#docker run --name=createwebcontent -v /etc/timezone:/etc/timezone:ro -v /etc/localtime:/etc/localtime:ro -v /home/evg/Ниокр-Актуальные\ документы:/home/evg/SOFT/Github/GIT/16_WEB_ARHIV/NIOKR_aktual_DOC 8evgeny/createwebcontent
 docker cp createwebcontent:/home/evg/SOFT/Github/GIT/16_WEB_ARHIV/CONTENT /home/evg/16_WEB_ARHIV 
 docker stop  createwebcontent
 docker rm  createwebcontent
