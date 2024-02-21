@@ -139,6 +139,7 @@ int main(int argc, char *argv[])
 
 //Создаем таблицу WEB_CONTENT
     sql = "CREATE TABLE IF NOT EXISTS WEB_CONTENT("
+                 "folder                        TEXT,"
                  "oboznachenieIkodDokumenta     TEXT,"
                  "naimenovanieIzdeliya          TEXT,"
                  "naimenovanieDokumenta         TEXT,"
@@ -235,13 +236,14 @@ void sort(string rule){
     fout.open(QIODevice::WriteOnly);
     QByteArray ba;
     for (result::const_iterator c = data.begin(); c != data.end(); ++c) {
-        ba.append(QString::fromStdString(c[0].as<string>())); ba.append('\n');
-        ba.append(QString::fromStdString(c[1].as<string>())); ba.append('\n');
-        ba.append(QString::fromStdString(c[2].as<string>())); ba.append('\n');
-        ba.append(QString::fromStdString(c[3].as<string>())); ba.append('\n');
-        ba.append(QString::fromStdString(c[4].as<string>())); ba.append('\n');
-        ba.append(QString::fromStdString(c[5].as<string>())); ba.append('\n');
-        ba.append(QString::fromStdString(c[6].as<string>())); ba.append('\n');
+        ba.append(QString::fromStdString(c[0].as<string>())); ba.append('\n'); //folder
+        ba.append(QString::fromStdString(c[1].as<string>())); ba.append('\n'); //oboznachenieIkodDokumenta
+        ba.append(QString::fromStdString(c[2].as<string>())); ba.append('\n'); //naimenovanieIzdeliya
+        ba.append(QString::fromStdString(c[3].as<string>())); ba.append('\n'); //naimenovanieDokumenta
+        ba.append(QString::fromStdString(c[4].as<string>())); ba.append('\n'); //changeNumStr
+        ba.append(QString::fromStdString(c[5].as<string>())); ba.append('\n'); //notificationDataStr
+        ba.append(QString::fromStdString(c[6].as<string>())); ba.append('\n'); //controlSummOrigin
+        ba.append(QString::fromStdString(c[7].as<string>())); ba.append('\n'); //infoOrderList
     }
     fout.write(ba);
     fout.close();

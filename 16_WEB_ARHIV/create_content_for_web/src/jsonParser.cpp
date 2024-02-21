@@ -487,6 +487,7 @@ if (printDebug) cout<<"6"<<endl;
 
 //Заполняем таблицу
     string sql = "INSERT INTO WEB_CONTENT ("
+                 "folder,"
                  "oboznachenieIkodDokumenta,"
                  "naimenovanieIzdeliya,"
                  "naimenovanieDokumenta,"
@@ -495,7 +496,8 @@ if (printDebug) cout<<"6"<<endl;
                  "controlSummOrigin,"
                  "infoOrderList) "
           "VALUES ('"
-                + oboznachenieIkodDokumenta
+                 + to_string(numFolderForWebContent)
+        + "','" + oboznachenieIkodDokumenta
         + "','" + naimenovanieIzdeliya
         + "','" + naimenovanieDokumenta
         + "','" + changeNumStr
