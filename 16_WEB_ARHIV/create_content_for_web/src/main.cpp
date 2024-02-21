@@ -224,7 +224,21 @@ int main(int argc, char *argv[])
 //    sql = "SELECT * from web_content ORDER BY notificationdatastr";
 //    sql = "SELECT * from web_content ORDER BY infoorderlist";
     result data = nontransactionToDB(ConnectionToDB, sql);
+    disconnectFromDB(ConnectionToDB);
+
+//Записываем отсортированные данные в файл
+    QFile fout((WEB_content + "sortedData").c_str());
+    fout.open(QIODevice::WriteOnly);
+    QByteArray ba;
+
     for (result::const_iterator c = data.begin(); c != data.end(); ++c) {
+        ba.append(QString::fromStdString(c[0].as<string>())); ba.append('\n');
+        ba.append(QString::fromStdString(c[1].as<string>())); ba.append('\n');
+        ba.append(QString::fromStdString(c[2].as<string>())); ba.append('\n');
+        ba.append(QString::fromStdString(c[3].as<string>())); ba.append('\n');
+        ba.append(QString::fromStdString(c[4].as<string>())); ba.append('\n');
+        ba.append(QString::fromStdString(c[5].as<string>())); ba.append('\n');
+        ba.append(QString::fromStdString(c[6].as<string>())); ba.append('\n');
 //        cout << c[0].as<string>() << endl;
 //        cout << c[1].as<string>() << endl;
 //        cout << c[2].as<string>() << endl;
@@ -233,9 +247,11 @@ int main(int argc, char *argv[])
 //        cout << c[5].as<string>() << endl;
 //        cout << c[6].as<string>() << endl;
     }
+    fout.write(ba);
+    fout.close();
 
-    disconnectFromDB(ConnectionToDB);
 }
+
 
 string nameFromPath(path Patch){
     return Patch.filename();
