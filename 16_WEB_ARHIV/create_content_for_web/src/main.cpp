@@ -66,8 +66,8 @@ int main(int argc, char *argv[])
 #ifdef enablePOKO
     testPOCO_Psql();
 #endif
-//    path archiv_path_zip{"/home/evg/Desktop/NIOKR_aktual_DOC"};
-    path archiv_path_zip{"/home/evg/SOFT/Github/GIT/16_WEB_ARHIV/NIOKR_aktual_DOC"};
+    path archiv_path_zip{"/home/evg/Desktop/NIOKR_aktual_DOC"};
+//    path archiv_path_zip{"/home/evg/SOFT/Github/GIT/16_WEB_ARHIV/NIOKR_aktual_DOC"};
 //    path archiv_path_zip{"/home/evg/SOFT/Github/GIT/16_WEB_ARHIV/_TEST"};
 
     if (argc == 2){
@@ -142,6 +142,7 @@ int main(int argc, char *argv[])
                  "oboznachenieIkodDokumenta     TEXT,"
                  "naimenovanieIzdeliya          TEXT,"
                  "naimenovanieDokumenta         TEXT,"
+                 "changeNumStr                  TEXT,"
                  "notificationDataStr           TEXT,"
                  "controlSummOrigin             TEXT,"
                  "infoOrderList                 TEXT);";

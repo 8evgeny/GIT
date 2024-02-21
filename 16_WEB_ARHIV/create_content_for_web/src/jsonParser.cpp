@@ -490,17 +490,19 @@ if (printDebug) cout<<"6"<<endl;
                  "oboznachenieIkodDokumenta,"
                  "naimenovanieIzdeliya,"
                  "naimenovanieDokumenta,"
+                 "changeNumStr,"
                  "notificationDataStr,"
                  "controlSummOrigin,"
                  "infoOrderList) "
           "VALUES ('"
                 + oboznachenieIkodDokumenta
-                + "','" + naimenovanieIzdeliya
-                + "','" + naimenovanieDokumenta
-                + "','" + notificationDataStr
-                + "','" + controlSummOrigin
-                + "','" + infoOrderList
-                + "');";
+        + "','" + naimenovanieIzdeliya
+        + "','" + naimenovanieDokumenta
+        + "','" + changeNumStr
+        + "','" + notificationDataStr
+        + "','" + controlSummOrigin
+        + "','" + infoOrderList
+        + "');";
     try {
     transactionToDB(ConnectionToDB, sql);
     } catch (const std::exception &e) {
