@@ -66,8 +66,8 @@ int main(int argc, char *argv[])
 #ifdef enablePOKO
     testPOCO_Psql();
 #endif
-//    path archiv_path_zip{"/home/evg/Desktop/NIOKR_aktual_DOC"};
-    path archiv_path_zip{"/home/evg/SOFT/Github/GIT/16_WEB_ARHIV/NIOKR_aktual_DOC"};
+    path archiv_path_zip{"/home/evg/Desktop/NIOKR_aktual_DOC"};
+//    path archiv_path_zip{"/home/evg/SOFT/Github/GIT/16_WEB_ARHIV/NIOKR_aktual_DOC"};
 //    path archiv_path_zip{"/home/evg/SOFT/Github/GIT/16_WEB_ARHIV/_TEST"};
 
     if (argc == 2){
@@ -217,16 +217,16 @@ int main(int argc, char *argv[])
     fdate.write(date.c_str());
     fdate.close();
 
-//Извлекаем данные с разными критериями сортировки
+//Формируем данные с разными критериями сортировки (эти 5 файлов будут подгружаться из JS)
     sort("oboznachenieikoddokumenta");
-
+    sort("naimenovanieizdeliya");
+    sort("naimenovaniedokumenta");
+    sort("changenumstr DESC, naimenovanieizdeliya ASC");
+    sort("notificationdatastr DESC, naimenovanieizdeliya ASC");
 
     disconnectFromDB(ConnectionToDB);
 }
-//    sql = "SELECT * from web_content ORDER BY naimenovanieizdeliya";
-//    sql = "SELECT * from web_content ORDER BY naimenovaniedokumenta";
-//    sql = "SELECT * from web_content ORDER BY notificationdatastr";
-//    sql = "SELECT * from web_content ORDER BY infoorderlist";
+
 void sort(string rule){
     string sql = "SELECT * from web_content ORDER BY " + rule;
     result data = nontransactionToDB(ConnectionToDB, sql);
