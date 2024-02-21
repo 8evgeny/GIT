@@ -14,11 +14,25 @@
       <script src="text_from_file.js" ></script>
       <h2 align="center"><script>loadFile('content_for_web/date');</script><div id="main"></div></h2>
 </section>
+<form>
+  <label for="fruits">Выберите фрукт:</label>
+  <select id="fruits" name="fruits" onchange="handleFruitChange()">
+    <option value="apple">Яблоко</option>
+    <option value="banana">Банан</option>
+    <option value="orange">Апельсин</option>
+  </select>
+</form>
 <section>
     <div >
         <table id="table" class="table-fixed-head"></table>
     </div>
-
+<script>
+  function handleFruitChange() {
+    const selectElement = document.getElementById('fruits');
+    const selectedFruit = selectElement.value;
+    alert('Вы выбрали: ' + selectedFruit);
+  }
+</script>
     <script src="table.js" ></script>
 </section>
 </body>
