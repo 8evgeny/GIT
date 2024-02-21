@@ -1,24 +1,30 @@
 ﻿#include "main.h"
-//#include <pqxx/connection>
-//#include <pqxx/transaction>
-//#include <QThread>
-//#include "Poco/Data/Session.h"
-//#include "Poco/Data/PostgreSQL/Connector.h"
-//#include <vector>
-//#include <iostream>
+#include <QThread>
 
-//#include <Poco/ActiveRecord/Context.h>
-//#include <Poco/Data/PostgreSQL/PostgreSQLException.h>
-//using namespace Poco::Data::Keywords;
-//using Poco::Data::Session;
-//using Poco::Data::Statement;
-//struct Person
-//{
-//    std::string name;
-//    std::string address;
-//    int         age;
-//};
-//connection* ConnectionToDB;
+#ifdef enablePOKO
+#include "Poco/Data/Session.h"
+#include "Poco/Data/PostgreSQL/Connector.h"
+#include <Poco/ActiveRecord/Context.h>
+#include <Poco/Data/PostgreSQL/PostgreSQLException.h>
+#include <vector>
+#include <iostream>
+using namespace Poco::Data::Keywords;
+using Poco::Data::Session;
+using Poco::Data::Statement;
+struct Person
+{
+    std::string name;
+    std::string address;
+    int         age;
+};
+#endif
+
+#ifdef enablePQXX
+#include <pqxx/connection>
+#include <pqxx/transaction>
+connection* ConnectionToDB;
+#endif
+
 #if 0
 
 docker run -it --rm -d -p 8080:80 --name web -v ~/SOFT/Github/GIT/16_WEB_ARHIV/CONTENT:/usr/share/nginx/html nginx
@@ -53,12 +59,15 @@ int main(int argc, char *argv[])
     cout <<  "start docker servises" << endl<< endl;
     string dockerStart = "docker-compose up -d 2>/dev/null";
     system(dockerStart.c_str());
-//    QThread::currentThread()->msleep(2000);
-//    testPQXX();
-//    testPOCO_Psql();
-
-    path archiv_path_zip{"/home/evg/Desktop/NIOKR_aktual_DOC"};
-//    path archiv_path_zip{"/home/evg/SOFT/Github/GIT/16_WEB_ARHIV/NIOKR_aktual_DOC"};
+    QThread::currentThread()->msleep(2000);
+#ifdef enablePQXX
+    testPQXX();
+#endif
+#ifdef enablePOKO
+    testPOCO_Psql();
+#endif
+//    path archiv_path_zip{"/home/evg/Desktop/NIOKR_aktual_DOC"};
+    path archiv_path_zip{"/home/evg/SOFT/Github/GIT/16_WEB_ARHIV/NIOKR_aktual_DOC"};
 //    path archiv_path_zip{"/home/evg/SOFT/Github/GIT/16_WEB_ARHIV/_TEST"};
 
     if (argc == 2){
@@ -185,140 +194,145 @@ int main(int argc, char *argv[])
 string nameFromPath(path Patch){
     return Patch.filename();
 }
-//void testPQXX(){
-//    cout << "testPQXX " << endl;
-//    ConnectionToDB = connectToDB("niokrDB", "postgres", "postgres", "127.0.0.1", "5432");
-//    string sql;
-//    try {
-////Удаляем таблицу
-//          sql = "DROP TABLE IF EXISTS COMPANY;";
-//          transactionToDB(ConnectionToDB, sql);
-////Создаем таблицу
-//          sql = "CREATE TABLE IF NOT EXISTS COMPANY("
-//          "ID INT PRIMARY KEY     NOT NULL,"
-//          "NAME           TEXT    NOT NULL,"
-//          "AGE            INT     NOT NULL,"
-//          "ADDRESS        CHAR(50),"
-//          "SALARY         REAL );";
-//          transactionToDB(ConnectionToDB, sql);
-////Заполняем таблицу
-//          sql = "INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY) "
-//             "VALUES (1, 'Pratds', 32, 'California', 40000.00 ); "
-//             "INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY) "
-//             "VALUES (2, 'Alks', 25, 'Texas', 25000.00 ); "
-//             "INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY)"
-//             "VALUES (3, 'Tedh', 23, 'Norway', 19000.00 );"
-//             "INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY)"
-//             "VALUES (4, 'Rahj', 25, 'Rich-Mond ', 95000.00 );";
-//           transactionToDB(ConnectionToDB, sql);
-////Удаляем запись
-//          sql = "DELETE from COMPANY where ID = 2";
-//          transactionToDB(ConnectionToDB, sql);
-//          cout << "Records deleted successfully" << endl;
-////Изменяем запись
-//          sql = "UPDATE COMPANY set SALARY = 250000.00 where ID=1";
-//          transactionToDB(ConnectionToDB, sql);
-//          cout << "Records updated successfully" << endl;
-////Извлекаем данные
-//           sql = "SELECT * from COMPANY";
-//           result data = nontransactionToDB(ConnectionToDB, sql);
-//           /* List down all the records */
-//           for (result::const_iterator c = data.begin(); c != data.end(); ++c) {
-//              cout << "ID = " << c[0].as<int>() << endl;
-//              cout << "Name = " << c[1].as<string>() << endl;
-//              cout << "Age = " << c[2].as<int>() << endl;
-//              cout << "Address = " << c[3].as<string>() << endl;
-//              cout << "Salary = " << c[4].as<float>() << endl;
-//           }
-//          cout << "Database operation successfully" << endl;
+#ifdef enablePQXX
+void testPQXX(){
+    cout << "testPQXX " << endl;
+    ConnectionToDB = connectToDB("niokrDB", "postgres", "postgres", "127.0.0.1", "5432");
+    string sql;
+    try {
+//Удаляем таблицу
+          sql = "DROP TABLE IF EXISTS COMPANY;";
+          transactionToDB(ConnectionToDB, sql);
+//Создаем таблицу
+          sql = "CREATE TABLE IF NOT EXISTS COMPANY("
+          "ID INT PRIMARY KEY     NOT NULL,"
+          "NAME           TEXT    NOT NULL,"
+          "AGE            INT     NOT NULL,"
+          "ADDRESS        CHAR(50),"
+          "SALARY         REAL );";
+          transactionToDB(ConnectionToDB, sql);
+//Заполняем таблицу
+          sql = "INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY) "
+             "VALUES (1, 'Pratds', 32, 'California', 40000.00 ); "
+             "INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY) "
+             "VALUES (2, 'Alks', 25, 'Texas', 25000.00 ); "
+             "INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY)"
+             "VALUES (3, 'Tedh', 23, 'Norway', 19000.00 );"
+             "INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY)"
+             "VALUES (4, 'Rahj', 25, 'Rich-Mond ', 95000.00 );";
+           transactionToDB(ConnectionToDB, sql);
+//Удаляем запись
+          sql = "DELETE from COMPANY where ID = 2";
+          transactionToDB(ConnectionToDB, sql);
+          cout << "Records deleted successfully" << endl;
+//Изменяем запись
+          sql = "UPDATE COMPANY set SALARY = 250000.00 where ID=1";
+          transactionToDB(ConnectionToDB, sql);
+          cout << "Records updated successfully" << endl;
+//Извлекаем данные
+           sql = "SELECT * from COMPANY";
+           result data = nontransactionToDB(ConnectionToDB, sql);
+           /* List down all the records */
+           for (result::const_iterator c = data.begin(); c != data.end(); ++c) {
+              cout << "ID = " << c[0].as<int>() << endl;
+              cout << "Name = " << c[1].as<string>() << endl;
+              cout << "Age = " << c[2].as<int>() << endl;
+              cout << "Address = " << c[3].as<string>() << endl;
+              cout << "Salary = " << c[4].as<float>() << endl;
+           }
+          cout << "Database operation successfully" << endl;
 
-//       } catch (const std::exception &e) {
-//          cerr << e.what() << std::endl;
-//       }
-//    disconnectFromDB(ConnectionToDB);
-//}
-//connection* connectToDB(string dbname, string user, string password, string hostaddr, string port){
-//    const string connect =
-//                " dbname = " + dbname +
-//                " user = " + user +
-//                " password = " + password +
-//                " hostaddr = " + hostaddr +
-//                " port = " + port;
-//    connection *Connection = new connection(connect);
-//    try {
-//          if (Connection->is_open()) {
-//             cout << "Opened database successfully: " << Connection->dbname() << endl;
-//          } else {
-//             cout << "Can't open database " << dbname << endl;
-//          }
-//    } catch (const std::exception &e) {
-//       cerr << e.what() << std::endl;
-//    }
-//    return Connection;
-//}
-//void disconnectFromDB(connection* Connection){
-//    string name = Connection->dbname();
-//    Connection->disconnect ();
-//    delete Connection;
-//    cout << "disconnect from database " << name << endl<< endl;
-//}
-//void transactionToDB(connection* conn, string req){
-//    work W(*conn);
-//    W.exec(req);
-//    W.commit();
-//}
-//result nontransactionToDB(connection* conn, string req){
-//    nontransaction N(*conn); /* Create a non-transactional object. */
-//    result R( N.exec( req ));/* Execute SQL query */
-//    return R;
-//}
-//void testPOCO_Psql(){
-//    cout << "testPOCO_Psql " << endl;
-//    // register PostgreSQL connector
-//    Poco::Data::PostgreSQL::Connector::registerConnector();
-//    // create a session
-//    Poco::Data::Session session(Poco::Data::PostgreSQL::Connector::KEY, "host=127.0.0.1 user=postgres password=postgres dbname=niokrDB port=5432");
-//    try {
-//        session << "DROP TABLE IF EXISTS Person", now;
-//        // (re)create table
-//        session << "CREATE TABLE Person (Name VARCHAR(30), Address VARCHAR, Age INTEGER)", now;
+       } catch (const std::exception &e) {
+          cerr << e.what() << std::endl;
+       }
+    disconnectFromDB(ConnectionToDB);
+}
+connection* connectToDB(string dbname, string user, string password, string hostaddr, string port){
+    const string connect =
+                " dbname = " + dbname +
+                " user = " + user +
+                " password = " + password +
+                " hostaddr = " + hostaddr +
+                " port = " + port;
+    connection *Connection = new connection(connect);
+    try {
+          if (Connection->is_open()) {
+             cout << "Opened database successfully: " << Connection->dbname() << endl;
+          } else {
+             cout << "Can't open database " << dbname << endl;
+          }
+    } catch (const std::exception &e) {
+       cerr << e.what() << std::endl;
+    }
+    return Connection;
+}
+void disconnectFromDB(connection* Connection){
+    string name = Connection->dbname();
+    Connection->disconnect ();
+    delete Connection;
+    cout << "disconnect from database " << name << endl<< endl;
+}
+void transactionToDB(connection* conn, string req){
+    work W(*conn);
+    W.exec(req);
+    W.commit();
+}
+result nontransactionToDB(connection* conn, string req){
+    nontransaction N(*conn); /* Create a non-transactional object. */
+    result R( N.exec( req ));/* Execute SQL query */
+    return R;
+}
+#endif
 
-//        // insert some rows
-//        Person person =
-//        {
-//            "Bart Simpson",
-//            "Springfield",
-//            12
-//        };
+#ifdef enablePOKO
+void testPOCO_Psql(){
+    cout << "testPOCO_Psql " << endl;
+    // register PostgreSQL connector
+    Poco::Data::PostgreSQL::Connector::registerConnector();
+    // create a session
+    Poco::Data::Session session(Poco::Data::PostgreSQL::Connector::KEY, "host=127.0.0.1 user=postgres password=postgres dbname=niokrDB port=5432");
+    try {
+        session << "DROP TABLE IF EXISTS Person", now;
+        // (re)create table
+        session << "CREATE TABLE Person (Name VARCHAR(30), Address VARCHAR, Age INTEGER)", now;
 
-//        Statement insert(session);
-//        insert << "INSERT INTO Person VALUES($1, $2, $3)",
-//            use(person.name),
-//            use(person.address),
-//            use(person.age);
-//        insert.execute();
+        // insert some rows
+        Person person =
+        {
+            "Bart Simpson",
+            "Springfield",
+            12
+        };
 
-//        person.name    = "Lisa Simpson";
-//        person.address = "Springfield";
-//        person.age     = 10;
+        Statement insert(session);
+        insert << "INSERT INTO Person VALUES($1, $2, $3)",
+            use(person.name),
+            use(person.address),
+            use(person.age);
+        insert.execute();
 
-//        insert.execute();
+        person.name    = "Lisa Simpson";
+        person.address = "Springfield";
+        person.age     = 10;
 
-//    //     a simple query
-//        Statement select(session);
-//        select << "SELECT Name, Address, Age FROM Person",
-//            into(person.name),
-//            into(person.address),
-//            into(person.age),
-//            range(0, 1); //  iterate over result set one row at a time
+        insert.execute();
 
-//        while (!select.done())
-//        {
-//            select.execute();
-//            std::cout << person.name << " " << person.address << " " << person.age << std::endl;
-//        }
-//        std::cout << std::endl;
-//    } catch (Poco::Data::PostgreSQL::StatementException &e) {
-//                std::cout << e.displayText()  << std::endl;
-//        }
-//}
+    //     a simple query
+        Statement select(session);
+        select << "SELECT Name, Address, Age FROM Person",
+            into(person.name),
+            into(person.address),
+            into(person.age),
+            range(0, 1); //  iterate over result set one row at a time
+
+        while (!select.done())
+        {
+            select.execute();
+            std::cout << person.name << " " << person.address << " " << person.age << std::endl;
+        }
+        std::cout << std::endl;
+    } catch (Poco::Data::PostgreSQL::StatementException &e) {
+                std::cout << e.displayText()  << std::endl;
+        }
+}
+#endif

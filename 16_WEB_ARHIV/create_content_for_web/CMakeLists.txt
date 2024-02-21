@@ -31,3 +31,10 @@ target_link_libraries(${PROJECT_NAME} Qt${QT_VERSION_MAJOR}::Core
 add_subdirectory(rapidjson)
 #add_definitions(-DprintJson)
 #add_definitions(-DprintDebugInfo)
+set(PQXX ON)
+#add_definitions(-DenablePOKO)
+
+if (PQXX)
+    add_definitions(-DenablePQXX)
+    target_link_libraries(${PROJECT_NAME} -lpqxx )
+endif()
