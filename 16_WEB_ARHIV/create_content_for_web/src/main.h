@@ -47,6 +47,7 @@ connection* connectToDB(string dbname, string user, string password, string host
 void disconnectFromDB(connection* Connection);
 void transactionToDB(connection* conn, string req);
 result nontransactionToDB(connection* conn, string req);
+void sort(string rule);
 #endif
 
 #ifdef enablePOKO

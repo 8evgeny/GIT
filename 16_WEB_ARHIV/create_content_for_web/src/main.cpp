@@ -217,20 +217,23 @@ int main(int argc, char *argv[])
     fdate.write(date.c_str());
     fdate.close();
 
-//Извлекаем данные
-    sql = "SELECT * from web_content ORDER BY oboznachenieikoddokumenta";
+//Извлекаем данные с разными критериями сортировки
+    sort("oboznachenieikoddokumenta");
+
+
+    disconnectFromDB(ConnectionToDB);
+}
 //    sql = "SELECT * from web_content ORDER BY naimenovanieizdeliya";
 //    sql = "SELECT * from web_content ORDER BY naimenovaniedokumenta";
 //    sql = "SELECT * from web_content ORDER BY notificationdatastr";
 //    sql = "SELECT * from web_content ORDER BY infoorderlist";
+void sort(string rule){
+    string sql = "SELECT * from web_content ORDER BY " + rule;
     result data = nontransactionToDB(ConnectionToDB, sql);
-    disconnectFromDB(ConnectionToDB);
-
-//Записываем отсортированные данные в файл
-    QFile fout((WEB_content + "sortedData").c_str());
+    //Записываем отсортированные данные в файл
+    QFile fout((WEB_content + "rule_" + rule).c_str());
     fout.open(QIODevice::WriteOnly);
     QByteArray ba;
-
     for (result::const_iterator c = data.begin(); c != data.end(); ++c) {
         ba.append(QString::fromStdString(c[0].as<string>())); ba.append('\n');
         ba.append(QString::fromStdString(c[1].as<string>())); ba.append('\n');
@@ -239,19 +242,10 @@ int main(int argc, char *argv[])
         ba.append(QString::fromStdString(c[4].as<string>())); ba.append('\n');
         ba.append(QString::fromStdString(c[5].as<string>())); ba.append('\n');
         ba.append(QString::fromStdString(c[6].as<string>())); ba.append('\n');
-//        cout << c[0].as<string>() << endl;
-//        cout << c[1].as<string>() << endl;
-//        cout << c[2].as<string>() << endl;
-//        cout << c[3].as<string>() << endl;
-//        cout << c[4].as<string>() << endl;
-//        cout << c[5].as<string>() << endl;
-//        cout << c[6].as<string>() << endl;
     }
     fout.write(ba);
     fout.close();
-
 }
-
 
 string nameFromPath(path Patch){
     return Patch.filename();
