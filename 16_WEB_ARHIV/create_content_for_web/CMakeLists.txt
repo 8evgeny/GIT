@@ -6,8 +6,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_BUILD_TYPE debug)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++2a")
 
-
-
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
@@ -24,17 +22,19 @@ find_package(QT NAMES Qt5 COMPONENTS Core REQUIRED)
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Core REQUIRED)
 file(GLOB src src/*.cpp)
 add_executable(${PROJECT_NAME} ${src})
-target_link_libraries(${PROJECT_NAME} Qt${QT_VERSION_MAJOR}::Core
-#    -lpqxx
-#    ${CONAN_LIBS}
-    )
+target_link_libraries(${PROJECT_NAME} Qt${QT_VERSION_MAJOR}::Core )
 add_subdirectory(rapidjson)
+
 #add_definitions(-DprintJson)
 #add_definitions(-DprintDebugInfo)
-set(PQXX ON)
-#add_definitions(-DenablePOKO)
+#set(PQXX ON)
+set(POKO ON)
 
 if (PQXX)
     add_definitions(-DenablePQXX)
     target_link_libraries(${PROJECT_NAME} -lpqxx )
+endif()
+if (POKO)
+    add_definitions(-DenablePOKO)
+    target_link_libraries(${PROJECT_NAME} ${CONAN_LIBS} )
 endif()
