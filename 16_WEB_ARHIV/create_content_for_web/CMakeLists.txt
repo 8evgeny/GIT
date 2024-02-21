@@ -27,8 +27,8 @@ add_subdirectory(rapidjson)
 
 #add_definitions(-DprintJson)
 #add_definitions(-DprintDebugInfo)
-#set(PQXX ON)
-set(POKO ON)
+set(PQXX ON)
+#set(POKO ON)
 
 if (PQXX)
     add_definitions(-DenablePQXX)
