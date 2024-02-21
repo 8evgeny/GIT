@@ -217,6 +217,23 @@ int main(int argc, char *argv[])
     fdate.write(date.c_str());
     fdate.close();
 
+//Извлекаем данные
+    sql = "SELECT * from web_content ORDER BY oboznachenieikoddokumenta";
+//    sql = "SELECT * from web_content ORDER BY naimenovanieizdeliya";
+//    sql = "SELECT * from web_content ORDER BY naimenovaniedokumenta";
+//    sql = "SELECT * from web_content ORDER BY notificationdatastr";
+//    sql = "SELECT * from web_content ORDER BY infoorderlist";
+    result data = nontransactionToDB(ConnectionToDB, sql);
+    for (result::const_iterator c = data.begin(); c != data.end(); ++c) {
+//        cout << c[0].as<string>() << endl;
+//        cout << c[1].as<string>() << endl;
+//        cout << c[2].as<string>() << endl;
+//        cout << c[3].as<string>() << endl;
+//        cout << c[4].as<string>() << endl;
+//        cout << c[5].as<string>() << endl;
+//        cout << c[6].as<string>() << endl;
+    }
+
     disconnectFromDB(ConnectionToDB);
 }
 
@@ -274,7 +291,9 @@ void testPQXX(){
        } catch (const std::exception &e) {
           cerr << e.what() << std::endl;
        }
-    disconnectFromDB(ConnectionToDB);
+
+disconnectFromDB(ConnectionToDB);
+
 }
 connection* connectToDB(string dbname, string user, string password, string hostaddr, string port){
     const string connect =
