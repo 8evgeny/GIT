@@ -61,7 +61,7 @@ int main(int argc, char *argv[])
     system(dockerStart.c_str());
     QThread::currentThread()->msleep(2000);
 #ifdef enablePQXX
-    testPQXX();
+//    testPQXX();
 #endif
 #ifdef enablePOKO
     testPOCO_Psql();
@@ -129,6 +129,32 @@ int main(int argc, char *argv[])
         }
     }
     cout<< "Всего разархивировано zip файлов: " << numZipFiles<< endl;
+
+//Создаем таблицу для хранения web контента
+    ConnectionToDB = connectToDB("niokrDB", "postgres", "postgres", "127.0.0.1", "5432");
+    string sql;
+//Удаляем таблицу WEB_CONTENT
+    sql = "DROP TABLE IF EXISTS WEB_CONTENT;";
+    transactionToDB(ConnectionToDB, sql);
+
+//Создаем таблицу WEB_CONTENT
+    sql = "CREATE TABLE IF NOT EXISTS WEB_CONTENT("
+                 "oboznachenieIkodDokumenta     TEXT,"
+                 "naimenovanieIzdeliya          TEXT,"
+                 "naimenovanieDokumenta         TEXT,"
+                 "notificationDataStr           TEXT,"
+                 "controlSummOrigin             TEXT,"
+                 "infoOrderList                 TEXT);";
+    try {
+        transactionToDB(ConnectionToDB, sql);
+
+    } catch (const std::exception &e) {
+        cerr << e.what() << std::endl;
+    }
+
+    cout<<"createTableForWebContent"<<endl;
+
+
     cout<< "Начинаем разбор разархивированных директорий." << endl;
 //Разбор разархивированной директории
     std::vector<string> vectorJsonFilesPath;
@@ -189,6 +215,8 @@ int main(int argc, char *argv[])
     date.append(currentDateTime());
     fdate.write(date.c_str());
     fdate.close();
+
+    disconnectFromDB(ConnectionToDB);
 }
 
 string nameFromPath(path Patch){
@@ -282,6 +310,7 @@ result nontransactionToDB(connection* conn, string req){
     result R( N.exec( req ));/* Execute SQL query */
     return R;
 }
+
 #endif
 
 #ifdef enablePOKO

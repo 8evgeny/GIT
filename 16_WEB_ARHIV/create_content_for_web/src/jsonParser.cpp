@@ -7,6 +7,7 @@ bool namePDFlettersBig = true;
 extern bool printDebug;
 extern int errorParsingJson;
 extern string nameFileForDeleteIfJsonNoGood;
+extern connection* ConnectionToDB;
     ostream& operator<<(ostream &os, const chrono::time_point<chrono::system_clock> &t){
         const auto tt   (chrono::system_clock::to_time_t(t));
         const auto loct (localtime(&tt));
@@ -483,6 +484,28 @@ if (printDebug) cout<<"6"<<endl;
     content.push_back(notificationDataStr);
     content.push_back(controlSummOrigin);
     content.push_back(infoOrderList);
+
+//Заполняем таблицу
+    string sql = "INSERT INTO WEB_CONTENT ("
+                 "oboznachenieIkodDokumenta,"
+                 "naimenovanieIzdeliya,"
+                 "naimenovanieDokumenta,"
+                 "notificationDataStr,"
+                 "controlSummOrigin,"
+                 "infoOrderList) "
+          "VALUES ('"
+                + oboznachenieIkodDokumenta
+                + "','" + naimenovanieIzdeliya
+                + "','" + naimenovanieDokumenta
+                + "','" + notificationDataStr
+                + "','" + controlSummOrigin
+                + "','" + infoOrderList
+                + "');";
+    try {
+    transactionToDB(ConnectionToDB, sql);
+    } catch (const std::exception &e) {
+        cerr << e.what() << std::endl;
+    }
 
 //7. Дальнейшие данные для карточки документа
 if (printDebug) cout<<"7"<<endl;
