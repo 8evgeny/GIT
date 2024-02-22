@@ -31,7 +31,8 @@ var rule_arr2;
 var rule_arr3;
 var rule_arr4;
 var rule_arr5;
-
+var rowData;
+var reqTableSize = new XMLHttpRequest();
 
 //Правила сортировки - соответствуют файлам с порядком папок и данными по строкам
 // rule_oboznachenieikoddokumenta ASC                               ruleSort_1
@@ -67,9 +68,8 @@ rule_arr = rule_arr1;
 
 
 function handleSortChange() {
-    const selectElement = document.getElementById('sort');
-    const selectedSort = selectElement.value;
-    
+        selectElement = document.getElementById('sort');
+        selectedSort = selectElement.value;
     switch (selectedSort) {
         case "sort1":
             rule_arr = rule_arr1;
@@ -110,24 +110,27 @@ function handleSortChange() {
             reqTableSize.open('get', 'content_for_web/numDoc', false);
             reqTableSize.onreadystatechange = createTable;
             reqTableSize.send(null);
+
                 break;
     }
     //в каждом элементе массива список папок согласно правилу сортировки
     // for (let i = 0; i<rule_arr.length; i++) {
     //     console.log ("%s\n", rule_arr[i]);
     // }
+
+    // location.reload();
+    // parent.location.reload();
  }
 
 
-var rowData;
-let reqTableSize = new XMLHttpRequest();
+ handleSortChange();
 
-reqTableSize.open('get', 'content_for_web/numDoc', false);
-reqTableSize.onreadystatechange = createTable;
-reqTableSize.send(null);
+// reqTableSize.open('get', 'content_for_web/numDoc', false);
+// reqTableSize.onreadystatechange = createTable;
+// reqTableSize.send(null);
 
 function createTable() {
-
+    
     if (reqTableSize.readyState === 4) {
         console.log ("createTable invoke");
         numberDoc = reqTableSize.responseText.toString();
@@ -280,7 +283,7 @@ function createTable() {
         } //Строки
         body.appendChild(tbl);
     }
-
+    
 } //function createTable()
 
 
