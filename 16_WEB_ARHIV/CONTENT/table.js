@@ -105,10 +105,10 @@ function handleSortChange() {
     createTable();
 }
 
-
+var tbl;
 function createTable() {
     numberDoc = rule_arr.length;
-var tbl = document.createElement("table");
+    tbl = document.createElement("table");
 var tblBody = document.createElement("tbody");
 //    body = document.body;
 //    tbl = document.getElementById('table');
@@ -124,6 +124,8 @@ var tblBody = document.createElement("tbody");
         //            tbl.deleteRow(0);
         //        }
 //    document.body.removeChild(tblBody);
+
+//        document.body.removeChild(tbl);
     }
     if (tabEmpty == 1) { //Первичное заполнение
         tabEmpty = 0;
