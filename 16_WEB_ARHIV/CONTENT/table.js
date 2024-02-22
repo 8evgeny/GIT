@@ -117,7 +117,6 @@ function handleSortChange() {
 // reqTableSize.send(null);
 
 function createTable() {
-    document.onchange
     if (reqTableSize.readyState === 4) {
         console.log ("createTable invoke");
         numberDoc = reqTableSize.responseText.toString();
@@ -273,9 +272,13 @@ function createTable() {
 
         } //Строки
         body.appendChild(tbl);
+
         console.log ("body.appendChild(tbl);");
-    }
+
+
     
+    }
+
 } //function createTable()
 
 
