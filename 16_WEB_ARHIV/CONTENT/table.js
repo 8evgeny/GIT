@@ -65,7 +65,7 @@ rule_arr5 = reqSortRule5.responseText.split('\n');
 rule_arr = rule_arr1;
 
 
-
+handleSortChange();
 
 function handleSortChange() {
     selectElement = document.getElementById('sort');
@@ -101,201 +101,176 @@ function handleSortChange() {
     // for (let i = 0; i<rule_arr.length; i++) {
     //     console.log ("%s\n", rule_arr[i]);
     // }
-
-    // location.reload();
-    // parent.location.reload();
     tabEmpty = 0;
-    reqTableSize.open('get', 'content_for_web/numDoc', false);
-    reqTableSize.onreadystatechange = createTable;
-    reqTableSize.send(null);
+    createTable();
 }
 
 
-handleSortChange();
-
-// reqTableSize.open('get', 'content_for_web/numDoc', false);
-// reqTableSize.onreadystatechange = createTable;
-// reqTableSize.send(null);
-
-
 function createTable() {
-        if (reqTableSize.readyState === 4) {
-            console.log("createTable invoke");
-            numberDoc = reqTableSize.responseText.toString();
-            body = document.body;
-            tbl = document.getElementById('table');
-            tbl.style.margin = 'auto';
-            tbl.style.width = '1800px';
-            tbl.style.border = '1px solid black';
-            let numFolder
+    numberDoc = rule_arr.length;
+const tbl = document.createElement("table");
+const tblBody = document.createElement("tbody");
+//    body = document.body;
+//    tbl = document.getElementById('table');
+    tbl.style.margin = 'auto';
+    tbl.style.width = '1800px';
+    tbl.style.border = '1px solid black';
+    let numFolder
 
     if (tabEmpty == 0) {
-// https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model/Traversing_an_HTML_table_with_JavaScript_and_DOM_Interfaces
-//        for (let i = 0; i < rule_arr.length +1; i++)
-//        {
-//            tbl.deleteRow(0);
-//        }
+        // https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model/Traversing_an_HTML_table_with_JavaScript_and_DOM_Interfaces
+        //        for (let i = 0; i < rule_arr.length +1; i++)
+        //        {
+        //            tbl.deleteRow(0);
+        //        }
+
     }
-    if (tabEmpty == 1){//Первичное заполнение
+    if (tabEmpty == 1) { //Первичное заполнение
         tabEmpty = 0;
     }
 
-            for (let i = 0; i < rule_arr.length; i++) {
-                console.log("%s\n", rule_arr[i]);
+    for (let i = 0; i < numberDoc; i++) {
+        console.log("%s\n", rule_arr[i]);
+    }
+    for (let i = 0; i <= numberDoc - 1; i++) {
+        //Здесь получаем файл 'content_for_web/i/rowContent  для заполнения ряда
+        let row = new XMLHttpRequest();
+        if (i !== 0) {
+            numFolder = rule_arr[i - 1];
+            row.open('get', 'content_for_web/' + `${numFolder}` + '/' + "rowContent", false);
+            row.onloadend = function() {
+                if (row.readyState === 4) {
+                    rowData = row.responseText.toString().split('\n');
+                }
             }
-            for (let i = 0; i <= numberDoc; i++) {
-                //Здесь получаем файл 'content_for_web/i/rowContent  для заполнения ряда
-                let row = new XMLHttpRequest();
-
-                if (i !== 0) {
-                    numFolder = rule_arr[i - 1];
-                    row.open('get', 'content_for_web/' + `${numFolder}` + '/' + "rowContent", false);
-                    row.onloadend = function() {
-                        if (row.readyState === 4) {
-                            rowData = row.responseText.toString().split('\n');
-                        }
-                    }
-                    row.send(null);
-                }
-
-                function fillRow() {
-                    if (row.readyState === 4) {
-                        rowData = row.responseText.toString().split('\n');
-                    }
-                }
-
-                tr = tbl.insertRow();
-
-                for (let j = 0; j < 8; j++) {
-                    if (i === 0) { // Шапка таблицы
-                        const td = tr.insertCell();
-                        tr.style.height = '80px';
-                        td.style.border = '1px solid black';
-                        td.style.fontWeight = 'bold';
-                        td.style.fontFamily = 'Arial';
-                        td.style.fontSize = '20px';
-                        td.style.textAlign = "center";
-                        td.style.fontStyle = "italic";
-                        td.style.padding = '10px';
-
-                        switch (j) {
-                            case 0:
-                                td.style.width = '40px';
-                                td.appendChild(document.createTextNode(" Номер "));
-                                break;
-                            case 1:
-                                td.style.width = '200px';
-                                td.appendChild(document.createTextNode(`Обозначение и код документа`));
-                                break;
-                            case 2:
-                                td.appendChild(document.createTextNode(`Наименование изделия`));
-                                break;
-                            case 3:
-                                td.style.width = '240px';
-                                td.appendChild(document.createTextNode(`Наименование документа`));
-                                break;
-                            case 4:
-                                td.style.width = '60px';
-                                td.appendChild(document.createTextNode(`Номер изменения`));
-                                break;
-                            case 5:
-                                td.style.width = '220px';
-                                td.appendChild(document.createTextNode(`Дата извещения об изменении`));
-                                break;
-                            case 6:
-                                td.style.width = '220px';
-                                td.appendChild(document.createTextNode(`Значение контрольной суммы подлинника`));
-                                break;
-                            case 7:
-                                td.style.width = '270px';
-                                td.appendChild(document.createTextNode(`Информационно - удостоверяющий лист`));
-                                break;
-                        }
-                    } // Шапка таблицы  if (i == 0)
-
-                    if (i !== 0) { //Остальная таблица
-                        const td = tr.insertCell();
-                        td.style.border = '1px solid black';
-                        td.style.padding = '10px';
-                        td.style.fontSize = '18px';
-                        switch (j) {
-                            case 0:
-                                td.appendChild(document.createTextNode(i));
-                                td.style.fontWeight = 'bold';
-                                td.style.textAlign = "center";
-                                td.style.width = '40px';
-                                break;
-                            case 1:
-                                td.style.width = '200px';
-                                td.style.textAlign = "left";
-                                let oboznIkodDoc = document.createElement('a');
-                                let linkObozn = document.createTextNode(rowData[0]);
-                                oboznIkodDoc.style.textDecoration = "none";
-                                oboznIkodDoc.appendChild(linkObozn);
-                                oboznIkodDoc.title = rowData[0];
-                                oboznIkodDoc.href = 'content_for_web/' + `${numFolder}` + '/' + `${rowData[0]}` + '.PDF';
-                                td.appendChild(oboznIkodDoc);
-                                //Загрузка контента как файла
-                                //download('content_for_web/'+`${i}`+'/' + `${rowData[0]}` + '.PDF',`${rowData[0]}`+ '.pdf');
-                                break;
-                            case 2:
-                                td.style.textAlign = "left";
-                                let naimenovanieIzd = document.createElement('a');
-                                let linkNaimen = document.createTextNode(rowData[1]);
-                                naimenovanieIzd.style.textDecoration = "none";
-                                naimenovanieIzd.appendChild(linkNaimen);
-                                naimenovanieIzd.title = rowData[1];
-                                naimenovanieIzd.href = 'content_for_web/' + `${numFolder}` + '/' + "document.html";
-                                td.appendChild(naimenovanieIzd);
-                                break;
-                            case 3:
-                                td.style.width = '240px';
-                                td.style.textAlign = "left";
-                                td.appendChild(document.createTextNode(`${rowData[2]}`));
-                                break;
-                            case 4:
-                                td.style.width = '60px';
-                                td.style.textAlign = "center";
-                                td.appendChild(document.createTextNode(`${rowData[3]}`));
-                                break;
-                            case 5:
-                                td.style.width = '220px';
-                                td.style.textAlign = "center";
-                                td.appendChild(document.createTextNode(`${rowData[4]}`));
-                                break;
-                            case 6:
-                                td.style.width = '220px';
-                                td.style.textAlign = "center";
-                                td.appendChild(document.createTextNode(`${rowData[5]}`));
-                                break;
-                            case 7:
-                                td.style.width = '270px';
-                                td.style.textAlign = "left";
-                                let orderList = document.createElement('a');
-                                let linkOrder = document.createTextNode(rowData[6]);
-                                orderList.style.textDecoration = "none";
-                                orderList.appendChild(linkOrder);
-                                orderList.title = rowData[6];
-                                orderList.href = 'content_for_web/' + `${numFolder}` + '/' + `${rowData[6]}` + '.PDF';
-                                td.appendChild(orderList);
-                                break;
-                        }
-                    }
-                } //Заполнение столбцов  for (let j = 0; j < 8; j++)
-
-            } //Строки
-
-            body.appendChild(tbl);
-
-            console.log("body.appendChild(tbl);");
-
-
-
+            row.send(null);
         }
+        function fillRow() {
+            if (row.readyState === 4) {
+                rowData = row.responseText.toString().split('\n');
+            }
+        }
+        tr = tbl.insertRow();
+        for (let j = 0; j < 8; j++) {
+            if (i === 0) { // Шапка таблицы
+                const td = tr.insertCell();
+                tr.style.height = '80px';
+                td.style.border = '1px solid black';
+                td.style.fontWeight = 'bold';
+                td.style.fontFamily = 'Arial';
+                td.style.fontSize = '20px';
+                td.style.textAlign = "center";
+                td.style.fontStyle = "italic";
+                td.style.padding = '10px';
+                switch (j) {
+                    case 0:
+                        td.style.width = '40px';
+                        td.appendChild(document.createTextNode(" Номер "));
+                        break;
+                    case 1:
+                        td.style.width = '200px';
+                        td.appendChild(document.createTextNode(`Обозначение и код документа`));
+                        break;
+                    case 2:
+                        td.appendChild(document.createTextNode(`Наименование изделия`));
+                        break;
+                    case 3:
+                        td.style.width = '240px';
+                        td.appendChild(document.createTextNode(`Наименование документа`));
+                        break;
+                    case 4:
+                        td.style.width = '60px';
+                        td.appendChild(document.createTextNode(`Номер изменения`));
+                        break;
+                    case 5:
+                        td.style.width = '220px';
+                        td.appendChild(document.createTextNode(`Дата извещения об изменении`));
+                        break;
+                    case 6:
+                        td.style.width = '220px';
+                        td.appendChild(document.createTextNode(`Значение контрольной суммы подлинника`));
+                        break;
+                    case 7:
+                        td.style.width = '270px';
+                        td.appendChild(document.createTextNode(`Информационно - удостоверяющий лист`));
+                        break;
+                }
+            } // Шапка таблицы  if (i == 0)
+
+            if (i !== 0) { //Остальная таблица
+                const td = tr.insertCell();
+                td.style.border = '1px solid black';
+                td.style.padding = '10px';
+                td.style.fontSize = '18px';
+                switch (j) {
+                    case 0:
+                        td.appendChild(document.createTextNode(i));
+                        td.style.fontWeight = 'bold';
+                        td.style.textAlign = "center";
+                        td.style.width = '40px';
+                        break;
+                    case 1:
+                        td.style.width = '200px';
+                        td.style.textAlign = "left";
+                        let oboznIkodDoc = document.createElement('a');
+                        let linkObozn = document.createTextNode(rowData[0]);
+                        oboznIkodDoc.style.textDecoration = "none";
+                        oboznIkodDoc.appendChild(linkObozn);
+                        oboznIkodDoc.title = rowData[0];
+                        oboznIkodDoc.href = 'content_for_web/' + `${numFolder}` + '/' + `${rowData[0]}` + '.PDF';
+                        td.appendChild(oboznIkodDoc);
+                        //Загрузка контента как файла
+                        //download('content_for_web/'+`${i}`+'/' + `${rowData[0]}` + '.PDF',`${rowData[0]}`+ '.pdf');
+                        break;
+                    case 2:
+                        td.style.textAlign = "left";
+                        let naimenovanieIzd = document.createElement('a');
+                        let linkNaimen = document.createTextNode(rowData[1]);
+                        naimenovanieIzd.style.textDecoration = "none";
+                        naimenovanieIzd.appendChild(linkNaimen);
+                        naimenovanieIzd.title = rowData[1];
+                        naimenovanieIzd.href = 'content_for_web/' + `${numFolder}` + '/' + "document.html";
+                        td.appendChild(naimenovanieIzd);
+                        break;
+                    case 3:
+                        td.style.width = '240px';
+                        td.style.textAlign = "left";
+                        td.appendChild(document.createTextNode(`${rowData[2]}`));
+                        break;
+                    case 4:
+                        td.style.width = '60px';
+                        td.style.textAlign = "center";
+                        td.appendChild(document.createTextNode(`${rowData[3]}`));
+                        break;
+                    case 5:
+                        td.style.width = '220px';
+                        td.style.textAlign = "center";
+                        td.appendChild(document.createTextNode(`${rowData[4]}`));
+                        break;
+                    case 6:
+                        td.style.width = '220px';
+                        td.style.textAlign = "center";
+                        td.appendChild(document.createTextNode(`${rowData[5]}`));
+                        break;
+                    case 7:
+                        td.style.width = '270px';
+                        td.style.textAlign = "left";
+                        let orderList = document.createElement('a');
+                        let linkOrder = document.createTextNode(rowData[6]);
+                        orderList.style.textDecoration = "none";
+                        orderList.appendChild(linkOrder);
+                        orderList.title = rowData[6];
+                        orderList.href = 'content_for_web/' + `${numFolder}` + '/' + `${rowData[6]}` + '.PDF';
+                        td.appendChild(orderList);
+                        break;
+                }
+            }
+        } //Заполнение столбцов  for (let j = 0; j < 8; j++)
+
+    } //Строки
+    document.body.appendChild(tbl);
 
 } //function createTable()
-
-
 
 
 // console.log ("Done");
