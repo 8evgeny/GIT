@@ -5,32 +5,85 @@
     <title>Архив документации НИОКР</title>
 </head>
     <style type="text/css">
+body {
+  font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto,
+    Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  line-height: 1.4;
+  /*   line-height: 1.5; */
+  /*   letter-spacing: 0.12em; */
+  /*   word-spacing: 0.16em; */
+}
 
+/*-- forms --*/
 
+form {
+  background-color: #fff;
+  padding: 0.5em 1em;
+  display: grid;
+  grid-template-columns: repeat(2, [col] 1fr);
+}
+
+fieldset {
+  padding: 0 1em;
+  margin: 0 0.5em 1em 0.5em;
+}
+
+fieldset:nth-child(2) {
+  line-height: 1.8;
+  letter-spacing: 0.12em;
+  word-spacing: 0.16em;
+  font-size: 110%;
+}
+
+form details div {
+  display: inline-block;
+  margin: 0.25em;
+}
+
+form div {
+  box-sizing: border-box;
+  margin: 1em 0;
+}
+
+label {
+  display: block;
+  margin: 0.25em 0;
+}
+
+select {
+  font: inherit;
+  letter-spacing: inherit;
+  word-spacing: inherit;
+}
     </style>
+
+ 
+
 <body>
 <section class="sticky">
     <h1 align="center"> АРХИВ КОНСТРУКТОРСКОЙ ДОКУМЕНТАЦИИ  (ТЕСТОВАЯ ВЕРСИЯ)</h1>
       <script src="text_from_file.js" ></script>
       <h2 align="center"><script>loadFile('content_for_web/date');</script><div id="main"></div></h2>
 </section>
-<form>
-  <label for="fruits">Выберите фрукт:</label>
-  <select id="fruits" name="fruits" onchange="handleFruitChange()">
-    <option value="apple">Яблоко</option>
-    <option value="banana">Банан</option>
-    <option value="orange">Апельсин</option>
+<h3><form>
+  <label align="right" for="sort">  Сортировка по:&emsp; </label>
+  <select id="sort" name="sort" onchange="handleSortChange()">
+        <option class="service-small" value="sort1">Обозначение и код документа(ВОЗРАСТАНИЕ)</option>
+        <option class="service-small" value="sort2">Наименование изделия(ВОЗРАСТАНИЕ) Дата извещения об изменении(УБЫВАНИЕ)</option>
+        <option class="service-small" value="sort3">Наименование документа(ВОЗРАСТАНИЕ) Дата извещения об изменении(УБЫВАНИЕ)</option>
+        <option class="service-small" value="sort4">Номер изменения(УБЫВАНИЕ) Обозначение и код документа(ВОЗРАСТАНИЕ)</option>
+        <option class="service-small" value="sort5">Дата извещения об изменении(УБЫВАНИЕ) Обозначение и код документа(ВОЗРАСТАНИЕ)</option>
   </select>
-</form>
+</form></h3>
 <section>
     <div >
         <table id="table" class="table-fixed-head"></table>
     </div>
 <script>
-  function handleFruitChange() {
-    const selectElement = document.getElementById('fruits');
-    const selectedFruit = selectElement.value;
-    alert('Вы выбрали: ' + selectedFruit);
+  function handleSortChange() {
+    const selectElement = document.getElementById('sort');
+    const selectedSort = selectElement.value;
+    // alert('Вы выбрали: ' + selectedSort);
   }
 </script>
     <script src="table.js" ></script>
