@@ -494,7 +494,8 @@ if (printDebug) cout<<"6"<<endl;
                  "changeNumStr,"
                  "notificationDataStr,"
                  "controlSummOrigin,"
-                 "infoOrderList) "
+                 "infoOrderList,"
+                 "created) "
           "VALUES ('"
                  + to_string(numFolderForWebContent)
         + "','" + oboznachenieIkodDokumenta
@@ -504,6 +505,7 @@ if (printDebug) cout<<"6"<<endl;
         + "','" + notificationDataStr
         + "','" + controlSummOrigin
         + "','" + infoOrderList
+        + "','" + creater
         + "');";
     try {
     transactionToDB(ConnectionToDB, sql);

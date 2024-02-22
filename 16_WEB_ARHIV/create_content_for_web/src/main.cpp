@@ -146,7 +146,9 @@ int main(int argc, char *argv[])
                  "changeNumStr                  TEXT,"
                  "notificationDataStr           TEXT,"
                  "controlSummOrigin             TEXT,"
-                 "infoOrderList                 TEXT);";
+                 "infoOrderList                 TEXT,"
+                 "created                       TEXT"
+          ");";
     try {
         transactionToDB(ConnectionToDB, sql);
 
@@ -219,11 +221,11 @@ int main(int argc, char *argv[])
     fdate.close();
 
 //Формируем данные с разными критериями сортировки (эти 5 файлов будут подгружаться из JS)
-    sort("oboznachenieikoddokumenta");
-    sort("naimenovanieizdeliya");
-    sort("naimenovaniedokumenta");
-    sort("changenumstr DESC, naimenovanieizdeliya ASC");
-    sort("notificationdatastr DESC, naimenovanieizdeliya ASC");
+    sort("oboznachenieikoddokumenta ASC");
+    sort("naimenovanieizdeliya ASC, notificationdatastr DESC");
+    sort("naimenovaniedokumenta ASC, notificationdatastr DESC");
+    sort("changenumstr DESC, oboznachenieikoddokumenta ASC");
+    sort("notificationdatastr DESC, oboznachenieikoddokumenta ASC");
 
     disconnectFromDB(ConnectionToDB);
 }
@@ -244,6 +246,7 @@ void sort(string rule){
         ba.append(QString::fromStdString(c[5].as<string>())); ba.append('\n'); //notificationDataStr
         ba.append(QString::fromStdString(c[6].as<string>())); ba.append('\n'); //controlSummOrigin
         ba.append(QString::fromStdString(c[7].as<string>())); ba.append('\n'); //infoOrderList
+        ba.append(QString::fromStdString(c[8].as<string>())); ba.append('\n'); //creator
     }
     fout.write(ba);
     fout.close();
