@@ -84,21 +84,29 @@ function handleSortChange() {
     
     switch (selectedSort) {
         case "sort1":
-                alert('sort1');
+            rule_arr = rule_arr1;
+            state = 1;
+            console.log ("state: %d", state);
                 break;
         case "sort2":
-                alert('sort2');
-                rule_arr = rule_arr2;
-                createTable();
+            rule_arr = rule_arr2;
+            state = 2;
+            console.log ("state: %d", state);
                 break;
         case "sort3":
-                alert('sort3');
+            rule_arr = rule_arr3;
+            state = 3;
+            console.log ("state: %d", state);
                 break;
         case "sort4":
-                alert('sort4');
+            rule_arr = rule_arr4;
+            state = 4;
+            console.log ("state: %d", state);
                 break;
         case "sort5":
-                alert('sort5');
+            rule_arr = rule_arr5;
+            state = 5;
+            console.log ("state: %d", state);
                 break;
     }
   }
