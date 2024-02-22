@@ -80,10 +80,11 @@ reqSortRule1.send(null);
 console.log ("state: %d", state);
 
 let rule1_arr = reqSortRule1.responseText.split('\n');
-
-// console.log ("0:%s\n", rule1_arr[0]);
-// console.log ("1:%s\n", rule1_arr[1]);
-// console.log ("2:%s\n", rule1_arr[2]);
+//в каждом элементе массива данные типа 
+//18~~ГРЛМ.685621.016~~Жгут~~Спецификация~~0~~2023-11-14~~DE0F6823~~ГРЛМ.685621.016УЛ~~Василенков
+for (let i = 0; i<rule1_arr.length; i++) {
+    console.log ("%s\n", rule1_arr[i]);
+}
 
 var rowData;
 let reqTableSize = new XMLHttpRequest();
@@ -91,11 +92,6 @@ let reqTableSize = new XMLHttpRequest();
 reqTableSize.open('get', 'content_for_web/numDoc', false);
 reqTableSize.onreadystatechange = createTable;
 reqTableSize.send(null);
-
-for (let i = 0; i<numberDoc; i++)
-{
-    console.log ("%s\n", rule1_arr[i]);
-}
 
 function createTable() {
 
