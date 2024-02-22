@@ -206,11 +206,11 @@ int main(int argc, char *argv[])
     string remove = "rm -rf ../EXTRACT/";
     system(remove.c_str());
 
-//Все папки с контентом сформированы - формирую файл numDoc
-    QFile frow((WEB_content + "/" + "numDoc").c_str());
-    frow.open(QIODevice::WriteOnly);
-    frow.write(to_string(numZipFiles - errorParsingJson).c_str());
-    frow.close();
+//Все папки с контентом сформированы - формирую файл numDoc (Теперь не нужен после файлов сортировок)
+//    QFile frow((WEB_content + "/" + "numDoc").c_str());
+//    frow.open(QIODevice::WriteOnly);
+//    frow.write(to_string(numZipFiles - errorParsingJson).c_str());
+//    frow.close();
 
 //Формирую строку с датой: Сводный перечень документов на хранении по состоянию на ____
     QFile fdate((WEB_content + "/" + "date").c_str());
