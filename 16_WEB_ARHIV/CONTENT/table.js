@@ -22,28 +22,15 @@ function sleep(milliseconds) {
     } while (currentDate - date < milliseconds);
 };
 
-function handleSortChange() {
-    const selectElement = document.getElementById('sort');
-    const selectedSort = selectElement.value;
-    
-    switch (selectedSort) {
-        case "sort1":
-                alert('sort1');
-                break;
-        case "sort2":
-                alert('sort2');
-                break;
-        case "sort3":
-                alert('sort3');
-                break;
-        case "sort4":
-                alert('sort4');
-                break;
-        case "sort5":
-                alert('sort5');
-                break;
-    }
-  }
+var state = 0;
+var numberDoc;
+
+var rule_arr;
+var rule_arr1;
+var rule_arr2;
+var rule_arr3;
+var rule_arr4;
+var rule_arr5;
 
 
 //Правила сортировки - соответствуют файлам с порядком папок и данными по строкам
@@ -52,24 +39,16 @@ function handleSortChange() {
 // rule_naimenovaniedokumenta ASC, notificationdatastr DESC         ruleSort_3
 // rule_changenumstr DESC, oboznachenieikoddokumenta ASC            ruleSort_4
 // rule_notificationdatastr DESC, oboznachenieikoddokumenta ASC     ruleSort_1
-var state = 0;
-var numberDoc;
-var reqSortRule1;
-var reqSortRule2;
-var reqSortRule3;
-var reqSortRule4;
-var reqSortRule5;
-var rule_arr;
 
-reqSortRule1 = new XMLHttpRequest();
+let reqSortRule1 = new XMLHttpRequest();
 reqSortRule1.open('get', 'content_for_web/ruleSort_1', false);
-reqSortRule2 = new XMLHttpRequest();
+let reqSortRule2 = new XMLHttpRequest();
 reqSortRule2.open('get', 'content_for_web/ruleSort_2', false);
-reqSortRule3 = new XMLHttpRequest();
+let reqSortRule3 = new XMLHttpRequest();
 reqSortRule3.open('get', 'content_for_web/ruleSort_3', false);
-reqSortRule4 = new XMLHttpRequest();
+let reqSortRule4 = new XMLHttpRequest();
 reqSortRule4.open('get', 'content_for_web/ruleSort_4', false);
-reqSortRule5 = new XMLHttpRequest();
+let reqSortRule5 = new XMLHttpRequest();
 reqSortRule5.open('get', 'content_for_web/ruleSort_5', false);
 
 console.log ("state: %d", state);
@@ -88,11 +67,45 @@ console.log ("state: %d", state);
 reqSortRule5.onreadystatechange = state = 5; 
 reqSortRule5.send(null);
 console.log ("state: %d", state);
+rule_arr1 = reqSortRule1.responseText.split('\n');
+rule_arr2 = reqSortRule2.responseText.split('\n');
+rule_arr3 = reqSortRule3.responseText.split('\n');
+rule_arr4 = reqSortRule4.responseText.split('\n');
+rule_arr5 = reqSortRule5.responseText.split('\n');
+
+rule_arr = rule_arr4;
 
 
 
 
-rule_arr = reqSortRule1.responseText.split('\n');
+function handleSortChange() {
+    const selectElement = document.getElementById('sort');
+    const selectedSort = selectElement.value;
+    
+    switch (selectedSort) {
+        case "sort1":
+                alert('sort1');
+                break;
+        case "sort2":
+                alert('sort2');
+                rule_arr = rule_arr2;
+                createTable();
+                break;
+        case "sort3":
+                alert('sort3');
+                break;
+        case "sort4":
+                alert('sort4');
+                break;
+        case "sort5":
+                alert('sort5');
+                break;
+    }
+  }
+
+
+
+
 //в каждом элементе массива список папок согласно правилу сортировки
 for (let i = 0; i<rule_arr.length; i++) {
     console.log ("%s\n", rule_arr[i]);
