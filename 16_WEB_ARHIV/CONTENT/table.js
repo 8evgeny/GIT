@@ -75,41 +75,49 @@ function handleSortChange() {
             rule_arr = rule_arr1;
             state = 1;
             console.log ("state: %d", state);
+            reqTableSize.open('get', 'content_for_web/numDoc', false);
+            reqTableSize.onreadystatechange = createTable;
+            reqTableSize.send(null);
                 break;
         case "sort2":
             rule_arr = rule_arr2;
             state = 2;
             console.log ("state: %d", state);
+            reqTableSize.open('get', 'content_for_web/numDoc', false);
+            reqTableSize.onreadystatechange = createTable;
+            reqTableSize.send(null);
                 break;
         case "sort3":
             rule_arr = rule_arr3;
             state = 3;
             console.log ("state: %d", state);
+            reqTableSize.open('get', 'content_for_web/numDoc', false);
+            reqTableSize.onreadystatechange = createTable;
+            reqTableSize.send(null);
                 break;
         case "sort4":
             rule_arr = rule_arr4;
             state = 4;
             console.log ("state: %d", state);
+            reqTableSize.open('get', 'content_for_web/numDoc', false);
+            reqTableSize.onreadystatechange = createTable;
+            reqTableSize.send(null);
                 break;
         case "sort5":
             rule_arr = rule_arr5;
             state = 5;
             console.log ("state: %d", state);
+            reqTableSize.open('get', 'content_for_web/numDoc', false);
+            reqTableSize.onreadystatechange = createTable;
+            reqTableSize.send(null);
                 break;
     }
-    for (let i = 0; i<rule_arr.length; i++) {
-        console.log ("%s\n", rule_arr[i]);
-    }
-    state.onreadystatechange =  createTable;
+    //в каждом элементе массива список папок согласно правилу сортировки
+    // for (let i = 0; i<rule_arr.length; i++) {
+    //     console.log ("%s\n", rule_arr[i]);
+    // }
  }
 
- state.onreadystatechange =  createTable;
-
-
-//в каждом элементе массива список папок согласно правилу сортировки
-for (let i = 0; i<rule_arr.length; i++) {
-    console.log ("%s\n", rule_arr[i]);
-}
 
 var rowData;
 let reqTableSize = new XMLHttpRequest();
@@ -121,6 +129,7 @@ reqTableSize.send(null);
 function createTable() {
 
     if (reqTableSize.readyState === 4) {
+        console.log ("createTable invoke");
         numberDoc = reqTableSize.responseText.toString();
         const body = document.body,
         tbl = document.getElementById('table');
