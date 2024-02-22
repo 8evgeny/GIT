@@ -80,8 +80,7 @@ reqSortRule1.send(null);
 console.log ("state: %d", state);
 
 let rule1_arr = reqSortRule1.responseText.split('\n');
-//в каждом элементе массива данные типа 
-//18~~ГРЛМ.685621.016~~Жгут~~Спецификация~~0~~2023-11-14~~DE0F6823~~ГРЛМ.685621.016УЛ~~Василенков
+//в каждом элементе массива список папок согласно правилу сортировки
 for (let i = 0; i<rule1_arr.length; i++) {
     console.log ("%s\n", rule1_arr[i]);
 }

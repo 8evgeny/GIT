@@ -238,15 +238,18 @@ void sort(string rule){
     fout.open(QIODevice::WriteOnly);
     QByteArray ba;
     for (result::const_iterator c = data.begin(); c != data.end(); ++c) {
-        ba.append(QString::fromStdString(c[0].as<string>())); ba.append("~~"); //folder
-        ba.append(QString::fromStdString(c[1].as<string>())); ba.append("~~"); //oboznachenieIkodDokumenta
-        ba.append(QString::fromStdString(c[2].as<string>())); ba.append("~~"); //naimenovanieIzdeliya
-        ba.append(QString::fromStdString(c[3].as<string>())); ba.append("~~"); //naimenovanieDokumenta
-        ba.append(QString::fromStdString(c[4].as<string>())); ba.append("~~"); //changeNumStr
-        ba.append(QString::fromStdString(c[5].as<string>())); ba.append("~~"); //notificationDataStr
-        ba.append(QString::fromStdString(c[6].as<string>())); ba.append("~~"); //controlSummOrigin
-        ba.append(QString::fromStdString(c[7].as<string>())); ba.append("~~"); //infoOrderList
-        ba.append(QString::fromStdString(c[8].as<string>())); ba.append('\n'); //creator
+//        ba.append(QString::fromStdString(c[0].as<string>())); ba.append("~~"); //folder
+//        ba.append(QString::fromStdString(c[1].as<string>())); ba.append("~~"); //oboznachenieIkodDokumenta
+//        ba.append(QString::fromStdString(c[2].as<string>())); ba.append("~~"); //naimenovanieIzdeliya
+//        ba.append(QString::fromStdString(c[3].as<string>())); ba.append("~~"); //naimenovanieDokumenta
+//        ba.append(QString::fromStdString(c[4].as<string>())); ba.append("~~"); //changeNumStr
+//        ba.append(QString::fromStdString(c[5].as<string>())); ba.append("~~"); //notificationDataStr
+//        ba.append(QString::fromStdString(c[6].as<string>())); ba.append("~~"); //controlSummOrigin
+//        ba.append(QString::fromStdString(c[7].as<string>())); ba.append("~~"); //infoOrderList
+//        ba.append(QString::fromStdString(c[8].as<string>())); ba.append('\n'); //creator
+
+//Пока пишем только номера папок и далее JS  подгрузит контент каждого ряда
+        ba.append(QString::fromStdString(c[0].as<string>())); ba.append('\n'); //folder
     }
     fout.write(ba);
     fout.close();
