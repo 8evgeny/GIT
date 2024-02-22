@@ -24,7 +24,6 @@ function sleep(milliseconds) {
 
 var state = 0;
 var numberDoc;
-var tabEmpty = 1;
 var rule_arr;
 var rule_arr1;
 var rule_arr2;
@@ -64,7 +63,7 @@ rule_arr5 = reqSortRule5.responseText.split('\n');
 
 rule_arr = rule_arr1;
 
-
+newTable();
 handleSortChange();
 
 function handleSortChange() {
@@ -101,39 +100,34 @@ function handleSortChange() {
     // for (let i = 0; i<rule_arr.length; i++) {
     //     console.log ("%s\n", rule_arr[i]);
     // }
-    tabEmpty = 0;
+    delTable();
+    newTable();
     createTable();
 }
 
 var tbl;
-function createTable() {
-    numberDoc = rule_arr.length;
+var tblBody;
+function newTable(){
     tbl = document.createElement("table");
-var tblBody = document.createElement("tbody");
-//    body = document.body;
-//    tbl = document.getElementById('table');
+    tblBody = document.createElement("tbody");
     tbl.style.margin = 'auto';
     tbl.style.width = '1800px';
     tbl.style.border = '1px solid black';
+}
+
+function delTable(){
+    tbl.remove();
+}
+
+
+function createTable() {
+    numberDoc = rule_arr.length;
     let numFolder
 
-    if (tabEmpty == 0) {
-        // https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model/Traversing_an_HTML_table_with_JavaScript_and_DOM_Interfaces
-        //        for (let i = 0; i < rule_arr.length +1; i++)
-        //        {
-        //            tbl.deleteRow(0);
-        //        }
-//    document.body.removeChild(tblBody);
+//    for (let i = 0; i < numberDoc; i++) {
+//        console.log("%s\n", rule_arr[i]);
+//    }
 
-//        document.body.removeChild(tbl);
-    }
-    if (tabEmpty == 1) { //Первичное заполнение
-        tabEmpty = 0;
-    }
-
-    for (let i = 0; i < numberDoc; i++) {
-        console.log("%s\n", rule_arr[i]);
-    }
     for (let i = 0; i <= numberDoc - 1; i++) {
         //Здесь получаем файл 'content_for_web/i/rowContent  для заполнения ряда
         let row = new XMLHttpRequest();
