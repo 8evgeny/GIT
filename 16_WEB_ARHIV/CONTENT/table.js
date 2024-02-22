@@ -71,6 +71,7 @@ function handleSortChange() {
 // rule_changenumstr DESC, oboznachenieikoddokumenta ASC
 // rule_notificationdatastr DESC, oboznachenieikoddokumenta ASC
 let state = 0;
+var numberDoc;
 console.log ("state: %d", state);
 let reqSortRule1 = new XMLHttpRequest();
 reqSortRule1.open('get', 'content_for_web/rule_oboznachenieikoddokumenta ASC', false);
@@ -79,9 +80,10 @@ reqSortRule1.send(null);
 console.log ("state: %d", state);
 
 let rule1_arr = reqSortRule1.responseText.split('\n');
-console.log ("0:%s\n", rule1_arr[0]);
-console.log ("1:%s\n", rule1_arr[1]);
-console.log ("2:%s\n", rule1_arr[2]);
+
+// console.log ("0:%s\n", rule1_arr[0]);
+// console.log ("1:%s\n", rule1_arr[1]);
+// console.log ("2:%s\n", rule1_arr[2]);
 
 var rowData;
 let reqTableSize = new XMLHttpRequest();
@@ -90,13 +92,15 @@ reqTableSize.open('get', 'content_for_web/numDoc', false);
 reqTableSize.onreadystatechange = createTable;
 reqTableSize.send(null);
 
-
-
+for (let i = 0; i<numberDoc; i++)
+{
+    console.log ("%s\n", rule1_arr[i]);
+}
 
 function createTable() {
 
     if (reqTableSize.readyState === 4) {
-        let numberDoc = reqTableSize.responseText.toString();
+        numberDoc = reqTableSize.responseText.toString();
         const body = document.body,
         tbl = document.getElementById('table');
         tbl.style.margin = 'auto';
