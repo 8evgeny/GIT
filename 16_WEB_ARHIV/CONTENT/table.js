@@ -50,30 +50,18 @@ let reqSortRule4 = new XMLHttpRequest();
 reqSortRule4.open('get', 'content_for_web/ruleSort_4', false);
 let reqSortRule5 = new XMLHttpRequest();
 reqSortRule5.open('get', 'content_for_web/ruleSort_5', false);
-
-console.log ("state: %d", state);
-reqSortRule1.onreadystatechange = state = 1; 
 reqSortRule1.send(null);
-console.log ("state: %d", state);
-reqSortRule2.onreadystatechange = state = 2; 
 reqSortRule2.send(null);
-console.log ("state: %d", state);
-reqSortRule3.onreadystatechange = state = 3; 
 reqSortRule3.send(null);
-console.log ("state: %d", state);
-reqSortRule4.onreadystatechange = state = 4; 
 reqSortRule4.send(null);
-console.log ("state: %d", state);
-reqSortRule5.onreadystatechange = state = 5; 
 reqSortRule5.send(null);
-console.log ("state: %d", state);
 rule_arr1 = reqSortRule1.responseText.split('\n');
 rule_arr2 = reqSortRule2.responseText.split('\n');
 rule_arr3 = reqSortRule3.responseText.split('\n');
 rule_arr4 = reqSortRule4.responseText.split('\n');
 rule_arr5 = reqSortRule5.responseText.split('\n');
 
-rule_arr = rule_arr4;
+rule_arr = rule_arr1;
 
 
 
@@ -109,9 +97,13 @@ function handleSortChange() {
             console.log ("state: %d", state);
                 break;
     }
-  }
+    for (let i = 0; i<rule_arr.length; i++) {
+        console.log ("%s\n", rule_arr[i]);
+    }
+    state.onreadystatechange =  createTable;
+ }
 
-
+ state.onreadystatechange =  createTable;
 
 
 //в каждом элементе массива список папок согласно правилу сортировки
