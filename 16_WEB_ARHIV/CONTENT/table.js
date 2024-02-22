@@ -75,13 +75,13 @@ console.log ("state: %d", state);
 let reqSortRule1 = new XMLHttpRequest();
 reqSortRule1.open('get', 'content_for_web/rule_oboznachenieikoddokumenta ASC', false);
 reqSortRule1.onreadystatechange = state = 1; //Начинаем с 1 правила
+reqSortRule1.send(null);
 console.log ("state: %d", state);
 
-
-
-
-
-
+let rule1_arr = reqSortRule1.responseText.split('\n');
+console.log ("0:%s\n", rule1_arr[0]);
+console.log ("1:%s\n", rule1_arr[1]);
+console.log ("2:%s\n", rule1_arr[2]);
 
 var rowData;
 let reqTableSize = new XMLHttpRequest();
@@ -89,6 +89,9 @@ let reqTableSize = new XMLHttpRequest();
 reqTableSize.open('get', 'content_for_web/numDoc', false);
 reqTableSize.onreadystatechange = createTable;
 reqTableSize.send(null);
+
+
+
 
 function createTable() {
 
