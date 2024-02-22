@@ -79,10 +79,10 @@ reqSortRule1.onreadystatechange = state = 1; //Начинаем с 1 прави�
 reqSortRule1.send(null);
 console.log ("state: %d", state);
 
-let rule1_arr = reqSortRule1.responseText.split('\n');
+let rule_arr = reqSortRule1.responseText.split('\n');
 //в каждом элементе массива список папок согласно правилу сортировки
-for (let i = 0; i<rule1_arr.length; i++) {
-    console.log ("%s\n", rule1_arr[i]);
+for (let i = 0; i<rule_arr.length; i++) {
+    console.log ("%s\n", rule_arr[i]);
 }
 
 var rowData;
@@ -101,13 +101,14 @@ function createTable() {
         tbl.style.margin = 'auto';
         tbl.style.width = '1800px';
         tbl.style.border = '1px solid black';
-
+        let numFolder
         for (let i = 0; i <= numberDoc; i++) {
             //Здесь получаем файл 'content_for_web/i/rowContent  для заполнения ряда
             let row = new XMLHttpRequest();
-
+            
             if (i !== 0) {
-                row.open('get', 'content_for_web/' + `${i}` + '/' + "rowContent", false);
+                numFolder = rule_arr[i-1];
+                row.open('get', 'content_for_web/' + `${numFolder}` + '/' + "rowContent", false);
                 row.onloadend = function () {
                     if (row.readyState === 4) {
                         rowData = row.responseText.toString().split('\n');
@@ -191,7 +192,7 @@ function createTable() {
                             oboznIkodDoc.style.textDecoration = "none";
                             oboznIkodDoc.appendChild(linkObozn);
                             oboznIkodDoc.title = rowData[0];
-                            oboznIkodDoc.href = 'content_for_web/' + `${i}` + '/' + `${rowData[0]}` + '.PDF';
+                            oboznIkodDoc.href = 'content_for_web/' + `${numFolder}` + '/' + `${rowData[0]}` + '.PDF';
                             td.appendChild(oboznIkodDoc);
                             //Загрузка контента как файла
                             //download('content_for_web/'+`${i}`+'/' + `${rowData[0]}` + '.PDF',`${rowData[0]}`+ '.pdf');
@@ -203,7 +204,7 @@ function createTable() {
                             naimenovanieIzd.style.textDecoration = "none";
                             naimenovanieIzd.appendChild(linkNaimen);
                             naimenovanieIzd.title = rowData[1];
-                            naimenovanieIzd.href = 'content_for_web/' + `${i}` + '/' + "document.html";
+                            naimenovanieIzd.href = 'content_for_web/' + `${numFolder}` + '/' + "document.html";
                             td.appendChild(naimenovanieIzd);
                             break;
                         case 3:
@@ -234,7 +235,7 @@ function createTable() {
                             orderList.style.textDecoration = "none";
                             orderList.appendChild(linkOrder);
                             orderList.title = rowData[6];
-                            orderList.href = 'content_for_web/' + `${i}` + '/' + `${rowData[6]}` + '.PDF';
+                            orderList.href = 'content_for_web/' + `${numFolder}` + '/' + `${rowData[6]}` + '.PDF';
                             td.appendChild(orderList);
                             break;
                     }
