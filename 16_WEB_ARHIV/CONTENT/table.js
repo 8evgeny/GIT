@@ -28,58 +28,71 @@ function handleSortChange() {
     
     switch (selectedSort) {
         case "sort1":
-            {
                 alert('sort1');
                 break;
-            }
-            
-
         case "sort2":
-            {
                 alert('sort2');
                 break;
-            } 
-
         case "sort3":
-            {
                 alert('sort3');
                 break;
-            } 
-
         case "sort4":
-            {
                 alert('sort4');
                 break;
-            } 
-
         case "sort5":
-            {
                 alert('sort5');
                 break;
-            } 
-
     }
-    
-
   }
 
 
 //Правила сортировки - соответствуют файлам с порядком папок и данными по строкам
-// rule_oboznachenieikoddokumenta ASC
-// rule_naimenovanieizdeliya ASC, notificationdatastr DESC
-// rule_naimenovaniedokumenta ASC, notificationdatastr DESC
-// rule_changenumstr DESC, oboznachenieikoddokumenta ASC
-// rule_notificationdatastr DESC, oboznachenieikoddokumenta ASC
-let state = 0;
+// rule_oboznachenieikoddokumenta ASC                               ruleSort_1
+// rule_naimenovanieizdeliya ASC, notificationdatastr DESC          ruleSort_2
+// rule_naimenovaniedokumenta ASC, notificationdatastr DESC         ruleSort_3
+// rule_changenumstr DESC, oboznachenieikoddokumenta ASC            ruleSort_4
+// rule_notificationdatastr DESC, oboznachenieikoddokumenta ASC     ruleSort_1
+var state = 0;
 var numberDoc;
+var reqSortRule1;
+var reqSortRule2;
+var reqSortRule3;
+var reqSortRule4;
+var reqSortRule5;
+var rule_arr;
+
+reqSortRule1 = new XMLHttpRequest();
+reqSortRule1.open('get', 'content_for_web/ruleSort_1', false);
+reqSortRule2 = new XMLHttpRequest();
+reqSortRule2.open('get', 'content_for_web/ruleSort_2', false);
+reqSortRule3 = new XMLHttpRequest();
+reqSortRule3.open('get', 'content_for_web/ruleSort_3', false);
+reqSortRule4 = new XMLHttpRequest();
+reqSortRule4.open('get', 'content_for_web/ruleSort_4', false);
+reqSortRule5 = new XMLHttpRequest();
+reqSortRule5.open('get', 'content_for_web/ruleSort_5', false);
+
 console.log ("state: %d", state);
-let reqSortRule1 = new XMLHttpRequest();
-reqSortRule1.open('get', 'content_for_web/rule_oboznachenieikoddokumenta ASC', false);
-reqSortRule1.onreadystatechange = state = 1; //Начинаем с 1 правила
+reqSortRule1.onreadystatechange = state = 1; 
 reqSortRule1.send(null);
 console.log ("state: %d", state);
+reqSortRule2.onreadystatechange = state = 2; 
+reqSortRule2.send(null);
+console.log ("state: %d", state);
+reqSortRule3.onreadystatechange = state = 3; 
+reqSortRule3.send(null);
+console.log ("state: %d", state);
+reqSortRule4.onreadystatechange = state = 4; 
+reqSortRule4.send(null);
+console.log ("state: %d", state);
+reqSortRule5.onreadystatechange = state = 5; 
+reqSortRule5.send(null);
+console.log ("state: %d", state);
 
-let rule_arr = reqSortRule1.responseText.split('\n');
+
+
+
+rule_arr = reqSortRule1.responseText.split('\n');
 //в каждом элементе массива список папок согласно правилу сортировки
 for (let i = 0; i<rule_arr.length; i++) {
     console.log ("%s\n", rule_arr[i]);

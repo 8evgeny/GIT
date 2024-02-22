@@ -234,7 +234,20 @@ void sort(string rule){
     string sql = "SELECT * from web_content ORDER BY " + rule;
     result data = nontransactionToDB(ConnectionToDB, sql);
     //Записываем отсортированные данные в файл
-    QFile fout((WEB_content + "rule_" + rule).c_str());
+    string nameFileSort;
+    if(rule == "oboznachenieikoddokumenta ASC")
+        nameFileSort = "ruleSort_1";
+    if(rule == "naimenovanieizdeliya ASC, notificationdatastr DESC")
+        nameFileSort = "ruleSort_2";
+    if(rule == "naimenovaniedokumenta ASC, notificationdatastr DESC")
+        nameFileSort = "ruleSort_3";
+    if(rule == "changenumstr DESC, oboznachenieikoddokumenta ASC")
+        nameFileSort = "ruleSort_4";
+    if(rule == "notificationdatastr DESC, oboznachenieikoddokumenta ASC")
+        nameFileSort = "ruleSort_5";
+
+
+    QFile fout((WEB_content + nameFileSort).c_str());
     fout.open(QIODevice::WriteOnly);
     QByteArray ba;
     for (result::const_iterator c = data.begin(); c != data.end(); ++c) {
