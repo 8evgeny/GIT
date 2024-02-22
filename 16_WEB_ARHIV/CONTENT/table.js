@@ -21,6 +21,68 @@ function sleep(milliseconds) {
         currentDate = Date.now();
     } while (currentDate - date < milliseconds);
 };
+
+function handleSortChange() {
+    const selectElement = document.getElementById('sort');
+    const selectedSort = selectElement.value;
+    
+    switch (selectedSort) {
+        case "sort1":
+            {
+                alert('sort1');
+                break;
+            }
+            
+
+        case "sort2":
+            {
+                alert('sort2');
+                break;
+            } 
+
+        case "sort3":
+            {
+                alert('sort3');
+                break;
+            } 
+
+        case "sort4":
+            {
+                alert('sort4');
+                break;
+            } 
+
+        case "sort5":
+            {
+                alert('sort5');
+                break;
+            } 
+
+    }
+    
+
+  }
+
+
+//Правила сортировки - соответствуют файлам с порядком папок и данными по строкам
+// rule_oboznachenieikoddokumenta ASC
+// rule_naimenovanieizdeliya ASC, notificationdatastr DESC
+// rule_naimenovaniedokumenta ASC, notificationdatastr DESC
+// rule_changenumstr DESC, oboznachenieikoddokumenta ASC
+// rule_notificationdatastr DESC, oboznachenieikoddokumenta ASC
+let state = 0;
+console.log ("state: %d", state);
+let reqSortRule1 = new XMLHttpRequest();
+reqSortRule1.open('get', 'content_for_web/rule_oboznachenieikoddokumenta ASC', false);
+reqSortRule1.onreadystatechange = state = 1; //Начинаем с 1 правила
+console.log ("state: %d", state);
+
+
+
+
+
+
+
 var rowData;
 let reqTableSize = new XMLHttpRequest();
 
