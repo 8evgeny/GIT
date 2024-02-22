@@ -75,42 +75,26 @@ function handleSortChange() {
             rule_arr = rule_arr1;
             state = 1;
             console.log ("state: %d", state);
-            reqTableSize.open('get', 'content_for_web/numDoc', false);
-            reqTableSize.onreadystatechange = createTable;
-            reqTableSize.send(null);
                 break;
         case "sort2":
             rule_arr = rule_arr2;
             state = 2;
             console.log ("state: %d", state);
-            reqTableSize.open('get', 'content_for_web/numDoc', false);
-            reqTableSize.onreadystatechange = createTable;
-            reqTableSize.send(null);
                 break;
         case "sort3":
             rule_arr = rule_arr3;
             state = 3;
             console.log ("state: %d", state);
-            reqTableSize.open('get', 'content_for_web/numDoc', false);
-            reqTableSize.onreadystatechange = createTable;
-            reqTableSize.send(null);
                 break;
         case "sort4":
             rule_arr = rule_arr4;
             state = 4;
             console.log ("state: %d", state);
-            reqTableSize.open('get', 'content_for_web/numDoc', false);
-            reqTableSize.onreadystatechange = createTable;
-            reqTableSize.send(null);
                 break;
         case "sort5":
             rule_arr = rule_arr5;
             state = 5;
             console.log ("state: %d", state);
-            reqTableSize.open('get', 'content_for_web/numDoc', false);
-            reqTableSize.onreadystatechange = createTable;
-            reqTableSize.send(null);
-
                 break;
     }
     //в каждом элементе массива список папок согласно правилу сортировки
@@ -120,6 +104,9 @@ function handleSortChange() {
 
     // location.reload();
     // parent.location.reload();
+    reqTableSize.open('get', 'content_for_web/numDoc', false);
+    reqTableSize.onreadystatechange = createTable;
+    reqTableSize.send(null);
  }
 
 
@@ -130,16 +117,20 @@ function handleSortChange() {
 // reqTableSize.send(null);
 
 function createTable() {
-    
+    document.onchange
     if (reqTableSize.readyState === 4) {
         console.log ("createTable invoke");
         numberDoc = reqTableSize.responseText.toString();
-        const body = document.body,
+        body = document.body;
         tbl = document.getElementById('table');
         tbl.style.margin = 'auto';
         tbl.style.width = '1800px';
         tbl.style.border = '1px solid black';
         let numFolder
+
+        for (let i = 0; i<rule_arr.length; i++) {
+            console.log ("%s\n", rule_arr[i]);
+        }
         for (let i = 0; i <= numberDoc; i++) {
             //Здесь получаем файл 'content_for_web/i/rowContent  для заполнения ряда
             let row = new XMLHttpRequest();
@@ -161,7 +152,7 @@ function createTable() {
                 }
             }
 
-            const tr = tbl.insertRow();
+            tr = tbl.insertRow();
 
             for (let j = 0; j < 8; j++) {
                 if (i === 0) { // Шапка таблицы
@@ -282,6 +273,7 @@ function createTable() {
 
         } //Строки
         body.appendChild(tbl);
+        console.log ("body.appendChild(tbl);");
     }
     
 } //function createTable()
