@@ -108,8 +108,8 @@ function handleSortChange() {
 
 function createTable() {
     numberDoc = rule_arr.length;
-const tbl = document.createElement("table");
-const tblBody = document.createElement("tbody");
+var tbl = document.createElement("table");
+var tblBody = document.createElement("tbody");
 //    body = document.body;
 //    tbl = document.getElementById('table');
     tbl.style.margin = 'auto';
@@ -123,7 +123,7 @@ const tblBody = document.createElement("tbody");
         //        {
         //            tbl.deleteRow(0);
         //        }
-
+//    document.body.removeChild(tblBody);
     }
     if (tabEmpty == 1) { //Первичное заполнение
         tabEmpty = 0;
