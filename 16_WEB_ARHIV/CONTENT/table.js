@@ -174,6 +174,18 @@ function createTable() {
             row.send(null);
         }
 
+
+
+
+
+if ((creator === "all")||
+    (creator === "creator1" && rowData[7] === "Василенков")||
+    (creator === "creator2" && rowData[7] === "Молчанов")||
+    (creator === "creator3" && rowData[7] === "Потапов")||
+    (creator === "creator4" && rowData[7] === "Давыдов")||
+    (creator === "creator5" && rowData[7] === "Пяткин")||
+    (creator === "creator6" && rowData[7] === "Соколов")
+    ){
         tr = tbl.insertRow();
         for (let j = 0; j < 8; j++) {
             if (i === 0) { // Шапка таблицы
@@ -220,14 +232,7 @@ function createTable() {
                         break;
                 }
             } // Шапка таблицы  if (i == 0)
-if ((creator === "all")||
-    (creator === "creator1" && rowData[7] === "Василенков")||
-    (creator === "creator2" && rowData[7] === "Молчанов")||
-    (creator === "creator3" && rowData[7] === "Потапов")||
-    (creator === "creator4" && rowData[7] === "Давыдов")||
-    (creator === "creator5" && rowData[7] === "Пяткин")||
-    (creator === "creator6" && rowData[7] === "Соколов")
-    ){
+
             if (i !== 0) { //Остальная таблица
                 const td = tr.insertCell();
                 td.style.border = '1px solid black';
