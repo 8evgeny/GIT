@@ -540,6 +540,8 @@ if (printDebug) cout<<"7"<<endl;
         ba.append(QString::fromStdString(content[i]));
         ba.append('\n');
     }
+ba.append(QString::fromStdString(content[10])); //creater
+ba.append('\n');
     fout.write(ba);
     fout.close();
 
