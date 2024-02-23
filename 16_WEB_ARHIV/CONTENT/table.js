@@ -31,7 +31,7 @@ var rule_arr3;
 var rule_arr4;
 var rule_arr5;
 var rowData;
-var reqTableSize = new XMLHttpRequest();
+//var reqTableSize = new XMLHttpRequest();
 
 //Правила сортировки - соответствуют файлам с порядком папок и данными по строкам
 // rule_oboznachenieikoddokumenta ASC                               ruleSort_1

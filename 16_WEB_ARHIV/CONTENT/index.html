@@ -1,82 +1,91 @@
 <!doctype html>
 <html lang="ru">
-<head>
-  <meta charset="utf-8">
-    <title>Архив документации НИОКР</title>
-</head>
+    <head>
+      <meta charset="utf-8">
+        <title>Архив НИОКР</title>
+        <h1 align="center"> АРХИВ КОНСТРУКТОРСКОЙ ДОКУМЕНТАЦИИ НИОКР</h1>
+        <script src="text_from_file.js" ></script>
+        <h2 align="center"><script>loadFile('content_for_web/date');</script><div id="main"></div></h2>
+        <h3><form>
+        <label align="right" for="sort">  Сортировка по:&emsp; </label>
+        <select id="sort" name="sort" onchange="handleSortChange()">
+              <option class="service-small" value="sort1">Обозначение и код документа(ВОЗРАСТАНИЕ)</option>
+              <option class="service-small" value="sort2">Наименование изделия(ВОЗРАСТАНИЕ) Дата извещения об изменении(УБЫВАНИЕ)</option>
+              <option class="service-small" value="sort3">Наименование документа(ВОЗРАСТАНИЕ) Дата извещения об изменении(УБЫВАНИЕ)</option>
+              <option class="service-small" value="sort4">Номер изменения(УБЫВАНИЕ) Обозначение и код документа(ВОЗРАСТАНИЕ)</option>
+              <option class="service-small" value="sort5">Дата извещения об изменении(УБЫВАНИЕ) Обозначение и код документа(ВОЗРАСТАНИЕ)</option>
+        </select>
+        </form></h3>
+    </head>
+
     <style type="text/css">
-body {
-  font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto,
+
+    head {
+    font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto,
     Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
-  line-height: 1.4;
-  /*   line-height: 1.5; */
-  /*   letter-spacing: 0.12em; */
-  /*   word-spacing: 0.16em; */
-}
+    line-height: 1.0;
+    /*   line-height: 1.5; */
+    /*   letter-spacing: 0.12em; */
+    /*   word-spacing: 0.16em; */
+    }
 
-/*-- forms --*/
 
-form {
-  background-color: #fff;
-  padding: 0.5em 1em;
-  display: grid;
-  grid-template-columns: repeat(2, [col] 1fr);
-}
 
-fieldset {
-  padding: 0 1em;
-  margin: 0 0.5em 1em 0.5em;
-}
+    body {
+    font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto,
+    Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+    line-height: 1.1;
+    /*   line-height: 1.5; */
+    /*   letter-spacing: 0.12em; */
+    /*   word-spacing: 0.16em; */
+    }
 
-fieldset:nth-child(2) {
-  line-height: 1.8;
-  letter-spacing: 0.12em;
-  word-spacing: 0.16em;
-  font-size: 110%;
-}
+    /*-- forms --*/
 
-form details div {
-  display: inline-block;
-  margin: 0.25em;
-}
+    form {
+    background-color: #fff;
+    /* padding: 0.5em 1em; */
+    display: grid;
+    grid-template-columns: repeat(2, [col] 1fr);
+    }
 
-form div {
-  box-sizing: border-box;
-  margin: 1em 0;
-}
+    fieldset {
+    padding: 0 1em;
+    margin: 0 0.5em 1em 0.5em;
+    }
 
-label {
-  display: block;
-  margin: 0.25em 0;
-}
+    fieldset:nth-child(2) {
+    line-height: 1.8;
+    letter-spacing: 0.12em;
+    word-spacing: 0.16em;
+    font-size: 110%;
+    }
 
-select {
-  font: inherit;
-  letter-spacing: inherit;
-  word-spacing: inherit;
-}
+    form details div {
+    display: inline-block;
+    margin: 0.25em;
+    }
+
+    form div {
+    box-sizing: border-box;
+    margin: 1em 0;
+    }
+
+    label {
+    display: block;
+    margin: 0.25em 0;
+    }
+
+    select {
+    font: inherit;
+    letter-spacing: inherit;
+    word-spacing: inherit;
+    }
     </style>
 
- 
-
-<body>
-<section class="sticky">
-    <h1 align="center"> АРХИВ КОНСТРУКТОРСКОЙ ДОКУМЕНТАЦИИ  (ТЕСТОВАЯ ВЕРСИЯ)</h1>
-      <script src="text_from_file.js" ></script>
-      <h2 align="center"><script>loadFile('content_for_web/date');</script><div id="main"></div></h2>
-</section>
-<h3><form>
-  <label align="right" for="sort">  Сортировка по:&emsp; </label>
-  <select id="sort" name="sort" onchange="handleSortChange()">
-        <option class="service-small" value="sort1">Обозначение и код документа(ВОЗРАСТАНИЕ)</option>
-        <option class="service-small" value="sort2">Наименование изделия(ВОЗРАСТАНИЕ) Дата извещения об изменении(УБЫВАНИЕ)</option>
-        <option class="service-small" value="sort3">Наименование документа(ВОЗРАСТАНИЕ) Дата извещения об изменении(УБЫВАНИЕ)</option>
-        <option class="service-small" value="sort4">Номер изменения(УБЫВАНИЕ) Обозначение и код документа(ВОЗРАСТАНИЕ)</option>
-        <option class="service-small" value="sort5">Дата извещения об изменении(УБЫВАНИЕ) Обозначение и код документа(ВОЗРАСТАНИЕ)</option>
-  </select>
-</form></h3>
-<script src="table.js" ></script>
-</body>
+    <body>
+        <script src="table.js" ></script>
+    </body>
 </html>
 
 
