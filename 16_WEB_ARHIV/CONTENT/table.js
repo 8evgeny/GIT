@@ -137,6 +137,7 @@ function createTable() {
             row.onloadend = function() {
                 if (row.readyState === 4) {
                     rowData = row.responseText.toString().split('\n');
+//                    console.log("%s\n", rowData[7]);
                 }
             }
             row.send(null);
