@@ -174,21 +174,11 @@ function createTable() {
             row.send(null);
         }
 
-
-
-
-
-if ((creator === "all")||
-    (creator === "creator1" && rowData[7] === "Василенков")||
-    (creator === "creator2" && rowData[7] === "Молчанов")||
-    (creator === "creator3" && rowData[7] === "Потапов")||
-    (creator === "creator4" && rowData[7] === "Давыдов")||
-    (creator === "creator5" && rowData[7] === "Пяткин")||
-    (creator === "creator6" && rowData[7] === "Соколов")
-    ){
+if (i === 0) { // Шапка таблицы
         tr = tbl.insertRow();
-        for (let j = 0; j < 8; j++) {
-            if (i === 0) { // Шапка таблицы
+        let j;
+        for (j = 0; j < 8; j++) {
+
                 const td = tr.insertCell();
                 tr.style.height = '80px';
                 td.style.border = '1px solid black';
@@ -230,10 +220,23 @@ if ((creator === "all")||
                         td.style.width = '270px';
                         td.appendChild(document.createTextNode(`Информационно - удостоверяющий лист`));
                         break;
-                }
-            } // Шапка таблицы  if (i == 0)
+            }
+       }
+  }
 
-            if (i !== 0) { //Остальная таблица
+if (i > 0) {
+if ((creator === "all")||
+    (creator === "creator1" && rowData[7] === "Василенков")||
+    (creator === "creator2" && rowData[7] === "Молчанов")||
+    (creator === "creator3" && rowData[7] === "Потапов")||
+    (creator === "creator4" && rowData[7] === "Давыдов")||
+    (creator === "creator5" && rowData[7] === "Пяткин")||
+    (creator === "creator6" && rowData[7] === "Соколов")
+    ) {
+        tr = tbl.insertRow();
+
+        for (let j = 0; j < 8; j++) {
+
                 const td = tr.insertCell();
                 td.style.border = '1px solid black';
                 td.style.padding = '10px';
@@ -300,10 +303,9 @@ if ((creator === "all")||
                         td.appendChild(orderList);
                         break;
                 }
-            }
-    }//if выбор разработчика
-        } //Заполнение столбцов  for (let j = 0; j < 8; j++)
-
+         }
+    }
+}
     } //Строки
     document.body.appendChild(tbl);
 
