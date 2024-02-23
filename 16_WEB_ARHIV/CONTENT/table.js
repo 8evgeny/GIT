@@ -31,6 +31,7 @@ var rule_arr3;
 var rule_arr4;
 var rule_arr5;
 var rowData;
+var creator;
 //var reqTableSize = new XMLHttpRequest();
 
 //Правила сортировки - соответствуют файлам с порядком папок и данными по строкам
@@ -65,6 +66,36 @@ rule_arr = rule_arr1;
 
 newTable();
 handleSortChange();
+handleCreator();
+
+
+function handleCreator() {
+    selectElement = document.getElementById('creator');
+    selectedCreator = selectElement.value;
+    switch (selectedCreator) {
+        case "creatorAll":
+            creator = "all";
+            break;
+        case "creator1":
+            creator = "creator1";
+            break;
+        case "creator2":
+            creator = "creator2";
+            break;
+        case "creator3":
+            creator = "creator3";
+            break;
+        case "creator4":
+            creator = "creator4";
+            break;
+        case "creator5":
+            creator = "creator5";
+            break;
+    }
+    delTable();
+    newTable();
+    createTable();
+}
 
 function handleSortChange() {
     selectElement = document.getElementById('sort');
@@ -137,16 +168,12 @@ function createTable() {
             row.onloadend = function() {
                 if (row.readyState === 4) {
                     rowData = row.responseText.toString().split('\n');
-//                    console.log("%s\n", rowData[7]);
+//console.log("%s\n", rowData[7]);
                 }
             }
             row.send(null);
         }
-        function fillRow() {
-            if (row.readyState === 4) {
-                rowData = row.responseText.toString().split('\n');
-            }
-        }
+
         tr = tbl.insertRow();
         for (let j = 0; j < 8; j++) {
             if (i === 0) { // Шапка таблицы
@@ -193,7 +220,14 @@ function createTable() {
                         break;
                 }
             } // Шапка таблицы  if (i == 0)
-
+if ((creator === "all")||
+    (creator === "creator1" && rowData[7] === "Василенков")||
+    (creator === "creator2" && rowData[7] === "Молчанов")||
+    (creator === "creator3" && rowData[7] === "Потапов")||
+    (creator === "creator4" && rowData[7] === "Давыдов")||
+    (creator === "creator5" && rowData[7] === "Пяткин")||
+    (creator === "creator6" && rowData[7] === "Соколов")
+    ){
             if (i !== 0) { //Остальная таблица
                 const td = tr.insertCell();
                 td.style.border = '1px solid black';
@@ -262,6 +296,7 @@ function createTable() {
                         break;
                 }
             }
+    }//if выбор разработчика
         } //Заполнение столбцов  for (let j = 0; j < 8; j++)
 
     } //Строки
