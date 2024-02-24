@@ -33,8 +33,7 @@ var rule_arr5;
 var rowData;
 var creator;
 var numRow;
-var x;
-var y;
+var footer;
 //var reqTableSize = new XMLHttpRequest();
 
 //Правила сортировки - соответствуют файлам с порядком папок и данными по строкам
@@ -155,21 +154,19 @@ function handleSortChange() {
 }
 
 var tbl;
-//var tblBody;
 function newTable(){
     tbl = document.createElement("table");
-//    tblBody = document.createElement("tbody");
     tbl.style.margin = 'auto';
     tbl.style.width = '1800px';
     tbl.style.border = '1px solid black';
 }
-var body;
+
 function createFooter() {
     console.log ("createFooter");
-     body = document.createElement("h1");        // создаем заголовок <h1>
-    const  headerText = document.createTextNode("Hello World"); // создаем текстовый узел
-    body.appendChild( headerText); // добавляем в элемент h1 текстовый узел
-    document.body.appendChild(body);
+     footer = document.createElement("p");        // создаем заголовок <h1>
+    const  headerText = document.createTextNode("Created in GIT NIOKR, programmer Evgeny Parubets"); // создаем текстовый узел
+    footer.appendChild( headerText); // добавляем в элемент h1 текстовый узел
+    document.body.appendChild(footer);
 
 }
 
@@ -347,7 +344,7 @@ if ((creator === "all")||
 }
     } //Строки
     document.body.appendChild(tbl);
-    document.body.insertBefore(tbl, body);
+    document.body.insertBefore(tbl, footer);
 
 
 

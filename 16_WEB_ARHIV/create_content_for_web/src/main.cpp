@@ -216,7 +216,7 @@ int main(int argc, char *argv[])
 //Формирую строку с датой: Сводный перечень документов на хранении по состоянию на ____
     QFile fdate((WEB_content + "/" + "date").c_str());
     fdate.open(QIODevice::WriteOnly);
-    string date = "Сводный перечень документов на хранении по состоянию на ";
+    string date = "АРХИВ КОНСТРУКТОРСКОЙ ДОКУМЕНТАЦИИ НИОКР на ";
     date.append(currentDateTime());
     fdate.write(date.c_str());
     fdate.close();
