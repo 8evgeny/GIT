@@ -70,6 +70,7 @@ rule_arr = rule_arr1;
 newTable();
 //handleSortChange(); // Это лишнее - таблица лишний раз формируется
 handleCreator();
+createFooter();
 
 function handleCreator() {
     selectElement = document.getElementById('creator');
@@ -162,26 +163,20 @@ function newTable(){
     tbl.style.width = '1800px';
     tbl.style.border = '1px solid black';
 }
-
+var body;
 function createFooter() {
     console.log ("createFooter");
-//    x = document.createElement("FOOTER");
-//    x.setAttribute("id", "myFooter");
-//    document.body.appendChild(x);
+     body = document.createElement("h1");        // создаем заголовок <h1>
+    const  headerText = document.createTextNode("Hello World"); // создаем текстовый узел
+    body.appendChild( headerText); // добавляем в элемент h1 текстовый узел
+    document.body.appendChild(body);
 
-    y = document.createElement("P");
-    var t = document.createTextNode("This is a p element in a footer element.");
-    y.appendChild(t);
-
-//    document.getElementById("myFooter").appendChild(y);
-    document.body.appendChild(y);
 }
 
-function deleteFooter() {
-    console.log ("deleteFooter");
-     var z = document.getElementById("myFooter");
-    document.body.removeChild(y);
-}
+//function deleteFooter() {
+//    console.log ("deleteFooter");
+
+//}
 
 function delTable(){
 //    deleteFooter();
@@ -352,8 +347,9 @@ if ((creator === "all")||
 }
     } //Строки
     document.body.appendChild(tbl);
+    document.body.insertBefore(tbl, body);
 
-    createFooter();
+
 
 } //function createTable()
 
