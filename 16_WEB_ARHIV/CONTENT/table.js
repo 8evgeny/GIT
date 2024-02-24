@@ -33,6 +33,8 @@ var rule_arr5;
 var rowData;
 var creator;
 var numRow;
+var x;
+var y;
 //var reqTableSize = new XMLHttpRequest();
 
 //Правила сортировки - соответствуют файлам с порядком папок и данными по строкам
@@ -152,24 +154,46 @@ function handleSortChange() {
 }
 
 var tbl;
-var tblBody;
+//var tblBody;
 function newTable(){
     tbl = document.createElement("table");
-    tblBody = document.createElement("tbody");
+//    tblBody = document.createElement("tbody");
     tbl.style.margin = 'auto';
     tbl.style.width = '1800px';
     tbl.style.border = '1px solid black';
 }
 
-function delTable(){
-    tbl.remove();
+function createFooter() {
+    console.log ("createFooter");
+//    x = document.createElement("FOOTER");
+//    x.setAttribute("id", "myFooter");
+//    document.body.appendChild(x);
+
+    y = document.createElement("P");
+    var t = document.createTextNode("This is a p element in a footer element.");
+    y.appendChild(t);
+
+//    document.getElementById("myFooter").appendChild(y);
+    document.body.appendChild(y);
 }
 
+function deleteFooter() {
+    console.log ("deleteFooter");
+     var z = document.getElementById("myFooter");
+    document.body.removeChild(y);
+}
+
+function delTable(){
+//    deleteFooter();
+    tbl.remove();
+
+}
 
 function createTable() {
     numberDoc = rule_arr.length;
     let numFolder
     numRow = 0;
+
 //    for (let i = 0; i < numberDoc; i++) {
 //        console.log("%s\n", rule_arr[i]);
 //    }
@@ -328,7 +352,8 @@ if ((creator === "all")||
 }
     } //Строки
     document.body.appendChild(tbl);
-    console.log ("Done");
+
+    createFooter();
 
 } //function createTable()
 
