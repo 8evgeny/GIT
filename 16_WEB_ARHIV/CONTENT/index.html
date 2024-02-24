@@ -7,9 +7,9 @@
         <script src="text_from_file.js" ></script>
         <h2 align="center"><script>loadFile('content_for_web/date');</script><div id="main"></div></h2>
         <h3><form>
-        <label align="right" for="sort">  Сортировка по:&emsp; </label>
+<!--        <label align="left" for="sort">  Сортировка по:&emsp; </label>-->
         <select id="sort" name="sort" onchange="handleSortChange()">
-              <option class="service-small" value="sort1">Обозначение и код документа(ВОЗРАСТАНИЕ)</option>
+              <option class="service-small" value="sort1">Сортировка по: Обозначение и код документа(ВОЗРАСТАНИЕ)</option>
               <option class="service-small" value="sort2">Наименование изделия(ВОЗРАСТАНИЕ) Дата извещения об изменении(УБЫВАНИЕ)</option>
               <option class="service-small" value="sort3">Наименование документа(ВОЗРАСТАНИЕ) Дата извещения об изменении(УБЫВАНИЕ)</option>
               <option class="service-small" value="sort4">Номер изменения(УБЫВАНИЕ) Обозначение и код документа(ВОЗРАСТАНИЕ)</option>
@@ -17,9 +17,9 @@
         </select>
         </form></h3>
         <h3><form>
-        <label align="right" for="creator">  Разработчик документа:&emsp; </label>
+<!--        <label align="left" for="creator">  Разработчик документа:&emsp; </label>-->
         <select id="creator" name="creator" onchange="handleCreator()">
-              <option class="service-small" value="creatorAll">Все разработчики</option>
+              <option class="service-small" value="creatorAll">Показать документы всех разработчиков</option>
               <option class="service-small" value="creator1">Василенков</option>
               <option class="service-small" value="creator2">Молчанов</option>
               <option class="service-small" value="creator3">Потапов</option>
@@ -61,8 +61,8 @@
     form {
     background-color: #fff;
     /* padding: 0.5em 1em; */
-    display: grid;
-    grid-template-columns: repeat(2, [col] 1fr);
+    /* display: grid; */
+    /* grid-template-columns: repeat(2, [col] 1fr); */
     }
 
     fieldset {
