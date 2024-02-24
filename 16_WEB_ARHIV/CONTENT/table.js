@@ -32,6 +32,7 @@ var rule_arr4;
 var rule_arr5;
 var rowData;
 var creator;
+var numRow;
 //var reqTableSize = new XMLHttpRequest();
 
 //Правила сортировки - соответствуют файлам с порядком папок и данными по строкам
@@ -90,6 +91,21 @@ function handleCreator() {
             break;
         case "creator5":
             creator = "creator5";
+            break;
+        case "creator6":
+            creator = "creator6";
+            break;
+        case "creator7":
+            creator = "creator7";
+            break;
+        case "creator8":
+            creator = "creator8";
+            break;
+        case "creator9":
+            creator = "creator9";
+            break;
+        case "creator10":
+            creator = "creator10";
             break;
     }
     delTable();
@@ -154,7 +170,7 @@ function delTable(){
 function createTable() {
     numberDoc = rule_arr.length;
     let numFolder
-
+    numRow = 0;
 //    for (let i = 0; i < numberDoc; i++) {
 //        console.log("%s\n", rule_arr[i]);
 //    }
@@ -231,10 +247,14 @@ if ((creator === "all")||
     (creator === "creator3" && rowData[7] === "Потапов")||
     (creator === "creator4" && rowData[7] === "Давыдов")||
     (creator === "creator5" && rowData[7] === "Пяткин")||
-    (creator === "creator6" && rowData[7] === "Соколов")
+    (creator === "creator6" && rowData[7] === "Соколов")||
+    (creator === "creator7" && rowData[7] === "Солдатов")||
+    (creator === "creator8" && rowData[7] === "Суриков")||
+    (creator === "creator9" && rowData[7] === "Белоконев")||
+    (creator === "creator10" && rowData[7] === "Парубец")
     ) {
         tr = tbl.insertRow();
-
+        ++numRow;
         for (let j = 0; j < 8; j++) {
 
                 const td = tr.insertCell();
@@ -243,7 +263,7 @@ if ((creator === "all")||
                 td.style.fontSize = '18px';
                 switch (j) {
                     case 0:
-                        td.appendChild(document.createTextNode(i));
+                        td.appendChild(document.createTextNode(numRow));
                         td.style.fontWeight = 'bold';
                         td.style.textAlign = "center";
                         td.style.width = '40px';
