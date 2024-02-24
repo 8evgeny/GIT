@@ -40,7 +40,7 @@ var numRow;
 // rule_naimenovanieizdeliya ASC, notificationdatastr DESC          ruleSort_2
 // rule_naimenovaniedokumenta ASC, notificationdatastr DESC         ruleSort_3
 // rule_changenumstr DESC, oboznachenieikoddokumenta ASC            ruleSort_4
-// rule_notificationdatastr DESC, oboznachenieikoddokumenta ASC     ruleSort_1
+// rule_notificationdatastr DESC, oboznachenieikoddokumenta ASC     ruleSort_5
 
 let reqSortRule1 = new XMLHttpRequest();
 reqSortRule1.open('get', 'content_for_web/ruleSort_1', false);
@@ -66,9 +66,8 @@ rule_arr5 = reqSortRule5.responseText.split('\n');
 rule_arr = rule_arr1;
 
 newTable();
-handleSortChange();
+//handleSortChange(); // Это лишнее - таблица лишний раз формируется
 handleCreator();
-
 
 function handleCreator() {
     selectElement = document.getElementById('creator');
@@ -240,18 +239,19 @@ if (i === 0) { // Шапка таблицы
        }
   }
 
+
 if (i > 0) {
 if ((creator === "all")||
-    (creator === "creator1" && rowData[7] === "Василенков")||
-    (creator === "creator2" && rowData[7] === "Молчанов")||
-    (creator === "creator3" && rowData[7] === "Потапов")||
-    (creator === "creator4" && rowData[7] === "Давыдов")||
-    (creator === "creator5" && rowData[7] === "Пяткин")||
-    (creator === "creator6" && rowData[7] === "Соколов")||
-    (creator === "creator7" && rowData[7] === "Солдатов")||
-    (creator === "creator8" && rowData[7] === "Суриков")||
-    (creator === "creator9" && rowData[7] === "Белоконев")||
-    (creator === "creator10" && rowData[7] === "Парубец")
+    (creator === "creator1" && rowData[7].startsWith("Василенков")) ||
+    (creator === "creator2" && rowData[7].startsWith("Молчанов"))   ||
+    (creator === "creator3" && rowData[7].startsWith("Потапов"))    ||
+    (creator === "creator4" && rowData[7].startsWith("Давыдов"))    ||
+    (creator === "creator5" && rowData[7].startsWith("Пяткин"))     ||
+    (creator === "creator6" && rowData[7].startsWith("Соколов"))    ||
+    (creator === "creator7" && rowData[7].startsWith("Солдатов"))   ||
+    (creator === "creator8" && rowData[7].startsWith("Суриков"))    ||
+    (creator === "creator9" && rowData[7].startsWith("Белоконев"))  ||
+    (creator === "creator10" && rowData[7].startsWith("Парубец"))
     ) {
         tr = tbl.insertRow();
         ++numRow;
@@ -328,8 +328,9 @@ if ((creator === "all")||
 }
     } //Строки
     document.body.appendChild(tbl);
+    console.log ("Done");
 
 } //function createTable()
 
 
-// console.log ("Done");
+
