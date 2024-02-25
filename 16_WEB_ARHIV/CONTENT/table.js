@@ -102,12 +102,6 @@ function handleCreator() {
         case "creator8":
             creator = "creator8";
             break;
-        case "creator9":
-            creator = "creator9";
-            break;
-        case "creator10":
-            creator = "creator10";
-            break;
     }
     delTable();
     newTable();
@@ -265,9 +259,7 @@ if ((creator === "all")||
     (creator === "creator5" && rowData[7].startsWith("Пяткин"))     ||
     (creator === "creator6" && rowData[7].startsWith("Соколов"))    ||
     (creator === "creator7" && rowData[7].startsWith("Солдатов"))   ||
-    (creator === "creator8" && rowData[7].startsWith("Суриков"))    ||
-    (creator === "creator9" && rowData[7].startsWith("Белоконев"))  ||
-    (creator === "creator10" && rowData[7].startsWith("Парубец"))
+    (creator === "creator8" && rowData[7].startsWith("Суриков"))
     ) {
         tr = tbl.insertRow();
         ++numRow;
