@@ -1,6 +1,17 @@
 #!/usr/bin/bash
-docker run -it --rm -d -p 8888:80 --name web -v /home/evg/16_WEB_ARHIV/CONTENT:/usr/share/nginx/html nginx
-docker run --name=createwebcontent -v /etc/timezone:/etc/timezone:ro -v /etc/localtime:/etc/localtime:ro -v /home/evg/WG/Ниокр-Актуальные\ документы:/home/evg/SOFT/Github/GIT/16_WEB_ARHIV/NIOKR_aktual_DOC -v /home/evg/WG/Ниокр-Документы\ по\ обозначениям:/home/evg/SOFT/Github/GIT/16_WEB_ARHIV/NIOKR_IUL -v /home/evg/WG/Ниокр-Извещения\ об\ изменении:/home/evg/SOFT/Github/GIT/16_WEB_ARHIV/NIOKR_messages -v /home/evg/WG/Ниокр-Неактуальные\ документы:/home/evg/SOFT/Github/GIT/16_WEB_ARHIV/NIOKR_old_DOC 8evgeny/createwebcontent
-docker cp createwebcontent:/home/evg/SOFT/Github/GIT/16_WEB_ARHIV/CONTENT /home/evg/16_WEB_ARHIV 
-docker stop  createwebcontent
-docker rm  createwebcontent
+
+#docker run -it --rm -d -p 8888:80 --name web -v /home/evg/16_WEB_ARHIV/CONTENT:/usr/share/nginx/html nginx
+#docker run --name=createwebcontent --links postgres -v /etc/timezone:/etc/timezone:ro -v /etc/localtime:/etc/localtime:ro -v /home/evg/WG/Ниокр-Актуальные\ документы:/home/evg/SOFT/Github/GIT/16_WEB_ARHIV/NIOKR_aktual_DOC -v /home/evg/WG/Ниокр-Документы\ по\ обозначениям:/home/evg/SOFT/Github/GIT/16_WEB_ARHIV/NIOKR_IUL -v /home/evg/WG/Ниокр-Извещения\ об\ изменении:/home/evg/SOFT/Github/GIT/16_WEB_ARHIV/NIOKR_messages -v /home/evg/WG/Ниокр-Неактуальные\ документы:/home/evg/SOFT/Github/GIT/16_WEB_ARHIV/NIOKR_old_DOC 8evgeny/createwebcontent
+#docker cp createwebcontent:/home/evg/SOFT/Github/GIT/16_WEB_ARHIV/CONTENT /home/evg/16_WEB_ARHIV 
+#docker stop  createwebcontent
+#docker rm  createwebcontent
+
+
+cp -fr ~/WG/Ниокр-Актуальные\ документы/* ~/SOFT/Github/GIT/16_WEB_ARHIV/NIOKR_aktual_DOC
+cp -fr ~/WG/Ниокр-Документы\ по\ обозначениям/* ~/SOFT/Github/GIT/16_WEB_ARHIV/NIOKR_IUL
+cp -fr ~/WG/Ниокр-Извещения\ об\ изменении/* ~/SOFT/Github/GIT/16_WEB_ARHIV/NIOKR_messages
+cp -fr ~/WG/Ниокр-Неактуальные\ документы/* ~/SOFT/Github/GIT/16_WEB_ARHIV/NIOKR_old_DOC
+
+cd ~/SOFT/Github/GIT/16_WEB_ARHIV/create_content_for_web/build/bin
+./creater_web_content /home/evg/SOFT/Github/GIT/16_WEB_ARHIV/NIOKR_aktual_DOC
+#docker run -it --rm -d -p 8888:80 --name web -v /home/evg/SOFT/Github/GIT/16_WEB_ARHIV/CONTENT:/usr/share/nginx/html nginx
