@@ -431,7 +431,16 @@ if (printDebug) cout<<"2"<<endl;
 
 //3. Переименовываю актуальный zip файл
 if (printDebug) cout<<"3"<<endl;
-    string tmp2 = oboznachenieIkodDokumenta + ".zip";
+string tmp2;
+if ((mainFileSyff == mainFileSyffix::PDF)|| (mainFileSyff == mainFileSyffix::pdf)){
+    tmp2 = oboznachenieIkodDokumenta + ".zip";
+}
+if ((mainFileSyff != mainFileSyffix::PDF) && (mainFileSyff != mainFileSyffix::pdf)){
+    //В пути заменяю ГРЛМ  на  GRLM (главный файл zip и любой другой но не pdf PDF)
+    string tmp = oboznachenieIkodDokumenta;
+    tmp.replace(0, 8, "GRLM");
+    tmp2 = tmp + ".zip";
+}
     tmp2 = addDoubleQuotesToName(tmp2);
     string tmp3 = oboznachenieIkodDokumenta + ".изм" + changeNumStr + ".zip";
     tmp3 = addDoubleQuotesToName(tmp3);
@@ -586,6 +595,9 @@ if (printDebug) cout<<"8"<<endl;
     }
     if (nameMainFile.toStdString().ends_with("PDF")){
         tmp6 = QString::fromStdString(tmp5).chopped(11)+"\""+QString("/Contents/")+QString::fromStdString(tmp4.append(".PDF\""));
+    }
+    if (nameMainFile.toStdString().ends_with("zip")){
+        tmp6 = QString::fromStdString(tmp5).chopped(11)+"\""+QString("/Contents/")+QString::fromStdString(tmp4.append(".zip\""));
     }
     string tmp7 = tmp6.toStdString();
     tmp7.insert(11,"\"");
