@@ -579,8 +579,16 @@ if (printDebug) cout<<"7"<<endl;
         ba.append(QString::fromStdString(content[i]));
         ba.append('\n');
     }
-ba.append(QString::fromStdString(content[10])); //creater
-ba.append('\n');
+    ba.append(QString::fromStdString(content[10])); //creator
+    ba.append('\n');
+    //Добавляю расширение основного файла (pdf  zip  ...)
+    if ((mainFileSyff == mainFileSyffix::PDF)||(mainFileSyff == mainFileSyffix::pdf)){
+        ba.append("PDF");
+    }
+    if (mainFileSyff == mainFileSyffix::zip){
+        ba.append("zip");
+    }
+    ba.append('\n');
     fout.write(ba);
     fout.close();
 
