@@ -284,7 +284,7 @@ if ((creator === "all")||
                         oboznIkodDoc.style.textDecoration = "none";
                         oboznIkodDoc.appendChild(linkObozn);
                         oboznIkodDoc.title = rowData[0];
-                        oboznIkodDoc.href = 'content_for_web/' + `${numFolder}` + '/' + `${rowData[0]}` + '.PDF';
+                        oboznIkodDoc.href = 'content_for_web/' + `${numFolder}` + '/' + `${rowData[0]}` + '.' + `${rowData[8]}`;
                         td.appendChild(oboznIkodDoc);
                         //Загрузка контента как файла
                         //download('content_for_web/'+`${i}`+'/' + `${rowData[0]}` + '.PDF',`${rowData[0]}`+ '.pdf');
