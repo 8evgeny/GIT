@@ -14,6 +14,12 @@
 using namespace pqxx;
 #endif
 
+enum mainFileSyffix{
+    PDF,
+    pdf,
+    zip
+};
+
 #define BUFSIZE 300000
 
 using namespace rapidjson;

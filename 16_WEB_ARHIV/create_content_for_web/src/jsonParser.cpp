@@ -2,8 +2,8 @@
 extern string WEB_content;
 extern uint numZipFiles;
 extern uint numFolderForWebContent;
-QString namePDF;
-bool namePDFlettersBig = true;
+QString nameMainFile;
+bool nameMainFilelettersBig = true;
 extern bool printDebug;
 extern int errorParsingJson;
 extern string nameFileForDeleteIfJsonNoGood;
@@ -109,13 +109,13 @@ bool parseJSON(string & patchToFile, const path & archiv_path_zip){ //archiv_pat
       //вычисляем CRC32 PDF файла
       string appPdf = oboznachenieIkodDokumenta;
       string chopped = patchToFile;
-      namePDF = QString::fromStdString(chopped).chopped(10)+QString("Contents/")+QString::fromStdString(appPdf.append(".PDF"));
+      nameMainFile = QString::fromStdString(chopped).chopped(10)+QString("Contents/")+QString::fromStdString(appPdf.append(".PDF"));
 #ifdef printJson
       QString directoryPDF = QString::fromStdString(chopped).chopped(10)+QString("Contents/");
       string printDir = "ls -l " + directoryPDF.toStdString();
       system(printDir.c_str());
 #endif
-      crc32 = CRC32(namePDF);
+      crc32 = CRC32(nameMainFile);
 #ifdef printJson
       cout << "\tОбозначение и код документа: " << oboznachenieIkodDokumenta ;
 #endif
@@ -551,10 +551,10 @@ if (printDebug) cout<<"8"<<endl;
     string tmp4 = "\"" + oboznachenieIkodDokumenta ;
     string tmp5 = patchToFile;
     QString tmp6;
-    if (namePDF.toStdString().ends_with("pdf")){
+    if (nameMainFile.toStdString().ends_with("pdf")){
         tmp6 = QString::fromStdString(tmp5).chopped(11)+"\""+QString("/Contents/")+QString::fromStdString(tmp4.append(".pdf\""));
     }
-    if (namePDF.toStdString().ends_with("PDF")){
+    if (nameMainFile.toStdString().ends_with("PDF")){
         tmp6 = QString::fromStdString(tmp5).chopped(11)+"\""+QString("/Contents/")+QString::fromStdString(tmp4.append(".PDF\""));
     }
     string tmp7 = tmp6.toStdString();
@@ -562,7 +562,7 @@ if (printDebug) cout<<"8"<<endl;
     string copyPDF = "cp " + tmp7 + " " + WEB_content + to_string(numFolderForWebContent);
     system(copyPDF.c_str());
 
-    if (namePDF.toStdString().ends_with("pdf")){
+    if (nameMainFile.toStdString().ends_with("pdf")){
         string rename = "mv " + WEB_content + to_string(numFolderForWebContent) + "/\"" + oboznachenieIkodDokumenta + ".pdf\" " +
             WEB_content + to_string(numFolderForWebContent) + "/\"" + oboznachenieIkodDokumenta + ".PDF\"";
         system(rename.c_str());
@@ -576,7 +576,7 @@ if (printDebug) cout<<"9"<<endl;
     path_to_IUL.append("/../");
     path_to_IUL.append("NIOKR_IUL");
     string nameIulPDF;
-    if (namePDFlettersBig){
+    if (nameMainFilelettersBig){
         nameIulPDF = path_to_IUL + "/" + infoOrderList + ".PDF";
     }
     else{
@@ -584,7 +584,7 @@ if (printDebug) cout<<"9"<<endl;
     }
     string copyIulPDF = "cp " + nameIulPDF + " " + WEB_content + to_string(numFolderForWebContent);
     system(copyIulPDF.c_str());
-    if (!namePDFlettersBig){
+    if (!nameMainFilelettersBig){
         string renameIULPDF = "mv " + WEB_content + to_string(numFolderForWebContent) + "/\"" + infoOrderList + ".pdf\" " +
                 WEB_content + to_string(numFolderForWebContent) + "/\"" + infoOrderList + ".PDF\"";
         system(renameIULPDF.c_str());
@@ -606,7 +606,7 @@ if (printDebug) cout<<"11"<<endl;
     path_to_IZM.append("/../");
     path_to_IZM.append("NIOKR_messages");
     string nIZMPDF;
-    if (namePDFlettersBig){
+    if (nameMainFilelettersBig){
         nIZMPDF = path_to_IZM + "/" + changeNotificationNum + ".PDF";
     }
     else{
@@ -614,7 +614,7 @@ if (printDebug) cout<<"11"<<endl;
     }
     string copyIZMPDF = "cp " + nIZMPDF + " " + WEB_content + to_string(numFolderForWebContent);
     system(copyIZMPDF.c_str());
-    if (!namePDFlettersBig){
+    if (!nameMainFilelettersBig){
         string renameIZMPDF = "mv " + WEB_content + to_string(numFolderForWebContent) + "/" + changeNotificationNum + ".pdf " +
                 WEB_content + to_string(numFolderForWebContent) + "/" + changeNotificationNum + ".PDF";
         system(renameIZMPDF.c_str());
