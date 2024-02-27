@@ -85,23 +85,16 @@ quint32 CRC32(QString fileName)
     QString errMsg;
     QFileDevice::FileError err = QFileDevice::NoError;
      if(!file.open(QIODevice::ReadOnly)){
-        mainFileSyff = mainFileSyffix::pdf;
-//        nameMainFilelettersBig = false;
-         nameMainFile.chop(3);
-         nameMainFile.append("pdf");
          errMsg = file.errorString();
          err = file.error();
 #ifdef printJson
 //         qDebug()<<errMsg;
          cout<<"file suffix change PDF->pdf "<<endl;
 #endif
-              fileName.chop(3);
-              fileName.append("pdf");
-              file.setFileName(fileName);
+
 #ifdef printJson
               cout<<"calculate CRC32 for "<<fileName.toStdString()<<endl;
 #endif
-              if(!file.open(QIODevice::ReadOnly))
                   return -1;
     }
         else

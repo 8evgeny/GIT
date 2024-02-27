@@ -66,10 +66,10 @@ int main(int argc, char *argv[])
 #ifdef enablePOKO
     testPOCO_Psql();
 #endif
-    path archiv_path_zip{"/home/evg/Desktop/NIOKR_aktual_DOC"};
+//    path archiv_path_zip{"/home/evg/Desktop/NIOKR_aktual_DOC"};
 //    path archiv_path_zip{"/home/evg/tempArchiv/NIOKR_aktual_DOC"}; //Дома
 //    path archiv_path_zip{"/home/evg/SOFT/Github/GIT/16_WEB_ARHIV/NIOKR_aktual_DOC"}; //Для виртуалки
-//    path archiv_path_zip{"/home/evg/SOFT/Github/GIT/16_WEB_ARHIV/_TEST"};
+    path archiv_path_zip{"/home/evg/SOFT/Github/GIT/16_WEB_ARHIV/_TEST"};
 
     if (argc == 2){
         cout << "Передается в качестве параметра путь: "<< archiv_path_zip << endl;
