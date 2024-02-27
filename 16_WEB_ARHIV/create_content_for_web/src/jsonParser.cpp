@@ -3,7 +3,8 @@ extern string WEB_content;
 extern uint numZipFiles;
 extern uint numFolderForWebContent;
 QString nameMainFile;
-bool nameMainFilelettersBig = true;
+//bool nameMainFilelettersBig = true;
+int mainFileSyff = mainFileSyffix::PDF;
 extern bool printDebug;
 extern int errorParsingJson;
 extern string nameFileForDeleteIfJsonNoGood;
@@ -576,7 +577,7 @@ if (printDebug) cout<<"9"<<endl;
     path_to_IUL.append("/../");
     path_to_IUL.append("NIOKR_IUL");
     string nameIulPDF;
-    if (nameMainFilelettersBig){
+    if (mainFileSyff == mainFileSyffix::PDF){
         nameIulPDF = path_to_IUL + "/" + infoOrderList + ".PDF";
     }
     else{
@@ -584,7 +585,7 @@ if (printDebug) cout<<"9"<<endl;
     }
     string copyIulPDF = "cp " + nameIulPDF + " " + WEB_content + to_string(numFolderForWebContent);
     system(copyIulPDF.c_str());
-    if (!nameMainFilelettersBig){
+    if (mainFileSyff == mainFileSyffix::pdf){
         string renameIULPDF = "mv " + WEB_content + to_string(numFolderForWebContent) + "/\"" + infoOrderList + ".pdf\" " +
                 WEB_content + to_string(numFolderForWebContent) + "/\"" + infoOrderList + ".PDF\"";
         system(renameIULPDF.c_str());
@@ -606,7 +607,7 @@ if (printDebug) cout<<"11"<<endl;
     path_to_IZM.append("/../");
     path_to_IZM.append("NIOKR_messages");
     string nIZMPDF;
-    if (nameMainFilelettersBig){
+    if (mainFileSyff == mainFileSyffix::PDF){
         nIZMPDF = path_to_IZM + "/" + changeNotificationNum + ".PDF";
     }
     else{
@@ -614,7 +615,7 @@ if (printDebug) cout<<"11"<<endl;
     }
     string copyIZMPDF = "cp " + nIZMPDF + " " + WEB_content + to_string(numFolderForWebContent);
     system(copyIZMPDF.c_str());
-    if (!nameMainFilelettersBig){
+    if (mainFileSyff == mainFileSyffix::pdf){
         string renameIZMPDF = "mv " + WEB_content + to_string(numFolderForWebContent) + "/" + changeNotificationNum + ".pdf " +
                 WEB_content + to_string(numFolderForWebContent) + "/" + changeNotificationNum + ".PDF";
         system(renameIZMPDF.c_str());

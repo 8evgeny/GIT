@@ -1,7 +1,8 @@
 #include "main.h"
 #include <QDebug>
 extern QString nameMainFile;
-extern bool nameMainFilelettersBig;
+//extern bool nameMainFilelettersBig;
+extern int mainFileSyff;
 const quint32 CRC32Table[256] =
 {
     0x00000000, 0x77073096, 0xee0e612c, 0x990951ba,
@@ -84,7 +85,8 @@ quint32 CRC32(QString fileName)
     QString errMsg;
     QFileDevice::FileError err = QFileDevice::NoError;
      if(!file.open(QIODevice::ReadOnly)){
-        nameMainFilelettersBig = false;
+        mainFileSyff = mainFileSyffix::pdf;
+//        nameMainFilelettersBig = false;
          nameMainFile.chop(3);
          nameMainFile.append("pdf");
          errMsg = file.errorString();
