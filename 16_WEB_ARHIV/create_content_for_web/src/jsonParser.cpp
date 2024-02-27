@@ -412,7 +412,16 @@ if (printDebug) cout<<"1"<<endl;
 //2. Копирую актуальный zip файл
 if (printDebug) cout<<"2"<<endl;
     string fileCurrentZIP = archiv_path_zip;
-    fileCurrentZIP.append("/" + oboznachenieIkodDokumenta  + ".zip");
+//Тут проверяю тип файла
+    if ((mainFileSyff == mainFileSyffix::PDF)|| (mainFileSyff == mainFileSyffix::pdf)){
+        fileCurrentZIP.append("/" + oboznachenieIkodDokumenta  + ".zip");
+    }
+    if ((mainFileSyff != mainFileSyffix::PDF) && (mainFileSyff != mainFileSyffix::pdf)){
+//В пути заменяю ГРЛМ  на  GRLM (главный файл zip и любой другой но не pdf PDF)
+        string tmp = oboznachenieIkodDokumenta;
+        tmp.replace(0, 8, "GRLM");
+        fileCurrentZIP.append("/" + tmp  + ".zip");
+    }
     string tmp1 = fileCurrentZIP;
     auto pos1 = tmp1.find_last_of("/");
     tmp1.insert(pos1 + 1,"\"");
