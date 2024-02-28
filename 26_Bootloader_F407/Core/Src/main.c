@@ -22,7 +22,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "stdio.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -49,7 +49,14 @@ UART_HandleTypeDef huart6;
 DMA_HandleTypeDef hdma_usart6_tx;
 
 /* USER CODE BEGIN PV */
-
+int _write(int fd, char *str, int len)
+{
+    for(int i=0; i<len; i++)
+    {
+        HAL_UART_Transmit(&huart6, (uint8_t *)&str[i], 1, 0xFFFF);
+    }
+    return len;
+}
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -104,7 +111,7 @@ int main(void)
   MX_USART2_UART_Init();
   MX_CRC_Init();
   /* USER CODE BEGIN 2 */
-
+ printf("\r\n************************************************\r\n");
   /* USER CODE END 2 */
 
   /* Infinite loop */
