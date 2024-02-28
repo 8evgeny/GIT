@@ -155,15 +155,15 @@ int main(void)
   MX_IWDG_Init();
   MX_CRC_Init();
   /* USER CODE BEGIN 2 */
-
-  isSdCartOn();
-
+    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_2, GPIO_PIN_RESET);
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+      HAL_Delay(1000);
+    isSdCartOn();
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
