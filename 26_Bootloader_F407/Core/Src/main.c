@@ -193,8 +193,12 @@ int main(void)
         printf("on SD found new Firmware file (Bridge.bin) len = %d\r\n", lenFw);
     }
 
-
-
+    extern uint32_t * _sapp;
+    extern uint32_t * _eapp;
+    extern uint32_t * _smem;
+    printf("\r\nstart address APP:\t\t %p\r\n", (uint32_t*)&_sapp);
+    printf("end   address APP:\t\t %p\r\n", (uint32_t*)&_eapp);
+    printf("start address SHARED_MEMORY:\t %p\r\n", (uint32_t*)&_smem);
 
   /* USER CODE END 2 */
 
