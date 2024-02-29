@@ -95,3 +95,5 @@
 *.dwl2
 
 24_arhiv/.~lock.Docker.odt#
+
+26_Bootloader_F407/.settings/stm32cubeide.project.prefs
