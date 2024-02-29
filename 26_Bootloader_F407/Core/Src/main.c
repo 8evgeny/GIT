@@ -60,7 +60,36 @@ FIL file;
 //FIL gateIP;
 //FIL newFirmware;
 uint8_t sdCartOn = 1;
+extern uint32_t * _smem;
+extern uint32_t * _sapp;
+extern uint32_t * _eapp;
+#define FLASH_APP_START_ADDESS (uint32_t) & _sapp
+#define FLASH_APP_END_ADDRESS (uint32_t) & _eapp
+#define FLASH_MEM_ADDRESS (uint32_t) & _smem
 
+int fw_check(void)
+{
+    extern void* _estack; // Это из линкера, генерируется автоматически и указывает на конец RAM (или стек)
+    if (((*(uint32_t*) FLASH_APP_START_ADDESS) & 0x2FFF8000) != &_estack) // Проверка первого адреса прошивки, значение в нем должно быть размером RAM (регистр SP)
+        return -1;
+
+    return 0;
+}
+void fw_go2APP(void)
+{
+    uint32_t app_jump_address; // переменная для адреса прошивки
+
+    typedef void (*pFunction)(void); // объявляем пользовательский тип для функции которая запустит основную программу
+    pFunction Jump_To_Application;   // и создаём переменную/функцию этого типа
+
+    HAL_Delay(100);
+    __disable_irq(); // запрещаем прерывания
+
+    app_jump_address = *(uint32_t*) (FLASH_APP_START_ADDESS + 4);
+    Jump_To_Application = (pFunction) app_jump_address; // приводим его к пользовательскому типу
+    __set_MSP(*(uint32_t*) FLASH_APP_START_ADDESS); // устанавливаем SP приложения (он вероятнее всего не изменится)
+    Jump_To_Application(); // запускаем приложение
+}
 int _write(int fd, char *str, int len)
 {
     for(int i=0; i<len; i++)
@@ -193,12 +222,11 @@ int main(void)
         printf("on SD found new Firmware file (Bridge.bin) len = %d\r\n", lenFw);
     }
 
-    extern uint32_t * _sapp;
-    extern uint32_t * _eapp;
-    extern uint32_t * _smem;
-    printf("\r\nstart address APP:\t\t %p\r\n", (uint32_t*)&_sapp);
+    printf("\r\nstart address SHARED_MEMORY:\t %p\r\n", (uint32_t*)&_smem);
+    printf("start address APP:\t\t %p\r\n", (uint32_t*)&_sapp);
     printf("end   address APP:\t\t %p\r\n", (uint32_t*)&_eapp);
-    printf("start address SHARED_MEMORY:\t %p\r\n", (uint32_t*)&_smem);
+
+
 
   /* USER CODE END 2 */
 
