@@ -66,30 +66,79 @@ extern uint32_t * _eapp;
 #define FLASH_APP_START_ADDESS (uint32_t) & _sapp
 #define FLASH_APP_END_ADDRESS (uint32_t) & _eapp
 #define FLASH_MEM_ADDRESS (uint32_t) & _smem
+/* Function pointer for jumping to user application. */
+typedef void (*fnc_ptr)(void);
+
+#define APPLICATION_ADDRESS    0x08010000//адрес начала программы
+
+void flash_jump_to_app(void)
+{
+    printf("\r\nflash_jump_to_app\r\n");
+    /* Function pointer to the address of the user application. */
+    fnc_ptr jump_to_app;
+
+    jump_to_app = (fnc_ptr)(*(volatile uint32_t*) (APPLICATION_ADDRESS+4u));
+
+    //HAL_DeInit();
+    RCC->APB1RSTR = 0xFFFFFFFFU;
+    RCC->APB1RSTR = 0x00;
+    RCC->APB2RSTR = 0xFFFFFFFFU;
+    RCC->APB2RSTR = 0x00;
+
+    //SysTick DeInit
+    SysTick->CTRL=0;
+    SysTick->VAL=0;
+    SysTick->LOAD=0;
+
+    __disable_irq();
+
+    //NVIC DeInit
+    __set_BASEPRI(0);
+    __set_CONTROL(0);
+    NVIC->ICER[0]=0xFFFFFFFF;
+    NVIC->ICPR[0]=0xFFFFFFFF;
+    NVIC->ICER[1]=0xFFFFFFFF;
+    NVIC->ICPR[1]=0xFFFFFFFF;
+    NVIC->ICER[2]=0xFFFFFFFF;
+    NVIC->ICPR[2]=0xFFFFFFFF;
+
+    __enable_irq();
+
+    /* Change the main and local  stack pointer. */
+    __set_MSP(*(volatile uint32_t*)APPLICATION_ADDRESS);
+    SCB->VTOR=*(volatile uint32_t*)APPLICATION_ADDRESS;
+
+    jump_to_app();
+}
+
+
+void Go_To_User_App(void)
+{
+    printf("Go_To_User_App\r\n");
+    uint32_t app_jump_address;
+
+    typedef void(*pFunction)(void);//объявляем пользовательский тип
+    pFunction Jump_To_Application;//и создаём переменную этого типа
+
+    __disable_irq();//запрещаем прерывания
+
+    app_jump_address = *( uint32_t*) (APPLICATION_ADDRESS + 4);    //извлекаем адрес перехода из вектора Reset
+//    app_jump_address = 0x8015E20;
+    printf("app_jump_address: %X\r\n",app_jump_address);
+    Jump_To_Application = (pFunction)app_jump_address;            //приводим его к пользовательскому типу
+    __set_MSP(*(__IO uint32_t*) APPLICATION_ADDRESS);          //устанавливаем SP приложения
+    Jump_To_Application();		                        //запускаем приложение
+}
 
 int fw_check(void)
 {
     extern void* _estack; // Это из линкера, генерируется автоматически и указывает на конец RAM (или стек)
     if (((*(uint32_t*) FLASH_APP_START_ADDESS) & 0x2FFF8000) != &_estack) // Проверка первого адреса прошивки, значение в нем должно быть размером RAM (регистр SP)
         return -1;
-
+    printf("FW - OK\r\n");
     return 0;
 }
-void fw_go2APP(void)
-{
-    uint32_t app_jump_address; // переменная для адреса прошивки
 
-    typedef void (*pFunction)(void); // объявляем пользовательский тип для функции которая запустит основную программу
-    pFunction Jump_To_Application;   // и создаём переменную/функцию этого типа
-
-    HAL_Delay(100);
-    __disable_irq(); // запрещаем прерывания
-
-    app_jump_address = *(uint32_t*) (FLASH_APP_START_ADDESS + 4);
-    Jump_To_Application = (pFunction) app_jump_address; // приводим его к пользовательскому типу
-    __set_MSP(*(uint32_t*) FLASH_APP_START_ADDESS); // устанавливаем SP приложения (он вероятнее всего не изменится)
-    Jump_To_Application(); // запускаем приложение
-}
 int _write(int fd, char *str, int len)
 {
     for(int i=0; i<len; i++)
@@ -225,6 +274,15 @@ int main(void)
     printf("\r\nstart address SHARED_MEMORY:\t %p\r\n", (uint32_t*)&_smem);
     printf("start address APP:\t\t %p\r\n", (uint32_t*)&_sapp);
     printf("end   address APP:\t\t %p\r\n", (uint32_t*)&_eapp);
+    if (0 == fw_check()){
+        __set_PRIMASK(1); //запрещаем прерывания
+
+        SCB->VTOR = APPLICATION_ADDRESS;//переносим начало вектора прерываний по указанному адресу
+
+        __set_PRIMASK(0);//разрешаем прерывания
+
+        flash_jump_to_app();
+    }
 
 
 
