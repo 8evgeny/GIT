@@ -44,8 +44,6 @@ CRC_HandleTypeDef hcrc;
 
 I2C_HandleTypeDef hi2c1;
 
-IWDG_HandleTypeDef hiwdg;
-
 RNG_HandleTypeDef hrng;
 
 RTC_HandleTypeDef hrtc;
@@ -60,7 +58,11 @@ DMA_HandleTypeDef hdma_usart6_tx;
 
 /* USER CODE BEGIN PV */
 FATFS fs;
-FIL fil;
+FIL file;
+//FIL destIP;
+//FIL maskIP;
+//FIL gateIP;
+//FIL newFirmware;
 uint8_t sdCartOn = 1;
 
 int _write(int fd, char *str, int len)
@@ -71,24 +73,37 @@ int _write(int fd, char *str, int len)
     }
     return len;
 }
-void isSdCartOn()
-{
-    f_mount(&fs, "", 0);
-    FRESULT result = f_open(&fil, "host_IP", FA_OPEN_ALWAYS | FA_READ );
-
-    if (result == FR_OK)
-    {
-        printf("SD active\r\n");
+void isSdCartOn() {
+    FRESULT mount = f_mount(&fs, "", 0);
+    if (mount == FR_OK){
+        printf("\r\nSD mount OK\r\n");
     }
-    else
-    {
+    else {
         sdCartOn = 0;
-        HAL_GPIO_WritePin(GPIOD, GPIO_PIN_2, GPIO_PIN_SET);     //EEPROM SPI
-        HAL_GPIO_WritePin(GPIOE, GPIO_PIN_2, GPIO_PIN_RESET);   //SD
-        printf("not found SD\r\n");
+        printf("\r\nSD not mount\r\n");
     }
-    f_close(&fil);
 }
+void selectSD(){
+    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_2, GPIO_PIN_RESET);
+}
+FRESULT checkFileOnSD(FIL* fp, const TCHAR* path){
+    f_open(fp, path, FA_READ );
+    uint32_t numByte = fp->obj.objsize;
+    f_close(fp);
+    if (numByte > 0) {
+        return FR_OK;
+    }
+    else {
+        return FR_NO_FILE;
+    }
+}
+void checkFirmwareOnSD(FIL* fp, const TCHAR* path, uint32_t * numByte){
+    /*FRESULT open = */f_open(fp, path, FA_READ );
+//    printf("open: %d\r\n", open);
+     *numByte = fp->obj.objsize;
+    f_close(fp);
+}
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -103,7 +118,6 @@ static void MX_RNG_Init(void);
 static void MX_RTC_Init(void);
 static void MX_I2C1_Init(void);
 static void MX_USART2_UART_Init(void);
-static void MX_IWDG_Init(void);
 static void MX_CRC_Init(void);
 /* USER CODE BEGIN PFP */
 
@@ -152,18 +166,52 @@ int main(void)
   MX_RTC_Init();
   MX_I2C1_Init();
   MX_USART2_UART_Init();
-  MX_IWDG_Init();
   MX_CRC_Init();
   /* USER CODE BEGIN 2 */
-    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_2, GPIO_PIN_RESET);
+    selectSD();
+    isSdCartOn();
+
+    if (checkFileOnSD(&file,"host_IP") == FR_OK){
+        printf("on SD found file  host_IP\r\n");
+    } else { printf("on SD not found file  host_IP\r\n");}
+
+    if (checkFileOnSD(&file,"dest_IP") == FR_OK){
+        printf("on SD found file  dest_IP\r\n");
+    } else { printf("on SD not found file  dest_IP\r\n");}
+
+    if (checkFileOnSD(&file,"mask_IP") == FR_OK){
+        printf("on SD found file  mask_IP\r\n");
+    } else { printf("on SD not found file  mask_IP\r\n");}
+
+    if (checkFileOnSD(&file,"gate_IP") == FR_OK){
+        printf("on SD found file  gate_IP\r\n");
+    } else { printf("on SD not found file  gate_IP\r\n");}
+
+    if (checkFileOnSD(&file,"mac16") == FR_OK){
+        printf("on SD found file  mac16\r\n");
+    } else { printf("on SD not found file  mac16\r\n");}
+
+    if (checkFileOnSD(&file,"md5") == FR_OK){
+        printf("on SD found file  md5\r\n");
+    } else { printf("on SD not found file  md5\r\n");}
+
+    uint32_t lenFw;
+    checkFirmwareOnSD(&file, "Bridge.bin", &lenFw);
+    if(lenFw == 0){
+        printf("on SD not found new Firmware file (Bridge.bin)\r\n");
+    } else {
+        printf("on SD found new Firmware file (Bridge.bin) len = %d\r\n", lenFw);
+    }
+
+
+
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-      HAL_Delay(1000);
-    isSdCartOn();
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -273,34 +321,6 @@ static void MX_I2C1_Init(void)
   /* USER CODE BEGIN I2C1_Init 2 */
 
   /* USER CODE END I2C1_Init 2 */
-
-}
-
-/**
-  * @brief IWDG Initialization Function
-  * @param None
-  * @retval None
-  */
-static void MX_IWDG_Init(void)
-{
-
-  /* USER CODE BEGIN IWDG_Init 0 */
-
-  /* USER CODE END IWDG_Init 0 */
-
-  /* USER CODE BEGIN IWDG_Init 1 */
-
-  /* USER CODE END IWDG_Init 1 */
-  hiwdg.Instance = IWDG;
-  hiwdg.Init.Prescaler = IWDG_PRESCALER_128;
-  hiwdg.Init.Reload = 2000;
-  if (HAL_IWDG_Init(&hiwdg) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /* USER CODE BEGIN IWDG_Init 2 */
-
-  /* USER CODE END IWDG_Init 2 */
 
 }
 
