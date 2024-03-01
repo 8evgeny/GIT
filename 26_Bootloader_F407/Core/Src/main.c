@@ -134,21 +134,19 @@ void checkFirmwareOnSD(FIL* fp, const TCHAR* path, uint32_t * numByte){
 }
 void startUpdateFirmware(uint32_t len){
     printf("\r\n************* Start update Firmware ************\r\n");
-    HAL_FLASH_Unlock();
-    uint32_t PAGEError = 0;
-    FLASH_EraseInitTypeDef EraseInitStruct;
-    EraseInitStruct.TypeErase   = FLASH_TYPEERASE_SECTORS ;
-    EraseInitStruct.Sector   = FLASH_SECTOR_4;
-    EraseInitStruct.NbSectors   = 3;
-    EraseInitStruct.VoltageRange = FLASH_VOLTAGE_RANGE_3;
 
-    HAL_FLASH_Unlock();
-    __HAL_FLASH_CLEAR_FLAG(FLASH_FLAG_EOP | FLASH_FLAG_OPERR | FLASH_FLAG_WRPERR | FLASH_FLAG_PGAERR | FLASH_FLAG_PGPERR | FLASH_FLAG_PGSERR);
-    HAL_FLASHEx_Erase(&EraseInitStruct, &PAGEError);
-    while(FLASH_WaitForLastOperation(10000) != HAL_OK){};
+//    FLASH_EraseInitTypeDef EraseInitStruct;
+//    EraseInitStruct.TypeErase   = FLASH_TYPEERASE_SECTORS ;
+//    EraseInitStruct.Sector   = FLASH_SECTOR_4;
+//    EraseInitStruct.NbSectors   = 3;
+//    EraseInitStruct.VoltageRange = FLASH_VOLTAGE_RANGE_3;
+//    HAL_FLASH_Unlock();
+//    __HAL_FLASH_CLEAR_FLAG(FLASH_FLAG_EOP | FLASH_FLAG_OPERR | FLASH_FLAG_WRPERR | FLASH_FLAG_PGAERR | FLASH_FLAG_PGPERR | FLASH_FLAG_PGSERR);
+//    HAL_FLASHEx_Erase(&EraseInitStruct, &PAGEError);
+//    while(FLASH_WaitForLastOperation(10000) != HAL_OK){};
 //    HAL_FLASH_Program(FLASH_TYPEPROGRAM_BYTE, APP_ADDR , len);
 //    while(FLASH_WaitForLastOperation(10000) != HAL_OK){};
-    HAL_FLASH_Lock();
+//    HAL_FLASH_Lock();
 
 }
 
