@@ -58,7 +58,7 @@ static void update_and_run(func_t update) {
 }
 
 static void error(void) {
-    xprintf("error");
+    xprintf("error\r\n");
     for(;;);
 }
 
@@ -66,22 +66,22 @@ static void init(void) {
     NVIC_PriorityGroupConfig(NVIC_PriorityGroup_4);
 
     debug_init();
-    xprintf("debug initialized");
+    xprintf("\r\ndebug initialized\r\n");
 
     led_init();
-    xprintf("led initialized");
+    xprintf("led initialized\r\n");
 }
 
 static void deinit(void) {
     SD_LowLevel_DeInit();
-    xprintf("SD deinitialized");
+    xprintf("SD deinitialized\r\n");
 
     led_deinit();
-    xprintf("led deinitialized");
+    xprintf("led deinitialized\r\n");
 
     debug_deinit();
 }
 
 void assert_failed(uint8_t* file, uint32_t line) {
-    xprintf("\n\n *** assert_failed: file %s , line %x\n", (char*) file, (unsigned int) line);
+    xprintf("\n\n *** assert_failed: file %s , line %x\r\n", (char*) file, (unsigned int) line);
 }

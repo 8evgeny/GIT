@@ -1,6 +1,6 @@
 #include "stm32f4_sdio_sd.h"
 #include "sd.h"
-
+extern void xprintf (const char* str, ...);
 /*
 	UTILITY FUNCS
 */
@@ -191,6 +191,7 @@ void SD_LowLevel_DMA_RxConfig(uint32_t *BufferDST, uint32_t BufferSize)
 
 int sdInit(void)
 {
+    xprintf("sdInit\r\n");
 	NVIC_InitTypeDef NVIC_InitStructure;
 	NVIC_InitStructure.NVIC_IRQChannel = SDIO_IRQn;
 	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority =14;

@@ -24,21 +24,21 @@ void default_handler_c (unsigned int * hardfault_args)
   stacked_pc = ((unsigned long) hardfault_args[6]);
   stacked_psr = ((unsigned long) hardfault_args[7]);
 
-  xprintf ("\n\n[Default Handler]\n");
-  xprintf ("R0 = %x\n", stacked_r0);
-  xprintf ("R1 = %x\n", stacked_r1);
-  xprintf ("R2 = %x\n", stacked_r2);
-  xprintf ("R3 = %x\n", stacked_r3);
-  xprintf ("R12 = %x\n", stacked_r12);
-  xprintf ("LR [R14] = %x  subroutine call return address\n", stacked_lr);
-  xprintf ("PC [R15] = %x  program counter\n", stacked_pc);
-  xprintf ("PSR = %x\n", stacked_psr);
-  xprintf ("BFAR = %x\n", (*((volatile unsigned *)(0xE000ED38))));
-  xprintf ("CFSR = %x\n", (*((volatile unsigned *)(0xE000ED28))));
-  xprintf ("HFSR = %x\n", (*((volatile unsigned *)(0xE000ED2C))));
-  xprintf ("DFSR = %x\n", (*((volatile unsigned *)(0xE000ED30))));
-  xprintf ("AFSR = %x\n", (*((volatile unsigned *)(0xE000ED3C))));
-  xprintf ("SCB_SHCSR = %x\n", (unsigned)SCB->SHCSR);
+  xprintf ("\n\n[Default Handler]\r\n");
+  xprintf ("R0 = %x\r\n", stacked_r0);
+  xprintf ("R1 = %x\r\n", stacked_r1);
+  xprintf ("R2 = %x\r\n", stacked_r2);
+  xprintf ("R3 = %x\r\n", stacked_r3);
+  xprintf ("R12 = %x\r\n", stacked_r12);
+  xprintf ("LR [R14] = %x  subroutine call return address\r\n", stacked_lr);
+  xprintf ("PC [R15] = %x  program counter\r\n", stacked_pc);
+  xprintf ("PSR = %x\r\n", stacked_psr);
+  xprintf ("BFAR = %x\r\n", (*((volatile unsigned *)(0xE000ED38))));
+  xprintf ("CFSR = %x\r\n", (*((volatile unsigned *)(0xE000ED28))));
+  xprintf ("HFSR = %x\r\n", (*((volatile unsigned *)(0xE000ED2C))));
+  xprintf ("DFSR = %x\r\n", (*((volatile unsigned *)(0xE000ED30))));
+  xprintf ("AFSR = %x\r\n", (*((volatile unsigned *)(0xE000ED3C))));
+  xprintf ("SCB_SHCSR = %x\r\n", (unsigned)SCB->SHCSR);
 
   while (1);
 }
