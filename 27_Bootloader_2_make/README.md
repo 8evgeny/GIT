@@ -1,3 +1,11 @@
+Сборка make
+CMake - редактирование  сборка пока не сделана
+Передача управления в основную прошивку работает !!!
+SD не работает - код для другого подключения SD - возвращаюсь к 26 проекту
+
+
+
+
 # Bootloader for STM32F407 (with SD card support)
 This project is part of [Wakaama_Ethernet][1] project.
 
