@@ -1,0 +1,3 @@
+/home/evg/SOFT/Github/GIT/27_Bootloader_2_make/build/CMakeFiles/rebuild_cache.dir
+/home/evg/SOFT/Github/GIT/27_Bootloader_2_make/build/CMakeFiles/edit_cache.dir
+/home/evg/SOFT/Github/GIT/27_Bootloader_2_make/build/CMakeFiles/Bootloader2.dir

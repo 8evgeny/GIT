@@ -1,0 +1,538 @@
+{
+	"artifacts" : 
+	[
+		{
+			"path" : "Bootloader2"
+		}
+	],
+	"backtrace" : 1,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_executable",
+			"include_directories"
+		],
+		"files" : 
+		[
+			"CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 59,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 0,
+				"line" : 33,
+				"parent" : 0
+			}
+		]
+	},
+	"compileGroups" : 
+	[
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : "    -mcpu=cortex-m4     -std=gnu11     -DSTM32F4x7     -DUSE_STM32F4_DISCOVERY     -c     -Os     -g     -ffunction-sections     -fdata-sections     -Wall     -fstack-usage     -mfpu=fpv4-sp-d16     -mfloat-abi=hard     -mthumb     -Xlinker -Map=Bootloader2.map      -g  "
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 2,
+					"path" : "/home/evg/SOFT/Github/GIT/27_Bootloader_2_make/."
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/home/evg/SOFT/Github/GIT/27_Bootloader_2_make/drivers/inc"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/home/evg/SOFT/Github/GIT/27_Bootloader_2_make/fatfs"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/home/evg/SOFT/Github/GIT/27_Bootloader_2_make/libs/CMSIS/Include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/home/evg/SOFT/Github/GIT/27_Bootloader_2_make/libs/Device/STM32F4xx/Include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/home/evg/SOFT/Github/GIT/27_Bootloader_2_make/libs/STM32F4xx_StdPeriph_Driver/inc"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/home/evg/SOFT/Github/GIT/27_Bootloader_2_make/sd"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/home/evg/SOFT/Github/GIT/27_Bootloader_2_make/src"
+				}
+			],
+			"language" : "C",
+			"sourceIndexes" : 
+			[
+				0,
+				1,
+				2,
+				3,
+				4,
+				5,
+				6,
+				7,
+				8,
+				9,
+				10,
+				11,
+				12,
+				13,
+				14,
+				15,
+				16,
+				17,
+				18,
+				19,
+				20,
+				21,
+				22,
+				23,
+				24,
+				25,
+				26,
+				27,
+				28,
+				29,
+				30,
+				31,
+				32,
+				33,
+				34,
+				35,
+				36,
+				37,
+				38,
+				39,
+				40,
+				41,
+				42,
+				43
+			]
+		},
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : "-g  "
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 2,
+					"path" : "/home/evg/SOFT/Github/GIT/27_Bootloader_2_make/."
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/home/evg/SOFT/Github/GIT/27_Bootloader_2_make/drivers/inc"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/home/evg/SOFT/Github/GIT/27_Bootloader_2_make/fatfs"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/home/evg/SOFT/Github/GIT/27_Bootloader_2_make/libs/CMSIS/Include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/home/evg/SOFT/Github/GIT/27_Bootloader_2_make/libs/Device/STM32F4xx/Include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/home/evg/SOFT/Github/GIT/27_Bootloader_2_make/libs/STM32F4xx_StdPeriph_Driver/inc"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/home/evg/SOFT/Github/GIT/27_Bootloader_2_make/sd"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/home/evg/SOFT/Github/GIT/27_Bootloader_2_make/src"
+				}
+			],
+			"language" : "ASM",
+			"sourceIndexes" : 
+			[
+				44
+			]
+		}
+	],
+	"id" : "Bootloader2::@6890427a1f51a3e7e1df",
+	"link" : 
+	{
+		"commandFragments" : 
+		[
+			{
+				"fragment" : "-g",
+				"role" : "flags"
+			},
+			{
+				"fragment" : "",
+				"role" : "flags"
+			}
+		],
+		"language" : "CXX"
+	},
+	"name" : "Bootloader2",
+	"nameOnDisk" : "Bootloader2",
+	"paths" : 
+	{
+		"build" : ".",
+		"source" : "."
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "Source Files",
+			"sourceIndexes" : 
+			[
+				0,
+				1,
+				2,
+				3,
+				4,
+				5,
+				6,
+				7,
+				8,
+				9,
+				10,
+				11,
+				12,
+				13,
+				14,
+				15,
+				16,
+				17,
+				18,
+				19,
+				20,
+				21,
+				22,
+				23,
+				24,
+				25,
+				26,
+				27,
+				28,
+				29,
+				30,
+				31,
+				32,
+				33,
+				34,
+				35,
+				36,
+				37,
+				38,
+				39,
+				40,
+				41,
+				42,
+				43
+			]
+		},
+		{
+			"name" : "",
+			"sourceIndexes" : 
+			[
+				44
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "drivers/src/crc32.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "drivers/src/dbgu.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "drivers/src/firmware.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "drivers/src/flash.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "drivers/src/led.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "drivers/src/term_io.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "fatfs/ff.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "fatfs/ff_io.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "libs/STM32F4xx_StdPeriph_Driver/src/misc.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "libs/STM32F4xx_StdPeriph_Driver/src/stm32f4xx_adc.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "libs/STM32F4xx_StdPeriph_Driver/src/stm32f4xx_can.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "libs/STM32F4xx_StdPeriph_Driver/src/stm32f4xx_crc.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "libs/STM32F4xx_StdPeriph_Driver/src/stm32f4xx_cryp.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "libs/STM32F4xx_StdPeriph_Driver/src/stm32f4xx_cryp_aes.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "libs/STM32F4xx_StdPeriph_Driver/src/stm32f4xx_cryp_des.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "libs/STM32F4xx_StdPeriph_Driver/src/stm32f4xx_cryp_tdes.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "libs/STM32F4xx_StdPeriph_Driver/src/stm32f4xx_dac.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "libs/STM32F4xx_StdPeriph_Driver/src/stm32f4xx_dbgmcu.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "libs/STM32F4xx_StdPeriph_Driver/src/stm32f4xx_dcmi.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "libs/STM32F4xx_StdPeriph_Driver/src/stm32f4xx_dma.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "libs/STM32F4xx_StdPeriph_Driver/src/stm32f4xx_exti.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "libs/STM32F4xx_StdPeriph_Driver/src/stm32f4xx_flash.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "libs/STM32F4xx_StdPeriph_Driver/src/stm32f4xx_fsmc.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "libs/STM32F4xx_StdPeriph_Driver/src/stm32f4xx_gpio.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "libs/STM32F4xx_StdPeriph_Driver/src/stm32f4xx_hash.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "libs/STM32F4xx_StdPeriph_Driver/src/stm32f4xx_hash_md5.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "libs/STM32F4xx_StdPeriph_Driver/src/stm32f4xx_hash_sha1.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "libs/STM32F4xx_StdPeriph_Driver/src/stm32f4xx_i2c.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "libs/STM32F4xx_StdPeriph_Driver/src/stm32f4xx_iwdg.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "libs/STM32F4xx_StdPeriph_Driver/src/stm32f4xx_pwr.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "libs/STM32F4xx_StdPeriph_Driver/src/stm32f4xx_rcc.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "libs/STM32F4xx_StdPeriph_Driver/src/stm32f4xx_rng.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "libs/STM32F4xx_StdPeriph_Driver/src/stm32f4xx_rtc.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "libs/STM32F4xx_StdPeriph_Driver/src/stm32f4xx_sdio.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "libs/STM32F4xx_StdPeriph_Driver/src/stm32f4xx_spi.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "libs/STM32F4xx_StdPeriph_Driver/src/stm32f4xx_syscfg.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "libs/STM32F4xx_StdPeriph_Driver/src/stm32f4xx_tim.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "libs/STM32F4xx_StdPeriph_Driver/src/stm32f4xx_usart.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "libs/STM32F4xx_StdPeriph_Driver/src/stm32f4xx_wwdg.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "sd/sd.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "sd/stm32f4_sdio_sd.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "main.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/system_stm32f4xx.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/vectors.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 1,
+			"path" : "src/startup_stm32f4xx.s",
+			"sourceGroupIndex" : 1
+		}
+	],
+	"type" : "EXECUTABLE"
+}
