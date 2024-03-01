@@ -62,7 +62,6 @@ FIL file;
 //FIL maskIP;
 //FIL gateIP;
 //FIL newFirmware;
-uint8_t sdCartOn = 1;
 extern uint32_t * _smem;
 extern uint32_t * _sapp;
 extern uint32_t * _eapp;
@@ -112,21 +111,6 @@ int _write(int fd, char *str, int len)
     return len;
 }
 
-void isSdCartOn() {
-    FRESULT mount = f_mount(&fs, "", 0);
-    if (mount == FR_OK){
-        printf("\r\nSD mount OK\r\n");
-    }
-    else {
-        sdCartOn = 0;
-        printf("\r\nSD not mount\r\n");
-    }
-}
-
-void selectSD(){
-    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_2, GPIO_PIN_RESET);
-}
-
 FRESULT checkFileOnSD(FIL* fp, const TCHAR* path){
     f_open(fp, path, FA_READ );
     uint32_t numByte = fp->obj.objsize;
@@ -144,6 +128,10 @@ void checkFirmwareOnSD(FIL* fp, const TCHAR* path, uint32_t * numByte){
 //    printf("open: %d\r\n", open);
      *numByte = fp->obj.objsize;
     f_close(fp);
+}
+
+void startUpdateFirmware(){
+    printf("\r\n************* Start update Firmware ************\r\n");
 }
 
 /* USER CODE END PV */
@@ -204,8 +192,7 @@ int main(void)
   MX_USART2_UART_Init();
   MX_CRC_Init();
   /* USER CODE BEGIN 2 */
-    selectSD();
-    isSdCartOn();
+    f_mount(&fs, "", 0);
 
     if (checkFileOnSD(&file,"host_IP") == FR_OK){
         printf("on SD found file  host_IP\r\n");
@@ -237,14 +224,14 @@ int main(void)
         printf("on SD not found new Firmware file (Bridge.bin)\r\n");
     } else {
         printf("on SD found new Firmware file (Bridge.bin) len = %d\r\n", lenFw);
+        startUpdateFirmware();
     }
 
     printf("\r\nstart address SHARED_MEMORY:\t %p\r\n", (uint32_t*)&_smem);
     printf("start address APP:\t\t %p\r\n", (uint32_t*)&_sapp);
     printf("end   address APP:\t\t %p\r\n", (uint32_t*)&_eapp);
     if (0 == fw_check()){
-        printf("******* Send control for main Firmware *********\r\n");
-
+        printf("\r\n******* Send control for main Firmware *********\r\n");
         firmware_run();
     }
 

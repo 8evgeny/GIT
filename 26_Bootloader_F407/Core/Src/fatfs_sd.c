@@ -12,7 +12,6 @@ uint16_t Timer1, Timer2;					/* 1ms Timer Counter */
 volatile DSTATUS Stat = STA_NOINIT;	/* Disk Status */
 static uint8_t CardType;                    /* Type 0:MMC, 1:SDC, 2:Block addressing */
 static uint8_t PowerFlag = 0;				/* Power flag */
-extern uint8_t sdCartOn;
 /***************************************
  * SPI functions
  **************************************/
@@ -20,20 +19,14 @@ extern uint8_t sdCartOn;
 /* slave select */
 static void SELECT(void)
 {
-    if (sdCartOn == 1)
-    {
-        HAL_GPIO_WritePin(SD_CS_PORT, SD_CS_PIN, GPIO_PIN_RESET);
-    }
+    HAL_GPIO_WritePin(SD_CS_PORT, SD_CS_PIN, GPIO_PIN_RESET);
 	HAL_Delay(1);
 }
 
 /* slave deselect */
 static void DESELECT(void)
 {
-    if (sdCartOn == 1)
-    {
-        HAL_GPIO_WritePin(SD_CS_PORT, SD_CS_PIN, GPIO_PIN_SET);
-    }
+    HAL_GPIO_WritePin(SD_CS_PORT, SD_CS_PIN, GPIO_PIN_SET);
 	HAL_Delay(1);
 }
 
