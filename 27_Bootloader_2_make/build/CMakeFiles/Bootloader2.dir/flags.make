@@ -9,7 +9,7 @@ ASM_DEFINES =
 
 ASM_INCLUDES = -I/home/evg/SOFT/Github/GIT/27_Bootloader_2_make/. -I/home/evg/SOFT/Github/GIT/27_Bootloader_2_make/drivers/inc -I/home/evg/SOFT/Github/GIT/27_Bootloader_2_make/fatfs -I/home/evg/SOFT/Github/GIT/27_Bootloader_2_make/libs/CMSIS/Include -I/home/evg/SOFT/Github/GIT/27_Bootloader_2_make/libs/Device/STM32F4xx/Include -I/home/evg/SOFT/Github/GIT/27_Bootloader_2_make/libs/STM32F4xx_StdPeriph_Driver/inc -I/home/evg/SOFT/Github/GIT/27_Bootloader_2_make/sd -I/home/evg/SOFT/Github/GIT/27_Bootloader_2_make/src 
 
-C_FLAGS =     -mcpu=cortex-m4     -std=gnu11     -DSTM32F4x7     -DUSE_STM32F4_DISCOVERY     -c     -Os     -g     -ffunction-sections     -fdata-sections     -Wall     -fstack-usage     -mfpu=fpv4-sp-d16     -mfloat-abi=hard     -mthumb     -Xlinker -Map=Bootloader2.map      -g  
+C_FLAGS =     -std=gnu99     -gdwarf-2     -D STM32F4x7     -D USE_STM32F4_DISCOVERY     -c     -O2     -ffunction-sections     -fdata-sections     -Wall     -Wextra     -Wpointer-arith     -Wstrict-prototypes     -Winline     -Wunreachable-code     -Wundef    -Wa,-adhlns=obj/stm32f4xx_usart.lst     -fsingle-precision-constant     -mcpu=cortex-m4     -mthumb     -mfloat-abi=softfp     -mfpu=fpv4-sp-d16     -MMD     -MP     -MF      -g  
 
 C_DEFINES = 
 
