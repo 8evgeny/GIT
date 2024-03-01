@@ -11,12 +11,12 @@ set(toolchain /home/evg/toolchain/arm-gnu-toolchain-13.2.Rel1-x86_64-arm-none-ea
 set(CMAKE_OBJCOPY ${toolchain}/bin/arm-none-eabi-objcopy)
 
 project(Bootloader2 C CXX ASM)
-
+#    -DSTM32F407xx \
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}\
     -mcpu=cortex-m4 \
     -std=gnu11 \
-    -DUSE_HAL_DRIVER \
-    -DSTM32F407xx \
+    -DSTM32F4x7 \
+    -DUSE_STM32F4_DISCOVERY \
     -c \
     -Os \
     -g \
@@ -31,6 +31,7 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}\
     ")
 
 include_directories(
+    .
     drivers/inc
     fatfs
     libs/CMSIS/Include
@@ -41,26 +42,31 @@ include_directories(
     )
 
 file (GLOB drv_src drivers/src/*.c)
-add_library(drv_LIB ${drv_src})
+#add_library(drv_LIB ${drv_src})
 
 file (GLOB fatfs_src fatfs/*.c)
-add_library(fatfs_LIB ${fatfs_src})
+#add_library(fatfs_LIB ${fatfs_src})
 
 file (GLOB StdPeriph_src libs/STM32F4xx_StdPeriph_Driver/src/*.c)
-add_library(StdPeriph_LIB ${StdPeriph_src})
+#add_library(StdPeriph_LIB ${StdPeriph_src})
 
 file (GLOB SD_src sd/*.c)
-add_library(SD_LIB ${SD_src})
+#add_library(SD_LIB ${SD_src})
 
-file (GLOB src src/*.c)
+file (GLOB src main.c src/*.c)
 
 set(nameFirmware ${PROJECT_NAME})
 add_executable(${nameFirmware}
+    ${drv_src}
+    ${fatfs_src}
+    ${StdPeriph_src}
+    ${SD_src}
     ${src}
-    )
+    src/startup_stm32f4xx.s
+)
 
 set_target_properties(${nameFirmware} PROPERTIES LINKER_LANGUAGE CXX)
-set(LINKER_SCRIPT_FLASH "${CMAKE_SOURCE_DIR}/STM32F407VGTX_FLASH.ld")
+set(LINKER_SCRIPT_FLASH "${CMAKE_SOURCE_DIR}/src/stm32_flash.ld")
 set(LINKER_FLAGS "SHELL: \
     -T${LINKER_SCRIPT_FLASH} \
     -mcpu=cortex-m4 \
@@ -79,14 +85,14 @@ set(LINKER_FLAGS "SHELL: \
     -Wl,--end-group \
     ")
 
-target_link_options(${nameFirmware} PRIVATE ${LINKER_FLAGS})
+#target_link_options(${nameFirmware} PRIVATE ${LINKER_FLAGS})
 
-target_link_libraries(${nameFirmware} PUBLIC
-    drv_LIB
-    fatfs_LIB
-    StdPeriph_LIB
-    SD_LIB
-    )
+#target_link_libraries(${nameFirmware} PUBLIC
+#    drv_LIB
+#    fatfs_LIB
+#    StdPeriph_LIB
+#    SD_LIB
+#    )
 
 set(HEX_FILE ${CMAKE_BINARY_DIR}/${nameFirmware}.hex)
 set(BIN_FILE ${CMAKE_BINARY_DIR}/${nameFirmware}.bin)
