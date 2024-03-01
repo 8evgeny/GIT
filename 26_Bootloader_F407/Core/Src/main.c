@@ -24,6 +24,7 @@
 /* USER CODE BEGIN Includes */
 
 #include "stdio.h"
+#include "config.h"
 
 /* USER CODE END Includes */
 
@@ -192,7 +193,8 @@ int main(void)
   MX_USART2_UART_Init();
   MX_CRC_Init();
   /* USER CODE BEGIN 2 */
-
+    printf("************************************************\r\n");
+    printf("version bootloader: %.2d_%.2d\r\n", main_FW, patch_FW);
     f_mount(&fs, "", 0);
 
     if (checkFileOnSD(&file,"host_IP") == FR_OK){
@@ -476,7 +478,7 @@ static void MX_USART2_UART_Init(void)
     Error_Handler();
   }
   /* USER CODE BEGIN USART2_Init 2 */
-printf("\r\n*************** Start bootloader ***************\r\n\n");
+printf("\r\n\r\n*************** Start bootloader ***************\r\n\n");
   /* USER CODE END USART2_Init 2 */
 
 }

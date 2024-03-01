@@ -33,8 +33,18 @@ add_definitions(-DOPENSSL_ALL)
 add_definitions(-UWOLFSSL_TLS13)
 
 project(Bootloader C CXX ASM)
-#set(CMAKE_BUILD_TYPE debug)
-#set(CMAKE_BUILD_TYPE release)
+
+FILE(STRINGS "version_Bootloader" tmp LIMIT_COUNT 2)
+STRING(REGEX MATCHALL "[a-zA-Z0-9_]+[ ]*=[^\n]*(\n|$)" tmp_list "${tmp}")
+FOREACH(tmp_x ${tmp_list})
+        STRING(REGEX REPLACE "([a-zA-Z0-9_]+)[ ]*=[^\n]*(\n|$)" "\\1" tmp_nm "${tmp_x}")
+        STRING(REGEX REPLACE "[a-zA-Z0-9_]+[ ]*=[ ]*([^\n]*)(\n|$)" "\\1" tmp_val "${tmp_x}")
+        STRING(STRIP "${tmp_val}" ${tmp_nm})
+ENDFOREACH()
+MESSAGE("Version firmware: ${MAIN_VERSION_FIRMWARE}.${PATCH_VERSION}")
+set (MAIN_FW "${MAIN_VERSION_FIRMWARE}")
+set (PATCH_FW "${PATCH_VERSION}")
+configure_file (${CMAKE_CURRENT_SOURCE_DIR}/Core/Inc/config.h.in config.h @ONLY)
 
 
 set (ioLibrary_Eth ${CMAKE_HOME_DIRECTORY}/ioLibrary_Driver/Ethernet)
@@ -119,7 +129,7 @@ file (GLOB wolfssl_src ${wolfssl}/src/*.c
 
 file (GLOB src Core/Src/*.c Core/Startup/startup_stm32f407vgtx.s Middlewares/Third_Party/littlefs/eeprom.c)
 
-set(nameFirmware ${PROJECT_NAME})
+set(nameFirmware ${PROJECT_NAME}_${MAIN_VERSION_FIRMWARE}_${PATCH_VERSION})
 add_executable(${nameFirmware}
     ${src}
     )

@@ -1,0 +1,8 @@
+#ifndef CONFIG_H_IN
+#define CONFIG_H_IN
+ 
+#define main_FW @MAIN_FW@
+#define patch_FW @PATCH_FW@
+
+ 
+#endif // CONFIG_H_IN
