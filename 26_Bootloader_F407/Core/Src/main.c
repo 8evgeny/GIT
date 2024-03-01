@@ -96,10 +96,17 @@ void firmware_run(void) {
 
 int fw_check(void)
 {
+
     extern void* _estack; // Это из линкера, генерируется автоматически и указывает на конец RAM (или стек)
-    if (((*(uint32_t*) FLASH_APP_START_ADDESS) & 0x2FFF8000) != &_estack) // Проверка первого адреса прошивки, значение в нем должно быть размером RAM (регистр SP)
+    printf("_estack:\t\t\t %p\r\n", (uint32_t*)&_estack);
+    // Проверка первого адреса прошивки, значение в нем должно быть размером RAM (регистр SP)
+//    if (((*(uint32_t*) FLASH_APP_START_ADDESS) & 0x2FFF8000) != &_estack) //Непонятно зачем &
+    if ((*(uint32_t*) FLASH_APP_START_ADDESS) != &_estack)
+    {
+        printf("not found firmware on %p\r\n", (uint32_t*)&_sapp);
         return -1;
-    printf("FW - OK\r\n");
+    }
+    printf("in address %p found main Firmware\r\n", (uint32_t*)&_sapp);
     return 0;
 }
 
