@@ -132,10 +132,9 @@ void checkFirmwareOnSD(FIL* fp, const TCHAR* path, uint32_t * numByte){
      *numByte = fp->obj.objsize;
     f_close(fp);
 }
-void startUpdateFirmware(){
+void startUpdateFirmware(uint32_t len){
     printf("\r\n************* Start update Firmware ************\r\n");
     HAL_FLASH_Unlock();
-    uint64_t counter;
     uint32_t PAGEError = 0;
     FLASH_EraseInitTypeDef EraseInitStruct;
     EraseInitStruct.TypeErase   = FLASH_TYPEERASE_SECTORS ;
@@ -143,23 +142,13 @@ void startUpdateFirmware(){
     EraseInitStruct.NbSectors   = 3;
     EraseInitStruct.VoltageRange = FLASH_VOLTAGE_RANGE_3;
 
-//    HAL_FLASH_Unlock();
-//    __HAL_FLASH_CLEAR_FLAG(FLASH_FLAG_EOP | FLASH_FLAG_OPERR | FLASH_FLAG_WRPERR | FLASH_FLAG_PGAERR | FLASH_FLAG_PGPERR | FLASH_FLAG_PGSERR);
+    HAL_FLASH_Unlock();
+    __HAL_FLASH_CLEAR_FLAG(FLASH_FLAG_EOP | FLASH_FLAG_OPERR | FLASH_FLAG_WRPERR | FLASH_FLAG_PGAERR | FLASH_FLAG_PGPERR | FLASH_FLAG_PGSERR);
     HAL_FLASHEx_Erase(&EraseInitStruct, &PAGEError);
-//    HAL_FLASH_Program(FLASH_TYPEPROGRAM_WORD, 0x08000000, counter);
-//    HAL_FLASH_Lock();
-
-//    counter2 = *(__IO uint32_t *)0x08000000;
-//    counter3 = *(__IO uint32_t *)0x08000001;
-//    counter4 = *(__IO uint32_t *)0x08000002;
-
-//    sprintf(buf, "%d", counter2); //gets send to the OLED with I2C
-//    sprintf(buf2, "%d", counter3);
-//    sprintf(buf3, "%d", counter4);
-
-
-
-
+    while(FLASH_WaitForLastOperation(10000) != HAL_OK){};
+//    HAL_FLASH_Program(FLASH_TYPEPROGRAM_BYTE, APP_ADDR , len);
+//    while(FLASH_WaitForLastOperation(10000) != HAL_OK){};
+    HAL_FLASH_Lock();
 
 }
 
@@ -255,7 +244,7 @@ int main(void)
         printf("on SD not found new Firmware file (Bridge.bin)\r\n");
     } else {
         printf("on SD found new Firmware file (Bridge.bin) len = %d\r\n", lenFw);
-        startUpdateFirmware();
+        startUpdateFirmware(lenFw);
     }
 
     printf("\r\nstart address SHARED_MEMORY:\t %p\r\n", (uint32_t*)&_smem);
