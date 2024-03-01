@@ -22,7 +22,9 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+
 #include "stdio.h"
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -53,6 +55,7 @@ UART_HandleTypeDef huart6;
 DMA_HandleTypeDef hdma_usart6_tx;
 
 /* USER CODE BEGIN PV */
+
 FATFS fs;
 FIL file;
 //FIL destIP;
@@ -67,67 +70,28 @@ extern uint32_t * _eapp;
 #define FLASH_APP_END_ADDRESS (uint32_t) & _eapp
 #define FLASH_MEM_ADDRESS (uint32_t) & _smem
 /* Function pointer for jumping to user application. */
-typedef void (*fnc_ptr)(void);
+typedef void (*pFunction)(void);
+#define FLASH_SECTOR_0_ADDR      0x08000000          // Sector 0, 16 Kbytes
+#define FLASH_SECTOR_1_ADDR      0x08004000          // Sector 1, 16 Kbytes
+#define FLASH_SECTOR_2_ADDR      0x08008000          // Sector 2, 16 Kbytes
+#define FLASH_SECTOR_3_ADDR      0x0800C000          // Sector 3, 16 Kbytes
+#define FLASH_SECTOR_4_ADDR      0x08010000          // Sector 4, 64 Kbytes
+#define FLASH_SECTOR_5_ADDR      0x08020000          // Sector 5, 128 Kbytes
+#define FLASH_SECTOR_6_ADDR      0x08040000          // Sector 6, 128 Kbytes
+#define FLASH_SECTOR_7_ADDR      0x08060000          // Sector 7, 128 Kbytes
+#define FLASH_SECTOR_8_ADDR      0x08080000          // Sector 8, 128 Kbytes
+#define FLASH_SECTOR_9_ADDR      0x080A0000          // Sector 9, 128 Kbytes
+#define FLASH_SECTOR_10_ADDR     0x080C0000          // Sector 10, 128 Kbytes
+#define FLASH_SECTOR_11_ADDR     0x080E0000          // Sector 11, 128 Kbytes
+#define FLASH_LAST_ADDR          0x080FFFFE
+#define APP_ADDR             FLASH_SECTOR_4_ADDR
 
-#define APPLICATION_ADDRESS    0x08010000//адрес начала программы
-
-void flash_jump_to_app(void)
-{
-    printf("\r\nflash_jump_to_app\r\n");
-    /* Function pointer to the address of the user application. */
-    fnc_ptr jump_to_app;
-
-    jump_to_app = (fnc_ptr)(*(volatile uint32_t*) (APPLICATION_ADDRESS+4u));
-
-    //HAL_DeInit();
-    RCC->APB1RSTR = 0xFFFFFFFFU;
-    RCC->APB1RSTR = 0x00;
-    RCC->APB2RSTR = 0xFFFFFFFFU;
-    RCC->APB2RSTR = 0x00;
-
-    //SysTick DeInit
-    SysTick->CTRL=0;
-    SysTick->VAL=0;
-    SysTick->LOAD=0;
-
-    __disable_irq();
-
-    //NVIC DeInit
-    __set_BASEPRI(0);
-    __set_CONTROL(0);
-    NVIC->ICER[0]=0xFFFFFFFF;
-    NVIC->ICPR[0]=0xFFFFFFFF;
-    NVIC->ICER[1]=0xFFFFFFFF;
-    NVIC->ICPR[1]=0xFFFFFFFF;
-    NVIC->ICER[2]=0xFFFFFFFF;
-    NVIC->ICPR[2]=0xFFFFFFFF;
-
-    __enable_irq();
-
-    /* Change the main and local  stack pointer. */
-    __set_MSP(*(volatile uint32_t*)APPLICATION_ADDRESS);
-    SCB->VTOR=*(volatile uint32_t*)APPLICATION_ADDRESS;
-
-    jump_to_app();
-}
-
-
-void Go_To_User_App(void)
-{
-    printf("Go_To_User_App\r\n");
-    uint32_t app_jump_address;
-
-    typedef void(*pFunction)(void);//объявляем пользовательский тип
-    pFunction Jump_To_Application;//и создаём переменную этого типа
-
-    __disable_irq();//запрещаем прерывания
-
-    app_jump_address = *( uint32_t*) (APPLICATION_ADDRESS + 4);    //извлекаем адрес перехода из вектора Reset
-//    app_jump_address = 0x8015E20;
-    printf("app_jump_address: %X\r\n",app_jump_address);
-    Jump_To_Application = (pFunction)app_jump_address;            //приводим его к пользовательскому типу
-    __set_MSP(*(__IO uint32_t*) APPLICATION_ADDRESS);          //устанавливаем SP приложения
-    Jump_To_Application();		                        //запускаем приложение
+void firmware_run(void) {
+    uint32_t appStack = (uint32_t) *((uint32_t *) APP_ADDR);
+    pFunction appEntry = (pFunction) *(uint32_t *) (APP_ADDR + 4);
+    SCB->VTOR = APP_ADDR;
+    __set_MSP(appStack);
+    appEntry();
 }
 
 int fw_check(void)
@@ -147,6 +111,7 @@ int _write(int fd, char *str, int len)
     }
     return len;
 }
+
 void isSdCartOn() {
     FRESULT mount = f_mount(&fs, "", 0);
     if (mount == FR_OK){
@@ -157,9 +122,11 @@ void isSdCartOn() {
         printf("\r\nSD not mount\r\n");
     }
 }
+
 void selectSD(){
     HAL_GPIO_WritePin(GPIOD, GPIO_PIN_2, GPIO_PIN_RESET);
 }
+
 FRESULT checkFileOnSD(FIL* fp, const TCHAR* path){
     f_open(fp, path, FA_READ );
     uint32_t numByte = fp->obj.objsize;
@@ -171,6 +138,7 @@ FRESULT checkFileOnSD(FIL* fp, const TCHAR* path){
         return FR_NO_FILE;
     }
 }
+
 void checkFirmwareOnSD(FIL* fp, const TCHAR* path, uint32_t * numByte){
     /*FRESULT open = */f_open(fp, path, FA_READ );
 //    printf("open: %d\r\n", open);
@@ -275,13 +243,7 @@ int main(void)
     printf("start address APP:\t\t %p\r\n", (uint32_t*)&_sapp);
     printf("end   address APP:\t\t %p\r\n", (uint32_t*)&_eapp);
     if (0 == fw_check()){
-        __set_PRIMASK(1); //запрещаем прерывания
-
-        SCB->VTOR = APPLICATION_ADDRESS;//переносим начало вектора прерываний по указанному адресу
-
-        __set_PRIMASK(0);//разрешаем прерывания
-
-        flash_jump_to_app();
+        firmware_run();
     }
 
 
