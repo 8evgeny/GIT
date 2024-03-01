@@ -243,6 +243,8 @@ int main(void)
     printf("start address APP:\t\t %p\r\n", (uint32_t*)&_sapp);
     printf("end   address APP:\t\t %p\r\n", (uint32_t*)&_eapp);
     if (0 == fw_check()){
+        printf("******* Send control for main Firmware *********\r\n");
+
         firmware_run();
     }
 
