@@ -192,6 +192,7 @@ int main(void)
   MX_USART2_UART_Init();
   MX_CRC_Init();
   /* USER CODE BEGIN 2 */
+
     f_mount(&fs, "", 0);
 
     if (checkFileOnSD(&file,"host_IP") == FR_OK){
@@ -475,7 +476,7 @@ static void MX_USART2_UART_Init(void)
     Error_Handler();
   }
   /* USER CODE BEGIN USART2_Init 2 */
-
+printf("\r\n*************** Start bootloader ***************\r\n\n");
   /* USER CODE END USART2_Init 2 */
 
 }
