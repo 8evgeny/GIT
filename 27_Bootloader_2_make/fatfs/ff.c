@@ -91,7 +91,7 @@
 
 #include "ff.h"			/* FatFs configurations and declarations */
 #include "diskio.h"		/* Declarations of low level disk I/O functions */
-
+#include "term_io.h"
 
 /*--------------------------------------------------------------------------
 
@@ -2049,6 +2049,7 @@ FRESULT chk_mounted (	/* FR_OK(0): successful, !=0: any error occurred */
 	fs->fs_type = 0;					/* Clear the file system object */
 	fs->drv = (BYTE)LD2PD(vol);			/* Bind the logical drive and a physical drive */
 	stat = disk_initialize(fs->drv);	/* Initialize low level disk I/O layer */
+xprintf("\r\ndisk_initialize: %d\r\n", stat);
 	if (stat & STA_NOINIT)				/* Check if the initialization succeeded */
 		return FR_NOT_READY;			/* Failed to initialize due to no media or hard error */
 #if _MAX_SS != 512						/* Get disk sector size (variable sector size cfg only) */

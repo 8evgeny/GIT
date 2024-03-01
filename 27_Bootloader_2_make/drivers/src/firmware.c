@@ -21,7 +21,7 @@ uint8_t firmware_init(void) {
     FRESULT res;
     memset(&fs, 0, sizeof(fs));
     res = f_mount(DRIVE_NO, &fs);
-//xprintf("SD res init: %d\r\n", res);
+xprintf("f_mount: %d\r\n", res);
     if (res) return 0;
 
     return 1;

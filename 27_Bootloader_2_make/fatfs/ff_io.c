@@ -14,7 +14,7 @@ DWORD get_fattime(void) {
 
 DSTATUS disk_initialize(BYTE lun) {
 	if (lun == SD_CARD) {
-		for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 5; i++) {
 			if (sdInit() == 0) {
 				xprintf("SD Card init OK\r\n");
 				status = 0;

@@ -230,7 +230,7 @@
 #include "sd_conf.h"
 #include "stm32f4_sdio_sd.h"
 #include "sd.h"
-
+#include "term_io.h"
 
 /** @addtogroup Utilities
   * @{
@@ -406,6 +406,7 @@ void SD_DeInit(void)
   */
 SD_Error SD_Init(void)
 {
+xprintf("SD_Init:\r\n");
   __IO SD_Error errorstatus = SD_OK;
 
   /* SDIO Peripheral Low Level Init */

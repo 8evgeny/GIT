@@ -19,8 +19,8 @@ int main(void) {
     uint8_t res = firmware_init();
 
 xprintf("firmware_init: %d\r\n", res);
-deinit();
-firmware_run();
+//deinit();
+//firmware_run();  //Передача управления основной прошивке
 
     if (!res) {
         check_and_run();
