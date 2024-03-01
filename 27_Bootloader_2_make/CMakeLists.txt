@@ -9,36 +9,27 @@ set(toolchain /home/evg/toolchain/arm-gnu-toolchain-13.2.Rel1-x86_64-arm-none-ea
 #set(CMAKE_CXX_LINKER_LAUNCHER ${toolchain}/bin/arm-none-eabi-g++)
 #set(CMAKE_OBJCOPY ${toolchain}/bin/arm-none-eabi-objcopy)
 set(CMAKE_OBJCOPY ${toolchain}/bin/arm-none-eabi-objcopy)
-#
+
 project(Bootloader2 C CXX ASM)
 #    -DSTM32F407xx \
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}\
-    -std=gnu99 \
-    -gdwarf-2 \
-    -D STM32F4x7 \
-    -D USE_STM32F4_DISCOVERY \
+    -mcpu=cortex-m4 \
+    -std=gnu11 \
+    -DSTM32F4x7 \
+    -DUSE_STM32F4_DISCOVERY \
     -c \
-    -O2 \
+    -Os \
+    -g \
     -ffunction-sections \
     -fdata-sections \
     -Wall \
-    -Wextra \
-    -Wpointer-arith \
-    -Wstrict-prototypes \
-    -Winline \
-    -Wunreachable-code \
-    -Wundef\
-    -Wa,-adhlns=obj/stm32f4xx_usart.lst \
-    -fsingle-precision-constant \
-    -mcpu=cortex-m4 \
-    -mthumb \
-    -mfloat-abi=softfp \
+    -fstack-usage \
     -mfpu=fpv4-sp-d16 \
-    -MMD \
-    -MP \
-    -MF \
+    -mfloat-abi=hard \
+    -mthumb \
+    -Xlinker -Map=${PROJECT_NAME}.map \
     ")
-#    -Xlinker -Map=${PROJECT_NAME}.map \
+
 include_directories(
     .
     drivers/inc
