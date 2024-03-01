@@ -1,6 +1,6 @@
 #include "stm32f4_sdio_sd.h"
 #include "sd.h"
-extern void xprintf (const char* str, ...);
+#include "term_io.h"
 /*
 	UTILITY FUNCS
 */
