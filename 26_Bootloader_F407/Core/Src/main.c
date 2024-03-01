@@ -93,10 +93,8 @@ void firmware_run(void) {
     __set_MSP(appStack);
     appEntry();
 }
-
 int fw_check(void)
 {
-
     extern void* _estack; // Это из линкера, генерируется автоматически и указывает на конец RAM (или стек)
     printf("_estack:\t\t\t %p\r\n", (uint32_t*)&_estack);
     // Проверка первого адреса прошивки, значение в нем должно быть размером RAM (регистр SP)
@@ -109,7 +107,6 @@ int fw_check(void)
     printf("in address %p found main Firmware\r\n", (uint32_t*)&_sapp);
     return 0;
 }
-
 int _write(int fd, char *str, int len)
 {
     for(int i=0; i<len; i++)
@@ -118,7 +115,6 @@ int _write(int fd, char *str, int len)
     }
     return len;
 }
-
 FRESULT checkFileOnSD(FIL* fp, const TCHAR* path){
     f_open(fp, path, FA_READ );
     uint32_t numByte = fp->obj.objsize;
@@ -130,14 +126,12 @@ FRESULT checkFileOnSD(FIL* fp, const TCHAR* path){
         return FR_NO_FILE;
     }
 }
-
 void checkFirmwareOnSD(FIL* fp, const TCHAR* path, uint32_t * numByte){
     /*FRESULT open = */f_open(fp, path, FA_READ );
 //    printf("open: %d\r\n", open);
      *numByte = fp->obj.objsize;
     f_close(fp);
 }
-
 void startUpdateFirmware(){
     printf("\r\n************* Start update Firmware ************\r\n");
     HAL_FLASH_Unlock();
@@ -146,11 +140,12 @@ void startUpdateFirmware(){
     FLASH_EraseInitTypeDef EraseInitStruct;
     EraseInitStruct.TypeErase   = FLASH_TYPEERASE_SECTORS ;
     EraseInitStruct.Sector   = FLASH_SECTOR_4;
+    EraseInitStruct.NbSectors   = 3;
     EraseInitStruct.VoltageRange = FLASH_VOLTAGE_RANGE_3;
 
 //    HAL_FLASH_Unlock();
 //    __HAL_FLASH_CLEAR_FLAG(FLASH_FLAG_EOP | FLASH_FLAG_OPERR | FLASH_FLAG_WRPERR | FLASH_FLAG_PGAERR | FLASH_FLAG_PGPERR | FLASH_FLAG_PGSERR);
-//    HAL_FLASHEx_Erase(&EraseInitStruct, &PAGEError);
+    HAL_FLASHEx_Erase(&EraseInitStruct, &PAGEError);
 //    HAL_FLASH_Program(FLASH_TYPEPROGRAM_WORD, 0x08000000, counter);
 //    HAL_FLASH_Lock();
 

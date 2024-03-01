@@ -1,5 +1,4 @@
 Release
-Debug
 build_cmake_release
 build_cmake_debug
 build_qbs_release
