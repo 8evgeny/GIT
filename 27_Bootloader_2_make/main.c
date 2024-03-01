@@ -17,6 +17,7 @@ int main(void) {
     init();
 
     uint8_t res = firmware_init();
+
 xprintf("firmware_init: %d\r\n", res);
 deinit();
 firmware_run();
@@ -73,7 +74,7 @@ static void init(void) {
     xprintf("\r\ndebug initialized\r\n");
 
     led_init();
-    xprintf("led initialized\r\n");
+    xprintf("led initialized\n");
 }
 
 static void deinit(void) {
@@ -82,7 +83,8 @@ static void deinit(void) {
 
     led_deinit();
     xprintf("led deinitialized\r\n");
-
+    xprintf("debug deinitialized\r\n");
+    xprintf("************************************************\n\n");
     debug_deinit();
 }
 
