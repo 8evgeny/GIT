@@ -86,8 +86,8 @@ typedef void (*pFunction)(void);
 #define FLASH_SECTOR_11_ADDR     0x080E0000          // Sector 11, 128 Kbytes
 #define FLASH_LAST_ADDR          0x080FFFFE
 #define APP_ADDR             FLASH_SECTOR_4_ADDR
-#define  BLOCK_SIZE              0x4000             // 16k
-uint8_t bufFW[BLOCK_SIZE];
+#define  BLOCK_SIZE              0x1000
+uint32_t bufFW[BLOCK_SIZE];         // 16k (4096 слова)
 #define   numSectorsErase        3
 
 void firmware_run(void) {
@@ -136,87 +136,84 @@ void checkFirmwareOnSD(FIL* fp, const TCHAR* path, uint32_t * numByte){
     f_close(fp);
 }
 
-uint8_t writeFlash (uint32_t addr, uint32_t len, uint32_t* buf, uint32_t bufSize)
+uint8_t writeFlash (uint32_t addr, uint32_t* buf, uint32_t bufSize)
 {
+    printf("invoke writeFlash\r\n");
+    __disable_irq();
+    HAL_FLASH_Unlock();
     HAL_StatusTypeDef status = HAL_OK;
-
-    uint32_t *dataPtr =  buf;          // создаем указатель на нашу структуру и записываем ее кусочками по 32 бита
-    for (uint8_t i = 0; i < bufSize / 4; i++)
-    {
-        status += HAL_FLASH_Program(FLASH_TYPEPROGRAM_WORD, addr, dataPtr[i]);
+    for (uint8_t i = 0; i < bufSize; i++) {
+        status += HAL_FLASH_Program(FLASH_TYPEPROGRAM_WORD, addr, buf[i]);
+        printf("HAL_FLASH_Program addr: %X data: %X\r\n", addr, buf[i]);
         addr += 4;
     }
-    __enable_irq();                                        // включаем прерывания обратно
+    __enable_irq();
      HAL_FLASH_Lock();
     return status;
 }
 
-uint8_t eraseFlash(){
+uint8_t eraseFlashSectors(uint32_t sector, uint32_t number){
+    printf("invoke eraseFlashSectors\r\n");
+//    __HAL_FLASH_CLEAR_FLAG(FLASH_FLAG_EOP | FLASH_FLAG_OPERR | FLASH_FLAG_WRPERR | FLASH_FLAG_PGAERR | FLASH_FLAG_PGPERR | FLASH_FLAG_PGSERR);
     FLASH_EraseInitTypeDef FlashErase;                     // структура для функции стирания страницы
     uint32_t sectorError = 0;                              // переменная для записи информации об ошибках в процессе стирания
-
-    __disable_irq();                                       // запрещаем прерывания
-    HAL_FLASH_Unlock();                                    // разлочить память
-
+    __disable_irq();
+    HAL_FLASH_Unlock();
     FlashErase.TypeErase = FLASH_TYPEERASE_SECTORS;
-    FlashErase.NbSectors = numSectorsErase;
-    FlashErase.Sector = FLASH_SECTOR_4;
+    FlashErase.NbSectors = number;
+    FlashErase.Sector = sector;
     FlashErase.VoltageRange = VOLTAGE_RANGE_3;
-    if (HAL_FLASHEx_Erase(&FlashErase, &sectorError) != HAL_OK)   // вызов функции стирания
-    {
-        HAL_FLASH_Lock();                                  // если не смог стереть, то закрыть память и вернуть ошибку
+    if (HAL_FLASHEx_Erase(&FlashErase, &sectorError) != HAL_OK) {  // вызов функции стирания
+        __enable_irq();
+        HAL_FLASH_Lock();
         return HAL_ERROR;
     }
+    __enable_irq();
+    return HAL_OK;
 }
-
 
 void startUpdateFirmware(FIL* fp, const TCHAR* path, uint32_t len){
     printf("\r\n************* Start update Firmware ************\r\n");
-//Вычисляем n (раз по BLOCK_SIZE) и m  (остаток байт)
-    uint8_t n = len / BLOCK_SIZE;
-    uint8_t m = len - (n * BLOCK_SIZE);
-    printf ("firmware - %d part (%d) + %d byte\r\n", n, BLOCK_SIZE, m);
+
     f_open(fp, path, FA_READ );
     if (fp->obj.objsize > 0){
-        //Если успешно стираем FLASH
+        if (eraseFlashSectors(FLASH_SECTOR_4, numSectorsErase) == HAL_OK){
+            printf ("erased %d flash sectors from %d to %d \r\n", numSectorsErase, FLASH_SECTOR_4, FLASH_SECTOR_4 + numSectorsErase -1);
+        //Вычисляем n (раз по BLOCK_SIZE) и m  (остаток байт)
+            uint8_t n = len / BLOCK_SIZE;
+            uint8_t m = len - (n * BLOCK_SIZE);
+            printf ("firmware - %d part (%d) + %d byte\r\n", n, BLOCK_SIZE, m);
 
-
-
-
-
-
-        FLASH_EraseInitTypeDef EraseInitStruct;
-        uint32_t PAGEError;
-        EraseInitStruct.TypeErase   = FLASH_TYPEERASE_SECTORS ;
-        EraseInitStruct.Sector   = FLASH_SECTOR_4;
-        EraseInitStruct.NbSectors   = numSectorsErase;
-        EraseInitStruct.VoltageRange = FLASH_VOLTAGE_RANGE_3;
-        __HAL_FLASH_CLEAR_FLAG(FLASH_FLAG_EOP | FLASH_FLAG_OPERR | FLASH_FLAG_WRPERR | FLASH_FLAG_PGAERR | FLASH_FLAG_PGPERR | FLASH_FLAG_PGSERR);
-        HAL_FLASHEx_Erase(&EraseInitStruct, &PAGEError);
-        while(FLASH_WaitForLastOperation(10000) != HAL_OK){};
-        printf ("ERASE %d sectors FLASH\r\n", numSectorsErase);
-        UINT bytesRead;
-        uint32_t addresFlashWrite = FLASH_APP_START_ADDESS;
-        for (uint8_t i = 0; i < n; ++i){
-            f_read(fp, bufFW, BLOCK_SIZE, &bytesRead);
+            UINT bytesRead;
+            uint32_t addresFlashWrite = FLASH_APP_START_ADDESS;
+            for (uint8_t i = 0; i < n; ++i){
+                f_read(fp, bufFW, BLOCK_SIZE, &bytesRead);
+                printf ("read %d byte\r\n", bytesRead);
+                printf ("flash address 0x%X \r\n", addresFlashWrite);
+//Запись во FLASH
+//                if (writeFlash(addresFlashWrite, bufFW, BLOCK_SIZE) == HAL_OK){
+//                    printf ("WRITE FLASH to address %X %d byte\r\n", addresFlashWrite, BLOCK_SIZE);
+//                }
+//                else {
+//                    printf ("ERROR WRITE FLASH to address %X %d byte\r\n", addresFlashWrite, BLOCK_SIZE);
+//                }
+                addresFlashWrite += BLOCK_SIZE;
+            }
+//Остаток m байт
+            f_read(fp, bufFW, m, &bytesRead);
             printf ("read %d byte\r\n", bytesRead);
             printf ("flash address 0x%X \r\n", addresFlashWrite);
-            //Запись во FLASH
-            HAL_FLASH_Program(FLASH_TYPEPROGRAM_BYTE, addresFlashWrite , bufFW);
-            while(FLASH_WaitForLastOperation(10000) != HAL_OK){};
-            addresFlashWrite += BLOCK_SIZE;
-            printf ("WRITE FLASH to address %X %d byte\r\n", addresFlashWrite, );
+//            if (writeFlash(addresFlashWrite, bufFW, m) == HAL_OK){
+//                printf ("WRITE FLASH to address %X %d byte\r\n", addresFlashWrite, m);
+//            }
+//            else {
+//                printf ("ERROR WRITE FLASH to address %X %d byte\r\n", addresFlashWrite, m);
+//            }
+
+        }//if (eraseFlashSectors(FLASH_SECTOR_4, numSectorsErase) == HAL_OK)
+        else {
+            printf ("error erased flash sectors \r\n");
         }
-        //Остаток m байт
-        //Заполняем буфер 0xFF
-        memcpy(bufFW,"0xFF", BLOCK_SIZE);
-        f_read(fp, bufFW, m, &bytesRead);
-        printf ("read %d byte\r\n", bytesRead);
-        printf ("flash address 0x%X \r\n", addresFlashWrite);
-        //Запись во FLASH остатка m
-        HAL_FLASH_Program(FLASH_TYPEPROGRAM_BYTE, addresFlashWrite , bufFW);
-        while(FLASH_WaitForLastOperation(10000) != HAL_OK){};
-        HAL_FLASH_Lock();
     }//if (fp->obj.objsize > 0)
     f_close(fp);
 }
