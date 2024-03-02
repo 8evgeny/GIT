@@ -180,14 +180,14 @@ void startUpdateFirmware(FIL* fp, const TCHAR* path, uint32_t len){
         if (eraseFlashSectors(FLASH_SECTOR_4, numSectorsErase) == HAL_OK){
             printf ("erased %d flash sectors from %d to %d \r\n", numSectorsErase, FLASH_SECTOR_4, FLASH_SECTOR_4 + numSectorsErase -1);
         //Вычисляем n (раз по BLOCK_SIZE) и m  (остаток байт)
-            uint8_t n = len / BLOCK_SIZE;
-            uint8_t m = len - (n * BLOCK_SIZE);
+            uint8_t n = len / (BLOCK_SIZE * 4);
+            uint8_t m = len - (n * (BLOCK_SIZE * 4));
             printf ("firmware - %d part (%d) + %d byte\r\n", n, BLOCK_SIZE, m);
 
             UINT bytesRead;
             uint32_t addresFlashWrite = FLASH_APP_START_ADDESS;
             for (uint8_t i = 0; i < n; ++i){
-                f_read(fp, bufFW, BLOCK_SIZE, &bytesRead);
+                f_read(fp, bufFW, BLOCK_SIZE * 4, &bytesRead);
                 printf ("read %d byte\r\n", bytesRead);
                 printf ("flash address 0x%X \r\n", addresFlashWrite);
 //Запись во FLASH
@@ -197,7 +197,7 @@ void startUpdateFirmware(FIL* fp, const TCHAR* path, uint32_t len){
 //                else {
 //                    printf ("ERROR WRITE FLASH to address %X %d byte\r\n", addresFlashWrite, BLOCK_SIZE);
 //                }
-                addresFlashWrite += BLOCK_SIZE;
+                addresFlashWrite += BLOCK_SIZE * 4;
             }
 //Остаток m байт
             f_read(fp, bufFW, m, &bytesRead);
