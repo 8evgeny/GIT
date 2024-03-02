@@ -135,6 +135,41 @@ void checkFirmwareOnSD(FIL* fp, const TCHAR* path, uint32_t * numByte){
     *numByte = fp->obj.objsize;
     f_close(fp);
 }
+
+uint8_t writeFlash (uint32_t addr, uint32_t len, uint32_t* buf, uint32_t bufSize)
+{
+    HAL_StatusTypeDef status = HAL_OK;
+
+    uint32_t *dataPtr =  buf;          // создаем указатель на нашу структуру и записываем ее кусочками по 32 бита
+    for (uint8_t i = 0; i < bufSize / 4; i++)
+    {
+        status += HAL_FLASH_Program(FLASH_TYPEPROGRAM_WORD, addr, dataPtr[i]);
+        addr += 4;
+    }
+    __enable_irq();                                        // включаем прерывания обратно
+     HAL_FLASH_Lock();
+    return status;
+}
+
+uint8_t eraseFlash(){
+    FLASH_EraseInitTypeDef FlashErase;                     // структура для функции стирания страницы
+    uint32_t sectorError = 0;                              // переменная для записи информации об ошибках в процессе стирания
+
+    __disable_irq();                                       // запрещаем прерывания
+    HAL_FLASH_Unlock();                                    // разлочить память
+
+    FlashErase.TypeErase = FLASH_TYPEERASE_SECTORS;
+    FlashErase.NbSectors = numSectorsErase;
+    FlashErase.Sector = FLASH_SECTOR_4;
+    FlashErase.VoltageRange = VOLTAGE_RANGE_3;
+    if (HAL_FLASHEx_Erase(&FlashErase, &sectorError) != HAL_OK)   // вызов функции стирания
+    {
+        HAL_FLASH_Lock();                                  // если не смог стереть, то закрыть память и вернуть ошибку
+        return HAL_ERROR;
+    }
+}
+
+
 void startUpdateFirmware(FIL* fp, const TCHAR* path, uint32_t len){
     printf("\r\n************* Start update Firmware ************\r\n");
 //Вычисляем n (раз по BLOCK_SIZE) и m  (остаток байт)
@@ -144,7 +179,12 @@ void startUpdateFirmware(FIL* fp, const TCHAR* path, uint32_t len){
     f_open(fp, path, FA_READ );
     if (fp->obj.objsize > 0){
         //Если успешно стираем FLASH
-        HAL_FLASH_Unlock();
+
+
+
+
+
+
         FLASH_EraseInitTypeDef EraseInitStruct;
         uint32_t PAGEError;
         EraseInitStruct.TypeErase   = FLASH_TYPEERASE_SECTORS ;
@@ -165,6 +205,7 @@ void startUpdateFirmware(FIL* fp, const TCHAR* path, uint32_t len){
             HAL_FLASH_Program(FLASH_TYPEPROGRAM_BYTE, addresFlashWrite , bufFW);
             while(FLASH_WaitForLastOperation(10000) != HAL_OK){};
             addresFlashWrite += BLOCK_SIZE;
+            printf ("WRITE FLASH to address %X %d byte\r\n", addresFlashWrite, );
         }
         //Остаток m байт
         //Заполняем буфер 0xFF
