@@ -90,6 +90,49 @@ typedef void (*pFunction)(void);
 uint32_t bufFW[NUM_WORLDS];         // 12288 * 4 байт
 #define   numSectorsErase        3
 
+void readDirSD(char * nameFirmware, uint32_t * sizeFirmware ){
+    puts("\r\nDisplay Directory on SD\r");
+      {
+        DIR dir;
+        char *path;
+        char string[128];
+        path = ""; // where you want to list
+        uint8_t res = f_opendir(&dir, path);
+        if (res != FR_OK){
+//          printf("res = %d f_opendir\r\n", res);
+            printf("SD not found\r\n");
+        }
+        if (res == FR_OK)
+        {
+          while(1)
+          {
+            FILINFO fno;
+            res = f_readdir(&dir, &fno);
+
+            if (res != FR_OK){
+              printf("res = %d f_readdir\r\n", res);
+            }
+
+            if ((res != FR_OK) || (fno.fname[0] == 0))
+              break;
+
+            sprintf(string, "%c%c%c%c %10d %s/%s\r",
+              ((fno.fattrib & AM_DIR) ? 'D' : '-'),
+              ((fno.fattrib & AM_RDO) ? 'R' : '-'),
+              ((fno.fattrib & AM_SYS) ? 'S' : '-'),
+              ((fno.fattrib & AM_HID) ? 'H' : '-'),
+              (int)fno.fsize, path, fno.fname);
+
+            if (strstr(fno.fname, ".bin") != NULL) {
+                strcpy(nameFirmware, fno.fname);
+                *sizeFirmware = (int)fno.fsize;
+            }
+            puts(string);
+          }
+        }
+      }
+    puts("");
+}
 void firmware_run(void) {
     uint32_t appStack = (uint32_t) *((uint32_t *) APP_ADDR);
     pFunction appEntry = (pFunction) *(uint32_t *) (APP_ADDR + 4);
@@ -100,7 +143,7 @@ void firmware_run(void) {
 int fw_check(void)
 {
     extern void* _estack; // Это из линкера, генерируется автоматически и указывает на конец RAM (или стек)
-    printf("_estack:\t\t\t %p\r\n", (uint32_t*)&_estack);
+//    printf("_estack:\t\t\t %p\r\n", (uint32_t*)&_estack);
     // Проверка первого адреса прошивки, значение в нем должно быть размером RAM (регистр SP)
 //    if (((*(uint32_t*) FLASH_APP_START_ADDESS) & 0x2FFF8000) != &_estack) //Непонятно зачем &
     if ((*(uint32_t*) FLASH_APP_START_ADDESS) != &_estack)
@@ -119,23 +162,6 @@ int _write(int fd, char *str, int len)
     }
     return len;
 }
-FRESULT checkFileOnSD(FIL* fp, const TCHAR* path){
-    f_open(fp, path, FA_READ );
-    uint32_t numByte = fp->obj.objsize;
-    f_close(fp);
-    if (numByte > 0) {
-        return FR_OK;
-    }
-    else {
-        return FR_NO_FILE;
-    }
-}
-void checkFirmwareOnSD(FIL* fp, const TCHAR* path, uint32_t * numByte){
-    f_open(fp, path, FA_READ );
-    *numByte = fp->obj.objsize;
-    f_close(fp);
-}
-
 uint8_t writeFlash (uint32_t addr, uint32_t* buf, uint32_t numWorlds){
     printf("invoke writeFlash\r\n");
     HAL_StatusTypeDef status = HAL_OK;
@@ -152,7 +178,6 @@ uint8_t writeFlash (uint32_t addr, uint32_t* buf, uint32_t numWorlds){
 
     return status;
 }
-
 uint8_t eraseFlashSectors(uint32_t sector, uint32_t number){
     printf("invoke eraseFlashSectors\r\n");
 //    __HAL_FLASH_CLEAR_FLAG(FLASH_FLAG_EOP | FLASH_FLAG_OPERR | FLASH_FLAG_WRPERR | FLASH_FLAG_PGAERR | FLASH_FLAG_PGPERR | FLASH_FLAG_PGSERR);
@@ -172,7 +197,6 @@ uint8_t eraseFlashSectors(uint32_t sector, uint32_t number){
     __enable_irq();
     return HAL_OK;
 }
-
 void startUpdateFirmware(FIL* fp, const TCHAR* path, uint32_t len){
     printf("\r\n************* Start update Firmware ************\r\n");
 
@@ -282,44 +306,18 @@ int main(void)
   /* USER CODE BEGIN 2 */
     printf("************************************************\r\n");
     printf("version bootloader: %.2d_%.2d\r\n", main_FW, patch_FW);
-    f_mount(&fs, "", 0);
-
-    if (checkFileOnSD(&file,"host_IP") == FR_OK){
-        printf("on SD found file  host_IP\r\n");
-    } else { printf("on SD not found file  host_IP\r\n");}
-
-    if (checkFileOnSD(&file,"dest_IP") == FR_OK){
-        printf("on SD found file  dest_IP\r\n");
-    } else { printf("on SD not found file  dest_IP\r\n");}
-
-    if (checkFileOnSD(&file,"mask_IP") == FR_OK){
-        printf("on SD found file  mask_IP\r\n");
-    } else { printf("on SD not found file  mask_IP\r\n");}
-
-    if (checkFileOnSD(&file,"gate_IP") == FR_OK){
-        printf("on SD found file  gate_IP\r\n");
-    } else { printf("on SD not found file  gate_IP\r\n");}
-
-    if (checkFileOnSD(&file,"mac16") == FR_OK){
-        printf("on SD found file  mac16\r\n");
-    } else { printf("on SD not found file  mac16\r\n");}
-
-    if (checkFileOnSD(&file,"md5") == FR_OK){
-        printf("on SD found file  md5\r\n");
-    } else { printf("on SD not found file  md5\r\n");}
-
-    uint32_t lenFw;
-    checkFirmwareOnSD(&file, "Bridge.bin", &lenFw);
-    if(lenFw == 0){
-        printf("on SD not found new Firmware file (Bridge.bin)\r\n");
-    } else {
-        printf("on SD found new Firmware file (Bridge.bin) len = %d\r\n", lenFw);
-        startUpdateFirmware(&file, "Bridge.bin", lenFw);
-    }
-
     printf("\r\nstart address SHARED_MEMORY:\t %p\r\n", (uint32_t*)&_smem);
     printf("start address APP:\t\t %p\r\n", (uint32_t*)&_sapp);
     printf("end   address APP:\t\t %p\r\n", (uint32_t*)&_eapp);
+    f_mount(&fs, "", 0);
+    char nameFw[100];
+    uint32_t sizeFw = 0;
+    readDirSD(nameFw, &sizeFw);
+    if (sizeFw > 0){
+        printf ("fount firmware file: %s size: %d\r\n",nameFw, sizeFw);
+        startUpdateFirmware(&file, nameFw, sizeFw);
+    }
+
     if (0 == fw_check()){
         printf("\r\n******* Send control for main Firmware *********\r\n");
         firmware_run();
