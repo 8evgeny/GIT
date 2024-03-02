@@ -165,6 +165,7 @@ void startUpdateFirmware(FIL* fp, const TCHAR* path, uint32_t len){
             HAL_FLASH_Program(FLASH_TYPEPROGRAM_BYTE, addresFlashWrite , bufFW);
             while(FLASH_WaitForLastOperation(10000) != HAL_OK){};
             addresFlashWrite += BLOCK_SIZE;
+            printf ("WRITE FLASH to add%d sectors FLASH\r\n", numSectorsErase);
         }
         //Остаток m байт
         //Заполняем буфер 0xFF
