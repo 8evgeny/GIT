@@ -86,8 +86,8 @@ typedef void (*pFunction)(void);
 #define FLASH_SECTOR_11_ADDR     0x080E0000          // Sector 11, 128 Kbytes
 #define FLASH_LAST_ADDR          0x080FFFFE
 #define APP_ADDR             FLASH_SECTOR_4_ADDR
-#define  BLOCK_SIZE              0x1000
-uint32_t bufFW[BLOCK_SIZE];         // 16k (4096 слова)
+#define  NUM_WORLDS              12288
+uint32_t bufFW[NUM_WORLDS];         // 12288 * 4 байт
 #define   numSectorsErase        3
 
 void firmware_run(void) {
@@ -136,19 +136,21 @@ void checkFirmwareOnSD(FIL* fp, const TCHAR* path, uint32_t * numByte){
     f_close(fp);
 }
 
-uint8_t writeFlash (uint32_t addr, uint32_t* buf, uint32_t bufSize)
+uint8_t writeFlash (uint32_t addr, uint32_t* buf, uint32_t numWorlds)
 {
     printf("invoke writeFlash\r\n");
-    __disable_irq();
-    HAL_FLASH_Unlock();
     HAL_StatusTypeDef status = HAL_OK;
-    for (uint8_t i = 0; i < bufSize; i++) {
-        status += HAL_FLASH_Program(FLASH_TYPEPROGRAM_WORD, addr, buf[i]);
-        printf("HAL_FLASH_Program addr: %X data: %X\r\n", addr, buf[i]);
-        addr += 4;
-    }
-    __enable_irq();
-     HAL_FLASH_Lock();
+
+//    __disable_irq();
+//    HAL_FLASH_Unlock();
+//    for (uint8_t i = 0; i < numWorlds; i++) {
+//        status += HAL_FLASH_Program(FLASH_TYPEPROGRAM_WORD, addr, buf[i]);
+//        printf("HAL_FLASH_Program addr: %X data: %X\r\n", addr, buf[i]);
+//        addr += 4;
+//    }
+//    __enable_irq();
+//     HAL_FLASH_Lock();
+
     return status;
 }
 
@@ -180,35 +182,39 @@ void startUpdateFirmware(FIL* fp, const TCHAR* path, uint32_t len){
         if (eraseFlashSectors(FLASH_SECTOR_4, numSectorsErase) == HAL_OK){
             printf ("erased %d flash sectors from %d to %d \r\n", numSectorsErase, FLASH_SECTOR_4, FLASH_SECTOR_4 + numSectorsErase -1);
         //Вычисляем n (раз по BLOCK_SIZE) и m  (остаток байт)
-            uint8_t n = len / (BLOCK_SIZE * 4);
-            uint8_t m = len - (n * (BLOCK_SIZE * 4));
-            printf ("firmware - %d part (%d) + %d byte\r\n", n, BLOCK_SIZE, m);
+            uint8_t n = len / (NUM_WORLDS * 4);
+
+            uint32_t m = len % (NUM_WORLDS * 4);
+            printf ("firmware - %d part (%d) + %d byte\r\n", n, NUM_WORLDS * 4, m);
 
             UINT bytesRead;
             uint32_t addresFlashWrite = FLASH_APP_START_ADDESS;
             for (uint8_t i = 0; i < n; ++i){
-                f_read(fp, bufFW, BLOCK_SIZE * 4, &bytesRead);
+                f_read(fp, bufFW, NUM_WORLDS * 4, &bytesRead);
                 printf ("read %d byte\r\n", bytesRead);
                 printf ("flash address 0x%X \r\n", addresFlashWrite);
 //Запись во FLASH
-//                if (writeFlash(addresFlashWrite, bufFW, BLOCK_SIZE) == HAL_OK){
-//                    printf ("WRITE FLASH to address %X %d byte\r\n", addresFlashWrite, BLOCK_SIZE);
-//                }
-//                else {
-//                    printf ("ERROR WRITE FLASH to address %X %d byte\r\n", addresFlashWrite, BLOCK_SIZE);
-//                }
-                addresFlashWrite += BLOCK_SIZE * 4;
+
+                if (writeFlash(addresFlashWrite, bufFW, NUM_WORLDS) == HAL_OK){
+                    printf ("WRITE FLASH to address %X %d byte\r\n", addresFlashWrite, NUM_WORLDS * 4);
+                }
+                else {
+                    printf ("ERROR WRITE FLASH to address %X %d byte\r\n", addresFlashWrite, NUM_WORLDS * 4);
+                }
+
+                addresFlashWrite += NUM_WORLDS * 4;
             }
 //Остаток m байт
             f_read(fp, bufFW, m, &bytesRead);
             printf ("read %d byte\r\n", bytesRead);
             printf ("flash address 0x%X \r\n", addresFlashWrite);
-//            if (writeFlash(addresFlashWrite, bufFW, m) == HAL_OK){
-//                printf ("WRITE FLASH to address %X %d byte\r\n", addresFlashWrite, m);
-//            }
-//            else {
-//                printf ("ERROR WRITE FLASH to address %X %d byte\r\n", addresFlashWrite, m);
-//            }
+
+            if (writeFlash(addresFlashWrite, bufFW, m / 4) == HAL_OK){
+                printf ("WRITE FLASH to address %X %d byte\r\n", addresFlashWrite, m);
+            }
+            else {
+                printf ("ERROR WRITE FLASH to address %X %d byte\r\n", addresFlashWrite, m);
+            }
 
         }//if (eraseFlashSectors(FLASH_SECTOR_4, numSectorsErase) == HAL_OK)
         else {
