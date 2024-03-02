@@ -143,11 +143,12 @@ uint8_t writeFlash (uint32_t addr, uint32_t* buf, uint32_t numWorlds)
 
 //    __disable_irq();
 //    HAL_FLASH_Unlock();
-//    for (uint8_t i = 0; i < numWorlds; i++) {
+    for (uint8_t i = 0; i < numWorlds; i++) {
 //        status += HAL_FLASH_Program(FLASH_TYPEPROGRAM_WORD, addr, buf[i]);
-//        printf("HAL_FLASH_Program addr: %X data: %X\r\n", addr, buf[i]);
-//        addr += 4;
-//    }
+
+        printf("HAL_FLASH_Program addr: %lX data: %lX\r\n", addr, buf[i]);
+        addr += 4;
+    }
 //    __enable_irq();
 //     HAL_FLASH_Lock();
 
@@ -194,8 +195,8 @@ void startUpdateFirmware(FIL* fp, const TCHAR* path, uint32_t len){
                 printf ("read %d byte\r\n", bytesRead);
                 printf ("flash address 0x%X \r\n", addresFlashWrite);
 //Запись во FLASH
-
-                if (writeFlash(addresFlashWrite, bufFW, NUM_WORLDS) == HAL_OK){
+if (writeFlash(addresFlashWrite, bufFW, 10) == HAL_OK){
+//                if (writeFlash(addresFlashWrite, bufFW, NUM_WORLDS) == HAL_OK){
                     printf ("WRITE FLASH to address %X %d byte\r\n", addresFlashWrite, NUM_WORLDS * 4);
                 }
                 else {
@@ -209,12 +210,12 @@ void startUpdateFirmware(FIL* fp, const TCHAR* path, uint32_t len){
             printf ("read %d byte\r\n", bytesRead);
             printf ("flash address 0x%X \r\n", addresFlashWrite);
 
-            if (writeFlash(addresFlashWrite, bufFW, m / 4) == HAL_OK){
-                printf ("WRITE FLASH to address %X %d byte\r\n", addresFlashWrite, m);
-            }
-            else {
-                printf ("ERROR WRITE FLASH to address %X %d byte\r\n", addresFlashWrite, m);
-            }
+//            if (writeFlash(addresFlashWrite, bufFW, m / 4) == HAL_OK){
+//                printf ("WRITE FLASH to address %X %d byte\r\n", addresFlashWrite, m);
+//            }
+//            else {
+//                printf ("ERROR WRITE FLASH to address %X %d byte\r\n", addresFlashWrite, m);
+//            }
 
         }//if (eraseFlashSectors(FLASH_SECTOR_4, numSectorsErase) == HAL_OK)
         else {
