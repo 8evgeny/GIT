@@ -90,6 +90,16 @@ typedef void (*pFunction)(void);
 uint32_t bufFW[NUM_WORLDS];         // 12288 * 4 байт
 #define   numSectorsErase        3
 
+uint32_t flashReadWorld(uint32_t address){
+    return (*(__IO uint32_t*)address);
+}
+
+void printFlash(uint32_t address, uint32_t numByte){
+    for (int i = 0; i < numByte/4 ; ++i){
+        printf("address: %X value: %.8X\r\n", address + i*4, flashReadWorld(address + i*4));
+    }
+}
+
 void readDirSD(char * nameFirmware, uint32_t * sizeFirmware ){
     puts("\r\nDisplay Directory on SD\r");
       {
@@ -134,6 +144,7 @@ void readDirSD(char * nameFirmware, uint32_t * sizeFirmware ){
     puts("");
 }
 void firmware_run(void) {
+
     uint32_t appStack = (uint32_t) *((uint32_t *) APP_ADDR);
     pFunction appEntry = (pFunction) *(uint32_t *) (APP_ADDR + 4);
     SCB->VTOR = APP_ADDR;
@@ -319,6 +330,9 @@ int main(void)
     }
 
     if (0 == fw_check()){
+        //Читаем данные по адресу APP_ADDR + 0x12F0 (таблица векторов)
+        printFlash(APP_ADDR + 0x12F0, 150);
+
         printf("\r\n******* Send control for main Firmware *********\r\n");
         firmware_run();
     }
