@@ -331,7 +331,7 @@ int main(void)
 
     if (0 == fw_check()){
         //Читаем данные по адресу APP_ADDR + 0x188 (таблица векторов)
-        printFlash(APP_ADDR + 0x188, 128);
+        printFlash(APP_ADDR + 0x188, 40);
 
         printf("\r\n******* Send control for main Firmware *********\r\n");
         firmware_run();
