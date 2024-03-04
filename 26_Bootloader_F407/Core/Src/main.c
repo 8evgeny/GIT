@@ -86,6 +86,7 @@ typedef void (*pFunction)(void);
 #define FLASH_SECTOR_11_ADDR     0x080E0000          // Sector 11, 128 Kbytes
 #define FLASH_LAST_ADDR          0x080FFFFE
 #define APP_ADDR             FLASH_SECTOR_4_ADDR
+#define FIRMWARE_SECTION_ADDR    APP_ADDR + 0x188
 #define  NUM_WORLDS              12288
 uint32_t bufFW[NUM_WORLDS];         // 12288 * 4 байт
 #define   numSectorsErase        3
@@ -331,9 +332,9 @@ int main(void)
 
     if (0 == fw_check()){
         //Читаем данные по адресу APP_ADDR + 0x188 (таблица векторов)
-        printFlash(APP_ADDR + 0x188, 4*8);
-        printf("num version: %d\r\n",flashReadWorld(APP_ADDR + 0x188));
-        printf("num patch: %d\r\n",flashReadWorld(APP_ADDR + 0x188 + 4));
+        printFlash(FIRMWARE_SECTION_ADDR, 4 * 10); //Передается 10 слов в новой секции
+        printf("num version: %d\r\n",flashReadWorld(FIRMWARE_SECTION_ADDR));
+        printf("num patch: %d\r\n",flashReadWorld(FIRMWARE_SECTION_ADDR + 4));
 
         printf("\r\n******* Send control for main Firmware *********\r\n");
         firmware_run();
