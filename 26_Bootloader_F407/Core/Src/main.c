@@ -163,7 +163,6 @@ int fw_check(void)
         printf("not found firmware on %p\r\n", (uint32_t*)&_sapp);
         return -1;
     }
-    printf("in address %p found main Firmware\r\n", (uint32_t*)&_sapp);
     return 0;
 }
 int _write(int fd, char *str, int len)
@@ -331,12 +330,30 @@ int main(void)
     }
 
     if (0 == fw_check()){
-        //Читаем данные по адресу APP_ADDR + 0x188 (таблица векторов)
-        printFlash(FIRMWARE_SECTION_ADDR, 4 * 10); //Передается 10 слов в новой секции
-        printf("num version: %d\r\n",flashReadWorld(FIRMWARE_SECTION_ADDR));
-        printf("num patch: %d\r\n",flashReadWorld(FIRMWARE_SECTION_ADDR + 4));
 
-        printf("\r\n******* Send control for main Firmware *********\r\n");
+//Читаем данные по адресу APP_ADDR + 0x188(размер таблицы векторов)
+
+//        printFlash(FIRMWARE_SECTION_ADDR, 4 * 10);                   //Передается 10 слов в новой секции
+//        printf("num version: %d\r\n",flashReadWorld(FIRMWARE_SECTION_ADDR));
+//        printf("num patch: %d\r\n",flashReadWorld(FIRMWARE_SECTION_ADDR + 4));
+//        printf("year: %d\r\n", 2000 + flashReadWorld(FIRMWARE_SECTION_ADDR + 8));
+//        printf("month: %d\r\n",flashReadWorld(FIRMWARE_SECTION_ADDR + 12));
+//        printf("day: %d\r\n",flashReadWorld(FIRMWARE_SECTION_ADDR + 16));
+//        printf("hour: %d\r\n",flashReadWorld(FIRMWARE_SECTION_ADDR + 20));
+//        printf("min: %d\r\n",flashReadWorld(FIRMWARE_SECTION_ADDR + 24));
+//        printf("sec: %d\r\n",flashReadWorld(FIRMWARE_SECTION_ADDR + 28));
+
+        printf("in address %p found main firmware ", (uint32_t*)&_sapp);
+        printf("version %.2d_%.2d ",flashReadWorld(FIRMWARE_SECTION_ADDR),flashReadWorld(FIRMWARE_SECTION_ADDR + 4));
+        printf("created %.4d-%.2d-%.2d %.2dh:%.2dm:%.2ds\r\n",
+               2000 + flashReadWorld(FIRMWARE_SECTION_ADDR + 8),
+               flashReadWorld(FIRMWARE_SECTION_ADDR + 12),
+               flashReadWorld(FIRMWARE_SECTION_ADDR + 16),
+               flashReadWorld(FIRMWARE_SECTION_ADDR + 20),
+               flashReadWorld(FIRMWARE_SECTION_ADDR + 24),
+               flashReadWorld(FIRMWARE_SECTION_ADDR + 28)
+               );
+        printf("\r\n******* Send control for main Firmware *********\r\n\n\n\n");
         firmware_run();
     }
 
