@@ -316,7 +316,7 @@ int main(void)
     printf("************************************************\r\n");
     printf("version bootloader: %.2d_%.2d\r\n", main_FW, patch_FW);
     printf("start address APP:\t\t %p\r\n", (uint32_t*)&_sapp);
-    printf("end   address APP:\t\t %p\r\n", (uint32_t*)&_eapp);
+//    printf("end   address APP:\t\t %p\r\n", (uint32_t*)&_eapp);
     f_mount(&fs, "", 0);
     char nameFw[100];
     uint32_t sizeFw = 0;
