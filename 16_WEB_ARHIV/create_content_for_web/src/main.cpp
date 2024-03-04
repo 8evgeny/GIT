@@ -71,11 +71,8 @@ int main(int argc, char *argv[])
     path archiv_path_zip{"/home/evg/SOFT/Github/GIT/16_WEB_ARHIV/NIOKR_aktual_DOC"}; //Для виртуалки
 //    path archiv_path_zip{"/home/evg/SOFT/Github/GIT/16_WEB_ARHIV/_TEST"};
 
-    if (argc == 2){
-        cout << "Передается в качестве параметра путь: "<< archiv_path_zip << endl;
-        archiv_path_zip= argv[1];
-    }
-
+    if (argc == 2){ archiv_path_zip= argv[1];}
+    cout << "Путь к архиву zip: "<< archiv_path_zip << endl;
     string pathToExtractDirectory = "../EXTRACT"; //в папке build
     const path archiv_path_extracted{pathToExtractDirectory};
 //Разархивирование исходного контента
