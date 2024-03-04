@@ -28,6 +28,7 @@ using namespace chrono_literals;
 using namespace std::filesystem;
 
 bool parseJSON(string & patchToFile, const path & archiv_path_zip);
+bool parseTypeDock(string oboznachenieIkodDokumenta, string naimenovanieDokumenta);
 bool extractZip(string & patchToFile, string & fileName, string & patchToExtractDirectory);
 
 quint32 CRC32(QString fileName);

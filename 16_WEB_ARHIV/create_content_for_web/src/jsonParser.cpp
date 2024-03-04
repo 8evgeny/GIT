@@ -27,9 +27,9 @@ bool parseJSON(string & patchToFile, const path & archiv_path_zip){ //archiv_pat
     file.close();
 
     //Переменные
+    string oboznachenieIkodDokumenta{""};                     //1
     string naimenovanieIzdeliya{""};
     string naimenovanieDokumenta{""};
-    string oboznachenieIkodDokumenta{""};                     //1
     quint32 crc32; //СКС32 PDF файла
     string crc32Main;
     string crc32Contents; //СКС32 папки Contents
@@ -107,6 +107,16 @@ bool parseJSON(string & patchToFile, const path & archiv_path_zip){ //archiv_pat
                     oboznachenieIkodDokumenta = requisites["Обозначение и код документа"].GetString();
                     nameFileForDeleteIfJsonNoGood = oboznachenieIkodDokumenta;
                     if(blankStr.exactMatch(QString::fromStdString(oboznachenieIkodDokumenta))) return false;
+//Тут проверяем что  "Наименование документа"  соответствуют  последним символам в  "Обозначение и код документа"
+
+                    if (!parseTypeDock(oboznachenieIkodDokumenta, naimenovanieDokumenta)) {
+                        cout << "Несоответствие Наименования документа коду документа:" <<  naimenovanieDokumenta<< " - " <<oboznachenieIkodDokumenta << endl;
+                        return false;
+                    }
+
+
+
+
       //вычисляем CRC32 PDF файла
       string appPdf = oboznachenieIkodDokumenta;
       string chopped = patchToFile;
@@ -671,4 +681,72 @@ string addDoubleQuotesToName(string & name){
     tmp.insert(pos + 1,"\"");
     tmp += "\"";
     return tmp;
+}
+
+bool parseTypeDock(string oboznachenieIkodDokumenta, string naimenovanieDokumenta){
+    if (naimenovanieDokumenta == "Спецификация")
+        return true;
+    if ((naimenovanieDokumenta == "Чертёж детали") || (naimenovanieDokumenta == "Чертеж детали"))
+        return true;
+    if ((naimenovanieDokumenta == "Сборочный чертеж") || (naimenovanieDokumenta == "Сборочный чертёж")){
+        if (oboznachenieIkodDokumenta.find("СБ") != string::npos){ return true; } else { return false; }
+    }
+    if ((naimenovanieDokumenta == "Чертеж вида взрывозащиты") ||(naimenovanieDokumenta == "Чертёж вида взрывозащиты")) {
+        if (oboznachenieIkodDokumenta.find("Д2") != string::npos){ return true; } else { return false; }
+        }
+    if (naimenovanieDokumenta == "Схема электрическая функциональная"){
+        if (oboznachenieIkodDokumenta.find("Э2") != string::npos){ return true; } else { return false; }
+        }
+    if (naimenovanieDokumenta == "Схема электрическая принципиальная"){
+        if (oboznachenieIkodDokumenta.find("Э3") != string::npos){ return true; } else { return false; }
+        }
+    if (naimenovanieDokumenta == "Схема электрическая соединений"){
+        if (oboznachenieIkodDokumenta.find("Э4") != string::npos){ return true; } else { return false; }
+        }
+    if (naimenovanieDokumenta == "Перечень элементов"){
+        if (oboznachenieIkodDokumenta.find("ПЭ3") != string::npos){ return true; } else { return false; }
+        }
+    if (naimenovanieDokumenta == "Программа и методика испытаний"){
+        if (oboznachenieIkodDokumenta.find("ПМ") != string::npos){ return true; } else { return false; }
+        }
+    if (naimenovanieDokumenta == "Паспорт"){
+        if (oboznachenieIkodDokumenta.find("ПС") != string::npos){ return true; } else { return false; }
+        }
+    if (naimenovanieDokumenta == "Руководство по эксплуатации"){
+        if (oboznachenieIkodDokumenta.find("РЭ") != string::npos){ return true; } else { return false; }
+        }
+    if (naimenovanieDokumenta == "Технические условия"){
+        if (oboznachenieIkodDokumenta.find("ТУ") != string::npos){ return true; } else { return false; }
+        }
+    if (naimenovanieDokumenta == "Руководство по программированию"){
+        if (oboznachenieIkodDokumenta.find("И2") != string::npos){ return true; } else { return false; }
+        }
+    if (naimenovanieDokumenta == "Ведомость документов на носителях данных"){
+        if (oboznachenieIkodDokumenta.find("ВН") != string::npos){ return true; } else { return false; }
+        }
+    if (naimenovanieDokumenta == "Ведомость покупных изделий"){
+        if (oboznachenieIkodDokumenta.find("ВП") != string::npos){ return true; } else { return false; }
+        }
+    if (naimenovanieDokumenta == "Этикетка"){
+        if (oboznachenieIkodDokumenta.find("ЭТ") != string::npos){ return true; } else { return false; }
+        }
+    if (naimenovanieDokumenta == "Схема деления структурная"){
+        if (oboznachenieIkodDokumenta.find("Е1") != string::npos){ return true; } else { return false; }
+        }
+    if (naimenovanieDokumenta == "Технологическая инструкция"){
+        if (oboznachenieIkodDokumenta.find("ИС") != string::npos){ return true; } else { return false; }
+        }
+    if (naimenovanieDokumenta == "Данные автоматизированного проектирования печатной платы"){
+        if (oboznachenieIkodDokumenta.find("Т5М") != string::npos){ return true; } else { return false; }
+        }
+    if (naimenovanieDokumenta == "Электронная модель детали"){
+        if (oboznachenieIkodDokumenta.find("МД") != string::npos){ return true; } else { return false; }
+        }
+    if (naimenovanieDokumenta == "Электронная модель сборочной единицы"){
+        if (oboznachenieIkodDokumenta.find("МС") != string::npos){ return true; } else { return false; }
+        }
+
+
+        cout<<"Неизвестное наименование документа: "<< naimenovanieDokumenta <<endl;
+    return false;
 }
