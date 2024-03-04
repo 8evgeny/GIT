@@ -64,12 +64,10 @@ FIL file;
 //FIL maskIP;
 //FIL gateIP;
 //FIL newFirmware;
-extern uint32_t * _smem;
 extern uint32_t * _sapp;
 extern uint32_t * _eapp;
 #define FLASH_APP_START_ADDESS (uint32_t) & _sapp
 #define FLASH_APP_END_ADDRESS (uint32_t) & _eapp
-#define FLASH_MEM_ADDRESS (uint32_t) & _smem
 /* Function pointer for jumping to user application. */
 typedef void (*pFunction)(void);
 #define FLASH_SECTOR_0_ADDR      0x08000000          // Sector 0, 16 Kbytes
@@ -317,7 +315,6 @@ int main(void)
   /* USER CODE BEGIN 2 */
     printf("************************************************\r\n");
     printf("version bootloader: %.2d_%.2d\r\n", main_FW, patch_FW);
-    printf("\r\nstart address SHARED_MEMORY:\t %p\r\n", (uint32_t*)&_smem);
     printf("start address APP:\t\t %p\r\n", (uint32_t*)&_sapp);
     printf("end   address APP:\t\t %p\r\n", (uint32_t*)&_eapp);
     f_mount(&fs, "", 0);
