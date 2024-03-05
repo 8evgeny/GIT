@@ -690,7 +690,7 @@ bool parseTypeDock(string oboznachenieIkodDokumenta, string naimenovanieDokument
         return true;
     if ((naimenovanieDokumenta == "Сборочный чертеж") || (naimenovanieDokumenta == "Сборочный чертёж")){
         if (oboznachenieIkodDokumenta.find("СБ") != string::npos){ return true; } else { return false; }
-    }
+        }
     if ((naimenovanieDokumenta == "Чертеж вида взрывозащиты") ||(naimenovanieDokumenta == "Чертёж вида взрывозащиты")) {
         if (oboznachenieIkodDokumenta.find("Д2") != string::npos){ return true; } else { return false; }
         }
@@ -704,7 +704,9 @@ bool parseTypeDock(string oboznachenieIkodDokumenta, string naimenovanieDokument
         if (oboznachenieIkodDokumenta.find("Э4") != string::npos){ return true; } else { return false; }
         }
     if (naimenovanieDokumenta == "Перечень элементов"){
-        if (oboznachenieIkodDokumenta.find("ПЭ3") != string::npos){ return true; } else { return false; }
+        if (oboznachenieIkodDokumenta.find("ПЭ3") != string::npos){ return true; } else {
+                if (oboznachenieIkodDokumenta.find("ПЭ4") != string::npos){return true; } else {return false;}
+            }
         }
     if (naimenovanieDokumenta == "Программа и методика испытаний"){
         if (oboznachenieIkodDokumenta.find("ПМ") != string::npos){ return true; } else { return false; }
