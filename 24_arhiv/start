@@ -12,6 +12,6 @@ cp -fr /home/evg/WG/Ниокр-Документы\ по\ обозначения�
 cp -fr /home/evg/WG/Ниокр-Извещения\ об\ изменении/* /home/evg/SOFT/Github/GIT/16_WEB_ARHIV/NIOKR_messages
 cp -fr /home/evg/WG/Ниокр-Неактуальные\ документы/* /home/evg/SOFT/Github/GIT/16_WEB_ARHIV/NIOKR_old_DOC
 
-cd /home/evg/SOFT/Github/GIT/16_WEB_ARHIV/create_content_for_web/build/bin
+cd /home/evg/SOFT/Github/GIT/16_WEB_ARHIV/create_content_for_web/build
 ./creater_web_content /home/evg/SOFT/Github/GIT/16_WEB_ARHIV/NIOKR_aktual_DOC
 #docker run -it --rm -d -p 8888:80 --name web -v /home/evg/SOFT/Github/GIT/16_WEB_ARHIV/CONTENT:/usr/share/nginx/html nginx
