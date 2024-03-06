@@ -764,6 +764,9 @@ bool parseTypeDock(string oboznachenieIkodDokumenta, string naimenovanieDokument
     if (naimenovanieDokumenta == "Ведомость документов на носителях данных"){
         if (oboznachenieIkodDokumenta.find("Т5М ВН") != string::npos){ return true; } else { return false; }
         }
+    if (naimenovanieDokumenta == "Руководство по компиляции и сборке"){
+        if (oboznachenieIkodDokumenta.find("И2") != string::npos){ return true; } else { return false; }
+        }
 
         cout<<"Неизвестное наименование документа: "<< naimenovanieDokumenta <<endl;
     return false;
