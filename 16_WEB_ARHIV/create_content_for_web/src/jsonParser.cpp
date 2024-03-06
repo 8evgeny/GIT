@@ -3,7 +3,6 @@ extern string WEB_content;
 extern uint numZipFiles;
 extern uint numFolderForWebContent;
 QString nameMainFile;
-//bool nameMainFilelettersBig = true;
 int mainFileSyff = mainFileSyffix::PDF;
 extern bool printDebug;
 extern int errorParsingJson;
@@ -468,18 +467,18 @@ if (printDebug) cout<<"4"<<endl;
         string directoryOLD = archiv_path_zip;
         directoryOLD.append("/../");
         directoryOLD.append("NIOKR_old_DOC");
-        string fileZIP = directoryOLD + "/" + oboznachenieIkodDokumenta + ".изм" + to_string(i) + ".zip";
+        string fileZIP = directoryOLD + "/" + oboznachenieIkodDokumenta + ".изм." + to_string(i) + ".zip";
         string copyZIP = "cp " + fileZIP + " " + WEB_content + to_string(numFolderForWebContent);
         system(copyZIP.c_str());
     //Разворачиваю zip
             string patchToFile = WEB_content + to_string(numFolderForWebContent);
-            string fileName = oboznachenieIkodDokumenta + ".изм" + to_string(i) + ".zip";
-            string patchToExtractDirectory = WEB_content + to_string(numFolderForWebContent) + "/" + oboznachenieIkodDokumenta + ".изм" + to_string(i);
+            string fileName = oboznachenieIkodDokumenta + ".изм." + to_string(i) + ".zip";
+            string patchToExtractDirectory = WEB_content + to_string(numFolderForWebContent) + "/" + oboznachenieIkodDokumenta + ".изм." + to_string(i);
             extractZip(patchToFile, fileName ,patchToExtractDirectory);
     //открываю JSON из папки zip
             string patchToZIPJSON = WEB_content + to_string(numFolderForWebContent)
-                    + "/" + oboznachenieIkodDokumenta + ".изм" + to_string(i)
-                    + "/" + oboznachenieIkodDokumenta + ".изм" + to_string(i) + ".zip/index.json";
+                    + "/" + oboznachenieIkodDokumenta + ".изм." + to_string(i)
+                    + "/" + oboznachenieIkodDokumenta + ".изм." + to_string(i) + ".zip/index.json";
             QFile fileZIPJSON(QString::fromStdString(patchToZIPJSON));
             fileZIPJSON.open(QIODevice::ReadOnly);
             QString jsonZIPData = fileZIPJSON.readAll();
@@ -498,13 +497,22 @@ if (printDebug) cout<<"4"<<endl;
             path_to_IZV.append("NIOKR_messages");
             string nIZM_old_PDF = path_to_IZV + "/" + changeNotificationNumZIP + ".PDF";
             string nIZM_old_pdf = path_to_IZV + "/" + changeNotificationNumZIP + ".pdf";
-            string copyIZM_old_PDF = "cp " + nIZM_old_PDF + " " + WEB_content + to_string(numFolderForWebContent);
-            string copyIZM_old_pdf = "cp " + nIZM_old_pdf + " " + WEB_content + to_string(numFolderForWebContent);
-            system(copyIZM_old_PDF.c_str());
-            system(copyIZM_old_pdf.c_str());
+            bool Big = QFile::exists(QString::fromStdString(nIZM_old_PDF));
+            bool Littl = QFile::exists(QString::fromStdString(nIZM_old_pdf));
+            string copyIZM_old;
+            if (Big){
+                copyIZM_old = "cp " + nIZM_old_PDF + " " + WEB_content + to_string(numFolderForWebContent);
+            }
+            if (Littl){
+                copyIZM_old = "cp " + nIZM_old_pdf + " " + WEB_content + to_string(numFolderForWebContent);
+            }
+
+            system(copyIZM_old.c_str());
+            if (Littl){
             string renameIZM_old_PDF = "mv " + WEB_content + to_string(numFolderForWebContent) + "/" + changeNotificationNumZIP + ".pdf " +
                     WEB_content + to_string(numFolderForWebContent) + "/" + changeNotificationNumZIP + ".PDF";
-            system(renameIZM_old_PDF.c_str());
+                system(renameIZM_old_PDF.c_str());
+            }
     }
 //*******************************************************************
 //Сделать для изм > 0 с пробелом в имени !!
@@ -747,7 +755,15 @@ bool parseTypeDock(string oboznachenieIkodDokumenta, string naimenovanieDokument
     if (naimenovanieDokumenta == "Электронная модель сборочной единицы"){
         if (oboznachenieIkodDokumenta.find("МС") != string::npos){ return true; } else { return false; }
         }
-
+    if (naimenovanieDokumenta == "Описание программы"){
+        if (oboznachenieIkodDokumenta.find(" 13 01") != string::npos){ return true; } else { return false; }
+        }
+    if (naimenovanieDokumenta == "Текст программы"){
+        if (oboznachenieIkodDokumenta.find(" 12 01") != string::npos){ return true; } else { return false; }
+        }
+    if (naimenovanieDokumenta == "Ведомость документов на носителях данных"){
+        if (oboznachenieIkodDokumenta.find("Т5М ВН") != string::npos){ return true; } else { return false; }
+        }
 
         cout<<"Неизвестное наименование документа: "<< naimenovanieDokumenta <<endl;
     return false;
