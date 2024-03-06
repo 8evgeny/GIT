@@ -467,7 +467,7 @@ if (printDebug) cout<<"4"<<endl;
         string directoryOLD = archiv_path_zip;
         directoryOLD.append("/../");
         directoryOLD.append("NIOKR_old_DOC");
-        string fileZIP = directoryOLD + "/" + oboznachenieIkodDokumenta + ".изм." + to_string(i) + ".zip";
+        string fileZIP = directoryOLD + "/\"" + oboznachenieIkodDokumenta + ".изм." + to_string(i) + ".zip\"";
         string copyZIP = "cp " + fileZIP + " " + WEB_content + to_string(numFolderForWebContent);
         system(copyZIP.c_str());
     //Разворачиваю zip
