@@ -119,3 +119,7 @@ add_custom_command(TARGET ${nameFirmware} POST_BUILD
 #add_custom_command(TARGET ${nameFirmware} POST_BUILD
 #    COMMAND st-flash --reset write ${BIN_FILE} 0x8000000
 #    COMMENT "Write Flash ")
+
+#    st-flash --reset write /home/evg/SOFT/Github/GIT/26_Bootloader_F407/build/Bootloader_1_1.hex 0x8000000
+#   openocd -f interface/stlink.cfg  -f target/stm32f4x.cfg -c "program /home/evg/SOFT/Github/GIT/26_Bootloader_F407/build/Bootloader_1_1.hex 0x08000000 reset"
+
