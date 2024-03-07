@@ -469,8 +469,15 @@ if (printDebug) cout<<"4"<<endl;
         directoryOLD.append("/../");
         directoryOLD.append("NIOKR_old_DOC");
         string fileZIP = directoryOLD + "/\"" + oboznachenieIkodDokumenta + ".изм." + to_string(i) + ".zip\"";
-        string copyZIP = "cp " + fileZIP + " " + WEB_content + to_string(numFolderForWebContent);
-        system(copyZIP.c_str());
+
+
+        bool oldExist = QFile::exists(QString::fromStdString(fileZIP));
+if (oldExist){
+            string copyZIP = "cp " + fileZIP + " " + WEB_content + to_string(numFolderForWebContent);
+            system(copyZIP.c_str());
+
+
+
     //Разворачиваю zip
             string patchToFile = WEB_content + to_string(numFolderForWebContent);
             string fileName = oboznachenieIkodDokumenta + ".изм." + to_string(i) + ".zip";
@@ -514,6 +521,15 @@ if (printDebug) cout<<"4"<<endl;
                     WEB_content + to_string(numFolderForWebContent) + "/" + changeNotificationNumZIP + ".PDF";
                 system(renameIZM_old_PDF.c_str());
             }
+}//if (oldExist)
+else {
+    auto pos = fileZIP.find_last_of("/");
+    fileZIP.replace(0,pos + 2,"");
+    fileZIP.pop_back();
+    cout << "Не найден файл файл старой версии: " << fileZIP << endl;
+}
+
+
     }
 //*******************************************************************
 //Сделать для изм > 0 с пробелом в имени !!
