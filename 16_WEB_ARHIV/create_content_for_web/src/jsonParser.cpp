@@ -415,7 +415,8 @@ bool parseJSON(string & patchToFile, const path & archiv_path_zip){ //archiv_pat
 //1. Создаю папку для нового контента
 if (printDebug) cout<<"1"<<endl;
     string createContentFolder = "mkdir " + WEB_content + to_string(numFolderForWebContent);
-    cout << "Create folder mumber " << to_string(numFolderForWebContent) << endl;
+if (printDebug)
+    cout << "Create folder number " << to_string(numFolderForWebContent) << endl;
     system(createContentFolder.c_str());
 
 //2. Копирую актуальный zip файл
@@ -644,11 +645,19 @@ if (printDebug) cout<<"9"<<endl;
     path_to_IUL.append("/../");
     path_to_IUL.append("NIOKR_IUL");
     string nameIulPDF = path_to_IUL + "/\"" + infoOrderList + ".pdf\"";
-    string copyIulPDF = "cp " + nameIulPDF + " " + WEB_content + to_string(numFolderForWebContent);
-    system(copyIulPDF.c_str());
-    string renameIULPDF = "mv " + WEB_content + to_string(numFolderForWebContent) + "/\"" + infoOrderList + ".pdf\" " +
-            WEB_content + to_string(numFolderForWebContent) + "/\"" + infoOrderList + ".PDF\"";
-    system(renameIULPDF.c_str());
+
+    bool existIUL = QFile::exists(QString::fromStdString(nameIulPDF));
+
+    if (!existIUL){
+        cout << "Не найден ИУЛ: " << infoOrderList + ".pdf" <<endl;
+    }
+ if (existIUL){
+         string copyIulPDF = "cp " + nameIulPDF + " " + WEB_content + to_string(numFolderForWebContent);
+        system(copyIulPDF.c_str());
+        string renameIULPDF = "mv " + WEB_content + to_string(numFolderForWebContent) + "/\"" + infoOrderList + ".pdf\" " +
+                WEB_content + to_string(numFolderForWebContent) + "/\"" + infoOrderList + ".PDF\"";
+        system(renameIULPDF.c_str());
+    }
 
 //10. Создаем HTML документ и сохраняем его в папке
 if (printDebug) cout<<"10"<<endl;
@@ -671,7 +680,8 @@ if (printDebug) cout<<"11"<<endl;
     string renameIZMPDF = "mv " + WEB_content + to_string(numFolderForWebContent) + "/" + changeNotificationNum + ".pdf " +
             WEB_content + to_string(numFolderForWebContent) + "/" + changeNotificationNum + ".PDF";
     system(renameIZMPDF.c_str());
-    cout << "Copy content to folder " << to_string(numFolderForWebContent) << endl;
+    if (printDebug)
+        cout << "Copy content to folder " << to_string(numFolderForWebContent) << endl;
 
 //Все действия в контексте текущей папки веб контента завершены
     ++numFolderForWebContent;

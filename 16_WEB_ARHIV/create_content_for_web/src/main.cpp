@@ -157,7 +157,7 @@ int main(int argc, char *argv[])
     cout<<"createTableForWebContent"<<endl;
 
 
-    cout<< "Начинаем разбор разархивированных директорий." << endl;
+    cout<< "Начинаем разбор разархивированных директорий." << endl << endl;
 //Разбор разархивированной директории
     std::vector<string> vectorJsonFilesPath;
     std::vector<string> errorJsonPatch;
@@ -183,13 +183,21 @@ int main(int argc, char *argv[])
         int num = 0;
         for (auto & patchJsonFile : vectorJsonFilesPath){
             ++num;
-            cout <<endl<<"Seaching json "<< num << ": "<< patchJsonFile << endl;
+            if (printDebug)
+                cout <<endl<<"Seaching json "<< num << ": "<< patchJsonFile << endl;
             if(!parseJSON(patchJsonFile, archiv_path_zip)) //парсинг одного файла JSON
             {
       //Удаляем папку с контентом nameFileForDeleteIfJsonNoGood
                 string remove = "rm -rf ../EXTRACT/" + nameFileForDeleteIfJsonNoGood;
                 system(remove.c_str());
-                cout << "ОШИБКА JSON ФАЙЛА" << endl;
+//                for (int i = 0; i < 11; ++i) { //Удаляем конец строки /index.json
+//                    patchJsonFile.pop_back();
+//                }
+                auto pos1 = patchJsonFile.find_last_of("/");
+                patchJsonFile.replace(pos1, 11, "");
+                auto pos2 = patchJsonFile.find_last_of("/");
+                patchJsonFile.replace(0, pos2 + 1, "");
+                cout << "ОШИБКА JSON ФАЙЛА: " << patchJsonFile <<endl;
                 ++errorParsingJson;
                 errorJsonPatch.push_back(patchJsonFile);
             }
@@ -197,8 +205,10 @@ int main(int argc, char *argv[])
     }
     cout<< endl<< "Всего разобрано json файлов: " << vectorJsonFilesPath.size()
        << endl << "Ошибок разбора: " << errorParsingJson<< endl;
-    for (auto & patchJsonError : errorJsonPatch)
+        for (auto & patchJsonError : errorJsonPatch){
         cout <<  patchJsonError << endl;
+        }
+        cout << endl;
 
 //Удаляем папку EXTRACT (если там что осталось)
     string remove = "rm -rf ../EXTRACT/";
