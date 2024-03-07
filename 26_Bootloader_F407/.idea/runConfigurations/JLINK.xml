@@ -1,8 +1,0 @@
-<component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="JLINK" type="com.jetbrains.cidr.embedded.customgdbserver.type" factoryName="com.jetbrains.cidr.embedded.customgdbserver.factory" PROGRAM_PARAMS="-device STM32F407VG -endian little -if SWD -speed  2000" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Bootloader" TARGET_NAME="Bootloader_1_1" CONFIG_NAME="Debug" version="1" RUN_TARGET_PROJECT_NAME="Bootloader" RUN_TARGET_NAME="Bootloader_1_1">
-    <custom-gdb-server version="1" gdb-connect="tcp:localhost:2331" executable="$USER_HOME$/J_LINK/JLinkGDBServer" warmup-ms="1000" download-type="ALWAYS" reset-cmd="monitor reset" reset-after-download="true" />
-    <method v="2">
-      <option name="CLION.COMPOUND.BUILD" enabled="true" />
-    </method>
-  </configuration>
-</component>
