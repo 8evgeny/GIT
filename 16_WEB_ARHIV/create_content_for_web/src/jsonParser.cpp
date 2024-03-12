@@ -2,6 +2,7 @@
 extern string WEB_content;
 extern uint numZipFiles;
 extern uint numFolderForWebContent;
+extern uint numErrorPrint;
 QString nameMainFile;
 int mainFileSyff = mainFileSyffix::PDF;
 extern bool printDebug;
@@ -525,7 +526,8 @@ if (printDebug) cout<<"4"<<endl;
             auto pos = fileZIP.find_last_of("/");
             fileZIP.replace(0,pos + 2,"");
             fileZIP.pop_back();
-            cout << "Не найден файл файл старой версии: " << fileZIP << endl;
+            cout << numErrorPrint << ". Не найден файл старой версии: " << fileZIP << endl;
+            ++numErrorPrint;
         }
 
     }
@@ -659,7 +661,8 @@ if (printDebug) cout<<"9"<<endl;
     bool existIUL = QFile::exists(QString::fromStdString(nameIulPDFcheck));
 
     if (!existIUL){
-        cout << "Не найден ИУЛ: " << infoOrderList + ".pdf" <<endl;
+        cout << numErrorPrint <<". Не найден ИУЛ: " << infoOrderList + ".pdf" <<endl;
+        ++numErrorPrint;
     }
  if (existIUL){
          string copyIulPDF = "cp " + nameIulPDF + " " + WEB_content + to_string(numFolderForWebContent);
@@ -685,13 +688,25 @@ if (printDebug) cout<<"11"<<endl;
     path_to_IZM.append("/../");
     path_to_IZM.append("NIOKR_messages");
     string nIZMPDF = path_to_IZM + "/" + changeNotificationNum + ".pdf";
-    string copyIZMPDF = "cp " + nIZMPDF + " " + WEB_content + to_string(numFolderForWebContent);
-    system(copyIZMPDF.c_str());
-    string renameIZMPDF = "mv " + WEB_content + to_string(numFolderForWebContent) + "/" + changeNotificationNum + ".pdf " +
-            WEB_content + to_string(numFolderForWebContent) + "/" + changeNotificationNum + ".PDF";
-    system(renameIZMPDF.c_str());
-    if (printDebug)
-        cout << "Copy content to folder " << to_string(numFolderForWebContent) << endl;
+//Проверяем существование файла
+    QString tmp = QString::fromStdString(nIZMPDF);
+    bool exist = QFile::exists(tmp);
+    if (!exist){
+        string file = tmp.toStdString();
+        auto pos = file.find_last_of("/");
+        file.replace(0,pos + 1 ,"");
+        cout << numErrorPrint <<". Не найден файл извещения об изменении: " << file <<endl;
+        ++numErrorPrint;
+    }
+    if (exist){
+        string copyIZMPDF = "cp " + nIZMPDF + " " + WEB_content + to_string(numFolderForWebContent);
+        system(copyIZMPDF.c_str());
+        string renameIZMPDF = "mv " + WEB_content + to_string(numFolderForWebContent) + "/" + changeNotificationNum + ".pdf " +
+                WEB_content + to_string(numFolderForWebContent) + "/" + changeNotificationNum + ".PDF";
+        system(renameIZMPDF.c_str());
+        if (printDebug)
+            cout << "Copy content to folder " << to_string(numFolderForWebContent) << endl;
+    }
 
 //Все действия в контексте текущей папки веб контента завершены
     ++numFolderForWebContent;

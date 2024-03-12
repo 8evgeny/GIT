@@ -44,7 +44,7 @@ cd ~/SOFT/Github/GIT/16_WEB_ARHIV && docker load -i createwebcontent.tar
 #endif
 string WEB_content{"/home/evg/SOFT/Github/GIT/16_WEB_ARHIV/CONTENT/content_for_web/"};
 uint numZipFiles{0};
-
+uint numErrorPrint{1};
 bool printDebug=false;
 uint errorParsingJson{0};
 uint numFolderForWebContent{1};
@@ -154,10 +154,10 @@ int main(int argc, char *argv[])
         cerr << e.what() << std::endl;
     }
 
-    cout<<"createTableForWebContent"<<endl;
+    cout<<"createTableForWebContent"<<endl<<endl;
 
 
-    cout<< "Начинаем разбор разархивированных директорий." << endl << endl;
+//    cout<< "Начинаем разбор разархивированных директорий." << endl << endl;
 //Разбор разархивированной директории
     std::vector<string> vectorJsonFilesPath;
     std::vector<string> errorJsonPatch;
@@ -197,14 +197,16 @@ int main(int argc, char *argv[])
                 patchJsonFile.replace(pos1, 11, "");
                 auto pos2 = patchJsonFile.find_last_of("/");
                 patchJsonFile.replace(0, pos2 + 1, "");
-                cout << "ОШИБКА JSON ФАЙЛА: " << patchJsonFile <<endl;
+                cout << numErrorPrint <<". Ошибка json: " << patchJsonFile <<endl;
+                ++numErrorPrint;
                 ++errorParsingJson;
                 errorJsonPatch.push_back(patchJsonFile);
             }
         }
     }
     cout<< endl<< "Всего разобрано json файлов: " << vectorJsonFilesPath.size()
-       << endl << "Ошибок разбора: " << errorParsingJson<< endl;
+         << endl << "Web архив документов: " << vectorJsonFilesPath.size() - errorParsingJson<< endl
+       << endl << "Ошибок json: " << errorParsingJson<< endl;
         for (auto & patchJsonError : errorJsonPatch){
         cout <<  patchJsonError << endl;
         }
