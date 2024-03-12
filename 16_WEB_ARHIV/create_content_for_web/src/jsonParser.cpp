@@ -119,29 +119,33 @@ bool parseJSON(string & patchToFile, const path & archiv_path_zip){ //archiv_pat
       //вычисляем CRC32 PDF файла
       string appPdf = oboznachenieIkodDokumenta;
       string chopped = patchToFile;
-
+      auto pos = chopped.find_last_of("/");
+      chopped.erase(pos,11);
+//      pos = chopped.find_last_of("/");
+//      chopped.insert(pos + 1, "\"");
+//      chopped.push_back('"');
 //Определяемся с расширением файла
-    QString tmp1 = QString::fromStdString(chopped).chopped(10)+QString("Contents/")+QString::fromStdString(oboznachenieIkodDokumenta).append(".PDF");
-    QString tmp2 = QString::fromStdString(chopped).chopped(10)+QString("Contents/")+QString::fromStdString(oboznachenieIkodDokumenta).append(".pdf");
-    QString tmp3 = QString::fromStdString(chopped).chopped(10)+QString("Contents/")+QString::fromStdString(oboznachenieIkodDokumenta).append(".zip");
+    QString tmp1 = QString::fromStdString(chopped)+QString("/Contents/")+QString::fromStdString(oboznachenieIkodDokumenta).append(".PDF");
+    QString tmp2 = QString::fromStdString(chopped)+QString("/Contents/")+QString::fromStdString(oboznachenieIkodDokumenta).append(".pdf");
+    QString tmp3 = QString::fromStdString(chopped)+QString("/Contents/")+QString::fromStdString(oboznachenieIkodDokumenta).append(".zip");
     bool exist1 = QFile::exists(tmp1);
     bool exist2 = QFile::exists(tmp2);
     bool exist3 = QFile::exists(tmp3);
     if (exist1){
         mainFileSyff = mainFileSyffix::PDF;
-        nameMainFile = QString::fromStdString(chopped).chopped(10)+QString("Contents/")+QString::fromStdString(oboznachenieIkodDokumenta).append(".PDF");
+        nameMainFile = QString::fromStdString(chopped)+QString("/Contents/")+QString::fromStdString(oboznachenieIkodDokumenta).append(".PDF");
     }
     if (exist2){
         mainFileSyff = mainFileSyffix::pdf;
-        nameMainFile = QString::fromStdString(chopped).chopped(10)+QString("Contents/")+QString::fromStdString(oboznachenieIkodDokumenta).append(".pdf");
+        nameMainFile = QString::fromStdString(chopped)+QString("/Contents/")+QString::fromStdString(oboznachenieIkodDokumenta).append(".pdf");
     }
     if (exist3){
         mainFileSyff = mainFileSyffix::zip;
-        nameMainFile = QString::fromStdString(chopped).chopped(10)+QString("Contents/")+QString::fromStdString(oboznachenieIkodDokumenta).append(".zip");
+        nameMainFile = QString::fromStdString(chopped)+QString("/Contents/")+QString::fromStdString(oboznachenieIkodDokumenta).append(".zip");
     }
 
 #ifdef printJson
-      QString directoryPDF = QString::fromStdString(chopped).chopped(10)+QString("Contents/");
+      QString directoryPDF = QString::fromStdString(chopped)+QString("/Contents/");
       string printDir = "ls -l " + directoryPDF.toStdString();
       system(printDir.c_str());
 #endif
@@ -650,9 +654,9 @@ if (printDebug) cout<<"9"<<endl;
 //    path_to_IUL.insert(posBlank1,"\\");
     path_to_IUL.append("/../");
     path_to_IUL.append("NIOKR_IUL");
+    string nameIulPDFcheck = path_to_IUL + "/" + infoOrderList + ".pdf";
     string nameIulPDF = path_to_IUL + "/\"" + infoOrderList + ".pdf\"";
-
-    bool existIUL = QFile::exists(QString::fromStdString(nameIulPDF));
+    bool existIUL = QFile::exists(QString::fromStdString(nameIulPDFcheck));
 
     if (!existIUL){
         cout << "Не найден ИУЛ: " << infoOrderList + ".pdf" <<endl;
