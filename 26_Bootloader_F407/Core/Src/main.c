@@ -100,7 +100,7 @@ void printFlash(uint32_t address, uint32_t numByte){
 }
 
 void readDirSD(char * nameFirmware, uint32_t * sizeFirmware ){
-    puts("\r\nDisplay Directory on SD\r");
+//    puts("\r\nDisplay Directory on SD\r");
       {
         DIR dir;
         char *path;
@@ -140,7 +140,7 @@ void readDirSD(char * nameFirmware, uint32_t * sizeFirmware ){
           }
         }
       }
-    puts("");
+//    puts("");
 }
 void firmware_run(void) {
 
@@ -313,9 +313,9 @@ int main(void)
   MX_USART2_UART_Init();
   MX_CRC_Init();
   /* USER CODE BEGIN 2 */
-    printf("************************************************\r\n");
+//    printf("************************************************\r\n");
     printf("version bootloader: %.2d_%.2d\r\n", main_FW, patch_FW);
-    printf("start address APP:\t\t %p\r\n", (uint32_t*)&_sapp);
+//    printf("start address APP:\t\t %p\r\n", (uint32_t*)&_sapp);
 //    printf("end   address APP:\t\t %p\r\n", (uint32_t*)&_eapp);
     f_mount(&fs, "", 0);
     char nameFw[100];
@@ -340,17 +340,17 @@ int main(void)
 //        printf("min: %d\r\n",flashReadWorld(FIRMWARE_SECTION_ADDR + 24));
 //        printf("sec: %d\r\n",flashReadWorld(FIRMWARE_SECTION_ADDR + 28));
 
-        printf("in address %p found main firmware ", (uint32_t*)&_sapp);
-        printf("version %.2d_%.2d ",flashReadWorld(FIRMWARE_SECTION_ADDR),flashReadWorld(FIRMWARE_SECTION_ADDR + 4));
-        printf("created %.4d-%.2d-%.2d %.2dh:%.2dm:%.2ds\r\n",
-               2000 + flashReadWorld(FIRMWARE_SECTION_ADDR + 8),
-               flashReadWorld(FIRMWARE_SECTION_ADDR + 12),
-               flashReadWorld(FIRMWARE_SECTION_ADDR + 16),
-               flashReadWorld(FIRMWARE_SECTION_ADDR + 20),
-               flashReadWorld(FIRMWARE_SECTION_ADDR + 24),
-               flashReadWorld(FIRMWARE_SECTION_ADDR + 28)
-               );
-        printf("\r\n******* Send control for main Firmware *********\r\n\n\n\n");
+//        printf("in address %p found main firmware ", (uint32_t*)&_sapp);
+//        printf("version %.2d_%.2d ",flashReadWorld(FIRMWARE_SECTION_ADDR),flashReadWorld(FIRMWARE_SECTION_ADDR + 4));
+//        printf("created %.4d-%.2d-%.2d %.2dh:%.2dm:%.2ds\r\n",
+//               2000 + flashReadWorld(FIRMWARE_SECTION_ADDR + 8),
+//               flashReadWorld(FIRMWARE_SECTION_ADDR + 12),
+//               flashReadWorld(FIRMWARE_SECTION_ADDR + 16),
+//               flashReadWorld(FIRMWARE_SECTION_ADDR + 20),
+//               flashReadWorld(FIRMWARE_SECTION_ADDR + 24),
+//               flashReadWorld(FIRMWARE_SECTION_ADDR + 28)
+//               );
+        printf("******* Send control for main Firmware *********\r\n\n\n");
         firmware_run();
     }
 
@@ -594,7 +594,7 @@ static void MX_USART2_UART_Init(void)
     Error_Handler();
   }
   /* USER CODE BEGIN USART2_Init 2 */
-printf("\r\n\r\n*************** Start bootloader ***************\r\n\n");
+printf("\r\n\r\n*************** Start bootloader ***************\r\n");
   /* USER CODE END USART2_Init 2 */
 
 }
